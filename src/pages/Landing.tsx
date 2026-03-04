@@ -51,11 +51,8 @@ export default function Landing() {
           </div>
           <div className="flex items-center gap-3">
             <ThemeToggle />
-            <Button variant="ghost" asChild>
-              <Link to="/login">Log In</Link>
-            </Button>
             <Button asChild>
-              <Link to="/login?tab=signup">Get Started</Link>
+              <Link to="/dashboard">Get Started</Link>
             </Button>
           </div>
         </div>
@@ -87,12 +84,9 @@ export default function Landing() {
             </p>
             <div className="flex items-center justify-center gap-4">
               <Button size="lg" asChild className="gap-2 text-base px-8">
-                <Link to="/login?tab=signup">
+                <Link to="/dashboard">
                   Start Training <ArrowRight className="h-4 w-4" />
                 </Link>
-              </Button>
-              <Button size="lg" variant="outline" asChild className="text-base px-8">
-                <Link to="/login">Log In</Link>
               </Button>
             </div>
           </motion.div>
