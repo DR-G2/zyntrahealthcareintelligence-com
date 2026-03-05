@@ -1,7 +1,5 @@
-import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { useAuth } from '@/contexts/AuthContext';
-import { supabase } from '@/lib/supabase';
+import { useLocation } from 'react-router-dom';
 import { AppLayout } from '@/components/AppLayout';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -60,33 +58,8 @@ function ScoreRing({ value, label, icon: Icon, color }: {
 }
 
 export default function Profile() {
-  const { user } = useAuth();
-  const [data, setData] = useState<PerformanceData | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    if (!user) return;
-    const fetch = async () => {
-      const { data: profile } = await supabase
-        .from('performance_profiles')
-        .select('*')
-        .eq('user_id', user.id)
-        .single();
-      setData(profile);
-      setLoading(false);
-    };
-    fetch();
-  }, [user]);
-
-  if (loading) {
-    return (
-      <AppLayout>
-        <div className="flex items-center justify-center py-24">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-        </div>
-      </AppLayout>
-    );
-  }
+  const location = useLocation();
+  const data = (location.state as any)?.performanceData as PerformanceData | undefined;
 
   if (!data) {
     return (
@@ -123,120 +96,124 @@ export default function Profile() {
       label: 'Time Management',
       icon: Clock,
       color: 'hsl(var(--chart-2))',
-      desc: 'Your efficiency under time pressure.',
+      desc: 'How well you manage time pressure. Higher = calmer under time stress.',
     },
     {
       value: 100 - (data.confidence_gap ?? 0),
       label: 'Confidence Calibration',
       icon: Brain,
-      color: 'hsl(var(--chart-4))',
-      desc: 'Alignment between confidence and actual performance.',
+      color: 'hsl(var(--chart-3))',
+      desc: 'How well your confidence matches your accuracy.',
     },
     {
       value: data.clinical_accuracy ?? 0,
       label: 'Clinical Accuracy',
       icon: Target,
-      color: 'hsl(var(--chart-3))',
-      desc: 'Raw knowledge score across all categories.',
+      color: 'hsl(var(--chart-4))',
+      desc: 'Raw percentage of correct answers.',
     },
   ];
 
+  const getReadinessLabel = (score: number) => {
+    if (score >= 80) return 'Exam Ready';
+    if (score >= 60) return 'Almost There';
+    if (score >= 40) return 'Building Up';
+    return 'Early Stage';
+  };
+
   return (
     <AppLayout>
-      <div className="mx-auto max-w-4xl">
-        <div className="mb-8">
+      <div className="mx-auto max-w-4xl space-y-8">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
           <h1 className="text-3xl font-bold font-display">Performance Profile</h1>
-          <p className="text-muted-foreground">Your APPE behavioral analysis</p>
-        </div>
+          <p className="text-muted-foreground mt-1">Your behavioral exam readiness breakdown</p>
+        </motion.div>
 
-        {/* Readiness Score Hero */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5 }}
-        >
-          <Card className="mb-8 overflow-hidden">
-            <div className="relative p-8 text-center">
-              <div className="absolute inset-0 opacity-5 gradient-primary" />
-              <div className="relative">
-                <p className="text-sm font-medium text-muted-foreground mb-4">Overall Readiness Score</p>
-                <div className="relative mx-auto w-40 h-40">
-                  <svg width="160" height="160" className="-rotate-90">
-                    <circle cx="80" cy="80" r="65" fill="none" stroke="hsl(var(--muted))" strokeWidth="10" />
+        {/* Readiness Score */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
+          <Card className="overflow-hidden">
+            <CardHeader className="pb-2">
+              <CardTitle className="flex items-center gap-2">
+                <TrendingUp className="h-5 w-5 text-primary" />
+                Overall Readiness
+              </CardTitle>
+              <CardDescription>Composite score across all behavioral dimensions</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="flex items-center gap-6">
+                <div className="relative">
+                  <svg width="120" height="120" className="-rotate-90">
+                    <circle cx="60" cy="60" r="50" fill="none" stroke="hsl(var(--muted))" strokeWidth="8" />
                     <motion.circle
-                      cx="80" cy="80" r="65"
+                      cx="60" cy="60" r="50"
                       fill="none"
                       stroke={readinessColor}
-                      strokeWidth="10"
+                      strokeWidth="8"
                       strokeLinecap="round"
-                      strokeDasharray={2 * Math.PI * 65}
-                      initial={{ strokeDashoffset: 2 * Math.PI * 65 }}
-                      animate={{ strokeDashoffset: 2 * Math.PI * 65 * (1 - readiness / 100) }}
-                      transition={{ duration: 1.5, ease: 'easeOut' }}
+                      strokeDasharray={2 * Math.PI * 50}
+                      initial={{ strokeDashoffset: 2 * Math.PI * 50 }}
+                      animate={{ strokeDashoffset: 2 * Math.PI * 50 - (readiness / 100) * 2 * Math.PI * 50 }}
+                      transition={{ duration: 1.2, ease: 'easeOut' }}
                     />
                   </svg>
                   <div className="absolute inset-0 flex flex-col items-center justify-center">
-                    <span className="text-4xl font-bold font-display" style={{ color: readinessColor }}>
-                      {readiness}%
-                    </span>
-                    <span className="text-xs text-muted-foreground">Readiness</span>
+                    <span className="text-3xl font-bold font-display">{readiness}</span>
+                    <span className="text-xs text-muted-foreground">/ 100</span>
                   </div>
                 </div>
-                <p className="mt-4 text-sm text-muted-foreground max-w-md mx-auto">
-                  {readiness >= 70
-                    ? 'Strong foundation. Focus on maintaining consistency and targeting weak spots.'
-                    : readiness >= 40
-                    ? 'Good progress. Your behavioral patterns need refinement for exam conditions.'
-                    : 'Early stage. Focus on building foundational knowledge and exam discipline.'}
-                </p>
+                <div>
+                  <p className="text-lg font-bold" style={{ color: readinessColor }}>
+                    {getReadinessLabel(readiness)}
+                  </p>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    {readiness >= 70
+                      ? 'Strong performance across most dimensions. Focus on weak areas.'
+                      : readiness >= 40
+                      ? 'Solid foundation with room for improvement in key areas.'
+                      : 'Focus on building core exam skills with targeted practice.'}
+                  </p>
+                </div>
               </div>
-            </div>
+            </CardContent>
           </Card>
         </motion.div>
 
-        {/* Individual Metrics */}
-        <div className="grid gap-6 md:grid-cols-4 mb-8">
-          {metrics.map((m, i) => (
-            <motion.div
-              key={m.label}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 + i * 0.1 }}
-            >
-              <Card className="text-center py-6">
-                <CardContent className="p-0">
-                  <ScoreRing value={m.value} label={m.label} icon={m.icon} color={m.color} />
-                  <p className="mt-3 px-4 text-xs text-muted-foreground">{m.desc}</p>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
-        </div>
+        {/* Score Rings */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
+          <Card>
+            <CardHeader>
+              <CardTitle>Behavioral Dimensions</CardTitle>
+              <CardDescription>Each score reflects a different aspect of exam performance</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+                {metrics.map((m) => (
+                  <ScoreRing key={m.label} {...m} />
+                ))}
+              </div>
+              <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+                {metrics.map((m) => (
+                  <div key={m.label} className="flex items-start gap-3 rounded-lg bg-muted/50 p-3">
+                    <m.icon className="h-4 w-4 mt-0.5 shrink-0" style={{ color: m.color }} />
+                    <div>
+                      <p className="text-sm font-medium">{m.label}: {m.value}/100</p>
+                      <p className="text-xs text-muted-foreground">{m.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
 
-        {/* Actions */}
-        <div className="grid gap-4 md:grid-cols-2">
-          <Card className="hover:border-primary/30 transition-colors">
-            <CardHeader>
-              <CardTitle className="font-display text-lg">Retake Diagnostic</CardTitle>
-              <CardDescription>Take another assessment to update your profile</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button asChild variant="outline" className="gap-1">
-                <Link to="/assess">Start Again <ArrowRight className="h-4 w-4" /></Link>
-              </Button>
-            </CardContent>
-          </Card>
-          <Card className="hover:border-primary/30 transition-colors">
-            <CardHeader>
-              <CardTitle className="font-display text-lg">Start Training</CardTitle>
-              <CardDescription>Practice drills based on your weaknesses</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button asChild className="gap-1">
-                <Link to="/practice">Begin Practice <ArrowRight className="h-4 w-4" /></Link>
-              </Button>
-            </CardContent>
-          </Card>
+        {/* Action buttons */}
+        <div className="flex gap-3">
+          <Button asChild className="gap-1">
+            <Link to="/practice">Start Targeted Practice <ArrowRight className="h-4 w-4" /></Link>
+          </Button>
+          <Button variant="outline" asChild>
+            <Link to="/assess">Retake Diagnostic</Link>
+          </Button>
         </div>
       </div>
     </AppLayout>

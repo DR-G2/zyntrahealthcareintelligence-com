@@ -3,11 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Clock, ChevronLeft, ChevronRight, Lock, AlertTriangle, CheckCircle2 } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
-import { useAuth } from '@/contexts/AuthContext';
 import { AppLayout } from '@/components/AppLayout';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 
@@ -21,19 +19,10 @@ interface Question {
   difficulty: string;
 }
 
-interface AttemptData {
-  questionId: string;
-  selectedAnswer: string;
-  timeTaken: number;
-  answerChanges: number;
-  isCorrect: boolean;
-}
-
-const TOTAL_TIME_SECONDS = 45 * 60; // 45 minutes for 30 questions
+const TOTAL_TIME_SECONDS = 45 * 60;
 const QUESTION_COUNT = 20;
 
 export default function Assess() {
-  const { user } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -46,9 +35,7 @@ export default function Assess() {
   const [questionTimes, setQuestionTimes] = useState<Record<number, number>>({});
   const [timeRemaining, setTimeRemaining] = useState(TOTAL_TIME_SECONDS);
   const [loading, setLoading] = useState(true);
-  const sessionIdRef = useRef(crypto.randomUUID());
 
-  // Fetch questions
   useEffect(() => {
     const fetchQuestions = async () => {
       const { data, error } = await supabase
@@ -61,7 +48,6 @@ export default function Assess() {
         return;
       }
 
-      // Shuffle and take QUESTION_COUNT
       const shuffled = data.sort(() => Math.random() - 0.5).slice(0, QUESTION_COUNT);
       setQuestions(shuffled as Question[]);
       setLoading(false);
@@ -69,7 +55,6 @@ export default function Assess() {
     fetchQuestions();
   }, []);
 
-  // Timer countdown
   useEffect(() => {
     if (phase !== 'test') return;
     const interval = setInterval(() => {
@@ -123,9 +108,7 @@ export default function Assess() {
     setPhase('submitting');
     recordQuestionTime();
 
-    if (!user) return;
-
-    const attempts: AttemptData[] = questions.map((q, i) => ({
+    const attempts = questions.map((q, i) => ({
       questionId: q.id,
       selectedAnswer: selectedAnswers[i] || '',
       timeTaken: questionTimes[i] || 0,
@@ -133,60 +116,28 @@ export default function Assess() {
       isCorrect: selectedAnswers[i] === q.correct_answer,
     }));
 
-    const insertData = attempts.map((a) => ({
-      user_id: user.id,
-      question_id: a.questionId,
-      selected_answer: a.selectedAnswer,
-      time_taken_seconds: a.timeTaken,
-      answer_changes_count: a.answerChanges,
-      is_correct: a.isCorrect,
-      session_id: sessionIdRef.current,
-    }));
-
-    const { error } = await supabase.from('user_attempts').insert(insertData);
-
-    if (error) {
-      toast({ title: 'Error saving results', description: error.message, variant: 'destructive' });
-      setPhase('test');
-      return;
-    }
-
-    // Calculate and save performance profile
     const totalCorrect = attempts.filter((a) => a.isCorrect).length;
     const totalAnswered = attempts.filter((a) => a.selectedAnswer).length;
     const totalChanges = attempts.reduce((sum, a) => sum + a.answerChanges, 0);
     const avgTime = attempts.reduce((sum, a) => sum + a.timeTaken, 0) / attempts.length;
 
-    // Stability: fewer changes = higher stability (0-100)
     const stabilityScore = Math.max(0, 100 - (totalChanges / attempts.length) * 50);
-
-    // Time sensitivity: compare accuracy in first half vs last half of remaining time
     const clinicalAccuracy = totalAnswered > 0 ? (totalCorrect / totalAnswered) * 100 : 0;
-
-    // Simple time sensitivity: penalize if avg time > 90s
     const timeSensitivity = Math.max(0, 100 - Math.max(0, avgTime - 60) * 2);
-
-    // Confidence gap (simplified: assume users are ~70% confident)
     const confidenceGap = Math.abs(70 - clinicalAccuracy);
-
     const readinessScore = (stabilityScore * 0.2 + timeSensitivity * 0.2 + (100 - confidenceGap) * 0.2 + clinicalAccuracy * 0.4);
 
-    const { error: profileError } = await supabase
-      .from('performance_profiles')
-      .upsert({
-        user_id: user.id,
-        stability_score: Math.round(stabilityScore),
-        time_sensitivity: Math.round(timeSensitivity),
-        confidence_gap: Math.round(confidenceGap),
-        clinical_accuracy: Math.round(clinicalAccuracy),
-        readiness_score: Math.round(readinessScore),
-      }, { onConflict: 'user_id' });
-
-    if (profileError) {
-      console.error('Profile save error:', profileError);
-    }
-
-    navigate('/profile', { state: { sessionId: sessionIdRef.current } });
+    navigate('/profile', {
+      state: {
+        performanceData: {
+          stability_score: Math.round(stabilityScore),
+          time_sensitivity: Math.round(timeSensitivity),
+          confidence_gap: Math.round(confidenceGap),
+          clinical_accuracy: Math.round(clinicalAccuracy),
+          readiness_score: Math.round(readinessScore),
+        },
+      },
+    });
   };
 
   if (loading) {
@@ -199,7 +150,6 @@ export default function Assess() {
     );
   }
 
-  // Intro phase
   if (phase === 'intro') {
     return (
       <AppLayout>
@@ -251,7 +201,6 @@ export default function Assess() {
     );
   }
 
-  // Submitting phase
   if (phase === 'submitting') {
     return (
       <AppLayout>
