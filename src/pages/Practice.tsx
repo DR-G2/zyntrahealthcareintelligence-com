@@ -1,14 +1,16 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Clock, Lock, Zap, Shield, Timer, ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
+import { Clock, Lock, Zap, Shield, Timer, ChevronLeft, ChevronRight, ArrowRight, CheckCircle, XCircle } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/contexts/AuthContext';
 import { AppLayout } from '@/components/AppLayout';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
+import { QuestionExplanation } from '@/components/practice/QuestionExplanation';
 
 interface Question {
   id: string;
@@ -99,6 +101,7 @@ function DrillSession({ type }: { type: DrillType }) {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState<Record<number, string>>({});
+  const [reviewQuestionIndex, setReviewQuestionIndex] = useState<number | null>(null);
   const [lockedAnswers, setLockedAnswers] = useState<Record<number, boolean>>({});
   const [answerChanges, setAnswerChanges] = useState<Record<number, number>>({});
   const [questionTimes, setQuestionTimes] = useState<Record<number, number>>({});
@@ -203,6 +206,24 @@ function DrillSession({ type }: { type: DrillType }) {
   }
 
   if (phase === 'results') {
+    // Full-page explanation view for a single question
+    if (reviewQuestionIndex !== null) {
+      const q = questions[reviewQuestionIndex];
+      return (
+        <AppLayout>
+          <AnimatePresence mode="wait">
+            <QuestionExplanation
+              key={reviewQuestionIndex}
+              question={q}
+              userAnswer={selectedAnswers[reviewQuestionIndex]}
+              questionIndex={reviewQuestionIndex}
+              onBack={() => setReviewQuestionIndex(null)}
+            />
+          </AnimatePresence>
+        </AppLayout>
+      );
+    }
+
     const correct = questions.filter((q, i) => selectedAnswers[i] === q.correct_answer).length;
     const total = questions.length;
     return (
@@ -222,22 +243,33 @@ function DrillSession({ type }: { type: DrillType }) {
             </CardContent>
           </Card>
 
-          {/* Review answers */}
+          {/* Review answers — clickable cards */}
           <div className="mt-8 space-y-4">
+            <h2 className="text-lg font-display font-semibold">Review Questions</h2>
             {questions.map((q, i) => {
               const userAnswer = selectedAnswers[i];
               const isCorrect = userAnswer === q.correct_answer;
               return (
-                <Card key={q.id} className={cn('border-l-4', isCorrect ? 'border-l-success' : 'border-l-destructive')}>
+                <Card
+                  key={q.id}
+                  className={cn('border-l-4 cursor-pointer hover:shadow-md transition-shadow', isCorrect ? 'border-l-success' : 'border-l-destructive')}
+                  onClick={() => setReviewQuestionIndex(i)}
+                >
                   <CardContent className="py-4">
-                    <p className="text-sm font-medium mb-2">{q.question_text}</p>
-                    <p className="text-xs text-muted-foreground">
-                      Your answer: <strong>{userAnswer || 'Not answered'}</strong> •
-                      Correct: <strong>{q.correct_answer}</strong>
-                    </p>
-                    {q.explanation && (
-                      <p className="mt-2 text-xs text-muted-foreground bg-muted p-2 rounded">{q.explanation}</p>
-                    )}
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="flex-1">
+                        <p className="text-sm font-medium mb-1 line-clamp-2">{q.question_text}</p>
+                        <p className="text-xs text-muted-foreground">
+                          Your answer: <strong>{userAnswer || 'Not answered'}</strong> •
+                          Correct: <strong>{q.correct_answer}</strong>
+                        </p>
+                      </div>
+                      <Badge className={cn('shrink-0', isCorrect ? 'bg-success text-success-foreground' : 'bg-destructive text-destructive-foreground')}>
+                        {isCorrect ? <CheckCircle className="h-3 w-3 mr-1" /> : <XCircle className="h-3 w-3 mr-1" />}
+                        {isCorrect ? 'Correct' : 'Wrong'}
+                      </Badge>
+                    </div>
+                    <p className="text-xs text-primary mt-2 font-medium">Click to read full explanation →</p>
                   </CardContent>
                 </Card>
               );
