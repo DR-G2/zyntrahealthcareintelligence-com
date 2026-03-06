@@ -45,6 +45,7 @@ export default function Assess() {
 
       if (error || !data?.length) {
         toast({ title: 'Error', description: 'Failed to load questions', variant: 'destructive' });
+        setLoading(false);
         return;
       }
 
