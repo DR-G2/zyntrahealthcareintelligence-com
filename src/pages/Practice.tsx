@@ -249,6 +249,7 @@ function DrillSession({ type }: { type: DrillType }) {
   }
 
   const question = questions[currentIndex];
+  if (!question) return <AppLayout><div className="flex items-center justify-center py-24"><div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" /></div></AppLayout>;
   const options = question.options as string[];
 
   return (
