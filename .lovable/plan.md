@@ -1,24 +1,41 @@
 
 
-## Problem Identified
+## Plan: Enhanced Practice Results with Detailed Explanations
 
-The diagnostic doesn't load because the **questions table has RLS enabled** with a policy that only allows **authenticated** users to read. Since we removed login, the app uses the **anon** role, which is blocked. The API returns an empty array `[]`, causing the "Failed to load questions" toast and crashes in Practice.tsx.
+### What Changes
 
-## Plan
+**1. Expand the results review section (Practice.tsx, lines 225-245)**
 
-### 1. Add public read policy on questions table
-Run a migration to add an RLS policy allowing the `anon` role to SELECT from the `questions` table. This makes questions readable without authentication.
+Replace the current inline explanation snippet with a clickable card that navigates to a full-page explanation view. Each question card in results will show:
+- Question text, your answer vs correct answer, correct/incorrect badge
+- A "Read Full Explanation" button that opens a detailed view
 
-```sql
-CREATE POLICY "Questions are readable by everyone"
-ON public.questions FOR SELECT TO anon USING (true);
-```
+**2. Create a full-page explanation view within the results phase**
 
-### 2. Fix Practice.tsx crash
-The runtime error shows `Cannot read properties of undefined (reading 'options')` at line 616 in Practice.tsx. The drill session tries to access a question's options before questions are loaded. Add a guard to check that the current question exists before rendering.
+Add a new sub-phase `'explanation'` to the drill session. When a user clicks a question, the view transitions to a full-page layout containing:
+- The question and all options (highlighted correct/incorrect)
+- A detailed explanation section
+- **Reference notes** organized by source book:
+  - **AMC Handbook** — key clinical points relevant to the question topic
+  - **John Murtagh's General Practice** — diagnostic approach and management
+  - **Tally O'Connor's Clinical Examination** — examination findings and signs
+- A "Back to Results" button
 
-### 3. Fix Assess.tsx empty questions handling
-Add a guard so that if questions come back empty, the test phase doesn't start with undefined question objects. The current code already has a toast, but the UI still tries to render.
+**3. Store reference notes in the question explanation field**
 
-These three changes will unblock the diagnostic flow entirely.
+Since the `questions` table already has an `explanation` column, the detailed explanations with book references will be structured within that field. For now, the UI will parse and display the explanation, and add styled reference sections with book attribution headers even if the current explanation text is brief. The textbook reference sections will be rendered as distinct styled blocks.
+
+### Technical Approach
+
+- Add state: `reviewQuestionIndex: number | null` to track which question is being viewed in detail
+- When set, render a full-page explanation component instead of the results list
+- Structure the explanation page with:
+  - Question card with all options color-coded
+  - Explanation text (from DB)
+  - Three reference cards (AMC Handbook, Murtagh's, Tally O'Connor) with topic-relevant headers derived from the question's category
+- Use `framer-motion` for page transitions
+- All changes are in `src/pages/Practice.tsx` only — no new files needed
+
+### Files Modified
+- `src/pages/Practice.tsx` — refactor results phase to add clickable detail view with book reference sections
 
