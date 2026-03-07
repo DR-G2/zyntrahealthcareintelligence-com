@@ -13,6 +13,7 @@ import Practice from "./pages/Practice";
 import Analytics from "./pages/Analytics";
 import Questions from "./pages/Questions";
 import PlaceholderPage from "./pages/PlaceholderPage";
+import AdminQuestions from "./pages/AdminQuestions";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
