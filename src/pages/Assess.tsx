@@ -214,6 +214,17 @@ export default function Assess() {
   }
 
   const question = questions[currentIndex];
+  if (!question) {
+    return (
+      <AppLayout>
+        <div className="flex flex-col items-center justify-center py-24 gap-4">
+          <AlertTriangle className="h-8 w-8 text-destructive" />
+          <p className="text-muted-foreground">No questions available. Please try again later.</p>
+          <Button onClick={() => navigate('/dashboard')}>Back to Dashboard</Button>
+        </div>
+      </AppLayout>
+    );
+  }
   const options = question.options as string[];
   const answeredCount = Object.keys(selectedAnswers).length;
 
