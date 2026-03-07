@@ -19,7 +19,7 @@ interface Question {
   difficulty: string;
 }
 
-const TOTAL_TIME_SECONDS = 45 * 60;
+const TOTAL_TIME_SECONDS = 20 * 60;
 const QUESTION_COUNT = 20;
 
 export default function Assess() {
