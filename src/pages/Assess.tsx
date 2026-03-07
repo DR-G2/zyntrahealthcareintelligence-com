@@ -22,6 +22,12 @@ interface Question {
 const TOTAL_TIME_SECONDS = 20 * 60;
 const QUESTION_COUNT = 20;
 
+function getDifficultyForScore(score: number): string {
+  if (score > 2) return 'hard';
+  if (score < -2) return 'easy';
+  return 'medium';
+}
+
 export default function Assess() {
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -35,26 +41,75 @@ export default function Assess() {
   const [questionTimes, setQuestionTimes] = useState<Record<number, number>>({});
   const [timeRemaining, setTimeRemaining] = useState(TOTAL_TIME_SECONDS);
   const [loading, setLoading] = useState(true);
+  const [adaptiveScore, setAdaptiveScore] = useState(0);
+  const usedQuestionIds = useRef<Set<string>>(new Set());
+  const questionPoolRef = useRef<Record<string, Question[]>>({ easy: [], medium: [], hard: [] });
 
+  // Pre-fetch pools of each difficulty
   useEffect(() => {
-    const fetchQuestions = async () => {
-      const { data, error } = await supabase
-        .from('questions')
-        .select('id, question_text, options, correct_answer, explanation, category, difficulty')
-        .limit(QUESTION_COUNT);
+    const fetchPools = async () => {
+      const difficulties = ['easy', 'medium', 'hard'];
+      const pools: Record<string, Question[]> = { easy: [], medium: [], hard: [] };
 
-      if (error || !data?.length) {
-        toast({ title: 'Error', description: 'Failed to load questions', variant: 'destructive' });
-        setLoading(false);
-        return;
+      const results = await Promise.all(
+        difficulties.map(d =>
+          supabase
+            .from('questions')
+            .select('id, question_text, options, correct_answer, explanation, category, difficulty')
+            .eq('difficulty', d)
+            .limit(50)
+        )
+      );
+
+      results.forEach((res, i) => {
+        if (res.data) {
+          // Shuffle
+          pools[difficulties[i]] = (res.data as Question[]).sort(() => Math.random() - 0.5);
+        }
+      });
+
+      questionPoolRef.current = pools;
+
+      // Start with first medium question
+      const firstQ = pools.medium[0];
+      if (!firstQ) {
+        // Fallback: try any difficulty
+        const fallback = [...pools.easy, ...pools.medium, ...pools.hard];
+        if (!fallback.length) {
+          toast({ title: 'Error', description: 'No questions available', variant: 'destructive' });
+          setLoading(false);
+          return;
+        }
+        setQuestions([fallback[0]]);
+        usedQuestionIds.current.add(fallback[0].id);
+      } else {
+        setQuestions([firstQ]);
+        usedQuestionIds.current.add(firstQ.id);
       }
-
-      const shuffled = data.sort(() => Math.random() - 0.5).slice(0, QUESTION_COUNT);
-      setQuestions(shuffled as Question[]);
       setLoading(false);
     };
-    fetchQuestions();
+    fetchPools();
   }, []);
+
+  const getNextQuestion = useCallback((): Question | null => {
+    const targetDifficulty = getDifficultyForScore(adaptiveScore);
+    const pool = questionPoolRef.current[targetDifficulty];
+    
+    // Find unused question from target difficulty
+    let next = pool.find(q => !usedQuestionIds.current.has(q.id));
+    
+    // Fallback to other difficulties
+    if (!next) {
+      const allPools = ['medium', 'easy', 'hard'];
+      for (const d of allPools) {
+        next = questionPoolRef.current[d].find(q => !usedQuestionIds.current.has(q.id));
+        if (next) break;
+      }
+    }
+    
+    if (next) usedQuestionIds.current.add(next.id);
+    return next || null;
+  }, [adaptiveScore]);
 
   useEffect(() => {
     if (phase !== 'test') return;
@@ -89,19 +144,52 @@ export default function Assess() {
   }, [currentIndex, questionStartTime]);
 
   const selectAnswer = (answer: string) => {
-    if (selectedAnswers[currentIndex] && selectedAnswers[currentIndex] !== answer) {
+    const prevAnswer = selectedAnswers[currentIndex];
+    if (prevAnswer && prevAnswer !== answer) {
       setAnswerChanges((prev) => ({
         ...prev,
         [currentIndex]: (prev[currentIndex] || 0) + 1,
       }));
     }
+
     setSelectedAnswers((prev) => ({ ...prev, [currentIndex]: answer }));
+
+    // Update adaptive score when answering
+    if (!prevAnswer) {
+      const question = questions[currentIndex];
+      if (question) {
+        const isCorrect = answer === question.correct_answer;
+        setAdaptiveScore(prev => prev + (isCorrect ? 1 : -1));
+      }
+    }
   };
 
   const goToQuestion = (index: number) => {
     recordQuestionTime();
-    setCurrentIndex(index);
-    setQuestionStartTime(Date.now());
+
+    // If moving forward and we need a new question
+    if (index >= questions.length && questions.length < QUESTION_COUNT) {
+      const next = getNextQuestion();
+      if (next) {
+        setQuestions(prev => [...prev, next]);
+      } else {
+        toast({ title: 'No more questions', description: 'Question pool exhausted' });
+        return;
+      }
+    }
+
+    if (index >= 0 && index < Math.min(questions.length, QUESTION_COUNT)) {
+      setCurrentIndex(index);
+      setQuestionStartTime(Date.now());
+    }
+  };
+
+  const handleNext = () => {
+    if (currentIndex < questions.length - 1) {
+      goToQuestion(currentIndex + 1);
+    } else if (questions.length < QUESTION_COUNT) {
+      goToQuestion(questions.length); // triggers new question fetch
+    }
   };
 
   const handleSubmit = async () => {
@@ -169,7 +257,7 @@ export default function Assess() {
                   <ul className="space-y-2 text-sm text-muted-foreground">
                     <li className="flex items-start gap-2">
                       <Clock className="h-4 w-4 mt-0.5 text-primary" />
-                      <span><strong>{QUESTION_COUNT} questions</strong> in {TOTAL_TIME_SECONDS / 60} minutes</span>
+                      <span><strong>{QUESTION_COUNT} questions</strong> in {TOTAL_TIME_SECONDS / 60} minutes — <strong>adaptive difficulty</strong></span>
                     </li>
                     <li className="flex items-start gap-2">
                       <Lock className="h-4 w-4 mt-0.5 text-primary" />
@@ -182,7 +270,7 @@ export default function Assess() {
                   </ul>
                 </div>
                 <p className="text-sm text-muted-foreground text-center">
-                  This diagnostic measures not just knowledge, but your behavioral patterns under exam conditions.
+                  Questions adapt to your performance — get them right and they get harder.
                 </p>
                 <Button
                   size="lg"
@@ -227,6 +315,7 @@ export default function Assess() {
   }
   const options = question.options as string[];
   const answeredCount = Object.keys(selectedAnswers).length;
+  const isLastQuestion = questions.length >= QUESTION_COUNT && currentIndex === questions.length - 1;
 
   return (
     <AppLayout>
@@ -235,7 +324,8 @@ export default function Assess() {
         <div className="mb-6 space-y-2">
           <div className="flex items-center justify-between text-sm">
             <span className="text-muted-foreground">
-              Question {currentIndex + 1} of {questions.length}
+              Question {currentIndex + 1} of {QUESTION_COUNT}
+              <span className="ml-2 text-xs opacity-60">({question.difficulty})</span>
             </span>
             <span className={cn(
               'font-mono font-bold',
@@ -255,17 +345,20 @@ export default function Assess() {
 
         {/* Question navigator dots */}
         <div className="mb-6 flex flex-wrap gap-1.5">
-          {questions.map((_, i) => (
+          {Array.from({ length: Math.max(questions.length, QUESTION_COUNT) }, (_, i) => (
             <button
               key={i}
-              onClick={() => goToQuestion(i)}
+              onClick={() => i < questions.length && goToQuestion(i)}
+              disabled={i >= questions.length}
               className={cn(
                 'h-7 w-7 rounded-md text-xs font-medium transition-all',
                 i === currentIndex
                   ? 'bg-primary text-primary-foreground'
-                  : selectedAnswers[i]
+                  : i < questions.length && selectedAnswers[i]
                   ? 'bg-success/20 text-success border border-success/30'
-                  : 'bg-muted text-muted-foreground hover:bg-muted/80'
+                  : i < questions.length
+                  ? 'bg-muted text-muted-foreground hover:bg-muted/80'
+                  : 'bg-muted/40 text-muted-foreground/30'
               )}
             >
               {i + 1}
@@ -348,24 +441,21 @@ export default function Assess() {
           </Button>
 
           <span className="text-sm text-muted-foreground">
-            {answeredCount}/{questions.length} answered
+            {answeredCount}/{QUESTION_COUNT} answered
           </span>
 
-          {currentIndex < questions.length - 1 ? (
-            <Button
-              onClick={() => goToQuestion(currentIndex + 1)}
-              className="gap-1"
-            >
+          {!isLastQuestion ? (
+            <Button onClick={handleNext} className="gap-1">
               Next <ChevronRight className="h-4 w-4" />
             </Button>
           ) : (
             <Button
               onClick={handleSubmit}
               className="gap-1"
-              variant={answeredCount === questions.length ? 'default' : 'outline'}
+              variant={answeredCount === QUESTION_COUNT ? 'default' : 'outline'}
             >
               <Lock className="h-4 w-4" />
-              Submit ({answeredCount}/{questions.length})
+              Submit ({answeredCount}/{QUESTION_COUNT})
             </Button>
           )}
         </div>

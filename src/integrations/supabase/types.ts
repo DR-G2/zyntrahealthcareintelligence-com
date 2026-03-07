@@ -115,36 +115,60 @@ export type Database = {
       questions: {
         Row: {
           avg_time_seconds: number | null
+          best_treatment: string | null
           category: string
+          clinical_vignette: boolean | null
           correct_answer: string
           created_at: string
+          diagnosis_explanation: string | null
+          differential_diagnoses: Json | null
           difficulty: string
           explanation: string | null
+          first_line_investigation: string | null
+          gold_standard_investigation: string | null
           id: string
+          incorrect_answer_explanations: Json | null
+          key_takeaways: string[] | null
           options: Json
           question_text: string
           tags: string[] | null
         }
         Insert: {
           avg_time_seconds?: number | null
+          best_treatment?: string | null
           category: string
+          clinical_vignette?: boolean | null
           correct_answer: string
           created_at?: string
+          diagnosis_explanation?: string | null
+          differential_diagnoses?: Json | null
           difficulty?: string
           explanation?: string | null
+          first_line_investigation?: string | null
+          gold_standard_investigation?: string | null
           id?: string
+          incorrect_answer_explanations?: Json | null
+          key_takeaways?: string[] | null
           options: Json
           question_text: string
           tags?: string[] | null
         }
         Update: {
           avg_time_seconds?: number | null
+          best_treatment?: string | null
           category?: string
+          clinical_vignette?: boolean | null
           correct_answer?: string
           created_at?: string
+          diagnosis_explanation?: string | null
+          differential_diagnoses?: Json | null
           difficulty?: string
           explanation?: string | null
+          first_line_investigation?: string | null
+          gold_standard_investigation?: string | null
           id?: string
+          incorrect_answer_explanations?: Json | null
+          key_takeaways?: string[] | null
           options?: Json
           question_text?: string
           tags?: string[] | null

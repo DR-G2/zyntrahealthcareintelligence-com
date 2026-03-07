@@ -13,6 +13,7 @@ import Practice from "./pages/Practice";
 import Analytics from "./pages/Analytics";
 import Questions from "./pages/Questions";
 import PlaceholderPage from "./pages/PlaceholderPage";
+import AdminQuestions from "./pages/AdminQuestions";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -34,6 +35,7 @@ const App = () => (
               <Route path="/questions" element={<Questions />} />
               <Route path="/analytics" element={<Analytics />} />
               <Route path="/plan" element={<PlaceholderPage title="Study Planner" />} />
+              <Route path="/admin/questions" element={<AdminQuestions />} />
               <Route path="/settings" element={<PlaceholderPage title="Settings" />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
