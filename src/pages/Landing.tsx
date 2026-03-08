@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Zap, Brain, Clock, Target, BarChart3, ArrowRight } from 'lucide-react';
+import { Zap, Brain, Clock, Target, BarChart3, ArrowRight, Rss } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { LegalFooter } from '@/components/LegalFooter';
