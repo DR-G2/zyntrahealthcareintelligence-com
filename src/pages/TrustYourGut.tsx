@@ -62,6 +62,7 @@ interface CategoryBreakdown {
 
 export default function TrustYourGut() {
   const { user } = useAuth();
+  const gate = useFeatureGate();
   const [activeTab, setActiveTab] = useState('stats');
   const [trainingMode, setTrainingMode] = useState(false);
   const [trainingQuestions, setTrainingQuestions] = useState<any[]>([]);
