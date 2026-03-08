@@ -65,6 +65,35 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     strike_count: 0,
     loading: true,
   });
+  const [termsAccepted, setTermsAccepted] = useState(false);
+  const [termsLoading, setTermsLoading] = useState(true);
+
+  const fetchTermsAcceptance = async (userId: string) => {
+    try {
+      const { data } = await supabase
+        .from('user_legal_acceptance')
+        .select('terms_version')
+        .eq('user_id', userId)
+        .eq('terms_version', CURRENT_TERMS_VERSION)
+        .limit(1)
+        .maybeSingle();
+      setTermsAccepted(!!data);
+    } catch {
+      setTermsAccepted(false);
+    } finally {
+      setTermsLoading(false);
+    }
+  };
+
+  const acceptTerms = async () => {
+    if (!user) return;
+    await supabase.from('user_legal_acceptance').insert({
+      user_id: user.id,
+      terms_version: CURRENT_TERMS_VERSION,
+      user_agent: navigator.userAgent,
+    });
+    setTermsAccepted(true);
+  };
 
   const fetchProfile = async (userId: string) => {
     const { data } = await supabase
