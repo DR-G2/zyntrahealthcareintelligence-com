@@ -1,46 +1,41 @@
 
 
-## Plan: Responsive Layout for Mobile, Tablet, and Laptop
+## Plan: Enhanced Practice Results with Detailed Explanations
 
-Currently the sidebar is always fixed at 64px or 256px wide with no mobile adaptation — on small screens it covers content or overflows.
+### What Changes
 
-### Changes
+**1. Expand the results review section (Practice.tsx, lines 225-245)**
 
-#### 1. `src/components/AppSidebar.tsx`
-- **Mobile (< 768px):** Sidebar becomes an off-canvas drawer — hidden by default, slides in from the left when toggled via a hamburger button. An overlay backdrop closes it on tap.
-- **Tablet (768–1024px):** Sidebar defaults to collapsed (icon-only, 64px). Can be expanded on demand.
-- **Laptop (> 1024px):** Sidebar defaults to expanded (256px), collapsible as today.
-- Add a `mobileOpen` state and use `useIsMobile()` hook to detect breakpoint.
-- On mobile, render the sidebar as a fixed overlay with backdrop instead of a permanent fixed element.
+Replace the current inline explanation snippet with a clickable card that navigates to a full-page explanation view. Each question card in results will show:
+- Question text, your answer vs correct answer, correct/incorrect badge
+- A "Read Full Explanation" button that opens a detailed view
 
-#### 2. `src/components/AppLayout.tsx`
-- Add a mobile header bar with hamburger menu button (visible only on mobile) that toggles the sidebar drawer.
-- On mobile, remove the left margin from `<main>` since the sidebar is an overlay.
-- On tablet, default `collapsed = true`.
-- Pass `mobileOpen` / `setMobileOpen` through `SidebarContext`.
+**2. Create a full-page explanation view within the results phase**
 
-#### 3. `src/hooks/use-mobile.tsx`
-- Add a `useIsTablet()` hook (768–1024px) alongside the existing `useIsMobile()`.
+Add a new sub-phase `'explanation'` to the drill session. When a user clicks a question, the view transitions to a full-page layout containing:
+- The question and all options (highlighted correct/incorrect)
+- A detailed explanation section
+- **Reference notes** organized by source book:
+  - **AMC Handbook** — key clinical points relevant to the question topic
+  - **John Murtagh's General Practice** — diagnostic approach and management
+  - **Tally O'Connor's Clinical Examination** — examination findings and signs
+- A "Back to Results" button
 
-#### 4. `src/pages/Landing.tsx`
-- Adjust the landing nav and hero section padding/text sizes for mobile (already mostly responsive, minor tweaks).
+**3. Store reference notes in the question explanation field**
 
-#### 5. General page content
-- Dashboard grid (`grid-cols-2 lg:grid-cols-4`) and admin tabs already use responsive classes. No changes needed to individual pages — the layout wrapper handles the sidebar responsiveness.
+Since the `questions` table already has an `explanation` column, the detailed explanations with book references will be structured within that field. For now, the UI will parse and display the explanation, and add styled reference sections with book attribution headers even if the current explanation text is brief. The textbook reference sections will be rendered as distinct styled blocks.
 
-### Behavior Summary
+### Technical Approach
 
-| Breakpoint | Sidebar | Main content margin |
-|---|---|---|
-| Mobile (< 768px) | Hidden, opens as drawer overlay | `ml-0`, full width |
-| Tablet (768–1024px) | Collapsed (icon-only) by default | `ml-16` |
-| Laptop (> 1024px) | Expanded by default, collapsible | `ml-16` or `ml-64` |
+- Add state: `reviewQuestionIndex: number | null` to track which question is being viewed in detail
+- When set, render a full-page explanation component instead of the results list
+- Structure the explanation page with:
+  - Question card with all options color-coded
+  - Explanation text (from DB)
+  - Three reference cards (AMC Handbook, Murtagh's, Tally O'Connor) with topic-relevant headers derived from the question's category
+- Use `framer-motion` for page transitions
+- All changes are in `src/pages/Practice.tsx` only — no new files needed
 
-### Files Changed
-
-| File | Change |
-|---|---|
-| `src/hooks/use-mobile.tsx` | Add `useIsTablet()` |
-| `src/components/AppSidebar.tsx` | Mobile drawer mode with backdrop overlay; respond to mobile/tablet breakpoints |
-| `src/components/AppLayout.tsx` | Mobile header with hamburger; responsive margin; default collapsed on tablet |
+### Files Modified
+- `src/pages/Practice.tsx` — refactor results phase to add clickable detail view with book reference sections
 
