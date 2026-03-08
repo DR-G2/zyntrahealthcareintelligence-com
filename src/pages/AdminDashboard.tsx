@@ -810,7 +810,7 @@ export default function AdminDashboard() {
         <h1 className="text-2xl font-display font-bold">Admin Dashboard</h1>
         <Tabs defaultValue="live">
           <TabsList className="grid w-full grid-cols-5">
-            <TabsTrigger value="live" className="gap-2"><Radio className="h-4 w-4" /> Live Activity</TabsTrigger>
+            <TabsTrigger value="live" className="gap-2"><Radio className="h-4 w-4" /> User Activity</TabsTrigger>
             <TabsTrigger value="users" className="gap-2"><Users className="h-4 w-4" /> Users & Subs</TabsTrigger>
             <TabsTrigger value="mcq" className="gap-2"><BookOpen className="h-4 w-4" /> MCQ Questions</TabsTrigger>
             <TabsTrigger value="osce" className="gap-2"><Activity className="h-4 w-4" /> OSCE Stations</TabsTrigger>
