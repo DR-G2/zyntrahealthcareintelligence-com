@@ -87,6 +87,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const fetchWatermark = async (userId: string) => {
+    try {
+      const [settingsRes, strikesRes] = await Promise.all([
+        supabase.from('watermark_settings').select('*').eq('user_id', userId).maybeSingle(),
+        supabase.from('piracy_strikes').select('id', { count: 'exact', head: true }).eq('user_id', userId),
+      ]);
+      const settings = settingsRes.data;
+      const strikeCount = strikesRes.count ?? 0;
+      setWatermark({
+        opacity_light: settings?.opacity_light ?? 0.055,
+        opacity_dark: settings?.opacity_dark ?? 0.065,
+        suspended: settings?.suspended ?? false,
+        strike_count: strikeCount,
+        loading: false,
+      });
+    } catch (e) {
+      console.error('watermark fetch error:', e);
+      setWatermark(prev => ({ ...prev, loading: false }));
+    }
+  };
+
   useEffect(() => {
     const { data: { subscription: authSub } } = supabase.auth.onAuthStateChange(
       async (_event, session) => {
