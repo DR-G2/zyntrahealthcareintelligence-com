@@ -53,7 +53,9 @@ export default function QuestionsOSCE() {
           <p className="text-muted-foreground">Review past station cases and performance</p>
         </div>
 
-        {loading ? (
+        {!gate.canAccessHistory ? (
+          <UpgradePrompt feature="OSCE History" description="Upgrade to a paid plan to access your full OSCE station history and performance tracking." variant="card" />
+        ) : loading ? (
           <div className="flex items-center justify-center py-20">
             <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
           </div>
