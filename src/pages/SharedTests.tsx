@@ -285,6 +285,29 @@ export default function SharedTests() {
                     </>
                   )}
 
+                  {testType === 'osce' && (
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">Subjects</label>
+                      <p className="text-xs text-muted-foreground">Select subjects for the OSCE stations</p>
+                      <div className="flex flex-wrap gap-1.5 max-h-48 overflow-y-auto rounded-md border border-border p-2">
+                        {SYSTEMS.map(sub => (
+                          <Badge
+                            key={sub}
+                            variant={selectedSubjects.includes(sub) ? 'default' : 'outline'}
+                            className="cursor-pointer text-xs"
+                            onClick={() => toggleSubject(sub)}
+                          >
+                            {sub}
+                            {selectedSubjects.includes(sub) && <X className="h-3 w-3 ml-1" />}
+                          </Badge>
+                        ))}
+                      </div>
+                      {selectedSubjects.length > 0 && (
+                        <p className="text-xs text-muted-foreground">{selectedSubjects.length} subject{selectedSubjects.length !== 1 ? 's' : ''} selected</p>
+                      )}
+                    </div>
+                  )}
+
                   <Button onClick={createTest} disabled={creating} className="w-full">
                     {creating ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
                     Generate Test Code
