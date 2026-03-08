@@ -83,15 +83,13 @@ interface BehaviorData {
 export default function BehaviorProfile() {
   const { user } = useAuth();
   const { toast } = useToast();
+  const gate = useFeatureGate();
   const [data, setData] = useState<BehaviorData | null>(null);
   const [loading, setLoading] = useState(true);
   const [analyzing, setAnalyzing] = useState(false);
 
   const [osceStats, setOsceStats] = useState<{ count: number; avgScore: number; subjects: string[] } | null>(null);
   const [psychograph, setPsychograph] = useState<any>(null);
-
-  // Feature gate
-  const { useFeatureGate } = await import('@/hooks/useFeatureGate');
 
   useEffect(() => {
     if (!user) return;
