@@ -1,41 +1,37 @@
 
 
-## Plan: Enhanced Practice Results with Detailed Explanations
+## Problem
 
-### What Changes
+The diagnostic assessment (Assess.tsx) and performance profile are not synced because:
 
-**1. Expand the results review section (Practice.tsx, lines 225-245)**
+1. **Assess.tsx never saves to the database.** It calculates performance scores and passes them via React Router `navigate('/profile', { state: { performanceData } })` — purely in-memory. No writes to `performance_profiles` or `user_attempts` tables.
 
-Replace the current inline explanation snippet with a clickable card that navigates to a full-page explanation view. Each question card in results will show:
-- Question text, your answer vs correct answer, correct/incorrect badge
-- A "Read Full Explanation" button that opens a detailed view
+2. **Profile.tsx only reads from `location.state`.** If you navigate away and come back, the data is gone. It never queries `performance_profiles` from the database.
 
-**2. Create a full-page explanation view within the results phase**
+3. **Practice.tsx does save** to both `user_attempts` and `performance_profiles` — but the diagnostic does not.
 
-Add a new sub-phase `'explanation'` to the drill session. When a user clicks a question, the view transitions to a full-page layout containing:
-- The question and all options (highlighted correct/incorrect)
-- A detailed explanation section
-- **Reference notes** organized by source book:
-  - **AMC Handbook** — key clinical points relevant to the question topic
-  - **John Murtagh's General Practice** — diagnostic approach and management
-  - **Tally O'Connor's Clinical Examination** — examination findings and signs
-- A "Back to Results" button
+This means: diagnostic results vanish on page refresh, study plan generation has no data to work with, and the performance profile page shows "No Performance Profile Yet" unless you just came from the diagnostic.
 
-**3. Store reference notes in the question explanation field**
+## Changes
 
-Since the `questions` table already has an `explanation` column, the detailed explanations with book references will be structured within that field. For now, the UI will parse and display the explanation, and add styled reference sections with book attribution headers even if the current explanation text is brief. The textbook reference sections will be rendered as distinct styled blocks.
+### 1. Update `src/pages/Assess.tsx` — Save results to database
 
-### Technical Approach
+After calculating performance scores in `handleSubmit`:
+- Save each question attempt to `user_attempts` (with `session_id`, `question_id`, `selected_answer`, `is_correct`, `time_taken_seconds`, `answer_changes_count`)
+- Upsert performance profile to `performance_profiles` (same blend logic Practice.tsx uses — if existing profile exists, blend scores rather than overwrite)
+- Need to import `useAuth` to get user ID and `supabase` client
 
-- Add state: `reviewQuestionIndex: number | null` to track which question is being viewed in detail
-- When set, render a full-page explanation component instead of the results list
-- Structure the explanation page with:
-  - Question card with all options color-coded
-  - Explanation text (from DB)
-  - Three reference cards (AMC Handbook, Murtagh's, Tally O'Connor) with topic-relevant headers derived from the question's category
-- Use `framer-motion` for page transitions
-- All changes are in `src/pages/Practice.tsx` only — no new files needed
+### 2. Update `src/pages/Profile.tsx` — Load from database with state fallback
 
-### Files Modified
-- `src/pages/Practice.tsx` — refactor results phase to add clickable detail view with book reference sections
+- On mount, fetch from `performance_profiles` table for the current user
+- Use `location.state` as immediate display data (for fresh diagnostic results), but always load/merge from database
+- Show the database data when no state is passed (e.g., navigating directly to `/profile`)
+- Import `useAuth` and `supabase`
+
+### File Changes
+
+| File | Change |
+|------|--------|
+| `src/pages/Assess.tsx` | Add DB writes: `user_attempts` inserts + `performance_profiles` upsert in `handleSubmit` |
+| `src/pages/Profile.tsx` | Add DB read: fetch `performance_profiles` on mount, fallback to `location.state` |
 
