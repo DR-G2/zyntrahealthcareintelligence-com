@@ -93,17 +93,17 @@ export default function Dashboard() {
 
         <Card className="group hover:border-primary/30 transition-colors">
           <CardHeader>
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-destructive/10 text-destructive mb-2">
-              <BookOpen className="h-5 w-5" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent/10 text-accent-foreground mb-2">
+              <Rss className="h-5 w-5" />
             </div>
-            <CardTitle className="font-display">Mistake Review</CardTitle>
+            <CardTitle className="font-display">Feed</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-sm text-muted-foreground mb-4">
-              Review incorrect, changed, and guessed questions
+              Paste clinical content and generate practice questions instantly
             </p>
             <Button variant="outline" asChild className="gap-1">
-              <Link to="/review">Review Mistakes <ArrowRight className="h-4 w-4" /></Link>
+              <Link to="/feed">Open Feed <ArrowRight className="h-4 w-4" /></Link>
             </Button>
           </CardContent>
         </Card>

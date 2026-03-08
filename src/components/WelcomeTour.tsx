@@ -51,24 +51,24 @@ const steps = [
     accent: 'primary',
   },
   {
-    icon: MessageCircle,
-    title: 'AI Study Companion',
+    icon: Rss,
+    title: 'Feed',
     description:
-      'Chat with your AI Study Buddy anytime. Ask for explanations, mnemonics, or study tips. It remembers your conversation history and supports rich formatting.',
+      'Paste any clinical content and we\'ll generate practice questions or OSCE stations from it instantly. Turn any study material into active practice.',
     accent: 'secondary',
   },
   {
-    icon: Calendar,
-    title: 'Adaptive Study Plan',
+    icon: BarChart3,
+    title: 'APPE Analytics',
     description:
-      'Get an auto-generated study plan tailored to your exam date and weak areas. It adapts as you improve, keeping you on track every day.',
+      'Track your performance, behavior patterns, mistake trends, and gut instinct accuracy — all in one place under the Adaptive Performance & Preparation Engine.',
     accent: 'primary',
   },
   {
-    icon: Users,
-    title: 'Social & Shared Tests',
+    icon: MessageCircle,
+    title: 'AI Study Companion',
     description:
-      'Create study groups, share test codes with friends, and compete on leaderboards. Studying together keeps motivation high.',
+      'Chat with your AI Study Buddy, get an adaptive study plan, create study groups, and share tests with friends.',
     accent: 'secondary',
   },
   {
