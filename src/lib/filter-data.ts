@@ -4,7 +4,7 @@ export const SYSTEMS = [
   'Cardiology', 'Respiratory', 'Gastrointestinal', 'Neurology', 'Endocrinology',
   'Renal', 'Dermatology', 'Psychiatry', 'Paediatrics', 'Obstetrics & Gynaecology',
   'Emergency Medicine', 'Infectious Diseases', 'Population Health', 'ENT',
-  'Haematology', 'Musculoskeletal'
+  'Haematology', 'Musculoskeletal', 'Surgery'
 ] as const;
 
 export const SUBJECTS = [
