@@ -142,13 +142,7 @@ function SetupScreen({ onStart }: { onStart: (config: SessionConfig) => void }) 
   };
 
   const selectAll = () => {
-    const allPairs = new Set<string>();
-    SYSTEMS.forEach(system => {
-      SYSTEM_SUBJECTS[system]?.forEach(subject => {
-        allPairs.add(`${system}:${subject}`);
-      });
-    });
-    setSelectedPairs(allPairs);
+    setSelectedPairs(getAllPairs());
   };
 
   const clearAll = () => {
