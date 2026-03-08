@@ -40,6 +40,7 @@ interface QuestionExplanationProps {
   userAnswer: string | undefined;
   questionIndex: number;
   onBack: () => void;
+  onAskStudyBuddy?: (question: Question) => void;
 }
 
 const bookReferences = [
