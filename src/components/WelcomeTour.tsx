@@ -7,7 +7,8 @@ import {
   Stethoscope,
   MessageCircle,
   Calendar,
-  Users,
+  Rss,
+  BarChart3,
   Rocket,
   Sparkles,
 } from 'lucide-react';
