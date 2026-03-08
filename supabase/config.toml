@@ -3,3 +3,7 @@ project_id = "yudkfmgilucyhukfggij"
 [functions]
   [functions.auth-email-hook]
     verify_jwt = false
+  [functions.generate-study-plan]
+    verify_jwt = false
+  [functions.study-buddy]
+    verify_jwt = false
