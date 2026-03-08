@@ -235,7 +235,7 @@ export default function Questions() {
   const totalPairs = getAllPairs().size;
 
   const toggleBookmark = async (qId: string) => {
-    if (!user) return;
+    if (!user || !gate.canSaveBookmarks) return;
     const isBookmarked = bookmarks.has(qId);
     const next = new Set(bookmarks);
 
