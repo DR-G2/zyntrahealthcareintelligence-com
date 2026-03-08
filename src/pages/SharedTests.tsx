@@ -332,6 +332,7 @@ export default function SharedTests() {
           <div className="grid gap-4">
             {tests.map(test => {
               const testCategories: string[] = test.config?.categories || [];
+              const testSubjects: string[] = test.config?.subjects || [];
               const testQuestionCount = test.config?.question_count;
               return (
                 <Card key={test.id}>
