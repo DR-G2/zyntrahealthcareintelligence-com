@@ -565,8 +565,8 @@ export default function Pricing() {
                     "I wish I'd had this option. Instead I paid $50/month for 8 months, then paused, then paid again..."
                     — Founder, looking at old bank statements
                   </p>
-                  <Button variant="outline" className="w-full" asChild>
-                    <Link to="/login">Get Lifetime Access</Link>
+                  <Button variant="outline" className="w-full" onClick={() => handleCheckout('lifetime')} disabled={loadingTier === 'lifetime' || isCurrentTier('lifetime')}>
+                    {isCurrentTier('lifetime') ? 'Current Plan' : loadingTier === 'lifetime' ? <><Loader2 className="h-4 w-4 animate-spin mr-2" />Processing...</> : 'Get Lifetime Access'}
                   </Button>
                   <p className="mt-3 text-center text-xs text-muted-foreground">
                     Limited to 50 users so I can actually provide support.
