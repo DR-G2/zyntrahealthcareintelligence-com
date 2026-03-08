@@ -221,6 +221,7 @@ export default function Feed() {
       {/* MCQ Results */}
       {mcqResults && (
         <div className="mt-8 space-y-6">
+          <div className="flex items-center justify-between flex-wrap gap-3">
           <h2 className="text-xl font-bold font-display">Generated Questions ({mcqResults.length})</h2>
           <Button
             onClick={handleSaveMcq}
