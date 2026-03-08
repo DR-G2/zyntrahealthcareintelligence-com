@@ -1,41 +1,41 @@
 
 
-## Plan: Enhanced Practice Results with Detailed Explanations
+## Plan: Fix OSCE Question Bank to Show Clinical Stations
 
-### What Changes
+### Problem
+The OSCE Question Bank page (`QuestionsOSCE.tsx`) queries `station_attempts` (user's past completions — currently 0 rows) instead of `clinical_stations` (150 actual stations). So the page always shows "No OSCE attempts yet."
 
-**1. Expand the results review section (Practice.tsx, lines 225-245)**
+### Root Cause
+The page was built as a "history viewer" but should be a **browsable station bank** — showing all 150 clinical stations with subject filtering, similar to the MCQ question bank.
 
-Replace the current inline explanation snippet with a clickable card that navigates to a full-page explanation view. Each question card in results will show:
-- Question text, your answer vs correct answer, correct/incorrect badge
-- A "Read Full Explanation" button that opens a detailed view
+### Solution: Rewrite `QuestionsOSCE.tsx`
 
-**2. Create a full-page explanation view within the results phase**
+Query `clinical_stations` instead of `station_attempts`. Display stations as browsable cards with:
 
-Add a new sub-phase `'explanation'` to the drill session. When a user clicks a question, the view transitions to a full-page layout containing:
-- The question and all options (highlighted correct/incorrect)
-- A detailed explanation section
-- **Reference notes** organized by source book:
-  - **AMC Handbook** — key clinical points relevant to the question topic
-  - **John Murtagh's General Practice** — diagnostic approach and management
-  - **Tally O'Connor's Clinical Examination** — examination findings and signs
-- A "Back to Results" button
+- **Subject filter** using the existing subjects from the database (Cardiology, Gastroenterology, Mental Health, etc.)
+- **Search** by scenario title
+- **Station cards** showing: scenario title, subject badge, and a preview of the scenario data
+- **Expandable detail** — clicking a card shows the full scenario (patient persona summary, examination findings count, investigations count)
+- **Past attempt indicator** — if the user has attempted a station, show their score badge (join with `station_attempts` by `session_id`)
 
-**3. Store reference notes in the question explanation field**
+Also needs an RLS fix: `clinical_stations` currently has `SELECT` policy `auth.uid() = user_id`, meaning users can only see stations they created. Since these are admin-created stations, we need a policy allowing all authenticated users to read them.
 
-Since the `questions` table already has an `explanation` column, the detailed explanations with book references will be structured within that field. For now, the UI will parse and display the explanation, and add styled reference sections with book attribution headers even if the current explanation text is brief. The textbook reference sections will be rendered as distinct styled blocks.
+### Database Change
+Add an RLS policy on `clinical_stations` to allow all authenticated users to SELECT:
+```sql
+CREATE POLICY "Authenticated users can read all stations"
+ON public.clinical_stations FOR SELECT
+TO authenticated
+USING (true);
+```
 
-### Technical Approach
+### Files Changed
 
-- Add state: `reviewQuestionIndex: number | null` to track which question is being viewed in detail
-- When set, render a full-page explanation component instead of the results list
-- Structure the explanation page with:
-  - Question card with all options color-coded
-  - Explanation text (from DB)
-  - Three reference cards (AMC Handbook, Murtagh's, Tally O'Connor) with topic-relevant headers derived from the question's category
-- Use `framer-motion` for page transitions
-- All changes are in `src/pages/Practice.tsx` only — no new files needed
+| File | Change |
+|------|--------|
+| `src/pages/QuestionsOSCE.tsx` | Rewrite to query `clinical_stations`, add subject filter, search, and expandable station cards |
+| Database migration | Add public read RLS policy on `clinical_stations` |
 
-### Files Modified
-- `src/pages/Practice.tsx` — refactor results phase to add clickable detail view with book reference sections
+### Station Data Available (150 stations across 19 subjects)
+Mental Health (14), Gastroenterology (10), Gynaecology (10), General Surgery (9), Paediatrics (9), Orthopaedics (9), Rheumatology (9), Infectious Disease (9), Neurology (8), Cardiology (8), Dermatology (8), Public Health (8), ENT (8), Nephrology (8), Obstetrics (8), Emergency Medicine (6), Respiratory (4), Endocrinology (3), Ophthalmology (2)
 
