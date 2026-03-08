@@ -22,12 +22,14 @@ interface AppLayoutProps {
 
 export function AppLayout({ children, questionContext, onClearQuestionContext }: AppLayoutProps) {
   return (
-    <div className="flex min-h-screen">
-      <AppSidebar />
-      <main className="flex-1 ml-64 p-6 lg:p-8">
-        {children}
-      </main>
-      <StudyBuddy questionContext={questionContext} onClearContext={onClearQuestionContext} />
-    </div>
+    <SecurityOverlay>
+      <div className="flex min-h-screen">
+        <AppSidebar />
+        <main className="flex-1 ml-64 p-6 lg:p-8">
+          {children}
+        </main>
+        <StudyBuddy questionContext={questionContext} onClearContext={onClearQuestionContext} />
+      </div>
+    </SecurityOverlay>
   );
 }
