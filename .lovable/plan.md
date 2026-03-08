@@ -1,26 +1,41 @@
 
 
-## Plan: Add OSCE Cleanup Button to Admin Dashboard
+## Plan: Enhanced Practice Results with Detailed Explanations
 
-### Changes
+### What Changes
 
-#### 1. Create `supabase/functions/admin-cleanup-stations/index.ts`
-A new edge function mirroring the MCQ cleanup logic but for `clinical_stations`:
-- Admin auth check (same pattern as existing functions)
-- Delete stations with generic template content (e.g. identical history clues like "symptoms started recently", "patient worried about worsening condition")
-- Delete stations where subject doesn't match scenario title (mismatched assignments)
-- Deduplicate by `scenario_title` (keep oldest)
-- Normalize subjects to match `OSCE_SUBJECTS` list (e.g. "Mental Health" to "Psychiatry", "General Surgery" to "Surgery")
-- Return summary: total before/after, deleted count, subject distribution
+**1. Expand the results review section (Practice.tsx, lines 225-245)**
 
-#### 2. Update `src/pages/AdminDashboard.tsx` — OSCETab
-Add a "Clean & Normalize Stations" card (between Generate and Import cards) with:
-- `cleaning` state variable
-- AlertDialog confirmation (same pattern as MCQ cleanup button)
-- Calls `admin-cleanup-stations` edge function
-- Logs results to the activity log
-- Refreshes station list after completion
+Replace the current inline explanation snippet with a clickable card that navigates to a full-page explanation view. Each question card in results will show:
+- Question text, your answer vs correct answer, correct/incorrect badge
+- A "Read Full Explanation" button that opens a detailed view
 
-### Pattern
-Identical to the existing MCQ cleanup button (lines 418-458) — same UI card, AlertDialog, loading state, and log output.
+**2. Create a full-page explanation view within the results phase**
+
+Add a new sub-phase `'explanation'` to the drill session. When a user clicks a question, the view transitions to a full-page layout containing:
+- The question and all options (highlighted correct/incorrect)
+- A detailed explanation section
+- **Reference notes** organized by source book:
+  - **AMC Handbook** — key clinical points relevant to the question topic
+  - **John Murtagh's General Practice** — diagnostic approach and management
+  - **Tally O'Connor's Clinical Examination** — examination findings and signs
+- A "Back to Results" button
+
+**3. Store reference notes in the question explanation field**
+
+Since the `questions` table already has an `explanation` column, the detailed explanations with book references will be structured within that field. For now, the UI will parse and display the explanation, and add styled reference sections with book attribution headers even if the current explanation text is brief. The textbook reference sections will be rendered as distinct styled blocks.
+
+### Technical Approach
+
+- Add state: `reviewQuestionIndex: number | null` to track which question is being viewed in detail
+- When set, render a full-page explanation component instead of the results list
+- Structure the explanation page with:
+  - Question card with all options color-coded
+  - Explanation text (from DB)
+  - Three reference cards (AMC Handbook, Murtagh's, Tally O'Connor) with topic-relevant headers derived from the question's category
+- Use `framer-motion` for page transitions
+- All changes are in `src/pages/Practice.tsx` only — no new files needed
+
+### Files Modified
+- `src/pages/Practice.tsx` — refactor results phase to add clickable detail view with book reference sections
 
