@@ -60,6 +60,9 @@ function AuthForm({ mode }: { mode: 'login' | 'signup' }) {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [showForgot, setShowForgot] = useState(false);
+  const [forgotEmail, setForgotEmail] = useState('');
+  const [forgotSubmitting, setForgotSubmitting] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -77,6 +80,57 @@ function AuthForm({ mode }: { mode: 'login' | 'signup' }) {
       setSubmitting(false);
     }
   };
+
+  const handleForgotPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setForgotSubmitting(true);
+    try {
+      const { error } = await (await import('@/lib/supabase')).supabase.auth.resetPasswordForEmail(forgotEmail, {
+        redirectTo: `${window.location.origin}/reset-password`,
+      });
+      if (error) throw error;
+      toast({ title: 'Reset link sent!', description: 'Check your email for a password reset link.' });
+      setShowForgot(false);
+    } catch (err: any) {
+      toast({ title: 'Error', description: err.message, variant: 'destructive' });
+    } finally {
+      setForgotSubmitting(false);
+    }
+  };
+
+  if (showForgot) {
+    return (
+      <CardContent className="pt-4">
+        <form onSubmit={handleForgotPassword} className="space-y-4">
+          <div className="space-y-1">
+            <h3 className="text-lg font-semibold">Forgot Password</h3>
+            <p className="text-sm text-muted-foreground">Enter your email and we'll send you a reset link.</p>
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="forgot-email">Email</Label>
+            <div className="relative">
+              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                id="forgot-email"
+                type="email"
+                placeholder="you@example.com"
+                value={forgotEmail}
+                onChange={(e) => setForgotEmail(e.target.value)}
+                className="pl-10"
+                required
+              />
+            </div>
+          </div>
+          <Button type="submit" className="w-full" disabled={forgotSubmitting}>
+            {forgotSubmitting ? 'Sending...' : 'Send Reset Link'}
+          </Button>
+          <Button type="button" variant="ghost" className="w-full" onClick={() => setShowForgot(false)}>
+            Back to login
+          </Button>
+        </form>
+      </CardContent>
+    );
+  }
 
   return (
     <CardContent className="pt-4">
@@ -122,6 +176,15 @@ function AuthForm({ mode }: { mode: 'login' | 'signup' }) {
         <Button type="submit" className="w-full" disabled={submitting}>
           {submitting ? 'Please wait...' : mode === 'signup' ? 'Create Account' : 'Log In'}
         </Button>
+        {mode === 'login' && (
+          <button
+            type="button"
+            onClick={() => setShowForgot(true)}
+            className="w-full text-center text-sm text-muted-foreground hover:text-primary transition-colors"
+          >
+            Forgot password?
+          </button>
+        )}
       </form>
     </CardContent>
   );
