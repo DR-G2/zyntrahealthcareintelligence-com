@@ -1,5 +1,4 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
-import Stripe from "https://esm.sh/stripe@18.5.0";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
 
 const corsHeaders = {
@@ -10,23 +9,6 @@ const corsHeaders = {
 const logStep = (step: string, details?: any) => {
   const detailsStr = details ? ` - ${JSON.stringify(details)}` : '';
   console.log(`[CHECK-SUBSCRIPTION] ${step}${detailsStr}`);
-};
-
-// Product ID → tier mapping
-const PRODUCT_TIER_MAP: Record<string, string> = {
-  'prod_U6zJQt8jlti5si': 'mcq_only',
-  'prod_U6zKnCYIVwHDwb': 'mcq_only',
-  'prod_U6zKZcaEJfbQQ5': 'osce_only',
-  'prod_U6zKcaN9wFpuNg': 'osce_only',
-  'prod_U6zKrKxtp16K7W': 'full_access',
-  'prod_U6zKGMBtlFy4Oz': 'full_access',
-  'prod_U6zK1OPYlEhP7U': 'lifetime',
-  // Legacy
-  'prod_U6yxXHRvDd4Ez8': 'full_access',
-  'prod_U6yy9VWpyT13u1': 'full_access',
-  'prod_U6sMkFKlyQoIuh': 'lifetime',
-  'prod_U6sKBIdCnUC1WH': 'full_access',
-  'prod_U6sKziBbluGb0Q': 'full_access',
 };
 
 serve(async (req) => {
@@ -69,7 +51,6 @@ serve(async (req) => {
         return new Response(JSON.stringify({
           subscribed: true,
           tier: override.tier,
-          product_id: null,
           subscription_end: override.expires_at,
           manual_override: true,
         }), {
@@ -79,73 +60,84 @@ serve(async (req) => {
       }
     }
 
-    // 2. Check Stripe
-    const stripeKey = Deno.env.get("STRIPE_SECRET_KEY");
-    if (!stripeKey) throw new Error("STRIPE_SECRET_KEY is not set");
+    // 2. Check local payments table for active payments
+    const { data: payments, error: paymentsError } = await supabaseClient
+      .from("payments")
+      .select("*")
+      .eq("user_id", userId)
+      .eq("status", "active")
+      .order("created_at", { ascending: false })
+      .limit(1);
 
-    const stripe = new Stripe(stripeKey, { apiVersion: "2025-08-27.basil" });
-    const customers = await stripe.customers.list({ email: userEmail, limit: 1 });
-
-    if (customers.data.length === 0) {
-      logStep("No Stripe customer found");
-      return new Response(JSON.stringify({ subscribed: false, tier: "free" }), {
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-        status: 200,
-      });
+    if (paymentsError) {
+      logStep("Payments query error", { message: paymentsError.message });
     }
 
-    const customerId = customers.data[0].id;
-    logStep("Found customer", { customerId });
+    if (payments && payments.length > 0) {
+      const payment = payments[0];
+      logStep("Active payment found", { tier: payment.tier, subscription_id: payment.razorpay_subscription_id });
 
-    // Check active subscriptions
-    const subscriptions = await stripe.subscriptions.list({
-      customer: customerId,
-      status: "active",
-      limit: 10,
-    });
+      // For subscriptions, verify with Razorpay API that it's still active
+      if (payment.razorpay_subscription_id) {
+        const keyId = Deno.env.get("RAZORPAY_KEY_ID") || "";
+        const keySecret = Deno.env.get("RAZORPAY_KEY_SECRET") || "";
+        const authString = btoa(`${keyId}:${keySecret}`);
 
-    if (subscriptions.data.length > 0) {
-      const sub = subscriptions.data[0];
-      const productId = sub.items.data[0].price.product as string;
-      const subscriptionEnd = new Date(sub.current_period_end * 1000).toISOString();
-      const tier = PRODUCT_TIER_MAP[productId] || "full_access";
-      logStep("Active subscription", { tier, productId });
+        try {
+          const subRes = await fetch(
+            `https://api.razorpay.com/v1/subscriptions/${payment.razorpay_subscription_id}`,
+            {
+              headers: { "Authorization": `Basic ${authString}` },
+            }
+          );
 
-      return new Response(JSON.stringify({
-        subscribed: true,
-        tier,
-        product_id: productId,
-        subscription_end: subscriptionEnd,
-      }), {
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-        status: 200,
-      });
+          if (subRes.ok) {
+            const sub = await subRes.json();
+            if (sub.status === "active" || sub.status === "authenticated") {
+              const endAt = sub.current_end ? new Date(sub.current_end * 1000).toISOString() : null;
+              return new Response(JSON.stringify({
+                subscribed: true,
+                tier: payment.tier,
+                subscription_end: endAt,
+              }), {
+                headers: { ...corsHeaders, "Content-Type": "application/json" },
+                status: 200,
+              });
+            } else {
+              // Subscription expired/cancelled — mark payment inactive
+              logStep("Subscription no longer active", { status: sub.status });
+              await supabaseClient
+                .from("payments")
+                .update({ status: "cancelled" })
+                .eq("id", payment.id);
+            }
+          }
+        } catch (e) {
+          logStep("Razorpay API check failed, using local data", { error: String(e) });
+          // Fallback to local data
+          return new Response(JSON.stringify({
+            subscribed: true,
+            tier: payment.tier,
+            subscription_end: null,
+          }), {
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+            status: 200,
+          });
+        }
+      } else {
+        // One-time payment (lifetime) — always active
+        return new Response(JSON.stringify({
+          subscribed: true,
+          tier: payment.tier,
+          subscription_end: null,
+        }), {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+          status: 200,
+        });
+      }
     }
 
-    // Check for lifetime (one-time payment)
-    const sessions = await stripe.checkout.sessions.list({
-      customer: customerId,
-      limit: 100,
-    });
-
-    const lifetimeSession = sessions.data.find(s =>
-      s.payment_status === "paid" && s.mode === "payment"
-    );
-
-    if (lifetimeSession) {
-      logStep("Lifetime purchase found");
-      return new Response(JSON.stringify({
-        subscribed: true,
-        tier: "lifetime",
-        product_id: "prod_U6zK1OPYlEhP7U",
-        subscription_end: null,
-      }), {
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-        status: 200,
-      });
-    }
-
-    logStep("No active subscription or lifetime purchase");
+    logStep("No active subscription or payment found");
     return new Response(JSON.stringify({ subscribed: false, tier: "free" }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 200,

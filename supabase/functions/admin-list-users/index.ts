@@ -1,6 +1,5 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
-import Stripe from "https://esm.sh/stripe@18.5.0";
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { createClient } from "npm:@supabase/supabase-js@2.57.2";
 
 const ADMIN_EMAIL = "gopalrock.naren@gmail.com";
 
@@ -50,31 +49,25 @@ serve(async (req) => {
       overrideMap[o.user_id] = o;
     }
 
-    // Get subscription info from Stripe
-    const stripeKey = Deno.env.get("STRIPE_SECRET_KEY");
-    let subscriptionMap: Record<string, any> = {};
+    // Get payment info from local payments table
+    const { data: payments } = await supabase
+      .from("payments")
+      .select("*")
+      .eq("status", "active");
 
-    if (stripeKey) {
-      const stripe = new Stripe(stripeKey, { apiVersion: "2025-08-27.basil" });
-      const subscriptions = await stripe.subscriptions.list({ status: "active", limit: 100 });
-      
-      for (const sub of subscriptions.data) {
-        const customer = await stripe.customers.retrieve(sub.customer as string) as any;
-        if (customer.email) {
-          subscriptionMap[customer.email] = {
-            tier: sub.items.data[0]?.price?.id || "unknown",
-            product_id: sub.items.data[0]?.price?.product || null,
-            status: sub.status,
-            current_period_start: new Date(sub.current_period_start * 1000).toISOString(),
-            current_period_end: new Date(sub.current_period_end * 1000).toISOString(),
-          };
-        }
-      }
+    const paymentMap: Record<string, any> = {};
+    for (const p of payments || []) {
+      paymentMap[p.user_id] = {
+        tier: p.tier,
+        status: p.status,
+        razorpay_subscription_id: p.razorpay_subscription_id,
+        created_at: p.created_at,
+      };
     }
 
     const users = (profiles || []).map((p: any) => ({
       ...p,
-      subscription: subscriptionMap[p.email] || null,
+      subscription: paymentMap[p.id] || null,
       override: overrideMap[p.id] || null,
     }));
 
