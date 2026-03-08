@@ -1,56 +1,41 @@
 
 
-## Plan: Trust Your Gut Training Module
+## Plan: Enhanced Practice Results with Detailed Explanations
 
-### Overview
-Create a dedicated `/trust-your-gut` page that analyzes first-instinct accuracy and helps users reduce harmful answer-changing behavior through stats, drills, and progress tracking.
+### What Changes
 
-### Data Foundation
-The `user_attempts` table already tracks:
-- `change_sequence` — ordered array of all selected answers (first element = first instinct)
-- `time_to_first_click` — time before first selection
-- `answer_changes_count` — total changes made
-- `is_correct` — final correctness
+**1. Expand the results review section (Practice.tsx, lines 225-245)**
 
-We can derive first-instinct accuracy by comparing `change_sequence[0]` to the correct answer for questions where changes occurred.
+Replace the current inline explanation snippet with a clickable card that navigates to a full-page explanation view. Each question card in results will show:
+- Question text, your answer vs correct answer, correct/incorrect badge
+- A "Read Full Explanation" button that opens a detailed view
 
-### Page Sections
+**2. Create a full-page explanation view within the results phase**
 
-**1. First Instinct Stats Card**
-- First-instinct accuracy % (across all attempts with changes)
-- Final-answer accuracy % for comparison
-- "Points lost by changing" count (changed from correct to wrong)
-- Change rate trend over time (line chart)
+Add a new sub-phase `'explanation'` to the drill session. When a user clicks a question, the view transitions to a full-page layout containing:
+- The question and all options (highlighted correct/incorrect)
+- A detailed explanation section
+- **Reference notes** organized by source book:
+  - **AMC Handbook** — key clinical points relevant to the question topic
+  - **John Murtagh's General Practice** — diagnostic approach and management
+  - **Tally O'Connor's Clinical Examination** — examination findings and signs
+- A "Back to Results" button
 
-**2. Change Analysis Breakdown**
-- Table showing: Changed from correct → wrong, Changed from wrong → correct, Unnecessary changes (wrong → wrong)
-- Per-category breakdown highlighting problem subjects
+**3. Store reference notes in the question explanation field**
 
-**3. Trust Training Mode**
-A special practice drill mode:
-- Questions appear with a 3-second "decision deadline" indicator (soft nudge)
-- After answering, user must confirm or skip — no changing allowed
-- Shows immediate feedback: "Your first instinct was correct/incorrect"
-- Tracks improvement session over session
+Since the `questions` table already has an `explanation` column, the detailed explanations with book references will be structured within that field. For now, the UI will parse and display the explanation, and add styled reference sections with book attribution headers even if the current explanation text is brief. The textbook reference sections will be rendered as distinct styled blocks.
 
-**4. Progress Timeline**
-- Chart showing first-instinct accuracy and change rate over recent sessions
-- Badges: "5 sessions streak with <10% change rate" etc.
+### Technical Approach
 
-### Technical Changes
+- Add state: `reviewQuestionIndex: number | null` to track which question is being viewed in detail
+- When set, render a full-page explanation component instead of the results list
+- Structure the explanation page with:
+  - Question card with all options color-coded
+  - Explanation text (from DB)
+  - Three reference cards (AMC Handbook, Murtagh's, Tally O'Connor) with topic-relevant headers derived from the question's category
+- Use `framer-motion` for page transitions
+- All changes are in `src/pages/Practice.tsx` only — no new files needed
 
-**1. New page: `src/pages/TrustYourGut.tsx`**
-- Fetches `user_attempts` with `change_sequence`
-- Computes first-instinct stats by parsing sequences
-- Renders stats cards, charts, and training mode toggle
-- Training drill reuses practice session logic with modifications
-
-**2. Route and navigation:**
-- Add `/trust-your-gut` route in `App.tsx`
-- Add nav item in `AppSidebar.tsx` (under Behavior section)
-
-**3. No backend changes required** — all data already captured in `user_attempts`
-
-### Result
-Users see concrete data on how answer-changing hurts their score and can practice committing to first instincts in a dedicated training mode.
+### Files Modified
+- `src/pages/Practice.tsx` — refactor results phase to add clickable detail view with book reference sections
 

@@ -15,6 +15,7 @@ import Dashboard from "./pages/Dashboard";
 import Assess from "./pages/Assess";
 import Profile from "./pages/Profile";
 import BehaviorProfile from "./pages/BehaviorProfile";
+import TrustYourGut from "./pages/TrustYourGut";
 import Practice from "./pages/Practice";
 import Questions from "./pages/Questions";
 import StudyPlan from "./pages/StudyPlan";
@@ -42,6 +43,7 @@ const App = () => (
               <Route path="/assess" element={<ProtectedRoute><Assess /></ProtectedRoute>} />
               <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
               <Route path="/behavior" element={<ProtectedRoute><BehaviorProfile /></ProtectedRoute>} />
+              <Route path="/trust-your-gut" element={<ProtectedRoute><TrustYourGut /></ProtectedRoute>} />
               <Route path="/practice" element={<ProtectedRoute><Practice /></ProtectedRoute>} />
               <Route path="/questions" element={<ProtectedRoute><Questions /></ProtectedRoute>} />
               <Route path="/plan" element={<ProtectedRoute><StudyPlan /></ProtectedRoute>} />
