@@ -526,7 +526,7 @@ export default function Pricing() {
                     <TableBody>
                       <TableRow>
                         <TableCell className="font-medium">Price/month</TableCell>
-                        <TableCell className="text-center font-semibold text-primary">$29</TableCell>
+                        <TableCell className="text-center font-semibold text-primary">$39</TableCell>
                         <TableCell className="text-center">$50</TableCell>
                         <TableCell className="text-center">$67</TableCell>
                         <TableCell className="text-center text-muted-foreground text-xs">Trial hopping</TableCell>
