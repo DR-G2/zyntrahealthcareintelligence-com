@@ -109,7 +109,9 @@ serve(async (req) => {
       return 0;
     });
 
-    return new Response(JSON.stringify({ stats }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    const online_user_ids = (presenceRes.data || []).map(p => p.user_id);
+
+    return new Response(JSON.stringify({ stats, online_user_ids }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
   } catch (e) {
     console.error("admin-live-stats error:", e);
     return new Response(JSON.stringify({ error: e instanceof Error ? e.message : "Unknown error" }), {
