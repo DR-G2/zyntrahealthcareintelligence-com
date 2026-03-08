@@ -1,41 +1,52 @@
 
 
-## Plan: Enhanced Practice Results with Detailed Explanations
+## Plan: Add Razorpay Webhook Handler
 
-### What Changes
+Create a new edge function `razorpay-webhook` that receives webhook events from Razorpay and updates the local `payments` table accordingly. This removes the need to poll Razorpay's API on every subscription check.
 
-**1. Expand the results review section (Practice.tsx, lines 225-245)**
+### How Razorpay Webhooks Work
 
-Replace the current inline explanation snippet with a clickable card that navigates to a full-page explanation view. Each question card in results will show:
-- Question text, your answer vs correct answer, correct/incorrect badge
-- A "Read Full Explanation" button that opens a detailed view
+Razorpay sends POST requests with a JSON body and an `X-Razorpay-Signature` header (HMAC SHA-256 of the body using your webhook secret). You need to configure the webhook URL in the Razorpay dashboard.
 
-**2. Create a full-page explanation view within the results phase**
+### New Secret Required
 
-Add a new sub-phase `'explanation'` to the drill session. When a user clicks a question, the view transitions to a full-page layout containing:
-- The question and all options (highlighted correct/incorrect)
-- A detailed explanation section
-- **Reference notes** organized by source book:
-  - **AMC Handbook** — key clinical points relevant to the question topic
-  - **John Murtagh's General Practice** — diagnostic approach and management
-  - **Tally O'Connor's Clinical Examination** — examination findings and signs
-- A "Back to Results" button
+A **`RAZORPAY_WEBHOOK_SECRET`** is needed. This is separate from `RAZORPAY_KEY_SECRET` — it's generated when you create a webhook endpoint in Razorpay Dashboard → Settings → Webhooks.
 
-**3. Store reference notes in the question explanation field**
+### Changes
 
-Since the `questions` table already has an `explanation` column, the detailed explanations with book references will be structured within that field. For now, the UI will parse and display the explanation, and add styled reference sections with book attribution headers even if the current explanation text is brief. The textbook reference sections will be rendered as distinct styled blocks.
+#### 1. New edge function: `supabase/functions/razorpay-webhook/index.ts`
+- **Public endpoint** (no JWT auth — Razorpay sends webhooks server-to-server)
+- Verifies `X-Razorpay-Signature` header using HMAC SHA-256 with the webhook secret
+- Handles these events:
+  - `subscription.activated` — upsert payment as `active`
+  - `subscription.charged` — update payment `status` to `active`, refresh period
+  - `subscription.completed` / `subscription.cancelled` / `subscription.expired` — update payment `status` to `cancelled`
+  - `subscription.halted` / `subscription.pending` — update payment `status` to `paused`
+  - `payment.captured` — for one-time (order-based) payments, upsert as `active`
+  - `payment.failed` — log, optionally mark related payment
+- Extracts `user_id` from subscription/payment `notes` field (set during creation)
+- Returns 200 OK to acknowledge receipt
 
-### Technical Approach
+#### 2. Update `supabase/config.toml`
+- Add `[functions.razorpay-webhook]` with `verify_jwt = false` (public webhook endpoint)
 
-- Add state: `reviewQuestionIndex: number | null` to track which question is being viewed in detail
-- When set, render a full-page explanation component instead of the results list
-- Structure the explanation page with:
-  - Question card with all options color-coded
-  - Explanation text (from DB)
-  - Three reference cards (AMC Handbook, Murtagh's, Tally O'Connor) with topic-relevant headers derived from the question's category
-- Use `framer-motion` for page transitions
-- All changes are in `src/pages/Practice.tsx` only — no new files needed
+#### 3. Add secret: `RAZORPAY_WEBHOOK_SECRET`
+- Prompt user to add this secret (obtained from Razorpay Dashboard → Webhooks)
 
-### Files Modified
-- `src/pages/Practice.tsx` — refactor results phase to add clickable detail view with book reference sections
+### Webhook URL to Configure in Razorpay
+
+After deployment, the webhook URL will be:
+```
+https://yudkfmgilucyhukfggij.supabase.co/functions/v1/razorpay-webhook
+```
+
+The user will need to add this URL in Razorpay Dashboard → Settings → Webhooks, selecting the relevant subscription and payment events.
+
+### Files Changed
+
+| File | Action |
+|------|--------|
+| `supabase/functions/razorpay-webhook/index.ts` | New — webhook handler |
+| `supabase/config.toml` | Add webhook function config |
+| Secret: `RAZORPAY_WEBHOOK_SECRET` | New — webhook signature verification |
 
