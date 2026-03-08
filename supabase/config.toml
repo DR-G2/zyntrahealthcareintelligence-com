@@ -49,3 +49,5 @@ project_id = "yudkfmgilucyhukfggij"
     verify_jwt = false
   [functions.save-feed-questions]
     verify_jwt = false
+  [functions.admin-cleanup-questions]
+    verify_jwt = false

@@ -19,10 +19,10 @@ import { LiveActivityTab } from '@/components/admin/LiveActivityTab';
 const ADMIN_EMAIL = "gopalrock.naren@gmail.com";
 
 const CATEGORIES = [
-  "Cardiology", "Respiratory", "Gastroenterology", "Neurology", "Endocrinology",
-  "Nephrology", "Rheumatology", "Haematology", "Infectious Disease", "Dermatology",
-  "Psychiatry", "Obstetrics", "Gynaecology", "Paediatrics", "Surgery",
-  "Ophthalmology", "ENT", "Emergency Medicine", "Pharmacology"
+  "Cardiology", "Respiratory", "Gastrointestinal", "Neurology", "Endocrinology",
+  "Renal", "Dermatology", "Psychiatry", "Paediatrics", "Obstetrics & Gynaecology",
+  "Emergency Medicine", "Infectious Diseases", "Population Health", "ENT",
+  "Haematology", "Musculoskeletal", "Surgery"
 ];
 
 const DIFFICULTIES = ["easy", "medium", "hard"];
@@ -240,6 +240,7 @@ function MCQTab() {
   const [generating, setGenerating] = useState(false);
   const [importing, setImporting] = useState(false);
   const [bulkGenerating, setBulkGenerating] = useState(false);
+  const [cleaning, setCleaning] = useState(false);
   const [category, setCategory] = useState("Cardiology");
   const [difficulty, setDifficulty] = useState("medium");
   const [batchSize, setBatchSize] = useState("10");
@@ -411,6 +412,49 @@ function MCQTab() {
             <Button onClick={generateBatch} disabled={generating || bulkGenerating}>{generating && <Loader2 className="h-4 w-4 mr-2 animate-spin" />} Generate Batch</Button>
             <Button variant="outline" onClick={generateAll} disabled={generating || bulkGenerating}>{bulkGenerating && <Loader2 className="h-4 w-4 mr-2 animate-spin" />} Generate All (500+)</Button>
           </div>
+        </CardContent>
+      </Card>
+
+      {/* Cleanup & Normalize */}
+      <Card>
+        <CardHeader><CardTitle className="flex items-center gap-2 text-lg"><Trash2 className="h-5 w-5 text-destructive" /> Clean & Normalize Questions</CardTitle></CardHeader>
+        <CardContent className="space-y-3">
+          <p className="text-sm text-muted-foreground">Removes garbage template questions, deduplicates, and normalizes all categories to match the filter system.</p>
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button variant="destructive" disabled={cleaning}>{cleaning && <Loader2 className="h-4 w-4 mr-2 animate-spin" />} Run Cleanup</Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Run question cleanup?</AlertDialogTitle>
+                <AlertDialogDescription>This will permanently delete junk/duplicate questions and normalize categories. This cannot be undone.</AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={async () => {
+                  setCleaning(true);
+                  addLog('Running cleanup...');
+                  try {
+                    const { data, error } = await supabase.functions.invoke('admin-cleanup-questions');
+                    if (error) throw error;
+                    if (data?.error) throw new Error(data.error);
+                    const s = data.summary;
+                    addLog(`✅ Cleanup complete: ${data.total_deleted} deleted (${s.garbage_deleted} garbage, ${s.template_deleted} template, ${s.duplicates_deleted} duplicates), ${s.categories_normalized} categories normalized`);
+                    addLog(`📊 ${data.total_before} → ${data.total_after} questions remaining`);
+                    if (data.category_distribution) {
+                      addLog(`Categories: ${Object.entries(data.category_distribution).map(([k, v]) => `${k}: ${v}`).join(', ')}`);
+                    }
+                    toast({ title: 'Cleanup complete', description: `${data.total_deleted} junk removed, ${s.categories_normalized} categories normalized` });
+                    fetchQuestions();
+                  } catch (e: any) {
+                    addLog(`❌ ${e.message}`);
+                    toast({ title: 'Error', description: e.message, variant: 'destructive' });
+                  }
+                  setCleaning(false);
+                }}>Run Cleanup</AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </CardContent>
       </Card>
 

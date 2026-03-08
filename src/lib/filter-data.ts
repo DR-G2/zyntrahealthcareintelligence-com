@@ -4,7 +4,7 @@ export const SYSTEMS = [
   'Cardiology', 'Respiratory', 'Gastrointestinal', 'Neurology', 'Endocrinology',
   'Renal', 'Dermatology', 'Psychiatry', 'Paediatrics', 'Obstetrics & Gynaecology',
   'Emergency Medicine', 'Infectious Diseases', 'Population Health', 'ENT',
-  'Haematology', 'Musculoskeletal'
+  'Haematology', 'Musculoskeletal', 'Surgery'
 ] as const;
 
 export const SUBJECTS = [
@@ -30,6 +30,7 @@ export const SYSTEM_SUBJECTS: Record<string, string[]> = {
   'ENT': ['Pathology', 'Clinical Presentation', 'Investigations', 'Management'],
   'Haematology': ['Physiology', 'Pathology', 'Pharmacology', 'Clinical Presentation', 'Investigations', 'Management'],
   'Musculoskeletal': ['Pathology', 'Clinical Presentation', 'Investigations', 'Management', 'Pharmacology'],
+  'Surgery': ['Pathology', 'Clinical Presentation', 'Investigations', 'Management', 'Emergency Care', 'Pharmacology'],
 };
 
 export const SUBJECT_SYSTEMS: Record<string, string[]> = {};
