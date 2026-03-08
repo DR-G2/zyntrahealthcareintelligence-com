@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import { Users, Plus, UserPlus, Trash2, Loader2, Mail } from 'lucide-react';
+import { Users, Plus, UserPlus, Trash2, Loader2, Mail, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { toast } from 'sonner';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/contexts/AuthContext';
@@ -28,6 +29,12 @@ interface Group {
   members: GroupMember[];
 }
 
+interface FoundUser {
+  id: string;
+  email: string | null;
+  name: string | null;
+}
+
 export default function SocialGroups() {
   const { user } = useAuth();
   const [groups, setGroups] = useState<Group[]>([]);
@@ -39,13 +46,20 @@ export default function SocialGroups() {
   const [inviting, setInviting] = useState(false);
   const [showCreate, setShowCreate] = useState(false);
 
+  // Friend search state
+  const [searchEmail, setSearchEmail] = useState('');
+  const [searching, setSearching] = useState(false);
+  const [foundUser, setFoundUser] = useState<FoundUser | null>(null);
+  const [searchDone, setSearchDone] = useState(false);
+  const [addToGroupId, setAddToGroupId] = useState('');
+  const [addingToGroup, setAddingToGroup] = useState(false);
+
   useEffect(() => { if (user) loadGroups(); }, [user]);
 
   const loadGroups = async () => {
     if (!user) return;
     setLoading(true);
 
-    // Get user's group memberships
     const { data: memberships } = await supabase
       .from('study_group_members')
       .select('group_id')
@@ -53,7 +67,6 @@ export default function SocialGroups() {
 
     const groupIds = memberships?.map(m => m.group_id) || [];
 
-    // Also get groups user created
     const { data: ownedGroups } = await supabase
       .from('study_groups')
       .select('*')
@@ -70,7 +83,6 @@ export default function SocialGroups() {
 
     if (!groupsData) { setGroups([]); setLoading(false); return; }
 
-    // Load members for each group
     const groupsWithMembers: Group[] = await Promise.all(
       groupsData.map(async (g) => {
         const { data: members } = await supabase
@@ -114,7 +126,6 @@ export default function SocialGroups() {
 
     if (error) { toast.error('Failed to create group'); setCreating(false); return; }
 
-    // Add creator as owner member
     await supabase.from('study_group_members').insert({
       group_id: group.id, user_id: user.id, role: 'owner',
     });
@@ -130,7 +141,6 @@ export default function SocialGroups() {
     if (!user || !inviteEmail.trim() || !inviteGroupId) return;
     setInviting(true);
 
-    // Lookup user by email
     const { data: profile } = await supabase
       .from('profiles')
       .select('id, email')
@@ -179,6 +189,51 @@ export default function SocialGroups() {
     loadGroups();
   };
 
+  const searchFriend = async () => {
+    if (!user || !searchEmail.trim()) return;
+    setSearching(true);
+    setFoundUser(null);
+    setSearchDone(false);
+
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('id, email, name')
+      .eq('email', searchEmail.trim().toLowerCase())
+      .single();
+
+    if (profile && profile.id !== user.id) {
+      setFoundUser(profile);
+    }
+    setSearchDone(true);
+    setSearching(false);
+  };
+
+  const addFoundUserToGroup = async () => {
+    if (!foundUser || !addToGroupId) return;
+    setAddingToGroup(true);
+
+    const { error } = await supabase.from('study_group_members').insert({
+      group_id: addToGroupId, user_id: foundUser.id, role: 'member',
+    });
+
+    if (error) {
+      if (error.code === '23505') toast.error('User is already in this group');
+      else toast.error('Failed to add member');
+      setAddingToGroup(false);
+      return;
+    }
+
+    toast.success(`Added ${foundUser.email || foundUser.name} to the group!`);
+    setFoundUser(null);
+    setSearchEmail('');
+    setSearchDone(false);
+    setAddToGroupId('');
+    setAddingToGroup(false);
+    loadGroups();
+  };
+
+  const ownedGroups = groups.filter(g => g.created_by === user?.id);
+
   return (
     <AppLayout>
       <div className="max-w-4xl mx-auto space-y-6">
@@ -203,6 +258,69 @@ export default function SocialGroups() {
             </DialogContent>
           </Dialog>
         </div>
+
+        {/* Find Friends Section */}
+        <Card>
+          <CardHeader className="pb-3">
+            <CardTitle className="text-base flex items-center gap-2">
+              <Search className="h-4 w-4 text-primary" />
+              Find Friends
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              <div className="flex items-center gap-2">
+                <Input
+                  placeholder="Search by email address..."
+                  type="email"
+                  value={searchEmail}
+                  onChange={e => { setSearchEmail(e.target.value); setSearchDone(false); setFoundUser(null); }}
+                  onKeyDown={e => e.key === 'Enter' && searchFriend()}
+                />
+                <Button onClick={searchFriend} disabled={searching || !searchEmail.trim()} variant="outline">
+                  {searching ? <Loader2 className="h-4 w-4 animate-spin" /> : <Search className="h-4 w-4" />}
+                </Button>
+              </div>
+
+              {searchDone && !foundUser && (
+                <p className="text-sm text-muted-foreground">No registered user found with that email.</p>
+              )}
+
+              {foundUser && (
+                <div className="flex items-center justify-between rounded-lg bg-muted/50 px-3 py-2.5">
+                  <div className="flex items-center gap-2">
+                    <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-xs font-semibold text-primary">
+                      {(foundUser.name || foundUser.email || '?')[0].toUpperCase()}
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium">{foundUser.name || 'Unknown'}</p>
+                      {foundUser.email && <p className="text-xs text-muted-foreground">{foundUser.email}</p>}
+                    </div>
+                  </div>
+                  {ownedGroups.length > 0 ? (
+                    <div className="flex items-center gap-2">
+                      <Select value={addToGroupId} onValueChange={setAddToGroupId}>
+                        <SelectTrigger className="w-40 h-8 text-xs">
+                          <SelectValue placeholder="Select group" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {ownedGroups.map(g => (
+                            <SelectItem key={g.id} value={g.id}>{g.name}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <Button size="sm" onClick={addFoundUserToGroup} disabled={!addToGroupId || addingToGroup}>
+                        {addingToGroup ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <UserPlus className="h-3.5 w-3.5" />}
+                      </Button>
+                    </div>
+                  ) : (
+                    <p className="text-xs text-muted-foreground">Create a group first to invite</p>
+                  )}
+                </div>
+              )}
+            </div>
+          </CardContent>
+        </Card>
 
         {loading ? (
           <ListSkeleton items={2} />
