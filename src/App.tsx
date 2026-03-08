@@ -25,6 +25,9 @@ import Stations from "./pages/Stations";
 import QuestionsMCQ from "./pages/QuestionsMCQ";
 import QuestionsOSCE from "./pages/QuestionsOSCE";
 import DiagnosticOSCE from "./pages/DiagnosticOSCE";
+import CompanionChat from "./pages/CompanionChat";
+import SocialGroups from "./pages/SocialGroups";
+import SharedTests from "./pages/SharedTests";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
