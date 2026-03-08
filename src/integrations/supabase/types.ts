@@ -14,6 +14,51 @@ export type Database = {
   }
   public: {
     Tables: {
+      behavior_profiles: {
+        Row: {
+          archetype: string
+          archetype_signals: Json | null
+          block_performance: Json | null
+          id: string
+          predicted_score_high: number | null
+          predicted_score_low: number | null
+          predicted_score_potential: number | null
+          recommendations: Json | null
+          subject_patterns: Json | null
+          trap_flags: Json | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          archetype?: string
+          archetype_signals?: Json | null
+          block_performance?: Json | null
+          id?: string
+          predicted_score_high?: number | null
+          predicted_score_low?: number | null
+          predicted_score_potential?: number | null
+          recommendations?: Json | null
+          subject_patterns?: Json | null
+          trap_flags?: Json | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          archetype?: string
+          archetype_signals?: Json | null
+          block_performance?: Json | null
+          id?: string
+          predicted_score_high?: number | null
+          predicted_score_low?: number | null
+          predicted_score_potential?: number | null
+          recommendations?: Json | null
+          subject_patterns?: Json | null
+          trap_flags?: Json | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       bookmarks: {
         Row: {
           created_at: string
@@ -142,6 +187,47 @@ export type Database = {
         }
         Relationships: []
       }
+      question_difficulty_tiers: {
+        Row: {
+          avg_time_seconds: number | null
+          change_rate: number | null
+          correct_rate: number | null
+          id: string
+          question_id: string
+          sample_size: number | null
+          tier: number
+          updated_at: string
+        }
+        Insert: {
+          avg_time_seconds?: number | null
+          change_rate?: number | null
+          correct_rate?: number | null
+          id?: string
+          question_id: string
+          sample_size?: number | null
+          tier?: number
+          updated_at?: string
+        }
+        Update: {
+          avg_time_seconds?: number | null
+          change_rate?: number | null
+          correct_rate?: number | null
+          id?: string
+          question_id?: string
+          sample_size?: number | null
+          tier?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "question_difficulty_tiers_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: true
+            referencedRelation: "questions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       questions: {
         Row: {
           avg_time_seconds: number | null
@@ -153,6 +239,7 @@ export type Database = {
           diagnosis_explanation: string | null
           differential_diagnoses: Json | null
           difficulty: string
+          difficulty_tier: number | null
           explanation: string | null
           first_line_investigation: string | null
           gold_standard_investigation: string | null
@@ -173,6 +260,7 @@ export type Database = {
           diagnosis_explanation?: string | null
           differential_diagnoses?: Json | null
           difficulty?: string
+          difficulty_tier?: number | null
           explanation?: string | null
           first_line_investigation?: string | null
           gold_standard_investigation?: string | null
@@ -193,6 +281,7 @@ export type Database = {
           diagnosis_explanation?: string | null
           differential_diagnoses?: Json | null
           difficulty?: string
+          difficulty_tier?: number | null
           explanation?: string | null
           first_line_investigation?: string | null
           gold_standard_investigation?: string | null
@@ -232,35 +321,53 @@ export type Database = {
       user_attempts: {
         Row: {
           answer_changes_count: number
+          change_sequence: Json | null
           created_at: string
           id: string
           is_correct: boolean
+          pause_events: number | null
+          previous_question_correct: boolean | null
           question_id: string
+          question_position: number | null
           selected_answer: string
           session_id: string
+          time_of_day: string | null
           time_taken_seconds: number
+          time_to_first_click: number | null
           user_id: string
         }
         Insert: {
           answer_changes_count?: number
+          change_sequence?: Json | null
           created_at?: string
           id?: string
           is_correct: boolean
+          pause_events?: number | null
+          previous_question_correct?: boolean | null
           question_id: string
+          question_position?: number | null
           selected_answer: string
           session_id: string
+          time_of_day?: string | null
           time_taken_seconds: number
+          time_to_first_click?: number | null
           user_id: string
         }
         Update: {
           answer_changes_count?: number
+          change_sequence?: Json | null
           created_at?: string
           id?: string
           is_correct?: boolean
+          pause_events?: number | null
+          previous_question_correct?: boolean | null
           question_id?: string
+          question_position?: number | null
           selected_answer?: string
           session_id?: string
+          time_of_day?: string | null
           time_taken_seconds?: number
+          time_to_first_click?: number | null
           user_id?: string
         }
         Relationships: [
