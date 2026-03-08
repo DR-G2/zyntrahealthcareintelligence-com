@@ -232,6 +232,11 @@ export default function SharedTests() {
 
   return (
     <AppLayout>
+      {!gate.canAccessSharedTests ? (
+        <div className="mx-auto max-w-xl py-12">
+          <UpgradePrompt feature="Shared Tests" description="Create and share tests with other candidates. Available on the Full Access plan." />
+        </div>
+      ) : (
       <div className="max-w-4xl mx-auto space-y-6">
         <div className="flex items-center justify-between flex-wrap gap-3">
           <div>
