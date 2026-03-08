@@ -20,6 +20,7 @@ const navItems = [
   { to: '/assess', label: 'Diagnostic', icon: ClipboardCheck },
   { to: '/profile', label: 'Performance', icon: UserCircle },
   { to: '/behavior', label: 'Behavior', icon: Brain },
+  { to: '/trust-your-gut', label: 'Trust Your Gut', icon: Target },
   { to: '/practice', label: 'Practice', icon: Zap },
   { to: '/questions', label: 'Questions', icon: BookOpen },
   { to: '/plan', label: 'Study Plan', icon: Calendar },
