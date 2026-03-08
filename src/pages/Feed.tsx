@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
-import { Loader2, Zap, Stethoscope, CheckCircle2, XCircle, ArrowRight } from 'lucide-react';
+import { Loader2, Zap, Stethoscope, CheckCircle2, XCircle, ArrowRight, Save } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useFeatureGate } from '@/hooks/useFeatureGate';
 import { UpgradePrompt } from '@/components/UpgradePrompt';
