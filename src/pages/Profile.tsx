@@ -62,7 +62,42 @@ function ScoreRing({ value, label, icon: Icon, color }: {
 
 export default function Profile() {
   const location = useLocation();
-  const data = (location.state as any)?.performanceData as PerformanceData | undefined;
+  const { user } = useAuth();
+  const stateData = (location.state as any)?.performanceData as PerformanceData | undefined;
+  const [data, setData] = useState<PerformanceData | undefined>(stateData);
+  const [loading, setLoading] = useState(!stateData);
+
+  useEffect(() => {
+    if (!user) return;
+    const fetchProfile = async () => {
+      const { data: dbData } = await supabase
+        .from('performance_profiles')
+        .select('stability_score, time_sensitivity, confidence_gap, clinical_accuracy, readiness_score')
+        .eq('user_id', user.id)
+        .maybeSingle();
+      if (dbData) {
+        setData({
+          stability_score: dbData.stability_score,
+          time_sensitivity: dbData.time_sensitivity,
+          confidence_gap: dbData.confidence_gap,
+          clinical_accuracy: dbData.clinical_accuracy,
+          readiness_score: dbData.readiness_score,
+        });
+      }
+      setLoading(false);
+    };
+    fetchProfile();
+  }, [user]);
+
+  if (loading) {
+    return (
+      <AppLayout>
+        <div className="flex items-center justify-center py-24">
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+        </div>
+      </AppLayout>
+    );
+  }
 
   if (!data) {
     return (
