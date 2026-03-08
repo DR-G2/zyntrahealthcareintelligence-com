@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { SYSTEMS } from '@/lib/filter-data';
 import { Share2, Plus, Copy, Users, Trophy, Loader2, CheckCircle, Clock, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -52,6 +53,7 @@ export default function SharedTests() {
   const [categories, setCategories] = useState<string[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [questionCount, setQuestionCount] = useState('20');
+  const [selectedSubjects, setSelectedSubjects] = useState<string[]>([]);
 
   useEffect(() => { if (user) { loadTests(); loadCategories(); } }, [user]);
 
@@ -66,6 +68,12 @@ export default function SharedTests() {
   const toggleCategory = (cat: string) => {
     setSelectedCategories(prev =>
       prev.includes(cat) ? prev.filter(c => c !== cat) : [...prev, cat]
+    );
+  };
+
+  const toggleSubject = (sub: string) => {
+    setSelectedSubjects(prev =>
+      prev.includes(sub) ? prev.filter(s => s !== sub) : [...prev, sub]
     );
   };
 
@@ -131,13 +139,16 @@ export default function SharedTests() {
       toast.error('Please select at least one topic');
       return;
     }
+    if (testType === 'osce' && selectedSubjects.length === 0) {
+      toast.error('Please select at least one subject');
+      return;
+    }
     setCreating(true);
 
     const code = generateCode();
-    const config = {
-      question_count: parseInt(questionCount),
-      categories: selectedCategories,
-    };
+    const config = testType === 'mcq'
+      ? { question_count: parseInt(questionCount), categories: selectedCategories }
+      : { subjects: selectedSubjects };
     const { data: test, error } = await supabase
       .from('shared_tests')
       .insert({ code, created_by: user.id, test_type: testType, config })
@@ -154,6 +165,7 @@ export default function SharedTests() {
     setShowCreate(false);
     setCreating(false);
     setSelectedCategories([]);
+    setSelectedSubjects([]);
     setQuestionCount('20');
     loadTests();
   };
@@ -214,7 +226,7 @@ export default function SharedTests() {
                 {joining ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Join'}
               </Button>
             </div>
-            <Dialog open={showCreate} onOpenChange={(o) => { setShowCreate(o); if (!o) { setSelectedCategories([]); setQuestionCount('20'); } }}>
+            <Dialog open={showCreate} onOpenChange={(o) => { setShowCreate(o); if (!o) { setSelectedCategories([]); setSelectedSubjects([]); setQuestionCount('20'); } }}>
               <DialogTrigger asChild>
                 <Button><Plus className="h-4 w-4 mr-2" /> Create Test</Button>
               </DialogTrigger>
@@ -273,6 +285,29 @@ export default function SharedTests() {
                     </>
                   )}
 
+                  {testType === 'osce' && (
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">Subjects</label>
+                      <p className="text-xs text-muted-foreground">Select subjects for the OSCE stations</p>
+                      <div className="flex flex-wrap gap-1.5 max-h-48 overflow-y-auto rounded-md border border-border p-2">
+                        {SYSTEMS.map(sub => (
+                          <Badge
+                            key={sub}
+                            variant={selectedSubjects.includes(sub) ? 'default' : 'outline'}
+                            className="cursor-pointer text-xs"
+                            onClick={() => toggleSubject(sub)}
+                          >
+                            {sub}
+                            {selectedSubjects.includes(sub) && <X className="h-3 w-3 ml-1" />}
+                          </Badge>
+                        ))}
+                      </div>
+                      {selectedSubjects.length > 0 && (
+                        <p className="text-xs text-muted-foreground">{selectedSubjects.length} subject{selectedSubjects.length !== 1 ? 's' : ''} selected</p>
+                      )}
+                    </div>
+                  )}
+
                   <Button onClick={createTest} disabled={creating} className="w-full">
                     {creating ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
                     Generate Test Code
@@ -297,6 +332,7 @@ export default function SharedTests() {
           <div className="grid gap-4">
             {tests.map(test => {
               const testCategories: string[] = test.config?.categories || [];
+              const testSubjects: string[] = test.config?.subjects || [];
               const testQuestionCount = test.config?.question_count;
               return (
                 <Card key={test.id}>
@@ -316,10 +352,13 @@ export default function SharedTests() {
                         </Button>
                       </div>
                     </div>
-                    {testCategories.length > 0 && (
+                    {(testCategories.length > 0 || testSubjects.length > 0) && (
                       <div className="flex flex-wrap gap-1 mt-2">
                         {testCategories.map(cat => (
                           <Badge key={cat} variant="secondary" className="text-[10px]">{cat}</Badge>
+                        ))}
+                        {testSubjects.map(sub => (
+                          <Badge key={sub} variant="secondary" className="text-[10px]">{sub}</Badge>
                         ))}
                         {testQuestionCount && (
                           <Badge variant="outline" className="text-[10px]">{testQuestionCount} Qs</Badge>
