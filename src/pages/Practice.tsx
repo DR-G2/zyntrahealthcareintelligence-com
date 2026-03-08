@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Clock, Lock, RefreshCw, ChevronLeft, ChevronRight, CheckCircle, XCircle, Zap, TrendingUp, TrendingDown, ChevronDown, Minus, Plus } from 'lucide-react';
+import { Clock, Lock, RefreshCw, ChevronLeft, ChevronRight, CheckCircle, XCircle, Zap, TrendingUp, TrendingDown, ChevronDown, Minus, Plus, Search, X } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/contexts/AuthContext';
 import { AppLayout } from '@/components/AppLayout';
@@ -87,6 +87,7 @@ function SetupScreen({ onStart }: { onStart: (config: SessionConfig) => void }) 
   const [selectedPairs, setSelectedPairs] = useState<Set<string>>(new Set());
   const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
   const [questionCount, setQuestionCount] = useState(25);
+  const [searchQuery, setSearchQuery] = useState('');
   const [categoryCounts, setCategoryCounts] = useState<Record<string, number>>({});
   const [loading, setLoading] = useState(true);
 
@@ -381,10 +382,34 @@ function SetupScreen({ onStart }: { onStart: (config: SessionConfig) => void }) 
             </ToggleGroup>
           </div>
 
+          {/* Search Input */}
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Search systems or subjects..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-9 pr-9"
+            />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery('')}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            )}
+          </div>
+
           {/* System View */}
           {filterMode === 'system' && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              {SYSTEMS.map((system) => {
+              {SYSTEMS.filter((system) => {
+                if (!searchQuery.trim()) return true;
+                const q = searchQuery.toLowerCase();
+                const subjects = SYSTEM_SUBJECTS[system] || [];
+                return system.toLowerCase().includes(q) || subjects.some(s => s.toLowerCase().includes(q));
+              }).map((system) => {
                 const subjects = SYSTEM_SUBJECTS[system] || [];
                 const selectedCount = subjects.filter(sub => selectedPairs.has(`${system}:${sub}`)).length;
                 const allSelected = selectedCount === subjects.length && subjects.length > 0;
@@ -393,7 +418,7 @@ function SetupScreen({ onStart }: { onStart: (config: SessionConfig) => void }) 
                 return (
                   <Collapsible
                     key={system}
-                    open={expandedItems.has(system)}
+                    open={expandedItems.has(system) || (!!searchQuery.trim() && (SYSTEM_SUBJECTS[system] || []).some(s => s.toLowerCase().includes(searchQuery.toLowerCase())))}
                     onOpenChange={() => toggleExpand(system)}
                   >
                     <div className={cn(
@@ -444,7 +469,12 @@ function SetupScreen({ onStart }: { onStart: (config: SessionConfig) => void }) 
           {/* Subject View */}
           {filterMode === 'subject' && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              {SUBJECTS.map((subject) => {
+              {SUBJECTS.filter((subject) => {
+                if (!searchQuery.trim()) return true;
+                const q = searchQuery.toLowerCase();
+                const systems = SUBJECT_SYSTEMS[subject] || [];
+                return subject.toLowerCase().includes(q) || systems.some(s => s.toLowerCase().includes(q));
+              }).map((subject) => {
                 const systems = SUBJECT_SYSTEMS[subject] || [];
                 const selectedCount = systems.filter(sys => selectedPairs.has(`${sys}:${subject}`)).length;
                 const allSelected = selectedCount === systems.length && systems.length > 0;
@@ -453,7 +483,7 @@ function SetupScreen({ onStart }: { onStart: (config: SessionConfig) => void }) 
                 return (
                   <Collapsible
                     key={subject}
-                    open={expandedItems.has(subject)}
+                    open={expandedItems.has(subject) || (!!searchQuery.trim() && (SUBJECT_SYSTEMS[subject] || []).some(s => s.toLowerCase().includes(searchQuery.toLowerCase())))}
                     onOpenChange={() => toggleExpand(subject)}
                   >
                     <div className={cn(
