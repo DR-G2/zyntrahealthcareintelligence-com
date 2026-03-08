@@ -25,6 +25,9 @@ import Stations from "./pages/Stations";
 import QuestionsMCQ from "./pages/QuestionsMCQ";
 import QuestionsOSCE from "./pages/QuestionsOSCE";
 import DiagnosticOSCE from "./pages/DiagnosticOSCE";
+import CompanionChat from "./pages/CompanionChat";
+import SocialGroups from "./pages/SocialGroups";
+import SharedTests from "./pages/SharedTests";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -55,6 +58,9 @@ const App = () => (
               <Route path="/assess/osce" element={<ProtectedRoute><DiagnosticOSCE /></ProtectedRoute>} />
               <Route path="/plan" element={<ProtectedRoute><StudyPlan /></ProtectedRoute>} />
               <Route path="/stations" element={<ProtectedRoute><Stations /></ProtectedRoute>} />
+              <Route path="/companion/chat" element={<ProtectedRoute><CompanionChat /></ProtectedRoute>} />
+              <Route path="/companion/groups" element={<ProtectedRoute><SocialGroups /></ProtectedRoute>} />
+              <Route path="/companion/shared-tests" element={<ProtectedRoute><SharedTests /></ProtectedRoute>} />
               <Route path="/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
               <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
               <Route path="*" element={<NotFound />} />

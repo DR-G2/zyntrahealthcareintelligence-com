@@ -1,6 +1,5 @@
 import { NavLink, useLocation } from 'react-router-dom';
 import {
-  LayoutDashboard,
   ClipboardCheck,
   BookOpen,
   Calendar,
@@ -16,6 +15,9 @@ import {
   Stethoscope,
   PanelLeftClose,
   PanelLeft,
+  MessageCircle,
+  Users,
+  Share2,
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { ThemeToggle } from '@/components/ThemeToggle';
@@ -78,9 +80,12 @@ const navGroups: NavGroup[] = [
     ],
   },
   {
-    label: 'Study Plan',
+    label: 'Study Companion',
     items: [
+      { to: '/companion/chat', label: 'AI Chat', icon: MessageCircle },
       { to: '/plan', label: 'Study Plan', icon: Calendar },
+      { to: '/companion/groups', label: 'Social Groups', icon: Users },
+      { to: '/companion/shared-tests', label: 'Shared Tests', icon: Share2 },
     ],
   },
 ];

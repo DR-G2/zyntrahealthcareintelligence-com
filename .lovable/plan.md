@@ -1,65 +1,41 @@
 
 
-## Plan: Study Companion Hub with AI Chat, Study Plan, Social Groups & Shared Tests
+## Plan: Enhanced Practice Results with Detailed Explanations
 
-### Sidebar Restructure
+### What Changes
 
-The sidebar will have **3 headings**: Learn & Practice, Analytics, **Study Companion** (replacing Study Plan). Study Companion will contain:
+**1. Expand the results review section (Practice.tsx, lines 225-245)**
 
-```text
-── Study Companion ───────
-   AI Chat            → /companion/chat
-   Study Plan         → /plan
-   Social Groups      → /companion/groups
-   Shared Tests       → /companion/shared-tests
-```
+Replace the current inline explanation snippet with a clickable card that navigates to a full-page explanation view. Each question card in results will show:
+- Question text, your answer vs correct answer, correct/incorrect badge
+- A "Read Full Explanation" button that opens a detailed view
 
-### New Features
+**2. Create a full-page explanation view within the results phase**
 
-**1. AI Chat Page (`src/pages/CompanionChat.tsx`)**
-- Full-page version of the existing Study Buddy chatbot with the same streaming logic
-- Reuses the existing `study-buddy` edge function
-- Larger layout with sidebar conversation history, markdown rendering, quick prompts
+Add a new sub-phase `'explanation'` to the drill session. When a user clicks a question, the view transitions to a full-page layout containing:
+- The question and all options (highlighted correct/incorrect)
+- A detailed explanation section
+- **Reference notes** organized by source book:
+  - **AMC Handbook** — key clinical points relevant to the question topic
+  - **John Murtagh's General Practice** — diagnostic approach and management
+  - **Tally O'Connor's Clinical Examination** — examination findings and signs
+- A "Back to Results" button
 
-**2. Social Groups (`src/pages/SocialGroups.tsx`)**
-- Create/join study groups
-- Add members by their registered email address (lookup against `profiles.email`)
-- Group list view showing members, group name, and activity
-- Database tables needed:
-  - `study_groups` (id, name, created_by, created_at)
-  - `study_group_members` (id, group_id, user_id, role [owner/member], joined_at)
-- RLS: members can view their own groups, owners can manage membership
+**3. Store reference notes in the question explanation field**
 
-**3. Shared Tests (`src/pages/SharedTests.tsx`)**
-- Generate a shareable code for a test session (MCQ or OSCE config)
-- Friends enter the code to join the same test
-- After completion, a leaderboard shows all participants' scores
-- Database tables needed:
-  - `shared_tests` (id, code, created_by, test_type [mcq/osce], config jsonb, created_at, status)
-  - `shared_test_participants` (id, shared_test_id, user_id, score jsonb, completed_at)
-- RLS: participants can view tests they belong to, creator manages the test
+Since the `questions` table already has an `explanation` column, the detailed explanations with book references will be structured within that field. For now, the UI will parse and display the explanation, and add styled reference sections with book attribution headers even if the current explanation text is brief. The textbook reference sections will be rendered as distinct styled blocks.
 
-### Database Changes (Migration)
+### Technical Approach
 
-4 new tables with RLS policies:
-- `study_groups`, `study_group_members`, `shared_tests`, `shared_test_participants`
+- Add state: `reviewQuestionIndex: number | null` to track which question is being viewed in detail
+- When set, render a full-page explanation component instead of the results list
+- Structure the explanation page with:
+  - Question card with all options color-coded
+  - Explanation text (from DB)
+  - Three reference cards (AMC Handbook, Murtagh's, Tally O'Connor) with topic-relevant headers derived from the question's category
+- Use `framer-motion` for page transitions
+- All changes are in `src/pages/Practice.tsx` only — no new files needed
 
-### Files
-
-| File | Action |
-|------|--------|
-| `src/components/AppSidebar.tsx` | Replace "Study Plan" group with "Study Companion" group containing 4 items |
-| `src/pages/CompanionChat.tsx` | New — full-page AI chat (reuses study-buddy edge function) |
-| `src/pages/SocialGroups.tsx` | New — create/manage study groups, invite by email |
-| `src/pages/SharedTests.tsx` | New — generate/join shared test codes, view leaderboard |
-| `src/App.tsx` | Add routes for `/companion/chat`, `/companion/groups`, `/companion/shared-tests` |
-| Database migration | Create 4 tables with RLS |
-
-### Implementation Order
-1. Database migration (4 tables)
-2. Sidebar restructure
-3. AI Chat page
-4. Social Groups page
-5. Shared Tests page
-6. Route registration
+### Files Modified
+- `src/pages/Practice.tsx` — refactor results phase to add clickable detail view with book reference sections
 
