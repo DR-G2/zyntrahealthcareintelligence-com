@@ -59,7 +59,7 @@ serve(async (req) => {
     const { data: override } = await supabaseClient
       .from("manual_overrides")
       .select("*")
-      .eq("user_id", user.id)
+      .eq("user_id", userId)
       .maybeSingle();
 
     if (override) {
