@@ -54,6 +54,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     subscription_end: null,
     loading: true,
   });
+  const [watermark, setWatermark] = useState<WatermarkState>({
+    opacity_light: 0.055,
+    opacity_dark: 0.065,
+    suspended: false,
+    strike_count: 0,
+    loading: true,
+  });
 
   const fetchProfile = async (userId: string) => {
     const { data } = await supabase
