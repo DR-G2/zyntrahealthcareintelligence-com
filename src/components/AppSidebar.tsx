@@ -15,6 +15,9 @@ import {
 import { useAuth } from '@/contexts/AuthContext';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { cn } from '@/lib/utils';
+import { Shield } from 'lucide-react';
+
+const ADMIN_EMAIL = "gopalrock.naren@gmail.com";
 
 const navItems = [
   { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -30,8 +33,9 @@ const navItems = [
 ];
 
 export function AppSidebar() {
-  const { signOut } = useAuth();
+  const { signOut, user } = useAuth();
   const location = useLocation();
+  const isAdmin = user?.email === ADMIN_EMAIL;
 
   return (
     <aside className="fixed left-0 top-0 z-40 flex h-screen w-64 flex-col bg-sidebar text-sidebar-foreground border-r border-sidebar-border">
@@ -65,6 +69,22 @@ export function AppSidebar() {
         })}
       </nav>
 
+      {isAdmin && (
+        <div className="px-3 pb-2">
+          <NavLink
+            to="/admin"
+            className={cn(
+              'flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors',
+              location.pathname.startsWith('/admin')
+                ? 'bg-sidebar-accent text-sidebar-primary'
+                : 'text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground'
+            )}
+          >
+            <Shield className="h-4 w-4" />
+            Admin
+          </NavLink>
+        </div>
+      )}
       <div className="border-t border-sidebar-border px-3 py-4 space-y-2">
         <ThemeToggle />
         <button

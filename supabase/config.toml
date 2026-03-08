@@ -25,3 +25,9 @@ project_id = "yudkfmgilucyhukfggij"
     verify_jwt = false
   [functions.select-adaptive-stations]
     verify_jwt = false
+  [functions.admin-list-users]
+    verify_jwt = false
+  [functions.admin-manage-questions]
+    verify_jwt = false
+  [functions.admin-manage-stations]
+    verify_jwt = false

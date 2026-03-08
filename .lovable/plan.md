@@ -1,81 +1,41 @@
 
 
-## Plan: Admin Dashboard with Unified Content Management
+## Plan: Enhanced Practice Results with Detailed Explanations
 
-### Overview
-Replace the current `/admin/questions` page with a full **Admin Dashboard** at `/admin` with tabbed sections: **Users & Subscriptions**, **MCQ Questions**, and **OSCE Stations**. Access is protected by a hardcoded admin email check (since this is a single-admin app).
+### What Changes
 
-### Structure
+**1. Expand the results review section (Practice.tsx, lines 225-245)**
 
-**Route changes in `App.tsx`:**
-- `/admin` → new `AdminDashboard` page (replaces `/admin/questions`)
-- Remove old `/admin/questions` route
+Replace the current inline explanation snippet with a clickable card that navigates to a full-page explanation view. Each question card in results will show:
+- Question text, your answer vs correct answer, correct/incorrect badge
+- A "Read Full Explanation" button that opens a detailed view
 
-**Sidebar in `AppSidebar.tsx`:**
-- Add admin nav item (only visible if user email matches admin email)
+**2. Create a full-page explanation view within the results phase**
 
-### New Page: `src/pages/AdminDashboard.tsx`
+Add a new sub-phase `'explanation'` to the drill session. When a user clicks a question, the view transitions to a full-page layout containing:
+- The question and all options (highlighted correct/incorrect)
+- A detailed explanation section
+- **Reference notes** organized by source book:
+  - **AMC Handbook** — key clinical points relevant to the question topic
+  - **John Murtagh's General Practice** — diagnostic approach and management
+  - **Tally O'Connor's Clinical Examination** — examination findings and signs
+- A "Back to Results" button
 
-Top-level Tabs component with 3 tabs:
+**3. Store reference notes in the question explanation field**
 
-**Tab 1: Users & Subscriptions**
-- New edge function `admin-list-users` that uses Stripe API to list all customers with their subscription status, tier, and dates
-- Displays a table: Email, Tier (badge), Status, Start Date, End Date
-- Search/filter by email
-- Uses `STRIPE_SECRET_KEY` (already configured) + service role key to list profiles from DB
+Since the `questions` table already has an `explanation` column, the detailed explanations with book references will be structured within that field. For now, the UI will parse and display the explanation, and add styled reference sections with book attribution headers even if the current explanation text is brief. The textbook reference sections will be rendered as distinct styled blocks.
 
-**Tab 2: MCQ Questions**
-- Embeds the existing `AdminQuestions` content (generate + import functionality)
-- Adds a **question browser** section: paginated table of all questions from `questions` table
-- Each row shows: truncated question text, category, difficulty, created date
-- Edit button opens a dialog/sheet with editable fields (question_text, options, correct_answer, explanation, category, difficulty)
-- Delete button with confirmation
-- Requires new RLS policy or edge function for admin writes to `questions` table
+### Technical Approach
 
-**Tab 3: OSCE Stations**
-- Mirrors the MCQ tab structure but for clinical station scenarios
-- **Generate**: Select subject → call `generate-station` to create and store a scenario in `clinical_stations`
-- **Import**: JSON paste/file upload for bulk scenario import (new edge function `import-stations`)
-- **Browse/Edit**: Table of stored scenarios from `clinical_stations` — title, subject, created date
-- Edit dialog for scenario_data JSON + title + subject
-- Delete with confirmation
+- Add state: `reviewQuestionIndex: number | null` to track which question is being viewed in detail
+- When set, render a full-page explanation component instead of the results list
+- Structure the explanation page with:
+  - Question card with all options color-coded
+  - Explanation text (from DB)
+  - Three reference cards (AMC Handbook, Murtagh's, Tally O'Connor) with topic-relevant headers derived from the question's category
+- Use `framer-motion` for page transitions
+- All changes are in `src/pages/Practice.tsx` only — no new files needed
 
-### Database Changes
-
-**New edge function: `admin-list-users/index.ts`**
-- Uses service role key to query `profiles` table for all users
-- Uses Stripe API to batch-check subscription status for each email
-- Returns combined user + subscription data
-
-**New edge function: `admin-manage-questions/index.ts`**
-- Accepts `action: 'update' | 'delete'` with question data
-- Uses service role key to bypass RLS and update/delete from `questions` table
-- Validates admin identity via auth token + hardcoded admin email
-
-**New edge function: `admin-manage-stations/index.ts`**
-- Same pattern for OSCE stations — update/delete `clinical_stations` table
-- Also handles bulk import of station scenarios
-
-**New edge function: `import-stations/index.ts`**
-- Accepts array of station scenario objects
-- Validates structure, inserts into `clinical_stations` using service role
-
-### Security
-- All admin edge functions verify the caller's email against a hardcoded admin email constant
-- No client-side admin checks — all mutations go through edge functions that validate server-side
-
-### Files Summary
-
-| File | Action |
-|------|--------|
-| `src/pages/AdminDashboard.tsx` | Create — tabbed admin page |
-| `src/pages/AdminQuestions.tsx` | Delete (merged into AdminDashboard) |
-| `supabase/functions/admin-list-users/index.ts` | Create |
-| `supabase/functions/admin-manage-questions/index.ts` | Create |
-| `supabase/functions/admin-manage-stations/index.ts` | Create |
-| `src/App.tsx` | Modify — update admin route |
-| `src/components/AppSidebar.tsx` | Modify — add admin link with email gate |
-
-### Not Modified
-- Stations page, Practice, Questions, Dashboard, or any student-facing pages
+### Files Modified
+- `src/pages/Practice.tsx` — refactor results phase to add clickable detail view with book reference sections
 
