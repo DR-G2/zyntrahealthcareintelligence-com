@@ -3,7 +3,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { ClipboardCheck, Zap, BarChart3, Calendar, ArrowRight } from 'lucide-react';
+import { ClipboardCheck, Zap, Calendar, ArrowRight } from 'lucide-react';
 import { differenceInDays, parseISO } from 'date-fns';
 
 export default function Dashboard() {
@@ -74,22 +74,6 @@ export default function Dashboard() {
           </CardContent>
         </Card>
 
-        <Card className="group hover:border-primary/30 transition-colors">
-          <CardHeader>
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-chart-3/10 text-chart-3 mb-2">
-              <BarChart3 className="h-5 w-5" />
-            </div>
-            <CardTitle className="font-display">View Analytics</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground mb-4">
-              Track your progress and performance profile
-            </p>
-            <Button variant="outline" asChild className="gap-1">
-              <Link to="/analytics">View Analytics <ArrowRight className="h-4 w-4" /></Link>
-            </Button>
-          </CardContent>
-        </Card>
       </div>
     </AppLayout>
   );
