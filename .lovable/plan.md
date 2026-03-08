@@ -1,38 +1,41 @@
 
 
-## Create Pricing Page (Anonymous Founder Version)
+## Plan: Enhanced Practice Results with Detailed Explanations
 
-Build a full `/pricing` page with all provided copy, matching the Landing page's design system.
+### What Changes
 
-### New File: `src/pages/Pricing.tsx`
+**1. Expand the results review section (Practice.tsx, lines 225-245)**
 
-A large page with these sections, using `framer-motion` animations and existing UI components:
+Replace the current inline explanation snippet with a clickable card that navigates to a full-page explanation view. Each question card in results will show:
+- Question text, your answer vs correct answer, correct/incorrect badge
+- A "Read Full Explanation" button that opens a detailed view
 
-1. **Shared Nav** -- same nav bar as Landing (Zyntra logo, ThemeToggle, "Get Started" button) with added "Pricing" link
-2. **Hero** -- Founder's anonymous story (blockquote-style, centered, personal tone)
-3. **The Real Math** -- Timeline + cost breakdown in a styled card/table
-4. **Pricing Tiers** -- 4 cards in a responsive grid:
-   - Free Forever ($0) -- outlined/default style
-   - Core ($29/mo) -- standard card
-   - Pro ($49/mo) -- highlighted/primary border (recommended)
-   - Lifetime ($299) -- accent style
-   - Each card includes all bullet points, personal quotes, and CTA buttons linking to `/dashboard` or `/login`
-5. **Comparison Table** -- Using the `Table` component with check/x marks
-6. **FAQ** -- Using `Accordion` component, grouped by category (About Founder, Pricing & Money, Product & Features, Specific Situations, Hard Questions)
-7. **Founder Footer** -- Personal footer block + standard copyright footer
+**2. Create a full-page explanation view within the results phase**
 
-### Updated File: `src/App.tsx`
-- Import `Pricing` from `./pages/Pricing`
-- Add route: `<Route path="/pricing" element={<Pricing />} />`
+Add a new sub-phase `'explanation'` to the drill session. When a user clicks a question, the view transitions to a full-page layout containing:
+- The question and all options (highlighted correct/incorrect)
+- A detailed explanation section
+- **Reference notes** organized by source book:
+  - **AMC Handbook** — key clinical points relevant to the question topic
+  - **John Murtagh's General Practice** — diagnostic approach and management
+  - **Tally O'Connor's Clinical Examination** — examination findings and signs
+- A "Back to Results" button
 
-### Updated File: `src/pages/Landing.tsx`
-- Add a "Pricing" `Link` in the nav bar between ThemeToggle and "Get Started" button
+**3. Store reference notes in the question explanation field**
 
-### Design Details
-- Cards use `Card`/`CardHeader`/`CardContent` components
-- Pro tier gets a `border-primary` highlight and a "Most Popular" badge
-- FAQ uses `Accordion`/`AccordionItem`/`AccordionTrigger`/`AccordionContent`
-- Comparison table uses `Table`/`TableHeader`/`TableRow`/`TableCell` with `Check`/`X` icons from lucide-react
-- All copy taken verbatim from the provided text
-- Responsive: single column on mobile, multi-column grid on desktop
+Since the `questions` table already has an `explanation` column, the detailed explanations with book references will be structured within that field. For now, the UI will parse and display the explanation, and add styled reference sections with book attribution headers even if the current explanation text is brief. The textbook reference sections will be rendered as distinct styled blocks.
+
+### Technical Approach
+
+- Add state: `reviewQuestionIndex: number | null` to track which question is being viewed in detail
+- When set, render a full-page explanation component instead of the results list
+- Structure the explanation page with:
+  - Question card with all options color-coded
+  - Explanation text (from DB)
+  - Three reference cards (AMC Handbook, Murtagh's, Tally O'Connor) with topic-relevant headers derived from the question's category
+- Use `framer-motion` for page transitions
+- All changes are in `src/pages/Practice.tsx` only — no new files needed
+
+### Files Modified
+- `src/pages/Practice.tsx` — refactor results phase to add clickable detail view with book reference sections
 
