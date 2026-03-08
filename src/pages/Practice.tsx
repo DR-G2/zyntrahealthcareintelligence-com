@@ -216,12 +216,19 @@ function DrillSession({
   const [selectedAnswers, setSelectedAnswers] = useState<Record<number, string>>({});
   const [lockedAnswers, setLockedAnswers] = useState<Record<number, boolean>>({});
   const [answerChanges, setAnswerChanges] = useState<Record<number, number>>({});
+  const [changeSequences, setChangeSequences] = useState<Record<number, string[]>>({});
   const [questionTimes, setQuestionTimes] = useState<Record<number, number>>({});
   const [questionStartTime, setQuestionStartTime] = useState(Date.now());
+  const [questionLoadTime, setQuestionLoadTime] = useState(Date.now());
+  const [firstClickRecorded, setFirstClickRecorded] = useState<Record<number, boolean>>({});
+  const [timeToFirstClick, setTimeToFirstClick] = useState<Record<number, number>>({});
+  const [pauseEvents, setPauseEvents] = useState<Record<number, number>>({});
   const [timeRemaining, setTimeRemaining] = useState(timeSeconds);
   const [loading, setLoading] = useState(true);
   const [finished, setFinished] = useState(false);
   const sessionIdRef = useRef(crypto.randomUUID());
+  const lastInteractionRef = useRef(Date.now());
+  const pauseTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
     const fetchQ = async () => {
@@ -238,6 +245,19 @@ function DrillSession({
     };
     fetchQ();
   }, []);
+
+  // Pause detection
+  useEffect(() => {
+    if (loading || finished) return;
+    pauseTimerRef.current = setInterval(() => {
+      const elapsed = (Date.now() - lastInteractionRef.current) / 1000;
+      if (elapsed > 10) {
+        setPauseEvents(prev => ({ ...prev, [currentIndex]: (prev[currentIndex] || 0) + 1 }));
+        lastInteractionRef.current = Date.now();
+      }
+    }, 5000);
+    return () => { if (pauseTimerRef.current) clearInterval(pauseTimerRef.current); };
+  }, [loading, finished, currentIndex]);
 
   useEffect(() => {
     if (loading || finished) return;
@@ -261,6 +281,21 @@ function DrillSession({
 
   const selectAnswer = (answer: string) => {
     if (lockedAnswers[currentIndex]) return;
+    lastInteractionRef.current = Date.now();
+
+    // Track first click
+    if (!firstClickRecorded[currentIndex]) {
+      const delta = Math.round((Date.now() - questionLoadTime) / 1000);
+      setTimeToFirstClick(prev => ({ ...prev, [currentIndex]: delta }));
+      setFirstClickRecorded(prev => ({ ...prev, [currentIndex]: true }));
+    }
+
+    // Track change sequence
+    setChangeSequences(prev => {
+      const seq = prev[currentIndex] || [];
+      return { ...prev, [currentIndex]: [...seq, answer] };
+    });
+
     if (selectedAnswers[currentIndex] && selectedAnswers[currentIndex] !== answer) {
       setAnswerChanges((p) => ({ ...p, [currentIndex]: (p[currentIndex] || 0) + 1 }));
     }
@@ -272,8 +307,10 @@ function DrillSession({
 
   const goTo = (i: number) => {
     recordTime();
+    lastInteractionRef.current = Date.now();
     setCurrentIndex(i);
     setQuestionStartTime(Date.now());
+    setQuestionLoadTime(Date.now());
   };
 
   const doFinish = async () => {
@@ -281,7 +318,7 @@ function DrillSession({
     setFinished(true);
     recordTime();
 
-    // Save attempts
+    // Save attempts with enhanced tracking
     if (user && questions.length > 0) {
       const inserts = questions.map((q, i) => ({
         user_id: user.id,
@@ -291,8 +328,17 @@ function DrillSession({
         answer_changes_count: answerChanges[i] || 0,
         is_correct: selectedAnswers[i] === q.correct_answer,
         session_id: sessionIdRef.current,
+        time_to_first_click: timeToFirstClick[i] || 0,
+        change_sequence: changeSequences[i] || [],
+        pause_events: pauseEvents[i] || 0,
+        time_of_day: new Date().toISOString(),
+        question_position: i,
+        previous_question_correct: i > 0 ? (selectedAnswers[i - 1] === questions[i - 1]?.correct_answer) : null,
       }));
       await supabase.from('user_attempts').insert(inserts);
+
+      // Trigger behavior analysis in background
+      supabase.functions.invoke('analyze-behavior').catch(console.error);
     }
 
     onFinish(questions, selectedAnswers, answerChanges, questionTimes);

@@ -8,6 +8,7 @@ import {
   Zap,
   UserCircle,
   LogOut,
+  Brain,
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { ThemeToggle } from '@/components/ThemeToggle';
@@ -17,6 +18,7 @@ const navItems = [
   { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { to: '/assess', label: 'Diagnostic', icon: ClipboardCheck },
   { to: '/profile', label: 'Performance', icon: UserCircle },
+  { to: '/behavior', label: 'Behavior', icon: Brain },
   { to: '/practice', label: 'Practice', icon: Zap },
   { to: '/questions', label: 'Questions', icon: BookOpen },
   { to: '/plan', label: 'Study Plan', icon: Calendar },

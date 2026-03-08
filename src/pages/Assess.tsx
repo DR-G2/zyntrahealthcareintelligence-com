@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Clock, ChevronLeft, ChevronRight, Lock, AlertTriangle, CheckCircle2 } from 'lucide-react';
+import { Clock, ChevronLeft, ChevronRight, Lock, AlertTriangle, CheckCircle2, Lightbulb } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/contexts/AuthContext';
 import { AppLayout } from '@/components/AppLayout';
@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
+import { selectNextQuestion, shouldShowIntervention, type SequencingState, type QuestionWithTier } from '@/lib/sequencing';
 
 interface Question {
   id: string;
@@ -18,16 +19,11 @@ interface Question {
   explanation: string | null;
   category: string;
   difficulty: string;
+  difficulty_tier: number | null;
 }
 
 const TOTAL_TIME_SECONDS = 20 * 60;
 const QUESTION_COUNT = 20;
-
-function getDifficultyForScore(score: number): string {
-  if (score > 2) return 'hard';
-  if (score < -2) return 'easy';
-  return 'medium';
-}
 
 export default function Assess() {
   const navigate = useNavigate();
@@ -39,80 +35,92 @@ export default function Assess() {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState<Record<number, string>>({});
-  const [answerChanges, setAnswerChanges] = useState<Record<number, number>>({});
+  const [changeSequences, setChangeSequences] = useState<Record<number, string[]>>({});
   const [questionStartTime, setQuestionStartTime] = useState<number>(Date.now());
+  const [questionLoadTime, setQuestionLoadTime] = useState<number>(Date.now());
+  const [firstClickRecorded, setFirstClickRecorded] = useState<Record<number, boolean>>({});
+  const [timeToFirstClick, setTimeToFirstClick] = useState<Record<number, number>>({});
   const [questionTimes, setQuestionTimes] = useState<Record<number, number>>({});
+  const [pauseEvents, setPauseEvents] = useState<Record<number, number>>({});
   const [timeRemaining, setTimeRemaining] = useState(TOTAL_TIME_SECONDS);
   const [loading, setLoading] = useState(true);
-  const [adaptiveScore, setAdaptiveScore] = useState(0);
+  const [intervention, setIntervention] = useState<string | null>(null);
+
+  // Sequencing state
+  const sequencingRef = useRef<SequencingState>({
+    position: 0,
+    consecutiveIncorrect: 0,
+    consecutiveSameSubject: 0,
+    lastSubject: null,
+    recentResults: [],
+    recentChanges: [],
+    avgTimePerQuestion: 0,
+    initialAvgTime: 0,
+  });
   const usedQuestionIds = useRef<Set<string>>(new Set());
-  const questionPoolRef = useRef<Record<string, Question[]>>({ easy: [], medium: [], hard: [] });
+  const questionPoolRef = useRef<QuestionWithTier[]>([]);
+  const lastInteractionRef = useRef(Date.now());
+  const pauseTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  // Pre-fetch pools of each difficulty
+  // Fetch question pool with tiers
   useEffect(() => {
-    const fetchPools = async () => {
-      const difficulties = ['easy', 'medium', 'hard'];
-      const pools: Record<string, Question[]> = { easy: [], medium: [], hard: [] };
+    const fetchPool = async () => {
+      const { data } = await supabase
+        .from('questions')
+        .select('id, question_text, options, correct_answer, explanation, category, difficulty, difficulty_tier')
+        .limit(200);
 
-      const results = await Promise.all(
-        difficulties.map(d =>
-          supabase
-            .from('questions')
-            .select('id, question_text, options, correct_answer, explanation, category, difficulty')
-            .eq('difficulty', d)
-            .limit(50)
-        )
+      if (!data || data.length === 0) {
+        toast({ title: 'Error', description: 'No questions available', variant: 'destructive' });
+        setLoading(false);
+        return;
+      }
+
+      questionPoolRef.current = data as QuestionWithTier[];
+
+      // Pick first question using sequencing engine
+      const firstQ = selectNextQuestion(
+        questionPoolRef.current,
+        usedQuestionIds.current,
+        sequencingRef.current,
+        QUESTION_COUNT
       );
 
-      results.forEach((res, i) => {
-        if (res.data) {
-          // Shuffle
-          pools[difficulties[i]] = (res.data as Question[]).sort(() => Math.random() - 0.5);
-        }
-      });
-
-      questionPoolRef.current = pools;
-
-      // Start with first medium question
-      const firstQ = pools.medium[0];
-      if (!firstQ) {
-        // Fallback: try any difficulty
-        const fallback = [...pools.easy, ...pools.medium, ...pools.hard];
-        if (!fallback.length) {
-          toast({ title: 'Error', description: 'No questions available', variant: 'destructive' });
-          setLoading(false);
-          return;
-        }
-        setQuestions([fallback[0]]);
-        usedQuestionIds.current.add(fallback[0].id);
-      } else {
-        setQuestions([firstQ]);
+      if (firstQ) {
+        setQuestions([firstQ as unknown as Question]);
         usedQuestionIds.current.add(firstQ.id);
       }
       setLoading(false);
     };
-    fetchPools();
+    fetchPool();
   }, []);
 
-  const getNextQuestion = useCallback((): Question | null => {
-    const targetDifficulty = getDifficultyForScore(adaptiveScore);
-    const pool = questionPoolRef.current[targetDifficulty];
-    
-    // Find unused question from target difficulty
-    let next = pool.find(q => !usedQuestionIds.current.has(q.id));
-    
-    // Fallback to other difficulties
-    if (!next) {
-      const allPools = ['medium', 'easy', 'hard'];
-      for (const d of allPools) {
-        next = questionPoolRef.current[d].find(q => !usedQuestionIds.current.has(q.id));
-        if (next) break;
+  // Pause detection timer
+  useEffect(() => {
+    if (phase !== 'test') return;
+    pauseTimerRef.current = setInterval(() => {
+      const elapsed = (Date.now() - lastInteractionRef.current) / 1000;
+      if (elapsed > 10) {
+        setPauseEvents(prev => ({ ...prev, [currentIndex]: (prev[currentIndex] || 0) + 1 }));
+        lastInteractionRef.current = Date.now(); // reset to avoid counting same pause
       }
+    }, 5000);
+    return () => { if (pauseTimerRef.current) clearInterval(pauseTimerRef.current); };
+  }, [phase, currentIndex]);
+
+  const getNextQuestion = useCallback((): Question | null => {
+    const next = selectNextQuestion(
+      questionPoolRef.current,
+      usedQuestionIds.current,
+      sequencingRef.current,
+      QUESTION_COUNT
+    );
+    if (next) {
+      usedQuestionIds.current.add(next.id);
+      return next as unknown as Question;
     }
-    
-    if (next) usedQuestionIds.current.add(next.id);
-    return next || null;
-  }, [adaptiveScore]);
+    return null;
+  }, []);
 
   useEffect(() => {
     if (phase !== 'test') return;
@@ -147,31 +155,58 @@ export default function Assess() {
   }, [currentIndex, questionStartTime]);
 
   const selectAnswer = (answer: string) => {
-    const prevAnswer = selectedAnswers[currentIndex];
-    if (prevAnswer && prevAnswer !== answer) {
-      setAnswerChanges((prev) => ({
-        ...prev,
-        [currentIndex]: (prev[currentIndex] || 0) + 1,
-      }));
+    lastInteractionRef.current = Date.now();
+
+    // Track first click time
+    if (!firstClickRecorded[currentIndex]) {
+      const delta = Math.round((Date.now() - questionLoadTime) / 1000);
+      setTimeToFirstClick(prev => ({ ...prev, [currentIndex]: delta }));
+      setFirstClickRecorded(prev => ({ ...prev, [currentIndex]: true }));
     }
 
-    setSelectedAnswers((prev) => ({ ...prev, [currentIndex]: answer }));
+    // Track change sequence
+    setChangeSequences(prev => {
+      const seq = prev[currentIndex] || [];
+      return { ...prev, [currentIndex]: [...seq, answer] };
+    });
 
-    // Update adaptive score when answering
+    const prevAnswer = selectedAnswers[currentIndex];
+
+    // Update adaptive sequencing
     if (!prevAnswer) {
       const question = questions[currentIndex];
       if (question) {
         const isCorrect = answer === question.correct_answer;
-        setAdaptiveScore(prev => prev + (isCorrect ? 1 : -1));
+        const state = sequencingRef.current;
+        state.recentResults = [...state.recentResults.slice(-4), isCorrect];
+        state.consecutiveIncorrect = isCorrect ? 0 : state.consecutiveIncorrect + 1;
+        state.consecutiveSameSubject = question.category === state.lastSubject ? state.consecutiveSameSubject + 1 : 1;
+        state.lastSubject = question.category;
       }
+    }
+
+    setSelectedAnswers((prev) => ({ ...prev, [currentIndex]: answer }));
+
+    // Track changes for interventions
+    if (prevAnswer && prevAnswer !== answer) {
+      const changes = changeSequences[currentIndex]?.length || 0;
+      sequencingRef.current.recentChanges = [...sequencingRef.current.recentChanges.slice(-4), changes];
+    }
+
+    // Check for interventions
+    const interventionType = shouldShowIntervention(sequencingRef.current);
+    if (interventionType && !intervention) {
+      setIntervention(interventionType);
+      setTimeout(() => setIntervention(null), 5000);
     }
   };
 
   const goToQuestion = (index: number) => {
     recordQuestionTime();
+    lastInteractionRef.current = Date.now();
 
-    // If moving forward and we need a new question
     if (index >= questions.length && questions.length < QUESTION_COUNT) {
+      sequencingRef.current.position = questions.length;
       const next = getNextQuestion();
       if (next) {
         setQuestions(prev => [...prev, next]);
@@ -184,6 +219,7 @@ export default function Assess() {
     if (index >= 0 && index < Math.min(questions.length, QUESTION_COUNT)) {
       setCurrentIndex(index);
       setQuestionStartTime(Date.now());
+      setQuestionLoadTime(Date.now());
     }
   };
 
@@ -191,7 +227,7 @@ export default function Assess() {
     if (currentIndex < questions.length - 1) {
       goToQuestion(currentIndex + 1);
     } else if (questions.length < QUESTION_COUNT) {
-      goToQuestion(questions.length); // triggers new question fetch
+      goToQuestion(questions.length);
     }
   };
 
@@ -200,54 +236,46 @@ export default function Assess() {
     setPhase('submitting');
     recordQuestionTime();
 
-    const attempts = questions.map((q, i) => ({
-      questionId: q.id,
-      selectedAnswer: selectedAnswers[i] || '',
-      timeTaken: questionTimes[i] || 0,
-      answerChanges: answerChanges[i] || 0,
-      isCorrect: selectedAnswers[i] === q.correct_answer,
+    const inserts = questions.map((q, i) => ({
+      user_id: user!.id,
+      question_id: q.id,
+      selected_answer: selectedAnswers[i] || '',
+      time_taken_seconds: questionTimes[i] || 0,
+      answer_changes_count: (changeSequences[i]?.length || 1) - 1,
+      is_correct: selectedAnswers[i] === q.correct_answer,
+      session_id: sessionIdRef.current,
+      time_to_first_click: timeToFirstClick[i] || 0,
+      change_sequence: changeSequences[i] || [],
+      pause_events: pauseEvents[i] || 0,
+      time_of_day: new Date().toISOString(),
+      question_position: i,
+      previous_question_correct: i > 0 ? (selectedAnswers[i - 1] === questions[i - 1]?.correct_answer) : null,
     }));
 
-    const totalCorrect = attempts.filter((a) => a.isCorrect).length;
-    const totalAnswered = attempts.filter((a) => a.selectedAnswer).length;
-    const totalChanges = attempts.reduce((sum, a) => sum + a.answerChanges, 0);
-    const avgTime = attempts.reduce((sum, a) => sum + a.timeTaken, 0) / attempts.length;
-
-    const stabilityScore = Math.max(0, 100 - (totalChanges / attempts.length) * 50);
-    const clinicalAccuracy = totalAnswered > 0 ? (totalCorrect / totalAnswered) * 100 : 0;
-    const timeSensitivity = Math.max(0, 100 - Math.max(0, avgTime - 60) * 2);
-    const confidenceGap = Math.abs(70 - clinicalAccuracy);
-    const readinessScore = (stabilityScore * 0.2 + timeSensitivity * 0.2 + (100 - confidenceGap) * 0.2 + clinicalAccuracy * 0.4);
-
-    const performanceData = {
-      stability_score: Math.round(stabilityScore),
-      time_sensitivity: Math.round(timeSensitivity),
-      confidence_gap: Math.round(confidenceGap),
-      clinical_accuracy: Math.round(clinicalAccuracy),
-      readiness_score: Math.round(readinessScore),
-    };
-
-    // Save to database
     if (user) {
-      // Save individual attempts
-      const inserts = questions.map((q, i) => ({
-        user_id: user.id,
-        question_id: q.id,
-        selected_answer: selectedAnswers[i] || '',
-        time_taken_seconds: questionTimes[i] || 0,
-        answer_changes_count: answerChanges[i] || 0,
-        is_correct: selectedAnswers[i] === q.correct_answer,
-        session_id: sessionIdRef.current,
-      }));
       await supabase.from('user_attempts').insert(inserts);
 
-      // Upsert performance profile (blend with existing)
-      const { data: existing } = await supabase
-        .from('performance_profiles')
-        .select('*')
-        .eq('user_id', user.id)
-        .maybeSingle();
+      // Compute performance data
+      const totalCorrect = inserts.filter(a => a.is_correct).length;
+      const totalAnswered = inserts.filter(a => a.selected_answer).length;
+      const totalChanges = inserts.reduce((sum, a) => sum + a.answer_changes_count, 0);
+      const avgTime = inserts.reduce((sum, a) => sum + a.time_taken_seconds, 0) / inserts.length;
 
+      const stabilityScore = Math.max(0, 100 - (totalChanges / inserts.length) * 50);
+      const clinicalAccuracy = totalAnswered > 0 ? (totalCorrect / totalAnswered) * 100 : 0;
+      const timeSensitivity = Math.max(0, 100 - Math.max(0, avgTime - 60) * 2);
+      const confidenceGap = Math.abs(70 - clinicalAccuracy);
+      const readinessScore = stabilityScore * 0.2 + timeSensitivity * 0.2 + (100 - confidenceGap) * 0.2 + clinicalAccuracy * 0.4;
+
+      const performanceData = {
+        stability_score: Math.round(stabilityScore),
+        time_sensitivity: Math.round(timeSensitivity),
+        confidence_gap: Math.round(confidenceGap),
+        clinical_accuracy: Math.round(clinicalAccuracy),
+        readiness_score: Math.round(readinessScore),
+      };
+
+      const { data: existing } = await supabase.from('performance_profiles').select('*').eq('user_id', user.id).maybeSingle();
       if (existing) {
         await supabase.from('performance_profiles').update({
           clinical_accuracy: Math.round(((existing.clinical_accuracy || 0) * 0.4 + performanceData.clinical_accuracy * 0.6) * 10) / 10,
@@ -257,14 +285,14 @@ export default function Assess() {
           readiness_score: Math.round(((existing.readiness_score || 0) * 0.4 + performanceData.readiness_score * 0.6) * 10) / 10,
         }).eq('user_id', user.id);
       } else {
-        await supabase.from('performance_profiles').insert({
-          user_id: user.id,
-          ...performanceData,
-        });
+        await supabase.from('performance_profiles').insert({ user_id: user.id, ...performanceData });
       }
+
+      // Trigger behavior analysis in background
+      supabase.functions.invoke('analyze-behavior').catch(console.error);
     }
 
-    navigate('/profile', { state: { performanceData } });
+    navigate('/profile', { state: { performanceData: { stability_score: Math.round(Math.max(0, 100 - (inserts.reduce((s, a) => s + a.answer_changes_count, 0) / inserts.length) * 50)) } } });
   };
 
   if (loading) {
@@ -299,16 +327,16 @@ export default function Assess() {
                     </li>
                     <li className="flex items-start gap-2">
                       <Lock className="h-4 w-4 mt-0.5 text-primary" />
-                      <span>We track <strong>answer changes</strong> — choose carefully, but you can revise</span>
+                      <span>We track <strong>answer changes, timing, and pauses</strong> — choose carefully</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle2 className="h-4 w-4 mt-0.5 text-primary" />
-                      <span>Your <strong>Performance Profile</strong> will be generated after</span>
+                      <span>Your <strong>Behavior Profile</strong> will be generated after</span>
                     </li>
                   </ul>
                 </div>
                 <p className="text-sm text-muted-foreground text-center">
-                  Questions adapt to your performance — get them right and they get harder.
+                  Questions adapt using smart sequencing — difficulty escalates based on your performance.
                 </p>
                 <Button
                   size="lg"
@@ -316,6 +344,7 @@ export default function Assess() {
                   onClick={() => {
                     setPhase('test');
                     setQuestionStartTime(Date.now());
+                    setQuestionLoadTime(Date.now());
                   }}
                 >
                   Begin Diagnostic
@@ -351,19 +380,41 @@ export default function Assess() {
       </AppLayout>
     );
   }
+
   const options = question.options as string[];
   const answeredCount = Object.keys(selectedAnswers).length;
   const isLastQuestion = questions.length >= QUESTION_COUNT && currentIndex === questions.length - 1;
+  const answerChanges = changeSequences[currentIndex] ? Math.max(0, changeSequences[currentIndex].length - 1) : 0;
 
   return (
     <AppLayout>
       <div className="mx-auto max-w-4xl">
+        {/* Intervention toast */}
+        {intervention && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="mb-4 flex items-center gap-3 rounded-lg border border-warning/30 bg-warning/5 p-3 text-sm"
+          >
+            <Lightbulb className="h-4 w-4 text-warning shrink-0" />
+            {intervention === 'trust_your_gut' && (
+              <span>💡 <strong>Trust Your Gut</strong> — Data shows your first instinct is often correct. Try committing to your initial choice.</span>
+            )}
+            {intervention === 'review_mode' && (
+              <span>📚 <strong>Take a breath</strong> — You've had a few tough ones. The next questions will be more approachable.</span>
+            )}
+          </motion.div>
+        )}
+
         {/* Timer bar */}
         <div className="mb-6 space-y-2">
           <div className="flex items-center justify-between text-sm">
             <span className="text-muted-foreground">
               Question {currentIndex + 1} of {QUESTION_COUNT}
-              <span className="ml-2 text-xs opacity-60">({question.difficulty})</span>
+              {question.difficulty_tier && (
+                <span className="ml-2 text-xs opacity-60">(Tier {question.difficulty_tier})</span>
+              )}
             </span>
             <span className={cn(
               'font-mono font-bold',
@@ -374,10 +425,7 @@ export default function Assess() {
             </span>
           </div>
           <div className="h-2 w-full rounded-full bg-muted overflow-hidden">
-            <div
-              className={cn('h-full rounded-full transition-all duration-1000', timerColor)}
-              style={{ width: `${timerPercent}%` }}
-            />
+            <div className={cn('h-full rounded-full transition-all duration-1000', timerColor)} style={{ width: `${timerPercent}%` }} />
           </div>
         </div>
 
@@ -427,9 +475,9 @@ export default function Assess() {
                   )}>
                     {question.difficulty}
                   </span>
-                  {(answerChanges[currentIndex] || 0) > 0 && (
+                  {answerChanges > 0 && (
                     <span className="rounded-full bg-warning/10 px-2.5 py-0.5 text-xs font-medium text-warning">
-                      {answerChanges[currentIndex]} change{answerChanges[currentIndex] > 1 ? 's' : ''}
+                      {answerChanges} change{answerChanges > 1 ? 's' : ''}
                     </span>
                   )}
                 </div>
@@ -469,12 +517,7 @@ export default function Assess() {
 
         {/* Navigation */}
         <div className="mt-6 flex items-center justify-between">
-          <Button
-            variant="ghost"
-            onClick={() => goToQuestion(currentIndex - 1)}
-            disabled={currentIndex === 0}
-            className="gap-1"
-          >
+          <Button variant="ghost" onClick={() => goToQuestion(currentIndex - 1)} disabled={currentIndex === 0} className="gap-1">
             <ChevronLeft className="h-4 w-4" /> Previous
           </Button>
 
@@ -487,11 +530,7 @@ export default function Assess() {
               Next <ChevronRight className="h-4 w-4" />
             </Button>
           ) : (
-            <Button
-              onClick={handleSubmit}
-              className="gap-1"
-              variant={answeredCount === QUESTION_COUNT ? 'default' : 'outline'}
-            >
+            <Button onClick={handleSubmit} className="gap-1" variant={answeredCount === QUESTION_COUNT ? 'default' : 'outline'}>
               <Lock className="h-4 w-4" />
               Submit ({answeredCount}/{QUESTION_COUNT})
             </Button>
