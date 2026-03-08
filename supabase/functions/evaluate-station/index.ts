@@ -58,7 +58,7 @@ Evaluate the candidate's performance across all domains. Consider both clinical 
       body: JSON.stringify({
         model: "google/gemini-2.5-pro",
         messages: [
-          { role: "system", content: "You are an AMC Clinical Exam evaluator. Provide structured assessment of OSCE station performance with psychographic profiling based on behavioral signals." },
+          { role: "system", content: `You are an AMC Clinical Exam evaluator. Provide structured assessment of OSCE station performance with psychographic profiling based on behavioral signals.${populationNote}` },
           { role: "user", content: prompt },
         ],
         tools: [

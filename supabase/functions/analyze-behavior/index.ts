@@ -213,6 +213,19 @@ serve(async (req) => {
       psychographSummary,
     };
 
+    // Fetch AI training context for population comparison
+    let populationPrompt = "";
+    const { data: trainingCtx } = await supabase.from("ai_training_context").select("aggregate_data, candidate_count").limit(1).maybeSingle();
+    if (trainingCtx?.aggregate_data) {
+      const d = trainingCtx.aggregate_data as any;
+      populationPrompt = `\n\nPOPULATION BENCHMARKS (${trainingCtx.candidate_count} candidates):
+- Population accuracy: ${d.mcq?.overall_accuracy}%, avg time: ${d.mcq?.avg_time_seconds}s
+- Archetype distribution: ${Object.entries(d.behavior?.archetype_distribution || {}).map(([k, v]) => `${k}: ${v}`).join(", ")}
+- Top traps: ${d.behavior?.common_traps?.slice(0, 5).map((t: any) => `${t.trap} (${t.percent}%)`).join(", ")}
+- OSCE avg score: ${d.osce?.avg_score}%
+Compare this candidate against these benchmarks.`;
+    }
+
     // AI classification
     const aiResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
@@ -225,7 +238,7 @@ serve(async (req) => {
         messages: [
           {
             role: "system",
-            content: `You are an AMC exam behavior analyst. Analyze candidate behavioral data from MCQ practice, OSCE clinical stations, and Trust Your Gut first-instinct data to produce a UNIFIED behavior profile.
+            content: `You are an AMC exam behavior analyst. Analyze candidate behavioral data from MCQ practice, OSCE clinical stations, and Trust Your Gut first-instinct data to produce a UNIFIED behavior profile.${populationPrompt}
 
 Archetypes:
 - panic_changer: 3+ avg changes, final answer different from first instinct, time >3 min avg

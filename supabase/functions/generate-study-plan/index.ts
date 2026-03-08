@@ -62,7 +62,19 @@ serve(async (req) => {
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
 
-    const prompt = `You are an AMC (Australian Medical Council) exam preparation expert. Generate a personalized 7-day study plan.
+    // Fetch AI training context for population insights
+    let populationInsight = "";
+    const { data: trainingCtx } = await supabaseAdmin.from("ai_training_context").select("aggregate_data, candidate_count").limit(1).maybeSingle();
+    if (trainingCtx?.aggregate_data) {
+      const d = trainingCtx.aggregate_data as any;
+      populationInsight = `\n\nPOPULATION INSIGHTS (${trainingCtx.candidate_count} candidates):
+- Overall population accuracy: ${d.mcq?.overall_accuracy}%
+- Hardest categories: ${d.mcq?.category_pass_rates?.slice(0, 5).map((c: any) => `${c.category} (${c.accuracy}%)`).join(", ")}
+- Common traps: ${d.behavior?.common_traps?.slice(0, 3).map((t: any) => t.trap).join(", ")}
+Factor these population-wide weak areas into the study plan.`;
+    }
+
+    const prompt = `You are an AMC (Australian Medical Council) exam preparation expert. Generate a personalized 7-day study plan.${populationInsight}
 
 User Performance Data:
 - Days until exam: ${daysUntilExam ?? "Not set"}
