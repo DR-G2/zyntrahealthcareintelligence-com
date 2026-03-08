@@ -476,6 +476,7 @@ export default function Stations() {
               archetype={results.archetype}
               recommendations={results.recommendations}
               summary={results.summary}
+              stationAttemptId={lastAttemptId || undefined}
             />
           </div>
         )}
