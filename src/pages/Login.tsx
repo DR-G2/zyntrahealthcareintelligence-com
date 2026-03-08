@@ -75,6 +75,15 @@ function AuthForm({ mode }: { mode: 'login' | 'signup' }) {
     try {
       if (mode === 'signup') {
         await signUp(email, password);
+        // Log legal acceptance
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user) {
+          await supabase.from('user_legal_acceptance').insert({
+            user_id: user.id,
+            terms_version: CURRENT_TERMS_VERSION,
+            user_agent: navigator.userAgent,
+          });
+        }
         setSignupComplete(true);
       } else {
         await signIn(email, password);
