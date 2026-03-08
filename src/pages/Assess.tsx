@@ -338,7 +338,7 @@ export default function Assess() {
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="rounded-lg bg-muted p-4 space-y-3">
-                  <p className="font-medium">What to expect:</p>
+                <p className="font-medium">What to expect:</p>
                   <ul className="space-y-2 text-sm text-muted-foreground">
                     <li className="flex items-start gap-2">
                       <Clock className="h-4 w-4 mt-0.5 text-primary" />
@@ -353,6 +353,11 @@ export default function Assess() {
                       <span>Your <strong>Behavior Profile</strong> will be generated after</span>
                     </li>
                   </ul>
+                  <div className="mt-3 rounded-md bg-primary/5 border border-primary/10 p-3 text-sm">
+                    <p className="text-muted-foreground">
+                      💡 For a complete diagnostic picture, also take the <Link to="/assess/osce" className="text-primary underline font-medium">OSCE Diagnostic</Link> to assess clinical station skills alongside MCQ performance.
+                    </p>
+                  </div>
                 </div>
                 <p className="text-sm text-muted-foreground text-center">
                   Questions adapt using smart sequencing — difficulty escalates based on your performance.

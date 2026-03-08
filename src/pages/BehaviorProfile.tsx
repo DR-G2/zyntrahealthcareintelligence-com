@@ -419,13 +419,75 @@ export default function BehaviorProfile() {
           </motion.div>
         )}
 
+        {/* OSCE + Psychograph Summary */}
+        {(osceStats || psychograph) && (
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45 }}>
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Activity className="h-5 w-5 text-primary" />
+                  OSCE Behavioral Insights
+                </CardTitle>
+                <CardDescription>Clinical station behavioral patterns</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {osceStats && (
+                  <div className="grid grid-cols-3 gap-4">
+                    <div className="text-center rounded-lg bg-muted/50 p-3">
+                      <p className="text-2xl font-bold font-display">{osceStats.count}</p>
+                      <p className="text-xs text-muted-foreground">Stations Done</p>
+                    </div>
+                    <div className="text-center rounded-lg bg-muted/50 p-3">
+                      <p className="text-2xl font-bold font-display">{osceStats.avgScore}%</p>
+                      <p className="text-xs text-muted-foreground">Avg Score</p>
+                    </div>
+                    <div className="text-center rounded-lg bg-muted/50 p-3">
+                      <p className="text-2xl font-bold font-display">{osceStats.subjects.length}</p>
+                      <p className="text-xs text-muted-foreground">Subjects Covered</p>
+                    </div>
+                  </div>
+                )}
+                {psychograph && (
+                  <div className="space-y-2">
+                    <p className="text-sm font-medium">Psychograph Dimensions</p>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                      {[
+                        { label: 'Cognitive Stability', value: psychograph.cognitive_stability },
+                        { label: 'Emotional Reactivity', value: psychograph.emotional_reactivity },
+                        { label: 'Silence Tolerance', value: psychograph.silence_tolerance },
+                        { label: 'Delegation Confidence', value: psychograph.delegation_confidence },
+                        { label: 'Structure Integrity', value: psychograph.structure_integrity },
+                        { label: 'Time Compression', value: psychograph.time_compression_vulnerability },
+                      ].map(dim => (
+                        <div key={dim.label} className="flex items-center gap-2 rounded-lg bg-muted/30 p-2">
+                          <div className="flex-1">
+                            <p className="text-xs text-muted-foreground">{dim.label}</p>
+                            <div className="h-1.5 rounded-full bg-muted mt-1">
+                              <div className="h-full rounded-full bg-primary" style={{ width: `${dim.value}%` }} />
+                            </div>
+                          </div>
+                          <span className="text-xs font-mono font-bold">{dim.value}</span>
+                        </div>
+                      ))}
+                    </div>
+                    <Badge variant="outline" className="mt-2">OSCE Archetype: {psychograph.archetype}</Badge>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </motion.div>
+        )}
+
         {/* Action Buttons */}
-        <div className="flex gap-3">
+        <div className="flex gap-3 flex-wrap">
           <Button asChild className="gap-1">
             <Link to="/practice">Start Targeted Practice <ArrowRight className="h-4 w-4" /></Link>
           </Button>
           <Button variant="outline" asChild>
             <Link to="/profile">View Performance Profile</Link>
+          </Button>
+          <Button variant="outline" asChild>
+            <Link to="/trust-your-gut">Trust Your Gut Training</Link>
           </Button>
         </div>
       </div>
