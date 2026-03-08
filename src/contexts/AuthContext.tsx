@@ -116,9 +116,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (session?.user) {
           setTimeout(() => fetchProfile(session.user.id), 0);
           setTimeout(() => checkSubscription(), 100);
+          setTimeout(() => fetchWatermark(session.user.id), 0);
         } else {
           setProfile(null);
           setSubscription({ subscribed: false, tier: 'free', subscription_end: null, loading: false });
+          setWatermark({ opacity_light: 0.055, opacity_dark: 0.065, suspended: false, strike_count: 0, loading: false });
         }
         setLoading(false);
       }
