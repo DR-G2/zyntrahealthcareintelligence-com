@@ -186,9 +186,11 @@ export type Database = {
           created_at: string
           email: string | null
           exam_date: string | null
+          free_trial_end: string | null
           id: string
           name: string | null
           onboarding_complete: boolean
+          referral_code: string | null
           updated_at: string
           user_type: string | null
           weak_areas: string[] | null
@@ -197,9 +199,11 @@ export type Database = {
           created_at?: string
           email?: string | null
           exam_date?: string | null
+          free_trial_end?: string | null
           id: string
           name?: string | null
           onboarding_complete?: boolean
+          referral_code?: string | null
           updated_at?: string
           user_type?: string | null
           weak_areas?: string[] | null
@@ -208,9 +212,11 @@ export type Database = {
           created_at?: string
           email?: string | null
           exam_date?: string | null
+          free_trial_end?: string | null
           id?: string
           name?: string | null
           onboarding_complete?: boolean
+          referral_code?: string | null
           updated_at?: string
           user_type?: string | null
           weak_areas?: string[] | null
@@ -363,6 +369,36 @@ export type Database = {
           options?: Json
           question_text?: string
           tags?: string[] | null
+        }
+        Relationships: []
+      }
+      referrals: {
+        Row: {
+          created_at: string
+          id: string
+          referral_code: string
+          referred_email: string | null
+          referred_id: string | null
+          referrer_id: string
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          referral_code: string
+          referred_email?: string | null
+          referred_id?: string | null
+          referrer_id: string
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          referral_code?: string
+          referred_email?: string | null
+          referred_id?: string | null
+          referrer_id?: string
+          status?: string
         }
         Relationships: []
       }
