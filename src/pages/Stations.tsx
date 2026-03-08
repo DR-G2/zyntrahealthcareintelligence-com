@@ -8,6 +8,7 @@ import { StationChat } from '@/components/stations/StationChat';
 import { StationChecklist } from '@/components/stations/StationChecklist';
 import { StationResults } from '@/components/stations/StationResults';
 import { supabase } from '@/integrations/supabase/client';
+import { OnboardingTooltip } from '@/components/OnboardingTooltip';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import { SYSTEMS } from '@/lib/filter-data';
