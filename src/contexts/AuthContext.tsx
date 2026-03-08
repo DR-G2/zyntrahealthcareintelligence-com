@@ -35,6 +35,9 @@ interface AuthContextType {
   loading: boolean;
   subscription: SubscriptionState;
   watermark: WatermarkState;
+  termsAccepted: boolean;
+  termsLoading: boolean;
+  acceptTerms: () => Promise<void>;
   signUp: (email: string, password: string) => Promise<void>;
   signIn: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
