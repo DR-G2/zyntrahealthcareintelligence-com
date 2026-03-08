@@ -21,6 +21,7 @@ interface StationAttemptSummary {
 
 export default function QuestionsOSCE() {
   const { user } = useAuth();
+  const gate = useFeatureGate();
   const [attempts, setAttempts] = useState<StationAttemptSummary[]>([]);
   const [loading, setLoading] = useState(true);
 
