@@ -1,38 +1,41 @@
 
 
-## Plan: Fix Shared Tests + Add Delete & Share
+## Plan: Enhanced Practice Results with Detailed Explanations
 
-### Root Cause: Why Shared Tests Don't Work
+### What Changes
 
-The `shared_tests` table has a SELECT RLS policy that only allows **participants or creators** to view tests:
-```sql
-Using Expression: (is_test_participant(auth.uid(), id) OR (created_by = auth.uid()))
-```
+**1. Expand the results review section (Practice.tsx, lines 225-245)**
 
-When a user tries to **join** a test by code, the `joinTest` function first does a SELECT to find the test by code. But since the user isn't a participant yet, **RLS blocks the query** and it returns null, showing "Invalid test code" even for valid codes.
+Replace the current inline explanation snippet with a clickable card that navigates to a full-page explanation view. Each question card in results will show:
+- Question text, your answer vs correct answer, correct/incorrect badge
+- A "Read Full Explanation" button that opens a detailed view
 
-### Changes
+**2. Create a full-page explanation view within the results phase**
 
-#### 1. Database Migration: Add RLS policy for joining by code
-Add a new SELECT policy on `shared_tests` that allows any authenticated user to read a test if they know the code and it's open:
-```sql
-CREATE POLICY "Auth users can lookup open tests by code"
-ON public.shared_tests
-FOR SELECT
-TO authenticated
-USING (status = 'open');
-```
-This is safe because users still need the 6-character code to find a test, and it only exposes open tests.
+Add a new sub-phase `'explanation'` to the drill session. When a user clicks a question, the view transitions to a full-page layout containing:
+- The question and all options (highlighted correct/incorrect)
+- A detailed explanation section
+- **Reference notes** organized by source book:
+  - **AMC Handbook** — key clinical points relevant to the question topic
+  - **John Murtagh's General Practice** — diagnostic approach and management
+  - **Tally O'Connor's Clinical Examination** — examination findings and signs
+- A "Back to Results" button
 
-#### 2. Update `src/pages/SharedTests.tsx`
-- **Add delete functionality**: Add a delete button (trash icon) on each test card, visible only to the creator (`test.created_by === user.id`). On click, show a confirmation dialog, then delete from `shared_tests` (cascade will handle participants via RLS -- creator already has DELETE permission).
-- **Add share functionality**: Add a share button next to the copy-code button. Uses `navigator.share` (Web Share API) if available, falling back to copying a message like "Join my test on Zyntra! Code: ABC123" to clipboard.
-- **Add error logging**: Log actual Supabase errors in `createTest`, `joinTest`, and `loadTests` to help debug future issues.
+**3. Store reference notes in the question explanation field**
 
-### Files Changed
+Since the `questions` table already has an `explanation` column, the detailed explanations with book references will be structured within that field. For now, the UI will parse and display the explanation, and add styled reference sections with book attribution headers even if the current explanation text is brief. The textbook reference sections will be rendered as distinct styled blocks.
 
-| File | Action |
-|------|--------|
-| Database migration | Add open-test SELECT policy |
-| `src/pages/SharedTests.tsx` | Add delete, share, and better error handling |
+### Technical Approach
+
+- Add state: `reviewQuestionIndex: number | null` to track which question is being viewed in detail
+- When set, render a full-page explanation component instead of the results list
+- Structure the explanation page with:
+  - Question card with all options color-coded
+  - Explanation text (from DB)
+  - Three reference cards (AMC Handbook, Murtagh's, Tally O'Connor) with topic-relevant headers derived from the question's category
+- Use `framer-motion` for page transitions
+- All changes are in `src/pages/Practice.tsx` only — no new files needed
+
+### Files Modified
+- `src/pages/Practice.tsx` — refactor results phase to add clickable detail view with book reference sections
 

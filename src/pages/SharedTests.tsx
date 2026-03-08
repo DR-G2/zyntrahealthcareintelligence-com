@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import { SYSTEMS } from '@/lib/filter-data';
-import { Share2, Plus, Copy, Users, Trophy, Loader2, CheckCircle, Clock, X } from 'lucide-react';
+import { Share2, Plus, Copy, Users, Trophy, Loader2, CheckCircle, Clock, X, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { toast } from 'sonner';
 import { supabase } from '@/lib/supabase';
@@ -97,12 +98,13 @@ export default function SharedTests() {
 
     if (allTestIds.length === 0) { setTests([]); setLoading(false); return; }
 
-    const { data: testsData } = await supabase
+    const { data: testsData, error: testsError } = await supabase
       .from('shared_tests')
       .select('*')
       .in('id', allTestIds)
       .order('created_at', { ascending: false });
 
+    if (testsError) { console.error('loadTests error:', testsError); setTests([]); setLoading(false); return; }
     if (!testsData) { setTests([]); setLoading(false); return; }
 
     const testsWithParticipants: SharedTest[] = await Promise.all(
@@ -155,7 +157,7 @@ export default function SharedTests() {
       .select()
       .single();
 
-    if (error) { toast.error('Failed to create test'); setCreating(false); return; }
+    if (error) { console.error('createTest error:', error); toast.error('Failed to create test'); setCreating(false); return; }
 
     await supabase.from('shared_test_participants').insert({
       shared_test_id: test.id, user_id: user.id,
@@ -174,12 +176,13 @@ export default function SharedTests() {
     if (!user || !joinCode.trim()) return;
     setJoining(true);
 
-    const { data: test } = await supabase
+    const { data: test, error: lookupError } = await supabase
       .from('shared_tests')
       .select('*')
       .eq('code', joinCode.trim().toUpperCase())
       .single();
 
+    if (lookupError) { console.error('joinTest lookup error:', lookupError); }
     if (!test) { toast.error('Invalid test code'); setJoining(false); return; }
     if (test.status !== 'open') { toast.error('This test is no longer accepting participants'); setJoining(false); return; }
 
@@ -189,7 +192,7 @@ export default function SharedTests() {
 
     if (error) {
       if (error.code === '23505') toast.error("You've already joined this test");
-      else toast.error('Failed to join test');
+      else { console.error('joinTest insert error:', error); toast.error('Failed to join test'); }
       setJoining(false);
       return;
     }
@@ -198,6 +201,25 @@ export default function SharedTests() {
     setJoinCode('');
     setJoining(false);
     loadTests();
+  };
+
+  const deleteTest = async (testId: string) => {
+    // Delete participants first, then the test
+    await supabase.from('shared_test_participants').delete().eq('shared_test_id', testId);
+    const { error } = await supabase.from('shared_tests').delete().eq('id', testId);
+    if (error) { console.error('deleteTest error:', error); toast.error('Failed to delete test'); return; }
+    toast.success('Test deleted');
+    setTests(prev => prev.filter(t => t.id !== testId));
+  };
+
+  const shareTest = async (code: string) => {
+    const message = `Join my test on Zyntra! Code: ${code}`;
+    if (navigator.share) {
+      try { await navigator.share({ title: 'Zyntra Shared Test', text: message }); } catch { /* user cancelled */ }
+    } else {
+      navigator.clipboard.writeText(message);
+      toast.success('Share message copied!');
+    }
   };
 
   const copyCode = (code: string) => {
@@ -334,6 +356,7 @@ export default function SharedTests() {
               const testCategories: string[] = test.config?.categories || [];
               const testSubjects: string[] = test.config?.subjects || [];
               const testQuestionCount = test.config?.question_count;
+              const isCreator = test.created_by === user?.id;
               return (
                 <Card key={test.id}>
                   <CardHeader className="pb-3">
@@ -345,11 +368,37 @@ export default function SharedTests() {
                           {test.status === 'open' ? 'Open' : 'Closed'}
                         </Badge>
                       </CardTitle>
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-1.5">
                         <Button variant="outline" size="sm" onClick={() => copyCode(test.code)} className="font-mono">
                           <Copy className="h-3.5 w-3.5 mr-1.5" />
                           {test.code}
                         </Button>
+                        <Button variant="outline" size="sm" onClick={() => shareTest(test.code)}>
+                          <Share2 className="h-3.5 w-3.5" />
+                        </Button>
+                        {isCreator && (
+                          <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                              <Button variant="outline" size="sm" className="text-destructive hover:text-destructive">
+                                <Trash2 className="h-3.5 w-3.5" />
+                              </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>Delete this test?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  This will permanently delete the test and remove all participants. This action cannot be undone.
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction onClick={() => deleteTest(test.id)} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+                                  Delete
+                                </AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
+                        )}
                       </div>
                     </div>
                     {(testCategories.length > 0 || testSubjects.length > 0) && (
