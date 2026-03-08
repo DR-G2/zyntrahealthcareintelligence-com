@@ -10,9 +10,11 @@ import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
-import { Loader2, Sparkles, Upload, FileUp, X, Users, BookOpen, Activity, Pencil, Trash2, Search, ShieldAlert, Radio } from 'lucide-react';
+import { Loader2, Sparkles, Upload, FileUp, X, Users, BookOpen, Activity, Pencil, Trash2, Search, ShieldAlert, Radio, ChevronDown, Zap } from 'lucide-react';
 import { PiracyStrikesTab } from '@/components/admin/PiracyStrikesTab';
 import { LiveActivityTab } from '@/components/admin/LiveActivityTab';
 
