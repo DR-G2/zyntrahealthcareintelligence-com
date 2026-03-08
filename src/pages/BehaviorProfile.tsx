@@ -15,6 +15,8 @@ import {
   TrendingUp, TrendingDown, ArrowRight, RefreshCw, Activity,
   CheckCircle, XCircle, Loader2
 } from 'lucide-react';
+import { useFeatureGate } from '@/hooks/useFeatureGate';
+import { UpgradePrompt } from '@/components/UpgradePrompt';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
   ResponsiveContainer, RadarChart, Radar, PolarGrid,
