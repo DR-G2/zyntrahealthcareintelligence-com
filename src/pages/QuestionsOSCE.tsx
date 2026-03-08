@@ -105,7 +105,3 @@ export default function QuestionsOSCE() {
       </div>
     </AppLayout>
   );
-}
-    </AppLayout>
-  );
-}
