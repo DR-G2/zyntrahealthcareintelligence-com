@@ -33,6 +33,7 @@ import SocialGroups from "./pages/SocialGroups";
 import SharedTests from "./pages/SharedTests";
 import MistakeReview from "./pages/MistakeReview";
 import NotFound from "./pages/NotFound";
+import Terms from "./pages/Terms";
 
 const queryClient = new QueryClient();
 
