@@ -1,36 +1,41 @@
 
 
-## Plan: Three Fixes — Remove Study Buddy Popup, Add Topic Selection to Shared Tests, Add Friend Search to Social Groups
+## Plan: Enhanced Practice Results with Detailed Explanations
 
-### 1. Remove Study Buddy Floating Chat
+### What Changes
 
-**File: `src/components/AppLayout.tsx`**
-- Remove the `<StudyBuddy>` component and its import from the layout
-- The "Ask Study Buddy" button in `QuestionExplanation.tsx` will remain (it's contextual, not a popup) but its callback will be a no-op or removed
+**1. Expand the results review section (Practice.tsx, lines 225-245)**
 
-### 2. Add Topic/Category Selection to Shared Test Creation
+Replace the current inline explanation snippet with a clickable card that navigates to a full-page explanation view. Each question card in results will show:
+- Question text, your answer vs correct answer, correct/incorrect badge
+- A "Read Full Explanation" button that opens a detailed view
 
-**File: `src/pages/SharedTests.tsx`**
-- In the "Create Shared Test" dialog, add a multi-select for categories (fetched from `questions` table via `SELECT DISTINCT category`)
-- Store selected categories in `config.categories` when inserting the shared test
-- Add a question count selector (10, 20, 30, 50)
-- Display the selected topics on each test card so participants know what the test covers
+**2. Create a full-page explanation view within the results phase**
 
-### 3. Add Friend Search by Email to Social Groups
+Add a new sub-phase `'explanation'` to the drill session. When a user clicks a question, the view transitions to a full-page layout containing:
+- The question and all options (highlighted correct/incorrect)
+- A detailed explanation section
+- **Reference notes** organized by source book:
+  - **AMC Handbook** — key clinical points relevant to the question topic
+  - **John Murtagh's General Practice** — diagnostic approach and management
+  - **Tally O'Connor's Clinical Examination** — examination findings and signs
+- A "Back to Results" button
 
-**File: `src/pages/SocialGroups.tsx`**
-- Add a "Find Friends" section at the top of the page with an email search input
-- When searching, query `profiles` table by email (RLS already allows authenticated users to read profiles by email)
-- Show the found user's name/email with an option to invite them directly to any existing group via a dropdown
-- This makes friend discovery independent of being inside a specific group's invite dialog
+**3. Store reference notes in the question explanation field**
 
-### Files Changed
+Since the `questions` table already has an `explanation` column, the detailed explanations with book references will be structured within that field. For now, the UI will parse and display the explanation, and add styled reference sections with book attribution headers even if the current explanation text is brief. The textbook reference sections will be rendered as distinct styled blocks.
 
-| File | Change |
-|------|--------|
-| `src/components/AppLayout.tsx` | Remove `<StudyBuddy>` import and component |
-| `src/pages/SharedTests.tsx` | Add category multi-select + question count to create dialog; show topics on test cards |
-| `src/pages/SocialGroups.tsx` | Add standalone email search bar to find and invite friends to groups |
+### Technical Approach
 
-No database changes needed — all existing tables and RLS policies support these features.
+- Add state: `reviewQuestionIndex: number | null` to track which question is being viewed in detail
+- When set, render a full-page explanation component instead of the results list
+- Structure the explanation page with:
+  - Question card with all options color-coded
+  - Explanation text (from DB)
+  - Three reference cards (AMC Handbook, Murtagh's, Tally O'Connor) with topic-relevant headers derived from the question's category
+- Use `framer-motion` for page transitions
+- All changes are in `src/pages/Practice.tsx` only — no new files needed
+
+### Files Modified
+- `src/pages/Practice.tsx` — refactor results phase to add clickable detail view with book reference sections
 
