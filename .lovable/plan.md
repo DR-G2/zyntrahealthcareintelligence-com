@@ -1,36 +1,41 @@
 
 
-## Plan: First-Time Welcome Tour (7-8 Steps)
+## Plan: Enhanced Practice Results with Detailed Explanations
 
-Create a full-screen, animated welcome tour that shows **only once** after a new user completes onboarding and lands on the Dashboard for the first time. Uses `localStorage` to track completion.
+### What Changes
 
-### Welcome Tour Steps (8 steps)
+**1. Expand the results review section (Practice.tsx, lines 225-245)**
 
-1. **Welcome to Zyntra** — Warm greeting with the user's name, app purpose (AMC exam prep platform)
-2. **Diagnostic Assessment** — Explains MCQ & OSCE diagnostics to benchmark current level
-3. **Practice Drills** — MCQ modes (Recharge/No Change), topic filtering, timed practice
-4. **Clinical Stations (OSCE)** — AI patient chat, 3 modes (Single, Adaptive, Exam)
-5. **AI Study Companion** — Chat with the AI buddy for explanations, study tips
-6. **Study Plan** — Auto-generated adaptive plan based on weak areas and exam date
-7. **Social & Shared Tests** — Create study groups, share test codes with friends, leaderboards
-8. **You're All Set!** — CTA to start with a diagnostic or jump to practice
+Replace the current inline explanation snippet with a clickable card that navigates to a full-page explanation view. Each question card in results will show:
+- Question text, your answer vs correct answer, correct/incorrect badge
+- A "Read Full Explanation" button that opens a detailed view
+
+**2. Create a full-page explanation view within the results phase**
+
+Add a new sub-phase `'explanation'` to the drill session. When a user clicks a question, the view transitions to a full-page layout containing:
+- The question and all options (highlighted correct/incorrect)
+- A detailed explanation section
+- **Reference notes** organized by source book:
+  - **AMC Handbook** — key clinical points relevant to the question topic
+  - **John Murtagh's General Practice** — diagnostic approach and management
+  - **Tally O'Connor's Clinical Examination** — examination findings and signs
+- A "Back to Results" button
+
+**3. Store reference notes in the question explanation field**
+
+Since the `questions` table already has an `explanation` column, the detailed explanations with book references will be structured within that field. For now, the UI will parse and display the explanation, and add styled reference sections with book attribution headers even if the current explanation text is brief. The textbook reference sections will be rendered as distinct styled blocks.
 
 ### Technical Approach
 
-- **New component**: `src/components/WelcomeTour.tsx`
-  - Full-screen modal overlay with step counter, animated transitions (framer-motion)
-  - Each step: icon, title, description, optional illustration
-  - Back/Next/Skip buttons, progress dots
-  - On completion or skip, sets `localStorage.setItem('welcome_tour_complete', 'true')`
-- **Integration in `src/pages/Dashboard.tsx`**:
-  - Check `localStorage` for `welcome_tour_complete`
-  - If not set, render `<WelcomeTour />` overlay on top of the dashboard
-  - Tour dismisses and dashboard becomes fully interactive
+- Add state: `reviewQuestionIndex: number | null` to track which question is being viewed in detail
+- When set, render a full-page explanation component instead of the results list
+- Structure the explanation page with:
+  - Question card with all options color-coded
+  - Explanation text (from DB)
+  - Three reference cards (AMC Handbook, Murtagh's, Tally O'Connor) with topic-relevant headers derived from the question's category
+- Use `framer-motion` for page transitions
+- All changes are in `src/pages/Practice.tsx` only — no new files needed
 
-### Files
-
-| File | Action |
-|------|--------|
-| `src/components/WelcomeTour.tsx` | New — 8-step animated welcome tour component |
-| `src/pages/Dashboard.tsx` | Import and conditionally render WelcomeTour |
+### Files Modified
+- `src/pages/Practice.tsx` — refactor results phase to add clickable detail view with book reference sections
 

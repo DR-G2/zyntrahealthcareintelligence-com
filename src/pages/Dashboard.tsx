@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { AppLayout } from '@/components/AppLayout';
 import { useAuth } from '@/contexts/AuthContext';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -5,15 +6,25 @@ import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { ClipboardCheck, Zap, Calendar, ArrowRight } from 'lucide-react';
 import { differenceInDays, parseISO } from 'date-fns';
+import { WelcomeTour } from '@/components/WelcomeTour';
 
 export default function Dashboard() {
   const { profile } = useAuth();
+  const [showTour, setShowTour] = useState(
+    () => !localStorage.getItem(WelcomeTour.STORAGE_KEY)
+  );
   const daysUntilExam = profile?.exam_date
     ? differenceInDays(parseISO(profile.exam_date), new Date())
     : null;
 
   return (
     <AppLayout>
+      {showTour && (
+        <WelcomeTour
+          userName={profile?.name?.split(' ')[0]}
+          onComplete={() => setShowTour(false)}
+        />
+      )}
       <div className="mb-8">
         <h1 className="text-3xl font-bold font-display">
           Welcome back, {profile?.name?.split(' ')[0] || 'Doctor'}
