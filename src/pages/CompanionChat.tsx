@@ -8,6 +8,7 @@ import { toast } from 'sonner';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/contexts/AuthContext';
 import { AppLayout } from '@/components/AppLayout';
+import { OnboardingTooltip } from '@/components/OnboardingTooltip';
 
 type Msg = { role: 'user' | 'assistant'; content: string };
 
