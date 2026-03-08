@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Clock, Lock, RefreshCw, ChevronLeft, ChevronRight, CheckCircle, XCircle, Zap, TrendingUp, TrendingDown } from 'lucide-react';
+import { Clock, Lock, RefreshCw, ChevronLeft, ChevronRight, CheckCircle, XCircle, Zap, TrendingUp, TrendingDown, ChevronDown, Minus, Plus } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/contexts/AuthContext';
 import { AppLayout } from '@/components/AppLayout';
@@ -8,11 +8,13 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import { QuestionExplanation } from '@/components/practice/QuestionExplanation';
 import { Progress } from '@/components/ui/progress';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
 interface Question {
   id: string;
@@ -36,39 +38,199 @@ interface SessionConfig {
   questionCount: number;
 }
 
+// ─── Filter Data Structures ─────────────────────────────────────
+
+const SYSTEMS = [
+  'Cardiology', 'Respiratory', 'Gastrointestinal', 'Neurology', 'Endocrinology',
+  'Renal', 'Dermatology', 'Psychiatry', 'Paediatrics', 'Obstetrics & Gynaecology',
+  'Emergency Medicine', 'Infectious Diseases', 'Population Health', 'ENT',
+  'Haematology', 'Musculoskeletal'
+] as const;
+
+const SUBJECTS = [
+  'Physiology', 'Pathology', 'Pharmacology', 'Clinical Presentation',
+  'Investigations', 'Management', 'Preventive Medicine', 'Emergency Care',
+  'Ethics & Law', 'Epidemiology'
+] as const;
+
+const SYSTEM_SUBJECTS: Record<string, string[]> = {
+  'Cardiology': ['Physiology', 'Pathology', 'Pharmacology', 'Clinical Presentation', 'Investigations', 'Management', 'Emergency Care'],
+  'Respiratory': ['Physiology', 'Pathology', 'Pharmacology', 'Clinical Presentation', 'Investigations', 'Management', 'Emergency Care'],
+  'Gastrointestinal': ['Physiology', 'Pathology', 'Pharmacology', 'Clinical Presentation', 'Investigations', 'Management'],
+  'Neurology': ['Physiology', 'Pathology', 'Pharmacology', 'Clinical Presentation', 'Investigations', 'Management', 'Emergency Care'],
+  'Endocrinology': ['Physiology', 'Pathology', 'Pharmacology', 'Clinical Presentation', 'Investigations', 'Management'],
+  'Renal': ['Physiology', 'Pathology', 'Pharmacology', 'Clinical Presentation', 'Investigations', 'Management'],
+  'Dermatology': ['Pathology', 'Clinical Presentation', 'Management'],
+  'Psychiatry': ['Pathology', 'Clinical Presentation', 'Pharmacology', 'Management'],
+  'Paediatrics': ['Physiology', 'Pathology', 'Pharmacology', 'Clinical Presentation', 'Management', 'Emergency Care'],
+  'Obstetrics & Gynaecology': ['Physiology', 'Pathology', 'Clinical Presentation', 'Investigations', 'Management', 'Emergency Care'],
+  'Emergency Medicine': ['Clinical Presentation', 'Investigations', 'Management', 'Emergency Care'],
+  'Infectious Diseases': ['Pathology', 'Pharmacology', 'Clinical Presentation', 'Investigations', 'Management', 'Epidemiology'],
+  'Population Health': ['Preventive Medicine', 'Ethics & Law', 'Epidemiology'],
+  'ENT': ['Pathology', 'Clinical Presentation', 'Investigations', 'Management'],
+  'Haematology': ['Physiology', 'Pathology', 'Pharmacology', 'Clinical Presentation', 'Investigations', 'Management'],
+  'Musculoskeletal': ['Pathology', 'Clinical Presentation', 'Investigations', 'Management', 'Pharmacology'],
+};
+
+const SUBJECT_SYSTEMS: Record<string, string[]> = {};
+SUBJECTS.forEach(subject => {
+  SUBJECT_SYSTEMS[subject] = SYSTEMS.filter(system => SYSTEM_SUBJECTS[system]?.includes(subject));
+});
+
+type FilterMode = 'system' | 'subject';
+
 // ─── Setup Screen ───────────────────────────────────────────────
 
 function SetupScreen({ onStart }: { onStart: (config: SessionConfig) => void }) {
   const [mode, setMode] = useState<'recharge' | 'no-change'>('recharge');
-  const [categories, setCategories] = useState<string[]>([]);
-  const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
-  const [questionCount, setQuestionCount] = useState('10');
+  const [filterMode, setFilterMode] = useState<FilterMode>('system');
+  const [selectedPairs, setSelectedPairs] = useState<Set<string>>(new Set());
+  const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
+  const [questionCount, setQuestionCount] = useState(25);
+  const [categoryCounts, setCategoryCounts] = useState<Record<string, number>>({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchCategories = async () => {
       const { data } = await supabase.from('questions').select('category');
       if (data) {
-        const unique = [...new Set(data.map((d) => d.category))].sort();
-        setCategories(unique);
-        setSelectedTopics(unique); // default: all selected
+        const counts: Record<string, number> = {};
+        data.forEach((d) => {
+          counts[d.category] = (counts[d.category] || 0) + 1;
+        });
+        setCategoryCounts(counts);
+        
+        // Default: select all available pairs
+        const allPairs = new Set<string>();
+        SYSTEMS.forEach(system => {
+          SYSTEM_SUBJECTS[system]?.forEach(subject => {
+            allPairs.add(`${system}:${subject}`);
+          });
+        });
+        setSelectedPairs(allPairs);
       }
       setLoading(false);
     };
     fetchCategories();
   }, []);
 
-  const toggleTopic = (topic: string) => {
-    setSelectedTopics((prev) =>
-      prev.includes(topic) ? prev.filter((t) => t !== topic) : [...prev, topic]
-    );
+  // Calculate question counts per system/subject
+  const systemCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    SYSTEMS.forEach(system => {
+      counts[system] = Object.entries(categoryCounts)
+        .filter(([cat]) => cat.toLowerCase().includes(system.toLowerCase()))
+        .reduce((sum, [, count]) => sum + count, 0);
+    });
+    return counts;
+  }, [categoryCounts]);
+
+  const subjectCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    SUBJECTS.forEach(subject => {
+      counts[subject] = Object.entries(categoryCounts)
+        .filter(([cat]) => cat.toLowerCase().includes(subject.toLowerCase()))
+        .reduce((sum, [, count]) => sum + count, 0);
+    });
+    return counts;
+  }, [categoryCounts]);
+
+  const toggleExpand = (item: string) => {
+    setExpandedItems(prev => {
+      const next = new Set(prev);
+      if (next.has(item)) next.delete(item);
+      else next.add(item);
+      return next;
+    });
   };
 
-  const toggleAll = () => {
-    setSelectedTopics(selectedTopics.length === categories.length ? [] : [...categories]);
+  const togglePair = (system: string, subject: string) => {
+    const key = `${system}:${subject}`;
+    setSelectedPairs(prev => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return next;
+    });
   };
 
-  const canStart = selectedTopics.length > 0;
+  const toggleSystem = (system: string) => {
+    const subjects = SYSTEM_SUBJECTS[system] || [];
+    const allSelected = subjects.every(sub => selectedPairs.has(`${system}:${sub}`));
+    
+    setSelectedPairs(prev => {
+      const next = new Set(prev);
+      subjects.forEach(sub => {
+        const key = `${system}:${sub}`;
+        if (allSelected) next.delete(key);
+        else next.add(key);
+      });
+      return next;
+    });
+  };
+
+  const toggleSubject = (subject: string) => {
+    const systems = SUBJECT_SYSTEMS[subject] || [];
+    const allSelected = systems.every(sys => selectedPairs.has(`${sys}:${subject}`));
+    
+    setSelectedPairs(prev => {
+      const next = new Set(prev);
+      systems.forEach(sys => {
+        const key = `${sys}:${subject}`;
+        if (allSelected) next.delete(key);
+        else next.add(key);
+      });
+      return next;
+    });
+  };
+
+  const selectAll = () => {
+    const allPairs = new Set<string>();
+    SYSTEMS.forEach(system => {
+      SYSTEM_SUBJECTS[system]?.forEach(subject => {
+        allPairs.add(`${system}:${subject}`);
+      });
+    });
+    setSelectedPairs(allPairs);
+  };
+
+  const clearAll = () => {
+    setSelectedPairs(new Set());
+  };
+
+  const getMatchingCategories = (): string[] => {
+    if (selectedPairs.size === 0) return [];
+    
+    const selectedSystems = new Set<string>();
+    const selectedSubjects = new Set<string>();
+    
+    selectedPairs.forEach(pair => {
+      const [system, subject] = pair.split(':');
+      selectedSystems.add(system);
+      selectedSubjects.add(subject);
+    });
+
+    return Object.keys(categoryCounts).filter(cat => {
+      const catLower = cat.toLowerCase();
+      return Array.from(selectedSystems).some(sys => catLower.includes(sys.toLowerCase())) ||
+             Array.from(selectedSubjects).some(sub => catLower.includes(sub.toLowerCase()));
+    });
+  };
+
+  const handleQuestionCountChange = (value: string) => {
+    const num = parseInt(value, 10);
+    if (!isNaN(num) && num >= 1) {
+      setQuestionCount(Math.min(500, num));
+    } else if (value === '') {
+      setQuestionCount(1);
+    }
+  };
+
+  const incrementCount = () => setQuestionCount(prev => Math.min(500, prev + 1));
+  const decrementCount = () => setQuestionCount(prev => Math.max(1, prev - 1));
+
+  const quickPresets = [10, 20, 40, 60, 100];
+  const canStart = selectedPairs.size > 0;
 
   if (loading) {
     return (
@@ -82,7 +244,7 @@ function SetupScreen({ onStart }: { onStart: (config: SessionConfig) => void }) 
 
   return (
     <AppLayout>
-      <div className="mx-auto max-w-3xl space-y-8">
+      <div className="mx-auto max-w-4xl space-y-8">
         <div>
           <h1 className="text-3xl font-bold font-display">Practice Drills</h1>
           <p className="text-muted-foreground">Configure your session and start practising</p>
@@ -134,52 +296,213 @@ function SetupScreen({ onStart }: { onStart: (config: SessionConfig) => void }) 
           </div>
         </div>
 
-        {/* Question Count */}
+        {/* Question Count Selector */}
         <div className="space-y-3">
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Number of Questions</h2>
-          <Select value={questionCount} onValueChange={setQuestionCount}>
-            <SelectTrigger className="w-48">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {['10', '20', '30', '50'].map((n) => (
-                <SelectItem key={n} value={n}>
-                  {n} questions · {n} min
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-
-        {/* Topic Selector */}
-        <div className="space-y-3">
-          <div className="flex items-center justify-between">
-            <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Topics</h2>
-            <Button variant="ghost" size="sm" onClick={toggleAll}>
-              {selectedTopics.length === categories.length ? 'Deselect All' : 'Select All'}
-            </Button>
-          </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-            {categories.map((cat) => (
-              <label
-                key={cat}
-                className={cn(
-                  'flex items-center gap-2 rounded-lg border px-3 py-2.5 text-sm cursor-pointer transition-colors',
-                  selectedTopics.includes(cat)
-                    ? 'border-primary/40 bg-primary/5'
-                    : 'border-border hover:border-primary/20'
-                )}
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Questions</h2>
+          
+          {/* Quick Presets */}
+          <div className="flex flex-wrap gap-2">
+            {quickPresets.map((preset) => (
+              <Button
+                key={preset}
+                variant={questionCount === preset ? "default" : "outline"}
+                size="sm"
+                onClick={() => setQuestionCount(preset)}
+                className="min-w-[3rem]"
               >
-                <Checkbox
-                  checked={selectedTopics.includes(cat)}
-                  onCheckedChange={() => toggleTopic(cat)}
-                />
-                <span className="truncate">{cat}</span>
-              </label>
+                {preset}
+              </Button>
             ))}
           </div>
-          {selectedTopics.length === 0 && (
-            <p className="text-sm text-destructive">Select at least one topic</p>
+          
+          {/* Stepper Input */}
+          <div className="flex items-center gap-3">
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={decrementCount}
+              disabled={questionCount <= 1}
+            >
+              <Minus className="h-4 w-4" />
+            </Button>
+            <Input
+              type="number"
+              min={1}
+              max={500}
+              value={questionCount}
+              onChange={(e) => handleQuestionCountChange(e.target.value)}
+              className="w-20 text-center font-mono text-lg"
+            />
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={incrementCount}
+              disabled={questionCount >= 500}
+            >
+              <Plus className="h-4 w-4" />
+            </Button>
+          </div>
+          
+          {/* Time Estimate */}
+          <p className="text-sm text-muted-foreground">
+            ≈ {questionCount} minutes
+          </p>
+        </div>
+
+        {/* Topic Filters */}
+        <div className="space-y-3">
+          <div className="flex items-center justify-between">
+            <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Topic Filters</h2>
+            <div className="flex items-center gap-2">
+              <Button variant="ghost" size="sm" onClick={selectAll}>
+                Select All
+              </Button>
+              <Button variant="ghost" size="sm" onClick={clearAll}>
+                Clear All
+              </Button>
+            </div>
+          </div>
+
+          {/* Filter Mode Toggle */}
+          <div className="flex items-center gap-3">
+            <span className="text-sm text-muted-foreground">Filter Mode:</span>
+            <ToggleGroup
+              type="single"
+              value={filterMode}
+              onValueChange={(v) => v && setFilterMode(v as FilterMode)}
+              className="bg-muted rounded-lg p-1"
+            >
+              <ToggleGroupItem value="system" className="text-sm px-4">
+                System View
+              </ToggleGroupItem>
+              <ToggleGroupItem value="subject" className="text-sm px-4">
+                Subject View
+              </ToggleGroupItem>
+            </ToggleGroup>
+          </div>
+
+          {/* System View */}
+          {filterMode === 'system' && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {SYSTEMS.map((system) => {
+                const subjects = SYSTEM_SUBJECTS[system] || [];
+                const selectedCount = subjects.filter(sub => selectedPairs.has(`${system}:${sub}`)).length;
+                const allSelected = selectedCount === subjects.length && subjects.length > 0;
+                const someSelected = selectedCount > 0;
+                
+                return (
+                  <Collapsible
+                    key={system}
+                    open={expandedItems.has(system)}
+                    onOpenChange={() => toggleExpand(system)}
+                  >
+                    <div className={cn(
+                      'rounded-lg border transition-colors',
+                      someSelected ? 'border-primary/40 bg-primary/5' : 'border-border'
+                    )}>
+                      <CollapsibleTrigger className="flex w-full items-center justify-between px-4 py-3 text-left">
+                        <div className="flex items-center gap-3">
+                          <Checkbox
+                            checked={allSelected}
+                            onCheckedChange={() => toggleSystem(system)}
+                            onClick={(e) => e.stopPropagation()}
+                            className={cn(someSelected && !allSelected && "data-[state=unchecked]:bg-primary/30")}
+                          />
+                          <span className="font-medium text-sm">{system}</span>
+                          <Badge variant="secondary" className="text-xs">
+                            {systemCounts[system] || 0}
+                          </Badge>
+                        </div>
+                        <ChevronDown className={cn(
+                          "h-4 w-4 text-muted-foreground transition-transform",
+                          expandedItems.has(system) && "rotate-180"
+                        )} />
+                      </CollapsibleTrigger>
+                      <CollapsibleContent>
+                        <div className="border-t border-border/50 px-4 py-3 space-y-2">
+                          {subjects.map((subject) => (
+                            <label
+                              key={`${system}:${subject}`}
+                              className="flex items-center gap-2 cursor-pointer text-sm text-muted-foreground hover:text-foreground transition-colors"
+                            >
+                              <Checkbox
+                                checked={selectedPairs.has(`${system}:${subject}`)}
+                                onCheckedChange={() => togglePair(system, subject)}
+                              />
+                              {subject}
+                            </label>
+                          ))}
+                        </div>
+                      </CollapsibleContent>
+                    </div>
+                  </Collapsible>
+                );
+              })}
+            </div>
+          )}
+
+          {/* Subject View */}
+          {filterMode === 'subject' && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {SUBJECTS.map((subject) => {
+                const systems = SUBJECT_SYSTEMS[subject] || [];
+                const selectedCount = systems.filter(sys => selectedPairs.has(`${sys}:${subject}`)).length;
+                const allSelected = selectedCount === systems.length && systems.length > 0;
+                const someSelected = selectedCount > 0;
+                
+                return (
+                  <Collapsible
+                    key={subject}
+                    open={expandedItems.has(subject)}
+                    onOpenChange={() => toggleExpand(subject)}
+                  >
+                    <div className={cn(
+                      'rounded-lg border transition-colors',
+                      someSelected ? 'border-primary/40 bg-primary/5' : 'border-border'
+                    )}>
+                      <CollapsibleTrigger className="flex w-full items-center justify-between px-4 py-3 text-left">
+                        <div className="flex items-center gap-3">
+                          <Checkbox
+                            checked={allSelected}
+                            onCheckedChange={() => toggleSubject(subject)}
+                            onClick={(e) => e.stopPropagation()}
+                            className={cn(someSelected && !allSelected && "data-[state=unchecked]:bg-primary/30")}
+                          />
+                          <span className="font-medium text-sm">{subject}</span>
+                          <Badge variant="secondary" className="text-xs">
+                            {subjectCounts[subject] || 0}
+                          </Badge>
+                        </div>
+                        <ChevronDown className={cn(
+                          "h-4 w-4 text-muted-foreground transition-transform",
+                          expandedItems.has(subject) && "rotate-180"
+                        )} />
+                      </CollapsibleTrigger>
+                      <CollapsibleContent>
+                        <div className="border-t border-border/50 px-4 py-3 space-y-2">
+                          {systems.map((system) => (
+                            <label
+                              key={`${system}:${subject}`}
+                              className="flex items-center gap-2 cursor-pointer text-sm text-muted-foreground hover:text-foreground transition-colors"
+                            >
+                              <Checkbox
+                                checked={selectedPairs.has(`${system}:${subject}`)}
+                                onCheckedChange={() => togglePair(system, subject)}
+                              />
+                              {system}
+                            </label>
+                          ))}
+                        </div>
+                      </CollapsibleContent>
+                    </div>
+                  </Collapsible>
+                );
+              })}
+            </div>
+          )}
+
+          {selectedPairs.size === 0 && (
+            <p className="text-sm text-destructive">Select at least one topic combination</p>
           )}
         </div>
 
@@ -187,7 +510,11 @@ function SetupScreen({ onStart }: { onStart: (config: SessionConfig) => void }) 
         <Button
           size="lg"
           disabled={!canStart}
-          onClick={() => onStart({ mode, topics: selectedTopics, questionCount: parseInt(questionCount) })}
+          onClick={() => onStart({ 
+            mode, 
+            topics: getMatchingCategories().length > 0 ? getMatchingCategories() : Object.keys(categoryCounts), 
+            questionCount 
+          })}
           className="w-full sm:w-auto gap-2"
         >
           <Zap className="h-4 w-4" /> Start Drill
