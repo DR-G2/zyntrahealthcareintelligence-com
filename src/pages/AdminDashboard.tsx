@@ -37,6 +37,10 @@ function UsersTab() {
   const [users, setUsers] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
+  const [grantDialog, setGrantDialog] = useState<{ userId: string; email: string } | null>(null);
+  const [grantTier, setGrantTier] = useState("full_access");
+  const [grantDuration, setGrantDuration] = useState("permanent");
+  const [granting, setGranting] = useState(false);
   const { toast } = useToast();
 
   const fetchUsers = async () => {
@@ -58,13 +62,66 @@ function UsersTab() {
     !search || u.email?.toLowerCase().includes(search.toLowerCase()) || u.name?.toLowerCase().includes(search.toLowerCase())
   );
 
-  const getTierLabel = (priceId: string) => {
-    const map: Record<string, string> = {
-      'price_1T8eZlA6FxLDmLBVDAuIil9G': 'Core',
-      'price_1T8ea9A6FxLDmLBVIdOgqSYP': 'Pro',
-      'price_1T8ebdA6FxLDmLBVnJofmEOC': 'Lifetime',
-    };
-    return map[priceId] || priceId;
+  const getUserTier = (u: any) => {
+    if (u.override) {
+      const isExpired = u.override.expires_at && new Date(u.override.expires_at) < new Date();
+      if (!isExpired) return { label: u.override.tier, isManual: true };
+    }
+    if (u.subscription) return { label: u.subscription.product_id || 'paid', isManual: false };
+    return { label: 'free', isManual: false };
+  };
+
+  const handleGrant = async () => {
+    if (!grantDialog) return;
+    setGranting(true);
+    try {
+      const durationMap: Record<string, number | null> = { '7': 7, '30': 30, 'permanent': null };
+      const { error } = await supabase.functions.invoke('admin-grant-access', {
+        body: { action: 'grant', user_id: grantDialog.userId, tier: grantTier, duration_days: durationMap[grantDuration] }
+      });
+      if (error) throw error;
+      toast({ title: 'Access granted' });
+      setGrantDialog(null);
+      fetchUsers();
+    } catch (e: any) {
+      toast({ title: 'Error', description: e.message, variant: 'destructive' });
+    }
+    setGranting(false);
+  };
+
+  const handleRevoke = async (userId: string) => {
+    try {
+      const { error } = await supabase.functions.invoke('admin-grant-access', {
+        body: { action: 'revoke', user_id: userId }
+      });
+      if (error) throw error;
+      toast({ title: 'Access revoked' });
+      fetchUsers();
+    } catch (e: any) {
+      toast({ title: 'Error', description: e.message, variant: 'destructive' });
+    }
+  };
+
+  const downloadCSV = () => {
+    const headers = ['Email', 'Name', 'Tier', 'Manual Override', 'Stripe Status', 'Override Expires', 'Joined'];
+    const rows = filtered.map(u => {
+      const t = getUserTier(u);
+      return [
+        u.email || '',
+        u.name || '',
+        t.label,
+        t.isManual ? 'Yes' : 'No',
+        u.subscription?.status || 'none',
+        u.override?.expires_at ? new Date(u.override.expires_at).toLocaleDateString() : '',
+        new Date(u.created_at).toLocaleDateString(),
+      ].map(v => `"${String(v).replace(/"/g, '""')}"`).join(',');
+    });
+    const csv = [headers.join(','), ...rows].join('\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = `zyntra-users-${new Date().toISOString().split('T')[0]}.csv`;
+    a.click(); URL.revokeObjectURL(url);
   };
 
   return (
@@ -74,6 +131,9 @@ function UsersTab() {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input placeholder="Search users..." value={search} onChange={e => setSearch(e.target.value)} className="pl-9" />
         </div>
+        <Button variant="outline" onClick={downloadCSV}>
+          <FileUp className="h-4 w-4 mr-2" /> Download CSV
+        </Button>
         <Button variant="outline" onClick={fetchUsers} disabled={loading}>
           {loading && <Loader2 className="h-4 w-4 mr-2 animate-spin" />} Refresh
         </Button>
@@ -87,33 +147,43 @@ function UsersTab() {
                 <TableHead>Name</TableHead>
                 <TableHead>Tier</TableHead>
                 <TableHead>Status</TableHead>
-                <TableHead>Expires</TableHead>
                 <TableHead>Joined</TableHead>
+                <TableHead>Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filtered.map(u => (
-                <TableRow key={u.id}>
-                  <TableCell className="font-mono text-xs">{u.email}</TableCell>
-                  <TableCell>{u.name || '—'}</TableCell>
-                  <TableCell>
-                    {u.subscription ? (
-                      <Badge variant="default">{getTierLabel(u.subscription.tier)}</Badge>
-                    ) : (
-                      <Badge variant="secondary">Free</Badge>
-                    )}
-                  </TableCell>
-                  <TableCell>
-                    {u.subscription ? (
-                      <Badge variant="outline" className="text-primary border-primary">Active</Badge>
-                    ) : '—'}
-                  </TableCell>
-                  <TableCell className="text-xs">
-                    {u.subscription?.current_period_end ? new Date(u.subscription.current_period_end).toLocaleDateString() : '—'}
-                  </TableCell>
-                  <TableCell className="text-xs">{new Date(u.created_at).toLocaleDateString()}</TableCell>
-                </TableRow>
-              ))}
+              {filtered.map(u => {
+                const t = getUserTier(u);
+                return (
+                  <TableRow key={u.id}>
+                    <TableCell className="font-mono text-xs">{u.email}</TableCell>
+                    <TableCell>{u.name || '—'}</TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-1">
+                        <Badge variant={t.label === 'free' ? 'secondary' : 'default'}>{t.label}</Badge>
+                        {t.isManual && <Badge variant="outline" className="text-xs border-primary text-primary">Manual</Badge>}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      {u.subscription ? (
+                        <Badge variant="outline" className="text-primary border-primary">Active</Badge>
+                      ) : t.isManual ? (
+                        <Badge variant="outline" className="text-primary border-primary">Override</Badge>
+                      ) : '—'}
+                    </TableCell>
+                    <TableCell className="text-xs">{new Date(u.created_at).toLocaleDateString()}</TableCell>
+                    <TableCell>
+                      <div className="flex gap-1">
+                        {t.isManual ? (
+                          <Button variant="destructive" size="sm" onClick={() => handleRevoke(u.id)}>Revoke</Button>
+                        ) : (
+                          <Button variant="outline" size="sm" onClick={() => setGrantDialog({ userId: u.id, email: u.email })}>Grant</Button>
+                        )}
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
               {filtered.length === 0 && (
                 <TableRow><TableCell colSpan={6} className="text-center text-muted-foreground py-8">No users found</TableCell></TableRow>
               )}
@@ -121,6 +191,42 @@ function UsersTab() {
           </Table>
         </CardContent>
       </Card>
+
+      {/* Grant Access Dialog */}
+      <Dialog open={!!grantDialog} onOpenChange={open => !open && setGrantDialog(null)}>
+        <DialogContent>
+          <DialogHeader><DialogTitle>Grant Access to {grantDialog?.email}</DialogTitle></DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <label className="text-sm font-medium">Tier</label>
+              <Select value={grantTier} onValueChange={setGrantTier}>
+                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="full_access">Full Access</SelectItem>
+                  <SelectItem value="mcq_only">MCQ Only</SelectItem>
+                  <SelectItem value="osce_only">OSCE Only</SelectItem>
+                  <SelectItem value="lifetime">Lifetime</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <label className="text-sm font-medium">Duration</label>
+              <Select value={grantDuration} onValueChange={setGrantDuration}>
+                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="7">7 days</SelectItem>
+                  <SelectItem value="30">30 days</SelectItem>
+                  <SelectItem value="permanent">Permanent</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setGrantDialog(null)}>Cancel</Button>
+            <Button onClick={handleGrant} disabled={granting}>{granting && <Loader2 className="h-4 w-4 mr-2 animate-spin" />} Grant Access</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
