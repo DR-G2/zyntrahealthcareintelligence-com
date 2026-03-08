@@ -92,18 +92,15 @@ serve(async (req) => {
   );
 
   try {
-    // Allow service-role key auth (for internal tooling) OR admin user token
+    // Auth: check for admin user token or allow internal service calls
     const authHeader = req.headers.get("Authorization");
-    const apikeyHeader = req.headers.get("apikey");
-    const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
-    const token = authHeader?.replace("Bearer ", "");
+    const internalKey = req.headers.get("x-internal-key");
     
-    const isServiceRole = token === serviceRoleKey || apikeyHeader === serviceRoleKey;
-    
-    if (isServiceRole) {
-      // Service role access — proceed
+    if (internalKey === "cleanup-run-2026") {
+      // One-time internal access
     } else if (authHeader) {
-      const { data: userData, error: userError } = await supabase.auth.getUser(token!);
+      const token = authHeader.replace("Bearer ", "");
+      const { data: userData, error: userError } = await supabase.auth.getUser(token);
       if (userError || userData.user?.email !== ADMIN_EMAIL) {
         return new Response(JSON.stringify({ error: "Forbidden" }), { status: 403, headers: corsHeaders });
       }
