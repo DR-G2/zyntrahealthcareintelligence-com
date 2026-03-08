@@ -65,20 +65,39 @@ export default function Assess() {
   // Fetch question pool with tiers
   useEffect(() => {
     const fetchPool = async () => {
-      const { data } = await supabase
-        .from('questions')
-        .select('id, question_text, options, correct_answer, explanation, category, difficulty, difficulty_tier')
-        .limit(200);
+      // Fetch difficulty-balanced pool: 50% hard, 30% medium, 20% easy
+      const [hardRes, mediumRes, easyRes] = await Promise.all([
+        supabase.from('questions')
+          .select('id, question_text, options, correct_answer, explanation, category, difficulty, difficulty_tier')
+          .eq('difficulty', 'hard').limit(50),
+        supabase.from('questions')
+          .select('id, question_text, options, correct_answer, explanation, category, difficulty, difficulty_tier')
+          .eq('difficulty', 'medium').limit(30),
+        supabase.from('questions')
+          .select('id, question_text, options, correct_answer, explanation, category, difficulty, difficulty_tier')
+          .eq('difficulty', 'easy').limit(20),
+      ]);
 
-      if (!data || data.length === 0) {
+      const pool = [
+        ...(hardRes.data || []),
+        ...(mediumRes.data || []),
+        ...(easyRes.data || []),
+      ];
+
+      if (pool.length === 0) {
         toast({ title: 'Error', description: 'No questions available', variant: 'destructive' });
         setLoading(false);
         return;
       }
 
-      questionPoolRef.current = data as QuestionWithTier[];
+      // Shuffle the combined pool
+      for (let i = pool.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [pool[i], pool[j]] = [pool[j], pool[i]];
+      }
 
-      // Pick first question using sequencing engine
+      questionPoolRef.current = pool as QuestionWithTier[];
+
       const firstQ = selectNextQuestion(
         questionPoolRef.current,
         usedQuestionIds.current,
