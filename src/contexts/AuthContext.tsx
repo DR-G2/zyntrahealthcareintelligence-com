@@ -132,8 +132,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (session?.user) {
         fetchProfile(session.user.id);
         checkSubscription();
+        fetchWatermark(session.user.id);
       } else {
         setSubscription(prev => ({ ...prev, loading: false }));
+        setWatermark(prev => ({ ...prev, loading: false }));
       }
       setLoading(false);
     });
