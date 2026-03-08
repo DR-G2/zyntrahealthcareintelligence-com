@@ -14,6 +14,8 @@ import { SYSTEMS } from '@/lib/filter-data';
 import {
   Clock, Loader2, Stethoscope, Target, Play,
 } from 'lucide-react';
+import { useFeatureGate } from '@/hooks/useFeatureGate';
+import { UpgradePrompt } from '@/components/UpgradePrompt';
 
 type Phase = 'intro' | 'loading' | 'station' | 'evaluating' | 'results';
 
