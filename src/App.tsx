@@ -20,7 +20,7 @@ import Practice from "./pages/Practice";
 import Questions from "./pages/Questions";
 import StudyPlan from "./pages/StudyPlan";
 import Settings from "./pages/Settings";
-import AdminQuestions from "./pages/AdminQuestions";
+import AdminDashboard from "./pages/AdminDashboard";
 import Stations from "./pages/Stations";
 import NotFound from "./pages/NotFound";
 
