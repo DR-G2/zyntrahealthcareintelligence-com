@@ -187,7 +187,14 @@ export default function Pricing() {
     setLoadingTier(null);
   };
 
-  const isCurrentTier = (tier: string) => subscription.subscribed && subscription.tier === tier;
+  const isCurrentTier = (tier: string) => {
+    if (!subscription.subscribed) return false;
+    // All paid tiers are effectively "full_access"
+    if (tier === 'full_access' || tier === 'full_access_3m') {
+      return subscription.tier === 'full_access' || subscription.tier === 'core' || subscription.tier === 'pro';
+    }
+    return subscription.tier === tier;
+  };
 
   return (
     <div className="min-h-screen bg-background">
