@@ -1,59 +1,41 @@
 
 
-## Plan: Remove Analytics, Build Study Plan, Add Settings
+## Plan: Enhanced Practice Results with Detailed Explanations
 
-### 1. Remove Analytics
+### What Changes
 
-**Files:**
-- `src/pages/Analytics.tsx` — delete
-- `src/App.tsx` — remove Analytics import and `/analytics` route
-- `src/components/AppSidebar.tsx` — remove Analytics nav item, remove `BarChart3` import
+**1. Expand the results review section (Practice.tsx, lines 225-245)**
 
-### 2. Build Study Plan Page
+Replace the current inline explanation snippet with a clickable card that navigates to a full-page explanation view. Each question card in results will show:
+- Question text, your answer vs correct answer, correct/incorrect badge
+- A "Read Full Explanation" button that opens a detailed view
 
-Replace the placeholder at `/plan` with a real study plan generated from the user's diagnostic performance data.
+**2. Create a full-page explanation view within the results phase**
 
-**File:** `src/pages/StudyPlan.tsx` (new)
+Add a new sub-phase `'explanation'` to the drill session. When a user clicks a question, the view transitions to a full-page layout containing:
+- The question and all options (highlighted correct/incorrect)
+- A detailed explanation section
+- **Reference notes** organized by source book:
+  - **AMC Handbook** — key clinical points relevant to the question topic
+  - **John Murtagh's General Practice** — diagnostic approach and management
+  - **Tally O'Connor's Clinical Examination** — examination findings and signs
+- A "Back to Results" button
 
-**Data sources:**
-- `performance_profiles` — readiness score, clinical accuracy, stability, time sensitivity, confidence gap
-- `profiles.weak_areas` — categories flagged from practice/diagnostic
-- `user_attempts` joined with `questions(category)` — per-category accuracy breakdown
+**3. Store reference notes in the question explanation field**
 
-**UI sections:**
-1. **Readiness Summary** — card showing overall readiness score and a short status label
-2. **Focus Areas** — list weak areas (from `profiles.weak_areas`) with recommended daily question targets per category. Categories with <60% accuracy get "High Priority", 60-80% get "Medium", >80% get "Maintain"
-3. **Weekly Schedule** — auto-generated 7-day plan distributing weak topics across days, with suggested question counts (heavier on weak areas). Uses exam date from profile to calculate weeks remaining
-4. **Recommended Actions** — contextual tips based on performance dimensions:
-   - Low stability → "Practice in No Change mode to build decisiveness"
-   - Low time sensitivity → "Do timed drills with strict time limits"
-   - High confidence gap → "Focus on categories where you overestimate your accuracy"
+Since the `questions` table already has an `explanation` column, the detailed explanations with book references will be structured within that field. For now, the UI will parse and display the explanation, and add styled reference sections with book attribution headers even if the current explanation text is brief. The textbook reference sections will be rendered as distinct styled blocks.
 
-**Route:** Replace `PlaceholderPage` at `/plan` with `StudyPlan` component in `App.tsx`.
+### Technical Approach
 
-### 3. Build Settings Page
+- Add state: `reviewQuestionIndex: number | null` to track which question is being viewed in detail
+- When set, render a full-page explanation component instead of the results list
+- Structure the explanation page with:
+  - Question card with all options color-coded
+  - Explanation text (from DB)
+  - Three reference cards (AMC Handbook, Murtagh's, Tally O'Connor) with topic-relevant headers derived from the question's category
+- Use `framer-motion` for page transitions
+- All changes are in `src/pages/Practice.tsx` only — no new files needed
 
-Replace the placeholder at `/settings` with a real settings page.
-
-**File:** `src/pages/Settings.tsx` (new)
-
-**Sections:**
-- **Profile Info** — edit name, exam date (updates `profiles` table)
-- **Exam Preferences** — change user type (IMG/local grad), update target exam date
-- **Account** — email display (read-only), sign out button, danger zone with "Delete my data" (clears user_attempts, performance_profiles, resets profile)
-- **About** — app version, links
-
-**Route:** Replace `PlaceholderPage` at `/settings` with `Settings` component in `App.tsx`.
-
-### File Changes Summary
-
-| File | Action |
-|------|--------|
-| `src/pages/Analytics.tsx` | Delete |
-| `src/pages/StudyPlan.tsx` | Create — study plan from performance data |
-| `src/pages/Settings.tsx` | Create — profile editing, preferences, account management |
-| `src/App.tsx` | Remove Analytics, add StudyPlan and Settings imports |
-| `src/components/AppSidebar.tsx` | Remove Analytics nav item |
-
-No database migrations needed.
+### Files Modified
+- `src/pages/Practice.tsx` — refactor results phase to add clickable detail view with book reference sections
 
