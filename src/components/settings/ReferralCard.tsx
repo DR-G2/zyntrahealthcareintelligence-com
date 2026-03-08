@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
@@ -19,22 +18,22 @@ export function ReferralCard() {
     if (!user) return;
     (async () => {
       // Check for existing referral code
-      const { data: existing } = await supabase
-        .from('referrals')
+      const { data: existing } = await (supabase
+        .from('referrals' as any)
         .select('referral_code, status')
-        .eq('referrer_id', user.id);
+        .eq('referrer_id', user.id)) as any;
 
       if (existing && existing.length > 0) {
         setReferralCode(existing[0].referral_code);
-        setReferralCount(existing.filter((r) => r.status === 'completed').length);
+        setReferralCount(existing.filter((r: any) => r.status === 'completed').length);
       } else {
         // Generate a new code
         const code = `ZYNTRA-${user.id.slice(0, 6).toUpperCase()}`;
-        await supabase.from('referrals').insert({
+        await (supabase.from('referrals' as any).insert({
           referrer_id: user.id,
           referral_code: code,
           status: 'pending',
-        });
+        } as any) as any);
         setReferralCode(code);
       }
       setLoading(false);

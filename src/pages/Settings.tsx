@@ -204,6 +204,9 @@ export default function Settings() {
           </CardContent>
         </Card>
 
+        {/* Referral */}
+        <ReferralCard />
+
         {/* About */}
         <Card>
           <CardHeader className="pb-3">
