@@ -15,6 +15,9 @@ import {
 import { useAuth } from '@/contexts/AuthContext';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { cn } from '@/lib/utils';
+import { Shield } from 'lucide-react';
+
+const ADMIN_EMAIL = "gopalrock.naren@gmail.com";
 
 const navItems = [
   { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
