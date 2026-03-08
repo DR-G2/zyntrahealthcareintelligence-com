@@ -524,8 +524,8 @@ export default function Pricing() {
                     </p>
                   </div>
 
-                  <Button className="w-full" asChild>
-                    <Link to="/login">Start 7-Day Free Trial <ArrowRight className="h-4 w-4" /></Link>
+                  <Button className="w-full" onClick={() => handleCheckout('pro')} disabled={loadingTier === 'pro' || isCurrentTier('pro')}>
+                    {isCurrentTier('pro') ? 'Current Plan' : loadingTier === 'pro' ? <><Loader2 className="h-4 w-4 animate-spin mr-2" />Processing...</> : <>Start 7-Day Free Trial <ArrowRight className="h-4 w-4" /></>}
                   </Button>
                   <p className="mt-3 text-center text-xs text-muted-foreground italic">
                     "I'm using Pro myself for Clinical prep. It works." — Founder, sitting Clinical June 2025
