@@ -10,9 +10,9 @@ import Dashboard from "./pages/Dashboard";
 import Assess from "./pages/Assess";
 import Profile from "./pages/Profile";
 import Practice from "./pages/Practice";
-import Analytics from "./pages/Analytics";
 import Questions from "./pages/Questions";
-import PlaceholderPage from "./pages/PlaceholderPage";
+import StudyPlan from "./pages/StudyPlan";
+import Settings from "./pages/Settings";
 import AdminQuestions from "./pages/AdminQuestions";
 import NotFound from "./pages/NotFound";
 
