@@ -11,6 +11,8 @@ import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/contexts/AuthContext';
 import { AppLayout } from '@/components/AppLayout';
 import { ListSkeleton } from '@/components/skeletons/PageSkeleton';
+import { useFeatureGate } from '@/hooks/useFeatureGate';
+import { UpgradePrompt } from '@/components/UpgradePrompt';
 
 interface GroupMember {
   id: string;
@@ -37,6 +39,7 @@ interface FoundUser {
 
 export default function SocialGroups() {
   const { user } = useAuth();
+  const gate = useFeatureGate();
   const [groups, setGroups] = useState<Group[]>([]);
   const [loading, setLoading] = useState(true);
   const [newGroupName, setNewGroupName] = useState('');
@@ -236,6 +239,11 @@ export default function SocialGroups() {
 
   return (
     <AppLayout>
+      {!gate.canAccessSocialGroups ? (
+        <div className="mx-auto max-w-xl py-12">
+          <UpgradePrompt feature="Social Study Groups" description="Create and join study groups with other candidates. Available on the Full Access plan." />
+        </div>
+      ) : (
       <div className="max-w-4xl mx-auto space-y-6">
         <div className="flex items-center justify-between">
           <div>
@@ -406,6 +414,7 @@ export default function SocialGroups() {
           </div>
         )}
       </div>
+      )}
     </AppLayout>
   );
 }

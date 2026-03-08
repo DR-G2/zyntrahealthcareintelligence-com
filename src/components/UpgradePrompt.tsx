@@ -59,7 +59,7 @@ export function UpgradePrompt({ feature, description, variant = 'card' }: Upgrad
         </div>
         <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
           <Zap className="h-4 w-4 text-primary" />
-          Starting at $49/month
+          Starting at $39/month
         </div>
         <Button asChild size="lg" className="gap-2">
           <Link to="/pricing">Upgrade to Full Access <ArrowRight className="h-4 w-4" /></Link>

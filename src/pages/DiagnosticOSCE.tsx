@@ -14,6 +14,8 @@ import { SYSTEMS } from '@/lib/filter-data';
 import {
   Clock, Loader2, Stethoscope, Target, Play,
 } from 'lucide-react';
+import { useFeatureGate } from '@/hooks/useFeatureGate';
+import { UpgradePrompt } from '@/components/UpgradePrompt';
 
 type Phase = 'intro' | 'loading' | 'station' | 'evaluating' | 'results';
 
@@ -41,6 +43,7 @@ const SUBJECT_OPTIONS = [...SYSTEMS, 'Ethics & Law'] as const;
 export default function DiagnosticOSCE() {
   const { user } = useAuth();
   const { toast } = useToast();
+  const gate = useFeatureGate();
   const sessionIdRef = useRef(crypto.randomUUID());
 
   const [phase, setPhase] = useState<Phase>('intro');
@@ -191,6 +194,11 @@ export default function DiagnosticOSCE() {
 
   return (
     <AppLayout>
+      {!gate.canAccessExamMode ? (
+        <div className="mx-auto max-w-xl py-12">
+          <UpgradePrompt feature="Diagnostic OSCE" description="Access exam-level OSCE simulations. Available on the OSCE Only or Full Access plan." />
+        </div>
+      ) : (
       <div className="space-y-6">
         {phase === 'intro' && (
           <div className="mx-auto max-w-xl space-y-6 py-12">
@@ -318,6 +326,7 @@ export default function DiagnosticOSCE() {
           />
         )}
       </div>
+      )}
     </AppLayout>
   );
 }

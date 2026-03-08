@@ -972,6 +972,33 @@ export type Database = {
         }
         Relationships: []
       }
+      user_usage_logs: {
+        Row: {
+          ai_prompts_used: number
+          id: string
+          mcq_attempts: number
+          osce_attempts: number
+          usage_date: string
+          user_id: string
+        }
+        Insert: {
+          ai_prompts_used?: number
+          id?: string
+          mcq_attempts?: number
+          osce_attempts?: number
+          usage_date?: string
+          user_id: string
+        }
+        Update: {
+          ai_prompts_used?: number
+          id?: string
+          mcq_attempts?: number
+          osce_attempts?: number
+          usage_date?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       watermark_settings: {
         Row: {
           id: string

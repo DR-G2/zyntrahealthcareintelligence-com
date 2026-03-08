@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Zap, Check, X, MessageCircle, Shield, Star, Loader2 } from 'lucide-react';
@@ -86,6 +86,18 @@ export default function Pricing() {
   const { toast } = useToast();
   const navigate = useNavigate();
   const [loadingTier, setLoadingTier] = useState<TierKey | null>(null);
+  const [lifetimeSoldOut, setLifetimeSoldOut] = useState(false);
+
+  useEffect(() => {
+    supabase
+      .from('payments')
+      .select('id', { count: 'exact', head: true })
+      .eq('tier', 'lifetime')
+      .eq('status', 'active')
+      .then(({ count }) => {
+        if (count !== null && count >= 100) setLifetimeSoldOut(true);
+      });
+  }, []);
 
   const loadRazorpayScript = (): Promise<void> => {
     return new Promise((resolve, reject) => {
@@ -356,7 +368,7 @@ export default function Pricing() {
             <motion.div variants={fadeUp}>
               <Card className="h-full flex flex-col border-border relative">
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                  <Badge variant="secondary" className="px-3 py-1 text-xs font-semibold">🔥 First 100 Users</Badge>
+                  <Badge variant="secondary" className="px-3 py-1 text-xs font-semibold">{lifetimeSoldOut ? '❌ Sold Out' : '🔥 First 100 Users'}</Badge>
                 </div>
                 <CardHeader className="pb-3">
                   <CardTitle className="text-lg">Lifetime</CardTitle>
@@ -369,8 +381,8 @@ export default function Pricing() {
                       <li key={f} className="flex gap-2 text-xs"><Check className="h-3.5 w-3.5 mt-0.5 text-secondary shrink-0" /><span>{f}</span></li>
                     ))}
                   </ul>
-                  <Button variant="outline" size="sm" className="w-full" onClick={() => handleCheckout('lifetime')} disabled={loadingTier === 'lifetime' || isCurrentTier('lifetime')}>
-                    {isCurrentTier('lifetime') ? 'Current' : loadingTier === 'lifetime' ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Get Lifetime'}
+                  <Button variant="outline" size="sm" className="w-full" onClick={() => handleCheckout('lifetime')} disabled={lifetimeSoldOut || loadingTier === 'lifetime' || isCurrentTier('lifetime')}>
+                    {lifetimeSoldOut ? 'Sold Out' : isCurrentTier('lifetime') ? 'Current' : loadingTier === 'lifetime' ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Get Lifetime'}
                   </Button>
                 </CardContent>
               </Card>

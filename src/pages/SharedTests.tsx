@@ -13,6 +13,8 @@ import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/contexts/AuthContext';
 import { AppLayout } from '@/components/AppLayout';
 import { ListSkeleton } from '@/components/skeletons/PageSkeleton';
+import { useFeatureGate } from '@/hooks/useFeatureGate';
+import { UpgradePrompt } from '@/components/UpgradePrompt';
 
 interface Participant {
   id: string;
@@ -44,6 +46,7 @@ function generateCode(): string {
 
 export default function SharedTests() {
   const { user } = useAuth();
+  const gate = useFeatureGate();
   const [tests, setTests] = useState<SharedTest[]>([]);
   const [loading, setLoading] = useState(true);
   const [showCreate, setShowCreate] = useState(false);
@@ -229,6 +232,11 @@ export default function SharedTests() {
 
   return (
     <AppLayout>
+      {!gate.canAccessSharedTests ? (
+        <div className="mx-auto max-w-xl py-12">
+          <UpgradePrompt feature="Shared Tests" description="Create and share tests with other candidates. Available on the Full Access plan." />
+        </div>
+      ) : (
       <div className="max-w-4xl mx-auto space-y-6">
         <div className="flex items-center justify-between flex-wrap gap-3">
           <div>
@@ -463,6 +471,7 @@ export default function SharedTests() {
           </div>
         )}
       </div>
+      )}
     </AppLayout>
   );
 }
