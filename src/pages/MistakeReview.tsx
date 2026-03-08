@@ -101,6 +101,7 @@ function ReviewCard({ attempt }: { attempt: AttemptRow }) {
 
 export default function MistakeReview() {
   const { user } = useAuth();
+  const gate = useFeatureGate();
   const [activeTab, setActiveTab] = useState('incorrect');
 
   const { data: attempts = [], isLoading } = useQuery({
