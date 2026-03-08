@@ -48,6 +48,7 @@ import { SYSTEMS, SUBJECTS, SYSTEM_SUBJECTS, SUBJECT_SYSTEMS, getAllPairs, type 
 // ─── Setup Screen ───────────────────────────────────────────────
 
 function SetupScreen({ onStart }: { onStart: (config: SessionConfig) => void }) {
+  const gate = useFeatureGate();
   const [mode, setMode] = useState<'recharge' | 'no-change'>('recharge');
   const [filterMode, setFilterMode] = useState<FilterMode>('system');
   const [selectedPairs, setSelectedPairs] = useState<Set<string>>(new Set());
