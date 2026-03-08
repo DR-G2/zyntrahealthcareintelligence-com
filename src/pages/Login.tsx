@@ -7,7 +7,10 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/lib/supabase';
+import { CURRENT_TERMS_VERSION, LEGAL_EMAIL } from '@/lib/legal';
 
 export default function Login() {
   const [searchParams] = useSearchParams();
@@ -60,6 +63,7 @@ function AuthForm({ mode }: { mode: 'login' | 'signup' }) {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [showForgot, setShowForgot] = useState(false);
   const [forgotEmail, setForgotEmail] = useState('');
   const [forgotSubmitting, setForgotSubmitting] = useState(false);
@@ -71,6 +75,15 @@ function AuthForm({ mode }: { mode: 'login' | 'signup' }) {
     try {
       if (mode === 'signup') {
         await signUp(email, password);
+        // Log legal acceptance
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user) {
+          await supabase.from('user_legal_acceptance').insert({
+            user_id: user.id,
+            terms_version: CURRENT_TERMS_VERSION,
+            user_agent: navigator.userAgent,
+          });
+        }
         setSignupComplete(true);
       } else {
         await signIn(email, password);
@@ -218,7 +231,30 @@ function AuthForm({ mode }: { mode: 'login' | 'signup' }) {
             </button>
           </div>
         </div>
-        <Button type="submit" className="w-full" disabled={submitting}>
+        {mode === 'signup' && (
+          <div className="space-y-2">
+            <div className="flex items-start gap-2">
+              <Checkbox
+                id="terms-agree"
+                checked={agreedToTerms}
+                onCheckedChange={(v) => setAgreedToTerms(v === true)}
+                className="mt-0.5"
+              />
+              <label htmlFor="terms-agree" className="text-[11px] leading-[1.4] text-foreground/85 cursor-pointer">
+                I agree to the{' '}
+                <Link to="/terms" target="_blank" className="text-primary underline">
+                  Terms of Service
+                </Link>{' '}
+                and Copyright Policy
+              </label>
+            </div>
+            <p className="text-[11px] text-muted-foreground/80">
+              Questions? Contact{' '}
+              <a href={`mailto:${LEGAL_EMAIL}`} className="text-primary underline">{LEGAL_EMAIL}</a>
+            </p>
+          </div>
+        )}
+        <Button type="submit" className="w-full" disabled={submitting || (mode === 'signup' && !agreedToTerms)}>
           {submitting ? 'Please wait...' : mode === 'signup' ? 'Create Account' : 'Log In'}
         </Button>
         {mode === 'login' && (

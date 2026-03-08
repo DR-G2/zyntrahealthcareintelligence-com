@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { Session, User } from '@supabase/supabase-js';
 import { supabase } from '@/lib/supabase';
+import { CURRENT_TERMS_VERSION } from '@/lib/legal';
 
 interface Profile {
   id: string;
@@ -34,6 +35,9 @@ interface AuthContextType {
   loading: boolean;
   subscription: SubscriptionState;
   watermark: WatermarkState;
+  termsAccepted: boolean;
+  termsLoading: boolean;
+  acceptTerms: () => Promise<void>;
   signUp: (email: string, password: string) => Promise<void>;
   signIn: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
@@ -61,6 +65,35 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     strike_count: 0,
     loading: true,
   });
+  const [termsAccepted, setTermsAccepted] = useState(false);
+  const [termsLoading, setTermsLoading] = useState(true);
+
+  const fetchTermsAcceptance = async (userId: string) => {
+    try {
+      const { data } = await supabase
+        .from('user_legal_acceptance')
+        .select('terms_version')
+        .eq('user_id', userId)
+        .eq('terms_version', CURRENT_TERMS_VERSION)
+        .limit(1)
+        .maybeSingle();
+      setTermsAccepted(!!data);
+    } catch {
+      setTermsAccepted(false);
+    } finally {
+      setTermsLoading(false);
+    }
+  };
+
+  const acceptTerms = async () => {
+    if (!user) return;
+    await supabase.from('user_legal_acceptance').insert({
+      user_id: user.id,
+      terms_version: CURRENT_TERMS_VERSION,
+      user_agent: navigator.userAgent,
+    });
+    setTermsAccepted(true);
+  };
 
   const fetchProfile = async (userId: string) => {
     const { data } = await supabase
@@ -117,10 +150,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           setTimeout(() => fetchProfile(session.user.id), 0);
           setTimeout(() => checkSubscription(), 100);
           setTimeout(() => fetchWatermark(session.user.id), 0);
+          setTimeout(() => fetchTermsAcceptance(session.user.id), 0);
         } else {
           setProfile(null);
           setSubscription({ subscribed: false, tier: 'free', subscription_end: null, loading: false });
           setWatermark({ opacity_light: 0.055, opacity_dark: 0.065, suspended: false, strike_count: 0, loading: false });
+          setTermsAccepted(false);
+          setTermsLoading(false);
         }
         setLoading(false);
       }
@@ -133,9 +169,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         fetchProfile(session.user.id);
         checkSubscription();
         fetchWatermark(session.user.id);
+        fetchTermsAcceptance(session.user.id);
       } else {
         setSubscription(prev => ({ ...prev, loading: false }));
         setWatermark(prev => ({ ...prev, loading: false }));
+        setTermsLoading(false);
       }
       setLoading(false);
     });
@@ -173,7 +211,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ session, user, profile, loading, subscription, watermark, signUp, signIn, signOut, refreshProfile, checkSubscription }}>
+    <AuthContext.Provider value={{ session, user, profile, loading, subscription, watermark, termsAccepted, termsLoading, acceptTerms, signUp, signIn, signOut, refreshProfile, checkSubscription }}>
       {children}
     </AuthContext.Provider>
   );

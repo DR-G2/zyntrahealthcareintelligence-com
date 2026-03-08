@@ -25,10 +25,11 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { toast } from 'sonner';
-import { User, Calendar, Shield, Info, LogOut, Trash2 } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { User, Calendar, Shield, Info, LogOut, Trash2, Scale } from 'lucide-react';
+import { useNavigate, Link } from 'react-router-dom';
 import { ReferralCard } from '@/components/settings/ReferralCard';
 import { StrikeWarning } from '@/components/settings/StrikeWarning';
+import { LEGAL_EMAIL } from '@/lib/legal';
 
 export default function Settings() {
   const { user, profile, signOut, refreshProfile } = useAuth();
@@ -205,6 +206,28 @@ export default function Settings() {
                 </AlertDialogContent>
               </AlertDialog>
             </div>
+          </CardContent>
+        </Card>
+
+        {/* Legal & Policies */}
+        <Card>
+          <CardHeader className="pb-3">
+            <CardTitle className="font-display flex items-center gap-2">
+              <Scale className="h-5 w-5 text-primary" /> Legal & Policies
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <div className="flex flex-col gap-1.5 text-[11px] text-foreground/85">
+              <Link to="/terms" className="text-primary underline hover:text-primary/80">Terms of Service</Link>
+              <Link to="/terms" className="text-primary underline hover:text-primary/80">Privacy Policy</Link>
+            </div>
+            <p className="text-[11px] text-foreground/85 leading-[1.4]">
+              All Zyntra content is protected under the Copyright Act 1968 (Cth). Unauthorized copying, redistribution, or sharing of content is prohibited and may result in account suspension.
+            </p>
+            <p className="text-[11px] text-muted-foreground/80">
+              For account issues, copyright questions, or legal inquiries, contact:{' '}
+              <a href={`mailto:${LEGAL_EMAIL}`} className="text-primary underline">{LEGAL_EMAIL}</a>
+            </p>
           </CardContent>
         </Card>
 

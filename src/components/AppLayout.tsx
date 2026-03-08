@@ -3,6 +3,7 @@ import { AppSidebar, SidebarContext, useSidebarCollapsed } from '@/components/Ap
 import { StudyBuddy } from '@/components/StudyBuddy';
 import { SecurityOverlay } from '@/components/SecurityOverlay';
 import { cn } from '@/lib/utils';
+import { LegalFooter } from '@/components/LegalFooter';
 
 interface QuestionContext {
   question_text: string;
@@ -26,8 +27,9 @@ function LayoutInner({ children, questionContext, onClearQuestionContext }: AppL
   return (
     <div className="flex min-h-screen">
       <AppSidebar />
-      <main className={cn('flex-1 p-6 lg:p-8 transition-all duration-300', collapsed ? 'ml-16' : 'ml-64')}>
-        {children}
+      <main className={cn('flex-1 flex flex-col min-h-screen p-6 lg:p-8 transition-all duration-300', collapsed ? 'ml-16' : 'ml-64')}>
+        <div className="flex-1">{children}</div>
+        <LegalFooter />
       </main>
       <StudyBuddy questionContext={questionContext} onClearContext={onClearQuestionContext} />
     </div>

@@ -1,41 +1,41 @@
 
 
-## Plan: Terms of Service, Legal Consent, Anti-Piracy & Contact System
+## Plan: Enhanced Practice Results with Detailed Explanations
 
-### Database Changes
+### What Changes
 
-**New table: `user_legal_acceptance`**
-- `id` (uuid PK), `user_id` (uuid, FK → auth.users), `terms_version` (text, e.g. "v1.0"), `accepted_at` (timestamptz, default now()), `ip_address` (text, nullable), `user_agent` (text, nullable)
-- RLS: users can read/insert their own rows
-- A trigger on `profiles` or a check in AuthContext will verify acceptance of the current terms version
+**1. Expand the results review section (Practice.tsx, lines 225-245)**
 
-### New Files
+Replace the current inline explanation snippet with a clickable card that navigates to a full-page explanation view. Each question card in results will show:
+- Question text, your answer vs correct answer, correct/incorrect badge
+- A "Read Full Explanation" button that opens a detailed view
 
-| File | Purpose |
-|------|---------|
-| `src/pages/Terms.tsx` | Full Terms of Service page at `/terms` with all 10 sections (intro, usage rules, IP, anti-piracy, 3-strike system, suspension, billing, liability, governing law, contact). Legal text styled at 11px/0.85 opacity, headings 13px/600 weight. Includes piracy reporting mailto link and contact section with `appe@zyntr.website`. |
-| `src/components/LegalFooter.tsx` | Global footer component: "© 2026 Zyntra · Terms · Privacy · Contact" at 10px/0.7 opacity. Contact opens `mailto:appe@zyntr.website?subject=Zyntra Support Request`. |
+**2. Create a full-page explanation view within the results phase**
 
-### Modified Files
+Add a new sub-phase `'explanation'` to the drill session. When a user clicks a question, the view transitions to a full-page layout containing:
+- The question and all options (highlighted correct/incorrect)
+- A detailed explanation section
+- **Reference notes** organized by source book:
+  - **AMC Handbook** — key clinical points relevant to the question topic
+  - **John Murtagh's General Practice** — diagnostic approach and management
+  - **Tally O'Connor's Clinical Examination** — examination findings and signs
+- A "Back to Results" button
 
-| File | Change |
-|------|--------|
-| `src/pages/Login.tsx` | Add a mandatory checkbox to the signup form: "I agree to the Terms of Service and Copyright Policy" with link to `/terms`. Disable submit until checked. Add small support notice below: "Questions? Contact appe@zyntr.website" at 11px/0.8 opacity. On signup success, insert a row into `user_legal_acceptance` with version "v1.0". |
-| `src/pages/Onboarding.tsx` | No change needed — consent is captured at signup, not onboarding. |
-| `src/pages/Settings.tsx` | Add a "Legal & Policies" card with links to Terms, anti-piracy notice summary, and clickable `mailto:appe@zyntr.website`. |
-| `src/components/AppLayout.tsx` | Add `<LegalFooter />` at the bottom of the main content area. |
-| `src/pages/Landing.tsx` | Replace the existing simple footer with `<LegalFooter />`. |
-| `src/App.tsx` | Add `/terms` route (public, no auth required). |
-| `src/contexts/AuthContext.tsx` | Fetch user's latest `user_legal_acceptance` record. Expose `termsAccepted: boolean` and `termsVersion: string | null`. If terms version is outdated on login, redirect to a re-acceptance prompt. |
-| `src/components/ProtectedRoute.tsx` | If user has not accepted the current terms version (v1.0), show an inline consent modal before allowing access. |
+**3. Store reference notes in the question explanation field**
 
-### Terms Versioning Logic
+Since the `questions` table already has an `explanation` column, the detailed explanations with book references will be structured within that field. For now, the UI will parse and display the explanation, and add styled reference sections with book attribution headers even if the current explanation text is brief. The textbook reference sections will be rendered as distinct styled blocks.
 
-- Current version stored as a constant: `CURRENT_TERMS_VERSION = "v1.0"`
-- On each protected route load, if user's latest accepted version !== current version, a modal prompts re-acceptance
-- Accepting inserts a new row into `user_legal_acceptance`
+### Technical Approach
 
-### Copyright Banner
+- Add state: `reviewQuestionIndex: number | null` to track which question is being viewed in detail
+- When set, render a full-page explanation component instead of the results list
+- Structure the explanation page with:
+  - Question card with all options color-coded
+  - Explanation text (from DB)
+  - Three reference cards (AMC Handbook, Murtagh's, Tally O'Connor) with topic-relevant headers derived from the question's category
+- Use `framer-motion` for page transitions
+- All changes are in `src/pages/Practice.tsx` only — no new files needed
 
-The `LegalFooter` component includes the copyright notice: "All Zyntra content is protected under the Copyright Act 1968 (Cth). Unauthorized copying, redistribution, scraping, or sharing of content is prohibited." at 10px/0.75 opacity.
+### Files Modified
+- `src/pages/Practice.tsx` — refactor results phase to add clickable detail view with book reference sections
 
