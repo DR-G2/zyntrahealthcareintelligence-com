@@ -92,12 +92,20 @@ serve(async (req) => {
   );
 
   try {
+    // Allow service-role key auth (for internal tooling) OR admin user token
     const authHeader = req.headers.get("Authorization");
-    if (!authHeader) throw new Error("Unauthorized");
-    const token = authHeader.replace("Bearer ", "");
-    const { data: userData, error: userError } = await supabase.auth.getUser(token);
-    if (userError || userData.user?.email !== ADMIN_EMAIL) {
-      return new Response(JSON.stringify({ error: "Forbidden" }), { status: 403, headers: corsHeaders });
+    const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+    const token = authHeader?.replace("Bearer ", "");
+    
+    if (token === serviceRoleKey) {
+      // Service role access — proceed
+    } else if (authHeader) {
+      const { data: userData, error: userError } = await supabase.auth.getUser(token!);
+      if (userError || userData.user?.email !== ADMIN_EMAIL) {
+        return new Response(JSON.stringify({ error: "Forbidden" }), { status: 403, headers: corsHeaders });
+      }
+    } else {
+      return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401, headers: corsHeaders });
     }
 
     const summary: Record<string, number> = {
