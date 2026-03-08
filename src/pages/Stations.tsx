@@ -99,6 +99,7 @@ export default function Stations() {
 
   // Results
   const [results, setResults] = useState<any>(null);
+  const [lastAttemptId, setLastAttemptId] = useState<string | null>(null);
 
   // Session
   const sessionId = useRef(crypto.randomUUID());
