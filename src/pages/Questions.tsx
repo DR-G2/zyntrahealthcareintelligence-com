@@ -251,7 +251,7 @@ export default function Questions() {
   };
 
   const saveNote = async (qId: string) => {
-    if (!user) return;
+    if (!user || !gate.canAccessNotes) return;
     const existing = notes[qId];
 
     if (existing !== undefined) {
