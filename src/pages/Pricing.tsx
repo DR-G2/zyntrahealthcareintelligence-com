@@ -1,12 +1,17 @@
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Zap, Check, X, ArrowRight, MessageCircle, Shield, Clock, Star } from 'lucide-react';
+import { Zap, Check, X, ArrowRight, MessageCircle, Shield, Clock, Star, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Badge } from '@/components/ui/badge';
+import { useAuth } from '@/contexts/AuthContext';
+import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/lib/supabase';
+import { STRIPE_TIERS, type TierKey } from '@/lib/stripe-config';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
@@ -156,6 +161,34 @@ const faqGroups = [
 ];
 
 export default function Pricing() {
+  const { user, subscription } = useAuth();
+  const { toast } = useToast();
+  const navigate = useNavigate();
+  const [loadingTier, setLoadingTier] = useState<TierKey | null>(null);
+
+  const handleCheckout = async (tier: TierKey) => {
+    if (!user) {
+      navigate('/login');
+      return;
+    }
+    setLoadingTier(tier);
+    try {
+      const config = STRIPE_TIERS[tier];
+      const { data, error } = await supabase.functions.invoke('create-checkout', {
+        body: { priceId: config.price_id, mode: config.mode },
+      });
+      if (error) throw error;
+      if (data?.url) {
+        window.open(data.url, '_blank');
+      }
+    } catch (e: any) {
+      toast({ title: 'Checkout failed', description: e.message || 'Please try again', variant: 'destructive' });
+    }
+    setLoadingTier(null);
+  };
+
+  const isCurrentTier = (tier: string) => subscription.subscribed && subscription.tier === tier;
+
   return (
     <div className="min-h-screen bg-background">
       {/* Nav */}
@@ -416,8 +449,8 @@ export default function Pricing() {
                     ))}
                   </ul>
 
-                  <Button className="w-full" asChild>
-                    <Link to="/login">Start 7-Day Free Trial <ArrowRight className="h-4 w-4" /></Link>
+                  <Button className="w-full" onClick={() => handleCheckout('core')} disabled={loadingTier === 'core' || isCurrentTier('core')}>
+                    {isCurrentTier('core') ? 'Current Plan' : loadingTier === 'core' ? <><Loader2 className="h-4 w-4 animate-spin mr-2" />Processing...</> : <>Start 7-Day Free Trial <ArrowRight className="h-4 w-4" /></>}
                   </Button>
                   <p className="mt-3 text-center text-xs text-muted-foreground italic">
                     "Built this to cost less than one extra shift." — Founder, IMG, PGY1 (Aug 2025)
@@ -491,8 +524,8 @@ export default function Pricing() {
                     </p>
                   </div>
 
-                  <Button className="w-full" asChild>
-                    <Link to="/login">Start 7-Day Free Trial <ArrowRight className="h-4 w-4" /></Link>
+                  <Button className="w-full" onClick={() => handleCheckout('pro')} disabled={loadingTier === 'pro' || isCurrentTier('pro')}>
+                    {isCurrentTier('pro') ? 'Current Plan' : loadingTier === 'pro' ? <><Loader2 className="h-4 w-4 animate-spin mr-2" />Processing...</> : <>Start 7-Day Free Trial <ArrowRight className="h-4 w-4" /></>}
                   </Button>
                   <p className="mt-3 text-center text-xs text-muted-foreground italic">
                     "I'm using Pro myself for Clinical prep. It works." — Founder, sitting Clinical June 2025
@@ -532,8 +565,8 @@ export default function Pricing() {
                     "I wish I'd had this option. Instead I paid $50/month for 8 months, then paused, then paid again..."
                     — Founder, looking at old bank statements
                   </p>
-                  <Button variant="outline" className="w-full" asChild>
-                    <Link to="/login">Get Lifetime Access</Link>
+                  <Button variant="outline" className="w-full" onClick={() => handleCheckout('lifetime')} disabled={loadingTier === 'lifetime' || isCurrentTier('lifetime')}>
+                    {isCurrentTier('lifetime') ? 'Current Plan' : loadingTier === 'lifetime' ? <><Loader2 className="h-4 w-4 animate-spin mr-2" />Processing...</> : 'Get Lifetime Access'}
                   </Button>
                   <p className="mt-3 text-center text-xs text-muted-foreground">
                     Limited to 50 users so I can actually provide support.
