@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Zap, Brain, Clock, Target, BarChart3, ArrowRight } from 'lucide-react';
+import { Zap, Brain, Clock, Target, BarChart3, ArrowRight, Rss } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { LegalFooter } from '@/components/LegalFooter';
@@ -15,6 +15,11 @@ const features = [
     icon: Clock,
     title: 'Pressure Training',
     description: 'Timed drills and commitment exercises that simulate real exam conditions.',
+  },
+  {
+    icon: Rss,
+    title: 'Feed',
+    description: 'Paste any clinical content and instantly generate exam-style MCQ questions or OSCE stations.',
   },
   {
     icon: Target,
@@ -148,14 +153,15 @@ export default function Landing() {
             className="mb-16 text-center"
           >
             <h2 className="mb-4 text-3xl font-bold font-display">How It Works</h2>
-            <p className="text-muted-foreground text-lg">Four stages to exam readiness</p>
+            <p className="text-muted-foreground text-lg">Five stages to exam readiness</p>
           </motion.div>
-          <div className="mx-auto grid max-w-4xl gap-8 md:grid-cols-2">
+          <div className="mx-auto grid max-w-4xl gap-8 md:grid-cols-2 lg:grid-cols-3">
             {[
               { step: '01', title: 'Assess', desc: 'Take a timed diagnostic — we track every behavioral signal.' },
-              { step: '02', title: 'Identify', desc: 'AI generates your Performance Profile with stability and composure scores.' },
-              { step: '03', title: 'Adapt', desc: 'Get a personalized study plan targeting your specific failure patterns.' },
-              { step: '04', title: 'Build', desc: 'Train with pressure drills, speed rounds, and commitment exercises.' },
+              { step: '02', title: 'Feed', desc: 'Paste clinical content and generate targeted practice material instantly.' },
+              { step: '03', title: 'Identify', desc: 'AI generates your Performance Profile with stability and composure scores.' },
+              { step: '04', title: 'Adapt', desc: 'Get a personalized study plan targeting your specific failure patterns.' },
+              { step: '05', title: 'Build', desc: 'Train with pressure drills, speed rounds, and commitment exercises.' },
             ].map((s, i) => (
               <motion.div
                 key={s.step}

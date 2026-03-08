@@ -169,6 +169,36 @@ export type Database = {
         }
         Relationships: []
       }
+      feed_submissions: {
+        Row: {
+          content_text: string
+          created_at: string
+          feed_type: string
+          generated_content: Json
+          id: string
+          subject: string | null
+          user_id: string
+        }
+        Insert: {
+          content_text: string
+          created_at?: string
+          feed_type?: string
+          generated_content?: Json
+          id?: string
+          subject?: string | null
+          user_id: string
+        }
+        Update: {
+          content_text?: string
+          created_at?: string
+          feed_type?: string
+          generated_content?: Json
+          id?: string
+          subject?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       manual_overrides: {
         Row: {
           expires_at: string | null

@@ -2,7 +2,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import {
   ClipboardCheck, BookOpen, Calendar, Settings, Zap, UserCircle, LogOut, Brain,
   Target, Activity, ChevronRight, Shield, Stethoscope, PanelLeftClose, PanelLeft,
-  MessageCircle, Users, Share2, AlertCircle,
+  MessageCircle, Users, Share2, AlertCircle, Rss,
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { ThemeToggle } from '@/components/ThemeToggle';
@@ -45,13 +45,12 @@ const navGroups: NavGroup[] = [
           { to: '/questions/osce', label: 'OSCE', icon: Stethoscope },
         ],
       },
-      { to: '/review', label: 'Mistake Review', icon: AlertCircle },
-      { to: '/trust-your-gut', label: 'Trust Your Gut', icon: Target },
     ],
   },
   {
-    label: 'Analytics',
+    label: 'APPE',
     items: [
+      { to: '/feed', label: 'Feed', icon: Rss },
       {
         label: 'Diagnostic', icon: ClipboardCheck,
         children: [
@@ -61,6 +60,8 @@ const navGroups: NavGroup[] = [
       },
       { to: '/profile', label: 'Performance', icon: UserCircle },
       { to: '/behavior', label: 'Behavior', icon: Brain },
+      { to: '/trust-your-gut', label: 'Trust Your Gut', icon: Target },
+      { to: '/review', label: 'Mistake Review', icon: AlertCircle },
     ],
   },
   {
