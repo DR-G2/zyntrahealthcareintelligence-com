@@ -5,6 +5,7 @@ import { AppLayout } from '@/components/AppLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
+import { Button } from '@/components/ui/button';
 import {
   Target,
   Calendar,
@@ -13,8 +14,11 @@ import {
   AlertTriangle,
   CheckCircle2,
   Clock,
+  Sparkles,
+  Loader2,
 } from 'lucide-react';
-import { differenceInDays, format, addDays } from 'date-fns';
+import { differenceInDays } from 'date-fns';
+import { toast } from 'sonner';
 
 interface PerformanceProfile {
   readiness_score: number | null;
@@ -32,7 +36,30 @@ interface CategoryStat {
   priority: 'high' | 'medium' | 'maintain';
 }
 
-const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+interface AIFocusArea {
+  category: string;
+  priority: string;
+  daily_questions: number;
+  study_tip: string;
+}
+
+interface AIScheduleDay {
+  day: string;
+  total_questions: number;
+  topics: { category: string; count: number; focus_note: string }[];
+}
+
+interface AIRecommendation {
+  tip: string;
+  reason: string;
+}
+
+interface AIPlan {
+  focus_areas: AIFocusArea[];
+  weekly_schedule: AIScheduleDay[];
+  recommendations: AIRecommendation[];
+  motivation: string;
+}
 
 function getReadinessLabel(score: number): { label: string; color: string } {
   if (score >= 80) return { label: 'Exam Ready', color: 'text-green-500' };
@@ -46,12 +73,14 @@ export default function StudyPlan() {
   const [perfProfile, setPerfProfile] = useState<PerformanceProfile | null>(null);
   const [categoryStats, setCategoryStats] = useState<CategoryStat[]>([]);
   const [loading, setLoading] = useState(true);
+  const [aiPlan, setAiPlan] = useState<AIPlan | null>(null);
+  const [generating, setGenerating] = useState(false);
 
   useEffect(() => {
     if (!user) return;
 
     const fetchData = async () => {
-      const [perfRes, attemptsRes] = await Promise.all([
+      const [perfRes, attemptsRes, planRes] = await Promise.all([
         supabase
           .from('performance_profiles')
           .select('readiness_score, clinical_accuracy, stability_score, time_sensitivity, confidence_gap')
@@ -61,11 +90,25 @@ export default function StudyPlan() {
           .from('user_attempts')
           .select('is_correct, questions(category)')
           .eq('user_id', user.id),
+        supabase
+          .from('study_plans')
+          .select('tasks')
+          .eq('user_id', user.id)
+          .order('generated_at', { ascending: false })
+          .limit(1)
+          .maybeSingle(),
       ]);
 
       if (perfRes.data) setPerfProfile(perfRes.data);
 
-      // Build category stats
+      // Load cached AI plan
+      if (planRes.data?.tasks) {
+        try {
+          const cached = planRes.data.tasks as unknown as AIPlan;
+          if (cached.weekly_schedule && cached.recommendations) setAiPlan(cached);
+        } catch { /* ignore bad data */ }
+      }
+
       const catMap = new Map<string, { correct: number; total: number }>();
       (attemptsRes.data || []).forEach((a: any) => {
         const cat = a.questions?.category || 'Unknown';
@@ -94,54 +137,40 @@ export default function StudyPlan() {
     return differenceInDays(new Date(profile.exam_date), new Date());
   }, [profile?.exam_date]);
 
-  const weeklySchedule = useMemo(() => {
-    const highPriority = categoryStats.filter((c) => c.priority === 'high');
-    const medPriority = categoryStats.filter((c) => c.priority === 'medium');
-    const allFocus = [...highPriority, ...medPriority];
-    if (allFocus.length === 0) return [];
+  const generateAIPlan = async () => {
+    if (!user || generating) return;
+    setGenerating(true);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      const resp = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/generate-study-plan`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${session?.access_token || import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+        },
+        body: JSON.stringify({
+          categoryStats,
+          perfProfile,
+          examDate: profile?.exam_date,
+          daysUntilExam,
+          weakAreas: profile?.weak_areas,
+        }),
+      });
 
-    return DAYS.map((day, i) => {
-      const isWeekend = i >= 5;
-      const dailyCount = isWeekend ? 30 : 20;
-      const topics: { category: string; count: number }[] = [];
-
-      if (allFocus.length === 1) {
-        topics.push({ category: allFocus[0].category, count: dailyCount });
-      } else {
-        // Rotate through focus areas, heavier on high priority
-        const idx = i % allFocus.length;
-        const primary = allFocus[idx];
-        const secondary = allFocus[(idx + 1) % allFocus.length];
-        const primaryCount = primary.priority === 'high' ? Math.ceil(dailyCount * 0.6) : Math.ceil(dailyCount * 0.5);
-        topics.push({ category: primary.category, count: primaryCount });
-        topics.push({ category: secondary.category, count: dailyCount - primaryCount });
+      if (!resp.ok) {
+        const err = await resp.json().catch(() => ({ error: 'Failed to generate plan' }));
+        throw new Error(err.error);
       }
 
-      return { day, totalQuestions: dailyCount, topics };
-    });
-  }, [categoryStats]);
-
-  const recommendations = useMemo(() => {
-    const tips: { icon: typeof AlertTriangle; text: string }[] = [];
-    if (!perfProfile) return tips;
-
-    if ((perfProfile.stability_score ?? 100) < 60) {
-      tips.push({ icon: AlertTriangle, text: 'Your answer stability is low. Practice in "No Change" mode to build decisiveness.' });
+      const plan = await resp.json();
+      setAiPlan(plan);
+      toast.success('AI study plan generated!');
+    } catch (e: any) {
+      toast.error(e.message || 'Failed to generate study plan');
+    } finally {
+      setGenerating(false);
     }
-    if ((perfProfile.time_sensitivity ?? 100) < 60) {
-      tips.push({ icon: Clock, text: 'You tend to spend too long on questions. Do timed drills with strict limits.' });
-    }
-    if ((perfProfile.confidence_gap ?? 0) > 30) {
-      tips.push({ icon: Target, text: 'There\'s a big gap between your strongest and weakest categories. Focus on levelling up weak areas.' });
-    }
-    if ((perfProfile.clinical_accuracy ?? 0) < 50) {
-      tips.push({ icon: TrendingUp, text: 'Clinical accuracy needs work. Review explanations carefully after each session.' });
-    }
-    if (tips.length === 0) {
-      tips.push({ icon: CheckCircle2, text: 'Keep up the good work! Maintain your practice consistency.' });
-    }
-    return tips;
-  }, [perfProfile]);
+  };
 
   if (loading) {
     return (
@@ -159,14 +188,32 @@ export default function StudyPlan() {
   return (
     <AppLayout>
       <div className="mx-auto max-w-5xl space-y-8">
-        <div>
-          <h1 className="text-3xl font-bold font-display">Study Plan</h1>
-          <p className="text-muted-foreground">
-            {daysUntilExam !== null && daysUntilExam > 0
-              ? `${daysUntilExam} days until your exam`
-              : 'Set your exam date in Settings to see a countdown'}
-          </p>
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold font-display">Study Plan</h1>
+            <p className="text-muted-foreground">
+              {daysUntilExam !== null && daysUntilExam > 0
+                ? `${daysUntilExam} days until your exam`
+                : 'Set your exam date in Settings to see a countdown'}
+            </p>
+          </div>
+          <Button onClick={generateAIPlan} disabled={generating || categoryStats.length === 0} className="gap-2">
+            {generating ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
+            {aiPlan ? 'Regenerate AI Plan' : 'Generate AI Plan'}
+          </Button>
         </div>
+
+        {/* AI Motivation */}
+        {aiPlan?.motivation && (
+          <Card className="border-primary/20 bg-primary/5">
+            <CardContent className="py-4">
+              <div className="flex items-start gap-3">
+                <Sparkles className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                <p className="text-sm font-medium">{aiPlan.motivation}</p>
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Readiness Summary */}
         <Card>
@@ -196,61 +243,81 @@ export default function StudyPlan() {
           </CardContent>
         </Card>
 
-        {/* Focus Areas */}
-        {categoryStats.length > 0 && (
+        {/* AI Focus Areas or Data-driven */}
+        {(aiPlan?.focus_areas || categoryStats.length > 0) && (
           <Card>
             <CardHeader className="pb-3">
               <CardTitle className="font-display flex items-center gap-2">
                 <Target className="h-5 w-5 text-primary" /> Focus Areas
+                {aiPlan?.focus_areas && <Badge variant="secondary" className="text-xs gap-1"><Sparkles className="h-3 w-3" /> AI</Badge>}
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
-                {categoryStats.map((cat) => (
-                  <div key={cat.category} className="flex items-center justify-between gap-4">
+                {(aiPlan?.focus_areas || categoryStats).map((item: any) => (
+                  <div key={item.category} className="flex items-center justify-between gap-4">
                     <div className="flex items-center gap-3 min-w-0 flex-1">
                       <Badge
-                        variant={cat.priority === 'high' ? 'destructive' : cat.priority === 'medium' ? 'secondary' : 'outline'}
+                        variant={item.priority === 'high' ? 'destructive' : item.priority === 'medium' ? 'secondary' : 'outline'}
                         className="shrink-0 text-xs"
                       >
-                        {cat.priority === 'high' ? 'High' : cat.priority === 'medium' ? 'Medium' : 'Maintain'}
+                        {item.priority === 'high' ? 'High' : item.priority === 'medium' ? 'Medium' : 'Maintain'}
                       </Badge>
-                      <span className="text-sm font-medium truncate">{cat.category}</span>
+                      <span className="text-sm font-medium truncate">{item.category}</span>
                     </div>
                     <div className="flex items-center gap-3 shrink-0">
-                      <Progress value={cat.accuracy} className="h-2 w-24" />
-                      <span className="text-sm text-muted-foreground w-10 text-right">{cat.accuracy}%</span>
+                      {item.accuracy !== undefined && (
+                        <>
+                          <Progress value={item.accuracy} className="h-2 w-24" />
+                          <span className="text-sm text-muted-foreground w-10 text-right">{item.accuracy}%</span>
+                        </>
+                      )}
+                      {item.daily_questions && (
+                        <span className="text-xs text-muted-foreground">{item.daily_questions}q/day</span>
+                      )}
                     </div>
                   </div>
                 ))}
+                {aiPlan?.focus_areas && aiPlan.focus_areas.some(f => f.study_tip) && (
+                  <div className="mt-4 space-y-2">
+                    {aiPlan.focus_areas.filter(f => f.study_tip).map((f, i) => (
+                      <div key={i} className="text-xs text-muted-foreground bg-muted/50 rounded-lg p-2">
+                        <strong>{f.category}:</strong> {f.study_tip}
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>
         )}
 
         {/* Weekly Schedule */}
-        {weeklySchedule.length > 0 && (
+        {aiPlan?.weekly_schedule && aiPlan.weekly_schedule.length > 0 && (
           <Card>
             <CardHeader className="pb-3">
               <CardTitle className="font-display flex items-center gap-2">
                 <Calendar className="h-5 w-5 text-primary" /> Weekly Schedule
+                <Badge variant="secondary" className="text-xs gap-1"><Sparkles className="h-3 w-3" /> AI</Badge>
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                {weeklySchedule.map((day) => (
-                  <div
-                    key={day.day}
-                    className="rounded-lg border border-border bg-muted/30 p-3 space-y-2"
-                  >
+                {aiPlan.weekly_schedule.map((day) => (
+                  <div key={day.day} className="rounded-lg border border-border bg-muted/30 p-3 space-y-2">
                     <div className="flex items-center justify-between">
                       <span className="text-sm font-semibold">{day.day}</span>
-                      <span className="text-xs text-muted-foreground">{day.totalQuestions} Qs</span>
+                      <span className="text-xs text-muted-foreground">{day.total_questions} Qs</span>
                     </div>
                     {day.topics.map((t) => (
-                      <div key={t.category} className="flex items-center justify-between text-xs">
-                        <span className="text-muted-foreground truncate">{t.category}</span>
-                        <span className="font-medium">{t.count}</span>
+                      <div key={t.category} className="space-y-0.5">
+                        <div className="flex items-center justify-between text-xs">
+                          <span className="text-muted-foreground truncate">{t.category}</span>
+                          <span className="font-medium">{t.count}</span>
+                        </div>
+                        {t.focus_note && (
+                          <p className="text-[10px] text-muted-foreground/70 italic">{t.focus_note}</p>
+                        )}
                       </div>
                     ))}
                   </div>
@@ -260,21 +327,32 @@ export default function StudyPlan() {
           </Card>
         )}
 
-        {/* Recommended Actions */}
+        {/* AI Recommendations or Static */}
         <Card>
           <CardHeader className="pb-3">
             <CardTitle className="font-display flex items-center gap-2">
               <Lightbulb className="h-5 w-5 text-primary" /> Recommended Actions
+              {aiPlan?.recommendations && <Badge variant="secondary" className="text-xs gap-1"><Sparkles className="h-3 w-3" /> AI</Badge>}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
-              {recommendations.map((rec, i) => (
-                <div key={i} className="flex items-start gap-3 text-sm">
-                  <rec.icon className="h-4 w-4 mt-0.5 text-muted-foreground shrink-0" />
-                  <span>{rec.text}</span>
+              {aiPlan?.recommendations ? (
+                aiPlan.recommendations.map((rec, i) => (
+                  <div key={i} className="flex items-start gap-3 text-sm">
+                    <Lightbulb className="h-4 w-4 mt-0.5 text-primary shrink-0" />
+                    <div>
+                      <p className="font-medium">{rec.tip}</p>
+                      <p className="text-xs text-muted-foreground mt-0.5">{rec.reason}</p>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="flex items-start gap-3 text-sm">
+                  <CheckCircle2 className="h-4 w-4 mt-0.5 text-muted-foreground shrink-0" />
+                  <span>Complete practice sessions to get AI-powered recommendations.</span>
                 </div>
-              ))}
+              )}
             </div>
           </CardContent>
         </Card>

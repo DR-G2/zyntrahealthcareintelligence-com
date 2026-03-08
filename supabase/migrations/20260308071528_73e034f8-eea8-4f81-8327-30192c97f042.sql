@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX IF NOT EXISTS study_plans_user_id_unique ON public.study_plans (user_id);

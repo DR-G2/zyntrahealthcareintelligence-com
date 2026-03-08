@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ChevronLeft, ChevronDown, ChevronUp, CheckCircle, XCircle, BookOpen, Stethoscope, ClipboardList, FlaskConical, Pill, AlertCircle, Lightbulb } from 'lucide-react';
+import { ChevronLeft, ChevronDown, ChevronUp, CheckCircle, XCircle, BookOpen, Stethoscope, ClipboardList, FlaskConical, Pill, AlertCircle, Lightbulb, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -40,6 +40,7 @@ interface QuestionExplanationProps {
   userAnswer: string | undefined;
   questionIndex: number;
   onBack: () => void;
+  onAskStudyBuddy?: (question: Question) => void;
 }
 
 const bookReferences = [
@@ -72,7 +73,7 @@ const bookReferences = [
   },
 ];
 
-export function QuestionExplanation({ question, userAnswer, questionIndex, onBack }: QuestionExplanationProps) {
+export function QuestionExplanation({ question, userAnswer, questionIndex, onBack, onAskStudyBuddy }: QuestionExplanationProps) {
   const isCorrect = userAnswer === question.correct_answer;
   const options = question.options as string[];
   const [openDiffs, setOpenDiffs] = useState<Record<number, boolean>>({});
@@ -91,9 +92,16 @@ export function QuestionExplanation({ question, userAnswer, questionIndex, onBac
       transition={{ duration: 0.25 }}
       className="mx-auto max-w-3xl py-8 space-y-6"
     >
-      <Button variant="ghost" onClick={onBack} className="gap-1 mb-2">
-        <ChevronLeft className="h-4 w-4" /> Back to Results
-      </Button>
+      <div className="flex items-center justify-between mb-2">
+        <Button variant="ghost" onClick={onBack} className="gap-1">
+          <ChevronLeft className="h-4 w-4" /> Back to Results
+        </Button>
+        {onAskStudyBuddy && (
+          <Button variant="outline" size="sm" onClick={() => onAskStudyBuddy(question)} className="gap-1.5">
+            <MessageCircle className="h-4 w-4" /> Ask Study Buddy
+          </Button>
+        )}
+      </div>
 
       {/* Question header */}
       <Card>
