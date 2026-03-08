@@ -1,8 +1,7 @@
 // Razorpay product/plan configuration for Zyntra tiers
-// Replace plan_id values with your actual Razorpay plan IDs from the dashboard
 export const RAZORPAY_TIERS = {
   mcq_only: {
-    plan_id: 'plan_PLACEHOLDER_MCQ_MONTHLY',
+    plan_id: 'plan_SOsMQofBcfw3BU',
     mode: 'subscription' as const,
     name: 'MCQ Only',
     price: 39,
@@ -10,7 +9,7 @@ export const RAZORPAY_TIERS = {
     interval: 'month',
   },
   mcq_only_3m: {
-    plan_id: 'plan_PLACEHOLDER_MCQ_3M',
+    plan_id: 'plan_SOsNlReb9DLlAw',
     mode: 'subscription' as const,
     name: 'MCQ Only (3 months)',
     price: 109,
@@ -18,7 +17,7 @@ export const RAZORPAY_TIERS = {
     interval: '3 months',
   },
   osce_only: {
-    plan_id: 'plan_PLACEHOLDER_OSCE_MONTHLY',
+    plan_id: 'plan_SOsOO6jO9w1WOH',
     mode: 'subscription' as const,
     name: 'OSCE Only',
     price: 39,
@@ -26,7 +25,7 @@ export const RAZORPAY_TIERS = {
     interval: 'month',
   },
   osce_only_3m: {
-    plan_id: 'plan_PLACEHOLDER_OSCE_3M',
+    plan_id: 'plan_SOsOwdvVugEsde',
     mode: 'subscription' as const,
     name: 'OSCE Only (3 months)',
     price: 109,
@@ -34,7 +33,7 @@ export const RAZORPAY_TIERS = {
     interval: '3 months',
   },
   full_access: {
-    plan_id: 'plan_PLACEHOLDER_FULL_MONTHLY',
+    plan_id: 'plan_SOsQDhBQkgyFfr',
     mode: 'subscription' as const,
     name: 'Full Access',
     price: 59,
@@ -42,7 +41,7 @@ export const RAZORPAY_TIERS = {
     interval: 'month',
   },
   full_access_3m: {
-    plan_id: 'plan_PLACEHOLDER_FULL_3M',
+    plan_id: 'plan_SOsR9Hjy6UHpNG',
     mode: 'subscription' as const,
     name: 'Full Access (3 months)',
     price: 169,
@@ -61,12 +60,12 @@ export const RAZORPAY_TIERS = {
 
 // Plan ID → tier mapping (for subscription verification)
 export const PLAN_TIER_MAP: Record<string, string> = {
-  'plan_PLACEHOLDER_MCQ_MONTHLY': 'mcq_only',
-  'plan_PLACEHOLDER_MCQ_3M': 'mcq_only',
-  'plan_PLACEHOLDER_OSCE_MONTHLY': 'osce_only',
-  'plan_PLACEHOLDER_OSCE_3M': 'osce_only',
-  'plan_PLACEHOLDER_FULL_MONTHLY': 'full_access',
-  'plan_PLACEHOLDER_FULL_3M': 'full_access',
+  'plan_SOsMQofBcfw3BU': 'mcq_only',
+  'plan_SOsNlReb9DLlAw': 'mcq_only',
+  'plan_SOsOO6jO9w1WOH': 'osce_only',
+  'plan_SOsOwdvVugEsde': 'osce_only',
+  'plan_SOsQDhBQkgyFfr': 'full_access',
+  'plan_SOsR9Hjy6UHpNG': 'full_access',
 };
 
 export type TierKey = keyof typeof RAZORPAY_TIERS;
