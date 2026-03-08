@@ -71,6 +71,12 @@ export default function SharedTests() {
     );
   };
 
+  const toggleSubject = (sub: string) => {
+    setSelectedSubjects(prev =>
+      prev.includes(sub) ? prev.filter(s => s !== sub) : [...prev, sub]
+    );
+  };
+
   const loadTests = async () => {
     if (!user) return;
     setLoading(true);
