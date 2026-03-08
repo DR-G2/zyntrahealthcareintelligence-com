@@ -139,13 +139,16 @@ export default function SharedTests() {
       toast.error('Please select at least one topic');
       return;
     }
+    if (testType === 'osce' && selectedSubjects.length === 0) {
+      toast.error('Please select at least one subject');
+      return;
+    }
     setCreating(true);
 
     const code = generateCode();
-    const config = {
-      question_count: parseInt(questionCount),
-      categories: selectedCategories,
-    };
+    const config = testType === 'mcq'
+      ? { question_count: parseInt(questionCount), categories: selectedCategories }
+      : { subjects: selectedSubjects };
     const { data: test, error } = await supabase
       .from('shared_tests')
       .insert({ code, created_by: user.id, test_type: testType, config })
