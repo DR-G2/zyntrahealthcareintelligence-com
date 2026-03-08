@@ -204,8 +204,8 @@ function SetupScreen({ onStart }: { onStart: (config: SessionConfig) => void }) 
           <p className="text-muted-foreground">Configure your session and start practising</p>
         </div>
 
-        {!useFeatureGateStatic().canUseMCQ && (
-          <UpgradePrompt feature="Daily MCQ Limit Reached" description={`You've used ${useFeatureGateStatic().mcqUsedToday}/${useFeatureGateStatic().mcqDailyLimit} free MCQs today. Upgrade for unlimited practice.`} variant="banner" />
+        {!gate.canUseMCQ && (
+          <UpgradePrompt feature="Daily MCQ Limit Reached" description={`You've used ${gate.mcqUsedToday}/${gate.mcqDailyLimit} free MCQs today. Upgrade for unlimited practice.`} variant="banner" />
         )}
 
         <OnboardingTooltip
