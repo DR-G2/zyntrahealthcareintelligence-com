@@ -47,6 +47,10 @@ export default function Feed() {
   const [osceResult, setOsceResult] = useState<OSCEStation | null>(null);
   const [selectedAnswers, setSelectedAnswers] = useState<Record<number, string>>({});
   const [revealedAnswers, setRevealedAnswers] = useState<Record<number, boolean>>({});
+  const [savingMcq, setSavingMcq] = useState(false);
+  const [savedMcq, setSavedMcq] = useState(false);
+  const [savingOsce, setSavingOsce] = useState(false);
+  const [savedOsce, setSavedOsce] = useState(false);
 
   if (!gate.canAccessAnalytics) {
     return (
