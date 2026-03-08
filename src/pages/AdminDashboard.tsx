@@ -105,7 +105,7 @@ function UsersTab() {
                   </TableCell>
                   <TableCell>
                     {u.subscription ? (
-                      <Badge variant="outline" className="text-green-600 border-green-600">Active</Badge>
+                      <Badge variant="outline" className="text-primary border-primary">Active</Badge>
                     ) : '—'}
                   </TableCell>
                   <TableCell className="text-xs">
