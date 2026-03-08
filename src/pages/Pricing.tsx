@@ -11,7 +11,7 @@ import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/lib/supabase';
-import { STRIPE_TIERS, type TierKey } from '@/lib/stripe-config';
+import { RAZORPAY_TIERS, type TierKey } from '@/lib/razorpay-config';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
@@ -87,21 +87,87 @@ export default function Pricing() {
   const navigate = useNavigate();
   const [loadingTier, setLoadingTier] = useState<TierKey | null>(null);
 
-  const handleCheckout = async (tier: TierKey) => {
+  const loadRazorpayScript = (): Promise<void> => {
+    return new Promise((resolve, reject) => {
+      if (document.querySelector('script[src="https://checkout.razorpay.com/v1/checkout.js"]')) {
+        resolve();
+        return;
+      }
+      const script = document.createElement('script');
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      script.onload = () => resolve();
+      script.onerror = () => reject(new Error('Failed to load Razorpay SDK'));
+      document.body.appendChild(script);
+    });
+  };
+
+  const handleCheckout = async (tierKey: TierKey) => {
     if (!user) {
       navigate('/login');
       return;
     }
-    setLoadingTier(tier);
+    setLoadingTier(tierKey);
     try {
-      const config = STRIPE_TIERS[tier];
-      const { data, error } = await supabase.functions.invoke('create-checkout', {
-        body: { priceId: config.price_id, mode: config.mode },
+      await loadRazorpayScript();
+      const config = RAZORPAY_TIERS[tierKey];
+
+      // Determine the tier name for storage (strip _3m suffix)
+      const baseTier = tierKey.replace('_3m', '');
+
+      const { data, error } = await supabase.functions.invoke('create-razorpay-order', {
+        body: {
+          planId: config.plan_id || undefined,
+          mode: config.mode,
+          tier: baseTier,
+          amount: config.price,
+        },
       });
       if (error) throw error;
-      if (data?.url) {
-        window.open(data.url, '_blank');
+      if (data?.error) throw new Error(data.error);
+
+      const options: any = {
+        key: data.key_id,
+        name: 'Zyntra',
+        description: config.name,
+        handler: async (response: any) => {
+          // Verify payment
+          try {
+            const verifyBody: any = {
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+              tier: baseTier,
+              amount: config.price,
+            };
+            if (data.order_id) {
+              verifyBody.razorpay_order_id = data.order_id;
+            }
+            if (data.subscription_id) {
+              verifyBody.razorpay_subscription_id = response.razorpay_subscription_id || data.subscription_id;
+            }
+            const { error: verifyError } = await supabase.functions.invoke('verify-razorpay-payment', {
+              body: verifyBody,
+            });
+            if (verifyError) throw verifyError;
+            toast({ title: 'Payment successful!', description: 'Your subscription is now active.' });
+            navigate('/dashboard?payment=success');
+          } catch (vErr: any) {
+            toast({ title: 'Payment verification failed', description: vErr.message, variant: 'destructive' });
+          }
+        },
+        prefill: { email: user.email },
+        theme: { color: '#6366f1' },
+      };
+
+      if (data.subscription_id) {
+        options.subscription_id = data.subscription_id;
+      } else if (data.order_id) {
+        options.order_id = data.order_id;
+        options.amount = data.amount;
+        options.currency = data.currency;
       }
+
+      const rzp = new (window as any).Razorpay(options);
+      rzp.open();
     } catch (e: any) {
       toast({ title: 'Checkout failed', description: e.message || 'Please try again', variant: 'destructive' });
     }

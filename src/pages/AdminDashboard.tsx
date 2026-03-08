@@ -107,7 +107,7 @@ function UsersTab() {
   };
 
   const downloadCSV = () => {
-    const headers = ['Email', 'Name', 'Tier', 'Manual Override', 'Stripe Status', 'Override Expires', 'Joined'];
+    const headers = ['Email', 'Name', 'Tier', 'Manual Override', 'Payment Status', 'Override Expires', 'Joined'];
     const rows = filtered.map(u => {
       const t = getUserTier(u);
       return [
