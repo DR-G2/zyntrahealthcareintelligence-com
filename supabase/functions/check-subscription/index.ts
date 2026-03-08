@@ -12,16 +12,22 @@ const logStep = (step: string, details?: any) => {
   console.log(`[CHECK-SUBSCRIPTION] ${step}${detailsStr}`);
 };
 
-// All product IDs that grant full/paid access
-const PAID_PRODUCTS = new Set([
-  "prod_U6yxXHRvDd4Ez8",  // Full Access monthly
-  "prod_U6yy9VWpyT13u1",  // Full Access 3-month
-  "prod_U6sMkFKlyQoIuh",  // Lifetime
-  "prod_U6sKBIdCnUC1WH",  // Legacy Core
-  "prod_U6sKziBbluGb0Q",  // Legacy Pro
-]);
-
-const LIFETIME_PRODUCT = "prod_U6sMkFKlyQoIuh";
+// Product ID → tier mapping
+const PRODUCT_TIER_MAP: Record<string, string> = {
+  'prod_U6zJQt8jlti5si': 'mcq_only',
+  'prod_U6zKnCYIVwHDwb': 'mcq_only',
+  'prod_U6zKZcaEJfbQQ5': 'osce_only',
+  'prod_U6zKcaN9wFpuNg': 'osce_only',
+  'prod_U6zKrKxtp16K7W': 'full_access',
+  'prod_U6zKGMBtlFy4Oz': 'full_access',
+  'prod_U6zK1OPYlEhP7U': 'lifetime',
+  // Legacy
+  'prod_U6yxXHRvDd4Ez8': 'full_access',
+  'prod_U6yy9VWpyT13u1': 'full_access',
+  'prod_U6sMkFKlyQoIuh': 'lifetime',
+  'prod_U6sKBIdCnUC1WH': 'full_access',
+  'prod_U6sKziBbluGb0Q': 'full_access',
+};
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -37,9 +43,6 @@ serve(async (req) => {
   try {
     logStep("Function started");
 
-    const stripeKey = Deno.env.get("STRIPE_SECRET_KEY");
-    if (!stripeKey) throw new Error("STRIPE_SECRET_KEY is not set");
-
     const authHeader = req.headers.get("Authorization");
     if (!authHeader) throw new Error("No authorization header provided");
 
@@ -49,6 +52,34 @@ serve(async (req) => {
     const user = userData.user;
     if (!user?.email) throw new Error("User not authenticated or email not available");
     logStep("User authenticated", { email: user.email });
+
+    // 1. Check manual overrides first
+    const { data: override } = await supabaseClient
+      .from("manual_overrides")
+      .select("*")
+      .eq("user_id", user.id)
+      .maybeSingle();
+
+    if (override) {
+      const isExpired = override.expires_at && new Date(override.expires_at) < new Date();
+      if (!isExpired) {
+        logStep("Manual override found", { tier: override.tier });
+        return new Response(JSON.stringify({
+          subscribed: true,
+          tier: override.tier,
+          product_id: null,
+          subscription_end: override.expires_at,
+          manual_override: true,
+        }), {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+          status: 200,
+        });
+      }
+    }
+
+    // 2. Check Stripe
+    const stripeKey = Deno.env.get("STRIPE_SECRET_KEY");
+    if (!stripeKey) throw new Error("STRIPE_SECRET_KEY is not set");
 
     const stripe = new Stripe(stripeKey, { apiVersion: "2025-08-27.basil" });
     const customers = await stripe.customers.list({ email: user.email, limit: 1 });
@@ -75,9 +106,7 @@ serve(async (req) => {
       const sub = subscriptions.data[0];
       const productId = sub.items.data[0].price.product as string;
       const subscriptionEnd = new Date(sub.current_period_end * 1000).toISOString();
-      
-      // All paid subscriptions map to "full_access" tier
-      const tier = PAID_PRODUCTS.has(productId) ? "full_access" : "full_access";
+      const tier = PRODUCT_TIER_MAP[productId] || "full_access";
       logStep("Active subscription", { tier, productId });
 
       return new Response(JSON.stringify({
@@ -106,7 +135,7 @@ serve(async (req) => {
       return new Response(JSON.stringify({
         subscribed: true,
         tier: "lifetime",
-        product_id: LIFETIME_PRODUCT,
+        product_id: "prod_U6zK1OPYlEhP7U",
         subscription_end: null,
       }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },

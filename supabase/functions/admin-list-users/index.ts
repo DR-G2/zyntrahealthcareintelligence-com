@@ -35,6 +35,13 @@ serve(async (req) => {
       .select("id, email, name, created_at, onboarding_complete, exam_date, user_type");
     if (profilesError) throw profilesError;
 
+    // Get manual overrides
+    const { data: overrides } = await supabase.from("manual_overrides").select("*");
+    const overrideMap: Record<string, any> = {};
+    for (const o of overrides || []) {
+      overrideMap[o.user_id] = o;
+    }
+
     // Get subscription info from Stripe
     const stripeKey = Deno.env.get("STRIPE_SECRET_KEY");
     let subscriptionMap: Record<string, any> = {};
@@ -48,6 +55,7 @@ serve(async (req) => {
         if (customer.email) {
           subscriptionMap[customer.email] = {
             tier: sub.items.data[0]?.price?.id || "unknown",
+            product_id: sub.items.data[0]?.price?.product || null,
             status: sub.status,
             current_period_start: new Date(sub.current_period_start * 1000).toISOString(),
             current_period_end: new Date(sub.current_period_end * 1000).toISOString(),
@@ -59,6 +67,7 @@ serve(async (req) => {
     const users = (profiles || []).map((p: any) => ({
       ...p,
       subscription: subscriptionMap[p.email] || null,
+      override: overrideMap[p.id] || null,
     }));
 
     return new Response(JSON.stringify({ users }), {

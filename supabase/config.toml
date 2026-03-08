@@ -31,3 +31,5 @@ project_id = "yudkfmgilucyhukfggij"
     verify_jwt = false
   [functions.admin-manage-stations]
     verify_jwt = false
+  [functions.admin-grant-access]
+    verify_jwt = false
