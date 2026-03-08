@@ -363,34 +363,77 @@ export default function Pricing() {
             whileInView="show"
             viewport={{ once: true }}
             variants={stagger}
-            className="mx-auto grid max-w-5xl gap-6 md:grid-cols-3"
+            className="mx-auto grid max-w-6xl gap-5 md:grid-cols-5"
           >
             {/* FREE */}
             <motion.div variants={fadeUp}>
               <Card className="h-full flex flex-col border-border">
-                <CardHeader>
-                  <CardTitle className="text-xl">Free</CardTitle>
-                  <p className="text-sm text-muted-foreground">Try Before You Commit</p>
-                  <p className="mt-4 text-4xl font-bold font-display">$0</p>
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg">Free</CardTitle>
+                  <p className="text-xs text-muted-foreground">Try Before You Commit</p>
+                  <p className="mt-3 text-3xl font-bold font-display">$0</p>
                 </CardHeader>
                 <CardContent className="flex-1 flex flex-col">
-                  <ul className="mb-8 space-y-3 flex-1">
-                    {[
-                      '20 MCQs per day',
-                      '1 OSCE station per day',
-                      'Limited question bank (200 questions)',
-                      'Basic analytics',
-                      'AI companion (5 prompts/day)',
-                    ].map((f) => (
-                      <li key={f} className="flex gap-2 text-sm">
-                        <Check className="h-4 w-4 mt-0.5 text-secondary shrink-0" />
-                        <span>{f}</span>
-                      </li>
+                  <ul className="mb-6 space-y-2 flex-1">
+                    {['20 MCQs/day', '1 OSCE/day', '200 question bank', 'Basic analytics', '5 AI prompts/day'].map((f) => (
+                      <li key={f} className="flex gap-2 text-xs"><Check className="h-3.5 w-3.5 mt-0.5 text-secondary shrink-0" /><span>{f}</span></li>
                     ))}
                   </ul>
-                  <Button variant="outline" className="w-full" asChild>
-                    <Link to="/dashboard">Start Free</Link>
-                  </Button>
+                  <Button variant="outline" size="sm" className="w-full" asChild><Link to="/dashboard">Start Free</Link></Button>
+                </CardContent>
+              </Card>
+            </motion.div>
+
+            {/* MCQ ONLY */}
+            <motion.div variants={fadeUp}>
+              <Card className="h-full flex flex-col border-border">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg">MCQ Only</CardTitle>
+                  <p className="text-xs text-muted-foreground">Unlimited MCQ Practice</p>
+                  <div className="mt-3"><span className="text-3xl font-bold font-display">$39</span><span className="text-muted-foreground text-sm">/mo</span></div>
+                  <p className="text-xs text-muted-foreground">or $109/3mo</p>
+                </CardHeader>
+                <CardContent className="flex-1 flex flex-col">
+                  <ul className="mb-6 space-y-2 flex-1">
+                    {['Unlimited MCQs', 'Full question bank', 'All MCQ analytics', 'Trust Your Gut', 'Behavior Profile', '1 OSCE/day (free limit)'].map((f) => (
+                      <li key={f} className="flex gap-2 text-xs"><Check className="h-3.5 w-3.5 mt-0.5 text-secondary shrink-0" /><span>{f}</span></li>
+                    ))}
+                  </ul>
+                  <div className="space-y-2">
+                    <Button size="sm" className="w-full" onClick={() => handleCheckout('mcq_only')} disabled={loadingTier === 'mcq_only' || isCurrentTier('mcq_only')}>
+                      {isCurrentTier('mcq_only') ? 'Current' : loadingTier === 'mcq_only' ? <Loader2 className="h-4 w-4 animate-spin" /> : '$39/mo'}
+                    </Button>
+                    <Button variant="outline" size="sm" className="w-full" onClick={() => handleCheckout('mcq_only_3m')} disabled={loadingTier === 'mcq_only_3m'}>
+                      {loadingTier === 'mcq_only_3m' ? <Loader2 className="h-4 w-4 animate-spin" /> : '$109/3mo'}
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+
+            {/* OSCE ONLY */}
+            <motion.div variants={fadeUp}>
+              <Card className="h-full flex flex-col border-border">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg">OSCE Only</CardTitle>
+                  <p className="text-xs text-muted-foreground">Unlimited Clinical Stations</p>
+                  <div className="mt-3"><span className="text-3xl font-bold font-display">$39</span><span className="text-muted-foreground text-sm">/mo</span></div>
+                  <p className="text-xs text-muted-foreground">or $109/3mo</p>
+                </CardHeader>
+                <CardContent className="flex-1 flex flex-col">
+                  <ul className="mb-6 space-y-2 flex-1">
+                    {['Unlimited OSCE stations', 'Adaptive OSCE mode', 'Psychograph analysis', 'All OSCE analytics', '20 MCQs/day (free limit)'].map((f) => (
+                      <li key={f} className="flex gap-2 text-xs"><Check className="h-3.5 w-3.5 mt-0.5 text-secondary shrink-0" /><span>{f}</span></li>
+                    ))}
+                  </ul>
+                  <div className="space-y-2">
+                    <Button size="sm" className="w-full" onClick={() => handleCheckout('osce_only')} disabled={loadingTier === 'osce_only' || isCurrentTier('osce_only')}>
+                      {isCurrentTier('osce_only') ? 'Current' : loadingTier === 'osce_only' ? <Loader2 className="h-4 w-4 animate-spin" /> : '$39/mo'}
+                    </Button>
+                    <Button variant="outline" size="sm" className="w-full" onClick={() => handleCheckout('osce_only_3m')} disabled={loadingTier === 'osce_only_3m'}>
+                      {loadingTier === 'osce_only_3m' ? <Loader2 className="h-4 w-4 animate-spin" /> : '$109/3mo'}
+                    </Button>
+                  </div>
                 </CardContent>
               </Card>
             </motion.div>
@@ -399,56 +442,29 @@ export default function Pricing() {
             <motion.div variants={fadeUp}>
               <Card className="h-full flex flex-col border-2 border-primary relative">
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                  <Badge className="bg-primary text-primary-foreground px-3 py-1 text-xs font-semibold">
-                    <Star className="h-3 w-3 mr-1" /> Most Popular
-                  </Badge>
+                  <Badge className="bg-primary text-primary-foreground px-3 py-1 text-xs font-semibold"><Star className="h-3 w-3 mr-1" /> Best Value</Badge>
                 </div>
-                <CardHeader>
-                  <CardTitle className="text-xl">Full Access</CardTitle>
-                  <p className="text-sm text-muted-foreground">Full AMC Preparation Platform</p>
-                  <div className="mt-4">
-                    <span className="text-4xl font-bold font-display">$49</span>
-                    <span className="text-muted-foreground">/month</span>
-                  </div>
-                  <p className="text-sm text-muted-foreground">or $99/3 months (save 33%)</p>
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg">Full Access</CardTitle>
+                  <p className="text-xs text-muted-foreground">MCQ + OSCE Everything</p>
+                  <div className="mt-3"><span className="text-3xl font-bold font-display">$59</span><span className="text-muted-foreground text-sm">/mo</span></div>
+                  <p className="text-xs text-muted-foreground">or $169/3mo</p>
                 </CardHeader>
                 <CardContent className="flex-1 flex flex-col">
-                  <ul className="mb-6 space-y-2 flex-1">
-                    {[
-                      'Unlimited MCQ practice',
-                      'Full question bank (5,000+ questions)',
-                      'Unlimited OSCE stations',
-                      'Adaptive OSCE & Exam Mode',
-                      'All analytics (Trust Your Gut, Behavior Profile)',
-                      'AMC Readiness Score',
-                      'AI Study Companion unlimited',
-                      'Study plan generator',
-                      'Mistake Review Engine',
-                      'Social groups & shared tests',
-                    ].map((f) => (
-                      <li key={f} className="flex gap-2 text-sm">
-                        <Check className="h-4 w-4 mt-0.5 text-secondary shrink-0" />
-                        <span>{f}</span>
-                      </li>
+                  <ul className="mb-4 space-y-2 flex-1">
+                    {['Unlimited MCQ + OSCE', 'Full question bank', 'All analytics & profiles', 'Adaptive OSCE & Exam Mode', 'AMC Readiness Score', 'AI Companion unlimited', 'Mistake Review Engine'].map((f) => (
+                      <li key={f} className="flex gap-2 text-xs"><Check className="h-3.5 w-3.5 mt-0.5 text-secondary shrink-0" /><span>{f}</span></li>
                     ))}
                   </ul>
-
-                  <div className="mb-4 rounded-lg bg-muted p-3">
-                    <div className="flex items-center gap-2 mb-1">
-                      <Shield className="h-4 w-4 text-primary" />
-                      <span className="text-sm font-semibold">Pass Guarantee</span>
-                    </div>
-                    <p className="text-xs text-muted-foreground">
-                      Use 3+ months, do the work, fail? Full refund.
-                    </p>
+                  <div className="mb-3 rounded-lg bg-muted p-2">
+                    <div className="flex items-center gap-1.5"><Shield className="h-3.5 w-3.5 text-primary" /><span className="text-xs font-semibold">Pass Guarantee</span></div>
                   </div>
-
                   <div className="space-y-2">
-                    <Button className="w-full" onClick={() => handleCheckout('full_access')} disabled={loadingTier === 'full_access' || isCurrentTier('full_access')}>
-                      {isCurrentTier('full_access') ? 'Current Plan' : loadingTier === 'full_access' ? <><Loader2 className="h-4 w-4 animate-spin mr-2" />Processing...</> : <>Subscribe $49/mo <ArrowRight className="h-4 w-4" /></>}
+                    <Button size="sm" className="w-full" onClick={() => handleCheckout('full_access')} disabled={loadingTier === 'full_access' || isCurrentTier('full_access')}>
+                      {isCurrentTier('full_access') ? 'Current' : loadingTier === 'full_access' ? <Loader2 className="h-4 w-4 animate-spin" /> : '$59/mo'}
                     </Button>
-                    <Button variant="outline" className="w-full" onClick={() => handleCheckout('full_access_3m')} disabled={loadingTier === 'full_access_3m'}>
-                      {loadingTier === 'full_access_3m' ? <><Loader2 className="h-4 w-4 animate-spin mr-2" />Processing...</> : '$99 for 3 months (save 33%)'}
+                    <Button variant="outline" size="sm" className="w-full" onClick={() => handleCheckout('full_access_3m')} disabled={loadingTier === 'full_access_3m'}>
+                      {loadingTier === 'full_access_3m' ? <Loader2 className="h-4 w-4 animate-spin" /> : '$169/3mo'}
                     </Button>
                   </div>
                 </CardContent>
@@ -457,34 +473,23 @@ export default function Pricing() {
 
             {/* LIFETIME */}
             <motion.div variants={fadeUp}>
-              <Card className="h-full flex flex-col border-border bg-card">
-                <CardHeader>
-                  <CardTitle className="text-xl">Lifetime</CardTitle>
-                  <p className="text-sm text-muted-foreground">For Unpredictable Journeys</p>
-                  <div className="mt-4">
-                    <span className="text-4xl font-bold font-display">$299</span>
-                    <span className="text-muted-foreground"> one-time</span>
-                  </div>
+              <Card className="h-full flex flex-col border-border relative">
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                  <Badge variant="secondary" className="px-3 py-1 text-xs font-semibold">🔥 First 100 Users</Badge>
+                </div>
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg">Lifetime</CardTitle>
+                  <p className="text-xs text-muted-foreground">One Payment, Forever</p>
+                  <div className="mt-3"><span className="text-3xl font-bold font-display">$349</span><span className="text-muted-foreground text-sm"> once</span></div>
                 </CardHeader>
                 <CardContent className="flex-1 flex flex-col">
-                  <ul className="mb-6 space-y-3 flex-1">
-                    {[
-                      'Everything in Full Access — forever',
-                      'No monthly payments',
-                      'Direct access to founder',
-                      'Priority feature requests',
-                    ].map((f) => (
-                      <li key={f} className="flex gap-2 text-sm">
-                        <Check className="h-4 w-4 mt-0.5 text-secondary shrink-0" />
-                        <span>{f}</span>
-                      </li>
+                  <ul className="mb-6 space-y-2 flex-1">
+                    {['Everything in Full Access', 'No monthly payments ever', 'Direct founder access', 'Priority features'].map((f) => (
+                      <li key={f} className="flex gap-2 text-xs"><Check className="h-3.5 w-3.5 mt-0.5 text-secondary shrink-0" /><span>{f}</span></li>
                     ))}
                   </ul>
-                  <p className="mb-4 text-xs text-muted-foreground italic">
-                    Limited to 50 users so I can actually provide support.
-                  </p>
-                  <Button variant="outline" className="w-full" onClick={() => handleCheckout('lifetime')} disabled={loadingTier === 'lifetime' || isCurrentTier('lifetime')}>
-                    {isCurrentTier('lifetime') ? 'Current Plan' : loadingTier === 'lifetime' ? <><Loader2 className="h-4 w-4 animate-spin mr-2" />Processing...</> : 'Get Lifetime Access'}
+                  <Button variant="outline" size="sm" className="w-full" onClick={() => handleCheckout('lifetime')} disabled={loadingTier === 'lifetime' || isCurrentTier('lifetime')}>
+                    {isCurrentTier('lifetime') ? 'Current' : loadingTier === 'lifetime' ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Get Lifetime'}
                   </Button>
                 </CardContent>
               </Card>
