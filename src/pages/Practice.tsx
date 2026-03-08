@@ -64,13 +64,7 @@ function SetupScreen({ onStart }: { onStart: (config: SessionConfig) => void }) 
         setCategoryCounts(counts);
         
         // Default: select all available pairs
-        const allPairs = new Set<string>();
-        SYSTEMS.forEach(system => {
-          SYSTEM_SUBJECTS[system]?.forEach(subject => {
-            allPairs.add(`${system}:${subject}`);
-          });
-        });
-        setSelectedPairs(allPairs);
+        setSelectedPairs(getAllPairs());
       }
       setLoading(false);
     };
