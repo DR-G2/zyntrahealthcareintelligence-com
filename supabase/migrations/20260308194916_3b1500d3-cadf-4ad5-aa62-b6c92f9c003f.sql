@@ -1,0 +1,1 @@
+UPDATE questions SET category = 'Population Health' WHERE lower(trim(category)) LIKE '%public health%' OR lower(trim(category)) LIKE '%palliative%';
