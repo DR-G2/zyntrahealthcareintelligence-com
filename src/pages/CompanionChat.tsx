@@ -157,6 +157,11 @@ export default function CompanionChat() {
 
   const sendMessage = useCallback(async (text: string) => {
     if (!text.trim() || isLoading) return;
+    if (!gate.canUsePrompt) {
+      toast.error(`Daily limit reached (${gate.promptDailyLimit} prompts). Upgrade for unlimited access.`);
+      return;
+    }
+    gate.recordPrompt();
     const userMsg: Msg = { role: 'user', content: text };
     const newMsgs = [...messages, userMsg];
     setMessages(newMsgs);
