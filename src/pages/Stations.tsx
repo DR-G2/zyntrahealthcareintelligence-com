@@ -213,7 +213,7 @@ export default function Stations() {
       // Save to DB
       const userId = session?.user?.id;
       if (userId) {
-        await supabase.from('station_attempts').insert({
+        const { data: insertedAttempt } = await supabase.from('station_attempts').insert({
           user_id: userId,
           session_id: sessionId.current,
           station_index: 0,
@@ -225,7 +225,9 @@ export default function Stations() {
           psychograph: data.psychograph as any,
           behavioral_signals: behavioralData as any,
           time_taken_seconds: STATION_TIME - timeLeft,
-        });
+        }).select('id').single();
+
+        if (insertedAttempt) setLastAttemptId(insertedAttempt.id);
 
         await supabase.from('psychograph_history').insert({
           user_id: userId,
