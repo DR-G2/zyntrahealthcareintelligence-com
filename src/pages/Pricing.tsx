@@ -351,27 +351,24 @@ export default function Pricing() {
             whileInView="show"
             viewport={{ once: true }}
             variants={stagger}
-            className="mx-auto grid max-w-6xl gap-6 md:grid-cols-2 xl:grid-cols-4"
+            className="mx-auto grid max-w-5xl gap-6 md:grid-cols-3"
           >
             {/* FREE */}
             <motion.div variants={fadeUp}>
               <Card className="h-full flex flex-col border-border">
                 <CardHeader>
-                  <CardTitle className="text-xl">Free Forever</CardTitle>
-                  <p className="text-sm text-muted-foreground">Start Here — No Signup Required</p>
+                  <CardTitle className="text-xl">Free</CardTitle>
+                  <p className="text-sm text-muted-foreground">Try Before You Commit</p>
                   <p className="mt-4 text-4xl font-bold font-display">$0</p>
                 </CardHeader>
                 <CardContent className="flex-1 flex flex-col">
-                  <p className="mb-6 text-sm text-muted-foreground italic">
-                    "I used free trials for 6 months before I could afford anything. I get it. This is actually free."
-                  </p>
                   <ul className="mb-8 space-y-3 flex-1">
                     {[
-                      '200 AMC-style questions (high-yield topics)',
-                      '1 full timed block (60 questions, 3.5 hours)',
-                      'Basic report: What you got wrong + time per question',
-                      'Australian guideline references (RACGP, Therapeutic)',
-                      'Works on phone browser (study on the train)',
+                      '20 MCQs per day',
+                      '1 OSCE station per day',
+                      'Limited question bank (200 questions)',
+                      'Basic analytics',
+                      'AI companion (5 prompts/day)',
                     ].map((f) => (
                       <li key={f} className="flex gap-2 text-sm">
                         <Check className="h-4 w-4 mt-0.5 text-secondary shrink-0" />
@@ -379,87 +376,14 @@ export default function Pricing() {
                       </li>
                     ))}
                   </ul>
-                  <p className="mb-4 text-xs text-muted-foreground">
-                    No credit card. No "enter email to unlock." Just use it.
-                  </p>
                   <Button variant="outline" className="w-full" asChild>
-                    <Link to="/dashboard">Start Free Diagnostic</Link>
+                    <Link to="/dashboard">Start Free</Link>
                   </Button>
                 </CardContent>
               </Card>
             </motion.div>
 
-            {/* CORE */}
-            <motion.div variants={fadeUp}>
-              <Card className="h-full flex flex-col border-border">
-                <CardHeader>
-                  <CardTitle className="text-xl">Core</CardTitle>
-                  <p className="text-sm text-muted-foreground">What I Used to Pass MCQ in 2 Months</p>
-                  <div className="mt-4">
-                    <span className="text-4xl font-bold font-display">$29</span>
-                    <span className="text-muted-foreground">/month</span>
-                  </div>
-                  <p className="text-sm text-muted-foreground">or $69/3 months (save 20%)</p>
-                </CardHeader>
-                <CardContent className="flex-1 flex flex-col">
-                  <p className="mb-6 text-sm text-muted-foreground italic">
-                    "When I studied for MCQ, I had exactly $200 for prep tools. I chose eMedici. It was good. But it didn't tell me WHY I was getting questions wrong."
-                  </p>
-
-                  <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Questions</p>
-                  <ul className="mb-4 space-y-2">
-                    {[
-                      '5,000+ AMC-specific questions',
-                      'Organized by AMC blueprint',
-                      'Australian guidelines (RACGP, TG)',
-                      'Updated when AMC changes',
-                    ].map((f) => (
-                      <li key={f} className="flex gap-2 text-sm">
-                        <Check className="h-4 w-4 mt-0.5 text-secondary shrink-0" />
-                        <span>{f}</span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Tracking</p>
-                  <ul className="mb-4 space-y-2">
-                    {[
-                      'Time per subject tracking',
-                      'Weakness targeting — auto-suggests worst topics',
-                      'Progress export — for visa apps, proof of study',
-                    ].map((f) => (
-                      <li key={f} className="flex gap-2 text-sm">
-                        <Check className="h-4 w-4 mt-0.5 text-secondary shrink-0" />
-                        <span>{f}</span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Built for IMG Life</p>
-                  <ul className="mb-8 space-y-2 flex-1">
-                    {[
-                      'Works offline — hospital basements, no wifi',
-                      'Mobile browser — 10 questions on lunch break',
-                      'Pause anytime — no questions asked',
-                    ].map((f) => (
-                      <li key={f} className="flex gap-2 text-sm">
-                        <Check className="h-4 w-4 mt-0.5 text-secondary shrink-0" />
-                        <span>{f}</span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  <Button className="w-full" onClick={() => handleCheckout('core')} disabled={loadingTier === 'core' || isCurrentTier('core')}>
-                    {isCurrentTier('core') ? 'Current Plan' : loadingTier === 'core' ? <><Loader2 className="h-4 w-4 animate-spin mr-2" />Processing...</> : <>Start 7-Day Free Trial <ArrowRight className="h-4 w-4" /></>}
-                  </Button>
-                  <p className="mt-3 text-center text-xs text-muted-foreground italic">
-                    "Built this to cost less than one extra shift." — Founder, IMG, PGY1 (Aug 2025)
-                  </p>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            {/* PRO */}
+            {/* FULL ACCESS */}
             <motion.div variants={fadeUp}>
               <Card className="h-full flex flex-col border-2 border-primary relative">
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2">
@@ -468,25 +392,27 @@ export default function Pricing() {
                   </Badge>
                 </div>
                 <CardHeader>
-                  <CardTitle className="text-xl">Pro</CardTitle>
-                  <p className="text-sm text-muted-foreground">For Clinical & Repeat Takers</p>
+                  <CardTitle className="text-xl">Full Access</CardTitle>
+                  <p className="text-sm text-muted-foreground">Full AMC Preparation Platform</p>
                   <div className="mt-4">
                     <span className="text-4xl font-bold font-display">$49</span>
                     <span className="text-muted-foreground">/month</span>
                   </div>
-                  <p className="text-sm text-muted-foreground">or $129/3 months</p>
+                  <p className="text-sm text-muted-foreground">or $99/3 months (save 33%)</p>
                 </CardHeader>
                 <CardContent className="flex-1 flex flex-col">
-                  <p className="mb-6 text-sm text-muted-foreground italic">
-                    "I'm sitting AMC Clinical in June 2025. I built these features for myself."
-                  </p>
-
-                  <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">"Why You Changed It" Analysis</p>
-                  <ul className="mb-4 space-y-2">
+                  <ul className="mb-6 space-y-2 flex-1">
                     {[
-                      'Right→Wrong (panic changes — costly)',
-                      'Wrong→Right (good instinct — trust it more)',
-                      'Pattern: "You panic in Cardio, not Psych"',
+                      'Unlimited MCQ practice',
+                      'Full question bank (5,000+ questions)',
+                      'Unlimited OSCE stations',
+                      'Adaptive OSCE & Exam Mode',
+                      'All analytics (Trust Your Gut, Behavior Profile)',
+                      'AMC Readiness Score',
+                      'AI Study Companion unlimited',
+                      'Study plan generator',
+                      'Mistake Review Engine',
+                      'Social groups & shared tests',
                     ].map((f) => (
                       <li key={f} className="flex gap-2 text-sm">
                         <Check className="h-4 w-4 mt-0.5 text-secondary shrink-0" />
@@ -495,41 +421,24 @@ export default function Pricing() {
                     ))}
                   </ul>
 
-                  <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">AMC Pressure Simulator</p>
-                  <p className="mb-4 text-sm text-muted-foreground">
-                    16 stations. 8 minutes each. Simulates timed blocks with random distractions to train your nerves.
-                  </p>
-
-                  <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Personal Strategy Session</p>
-                  <ul className="mb-4 space-y-2">
-                    {[
-                      '30-min video call with founder',
-                      'Review your weakness report together',
-                      "Honest assessment — I won't lie to take your money",
-                    ].map((f) => (
-                      <li key={f} className="flex gap-2 text-sm">
-                        <Check className="h-4 w-4 mt-0.5 text-secondary shrink-0" />
-                        <span>{f}</span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  <div className="mb-6 rounded-lg bg-muted p-3 flex-1">
+                  <div className="mb-4 rounded-lg bg-muted p-3">
                     <div className="flex items-center gap-2 mb-1">
                       <Shield className="h-4 w-4 text-primary" />
                       <span className="text-sm font-semibold">Pass Guarantee</span>
                     </div>
                     <p className="text-xs text-muted-foreground">
-                      Use Pro 3+ months, do the work, fail? Full refund. No "conditions."
+                      Use 3+ months, do the work, fail? Full refund.
                     </p>
                   </div>
 
-                  <Button className="w-full" onClick={() => handleCheckout('pro')} disabled={loadingTier === 'pro' || isCurrentTier('pro')}>
-                    {isCurrentTier('pro') ? 'Current Plan' : loadingTier === 'pro' ? <><Loader2 className="h-4 w-4 animate-spin mr-2" />Processing...</> : <>Start 7-Day Free Trial <ArrowRight className="h-4 w-4" /></>}
-                  </Button>
-                  <p className="mt-3 text-center text-xs text-muted-foreground italic">
-                    "I'm using Pro myself for Clinical prep. It works." — Founder, sitting Clinical June 2025
-                  </p>
+                  <div className="space-y-2">
+                    <Button className="w-full" onClick={() => handleCheckout('full_access')} disabled={loadingTier === 'full_access' || isCurrentTier('full_access')}>
+                      {isCurrentTier('full_access') ? 'Current Plan' : loadingTier === 'full_access' ? <><Loader2 className="h-4 w-4 animate-spin mr-2" />Processing...</> : <>Subscribe $49/mo <ArrowRight className="h-4 w-4" /></>}
+                    </Button>
+                    <Button variant="outline" className="w-full" onClick={() => handleCheckout('full_access_3m')} disabled={loadingTier === 'full_access_3m'}>
+                      {loadingTier === 'full_access_3m' ? <><Loader2 className="h-4 w-4 animate-spin mr-2" />Processing...</> : '$99 for 3 months (save 33%)'}
+                    </Button>
+                  </div>
                 </CardContent>
               </Card>
             </motion.div>
@@ -539,21 +448,19 @@ export default function Pricing() {
               <Card className="h-full flex flex-col border-border bg-card">
                 <CardHeader>
                   <CardTitle className="text-xl">Lifetime</CardTitle>
-                  <p className="text-sm text-muted-foreground">For Unpredictable Journeys Like Mine</p>
+                  <p className="text-sm text-muted-foreground">For Unpredictable Journeys</p>
                   <div className="mt-4">
                     <span className="text-4xl font-bold font-display">$299</span>
                     <span className="text-muted-foreground"> one-time</span>
                   </div>
                 </CardHeader>
                 <CardContent className="flex-1 flex flex-col">
-                  <p className="mb-6 text-sm text-muted-foreground italic">
-                    "My MCQ-to-PGY1 journey: 2 years. Not because I couldn't pass. Because I couldn't PAY."
-                  </p>
                   <ul className="mb-6 space-y-3 flex-1">
                     {[
-                      'Access forever. No monthly stress.',
-                      'Includes all Pro features.',
-                      'Direct access to founder for quick questions.',
+                      'Everything in Full Access — forever',
+                      'No monthly payments',
+                      'Direct access to founder',
+                      'Priority feature requests',
                     ].map((f) => (
                       <li key={f} className="flex gap-2 text-sm">
                         <Check className="h-4 w-4 mt-0.5 text-secondary shrink-0" />
@@ -562,15 +469,11 @@ export default function Pricing() {
                     ))}
                   </ul>
                   <p className="mb-4 text-xs text-muted-foreground italic">
-                    "I wish I'd had this option. Instead I paid $50/month for 8 months, then paused, then paid again..."
-                    — Founder, looking at old bank statements
+                    Limited to 50 users so I can actually provide support.
                   </p>
                   <Button variant="outline" className="w-full" onClick={() => handleCheckout('lifetime')} disabled={loadingTier === 'lifetime' || isCurrentTier('lifetime')}>
                     {isCurrentTier('lifetime') ? 'Current Plan' : loadingTier === 'lifetime' ? <><Loader2 className="h-4 w-4 animate-spin mr-2" />Processing...</> : 'Get Lifetime Access'}
                   </Button>
-                  <p className="mt-3 text-center text-xs text-muted-foreground">
-                    Limited to 50 users so I can actually provide support.
-                  </p>
                 </CardContent>
               </Card>
             </motion.div>
