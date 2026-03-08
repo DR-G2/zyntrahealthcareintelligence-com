@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Clock, ChevronLeft, ChevronRight, Lock, AlertTriangle, CheckCircle2 } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
+import { useAuth } from '@/contexts/AuthContext';
 import { AppLayout } from '@/components/AppLayout';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -31,6 +32,8 @@ function getDifficultyForScore(score: number): string {
 export default function Assess() {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { user } = useAuth();
+  const sessionIdRef = useRef(crypto.randomUUID());
 
   const [phase, setPhase] = useState<'intro' | 'test' | 'submitting'>('intro');
   const [questions, setQuestions] = useState<Question[]>([]);
@@ -216,17 +219,52 @@ export default function Assess() {
     const confidenceGap = Math.abs(70 - clinicalAccuracy);
     const readinessScore = (stabilityScore * 0.2 + timeSensitivity * 0.2 + (100 - confidenceGap) * 0.2 + clinicalAccuracy * 0.4);
 
-    navigate('/profile', {
-      state: {
-        performanceData: {
-          stability_score: Math.round(stabilityScore),
-          time_sensitivity: Math.round(timeSensitivity),
-          confidence_gap: Math.round(confidenceGap),
-          clinical_accuracy: Math.round(clinicalAccuracy),
-          readiness_score: Math.round(readinessScore),
-        },
-      },
-    });
+    const performanceData = {
+      stability_score: Math.round(stabilityScore),
+      time_sensitivity: Math.round(timeSensitivity),
+      confidence_gap: Math.round(confidenceGap),
+      clinical_accuracy: Math.round(clinicalAccuracy),
+      readiness_score: Math.round(readinessScore),
+    };
+
+    // Save to database
+    if (user) {
+      // Save individual attempts
+      const inserts = questions.map((q, i) => ({
+        user_id: user.id,
+        question_id: q.id,
+        selected_answer: selectedAnswers[i] || '',
+        time_taken_seconds: questionTimes[i] || 0,
+        answer_changes_count: answerChanges[i] || 0,
+        is_correct: selectedAnswers[i] === q.correct_answer,
+        session_id: sessionIdRef.current,
+      }));
+      await supabase.from('user_attempts').insert(inserts);
+
+      // Upsert performance profile (blend with existing)
+      const { data: existing } = await supabase
+        .from('performance_profiles')
+        .select('*')
+        .eq('user_id', user.id)
+        .maybeSingle();
+
+      if (existing) {
+        await supabase.from('performance_profiles').update({
+          clinical_accuracy: Math.round(((existing.clinical_accuracy || 0) * 0.4 + performanceData.clinical_accuracy * 0.6) * 10) / 10,
+          stability_score: Math.round(((existing.stability_score || 0) * 0.4 + performanceData.stability_score * 0.6) * 10) / 10,
+          time_sensitivity: Math.round(((existing.time_sensitivity || 0) * 0.4 + performanceData.time_sensitivity * 0.6) * 10) / 10,
+          confidence_gap: Math.round(((existing.confidence_gap || 0) * 0.4 + performanceData.confidence_gap * 0.6) * 10) / 10,
+          readiness_score: Math.round(((existing.readiness_score || 0) * 0.4 + performanceData.readiness_score * 0.6) * 10) / 10,
+        }).eq('user_id', user.id);
+      } else {
+        await supabase.from('performance_profiles').insert({
+          user_id: user.id,
+          ...performanceData,
+        });
+      }
+    }
+
+    navigate('/profile', { state: { performanceData } });
   };
 
   if (loading) {
