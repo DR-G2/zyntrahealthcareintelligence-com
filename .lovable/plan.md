@@ -1,37 +1,41 @@
 
 
-## Plan: Save Feed-Generated Questions to Question Bank
+## Plan: Enhanced Practice Results with Detailed Explanations
 
-### What This Does
+### What Changes
 
-Add "Save to Question Bank" buttons on Feed results so generated MCQ questions get inserted into the global `questions` table (appearing in future practice sessions), and generated OSCE stations get saved to `clinical_stations`.
+**1. Expand the results review section (Practice.tsx, lines 225-245)**
 
-### Approach
+Replace the current inline explanation snippet with a clickable card that navigates to a full-page explanation view. Each question card in results will show:
+- Question text, your answer vs correct answer, correct/incorrect badge
+- A "Read Full Explanation" button that opens a detailed view
 
-Since the `questions` table has no INSERT RLS for regular users (by design — it's a curated bank), we need an edge function that uses the service role key to insert. We'll create a new `save-feed-questions` edge function.
+**2. Create a full-page explanation view within the results phase**
 
-### Changes
+Add a new sub-phase `'explanation'` to the drill session. When a user clicks a question, the view transitions to a full-page layout containing:
+- The question and all options (highlighted correct/incorrect)
+- A detailed explanation section
+- **Reference notes** organized by source book:
+  - **AMC Handbook** — key clinical points relevant to the question topic
+  - **John Murtagh's General Practice** — diagnostic approach and management
+  - **Tally O'Connor's Clinical Examination** — examination findings and signs
+- A "Back to Results" button
 
-#### 1. New Edge Function: `supabase/functions/save-feed-questions/index.ts`
-- Accepts `{ type: 'mcq' | 'osce', questions?: MCQQuestion[], station?: OSCEStation }`
-- Requires authenticated user (extracts user from auth header)
-- For MCQ: maps each question to the `questions` table schema (question_text, options as JSONB, correct_answer, explanation, category, difficulty, key_takeaways, differential_diagnoses) and bulk inserts using service role
-- For OSCE: inserts into `clinical_stations` with user_id, scenario_title, subject, scenario_data (the full station object), and a new session_id
-- Returns the inserted IDs
+**3. Store reference notes in the question explanation field**
 
-#### 2. Update `src/pages/Feed.tsx`
-- Add a "Save All to Question Bank" button below the MCQ results header
-- Add a "Save Station" button on the OSCE result
-- Track `savedMcq` and `savedOsce` boolean state to disable buttons after saving
-- On save, call `supabase.functions.invoke('save-feed-questions', ...)` and show a success toast
-- For OSCE, the station is already saved to `clinical_stations` with the user's ID so it appears in their stations list
+Since the `questions` table already has an `explanation` column, the detailed explanations with book references will be structured within that field. For now, the UI will parse and display the explanation, and add styled reference sections with book attribution headers even if the current explanation text is brief. The textbook reference sections will be rendered as distinct styled blocks.
 
-#### 3. Files Changed
+### Technical Approach
 
-| File | Change |
-|------|--------|
-| `supabase/functions/save-feed-questions/index.ts` | New — inserts generated content into questions/clinical_stations |
-| `src/pages/Feed.tsx` | Add save buttons with loading/saved states |
+- Add state: `reviewQuestionIndex: number | null` to track which question is being viewed in detail
+- When set, render a full-page explanation component instead of the results list
+- Structure the explanation page with:
+  - Question card with all options color-coded
+  - Explanation text (from DB)
+  - Three reference cards (AMC Handbook, Murtagh's, Tally O'Connor) with topic-relevant headers derived from the question's category
+- Use `framer-motion` for page transitions
+- All changes are in `src/pages/Practice.tsx` only — no new files needed
 
-No database migration needed — we're inserting into existing tables (`questions`, `clinical_stations`).
+### Files Modified
+- `src/pages/Practice.tsx` — refactor results phase to add clickable detail view with book reference sections
 

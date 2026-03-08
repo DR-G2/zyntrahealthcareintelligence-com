@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
-import { Loader2, Zap, Stethoscope, CheckCircle2, XCircle, ArrowRight } from 'lucide-react';
+import { Loader2, Zap, Stethoscope, CheckCircle2, XCircle, ArrowRight, Save } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useFeatureGate } from '@/hooks/useFeatureGate';
 import { UpgradePrompt } from '@/components/UpgradePrompt';
@@ -47,6 +47,10 @@ export default function Feed() {
   const [osceResult, setOsceResult] = useState<OSCEStation | null>(null);
   const [selectedAnswers, setSelectedAnswers] = useState<Record<number, string>>({});
   const [revealedAnswers, setRevealedAnswers] = useState<Record<number, boolean>>({});
+  const [savingMcq, setSavingMcq] = useState(false);
+  const [savedMcq, setSavedMcq] = useState(false);
+  const [savingOsce, setSavingOsce] = useState(false);
+  const [savedOsce, setSavedOsce] = useState(false);
 
   if (!gate.canAccessAnalytics) {
     return (
@@ -74,6 +78,8 @@ export default function Feed() {
     setOsceResult(null);
     setSelectedAnswers({});
     setRevealedAnswers({});
+    setSavedMcq(false);
+    setSavedOsce(false);
 
     try {
       gate.recordPrompt();
@@ -116,6 +122,40 @@ export default function Feed() {
 
   const revealAnswer = (qIndex: number) => {
     setRevealedAnswers((prev) => ({ ...prev, [qIndex]: true }));
+  };
+
+  const handleSaveMcq = async () => {
+    if (!mcqResults) return;
+    setSavingMcq(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('save-feed-questions', {
+        body: { type: 'mcq', questions: mcqResults },
+      });
+      if (error) throw error;
+      setSavedMcq(true);
+      toast({ title: `${data.saved} questions saved to question bank` });
+    } catch (err: any) {
+      toast({ title: err?.message || 'Failed to save', variant: 'destructive' });
+    } finally {
+      setSavingMcq(false);
+    }
+  };
+
+  const handleSaveOsce = async () => {
+    if (!osceResult) return;
+    setSavingOsce(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('save-feed-questions', {
+        body: { type: 'osce', station: osceResult },
+      });
+      if (error) throw error;
+      setSavedOsce(true);
+      toast({ title: 'OSCE station saved to your stations' });
+    } catch (err: any) {
+      toast({ title: err?.message || 'Failed to save', variant: 'destructive' });
+    } finally {
+      setSavingOsce(false);
+    }
   };
 
   return (
@@ -181,7 +221,18 @@ export default function Feed() {
       {/* MCQ Results */}
       {mcqResults && (
         <div className="mt-8 space-y-6">
+          <div className="flex items-center justify-between flex-wrap gap-3">
           <h2 className="text-xl font-bold font-display">Generated Questions ({mcqResults.length})</h2>
+          <Button
+            onClick={handleSaveMcq}
+            disabled={savingMcq || savedMcq}
+            variant={savedMcq ? 'secondary' : 'outline'}
+            className="gap-2"
+          >
+            {savingMcq ? <Loader2 className="h-4 w-4 animate-spin" /> : savedMcq ? <CheckCircle2 className="h-4 w-4" /> : <Save className="h-4 w-4" />}
+            {savedMcq ? 'Saved to Question Bank' : 'Save All to Question Bank'}
+          </Button>
+          </div>
           {mcqResults.map((q, i) => (
             <Card key={i} className="overflow-hidden">
               <CardHeader className="pb-3">
@@ -290,9 +341,20 @@ export default function Feed() {
             </CardContent>
           </Card>
 
-          <Button onClick={() => navigate('/stations')} className="gap-2">
-            Practice OSCE Stations <ArrowRight className="h-4 w-4" />
-          </Button>
+          <div className="flex gap-3 flex-wrap">
+            <Button
+              onClick={handleSaveOsce}
+              disabled={savingOsce || savedOsce}
+              variant={savedOsce ? 'secondary' : 'outline'}
+              className="gap-2"
+            >
+              {savingOsce ? <Loader2 className="h-4 w-4 animate-spin" /> : savedOsce ? <CheckCircle2 className="h-4 w-4" /> : <Save className="h-4 w-4" />}
+              {savedOsce ? 'Station Saved' : 'Save Station'}
+            </Button>
+            <Button onClick={() => navigate('/stations')} className="gap-2">
+              Practice OSCE Stations <ArrowRight className="h-4 w-4" />
+            </Button>
+          </div>
         </div>
       )}
 
