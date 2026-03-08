@@ -14,6 +14,27 @@ export type Database = {
   }
   public: {
     Tables: {
+      ai_training_context: {
+        Row: {
+          aggregate_data: Json
+          candidate_count: number | null
+          id: string
+          updated_at: string | null
+        }
+        Insert: {
+          aggregate_data?: Json
+          candidate_count?: number | null
+          id?: string
+          updated_at?: string | null
+        }
+        Update: {
+          aggregate_data?: Json
+          candidate_count?: number | null
+          id?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       behavior_profiles: {
         Row: {
           archetype: string
@@ -739,6 +760,30 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      user_presence: {
+        Row: {
+          current_page: string | null
+          id: string
+          is_online: boolean | null
+          last_seen_at: string | null
+          user_id: string
+        }
+        Insert: {
+          current_page?: string | null
+          id?: string
+          is_online?: boolean | null
+          last_seen_at?: string | null
+          user_id: string
+        }
+        Update: {
+          current_page?: string | null
+          id?: string
+          is_online?: boolean | null
+          last_seen_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
       }
       user_progress: {
         Row: {
