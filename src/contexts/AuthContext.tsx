@@ -33,6 +33,7 @@ interface AuthContextType {
   profile: Profile | null;
   loading: boolean;
   subscription: SubscriptionState;
+  watermark: WatermarkState;
   signUp: (email: string, password: string) => Promise<void>;
   signIn: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
