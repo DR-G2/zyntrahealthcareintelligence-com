@@ -272,7 +272,7 @@ export default function Pricing() {
                   Zyntra is what I wish I had during those 2 years of hell.
                 </p>
                 <p className="text-sm">
-                  From <span className="text-primary font-semibold">$29/month</span>. No investors. No coding team.
+                  From <span className="text-primary font-semibold">$39/month</span>. No investors. No coding team.
                   <br />
                   Just one IMG, a laptop, and the memory of skipping dinner to pay AMC fees.
                 </p>
