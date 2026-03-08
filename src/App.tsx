@@ -29,6 +29,7 @@ import DiagnosticOSCE from "./pages/DiagnosticOSCE";
 import CompanionChat from "./pages/CompanionChat";
 import SocialGroups from "./pages/SocialGroups";
 import SharedTests from "./pages/SharedTests";
+import MistakeReview from "./pages/MistakeReview";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -62,6 +63,7 @@ const App = () => (
               <Route path="/companion/chat" element={<ProtectedRoute><ErrorBoundary><CompanionChat /></ErrorBoundary></ProtectedRoute>} />
               <Route path="/companion/groups" element={<ProtectedRoute><ErrorBoundary><SocialGroups /></ErrorBoundary></ProtectedRoute>} />
               <Route path="/companion/shared-tests" element={<ProtectedRoute><ErrorBoundary><SharedTests /></ErrorBoundary></ProtectedRoute>} />
+              <Route path="/review" element={<ProtectedRoute><ErrorBoundary><MistakeReview /></ErrorBoundary></ProtectedRoute>} />
               <Route path="/admin" element={<ProtectedRoute><ErrorBoundary><AdminDashboard /></ErrorBoundary></ProtectedRoute>} />
               <Route path="/settings" element={<ProtectedRoute><ErrorBoundary><Settings /></ErrorBoundary></ProtectedRoute>} />
               <Route path="*" element={<NotFound />} />

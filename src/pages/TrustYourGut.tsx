@@ -28,6 +28,8 @@ import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, AreaChart, Area } from 'recharts';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
+import { useFeatureGate } from '@/hooks/useFeatureGate';
+import { UpgradePrompt } from '@/components/UpgradePrompt';
 
 interface AttemptWithQuestion {
   id: string;
@@ -60,6 +62,7 @@ interface CategoryBreakdown {
 
 export default function TrustYourGut() {
   const { user } = useAuth();
+  const gate = useFeatureGate();
   const [activeTab, setActiveTab] = useState('stats');
   const [trainingMode, setTrainingMode] = useState(false);
   const [trainingQuestions, setTrainingQuestions] = useState<any[]>([]);
@@ -273,6 +276,16 @@ export default function TrustYourGut() {
     firstInstinct: { label: 'First Instinct', color: 'hsl(var(--primary))' },
     final: { label: 'Final Answer', color: 'hsl(var(--muted-foreground))' }
   };
+
+  if (!gate.canAccessTrustGut) {
+    return (
+      <AppLayout>
+        <div className="mx-auto max-w-2xl py-12">
+          <UpgradePrompt feature="Trust Your Gut" description="Train your first-instinct accuracy and reduce harmful answer changes. This advanced analytics feature requires Full Access." />
+        </div>
+      </AppLayout>
+    );
+  }
 
   if (isLoading) {
     return (

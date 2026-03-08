@@ -9,6 +9,8 @@ import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/contexts/AuthContext';
 import { AppLayout } from '@/components/AppLayout';
 import { OnboardingTooltip } from '@/components/OnboardingTooltip';
+import { useFeatureGate } from '@/hooks/useFeatureGate';
+import { UpgradePrompt } from '@/components/UpgradePrompt';
 
 type Msg = { role: 'user' | 'assistant'; content: string };
 
@@ -79,6 +81,7 @@ const quickPrompts = [
 
 export default function CompanionChat() {
   const { user } = useAuth();
+  const gate = useFeatureGate();
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -154,6 +157,11 @@ export default function CompanionChat() {
 
   const sendMessage = useCallback(async (text: string) => {
     if (!text.trim() || isLoading) return;
+    if (!gate.canUsePrompt) {
+      toast.error(`Daily limit reached (${gate.promptDailyLimit} prompts). Upgrade for unlimited access.`);
+      return;
+    }
+    gate.recordPrompt();
     const userMsg: Msg = { role: 'user', content: text };
     const newMsgs = [...messages, userMsg];
     setMessages(newMsgs);

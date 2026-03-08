@@ -15,6 +15,8 @@ import {
   TrendingUp, TrendingDown, ArrowRight, RefreshCw, Activity,
   CheckCircle, XCircle, Loader2
 } from 'lucide-react';
+import { useFeatureGate } from '@/hooks/useFeatureGate';
+import { UpgradePrompt } from '@/components/UpgradePrompt';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
   ResponsiveContainer, RadarChart, Radar, PolarGrid,
@@ -81,6 +83,7 @@ interface BehaviorData {
 export default function BehaviorProfile() {
   const { user } = useAuth();
   const { toast } = useToast();
+  const gate = useFeatureGate();
   const [data, setData] = useState<BehaviorData | null>(null);
   const [loading, setLoading] = useState(true);
   const [analyzing, setAnalyzing] = useState(false);
@@ -132,6 +135,16 @@ export default function BehaviorProfile() {
     }
     setAnalyzing(false);
   };
+
+  if (!gate.canAccessBehavior) {
+    return (
+      <AppLayout>
+        <div className="mx-auto max-w-2xl py-12">
+          <UpgradePrompt feature="Behavior Analysis" description="AI-powered exam behavior profiling is a paid feature. Upgrade to see your archetype, trap detection, and personalized recommendations." />
+        </div>
+      </AppLayout>
+    );
+  }
 
   if (loading) {
     return (

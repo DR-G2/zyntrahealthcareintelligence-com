@@ -18,6 +18,7 @@ import {
   MessageCircle,
   Users,
   Share2,
+  AlertCircle,
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { ThemeToggle } from '@/components/ThemeToggle';
@@ -61,6 +62,7 @@ const navGroups: NavGroup[] = [
           { to: '/questions/osce', label: 'OSCE', icon: Stethoscope },
         ],
       },
+      { to: '/review', label: 'Mistake Review', icon: AlertCircle },
       { to: '/trust-your-gut', label: 'Trust Your Gut', icon: Target },
     ],
   },

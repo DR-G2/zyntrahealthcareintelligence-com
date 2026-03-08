@@ -12,6 +12,8 @@ import { OnboardingTooltip } from '@/components/OnboardingTooltip';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
+import { useFeatureGate } from '@/hooks/useFeatureGate';
+import { UpgradePrompt } from '@/components/UpgradePrompt';
 import { PracticeSkeleton } from '@/components/skeletons/PageSkeleton';
 import { QuestionExplanation } from '@/components/practice/QuestionExplanation';
 import { Progress } from '@/components/ui/progress';
@@ -46,6 +48,7 @@ import { SYSTEMS, SUBJECTS, SYSTEM_SUBJECTS, SUBJECT_SYSTEMS, getAllPairs, type 
 // ─── Setup Screen ───────────────────────────────────────────────
 
 function SetupScreen({ onStart }: { onStart: (config: SessionConfig) => void }) {
+  const gate = useFeatureGate();
   const [mode, setMode] = useState<'recharge' | 'no-change'>('recharge');
   const [filterMode, setFilterMode] = useState<FilterMode>('system');
   const [selectedPairs, setSelectedPairs] = useState<Set<string>>(new Set());
@@ -200,6 +203,10 @@ function SetupScreen({ onStart }: { onStart: (config: SessionConfig) => void }) 
           <h1 className="text-3xl font-bold font-display">Practice Drills</h1>
           <p className="text-muted-foreground">Configure your session and start practising</p>
         </div>
+
+        {!gate.canUseMCQ && (
+          <UpgradePrompt feature="Daily MCQ Limit Reached" description={`You've used ${gate.mcqUsedToday}/${gate.mcqDailyLimit} free MCQs today. Upgrade for unlimited practice.`} variant="banner" />
+        )}
 
         <OnboardingTooltip
           id="practice-intro"

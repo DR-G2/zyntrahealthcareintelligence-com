@@ -16,6 +16,8 @@ import {
   Activity, Zap, Target, Shield, ArrowLeft, Clock, Loader2,
   MessageSquare, Stethoscope, FlaskConical, ClipboardList, ChevronRight,
 } from 'lucide-react';
+import { useFeatureGate } from '@/hooks/useFeatureGate';
+import { UpgradePrompt } from '@/components/UpgradePrompt';
 
 type Phase = 'mode-select' | 'setup' | 'loading' | 'station' | 'evaluating' | 'results';
 type Mode = 'instant' | 'adaptive' | 'exam';
@@ -70,6 +72,7 @@ const modeCards = [
 export default function Stations() {
   const { session } = useAuth();
   const { toast } = useToast();
+  const gate = useFeatureGate();
   const [phase, setPhase] = useState<Phase>('mode-select');
   const [mode, setMode] = useState<Mode>('instant');
   const [selectedSubject, setSelectedSubject] = useState<string>('');
@@ -268,6 +271,9 @@ export default function Stations() {
               <h1 className="text-2xl font-bold font-display text-foreground">Clinical Stations</h1>
               <p className="text-muted-foreground text-sm mt-1">APPE Adaptive Performance Profiling Engine</p>
             </div>
+            {!gate.canUseOSCE && (
+              <UpgradePrompt feature="Daily OSCE Limit Reached" description={`You've used ${gate.osceUsedToday}/${gate.osceDailyLimit} free OSCE station(s) today. Upgrade for unlimited stations.`} variant="banner" />
+            )}
             <OnboardingTooltip
               id="stations-intro"
               title="Welcome to Clinical Stations"
