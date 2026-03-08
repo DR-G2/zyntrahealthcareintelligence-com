@@ -1,41 +1,28 @@
 
 
-## Plan: Enhanced Practice Results with Detailed Explanations
+## Plan: Fix Admin Presence Visibility
 
-### What Changes
+### Root Cause
 
-**1. Expand the results review section (Practice.tsx, lines 225-245)**
+`LiveActivityTab` fetches online status via a **client-side** query to `user_presence` (line 45). The RLS policy on that table restricts reads to `auth.uid() = user_id`, so the admin only sees their own row. Result: `onlineSet` is always empty or contains only the admin's own ID, showing 0 online users.
 
-Replace the current inline explanation snippet with a clickable card that navigates to a full-page explanation view. Each question card in results will show:
-- Question text, your answer vs correct answer, correct/incorrect badge
-- A "Read Full Explanation" button that opens a detailed view
+### Solution
 
-**2. Create a full-page explanation view within the results phase**
+Move the presence query into the `admin-live-stats` edge function, which already uses the **service role key** (bypasses RLS). Return `online_user_ids` alongside `stats`.
 
-Add a new sub-phase `'explanation'` to the drill session. When a user clicks a question, the view transitions to a full-page layout containing:
-- The question and all options (highlighted correct/incorrect)
-- A detailed explanation section
-- **Reference notes** organized by source book:
-  - **AMC Handbook** — key clinical points relevant to the question topic
-  - **John Murtagh's General Practice** — diagnostic approach and management
-  - **Tally O'Connor's Clinical Examination** — examination findings and signs
-- A "Back to Results" button
+### Changes
 
-**3. Store reference notes in the question explanation field**
+#### 1. `supabase/functions/admin-live-stats/index.ts`
+- After existing parallel queries, add a query for `user_presence` where `is_online = true`
+- Include the result as `online_user_ids: string[]` in the response JSON
 
-Since the `questions` table already has an `explanation` column, the detailed explanations with book references will be structured within that field. For now, the UI will parse and display the explanation, and add styled reference sections with book attribution headers even if the current explanation text is brief. The textbook reference sections will be rendered as distinct styled blocks.
+#### 2. `src/components/admin/LiveActivityTab.tsx`
+- Remove the separate client-side `supabase.from('user_presence')` query
+- Instead, read `online_user_ids` from the edge function response to build `onlineSet`
+- Simplify `fetchAll` to only call the edge function + training context query
 
-### Technical Approach
-
-- Add state: `reviewQuestionIndex: number | null` to track which question is being viewed in detail
-- When set, render a full-page explanation component instead of the results list
-- Structure the explanation page with:
-  - Question card with all options color-coded
-  - Explanation text (from DB)
-  - Three reference cards (AMC Handbook, Murtagh's, Tally O'Connor) with topic-relevant headers derived from the question's category
-- Use `framer-motion` for page transitions
-- All changes are in `src/pages/Practice.tsx` only — no new files needed
-
-### Files Modified
-- `src/pages/Practice.tsx` — refactor results phase to add clickable detail view with book reference sections
+| File | Change |
+|------|--------|
+| `supabase/functions/admin-live-stats/index.ts` | Add presence query, return `online_user_ids` |
+| `src/components/admin/LiveActivityTab.tsx` | Use edge function response for online status |
 
