@@ -33,10 +33,9 @@ const App = () => (
               <Route path="/profile" element={<Profile />} />
               <Route path="/practice" element={<Practice />} />
               <Route path="/questions" element={<Questions />} />
-              <Route path="/analytics" element={<Analytics />} />
-              <Route path="/plan" element={<PlaceholderPage title="Study Planner" />} />
+              <Route path="/plan" element={<StudyPlan />} />
               <Route path="/admin/questions" element={<AdminQuestions />} />
-              <Route path="/settings" element={<PlaceholderPage title="Settings" />} />
+              <Route path="/settings" element={<Settings />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>

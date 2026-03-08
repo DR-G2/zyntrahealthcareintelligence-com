@@ -19,7 +19,6 @@ const navItems = [
   { to: '/profile', label: 'Performance', icon: UserCircle },
   { to: '/practice', label: 'Practice', icon: Zap },
   { to: '/questions', label: 'Questions', icon: BookOpen },
-  { to: '/analytics', label: 'Analytics', icon: BarChart3 },
   { to: '/plan', label: 'Study Plan', icon: Calendar },
   { to: '/settings', label: 'Settings', icon: Settings },
 ];
