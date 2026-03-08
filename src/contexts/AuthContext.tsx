@@ -12,6 +12,14 @@ interface Profile {
   onboarding_complete: boolean;
 }
 
+export interface WatermarkState {
+  opacity_light: number;
+  opacity_dark: number;
+  suspended: boolean;
+  strike_count: number;
+  loading: boolean;
+}
+
 export interface SubscriptionState {
   subscribed: boolean;
   tier: 'free' | 'mcq_only' | 'osce_only' | 'full_access' | 'lifetime';
