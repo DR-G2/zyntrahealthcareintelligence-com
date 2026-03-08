@@ -19,6 +19,12 @@ export default function Dashboard() {
 
   return (
     <AppLayout>
+      {showTour && (
+        <WelcomeTour
+          userName={profile?.name?.split(' ')[0]}
+          onComplete={() => setShowTour(false)}
+        />
+      )}
       <div className="mb-8">
         <h1 className="text-3xl font-bold font-display">
           Welcome back, {profile?.name?.split(' ')[0] || 'Doctor'}
