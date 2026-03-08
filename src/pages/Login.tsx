@@ -231,7 +231,30 @@ function AuthForm({ mode }: { mode: 'login' | 'signup' }) {
             </button>
           </div>
         </div>
-        <Button type="submit" className="w-full" disabled={submitting}>
+        {mode === 'signup' && (
+          <div className="space-y-2">
+            <div className="flex items-start gap-2">
+              <Checkbox
+                id="terms-agree"
+                checked={agreedToTerms}
+                onCheckedChange={(v) => setAgreedToTerms(v === true)}
+                className="mt-0.5"
+              />
+              <label htmlFor="terms-agree" className="text-[11px] leading-[1.4] text-foreground/85 cursor-pointer">
+                I agree to the{' '}
+                <Link to="/terms" target="_blank" className="text-primary underline">
+                  Terms of Service
+                </Link>{' '}
+                and Copyright Policy
+              </label>
+            </div>
+            <p className="text-[11px] text-muted-foreground/80">
+              Questions? Contact{' '}
+              <a href={`mailto:${LEGAL_EMAIL}`} className="text-primary underline">{LEGAL_EMAIL}</a>
+            </p>
+          </div>
+        )}
+        <Button type="submit" className="w-full" disabled={submitting || (mode === 'signup' && !agreedToTerms)}>
           {submitting ? 'Please wait...' : mode === 'signup' ? 'Create Account' : 'Log In'}
         </Button>
         {mode === 'login' && (
