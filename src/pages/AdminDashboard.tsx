@@ -10,9 +10,11 @@ import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
-import { Loader2, Sparkles, Upload, FileUp, X, Users, BookOpen, Activity, Pencil, Trash2, Search, ShieldAlert, Radio } from 'lucide-react';
+import { Loader2, Sparkles, Upload, FileUp, X, Users, BookOpen, Activity, Pencil, Trash2, Search, ShieldAlert, Radio, ChevronDown, Zap } from 'lucide-react';
 import { PiracyStrikesTab } from '@/components/admin/PiracyStrikesTab';
 import { LiveActivityTab } from '@/components/admin/LiveActivityTab';
 
@@ -889,13 +891,230 @@ function OSCETab() {
   );
 }
 
+// ─── Cleanup Report Types ────────────────────────────────────
+
+interface CleanupReport {
+  mcq: any | null;
+  osce: any | null;
+}
+
+// ─── Cleanup Report Dialog ───────────────────────────────────
+
+function CleanupReportDialog({ report, open, onOpenChange }: { report: CleanupReport; open: boolean; onOpenChange: (o: boolean) => void }) {
+  const [mcqOpen, setMcqOpen] = useState(true);
+  const [osceOpen, setOsceOpen] = useState(true);
+
+  const renderDeletedTable = (items: any[], type: 'mcq' | 'osce') => {
+    if (!items?.length) return <p className="text-sm text-muted-foreground py-2">No items deleted.</p>;
+    return (
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="w-[50%]">{type === 'mcq' ? 'Question' : 'Station'}</TableHead>
+            <TableHead>{type === 'mcq' ? 'Category' : 'Subject'}</TableHead>
+            <TableHead>Reason</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {items.map((item: any, i: number) => (
+            <TableRow key={i}>
+              <TableCell className="text-xs max-w-[300px] truncate">{item.title}</TableCell>
+              <TableCell><Badge variant="outline" className="text-xs">{item.category || item.subject}</Badge></TableCell>
+              <TableCell><Badge variant={item.reason === 'garbage' ? 'destructive' : 'secondary'} className="text-xs">{item.reason}</Badge></TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    );
+  };
+
+  const renderNormalizedTable = (items: any[], type: 'mcq' | 'osce') => {
+    if (!items?.length) return <p className="text-sm text-muted-foreground py-2">No items normalized.</p>;
+    return (
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="w-[40%]">{type === 'mcq' ? 'Question' : 'Station'}</TableHead>
+            <TableHead>Old</TableHead>
+            <TableHead>→</TableHead>
+            <TableHead>New</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {items.map((item: any, i: number) => (
+            <TableRow key={i}>
+              <TableCell className="text-xs max-w-[250px] truncate">{item.title}</TableCell>
+              <TableCell><Badge variant="outline" className="text-xs text-destructive">{item.old_category || item.old_subject}</Badge></TableCell>
+              <TableCell className="text-muted-foreground">→</TableCell>
+              <TableCell><Badge variant="outline" className="text-xs text-primary">{item.new_category || item.new_subject}</Badge></TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    );
+  };
+
+  const renderDistribution = (dist: Record<string, number> | undefined) => {
+    if (!dist) return null;
+    return (
+      <div className="flex flex-wrap gap-2 mt-2">
+        {Object.entries(dist).sort((a, b) => b[1] - a[1]).map(([k, v]) => (
+          <Badge key={k} variant="secondary" className="text-xs">{k}: {v}</Badge>
+        ))}
+      </div>
+    );
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="max-w-4xl max-h-[85vh] flex flex-col">
+        <DialogHeader>
+          <DialogTitle className="flex items-center gap-2"><Zap className="h-5 w-5 text-primary" /> Full Cleanup Report</DialogTitle>
+        </DialogHeader>
+        <ScrollArea className="flex-1 pr-4">
+          <div className="space-y-4">
+            {/* MCQ Section */}
+            {report.mcq && (
+              <Collapsible open={mcqOpen} onOpenChange={setMcqOpen}>
+                <CollapsibleTrigger asChild>
+                  <Button variant="ghost" className="w-full justify-between text-left font-semibold text-base">
+                    <span>📝 MCQ Report — {report.mcq.total_deleted} deleted, {report.mcq.summary?.categories_normalized || 0} normalized</span>
+                    <ChevronDown className={`h-4 w-4 transition-transform ${mcqOpen ? 'rotate-180' : ''}`} />
+                  </Button>
+                </CollapsibleTrigger>
+                <CollapsibleContent className="space-y-3 pl-2">
+                  <div className="grid grid-cols-3 gap-3">
+                    <Card><CardContent className="p-3 text-center"><div className="text-2xl font-bold">{report.mcq.total_before}</div><div className="text-xs text-muted-foreground">Before</div></CardContent></Card>
+                    <Card><CardContent className="p-3 text-center"><div className="text-2xl font-bold text-destructive">{report.mcq.total_deleted}</div><div className="text-xs text-muted-foreground">Deleted</div></CardContent></Card>
+                    <Card><CardContent className="p-3 text-center"><div className="text-2xl font-bold text-primary">{report.mcq.total_after}</div><div className="text-xs text-muted-foreground">After</div></CardContent></Card>
+                  </div>
+                  <div className="text-xs text-muted-foreground">
+                    Garbage: {report.mcq.summary?.garbage_deleted || 0} · Template: {report.mcq.summary?.template_deleted || 0} · Duplicates: {report.mcq.summary?.duplicates_deleted || 0} · Normalized: {report.mcq.summary?.categories_normalized || 0}
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-medium mb-1">Deleted Items</h4>
+                    {renderDeletedTable(report.mcq.deleted_items, 'mcq')}
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-medium mb-1">Normalized Categories</h4>
+                    {renderNormalizedTable(report.mcq.normalized_items, 'mcq')}
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-medium mb-1">Final Distribution</h4>
+                    {renderDistribution(report.mcq.category_distribution)}
+                  </div>
+                </CollapsibleContent>
+              </Collapsible>
+            )}
+
+            {/* OSCE Section */}
+            {report.osce && (
+              <Collapsible open={osceOpen} onOpenChange={setOsceOpen}>
+                <CollapsibleTrigger asChild>
+                  <Button variant="ghost" className="w-full justify-between text-left font-semibold text-base">
+                    <span>🏥 OSCE Report — {report.osce.total_deleted} deleted, {report.osce.summary?.subjects_normalized || 0} normalized</span>
+                    <ChevronDown className={`h-4 w-4 transition-transform ${osceOpen ? 'rotate-180' : ''}`} />
+                  </Button>
+                </CollapsibleTrigger>
+                <CollapsibleContent className="space-y-3 pl-2">
+                  <div className="grid grid-cols-3 gap-3">
+                    <Card><CardContent className="p-3 text-center"><div className="text-2xl font-bold">{report.osce.total_before}</div><div className="text-xs text-muted-foreground">Before</div></CardContent></Card>
+                    <Card><CardContent className="p-3 text-center"><div className="text-2xl font-bold text-destructive">{report.osce.total_deleted}</div><div className="text-xs text-muted-foreground">Deleted</div></CardContent></Card>
+                    <Card><CardContent className="p-3 text-center"><div className="text-2xl font-bold text-primary">{report.osce.total_after}</div><div className="text-xs text-muted-foreground">After</div></CardContent></Card>
+                  </div>
+                  <div className="text-xs text-muted-foreground">
+                    Garbage: {report.osce.summary?.garbage_deleted || 0} · Duplicates: {report.osce.summary?.duplicates_deleted || 0} · Normalized: {report.osce.summary?.subjects_normalized || 0}
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-medium mb-1">Deleted Items</h4>
+                    {renderDeletedTable(report.osce.deleted_items, 'osce')}
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-medium mb-1">Normalized Subjects</h4>
+                    {renderNormalizedTable(report.osce.normalized_items, 'osce')}
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-medium mb-1">Final Distribution</h4>
+                    {renderDistribution(report.osce.subject_distribution)}
+                  </div>
+                </CollapsibleContent>
+              </Collapsible>
+            )}
+          </div>
+        </ScrollArea>
+        <DialogFooter>
+          <Button variant="outline" onClick={() => onOpenChange(false)}>Close</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 // ─── Main Dashboard ──────────────────────────────────────────
 
 export default function AdminDashboard() {
+  const [fullCleaning, setFullCleaning] = useState(false);
+  const [cleanupReport, setCleanupReport] = useState<CleanupReport>({ mcq: null, osce: null });
+  const [reportOpen, setReportOpen] = useState(false);
+  const { toast } = useToast();
+
+  const runFullCleanup = async () => {
+    setFullCleaning(true);
+    try {
+      const [mcqRes, osceRes] = await Promise.all([
+        supabase.functions.invoke('admin-cleanup-questions'),
+        supabase.functions.invoke('admin-cleanup-stations'),
+      ]);
+      if (mcqRes.error) throw mcqRes.error;
+      if (osceRes.error) throw osceRes.error;
+      if (mcqRes.data?.error) throw new Error(mcqRes.data.error);
+      if (osceRes.data?.error) throw new Error(osceRes.data.error);
+
+      const report = { mcq: mcqRes.data, osce: osceRes.data };
+      setCleanupReport(report);
+      setReportOpen(true);
+
+      const totalDeleted = (mcqRes.data.total_deleted || 0) + (osceRes.data.total_deleted || 0);
+      const totalNormalized = (mcqRes.data.summary?.categories_normalized || 0) + (osceRes.data.summary?.subjects_normalized || 0);
+      toast({ title: 'Full cleanup complete', description: `${totalDeleted} items deleted, ${totalNormalized} normalized` });
+    } catch (e: any) {
+      toast({ title: 'Cleanup failed', description: e.message, variant: 'destructive' });
+    }
+    setFullCleaning(false);
+  };
+
   return (
     <AppLayout>
       <div className="mx-auto max-w-6xl py-8 space-y-6">
         <h1 className="text-2xl font-display font-bold">Admin Dashboard</h1>
+
+        {/* Full Cleanup Card */}
+        <Card className="border-primary/20 bg-primary/5">
+          <CardContent className="flex items-center justify-between p-4">
+            <div>
+              <h3 className="font-semibold flex items-center gap-2"><Zap className="h-4 w-4 text-primary" /> Run Full Cleanup</h3>
+              <p className="text-sm text-muted-foreground">Clean & normalize both MCQ questions and OSCE stations in one go. Shows a detailed report.</p>
+            </div>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button variant="destructive" disabled={fullCleaning}>{fullCleaning && <Loader2 className="h-4 w-4 mr-2 animate-spin" />} Run Full Cleanup</Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Run full cleanup on MCQ + OSCE?</AlertDialogTitle>
+                  <AlertDialogDescription>This will permanently delete junk/duplicate questions AND stations, and normalize all categories/subjects. This cannot be undone.</AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction onClick={runFullCleanup}>Run Full Cleanup</AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </CardContent>
+        </Card>
+
+        <CleanupReportDialog report={cleanupReport} open={reportOpen} onOpenChange={setReportOpen} />
+
         <Tabs defaultValue="live">
           <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="live" className="gap-2"><Radio className="h-4 w-4" /> User Activity</TabsTrigger>
