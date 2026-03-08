@@ -12,12 +12,16 @@ const logStep = (step: string, details?: any) => {
   console.log(`[CHECK-SUBSCRIPTION] ${step}${detailsStr}`);
 };
 
-// Product/price mapping
-const TIERS: Record<string, string> = {
-  "prod_U6sKBIdCnUC1WH": "core",
-  "prod_U6sKziBbluGb0Q": "pro",
-  "prod_U6sMkFKlyQoIuh": "lifetime",
-};
+// All product IDs that grant full/paid access
+const PAID_PRODUCTS = new Set([
+  "prod_U6yxXHRvDd4Ez8",  // Full Access monthly
+  "prod_U6yy9VWpyT13u1",  // Full Access 3-month
+  "prod_U6sMkFKlyQoIuh",  // Lifetime
+  "prod_U6sKBIdCnUC1WH",  // Legacy Core
+  "prod_U6sKziBbluGb0Q",  // Legacy Pro
+]);
+
+const LIFETIME_PRODUCT = "prod_U6sMkFKlyQoIuh";
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -70,8 +74,10 @@ serve(async (req) => {
     if (subscriptions.data.length > 0) {
       const sub = subscriptions.data[0];
       const productId = sub.items.data[0].price.product as string;
-      const tier = TIERS[productId] || "core";
       const subscriptionEnd = new Date(sub.current_period_end * 1000).toISOString();
+      
+      // All paid subscriptions map to "full_access" tier
+      const tier = PAID_PRODUCTS.has(productId) ? "full_access" : "full_access";
       logStep("Active subscription", { tier, productId });
 
       return new Response(JSON.stringify({
@@ -85,7 +91,7 @@ serve(async (req) => {
       });
     }
 
-    // Check for lifetime (one-time payment) — look for completed checkout sessions
+    // Check for lifetime (one-time payment)
     const sessions = await stripe.checkout.sessions.list({
       customer: customerId,
       limit: 100,
@@ -100,7 +106,7 @@ serve(async (req) => {
       return new Response(JSON.stringify({
         subscribed: true,
         tier: "lifetime",
-        product_id: "prod_U6sMkFKlyQoIuh",
+        product_id: LIFETIME_PRODUCT,
         subscription_end: null,
       }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
