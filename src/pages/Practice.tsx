@@ -469,7 +469,12 @@ function SetupScreen({ onStart }: { onStart: (config: SessionConfig) => void }) 
           {/* Subject View */}
           {filterMode === 'subject' && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              {SUBJECTS.map((subject) => {
+              {SUBJECTS.filter((subject) => {
+                if (!searchQuery.trim()) return true;
+                const q = searchQuery.toLowerCase();
+                const systems = SUBJECT_SYSTEMS[subject] || [];
+                return subject.toLowerCase().includes(q) || systems.some(s => s.toLowerCase().includes(q));
+              }).map((subject) => {
                 const systems = SUBJECT_SYSTEMS[subject] || [];
                 const selectedCount = systems.filter(sys => selectedPairs.has(`${sys}:${subject}`)).length;
                 const allSelected = selectedCount === systems.length && systems.length > 0;
