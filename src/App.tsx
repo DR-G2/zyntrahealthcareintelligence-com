@@ -8,6 +8,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import Landing from "./pages/Landing";
+import About from "./pages/About";
 import Pricing from "./pages/Pricing";
 import Login from "./pages/Login";
 import ResetPassword from "./pages/ResetPassword";
