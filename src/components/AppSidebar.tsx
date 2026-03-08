@@ -2,7 +2,6 @@ import { NavLink, useLocation } from 'react-router-dom';
 import {
   LayoutDashboard,
   ClipboardCheck,
-  BarChart3,
   BookOpen,
   Calendar,
   Settings,
