@@ -25,10 +25,11 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { toast } from 'sonner';
-import { User, Calendar, Shield, Info, LogOut, Trash2 } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { User, Calendar, Shield, Info, LogOut, Trash2, Scale } from 'lucide-react';
+import { useNavigate, Link } from 'react-router-dom';
 import { ReferralCard } from '@/components/settings/ReferralCard';
 import { StrikeWarning } from '@/components/settings/StrikeWarning';
+import { LEGAL_EMAIL } from '@/lib/legal';
 
 export default function Settings() {
   const { user, profile, signOut, refreshProfile } = useAuth();
