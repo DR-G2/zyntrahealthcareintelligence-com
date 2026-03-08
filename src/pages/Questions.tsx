@@ -75,8 +75,8 @@ export default function Questions() {
     let from = 0;
     let hasMore = true;
     while (hasMore) {
-      let query = supabase.from(table).select(selectStr).range(from, from + pageSize - 1);
-      if (filters) query = query.eq(filters.column, filters.value);
+      let query = supabase.from(table as any).select(selectStr).range(from, from + pageSize - 1);
+      if (filters) query = (query as any).eq(filters.column, filters.value);
       const { data, error } = await query;
       if (error || !data || data.length === 0) { hasMore = false; break; }
       allRows.push(...data);
@@ -96,18 +96,12 @@ export default function Questions() {
       user ? fetchAllRows('user_notes', 'question_id, note_text', { column: 'user_id', value: user.id }) : Promise.resolve([]),
     ]);
 
-    setQuestions(allQuestions.map(q => ({ ...q, options: q.options as string[] })));
-    if (bRes.data) {
-      setBookmarks(new Set(bRes.data.map((b: any) => b.question_id)));
-    }
-    if (aRes.data) {
-      setAttempts(aRes.data as UserAttempt[]);
-    }
-    if (nRes.data) {
-      const noteMap: Record<string, string> = {};
-      (nRes.data as any[]).forEach(n => { noteMap[n.question_id] = n.note_text; });
-      setNotes(noteMap);
-    }
+    setQuestions(allQuestions.map((q: any) => ({ ...q, options: q.options as string[] })));
+    setBookmarks(new Set(bData.map((b: any) => b.question_id)));
+    setAttempts(aData as UserAttempt[]);
+    const noteMap: Record<string, string> = {};
+    nData.forEach((n: any) => { noteMap[n.question_id] = n.note_text; });
+    setNotes(noteMap);
 
     setLoading(false);
   };
