@@ -92,20 +92,14 @@ serve(async (req) => {
   );
 
   try {
-    // Auth: check for admin user token or allow internal service calls
     const authHeader = req.headers.get("Authorization");
-    const internalKey = req.headers.get("x-internal-key");
-    
-    if (internalKey === "cleanup-run-2026") {
-      // One-time internal access
-    } else if (authHeader) {
-      const token = authHeader.replace("Bearer ", "");
-      const { data: userData, error: userError } = await supabase.auth.getUser(token);
-      if (userError || userData.user?.email !== ADMIN_EMAIL) {
-        return new Response(JSON.stringify({ error: "Forbidden" }), { status: 403, headers: corsHeaders });
-      }
-    } else {
+    if (!authHeader) {
       return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401, headers: corsHeaders });
+    }
+    const token = authHeader.replace("Bearer ", "");
+    const { data: userData, error: userError } = await supabase.auth.getUser(token);
+    if (userError || userData.user?.email !== ADMIN_EMAIL) {
+      return new Response(JSON.stringify({ error: "Forbidden" }), { status: 403, headers: corsHeaders });
     }
 
     const summary: Record<string, number> = {
