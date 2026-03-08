@@ -53,6 +53,7 @@ export default function SharedTests() {
   const [categories, setCategories] = useState<string[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [questionCount, setQuestionCount] = useState('20');
+  const [selectedSubjects, setSelectedSubjects] = useState<string[]>([]);
 
   useEffect(() => { if (user) { loadTests(); loadCategories(); } }, [user]);
 
