@@ -232,6 +232,7 @@ export default function Feed() {
             {savingMcq ? <Loader2 className="h-4 w-4 animate-spin" /> : savedMcq ? <CheckCircle2 className="h-4 w-4" /> : <Save className="h-4 w-4" />}
             {savedMcq ? 'Saved to Question Bank' : 'Save All to Question Bank'}
           </Button>
+          </div>
           {mcqResults.map((q, i) => (
             <Card key={i} className="overflow-hidden">
               <CardHeader className="pb-3">
