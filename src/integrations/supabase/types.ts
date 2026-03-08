@@ -148,6 +148,33 @@ export type Database = {
         }
         Relationships: []
       }
+      manual_overrides: {
+        Row: {
+          expires_at: string | null
+          granted_at: string
+          granted_by: string | null
+          id: string
+          tier: string
+          user_id: string
+        }
+        Insert: {
+          expires_at?: string | null
+          granted_at?: string
+          granted_by?: string | null
+          id?: string
+          tier?: string
+          user_id: string
+        }
+        Update: {
+          expires_at?: string | null
+          granted_at?: string
+          granted_by?: string | null
+          id?: string
+          tier?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       performance_profiles: {
         Row: {
           clinical_accuracy: number | null
