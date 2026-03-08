@@ -96,10 +96,11 @@ function UsersTab() {
 
   const handleRevoke = async (userId: string) => {
     try {
-      const { error } = await supabase.functions.invoke('admin-grant-access', {
+      const { data, error } = await supabase.functions.invoke('admin-grant-access', {
         body: { action: 'revoke', user_id: userId }
       });
       if (error) throw error;
+      if (data?.error) throw new Error(data.error);
       toast({ title: 'Access revoked' });
       fetchUsers();
     } catch (e: any) {
