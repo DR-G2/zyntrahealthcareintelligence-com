@@ -87,6 +87,7 @@ function SetupScreen({ onStart }: { onStart: (config: SessionConfig) => void }) 
   const [selectedPairs, setSelectedPairs] = useState<Set<string>>(new Set());
   const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
   const [questionCount, setQuestionCount] = useState(25);
+  const [searchQuery, setSearchQuery] = useState('');
   const [categoryCounts, setCategoryCounts] = useState<Record<string, number>>({});
   const [loading, setLoading] = useState(true);
 
