@@ -88,8 +88,7 @@ export default function Pricing() {
   const [loadingTier, setLoadingTier] = useState<TierKey | null>(null);
   const [lifetimeSoldOut, setLifetimeSoldOut] = useState(false);
 
-  // Check lifetime purchase count
-  useState(() => {
+  useEffect(() => {
     supabase
       .from('payments')
       .select('id', { count: 'exact', head: true })
@@ -98,7 +97,7 @@ export default function Pricing() {
       .then(({ count }) => {
         if (count !== null && count >= 100) setLifetimeSoldOut(true);
       });
-  });
+  }, []);
 
   const loadRazorpayScript = (): Promise<void> => {
     return new Promise((resolve, reject) => {
