@@ -88,6 +88,9 @@ export default function BehaviorProfile() {
   const [osceStats, setOsceStats] = useState<{ count: number; avgScore: number; subjects: string[] } | null>(null);
   const [psychograph, setPsychograph] = useState<any>(null);
 
+  // Feature gate
+  const { useFeatureGate } = await import('@/hooks/useFeatureGate');
+
   useEffect(() => {
     if (!user) return;
     const fetchAll = async () => {
