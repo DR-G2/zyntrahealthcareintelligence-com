@@ -369,7 +369,7 @@ export default function Pricing() {
             <motion.div variants={fadeUp}>
               <Card className="h-full flex flex-col border-border relative">
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                  <Badge variant="secondary" className="px-3 py-1 text-xs font-semibold">🔥 First 100 Users</Badge>
+                  <Badge variant="secondary" className="px-3 py-1 text-xs font-semibold">{lifetimeSoldOut ? '❌ Sold Out' : '🔥 First 100 Users'}</Badge>
                 </div>
                 <CardHeader className="pb-3">
                   <CardTitle className="text-lg">Lifetime</CardTitle>
