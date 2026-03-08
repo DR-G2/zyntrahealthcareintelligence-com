@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { SYSTEMS } from '@/lib/filter-data';
 import { Share2, Plus, Copy, Users, Trophy, Loader2, CheckCircle, Clock, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
