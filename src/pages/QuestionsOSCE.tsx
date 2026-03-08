@@ -6,6 +6,8 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { Stethoscope, Clock, Loader2, Activity } from 'lucide-react';
 import { format } from 'date-fns';
+import { useFeatureGate } from '@/hooks/useFeatureGate';
+import { UpgradePrompt } from '@/components/UpgradePrompt';
 
 interface StationAttemptSummary {
   id: string;
