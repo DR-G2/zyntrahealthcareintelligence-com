@@ -1,41 +1,82 @@
 
 
-## Plan: Enhanced Practice Results with Detailed Explanations
+## Plan: AI-Powered Study Plan + Study Buddy Chatbot
 
-### What Changes
+### Overview
 
-**1. Expand the results review section (Practice.tsx, lines 225-245)**
+Two features: (1) Replace the static study plan logic with AI-generated personalized recommendations via an edge function, and (2) Add a floating study buddy chatbot accessible from any page that can explain medical concepts and review missed questions.
 
-Replace the current inline explanation snippet with a clickable card that navigates to a full-page explanation view. Each question card in results will show:
-- Question text, your answer vs correct answer, correct/incorrect badge
-- A "Read Full Explanation" button that opens a detailed view
+---
 
-**2. Create a full-page explanation view within the results phase**
+### 1. AI Study Plan Generator
 
-Add a new sub-phase `'explanation'` to the drill session. When a user clicks a question, the view transitions to a full-page layout containing:
-- The question and all options (highlighted correct/incorrect)
-- A detailed explanation section
-- **Reference notes** organized by source book:
-  - **AMC Handbook** — key clinical points relevant to the question topic
-  - **John Murtagh's General Practice** — diagnostic approach and management
-  - **Tally O'Connor's Clinical Examination** — examination findings and signs
-- A "Back to Results" button
+**Edge function:** `supabase/functions/generate-study-plan/index.ts`
 
-**3. Store reference notes in the question explanation field**
+- Receives user's performance DNA: category stats (per-category accuracy from `user_attempts`), `performance_profiles` metrics, `profiles.weak_areas`, exam date, and days remaining
+- Calls Lovable AI (`google/gemini-3-flash-preview`) with tool calling to return structured output:
+  - `focus_areas`: prioritized list with category, priority level, recommended daily questions, and specific study tips
+  - `weekly_schedule`: 7-day plan with topics and question counts per day
+  - `recommendations`: 3-5 personalized actionable tips based on the user's specific weaknesses
+  - `motivation`: a short encouraging message based on readiness level
+- Saves the generated plan to the `study_plans` table (tasks = the full AI output as JSON)
+- Returns the structured plan to the frontend
 
-Since the `questions` table already has an `explanation` column, the detailed explanations with book references will be structured within that field. For now, the UI will parse and display the explanation, and add styled reference sections with book attribution headers even if the current explanation text is brief. The textbook reference sections will be rendered as distinct styled blocks.
+**Config:** Add `[functions.generate-study-plan]` with `verify_jwt = false` to `supabase/config.toml`.
 
-### Technical Approach
+**Frontend changes to `src/pages/StudyPlan.tsx`:**
 
-- Add state: `reviewQuestionIndex: number | null` to track which question is being viewed in detail
-- When set, render a full-page explanation component instead of the results list
-- Structure the explanation page with:
-  - Question card with all options color-coded
-  - Explanation text (from DB)
-  - Three reference cards (AMC Handbook, Murtagh's, Tally O'Connor) with topic-relevant headers derived from the question's category
-- Use `framer-motion` for page transitions
-- All changes are in `src/pages/Practice.tsx` only — no new files needed
+- Add a "Generate AI Plan" button that sends performance data to the edge function
+- Show a loading state while generating
+- Display AI-generated plan sections (replaces the current static `useMemo` logic for weekly schedule and recommendations)
+- Cache the last generated plan in `study_plans` table; show cached plan on load, with option to regenerate
+- Keep the existing Readiness Summary and Focus Areas cards (data-driven, no AI needed)
 
-### Files Modified
-- `src/pages/Practice.tsx` — refactor results phase to add clickable detail view with book reference sections
+---
+
+### 2. Study Buddy Chatbot
+
+**Edge function:** `supabase/functions/study-buddy/index.ts`
+
+- Streaming chat endpoint using Lovable AI (`google/gemini-3-flash-preview`)
+- System prompt: AMC exam tutor persona — explains medical concepts at exam level, uses Australian clinical guidelines, references structured explanation framework (diagnosis, differentials, investigations, treatments)
+- Accepts full conversation history from client
+- Optional `context` field: when user asks about a specific question, the client sends the question data (vignette, options, correct answer, explanation) so the AI can reference it
+- Handles 429/402 errors gracefully
+
+**Config:** Add `[functions.study-buddy]` with `verify_jwt = false` to `supabase/config.toml`.
+
+**Frontend: `src/components/StudyBuddy.tsx`**
+
+- Floating chat button (bottom-right corner) with a chat panel that slides up
+- Token-by-token streaming using SSE parsing (per the AI gateway pattern)
+- Markdown rendering for AI responses (`react-markdown` — needs to be installed)
+- Pre-built quick actions:
+  - "Explain this question" — available when viewing a question explanation, sends question context
+  - "Help me understand [category]" — quick prompts for weak areas from profile
+- Conversation stored in local state (no persistence needed unless user asks)
+- Accessible from all pages via `AppLayout`
+
+**Integration with question review:**
+- Add a "Ask Study Buddy" button to `QuestionExplanation.tsx` that opens the chatbot pre-loaded with the question context
+
+---
+
+### 3. Database Changes
+
+**No migrations needed.** The existing `study_plans` table has `tasks` (jsonb) and `focus_areas` (array) columns which will store the AI output.
+
+---
+
+### File Changes Summary
+
+| File | Action |
+|------|--------|
+| `supabase/functions/generate-study-plan/index.ts` | Create — AI study plan generator |
+| `supabase/functions/study-buddy/index.ts` | Create — streaming chatbot endpoint |
+| `supabase/config.toml` | Add both new functions |
+| `src/pages/StudyPlan.tsx` | Update — add AI generate button, display AI plan |
+| `src/components/StudyBuddy.tsx` | Create — floating chatbot component |
+| `src/components/AppLayout.tsx` | Add StudyBuddy component |
+| `src/components/practice/QuestionExplanation.tsx` | Add "Ask Study Buddy" button |
+| `package.json` | Add `react-markdown` dependency |
 
