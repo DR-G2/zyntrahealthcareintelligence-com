@@ -124,6 +124,40 @@ export default function Feed() {
     setRevealedAnswers((prev) => ({ ...prev, [qIndex]: true }));
   };
 
+  const handleSaveMcq = async () => {
+    if (!mcqResults) return;
+    setSavingMcq(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('save-feed-questions', {
+        body: { type: 'mcq', questions: mcqResults },
+      });
+      if (error) throw error;
+      setSavedMcq(true);
+      toast({ title: `${data.saved} questions saved to question bank` });
+    } catch (err: any) {
+      toast({ title: err?.message || 'Failed to save', variant: 'destructive' });
+    } finally {
+      setSavingMcq(false);
+    }
+  };
+
+  const handleSaveOsce = async () => {
+    if (!osceResult) return;
+    setSavingOsce(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('save-feed-questions', {
+        body: { type: 'osce', station: osceResult },
+      });
+      if (error) throw error;
+      setSavedOsce(true);
+      toast({ title: 'OSCE station saved to your stations' });
+    } catch (err: any) {
+      toast({ title: err?.message || 'Failed to save', variant: 'destructive' });
+    } finally {
+      setSavingOsce(false);
+    }
+  };
+
   return (
     <AppLayout>
       <div className="mb-6">
