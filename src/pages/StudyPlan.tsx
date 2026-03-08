@@ -41,6 +41,7 @@ interface AIFocusArea {
   priority: string;
   daily_questions: number;
   study_tip: string;
+  spaced_repetition_note?: string;
 }
 
 interface AIScheduleDay {
