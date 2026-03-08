@@ -176,15 +176,7 @@ export default function Landing() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-border py-8">
-        <div className="container flex items-center justify-between text-sm text-muted-foreground">
-          <div className="flex items-center gap-2">
-            <Zap className="h-4 w-4 text-primary" />
-            <span className="font-display font-semibold text-foreground">Zyntra</span>
-          </div>
-          <p>© 2026 Zyntra. All rights reserved.</p>
-        </div>
-      </footer>
+      <LegalFooter />
     </div>
   );
 }
