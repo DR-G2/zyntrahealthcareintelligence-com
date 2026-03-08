@@ -21,6 +21,7 @@ import Questions from "./pages/Questions";
 import StudyPlan from "./pages/StudyPlan";
 import Settings from "./pages/Settings";
 import AdminQuestions from "./pages/AdminQuestions";
+import Stations from "./pages/Stations";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -47,6 +48,7 @@ const App = () => (
               <Route path="/practice" element={<ProtectedRoute><Practice /></ProtectedRoute>} />
               <Route path="/questions" element={<ProtectedRoute><Questions /></ProtectedRoute>} />
               <Route path="/plan" element={<ProtectedRoute><StudyPlan /></ProtectedRoute>} />
+              <Route path="/stations" element={<ProtectedRoute><Stations /></ProtectedRoute>} />
               <Route path="/admin/questions" element={<ProtectedRoute><AdminQuestions /></ProtectedRoute>} />
               <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
               <Route path="*" element={<NotFound />} />

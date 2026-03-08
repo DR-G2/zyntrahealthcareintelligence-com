@@ -118,6 +118,36 @@ export type Database = {
         }
         Relationships: []
       }
+      clinical_stations: {
+        Row: {
+          created_at: string
+          id: string
+          scenario_data: Json
+          scenario_title: string
+          session_id: string
+          subject: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          scenario_data?: Json
+          scenario_title?: string
+          session_id: string
+          subject: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          scenario_data?: Json
+          scenario_title?: string
+          session_id?: string
+          subject?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       performance_profiles: {
         Row: {
           clinical_accuracy: number | null
@@ -184,6 +214,48 @@ export type Database = {
           updated_at?: string
           user_type?: string | null
           weak_areas?: string[] | null
+        }
+        Relationships: []
+      }
+      psychograph_history: {
+        Row: {
+          archetype: string
+          cognitive_stability: number
+          created_at: string
+          delegation_confidence: number
+          emotional_reactivity: number
+          id: string
+          session_id: string
+          silence_tolerance: number
+          structure_integrity: number
+          time_compression_vulnerability: number
+          user_id: string
+        }
+        Insert: {
+          archetype?: string
+          cognitive_stability?: number
+          created_at?: string
+          delegation_confidence?: number
+          emotional_reactivity?: number
+          id?: string
+          session_id: string
+          silence_tolerance?: number
+          structure_integrity?: number
+          time_compression_vulnerability?: number
+          user_id: string
+        }
+        Update: {
+          archetype?: string
+          cognitive_stability?: number
+          created_at?: string
+          delegation_confidence?: number
+          emotional_reactivity?: number
+          id?: string
+          session_id?: string
+          silence_tolerance?: number
+          structure_integrity?: number
+          time_compression_vulnerability?: number
+          user_id?: string
         }
         Relationships: []
       }
@@ -291,6 +363,54 @@ export type Database = {
           options?: Json
           question_text?: string
           tags?: string[] | null
+        }
+        Relationships: []
+      }
+      station_attempts: {
+        Row: {
+          behavioral_signals: Json
+          chat_transcript: Json
+          checklist_responses: Json
+          created_at: string
+          id: string
+          mode: string
+          psychograph: Json
+          scores: Json
+          session_id: string
+          station_index: number
+          subject: string
+          time_taken_seconds: number
+          user_id: string
+        }
+        Insert: {
+          behavioral_signals?: Json
+          chat_transcript?: Json
+          checklist_responses?: Json
+          created_at?: string
+          id?: string
+          mode?: string
+          psychograph?: Json
+          scores?: Json
+          session_id: string
+          station_index?: number
+          subject: string
+          time_taken_seconds?: number
+          user_id: string
+        }
+        Update: {
+          behavioral_signals?: Json
+          chat_transcript?: Json
+          checklist_responses?: Json
+          created_at?: string
+          id?: string
+          mode?: string
+          psychograph?: Json
+          scores?: Json
+          session_id?: string
+          station_index?: number
+          subject?: string
+          time_taken_seconds?: number
+          user_id?: string
         }
         Relationships: []
       }

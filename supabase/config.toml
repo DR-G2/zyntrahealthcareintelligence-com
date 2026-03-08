@@ -17,3 +17,11 @@ project_id = "yudkfmgilucyhukfggij"
     verify_jwt = false
   [functions.customer-portal]
     verify_jwt = false
+  [functions.generate-station]
+    verify_jwt = false
+  [functions.station-patient-chat]
+    verify_jwt = false
+  [functions.evaluate-station]
+    verify_jwt = false
+  [functions.select-adaptive-stations]
+    verify_jwt = false

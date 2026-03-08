@@ -10,6 +10,7 @@ import {
   LogOut,
   Brain,
   Target,
+  Activity,
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { ThemeToggle } from '@/components/ThemeToggle';
@@ -21,6 +22,7 @@ const navItems = [
   { to: '/profile', label: 'Performance', icon: UserCircle },
   { to: '/behavior', label: 'Behavior', icon: Brain },
   { to: '/trust-your-gut', label: 'Trust Your Gut', icon: Target },
+  { to: '/stations', label: 'Stations', icon: Activity },
   { to: '/practice', label: 'Practice', icon: Zap },
   { to: '/questions', label: 'Questions', icon: BookOpen },
   { to: '/plan', label: 'Study Plan', icon: Calendar },
