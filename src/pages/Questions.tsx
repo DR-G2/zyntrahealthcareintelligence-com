@@ -15,6 +15,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/component
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
+import { useFeatureGate } from '@/hooks/useFeatureGate';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   SYSTEMS, SUBJECTS, SYSTEM_SUBJECTS, SUBJECT_SYSTEMS,
@@ -47,6 +48,7 @@ type FilterTab = 'all' | 'bookmarked' | 'incorrect' | 'unattempted';
 export default function Questions() {
   const { user } = useAuth();
   const { toast } = useToast();
+  const gate = useFeatureGate();
   const [questions, setQuestions] = useState<Question[]>([]);
   const [bookmarks, setBookmarks] = useState<Set<string>>(new Set());
   const [attempts, setAttempts] = useState<UserAttempt[]>([]);
@@ -233,7 +235,7 @@ export default function Questions() {
   const totalPairs = getAllPairs().size;
 
   const toggleBookmark = async (qId: string) => {
-    if (!user) return;
+    if (!user || !gate.canSaveBookmarks) return;
     const isBookmarked = bookmarks.has(qId);
     const next = new Set(bookmarks);
 
@@ -249,7 +251,7 @@ export default function Questions() {
   };
 
   const saveNote = async (qId: string) => {
-    if (!user) return;
+    if (!user || !gate.canAccessNotes) return;
     const existing = notes[qId];
 
     if (existing !== undefined) {

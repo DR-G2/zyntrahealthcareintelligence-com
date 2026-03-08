@@ -11,6 +11,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { useFeatureGate } from '@/hooks/useFeatureGate';
+import { UpgradePrompt } from '@/components/UpgradePrompt';
 
 interface AttemptRow {
   id: string;
@@ -99,6 +101,7 @@ function ReviewCard({ attempt }: { attempt: AttemptRow }) {
 
 export default function MistakeReview() {
   const { user } = useAuth();
+  const gate = useFeatureGate();
   const [activeTab, setActiveTab] = useState('incorrect');
 
   const { data: attempts = [], isLoading } = useQuery({
@@ -142,7 +145,9 @@ export default function MistakeReview() {
           <p className="text-muted-foreground mt-1">Learn from your errors — the fastest path to passing</p>
         </div>
 
-        {isLoading ? (
+        {!gate.canAccessHistory ? (
+          <UpgradePrompt feature="Mistake Review" description="Upgrade to a paid plan to review past mistakes, changed answers, and guesses." variant="card" />
+        ) : isLoading ? (
           <div className="space-y-3">
             {[1, 2, 3].map(i => <div key={i} className="h-24 rounded-lg bg-muted animate-pulse" />)}
           </div>

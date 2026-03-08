@@ -1,11 +1,17 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ChevronLeft, ChevronDown, ChevronUp, CheckCircle, XCircle, BookOpen, Stethoscope, ClipboardList, FlaskConical, Pill, AlertCircle, Lightbulb, MessageCircle } from 'lucide-react';
+import { ChevronLeft, ChevronDown, ChevronUp, CheckCircle, XCircle, BookOpen, Stethoscope, ClipboardList, FlaskConical, Pill, AlertCircle, Lightbulb, MessageCircle, Bookmark, BookmarkCheck, StickyNote, Lock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/contexts/AuthContext';
+import { useFeatureGate } from '@/hooks/useFeatureGate';
+import { UpgradePrompt } from '@/components/UpgradePrompt';
+import { useToast } from '@/hooks/use-toast';
 
 interface DifferentialDiagnosis {
   diagnosis: string;
@@ -79,6 +85,61 @@ export function QuestionExplanation({ question, userAnswer, questionIndex, onBac
   const [openDiffs, setOpenDiffs] = useState<Record<number, boolean>>({});
   const [openIncorrect, setOpenIncorrect] = useState(false);
 
+  const { user } = useAuth();
+  const gate = useFeatureGate();
+  const { toast } = useToast();
+
+  // Bookmark state
+  const [isBookmarked, setIsBookmarked] = useState(false);
+  const [bookmarkLoading, setBookmarkLoading] = useState(false);
+
+  // Notes state
+  const [noteText, setNoteText] = useState('');
+  const [savedNote, setSavedNote] = useState('');
+  const [editingNote, setEditingNote] = useState(false);
+
+  // Load bookmark and note on mount
+  useEffect(() => {
+    if (!user) return;
+    const load = async () => {
+      const [{ data: bData }, { data: nData }] = await Promise.all([
+        supabase.from('bookmarks').select('id').eq('user_id', user.id).eq('question_id', question.id).maybeSingle(),
+        supabase.from('user_notes').select('note_text').eq('user_id', user.id).eq('question_id', question.id).maybeSingle(),
+      ]);
+      setIsBookmarked(!!bData);
+      if (nData) {
+        setSavedNote(nData.note_text);
+        setNoteText(nData.note_text);
+      }
+    };
+    load();
+  }, [user, question.id]);
+
+  const toggleBookmark = async () => {
+    if (!user || !gate.canSaveBookmarks) return;
+    setBookmarkLoading(true);
+    if (isBookmarked) {
+      await supabase.from('bookmarks').delete().eq('user_id', user.id).eq('question_id', question.id);
+      setIsBookmarked(false);
+    } else {
+      await supabase.from('bookmarks').insert({ user_id: user.id, question_id: question.id });
+      setIsBookmarked(true);
+    }
+    setBookmarkLoading(false);
+  };
+
+  const saveNote = async () => {
+    if (!user || !gate.canAccessNotes) return;
+    if (savedNote) {
+      await supabase.from('user_notes').update({ note_text: noteText }).eq('user_id', user.id).eq('question_id', question.id);
+    } else {
+      await supabase.from('user_notes').insert({ user_id: user.id, question_id: question.id, note_text: noteText });
+    }
+    setSavedNote(noteText);
+    setEditingNote(false);
+    toast({ title: 'Note saved' });
+  };
+
   const hasDiagnosisData = question.diagnosis_explanation || question.first_line_investigation || question.best_treatment;
   const hasDifferentials = question.differential_diagnoses && question.differential_diagnoses.length > 0;
   const hasIncorrectExplanations = question.incorrect_answer_explanations && Object.keys(question.incorrect_answer_explanations).length > 0;
@@ -96,11 +157,25 @@ export function QuestionExplanation({ question, userAnswer, questionIndex, onBac
         <Button variant="ghost" onClick={onBack} className="gap-1">
           <ChevronLeft className="h-4 w-4" /> Back to Results
         </Button>
-        {onAskStudyBuddy && (
-          <Button variant="outline" size="sm" onClick={() => onAskStudyBuddy(question)} className="gap-1.5">
-            <MessageCircle className="h-4 w-4" /> Ask Study Buddy
-          </Button>
-        )}
+        <div className="flex items-center gap-2">
+          {/* Bookmark button */}
+          {gate.canSaveBookmarks ? (
+            <Button variant="ghost" size="icon" onClick={toggleBookmark} disabled={bookmarkLoading}>
+              {isBookmarked
+                ? <BookmarkCheck className="h-4 w-4 text-primary" />
+                : <Bookmark className="h-4 w-4 text-muted-foreground" />}
+            </Button>
+          ) : (
+            <Button variant="ghost" size="icon" disabled className="opacity-50">
+              <Lock className="h-4 w-4 text-muted-foreground" />
+            </Button>
+          )}
+          {onAskStudyBuddy && (
+            <Button variant="outline" size="sm" onClick={() => onAskStudyBuddy(question)} className="gap-1.5">
+              <MessageCircle className="h-4 w-4" /> Ask Study Buddy
+            </Button>
+          )}
+        </div>
       </div>
 
       {/* Question header */}
@@ -158,139 +233,199 @@ export function QuestionExplanation({ question, userAnswer, questionIndex, onBac
         </Card>
       )}
 
-      {/* Diagnosis & Management */}
+      {/* Diagnosis & Management — gated to paid for learning points */}
       {hasDiagnosisData && (
-        <Card className="border-primary/20">
-          <CardHeader className="pb-3">
-            <div className="flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10">
-                <Stethoscope className="h-4 w-4 text-primary" />
+        gate.canAccessLearningPoints ? (
+          <Card className="border-primary/20">
+            <CardHeader className="pb-3">
+              <div className="flex items-center gap-2">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10">
+                  <Stethoscope className="h-4 w-4 text-primary" />
+                </div>
+                <CardTitle className="text-sm font-display">Diagnosis & Management</CardTitle>
               </div>
-              <CardTitle className="text-sm font-display">Diagnosis & Management</CardTitle>
-            </div>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            {question.diagnosis_explanation && (
-              <div>
-                <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-1">Diagnosis</p>
-                <p className="text-sm leading-relaxed">{question.diagnosis_explanation}</p>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              {question.diagnosis_explanation && (
+                <div>
+                  <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-1">Diagnosis</p>
+                  <p className="text-sm leading-relaxed">{question.diagnosis_explanation}</p>
+                </div>
+              )}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                {question.first_line_investigation && (
+                  <div className="rounded-lg bg-muted p-3">
+                    <div className="flex items-center gap-1.5 mb-1">
+                      <FlaskConical className="h-3.5 w-3.5 text-muted-foreground" />
+                      <p className="text-xs font-medium text-muted-foreground">1st Line Ix</p>
+                    </div>
+                    <p className="text-sm font-medium">{question.first_line_investigation}</p>
+                  </div>
+                )}
+                {question.gold_standard_investigation && (
+                  <div className="rounded-lg bg-muted p-3">
+                    <div className="flex items-center gap-1.5 mb-1">
+                      <FlaskConical className="h-3.5 w-3.5 text-muted-foreground" />
+                      <p className="text-xs font-medium text-muted-foreground">Gold Standard Ix</p>
+                    </div>
+                    <p className="text-sm font-medium">{question.gold_standard_investigation}</p>
+                  </div>
+                )}
+                {question.best_treatment && (
+                  <div className="rounded-lg bg-muted p-3">
+                    <div className="flex items-center gap-1.5 mb-1">
+                      <Pill className="h-3.5 w-3.5 text-muted-foreground" />
+                      <p className="text-xs font-medium text-muted-foreground">Best Treatment</p>
+                    </div>
+                    <p className="text-sm font-medium">{question.best_treatment}</p>
+                  </div>
+                )}
               </div>
-            )}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              {question.first_line_investigation && (
-                <div className="rounded-lg bg-muted p-3">
-                  <div className="flex items-center gap-1.5 mb-1">
-                    <FlaskConical className="h-3.5 w-3.5 text-muted-foreground" />
-                    <p className="text-xs font-medium text-muted-foreground">1st Line Ix</p>
-                  </div>
-                  <p className="text-sm font-medium">{question.first_line_investigation}</p>
-                </div>
-              )}
-              {question.gold_standard_investigation && (
-                <div className="rounded-lg bg-muted p-3">
-                  <div className="flex items-center gap-1.5 mb-1">
-                    <FlaskConical className="h-3.5 w-3.5 text-muted-foreground" />
-                    <p className="text-xs font-medium text-muted-foreground">Gold Standard Ix</p>
-                  </div>
-                  <p className="text-sm font-medium">{question.gold_standard_investigation}</p>
-                </div>
-              )}
-              {question.best_treatment && (
-                <div className="rounded-lg bg-muted p-3">
-                  <div className="flex items-center gap-1.5 mb-1">
-                    <Pill className="h-3.5 w-3.5 text-muted-foreground" />
-                    <p className="text-xs font-medium text-muted-foreground">Best Treatment</p>
-                  </div>
-                  <p className="text-sm font-medium">{question.best_treatment}</p>
-                </div>
-              )}
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        ) : (
+          <UpgradePrompt feature="Diagnosis & Management" description="Upgrade to see full diagnosis, investigations, and treatment details." variant="card" />
+        )
       )}
 
-      {/* Differential Diagnoses */}
+      {/* Differential Diagnoses — gated */}
       {hasDifferentials && (
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-display">Differential Diagnoses</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-2">
-            {question.differential_diagnoses!.map((diff, i) => (
-              <Collapsible key={i} open={openDiffs[i]} onOpenChange={(open) => setOpenDiffs(prev => ({ ...prev, [i]: open }))}>
-                <CollapsibleTrigger className="w-full flex items-center justify-between rounded-lg border p-3 text-sm hover:bg-muted/50 transition-colors">
-                  <span className="font-medium">{diff.diagnosis}</span>
-                  {openDiffs[i] ? <ChevronUp className="h-4 w-4 text-muted-foreground" /> : <ChevronDown className="h-4 w-4 text-muted-foreground" />}
-                </CollapsibleTrigger>
-                <CollapsibleContent className="px-3 pb-3">
-                  <div className="mt-2 space-y-2 text-sm text-muted-foreground">
-                    <p><strong>Reasoning:</strong> {diff.reasoning}</p>
-                    <p><strong>Investigation:</strong> {diff.investigation}</p>
-                    <p><strong>Treatment:</strong> {diff.treatment}</p>
-                  </div>
-                </CollapsibleContent>
-              </Collapsible>
-            ))}
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Incorrect Answer Analysis */}
-      {hasIncorrectExplanations && (
-        <Collapsible open={openIncorrect} onOpenChange={setOpenIncorrect}>
+        gate.canAccessLearningPoints ? (
           <Card>
             <CardHeader className="pb-3">
-              <CollapsibleTrigger className="w-full flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-destructive/10">
-                    <AlertCircle className="h-4 w-4 text-destructive" />
-                  </div>
-                  <CardTitle className="text-sm font-display">Incorrect Answer Analysis</CardTitle>
-                </div>
-                {openIncorrect ? <ChevronUp className="h-4 w-4 text-muted-foreground" /> : <ChevronDown className="h-4 w-4 text-muted-foreground" />}
-              </CollapsibleTrigger>
+              <CardTitle className="text-sm font-display">Differential Diagnoses</CardTitle>
             </CardHeader>
-            <CollapsibleContent>
-              <CardContent className="space-y-3 pt-0">
-                {Object.entries(question.incorrect_answer_explanations!).map(([letter, exp]) => {
-                  if (letter === question.correct_answer) return null;
-                  return (
-                    <div key={letter} className="rounded-lg border p-3 text-sm space-y-1">
-                      <p className="font-medium">Option {letter}</p>
-                      <p className="text-muted-foreground"><strong>Why wrong:</strong> {exp.why_wrong}</p>
-                      <p className="text-muted-foreground"><strong>When correct:</strong> {exp.when_correct}</p>
+            <CardContent className="space-y-2">
+              {question.differential_diagnoses!.map((diff, i) => (
+                <Collapsible key={i} open={openDiffs[i]} onOpenChange={(open) => setOpenDiffs(prev => ({ ...prev, [i]: open }))}>
+                  <CollapsibleTrigger className="w-full flex items-center justify-between rounded-lg border p-3 text-sm hover:bg-muted/50 transition-colors">
+                    <span className="font-medium">{diff.diagnosis}</span>
+                    {openDiffs[i] ? <ChevronUp className="h-4 w-4 text-muted-foreground" /> : <ChevronDown className="h-4 w-4 text-muted-foreground" />}
+                  </CollapsibleTrigger>
+                  <CollapsibleContent className="px-3 pb-3">
+                    <div className="mt-2 space-y-2 text-sm text-muted-foreground">
+                      <p><strong>Reasoning:</strong> {diff.reasoning}</p>
+                      <p><strong>Investigation:</strong> {diff.investigation}</p>
+                      <p><strong>Treatment:</strong> {diff.treatment}</p>
                     </div>
-                  );
-                })}
-              </CardContent>
-            </CollapsibleContent>
+                  </CollapsibleContent>
+                </Collapsible>
+              ))}
+            </CardContent>
           </Card>
-        </Collapsible>
+        ) : (
+          <UpgradePrompt feature="Differential Diagnoses" description="Upgrade to access differential diagnoses for each question." variant="card" />
+        )
       )}
 
-      {/* Key Takeaways */}
-      {hasKeyTakeaways && (
-        <Card className="border-amber-500/20">
-          <CardHeader className="pb-3">
-            <div className="flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-amber-500/10">
-                <Lightbulb className="h-4 w-4 text-amber-400" />
-              </div>
-              <CardTitle className="text-sm font-display">Key Takeaways</CardTitle>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <ul className="space-y-2">
-              {question.key_takeaways!.map((point, i) => (
-                <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
-                  <span className="mt-1 h-1.5 w-1.5 rounded-full bg-amber-400 shrink-0" />
-                  {point}
-                </li>
-              ))}
-            </ul>
-          </CardContent>
-        </Card>
+      {/* Incorrect Answer Analysis — gated */}
+      {hasIncorrectExplanations && (
+        gate.canAccessLearningPoints ? (
+          <Collapsible open={openIncorrect} onOpenChange={setOpenIncorrect}>
+            <Card>
+              <CardHeader className="pb-3">
+                <CollapsibleTrigger className="w-full flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-destructive/10">
+                      <AlertCircle className="h-4 w-4 text-destructive" />
+                    </div>
+                    <CardTitle className="text-sm font-display">Incorrect Answer Analysis</CardTitle>
+                  </div>
+                  {openIncorrect ? <ChevronUp className="h-4 w-4 text-muted-foreground" /> : <ChevronDown className="h-4 w-4 text-muted-foreground" />}
+                </CollapsibleTrigger>
+              </CardHeader>
+              <CollapsibleContent>
+                <CardContent className="space-y-3 pt-0">
+                  {Object.entries(question.incorrect_answer_explanations!).map(([letter, exp]) => {
+                    if (letter === question.correct_answer) return null;
+                    return (
+                      <div key={letter} className="rounded-lg border p-3 text-sm space-y-1">
+                        <p className="font-medium">Option {letter}</p>
+                        <p className="text-muted-foreground"><strong>Why wrong:</strong> {exp.why_wrong}</p>
+                        <p className="text-muted-foreground"><strong>When correct:</strong> {exp.when_correct}</p>
+                      </div>
+                    );
+                  })}
+                </CardContent>
+              </CollapsibleContent>
+            </Card>
+          </Collapsible>
+        ) : null
       )}
+
+      {/* Key Takeaways — gated */}
+      {hasKeyTakeaways && (
+        gate.canAccessLearningPoints ? (
+          <Card className="border-amber-500/20">
+            <CardHeader className="pb-3">
+              <div className="flex items-center gap-2">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-amber-500/10">
+                  <Lightbulb className="h-4 w-4 text-amber-400" />
+                </div>
+                <CardTitle className="text-sm font-display">Key Takeaways</CardTitle>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <ul className="space-y-2">
+                {question.key_takeaways!.map((point, i) => (
+                  <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
+                    <span className="mt-1 h-1.5 w-1.5 rounded-full bg-amber-400 shrink-0" />
+                    {point}
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+          </Card>
+        ) : (
+          <UpgradePrompt feature="Key Takeaways" description="Upgrade to see key learning points for each question." variant="card" />
+        )
+      )}
+
+      {/* Notes Section */}
+      <Card>
+        <CardHeader className="pb-3">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-chart-4/10">
+                <StickyNote className="h-4 w-4 text-chart-4" />
+              </div>
+              <CardTitle className="text-sm font-display">My Notes</CardTitle>
+            </div>
+            {!gate.canAccessNotes && (
+              <Badge variant="outline" className="text-xs gap-1">
+                <Lock className="h-3 w-3" /> Pro
+              </Badge>
+            )}
+          </div>
+        </CardHeader>
+        <CardContent>
+          {gate.canAccessNotes ? (
+            editingNote || !savedNote ? (
+              <div className="space-y-2">
+                <Textarea
+                  value={noteText}
+                  onChange={e => setNoteText(e.target.value)}
+                  placeholder="Add your study notes for this question…"
+                  rows={3}
+                />
+                <div className="flex gap-2">
+                  <Button size="sm" onClick={saveNote}>Save Note</Button>
+                  {savedNote && <Button size="sm" variant="ghost" onClick={() => { setEditingNote(false); setNoteText(savedNote); }}>Cancel</Button>}
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                <p className="text-sm text-muted-foreground">{savedNote}</p>
+                <Button size="sm" variant="ghost" onClick={() => setEditingNote(true)} className="gap-1">
+                  <StickyNote className="h-3.5 w-3.5" /> Edit Note
+                </Button>
+              </div>
+            )
+          ) : (
+            <p className="text-sm text-muted-foreground">Upgrade to a paid plan to add personal notes to questions.</p>
+          )}
+        </CardContent>
+      </Card>
 
       {/* Textbook references */}
       {bookReferences.map((book) => (

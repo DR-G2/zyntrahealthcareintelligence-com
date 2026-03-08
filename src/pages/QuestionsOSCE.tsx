@@ -6,6 +6,8 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { Stethoscope, Clock, Loader2, Activity } from 'lucide-react';
 import { format } from 'date-fns';
+import { useFeatureGate } from '@/hooks/useFeatureGate';
+import { UpgradePrompt } from '@/components/UpgradePrompt';
 
 interface StationAttemptSummary {
   id: string;
@@ -19,6 +21,7 @@ interface StationAttemptSummary {
 
 export default function QuestionsOSCE() {
   const { user } = useAuth();
+  const gate = useFeatureGate();
   const [attempts, setAttempts] = useState<StationAttemptSummary[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -50,7 +53,9 @@ export default function QuestionsOSCE() {
           <p className="text-muted-foreground">Review past station cases and performance</p>
         </div>
 
-        {loading ? (
+        {!gate.canAccessHistory ? (
+          <UpgradePrompt feature="OSCE History" description="Upgrade to a paid plan to access your full OSCE station history and performance tracking." variant="card" />
+        ) : loading ? (
           <div className="flex items-center justify-center py-20">
             <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
           </div>

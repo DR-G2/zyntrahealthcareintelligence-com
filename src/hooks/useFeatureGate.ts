@@ -38,6 +38,10 @@ export interface FeatureGate {
   canAccessReadiness: boolean;
   canAccessAdaptiveOSCE: boolean;
   canAccessExamMode: boolean;
+  canSaveBookmarks: boolean;
+  canAccessNotes: boolean;
+  canAccessHistory: boolean;
+  canAccessLearningPoints: boolean;
   recordMCQ: () => void;
   recordOSCE: () => void;
   recordPrompt: () => void;
@@ -73,6 +77,7 @@ export function useFeatureGate(): FeatureGate {
       questionBankLimit: null,
       canAccessAnalytics: true, canAccessBehavior: true, canAccessTrustGut: true,
       canAccessReadiness: true, canAccessAdaptiveOSCE: true, canAccessExamMode: true,
+      canSaveBookmarks: true, canAccessNotes: true, canAccessHistory: true, canAccessLearningPoints: true,
       ...record,
     };
   }
@@ -87,6 +92,7 @@ export function useFeatureGate(): FeatureGate {
       questionBankLimit: null,
       canAccessAnalytics: true, canAccessBehavior: true, canAccessTrustGut: true,
       canAccessReadiness: true, canAccessAdaptiveOSCE: false, canAccessExamMode: true,
+      canSaveBookmarks: true, canAccessNotes: true, canAccessHistory: true, canAccessLearningPoints: true,
       ...record,
     };
   }
@@ -101,6 +107,7 @@ export function useFeatureGate(): FeatureGate {
       questionBankLimit: FREE_QUESTION_BANK,
       canAccessAnalytics: true, canAccessBehavior: true, canAccessTrustGut: true,
       canAccessReadiness: true, canAccessAdaptiveOSCE: true, canAccessExamMode: false,
+      canSaveBookmarks: true, canAccessNotes: true, canAccessHistory: true, canAccessLearningPoints: true,
       ...record,
     };
   }
@@ -114,6 +121,7 @@ export function useFeatureGate(): FeatureGate {
     questionBankLimit: FREE_QUESTION_BANK,
     canAccessAnalytics: false, canAccessBehavior: false, canAccessTrustGut: false,
     canAccessReadiness: false, canAccessAdaptiveOSCE: false, canAccessExamMode: false,
+    canSaveBookmarks: false, canAccessNotes: false, canAccessHistory: false, canAccessLearningPoints: false,
     ...record,
   };
 }
