@@ -16,6 +16,8 @@ import {
   Activity, Zap, Target, Shield, ArrowLeft, Clock, Loader2,
   MessageSquare, Stethoscope, FlaskConical, ClipboardList, ChevronRight,
 } from 'lucide-react';
+import { useFeatureGate } from '@/hooks/useFeatureGate';
+import { UpgradePrompt } from '@/components/UpgradePrompt';
 
 type Phase = 'mode-select' | 'setup' | 'loading' | 'station' | 'evaluating' | 'results';
 type Mode = 'instant' | 'adaptive' | 'exam';
