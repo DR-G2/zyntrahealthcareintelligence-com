@@ -4,9 +4,10 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
-import { AuthProvider } from "@/contexts/AuthContext";
+import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { usePresence } from "@/hooks/usePresence";
 import Landing from "./pages/Landing";
 import About from "./pages/About";
 import Pricing from "./pages/Pricing";
@@ -35,6 +36,12 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
+function PresenceTracker() {
+  const { user } = useAuth();
+  usePresence(user?.id);
+  return null;
+}
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
@@ -43,6 +50,7 @@ const App = () => (
           <Toaster />
           <Sonner />
           <BrowserRouter>
+            <PresenceTracker />
             <Routes>
               <Route path="/" element={<ErrorBoundary><Landing /></ErrorBoundary>} />
               <Route path="/about" element={<ErrorBoundary><About /></ErrorBoundary>} />
