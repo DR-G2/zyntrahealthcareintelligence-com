@@ -32,6 +32,8 @@ function getDifficultyForScore(score: number): string {
 export default function Assess() {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { user } = useAuth();
+  const sessionIdRef = useRef(crypto.randomUUID());
 
   const [phase, setPhase] = useState<'intro' | 'test' | 'submitting'>('intro');
   const [questions, setQuestions] = useState<Question[]>([]);
