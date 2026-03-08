@@ -382,10 +382,34 @@ function SetupScreen({ onStart }: { onStart: (config: SessionConfig) => void }) 
             </ToggleGroup>
           </div>
 
+          {/* Search Input */}
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Search systems or subjects..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-9 pr-9"
+            />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery('')}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            )}
+          </div>
+
           {/* System View */}
           {filterMode === 'system' && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              {SYSTEMS.map((system) => {
+              {SYSTEMS.filter((system) => {
+                if (!searchQuery.trim()) return true;
+                const q = searchQuery.toLowerCase();
+                const subjects = SYSTEM_SUBJECTS[system] || [];
+                return system.toLowerCase().includes(q) || subjects.some(s => s.toLowerCase().includes(q));
+              }).map((system) => {
                 const subjects = SYSTEM_SUBJECTS[system] || [];
                 const selectedCount = subjects.filter(sub => selectedPairs.has(`${system}:${sub}`)).length;
                 const allSelected = selectedCount === subjects.length && subjects.length > 0;
