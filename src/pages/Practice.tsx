@@ -12,6 +12,8 @@ import { OnboardingTooltip } from '@/components/OnboardingTooltip';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
+import { useFeatureGate } from '@/hooks/useFeatureGate';
+import { UpgradePrompt } from '@/components/UpgradePrompt';
 import { PracticeSkeleton } from '@/components/skeletons/PageSkeleton';
 import { QuestionExplanation } from '@/components/practice/QuestionExplanation';
 import { Progress } from '@/components/ui/progress';
