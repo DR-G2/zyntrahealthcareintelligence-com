@@ -1,39 +1,41 @@
 import { useEffect, useCallback, ReactNode } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
+import { ShieldAlert } from 'lucide-react';
 
 interface SecurityOverlayProps {
   children: ReactNode;
+  opacityOverride?: number;
 }
 
-export function SecurityOverlay({ children }: SecurityOverlayProps) {
-  const { user, profile } = useAuth();
+export function SecurityOverlay({ children, opacityOverride }: SecurityOverlayProps) {
+  const { user, profile, watermark } = useAuth();
 
   const watermarkText = [
     profile?.name || '',
     user?.email || '',
   ].filter(Boolean).join(' • ') || 'Protected Content';
 
+  // Dynamic opacity from watermark settings or override
+  const lightOpacity = opacityOverride ?? watermark.opacity_light;
+  const darkOpacity = opacityOverride ? opacityOverride + 0.01 : watermark.opacity_dark;
+
   const handleContextMenu = useCallback((e: MouseEvent) => {
     e.preventDefault();
   }, []);
 
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
-    // Block PrintScreen
     if (e.key === 'PrintScreen') {
       e.preventDefault();
       navigator.clipboard?.writeText?.('');
     }
-    // Block F12
     if (e.key === 'F12') {
       e.preventDefault();
     }
-    // Block Ctrl/Cmd shortcuts
     if (e.ctrlKey || e.metaKey) {
       const blocked = ['c', 'p', 's', 'u', 'a'];
       if (blocked.includes(e.key.toLowerCase())) {
         e.preventDefault();
       }
-      // Ctrl+Shift+I / Ctrl+Shift+J / Ctrl+Shift+C
       if (e.shiftKey && ['i', 'j', 'c'].includes(e.key.toLowerCase())) {
         e.preventDefault();
       }
@@ -64,11 +66,10 @@ export function SecurityOverlay({ children }: SecurityOverlayProps) {
     };
   }, [handleContextMenu, handleKeyDown, handleDragStart, handleVisibilityChange]);
 
-  // DevTools detection via window size
+  // DevTools detection
   useEffect(() => {
     let devtoolsOpen = false;
     const threshold = 160;
-
     const check = () => {
       const widthDiff = window.outerWidth - window.innerWidth > threshold;
       const heightDiff = window.outerHeight - window.innerHeight > threshold;
@@ -79,10 +80,26 @@ export function SecurityOverlay({ children }: SecurityOverlayProps) {
         devtoolsOpen = false;
       }
     };
-
     const interval = setInterval(check, 1000);
     return () => clearInterval(interval);
   }, []);
+
+  // Suspension blocker
+  if (watermark.suspended) {
+    return (
+      <div className="fixed inset-0 z-[99999] flex items-center justify-center bg-background">
+        <div className="max-w-md text-center space-y-4 p-8">
+          <ShieldAlert className="h-16 w-16 text-destructive mx-auto" />
+          <h1 className="text-2xl font-bold font-display text-destructive">Account Suspended</h1>
+          <p className="text-muted-foreground">
+            Your account has been suspended due to multiple piracy violations. 
+            Please contact support if you believe this is an error.
+          </p>
+          <p className="text-xs text-muted-foreground">support@zyntraamc.com</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="relative select-none" style={{ WebkitUserSelect: 'none', MozUserSelect: 'none' } as React.CSSProperties}>
@@ -111,14 +128,28 @@ export function SecurityOverlay({ children }: SecurityOverlayProps) {
           {Array.from({ length: 120 }).map((_, i) => (
             <span
               key={i}
-              className="text-foreground/[0.055] dark:text-foreground/[0.065] whitespace-nowrap text-sm font-medium tracking-wide"
-              style={{ fontFamily: 'monospace' }}
+              className="whitespace-nowrap text-sm font-medium tracking-wide"
+              style={{
+                fontFamily: 'monospace',
+                color: `hsl(var(--foreground) / ${lightOpacity})`,
+              }}
             >
               {watermarkText}
             </span>
           ))}
         </div>
       </div>
+      {/* Dark mode uses dark opacity via a media query style */}
+      <style>{`
+        @media (prefers-color-scheme: dark) {
+          [aria-hidden="true"] span {
+            color: hsl(var(--foreground) / ${darkOpacity}) !important;
+          }
+        }
+        .dark [aria-hidden="true"] span {
+          color: hsl(var(--foreground) / ${darkOpacity}) !important;
+        }
+      `}</style>
     </div>
   );
 }

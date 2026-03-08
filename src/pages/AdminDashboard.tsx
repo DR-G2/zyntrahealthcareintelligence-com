@@ -12,7 +12,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
-import { Loader2, Sparkles, Upload, FileUp, X, Users, BookOpen, Activity, Pencil, Trash2, Search } from 'lucide-react';
+import { Loader2, Sparkles, Upload, FileUp, X, Users, BookOpen, Activity, Pencil, Trash2, Search, ShieldAlert } from 'lucide-react';
+import { PiracyStrikesTab } from '@/components/admin/PiracyStrikesTab';
 
 const ADMIN_EMAIL = "gopalrock.naren@gmail.com";
 
@@ -807,14 +808,16 @@ export default function AdminDashboard() {
       <div className="mx-auto max-w-6xl py-8 space-y-6">
         <h1 className="text-2xl font-display font-bold">Admin Dashboard</h1>
         <Tabs defaultValue="users">
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="users" className="gap-2"><Users className="h-4 w-4" /> Users & Subs</TabsTrigger>
             <TabsTrigger value="mcq" className="gap-2"><BookOpen className="h-4 w-4" /> MCQ Questions</TabsTrigger>
             <TabsTrigger value="osce" className="gap-2"><Activity className="h-4 w-4" /> OSCE Stations</TabsTrigger>
+            <TabsTrigger value="strikes" className="gap-2"><ShieldAlert className="h-4 w-4" /> Piracy Strikes</TabsTrigger>
           </TabsList>
           <TabsContent value="users"><UsersTab /></TabsContent>
           <TabsContent value="mcq"><MCQTab /></TabsContent>
           <TabsContent value="osce"><OSCETab /></TabsContent>
+          <TabsContent value="strikes"><PiracyStrikesTab /></TabsContent>
         </Tabs>
       </div>
     </AppLayout>

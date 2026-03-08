@@ -12,6 +12,14 @@ interface Profile {
   onboarding_complete: boolean;
 }
 
+export interface WatermarkState {
+  opacity_light: number;
+  opacity_dark: number;
+  suspended: boolean;
+  strike_count: number;
+  loading: boolean;
+}
+
 export interface SubscriptionState {
   subscribed: boolean;
   tier: 'free' | 'mcq_only' | 'osce_only' | 'full_access' | 'lifetime';
@@ -25,6 +33,7 @@ interface AuthContextType {
   profile: Profile | null;
   loading: boolean;
   subscription: SubscriptionState;
+  watermark: WatermarkState;
   signUp: (email: string, password: string) => Promise<void>;
   signIn: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
@@ -43,6 +52,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     subscribed: false,
     tier: 'free',
     subscription_end: null,
+    loading: true,
+  });
+  const [watermark, setWatermark] = useState<WatermarkState>({
+    opacity_light: 0.055,
+    opacity_dark: 0.065,
+    suspended: false,
+    strike_count: 0,
     loading: true,
   });
 
@@ -71,6 +87,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const fetchWatermark = async (userId: string) => {
+    try {
+      const [settingsRes, strikesRes] = await Promise.all([
+        supabase.from('watermark_settings').select('*').eq('user_id', userId).maybeSingle(),
+        supabase.from('piracy_strikes').select('id', { count: 'exact', head: true }).eq('user_id', userId),
+      ]);
+      const settings = settingsRes.data;
+      const strikeCount = strikesRes.count ?? 0;
+      setWatermark({
+        opacity_light: settings?.opacity_light ?? 0.055,
+        opacity_dark: settings?.opacity_dark ?? 0.065,
+        suspended: settings?.suspended ?? false,
+        strike_count: strikeCount,
+        loading: false,
+      });
+    } catch (e) {
+      console.error('watermark fetch error:', e);
+      setWatermark(prev => ({ ...prev, loading: false }));
+    }
+  };
+
   useEffect(() => {
     const { data: { subscription: authSub } } = supabase.auth.onAuthStateChange(
       async (_event, session) => {
@@ -79,9 +116,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (session?.user) {
           setTimeout(() => fetchProfile(session.user.id), 0);
           setTimeout(() => checkSubscription(), 100);
+          setTimeout(() => fetchWatermark(session.user.id), 0);
         } else {
           setProfile(null);
           setSubscription({ subscribed: false, tier: 'free', subscription_end: null, loading: false });
+          setWatermark({ opacity_light: 0.055, opacity_dark: 0.065, suspended: false, strike_count: 0, loading: false });
         }
         setLoading(false);
       }
@@ -93,8 +132,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (session?.user) {
         fetchProfile(session.user.id);
         checkSubscription();
+        fetchWatermark(session.user.id);
       } else {
         setSubscription(prev => ({ ...prev, loading: false }));
+        setWatermark(prev => ({ ...prev, loading: false }));
       }
       setLoading(false);
     });
@@ -132,7 +173,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ session, user, profile, loading, subscription, signUp, signIn, signOut, refreshProfile, checkSubscription }}>
+    <AuthContext.Provider value={{ session, user, profile, loading, subscription, watermark, signUp, signIn, signOut, refreshProfile, checkSubscription }}>
       {children}
     </AuthContext.Provider>
   );

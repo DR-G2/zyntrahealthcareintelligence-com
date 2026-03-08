@@ -1,49 +1,41 @@
 
 
-## Plan: Piracy Strike System with Adjustable Watermark
+## Plan: Enhanced Practice Results with Detailed Explanations
 
-### Overview
-Create a strike-based piracy detection system. Admins can issue strikes against users for piracy violations. Each strike automatically increases the user's watermark opacity, making it progressively more visible. At 3 strikes, the account is suspended.
+### What Changes
 
-### Database Changes (2 new tables)
+**1. Expand the results review section (Practice.tsx, lines 225-245)**
 
-**`piracy_strikes` table** — logs each strike event:
-- `id` (uuid, PK)
-- `user_id` (uuid, FK → auth.users)
-- `reason` (text) — admin-provided reason
-- `issued_by` (uuid, FK → auth.users) — admin who issued it
-- `created_at` (timestamptz)
+Replace the current inline explanation snippet with a clickable card that navigates to a full-page explanation view. Each question card in results will show:
+- Question text, your answer vs correct answer, correct/incorrect badge
+- A "Read Full Explanation" button that opens a detailed view
 
-**`watermark_settings` table** — per-user watermark config:
-- `id` (uuid, PK)
-- `user_id` (uuid, unique, FK → auth.users)
-- `opacity_light` (numeric, default 0.055)
-- `opacity_dark` (numeric, default 0.065)
-- `suspended` (boolean, default false)
-- `updated_at` (timestamptz)
+**2. Create a full-page explanation view within the results phase**
 
-**Trigger**: On insert into `piracy_strikes`, auto-update `watermark_settings` — increase opacity by 0.03 per strike. At 3+ strikes, set `suspended = true`.
+Add a new sub-phase `'explanation'` to the drill session. When a user clicks a question, the view transitions to a full-page layout containing:
+- The question and all options (highlighted correct/incorrect)
+- A detailed explanation section
+- **Reference notes** organized by source book:
+  - **AMC Handbook** — key clinical points relevant to the question topic
+  - **John Murtagh's General Practice** — diagnostic approach and management
+  - **Tally O'Connor's Clinical Examination** — examination findings and signs
+- A "Back to Results" button
 
-RLS: Users can read their own watermark settings. Only admins can insert strikes and manage settings.
+**3. Store reference notes in the question explanation field**
 
-### Frontend Changes
+Since the `questions` table already has an `explanation` column, the detailed explanations with book references will be structured within that field. For now, the UI will parse and display the explanation, and add styled reference sections with book attribution headers even if the current explanation text is brief. The textbook reference sections will be rendered as distinct styled blocks.
 
-| File | Change |
-|------|--------|
-| `src/contexts/AuthContext.tsx` | Fetch user's watermark settings (opacity + suspended) alongside profile |
-| `src/components/SecurityOverlay.tsx` | Use dynamic opacity from context instead of hardcoded values; show "Account Suspended" blocker if suspended |
-| `src/pages/AdminDashboard.tsx` | Add a "Piracy Strikes" section — search user, view strike count, issue strike with reason, see strike history |
-| `src/pages/Settings.tsx` | Show strike count and current watermark level as a warning to the user |
+### Technical Approach
 
-### Strike Escalation Logic
+- Add state: `reviewQuestionIndex: number | null` to track which question is being viewed in detail
+- When set, render a full-page explanation component instead of the results list
+- Structure the explanation page with:
+  - Question card with all options color-coded
+  - Explanation text (from DB)
+  - Three reference cards (AMC Handbook, Murtagh's, Tally O'Connor) with topic-relevant headers derived from the question's category
+- Use `framer-motion` for page transitions
+- All changes are in `src/pages/Practice.tsx` only — no new files needed
 
-| Strikes | Light Opacity | Dark Opacity | Status |
-|---------|--------------|-------------|--------|
-| 0 | 0.055 | 0.065 | Normal |
-| 1 | 0.085 | 0.095 | Warning |
-| 2 | 0.115 | 0.125 | High visibility |
-| 3+ | — | — | Suspended |
-
-### Per-Page Watermark (Optional Override)
-The `SecurityOverlay` will accept an optional `opacityOverride` prop so specific pages (e.g., questions, OSCE stations) can enforce higher watermark opacity regardless of the user's default level.
+### Files Modified
+- `src/pages/Practice.tsx` — refactor results phase to add clickable detail view with book reference sections
 
