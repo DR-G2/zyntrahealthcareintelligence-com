@@ -352,10 +352,13 @@ export default function SharedTests() {
                         </Button>
                       </div>
                     </div>
-                    {testCategories.length > 0 && (
+                    {(testCategories.length > 0 || testSubjects.length > 0) && (
                       <div className="flex flex-wrap gap-1 mt-2">
                         {testCategories.map(cat => (
                           <Badge key={cat} variant="secondary" className="text-[10px]">{cat}</Badge>
+                        ))}
+                        {testSubjects.map(sub => (
+                          <Badge key={sub} variant="secondary" className="text-[10px]">{sub}</Badge>
                         ))}
                         {testQuestionCount && (
                           <Badge variant="outline" className="text-[10px]">{testQuestionCount} Qs</Badge>
