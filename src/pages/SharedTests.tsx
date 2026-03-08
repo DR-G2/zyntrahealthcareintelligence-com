@@ -165,6 +165,7 @@ export default function SharedTests() {
     setShowCreate(false);
     setCreating(false);
     setSelectedCategories([]);
+    setSelectedSubjects([]);
     setQuestionCount('20');
     loadTests();
   };
