@@ -22,7 +22,6 @@ function incrementDailyCount(feature: string): number {
 export interface FeatureGate {
   isPaid: boolean;
   tier: string;
-  // Limits
   mcqDailyLimit: number;
   mcqUsedToday: number;
   canUseMCQ: boolean;
@@ -32,19 +31,22 @@ export interface FeatureGate {
   promptDailyLimit: number;
   promptsUsedToday: number;
   canUsePrompt: boolean;
-  questionBankLimit: number | null; // null = unlimited
-  // Feature access
+  questionBankLimit: number | null;
   canAccessAnalytics: boolean;
   canAccessBehavior: boolean;
   canAccessTrustGut: boolean;
   canAccessReadiness: boolean;
   canAccessAdaptiveOSCE: boolean;
   canAccessExamMode: boolean;
-  // Actions
   recordMCQ: () => void;
   recordOSCE: () => void;
   recordPrompt: () => void;
 }
+
+const FREE_MCQ_LIMIT = 20;
+const FREE_OSCE_LIMIT = 1;
+const FREE_PROMPT_LIMIT = 5;
+const FREE_QUESTION_BANK = 200;
 
 export function useFeatureGate(): FeatureGate {
   const { subscription } = useAuth();
@@ -55,59 +57,63 @@ export function useFeatureGate(): FeatureGate {
   const osceUsedToday = getDailyCount('osce');
   const promptsUsedToday = getDailyCount('prompt');
 
-  if (isPaid) {
-    return {
-      isPaid: true,
-      tier,
-      mcqDailyLimit: Infinity,
-      mcqUsedToday,
-      canUseMCQ: true,
-      osceDailyLimit: Infinity,
-      osceUsedToday,
-      canUseOSCE: true,
-      promptDailyLimit: Infinity,
-      promptsUsedToday,
-      canUsePrompt: true,
-      questionBankLimit: null,
-      canAccessAnalytics: true,
-      canAccessBehavior: true,
-      canAccessTrustGut: true,
-      canAccessReadiness: true,
-      canAccessAdaptiveOSCE: true,
-      canAccessExamMode: true,
-      recordMCQ: () => incrementDailyCount('mcq'),
-      recordOSCE: () => incrementDailyCount('osce'),
-      recordPrompt: () => incrementDailyCount('prompt'),
-    };
-  }
-
-  // Free tier limits
-  const MCQ_LIMIT = 20;
-  const OSCE_LIMIT = 1;
-  const PROMPT_LIMIT = 5;
-  const QUESTION_BANK_LIMIT = 200;
-
-  return {
-    isPaid: false,
-    tier: 'free',
-    mcqDailyLimit: MCQ_LIMIT,
-    mcqUsedToday,
-    canUseMCQ: mcqUsedToday < MCQ_LIMIT,
-    osceDailyLimit: OSCE_LIMIT,
-    osceUsedToday,
-    canUseOSCE: osceUsedToday < OSCE_LIMIT,
-    promptDailyLimit: PROMPT_LIMIT,
-    promptsUsedToday,
-    canUsePrompt: promptsUsedToday < PROMPT_LIMIT,
-    questionBankLimit: QUESTION_BANK_LIMIT,
-    canAccessAnalytics: false,
-    canAccessBehavior: false,
-    canAccessTrustGut: false,
-    canAccessReadiness: false,
-    canAccessAdaptiveOSCE: false,
-    canAccessExamMode: false,
+  const record = {
     recordMCQ: () => incrementDailyCount('mcq'),
     recordOSCE: () => incrementDailyCount('osce'),
     recordPrompt: () => incrementDailyCount('prompt'),
+  };
+
+  // Full access or lifetime — everything unlimited
+  if (tier === 'full_access' || tier === 'lifetime') {
+    return {
+      isPaid: true, tier,
+      mcqDailyLimit: Infinity, mcqUsedToday, canUseMCQ: true,
+      osceDailyLimit: Infinity, osceUsedToday, canUseOSCE: true,
+      promptDailyLimit: Infinity, promptsUsedToday, canUsePrompt: true,
+      questionBankLimit: null,
+      canAccessAnalytics: true, canAccessBehavior: true, canAccessTrustGut: true,
+      canAccessReadiness: true, canAccessAdaptiveOSCE: true, canAccessExamMode: true,
+      ...record,
+    };
+  }
+
+  // MCQ Only — unlimited MCQ, free-tier OSCE
+  if (tier === 'mcq_only') {
+    return {
+      isPaid: true, tier,
+      mcqDailyLimit: Infinity, mcqUsedToday, canUseMCQ: true,
+      osceDailyLimit: FREE_OSCE_LIMIT, osceUsedToday, canUseOSCE: osceUsedToday < FREE_OSCE_LIMIT,
+      promptDailyLimit: Infinity, promptsUsedToday, canUsePrompt: true,
+      questionBankLimit: null,
+      canAccessAnalytics: true, canAccessBehavior: true, canAccessTrustGut: true,
+      canAccessReadiness: true, canAccessAdaptiveOSCE: false, canAccessExamMode: true,
+      ...record,
+    };
+  }
+
+  // OSCE Only — unlimited OSCE, free-tier MCQ
+  if (tier === 'osce_only') {
+    return {
+      isPaid: true, tier,
+      mcqDailyLimit: FREE_MCQ_LIMIT, mcqUsedToday, canUseMCQ: mcqUsedToday < FREE_MCQ_LIMIT,
+      osceDailyLimit: Infinity, osceUsedToday, canUseOSCE: true,
+      promptDailyLimit: Infinity, promptsUsedToday, canUsePrompt: true,
+      questionBankLimit: FREE_QUESTION_BANK,
+      canAccessAnalytics: true, canAccessBehavior: true, canAccessTrustGut: true,
+      canAccessReadiness: true, canAccessAdaptiveOSCE: true, canAccessExamMode: false,
+      ...record,
+    };
+  }
+
+  // Free tier
+  return {
+    isPaid: false, tier: 'free',
+    mcqDailyLimit: FREE_MCQ_LIMIT, mcqUsedToday, canUseMCQ: mcqUsedToday < FREE_MCQ_LIMIT,
+    osceDailyLimit: FREE_OSCE_LIMIT, osceUsedToday, canUseOSCE: osceUsedToday < FREE_OSCE_LIMIT,
+    promptDailyLimit: FREE_PROMPT_LIMIT, promptsUsedToday, canUsePrompt: promptsUsedToday < FREE_PROMPT_LIMIT,
+    questionBankLimit: FREE_QUESTION_BANK,
+    canAccessAnalytics: false, canAccessBehavior: false, canAccessTrustGut: false,
+    canAccessReadiness: false, canAccessAdaptiveOSCE: false, canAccessExamMode: false,
+    ...record,
   };
 }

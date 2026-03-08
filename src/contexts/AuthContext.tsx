@@ -14,7 +14,7 @@ interface Profile {
 
 export interface SubscriptionState {
   subscribed: boolean;
-  tier: 'free' | 'core' | 'pro' | 'lifetime' | 'full_access';
+  tier: 'free' | 'mcq_only' | 'osce_only' | 'full_access' | 'lifetime';
   subscription_end: string | null;
   loading: boolean;
 }
