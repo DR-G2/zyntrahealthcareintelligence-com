@@ -19,10 +19,10 @@ import { LiveActivityTab } from '@/components/admin/LiveActivityTab';
 const ADMIN_EMAIL = "gopalrock.naren@gmail.com";
 
 const CATEGORIES = [
-  "Cardiology", "Respiratory", "Gastroenterology", "Neurology", "Endocrinology",
-  "Nephrology", "Rheumatology", "Haematology", "Infectious Disease", "Dermatology",
-  "Psychiatry", "Obstetrics", "Gynaecology", "Paediatrics", "Surgery",
-  "Ophthalmology", "ENT", "Emergency Medicine", "Pharmacology"
+  "Cardiology", "Respiratory", "Gastrointestinal", "Neurology", "Endocrinology",
+  "Renal", "Dermatology", "Psychiatry", "Paediatrics", "Obstetrics & Gynaecology",
+  "Emergency Medicine", "Infectious Diseases", "Population Health", "ENT",
+  "Haematology", "Musculoskeletal", "Surgery"
 ];
 
 const DIFFICULTIES = ["easy", "medium", "hard"];
