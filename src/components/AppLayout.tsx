@@ -21,14 +21,12 @@ function LayoutInner({ children }: AppLayoutProps) {
   );
 }
 
-export function AppLayout({ children, questionContext, onClearQuestionContext }: AppLayoutProps) {
+export function AppLayout({ children }: AppLayoutProps) {
   const [collapsed, setCollapsed] = useState(false);
   return (
     <SecurityOverlay>
       <SidebarContext.Provider value={{ collapsed, setCollapsed }}>
-        <LayoutInner questionContext={questionContext} onClearQuestionContext={onClearQuestionContext}>
-          {children}
-        </LayoutInner>
+        <LayoutInner>{children}</LayoutInner>
       </SidebarContext.Provider>
     </SecurityOverlay>
   );
