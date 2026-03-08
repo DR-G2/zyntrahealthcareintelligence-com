@@ -109,7 +109,11 @@ export default function QuestionsOSCE() {
               <Card>
                 <CardContent className="py-12 text-center">
                   <Activity className="mx-auto h-12 w-12 text-muted-foreground/40 mb-4" />
-                  <p className="text-muted-foreground">No stations match your filters.</p>
+                  <p className="text-muted-foreground">
+                    {stations.length === 0
+                      ? 'No stations available yet — stations will appear here once generated via OSCE practice.'
+                      : 'No stations match your filters.'}
+                  </p>
                 </CardContent>
               </Card>
             ) : (

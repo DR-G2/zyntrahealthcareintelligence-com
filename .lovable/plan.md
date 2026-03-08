@@ -1,53 +1,41 @@
 
 
-## Plan: Clean Up Clinical Stations
+## Plan: Enhanced Practice Results with Detailed Explanations
 
-### Analysis
+### What Changes
 
-All 150 clinical stations are **template garbage**. Here's why:
+**1. Expand the results review section (Practice.tsx, lines 225-245)**
 
-**1. Identical generic content across every station:**
-Every single station has the same history clues:
-- "symptoms started recently"
-- "patient worried about worsening condition"  
-- "no major past medical issues reported"
+Replace the current inline explanation snippet with a clickable card that navigates to a full-page explanation view. Each question card in results will show:
+- Question text, your answer vs correct answer, correct/incorrect badge
+- A "Read Full Explanation" button that opens a detailed view
 
-**2. Scenario titles randomly duplicated across unrelated subjects:**
+**2. Create a full-page explanation view within the results phase**
 
-| Title | Copies | Subjects assigned to |
-|-------|--------|---------------------|
-| Breath Holding Spell | 9 | ENT, General Surgery, Infectious Disease, Mental Health, Nephrology, Neurology, Obstetrics, Orthopaedics, Rheumatology |
-| Iron Deficiency Anaemia | 9 | ENT, General Surgery, Mental Health, Neurology, Obstetrics, Orthopaedics, Public Health, Respiratory, Rheumatology |
-| Temporal Arteritis Examination | 9 | Cardiology (as "Peripheral Arterial Disease"), ENT, Gastroenterology, Gynaecology, Mental Health, Nephrology, Orthopaedics, Paediatrics, Respiratory |
+Add a new sub-phase `'explanation'` to the drill session. When a user clicks a question, the view transitions to a full-page layout containing:
+- The question and all options (highlighted correct/incorrect)
+- A detailed explanation section
+- **Reference notes** organized by source book:
+  - **AMC Handbook** — key clinical points relevant to the question topic
+  - **John Murtagh's General Practice** — diagnostic approach and management
+  - **Tally O'Connor's Clinical Examination** — examination findings and signs
+- A "Back to Results" button
 
-**3. Titles don't match subjects at all:**
-- "Breast Examination" → Cardiology, Dermatology
-- "Pelvic Examination Counselling" → Cardiology, Gastroenterology
-- "Prostate Cancer Counselling" → Cardiology, Infectious Disease
-- "Autism Developmental Concern" → Dermatology, Paediatrics
+**3. Store reference notes in the question explanation field**
 
-There are zero legitimate stations. Subject normalization is pointless when the data itself is nonsensical.
+Since the `questions` table already has an `explanation` column, the detailed explanations with book references will be structured within that field. For now, the UI will parse and display the explanation, and add styled reference sections with book attribution headers even if the current explanation text is brief. The textbook reference sections will be rendered as distinct styled blocks.
 
-### Proposed Action
+### Technical Approach
 
-**Delete all 150 stations** and clean related records:
+- Add state: `reviewQuestionIndex: number | null` to track which question is being viewed in detail
+- When set, render a full-page explanation component instead of the results list
+- Structure the explanation page with:
+  - Question card with all options color-coded
+  - Explanation text (from DB)
+  - Three reference cards (AMC Handbook, Murtagh's, Tally O'Connor) with topic-relevant headers derived from the question's category
+- Use `framer-motion` for page transitions
+- All changes are in `src/pages/Practice.tsx` only — no new files needed
 
-1. **Database cleanup via SQL migration:**
-   - Delete all rows from `clinical_stations` (all 150 are junk)
-   - Clean any orphaned `station_attempts` references
-
-2. **Update `QuestionsOSCE.tsx`** to show an appropriate empty state ("No stations available yet — stations will appear here once generated")
-
-3. **No subject normalization needed** — there's nothing worth normalizing
-
-### After Cleanup
-
-The station bank will be empty and ready for proper station generation (via the existing `generate-station` edge function or admin import) with correctly assigned subjects that actually match the `SYSTEMS` list.
-
-### Files Changed
-
-| File | Change |
-|------|--------|
-| Database migration | Delete all clinical_stations rows |
-| `src/pages/QuestionsOSCE.tsx` | Better empty state message |
+### Files Modified
+- `src/pages/Practice.tsx` — refactor results phase to add clickable detail view with book reference sections
 
