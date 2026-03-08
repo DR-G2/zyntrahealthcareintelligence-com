@@ -3,6 +3,7 @@ import { AppSidebar, SidebarContext, useSidebarCollapsed } from '@/components/Ap
 import { StudyBuddy } from '@/components/StudyBuddy';
 import { SecurityOverlay } from '@/components/SecurityOverlay';
 import { cn } from '@/lib/utils';
+import { LegalFooter } from '@/components/LegalFooter';
 
 interface QuestionContext {
   question_text: string;
