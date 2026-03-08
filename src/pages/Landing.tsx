@@ -51,6 +51,9 @@ export default function Landing() {
           </div>
           <div className="flex items-center gap-3">
             <Button variant="ghost" asChild className="text-sm">
+              <Link to="/about">About</Link>
+            </Button>
+            <Button variant="ghost" asChild className="text-sm">
               <Link to="/pricing">Pricing</Link>
             </Button>
             <ThemeToggle />
