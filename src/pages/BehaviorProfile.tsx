@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
+import { BehaviorSkeleton } from '@/components/skeletons/PageSkeleton';
 import {
   Brain, AlertTriangle, Zap, Clock, Shield, Target,
   TrendingUp, TrendingDown, ArrowRight, RefreshCw, Activity,

@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import { differenceInDays } from 'date-fns';
 import { toast } from 'sonner';
+import { StudyPlanSkeleton } from '@/components/skeletons/PageSkeleton';
 
 interface PerformanceProfile {
   readiness_score: number | null;
