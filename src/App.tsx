@@ -5,7 +5,11 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
 import Landing from "./pages/Landing";
+import Login from "./pages/Login";
+import ResetPassword from "./pages/ResetPassword";
+import Onboarding from "./pages/Onboarding";
 import Dashboard from "./pages/Dashboard";
 import Assess from "./pages/Assess";
 import Profile from "./pages/Profile";
@@ -28,14 +32,17 @@ const App = () => (
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Landing />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/assess" element={<Assess />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/practice" element={<Practice />} />
-              <Route path="/questions" element={<Questions />} />
-              <Route path="/plan" element={<StudyPlan />} />
-              <Route path="/admin/questions" element={<AdminQuestions />} />
-              <Route path="/settings" element={<Settings />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
+              <Route path="/onboarding" element={<Onboarding />} />
+              <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+              <Route path="/assess" element={<ProtectedRoute><Assess /></ProtectedRoute>} />
+              <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+              <Route path="/practice" element={<ProtectedRoute><Practice /></ProtectedRoute>} />
+              <Route path="/questions" element={<ProtectedRoute><Questions /></ProtectedRoute>} />
+              <Route path="/plan" element={<ProtectedRoute><StudyPlan /></ProtectedRoute>} />
+              <Route path="/admin/questions" element={<ProtectedRoute><AdminQuestions /></ProtectedRoute>} />
+              <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
