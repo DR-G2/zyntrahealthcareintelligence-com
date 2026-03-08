@@ -1,77 +1,41 @@
 
 
-## Plan: Chat Persistence, Spaced Repetition, and E2E Testing
+## Plan: Enhanced Practice Results with Detailed Explanations
 
-### 1. Conversation Persistence for Study Buddy
+### What Changes
 
-**Database migration:** Create a `chat_conversations` table to store conversations.
+**1. Expand the results review section (Practice.tsx, lines 225-245)**
 
-```sql
-CREATE TABLE public.chat_conversations (
-  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id uuid NOT NULL,
-  title text NOT NULL DEFAULT 'New conversation',
-  messages jsonb NOT NULL DEFAULT '[]'::jsonb,
-  question_context jsonb DEFAULT NULL,
-  created_at timestamptz NOT NULL DEFAULT now(),
-  updated_at timestamptz NOT NULL DEFAULT now()
-);
+Replace the current inline explanation snippet with a clickable card that navigates to a full-page explanation view. Each question card in results will show:
+- Question text, your answer vs correct answer, correct/incorrect badge
+- A "Read Full Explanation" button that opens a detailed view
 
-ALTER TABLE public.chat_conversations ENABLE ROW LEVEL SECURITY;
+**2. Create a full-page explanation view within the results phase**
 
--- RLS: users can CRUD own conversations
-CREATE POLICY "Users can view own conversations" ON public.chat_conversations FOR SELECT USING (auth.uid() = user_id);
-CREATE POLICY "Users can insert own conversations" ON public.chat_conversations FOR INSERT WITH CHECK (auth.uid() = user_id);
-CREATE POLICY "Users can update own conversations" ON public.chat_conversations FOR UPDATE USING (auth.uid() = user_id);
-CREATE POLICY "Users can delete own conversations" ON public.chat_conversations FOR DELETE USING (auth.uid() = user_id);
+Add a new sub-phase `'explanation'` to the drill session. When a user clicks a question, the view transitions to a full-page layout containing:
+- The question and all options (highlighted correct/incorrect)
+- A detailed explanation section
+- **Reference notes** organized by source book:
+  - **AMC Handbook** — key clinical points relevant to the question topic
+  - **John Murtagh's General Practice** — diagnostic approach and management
+  - **Tally O'Connor's Clinical Examination** — examination findings and signs
+- A "Back to Results" button
 
--- Trigger for updated_at
-CREATE TRIGGER update_chat_conversations_updated_at
-  BEFORE UPDATE ON public.chat_conversations
-  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
-```
+**3. Store reference notes in the question explanation field**
 
-**Frontend changes to `src/components/StudyBuddy.tsx`:**
-- On component mount, load user's conversations list from `chat_conversations` (ordered by `updated_at desc`, limit 20)
-- Add a conversation list view in the header area — small dropdown or sidebar showing past conversations with titles
-- Add "New Chat" button to start a fresh conversation
-- Auto-save messages to the active conversation after each assistant response completes (debounced upsert)
-- Auto-generate title from first user message (truncated to 50 chars)
-- Add delete conversation option
-- Requires importing `supabase` client and `useAuth` for user_id
+Since the `questions` table already has an `explanation` column, the detailed explanations with book references will be structured within that field. For now, the UI will parse and display the explanation, and add styled reference sections with book attribution headers even if the current explanation text is brief. The textbook reference sections will be rendered as distinct styled blocks.
 
-### 2. Spaced Repetition in AI Study Plan
+### Technical Approach
 
-**Changes to `supabase/functions/generate-study-plan/index.ts`:**
-- Before calling AI, query `user_attempts` to get the **last practice date per category** using `MAX(created_at)` grouped by category
-- Calculate days since last practice for each category
-- Add this data to the AI prompt:
-  ```
-  - Last practiced per category: {"Cardiology": "3 days ago", "Neurology": "14 days ago", ...}
-  - Categories never practiced: [list]
-  ```
-- Update the tool schema to include a `spaced_repetition_notes` field in each focus area item (string explaining the spacing rationale)
+- Add state: `reviewQuestionIndex: number | null` to track which question is being viewed in detail
+- When set, render a full-page explanation component instead of the results list
+- Structure the explanation page with:
+  - Question card with all options color-coded
+  - Explanation text (from DB)
+  - Three reference cards (AMC Handbook, Murtagh's, Tally O'Connor) with topic-relevant headers derived from the question's category
+- Use `framer-motion` for page transitions
+- All changes are in `src/pages/Practice.tsx` only — no new files needed
 
-**Changes to `src/pages/StudyPlan.tsx`:**
-- Pass `lastPracticedByCategory` data to the edge function (fetched from `user_attempts` with a grouped query)
-- Display spaced repetition notes in the focus areas section if present
-
-### 3. E2E Testing Prep
-
-After implementation, I'll navigate to the Study Plan page and the Study Buddy chatbot to verify:
-- AI plan generates and renders correctly
-- Chat messages persist across panel close/reopen
-- Conversation history loads on revisit
-- Spaced repetition data appears in the AI plan output
-
----
-
-### File Changes Summary
-
-| File | Action |
-|------|--------|
-| Migration SQL | Create `chat_conversations` table with RLS |
-| `src/components/StudyBuddy.tsx` | Add persistence: load/save conversations, conversation list, new chat button |
-| `supabase/functions/generate-study-plan/index.ts` | Add last-practiced-per-category query and spaced repetition prompt data |
-| `src/pages/StudyPlan.tsx` | Pass last practiced data, display spaced repetition notes |
+### Files Modified
+- `src/pages/Practice.tsx` — refactor results phase to add clickable detail view with book reference sections
 

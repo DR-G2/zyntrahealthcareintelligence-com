@@ -15,6 +15,11 @@ serve(async (req) => {
       return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
+    const supabaseAdmin = createClient(
+      Deno.env.get("SUPABASE_URL")!,
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
+    );
+
     const supabase = createClient(
       Deno.env.get("SUPABASE_URL")!,
       Deno.env.get("SUPABASE_ANON_KEY")!,
@@ -30,6 +35,30 @@ serve(async (req) => {
 
     const { categoryStats, perfProfile, examDate, daysUntilExam, weakAreas } = await req.json();
 
+    // Fetch last practice date per category for spaced repetition
+    const { data: attemptData } = await supabaseAdmin
+      .from("user_attempts")
+      .select("created_at, questions(category)")
+      .eq("user_id", userId)
+      .order("created_at", { ascending: false });
+
+    const lastPracticedMap: Record<string, string> = {};
+    const now = new Date();
+    if (attemptData) {
+      for (const a of attemptData as any[]) {
+        const cat = a.questions?.category;
+        if (cat && !lastPracticedMap[cat]) {
+          const daysAgo = Math.floor((now.getTime() - new Date(a.created_at).getTime()) / (1000 * 60 * 60 * 24));
+          lastPracticedMap[cat] = daysAgo === 0 ? "today" : daysAgo === 1 ? "1 day ago" : `${daysAgo} days ago`;
+        }
+      }
+    }
+
+    // Find categories from stats that were never practiced
+    const allCategories = (categoryStats || []).map((s: any) => s.category);
+    const practicedCategories = Object.keys(lastPracticedMap);
+    const neverPracticed = allCategories.filter((c: string) => !practicedCategories.includes(c));
+
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
 
@@ -41,6 +70,12 @@ User Performance Data:
 - Weak areas from profile: ${weakAreas?.join(", ") || "None identified"}
 - Performance metrics: Readiness ${perfProfile?.readiness_score ?? 0}%, Clinical Accuracy ${perfProfile?.clinical_accuracy ?? 0}%, Stability ${perfProfile?.stability_score ?? 0}%, Time Sensitivity ${perfProfile?.time_sensitivity ?? 0}%, Confidence Gap ${perfProfile?.confidence_gap ?? 0}%
 - Category performance: ${JSON.stringify(categoryStats || [])}
+
+Spaced Repetition Data:
+- Last practiced per category: ${JSON.stringify(lastPracticedMap)}
+- Categories never practiced: ${neverPracticed.length > 0 ? neverPracticed.join(", ") : "None"}
+
+Use spaced repetition principles: categories not practiced recently or never practiced should be prioritized. Categories practiced today can be deprioritized. Include a spaced_repetition_note for each focus area explaining the scheduling rationale.
 
 Generate a comprehensive, actionable study plan tailored to this student's specific weaknesses.`;
 
@@ -74,6 +109,7 @@ Generate a comprehensive, actionable study plan tailored to this student's speci
                         priority: { type: "string", enum: ["high", "medium", "maintain"] },
                         daily_questions: { type: "number" },
                         study_tip: { type: "string" },
+                        spaced_repetition_note: { type: "string", description: "Explanation of why this category is scheduled based on last practice date" },
                       },
                       required: ["category", "priority", "daily_questions", "study_tip"],
                       additionalProperties: false,

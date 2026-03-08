@@ -41,6 +41,7 @@ interface AIFocusArea {
   priority: string;
   daily_questions: number;
   study_tip: string;
+  spaced_repetition_note?: string;
 }
 
 interface AIScheduleDay {
@@ -278,11 +279,17 @@ export default function StudyPlan() {
                     </div>
                   </div>
                 ))}
-                {aiPlan?.focus_areas && aiPlan.focus_areas.some(f => f.study_tip) && (
+                {aiPlan?.focus_areas && aiPlan.focus_areas.some(f => f.study_tip || f.spaced_repetition_note) && (
                   <div className="mt-4 space-y-2">
-                    {aiPlan.focus_areas.filter(f => f.study_tip).map((f, i) => (
-                      <div key={i} className="text-xs text-muted-foreground bg-muted/50 rounded-lg p-2">
-                        <strong>{f.category}:</strong> {f.study_tip}
+                    {aiPlan.focus_areas.filter(f => f.study_tip || f.spaced_repetition_note).map((f, i) => (
+                      <div key={i} className="text-xs text-muted-foreground bg-muted/50 rounded-lg p-2 space-y-1">
+                        <div><strong>{f.category}:</strong> {f.study_tip}</div>
+                        {f.spaced_repetition_note && (
+                          <div className="flex items-center gap-1 text-primary/70">
+                            <Clock className="h-3 w-3 shrink-0" />
+                            <span>{f.spaced_repetition_note}</span>
+                          </div>
+                        )}
                       </div>
                     ))}
                   </div>
