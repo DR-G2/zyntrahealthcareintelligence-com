@@ -471,6 +471,7 @@ export default function SharedTests() {
           </div>
         )}
       </div>
+      )}
     </AppLayout>
   );
 }

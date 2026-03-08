@@ -326,6 +326,7 @@ export default function DiagnosticOSCE() {
           />
         )}
       </div>
+      )}
     </AppLayout>
   );
 }

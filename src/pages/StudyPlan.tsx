@@ -380,6 +380,7 @@ export default function StudyPlan() {
           </Card>
         )}
       </div>
+      )}
     </AppLayout>
   );
 }

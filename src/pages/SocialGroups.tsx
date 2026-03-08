@@ -414,6 +414,7 @@ export default function SocialGroups() {
           </div>
         )}
       </div>
+      )}
     </AppLayout>
   );
 }
