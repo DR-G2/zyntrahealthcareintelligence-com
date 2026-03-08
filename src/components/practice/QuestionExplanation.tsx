@@ -73,7 +73,7 @@ const bookReferences = [
   },
 ];
 
-export function QuestionExplanation({ question, userAnswer, questionIndex, onBack }: QuestionExplanationProps) {
+export function QuestionExplanation({ question, userAnswer, questionIndex, onBack, onAskStudyBuddy }: QuestionExplanationProps) {
   const isCorrect = userAnswer === question.correct_answer;
   const options = question.options as string[];
   const [openDiffs, setOpenDiffs] = useState<Record<number, boolean>>({});
