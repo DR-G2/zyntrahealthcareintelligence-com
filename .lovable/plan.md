@@ -1,41 +1,18 @@
 
 
-## Plan: Enhanced Practice Results with Detailed Explanations
+## Plan: Add Search Filter to Topic Filters
 
-### What Changes
+### Change: `src/pages/Practice.tsx` (SetupScreen only)
 
-**1. Expand the results review section (Practice.tsx, lines 225-245)**
+1. **Add `searchQuery` state** (`useState<string>('')`) in the SetupScreen component (around line 89).
 
-Replace the current inline explanation snippet with a clickable card that navigates to a full-page explanation view. Each question card in results will show:
-- Question text, your answer vs correct answer, correct/incorrect badge
-- A "Read Full Explanation" button that opens a detailed view
+2. **Add search input** between the filter mode toggle (line 382) and the system/subject grid (line 384). A simple `Input` with a `Search` icon, placeholder "Search systems or subjects...", with a clear button when text is present.
 
-**2. Create a full-page explanation view within the results phase**
+3. **Filter the displayed lists** based on `searchQuery`:
+   - In System View: filter `SYSTEMS` array to only show systems whose name matches OR that contain a matching subject. Auto-expand matching systems.
+   - In Subject View: filter `SUBJECTS` array to only show subjects whose name matches OR that contain a matching system. Auto-expand matching subjects.
 
-Add a new sub-phase `'explanation'` to the drill session. When a user clicks a question, the view transitions to a full-page layout containing:
-- The question and all options (highlighted correct/incorrect)
-- A detailed explanation section
-- **Reference notes** organized by source book:
-  - **AMC Handbook** — key clinical points relevant to the question topic
-  - **John Murtagh's General Practice** — diagnostic approach and management
-  - **Tally O'Connor's Clinical Examination** — examination findings and signs
-- A "Back to Results" button
+4. **Auto-expand matching items** when search is active so users see results immediately without clicking.
 
-**3. Store reference notes in the question explanation field**
-
-Since the `questions` table already has an `explanation` column, the detailed explanations with book references will be structured within that field. For now, the UI will parse and display the explanation, and add styled reference sections with book attribution headers even if the current explanation text is brief. The textbook reference sections will be rendered as distinct styled blocks.
-
-### Technical Approach
-
-- Add state: `reviewQuestionIndex: number | null` to track which question is being viewed in detail
-- When set, render a full-page explanation component instead of the results list
-- Structure the explanation page with:
-  - Question card with all options color-coded
-  - Explanation text (from DB)
-  - Three reference cards (AMC Handbook, Murtagh's, Tally O'Connor) with topic-relevant headers derived from the question's category
-- Use `framer-motion` for page transitions
-- All changes are in `src/pages/Practice.tsx` only — no new files needed
-
-### Files Modified
-- `src/pages/Practice.tsx` — refactor results phase to add clickable detail view with book reference sections
+No other components or pages are modified.
 
