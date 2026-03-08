@@ -1,20 +1,41 @@
 
 
-## Plan: Fix Admin Grant Access
+## Plan: Enhanced Practice Results with Detailed Explanations
 
-### Root Cause
-The `admin-grant-access` edge function uses `supabase.auth.getUser(token)` with the **service role client**. This triggers a session lookup that fails with "Session not found" (visible in auth logs). The `admin-list-users` function works because it uses `getClaims(token)` instead.
+### What Changes
 
-### Changes
+**1. Expand the results review section (Practice.tsx, lines 225-245)**
 
-#### 1. Fix `supabase/functions/admin-grant-access/index.ts`
-- Switch auth from `getUser(token)` to `getClaims(token)` pattern (matching `admin-list-users`)
-- Create an anon client for auth verification, keep service role client for data operations
+Replace the current inline explanation snippet with a clickable card that navigates to a full-page explanation view. Each question card in results will show:
+- Question text, your answer vs correct answer, correct/incorrect badge
+- A "Read Full Explanation" button that opens a detailed view
 
-#### 2. Fix `src/pages/AdminDashboard.tsx` (lines 83-86, 98-101)
-- `supabase.functions.invoke` returns `{ data, error }` where `error` is only for network/transport failures. If the function returns HTTP 403/500, the response body lands in `data`, not `error`.
-- Add check: if `data?.error` exists, throw it as an error so the toast displays the actual message.
+**2. Create a full-page explanation view within the results phase**
 
-### Summary
-Two small fixes: align the auth pattern in the edge function, and surface backend errors properly in the frontend.
+Add a new sub-phase `'explanation'` to the drill session. When a user clicks a question, the view transitions to a full-page layout containing:
+- The question and all options (highlighted correct/incorrect)
+- A detailed explanation section
+- **Reference notes** organized by source book:
+  - **AMC Handbook** — key clinical points relevant to the question topic
+  - **John Murtagh's General Practice** — diagnostic approach and management
+  - **Tally O'Connor's Clinical Examination** — examination findings and signs
+- A "Back to Results" button
+
+**3. Store reference notes in the question explanation field**
+
+Since the `questions` table already has an `explanation` column, the detailed explanations with book references will be structured within that field. For now, the UI will parse and display the explanation, and add styled reference sections with book attribution headers even if the current explanation text is brief. The textbook reference sections will be rendered as distinct styled blocks.
+
+### Technical Approach
+
+- Add state: `reviewQuestionIndex: number | null` to track which question is being viewed in detail
+- When set, render a full-page explanation component instead of the results list
+- Structure the explanation page with:
+  - Question card with all options color-coded
+  - Explanation text (from DB)
+  - Three reference cards (AMC Handbook, Murtagh's, Tally O'Connor) with topic-relevant headers derived from the question's category
+- Use `framer-motion` for page transitions
+- All changes are in `src/pages/Practice.tsx` only — no new files needed
+
+### Files Modified
+- `src/pages/Practice.tsx` — refactor results phase to add clickable detail view with book reference sections
 

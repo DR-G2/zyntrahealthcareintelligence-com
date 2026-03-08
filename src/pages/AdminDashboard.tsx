@@ -80,10 +80,11 @@ function UsersTab() {
     setGranting(true);
     try {
       const durationMap: Record<string, number | null> = { '7': 7, '30': 30, 'permanent': null };
-      const { error } = await supabase.functions.invoke('admin-grant-access', {
+      const { data, error } = await supabase.functions.invoke('admin-grant-access', {
         body: { action: 'grant', user_id: grantDialog.userId, tier: grantTier, duration_days: durationMap[grantDuration] }
       });
       if (error) throw error;
+      if (data?.error) throw new Error(data.error);
       toast({ title: 'Access granted' });
       setGrantDialog(null);
       fetchUsers();
@@ -95,10 +96,11 @@ function UsersTab() {
 
   const handleRevoke = async (userId: string) => {
     try {
-      const { error } = await supabase.functions.invoke('admin-grant-access', {
+      const { data, error } = await supabase.functions.invoke('admin-grant-access', {
         body: { action: 'revoke', user_id: userId }
       });
       if (error) throw error;
+      if (data?.error) throw new Error(data.error);
       toast({ title: 'Access revoked' });
       fetchUsers();
     } catch (e: any) {
