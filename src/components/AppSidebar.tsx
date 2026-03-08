@@ -29,7 +29,7 @@ export function AppSidebar() {
 
   return (
     <aside className="fixed left-0 top-0 z-40 flex h-screen w-64 flex-col bg-sidebar text-sidebar-foreground border-r border-sidebar-border">
-      <NavLink to="/dashboard" className="flex items-center gap-2 px-6 py-5">
+      <NavLink to="/" className="flex items-center gap-2 px-6 py-5">
         <div className="flex h-8 w-8 items-center justify-center rounded-lg gradient-primary">
           <Zap className="h-4 w-4 text-primary-foreground" />
         </div>
