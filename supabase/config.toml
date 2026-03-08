@@ -55,3 +55,5 @@ project_id = "yudkfmgilucyhukfggij"
     verify_jwt = false
   [functions.admin-cleanup-stations]
     verify_jwt = false
+  [functions.razorpay-webhook]
+    verify_jwt = false
