@@ -78,6 +78,8 @@ export default function Feed() {
     setOsceResult(null);
     setSelectedAnswers({});
     setRevealedAnswers({});
+    setSavedMcq(false);
+    setSavedOsce(false);
 
     try {
       gate.recordPrompt();
