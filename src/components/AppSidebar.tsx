@@ -18,6 +18,7 @@ import {
   MessageCircle,
   Users,
   Share2,
+  AlertCircle,
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { ThemeToggle } from '@/components/ThemeToggle';
