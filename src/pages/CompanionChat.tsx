@@ -81,6 +81,7 @@ const quickPrompts = [
 
 export default function CompanionChat() {
   const { user } = useAuth();
+  const gate = useFeatureGate();
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
