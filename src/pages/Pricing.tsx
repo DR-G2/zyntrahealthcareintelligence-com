@@ -161,6 +161,34 @@ const faqGroups = [
 ];
 
 export default function Pricing() {
+  const { user, subscription } = useAuth();
+  const { toast } = useToast();
+  const navigate = useNavigate();
+  const [loadingTier, setLoadingTier] = useState<TierKey | null>(null);
+
+  const handleCheckout = async (tier: TierKey) => {
+    if (!user) {
+      navigate('/login');
+      return;
+    }
+    setLoadingTier(tier);
+    try {
+      const config = STRIPE_TIERS[tier];
+      const { data, error } = await supabase.functions.invoke('create-checkout', {
+        body: { priceId: config.price_id, mode: config.mode },
+      });
+      if (error) throw error;
+      if (data?.url) {
+        window.open(data.url, '_blank');
+      }
+    } catch (e: any) {
+      toast({ title: 'Checkout failed', description: e.message || 'Please try again', variant: 'destructive' });
+    }
+    setLoadingTier(null);
+  };
+
+  const isCurrentTier = (tier: string) => subscription.subscribed && subscription.tier === tier;
+
   return (
     <div className="min-h-screen bg-background">
       {/* Nav */}
