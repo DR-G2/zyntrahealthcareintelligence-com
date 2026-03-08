@@ -80,9 +80,12 @@ const navGroups: NavGroup[] = [
     ],
   },
   {
-    label: 'Study Plan',
+    label: 'Study Companion',
     items: [
+      { to: '/companion/chat', label: 'AI Chat', icon: MessageCircle },
       { to: '/plan', label: 'Study Plan', icon: Calendar },
+      { to: '/companion/groups', label: 'Social Groups', icon: Users },
+      { to: '/companion/shared-tests', label: 'Shared Tests', icon: Share2 },
     ],
   },
 ];

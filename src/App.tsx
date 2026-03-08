@@ -58,6 +58,9 @@ const App = () => (
               <Route path="/assess/osce" element={<ProtectedRoute><DiagnosticOSCE /></ProtectedRoute>} />
               <Route path="/plan" element={<ProtectedRoute><StudyPlan /></ProtectedRoute>} />
               <Route path="/stations" element={<ProtectedRoute><Stations /></ProtectedRoute>} />
+              <Route path="/companion/chat" element={<ProtectedRoute><CompanionChat /></ProtectedRoute>} />
+              <Route path="/companion/groups" element={<ProtectedRoute><SocialGroups /></ProtectedRoute>} />
+              <Route path="/companion/shared-tests" element={<ProtectedRoute><SharedTests /></ProtectedRoute>} />
               <Route path="/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
               <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
               <Route path="*" element={<NotFound />} />
