@@ -50,6 +50,9 @@ export default function Landing() {
             <span className="text-lg font-bold font-display">Zyntra</span>
           </div>
           <div className="flex items-center gap-3">
+            <Button variant="ghost" asChild className="text-sm">
+              <Link to="/pricing">Pricing</Link>
+            </Button>
             <ThemeToggle />
             <Button asChild>
               <Link to="/dashboard">Get Started</Link>
