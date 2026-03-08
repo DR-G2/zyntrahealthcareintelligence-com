@@ -418,7 +418,7 @@ function SetupScreen({ onStart }: { onStart: (config: SessionConfig) => void }) 
                 return (
                   <Collapsible
                     key={system}
-                    open={expandedItems.has(system)}
+                    open={expandedItems.has(system) || (!!searchQuery.trim() && (SYSTEM_SUBJECTS[system] || []).some(s => s.toLowerCase().includes(searchQuery.toLowerCase())))}
                     onOpenChange={() => toggleExpand(system)}
                   >
                     <div className={cn(
