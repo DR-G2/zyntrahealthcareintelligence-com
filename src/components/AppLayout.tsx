@@ -1,28 +1,14 @@
 import { ReactNode, useState } from 'react';
 import { AppSidebar, SidebarContext, useSidebarCollapsed } from '@/components/AppSidebar';
-import { StudyBuddy } from '@/components/StudyBuddy';
 import { SecurityOverlay } from '@/components/SecurityOverlay';
 import { cn } from '@/lib/utils';
 import { LegalFooter } from '@/components/LegalFooter';
 
-interface QuestionContext {
-  question_text: string;
-  options: string[];
-  correct_answer: string;
-  explanation: string | null;
-  category: string;
-  diagnosis_explanation?: string | null;
-  first_line_investigation?: string | null;
-  best_treatment?: string | null;
-}
-
 interface AppLayoutProps {
   children: ReactNode;
-  questionContext?: QuestionContext | null;
-  onClearQuestionContext?: () => void;
 }
 
-function LayoutInner({ children, questionContext, onClearQuestionContext }: AppLayoutProps) {
+function LayoutInner({ children }: AppLayoutProps) {
   const { collapsed } = useSidebarCollapsed();
   return (
     <div className="flex min-h-screen">
@@ -31,7 +17,6 @@ function LayoutInner({ children, questionContext, onClearQuestionContext }: AppL
         <div className="flex-1">{children}</div>
         <LegalFooter />
       </main>
-      <StudyBuddy questionContext={questionContext} onClearContext={onClearQuestionContext} />
     </div>
   );
 }
