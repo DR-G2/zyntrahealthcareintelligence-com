@@ -457,8 +457,6 @@ function MCQTab() {
           </AlertDialog>
         </CardContent>
       </Card>
-        </CardContent>
-      </Card>
 
       {/* Import */}
       <Card>
