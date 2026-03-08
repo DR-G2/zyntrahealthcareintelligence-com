@@ -1,38 +1,41 @@
 
 
-## Plan: Split into About + Pricing Pages
+## Plan: Enhanced Practice Results with Detailed Explanations
 
-The user wants the long content from the provided text split into two separate pages with proper routing.
+### What Changes
 
-### Page 1: About (`/about`)
-New file `src/pages/About.tsx` containing the founder's story sections:
-- Hero: "Built by an IMG who struggled through the same AMC journey"
-- "I didn't pass because I'm unusually smart" intro
-- "The Turning Point" section (fixing foundation + fixing exam behaviour)
-- "The Result" section (AMC MCQ 321/500)
-- "Why Zyntra Exists" section
-- Founder footer (IMG, AMC MCQ 321/500, currently preparing for Clinical)
-- Shared nav bar with links to both About and Pricing
+**1. Expand the results review section (Practice.tsx, lines 225-245)**
 
-### Page 2: Pricing (`/pricing`)
-Update existing `src/pages/Pricing.tsx`:
-- Remove the current founder story hero and "Real Math" cost breakdown sections
-- Replace hero with the new copy: "Choose Your Plan — Simple pricing designed for IMGs"
-- Keep the 5 pricing tier cards (Free, MCQ Only, OSCE Only, Full Access, Lifetime) with all checkout logic intact
-- Keep comparison table and FAQ sections
-- Update nav to include About link
+Replace the current inline explanation snippet with a clickable card that navigates to a full-page explanation view. Each question card in results will show:
+- Question text, your answer vs correct answer, correct/incorrect badge
+- A "Read Full Explanation" button that opens a detailed view
 
-### Routing & Navigation
-- Add `/about` route in `App.tsx` (public, no auth required)
-- Update nav bar on both pages to include "About" and "Pricing" links
-- Update Landing page nav to include "About" link
+**2. Create a full-page explanation view within the results phase**
 
-### Files
+Add a new sub-phase `'explanation'` to the drill session. When a user clicks a question, the view transitions to a full-page layout containing:
+- The question and all options (highlighted correct/incorrect)
+- A detailed explanation section
+- **Reference notes** organized by source book:
+  - **AMC Handbook** — key clinical points relevant to the question topic
+  - **John Murtagh's General Practice** — diagnostic approach and management
+  - **Tally O'Connor's Clinical Examination** — examination findings and signs
+- A "Back to Results" button
 
-| File | Action |
-|------|--------|
-| `src/pages/About.tsx` | New — founder story page |
-| `src/pages/Pricing.tsx` | Update — remove story sections, clean pricing-only page |
-| `src/App.tsx` | Update — add `/about` route |
-| `src/pages/Landing.tsx` | Update — add "About" nav link |
+**3. Store reference notes in the question explanation field**
+
+Since the `questions` table already has an `explanation` column, the detailed explanations with book references will be structured within that field. For now, the UI will parse and display the explanation, and add styled reference sections with book attribution headers even if the current explanation text is brief. The textbook reference sections will be rendered as distinct styled blocks.
+
+### Technical Approach
+
+- Add state: `reviewQuestionIndex: number | null` to track which question is being viewed in detail
+- When set, render a full-page explanation component instead of the results list
+- Structure the explanation page with:
+  - Question card with all options color-coded
+  - Explanation text (from DB)
+  - Three reference cards (AMC Handbook, Murtagh's, Tally O'Connor) with topic-relevant headers derived from the question's category
+- Use `framer-motion` for page transitions
+- All changes are in `src/pages/Practice.tsx` only — no new files needed
+
+### Files Modified
+- `src/pages/Practice.tsx` — refactor results phase to add clickable detail view with book reference sections
 
