@@ -14,12 +14,23 @@ import {
   ChevronRight,
   Shield,
   Stethoscope,
+  PanelLeftClose,
+  PanelLeft,
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { cn } from '@/lib/utils';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { useState } from 'react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { createContext, useContext, useState } from 'react';
+
+// Context for sidebar collapsed state
+interface SidebarContextType {
+  collapsed: boolean;
+  setCollapsed: (v: boolean) => void;
+}
+export const SidebarContext = createContext<SidebarContextType>({ collapsed: false, setCollapsed: () => {} });
+export const useSidebarCollapsed = () => useContext(SidebarContext);
 
 const ADMIN_EMAIL = "gopalrock.naren@gmail.com";
 
@@ -84,11 +95,37 @@ function isNavItem(item: NavItem | { label: string; icon: React.ElementType; chi
   return 'to' in item;
 }
 
-function CollapsibleNav({ item, location }: { item: { label: string; icon: React.ElementType; children: NavItem[] }; location: ReturnType<typeof useLocation> }) {
+function NavTooltip({ label, collapsed, children }: { label: string; collapsed: boolean; children: React.ReactNode }) {
+  if (!collapsed) return <>{children}</>;
+  return (
+    <Tooltip delayDuration={0}>
+      <TooltipTrigger asChild>{children}</TooltipTrigger>
+      <TooltipContent side="right" className="text-xs">{label}</TooltipContent>
+    </Tooltip>
+  );
+}
+
+function CollapsibleNav({ item, location, collapsed }: { item: { label: string; icon: React.ElementType; children: NavItem[] }; location: ReturnType<typeof useLocation>; collapsed: boolean }) {
   const isChildActive = item.children.some(
     (child) => location.pathname === child.to || location.pathname.startsWith(child.to + '/')
   );
   const [open, setOpen] = useState(isChildActive);
+
+  // In collapsed mode, show only the parent icon
+  if (collapsed) {
+    return (
+      <NavTooltip label={item.label} collapsed>
+        <div className={cn(
+          'flex items-center justify-center rounded-lg py-2 transition-colors',
+          isChildActive
+            ? 'text-sidebar-primary'
+            : 'text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground'
+        )}>
+          <item.icon className="h-4 w-4" />
+        </div>
+      </NavTooltip>
+    );
+  }
 
   return (
     <Collapsible open={open} onOpenChange={setOpen}>
@@ -132,87 +169,130 @@ export function AppSidebar() {
   const { signOut, user } = useAuth();
   const location = useLocation();
   const isAdmin = user?.email === ADMIN_EMAIL;
+  const { collapsed, setCollapsed } = useSidebarCollapsed();
 
   return (
-    <aside className="fixed left-0 top-0 z-40 flex h-screen w-64 flex-col bg-sidebar text-sidebar-foreground border-r border-sidebar-border">
-      <NavLink to="/" className="flex items-center gap-2 px-6 py-5">
-        <div className="flex h-8 w-8 items-center justify-center rounded-lg gradient-primary">
-          <Zap className="h-4 w-4 text-primary-foreground" />
-        </div>
-        <span className="text-lg font-bold font-display tracking-tight text-sidebar-foreground">
-          Zyntra
-        </span>
-      </NavLink>
-
-      <nav className="flex-1 overflow-y-auto px-3 py-2 space-y-4">
-        {navGroups.map((group) => (
-          <div key={group.label}>
-            <div className="mb-1.5 px-3 text-[10px] font-semibold uppercase tracking-wider text-sidebar-foreground/40">
-              {group.label}
-            </div>
-            <div className="space-y-0.5">
-              {group.items.map((item) => {
-                if (isNavItem(item)) {
-                  const isActive = location.pathname === item.to || location.pathname.startsWith(item.to + '/');
-                  return (
-                    <NavLink
-                      key={item.to}
-                      to={item.to}
-                      className={cn(
-                        'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
-                        isActive
-                          ? 'bg-sidebar-accent text-sidebar-primary'
-                          : 'text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground'
-                      )}
-                    >
-                      <item.icon className="h-4 w-4" />
-                      {item.label}
-                    </NavLink>
-                  );
-                }
-                return <CollapsibleNav key={item.label} item={item} location={location} />;
-              })}
-            </div>
+    <TooltipProvider>
+      <aside className={cn(
+        'fixed left-0 top-0 z-40 flex h-screen flex-col bg-sidebar text-sidebar-foreground border-r border-sidebar-border transition-all duration-300',
+        collapsed ? 'w-16' : 'w-64'
+      )}>
+        {/* Logo */}
+        <NavLink to="/" className={cn('flex items-center gap-2 py-5', collapsed ? 'justify-center px-2' : 'px-6')}>
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg gradient-primary">
+            <Zap className="h-4 w-4 text-primary-foreground" />
           </div>
-        ))}
-      </nav>
-
-      <div className="border-t border-sidebar-border px-3 py-3 space-y-1">
-        <NavLink
-          to="/settings"
-          className={cn(
-            'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
-            location.pathname === '/settings'
-              ? 'bg-sidebar-accent text-sidebar-primary'
-              : 'text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground'
+          {!collapsed && (
+            <span className="text-lg font-bold font-display tracking-tight text-sidebar-foreground">
+              Zyntra
+            </span>
           )}
-        >
-          <Settings className="h-4 w-4" />
-          Settings
         </NavLink>
-        {isAdmin && (
-          <NavLink
-            to="/admin"
-            className={cn(
-              'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
-              location.pathname.startsWith('/admin')
-                ? 'bg-sidebar-accent text-sidebar-primary'
-                : 'text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground'
-            )}
-          >
-            <Shield className="h-4 w-4" />
-            Admin
-          </NavLink>
-        )}
-        <ThemeToggle />
-        <button
-          onClick={signOut}
-          className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground transition-colors"
-        >
-          <LogOut className="h-4 w-4" />
-          Sign Out
-        </button>
-      </div>
-    </aside>
+
+        {/* Nav */}
+        <nav className={cn('flex-1 overflow-y-auto py-2 space-y-4', collapsed ? 'px-1.5' : 'px-3')}>
+          {navGroups.map((group) => (
+            <div key={group.label}>
+              {!collapsed && (
+                <div className="mb-1.5 px-3 text-[10px] font-semibold uppercase tracking-wider text-sidebar-foreground/40">
+                  {group.label}
+                </div>
+              )}
+              <div className="space-y-0.5">
+                {group.items.map((item) => {
+                  if (isNavItem(item)) {
+                    const isActive = location.pathname === item.to || location.pathname.startsWith(item.to + '/');
+                    return (
+                      <NavTooltip key={item.to} label={item.label} collapsed={collapsed}>
+                        <NavLink
+                          to={item.to}
+                          className={cn(
+                            'flex items-center rounded-lg text-sm font-medium transition-colors',
+                            collapsed ? 'justify-center py-2' : 'gap-3 px-3 py-2',
+                            isActive
+                              ? 'bg-sidebar-accent text-sidebar-primary'
+                              : 'text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground'
+                          )}
+                        >
+                          <item.icon className="h-4 w-4 shrink-0" />
+                          {!collapsed && item.label}
+                        </NavLink>
+                      </NavTooltip>
+                    );
+                  }
+                  return <CollapsibleNav key={item.label} item={item} location={location} collapsed={collapsed} />;
+                })}
+              </div>
+            </div>
+          ))}
+        </nav>
+
+        {/* Bottom */}
+        <div className={cn('border-t border-sidebar-border py-3 space-y-1', collapsed ? 'px-1.5' : 'px-3')}>
+          <NavTooltip label="Settings" collapsed={collapsed}>
+            <NavLink
+              to="/settings"
+              className={cn(
+                'flex items-center rounded-lg text-sm font-medium transition-colors',
+                collapsed ? 'justify-center py-2' : 'gap-3 px-3 py-2',
+                location.pathname === '/settings'
+                  ? 'bg-sidebar-accent text-sidebar-primary'
+                  : 'text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground'
+              )}
+            >
+              <Settings className="h-4 w-4 shrink-0" />
+              {!collapsed && 'Settings'}
+            </NavLink>
+          </NavTooltip>
+
+          {isAdmin && (
+            <NavTooltip label="Admin" collapsed={collapsed}>
+              <NavLink
+                to="/admin"
+                className={cn(
+                  'flex items-center rounded-lg text-sm font-medium transition-colors',
+                  collapsed ? 'justify-center py-2' : 'gap-3 px-3 py-2',
+                  location.pathname.startsWith('/admin')
+                    ? 'bg-sidebar-accent text-sidebar-primary'
+                    : 'text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground'
+                )}
+              >
+                <Shield className="h-4 w-4 shrink-0" />
+                {!collapsed && 'Admin'}
+              </NavLink>
+            </NavTooltip>
+          )}
+
+          <ThemeToggle />
+
+          <NavTooltip label="Sign Out" collapsed={collapsed}>
+            <button
+              onClick={signOut}
+              className={cn(
+                'flex w-full items-center rounded-lg text-sm font-medium text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground transition-colors',
+                collapsed ? 'justify-center py-2' : 'gap-3 px-3 py-2'
+              )}
+            >
+              <LogOut className="h-4 w-4 shrink-0" />
+              {!collapsed && 'Sign Out'}
+            </button>
+          </NavTooltip>
+
+          {/* Toggle button */}
+          <NavTooltip label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'} collapsed={collapsed}>
+            <button
+              onClick={() => setCollapsed(!collapsed)}
+              className={cn(
+                'flex w-full items-center rounded-lg text-sm font-medium text-sidebar-foreground/50 hover:bg-sidebar-accent hover:text-sidebar-foreground transition-colors',
+                collapsed ? 'justify-center py-2' : 'gap-3 px-3 py-2'
+              )}
+            >
+              {collapsed ? <PanelLeft className="h-4 w-4 shrink-0" /> : <PanelLeftClose className="h-4 w-4 shrink-0" />}
+              {!collapsed && 'Collapse'}
+            </button>
+          </NavTooltip>
+        </div>
+      </aside>
+    </TooltipProvider>
   );
 }
