@@ -728,6 +728,49 @@ function OSCETab() {
         </CardContent>
       </Card>
 
+      {/* Cleanup & Normalize */}
+      <Card>
+        <CardHeader><CardTitle className="flex items-center gap-2 text-lg"><Trash2 className="h-5 w-5 text-destructive" /> Clean & Normalize Stations</CardTitle></CardHeader>
+        <CardContent className="space-y-3">
+          <p className="text-sm text-muted-foreground">Removes garbage template stations, deduplicates, and normalizes all subjects to match the OSCE filter system.</p>
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button variant="destructive" disabled={cleaning}>{cleaning && <Loader2 className="h-4 w-4 mr-2 animate-spin" />} Run Cleanup</Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Run station cleanup?</AlertDialogTitle>
+                <AlertDialogDescription>This will permanently delete junk/duplicate stations and normalize subjects. This cannot be undone.</AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={async () => {
+                  setCleaning(true);
+                  addLog('Running station cleanup...');
+                  try {
+                    const { data, error } = await supabase.functions.invoke('admin-cleanup-stations');
+                    if (error) throw error;
+                    if (data?.error) throw new Error(data.error);
+                    const s = data.summary;
+                    addLog(`✅ Cleanup complete: ${data.total_deleted} deleted (${s.garbage_deleted} garbage, ${s.duplicates_deleted} duplicates), ${s.subjects_normalized} subjects normalized`);
+                    addLog(`📊 ${data.total_before} → ${data.total_after} stations remaining`);
+                    if (data.subject_distribution) {
+                      addLog(`Subjects: ${Object.entries(data.subject_distribution).map(([k, v]) => `${k}: ${v}`).join(', ')}`);
+                    }
+                    toast({ title: 'Cleanup complete', description: `${data.total_deleted} junk removed, ${s.subjects_normalized} subjects normalized` });
+                    fetchStations();
+                  } catch (e: any) {
+                    addLog(`❌ ${e.message}`);
+                    toast({ title: 'Error', description: e.message, variant: 'destructive' });
+                  }
+                  setCleaning(false);
+                }}>Run Cleanup</AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        </CardContent>
+      </Card>
+
       {/* Import */}
       <Card>
         <CardHeader><CardTitle className="flex items-center gap-2 text-lg"><Upload className="h-5 w-5 text-primary" /> Import Stations (JSON)</CardTitle></CardHeader>
