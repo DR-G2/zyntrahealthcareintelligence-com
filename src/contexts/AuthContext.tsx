@@ -14,7 +14,7 @@ interface Profile {
 
 export interface SubscriptionState {
   subscribed: boolean;
-  tier: 'free' | 'core' | 'pro' | 'lifetime';
+  tier: 'free' | 'core' | 'pro' | 'lifetime' | 'full_access';
   subscription_end: string | null;
   loading: boolean;
 }
