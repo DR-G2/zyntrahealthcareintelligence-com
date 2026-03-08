@@ -587,6 +587,70 @@ export type Database = {
         }
         Relationships: []
       }
+      station_bookmarks: {
+        Row: {
+          created_at: string
+          id: string
+          station_attempt_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          station_attempt_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          station_attempt_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "station_bookmarks_station_attempt_id_fkey"
+            columns: ["station_attempt_id"]
+            isOneToOne: false
+            referencedRelation: "station_attempts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      station_notes: {
+        Row: {
+          created_at: string
+          id: string
+          note_text: string
+          station_attempt_id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          note_text?: string
+          station_attempt_id: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          note_text?: string
+          station_attempt_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "station_notes_station_attempt_id_fkey"
+            columns: ["station_attempt_id"]
+            isOneToOne: false
+            referencedRelation: "station_attempts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       study_group_members: {
         Row: {
           group_id: string

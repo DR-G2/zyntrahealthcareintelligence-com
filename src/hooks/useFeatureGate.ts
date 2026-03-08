@@ -38,6 +38,10 @@ export interface FeatureGate {
   canAccessReadiness: boolean;
   canAccessAdaptiveOSCE: boolean;
   canAccessExamMode: boolean;
+  canSaveBookmarks: boolean;
+  canAccessNotes: boolean;
+  canAccessHistory: boolean;
+  canAccessLearningPoints: boolean;
   recordMCQ: () => void;
   recordOSCE: () => void;
   recordPrompt: () => void;
