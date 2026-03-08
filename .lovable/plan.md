@@ -1,49 +1,41 @@
 
 
-## Plan: Integrate OSCE + Trust Your Gut Data into Analytics
+## Plan: Enhanced Practice Results with Detailed Explanations
 
-Currently, Performance and Behavior analytics only pull from `user_attempts` (MCQ data). The user wants these analytics pages to incorporate OSCE station data and Trust Your Gut session data as well, making analytics a unified view across all practice modes.
+### What Changes
 
-### Changes
+**1. Expand the results review section (Practice.tsx, lines 225-245)**
 
-**1. `supabase/functions/analyze-behavior/index.ts`** — Expand data sources
-- Currently fetches only `user_attempts` (MCQ). Add fetches for:
-  - `station_attempts` (OSCE) — extract scores, time_taken, behavioral_signals, psychograph data
-  - `user_attempts` where `session_id` matches Trust Your Gut sessions (these already exist in user_attempts but need to be identified/tagged)
-- Merge OSCE metrics into the analysis prompt sent to the AI:
-  - OSCE accuracy (avg scores), time management, behavioral signals
-  - Subject-level OSCE performance alongside MCQ subject patterns
-- Update the AI prompt to produce a unified behavior profile covering MCQ + OSCE + gut-instinct patterns
+Replace the current inline explanation snippet with a clickable card that navigates to a full-page explanation view. Each question card in results will show:
+- Question text, your answer vs correct answer, correct/incorrect badge
+- A "Read Full Explanation" button that opens a detailed view
 
-**2. `src/pages/Profile.tsx`** (Performance page) — Add OSCE stats section
-- Fetch `station_attempts` alongside `performance_profiles`
-- Add a new "OSCE Performance" card showing:
-  - Average station scores, number of stations completed
-  - Subject breakdown from OSCE attempts
-- Add a "Trust Your Gut" summary card:
-  - First-instinct accuracy rate, points lost from changes
-- Keep existing MCQ behavioral dimensions as-is, but add a tab or toggle for "MCQ | OSCE | Combined" view
+**2. Create a full-page explanation view within the results phase**
 
-**3. `src/pages/BehaviorProfile.tsx`** — Include OSCE behavioral data
-- Fetch `station_attempts` and `psychograph_history` data
-- Add OSCE-specific behavioral metrics alongside existing MCQ ones:
-  - Communication patterns (from station chat transcripts)
-  - Clinical reasoning (from station scores breakdown)
-  - Psychograph radar overlay showing OSCE behavioral axes
-- Show combined subject radar chart with both MCQ and OSCE data points
+Add a new sub-phase `'explanation'` to the drill session. When a user clicks a question, the view transitions to a full-page layout containing:
+- The question and all options (highlighted correct/incorrect)
+- A detailed explanation section
+- **Reference notes** organized by source book:
+  - **AMC Handbook** — key clinical points relevant to the question topic
+  - **John Murtagh's General Practice** — diagnostic approach and management
+  - **Tally O'Connor's Clinical Examination** — examination findings and signs
+- A "Back to Results" button
 
-**4. `src/pages/Assess.tsx`** — Link diagnostic results to unified analytics
-- After MCQ diagnostic completes, mention OSCE diagnostic availability
-- Cross-link to `/assess/osce` for complete diagnostic picture
+**3. Store reference notes in the question explanation field**
 
-### Files
+Since the `questions` table already has an `explanation` column, the detailed explanations with book references will be structured within that field. For now, the UI will parse and display the explanation, and add styled reference sections with book attribution headers even if the current explanation text is brief. The textbook reference sections will be rendered as distinct styled blocks.
 
-| File | Action |
-|------|--------|
-| `supabase/functions/analyze-behavior/index.ts` | Add station_attempts + TYG data to analysis |
-| `src/pages/Profile.tsx` | Add OSCE + TYG summary cards, mode toggle |
-| `src/pages/BehaviorProfile.tsx` | Add OSCE behavioral signals + psychograph overlay |
-| `src/pages/Assess.tsx` | Minor: cross-link to OSCE diagnostic |
+### Technical Approach
 
-No database changes needed — all data already exists in `station_attempts`, `psychograph_history`, and `user_attempts`.
+- Add state: `reviewQuestionIndex: number | null` to track which question is being viewed in detail
+- When set, render a full-page explanation component instead of the results list
+- Structure the explanation page with:
+  - Question card with all options color-coded
+  - Explanation text (from DB)
+  - Three reference cards (AMC Handbook, Murtagh's, Tally O'Connor) with topic-relevant headers derived from the question's category
+- Use `framer-motion` for page transitions
+- All changes are in `src/pages/Practice.tsx` only — no new files needed
+
+### Files Modified
+- `src/pages/Practice.tsx` — refactor results phase to add clickable detail view with book reference sections
 

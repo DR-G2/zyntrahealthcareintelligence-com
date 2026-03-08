@@ -15,7 +15,6 @@ serve(async (req) => {
     const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const lovableKey = Deno.env.get("LOVABLE_API_KEY")!;
 
-    // Get user from auth
     const anonClient = createClient(supabaseUrl, Deno.env.get("SUPABASE_ANON_KEY")!);
     const token = authHeader?.replace("Bearer ", "");
     const { data: { user }, error: authError } = await anonClient.auth.getUser(token);
@@ -25,29 +24,47 @@ serve(async (req) => {
 
     const supabase = createClient(supabaseUrl, supabaseKey);
 
-    // Fetch all attempts for this user with question data
-    const { data: attempts, error: attError } = await supabase
-      .from("user_attempts")
-      .select("*, questions(category, difficulty, difficulty_tier)")
-      .eq("user_id", user.id)
-      .order("created_at", { ascending: true })
-      .limit(1000);
+    // Fetch MCQ attempts, OSCE station attempts, and psychograph history in parallel
+    const [attRes, stationRes, psychRes] = await Promise.all([
+      supabase
+        .from("user_attempts")
+        .select("*, questions(category, difficulty, difficulty_tier)")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: true })
+        .limit(1000),
+      supabase
+        .from("station_attempts")
+        .select("*")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: true })
+        .limit(500),
+      supabase
+        .from("psychograph_history")
+        .select("*")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false })
+        .limit(20),
+    ]);
 
-    if (attError) throw attError;
-    if (!attempts || attempts.length === 0) {
+    if (attRes.error) throw attRes.error;
+    const attempts = attRes.data || [];
+    const stationAttempts = stationRes.data || [];
+    const psychographs = psychRes.data || [];
+
+    if (attempts.length === 0 && stationAttempts.length === 0) {
       return new Response(JSON.stringify({ error: "No attempts found" }), { status: 404, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
-    // Compute aggregate metrics
+    // ── MCQ Metrics ──
     const totalAttempts = attempts.length;
-    const avgTime = attempts.reduce((s, a) => s + (a.time_taken_seconds || 0), 0) / totalAttempts;
+    const avgTime = totalAttempts > 0 ? attempts.reduce((s, a) => s + (a.time_taken_seconds || 0), 0) / totalAttempts : 0;
     const totalChanges = attempts.reduce((s, a) => s + (a.answer_changes_count || 0), 0);
-    const changeRate = totalChanges / totalAttempts;
-    const correctRate = attempts.filter(a => a.is_correct).length / totalAttempts;
-    const avgPauses = attempts.reduce((s, a) => s + (a.pause_events || 0), 0) / totalAttempts;
-    const avgFirstClick = attempts.reduce((s, a) => s + (a.time_to_first_click || 0), 0) / totalAttempts;
+    const changeRate = totalAttempts > 0 ? totalChanges / totalAttempts : 0;
+    const correctRate = totalAttempts > 0 ? attempts.filter(a => a.is_correct).length / totalAttempts : 0;
+    const avgPauses = totalAttempts > 0 ? attempts.reduce((s, a) => s + (a.pause_events || 0), 0) / totalAttempts : 0;
+    const avgFirstClick = totalAttempts > 0 ? attempts.reduce((s, a) => s + (a.time_to_first_click || 0), 0) / totalAttempts : 0;
 
-    // Per-subject stats
+    // Per-subject MCQ stats
     const subjectMap: Record<string, { correct: number; total: number; changes: number; avgTime: number; times: number[] }> = {};
     attempts.forEach(a => {
       const cat = (a.questions as any)?.category || "Unknown";
@@ -61,7 +78,7 @@ serve(async (req) => {
       s.avgTime = s.times.reduce((a, b) => a + b, 0) / s.times.length;
     });
 
-    // Block segmented performance (by session groups of 20)
+    // Block segmented performance
     const sessions: Record<string, typeof attempts> = {};
     attempts.forEach(a => {
       if (!sessions[a.session_id]) sessions[a.session_id] = [];
@@ -69,7 +86,7 @@ serve(async (req) => {
     });
 
     const blockPerf: Record<string, { accuracy: number; avgTime: number; changeRate: number }> = {};
-    const latestSession = Object.values(sessions).sort((a, b) => 
+    const latestSession = Object.values(sessions).sort((a, b) =>
       new Date(b[0].created_at).getTime() - new Date(a[0].created_at).getTime()
     )[0];
 
@@ -91,13 +108,76 @@ serve(async (req) => {
       });
     }
 
-    // Fatigue detection: compare first half vs second half timing
+    // Fatigue detection
     const halfPoint = Math.floor(totalAttempts / 2);
-    const firstHalfAvgTime = attempts.slice(0, halfPoint).reduce((s, a) => s + (a.time_taken_seconds || 0), 0) / halfPoint;
-    const secondHalfAvgTime = attempts.slice(halfPoint).reduce((s, a) => s + (a.time_taken_seconds || 0), 0) / (totalAttempts - halfPoint);
-    const fatigueIncrease = secondHalfAvgTime / firstHalfAvgTime;
+    const firstHalfAvgTime = halfPoint > 0 ? attempts.slice(0, halfPoint).reduce((s, a) => s + (a.time_taken_seconds || 0), 0) / halfPoint : 0;
+    const secondHalfAvgTime = halfPoint > 0 ? attempts.slice(halfPoint).reduce((s, a) => s + (a.time_taken_seconds || 0), 0) / (totalAttempts - halfPoint) : 0;
+    const fatigueIncrease = firstHalfAvgTime > 0 ? secondHalfAvgTime / firstHalfAvgTime : 1;
 
-    // Build signals object for AI classification
+    // ── OSCE Metrics ──
+    const osceCount = stationAttempts.length;
+    let osceAvgScore = 0;
+    let osceAvgTime = 0;
+    const osceSubjectMap: Record<string, { totalScore: number; count: number; avgTime: number; times: number[] }> = {};
+    const osceBehavioralSignals: any[] = [];
+
+    stationAttempts.forEach(sa => {
+      const scores = sa.scores as any;
+      const totalScore = typeof scores?.total === "number" ? scores.total : 0;
+      osceAvgScore += totalScore;
+      osceAvgTime += sa.time_taken_seconds || 0;
+
+      const subj = sa.subject || "Unknown";
+      if (!osceSubjectMap[subj]) osceSubjectMap[subj] = { totalScore: 0, count: 0, avgTime: 0, times: [] };
+      osceSubjectMap[subj].totalScore += totalScore;
+      osceSubjectMap[subj].count++;
+      osceSubjectMap[subj].times.push(sa.time_taken_seconds || 0);
+
+      if (sa.behavioral_signals && Object.keys(sa.behavioral_signals as any).length > 0) {
+        osceBehavioralSignals.push(sa.behavioral_signals);
+      }
+    });
+
+    if (osceCount > 0) {
+      osceAvgScore = Math.round(osceAvgScore / osceCount);
+      osceAvgTime = Math.round(osceAvgTime / osceCount);
+    }
+    Object.values(osceSubjectMap).forEach(s => {
+      s.avgTime = s.times.reduce((a, b) => a + b, 0) / s.times.length;
+    });
+
+    // ── Trust Your Gut Metrics (from change_sequence in user_attempts) ──
+    const attemptsWithChanges = attempts.filter(a => a.answer_changes_count > 0 && Array.isArray(a.change_sequence) && (a.change_sequence as any[]).length > 0);
+    let firstInstinctCorrect = 0;
+    let correctToWrong = 0;
+    attemptsWithChanges.forEach(a => {
+      const seq = a.change_sequence as any[];
+      const firstAnswer = seq[0];
+      const correctAnswer = (a.questions as any)?.correct_answer;
+      if (firstAnswer === correctAnswer) {
+        firstInstinctCorrect++;
+        if (a.selected_answer !== correctAnswer) correctToWrong++;
+      }
+    });
+    const firstInstinctAccuracy = attemptsWithChanges.length > 0 ? Math.round((firstInstinctCorrect / attemptsWithChanges.length) * 100) : null;
+    const pointsLostFromChanges = correctToWrong;
+
+    // ── Psychograph summary ──
+    let psychographSummary: any = null;
+    if (psychographs.length > 0) {
+      const latest = psychographs[0];
+      psychographSummary = {
+        archetype: latest.archetype,
+        cognitive_stability: latest.cognitive_stability,
+        emotional_reactivity: latest.emotional_reactivity,
+        silence_tolerance: latest.silence_tolerance,
+        delegation_confidence: latest.delegation_confidence,
+        structure_integrity: latest.structure_integrity,
+        time_compression_vulnerability: latest.time_compression_vulnerability,
+      };
+    }
+
+    // Build unified signals
     const signals = {
       totalAttempts,
       avgTime: Math.round(avgTime),
@@ -114,9 +194,26 @@ serve(async (req) => {
         total: s.total,
       })),
       blockPerformance: blockPerf,
+      // OSCE
+      osceStationsCompleted: osceCount,
+      osceAvgScore,
+      osceAvgTime,
+      osceSubjectStats: Object.entries(osceSubjectMap).map(([subj, s]) => ({
+        subject: subj,
+        avgScore: Math.round(s.totalScore / s.count),
+        count: s.count,
+        avgTime: Math.round(s.avgTime),
+      })),
+      osceBehavioralSignalsSample: osceBehavioralSignals.slice(0, 5),
+      // Trust Your Gut
+      firstInstinctAccuracy,
+      pointsLostFromChanges,
+      totalAttemptsWithChanges: attemptsWithChanges.length,
+      // Psychograph
+      psychographSummary,
     };
 
-    // Use AI to classify archetype and detect traps
+    // AI classification
     const aiResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -128,7 +225,7 @@ serve(async (req) => {
         messages: [
           {
             role: "system",
-            content: `You are an AMC exam behavior analyst. Analyze candidate behavioral data and classify them.
+            content: `You are an AMC exam behavior analyst. Analyze candidate behavioral data from MCQ practice, OSCE clinical stations, and Trust Your Gut first-instinct data to produce a UNIFIED behavior profile.
 
 Archetypes:
 - panic_changer: 3+ avg changes, final answer different from first instinct, time >3 min avg
@@ -145,12 +242,23 @@ AMC Traps to detect:
 - distractor_fixation: Spending time on wrong options
 - stem_overload: Multiple pauses, re-reads on complex stems
 
+OSCE-specific signals to consider:
+- Communication quality from station behavioral signals
+- Clinical reasoning from station scores
+- Time management in clinical stations
+- Psychograph dimensions (if available): cognitive stability, emotional reactivity, silence tolerance, delegation confidence
+
+Trust Your Gut signals:
+- First-instinct accuracy rate
+- Points lost from correct-to-wrong changes
+- Whether the candidate should trust their gut more
+
 Predict AMC score range (out of 300, pass is ~230):
-- Use correctRate, behavioral patterns, and subject coverage to estimate`,
+- Use correctRate, OSCE performance, behavioral patterns, and subject coverage to estimate`,
           },
           {
             role: "user",
-            content: `Analyze this candidate's behavioral data:\n${JSON.stringify(signals, null, 2)}`,
+            content: `Analyze this candidate's unified behavioral data (MCQ + OSCE + Trust Your Gut):\n${JSON.stringify(signals, null, 2)}`,
           },
         ],
         tools: [
@@ -158,7 +266,7 @@ Predict AMC score range (out of 300, pass is ~230):
             type: "function",
             function: {
               name: "classify_behavior",
-              description: "Classify the candidate's behavioral archetype and generate predictions",
+              description: "Classify the candidate's behavioral archetype and generate predictions from unified MCQ + OSCE + TYG data",
               parameters: {
                 type: "object",
                 properties: {
@@ -223,7 +331,6 @@ Predict AMC score range (out of 300, pass is ~230):
     try {
       classification = JSON.parse(toolCall.function.arguments);
     } catch {
-      // Fallback classification based on signals
       classification = {
         archetype: changeRate > 2 ? "panic_changer" : avgTime < 45 ? "rusher" : avgTime > 300 ? "paralyzer" : fatigueIncrease > 1.4 ? "fatigue_victim" : "strategist",
         trap_flags: [],
