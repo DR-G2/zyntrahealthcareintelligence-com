@@ -14,6 +14,7 @@ import Onboarding from "./pages/Onboarding";
 import Dashboard from "./pages/Dashboard";
 import Assess from "./pages/Assess";
 import Profile from "./pages/Profile";
+import BehaviorProfile from "./pages/BehaviorProfile";
 import Practice from "./pages/Practice";
 import Questions from "./pages/Questions";
 import StudyPlan from "./pages/StudyPlan";
