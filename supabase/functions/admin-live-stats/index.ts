@@ -34,13 +34,14 @@ serve(async (req) => {
     const todayISO = todayStart.toISOString();
 
     // Fetch all data in parallel
-    const [profilesRes, allAttemptsRes, todayAttemptsRes, allStationsRes, todayStationsRes, progressRes] = await Promise.all([
+    const [profilesRes, allAttemptsRes, todayAttemptsRes, allStationsRes, todayStationsRes, progressRes, presenceRes] = await Promise.all([
       supabase.from("profiles").select("id, email, name, created_at"),
       supabase.from("user_attempts").select("user_id, is_correct"),
       supabase.from("user_attempts").select("user_id, is_correct").gte("created_at", todayISO),
       supabase.from("station_attempts").select("user_id"),
       supabase.from("station_attempts").select("user_id").gte("created_at", todayISO),
       supabase.from("user_progress").select("user_id, streak_days, last_active, total_questions, accuracy_rate"),
+      supabase.from("user_presence").select("user_id").eq("is_online", true),
     ]);
 
     const profiles = profilesRes.data || [];
@@ -108,7 +109,9 @@ serve(async (req) => {
       return 0;
     });
 
-    return new Response(JSON.stringify({ stats }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    const online_user_ids = (presenceRes.data || []).map(p => p.user_id);
+
+    return new Response(JSON.stringify({ stats, online_user_ids }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
   } catch (e) {
     console.error("admin-live-stats error:", e);
     return new Response(JSON.stringify({ error: e instanceof Error ? e.message : "Unknown error" }), {

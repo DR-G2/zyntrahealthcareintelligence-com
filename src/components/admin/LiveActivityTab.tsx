@@ -40,14 +40,13 @@ export function LiveActivityTab() {
   const fetchAll = async () => {
     setLoading(true);
     try {
-      const [statsRes, presenceRes, trainingRes] = await Promise.all([
+      const [statsRes, trainingRes] = await Promise.all([
         supabase.functions.invoke('admin-live-stats', { body: {} }),
-        supabase.from('user_presence').select('user_id, is_online').eq('is_online', true),
         supabase.from('ai_training_context').select('updated_at').limit(1).maybeSingle(),
       ]);
       if (statsRes.error) throw statsRes.error;
       setStats(statsRes.data?.stats || []);
-      setOnlineSet(new Set((presenceRes.data as PresenceRow[] || []).map(p => p.user_id)));
+      setOnlineSet(new Set(statsRes.data?.online_user_ids || []));
       if (trainingRes.data) setLastRetrained(trainingRes.data.updated_at);
     } catch (e: any) {
       console.error('Failed to fetch user activity', e);
