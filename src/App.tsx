@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 import Landing from "./pages/Landing";
 import Pricing from "./pages/Pricing";
 import Login from "./pages/Login";
@@ -41,28 +42,28 @@ const App = () => (
           <Sonner />
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<Landing />} />
-              <Route path="/pricing" element={<Pricing />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/reset-password" element={<ResetPassword />} />
-              <Route path="/onboarding" element={<Onboarding />} />
-              <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-              <Route path="/assess" element={<ProtectedRoute><Assess /></ProtectedRoute>} />
-              <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-              <Route path="/behavior" element={<ProtectedRoute><BehaviorProfile /></ProtectedRoute>} />
-              <Route path="/trust-your-gut" element={<ProtectedRoute><TrustYourGut /></ProtectedRoute>} />
-              <Route path="/practice" element={<ProtectedRoute><Practice /></ProtectedRoute>} />
-              <Route path="/questions" element={<ProtectedRoute><Questions /></ProtectedRoute>} />
-              <Route path="/questions/mcq" element={<ProtectedRoute><QuestionsMCQ /></ProtectedRoute>} />
-              <Route path="/questions/osce" element={<ProtectedRoute><QuestionsOSCE /></ProtectedRoute>} />
-              <Route path="/assess/osce" element={<ProtectedRoute><DiagnosticOSCE /></ProtectedRoute>} />
-              <Route path="/plan" element={<ProtectedRoute><StudyPlan /></ProtectedRoute>} />
-              <Route path="/stations" element={<ProtectedRoute><Stations /></ProtectedRoute>} />
-              <Route path="/companion/chat" element={<ProtectedRoute><CompanionChat /></ProtectedRoute>} />
-              <Route path="/companion/groups" element={<ProtectedRoute><SocialGroups /></ProtectedRoute>} />
-              <Route path="/companion/shared-tests" element={<ProtectedRoute><SharedTests /></ProtectedRoute>} />
-              <Route path="/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
-              <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
+              <Route path="/" element={<ErrorBoundary><Landing /></ErrorBoundary>} />
+              <Route path="/pricing" element={<ErrorBoundary><Pricing /></ErrorBoundary>} />
+              <Route path="/login" element={<ErrorBoundary><Login /></ErrorBoundary>} />
+              <Route path="/reset-password" element={<ErrorBoundary><ResetPassword /></ErrorBoundary>} />
+              <Route path="/onboarding" element={<ErrorBoundary><Onboarding /></ErrorBoundary>} />
+              <Route path="/dashboard" element={<ProtectedRoute><ErrorBoundary><Dashboard /></ErrorBoundary></ProtectedRoute>} />
+              <Route path="/assess" element={<ProtectedRoute><ErrorBoundary><Assess /></ErrorBoundary></ProtectedRoute>} />
+              <Route path="/profile" element={<ProtectedRoute><ErrorBoundary><Profile /></ErrorBoundary></ProtectedRoute>} />
+              <Route path="/behavior" element={<ProtectedRoute><ErrorBoundary><BehaviorProfile /></ErrorBoundary></ProtectedRoute>} />
+              <Route path="/trust-your-gut" element={<ProtectedRoute><ErrorBoundary><TrustYourGut /></ErrorBoundary></ProtectedRoute>} />
+              <Route path="/practice" element={<ProtectedRoute><ErrorBoundary><Practice /></ErrorBoundary></ProtectedRoute>} />
+              <Route path="/questions" element={<ProtectedRoute><ErrorBoundary><Questions /></ErrorBoundary></ProtectedRoute>} />
+              <Route path="/questions/mcq" element={<ProtectedRoute><ErrorBoundary><QuestionsMCQ /></ErrorBoundary></ProtectedRoute>} />
+              <Route path="/questions/osce" element={<ProtectedRoute><ErrorBoundary><QuestionsOSCE /></ErrorBoundary></ProtectedRoute>} />
+              <Route path="/assess/osce" element={<ProtectedRoute><ErrorBoundary><DiagnosticOSCE /></ErrorBoundary></ProtectedRoute>} />
+              <Route path="/plan" element={<ProtectedRoute><ErrorBoundary><StudyPlan /></ErrorBoundary></ProtectedRoute>} />
+              <Route path="/stations" element={<ProtectedRoute><ErrorBoundary><Stations /></ErrorBoundary></ProtectedRoute>} />
+              <Route path="/companion/chat" element={<ProtectedRoute><ErrorBoundary><CompanionChat /></ErrorBoundary></ProtectedRoute>} />
+              <Route path="/companion/groups" element={<ProtectedRoute><ErrorBoundary><SocialGroups /></ErrorBoundary></ProtectedRoute>} />
+              <Route path="/companion/shared-tests" element={<ProtectedRoute><ErrorBoundary><SharedTests /></ErrorBoundary></ProtectedRoute>} />
+              <Route path="/admin" element={<ProtectedRoute><ErrorBoundary><AdminDashboard /></ErrorBoundary></ProtectedRoute>} />
+              <Route path="/settings" element={<ProtectedRoute><ErrorBoundary><Settings /></ErrorBoundary></ProtectedRoute>} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>

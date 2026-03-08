@@ -10,6 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Target, Clock, Shield, Brain, ArrowRight, TrendingUp, Stethoscope, Activity } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { ProfileSkeleton } from '@/components/skeletons/PageSkeleton';
 
 interface PerformanceData {
   stability_score: number | null;
@@ -134,9 +135,7 @@ export default function Profile() {
   if (loading) {
     return (
       <AppLayout>
-        <div className="flex items-center justify-center py-24">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-        </div>
+        <ProfileSkeleton />
       </AppLayout>
     );
   }

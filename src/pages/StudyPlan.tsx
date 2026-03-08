@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import { differenceInDays } from 'date-fns';
 import { toast } from 'sonner';
+import { StudyPlanSkeleton } from '@/components/skeletons/PageSkeleton';
 
 interface PerformanceProfile {
   readiness_score: number | null;
@@ -176,9 +177,7 @@ export default function StudyPlan() {
   if (loading) {
     return (
       <AppLayout>
-        <div className="flex items-center justify-center py-24">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-        </div>
+        <StudyPlanSkeleton />
       </AppLayout>
     );
   }
