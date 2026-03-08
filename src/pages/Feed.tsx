@@ -341,9 +341,20 @@ export default function Feed() {
             </CardContent>
           </Card>
 
-          <Button onClick={() => navigate('/stations')} className="gap-2">
-            Practice OSCE Stations <ArrowRight className="h-4 w-4" />
-          </Button>
+          <div className="flex gap-3 flex-wrap">
+            <Button
+              onClick={handleSaveOsce}
+              disabled={savingOsce || savedOsce}
+              variant={savedOsce ? 'secondary' : 'outline'}
+              className="gap-2"
+            >
+              {savingOsce ? <Loader2 className="h-4 w-4 animate-spin" /> : savedOsce ? <CheckCircle2 className="h-4 w-4" /> : <Save className="h-4 w-4" />}
+              {savedOsce ? 'Station Saved' : 'Save Station'}
+            </Button>
+            <Button onClick={() => navigate('/stations')} className="gap-2">
+              Practice OSCE Stations <ArrowRight className="h-4 w-4" />
+            </Button>
+          </div>
         </div>
       )}
 
