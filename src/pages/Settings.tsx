@@ -99,6 +99,9 @@ export default function Settings() {
           <p className="text-muted-foreground">Manage your profile and account</p>
         </div>
 
+        {/* Strike Warning */}
+        <StrikeWarning />
+
         {/* Profile Info */}
         <Card>
           <CardHeader className="pb-3">
