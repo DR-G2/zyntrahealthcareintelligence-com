@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, Navigate, useSearchParams } from 'react-router-dom';
-import { Zap, Mail, Lock, Eye, EyeOff } from 'lucide-react';
+import { Zap, Mail, Lock, Eye, EyeOff, ArrowLeft, MailCheck } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -63,6 +63,7 @@ function AuthForm({ mode }: { mode: 'login' | 'signup' }) {
   const [showForgot, setShowForgot] = useState(false);
   const [forgotEmail, setForgotEmail] = useState('');
   const [forgotSubmitting, setForgotSubmitting] = useState(false);
+  const [signupComplete, setSignupComplete] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -70,7 +71,7 @@ function AuthForm({ mode }: { mode: 'login' | 'signup' }) {
     try {
       if (mode === 'signup') {
         await signUp(email, password);
-        toast({ title: 'Account created!', description: 'Check your email to confirm your account.' });
+        setSignupComplete(true);
       } else {
         await signIn(email, password);
       }
@@ -80,6 +81,40 @@ function AuthForm({ mode }: { mode: 'login' | 'signup' }) {
       setSubmitting(false);
     }
   };
+
+  if (signupComplete) {
+    return (
+      <CardContent className="pt-6 pb-8">
+        <div className="flex flex-col items-center text-center space-y-4">
+          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
+            <MailCheck className="h-8 w-8 text-primary" />
+          </div>
+          <div className="space-y-2">
+            <h3 className="text-xl font-semibold font-display">Check your email</h3>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              We've sent a confirmation link to<br />
+              <span className="font-medium text-foreground">{email}</span>
+            </p>
+          </div>
+          <div className="w-full space-y-3 pt-2">
+            <div className="rounded-lg border border-border/60 bg-muted/30 p-4 text-left">
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                Click the link in the email to activate your account. If you don't see it, check your spam folder.
+              </p>
+            </div>
+            <Button
+              variant="ghost"
+              className="w-full gap-2 text-muted-foreground"
+              onClick={() => { setSignupComplete(false); setEmail(''); setPassword(''); }}
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Back to sign up
+            </Button>
+          </div>
+        </div>
+      </CardContent>
+    );
+  }
 
   const handleForgotPassword = async (e: React.FormEvent) => {
     e.preventDefault();
