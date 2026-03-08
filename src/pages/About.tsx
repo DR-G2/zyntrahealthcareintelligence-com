@@ -100,7 +100,7 @@ export default function About() {
           <motion.div initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp} className="mx-auto max-w-2xl">
             <h2 className="mb-6 text-2xl font-bold font-display">1️⃣ Fixing the Foundation</h2>
             <div className="space-y-4 text-base leading-relaxed text-muted-foreground">
-              <p>I started following Arigsa's approach, which helped rebuild my core clinical reasoning.</p>
+              <p><p>I started following Arimgsas approach, which helped rebuild my core clinical reasoning.</p></p>
               <p>Instead of memorizing answers, I started focusing on:</p>
               <ul className="list-disc pl-6 space-y-1">
                 <li>why a diagnosis makes sense</li>
