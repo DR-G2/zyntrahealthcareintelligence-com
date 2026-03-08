@@ -208,6 +208,30 @@ export type Database = {
         }
         Relationships: []
       }
+      piracy_strikes: {
+        Row: {
+          created_at: string
+          id: string
+          issued_by: string | null
+          reason: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          issued_by?: string | null
+          reason?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          issued_by?: string | null
+          reason?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
@@ -739,6 +763,33 @@ export type Database = {
           last_active?: string | null
           streak_days?: number
           total_questions?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
+      watermark_settings: {
+        Row: {
+          id: string
+          opacity_dark: number
+          opacity_light: number
+          suspended: boolean
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          opacity_dark?: number
+          opacity_light?: number
+          suspended?: boolean
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          id?: string
+          opacity_dark?: number
+          opacity_light?: number
+          suspended?: boolean
+          updated_at?: string
           user_id?: string
         }
         Relationships: []
