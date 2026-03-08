@@ -271,6 +271,9 @@ export default function Stations() {
               <h1 className="text-2xl font-bold font-display text-foreground">Clinical Stations</h1>
               <p className="text-muted-foreground text-sm mt-1">APPE Adaptive Performance Profiling Engine</p>
             </div>
+            {!gate.canUseOSCE && (
+              <UpgradePrompt feature="Daily OSCE Limit Reached" description={`You've used ${gate.osceUsedToday}/${gate.osceDailyLimit} free OSCE station(s) today. Upgrade for unlimited stations.`} variant="banner" />
+            )}
             <OnboardingTooltip
               id="stations-intro"
               title="Welcome to Clinical Stations"
