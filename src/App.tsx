@@ -77,6 +77,7 @@ const App = () => (
               <Route path="/companion/groups" element={<ProtectedRoute><ErrorBoundary><SocialGroups /></ErrorBoundary></ProtectedRoute>} />
               <Route path="/companion/shared-tests" element={<ProtectedRoute><ErrorBoundary><SharedTests /></ErrorBoundary></ProtectedRoute>} />
               <Route path="/review" element={<ProtectedRoute><ErrorBoundary><MistakeReview /></ErrorBoundary></ProtectedRoute>} />
+              <Route path="/feed" element={<ProtectedRoute><ErrorBoundary><Feed /></ErrorBoundary></ProtectedRoute>} />
               <Route path="/admin" element={<ProtectedRoute><ErrorBoundary><AdminDashboard /></ErrorBoundary></ProtectedRoute>} />
               <Route path="/settings" element={<ProtectedRoute><ErrorBoundary><Settings /></ErrorBoundary></ProtectedRoute>} />
               <Route path="*" element={<NotFound />} />
