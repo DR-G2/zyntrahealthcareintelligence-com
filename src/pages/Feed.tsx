@@ -222,6 +222,15 @@ export default function Feed() {
       {mcqResults && (
         <div className="mt-8 space-y-6">
           <h2 className="text-xl font-bold font-display">Generated Questions ({mcqResults.length})</h2>
+          <Button
+            onClick={handleSaveMcq}
+            disabled={savingMcq || savedMcq}
+            variant={savedMcq ? 'secondary' : 'outline'}
+            className="gap-2"
+          >
+            {savingMcq ? <Loader2 className="h-4 w-4 animate-spin" /> : savedMcq ? <CheckCircle2 className="h-4 w-4" /> : <Save className="h-4 w-4" />}
+            {savedMcq ? 'Saved to Question Bank' : 'Save All to Question Bank'}
+          </Button>
           {mcqResults.map((q, i) => (
             <Card key={i} className="overflow-hidden">
               <CardHeader className="pb-3">
