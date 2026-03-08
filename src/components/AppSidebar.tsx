@@ -47,12 +47,6 @@ interface NavGroup {
 
 const navGroups: NavGroup[] = [
   {
-    label: 'Overview',
-    items: [
-      { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-    ],
-  },
-  {
     label: 'Learn & Practice',
     items: [
       { to: '/practice', label: 'MCQ', icon: Zap },
@@ -84,7 +78,7 @@ const navGroups: NavGroup[] = [
     ],
   },
   {
-    label: 'Planning',
+    label: 'Study Plan',
     items: [
       { to: '/plan', label: 'Study Plan', icon: Calendar },
     ],
