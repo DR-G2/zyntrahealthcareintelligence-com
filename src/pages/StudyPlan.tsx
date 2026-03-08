@@ -74,6 +74,7 @@ function getReadinessLabel(score: number): { label: string; color: string } {
 
 export default function StudyPlan() {
   const { user, profile } = useAuth();
+  const gate = useFeatureGate();
   const [perfProfile, setPerfProfile] = useState<PerformanceProfile | null>(null);
   const [categoryStats, setCategoryStats] = useState<CategoryStat[]>([]);
   const [loading, setLoading] = useState(true);

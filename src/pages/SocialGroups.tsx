@@ -39,6 +39,7 @@ interface FoundUser {
 
 export default function SocialGroups() {
   const { user } = useAuth();
+  const gate = useFeatureGate();
   const [groups, setGroups] = useState<Group[]>([]);
   const [loading, setLoading] = useState(true);
   const [newGroupName, setNewGroupName] = useState('');

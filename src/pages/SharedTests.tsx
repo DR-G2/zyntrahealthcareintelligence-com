@@ -46,6 +46,7 @@ function generateCode(): string {
 
 export default function SharedTests() {
   const { user } = useAuth();
+  const gate = useFeatureGate();
   const [tests, setTests] = useState<SharedTest[]>([]);
   const [loading, setLoading] = useState(true);
   const [showCreate, setShowCreate] = useState(false);

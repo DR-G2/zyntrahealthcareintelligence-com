@@ -43,6 +43,7 @@ const SUBJECT_OPTIONS = [...SYSTEMS, 'Ethics & Law'] as const;
 export default function DiagnosticOSCE() {
   const { user } = useAuth();
   const { toast } = useToast();
+  const gate = useFeatureGate();
   const sessionIdRef = useRef(crypto.randomUUID());
 
   const [phase, setPhase] = useState<Phase>('intro');
