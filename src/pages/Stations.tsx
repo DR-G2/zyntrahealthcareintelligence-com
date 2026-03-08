@@ -8,6 +8,7 @@ import { StationChat } from '@/components/stations/StationChat';
 import { StationChecklist } from '@/components/stations/StationChecklist';
 import { StationResults } from '@/components/stations/StationResults';
 import { supabase } from '@/integrations/supabase/client';
+import { OnboardingTooltip } from '@/components/OnboardingTooltip';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import { SYSTEMS } from '@/lib/filter-data';
@@ -267,6 +268,11 @@ export default function Stations() {
               <h1 className="text-2xl font-bold font-display text-foreground">Clinical Stations</h1>
               <p className="text-muted-foreground text-sm mt-1">APPE Adaptive Performance Profiling Engine</p>
             </div>
+            <OnboardingTooltip
+              id="stations-intro"
+              title="Welcome to Clinical Stations"
+              description="Choose Single for a focused station, Adaptive for AI-selected stations based on your weak areas, or Exam mode for a timed 8-station circuit. You'll chat with an AI patient and complete a clinical checklist."
+            />
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {modeCards.map(card => (
                 <Card

@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
+import { OnboardingTooltip } from '@/components/OnboardingTooltip';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
@@ -199,6 +200,12 @@ function SetupScreen({ onStart }: { onStart: (config: SessionConfig) => void }) 
           <h1 className="text-3xl font-bold font-display">Practice Drills</h1>
           <p className="text-muted-foreground">Configure your session and start practising</p>
         </div>
+
+        <OnboardingTooltip
+          id="practice-intro"
+          title="Welcome to Practice Drills"
+          description="Choose Recharge mode to revisit questions you got wrong, or No Change mode for fresh questions. Use the topic filters below to focus on your weak areas."
+        />
 
         {/* Mode Selection */}
         <div className="space-y-3">

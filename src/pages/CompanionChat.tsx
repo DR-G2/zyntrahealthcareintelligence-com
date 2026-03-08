@@ -8,6 +8,7 @@ import { toast } from 'sonner';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/contexts/AuthContext';
 import { AppLayout } from '@/components/AppLayout';
+import { OnboardingTooltip } from '@/components/OnboardingTooltip';
 
 type Msg = { role: 'user' | 'assistant'; content: string };
 
@@ -236,6 +237,13 @@ export default function CompanionChat() {
           <div className="flex items-center gap-2 px-5 py-3 border-b bg-primary text-primary-foreground">
             <Sparkles className="h-5 w-5" />
             <span className="font-display font-semibold">AI Study Chat</span>
+          </div>
+          <div className="px-5 pt-4">
+            <OnboardingTooltip
+              id="chat-intro"
+              title="Meet your AI Study Buddy"
+              description="Ask any medical or AMC-related question. Your conversations are saved in the sidebar. Try the quick prompts below to get started — responses support full markdown formatting."
+            />
           </div>
 
           <ScrollArea className="flex-1 px-5 py-4" ref={scrollRef}>
