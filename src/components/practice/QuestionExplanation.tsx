@@ -92,9 +92,16 @@ export function QuestionExplanation({ question, userAnswer, questionIndex, onBac
       transition={{ duration: 0.25 }}
       className="mx-auto max-w-3xl py-8 space-y-6"
     >
-      <Button variant="ghost" onClick={onBack} className="gap-1 mb-2">
-        <ChevronLeft className="h-4 w-4" /> Back to Results
-      </Button>
+      <div className="flex items-center justify-between mb-2">
+        <Button variant="ghost" onClick={onBack} className="gap-1">
+          <ChevronLeft className="h-4 w-4" /> Back to Results
+        </Button>
+        {onAskStudyBuddy && (
+          <Button variant="outline" size="sm" onClick={() => onAskStudyBuddy(question)} className="gap-1.5">
+            <MessageCircle className="h-4 w-4" /> Ask Study Buddy
+          </Button>
+        )}
+      </div>
 
       {/* Question header */}
       <Card>
