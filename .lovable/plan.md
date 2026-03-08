@@ -1,41 +1,98 @@
 
 
-## Plan: Enhanced Practice Results with Detailed Explanations
+## Plan: Save/Bookmark, History, Learning Points & Notes for MCQ and OSCE (Paid Only)
 
-### What Changes
+### Summary
 
-**1. Expand the results review section (Practice.tsx, lines 225-245)**
+Add bookmark/save functionality to MCQ questions and OSCE stations, restrict history access and learning points to paid tiers, and add a note-taking system for both question types. Free users see an upgrade prompt instead.
 
-Replace the current inline explanation snippet with a clickable card that navigates to a full-page explanation view. Each question card in results will show:
-- Question text, your answer vs correct answer, correct/incorrect badge
-- A "Read Full Explanation" button that opens a detailed view
+### Feature Gate Changes
 
-**2. Create a full-page explanation view within the results phase**
+**File: `src/hooks/useFeatureGate.ts`**
+- Add two new flags: `canSaveBookmarks: boolean` and `canAccessNotes: boolean`
+- Paid tiers (full_access, lifetime, mcq_only, osce_only) → `true`
+- Free tier → `false`
 
-Add a new sub-phase `'explanation'` to the drill session. When a user clicks a question, the view transitions to a full-page layout containing:
-- The question and all options (highlighted correct/incorrect)
-- A detailed explanation section
-- **Reference notes** organized by source book:
-  - **AMC Handbook** — key clinical points relevant to the question topic
-  - **John Murtagh's General Practice** — diagnostic approach and management
-  - **Tally O'Connor's Clinical Examination** — examination findings and signs
-- A "Back to Results" button
+### MCQ: Save/Bookmark + Notes
 
-**3. Store reference notes in the question explanation field**
+**File: `src/components/practice/QuestionExplanation.tsx`**
+- Add a Bookmark (heart/star) toggle button in the header — calls `bookmarks` table insert/delete
+- Add a Notes section (textarea) below the explanation — loads from `user_notes` table, auto-saves on blur
+- Both gated behind `canSaveBookmarks` / `canAccessNotes` — show lock icon + upgrade prompt for free users
+- Show "Learning Points" (key_takeaways) section prominently — gated to paid only
 
-Since the `questions` table already has an `explanation` column, the detailed explanations with book references will be structured within that field. For now, the UI will parse and display the explanation, and add styled reference sections with book attribution headers even if the current explanation text is brief. The textbook reference sections will be rendered as distinct styled blocks.
+**File: `src/pages/Practice.tsx` (ResultsScreen)**
+- Add bookmark toggle on each review question card
+- Gate the "Review Questions" section's detailed explanations to paid users (free users see truncated view + upgrade prompt)
 
-### Technical Approach
+### OSCE: Save Station + Notes
 
-- Add state: `reviewQuestionIndex: number | null` to track which question is being viewed in detail
-- When set, render a full-page explanation component instead of the results list
-- Structure the explanation page with:
-  - Question card with all options color-coded
-  - Explanation text (from DB)
-  - Three reference cards (AMC Handbook, Murtagh's, Tally O'Connor) with topic-relevant headers derived from the question's category
-- Use `framer-motion` for page transitions
-- All changes are in `src/pages/Practice.tsx` only — no new files needed
+**File: `src/pages/Stations.tsx` (results phase)**
+- Add a "Save Station" bookmark button that inserts into a new `station_bookmarks` table
+- Add a notes textarea that saves to `station_notes` table
+- Both gated to paid tiers
 
-### Files Modified
-- `src/pages/Practice.tsx` — refactor results phase to add clickable detail view with book reference sections
+**File: `src/components/stations/StationResults.tsx`**
+- Add bookmark + notes UI within the results view
+- Show learning points (recommendations) section — already present but will gate to paid
+
+### Database Changes
+
+**New table: `station_bookmarks`**
+```sql
+CREATE TABLE public.station_bookmarks (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id uuid NOT NULL,
+  station_attempt_id uuid NOT NULL REFERENCES station_attempts(id) ON DELETE CASCADE,
+  created_at timestamptz NOT NULL DEFAULT now(),
+  UNIQUE(user_id, station_attempt_id)
+);
+ALTER TABLE public.station_bookmarks ENABLE ROW LEVEL SECURITY;
+-- RLS: users own rows only (SELECT, INSERT, DELETE)
+```
+
+**New table: `station_notes`**
+```sql
+CREATE TABLE public.station_notes (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id uuid NOT NULL,
+  station_attempt_id uuid NOT NULL REFERENCES station_attempts(id) ON DELETE CASCADE,
+  note_text text NOT NULL DEFAULT '',
+  created_at timestamptz NOT NULL DEFAULT now(),
+  updated_at timestamptz NOT NULL DEFAULT now(),
+  UNIQUE(user_id, station_attempt_id)
+);
+ALTER TABLE public.station_notes ENABLE ROW LEVEL SECURITY;
+-- RLS: users own rows only (SELECT, INSERT, UPDATE, DELETE)
+```
+
+Existing `bookmarks` and `user_notes` tables already handle MCQ — no schema changes needed there.
+
+### History Pages (Paid Gate)
+
+**File: `src/pages/QuestionsOSCE.tsx`**
+- Gate the entire page behind `canAccessAnalytics` (paid) — free users see upgrade prompt
+
+**File: `src/pages/MistakeReview.tsx`**
+- Gate behind paid tier — free users see upgrade prompt with "Upgrade to review past mistakes"
+
+### Saved Items View
+
+**File: `src/pages/Questions.tsx`** (or new `src/pages/SavedItems.tsx`)
+- Add a "Saved" tab to the Questions page showing bookmarked MCQs and saved OSCE stations
+- Each item shows the question/station title, category, date saved, and a link to view the full explanation/notes
+
+### Files Changed
+
+| File | Change |
+|------|--------|
+| `src/hooks/useFeatureGate.ts` | Add `canSaveBookmarks`, `canAccessNotes` flags |
+| `src/components/practice/QuestionExplanation.tsx` | Add bookmark toggle, notes textarea, gate learning points |
+| `src/pages/Practice.tsx` | Add bookmark on review cards |
+| `src/pages/Stations.tsx` | Add bookmark + notes in results phase |
+| `src/components/stations/StationResults.tsx` | Add bookmark/notes UI, gate recommendations |
+| `src/pages/QuestionsOSCE.tsx` | Gate to paid tier |
+| `src/pages/MistakeReview.tsx` | Gate to paid tier |
+| `src/pages/Questions.tsx` | Add "Saved" tab for bookmarked MCQs + stations |
+| **Migration** | Create `station_bookmarks` and `station_notes` tables with RLS |
 
