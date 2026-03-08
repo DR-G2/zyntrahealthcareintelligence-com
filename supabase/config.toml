@@ -11,7 +11,9 @@ project_id = "yudkfmgilucyhukfggij"
     verify_jwt = false
   [functions.compute-question-tiers]
     verify_jwt = false
-  [functions.create-checkout]
+  [functions.create-razorpay-order]
+    verify_jwt = false
+  [functions.verify-razorpay-payment]
     verify_jwt = false
   [functions.check-subscription]
     verify_jwt = false
