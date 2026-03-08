@@ -3,7 +3,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { ClipboardCheck, Zap, BarChart3, Calendar, ArrowRight } from 'lucide-react';
+import { ClipboardCheck, Zap, Calendar, ArrowRight } from 'lucide-react';
 import { differenceInDays, parseISO } from 'date-fns';
 
 export default function Dashboard() {
