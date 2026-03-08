@@ -77,6 +77,7 @@ export function useFeatureGate(): FeatureGate {
       questionBankLimit: null,
       canAccessAnalytics: true, canAccessBehavior: true, canAccessTrustGut: true,
       canAccessReadiness: true, canAccessAdaptiveOSCE: true, canAccessExamMode: true,
+      canSaveBookmarks: true, canAccessNotes: true, canAccessHistory: true, canAccessLearningPoints: true,
       ...record,
     };
   }
