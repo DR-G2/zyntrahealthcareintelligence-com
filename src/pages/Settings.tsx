@@ -28,6 +28,7 @@ import { toast } from 'sonner';
 import { User, Calendar, Shield, Info, LogOut, Trash2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { ReferralCard } from '@/components/settings/ReferralCard';
+import { StrikeWarning } from '@/components/settings/StrikeWarning';
 
 export default function Settings() {
   const { user, profile, signOut, refreshProfile } = useAuth();
