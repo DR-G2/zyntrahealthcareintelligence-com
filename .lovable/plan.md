@@ -1,50 +1,41 @@
 
 
-## Plan: Comprehensive User Activity Dashboard
+## Plan: Enhanced Practice Results with Detailed Explanations
 
 ### What Changes
 
-Transform the "Live Activity" tab from showing only currently-online users into a full **User Activity** dashboard that displays all users with their complete historical stats since signup, plus a real-time online indicator.
+**1. Expand the results review section (Practice.tsx, lines 225-245)**
 
-### Changes
+Replace the current inline explanation snippet with a clickable card that navigates to a full-page explanation view. Each question card in results will show:
+- Question text, your answer vs correct answer, correct/incorrect badge
+- A "Read Full Explanation" button that opens a detailed view
 
-#### 1. Update Edge Function: `supabase/functions/admin-live-stats/index.ts`
+**2. Create a full-page explanation view within the results phase**
 
-- Remove the requirement for `user_ids` in the request body — instead fetch **all** profiles
-- Remove the "today only" filter — aggregate **all-time** stats per user:
-  - `total_questions`: total MCQ attempts ever
-  - `total_correct`: total correct answers ever
-  - `overall_accuracy`: percentage
-  - `total_osce`: total OSCE station attempts ever
-  - `streak_days`: from user_progress
-  - `questions_today` / `osce_today`: keep today's stats as a secondary metric
-  - `last_active`: from user_progress or last attempt
-  - `joined_at`: from profiles.created_at
-- Return all users sorted by last activity
+Add a new sub-phase `'explanation'` to the drill session. When a user clicks a question, the view transitions to a full-page layout containing:
+- The question and all options (highlighted correct/incorrect)
+- A detailed explanation section
+- **Reference notes** organized by source book:
+  - **AMC Handbook** — key clinical points relevant to the question topic
+  - **John Murtagh's General Practice** — diagnostic approach and management
+  - **Tally O'Connor's Clinical Examination** — examination findings and signs
+- A "Back to Results" button
 
-#### 2. Rewrite Component: `src/components/admin/LiveActivityTab.tsx`
+**3. Store reference notes in the question explanation field**
 
-- Rename display to "User Activity" (keep component name for compatibility)
-- Fetch all user stats on mount via the updated edge function (no longer depends on presence)
-- Fetch presence separately to overlay online status (green dot) on matching users
-- Display as a **table** (not cards) with columns:
-  - Name/Email | Online | Total MCQs | All-time Accuracy | Total OSCE | Streak | Today MCQs | Today OSCE | Last Active | Joined
-- Add search/filter input
-- Keep the Refresh and Retrain AI buttons
-- Online users get a green dot badge; offline users show nothing
-- Sort by: online first, then by last active descending
+Since the `questions` table already has an `explanation` column, the detailed explanations with book references will be structured within that field. For now, the UI will parse and display the explanation, and add styled reference sections with book attribution headers even if the current explanation text is brief. The textbook reference sections will be rendered as distinct styled blocks.
 
-#### 3. Update Admin Tab Label
+### Technical Approach
 
-In `src/pages/AdminDashboard.tsx`, change the tab trigger label from "Live Activity" to "User Activity" (the icon and value stay the same).
+- Add state: `reviewQuestionIndex: number | null` to track which question is being viewed in detail
+- When set, render a full-page explanation component instead of the results list
+- Structure the explanation page with:
+  - Question card with all options color-coded
+  - Explanation text (from DB)
+  - Three reference cards (AMC Handbook, Murtagh's, Tally O'Connor) with topic-relevant headers derived from the question's category
+- Use `framer-motion` for page transitions
+- All changes are in `src/pages/Practice.tsx` only — no new files needed
 
-### Files Changed
-
-| File | Change |
-|------|--------|
-| `supabase/functions/admin-live-stats/index.ts` | Fetch all users, all-time + today stats |
-| `src/components/admin/LiveActivityTab.tsx` | Table layout, search, online overlay |
-| `src/pages/AdminDashboard.tsx` | Tab label update |
-
-No database migrations needed.
+### Files Modified
+- `src/pages/Practice.tsx` — refactor results phase to add clickable detail view with book reference sections
 
