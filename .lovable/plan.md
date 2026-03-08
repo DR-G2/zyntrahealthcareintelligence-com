@@ -1,34 +1,41 @@
 
 
-## Plan: Add System/Subject Hierarchical Filters to Questions Page
+## Plan: Enhanced Practice Results with Detailed Explanations
 
-### Overview
-Replace the flat category `Select` dropdown on the Questions page with the same hierarchical System/Subject dual-filter system already built in the Practice page.
+### What Changes
 
-### Changes: `src/pages/Questions.tsx` only
+**1. Expand the results review section (Practice.tsx, lines 225-245)**
 
-**1. Import the same filter data structures**
-- Copy `SYSTEMS`, `SUBJECTS`, `SYSTEM_SUBJECTS`, `SUBJECT_SYSTEMS` constants from Practice.tsx (or extract to a shared file)
-- Import `Collapsible`, `ToggleGroup`, `Checkbox` components
+Replace the current inline explanation snippet with a clickable card that navigates to a full-page explanation view. Each question card in results will show:
+- Question text, your answer vs correct answer, correct/incorrect badge
+- A "Read Full Explanation" button that opens a detailed view
 
-**2. Replace category dropdown with hierarchical filter panel**
-- Add `filterMode: 'system' | 'subject'` state and `selectedPairs: Set<string>` state
-- Add a collapsible filter panel (toggled by the existing Filter icon/button) containing:
-  - Filter mode toggle (System View / Subject View)
-  - Search input to filter systems/subjects
-  - Two-column grid of collapsible items with checkboxes (same UI pattern as Practice)
-  - Select All / Clear All buttons
-  - Question counts per system/subject from loaded data
+**2. Create a full-page explanation view within the results phase**
 
-**3. Update filtering logic**
-- Replace the simple `category === category` check in the `filtered` useMemo with logic that matches question categories against selected system:subject pairs using the same `getMatchingCategories` approach from Practice
-- Keep the existing search, difficulty, and tab filters unchanged
+Add a new sub-phase `'explanation'` to the drill session. When a user clicks a question, the view transitions to a full-page layout containing:
+- The question and all options (highlighted correct/incorrect)
+- A detailed explanation section
+- **Reference notes** organized by source book:
+  - **AMC Handbook** — key clinical points relevant to the question topic
+  - **John Murtagh's General Practice** — diagnostic approach and management
+  - **Tally O'Connor's Clinical Examination** — examination findings and signs
+- A "Back to Results" button
 
-**4. Keep existing category dropdown as fallback**
-- Retain the flat category dropdown as a quick-select option alongside the hierarchical panel, or replace entirely with the new system
+**3. Store reference notes in the question explanation field**
 
-### Not Modified
-- Question card rendering, expansion, bookmarks, notes, attempt history
-- Data loading logic
-- Any other pages or components
+Since the `questions` table already has an `explanation` column, the detailed explanations with book references will be structured within that field. For now, the UI will parse and display the explanation, and add styled reference sections with book attribution headers even if the current explanation text is brief. The textbook reference sections will be rendered as distinct styled blocks.
+
+### Technical Approach
+
+- Add state: `reviewQuestionIndex: number | null` to track which question is being viewed in detail
+- When set, render a full-page explanation component instead of the results list
+- Structure the explanation page with:
+  - Question card with all options color-coded
+  - Explanation text (from DB)
+  - Three reference cards (AMC Handbook, Murtagh's, Tally O'Connor) with topic-relevant headers derived from the question's category
+- Use `framer-motion` for page transitions
+- All changes are in `src/pages/Practice.tsx` only — no new files needed
+
+### Files Modified
+- `src/pages/Practice.tsx` — refactor results phase to add clickable detail view with book reference sections
 

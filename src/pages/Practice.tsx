@@ -38,46 +38,8 @@ interface SessionConfig {
   questionCount: number;
 }
 
-// ─── Filter Data Structures ─────────────────────────────────────
-
-const SYSTEMS = [
-  'Cardiology', 'Respiratory', 'Gastrointestinal', 'Neurology', 'Endocrinology',
-  'Renal', 'Dermatology', 'Psychiatry', 'Paediatrics', 'Obstetrics & Gynaecology',
-  'Emergency Medicine', 'Infectious Diseases', 'Population Health', 'ENT',
-  'Haematology', 'Musculoskeletal'
-] as const;
-
-const SUBJECTS = [
-  'Physiology', 'Pathology', 'Pharmacology', 'Clinical Presentation',
-  'Investigations', 'Management', 'Preventive Medicine', 'Emergency Care',
-  'Ethics & Law', 'Epidemiology'
-] as const;
-
-const SYSTEM_SUBJECTS: Record<string, string[]> = {
-  'Cardiology': ['Physiology', 'Pathology', 'Pharmacology', 'Clinical Presentation', 'Investigations', 'Management', 'Emergency Care'],
-  'Respiratory': ['Physiology', 'Pathology', 'Pharmacology', 'Clinical Presentation', 'Investigations', 'Management', 'Emergency Care'],
-  'Gastrointestinal': ['Physiology', 'Pathology', 'Pharmacology', 'Clinical Presentation', 'Investigations', 'Management'],
-  'Neurology': ['Physiology', 'Pathology', 'Pharmacology', 'Clinical Presentation', 'Investigations', 'Management', 'Emergency Care'],
-  'Endocrinology': ['Physiology', 'Pathology', 'Pharmacology', 'Clinical Presentation', 'Investigations', 'Management'],
-  'Renal': ['Physiology', 'Pathology', 'Pharmacology', 'Clinical Presentation', 'Investigations', 'Management'],
-  'Dermatology': ['Pathology', 'Clinical Presentation', 'Management'],
-  'Psychiatry': ['Pathology', 'Clinical Presentation', 'Pharmacology', 'Management'],
-  'Paediatrics': ['Physiology', 'Pathology', 'Pharmacology', 'Clinical Presentation', 'Management', 'Emergency Care'],
-  'Obstetrics & Gynaecology': ['Physiology', 'Pathology', 'Clinical Presentation', 'Investigations', 'Management', 'Emergency Care'],
-  'Emergency Medicine': ['Clinical Presentation', 'Investigations', 'Management', 'Emergency Care'],
-  'Infectious Diseases': ['Pathology', 'Pharmacology', 'Clinical Presentation', 'Investigations', 'Management', 'Epidemiology'],
-  'Population Health': ['Preventive Medicine', 'Ethics & Law', 'Epidemiology'],
-  'ENT': ['Pathology', 'Clinical Presentation', 'Investigations', 'Management'],
-  'Haematology': ['Physiology', 'Pathology', 'Pharmacology', 'Clinical Presentation', 'Investigations', 'Management'],
-  'Musculoskeletal': ['Pathology', 'Clinical Presentation', 'Investigations', 'Management', 'Pharmacology'],
-};
-
-const SUBJECT_SYSTEMS: Record<string, string[]> = {};
-SUBJECTS.forEach(subject => {
-  SUBJECT_SYSTEMS[subject] = SYSTEMS.filter(system => SYSTEM_SUBJECTS[system]?.includes(subject));
-});
-
-type FilterMode = 'system' | 'subject';
+// ─── Filter Data Structures (imported from shared) ──────────────
+import { SYSTEMS, SUBJECTS, SYSTEM_SUBJECTS, SUBJECT_SYSTEMS, getAllPairs, type FilterMode } from '@/lib/filter-data';
 
 // ─── Setup Screen ───────────────────────────────────────────────
 
@@ -102,13 +64,7 @@ function SetupScreen({ onStart }: { onStart: (config: SessionConfig) => void }) 
         setCategoryCounts(counts);
         
         // Default: select all available pairs
-        const allPairs = new Set<string>();
-        SYSTEMS.forEach(system => {
-          SYSTEM_SUBJECTS[system]?.forEach(subject => {
-            allPairs.add(`${system}:${subject}`);
-          });
-        });
-        setSelectedPairs(allPairs);
+        setSelectedPairs(getAllPairs());
       }
       setLoading(false);
     };
@@ -186,13 +142,7 @@ function SetupScreen({ onStart }: { onStart: (config: SessionConfig) => void }) 
   };
 
   const selectAll = () => {
-    const allPairs = new Set<string>();
-    SYSTEMS.forEach(system => {
-      SYSTEM_SUBJECTS[system]?.forEach(subject => {
-        allPairs.add(`${system}:${subject}`);
-      });
-    });
-    setSelectedPairs(allPairs);
+    setSelectedPairs(getAllPairs());
   };
 
   const clearAll = () => {

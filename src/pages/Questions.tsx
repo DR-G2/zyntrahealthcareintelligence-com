@@ -10,9 +10,16 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 import { motion, AnimatePresence } from 'framer-motion';
+import {
+  SYSTEMS, SUBJECTS, SYSTEM_SUBJECTS, SUBJECT_SYSTEMS,
+  getAllPairs, getMatchingCategories, type FilterMode
+} from '@/lib/filter-data';
 
 interface Question {
   id: string;
@@ -33,14 +40,6 @@ interface UserAttempt {
   created_at: string;
 }
 
-const categories = [
-  'All', 'Cardiovascular', 'Respiratory', 'Gastrointestinal', 'Neurology',
-  'Musculoskeletal', 'Endocrinology', 'Renal', 'Haematology',
-  'Infectious Disease', 'Psychiatry', 'Obstetrics & Gynaecology',
-  'Paediatrics', 'Dermatology', 'Ophthalmology', 'ENT',
-  'Emergency Medicine', 'Pharmacology', 'Ethics & Law',
-];
-
 const difficulties = ['All', 'easy', 'medium', 'hard'];
 
 type FilterTab = 'all' | 'bookmarked' | 'incorrect' | 'unattempted';
@@ -56,9 +55,15 @@ export default function Questions() {
 
   // Filters
   const [search, setSearch] = useState('');
-  const [category, setCategory] = useState('All');
   const [difficulty, setDifficulty] = useState('All');
   const [tab, setTab] = useState<FilterTab>('all');
+
+  // Hierarchical filter state
+  const [filterMode, setFilterMode] = useState<FilterMode>('system');
+  const [selectedPairs, setSelectedPairs] = useState<Set<string>>(getAllPairs());
+  const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
+  const [filterSearch, setFilterSearch] = useState('');
+  const [showFilters, setShowFilters] = useState(false);
 
   // Expanded question
   const [expandedId, setExpandedId] = useState<string | null>(null);
@@ -106,8 +111,45 @@ export default function Questions() {
     setLoading(false);
   };
 
+  // Category counts from loaded questions
+  const categoryCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    questions.forEach(q => {
+      counts[q.category] = (counts[q.category] || 0) + 1;
+    });
+    return counts;
+  }, [questions]);
+
+  const systemCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    SYSTEMS.forEach(system => {
+      counts[system] = Object.entries(categoryCounts)
+        .filter(([cat]) => cat.toLowerCase().includes(system.toLowerCase()))
+        .reduce((sum, [, count]) => sum + count, 0);
+    });
+    return counts;
+  }, [categoryCounts]);
+
+  const subjectCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    SUBJECTS.forEach(subject => {
+      counts[subject] = Object.entries(categoryCounts)
+        .filter(([cat]) => cat.toLowerCase().includes(subject.toLowerCase()))
+        .reduce((sum, [, count]) => sum + count, 0);
+    });
+    return counts;
+  }, [categoryCounts]);
+
   const attemptedIds = useMemo(() => new Set(attempts.map(a => a.question_id)), [attempts]);
   const incorrectIds = useMemo(() => new Set(attempts.filter(a => !a.is_correct).map(a => a.question_id)), [attempts]);
+
+  // Get matching categories from hierarchical selection
+  const matchingCategories = useMemo(
+    () => getMatchingCategories(selectedPairs, categoryCounts),
+    [selectedPairs, categoryCounts]
+  );
+
+  const allPairsSelected = selectedPairs.size === getAllPairs().size;
 
   const filtered = useMemo(() => {
     let result = questions;
@@ -116,9 +158,13 @@ export default function Questions() {
       const q = search.toLowerCase();
       result = result.filter(r => r.question_text.toLowerCase().includes(q) || r.category.toLowerCase().includes(q));
     }
-    if (category !== 'All') {
-      result = result.filter(r => r.category === category);
+
+    // Hierarchical category filter
+    if (!allPairsSelected) {
+      const matchSet = new Set(matchingCategories);
+      result = result.filter(r => matchSet.has(r.category));
     }
+
     if (difficulty !== 'All') {
       result = result.filter(r => r.difficulty === difficulty);
     }
@@ -130,7 +176,61 @@ export default function Questions() {
     }
 
     return result;
-  }, [questions, search, category, difficulty, tab, bookmarks, incorrectIds, attemptedIds]);
+  }, [questions, search, difficulty, tab, bookmarks, incorrectIds, attemptedIds, allPairsSelected, matchingCategories]);
+
+  // Filter helpers
+  const toggleExpand = (item: string) => {
+    setExpandedItems(prev => {
+      const next = new Set(prev);
+      if (next.has(item)) next.delete(item);
+      else next.add(item);
+      return next;
+    });
+  };
+
+  const togglePair = (system: string, subject: string) => {
+    const key = `${system}:${subject}`;
+    setSelectedPairs(prev => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return next;
+    });
+  };
+
+  const toggleSystem = (system: string) => {
+    const subjects = SYSTEM_SUBJECTS[system] || [];
+    const allSelected = subjects.every(sub => selectedPairs.has(`${system}:${sub}`));
+    setSelectedPairs(prev => {
+      const next = new Set(prev);
+      subjects.forEach(sub => {
+        const key = `${system}:${sub}`;
+        if (allSelected) next.delete(key);
+        else next.add(key);
+      });
+      return next;
+    });
+  };
+
+  const toggleSubject = (subject: string) => {
+    const systems = SUBJECT_SYSTEMS[subject] || [];
+    const allSelected = systems.every(sys => selectedPairs.has(`${sys}:${subject}`));
+    setSelectedPairs(prev => {
+      const next = new Set(prev);
+      systems.forEach(sys => {
+        const key = `${sys}:${subject}`;
+        if (allSelected) next.delete(key);
+        else next.add(key);
+      });
+      return next;
+    });
+  };
+
+  const selectAll = () => setSelectedPairs(getAllPairs());
+  const clearAll = () => setSelectedPairs(new Set());
+
+  const selectedCount = selectedPairs.size;
+  const totalPairs = getAllPairs().size;
 
   const toggleBookmark = async (qId: string) => {
     if (!user) return;
@@ -193,17 +293,19 @@ export default function Questions() {
               className="pl-10"
             />
           </div>
-          <Select value={category} onValueChange={setCategory}>
-            <SelectTrigger className="w-full sm:w-[200px]">
-              <Filter className="h-4 w-4 mr-2 text-muted-foreground" />
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {categories.map(c => (
-                <SelectItem key={c} value={c}>{c}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <Button
+            variant={showFilters ? 'default' : 'outline'}
+            onClick={() => setShowFilters(!showFilters)}
+            className="gap-2"
+          >
+            <Filter className="h-4 w-4" />
+            Topics
+            {!allPairsSelected && (
+              <Badge variant="secondary" className="ml-1 text-xs">
+                {selectedCount}/{totalPairs}
+              </Badge>
+            )}
+          </Button>
           <Select value={difficulty} onValueChange={setDifficulty}>
             <SelectTrigger className="w-full sm:w-[140px]">
               <SelectValue />
@@ -216,6 +318,195 @@ export default function Questions() {
           </Select>
         </div>
 
+        {/* Hierarchical Topic Filter Panel */}
+        <AnimatePresence>
+          {showFilters && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="overflow-hidden"
+            >
+              <Card>
+                <CardContent className="pt-4 space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <span className="text-sm text-muted-foreground">View:</span>
+                      <ToggleGroup
+                        type="single"
+                        value={filterMode}
+                        onValueChange={(v) => v && setFilterMode(v as FilterMode)}
+                        className="bg-muted rounded-lg p-1"
+                      >
+                        <ToggleGroupItem value="system" className="text-sm px-4">
+                          System
+                        </ToggleGroupItem>
+                        <ToggleGroupItem value="subject" className="text-sm px-4">
+                          Subject
+                        </ToggleGroupItem>
+                      </ToggleGroup>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Button variant="ghost" size="sm" onClick={selectAll}>Select All</Button>
+                      <Button variant="ghost" size="sm" onClick={clearAll}>Clear All</Button>
+                    </div>
+                  </div>
+
+                  {/* Filter search */}
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      placeholder="Search systems or subjects..."
+                      value={filterSearch}
+                      onChange={(e) => setFilterSearch(e.target.value)}
+                      className="pl-9 pr-9"
+                    />
+                    {filterSearch && (
+                      <button
+                        onClick={() => setFilterSearch('')}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                      >
+                        <X className="h-4 w-4" />
+                      </button>
+                    )}
+                  </div>
+
+                  {/* System View */}
+                  {filterMode === 'system' && (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      {SYSTEMS.filter((system) => {
+                        if (!filterSearch.trim()) return true;
+                        const q = filterSearch.toLowerCase();
+                        const subjects = SYSTEM_SUBJECTS[system] || [];
+                        return system.toLowerCase().includes(q) || subjects.some(s => s.toLowerCase().includes(q));
+                      }).map((system) => {
+                        const subjects = SYSTEM_SUBJECTS[system] || [];
+                        const selCount = subjects.filter(sub => selectedPairs.has(`${system}:${sub}`)).length;
+                        const allSel = selCount === subjects.length && subjects.length > 0;
+                        const someSel = selCount > 0;
+
+                        return (
+                          <Collapsible
+                            key={system}
+                            open={expandedItems.has(system) || (!!filterSearch.trim() && subjects.some(s => s.toLowerCase().includes(filterSearch.toLowerCase())))}
+                            onOpenChange={() => toggleExpand(system)}
+                          >
+                            <div className={cn(
+                              'rounded-lg border transition-colors',
+                              someSel ? 'border-primary/40 bg-primary/5' : 'border-border'
+                            )}>
+                              <CollapsibleTrigger className="flex w-full items-center justify-between px-4 py-3 text-left">
+                                <div className="flex items-center gap-3">
+                                  <Checkbox
+                                    checked={allSel}
+                                    onCheckedChange={() => toggleSystem(system)}
+                                    onClick={(e) => e.stopPropagation()}
+                                    className={cn(someSel && !allSel && "data-[state=unchecked]:bg-primary/30")}
+                                  />
+                                  <span className="font-medium text-sm">{system}</span>
+                                  <Badge variant="secondary" className="text-xs">
+                                    {systemCounts[system] || 0}
+                                  </Badge>
+                                </div>
+                                <ChevronDown className={cn(
+                                  "h-4 w-4 text-muted-foreground transition-transform",
+                                  expandedItems.has(system) && "rotate-180"
+                                )} />
+                              </CollapsibleTrigger>
+                              <CollapsibleContent>
+                                <div className="border-t border-border/50 px-4 py-3 space-y-2">
+                                  {subjects.map((subject) => (
+                                    <label
+                                      key={`${system}:${subject}`}
+                                      className="flex items-center gap-2 cursor-pointer text-sm text-muted-foreground hover:text-foreground transition-colors"
+                                    >
+                                      <Checkbox
+                                        checked={selectedPairs.has(`${system}:${subject}`)}
+                                        onCheckedChange={() => togglePair(system, subject)}
+                                      />
+                                      {subject}
+                                    </label>
+                                  ))}
+                                </div>
+                              </CollapsibleContent>
+                            </div>
+                          </Collapsible>
+                        );
+                      })}
+                    </div>
+                  )}
+
+                  {/* Subject View */}
+                  {filterMode === 'subject' && (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      {SUBJECTS.filter((subject) => {
+                        if (!filterSearch.trim()) return true;
+                        const q = filterSearch.toLowerCase();
+                        const systems = SUBJECT_SYSTEMS[subject] || [];
+                        return subject.toLowerCase().includes(q) || systems.some(s => s.toLowerCase().includes(q));
+                      }).map((subject) => {
+                        const systems = SUBJECT_SYSTEMS[subject] || [];
+                        const selCount = systems.filter(sys => selectedPairs.has(`${sys}:${subject}`)).length;
+                        const allSel = selCount === systems.length && systems.length > 0;
+                        const someSel = selCount > 0;
+
+                        return (
+                          <Collapsible
+                            key={subject}
+                            open={expandedItems.has(subject) || (!!filterSearch.trim() && systems.some(s => s.toLowerCase().includes(filterSearch.toLowerCase())))}
+                            onOpenChange={() => toggleExpand(subject)}
+                          >
+                            <div className={cn(
+                              'rounded-lg border transition-colors',
+                              someSel ? 'border-primary/40 bg-primary/5' : 'border-border'
+                            )}>
+                              <CollapsibleTrigger className="flex w-full items-center justify-between px-4 py-3 text-left">
+                                <div className="flex items-center gap-3">
+                                  <Checkbox
+                                    checked={allSel}
+                                    onCheckedChange={() => toggleSubject(subject)}
+                                    onClick={(e) => e.stopPropagation()}
+                                    className={cn(someSel && !allSel && "data-[state=unchecked]:bg-primary/30")}
+                                  />
+                                  <span className="font-medium text-sm">{subject}</span>
+                                  <Badge variant="secondary" className="text-xs">
+                                    {subjectCounts[subject] || 0}
+                                  </Badge>
+                                </div>
+                                <ChevronDown className={cn(
+                                  "h-4 w-4 text-muted-foreground transition-transform",
+                                  expandedItems.has(subject) && "rotate-180"
+                                )} />
+                              </CollapsibleTrigger>
+                              <CollapsibleContent>
+                                <div className="border-t border-border/50 px-4 py-3 space-y-2">
+                                  {systems.map((sys) => (
+                                    <label
+                                      key={`${sys}:${subject}`}
+                                      className="flex items-center gap-2 cursor-pointer text-sm text-muted-foreground hover:text-foreground transition-colors"
+                                    >
+                                      <Checkbox
+                                        checked={selectedPairs.has(`${sys}:${subject}`)}
+                                        onCheckedChange={() => togglePair(sys, subject)}
+                                      />
+                                      {sys}
+                                    </label>
+                                  ))}
+                                </div>
+                              </CollapsibleContent>
+                            </div>
+                          </Collapsible>
+                        );
+                      })}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         <Tabs value={tab} onValueChange={v => setTab(v as FilterTab)}>
           <TabsList>
             <TabsTrigger value="all">All ({questions.length})</TabsTrigger>
@@ -225,6 +516,13 @@ export default function Questions() {
           </TabsList>
         </Tabs>
       </div>
+
+      {/* Results count */}
+      {!loading && (
+        <p className="text-sm text-muted-foreground mb-3">
+          Showing {filtered.length} of {questions.length} questions
+        </p>
+      )}
 
       {/* Results */}
       {loading ? (
