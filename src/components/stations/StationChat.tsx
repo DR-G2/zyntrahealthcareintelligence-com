@@ -63,6 +63,7 @@ export function StationChat({ patientPersona, messages, onMessagesChange, onBeha
       const decoder = new TextDecoder();
       let buffer = '';
       let assistantContent = '';
+      let currentMsgs = [...updated];
 
       while (true) {
         const { done, value } = await reader.read();
@@ -83,13 +84,13 @@ export function StationChat({ patientPersona, messages, onMessagesChange, onBeha
             if (content) {
               assistantContent += content;
               const assistantMsg: ChatMessage = { role: 'assistant', content: assistantContent, timestamp: Date.now() };
-              onMessagesChange(prev => {
-                const last = prev[prev.length - 1];
-                if (last?.role === 'assistant') {
-                  return [...prev.slice(0, -1), assistantMsg];
-                }
-                return [...prev, assistantMsg];
-              });
+              const last = currentMsgs[currentMsgs.length - 1];
+              if (last?.role === 'assistant') {
+                currentMsgs = [...currentMsgs.slice(0, -1), assistantMsg];
+              } else {
+                currentMsgs = [...currentMsgs, assistantMsg];
+              }
+              onMessagesChange(currentMsgs);
             }
           } catch {
             buffer = line + '\n' + buffer;
