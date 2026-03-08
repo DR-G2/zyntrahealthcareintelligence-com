@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Clock, ChevronLeft, ChevronRight, Lock, AlertTriangle, CheckCircle2, Lightbulb } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
