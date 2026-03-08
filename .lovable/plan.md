@@ -1,41 +1,44 @@
 
 
-## Plan: Enhanced Practice Results with Detailed Explanations
+## Plan: Anti-Cheating & IP Protection Layer
 
-### What Changes
+### Overview
+Add a comprehensive anti-cheating system with watermarking and screenshot/copy prevention across all protected pages (Practice, Assess, Stations).
 
-**1. Expand the results review section (Practice.tsx, lines 225-245)**
+### New Component: `src/components/SecurityOverlay.tsx`
+A wrapper component that applies all protections when rendered:
 
-Replace the current inline explanation snippet with a clickable card that navigates to a full-page explanation view. Each question card in results will show:
-- Question text, your answer vs correct answer, correct/incorrect badge
-- A "Read Full Explanation" button that opens a detailed view
+**1. Dynamic Watermark**
+- Renders the user's email and name as a semi-transparent, rotated text pattern covering the entire viewport
+- Uses CSS `pointer-events: none` so it doesn't interfere with interactions
+- Repeating grid pattern at ~45° angle, low opacity (~0.04) — visible if screenshotted but not distracting during use
 
-**2. Create a full-page explanation view within the results phase**
+**2. Screenshot & Copy Prevention (CSS + JS)**
+- CSS: `-webkit-user-select: none; user-select: none` on protected content to prevent text selection
+- CSS: `@media print { body { display: none } }` to block print/PDF
+- JS: Disable right-click (`contextmenu` event)
+- JS: Block keyboard shortcuts: `Ctrl+C`, `Ctrl+P`, `Ctrl+S`, `Ctrl+Shift+I`, `Ctrl+U`, `F12`, `PrintScreen`
+- JS: Listen for `visibilitychange` — log/flag when user leaves tab (tab-switching detection)
+- JS: Block drag events on images/content
 
-Add a new sub-phase `'explanation'` to the drill session. When a user clicks a question, the view transitions to a full-page layout containing:
-- The question and all options (highlighted correct/incorrect)
-- A detailed explanation section
-- **Reference notes** organized by source book:
-  - **AMC Handbook** — key clinical points relevant to the question topic
-  - **John Murtagh's General Practice** — diagnostic approach and management
-  - **Tally O'Connor's Clinical Examination** — examination findings and signs
-- A "Back to Results" button
+**3. DevTools Detection**
+- Detect window resize patterns that suggest devtools opening
+- Console.log trap using getter to detect open console
 
-**3. Store reference notes in the question explanation field**
+### Integration Points
+- Wrap content in `AppLayout` or directly in `Practice.tsx`, `Assess.tsx`, and `Stations.tsx` with `<SecurityOverlay>`
+- The component reads `user` and `profile` from `useAuth()` to get email/name for the watermark
 
-Since the `questions` table already has an `explanation` column, the detailed explanations with book references will be structured within that field. For now, the UI will parse and display the explanation, and add styled reference sections with book attribution headers even if the current explanation text is brief. The textbook reference sections will be rendered as distinct styled blocks.
+### Files Summary
 
-### Technical Approach
+| File | Action |
+|------|--------|
+| `src/components/SecurityOverlay.tsx` | Create — watermark + all protections |
+| `src/components/AppLayout.tsx` | Modify — wrap children with SecurityOverlay |
+| `src/index.css` | Modify — add print media query |
 
-- Add state: `reviewQuestionIndex: number | null` to track which question is being viewed in detail
-- When set, render a full-page explanation component instead of the results list
-- Structure the explanation page with:
-  - Question card with all options color-coded
-  - Explanation text (from DB)
-  - Three reference cards (AMC Handbook, Murtagh's, Tally O'Connor) with topic-relevant headers derived from the question's category
-- Use `framer-motion` for page transitions
-- All changes are in `src/pages/Practice.tsx` only — no new files needed
-
-### Files Modified
-- `src/pages/Practice.tsx` — refactor results phase to add clickable detail view with book reference sections
+### Limitations (honest disclosure)
+- Browser-level screenshot (OS tools, phone camera) cannot be prevented by web code
+- The watermark serves as a deterrent and forensic trace if content is leaked
+- DevTools-savvy users can bypass JS protections, but watermark in DOM makes extraction traceable
 
