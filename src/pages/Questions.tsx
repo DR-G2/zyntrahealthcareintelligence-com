@@ -48,6 +48,7 @@ type FilterTab = 'all' | 'bookmarked' | 'incorrect' | 'unattempted';
 export default function Questions() {
   const { user } = useAuth();
   const { toast } = useToast();
+  const gate = useFeatureGate();
   const [questions, setQuestions] = useState<Question[]>([]);
   const [bookmarks, setBookmarks] = useState<Set<string>>(new Set());
   const [attempts, setAttempts] = useState<UserAttempt[]>([]);
