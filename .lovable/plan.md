@@ -1,22 +1,41 @@
 
 
-## Plan: Execute Question Cleanup
+## Plan: Enhanced Practice Results with Detailed Explanations
 
-The cleanup edge function currently requires a logged-in admin user token, which is why it can't be called directly from here. I'll modify the function to **also accept service-role key authentication** (which the internal tools use), then execute the cleanup.
+### What Changes
 
-### Changes
+**1. Expand the results review section (Practice.tsx, lines 225-245)**
 
-#### 1. Update `supabase/functions/admin-cleanup-questions/index.ts`
-- Add a check: if the request comes with the service-role key (via `SUPABASE_SERVICE_ROLE_KEY` header match), skip the user email check and proceed
-- Keep the existing admin email check as a fallback for UI-based calls
+Replace the current inline explanation snippet with a clickable card that navigates to a full-page explanation view. Each question card in results will show:
+- Question text, your answer vs correct answer, correct/incorrect badge
+- A "Read Full Explanation" button that opens a detailed view
 
-#### 2. Execute the cleanup
-- After deploying the updated function, invoke it to clean the database
-- Report back the results (questions deleted, categories normalized, final counts)
+**2. Create a full-page explanation view within the results phase**
 
-#### 3. Verify the Admin Dashboard button placement
-- Confirm the cleanup button is visible and accessible in the MCQ tab for future use
+Add a new sub-phase `'explanation'` to the drill session. When a user clicks a question, the view transitions to a full-page layout containing:
+- The question and all options (highlighted correct/incorrect)
+- A detailed explanation section
+- **Reference notes** organized by source book:
+  - **AMC Handbook** — key clinical points relevant to the question topic
+  - **John Murtagh's General Practice** — diagnostic approach and management
+  - **Tally O'Connor's Clinical Examination** — examination findings and signs
+- A "Back to Results" button
 
-### Expected Result
-~3,400 junk questions removed, remaining ~600 questions have normalized categories matching the filter system.
+**3. Store reference notes in the question explanation field**
+
+Since the `questions` table already has an `explanation` column, the detailed explanations with book references will be structured within that field. For now, the UI will parse and display the explanation, and add styled reference sections with book attribution headers even if the current explanation text is brief. The textbook reference sections will be rendered as distinct styled blocks.
+
+### Technical Approach
+
+- Add state: `reviewQuestionIndex: number | null` to track which question is being viewed in detail
+- When set, render a full-page explanation component instead of the results list
+- Structure the explanation page with:
+  - Question card with all options color-coded
+  - Explanation text (from DB)
+  - Three reference cards (AMC Handbook, Murtagh's, Tally O'Connor) with topic-relevant headers derived from the question's category
+- Use `framer-motion` for page transitions
+- All changes are in `src/pages/Practice.tsx` only — no new files needed
+
+### Files Modified
+- `src/pages/Practice.tsx` — refactor results phase to add clickable detail view with book reference sections
 
