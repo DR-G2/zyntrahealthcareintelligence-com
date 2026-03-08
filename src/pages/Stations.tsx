@@ -261,6 +261,7 @@ export default function Stations() {
     setResults(null);
     setScenarioData(null);
     setChatMessages([]);
+    setLastAttemptId(null);
     sessionId.current = crypto.randomUUID();
   };
 
