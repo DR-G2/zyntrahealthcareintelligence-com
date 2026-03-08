@@ -1,41 +1,88 @@
 
 
-## Plan: Enhanced Practice Results with Detailed Explanations
+## Plan: Hierarchical Practice Drill Configuration
 
-### What Changes
+### Overview
+Replace the flat topic selector and fixed dropdown in the `SetupScreen` component with a hierarchical dual-filter system (System View / Subject View) and a flexible numeric question count input with quick presets.
 
-**1. Expand the results review section (Practice.tsx, lines 225-245)**
+### Changes to `src/pages/Practice.tsx` (SetupScreen only)
 
-Replace the current inline explanation snippet with a clickable card that navigates to a full-page explanation view. Each question card in results will show:
-- Question text, your answer vs correct answer, correct/incorrect badge
-- A "Read Full Explanation" button that opens a detailed view
+**1. New Filter Data Structures**
 
-**2. Create a full-page explanation view within the results phase**
+Define static mappings:
+- `SYSTEMS`: 16 clinical systems (Cardiology, Respiratory, etc.)
+- `SUBJECTS`: 10 academic subjects (Physiology, Pathology, Pharmacology, etc.)
+- `SYSTEM_SUBJECTS`: Maps each system → its subjects
+- `SUBJECT_SYSTEMS`: Maps each subject → its systems
 
-Add a new sub-phase `'explanation'` to the drill session. When a user clicks a question, the view transitions to a full-page layout containing:
-- The question and all options (highlighted correct/incorrect)
-- A detailed explanation section
-- **Reference notes** organized by source book:
-  - **AMC Handbook** — key clinical points relevant to the question topic
-  - **John Murtagh's General Practice** — diagnostic approach and management
-  - **Tally O'Connor's Clinical Examination** — examination findings and signs
-- A "Back to Results" button
+**2. Filter Mode Toggle**
 
-**3. Store reference notes in the question explanation field**
+Add state: `filterMode: 'system' | 'subject'`
 
-Since the `questions` table already has an `explanation` column, the detailed explanations with book references will be structured within that field. For now, the UI will parse and display the explanation, and add styled reference sections with book attribution headers even if the current explanation text is brief. The textbook reference sections will be rendered as distinct styled blocks.
+Render toggle at top:
+```
+Filter Mode: [System View] [Subject View]
+```
 
-### Technical Approach
+**3. System View UI**
 
-- Add state: `reviewQuestionIndex: number | null` to track which question is being viewed in detail
-- When set, render a full-page explanation component instead of the results list
-- Structure the explanation page with:
-  - Question card with all options color-coded
-  - Explanation text (from DB)
-  - Three reference cards (AMC Handbook, Murtagh's, Tally O'Connor) with topic-relevant headers derived from the question's category
-- Use `framer-motion` for page transitions
-- All changes are in `src/pages/Practice.tsx` only — no new files needed
+- Collapsible cards for each of the 16 systems
+- Inside each expanded system: checkboxes for subjects (Physiology, Pathology, etc.)
+- Clicking system header toggles all subjects within it
+- Show question counts from actual database categories
 
-### Files Modified
-- `src/pages/Practice.tsx` — refactor results phase to add clickable detail view with book reference sections
+**4. Subject View UI**
+
+- Collapsible cards for each of the 10 subjects
+- Inside each expanded subject: checkboxes for systems (Cardiology, Respiratory, etc.)
+- Clicking subject header toggles all systems within it
+
+**5. Selection Logic**
+
+Track selections as pairs: `Set<"system:subject">` (e.g., "Cardiology:Pharmacology")
+
+When querying questions:
+- Map selection pairs back to database categories
+- Current `category` column values will need matching logic (e.g., categories containing system + subject keywords)
+
+**6. Question Count Selector**
+
+Replace dropdown with:
+```
+Questions
+[10] [20] [40] [60] [100]  ← Quick presets
+[ – ] [ 25 ] [ + ]         ← Stepper input
+≈ 25 minutes
+```
+
+- Min: 1, soft max: 500
+- Numbers only, no decimals
+- Dynamic time estimate: `{count} questions ≈ {count} minutes`
+
+**7. Utility Controls**
+
+Add at top of filter panel:
+- "Select All" / "Clear All" buttons
+- Show question counts per system/subject: "Cardiology (142 questions)"
+
+**8. UI Styling**
+
+- Maintain dark UI, rounded cards, collapsible arrows (ChevronDown)
+- Soft blue highlight for active selections
+- Two-column grid layout for filter items
+
+### Not Modified
+
+- Mode selection (Recharge/No Change)
+- DrillSession component
+- ResultsScreen component
+- Sidebar navigation
+- AppLayout
+
+### Technical Notes
+
+The database `questions.category` column contains mixed values. The filter will need to:
+1. Fetch distinct categories on load
+2. Map them to system/subject pairs where possible
+3. Fall back to showing unmapped categories in an "Other" section
 
