@@ -134,3 +134,16 @@
     background-clip: text;
   }
 }
+
+/* Anti-print protection */
+@media print {
+  body {
+    display: none !important;
+  }
+}
+
+/* Prevent image dragging globally */
+img {
+  -webkit-user-drag: none;
+  user-drag: none;
+}
