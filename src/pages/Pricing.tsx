@@ -382,8 +382,8 @@ export default function Pricing() {
                       <li key={f} className="flex gap-2 text-xs"><Check className="h-3.5 w-3.5 mt-0.5 text-secondary shrink-0" /><span>{f}</span></li>
                     ))}
                   </ul>
-                  <Button variant="outline" size="sm" className="w-full" onClick={() => handleCheckout('lifetime')} disabled={loadingTier === 'lifetime' || isCurrentTier('lifetime')}>
-                    {isCurrentTier('lifetime') ? 'Current' : loadingTier === 'lifetime' ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Get Lifetime'}
+                  <Button variant="outline" size="sm" className="w-full" onClick={() => handleCheckout('lifetime')} disabled={lifetimeSoldOut || loadingTier === 'lifetime' || isCurrentTier('lifetime')}>
+                    {lifetimeSoldOut ? 'Sold Out' : isCurrentTier('lifetime') ? 'Current' : loadingTier === 'lifetime' ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Get Lifetime'}
                   </Button>
                 </CardContent>
               </Card>
