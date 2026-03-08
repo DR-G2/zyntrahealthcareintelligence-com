@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ChevronLeft, ChevronDown, ChevronUp, CheckCircle, XCircle, BookOpen, Stethoscope, ClipboardList, FlaskConical, Pill, AlertCircle, Lightbulb } from 'lucide-react';
+import { ChevronLeft, ChevronDown, ChevronUp, CheckCircle, XCircle, BookOpen, Stethoscope, ClipboardList, FlaskConical, Pill, AlertCircle, Lightbulb, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
