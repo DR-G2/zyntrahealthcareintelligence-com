@@ -22,6 +22,9 @@ import StudyPlan from "./pages/StudyPlan";
 import Settings from "./pages/Settings";
 import AdminDashboard from "./pages/AdminDashboard";
 import Stations from "./pages/Stations";
+import QuestionsMCQ from "./pages/QuestionsMCQ";
+import QuestionsOSCE from "./pages/QuestionsOSCE";
+import DiagnosticOSCE from "./pages/DiagnosticOSCE";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
