@@ -201,6 +201,12 @@ function SetupScreen({ onStart }: { onStart: (config: SessionConfig) => void }) 
           <p className="text-muted-foreground">Configure your session and start practising</p>
         </div>
 
+        <OnboardingTooltip
+          id="practice-intro"
+          title="Welcome to Practice Drills"
+          description="Choose Recharge mode to revisit questions you got wrong, or No Change mode for fresh questions. Use the topic filters below to focus on your weak areas."
+        />
+
         {/* Mode Selection */}
         <div className="space-y-3">
           <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Select Mode</h2>
