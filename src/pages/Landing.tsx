@@ -17,6 +17,11 @@ const features = [
     description: 'Timed drills and commitment exercises that simulate real exam conditions.',
   },
   {
+    icon: Rss,
+    title: 'Feed',
+    description: 'Paste any clinical content and instantly generate exam-style MCQ questions or OSCE stations.',
+  },
+  {
     icon: Target,
     title: 'Adaptive Engine',
     description: 'AI identifies your weak patterns and creates a personalized training plan.',
