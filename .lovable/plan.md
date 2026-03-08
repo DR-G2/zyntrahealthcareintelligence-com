@@ -1,17 +1,25 @@
 
 
-## Issue: Signup Confirmation Emails Not Being Sent
+## Problem
 
-Your email domain (`notify.zyntr.website`) is verified and all 6 email templates are scaffolded. The `auth-email-hook` edge function code exists but shows no logs, which means it either isn't deployed or isn't being triggered.
+Auto-confirm email signups is enabled, which means:
+- No confirmation email is ever sent on signup
+- The `auth-email-hook` edge function is never triggered for signup events
+- Users can register with emails they don't own
 
-### Fix
+## Fix
 
-**Deploy the auth-email-hook edge function** — this is the function that intercepts auth events (signup, recovery, etc.) and sends your branded emails. It needs to be deployed so the system routes auth events to it.
+**Disable auto-confirm for email signups** using the `cloud--configure_auth` tool. This will:
+- Require users to verify their email before they can sign in
+- Trigger the `auth-email-hook` function to send branded confirmation emails via `notify.zyntr.website`
 
-One step:
-- Deploy `auth-email-hook` using the edge function deployment tool
+### Change
 
-After deployment, signup confirmation emails will be sent from `noreply@zyntr.website` using your branded Zyntra template whenever a new user signs up with email/password.
+| Action | Detail |
+|--------|--------|
+| Configure auth | Disable auto-confirm for email signups |
 
-No code changes are needed — the templates and function code are already complete.
+No code changes needed — the templates, edge function, and domain are all already in place. The only missing piece is that auto-confirm is bypassing the entire email verification flow.
+
+After disabling auto-confirm, new signups will receive the branded "Welcome aboard" confirmation email from `noreply@zyntr.website`.
 
