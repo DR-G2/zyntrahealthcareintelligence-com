@@ -30,7 +30,23 @@ serve(async (req) => {
     const selectedCategory = category || AMC_CATEGORIES[Math.floor(Math.random() * AMC_CATEGORIES.length)];
     const selectedDifficulty = difficulty || "medium";
 
-    const systemPrompt = `You are an expert AMC (Australian Medical Council) exam question writer. Generate ${size} high-quality clinical vignette MCQs for the category "${selectedCategory}" at "${selectedDifficulty}" difficulty.
+    // Fetch AI training context for population-level insights
+    let trainingContextPrompt = "";
+    const { data: trainingCtx } = await supabase.from("ai_training_context").select("aggregate_data, candidate_count").limit(1).maybeSingle();
+    if (trainingCtx?.aggregate_data) {
+      const d = trainingCtx.aggregate_data as any;
+      trainingContextPrompt = `\n\nPOPULATION DATA (from ${trainingCtx.candidate_count} candidates):
+- Overall accuracy: ${d.mcq?.overall_accuracy}%
+- Avg time per question: ${d.mcq?.avg_time_seconds}s
+- Answer change rate: ${d.mcq?.change_rate_percent}%
+- Weakest categories: ${d.mcq?.category_pass_rates?.slice(0, 3).map((c: any) => `${c.category} (${c.accuracy}%)`).join(", ")}
+- Common archetypes: ${Object.entries(d.behavior?.archetype_distribution || {}).map(([k, v]) => `${k}: ${v}`).join(", ")}
+- Top traps: ${d.behavior?.common_traps?.slice(0, 3).map((t: any) => `${t.trap} (${t.percent}%)`).join(", ")}
+
+Use this data to calibrate question difficulty and focus on areas where candidates struggle most.`;
+    }
+
+    const systemPrompt = `You are an expert AMC (Australian Medical Council) exam question writer. Generate ${size} high-quality clinical vignette MCQs for the category "${selectedCategory}" at "${selectedDifficulty}" difficulty.${trainingContextPrompt}
 
 Each question MUST follow AMC exam format:
 - Long clinical vignette stem with patient demographics, presenting complaint, history, examination findings, and relevant investigations

@@ -13,6 +13,16 @@ serve(async (req) => {
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY not configured");
 
+    // Fetch population benchmarks
+    const { createClient } = await import("https://esm.sh/@supabase/supabase-js@2");
+    const supabase = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
+    let populationNote = "";
+    const { data: trainingCtx } = await supabase.from("ai_training_context").select("aggregate_data, candidate_count").limit(1).maybeSingle();
+    if (trainingCtx?.aggregate_data) {
+      const d = trainingCtx.aggregate_data as any;
+      populationNote = ` Population benchmarks (${trainingCtx.candidate_count} candidates): avg OSCE score ${d.osce?.avg_score}%, overall MCQ accuracy ${d.mcq?.overall_accuracy}%.`;
+    }
+
     const prompt = `Evaluate this OSCE station performance.
 
 SCENARIO: ${scenario_data.scenario_title}
@@ -48,7 +58,7 @@ Evaluate the candidate's performance across all domains. Consider both clinical 
       body: JSON.stringify({
         model: "google/gemini-2.5-pro",
         messages: [
-          { role: "system", content: "You are an AMC Clinical Exam evaluator. Provide structured assessment of OSCE station performance with psychographic profiling based on behavioral signals." },
+          { role: "system", content: `You are an AMC Clinical Exam evaluator. Provide structured assessment of OSCE station performance with psychographic profiling based on behavioral signals.${populationNote}` },
           { role: "user", content: prompt },
         ],
         tools: [
