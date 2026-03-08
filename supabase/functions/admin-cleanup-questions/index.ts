@@ -8,7 +8,6 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
-// Category normalization mapping
 const CATEGORY_MAP: Record<string, string> = {
   "cardiovascular": "Cardiology",
   "cardiovascular system": "Cardiology",
@@ -72,7 +71,6 @@ const CATEGORY_MAP: Record<string, string> = {
   "pharmacology": "Endocrinology",
 };
 
-// Valid normalized categories
 const VALID_SYSTEMS = new Set([
   "Cardiology", "Respiratory", "Gastrointestinal", "Neurology", "Endocrinology",
   "Renal", "Dermatology", "Psychiatry", "Paediatrics", "Obstetrics & Gynaecology",
@@ -110,7 +108,10 @@ serve(async (req) => {
       orphan_records_cleaned: 0,
     };
 
-    // Step 1: Fetch ALL question IDs and texts in batches
+    const deleted_items: { id: string; title: string; category: string; reason: string }[] = [];
+    const normalized_items: { id: string; title: string; old_category: string; new_category: string }[] = [];
+
+    // Fetch ALL questions in batches
     const allQuestions: { id: string; question_text: string; category: string; options: any }[] = [];
     let from = 0;
     const batchSize = 1000;
@@ -128,7 +129,7 @@ serve(async (req) => {
 
     const idsToDelete = new Set<string>();
 
-    // Step 2: Identify garbage questions (generic template options)
+    // Step 1: Garbage questions
     const garbagePatterns = [
       "initiate immediate empiric treatment targeting the suspected pathology",
       "order the most definitive diagnostic investigation",
@@ -141,11 +142,12 @@ serve(async (req) => {
       const optStr = JSON.stringify(q.options).toLowerCase();
       if (garbagePatterns.some(p => optStr.includes(p))) {
         idsToDelete.add(q.id);
+        deleted_items.push({ id: q.id, title: q.question_text.slice(0, 120), category: q.category, reason: "garbage" });
       }
     }
     summary.garbage_deleted = idsToDelete.size;
 
-    // Step 3: Identify template vignette duplicates
+    // Step 2: Template vignette duplicates
     const templatePatterns = [
       "a patient presents with a clinical scenario frequently reported in amc examination recalls",
       "a patient presents with a clinical scenario commonly tested in amc",
@@ -157,10 +159,11 @@ serve(async (req) => {
       if (templatePatterns.some(p => textLower.includes(p))) {
         idsToDelete.add(q.id);
         summary.template_deleted++;
+        deleted_items.push({ id: q.id, title: q.question_text.slice(0, 120), category: q.category, reason: "template" });
       }
     }
 
-    // Step 4: Deduplicate by question_text (keep first occurrence)
+    // Step 3: Deduplicate by question_text
     const seenTexts = new Map<string, string>();
     for (const q of allQuestions) {
       if (idsToDelete.has(q.id)) continue;
@@ -168,66 +171,50 @@ serve(async (req) => {
       if (seenTexts.has(normalized)) {
         idsToDelete.add(q.id);
         summary.duplicates_deleted++;
+        deleted_items.push({ id: q.id, title: q.question_text.slice(0, 120), category: q.category, reason: "duplicate" });
       } else {
         seenTexts.set(normalized, q.id);
       }
     }
 
-    // Step 5: Delete junk questions and clean related tables
+    // Step 4: Delete junk questions and clean related tables
     if (idsToDelete.size > 0) {
       const deleteIds = Array.from(idsToDelete);
-      // Process in batches of 100
       for (let i = 0; i < deleteIds.length; i += 100) {
         const batch = deleteIds.slice(i, i + 100);
-        // Clean related tables first
         await supabase.from("bookmarks").delete().in("question_id", batch);
         await supabase.from("user_notes").delete().in("question_id", batch);
         await supabase.from("user_attempts").delete().in("question_id", batch);
         await supabase.from("question_difficulty_tiers").delete().in("question_id", batch);
-        // Delete questions
         const { error } = await supabase.from("questions").delete().in("id", batch);
         if (error) throw error;
         summary.orphan_records_cleaned += batch.length;
       }
     }
 
-    // Step 6: Normalize categories for remaining questions
+    // Step 5: Normalize categories
     const remainingQuestions = allQuestions.filter(q => !idsToDelete.has(q.id));
-    const categoryUpdates: { id: string; newCat: string }[] = [];
 
     for (const q of remainingQuestions) {
-      const catLower = q.category.trim().toLowerCase();
-      // Already valid?
       if (VALID_SYSTEMS.has(q.category)) continue;
-      // Check mapping
-      const mapped = CATEGORY_MAP[catLower];
-      if (mapped) {
-        categoryUpdates.push({ id: q.id, newCat: mapped });
-      }
-      // If not in map and not valid, try partial match
-      else {
-        let found = false;
+      const catLower = q.category.trim().toLowerCase();
+      let mapped = CATEGORY_MAP[catLower];
+      if (!mapped) {
         for (const [key, val] of Object.entries(CATEGORY_MAP)) {
           if (catLower.includes(key) || key.includes(catLower)) {
-            categoryUpdates.push({ id: q.id, newCat: val });
-            found = true;
+            mapped = val;
             break;
           }
         }
-        // If still no match, leave as-is (will show up in unmapped report)
+      }
+      if (mapped) {
+        await supabase.from("questions").update({ category: mapped }).eq("id", q.id);
+        summary.categories_normalized++;
+        normalized_items.push({ id: q.id, title: q.question_text.slice(0, 120), old_category: q.category, new_category: mapped });
       }
     }
 
-    // Apply category updates in batches
-    for (const upd of categoryUpdates) {
-      await supabase.from("questions").update({ category: upd.newCat }).eq("id", upd.id);
-      summary.categories_normalized++;
-    }
-
-    // Get final count and category distribution
     const { count: finalCount } = await supabase.from("questions").select("id", { count: "exact", head: true });
-    
-    // Get category distribution
     const { data: finalQs } = await supabase.from("questions").select("category").limit(5000);
     const catDist: Record<string, number> = {};
     finalQs?.forEach(q => { catDist[q.category] = (catDist[q.category] || 0) + 1; });
@@ -239,6 +226,8 @@ serve(async (req) => {
       total_after: finalCount,
       total_deleted: idsToDelete.size,
       category_distribution: catDist,
+      deleted_items,
+      normalized_items,
     }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });

@@ -8,7 +8,6 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
-// Subject normalization mapping → targets match OSCE_SUBJECTS in AdminDashboard
 const SUBJECT_MAP: Record<string, string> = {
   "mental health": "Psychiatry",
   "mood disorders": "Psychiatry",
@@ -94,6 +93,9 @@ serve(async (req) => {
       subjects_normalized: 0,
     };
 
+    const deleted_items: { id: string; title: string; subject: string; reason: string }[] = [];
+    const normalized_items: { id: string; title: string; old_subject: string; new_subject: string }[] = [];
+
     // Fetch all stations in batches
     const allStations: { id: string; scenario_title: string; subject: string; scenario_data: any }[] = [];
     let from = 0;
@@ -112,7 +114,7 @@ serve(async (req) => {
 
     const idsToDelete = new Set<string>();
 
-    // Step 1: Identify garbage stations (generic template content)
+    // Step 1: Garbage stations
     const garbageClues = [
       "symptoms started recently",
       "patient worried about worsening condition",
@@ -125,10 +127,11 @@ serve(async (req) => {
       if (matchCount >= 2) {
         idsToDelete.add(s.id);
         summary.garbage_deleted++;
+        deleted_items.push({ id: s.id, title: s.scenario_title.slice(0, 120), subject: s.subject, reason: "garbage" });
       }
     }
 
-    // Step 2: Deduplicate by scenario_title (keep first/oldest)
+    // Step 2: Deduplicate by scenario_title
     const seenTitles = new Map<string, string>();
     for (const s of allStations) {
       if (idsToDelete.has(s.id)) continue;
@@ -136,6 +139,7 @@ serve(async (req) => {
       if (seenTitles.has(normalized)) {
         idsToDelete.add(s.id);
         summary.duplicates_deleted++;
+        deleted_items.push({ id: s.id, title: s.scenario_title.slice(0, 120), subject: s.subject, reason: "duplicate" });
       } else {
         seenTitles.set(normalized, s.id);
       }
@@ -151,28 +155,27 @@ serve(async (req) => {
       }
     }
 
-    // Step 4: Normalize subjects for remaining stations
+    // Step 4: Normalize subjects
     const remaining = allStations.filter(s => !idsToDelete.has(s.id));
     for (const s of remaining) {
       if (VALID_SUBJECTS.has(s.subject)) continue;
       const subLower = s.subject.trim().toLowerCase();
-      const mapped = SUBJECT_MAP[subLower];
-      if (mapped) {
-        await supabase.from("clinical_stations").update({ subject: mapped }).eq("id", s.id);
-        summary.subjects_normalized++;
-      } else {
-        // Partial match
+      let mapped = SUBJECT_MAP[subLower];
+      if (!mapped) {
         for (const [key, val] of Object.entries(SUBJECT_MAP)) {
           if (subLower.includes(key) || key.includes(subLower)) {
-            await supabase.from("clinical_stations").update({ subject: val }).eq("id", s.id);
-            summary.subjects_normalized++;
+            mapped = val;
             break;
           }
         }
       }
+      if (mapped) {
+        await supabase.from("clinical_stations").update({ subject: mapped }).eq("id", s.id);
+        summary.subjects_normalized++;
+        normalized_items.push({ id: s.id, title: s.scenario_title.slice(0, 120), old_subject: s.subject, new_subject: mapped });
+      }
     }
 
-    // Final stats
     const { count: finalCount } = await supabase.from("clinical_stations").select("id", { count: "exact", head: true });
     const { data: finalStations } = await supabase.from("clinical_stations").select("subject").limit(5000);
     const subjectDist: Record<string, number> = {};
@@ -185,6 +188,8 @@ serve(async (req) => {
       total_after: finalCount,
       total_deleted: idsToDelete.size,
       subject_distribution: subjectDist,
+      deleted_items,
+      normalized_items,
     }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
