@@ -240,6 +240,7 @@ function MCQTab() {
   const [generating, setGenerating] = useState(false);
   const [importing, setImporting] = useState(false);
   const [bulkGenerating, setBulkGenerating] = useState(false);
+  const [cleaning, setCleaning] = useState(false);
   const [category, setCategory] = useState("Cardiology");
   const [difficulty, setDifficulty] = useState("medium");
   const [batchSize, setBatchSize] = useState("10");
