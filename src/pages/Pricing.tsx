@@ -11,7 +11,7 @@ import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/lib/supabase';
-import { STRIPE_TIERS, type TierKey } from '@/lib/stripe-config';
+import { RAZORPAY_TIERS, type TierKey } from '@/lib/razorpay-config';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
