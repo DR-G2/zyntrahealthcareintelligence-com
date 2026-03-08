@@ -7,3 +7,7 @@ project_id = "yudkfmgilucyhukfggij"
     verify_jwt = false
   [functions.study-buddy]
     verify_jwt = false
+  [functions.analyze-behavior]
+    verify_jwt = false
+  [functions.compute-question-tiers]
+    verify_jwt = false

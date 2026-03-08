@@ -245,9 +245,12 @@ export default function Profile() {
         </motion.div>
 
         {/* Action buttons */}
-        <div className="flex gap-3">
+        <div className="flex gap-3 flex-wrap">
           <Button asChild className="gap-1">
             <Link to="/practice">Start Targeted Practice <ArrowRight className="h-4 w-4" /></Link>
+          </Button>
+          <Button variant="outline" asChild>
+            <Link to="/behavior">View Behavior Analysis</Link>
           </Button>
           <Button variant="outline" asChild>
             <Link to="/assess">Retake Diagnostic</Link>

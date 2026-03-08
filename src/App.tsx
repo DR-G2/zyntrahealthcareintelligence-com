@@ -14,6 +14,7 @@ import Onboarding from "./pages/Onboarding";
 import Dashboard from "./pages/Dashboard";
 import Assess from "./pages/Assess";
 import Profile from "./pages/Profile";
+import BehaviorProfile from "./pages/BehaviorProfile";
 import Practice from "./pages/Practice";
 import Questions from "./pages/Questions";
 import StudyPlan from "./pages/StudyPlan";
@@ -40,6 +41,7 @@ const App = () => (
               <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
               <Route path="/assess" element={<ProtectedRoute><Assess /></ProtectedRoute>} />
               <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+              <Route path="/behavior" element={<ProtectedRoute><BehaviorProfile /></ProtectedRoute>} />
               <Route path="/practice" element={<ProtectedRoute><Practice /></ProtectedRoute>} />
               <Route path="/questions" element={<ProtectedRoute><Questions /></ProtectedRoute>} />
               <Route path="/plan" element={<ProtectedRoute><StudyPlan /></ProtectedRoute>} />
