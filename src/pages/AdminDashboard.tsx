@@ -808,7 +808,7 @@ export default function AdminDashboard() {
     <AppLayout>
       <div className="mx-auto max-w-6xl py-8 space-y-6">
         <h1 className="text-2xl font-display font-bold">Admin Dashboard</h1>
-        <Tabs defaultValue="users">
+        <Tabs defaultValue="live">
           <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="live" className="gap-2"><Radio className="h-4 w-4" /> Live Activity</TabsTrigger>
             <TabsTrigger value="users" className="gap-2"><Users className="h-4 w-4" /> Users & Subs</TabsTrigger>
