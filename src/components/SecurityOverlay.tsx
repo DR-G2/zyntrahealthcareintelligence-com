@@ -111,7 +111,7 @@ export function SecurityOverlay({ children }: SecurityOverlayProps) {
           {Array.from({ length: 120 }).map((_, i) => (
             <span
               key={i}
-              className="text-foreground/[0.035] dark:text-foreground/[0.045] whitespace-nowrap text-sm font-medium tracking-wide"
+              className="text-foreground/[0.055] dark:text-foreground/[0.065] whitespace-nowrap text-sm font-medium tracking-wide"
               style={{ fontFamily: 'monospace' }}
             >
               {watermarkText}
