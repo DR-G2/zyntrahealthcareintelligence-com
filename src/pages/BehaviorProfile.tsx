@@ -84,18 +84,33 @@ export default function BehaviorProfile() {
   const [loading, setLoading] = useState(true);
   const [analyzing, setAnalyzing] = useState(false);
 
+  const [osceStats, setOsceStats] = useState<{ count: number; avgScore: number; subjects: string[] } | null>(null);
+  const [psychograph, setPsychograph] = useState<any>(null);
+
   useEffect(() => {
     if (!user) return;
-    const fetch = async () => {
-      const { data: profile } = await supabase
-        .from('behavior_profiles')
-        .select('*')
-        .eq('user_id', user.id)
-        .maybeSingle();
-      if (profile) setData(profile as any);
+    const fetchAll = async () => {
+      const [profileRes, stationsRes, psychRes] = await Promise.all([
+        supabase.from('behavior_profiles').select('*').eq('user_id', user.id).maybeSingle(),
+        supabase.from('station_attempts').select('subject, scores, time_taken_seconds').eq('user_id', user.id).limit(200),
+        supabase.from('psychograph_history').select('*').eq('user_id', user.id).order('created_at', { ascending: false }).limit(1),
+      ]);
+      if (profileRes.data) setData(profileRes.data as any);
+
+      const stations = stationsRes.data || [];
+      if (stations.length > 0) {
+        const totalScore = stations.reduce((s, a) => s + (typeof (a.scores as any)?.total === 'number' ? (a.scores as any).total : 0), 0);
+        const subjects = [...new Set(stations.map(s => s.subject))];
+        setOsceStats({ count: stations.length, avgScore: Math.round(totalScore / stations.length), subjects });
+      }
+
+      if (psychRes.data && psychRes.data.length > 0) {
+        setPsychograph(psychRes.data[0]);
+      }
+
       setLoading(false);
     };
-    fetch();
+    fetchAll();
   }, [user]);
 
   const runAnalysis = async () => {
