@@ -1,6 +1,7 @@
-import { ReactNode, useState } from 'react';
+import { ReactNode } from 'react';
 import { AppSidebar } from '@/components/AppSidebar';
 import { StudyBuddy } from '@/components/StudyBuddy';
+import { SecurityOverlay } from '@/components/SecurityOverlay';
 
 interface QuestionContext {
   question_text: string;
