@@ -1,0 +1,716 @@
+import { useState, useRef, useEffect } from 'react';
+import { AppLayout } from '@/components/AppLayout';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
+import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/badge';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
+import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
+import { Loader2, Sparkles, Upload, FileUp, X, Users, BookOpen, Activity, Pencil, Trash2, Search } from 'lucide-react';
+
+const ADMIN_EMAIL = "gopalrock.naren@gmail.com";
+
+const CATEGORIES = [
+  "Cardiology", "Respiratory", "Gastroenterology", "Neurology", "Endocrinology",
+  "Nephrology", "Rheumatology", "Haematology", "Infectious Disease", "Dermatology",
+  "Psychiatry", "Obstetrics", "Gynaecology", "Paediatrics", "Surgery",
+  "Ophthalmology", "ENT", "Emergency Medicine", "Pharmacology"
+];
+
+const DIFFICULTIES = ["easy", "medium", "hard"];
+
+const OSCE_SUBJECTS = [
+  "Cardiology", "Respiratory", "Gastroenterology", "Neurology", "Endocrinology",
+  "Nephrology", "Rheumatology", "Haematology", "Infectious Disease", "Dermatology",
+  "Psychiatry", "Obstetrics & Gynaecology", "Paediatrics", "Surgery"
+];
+
+// ─── Users Tab ───────────────────────────────────────────────
+
+function UsersTab() {
+  const [users, setUsers] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [search, setSearch] = useState("");
+  const { toast } = useToast();
+
+  const fetchUsers = async () => {
+    setLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('admin-list-users');
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      setUsers(data.users || []);
+    } catch (e: any) {
+      toast({ title: 'Error', description: e.message, variant: 'destructive' });
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => { fetchUsers(); }, []);
+
+  const filtered = users.filter(u =>
+    !search || u.email?.toLowerCase().includes(search.toLowerCase()) || u.name?.toLowerCase().includes(search.toLowerCase())
+  );
+
+  const getTierLabel = (priceId: string) => {
+    const map: Record<string, string> = {
+      'price_1T8eZlA6FxLDmLBVDAuIil9G': 'Core',
+      'price_1T8ea9A6FxLDmLBVIdOgqSYP': 'Pro',
+      'price_1T8ebdA6FxLDmLBVnJofmEOC': 'Lifetime',
+    };
+    return map[priceId] || priceId;
+  };
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center gap-3">
+        <div className="relative flex-1 max-w-sm">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input placeholder="Search users..." value={search} onChange={e => setSearch(e.target.value)} className="pl-9" />
+        </div>
+        <Button variant="outline" onClick={fetchUsers} disabled={loading}>
+          {loading && <Loader2 className="h-4 w-4 mr-2 animate-spin" />} Refresh
+        </Button>
+      </div>
+      <Card>
+        <CardContent className="p-0">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Email</TableHead>
+                <TableHead>Name</TableHead>
+                <TableHead>Tier</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead>Expires</TableHead>
+                <TableHead>Joined</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {filtered.map(u => (
+                <TableRow key={u.id}>
+                  <TableCell className="font-mono text-xs">{u.email}</TableCell>
+                  <TableCell>{u.name || '—'}</TableCell>
+                  <TableCell>
+                    {u.subscription ? (
+                      <Badge variant="default">{getTierLabel(u.subscription.tier)}</Badge>
+                    ) : (
+                      <Badge variant="secondary">Free</Badge>
+                    )}
+                  </TableCell>
+                  <TableCell>
+                    {u.subscription ? (
+                      <Badge variant="outline" className="text-green-600 border-green-600">Active</Badge>
+                    ) : '—'}
+                  </TableCell>
+                  <TableCell className="text-xs">
+                    {u.subscription?.current_period_end ? new Date(u.subscription.current_period_end).toLocaleDateString() : '—'}
+                  </TableCell>
+                  <TableCell className="text-xs">{new Date(u.created_at).toLocaleDateString()}</TableCell>
+                </TableRow>
+              ))}
+              {filtered.length === 0 && (
+                <TableRow><TableCell colSpan={6} className="text-center text-muted-foreground py-8">No users found</TableCell></TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
+
+// ─── MCQ Tab ─────────────────────────────────────────────────
+
+function MCQTab() {
+  const { toast } = useToast();
+  const [generating, setGenerating] = useState(false);
+  const [importing, setImporting] = useState(false);
+  const [bulkGenerating, setBulkGenerating] = useState(false);
+  const [category, setCategory] = useState("Cardiology");
+  const [difficulty, setDifficulty] = useState("medium");
+  const [batchSize, setBatchSize] = useState("10");
+  const [jsonInput, setJsonInput] = useState("");
+  const [fileName, setFileName] = useState<string | null>(null);
+  const [log, setLog] = useState<string[]>([]);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const [questions, setQuestions] = useState<any[]>([]);
+  const [loadingQ, setLoadingQ] = useState(false);
+  const [searchQ, setSearchQ] = useState("");
+  const [editQ, setEditQ] = useState<any>(null);
+  const [saving, setSaving] = useState(false);
+
+  const addLog = (msg: string) => setLog(prev => [...prev, `[${new Date().toLocaleTimeString()}] ${msg}`]);
+
+  const fetchQuestions = async () => {
+    setLoadingQ(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('admin-manage-questions', {
+        body: { action: 'list' }
+      });
+      if (error) throw error;
+      setQuestions(data.questions || []);
+    } catch (e: any) {
+      toast({ title: 'Error', description: e.message, variant: 'destructive' });
+    }
+    setLoadingQ(false);
+  };
+
+  useEffect(() => { fetchQuestions(); }, []);
+
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setFileName(file.name);
+    const reader = new FileReader();
+    reader.onload = (ev) => setJsonInput(ev.target?.result as string || "");
+    reader.readAsText(file);
+  };
+
+  const clearFileInput = () => {
+    setJsonInput(""); setFileName(null);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
+  const generateBatch = async () => {
+    setGenerating(true);
+    addLog(`Generating ${batchSize} ${difficulty} questions for ${category}...`);
+    try {
+      const { data, error } = await supabase.functions.invoke('generate-questions', {
+        body: { category, difficulty, batch_size: parseInt(batchSize) }
+      });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      addLog(`✅ Generated ${data.count} questions`);
+      toast({ title: 'Success', description: `Generated ${data.count} questions` });
+      fetchQuestions();
+    } catch (e: any) {
+      addLog(`❌ ${e.message}`);
+      toast({ title: 'Error', description: e.message, variant: 'destructive' });
+    }
+    setGenerating(false);
+  };
+
+  const generateAll = async () => {
+    setBulkGenerating(true);
+    addLog('Starting bulk generation...');
+    let total = 0;
+    for (const cat of CATEGORIES) {
+      for (const diff of DIFFICULTIES) {
+        addLog(`Generating 10 ${diff} for ${cat}...`);
+        try {
+          const { data, error } = await supabase.functions.invoke('generate-questions', {
+            body: { category: cat, difficulty: diff, batch_size: 10 }
+          });
+          if (error) throw error;
+          total += data?.count || 0;
+          addLog(`✅ ${cat} (${diff}): ${data?.count}`);
+        } catch (e: any) {
+          addLog(`❌ ${cat} (${diff}): ${e.message}`);
+          if (e.message?.includes('429')) await new Promise(r => setTimeout(r, 10000));
+        }
+        await new Promise(r => setTimeout(r, 2000));
+      }
+    }
+    addLog(`🎉 Done! Total: ${total}`);
+    toast({ title: 'Complete', description: `Generated ${total} questions` });
+    fetchQuestions();
+    setBulkGenerating(false);
+  };
+
+  const importQuestions = async () => {
+    setImporting(true);
+    try {
+      const parsed = JSON.parse(jsonInput);
+      const qs = Array.isArray(parsed) ? parsed : parsed.questions;
+      if (!Array.isArray(qs)) throw new Error("Expected JSON array");
+      addLog(`Importing ${qs.length} questions...`);
+      const { data, error } = await supabase.functions.invoke('import-questions', { body: { questions: qs } });
+      if (error) throw error;
+      addLog(`✅ Imported ${data.imported}`);
+      toast({ title: 'Imported', description: `${data.imported} questions` });
+      setJsonInput("");
+      fetchQuestions();
+    } catch (e: any) {
+      addLog(`❌ ${e.message}`);
+      toast({ title: 'Error', description: e.message, variant: 'destructive' });
+    }
+    setImporting(false);
+  };
+
+  const saveQuestion = async () => {
+    if (!editQ) return;
+    setSaving(true);
+    try {
+      const { id, created_at, ...rest } = editQ;
+      const { error } = await supabase.functions.invoke('admin-manage-questions', {
+        body: { action: 'update', question_id: id, question_data: rest }
+      });
+      if (error) throw error;
+      toast({ title: 'Saved' });
+      setEditQ(null);
+      fetchQuestions();
+    } catch (e: any) {
+      toast({ title: 'Error', description: e.message, variant: 'destructive' });
+    }
+    setSaving(false);
+  };
+
+  const deleteQuestion = async (id: string) => {
+    try {
+      const { error } = await supabase.functions.invoke('admin-manage-questions', {
+        body: { action: 'delete', question_id: id }
+      });
+      if (error) throw error;
+      toast({ title: 'Deleted' });
+      fetchQuestions();
+    } catch (e: any) {
+      toast({ title: 'Error', description: e.message, variant: 'destructive' });
+    }
+  };
+
+  const filteredQ = questions.filter(q =>
+    !searchQ || q.question_text?.toLowerCase().includes(searchQ.toLowerCase()) || q.category?.toLowerCase().includes(searchQ.toLowerCase())
+  );
+
+  return (
+    <div className="space-y-6">
+      {/* Generate */}
+      <Card>
+        <CardHeader><CardTitle className="flex items-center gap-2 text-lg"><Sparkles className="h-5 w-5 text-primary" /> AI Generator</CardTitle></CardHeader>
+        <CardContent className="space-y-4">
+          <div className="grid grid-cols-3 gap-4">
+            <div>
+              <label className="text-sm text-muted-foreground mb-1 block">Category</label>
+              <Select value={category} onValueChange={setCategory}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>{CATEGORIES.map(c => <SelectItem key={c} value={c}>{c}</SelectItem>)}</SelectContent></Select>
+            </div>
+            <div>
+              <label className="text-sm text-muted-foreground mb-1 block">Difficulty</label>
+              <Select value={difficulty} onValueChange={setDifficulty}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>{DIFFICULTIES.map(d => <SelectItem key={d} value={d}>{d}</SelectItem>)}</SelectContent></Select>
+            </div>
+            <div>
+              <label className="text-sm text-muted-foreground mb-1 block">Batch Size</label>
+              <Select value={batchSize} onValueChange={setBatchSize}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>{[5, 10, 15, 20].map(n => <SelectItem key={n} value={String(n)}>{n}</SelectItem>)}</SelectContent></Select>
+            </div>
+          </div>
+          <div className="flex gap-3">
+            <Button onClick={generateBatch} disabled={generating || bulkGenerating}>{generating && <Loader2 className="h-4 w-4 mr-2 animate-spin" />} Generate Batch</Button>
+            <Button variant="outline" onClick={generateAll} disabled={generating || bulkGenerating}>{bulkGenerating && <Loader2 className="h-4 w-4 mr-2 animate-spin" />} Generate All (500+)</Button>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Import */}
+      <Card>
+        <CardHeader><CardTitle className="flex items-center gap-2 text-lg"><Upload className="h-5 w-5 text-primary" /> Import JSON</CardTitle></CardHeader>
+        <CardContent className="space-y-4">
+          <div className="flex items-center gap-3">
+            <input type="file" accept=".json" ref={fileInputRef} onChange={handleFileSelect} className="hidden" />
+            <Button variant="outline" onClick={() => fileInputRef.current?.click()}><FileUp className="h-4 w-4 mr-2" /> Choose File</Button>
+            {fileName && <div className="flex items-center gap-2"><Badge variant="secondary">{fileName}</Badge><Button variant="ghost" size="icon" className="h-6 w-6" onClick={clearFileInput}><X className="h-3 w-3" /></Button></div>}
+          </div>
+          <Textarea placeholder="Or paste JSON array..." className="min-h-[120px] font-mono text-xs" value={jsonInput} onChange={e => setJsonInput(e.target.value)} />
+          <Button onClick={importQuestions} disabled={importing || !jsonInput.trim()}>{importing && <Loader2 className="h-4 w-4 mr-2 animate-spin" />} Import</Button>
+        </CardContent>
+      </Card>
+
+      {/* Browse */}
+      <Card>
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <CardTitle className="text-lg">Question Bank ({questions.length})</CardTitle>
+            <div className="relative max-w-xs">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input placeholder="Search..." value={searchQ} onChange={e => setSearchQ(e.target.value)} className="pl-9" />
+            </div>
+          </div>
+        </CardHeader>
+        <CardContent className="p-0">
+          {loadingQ ? (
+            <div className="flex justify-center py-8"><Loader2 className="h-6 w-6 animate-spin text-muted-foreground" /></div>
+          ) : (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-[40%]">Question</TableHead>
+                  <TableHead>Category</TableHead>
+                  <TableHead>Difficulty</TableHead>
+                  <TableHead>Created</TableHead>
+                  <TableHead className="w-20">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {filteredQ.slice(0, 100).map(q => (
+                  <TableRow key={q.id}>
+                    <TableCell className="text-xs max-w-[300px] truncate">{q.question_text?.slice(0, 100)}</TableCell>
+                    <TableCell><Badge variant="outline">{q.category}</Badge></TableCell>
+                    <TableCell><Badge variant="secondary">{q.difficulty}</Badge></TableCell>
+                    <TableCell className="text-xs">{new Date(q.created_at).toLocaleDateString()}</TableCell>
+                    <TableCell>
+                      <div className="flex gap-1">
+                        <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => setEditQ({ ...q })}><Pencil className="h-3.5 w-3.5" /></Button>
+                        <AlertDialog>
+                          <AlertDialogTrigger asChild><Button variant="ghost" size="icon" className="h-7 w-7 text-destructive"><Trash2 className="h-3.5 w-3.5" /></Button></AlertDialogTrigger>
+                          <AlertDialogContent>
+                            <AlertDialogHeader><AlertDialogTitle>Delete question?</AlertDialogTitle><AlertDialogDescription>This will permanently delete this question and all related data.</AlertDialogDescription></AlertDialogHeader>
+                            <AlertDialogFooter><AlertDialogCancel>Cancel</AlertDialogCancel><AlertDialogAction onClick={() => deleteQuestion(q.id)}>Delete</AlertDialogAction></AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Edit Dialog */}
+      <Dialog open={!!editQ} onOpenChange={open => !open && setEditQ(null)}>
+        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader><DialogTitle>Edit Question</DialogTitle></DialogHeader>
+          {editQ && (
+            <div className="space-y-4">
+              <div>
+                <label className="text-sm font-medium">Question Text</label>
+                <Textarea value={editQ.question_text} onChange={e => setEditQ({ ...editQ, question_text: e.target.value })} className="min-h-[100px]" />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="text-sm font-medium">Category</label>
+                  <Select value={editQ.category} onValueChange={v => setEditQ({ ...editQ, category: v })}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>{CATEGORIES.map(c => <SelectItem key={c} value={c}>{c}</SelectItem>)}</SelectContent></Select>
+                </div>
+                <div>
+                  <label className="text-sm font-medium">Difficulty</label>
+                  <Select value={editQ.difficulty} onValueChange={v => setEditQ({ ...editQ, difficulty: v })}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>{DIFFICULTIES.map(d => <SelectItem key={d} value={d}>{d}</SelectItem>)}</SelectContent></Select>
+                </div>
+              </div>
+              <div>
+                <label className="text-sm font-medium">Correct Answer</label>
+                <Input value={editQ.correct_answer} onChange={e => setEditQ({ ...editQ, correct_answer: e.target.value })} />
+              </div>
+              <div>
+                <label className="text-sm font-medium">Options (JSON)</label>
+                <Textarea value={JSON.stringify(editQ.options, null, 2)} onChange={e => { try { setEditQ({ ...editQ, options: JSON.parse(e.target.value) }); } catch {} }} className="font-mono text-xs min-h-[80px]" />
+              </div>
+              <div>
+                <label className="text-sm font-medium">Explanation</label>
+                <Textarea value={editQ.explanation || ''} onChange={e => setEditQ({ ...editQ, explanation: e.target.value })} />
+              </div>
+            </div>
+          )}
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setEditQ(null)}>Cancel</Button>
+            <Button onClick={saveQuestion} disabled={saving}>{saving && <Loader2 className="h-4 w-4 mr-2 animate-spin" />} Save</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Log */}
+      {log.length > 0 && (
+        <Card>
+          <CardHeader><CardTitle className="text-sm">Activity Log</CardTitle></CardHeader>
+          <CardContent>
+            <div className="max-h-48 overflow-y-auto space-y-1 font-mono text-xs">
+              {log.map((l, i) => <div key={i} className="text-muted-foreground">{l}</div>)}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+    </div>
+  );
+}
+
+// ─── OSCE Tab ────────────────────────────────────────────────
+
+function OSCETab() {
+  const { toast } = useToast();
+  const [stations, setStations] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [searchS, setSearchS] = useState("");
+  const [generating, setGenerating] = useState(false);
+  const [genSubject, setGenSubject] = useState("Cardiology");
+  const [importing, setImporting] = useState(false);
+  const [jsonInput, setJsonInput] = useState("");
+  const [fileName, setFileName] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [editS, setEditS] = useState<any>(null);
+  const [saving, setSaving] = useState(false);
+  const [log, setLog] = useState<string[]>([]);
+
+  const addLog = (msg: string) => setLog(prev => [...prev, `[${new Date().toLocaleTimeString()}] ${msg}`]);
+
+  const fetchStations = async () => {
+    setLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('admin-manage-stations', {
+        body: { action: 'list' }
+      });
+      if (error) throw error;
+      setStations(data.stations || []);
+    } catch (e: any) {
+      toast({ title: 'Error', description: e.message, variant: 'destructive' });
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => { fetchStations(); }, []);
+
+  const generateStation = async () => {
+    setGenerating(true);
+    addLog(`Generating OSCE station for ${genSubject}...`);
+    try {
+      const { data, error } = await supabase.functions.invoke('generate-station', {
+        body: { subject: genSubject, mode: 'instant' }
+      });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      addLog(`✅ Generated: ${data.scenario?.scenario_title || 'Station'}`);
+      toast({ title: 'Generated', description: `OSCE station for ${genSubject}` });
+      fetchStations();
+    } catch (e: any) {
+      addLog(`❌ ${e.message}`);
+      toast({ title: 'Error', description: e.message, variant: 'destructive' });
+    }
+    setGenerating(false);
+  };
+
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setFileName(file.name);
+    const reader = new FileReader();
+    reader.onload = (ev) => setJsonInput(ev.target?.result as string || "");
+    reader.readAsText(file);
+  };
+
+  const clearFileInput = () => {
+    setJsonInput(""); setFileName(null);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
+  const importStations = async () => {
+    setImporting(true);
+    try {
+      const parsed = JSON.parse(jsonInput);
+      const arr = Array.isArray(parsed) ? parsed : parsed.stations;
+      if (!Array.isArray(arr)) throw new Error("Expected JSON array");
+      addLog(`Importing ${arr.length} stations...`);
+      const { data, error } = await supabase.functions.invoke('admin-manage-stations', {
+        body: { action: 'import', stations: arr }
+      });
+      if (error) throw error;
+      addLog(`✅ Imported ${data.imported}`);
+      if (data.errors?.length) data.errors.forEach((e: string) => addLog(`⚠️ ${e}`));
+      toast({ title: 'Imported', description: `${data.imported} stations` });
+      setJsonInput("");
+      fetchStations();
+    } catch (e: any) {
+      addLog(`❌ ${e.message}`);
+      toast({ title: 'Error', description: e.message, variant: 'destructive' });
+    }
+    setImporting(false);
+  };
+
+  const saveStation = async () => {
+    if (!editS) return;
+    setSaving(true);
+    try {
+      const { error } = await supabase.functions.invoke('admin-manage-stations', {
+        body: {
+          action: 'update',
+          station_id: editS.id,
+          station_data: {
+            scenario_title: editS.scenario_title,
+            subject: editS.subject,
+            scenario_data: editS.scenario_data,
+          }
+        }
+      });
+      if (error) throw error;
+      toast({ title: 'Saved' });
+      setEditS(null);
+      fetchStations();
+    } catch (e: any) {
+      toast({ title: 'Error', description: e.message, variant: 'destructive' });
+    }
+    setSaving(false);
+  };
+
+  const deleteStation = async (id: string) => {
+    try {
+      const { error } = await supabase.functions.invoke('admin-manage-stations', {
+        body: { action: 'delete', station_id: id }
+      });
+      if (error) throw error;
+      toast({ title: 'Deleted' });
+      fetchStations();
+    } catch (e: any) {
+      toast({ title: 'Error', description: e.message, variant: 'destructive' });
+    }
+  };
+
+  const filteredS = stations.filter(s =>
+    !searchS || s.scenario_title?.toLowerCase().includes(searchS.toLowerCase()) || s.subject?.toLowerCase().includes(searchS.toLowerCase())
+  );
+
+  return (
+    <div className="space-y-6">
+      {/* Generate */}
+      <Card>
+        <CardHeader><CardTitle className="flex items-center gap-2 text-lg"><Sparkles className="h-5 w-5 text-primary" /> Generate OSCE Station</CardTitle></CardHeader>
+        <CardContent className="space-y-4">
+          <div className="max-w-xs">
+            <label className="text-sm text-muted-foreground mb-1 block">Subject</label>
+            <Select value={genSubject} onValueChange={setGenSubject}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>{OSCE_SUBJECTS.map(s => <SelectItem key={s} value={s}>{s}</SelectItem>)}</SelectContent></Select>
+          </div>
+          <Button onClick={generateStation} disabled={generating}>{generating && <Loader2 className="h-4 w-4 mr-2 animate-spin" />} Generate Station</Button>
+        </CardContent>
+      </Card>
+
+      {/* Import */}
+      <Card>
+        <CardHeader><CardTitle className="flex items-center gap-2 text-lg"><Upload className="h-5 w-5 text-primary" /> Import Stations (JSON)</CardTitle></CardHeader>
+        <CardContent className="space-y-4">
+          <div className="rounded-lg bg-muted p-3 text-xs text-muted-foreground">
+            <p className="font-medium mb-1">Expected format:</p>
+            <pre className="overflow-x-auto">{`[{
+  "subject": "Cardiology",
+  "scenario_title": "Acute MI Presentation",
+  "scenario_data": { "patient_persona": {...}, "checklist": {...} }
+}]`}</pre>
+          </div>
+          <div className="flex items-center gap-3">
+            <input type="file" accept=".json" ref={fileInputRef} onChange={handleFileSelect} className="hidden" />
+            <Button variant="outline" onClick={() => fileInputRef.current?.click()}><FileUp className="h-4 w-4 mr-2" /> Choose File</Button>
+            {fileName && <div className="flex items-center gap-2"><Badge variant="secondary">{fileName}</Badge><Button variant="ghost" size="icon" className="h-6 w-6" onClick={clearFileInput}><X className="h-3 w-3" /></Button></div>}
+          </div>
+          <Textarea placeholder="Or paste JSON..." className="min-h-[120px] font-mono text-xs" value={jsonInput} onChange={e => setJsonInput(e.target.value)} />
+          <Button onClick={importStations} disabled={importing || !jsonInput.trim()}>{importing && <Loader2 className="h-4 w-4 mr-2 animate-spin" />} Import</Button>
+        </CardContent>
+      </Card>
+
+      {/* Browse */}
+      <Card>
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <CardTitle className="text-lg">Station Bank ({stations.length})</CardTitle>
+            <div className="relative max-w-xs">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input placeholder="Search..." value={searchS} onChange={e => setSearchS(e.target.value)} className="pl-9" />
+            </div>
+          </div>
+        </CardHeader>
+        <CardContent className="p-0">
+          {loading ? (
+            <div className="flex justify-center py-8"><Loader2 className="h-6 w-6 animate-spin text-muted-foreground" /></div>
+          ) : (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-[40%]">Title</TableHead>
+                  <TableHead>Subject</TableHead>
+                  <TableHead>Created</TableHead>
+                  <TableHead className="w-20">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {filteredS.slice(0, 100).map(s => (
+                  <TableRow key={s.id}>
+                    <TableCell className="text-sm">{s.scenario_title || '—'}</TableCell>
+                    <TableCell><Badge variant="outline">{s.subject}</Badge></TableCell>
+                    <TableCell className="text-xs">{new Date(s.created_at).toLocaleDateString()}</TableCell>
+                    <TableCell>
+                      <div className="flex gap-1">
+                        <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => setEditS({ ...s })}><Pencil className="h-3.5 w-3.5" /></Button>
+                        <AlertDialog>
+                          <AlertDialogTrigger asChild><Button variant="ghost" size="icon" className="h-7 w-7 text-destructive"><Trash2 className="h-3.5 w-3.5" /></Button></AlertDialogTrigger>
+                          <AlertDialogContent>
+                            <AlertDialogHeader><AlertDialogTitle>Delete station?</AlertDialogTitle><AlertDialogDescription>This will permanently delete this OSCE station.</AlertDialogDescription></AlertDialogHeader>
+                            <AlertDialogFooter><AlertDialogCancel>Cancel</AlertDialogCancel><AlertDialogAction onClick={() => deleteStation(s.id)}>Delete</AlertDialogAction></AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Edit Dialog */}
+      <Dialog open={!!editS} onOpenChange={open => !open && setEditS(null)}>
+        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader><DialogTitle>Edit Station</DialogTitle></DialogHeader>
+          {editS && (
+            <div className="space-y-4">
+              <div>
+                <label className="text-sm font-medium">Title</label>
+                <Input value={editS.scenario_title} onChange={e => setEditS({ ...editS, scenario_title: e.target.value })} />
+              </div>
+              <div>
+                <label className="text-sm font-medium">Subject</label>
+                <Select value={editS.subject} onValueChange={v => setEditS({ ...editS, subject: v })}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>{OSCE_SUBJECTS.map(s => <SelectItem key={s} value={s}>{s}</SelectItem>)}</SelectContent></Select>
+              </div>
+              <div>
+                <label className="text-sm font-medium">Scenario Data (JSON)</label>
+                <Textarea
+                  value={JSON.stringify(editS.scenario_data, null, 2)}
+                  onChange={e => { try { setEditS({ ...editS, scenario_data: JSON.parse(e.target.value) }); } catch {} }}
+                  className="font-mono text-xs min-h-[200px]"
+                />
+              </div>
+            </div>
+          )}
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setEditS(null)}>Cancel</Button>
+            <Button onClick={saveStation} disabled={saving}>{saving && <Loader2 className="h-4 w-4 mr-2 animate-spin" />} Save</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Log */}
+      {log.length > 0 && (
+        <Card>
+          <CardHeader><CardTitle className="text-sm">Activity Log</CardTitle></CardHeader>
+          <CardContent>
+            <div className="max-h-48 overflow-y-auto space-y-1 font-mono text-xs">
+              {log.map((l, i) => <div key={i} className="text-muted-foreground">{l}</div>)}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+    </div>
+  );
+}
+
+// ─── Main Dashboard ──────────────────────────────────────────
+
+export default function AdminDashboard() {
+  return (
+    <AppLayout>
+      <div className="mx-auto max-w-6xl py-8 space-y-6">
+        <h1 className="text-2xl font-display font-bold">Admin Dashboard</h1>
+        <Tabs defaultValue="users">
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="users" className="gap-2"><Users className="h-4 w-4" /> Users & Subs</TabsTrigger>
+            <TabsTrigger value="mcq" className="gap-2"><BookOpen className="h-4 w-4" /> MCQ Questions</TabsTrigger>
+            <TabsTrigger value="osce" className="gap-2"><Activity className="h-4 w-4" /> OSCE Stations</TabsTrigger>
+          </TabsList>
+          <TabsContent value="users"><UsersTab /></TabsContent>
+          <TabsContent value="mcq"><MCQTab /></TabsContent>
+          <TabsContent value="osce"><OSCETab /></TabsContent>
+        </Tabs>
+      </div>
+    </AppLayout>
+  );
+}
