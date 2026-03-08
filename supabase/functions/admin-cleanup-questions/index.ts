@@ -94,10 +94,13 @@ serve(async (req) => {
   try {
     // Allow service-role key auth (for internal tooling) OR admin user token
     const authHeader = req.headers.get("Authorization");
+    const apikeyHeader = req.headers.get("apikey");
     const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
     const token = authHeader?.replace("Bearer ", "");
     
-    if (token === serviceRoleKey) {
+    const isServiceRole = token === serviceRoleKey || apikeyHeader === serviceRoleKey;
+    
+    if (isServiceRole) {
       // Service role access — proceed
     } else if (authHeader) {
       const { data: userData, error: userError } = await supabase.auth.getUser(token!);
