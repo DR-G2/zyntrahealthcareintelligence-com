@@ -21,6 +21,7 @@ import Questions from "./pages/Questions";
 import StudyPlan from "./pages/StudyPlan";
 import Settings from "./pages/Settings";
 import AdminQuestions from "./pages/AdminQuestions";
+import Stations from "./pages/Stations";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
