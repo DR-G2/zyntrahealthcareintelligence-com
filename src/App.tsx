@@ -29,6 +29,7 @@ import DiagnosticOSCE from "./pages/DiagnosticOSCE";
 import CompanionChat from "./pages/CompanionChat";
 import SocialGroups from "./pages/SocialGroups";
 import SharedTests from "./pages/SharedTests";
+import MistakeReview from "./pages/MistakeReview";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
