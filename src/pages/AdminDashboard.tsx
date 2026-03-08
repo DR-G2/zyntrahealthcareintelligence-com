@@ -595,6 +595,7 @@ function OSCETab() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [editS, setEditS] = useState<any>(null);
   const [saving, setSaving] = useState(false);
+  const [cleaning, setCleaning] = useState(false);
   const [log, setLog] = useState<string[]>([]);
 
   const addLog = (msg: string) => setLog(prev => [...prev, `[${new Date().toLocaleTimeString()}] ${msg}`]);
