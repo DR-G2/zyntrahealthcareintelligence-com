@@ -69,30 +69,39 @@ export default function Questions() {
     loadData();
   }, [user]);
 
+  const fetchAllRows = async (table: string, selectStr: string, filters?: { column: string; value: string }) => {
+    const allRows: any[] = [];
+    const pageSize = 1000;
+    let from = 0;
+    let hasMore = true;
+    while (hasMore) {
+      let query = supabase.from(table as any).select(selectStr).range(from, from + pageSize - 1);
+      if (filters) query = (query as any).eq(filters.column, filters.value);
+      const { data, error } = await query;
+      if (error || !data || data.length === 0) { hasMore = false; break; }
+      allRows.push(...data);
+      if (data.length < pageSize) hasMore = false;
+      from += pageSize;
+    }
+    return allRows;
+  };
+
   const loadData = async () => {
     setLoading(true);
 
-    const [qRes, bRes, aRes, nRes] = await Promise.all([
-      supabase.from('questions').select('*'),
-      user ? supabase.from('bookmarks').select('question_id').eq('user_id', user.id) : Promise.resolve({ data: [] }),
-      user ? supabase.from('user_attempts').select('question_id, selected_answer, is_correct, time_taken_seconds, created_at').eq('user_id', user.id) : Promise.resolve({ data: [] }),
-      user ? supabase.from('user_notes').select('question_id, note_text').eq('user_id', user.id) : Promise.resolve({ data: [] }),
+    const [allQuestions, bData, aData, nData] = await Promise.all([
+      fetchAllRows('questions', '*'),
+      user ? fetchAllRows('bookmarks', 'question_id', { column: 'user_id', value: user.id }) : Promise.resolve([]),
+      user ? fetchAllRows('user_attempts', 'question_id, selected_answer, is_correct, time_taken_seconds, created_at', { column: 'user_id', value: user.id }) : Promise.resolve([]),
+      user ? fetchAllRows('user_notes', 'question_id, note_text', { column: 'user_id', value: user.id }) : Promise.resolve([]),
     ]);
 
-    if (qRes.data) {
-      setQuestions(qRes.data.map(q => ({ ...q, options: q.options as string[] })));
-    }
-    if (bRes.data) {
-      setBookmarks(new Set(bRes.data.map((b: any) => b.question_id)));
-    }
-    if (aRes.data) {
-      setAttempts(aRes.data as UserAttempt[]);
-    }
-    if (nRes.data) {
-      const noteMap: Record<string, string> = {};
-      (nRes.data as any[]).forEach(n => { noteMap[n.question_id] = n.note_text; });
-      setNotes(noteMap);
-    }
+    setQuestions(allQuestions.map((q: any) => ({ ...q, options: q.options as string[] })));
+    setBookmarks(new Set(bData.map((b: any) => b.question_id)));
+    setAttempts(aData as UserAttempt[]);
+    const noteMap: Record<string, string> = {};
+    nData.forEach((n: any) => { noteMap[n.question_id] = n.note_text; });
+    setNotes(noteMap);
 
     setLoading(false);
   };
