@@ -107,6 +107,7 @@ export function useFeatureGate(): FeatureGate {
       questionBankLimit: FREE_QUESTION_BANK,
       canAccessAnalytics: true, canAccessBehavior: true, canAccessTrustGut: true,
       canAccessReadiness: true, canAccessAdaptiveOSCE: true, canAccessExamMode: false,
+      canSaveBookmarks: true, canAccessNotes: true, canAccessHistory: true, canAccessLearningPoints: true,
       ...record,
     };
   }
