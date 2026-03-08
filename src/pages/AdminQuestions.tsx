@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { AppLayout } from '@/components/AppLayout';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -7,7 +7,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/lib/supabase';
-import { Loader2, Sparkles, Upload, CheckCircle2 } from 'lucide-react';
+import { Loader2, Sparkles, Upload, CheckCircle2, FileUp, X } from 'lucide-react';
 
 const CATEGORIES = [
   "Cardiology", "Respiratory", "Gastroenterology", "Neurology", "Endocrinology",
@@ -28,6 +28,25 @@ export default function AdminQuestions() {
   const [jsonInput, setJsonInput] = useState("");
   const [log, setLog] = useState<string[]>([]);
   const [bulkGenerating, setBulkGenerating] = useState(false);
+  const [fileName, setFileName] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setFileName(file.name);
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      setJsonInput(ev.target?.result as string || "");
+    };
+    reader.readAsText(file);
+  };
+
+  const clearFileInput = () => {
+    setJsonInput("");
+    setFileName(null);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
 
   const addLog = (msg: string) => setLog(prev => [...prev, `[${new Date().toLocaleTimeString()}] ${msg}`]);
 
@@ -186,8 +205,28 @@ export default function AdminQuestions() {
   "key_takeaways": ["Point 1", "Point 2"]
 }]`}</pre>
             </div>
+            <div className="flex items-center gap-3">
+              <input
+                type="file"
+                accept=".json"
+                ref={fileInputRef}
+                onChange={handleFileSelect}
+                className="hidden"
+              />
+              <Button variant="outline" onClick={() => fileInputRef.current?.click()}>
+                <FileUp className="h-4 w-4 mr-2" /> Choose JSON File
+              </Button>
+              {fileName && (
+                <div className="flex items-center gap-2">
+                  <Badge variant="secondary">{fileName}</Badge>
+                  <Button variant="ghost" size="icon" className="h-6 w-6" onClick={clearFileInput}>
+                    <X className="h-3 w-3" />
+                  </Button>
+                </div>
+              )}
+            </div>
             <Textarea
-              placeholder="Paste your JSON array of questions here..."
+              placeholder="Or paste your JSON array of questions here..."
               className="min-h-[200px] font-mono text-xs"
               value={jsonInput}
               onChange={(e) => setJsonInput(e.target.value)}
