@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { Session, User } from '@supabase/supabase-js';
 import { supabase } from '@/lib/supabase';
+import { CURRENT_TERMS_VERSION } from '@/lib/legal';
 
 interface Profile {
   id: string;
