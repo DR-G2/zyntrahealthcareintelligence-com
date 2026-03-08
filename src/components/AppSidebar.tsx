@@ -1,6 +1,5 @@
 import { NavLink, useLocation } from 'react-router-dom';
 import {
-  LayoutDashboard,
   ClipboardCheck,
   BookOpen,
   Calendar,
@@ -16,6 +15,9 @@ import {
   Stethoscope,
   PanelLeftClose,
   PanelLeft,
+  MessageCircle,
+  Users,
+  Share2,
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { ThemeToggle } from '@/components/ThemeToggle';
