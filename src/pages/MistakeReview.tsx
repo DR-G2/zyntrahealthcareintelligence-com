@@ -11,6 +11,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { useFeatureGate } from '@/hooks/useFeatureGate';
+import { UpgradePrompt } from '@/components/UpgradePrompt';
 
 interface AttemptRow {
   id: string;
