@@ -135,7 +135,7 @@ export function LiveActivityTab() {
             </TableHeader>
             <TableBody>
               {filtered.length === 0 ? (
-                <TableRow><TableCell colSpan={10} className="text-center text-muted-foreground py-8">No users found</TableCell></TableRow>
+                <TableRow><TableCell colSpan={11} className="text-center text-muted-foreground py-8">No users found</TableCell></TableRow>
               ) : filtered.map(s => (
                 <TableRow key={s.user_id}>
                   <TableCell className="max-w-[200px]">
