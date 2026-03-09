@@ -1,0 +1,1 @@
+ALTER TABLE public.user_presence ADD COLUMN ip_address text;

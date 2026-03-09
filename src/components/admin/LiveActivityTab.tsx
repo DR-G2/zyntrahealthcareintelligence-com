@@ -157,7 +157,8 @@ export function LiveActivityTab() {
                   <TableCell className="text-right">{s.streak_days}d</TableCell>
                   <TableCell className="text-right text-xs">{s.questions_today}</TableCell>
                   <TableCell className="text-right text-xs">{s.osce_today}</TableCell>
-                  <TableCell className="text-xs text-muted-foreground">{s.last_active ? new Date(s.last_active).toLocaleDateString() : '—'}</TableCell>
+                  <TableCell className="text-xs text-muted-foreground">{s.last_active ? new Date(s.last_active).toLocaleString() : '—'}</TableCell>
+                  <TableCell className="text-xs text-muted-foreground font-mono">{s.ip_address || '—'}</TableCell>
                   <TableCell className="text-xs text-muted-foreground">{new Date(s.joined_at).toLocaleDateString()}</TableCell>
                 </TableRow>
               ))}

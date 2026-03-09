@@ -33,20 +33,18 @@ serve(async (req) => {
     todayStart.setHours(0, 0, 0, 0);
     const todayISO = todayStart.toISOString();
 
-    // Fetch all data in parallel
     const [profilesRes, allAttemptsRes, todayAttemptsRes, allStationsRes, todayStationsRes, progressRes, presenceRes] = await Promise.all([
       supabase.from("profiles").select("id, email, name, created_at"),
       supabase.from("user_attempts").select("user_id, is_correct"),
       supabase.from("user_attempts").select("user_id, is_correct").gte("created_at", todayISO),
       supabase.from("station_attempts").select("user_id"),
       supabase.from("station_attempts").select("user_id").gte("created_at", todayISO),
-      supabase.from("user_progress").select("user_id, streak_days, last_active, total_questions, accuracy_rate"),
-      supabase.from("user_presence").select("user_id").eq("is_online", true),
+      supabase.from("user_progress").select("user_id, streak_days"),
+      supabase.from("user_presence").select("user_id, is_online, last_seen_at, ip_address"),
     ]);
 
     const profiles = profilesRes.data || [];
 
-    // All-time MCQ aggregation
     const allAttemptMap: Record<string, { total: number; correct: number }> = {};
     (allAttemptsRes.data || []).forEach(a => {
       if (!allAttemptMap[a.user_id]) allAttemptMap[a.user_id] = { total: 0, correct: 0 };
@@ -54,7 +52,6 @@ serve(async (req) => {
       if (a.is_correct) allAttemptMap[a.user_id].correct++;
     });
 
-    // Today MCQ aggregation
     const todayAttemptMap: Record<string, { total: number; correct: number }> = {};
     (todayAttemptsRes.data || []).forEach(a => {
       if (!todayAttemptMap[a.user_id]) todayAttemptMap[a.user_id] = { total: 0, correct: 0 };
@@ -62,29 +59,37 @@ serve(async (req) => {
       if (a.is_correct) todayAttemptMap[a.user_id].correct++;
     });
 
-    // All-time OSCE
     const allStationMap: Record<string, number> = {};
     (allStationsRes.data || []).forEach(s => {
       allStationMap[s.user_id] = (allStationMap[s.user_id] || 0) + 1;
     });
 
-    // Today OSCE
     const todayStationMap: Record<string, number> = {};
     (todayStationsRes.data || []).forEach(s => {
       todayStationMap[s.user_id] = (todayStationMap[s.user_id] || 0) + 1;
     });
 
-    // Progress
-    const progressMap: Record<string, { streak_days: number; last_active: string | null }> = {};
+    const progressMap: Record<string, { streak_days: number }> = {};
     (progressRes.data || []).forEach(p => {
-      progressMap[p.user_id] = { streak_days: p.streak_days, last_active: p.last_active };
+      progressMap[p.user_id] = { streak_days: p.streak_days };
     });
+
+    const presenceMap: Record<string, { last_seen_at: string | null; ip_address: string | null; is_online: boolean }> = {};
+    (presenceRes.data || []).forEach(p => {
+      presenceMap[p.user_id] = { last_seen_at: p.last_seen_at, ip_address: p.ip_address, is_online: p.is_online ?? false };
+    });
+
+    const online_user_ids: string[] = [];
 
     const stats = profiles.map(prof => {
       const uid = prof.id;
       const allAtt = allAttemptMap[uid] || { total: 0, correct: 0 };
       const todayAtt = todayAttemptMap[uid] || { total: 0, correct: 0 };
       const prog = progressMap[uid];
+      const presence = presenceMap[uid];
+
+      if (presence?.is_online) online_user_ids.push(uid);
+
       return {
         user_id: uid,
         email: prof.email || "",
@@ -95,21 +100,19 @@ serve(async (req) => {
         overall_accuracy: allAtt.total > 0 ? Math.round((allAtt.correct / allAtt.total) * 100) : 0,
         total_osce: allStationMap[uid] || 0,
         streak_days: prog?.streak_days || 0,
-        last_active: prog?.last_active || null,
+        last_active: presence?.last_seen_at || null,
+        ip_address: presence?.ip_address || null,
         questions_today: todayAtt.total,
         osce_today: todayStationMap[uid] || 0,
       };
     });
 
-    // Sort: last_active desc, nulls last
     stats.sort((a, b) => {
       if (a.last_active && b.last_active) return new Date(b.last_active).getTime() - new Date(a.last_active).getTime();
       if (a.last_active) return -1;
       if (b.last_active) return 1;
       return 0;
     });
-
-    const online_user_ids = (presenceRes.data || []).map(p => p.user_id);
 
     return new Response(JSON.stringify({ stats, online_user_ids }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
   } catch (e) {
