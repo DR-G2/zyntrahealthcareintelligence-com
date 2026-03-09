@@ -54,6 +54,33 @@ export default function Dashboard() {
         )}
       </div>
 
+      {/* Daily Usage for Free Users */}
+      {!gate.isPaid && !gate.loading && (
+        <Card className="mt-6 border-primary/20">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base font-medium">Today's Usage</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {[
+              { label: 'MCQ Attempts', used: gate.mcqUsedToday, limit: gate.mcqDailyLimit },
+              { label: 'OSCE Attempts', used: gate.osceUsedToday, limit: gate.osceDailyLimit },
+              { label: 'AI Prompts', used: gate.promptsUsedToday, limit: gate.promptDailyLimit },
+            ].map(({ label, used, limit }) => (
+              <div key={label} className="space-y-1">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-muted-foreground">{label}</span>
+                  <span className="font-medium">{used} / {limit}</span>
+                </div>
+                <Progress value={(used / limit) * 100} className="h-2" />
+              </div>
+            ))}
+            <Button variant="link" asChild className="h-auto p-0 text-xs">
+              <Link to="/pricing">Upgrade for unlimited →</Link>
+            </Button>
+          </CardContent>
+        </Card>
+      )}
+
       {/* AMC Readiness Score */}
       <div className="mt-8">
         <ReadinessScore />
