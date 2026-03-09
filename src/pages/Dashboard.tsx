@@ -3,14 +3,17 @@ import { AppLayout } from '@/components/AppLayout';
 import { useAuth } from '@/contexts/AuthContext';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Progress } from '@/components/ui/progress';
 import { Link } from 'react-router-dom';
 import { ClipboardCheck, Zap, ArrowRight, Rss } from 'lucide-react';
 import { differenceInDays, parseISO } from 'date-fns';
 import { WelcomeTour } from '@/components/WelcomeTour';
 import { ReadinessScore } from '@/components/ReadinessScore';
+import { useFeatureGate } from '@/hooks/useFeatureGate';
 
 export default function Dashboard() {
   const { profile } = useAuth();
+  const gate = useFeatureGate();
   const [showTour, setShowTour] = useState(
     () => !localStorage.getItem(WelcomeTour.STORAGE_KEY)
   );
@@ -50,6 +53,33 @@ export default function Dashboard() {
           </Card>
         )}
       </div>
+
+      {/* Daily Usage for Free Users */}
+      {!gate.isPaid && !gate.loading && (
+        <Card className="mt-6 border-primary/20">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base font-medium">Today's Usage</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {[
+              { label: 'MCQ Attempts', used: gate.mcqUsedToday, limit: gate.mcqDailyLimit },
+              { label: 'OSCE Attempts', used: gate.osceUsedToday, limit: gate.osceDailyLimit },
+              { label: 'AI Prompts', used: gate.promptsUsedToday, limit: gate.promptDailyLimit },
+            ].map(({ label, used, limit }) => (
+              <div key={label} className="space-y-1">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-muted-foreground">{label}</span>
+                  <span className="font-medium">{used} / {limit}</span>
+                </div>
+                <Progress value={(used / limit) * 100} className="h-2" />
+              </div>
+            ))}
+            <Button variant="link" asChild className="h-auto p-0 text-xs">
+              <Link to="/pricing">Upgrade for unlimited →</Link>
+            </Button>
+          </CardContent>
+        </Card>
+      )}
 
       {/* AMC Readiness Score */}
       <div className="mt-8">
