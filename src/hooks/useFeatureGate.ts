@@ -16,6 +16,8 @@ export interface FeatureGate {
   promptsUsedToday: number;
   canUsePrompt: boolean;
   questionBankLimit: number | null;
+  canAccessQBank: boolean;
+  canAccessOSCEBank: boolean;
   canAccessAnalytics: boolean;
   canAccessBehavior: boolean;
   canAccessTrustGut: boolean;
@@ -116,6 +118,7 @@ export function useFeatureGate(): FeatureGate {
       osceDailyLimit: Infinity, canUseOSCE: true,
       promptDailyLimit: Infinity, canUsePrompt: true,
       questionBankLimit: null,
+      canAccessQBank: true, canAccessOSCEBank: true,
       canAccessAnalytics: true, canAccessBehavior: true, canAccessTrustGut: true,
       canAccessReadiness: true, canAccessAdaptiveOSCE: true, canAccessExamMode: true,
       canSaveBookmarks: true, canAccessNotes: true, canAccessHistory: true, canAccessLearningPoints: true,
@@ -131,6 +134,7 @@ export function useFeatureGate(): FeatureGate {
       osceDailyLimit: 0, canUseOSCE: false,
       promptDailyLimit: Infinity, canUsePrompt: true,
       questionBankLimit: null,
+      canAccessQBank: true, canAccessOSCEBank: false,
       canAccessAnalytics: true, canAccessBehavior: true, canAccessTrustGut: true,
       canAccessReadiness: true, canAccessAdaptiveOSCE: false, canAccessExamMode: false,
       canSaveBookmarks: true, canAccessNotes: true, canAccessHistory: true, canAccessLearningPoints: true,
@@ -146,6 +150,7 @@ export function useFeatureGate(): FeatureGate {
       osceDailyLimit: Infinity, canUseOSCE: true,
       promptDailyLimit: Infinity, canUsePrompt: true,
       questionBankLimit: null,
+      canAccessQBank: false, canAccessOSCEBank: true,
       canAccessAnalytics: false, canAccessBehavior: true, canAccessTrustGut: false,
       canAccessReadiness: false, canAccessAdaptiveOSCE: true, canAccessExamMode: true,
       canSaveBookmarks: true, canAccessNotes: true, canAccessHistory: true, canAccessLearningPoints: true,
@@ -153,14 +158,15 @@ export function useFeatureGate(): FeatureGate {
     };
   }
 
-  // Free tier
+  // Free tier — diagnostic only, no question banks
   return {
     ...base, isPaid: false, tier: 'free',
     mcqDailyLimit: FREE_MCQ_LIMIT, canUseMCQ: mcqUsedToday < FREE_MCQ_LIMIT,
     osceDailyLimit: FREE_OSCE_LIMIT, canUseOSCE: osceUsedToday < FREE_OSCE_LIMIT,
     promptDailyLimit: FREE_PROMPT_LIMIT, canUsePrompt: promptsUsedToday < FREE_PROMPT_LIMIT,
     questionBankLimit: FREE_QUESTION_BANK,
-    canAccessAnalytics: false, canAccessBehavior: false, canAccessTrustGut: false,
+    canAccessQBank: false, canAccessOSCEBank: false,
+    canAccessAnalytics: true, canAccessBehavior: false, canAccessTrustGut: false,
     canAccessReadiness: false, canAccessAdaptiveOSCE: false, canAccessExamMode: false,
     canSaveBookmarks: false, canAccessNotes: false, canAccessHistory: false, canAccessLearningPoints: false,
     canAccessMistakeReview: false, canAccessSocialGroups: false, canAccessSharedTests: false, canAccessStudyPlan: false,
