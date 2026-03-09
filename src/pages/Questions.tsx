@@ -276,6 +276,18 @@ export default function Questions() {
     }
   };
 
+  if (!gate.canAccessQBank) {
+    return (
+      <AppLayout>
+        <div className="mb-6">
+          <h1 className="text-3xl font-bold font-display">Question Bank</h1>
+          <p className="text-muted-foreground">Browse, search, and study AMC questions</p>
+        </div>
+        <UpgradePrompt feature="MCQ Question Bank" description="Upgrade to a paid plan to access the full question bank with 20,000+ AMC-style questions, bookmarks, notes, and detailed explanations." variant="card" />
+      </AppLayout>
+    );
+  }
+
   return (
     <AppLayout>
       <div className="mb-6">

@@ -265,6 +265,20 @@ export default function Stations() {
     sessionId.current = crypto.randomUUID();
   };
 
+  if (!gate.canAccessOSCEBank) {
+    return (
+      <AppLayout>
+        <div className="max-w-5xl mx-auto space-y-6">
+          <div>
+            <h1 className="text-2xl font-bold font-display text-foreground">Clinical Stations</h1>
+            <p className="text-muted-foreground text-sm mt-1">APPE Adaptive Performance Profiling Engine</p>
+          </div>
+          <UpgradePrompt feature="OSCE Practice Stations" description="Upgrade to a paid plan to access unlimited OSCE stations with AI patient interaction, adaptive training, and exam simulations." variant="card" />
+        </div>
+      </AppLayout>
+    );
+  }
+
   return (
     <AppLayout>
       <div className="max-w-5xl mx-auto">

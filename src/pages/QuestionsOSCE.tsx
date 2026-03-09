@@ -70,7 +70,7 @@ export default function QuestionsOSCE() {
           <p className="text-muted-foreground">Browse {stations.length} clinical stations across {subjects.length} specialties</p>
         </div>
 
-        {!gate.canAccessHistory ? (
+        {!gate.canAccessOSCEBank ? (
           <UpgradePrompt feature="OSCE Station Bank" description="Upgrade to a paid plan to access the full OSCE station bank and scenario details." variant="card" />
         ) : loading ? (
           <div className="flex items-center justify-center py-20">
