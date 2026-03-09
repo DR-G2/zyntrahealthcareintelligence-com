@@ -991,6 +991,7 @@ function ResultsScreen({
 // ─── Main Practice Component ────────────────────────────────────
 
 export default function Practice() {
+  const gate = useFeatureGate();
   const [phase, setPhase] = useState<'setup' | 'drill' | 'results'>('setup');
   const [config, setConfig] = useState<SessionConfig | null>(null);
   const [resultData, setResultData] = useState<{
@@ -998,6 +999,20 @@ export default function Practice() {
     answers: Record<number, string>;
     changes: Record<number, number>;
   } | null>(null);
+
+  if (!gate.canAccessQBank) {
+    return (
+      <AppLayout>
+        <div className="space-y-6">
+          <div>
+            <h1 className="text-2xl font-bold font-display">Practice Drills</h1>
+            <p className="text-muted-foreground text-sm mt-1">Timed MCQ practice sessions</p>
+          </div>
+          <UpgradePrompt feature="MCQ Practice Drills" description="Upgrade to a paid plan to access unlimited practice drills with adaptive difficulty, answer-change tracking, and detailed performance analytics." variant="card" />
+        </div>
+      </AppLayout>
+    );
+  }
 
   if (phase === 'setup') {
     return (
