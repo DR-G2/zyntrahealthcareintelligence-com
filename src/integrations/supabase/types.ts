@@ -925,6 +925,7 @@ export type Database = {
         Row: {
           current_page: string | null
           id: string
+          ip_address: string | null
           is_online: boolean | null
           last_seen_at: string | null
           user_id: string
@@ -932,6 +933,7 @@ export type Database = {
         Insert: {
           current_page?: string | null
           id?: string
+          ip_address?: string | null
           is_online?: boolean | null
           last_seen_at?: string | null
           user_id: string
@@ -939,6 +941,7 @@ export type Database = {
         Update: {
           current_page?: string | null
           id?: string
+          ip_address?: string | null
           is_online?: boolean | null
           last_seen_at?: string | null
           user_id?: string

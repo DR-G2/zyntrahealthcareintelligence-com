@@ -9,36 +9,27 @@ export function usePresence(userId: string | undefined) {
   useEffect(() => {
     if (!userId) return;
 
-    const upsert = async () => {
-      await supabase.from('user_presence').upsert(
-        {
-          user_id: userId,
-          current_page: location.pathname,
-          is_online: true,
-          last_seen_at: new Date().toISOString(),
-        },
-        { onConflict: 'user_id' }
-      );
+    const trackPresence = async (isOnline: boolean) => {
+      await supabase.functions.invoke('track-presence', {
+        body: { current_page: location.pathname, is_online: isOnline },
+      });
     };
 
     // Initial heartbeat
-    upsert();
+    trackPresence(true);
 
     // Heartbeat every 30s
-    intervalRef.current = setInterval(upsert, 30000);
-
-    // Mark offline on unmount / tab close
-    const markOffline = async () => {
-      await supabase.from('user_presence').update({ is_online: false }).eq('user_id', userId);
-    };
+    intervalRef.current = setInterval(() => trackPresence(true), 30000);
 
     const handleVisibilityChange = () => {
       if (document.hidden) {
-        markOffline();
+        trackPresence(false);
       } else {
-        upsert();
+        trackPresence(true);
       }
     };
+
+    const markOffline = () => trackPresence(false);
 
     window.addEventListener('beforeunload', markOffline);
     document.addEventListener('visibilitychange', handleVisibilityChange);

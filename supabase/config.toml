@@ -47,6 +47,8 @@ project_id = "yudkfmgilucyhukfggij"
     verify_jwt = false
   [functions.admin-live-stats]
     verify_jwt = false
+  [functions.track-presence]
+    verify_jwt = false
   [functions.retrain-ai-context]
     verify_jwt = false
   [functions.save-feed-questions]
