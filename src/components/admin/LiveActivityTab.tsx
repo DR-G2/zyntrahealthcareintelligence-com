@@ -129,6 +129,7 @@ export function LiveActivityTab() {
                 <TableHead className="text-right">Today MCQ</TableHead>
                 <TableHead className="text-right">Today OSCE</TableHead>
                 <TableHead>Last Active</TableHead>
+                <TableHead>IP Address</TableHead>
                 <TableHead>Joined</TableHead>
               </TableRow>
             </TableHeader>
