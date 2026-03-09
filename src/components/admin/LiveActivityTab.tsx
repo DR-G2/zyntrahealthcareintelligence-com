@@ -19,6 +19,7 @@ interface UserStats {
   total_osce: number;
   streak_days: number;
   last_active: string | null;
+  ip_address: string | null;
   questions_today: number;
   osce_today: number;
 }
