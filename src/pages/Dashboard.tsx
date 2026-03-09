@@ -13,6 +13,7 @@ import { useFeatureGate } from '@/hooks/useFeatureGate';
 
 export default function Dashboard() {
   const { profile } = useAuth();
+  const gate = useFeatureGate();
   const [showTour, setShowTour] = useState(
     () => !localStorage.getItem(WelcomeTour.STORAGE_KEY)
   );
