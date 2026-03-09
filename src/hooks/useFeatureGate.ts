@@ -16,6 +16,8 @@ export interface FeatureGate {
   promptsUsedToday: number;
   canUsePrompt: boolean;
   questionBankLimit: number | null;
+  canAccessQBank: boolean;
+  canAccessOSCEBank: boolean;
   canAccessAnalytics: boolean;
   canAccessBehavior: boolean;
   canAccessTrustGut: boolean;
