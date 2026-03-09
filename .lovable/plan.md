@@ -1,41 +1,65 @@
 
 
-## Plan: Enhanced Practice Results with Detailed Explanations
+## Plan: Restrict Free Tier to Diagnostic Only
 
 ### What Changes
 
-**1. Expand the results review section (Practice.tsx, lines 225-245)**
+The free tier currently gives 20 MCQs/day in the question bank and 1 OSCE station in practice. The new requirement: free users can **only** access Diagnostic MCQ (`/assess`) and Diagnostic OSCE (`/assess/osce`), plus view their performance results. No access to MCQ question bank, OSCE question bank, practice drills, or stations.
 
-Replace the current inline explanation snippet with a clickable card that navigates to a full-page explanation view. Each question card in results will show:
-- Question text, your answer vs correct answer, correct/incorrect badge
-- A "Read Full Explanation" button that opens a detailed view
+### Changes
 
-**2. Create a full-page explanation view within the results phase**
+#### 1. `src/hooks/useFeatureGate.ts` — Add new flags, update free tier
 
-Add a new sub-phase `'explanation'` to the drill session. When a user clicks a question, the view transitions to a full-page layout containing:
-- The question and all options (highlighted correct/incorrect)
-- A detailed explanation section
-- **Reference notes** organized by source book:
-  - **AMC Handbook** — key clinical points relevant to the question topic
-  - **John Murtagh's General Practice** — diagnostic approach and management
-  - **Tally O'Connor's Clinical Examination** — examination findings and signs
-- A "Back to Results" button
+Add two new flags to the interface:
+- `canAccessQBank: boolean` (MCQ question bank access)
+- `canAccessOSCEBank: boolean` (OSCE station bank / practice stations)
 
-**3. Store reference notes in the question explanation field**
+Free tier returns:
+- `canAccessQBank: false`, `canAccessOSCEBank: false`
+- `canUseMCQ: true` (for diagnostic only — daily limit still applies)
+- `canUseOSCE: true` (for diagnostic only — daily limit still applies)
+- `canAccessAnalytics: true` (basic — so they can see diagnostic performance)
 
-Since the `questions` table already has an `explanation` column, the detailed explanations with book references will be structured within that field. For now, the UI will parse and display the explanation, and add styled reference sections with book attribution headers even if the current explanation text is brief. The textbook reference sections will be rendered as distinct styled blocks.
+Paid tiers set these to `true` according to their plan (MCQ Only gets `canAccessQBank: true`, OSCE Only gets `canAccessOSCEBank: true`, Full/Lifetime get both).
 
-### Technical Approach
+#### 2. `src/pages/Questions.tsx` — Gate with `canAccessQBank`
 
-- Add state: `reviewQuestionIndex: number | null` to track which question is being viewed in detail
-- When set, render a full-page explanation component instead of the results list
-- Structure the explanation page with:
-  - Question card with all options color-coded
-  - Explanation text (from DB)
-  - Three reference cards (AMC Handbook, Murtagh's, Tally O'Connor) with topic-relevant headers derived from the question's category
-- Use `framer-motion` for page transitions
-- All changes are in `src/pages/Practice.tsx` only — no new files needed
+Add feature gate check at the top. If `!gate.canAccessQBank`, show `<UpgradePrompt feature="MCQ Question Bank">`.
 
-### Files Modified
-- `src/pages/Practice.tsx` — refactor results phase to add clickable detail view with book reference sections
+#### 3. `src/pages/QuestionsOSCE.tsx` — Gate with `canAccessOSCEBank`
+
+Already has a gate on `canAccessHistory`. Change to `canAccessOSCEBank`.
+
+#### 4. `src/pages/Practice.tsx` — Gate with `canAccessQBank`
+
+Practice drills are MCQ-based. If `!gate.canAccessQBank`, show upgrade prompt.
+
+#### 5. `src/pages/Stations.tsx` — Gate with `canAccessOSCEBank`
+
+OSCE practice stations. If `!gate.canAccessOSCEBank`, show upgrade prompt.
+
+#### 6. `src/pages/Pricing.tsx` — Update free tier features list and comparison table
+
+Free tier card features become:
+- `Diagnostic MCQ test`
+- `Diagnostic OSCE station`
+- `Basic performance results`
+- `AI study companion (limited)`
+
+Comparison table: update MCQ Questions free column to "Diagnostic only", OSCE Stations free column to "Diagnostic only", Question Bank free column to X (no access).
+
+#### 7. `src/pages/Dashboard.tsx` — Update quick links for free users
+
+No changes needed — dashboard links to `/assess` which remains accessible.
+
+### Files Changed
+
+| File | Change |
+|------|--------|
+| `src/hooks/useFeatureGate.ts` | Add `canAccessQBank`, `canAccessOSCEBank` flags |
+| `src/pages/Questions.tsx` | Add upgrade gate |
+| `src/pages/QuestionsOSCE.tsx` | Switch gate to `canAccessOSCEBank` |
+| `src/pages/Practice.tsx` | Add upgrade gate |
+| `src/pages/Stations.tsx` | Add upgrade gate |
+| `src/pages/Pricing.tsx` | Update free tier features and comparison table |
 
