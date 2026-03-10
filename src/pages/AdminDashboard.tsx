@@ -14,9 +14,10 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/component
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
-import { Loader2, Sparkles, Upload, FileUp, X, Users, BookOpen, Activity, Pencil, Trash2, Search, ShieldAlert, Radio, ChevronDown, Zap } from 'lucide-react';
+import { Loader2, Sparkles, Upload, FileUp, X, Users, BookOpen, Activity, Pencil, Trash2, Search, ShieldAlert, Radio, ChevronDown, Zap, Brain } from 'lucide-react';
 import { PiracyStrikesTab } from '@/components/admin/PiracyStrikesTab';
 import { LiveActivityTab } from '@/components/admin/LiveActivityTab';
+import { AIControlTab } from '@/components/admin/AIControlTab';
 
 const ADMIN_EMAIL = "gopalrock.naren@gmail.com";
 
@@ -1118,18 +1119,20 @@ export default function AdminDashboard() {
         <CleanupReportDialog report={cleanupReport} open={reportOpen} onOpenChange={setReportOpen} />
 
         <Tabs defaultValue="live">
-          <TabsList className="grid w-full grid-cols-5">
-            <TabsTrigger value="live" className="gap-2"><Radio className="h-4 w-4" /> User Activity</TabsTrigger>
-            <TabsTrigger value="users" className="gap-2"><Users className="h-4 w-4" /> Users & Subs</TabsTrigger>
-            <TabsTrigger value="mcq" className="gap-2"><BookOpen className="h-4 w-4" /> MCQ Questions</TabsTrigger>
-            <TabsTrigger value="osce" className="gap-2"><Activity className="h-4 w-4" /> OSCE Stations</TabsTrigger>
-            <TabsTrigger value="strikes" className="gap-2"><ShieldAlert className="h-4 w-4" /> Piracy Strikes</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-6">
+            <TabsTrigger value="live" className="gap-2"><Radio className="h-4 w-4" /> Activity</TabsTrigger>
+            <TabsTrigger value="users" className="gap-2"><Users className="h-4 w-4" /> Users</TabsTrigger>
+            <TabsTrigger value="mcq" className="gap-2"><BookOpen className="h-4 w-4" /> MCQ</TabsTrigger>
+            <TabsTrigger value="osce" className="gap-2"><Activity className="h-4 w-4" /> OSCE</TabsTrigger>
+            <TabsTrigger value="strikes" className="gap-2"><ShieldAlert className="h-4 w-4" /> Strikes</TabsTrigger>
+            <TabsTrigger value="ai-core" className="gap-2"><Brain className="h-4 w-4" /> AI Core</TabsTrigger>
           </TabsList>
           <TabsContent value="live"><LiveActivityTab /></TabsContent>
           <TabsContent value="users"><UsersTab /></TabsContent>
           <TabsContent value="mcq"><MCQTab /></TabsContent>
           <TabsContent value="osce"><OSCETab /></TabsContent>
           <TabsContent value="strikes"><PiracyStrikesTab /></TabsContent>
+          <TabsContent value="ai-core"><AIControlTab /></TabsContent>
         </Tabs>
       </div>
     </AppLayout>

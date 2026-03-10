@@ -25,7 +25,7 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { toast } from 'sonner';
-import { User, Calendar, Shield, Info, LogOut, Trash2, Scale } from 'lucide-react';
+import { User, Calendar, Shield, Info, LogOut, Trash2, Scale, GraduationCap } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
 import { ReferralCard } from '@/components/settings/ReferralCard';
 import { StrikeWarning } from '@/components/settings/StrikeWarning';
@@ -38,6 +38,12 @@ export default function Settings() {
   const [name, setName] = useState(profile?.name ?? '');
   const [examDate, setExamDate] = useState(profile?.exam_date ?? '');
   const [userType, setUserType] = useState(profile?.user_type ?? '');
+  const [countryOfOrigin, setCountryOfOrigin] = useState(profile?.country_of_origin ?? '');
+  const [countryOfGraduation, setCountryOfGraduation] = useState(profile?.country_of_graduation ?? '');
+  const [medicalCollege, setMedicalCollege] = useState(profile?.medical_college ?? '');
+  const [graduationYear, setGraduationYear] = useState(profile?.graduation_year?.toString() ?? '');
+  const [currentLocation, setCurrentLocation] = useState(profile?.current_location ?? '');
+  const [examStage, setExamStage] = useState(profile?.exam_stage ?? '');
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
 
@@ -50,7 +56,13 @@ export default function Settings() {
         name: name || null,
         exam_date: examDate || null,
         user_type: userType || null,
-      })
+        country_of_origin: countryOfOrigin || null,
+        country_of_graduation: countryOfGraduation || null,
+        medical_college: medicalCollege || null,
+        graduation_year: graduationYear ? parseInt(graduationYear) : null,
+        current_location: currentLocation || null,
+        exam_stage: examStage || null,
+      } as any)
       .eq('id', user.id);
 
     if (error) {
@@ -123,6 +135,54 @@ export default function Settings() {
                 placeholder="Your name"
                 className="mt-1"
               />
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Background & Demographics */}
+        <Card>
+          <CardHeader className="pb-3">
+            <CardTitle className="font-display flex items-center gap-2">
+              <GraduationCap className="h-5 w-5 text-primary" /> Background & Demographics
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label>Country of Origin</Label>
+                <Input value={countryOfOrigin} onChange={(e) => setCountryOfOrigin(e.target.value)} placeholder="e.g. India" className="mt-1" />
+              </div>
+              <div>
+                <Label>Country of Graduation</Label>
+                <Input value={countryOfGraduation} onChange={(e) => setCountryOfGraduation(e.target.value)} placeholder="e.g. India" className="mt-1" />
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label>Medical College</Label>
+                <Input value={medicalCollege} onChange={(e) => setMedicalCollege(e.target.value)} placeholder="College name" className="mt-1" />
+              </div>
+              <div>
+                <Label>Graduation Year</Label>
+                <Input type="number" value={graduationYear} onChange={(e) => setGraduationYear(e.target.value)} placeholder="e.g. 2020" className="mt-1" />
+              </div>
+            </div>
+            <div>
+              <Label>Current Location</Label>
+              <Input value={currentLocation} onChange={(e) => setCurrentLocation(e.target.value)} placeholder="City, Country" className="mt-1" />
+            </div>
+            <div>
+              <Label>AMC Exam Stage</Label>
+              <Select value={examStage} onValueChange={setExamStage}>
+                <SelectTrigger className="mt-1">
+                  <SelectValue placeholder="Select stage" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="preparing">Preparing</SelectItem>
+                  <SelectItem value="booked">Booked Exam</SelectItem>
+                  <SelectItem value="retaking">Retaking Exam</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </CardContent>
         </Card>

@@ -324,11 +324,17 @@ export type Database = {
       }
       profiles: {
         Row: {
+          country_of_graduation: string | null
+          country_of_origin: string | null
           created_at: string
+          current_location: string | null
           email: string | null
           exam_date: string | null
+          exam_stage: string | null
           free_trial_end: string | null
+          graduation_year: number | null
           id: string
+          medical_college: string | null
           name: string | null
           onboarding_complete: boolean
           referral_code: string | null
@@ -337,11 +343,17 @@ export type Database = {
           weak_areas: string[] | null
         }
         Insert: {
+          country_of_graduation?: string | null
+          country_of_origin?: string | null
           created_at?: string
+          current_location?: string | null
           email?: string | null
           exam_date?: string | null
+          exam_stage?: string | null
           free_trial_end?: string | null
+          graduation_year?: number | null
           id: string
+          medical_college?: string | null
           name?: string | null
           onboarding_complete?: boolean
           referral_code?: string | null
@@ -350,11 +362,17 @@ export type Database = {
           weak_areas?: string[] | null
         }
         Update: {
+          country_of_graduation?: string | null
+          country_of_origin?: string | null
           created_at?: string
+          current_location?: string | null
           email?: string | null
           exam_date?: string | null
+          exam_stage?: string | null
           free_trial_end?: string | null
+          graduation_year?: number | null
           id?: string
+          medical_college?: string | null
           name?: string | null
           onboarding_complete?: boolean
           referral_code?: string | null
