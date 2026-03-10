@@ -38,6 +38,12 @@ export default function Settings() {
   const [name, setName] = useState(profile?.name ?? '');
   const [examDate, setExamDate] = useState(profile?.exam_date ?? '');
   const [userType, setUserType] = useState(profile?.user_type ?? '');
+  const [countryOfOrigin, setCountryOfOrigin] = useState(profile?.country_of_origin ?? '');
+  const [countryOfGraduation, setCountryOfGraduation] = useState(profile?.country_of_graduation ?? '');
+  const [medicalCollege, setMedicalCollege] = useState(profile?.medical_college ?? '');
+  const [graduationYear, setGraduationYear] = useState(profile?.graduation_year?.toString() ?? '');
+  const [currentLocation, setCurrentLocation] = useState(profile?.current_location ?? '');
+  const [examStage, setExamStage] = useState(profile?.exam_stage ?? '');
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
 
