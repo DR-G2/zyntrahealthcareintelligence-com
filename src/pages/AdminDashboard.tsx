@@ -14,9 +14,10 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/component
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
-import { Loader2, Sparkles, Upload, FileUp, X, Users, BookOpen, Activity, Pencil, Trash2, Search, ShieldAlert, Radio, ChevronDown, Zap } from 'lucide-react';
+import { Loader2, Sparkles, Upload, FileUp, X, Users, BookOpen, Activity, Pencil, Trash2, Search, ShieldAlert, Radio, ChevronDown, Zap, Brain } from 'lucide-react';
 import { PiracyStrikesTab } from '@/components/admin/PiracyStrikesTab';
 import { LiveActivityTab } from '@/components/admin/LiveActivityTab';
+import { AIControlTab } from '@/components/admin/AIControlTab';
 
 const ADMIN_EMAIL = "gopalrock.naren@gmail.com";
 
