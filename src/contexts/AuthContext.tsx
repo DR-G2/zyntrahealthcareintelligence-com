@@ -11,6 +11,12 @@ interface Profile {
   exam_date: string | null;
   weak_areas: string[] | null;
   onboarding_complete: boolean;
+  country_of_origin: string | null;
+  country_of_graduation: string | null;
+  medical_college: string | null;
+  graduation_year: number | null;
+  current_location: string | null;
+  exam_stage: string | null;
 }
 
 export interface WatermarkState {
