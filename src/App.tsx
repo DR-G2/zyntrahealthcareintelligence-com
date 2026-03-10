@@ -40,6 +40,7 @@ const SharedTests = lazy(() => import("./pages/SharedTests"));
 const MistakeReview = lazy(() => import("./pages/MistakeReview"));
 const Feed = lazy(() => import("./pages/Feed"));
 const Terms = lazy(() => import("./pages/Terms"));
+const ZyntraAICore = lazy(() => import("./pages/ZyntraAICore"));
 
 const queryClient = new QueryClient();
 
