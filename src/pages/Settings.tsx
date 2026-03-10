@@ -56,7 +56,13 @@ export default function Settings() {
         name: name || null,
         exam_date: examDate || null,
         user_type: userType || null,
-      })
+        country_of_origin: countryOfOrigin || null,
+        country_of_graduation: countryOfGraduation || null,
+        medical_college: medicalCollege || null,
+        graduation_year: graduationYear ? parseInt(graduationYear) : null,
+        current_location: currentLocation || null,
+        exam_stage: examStage || null,
+      } as any)
       .eq('id', user.id);
 
     if (error) {
