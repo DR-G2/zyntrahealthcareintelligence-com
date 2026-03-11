@@ -115,7 +115,7 @@ export function ReadinessScore() {
           <div className="relative">
             <div className="filter blur-md pointer-events-none select-none">
               <div className="flex items-center gap-6">
-                <div className={cn('text-6xl font-bold font-display', color)}>{score}%</div>
+                <div className={cn('text-6xl font-bold font-display', color)}>{displayScore}%</div>
                 <div className="flex-1 space-y-2 text-sm text-muted-foreground">
                   <div className="flex justify-between"><span>Clinical Accuracy</span><span>{Math.round(data?.accuracy || 0)}%</span></div>
                   <div className="flex justify-between"><span>Question Volume</span><span>{Math.round(data?.volume || 0)}%</span></div>
