@@ -255,31 +255,49 @@ export type Database = {
       }
       clinical_stations: {
         Row: {
+          candidate_instructions: string | null
           created_at: string
+          examiner_instructions: string | null
           id: string
+          marking_checklist: Json | null
+          reading_time_minutes: number | null
           scenario_data: Json
           scenario_title: string
           session_id: string
+          station_time_minutes: number | null
           subject: string
           user_id: string
+          zyntra_id: string | null
         }
         Insert: {
+          candidate_instructions?: string | null
           created_at?: string
+          examiner_instructions?: string | null
           id?: string
+          marking_checklist?: Json | null
+          reading_time_minutes?: number | null
           scenario_data?: Json
           scenario_title?: string
           session_id: string
+          station_time_minutes?: number | null
           subject: string
           user_id: string
+          zyntra_id?: string | null
         }
         Update: {
+          candidate_instructions?: string | null
           created_at?: string
+          examiner_instructions?: string | null
           id?: string
+          marking_checklist?: Json | null
+          reading_time_minutes?: number | null
           scenario_data?: Json
           scenario_title?: string
           session_id?: string
+          station_time_minutes?: number | null
           subject?: string
           user_id?: string
+          zyntra_id?: string | null
         }
         Relationships: []
       }
@@ -600,12 +618,16 @@ export type Database = {
           explanation: string | null
           first_line_investigation: string | null
           gold_standard_investigation: string | null
+          guideline_reference: string | null
           id: string
           incorrect_answer_explanations: Json | null
           key_takeaways: string[] | null
           options: Json
           question_text: string
+          subtopic: string | null
+          system_category: string | null
           tags: string[] | null
+          zyntra_id: string | null
         }
         Insert: {
           avg_time_seconds?: number | null
@@ -621,12 +643,16 @@ export type Database = {
           explanation?: string | null
           first_line_investigation?: string | null
           gold_standard_investigation?: string | null
+          guideline_reference?: string | null
           id?: string
           incorrect_answer_explanations?: Json | null
           key_takeaways?: string[] | null
           options: Json
           question_text: string
+          subtopic?: string | null
+          system_category?: string | null
           tags?: string[] | null
+          zyntra_id?: string | null
         }
         Update: {
           avg_time_seconds?: number | null
@@ -642,12 +668,16 @@ export type Database = {
           explanation?: string | null
           first_line_investigation?: string | null
           gold_standard_investigation?: string | null
+          guideline_reference?: string | null
           id?: string
           incorrect_answer_explanations?: Json | null
           key_takeaways?: string[] | null
           options?: Json
           question_text?: string
+          subtopic?: string | null
+          system_category?: string | null
           tags?: string[] | null
+          zyntra_id?: string | null
         }
         Relationships: []
       }
