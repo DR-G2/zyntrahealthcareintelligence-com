@@ -179,6 +179,7 @@ export function AppSidebar({ isMobile }: { isMobile?: boolean }) {
           <SidebarInner
             collapsed={false}
             isAdmin={isAdmin}
+            isSuperAdmin={isSuperAdmin}
             location={location}
             signOut={signOut}
             onNavigate={closeMobile}
