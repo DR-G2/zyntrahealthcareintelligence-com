@@ -223,7 +223,7 @@ export function AppSidebar({ isMobile }: { isMobile?: boolean }) {
 }
 
 function SidebarInner({
-  collapsed, isAdmin, isSuperAdmin, location, signOut, onNavigate, showCollapseToggle, setCollapsed, currentCollapsed,
+  collapsed, isAdmin, isSuperAdmin, location, signOut, onNavigate, showCollapseToggle, setCollapsed, currentCollapsed, navGroups,
 }: {
   collapsed: boolean;
   isAdmin: boolean;
@@ -234,6 +234,7 @@ function SidebarInner({
   showCollapseToggle: boolean;
   setCollapsed: (v: boolean) => void;
   currentCollapsed: boolean;
+  navGroups: NavGroup[];
 }) {
   return (
     <>
