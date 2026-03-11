@@ -18,6 +18,7 @@ import { Loader2, Sparkles, Upload, FileUp, X, Users, BookOpen, Activity, Pencil
 import { PiracyStrikesTab } from '@/components/admin/PiracyStrikesTab';
 import { LiveActivityTab } from '@/components/admin/LiveActivityTab';
 import { AIControlTab } from '@/components/admin/AIControlTab';
+import { UserInspectionPanel } from '@/components/admin/UserInspectionPanel';
 
 const ADMIN_EMAIL = "gopalrock.naren@gmail.com";
 
