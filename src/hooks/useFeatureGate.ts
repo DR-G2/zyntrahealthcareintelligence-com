@@ -151,7 +151,7 @@ export function useFeatureGate(): FeatureGate {
       canAccessAnalytics: false, canAccessBehavior: true, canAccessTrustGut: false,
       canAccessReadiness: false, canAccessAdaptiveOSCE: true, canAccessExamMode: true,
       canSaveBookmarks: true, canAccessNotes: true, canAccessHistory: true, canAccessLearningPoints: true,
-      canAccessMistakeReview: false, canAccessSocialGroups: false, canAccessSharedTests: false, canAccessStudyPlan: true,
+      canAccessStudyPlan: true,
     };
   }
 
