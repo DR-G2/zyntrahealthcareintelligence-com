@@ -138,25 +138,23 @@ export default function Profile() {
 
   if (!data && !osceStats && !gutStats) {
     return (
-      <AppLayout>
-        <div className="mx-auto max-w-2xl py-12 text-center">
-          <Card>
-            <CardContent className="py-12 space-y-4">
-              <Target className="h-12 w-12 text-muted-foreground/50 mx-auto" />
-              <h2 className="text-xl font-display font-bold">No Performance Profile Yet</h2>
-              <p className="text-muted-foreground">Complete a diagnostic assessment or OSCE station to generate your profile.</p>
-              <div className="flex gap-3 justify-center">
-                <Button asChild className="gap-1">
-                  <Link to="/assess">Take MCQ Diagnostic <ArrowRight className="h-4 w-4" /></Link>
-                </Button>
-                <Button asChild variant="outline" className="gap-1">
-                  <Link to="/stations">Try OSCE Station <ArrowRight className="h-4 w-4" /></Link>
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </AppLayout>
+      <div className="mx-auto max-w-2xl py-12 text-center">
+        <Card>
+          <CardContent className="py-12 space-y-4">
+            <Target className="h-12 w-12 text-muted-foreground/50 mx-auto" />
+            <h2 className="text-xl font-display font-bold">No Performance Profile Yet</h2>
+            <p className="text-muted-foreground">Complete a diagnostic assessment or OSCE station to generate your profile.</p>
+            <div className="flex gap-3 justify-center">
+              <Button asChild className="gap-1">
+                <Link to="/assess">Take MCQ Diagnostic <ArrowRight className="h-4 w-4" /></Link>
+              </Button>
+              <Button asChild variant="outline" className="gap-1">
+                <Link to="/stations">Try OSCE Station <ArrowRight className="h-4 w-4" /></Link>
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     );
   }
 
