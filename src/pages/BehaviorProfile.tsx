@@ -145,11 +145,7 @@ export default function BehaviorProfile() {
   }
 
   if (loading) {
-    return (
-      <AppLayout>
-        <BehaviorSkeleton />
-      </AppLayout>
-    );
+    return <BehaviorSkeleton />;
   }
 
   if (!data) {
