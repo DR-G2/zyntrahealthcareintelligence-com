@@ -38,7 +38,7 @@ const CATEGORIES = [
   "Haematology", "Musculoskeletal", "Surgery"
 ];
 
-const DIFFICULTIES = ["easy", "medium", "hard"];
+const DIFFICULTIES = ["easy", "moderate", "difficult"];
 
 const OSCE_SUBJECTS = [
   "Cardiology", "Respiratory", "Gastroenterology", "Neurology", "Endocrinology",
