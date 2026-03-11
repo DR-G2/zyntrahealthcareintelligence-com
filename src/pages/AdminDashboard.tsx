@@ -1129,13 +1129,14 @@ export default function AdminDashboard() {
         <CleanupReportDialog report={cleanupReport} open={reportOpen} onOpenChange={setReportOpen} />
 
         <Tabs defaultValue="live">
-          <TabsList className="grid w-full grid-cols-6">
+          <TabsList className="grid w-full grid-cols-7">
             <TabsTrigger value="live" className="gap-2"><Radio className="h-4 w-4" /> Activity</TabsTrigger>
             <TabsTrigger value="users" className="gap-2"><Users className="h-4 w-4" /> Users</TabsTrigger>
             <TabsTrigger value="mcq" className="gap-2"><BookOpen className="h-4 w-4" /> MCQ</TabsTrigger>
             <TabsTrigger value="osce" className="gap-2"><Activity className="h-4 w-4" /> OSCE</TabsTrigger>
             <TabsTrigger value="strikes" className="gap-2"><ShieldAlert className="h-4 w-4" /> Strikes</TabsTrigger>
             <TabsTrigger value="ai-core" className="gap-2"><Brain className="h-4 w-4" /> AI Core</TabsTrigger>
+            <TabsTrigger value="system" className="gap-2"><Zap className="h-4 w-4" /> System</TabsTrigger>
           </TabsList>
           <TabsContent value="live"><LiveActivityTab /></TabsContent>
           <TabsContent value="users"><UsersTab /></TabsContent>
@@ -1143,6 +1144,7 @@ export default function AdminDashboard() {
           <TabsContent value="osce"><OSCETab /></TabsContent>
           <TabsContent value="strikes"><PiracyStrikesTab /></TabsContent>
           <TabsContent value="ai-core"><AIControlTab /></TabsContent>
+          <TabsContent value="system"><SystemMonitorTab /></TabsContent>
         </Tabs>
       </div>
     </AppLayout>
