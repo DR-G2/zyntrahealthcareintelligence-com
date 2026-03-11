@@ -39,13 +39,6 @@ const navGroups: NavGroup[] = [
     items: [
       { to: '/practice', label: 'MCQ', icon: Zap },
       { to: '/stations', label: 'OSCE', icon: Activity },
-      {
-        label: 'Questions', icon: BookOpen,
-        children: [
-          { to: '/questions/mcq', label: 'MCQ', icon: Zap },
-          { to: '/questions/osce', label: 'OSCE', icon: Stethoscope },
-        ],
-      },
     ],
   },
   {
