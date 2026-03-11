@@ -53,8 +53,6 @@ function getNavGroups(isPaid: boolean): NavGroup[] {
 
   appeItems.push(
     { to: '/intelligence', label: 'Performance Intelligence', icon: BarChart3 },
-    { to: '/review', label: 'Mistake Review', icon: AlertCircle },
-    { to: '/history', label: 'Question History', icon: History },
   );
 
   return [
