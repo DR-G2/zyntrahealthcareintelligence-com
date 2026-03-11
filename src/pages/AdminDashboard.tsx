@@ -159,13 +159,15 @@ function UsersTab() {
       </div>
       <Card>
         <CardContent className="p-0">
-          <Table>
+           <Table>
             <TableHeader>
               <TableRow>
                 <TableHead>Email</TableHead>
                 <TableHead>Name</TableHead>
                 <TableHead>Tier</TableHead>
-                <TableHead>Status</TableHead>
+                <TableHead>Account Status</TableHead>
+                <TableHead>Last Login</TableHead>
+                <TableHead>User ID</TableHead>
                 <TableHead>Joined</TableHead>
                 <TableHead>Actions</TableHead>
               </TableRow>
@@ -184,15 +186,19 @@ function UsersTab() {
                       </div>
                     </TableCell>
                     <TableCell>
-                      {u.subscription ? (
+                      {u.is_banned ? (
+                        <Badge variant="destructive">Banned</Badge>
+                      ) : (
                         <Badge variant="outline" className="text-primary border-primary">Active</Badge>
-                      ) : t.isManual ? (
-                        <Badge variant="outline" className="text-primary border-primary">Override</Badge>
-                      ) : '—'}
+                      )}
                     </TableCell>
+                    <TableCell className="text-xs">
+                      {u.presence?.last_seen_at ? new Date(u.presence.last_seen_at).toLocaleString() : '—'}
+                    </TableCell>
+                    <TableCell className="font-mono text-[10px] text-muted-foreground max-w-[100px] truncate">{u.id}</TableCell>
                     <TableCell className="text-xs">{new Date(u.created_at).toLocaleDateString()}</TableCell>
                     <TableCell>
-                      <div className="flex gap-1">
+                      <div className="flex gap-1" onClick={e => e.stopPropagation()}>
                         {t.isManual ? (
                           <Button variant="destructive" size="sm" onClick={() => handleRevoke(u.id)}>Revoke</Button>
                         ) : (
@@ -204,7 +210,7 @@ function UsersTab() {
                 );
               })}
               {filtered.length === 0 && (
-                <TableRow><TableCell colSpan={6} className="text-center text-muted-foreground py-8">No users found</TableCell></TableRow>
+                <TableRow><TableCell colSpan={8} className="text-center text-muted-foreground py-8">No users found</TableCell></TableRow>
               )}
             </TableBody>
           </Table>
