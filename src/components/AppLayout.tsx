@@ -1,4 +1,4 @@
-import { ReactNode, useState, useEffect } from 'react';
+import { ReactNode, useState, useEffect, useRef } from 'react';
 import { AppSidebar, SidebarContext, useSidebarCollapsed } from '@/components/AppSidebar';
 import { SecurityOverlay } from '@/components/SecurityOverlay';
 import { cn } from '@/lib/utils';
