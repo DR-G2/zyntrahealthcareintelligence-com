@@ -523,9 +523,11 @@ function SetupScreen({ onStart }: { onStart: (config: SessionConfig) => void }) 
 function DrillSession({
   config,
   onFinish,
+  resumeSessionId,
 }: {
   config: SessionConfig;
   onFinish: (questions: Question[], answers: Record<number, string>, changes: Record<number, number>, times: Record<number, number>) => void;
+  resumeSessionId?: string | null;
 }) {
   const { user } = useAuth();
   const { toast } = useToast();
@@ -547,12 +549,91 @@ function DrillSession({
   const [timeRemaining, setTimeRemaining] = useState(timeSeconds);
   const [loading, setLoading] = useState(true);
   const [finished, setFinished] = useState(false);
-  const sessionIdRef = useRef(crypto.randomUUID());
+  const sessionIdRef = useRef(resumeSessionId || crypto.randomUUID());
   const lastInteractionRef = useRef(Date.now());
   const pauseTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const autoSaveRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Auto-save to active_sessions
+  const saveSession = useCallback(async (qs: Question[], idx: number, answers: Record<number, string>, changes: Record<number, number>, sequences: Record<number, string[]>, times: Record<number, number>, ttfc: Record<number, number>, pauses: Record<number, number>, timeLeft: number) => {
+    if (!user || qs.length === 0) return;
+    try {
+      await supabase.from('active_sessions').upsert({
+        user_id: user.id,
+        session_id: sessionIdRef.current,
+        session_type: 'mcq',
+        config: config as any,
+        question_ids: qs.map(q => q.id),
+        answers: answers,
+        answer_changes: changes,
+        change_sequences: sequences,
+        question_times: times,
+        time_to_first_click: ttfc,
+        pause_events: pauses,
+        current_index: idx,
+        time_remaining: timeLeft,
+        updated_at: new Date().toISOString(),
+      } as any, { onConflict: 'session_id' });
+    } catch (e) {
+      console.error('Auto-save failed', e);
+    }
+  }, [user, config]);
+
+  const deleteSession = useCallback(async () => {
+    if (!user) return;
+    try {
+      await supabase.from('active_sessions').delete().eq('session_id', sessionIdRef.current);
+    } catch (e) {
+      console.error('Delete session failed', e);
+    }
+  }, [user]);
 
   useEffect(() => {
     const fetchQ = async () => {
+      // Check for resume
+      if (resumeSessionId && user) {
+        try {
+          const { data: session } = await supabase
+            .from('active_sessions')
+            .select('*')
+            .eq('session_id', resumeSessionId)
+            .eq('user_id', user.id)
+            .single();
+
+          if (session) {
+            const questionIds = session.question_ids as string[];
+            const { data: qs } = await supabase
+              .from('questions')
+              .select('id, question_text, options, correct_answer, explanation, category, diagnosis_explanation, first_line_investigation, gold_standard_investigation, best_treatment, differential_diagnoses, incorrect_answer_explanations, key_takeaways')
+              .in('id', questionIds);
+
+            if (qs && qs.length > 0) {
+              // Preserve original order
+              const ordered = questionIds.map(id => qs.find(q => q.id === id)).filter(Boolean) as Question[];
+              setQuestions(ordered);
+              setSelectedAnswers((session.answers as Record<number, string>) || {});
+              setAnswerChanges((session.answer_changes as Record<number, number>) || {});
+              setChangeSequences((session.change_sequences as Record<number, string[]>) || {});
+              setQuestionTimes((session.question_times as Record<number, number>) || {});
+              setTimeToFirstClick((session.time_to_first_click as Record<number, number>) || {});
+              setPauseEvents((session.pause_events as Record<number, number>) || {});
+              setCurrentIndex(session.current_index || 0);
+              setTimeRemaining(session.time_remaining || timeSeconds);
+
+              // Mark restored
+              await supabase.from('active_sessions').update({ restored: true } as any).eq('session_id', resumeSessionId);
+
+              toast({ title: 'Session Restored', description: 'Your previous session has been restored successfully.' });
+              setLoading(false);
+              return;
+            }
+          }
+        } catch (e) {
+          console.error('Resume failed', e);
+        }
+      }
+
+      // Normal fetch
       const { data } = await supabase
         .from('questions')
         .select('id, question_text, options, correct_answer, explanation, category, diagnosis_explanation, first_line_investigation, gold_standard_investigation, best_treatment, differential_diagnoses, incorrect_answer_explanations, key_takeaways')
