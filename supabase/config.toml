@@ -67,3 +67,5 @@ project_id = "yudkfmgilucyhukfggij"
     verify_jwt = false
   [functions.ai-feature-builder]
     verify_jwt = false
+  [functions.admin-screenshot-logs]
+    verify_jwt = false

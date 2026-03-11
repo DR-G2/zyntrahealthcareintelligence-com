@@ -1226,12 +1226,13 @@ export default function AdminDashboard() {
         <CleanupReportDialog report={cleanupReport} open={reportOpen} onOpenChange={setReportOpen} />
 
         <Tabs defaultValue="live">
-          <TabsList className={`grid w-full ${isSuperAdmin ? 'grid-cols-8' : 'grid-cols-5'}`}>
+          <TabsList className={`grid w-full ${isSuperAdmin ? 'grid-cols-9' : 'grid-cols-5'}`}>
             <TabsTrigger value="live" className="gap-2"><Radio className="h-4 w-4" /> Activity</TabsTrigger>
             <TabsTrigger value="users" className="gap-2"><Users className="h-4 w-4" /> Users</TabsTrigger>
             <TabsTrigger value="mcq" className="gap-2"><BookOpen className="h-4 w-4" /> MCQ</TabsTrigger>
             <TabsTrigger value="osce" className="gap-2"><Activity className="h-4 w-4" /> OSCE</TabsTrigger>
             <TabsTrigger value="strikes" className="gap-2"><ShieldAlert className="h-4 w-4" /> Strikes</TabsTrigger>
+            {isSuperAdmin && <TabsTrigger value="screenshots" className="gap-2"><Camera className="h-4 w-4" /> Screenshots</TabsTrigger>}
             {isSuperAdmin && <TabsTrigger value="ai-core" className="gap-2"><Brain className="h-4 w-4" /> AI Core</TabsTrigger>}
             {isSuperAdmin && <TabsTrigger value="system" className="gap-2"><Zap className="h-4 w-4" /> System</TabsTrigger>}
             {isSuperAdmin && <TabsTrigger value="logs" className="gap-2"><FileText className="h-4 w-4" /> Logs</TabsTrigger>}
@@ -1241,6 +1242,7 @@ export default function AdminDashboard() {
           <TabsContent value="mcq"><MCQTab /></TabsContent>
           <TabsContent value="osce"><OSCETab /></TabsContent>
           <TabsContent value="strikes"><PiracyStrikesTab /></TabsContent>
+          {isSuperAdmin && <TabsContent value="screenshots"><ScreenshotAttemptsTab /></TabsContent>}
           {isSuperAdmin && <TabsContent value="ai-core"><AIControlTab /></TabsContent>}
           {isSuperAdmin && <TabsContent value="system"><SystemMonitorTab /></TabsContent>}
           {isSuperAdmin && <TabsContent value="logs"><ActivityLogsTab /></TabsContent>}
