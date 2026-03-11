@@ -1,72 +1,41 @@
 
 
-## Plan: Student Simulation Diagnostic Test
+## Plan: Enhanced Practice Results with Detailed Explanations
 
-Add a "Student Simulation" feature to the system monitor that simulates a real user flow end-to-end and reports pass/fail for each step.
+### What Changes
 
-### 1. Edge Function: `system-health-check`
+**1. Expand the results review section (Practice.tsx, lines 225-245)**
 
-**New file:** `supabase/functions/system-health-check/index.ts`
+Replace the current inline explanation snippet with a clickable card that navigates to a full-page explanation view. Each question card in results will show:
+- Question text, your answer vs correct answer, correct/incorrect badge
+- A "Read Full Explanation" button that opens a detailed view
 
-A single endpoint that performs two modes:
-- **`standard`**: Quick checks (DB ping, load 1 question, load 1 station)
-- **`simulation`**: Full student simulation flow
+**2. Create a full-page explanation view within the results phase**
 
-**Student Simulation Steps** (each wrapped in try/catch, timed):
+Add a new sub-phase `'explanation'` to the drill session. When a user clicks a question, the view transitions to a full-page layout containing:
+- The question and all options (highlighted correct/incorrect)
+- A detailed explanation section
+- **Reference notes** organized by source book:
+  - **AMC Handbook** — key clinical points relevant to the question topic
+  - **John Murtagh's General Practice** — diagnostic approach and management
+  - **Tally O'Connor's Clinical Examination** — examination findings and signs
+- A "Back to Results" button
 
-| Step | Check | Method |
-|------|-------|--------|
-| 1. Database | `SELECT 1` | Service role client query |
-| 2. Auth | Validate caller's JWT | Token verification |
-| 3. Load MCQ | Fetch 1 random question from `questions` | `.from('questions').select().limit(1)` |
-| 4. Validate MCQ | Check question has `correct_answer`, `options` | Field presence check |
-| 5. Load OSCE | Fetch 1 random station from `clinical_stations` | `.from('clinical_stations').select().limit(1)` |
-| 6. Validate OSCE | Check station has `scenario_data` | Field presence check |
-| 7. AI Service | Ping `retrain-ai-context` with `{ health_check: true }` | Function invoke |
-| 8. Payments | Query latest row from `payments` | `.from('payments').select().limit(1)` |
+**3. Store reference notes in the question explanation field**
 
-Returns per-step status, latency, and error message if failed. Overall status: all pass = healthy, any slow (>2s) = degraded, any fail = down.
+Since the `questions` table already has an `explanation` column, the detailed explanations with book references will be structured within that field. For now, the UI will parse and display the explanation, and add styled reference sections with book attribution headers even if the current explanation text is brief. The textbook reference sections will be rendered as distinct styled blocks.
 
-### 2. Database: `system_health_logs` Table
+### Technical Approach
 
-```sql
-CREATE TABLE public.system_health_logs (
-  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-  timestamp timestamptz NOT NULL DEFAULT now(),
-  overall_status text NOT NULL DEFAULT 'healthy',
-  mode text NOT NULL DEFAULT 'standard',
-  steps jsonb NOT NULL DEFAULT '[]',
-  total_latency_ms integer NOT NULL DEFAULT 0
-);
--- No RLS needed — only service role writes, admin reads via edge function
-ALTER TABLE public.system_health_logs ENABLE ROW LEVEL SECURITY;
-```
+- Add state: `reviewQuestionIndex: number | null` to track which question is being viewed in detail
+- When set, render a full-page explanation component instead of the results list
+- Structure the explanation page with:
+  - Question card with all options color-coded
+  - Explanation text (from DB)
+  - Three reference cards (AMC Handbook, Murtagh's, Tally O'Connor) with topic-relevant headers derived from the question's category
+- Use `framer-motion` for page transitions
+- All changes are in `src/pages/Practice.tsx` only — no new files needed
 
-### 3. Admin UI: `SystemMonitorTab.tsx`
-
-**New file:** `src/components/admin/SystemMonitorTab.tsx`
-
-Add as a new tab ("System") in `AdminDashboard.tsx`.
-
-Sections:
-- **Status Cards** — One card per service (DB, Auth, MCQ, OSCE, AI, Payments) with green/yellow/red dot
-- **Run Simulation** button — Calls edge function with `mode: 'simulation'`, shows step-by-step results in a timeline view with latency per step
-- **Health History** — Recharts line chart of latency from `system_health_logs` (last 24h)
-- **Recent Failures** — Table of non-healthy log entries
-- **Auto-Refresh** toggle — Polls every 60s
-
-### 4. Config & Routing
-
-- Register `system-health-check` in `supabase/config.toml`
-- Add "System" tab to `AdminDashboard.tsx` tabs grid
-
-### Files Changed
-
-| File | Change |
-|------|--------|
-| Database migration | Create `system_health_logs` table |
-| `supabase/functions/system-health-check/index.ts` | New edge function with simulation |
-| `supabase/config.toml` | Register function |
-| `src/components/admin/SystemMonitorTab.tsx` | New admin tab component |
-| `src/pages/AdminDashboard.tsx` | Add "System" tab |
+### Files Modified
+- `src/pages/Practice.tsx` — refactor results phase to add clickable detail view with book reference sections
 
