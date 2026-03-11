@@ -6,6 +6,38 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
+interface StepResult {
+  name: string;
+  status: "healthy" | "degraded" | "down";
+  latency_ms: number;
+  error?: string;
+  details?: Record<string, unknown>;
+}
+
+async function runCheck(
+  name: string,
+  fn: () => Promise<Record<string, unknown>>
+): Promise<StepResult> {
+  const start = Date.now();
+  try {
+    const details = await fn();
+    const latency = Date.now() - start;
+    return {
+      name,
+      status: latency > 2000 ? "degraded" : "healthy",
+      latency_ms: latency,
+      details,
+    };
+  } catch (e) {
+    return {
+      name,
+      status: "down",
+      latency_ms: Date.now() - start,
+      error: e instanceof Error ? e.message : "Unknown error",
+    };
+  }
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
