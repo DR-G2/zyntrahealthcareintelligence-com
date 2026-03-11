@@ -1111,9 +1111,27 @@ export default function AdminDashboard() {
   const [cleanupReport, setCleanupReport] = useState<CleanupReport>({ mcq: null, osce: null });
   const [reportOpen, setReportOpen] = useState(false);
   const [adminOnline, setAdminOnline] = useState<{ email: string; role: string; online: boolean }[]>([]);
+  const [auditRunning, setAuditRunning] = useState(false);
+  const [auditResult, setAuditResult] = useState<any>(null);
+  const [auditOpen, setAuditOpen] = useState(false);
   const { toast } = useToast();
   const currentUserEmail = useCurrentUserEmail();
   const isSuperAdmin = currentUserEmail === SUPER_ADMIN_EMAIL;
+
+  const runAudit = async () => {
+    setAuditRunning(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('admin-audit-quality');
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      setAuditResult(data);
+      setAuditOpen(true);
+      toast({ title: 'Audit complete', description: `${data.mcq.flagged} MCQs and ${data.osce.flagged} OSCEs flagged` });
+    } catch (e: any) {
+      toast({ title: 'Audit failed', description: e.message, variant: 'destructive' });
+    }
+    setAuditRunning(false);
+  };
 
   // Fetch admin online status
   useEffect(() => {
