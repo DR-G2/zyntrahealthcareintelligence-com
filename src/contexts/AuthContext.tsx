@@ -63,7 +63,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     subscribed: false, tier: 'free', subscription_end: null, loading: true,
   });
   const [watermark, setWatermark] = useState<WatermarkState>({
-    opacity_light: 0.055, opacity_dark: 0.065, suspended: false, strike_count: 0, loading: true,
+    opacity_light: 0.08, opacity_dark: 0.09, suspended: false, strike_count: 0, loading: true,
   });
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [termsLoading, setTermsLoading] = useState(true);
@@ -138,8 +138,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         supabase.from('piracy_strikes').select('id', { count: 'exact', head: true }).eq('user_id', userId),
       ]);
       setWatermark({
-        opacity_light: settingsRes.data?.opacity_light ?? 0.055,
-        opacity_dark: settingsRes.data?.opacity_dark ?? 0.065,
+        opacity_light: settingsRes.data?.opacity_light ?? 0.08,
+        opacity_dark: settingsRes.data?.opacity_dark ?? 0.09,
         suspended: settingsRes.data?.suspended ?? false,
         strike_count: strikesRes.count ?? 0,
         loading: false,
@@ -197,7 +197,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         } else {
           setProfile(null);
           setSubscription({ subscribed: false, tier: 'free', subscription_end: null, loading: false });
-          setWatermark({ opacity_light: 0.055, opacity_dark: 0.065, suspended: false, strike_count: 0, loading: false });
+          setWatermark({ opacity_light: 0.08, opacity_dark: 0.09, suspended: false, strike_count: 0, loading: false });
           termsAcceptedRef.current = false;
           setTermsAccepted(false);
           setTermsLoading(false);

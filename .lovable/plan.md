@@ -1,39 +1,41 @@
-- Plan: Strengthen Screenshot Deterrence
-
-### Reality Check
-
-No web app can truly block screenshots — the OS handles screen capture before the browser sees it. The real protection is the **watermark** (user's name/email baked into every screenshot). We can make this stronger.
-
-### Improvements
-
-**1. Screen-capture-visible watermark (increase baseline opacity)**
-
-- Increase default `opacity_light` from `0.055` to `0.08` and `opacity_dark` from `0.065` to `0.09` so the watermark is clearly captured in any screenshot.
-
-**2. Blur content on visibility loss**
-
-- When the user switches tabs or the page loses focus (`visibilitychange` + `blur`), apply a CSS blur overlay on the content. This defeats alt-tab screenshot workflows.
-- Remove blur when focus returns.
-
-**3. Flash overlay on PrintScreen detection**
-
-- When PrintScreen key is detected, briefly flash a full-screen opaque overlay (white/black) for ~200ms to corrupt any screenshot that does get through the keyboard shortcut.
-
-**4. Log screenshot attempts**
-
-- On PrintScreen key or `visibilitychange` to hidden, log the attempt to the backend via `track-presence` or a new lightweight endpoint, so admins can see who's trying.
-- Keep a log of who took screenshot extensively 
-
-### Files Changed
 
 
-| File                                 | Change                                                                                |
-| ------------------------------------ | ------------------------------------------------------------------------------------- |
-| `src/components/SecurityOverlay.tsx` | Add blur-on-unfocus, flash overlay on PrintScreen, increase default watermark opacity |
-| `src/contexts/AuthContext.tsx`       | Update default watermark opacity constants                                            |
+## Plan: Enhanced Practice Results with Detailed Explanations
 
+### What Changes
 
-### What This Does NOT Do
+**1. Expand the results review section (Practice.tsx, lines 225-245)**
 
-- Block phone cameras, external screen recorders, or OS-level capture tools — this is impossible from a browser
-- The watermark remains the primary defense: every screenshot contains the user's identity
+Replace the current inline explanation snippet with a clickable card that navigates to a full-page explanation view. Each question card in results will show:
+- Question text, your answer vs correct answer, correct/incorrect badge
+- A "Read Full Explanation" button that opens a detailed view
+
+**2. Create a full-page explanation view within the results phase**
+
+Add a new sub-phase `'explanation'` to the drill session. When a user clicks a question, the view transitions to a full-page layout containing:
+- The question and all options (highlighted correct/incorrect)
+- A detailed explanation section
+- **Reference notes** organized by source book:
+  - **AMC Handbook** — key clinical points relevant to the question topic
+  - **John Murtagh's General Practice** — diagnostic approach and management
+  - **Tally O'Connor's Clinical Examination** — examination findings and signs
+- A "Back to Results" button
+
+**3. Store reference notes in the question explanation field**
+
+Since the `questions` table already has an `explanation` column, the detailed explanations with book references will be structured within that field. For now, the UI will parse and display the explanation, and add styled reference sections with book attribution headers even if the current explanation text is brief. The textbook reference sections will be rendered as distinct styled blocks.
+
+### Technical Approach
+
+- Add state: `reviewQuestionIndex: number | null` to track which question is being viewed in detail
+- When set, render a full-page explanation component instead of the results list
+- Structure the explanation page with:
+  - Question card with all options color-coded
+  - Explanation text (from DB)
+  - Three reference cards (AMC Handbook, Murtagh's, Tally O'Connor) with topic-relevant headers derived from the question's category
+- Use `framer-motion` for page transitions
+- All changes are in `src/pages/Practice.tsx` only — no new files needed
+
+### Files Modified
+- `src/pages/Practice.tsx` — refactor results phase to add clickable detail view with book reference sections
+
