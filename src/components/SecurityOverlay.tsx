@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useState, ReactNode } from 'react';
+import { useEffect, useCallback, useState, useRef, ReactNode } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { ShieldAlert } from 'lucide-react';
