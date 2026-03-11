@@ -73,9 +73,11 @@ function UsersTab() {
 
   useEffect(() => { fetchUsers(); }, []);
 
-  const filtered = users.filter(u =>
-    !search || u.email?.toLowerCase().includes(search.toLowerCase()) || u.name?.toLowerCase().includes(search.toLowerCase())
-  );
+  const filtered = users.filter(u => {
+    if (!search) return true;
+    const s = search.toLowerCase();
+    return u.email?.toLowerCase().includes(s) || u.name?.toLowerCase().includes(s) || u.id?.toLowerCase().includes(s);
+  });
 
   const getUserTier = (u: any) => {
     if (u.override) {
