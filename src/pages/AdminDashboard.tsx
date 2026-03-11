@@ -236,6 +236,13 @@ function UsersTab() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      <UserInspectionPanel
+        userId={inspectUser?.id || null}
+        email={inspectUser?.email}
+        open={!!inspectUser}
+        onOpenChange={(open) => !open && setInspectUser(null)}
+      />
     </div>
   );
 }
