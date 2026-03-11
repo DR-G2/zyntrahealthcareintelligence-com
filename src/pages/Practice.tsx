@@ -549,6 +549,7 @@ function DrillSession({
   const [timeRemaining, setTimeRemaining] = useState(timeSeconds);
   const [loading, setLoading] = useState(true);
   const [finished, setFinished] = useState(false);
+  const [restoring, setRestoring] = useState(false);
   const sessionIdRef = useRef(resumeSessionId || crypto.randomUUID());
   const lastInteractionRef = useRef(Date.now());
   const pauseTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -608,7 +609,6 @@ function DrillSession({
               .in('id', questionIds);
 
             if (qs && qs.length > 0) {
-              // Preserve original order
               const ordered = questionIds.map(id => qs.find(q => q.id === id)).filter(Boolean) as Question[];
               setQuestions(ordered);
               setSelectedAnswers((session.answers as Record<number, string>) || {});
@@ -620,10 +620,12 @@ function DrillSession({
               setCurrentIndex(session.current_index || 0);
               setTimeRemaining(session.time_remaining || timeSeconds);
 
-              // Mark restored
               await supabase.from('active_sessions').update({ restored: true } as any).eq('session_id', resumeSessionId);
 
-              toast({ title: 'Session Restored', description: 'Your previous session has been restored successfully.' });
+              // Show restore overlay
+              setRestoring(true);
+              setTimeout(() => setRestoring(false), 1500);
+
               setLoading(false);
               return;
             }
@@ -769,6 +771,32 @@ function DrillSession({
     );
   }
 
+  // Resume session overlay
+  if (restoring) {
+    return (
+      <AppLayout>
+        <AnimatePresence>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="mx-auto max-w-md py-24 text-center space-y-6"
+          >
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
+              className="mx-auto h-12 w-12 rounded-full border-4 border-primary border-t-transparent"
+            />
+            <h2 className="text-xl font-display font-semibold">Restoring your previous session...</h2>
+            <div className="h-2 w-full rounded-full bg-muted overflow-hidden">
+              <div className="h-full rounded-full bg-primary" style={{ animation: 'restore-progress 1.5s ease-out forwards' }} />
+            </div>
+          </motion.div>
+        </AnimatePresence>
+      </AppLayout>
+    );
+  }
+
   const question = questions[currentIndex];
   if (!question) {
     return (
@@ -817,12 +845,15 @@ function DrillSession({
                   const isSelected = selectedAnswers[currentIndex] === letter;
                   const isLocked = lockedAnswers[currentIndex];
                   return (
-                    <button
+                    <motion.button
                       key={oi}
                       onClick={() => selectAnswer(letter)}
                       disabled={isLocked && !isSelected}
+                      whileTap={{ scale: 0.98 }}
+                      animate={isSelected ? { scale: 1.02, boxShadow: '0 0 0 3px hsl(var(--primary) / 0.15)' } : { scale: 1, boxShadow: '0 0 0 0px transparent' }}
+                      transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                       className={cn(
-                        'w-full rounded-lg border p-4 text-left text-sm transition-all',
+                        'w-full rounded-lg border p-4 text-left text-sm transition-colors',
                         isSelected ? 'border-primary bg-primary/5 ring-2 ring-primary/20' : 'border-border hover:border-primary/30',
                         isLocked && !isSelected && 'opacity-40 cursor-not-allowed'
                       )}
@@ -832,7 +863,7 @@ function DrillSession({
                       </span>
                       {opt.replace(/^[A-E]\.\s*/, '')}
                       {isLocked && isSelected && <Lock className="inline h-3 w-3 ml-2 text-primary" />}
-                    </button>
+                    </motion.button>
                   );
                 })}
               </CardContent>

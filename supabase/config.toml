@@ -69,3 +69,5 @@ project_id = "yudkfmgilucyhukfggij"
     verify_jwt = false
   [functions.admin-screenshot-logs]
     verify_jwt = false
+  [functions.admin-audit-quality]
+    verify_jwt = false
