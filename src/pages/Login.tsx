@@ -75,6 +75,7 @@ function AuthForm({ mode }: { mode: 'login' | 'signup' }) {
     setSubmitting(true);
     try {
       if (mode === 'signup') {
+        localStorage.setItem('zyntra_remember_me', 'true');
         await signUp(email, password);
         // Log legal acceptance
         const { data: { user } } = await supabase.auth.getUser();

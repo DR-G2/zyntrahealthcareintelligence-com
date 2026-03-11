@@ -222,6 +222,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const signOut = async () => {
+    localStorage.removeItem('zyntra_remember_me');
+    sessionStorage.removeItem('zyntra_session_active');
     await supabase.auth.signOut();
   };
 

@@ -62,6 +62,7 @@ const navGroups: NavGroup[] = [
       { to: '/behavior', label: 'Behavior', icon: Brain },
       { to: '/trust-your-gut', label: 'Trust Your Gut', icon: Target },
       { to: '/review', label: 'Mistake Review', icon: AlertCircle },
+      { to: '/history', label: 'Question History', icon: History },
     ],
   },
   {
