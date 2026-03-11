@@ -77,7 +77,7 @@ function UsersTab({ currentUserEmail }: { currentUserEmail: string }) {
     setLoading(false);
   };
 
-  useEffect(() => { fetchUsers(); }, []);
+  useEffect(() => { fetchUsers(page); }, [page]);
 
   const filtered = users.filter(u => {
     if (!search) return true;
