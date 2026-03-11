@@ -693,18 +693,27 @@ function DrillSession({
     }
 
     // Track change sequence
-    setChangeSequences(prev => {
-      const seq = prev[currentIndex] || [];
-      return { ...prev, [currentIndex]: [...seq, answer] };
-    });
+    const newSequences = { ...changeSequences };
+    const seq = newSequences[currentIndex] || [];
+    newSequences[currentIndex] = [...seq, answer];
+    setChangeSequences(newSequences);
 
+    const newChanges = { ...answerChanges };
     if (selectedAnswers[currentIndex] && selectedAnswers[currentIndex] !== answer) {
-      setAnswerChanges((p) => ({ ...p, [currentIndex]: (p[currentIndex] || 0) + 1 }));
+      newChanges[currentIndex] = (newChanges[currentIndex] || 0) + 1;
+      setAnswerChanges(newChanges);
     }
-    setSelectedAnswers((p) => ({ ...p, [currentIndex]: answer }));
+    const newAnswers = { ...selectedAnswers, [currentIndex]: answer };
+    setSelectedAnswers(newAnswers);
     if (!canChangeAnswer) {
       setLockedAnswers((p) => ({ ...p, [currentIndex]: true }));
     }
+
+    // Auto-save (debounced)
+    if (autoSaveRef.current) clearTimeout(autoSaveRef.current);
+    autoSaveRef.current = setTimeout(() => {
+      saveSession(questions, currentIndex, newAnswers, newChanges, newSequences, questionTimes, timeToFirstClick, pauseEvents, timeRemaining);
+    }, 500);
   };
 
   const goTo = (i: number) => {
