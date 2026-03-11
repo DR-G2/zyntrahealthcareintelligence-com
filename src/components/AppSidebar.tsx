@@ -215,10 +215,11 @@ export function AppSidebar({ isMobile }: { isMobile?: boolean }) {
 }
 
 function SidebarInner({
-  collapsed, isAdmin, location, signOut, onNavigate, showCollapseToggle, setCollapsed, currentCollapsed,
+  collapsed, isAdmin, isSuperAdmin, location, signOut, onNavigate, showCollapseToggle, setCollapsed, currentCollapsed,
 }: {
   collapsed: boolean;
   isAdmin: boolean;
+  isSuperAdmin: boolean;
   location: ReturnType<typeof useLocation>;
   signOut: () => void;
   onNavigate?: () => void;
