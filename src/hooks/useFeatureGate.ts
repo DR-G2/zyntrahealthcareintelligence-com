@@ -28,9 +28,6 @@ export interface FeatureGate {
   canAccessNotes: boolean;
   canAccessHistory: boolean;
   canAccessLearningPoints: boolean;
-  canAccessMistakeReview: boolean;
-  canAccessSocialGroups: boolean;
-  canAccessSharedTests: boolean;
   canAccessStudyPlan: boolean;
   recordMCQ: () => Promise<void>;
   recordOSCE: () => Promise<void>;
