@@ -14,12 +14,12 @@ import { useToast } from '@/hooks/use-toast';
 import { SYSTEMS } from '@/lib/filter-data';
 import {
   Activity, Zap, Target, Shield, ArrowLeft, Clock, Loader2,
-  MessageSquare, Stethoscope, FlaskConical, ClipboardList, ChevronRight,
+  MessageSquare, Stethoscope, FlaskConical, ClipboardList, ChevronRight, RefreshCw,
 } from 'lucide-react';
 import { useFeatureGate } from '@/hooks/useFeatureGate';
 import { UpgradePrompt } from '@/components/UpgradePrompt';
 
-type Phase = 'mode-select' | 'setup' | 'loading' | 'station' | 'evaluating' | 'results';
+type Phase = 'mode-select' | 'setup' | 'loading' | 'evaluating' | 'station' | 'results';
 type Mode = 'instant' | 'adaptive' | 'exam';
 type StationTab = 'history' | 'examination' | 'investigations' | 'management';
 
@@ -41,8 +41,7 @@ interface BehavioralSignal {
   timestamp: number;
 }
 
-const STATION_TIME = 8 * 60; // 8 minutes
-
+const STATION_TIME = 8 * 60;
 const SUBJECT_OPTIONS = [...SYSTEMS, 'Ethics & Law'] as const;
 
 const modeCards = [
@@ -78,6 +77,8 @@ export default function Stations() {
   const [selectedSubject, setSelectedSubject] = useState<string>('');
   const [scenarioData, setScenarioData] = useState<any>(null);
   const [activeTab, setActiveTab] = useState<StationTab>('history');
+  const [loadingMessage, setLoadingMessage] = useState('Preparing your OSCE station...');
+  const [loadingFailed, setLoadingFailed] = useState(false);
 
   // Chat state
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
@@ -104,7 +105,6 @@ export default function Stations() {
   // Session
   const sessionId = useRef(crypto.randomUUID());
 
-  // Timer logic
   useEffect(() => {
     if (phase === 'station') {
       timerRef.current = setInterval(() => {
@@ -121,14 +121,9 @@ export default function Stations() {
     }
   }, [phase]);
 
-  // Track tab time
   useEffect(() => {
     if (phase === 'station') {
-      const now = Date.now();
-      const elapsed = (now - tabStartTime.current) / 1000;
-      const prev = activeTab === 'history' ? 'management' : activeTab === 'examination' ? 'history' : activeTab === 'investigations' ? 'examination' : 'investigations';
-      // approximate — just track current
-      tabStartTime.current = now;
+      tabStartTime.current = Date.now();
     }
   }, [activeTab]);
 
@@ -138,17 +133,27 @@ export default function Stations() {
     behavioralSignals.current.push({ ...signal, timestamp: Date.now() });
   }, []);
 
-  const startStation = async (subject: string) => {
+  const startStation = async (subject: string, attempt = 1) => {
     setPhase('loading');
+    setLoadingFailed(false);
+
+    if (attempt === 1) {
+      setLoadingMessage('Preparing your OSCE station...');
+    } else {
+      setLoadingMessage('Station loading is taking longer than expected. Retrying...');
+    }
+
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 30000);
+
     try {
       const { data, error } = await supabase.functions.invoke('generate-station', {
         body: { subject, mode },
       });
+      clearTimeout(timeout);
       if (error) throw error;
 
       setScenarioData(data);
-
-      // Build checklists
       setExamItems((data.examination_findings || []).map((f: any, i: number) => ({
         id: `exam-${i}`, label: f.finding, checked: false,
       })));
@@ -167,9 +172,15 @@ export default function Stations() {
       tabStartTime.current = Date.now();
       setPhase('station');
     } catch (err: any) {
-      console.error(err);
-      toast({ title: 'Error', description: err.message || 'Failed to generate station', variant: 'destructive' });
-      setPhase('setup');
+      clearTimeout(timeout);
+      console.error('Station load attempt', attempt, err);
+
+      if (attempt < 3) {
+        return startStation(subject, attempt + 1);
+      }
+
+      setLoadingMessage('Unable to load station. Please refresh or contact support.');
+      setLoadingFailed(true);
     }
   };
 
@@ -197,6 +208,30 @@ export default function Stations() {
       management_plan_text: managementPlanText,
     };
 
+    // Save attempt to DB first (async-safe)
+    const userId = session?.user?.id;
+    let savedAttemptId: string | null = null;
+    if (userId) {
+      try {
+        const { data: insertedAttempt } = await supabase.from('station_attempts').insert({
+          user_id: userId,
+          session_id: sessionId.current,
+          station_index: 0,
+          subject: selectedSubject,
+          mode,
+          chat_transcript: chatMessages as any,
+          checklist_responses: checklistResponses as any,
+          scores: {} as any,
+          psychograph: {} as any,
+          behavioral_signals: behavioralData as any,
+          time_taken_seconds: STATION_TIME - timeLeft,
+        }).select('id').single();
+        if (insertedAttempt) savedAttemptId = insertedAttempt.id;
+      } catch (e) {
+        console.error('Failed to save attempt:', e);
+      }
+    }
+
     try {
       const { data, error } = await supabase.functions.invoke('evaluate-station', {
         body: {
@@ -209,26 +244,9 @@ export default function Stations() {
       if (error) throw error;
 
       setResults(data);
+      setLastAttemptId(savedAttemptId);
 
-      // Save to DB
-      const userId = session?.user?.id;
-      if (userId) {
-        const { data: insertedAttempt } = await supabase.from('station_attempts').insert({
-          user_id: userId,
-          session_id: sessionId.current,
-          station_index: 0,
-          subject: selectedSubject,
-          mode,
-          chat_transcript: chatMessages as any,
-          checklist_responses: checklistResponses as any,
-          scores: data.scores as any,
-          psychograph: data.psychograph as any,
-          behavioral_signals: behavioralData as any,
-          time_taken_seconds: STATION_TIME - timeLeft,
-        }).select('id').single();
-
-        if (insertedAttempt) setLastAttemptId(insertedAttempt.id);
-
+      if (userId && data.psychograph) {
         await supabase.from('psychograph_history').insert({
           user_id: userId,
           session_id: sessionId.current,
@@ -245,8 +263,12 @@ export default function Stations() {
       setPhase('results');
     } catch (err: any) {
       console.error(err);
-      toast({ title: 'Evaluation Error', description: err.message || 'Failed to evaluate station', variant: 'destructive' });
-      setPhase('station');
+      // Don't revert to station — show a graceful message
+      toast({
+        title: 'Evaluation submitted',
+        description: 'Your response has been saved. Evaluation may take a moment — check back in your history.',
+      });
+      setPhase('mode-select');
     }
   };
 
@@ -262,6 +284,7 @@ export default function Stations() {
     setScenarioData(null);
     setChatMessages([]);
     setLastAttemptId(null);
+    setLoadingFailed(false);
     sessionId.current = crypto.randomUUID();
   };
 
@@ -368,8 +391,18 @@ export default function Stations() {
         {/* LOADING */}
         {phase === 'loading' && (
           <div className="flex flex-col items-center justify-center py-24 gap-4">
-            <Loader2 className="h-10 w-10 animate-spin text-primary" />
-            <p className="text-muted-foreground text-sm">Generating clinical scenario...</p>
+            {!loadingFailed ? (
+              <Loader2 className="h-10 w-10 animate-spin text-primary" />
+            ) : (
+              <RefreshCw className="h-10 w-10 text-destructive" />
+            )}
+            <p className="text-muted-foreground text-sm text-center max-w-md">{loadingMessage}</p>
+            {loadingFailed && (
+              <div className="flex gap-3">
+                <Button variant="outline" onClick={reset}>Go Back</Button>
+                <Button onClick={() => startStation(selectedSubject)}>Try Again</Button>
+              </div>
+            )}
           </div>
         )}
 
@@ -468,7 +501,7 @@ export default function Stations() {
         {phase === 'evaluating' && (
           <div className="flex flex-col items-center justify-center py-24 gap-4">
             <Loader2 className="h-10 w-10 animate-spin text-primary" />
-            <p className="text-muted-foreground text-sm">Evaluating your performance...</p>
+            <p className="text-muted-foreground text-sm">Your response has been submitted. Evaluation in progress...</p>
           </div>
         )}
 

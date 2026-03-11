@@ -5,6 +5,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { CURRENT_TERMS_VERSION } from '@/lib/legal';
+import { ProfileCompletionModal } from '@/components/ProfileCompletionModal';
 
 export function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { session, profile, loading, termsAccepted, termsLoading, acceptTerms } = useAuth();
@@ -62,6 +63,18 @@ export function ProtectedRoute({ children }: { children: React.ReactNode }) {
             </Button>
           </CardContent>
         </Card>
+      </div>
+    );
+  }
+
+  // Check profile completeness
+  const isProfileComplete = profile?.name && profile?.country_of_origin &&
+    profile?.user_type && profile?.medical_college && profile?.graduation_year;
+
+  if (!isProfileComplete) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-background p-4">
+        <ProfileCompletionModal profile={profile} />
       </div>
     );
   }
