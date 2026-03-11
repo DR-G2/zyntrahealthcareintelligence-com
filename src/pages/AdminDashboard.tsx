@@ -15,13 +15,14 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
-import { Loader2, Sparkles, Upload, FileUp, X, Users, BookOpen, Activity, Pencil, Trash2, Search, ShieldAlert, Radio, ChevronDown, Zap, Brain, Monitor, FileText } from 'lucide-react';
+import { Loader2, Sparkles, Upload, FileUp, X, Users, BookOpen, Activity, Pencil, Trash2, Search, ShieldAlert, Radio, ChevronDown, Zap, Brain, Monitor, FileText, Camera } from 'lucide-react';
 import { PiracyStrikesTab } from '@/components/admin/PiracyStrikesTab';
 import { LiveActivityTab } from '@/components/admin/LiveActivityTab';
 import { AIControlTab } from '@/components/admin/AIControlTab';
 import { UserInspectionPanel } from '@/components/admin/UserInspectionPanel';
 import { SystemMonitorTab } from '@/components/admin/SystemMonitorTab';
 import { ActivityLogsTab } from '@/components/admin/ActivityLogsTab';
+import { ScreenshotAttemptsTab } from '@/components/admin/ScreenshotAttemptsTab';
 
 const ADMIN_EMAILS = [
   "gopalrock.naren@gmail.com",
