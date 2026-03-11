@@ -159,7 +159,7 @@ function UsersTab({ currentUserEmail }: { currentUserEmail: string }) {
         <Button variant="outline" onClick={downloadCSV}>
           <FileUp className="h-4 w-4 mr-2" /> Download CSV
         </Button>
-        <Button variant="outline" onClick={fetchUsers} disabled={loading}>
+        <Button variant="outline" onClick={() => fetchUsers()} disabled={loading}>
           {loading && <Loader2 className="h-4 w-4 mr-2 animate-spin" />} Refresh
         </Button>
       </div>
