@@ -390,13 +390,23 @@ export default function Stations() {
 
         {/* LOADING */}
         {phase === 'loading' && (
-          <div className="flex flex-col items-center justify-center py-24 gap-4">
+          <div className="flex flex-col items-center justify-center py-24 gap-6">
             {!loadingFailed ? (
-              <Loader2 className="h-10 w-10 animate-spin text-primary" />
+              <div className="relative">
+                <div className="h-16 w-16 rounded-full border-4 border-primary/20 flex items-center justify-center">
+                  <Activity className="h-8 w-8 text-primary animate-pulse" />
+                </div>
+                <div className="absolute inset-0 h-16 w-16 rounded-full border-4 border-transparent border-t-primary animate-spin" />
+              </div>
             ) : (
               <RefreshCw className="h-10 w-10 text-destructive" />
             )}
-            <p className="text-muted-foreground text-sm text-center max-w-md">{loadingMessage}</p>
+            <div className="text-center space-y-2">
+              <p className="text-foreground font-medium">{loadingFailed ? loadingMessage : 'Preparing clinical scenario...'}</p>
+              {!loadingFailed && (
+                <p className="text-sm text-muted-foreground animate-pulse">Setting up patient encounter</p>
+              )}
+            </div>
             {loadingFailed && (
               <div className="flex gap-3">
                 <Button variant="outline" onClick={reset}>Go Back</Button>

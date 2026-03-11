@@ -127,6 +127,25 @@ export default function Dashboard() {
         <ReadinessDNA />
       </div>
 
+      {/* Zyntra AI Core Widget */}
+      <Card className="mt-6 overflow-hidden">
+        <CardContent className="p-4">
+          <div className="flex items-center gap-4">
+            <div className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10">
+              <Brain className="h-6 w-6 text-primary" />
+              <span className="absolute -top-0.5 -right-0.5 h-2.5 w-2.5 rounded-full bg-success animate-pulse" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <h3 className="text-sm font-semibold font-display">Zyntra AI Core</h3>
+              <p className="text-xs text-muted-foreground">Learning from your practice patterns</p>
+            </div>
+            <Button variant="ghost" size="sm" asChild>
+              <Link to="/companion/ai-core">View <ArrowRight className="h-3 w-3 ml-1" /></Link>
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+
       <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         <Card className="group hover:border-primary/30 transition-colors">
           <CardHeader>
