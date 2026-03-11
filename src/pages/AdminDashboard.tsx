@@ -1092,7 +1092,45 @@ export default function AdminDashboard() {
   const [fullCleaning, setFullCleaning] = useState(false);
   const [cleanupReport, setCleanupReport] = useState<CleanupReport>({ mcq: null, osce: null });
   const [reportOpen, setReportOpen] = useState(false);
+  const [adminOnline, setAdminOnline] = useState<{ email: string; role: string; online: boolean }[]>([]);
   const { toast } = useToast();
+  const currentUserEmail = useCurrentUserEmail();
+  const isSuperAdmin = currentUserEmail === SUPER_ADMIN_EMAIL;
+
+  // Fetch admin online status
+  useEffect(() => {
+    const fetchAdminPresence = async () => {
+      try {
+        const { data: presenceData } = await supabase
+          .from('user_presence')
+          .select('user_id, last_seen_at, is_online');
+        const { data: profiles } = await supabase
+          .from('profiles')
+          .select('id, email');
+
+        const emailMap: Record<string, string> = {};
+        (profiles || []).forEach(p => { if (p.email) emailMap[p.id] = p.email; });
+
+        const fiveMinAgo = new Date(Date.now() - 5 * 60 * 1000);
+        const adminRoleMap: Record<string, string> = {
+          'gopalrock.naren@gmail.com': 'Super Admin',
+          'amc.osce.2026@gmail.com': 'Admin',
+          'testuser123@zyntr.website': 'Admin',
+        };
+
+        const result = ADMIN_EMAILS.map(email => {
+          const userId = Object.entries(emailMap).find(([, e]) => e === email)?.[0];
+          const presence = (presenceData || []).find(p => p.user_id === userId);
+          const isOnline = presence?.last_seen_at ? new Date(presence.last_seen_at) > fiveMinAgo : false;
+          return { email, role: adminRoleMap[email] || 'Admin', online: isOnline };
+        });
+        setAdminOnline(result);
+      } catch { /* silent */ }
+    };
+    fetchAdminPresence();
+    const interval = setInterval(fetchAdminPresence, 30000);
+    return () => clearInterval(interval);
+  }, []);
 
   const runFullCleanup = async () => {
     setFullCleaning(true);
@@ -1124,50 +1162,70 @@ export default function AdminDashboard() {
       <div className="mx-auto max-w-6xl py-8 space-y-6">
         <h1 className="text-2xl font-display font-bold">Admin Dashboard</h1>
 
-        {/* Full Cleanup Card */}
-        <Card className="border-primary/20 bg-primary/5">
-          <CardContent className="flex items-center justify-between p-4">
-            <div>
-              <h3 className="font-semibold flex items-center gap-2"><Zap className="h-4 w-4 text-primary" /> Run Full Cleanup</h3>
-              <p className="text-sm text-muted-foreground">Clean & normalize both MCQ questions and OSCE stations in one go. Shows a detailed report.</p>
-            </div>
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button variant="destructive" disabled={fullCleaning}>{fullCleaning && <Loader2 className="h-4 w-4 mr-2 animate-spin" />} Run Full Cleanup</Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>Run full cleanup on MCQ + OSCE?</AlertDialogTitle>
-                  <AlertDialogDescription>This will permanently delete junk/duplicate questions AND stations, and normalize all categories/subjects. This cannot be undone.</AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction onClick={runFullCleanup}>Run Full Cleanup</AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
+        {/* Admins Online Panel */}
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">Admins Online</CardTitle>
+          </CardHeader>
+          <CardContent className="flex flex-wrap gap-3 pt-0">
+            {adminOnline.map(a => (
+              <div key={a.email} className="flex items-center gap-2 text-sm">
+                <span className={`h-2.5 w-2.5 rounded-full ${a.online ? 'bg-green-500' : 'bg-muted-foreground/30'}`} />
+                <span className="font-mono text-xs">{a.email}</span>
+                <Badge variant="outline" className="text-[10px]">{a.role}</Badge>
+              </div>
+            ))}
           </CardContent>
         </Card>
+
+        {/* Full Cleanup Card — Super Admin only */}
+        {isSuperAdmin && (
+          <Card className="border-primary/20 bg-primary/5">
+            <CardContent className="flex items-center justify-between p-4">
+              <div>
+                <h3 className="font-semibold flex items-center gap-2"><Zap className="h-4 w-4 text-primary" /> Run Full Cleanup</h3>
+                <p className="text-sm text-muted-foreground">Clean & normalize both MCQ questions and OSCE stations in one go.</p>
+              </div>
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button variant="destructive" disabled={fullCleaning}>{fullCleaning && <Loader2 className="h-4 w-4 mr-2 animate-spin" />} Run Full Cleanup</Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Run full cleanup on MCQ + OSCE?</AlertDialogTitle>
+                    <AlertDialogDescription>This will permanently delete junk/duplicate questions AND stations. This cannot be undone.</AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction onClick={runFullCleanup}>Run Full Cleanup</AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            </CardContent>
+          </Card>
+        )}
 
         <CleanupReportDialog report={cleanupReport} open={reportOpen} onOpenChange={setReportOpen} />
 
         <Tabs defaultValue="live">
-          <TabsList className="grid w-full grid-cols-7">
+          <TabsList className={`grid w-full ${isSuperAdmin ? 'grid-cols-8' : 'grid-cols-5'}`}>
             <TabsTrigger value="live" className="gap-2"><Radio className="h-4 w-4" /> Activity</TabsTrigger>
             <TabsTrigger value="users" className="gap-2"><Users className="h-4 w-4" /> Users</TabsTrigger>
             <TabsTrigger value="mcq" className="gap-2"><BookOpen className="h-4 w-4" /> MCQ</TabsTrigger>
             <TabsTrigger value="osce" className="gap-2"><Activity className="h-4 w-4" /> OSCE</TabsTrigger>
             <TabsTrigger value="strikes" className="gap-2"><ShieldAlert className="h-4 w-4" /> Strikes</TabsTrigger>
-            <TabsTrigger value="ai-core" className="gap-2"><Brain className="h-4 w-4" /> AI Core</TabsTrigger>
-            <TabsTrigger value="system" className="gap-2"><Zap className="h-4 w-4" /> System</TabsTrigger>
+            {isSuperAdmin && <TabsTrigger value="ai-core" className="gap-2"><Brain className="h-4 w-4" /> AI Core</TabsTrigger>}
+            {isSuperAdmin && <TabsTrigger value="system" className="gap-2"><Zap className="h-4 w-4" /> System</TabsTrigger>}
+            {isSuperAdmin && <TabsTrigger value="logs" className="gap-2"><FileText className="h-4 w-4" /> Logs</TabsTrigger>}
           </TabsList>
           <TabsContent value="live"><LiveActivityTab /></TabsContent>
-          <TabsContent value="users"><UsersTab /></TabsContent>
+          <TabsContent value="users"><UsersTab currentUserEmail={currentUserEmail} /></TabsContent>
           <TabsContent value="mcq"><MCQTab /></TabsContent>
           <TabsContent value="osce"><OSCETab /></TabsContent>
           <TabsContent value="strikes"><PiracyStrikesTab /></TabsContent>
-          <TabsContent value="ai-core"><AIControlTab /></TabsContent>
-          <TabsContent value="system"><SystemMonitorTab /></TabsContent>
+          {isSuperAdmin && <TabsContent value="ai-core"><AIControlTab /></TabsContent>}
+          {isSuperAdmin && <TabsContent value="system"><SystemMonitorTab /></TabsContent>}
+          {isSuperAdmin && <TabsContent value="logs"><ActivityLogsTab /></TabsContent>}
         </Tabs>
       </div>
     </AppLayout>
