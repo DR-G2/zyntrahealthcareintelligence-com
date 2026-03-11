@@ -42,7 +42,7 @@ const Feed = lazy(() => import("./pages/Feed"));
 const Terms = lazy(() => import("./pages/Terms"));
 const ZyntraAICore = lazy(() => import("./pages/ZyntraAICore"));
 const QuestionHistory = lazy(() => import("./pages/QuestionHistory"));
-const AIFeatureBuilder = lazy(() => import("./pages/AIFeatureBuilder"));
+
 
 const queryClient = new QueryClient();
 
@@ -98,7 +98,7 @@ const App = () => (
                 <Route path="/feed" element={<ProtectedRoute><ErrorBoundary><Feed /></ErrorBoundary></ProtectedRoute>} />
                 <Route path="/history" element={<ProtectedRoute><ErrorBoundary><QuestionHistory /></ErrorBoundary></ProtectedRoute>} />
                 <Route path="/admin" element={<ProtectedRoute><ErrorBoundary><AdminDashboard /></ErrorBoundary></ProtectedRoute>} />
-                <Route path="/admin/ai-builder" element={<ProtectedRoute><ErrorBoundary><AIFeatureBuilder /></ErrorBoundary></ProtectedRoute>} />
+                
                 <Route path="/settings" element={<ProtectedRoute><ErrorBoundary><Settings /></ErrorBoundary></ProtectedRoute>} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
