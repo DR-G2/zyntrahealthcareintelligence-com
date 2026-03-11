@@ -875,6 +875,33 @@ export type Database = {
         }
         Relationships: []
       }
+      system_health_logs: {
+        Row: {
+          id: string
+          mode: string
+          overall_status: string
+          steps: Json
+          timestamp: string
+          total_latency_ms: number
+        }
+        Insert: {
+          id?: string
+          mode?: string
+          overall_status?: string
+          steps?: Json
+          timestamp?: string
+          total_latency_ms?: number
+        }
+        Update: {
+          id?: string
+          mode?: string
+          overall_status?: string
+          steps?: Json
+          timestamp?: string
+          total_latency_ms?: number
+        }
+        Relationships: []
+      }
       user_attempts: {
         Row: {
           answer_changes_count: number
