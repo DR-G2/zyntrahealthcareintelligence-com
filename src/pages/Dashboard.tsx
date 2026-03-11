@@ -13,14 +13,30 @@ import { useFeatureGate } from '@/hooks/useFeatureGate';
 import { supabase } from '@/lib/supabase';
 
 export default function Dashboard() {
-  const { profile } = useAuth();
+  const { profile, user } = useAuth();
   const gate = useFeatureGate();
   const [showTour, setShowTour] = useState(
     () => !localStorage.getItem(WelcomeTour.STORAGE_KEY)
   );
+  const [activeSession, setActiveSession] = useState<any>(null);
   const daysUntilExam = profile?.exam_date
     ? differenceInDays(parseISO(profile.exam_date), new Date())
     : null;
+
+  // Check for active sessions to resume
+  useEffect(() => {
+    if (!user) return;
+    supabase
+      .from('active_sessions')
+      .select('*')
+      .eq('user_id', user.id)
+      .order('updated_at', { ascending: false })
+      .limit(1)
+      .maybeSingle()
+      .then(({ data }) => {
+        if (data) setActiveSession(data);
+      });
+  }, [user]);
 
   return (
     <AppLayout>
