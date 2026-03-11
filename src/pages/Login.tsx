@@ -87,6 +87,8 @@ function AuthForm({ mode }: { mode: 'login' | 'signup' }) {
         }
         setSignupComplete(true);
       } else {
+        localStorage.setItem('zyntra_remember_me', rememberMe ? 'true' : 'false');
+        if (!rememberMe) sessionStorage.setItem('zyntra_session_active', 'true');
         await signIn(email, password);
       }
     } catch (err: any) {
