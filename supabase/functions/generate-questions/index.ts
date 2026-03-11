@@ -28,7 +28,7 @@ serve(async (req) => {
     const supabase = createClient(supabaseUrl, supabaseKey);
 
     const selectedCategory = category || AMC_CATEGORIES[Math.floor(Math.random() * AMC_CATEGORIES.length)];
-    const selectedDifficulty = difficulty || "medium";
+    const selectedDifficulty = difficulty || "moderate";
 
     // Fetch AI training context for population-level insights
     let trainingContextPrompt = "";
@@ -46,19 +46,51 @@ serve(async (req) => {
 Use this data to calibrate question difficulty and focus on areas where candidates struggle most.`;
     }
 
-    const systemPrompt = `You are an expert AMC (Australian Medical Council) exam question writer. Generate ${size} high-quality clinical vignette MCQs for the category "${selectedCategory}" at "${selectedDifficulty}" difficulty.${trainingContextPrompt}
+    const systemPrompt = `You are an expert AMC (Australian Medical Council) CAT MCQ exam question writer with deep knowledge of Australian clinical practice. Generate ${size} high-quality clinical vignette MCQs for the category "${selectedCategory}" at "${selectedDifficulty}" difficulty.${trainingContextPrompt}
 
-Each question MUST follow AMC exam format:
-- Long clinical vignette stem with patient demographics, presenting complaint, history, examination findings, and relevant investigations
-- 5 answer options (A-E) that are clinically plausible
-- Follow Australian clinical guidelines and local epidemiology
-- Include red flags and patient safety considerations
+STRICT AMC QUALITY STANDARDS — every question MUST comply:
 
-For each question provide the COMPLETE structured analysis following this framework:
-1. Diagnosis explanation with first-line investigation, gold standard investigation, and best treatment
-2. 2-3 differential diagnoses with reasoning, investigation, and treatment for each
-3. Why each incorrect option is wrong AND when it would be correct
-4. 3-5 key takeaways (high-yield exam points)`;
+1. CLINICAL VIGNETTE FORMAT (minimum 120 words per stem):
+   - Patient demographics (age, sex, occupation where relevant)
+   - Presenting complaint with duration
+   - Relevant past medical history, medications, allergies
+   - Social history (smoking, alcohol, occupation) where clinically relevant
+   - Physical examination findings (vitals + targeted system exam)
+   - At least one investigation result (bloods, imaging, ECG, etc.)
+   - Clear clinical question asking for diagnosis, investigation, or management
+
+2. ANSWER OPTIONS — exactly 5 options (A–E):
+   - Only ONE correct answer
+   - All 4 distractors must be clinically plausible (real differentials or valid management options)
+   - NO obviously wrong options, trick answers, or "none of the above"
+   - Options should be similar in length and specificity
+   - Distractors should represent common misconceptions or close differentials
+
+3. AUSTRALIAN CLINICAL CONTEXT:
+   - Follow Australian Therapeutic Guidelines (eTG) for treatment recommendations
+   - Use RACGP, RANZCOG, RACP guidelines where applicable
+   - Reference Medicare/PBS considerations where relevant
+   - Use Australian drug names and dosing conventions
+   - Reference Australian epidemiology and screening guidelines
+
+4. DIFFICULTY CALIBRATION:
+   - easy: single-step reasoning, classic presentation, clear answer
+   - moderate: 2-3 step reasoning, atypical features, requires integration of findings
+   - difficult: complex multi-system, subtle distinguishing features, management nuances
+
+5. STRUCTURED EXPLANATIONS — every question must include:
+   - Detailed diagnosis explanation with pathophysiology
+   - First-line and gold-standard investigations with rationale
+   - Best treatment per Australian guidelines with reference
+   - 2-3 differential diagnoses with reasoning, investigation, and treatment
+   - Why each incorrect option is wrong AND when it would be correct
+   - 3-5 high-yield key takeaways for exam preparation
+
+6. CLASSIFICATION:
+   - subject: the broad medical specialty (e.g. "Cardiology")
+   - subtopic: specific clinical entity (e.g. "Acute Coronary Syndrome")
+   - system: body system (e.g. "Cardiovascular")
+   - guideline_reference: specific guideline cited (e.g. "eTG - Acute Coronary Syndromes")`;
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
@@ -70,7 +102,7 @@ For each question provide the COMPLETE structured analysis following this framew
         model: "google/gemini-2.5-pro",
         messages: [
           { role: "system", content: systemPrompt },
-          { role: "user", content: `Generate ${size} AMC MCQ questions for ${selectedCategory} (${selectedDifficulty} difficulty). Return structured data.` }
+          { role: "user", content: `Generate ${size} AMC-standard MCQ questions for ${selectedCategory} (${selectedDifficulty} difficulty). Each vignette must be at least 120 words with complete clinical context. Return structured data.` }
         ],
         tools: [{
           type: "function",
@@ -85,21 +117,26 @@ For each question provide the COMPLETE structured analysis following this framew
                   items: {
                     type: "object",
                     properties: {
-                      question_text: { type: "string", description: "Full clinical vignette question stem (minimum 100 words)" },
+                      question_text: { type: "string", description: "Full clinical vignette question stem (minimum 120 words with demographics, complaint, history, examination, investigations)" },
                       options: {
                         type: "array",
                         items: { type: "string" },
-                        description: "5 options prefixed with A. B. C. D. E."
+                        minItems: 5,
+                        maxItems: 5,
+                        description: "Exactly 5 options prefixed with A. B. C. D. E. — all clinically plausible"
                       },
                       correct_answer: { type: "string", description: "Letter of correct answer (A-E)" },
-                      explanation: { type: "string", description: "Brief explanation of the correct answer" },
-                      category: { type: "string" },
-                      difficulty: { type: "string", enum: ["easy", "medium", "hard"] },
+                      explanation: { type: "string", description: "Comprehensive explanation of the correct answer with clinical reasoning" },
+                      category: { type: "string", description: "Medical specialty (e.g. Cardiology)" },
+                      subtopic: { type: "string", description: "Specific clinical entity (e.g. Acute Coronary Syndrome)" },
+                      system_category: { type: "string", description: "Body system (e.g. Cardiovascular)" },
+                      guideline_reference: { type: "string", description: "Australian guideline referenced (e.g. eTG - Acute Coronary Syndromes)" },
+                      difficulty: { type: "string", enum: ["easy", "moderate", "difficult"] },
                       tags: { type: "array", items: { type: "string" } },
-                      diagnosis_explanation: { type: "string", description: "Detailed explanation of the diagnosis" },
+                      diagnosis_explanation: { type: "string", description: "Detailed pathophysiology and diagnosis explanation" },
                       first_line_investigation: { type: "string" },
                       gold_standard_investigation: { type: "string" },
-                      best_treatment: { type: "string" },
+                      best_treatment: { type: "string", description: "Best treatment per Australian guidelines" },
                       differential_diagnoses: {
                         type: "array",
                         items: {
@@ -127,7 +164,7 @@ For each question provide the COMPLETE structured analysis following this framew
                       },
                       key_takeaways: { type: "array", items: { type: "string" } }
                     },
-                    required: ["question_text", "options", "correct_answer", "explanation", "category", "difficulty", "diagnosis_explanation", "first_line_investigation", "gold_standard_investigation", "best_treatment", "differential_diagnoses", "incorrect_answer_explanations", "key_takeaways"]
+                    required: ["question_text", "options", "correct_answer", "explanation", "category", "subtopic", "system_category", "guideline_reference", "difficulty", "diagnosis_explanation", "first_line_investigation", "gold_standard_investigation", "best_treatment", "differential_diagnoses", "incorrect_answer_explanations", "key_takeaways"]
                   }
                 }
               },
@@ -164,13 +201,32 @@ For each question provide the COMPLETE structured analysis following this framew
 
     if (!questions?.length) throw new Error("No questions generated");
 
-    // Insert into database
-    const rows = questions.map((q: any) => ({
+    // Validate quality: reject questions with <5 options or short stems
+    const validQuestions = questions.filter((q: any) => {
+      if (!q.options || q.options.length < 5) {
+        console.warn(`Rejected question: fewer than 5 options`);
+        return false;
+      }
+      const wordCount = (q.question_text || "").split(/\s+/).length;
+      if (wordCount < 80) {
+        console.warn(`Rejected question: stem too short (${wordCount} words)`);
+        return false;
+      }
+      return true;
+    });
+
+    if (!validQuestions.length) throw new Error("All generated questions failed quality validation");
+
+    // Insert into database (zyntra_id auto-assigned by trigger)
+    const rows = validQuestions.map((q: any) => ({
       question_text: q.question_text,
       options: q.options,
       correct_answer: q.correct_answer,
       explanation: q.explanation,
       category: q.category || selectedCategory,
+      subtopic: q.subtopic || null,
+      system_category: q.system_category || null,
+      guideline_reference: q.guideline_reference || null,
       difficulty: q.difficulty || selectedDifficulty,
       tags: q.tags || [],
       diagnosis_explanation: q.diagnosis_explanation,
@@ -183,12 +239,13 @@ For each question provide the COMPLETE structured analysis following this framew
       clinical_vignette: true,
     }));
 
-    const { data, error } = await supabase.from("questions").insert(rows).select("id");
+    const { data, error } = await supabase.from("questions").insert(rows).select("id, zyntra_id");
     if (error) throw new Error(`DB insert error: ${error.message}`);
 
     return new Response(JSON.stringify({ 
       success: true, 
-      count: data.length, 
+      count: data.length,
+      rejected: questions.length - validQuestions.length,
       category: selectedCategory,
       difficulty: selectedDifficulty 
     }), {
