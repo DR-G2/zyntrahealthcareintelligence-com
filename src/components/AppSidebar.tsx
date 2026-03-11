@@ -153,7 +153,7 @@ function CollapsibleNav({ item, location, collapsed, onNavigate }: {
 export function AppSidebar({ isMobile }: { isMobile?: boolean }) {
   const { signOut, user } = useAuth();
   const location = useLocation();
-  const isAdmin = user?.email === ADMIN_EMAIL;
+  const isAdmin = ADMIN_EMAILS.includes(user?.email || "");
   const { collapsed, setCollapsed, mobileOpen, setMobileOpen } = useSidebarCollapsed();
 
   const closeMobile = () => { if (isMobile) setMobileOpen(false); };
