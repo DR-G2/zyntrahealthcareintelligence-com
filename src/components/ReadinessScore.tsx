@@ -72,9 +72,28 @@ export function ReadinessScore() {
     );
   }
 
+  // Count-up animation
+  const [displayScore, setDisplayScore] = useState(0);
+  const animatedRef = useRef(false);
   const score = data?.score || 0;
-  const color = score >= 70 ? 'text-success' : score >= 50 ? 'text-warning' : 'text-destructive';
-  const bgColor = score >= 70 ? 'bg-success/10' : score >= 50 ? 'bg-warning/10' : 'bg-destructive/10';
+
+  useEffect(() => {
+    if (animatedRef.current || score === 0) return;
+    animatedRef.current = true;
+    const duration = 1200;
+    const start = performance.now();
+    const step = (now: number) => {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setDisplayScore(Math.round(eased * score));
+      if (progress < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }, [score]);
+
+  const color = displayScore >= 70 ? 'text-success' : displayScore >= 50 ? 'text-warning' : 'text-destructive';
+  const bgColor = displayScore >= 70 ? 'bg-success/10' : displayScore >= 50 ? 'bg-warning/10' : 'bg-destructive/10';
   const label = score >= 70 ? 'Strong' : score >= 50 ? 'Developing' : 'Needs Work';
 
   return (
