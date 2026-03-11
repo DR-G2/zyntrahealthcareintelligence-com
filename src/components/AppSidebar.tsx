@@ -2,9 +2,10 @@ import { NavLink, useLocation } from 'react-router-dom';
 import {
   ClipboardCheck, BookOpen, Calendar, Settings, Zap, UserCircle, LogOut, Brain,
   Target, Activity, ChevronRight, Shield, Stethoscope, PanelLeftClose, PanelLeft,
-  MessageCircle, Users, Share2, AlertCircle, Rss, History,
+  MessageCircle, Users, Share2, AlertCircle, Rss, History, BarChart3,
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
+import { useFeatureGate } from '@/hooks/useFeatureGate';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { cn } from '@/lib/utils';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
@@ -33,43 +34,53 @@ interface NavGroup {
   items: (NavItem | { label: string; icon: React.ElementType; children: NavItem[] })[];
 }
 
-const navGroups: NavGroup[] = [
-  {
-    label: 'Learn & Practice',
-    items: [
-      { to: '/practice', label: 'MCQ', icon: Zap },
-      { to: '/stations', label: 'OSCE', icon: Activity },
-    ],
-  },
-  {
-    label: 'APPE',
-    items: [
-      { to: '/feed', label: 'Feed', icon: Rss },
-      {
-        label: 'Diagnostic', icon: ClipboardCheck,
-        children: [
-          { to: '/assess', label: 'MCQ', icon: Zap },
-          { to: '/assess/osce', label: 'OSCE', icon: Stethoscope },
-        ],
-      },
-      { to: '/profile', label: 'Performance', icon: UserCircle },
-      { to: '/behavior', label: 'Behavior', icon: Brain },
-      { to: '/trust-your-gut', label: 'Trust Your Gut', icon: Target },
-      { to: '/review', label: 'Mistake Review', icon: AlertCircle },
-      { to: '/history', label: 'Question History', icon: History },
-    ],
-  },
-  {
-    label: 'Study Companion',
-    items: [
-      { to: '/companion/chat', label: 'AI Chat', icon: MessageCircle },
-      { to: '/companion/ai-core', label: 'Zyntra AI Core', icon: Zap },
-      { to: '/plan', label: 'Study Plan', icon: Calendar },
-      { to: '/companion/groups', label: 'Social Groups', icon: Users },
-      { to: '/companion/shared-tests', label: 'Shared Tests', icon: Share2 },
-    ],
-  },
-];
+// navGroups is now a function to support conditional rendering
+function getNavGroups(isPaid: boolean): NavGroup[] {
+  const appeItems: (NavItem | { label: string; icon: React.ElementType; children: NavItem[] })[] = [
+    { to: '/feed', label: 'Feed', icon: Rss },
+  ];
+
+  // Only show Diagnostic for trial/free users
+  if (!isPaid) {
+    appeItems.push({
+      label: 'Diagnostic', icon: ClipboardCheck,
+      children: [
+        { to: '/assess', label: 'MCQ', icon: Zap },
+        { to: '/assess/osce', label: 'OSCE', icon: Stethoscope },
+      ],
+    });
+  }
+
+  appeItems.push(
+    { to: '/intelligence', label: 'Performance Intelligence', icon: BarChart3 },
+    { to: '/review', label: 'Mistake Review', icon: AlertCircle },
+    { to: '/history', label: 'Question History', icon: History },
+  );
+
+  return [
+    {
+      label: 'Learn & Practice',
+      items: [
+        { to: '/practice', label: 'MCQ', icon: Zap },
+        { to: '/stations', label: 'OSCE', icon: Activity },
+      ],
+    },
+    {
+      label: 'APPE',
+      items: appeItems,
+    },
+    {
+      label: 'Study Companion',
+      items: [
+        { to: '/companion/chat', label: 'AI Chat', icon: MessageCircle },
+        { to: '/companion/ai-core', label: 'Zyntra AI Core', icon: Zap },
+        { to: '/plan', label: 'Study Plan', icon: Calendar },
+        { to: '/companion/groups', label: 'Social Groups', icon: Users },
+        { to: '/companion/shared-tests', label: 'Shared Tests', icon: Share2 },
+      ],
+    },
+  ];
+}
 
 function isNavItem(item: NavItem | { label: string; icon: React.ElementType; children: NavItem[] }): item is NavItem {
   return 'to' in item;
@@ -147,9 +158,11 @@ function CollapsibleNav({ item, location, collapsed, onNavigate }: {
 export function AppSidebar({ isMobile }: { isMobile?: boolean }) {
   const { signOut, user } = useAuth();
   const location = useLocation();
+  const gate = useFeatureGate();
   const isAdmin = ADMIN_EMAILS.includes(user?.email || "");
   const isSuperAdmin = user?.email === SUPER_ADMIN_EMAIL;
   const { collapsed, setCollapsed, mobileOpen, setMobileOpen } = useSidebarCollapsed();
+  const navGroups = getNavGroups(gate.isPaid);
 
   const closeMobile = () => { if (isMobile) setMobileOpen(false); };
   const effectiveCollapsed = isMobile ? false : collapsed;
@@ -179,6 +192,7 @@ export function AppSidebar({ isMobile }: { isMobile?: boolean }) {
             showCollapseToggle={false}
             setCollapsed={setCollapsed}
             currentCollapsed={false}
+            navGroups={navGroups}
           />
         </aside>
       </TooltipProvider>
@@ -201,6 +215,7 @@ export function AppSidebar({ isMobile }: { isMobile?: boolean }) {
           showCollapseToggle
           setCollapsed={setCollapsed}
           currentCollapsed={effectiveCollapsed}
+          navGroups={navGroups}
         />
       </aside>
     </TooltipProvider>
@@ -208,7 +223,7 @@ export function AppSidebar({ isMobile }: { isMobile?: boolean }) {
 }
 
 function SidebarInner({
-  collapsed, isAdmin, isSuperAdmin, location, signOut, onNavigate, showCollapseToggle, setCollapsed, currentCollapsed,
+  collapsed, isAdmin, isSuperAdmin, location, signOut, onNavigate, showCollapseToggle, setCollapsed, currentCollapsed, navGroups,
 }: {
   collapsed: boolean;
   isAdmin: boolean;
@@ -219,6 +234,7 @@ function SidebarInner({
   showCollapseToggle: boolean;
   setCollapsed: (v: boolean) => void;
   currentCollapsed: boolean;
+  navGroups: NavGroup[];
 }) {
   return (
     <>

@@ -1,4 +1,5 @@
 import { lazy, Suspense } from "react";
+import { Navigate } from "react-router-dom";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -42,6 +43,7 @@ const Feed = lazy(() => import("./pages/Feed"));
 const Terms = lazy(() => import("./pages/Terms"));
 const ZyntraAICore = lazy(() => import("./pages/ZyntraAICore"));
 const QuestionHistory = lazy(() => import("./pages/QuestionHistory"));
+const PerformanceIntelligence = lazy(() => import("./pages/PerformanceIntelligence"));
 
 
 const queryClient = new QueryClient();
@@ -80,9 +82,10 @@ const App = () => (
                 <Route path="/onboarding" element={<ErrorBoundary><Onboarding /></ErrorBoundary>} />
                 <Route path="/dashboard" element={<ProtectedRoute><ErrorBoundary><Dashboard /></ErrorBoundary></ProtectedRoute>} />
                 <Route path="/assess" element={<ProtectedRoute><ErrorBoundary><Assess /></ErrorBoundary></ProtectedRoute>} />
-                <Route path="/profile" element={<ProtectedRoute><ErrorBoundary><Profile /></ErrorBoundary></ProtectedRoute>} />
-                <Route path="/behavior" element={<ProtectedRoute><ErrorBoundary><BehaviorProfile /></ErrorBoundary></ProtectedRoute>} />
-                <Route path="/trust-your-gut" element={<ProtectedRoute><ErrorBoundary><TrustYourGut /></ErrorBoundary></ProtectedRoute>} />
+                <Route path="/intelligence" element={<ProtectedRoute><ErrorBoundary><PerformanceIntelligence /></ErrorBoundary></ProtectedRoute>} />
+                <Route path="/profile" element={<Navigate to="/intelligence?tab=performance" replace />} />
+                <Route path="/behavior" element={<Navigate to="/intelligence?tab=behavior" replace />} />
+                <Route path="/trust-your-gut" element={<Navigate to="/intelligence?tab=trust-your-gut" replace />} />
                 <Route path="/practice" element={<ProtectedRoute><ErrorBoundary><Practice /></ErrorBoundary></ProtectedRoute>} />
                 <Route path="/questions" element={<ProtectedRoute><ErrorBoundary><Questions /></ErrorBoundary></ProtectedRoute>} />
                 <Route path="/questions/mcq" element={<ProtectedRoute><ErrorBoundary><QuestionsMCQ /></ErrorBoundary></ProtectedRoute>} />

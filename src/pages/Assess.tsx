@@ -384,9 +384,26 @@ export default function Assess() {
   if (phase === 'submitting') {
     return (
       <AppLayout>
-        <div className="flex flex-col items-center justify-center py-24 gap-4">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-          <p className="text-muted-foreground">Analyzing your performance...</p>
+        <div className="flex flex-col items-center justify-center py-24 gap-6">
+          <div className="relative">
+            <div className="h-20 w-20 rounded-full border-4 border-primary/20 flex items-center justify-center">
+              <motion.div
+                animate={{ scale: [1, 1.2, 1] }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+              >
+                <AlertTriangle className="h-8 w-8 text-primary" />
+              </motion.div>
+            </div>
+            <motion.div
+              className="absolute inset-0 h-20 w-20 rounded-full border-4 border-transparent border-t-primary"
+              animate={{ rotate: 360 }}
+              transition={{ duration: 1.2, repeat: Infinity, ease: 'linear' }}
+            />
+          </div>
+          <div className="text-center space-y-2">
+            <p className="text-lg font-semibold font-display">Analyzing your clinical reasoning...</p>
+            <p className="text-sm text-muted-foreground">Building your performance profile</p>
+          </div>
         </div>
       </AppLayout>
     );

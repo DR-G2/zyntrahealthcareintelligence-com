@@ -279,27 +279,22 @@ export default function TrustYourGut() {
 
   if (!gate.canAccessTrustGut) {
     return (
-      <AppLayout>
-        <div className="mx-auto max-w-2xl py-12">
-          <UpgradePrompt feature="Trust Your Gut" description="Train your first-instinct accuracy and reduce harmful answer changes. This advanced analytics feature requires Full Access." />
-        </div>
-      </AppLayout>
+      <div className="mx-auto max-w-2xl py-12">
+        <UpgradePrompt feature="Trust Your Gut" description="Train your first-instinct accuracy and reduce harmful answer changes. This advanced analytics feature requires Full Access." />
+      </div>
     );
   }
 
   if (isLoading) {
     return (
-      <AppLayout>
-        <div className="flex items-center justify-center min-h-[60vh]">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
-        </div>
-      </AppLayout>
+      <div className="flex items-center justify-center min-h-[60vh]">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
+      </div>
     );
   }
 
   return (
-    <AppLayout>
-      <div className="space-y-6">
+    <div className="space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
@@ -723,6 +718,5 @@ export default function TrustYourGut() {
           </TabsContent>
         </Tabs>
       </div>
-    </AppLayout>
   );
 }

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/contexts/AuthContext';
 import { useFeatureGate } from '@/hooks/useFeatureGate';
@@ -22,6 +22,8 @@ export function ReadinessScore() {
   const gate = useFeatureGate();
   const [data, setData] = useState<ReadinessData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [displayScore, setDisplayScore] = useState(0);
+  const animatedRef = useRef(false);
 
   useEffect(() => {
     if (!user) return;
@@ -47,7 +49,6 @@ export function ReadinessScore() {
         : 0;
       const confidence = Math.max(0, 100 - confidenceGap);
 
-      // Weighted formula
       const score = Math.round(
         accuracy * 0.4 +
         stability * 0.15 +
@@ -62,6 +63,27 @@ export function ReadinessScore() {
     fetch();
   }, [user]);
 
+  const score = data?.score || 0;
+
+  useEffect(() => {
+    if (animatedRef.current || score === 0) return;
+    animatedRef.current = true;
+    const duration = 1200;
+    const start = performance.now();
+    const step = (now: number) => {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setDisplayScore(Math.round(eased * score));
+      if (progress < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }, [score]);
+
+  const color = displayScore >= 70 ? 'text-success' : displayScore >= 50 ? 'text-warning' : 'text-destructive';
+  const bgColor = displayScore >= 70 ? 'bg-success/10' : displayScore >= 50 ? 'bg-warning/10' : 'bg-destructive/10';
+  const label = score >= 70 ? 'Strong' : score >= 50 ? 'Developing' : 'Needs Work';
+
   if (loading) {
     return (
       <Card>
@@ -71,11 +93,6 @@ export function ReadinessScore() {
       </Card>
     );
   }
-
-  const score = data?.score || 0;
-  const color = score >= 70 ? 'text-success' : score >= 50 ? 'text-warning' : 'text-destructive';
-  const bgColor = score >= 70 ? 'bg-success/10' : score >= 50 ? 'bg-warning/10' : 'bg-destructive/10';
-  const label = score >= 70 ? 'Strong' : score >= 50 ? 'Developing' : 'Needs Work';
 
   return (
     <Card className="relative overflow-hidden">
@@ -96,7 +113,7 @@ export function ReadinessScore() {
           <div className="relative">
             <div className="filter blur-md pointer-events-none select-none">
               <div className="flex items-center gap-6">
-                <div className={cn('text-6xl font-bold font-display', color)}>{score}%</div>
+                <div className={cn('text-6xl font-bold font-display', color)}>{displayScore}%</div>
                 <div className="flex-1 space-y-2 text-sm text-muted-foreground">
                   <div className="flex justify-between"><span>Clinical Accuracy</span><span>{Math.round(data?.accuracy || 0)}%</span></div>
                   <div className="flex justify-between"><span>Question Volume</span><span>{Math.round(data?.volume || 0)}%</span></div>
@@ -112,7 +129,7 @@ export function ReadinessScore() {
         ) : (
           <div className="flex items-center gap-6">
             <div className={cn('flex h-24 w-24 items-center justify-center rounded-full', bgColor)}>
-              <span className={cn('text-4xl font-bold font-display', color)}>{score}%</span>
+              <span className={cn('text-4xl font-bold font-display', color)}>{displayScore}%</span>
             </div>
             <div className="flex-1 space-y-1.5 text-sm">
               {[

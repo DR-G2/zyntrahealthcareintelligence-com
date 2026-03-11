@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/contexts/AuthContext';
 import { useFeatureGate } from '@/hooks/useFeatureGate';
@@ -113,6 +113,24 @@ const CustomTooltipContent = ({ active, payload }: any) => {
     </div>
   );
 };
+
+function CountUp({ target, duration = 1200 }: { target: number; duration?: number }) {
+  const [value, setValue] = useState(0);
+  const ref = useRef(false);
+  useEffect(() => {
+    if (ref.current || target === 0) return;
+    ref.current = true;
+    const start = performance.now();
+    const step = (now: number) => {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setValue(Math.round(eased * target));
+      if (progress < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }, [target, duration]);
+  return <>{value}</>;
+}
 
 export function ReadinessDNA() {
   const { user } = useAuth();
@@ -241,7 +259,7 @@ export function ReadinessDNA() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3 }}
             >
-              {score}
+              <CountUp target={score} duration={1200} />
             </motion.span>
             <span className="text-xs text-muted-foreground">/ 100</span>
           </div>

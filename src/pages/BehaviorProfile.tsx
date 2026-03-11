@@ -138,44 +138,36 @@ export default function BehaviorProfile() {
 
   if (!gate.canAccessBehavior) {
     return (
-      <AppLayout>
-        <div className="mx-auto max-w-2xl py-12">
-          <UpgradePrompt feature="Behavior Analysis" description="AI-powered exam behavior profiling is a paid feature. Upgrade to see your archetype, trap detection, and personalized recommendations." />
-        </div>
-      </AppLayout>
+      <div className="mx-auto max-w-2xl py-12">
+        <UpgradePrompt feature="Behavior Analysis" description="AI-powered exam behavior profiling is a paid feature. Upgrade to see your archetype, trap detection, and personalized recommendations." />
+      </div>
     );
   }
 
   if (loading) {
-    return (
-      <AppLayout>
-        <BehaviorSkeleton />
-      </AppLayout>
-    );
+    return <BehaviorSkeleton />;
   }
 
   if (!data) {
     return (
-      <AppLayout>
-        <div className="mx-auto max-w-2xl py-12 text-center">
-          <Card>
-            <CardContent className="py-12 space-y-4">
-              <Brain className="h-12 w-12 text-muted-foreground/50 mx-auto" />
-              <h2 className="text-xl font-display font-bold">No Behavior Profile Yet</h2>
-              <p className="text-muted-foreground">Complete some practice sessions, then run the analysis.</p>
-              <div className="flex gap-3 justify-center">
-                <Button asChild variant="outline">
-                  <Link to="/practice">Start Practice</Link>
-                </Button>
-                <Button onClick={runAnalysis} disabled={analyzing} className="gap-2">
-                  {analyzing ? <Loader2 className="h-4 w-4 animate-spin" /> : <Activity className="h-4 w-4" />}
-                  Run Analysis
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </AppLayout>
+      <div className="mx-auto max-w-2xl py-12 text-center">
+        <Card>
+          <CardContent className="py-12 space-y-4">
+            <Brain className="h-12 w-12 text-muted-foreground/50 mx-auto" />
+            <h2 className="text-xl font-display font-bold">No Behavior Profile Yet</h2>
+            <p className="text-muted-foreground">Complete some practice sessions, then run the analysis.</p>
+            <div className="flex gap-3 justify-center">
+              <Button asChild variant="outline">
+                <Link to="/practice">Start Practice</Link>
+              </Button>
+              <Button onClick={runAnalysis} disabled={analyzing} className="gap-2">
+                {analyzing ? <Loader2 className="h-4 w-4 animate-spin" /> : <Activity className="h-4 w-4" />}
+                Run Analysis
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     );
   }
 
@@ -200,8 +192,7 @@ export default function BehaviorProfile() {
   const signals = data.archetype_signals || {};
 
   return (
-    <AppLayout>
-      <div className="mx-auto max-w-5xl space-y-8">
+    <div className="mx-auto max-w-5xl space-y-8">
         {/* Header */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="flex items-center justify-between">
           <div>
@@ -503,6 +494,5 @@ export default function BehaviorProfile() {
           </Button>
         </div>
       </div>
-    </AppLayout>
   );
 }
