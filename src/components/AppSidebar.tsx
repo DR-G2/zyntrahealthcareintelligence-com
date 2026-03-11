@@ -158,9 +158,11 @@ function CollapsibleNav({ item, location, collapsed, onNavigate }: {
 export function AppSidebar({ isMobile }: { isMobile?: boolean }) {
   const { signOut, user } = useAuth();
   const location = useLocation();
+  const gate = useFeatureGate();
   const isAdmin = ADMIN_EMAILS.includes(user?.email || "");
   const isSuperAdmin = user?.email === SUPER_ADMIN_EMAIL;
   const { collapsed, setCollapsed, mobileOpen, setMobileOpen } = useSidebarCollapsed();
+  const navGroups = getNavGroups(gate.isPaid);
 
   const closeMobile = () => { if (isMobile) setMobileOpen(false); };
   const effectiveCollapsed = isMobile ? false : collapsed;
