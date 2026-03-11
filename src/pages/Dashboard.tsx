@@ -1,25 +1,42 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AppLayout } from '@/components/AppLayout';
 import { useAuth } from '@/contexts/AuthContext';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Link } from 'react-router-dom';
-import { ClipboardCheck, Zap, ArrowRight, Rss } from 'lucide-react';
+import { ClipboardCheck, Zap, ArrowRight, Rss, PlayCircle } from 'lucide-react';
 import { differenceInDays, parseISO } from 'date-fns';
 import { WelcomeTour } from '@/components/WelcomeTour';
 import { ReadinessScore } from '@/components/ReadinessScore';
 import { useFeatureGate } from '@/hooks/useFeatureGate';
+import { supabase } from '@/lib/supabase';
 
 export default function Dashboard() {
-  const { profile } = useAuth();
+  const { profile, user } = useAuth();
   const gate = useFeatureGate();
   const [showTour, setShowTour] = useState(
     () => !localStorage.getItem(WelcomeTour.STORAGE_KEY)
   );
+  const [activeSession, setActiveSession] = useState<any>(null);
   const daysUntilExam = profile?.exam_date
     ? differenceInDays(parseISO(profile.exam_date), new Date())
     : null;
+
+  // Check for active sessions to resume
+  useEffect(() => {
+    if (!user) return;
+    supabase
+      .from('active_sessions')
+      .select('*')
+      .eq('user_id', user.id)
+      .order('updated_at', { ascending: false })
+      .limit(1)
+      .maybeSingle()
+      .then(({ data }) => {
+        if (data) setActiveSession(data);
+      });
+  }, [user]);
 
   return (
     <AppLayout>
@@ -53,6 +70,30 @@ export default function Dashboard() {
           </Card>
         )}
       </div>
+
+      {/* Resume Session Card */}
+      {activeSession && (
+        <Card className="mt-6 border-primary/30 bg-primary/5">
+          <CardContent className="flex items-center justify-between p-4">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <PlayCircle className="h-5 w-5" />
+              </div>
+              <div>
+                <h3 className="font-semibold font-display">Resume Your Last Session</h3>
+                <p className="text-sm text-muted-foreground">
+                  You stopped at Question {(activeSession.current_index || 0) + 1} of {(activeSession.question_ids as any[])?.length || '?'}.
+                </p>
+              </div>
+            </div>
+            <Button asChild>
+              <Link to={`/practice?resume=${activeSession.session_id}`}>
+                Resume <ArrowRight className="h-4 w-4 ml-1" />
+              </Link>
+            </Button>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Daily Usage for Free Users */}
       {!gate.isPaid && !gate.loading && (

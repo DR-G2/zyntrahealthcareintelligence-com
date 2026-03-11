@@ -18,6 +18,7 @@ import { Loader2, Sparkles, Upload, FileUp, X, Users, BookOpen, Activity, Pencil
 import { PiracyStrikesTab } from '@/components/admin/PiracyStrikesTab';
 import { LiveActivityTab } from '@/components/admin/LiveActivityTab';
 import { AIControlTab } from '@/components/admin/AIControlTab';
+import { UserInspectionPanel } from '@/components/admin/UserInspectionPanel';
 
 const ADMIN_EMAIL = "gopalrock.naren@gmail.com";
 
@@ -46,6 +47,7 @@ function UsersTab() {
   const [grantTier, setGrantTier] = useState("full_access");
   const [grantDuration, setGrantDuration] = useState("permanent");
   const [granting, setGranting] = useState(false);
+  const [inspectUser, setInspectUser] = useState<{ id: string; email: string } | null>(null);
   const { toast } = useToast();
 
   const fetchUsers = async () => {
@@ -162,7 +164,7 @@ function UsersTab() {
               {filtered.map(u => {
                 const t = getUserTier(u);
                 return (
-                  <TableRow key={u.id}>
+                  <TableRow key={u.id} className="cursor-pointer hover:bg-muted/50" onClick={() => setInspectUser({ id: u.id, email: u.email })}>
                     <TableCell className="font-mono text-xs">{u.email}</TableCell>
                     <TableCell>{u.name || '—'}</TableCell>
                     <TableCell>
@@ -234,6 +236,13 @@ function UsersTab() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      <UserInspectionPanel
+        userId={inspectUser?.id || null}
+        email={inspectUser?.email}
+        open={!!inspectUser}
+        onOpenChange={(open) => !open && setInspectUser(null)}
+      />
     </div>
   );
 }

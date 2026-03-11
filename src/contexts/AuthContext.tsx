@@ -147,6 +147,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  // Handle "Remember Me" - if off, sign out on new browser session
+  useEffect(() => {
+    const rememberMe = localStorage.getItem('zyntra_remember_me');
+    if (rememberMe === 'false') {
+      const sessionActive = sessionStorage.getItem('zyntra_session_active');
+      if (!sessionActive) {
+        // New browser session and remember me is off — sign out
+        supabase.auth.signOut();
+        return;
+      }
+    }
+  }, []);
+
   useEffect(() => {
     const { data: { subscription: authSub } } = supabase.auth.onAuthStateChange(
       async (_event, session) => {
@@ -209,6 +222,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const signOut = async () => {
+    localStorage.removeItem('zyntra_remember_me');
+    sessionStorage.removeItem('zyntra_session_active');
     await supabase.auth.signOut();
   };
 

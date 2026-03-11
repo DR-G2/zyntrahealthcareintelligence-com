@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Clock, Lock, RefreshCw, ChevronLeft, ChevronRight, CheckCircle, XCircle, Zap, TrendingUp, TrendingDown, ChevronDown, Minus, Plus, Search, X } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
@@ -522,9 +523,11 @@ function SetupScreen({ onStart }: { onStart: (config: SessionConfig) => void }) 
 function DrillSession({
   config,
   onFinish,
+  resumeSessionId,
 }: {
   config: SessionConfig;
   onFinish: (questions: Question[], answers: Record<number, string>, changes: Record<number, number>, times: Record<number, number>) => void;
+  resumeSessionId?: string | null;
 }) {
   const { user } = useAuth();
   const { toast } = useToast();
@@ -546,12 +549,91 @@ function DrillSession({
   const [timeRemaining, setTimeRemaining] = useState(timeSeconds);
   const [loading, setLoading] = useState(true);
   const [finished, setFinished] = useState(false);
-  const sessionIdRef = useRef(crypto.randomUUID());
+  const sessionIdRef = useRef(resumeSessionId || crypto.randomUUID());
   const lastInteractionRef = useRef(Date.now());
   const pauseTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const autoSaveRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Auto-save to active_sessions
+  const saveSession = useCallback(async (qs: Question[], idx: number, answers: Record<number, string>, changes: Record<number, number>, sequences: Record<number, string[]>, times: Record<number, number>, ttfc: Record<number, number>, pauses: Record<number, number>, timeLeft: number) => {
+    if (!user || qs.length === 0) return;
+    try {
+      await supabase.from('active_sessions').upsert({
+        user_id: user.id,
+        session_id: sessionIdRef.current,
+        session_type: 'mcq',
+        config: config as any,
+        question_ids: qs.map(q => q.id),
+        answers: answers,
+        answer_changes: changes,
+        change_sequences: sequences,
+        question_times: times,
+        time_to_first_click: ttfc,
+        pause_events: pauses,
+        current_index: idx,
+        time_remaining: timeLeft,
+        updated_at: new Date().toISOString(),
+      } as any, { onConflict: 'session_id' });
+    } catch (e) {
+      console.error('Auto-save failed', e);
+    }
+  }, [user, config]);
+
+  const deleteSession = useCallback(async () => {
+    if (!user) return;
+    try {
+      await supabase.from('active_sessions').delete().eq('session_id', sessionIdRef.current);
+    } catch (e) {
+      console.error('Delete session failed', e);
+    }
+  }, [user]);
 
   useEffect(() => {
     const fetchQ = async () => {
+      // Check for resume
+      if (resumeSessionId && user) {
+        try {
+          const { data: session } = await supabase
+            .from('active_sessions')
+            .select('*')
+            .eq('session_id', resumeSessionId)
+            .eq('user_id', user.id)
+            .single();
+
+          if (session) {
+            const questionIds = session.question_ids as string[];
+            const { data: qs } = await supabase
+              .from('questions')
+              .select('id, question_text, options, correct_answer, explanation, category, diagnosis_explanation, first_line_investigation, gold_standard_investigation, best_treatment, differential_diagnoses, incorrect_answer_explanations, key_takeaways')
+              .in('id', questionIds);
+
+            if (qs && qs.length > 0) {
+              // Preserve original order
+              const ordered = questionIds.map(id => qs.find(q => q.id === id)).filter(Boolean) as Question[];
+              setQuestions(ordered);
+              setSelectedAnswers((session.answers as Record<number, string>) || {});
+              setAnswerChanges((session.answer_changes as Record<number, number>) || {});
+              setChangeSequences((session.change_sequences as Record<number, string[]>) || {});
+              setQuestionTimes((session.question_times as Record<number, number>) || {});
+              setTimeToFirstClick((session.time_to_first_click as Record<number, number>) || {});
+              setPauseEvents((session.pause_events as Record<number, number>) || {});
+              setCurrentIndex(session.current_index || 0);
+              setTimeRemaining(session.time_remaining || timeSeconds);
+
+              // Mark restored
+              await supabase.from('active_sessions').update({ restored: true } as any).eq('session_id', resumeSessionId);
+
+              toast({ title: 'Session Restored', description: 'Your previous session has been restored successfully.' });
+              setLoading(false);
+              return;
+            }
+          }
+        } catch (e) {
+          console.error('Resume failed', e);
+        }
+      }
+
+      // Normal fetch
       const { data } = await supabase
         .from('questions')
         .select('id, question_text, options, correct_answer, explanation, category, diagnosis_explanation, first_line_investigation, gold_standard_investigation, best_treatment, differential_diagnoses, incorrect_answer_explanations, key_takeaways')
@@ -611,18 +693,27 @@ function DrillSession({
     }
 
     // Track change sequence
-    setChangeSequences(prev => {
-      const seq = prev[currentIndex] || [];
-      return { ...prev, [currentIndex]: [...seq, answer] };
-    });
+    const newSequences = { ...changeSequences };
+    const seq = newSequences[currentIndex] || [];
+    newSequences[currentIndex] = [...seq, answer];
+    setChangeSequences(newSequences);
 
+    const newChanges = { ...answerChanges };
     if (selectedAnswers[currentIndex] && selectedAnswers[currentIndex] !== answer) {
-      setAnswerChanges((p) => ({ ...p, [currentIndex]: (p[currentIndex] || 0) + 1 }));
+      newChanges[currentIndex] = (newChanges[currentIndex] || 0) + 1;
+      setAnswerChanges(newChanges);
     }
-    setSelectedAnswers((p) => ({ ...p, [currentIndex]: answer }));
+    const newAnswers = { ...selectedAnswers, [currentIndex]: answer };
+    setSelectedAnswers(newAnswers);
     if (!canChangeAnswer) {
       setLockedAnswers((p) => ({ ...p, [currentIndex]: true }));
     }
+
+    // Auto-save (debounced)
+    if (autoSaveRef.current) clearTimeout(autoSaveRef.current);
+    autoSaveRef.current = setTimeout(() => {
+      saveSession(questions, currentIndex, newAnswers, newChanges, newSequences, questionTimes, timeToFirstClick, pauseEvents, timeRemaining);
+    }, 500);
   };
 
   const goTo = (i: number) => {
@@ -637,6 +728,9 @@ function DrillSession({
     if (finished) return;
     setFinished(true);
     recordTime();
+
+    // Delete active session
+    await deleteSession();
 
     // Save attempts with enhanced tracking
     if (user && questions.length > 0) {
@@ -992,8 +1086,12 @@ function ResultsScreen({
 
 export default function Practice() {
   const gate = useFeatureGate();
-  const [phase, setPhase] = useState<'setup' | 'drill' | 'results'>('setup');
-  const [config, setConfig] = useState<SessionConfig | null>(null);
+  const [searchParams] = useSearchParams();
+  const resumeSessionId = searchParams.get('resume');
+  const [phase, setPhase] = useState<'setup' | 'drill' | 'results'>(resumeSessionId ? 'drill' : 'setup');
+  const [config, setConfig] = useState<SessionConfig | null>(
+    resumeSessionId ? { mode: 'recharge', topics: [], questionCount: 50 } : null
+  );
   const [resultData, setResultData] = useState<{
     questions: Question[];
     answers: Record<number, string>;
@@ -1029,6 +1127,7 @@ export default function Practice() {
     return (
       <DrillSession
         config={config}
+        resumeSessionId={resumeSessionId}
         onFinish={(questions, answers, changes) => {
           setResultData({ questions, answers, changes });
           setPhase('results');

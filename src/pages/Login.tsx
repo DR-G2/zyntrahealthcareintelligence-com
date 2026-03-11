@@ -64,6 +64,7 @@ function AuthForm({ mode }: { mode: 'login' | 'signup' }) {
   const [showPassword, setShowPassword] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [agreedToTerms, setAgreedToTerms] = useState(false);
+  const [rememberMe, setRememberMe] = useState(true);
   const [showForgot, setShowForgot] = useState(false);
   const [forgotEmail, setForgotEmail] = useState('');
   const [forgotSubmitting, setForgotSubmitting] = useState(false);
@@ -74,6 +75,7 @@ function AuthForm({ mode }: { mode: 'login' | 'signup' }) {
     setSubmitting(true);
     try {
       if (mode === 'signup') {
+        localStorage.setItem('zyntra_remember_me', 'true');
         await signUp(email, password);
         // Log legal acceptance
         const { data: { user } } = await supabase.auth.getUser();
@@ -86,6 +88,8 @@ function AuthForm({ mode }: { mode: 'login' | 'signup' }) {
         }
         setSignupComplete(true);
       } else {
+        localStorage.setItem('zyntra_remember_me', rememberMe ? 'true' : 'false');
+        if (!rememberMe) sessionStorage.setItem('zyntra_session_active', 'true');
         await signIn(email, password);
       }
     } catch (err: any) {
@@ -254,18 +258,30 @@ function AuthForm({ mode }: { mode: 'login' | 'signup' }) {
             </p>
           </div>
         )}
+        {mode === 'login' && (
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Checkbox
+                id="remember-me"
+                checked={rememberMe}
+                onCheckedChange={(v) => setRememberMe(v === true)}
+              />
+              <label htmlFor="remember-me" className="text-sm text-muted-foreground cursor-pointer">
+                Remember me
+              </label>
+            </div>
+            <button
+              type="button"
+              onClick={() => setShowForgot(true)}
+              className="text-sm text-muted-foreground hover:text-primary transition-colors"
+            >
+              Forgot password?
+            </button>
+          </div>
+        )}
         <Button type="submit" className="w-full" disabled={submitting || (mode === 'signup' && !agreedToTerms)}>
           {submitting ? 'Please wait...' : mode === 'signup' ? 'Create Account' : 'Log In'}
         </Button>
-        {mode === 'login' && (
-          <button
-            type="button"
-            onClick={() => setShowForgot(true)}
-            className="w-full text-center text-sm text-muted-foreground hover:text-primary transition-colors"
-          >
-            Forgot password?
-          </button>
-        )}
       </form>
 
       <div className="relative my-5">
