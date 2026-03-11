@@ -729,6 +729,9 @@ function DrillSession({
     setFinished(true);
     recordTime();
 
+    // Delete active session
+    await deleteSession();
+
     // Save attempts with enhanced tracking
     if (user && questions.length > 0) {
       const inserts = questions.map((q, i) => ({
