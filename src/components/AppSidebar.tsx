@@ -310,22 +310,6 @@ function SidebarInner({
           </NavTooltip>
         )}
 
-        {isSuperAdmin && (
-          <NavTooltip label="AI Builder" collapsed={collapsed}>
-            <NavLink
-              to="/admin/ai-builder"
-              onClick={onNavigate}
-              className={cn(
-                'flex items-center rounded-lg text-sm font-medium transition-colors',
-                collapsed ? 'justify-center py-2' : 'gap-3 px-3 py-2',
-                location.pathname === '/admin/ai-builder' ? 'bg-sidebar-accent text-sidebar-primary' : 'text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground'
-              )}
-            >
-              <Wand2 className="h-4 w-4 shrink-0" />
-              {!collapsed && 'AI Builder'}
-            </NavLink>
-          </NavTooltip>
-        )}
 
         <ThemeToggle />
 
