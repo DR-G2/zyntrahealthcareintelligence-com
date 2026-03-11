@@ -185,6 +185,12 @@ serve(async (req) => {
     const subjectDist: Record<string, number> = {};
     finalStations?.forEach(s => { subjectDist[s.subject] = (subjectDist[s.subject] || 0) + 1; });
 
+    await supabase.from("admin_activity_logs").insert({
+      admin_email: userData.user.email,
+      action_type: "cleanup_stations",
+      details: { summary, total_before: allStations.length, total_after: finalCount, total_deleted: idsToDelete.size },
+    });
+
     return new Response(JSON.stringify({
       success: true,
       summary,

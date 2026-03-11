@@ -56,22 +56,28 @@ function UsersTab({ currentUserEmail }: { currentUserEmail: string }) {
   const [grantDuration, setGrantDuration] = useState("permanent");
   const [granting, setGranting] = useState(false);
   const [inspectUser, setInspectUser] = useState<{ id: string; email: string } | null>(null);
+  const [page, setPage] = useState(1);
+  const [totalCount, setTotalCount] = useState(0);
+  const pageSize = 50;
   const { toast } = useToast();
 
-  const fetchUsers = async () => {
+  const fetchUsers = async (p = page) => {
     setLoading(true);
     try {
-      const { data, error } = await supabase.functions.invoke('admin-list-users');
+      const { data, error } = await supabase.functions.invoke('admin-list-users', {
+        body: { page: p, page_size: pageSize }
+      });
       if (error) throw error;
       if (data?.error) throw new Error(data.error);
       setUsers(data.users || []);
+      setTotalCount(data.total_count || 0);
     } catch (e: any) {
       toast({ title: 'Error', description: e.message, variant: 'destructive' });
     }
     setLoading(false);
   };
 
-  useEffect(() => { fetchUsers(); }, []);
+  useEffect(() => { fetchUsers(page); }, [page]);
 
   const filtered = users.filter(u => {
     if (!search) return true;
@@ -153,7 +159,7 @@ function UsersTab({ currentUserEmail }: { currentUserEmail: string }) {
         <Button variant="outline" onClick={downloadCSV}>
           <FileUp className="h-4 w-4 mr-2" /> Download CSV
         </Button>
-        <Button variant="outline" onClick={fetchUsers} disabled={loading}>
+        <Button variant="outline" onClick={() => fetchUsers()} disabled={loading}>
           {loading && <Loader2 className="h-4 w-4 mr-2 animate-spin" />} Refresh
         </Button>
       </div>
@@ -213,9 +219,20 @@ function UsersTab({ currentUserEmail }: { currentUserEmail: string }) {
                 <TableRow><TableCell colSpan={8} className="text-center text-muted-foreground py-8">No users found</TableCell></TableRow>
               )}
             </TableBody>
-          </Table>
+           </Table>
         </CardContent>
       </Card>
+
+      {/* Pagination */}
+      <div className="flex items-center justify-between">
+        <p className="text-sm text-muted-foreground">
+          Showing {Math.min((page - 1) * pageSize + 1, totalCount)}–{Math.min(page * pageSize, totalCount)} of {totalCount} users
+        </p>
+        <div className="flex gap-2">
+          <Button variant="outline" size="sm" disabled={page <= 1} onClick={() => setPage(p => p - 1)}>Previous</Button>
+          <Button variant="outline" size="sm" disabled={page * pageSize >= totalCount} onClick={() => setPage(p => p + 1)}>Next</Button>
+        </div>
+      </div>
 
       {/* Grant Access Dialog */}
       <Dialog open={!!grantDialog} onOpenChange={open => !open && setGrantDialog(null)}>

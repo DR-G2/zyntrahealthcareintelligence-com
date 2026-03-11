@@ -223,6 +223,12 @@ serve(async (req) => {
     const catDist: Record<string, number> = {};
     finalQs?.forEach(q => { catDist[q.category] = (catDist[q.category] || 0) + 1; });
 
+    await supabase.from("admin_activity_logs").insert({
+      admin_email: userData.user.email,
+      action_type: "cleanup_questions",
+      details: { summary, total_before: allQuestions.length, total_after: finalCount, total_deleted: idsToDelete.size },
+    });
+
     return new Response(JSON.stringify({
       success: true,
       summary,

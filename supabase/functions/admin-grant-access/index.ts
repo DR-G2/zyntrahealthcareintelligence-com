@@ -55,6 +55,14 @@ serve(async (req) => {
       }, { onConflict: "user_id" });
 
       if (error) throw error;
+
+      await supabase.from("admin_activity_logs").insert({
+        admin_email: userData.user.email,
+        action_type: "grant_access",
+        target_user_id: user_id,
+        details: { tier: tier || "full_access", duration_days, expires_at },
+      });
+
       return new Response(JSON.stringify({ success: true }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
@@ -63,6 +71,13 @@ serve(async (req) => {
     if (action === "revoke") {
       const { error } = await supabase.from("manual_overrides").delete().eq("user_id", user_id);
       if (error) throw error;
+
+      await supabase.from("admin_activity_logs").insert({
+        admin_email: userData.user.email,
+        action_type: "revoke_access",
+        target_user_id: user_id,
+      });
+
       return new Response(JSON.stringify({ success: true }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });

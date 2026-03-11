@@ -1,4 +1,4 @@
-import { ReactNode, useState, useEffect } from 'react';
+import { ReactNode, useState, useEffect, useRef } from 'react';
 import { AppSidebar, SidebarContext, useSidebarCollapsed } from '@/components/AppSidebar';
 import { SecurityOverlay } from '@/components/SecurityOverlay';
 import { cn } from '@/lib/utils';
@@ -50,11 +50,18 @@ function LayoutInner({ children }: AppLayoutProps) {
 export function AppLayout({ children }: AppLayoutProps) {
   const isMobile = useIsMobile();
   const isTablet = useIsTablet();
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    const w = window.innerWidth;
+    return w >= 768 && w < 1024;
+  });
   const [mobileOpen, setMobileOpen] = useState(false);
+  const initialSet = useRef(false);
 
-  // Default collapsed on tablet
+  // Default collapsed on tablet — only run once after mount
   useEffect(() => {
+    if (initialSet.current) return;
+    initialSet.current = true;
     if (isTablet) setCollapsed(true);
     else if (!isMobile) setCollapsed(false);
   }, [isTablet, isMobile]);

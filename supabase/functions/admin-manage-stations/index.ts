@@ -49,6 +49,11 @@ serve(async (req) => {
       if (!station_id || !station_data) throw new Error("Missing station_id or station_data");
       const { error } = await supabase.from("clinical_stations").update(station_data).eq("id", station_id);
       if (error) throw error;
+      await supabase.from("admin_activity_logs").insert({
+        admin_email: userData.user.email,
+        action_type: "update_station",
+        details: { station_id, fields: Object.keys(station_data) },
+      });
       return new Response(JSON.stringify({ success: true }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
@@ -58,6 +63,11 @@ serve(async (req) => {
       if (!station_id) throw new Error("Missing station_id");
       const { error } = await supabase.from("clinical_stations").delete().eq("id", station_id);
       if (error) throw error;
+      await supabase.from("admin_activity_logs").insert({
+        admin_email: userData.user.email,
+        action_type: "delete_station",
+        details: { station_id },
+      });
       return new Response(JSON.stringify({ success: true }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });

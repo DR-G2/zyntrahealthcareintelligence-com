@@ -49,6 +49,7 @@ const SERVICE_ICONS: Record<string, React.ReactNode> = {
   osce_engine: <Stethoscope className="h-5 w-5" />,
   osce_validation: <Stethoscope className="h-5 w-5" />,
   ai_service: <Brain className="h-5 w-5" />,
+  ai_gateway: <Zap className="h-5 w-5" />,
   payments: <CreditCard className="h-5 w-5" />,
   user_attempts_access: <Activity className="h-5 w-5" />,
   session_storage: <HardDrive className="h-5 w-5" />,
@@ -63,6 +64,7 @@ const SERVICE_LABELS: Record<string, string> = {
   osce_engine: 'OSCE Engine',
   osce_validation: 'OSCE Validation',
   ai_service: 'AI Service',
+  ai_gateway: 'AI Gateway',
   payments: 'Payments',
   user_attempts_access: 'User Attempts',
   session_storage: 'Session Storage',
@@ -255,6 +257,39 @@ export function SystemMonitorTab() {
           </CardContent>
         </Card>
       )}
+
+      {/* AI Latency Trend */}
+      {logs.length > 1 && (() => {
+        const aiData = [...logs].reverse().map(l => {
+          const aiStep = l.steps.find(s => s.name === 'ai_gateway' || s.name === 'ai_service');
+          return aiStep ? {
+            time: new Date(l.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+            latency: aiStep.latency_ms,
+            status: aiStep.status,
+          } : null;
+        }).filter(Boolean);
+        if (aiData.length < 2) return null;
+        return (
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg flex items-center gap-2">
+                <Brain className="h-5 w-5 text-primary" /> AI Service Latency (24h)
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ChartContainer config={{ latency: { label: 'AI Latency (ms)', color: 'hsl(var(--accent-foreground))' } }} className="h-[200px] w-full">
+                <LineChart data={aiData}>
+                  <CartesianGrid strokeDasharray="3 3" className="stroke-border/50" />
+                  <XAxis dataKey="time" className="text-xs" tick={{ fill: 'hsl(var(--muted-foreground))' }} />
+                  <YAxis className="text-xs" tick={{ fill: 'hsl(var(--muted-foreground))' }} />
+                  <ChartTooltip content={<ChartTooltipContent />} />
+                  <Line type="monotone" dataKey="latency" stroke="hsl(var(--accent-foreground))" strokeWidth={2} dot={{ fill: 'hsl(var(--accent-foreground))', r: 3 }} />
+                </LineChart>
+              </ChartContainer>
+            </CardContent>
+          </Card>
+        );
+      })()}
 
       {/* Recent Failures */}
       {recentFailures.length > 0 && (

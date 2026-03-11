@@ -49,6 +49,11 @@ serve(async (req) => {
       if (!question_id || !question_data) throw new Error("Missing question_id or question_data");
       const { error } = await supabase.from("questions").update(question_data).eq("id", question_id);
       if (error) throw error;
+      await supabase.from("admin_activity_logs").insert({
+        admin_email: userData.user.email,
+        action_type: "update_question",
+        details: { question_id, fields: Object.keys(question_data) },
+      });
       return new Response(JSON.stringify({ success: true }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
@@ -62,6 +67,11 @@ serve(async (req) => {
       await supabase.from("question_difficulty_tiers").delete().eq("question_id", question_id);
       const { error } = await supabase.from("questions").delete().eq("id", question_id);
       if (error) throw error;
+      await supabase.from("admin_activity_logs").insert({
+        admin_email: userData.user.email,
+        action_type: "delete_question",
+        details: { question_id },
+      });
       return new Response(JSON.stringify({ success: true }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
