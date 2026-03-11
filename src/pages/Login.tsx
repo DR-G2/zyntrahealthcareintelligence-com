@@ -257,18 +257,30 @@ function AuthForm({ mode }: { mode: 'login' | 'signup' }) {
             </p>
           </div>
         )}
+        {mode === 'login' && (
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Checkbox
+                id="remember-me"
+                checked={rememberMe}
+                onCheckedChange={(v) => setRememberMe(v === true)}
+              />
+              <label htmlFor="remember-me" className="text-sm text-muted-foreground cursor-pointer">
+                Remember me
+              </label>
+            </div>
+            <button
+              type="button"
+              onClick={() => setShowForgot(true)}
+              className="text-sm text-muted-foreground hover:text-primary transition-colors"
+            >
+              Forgot password?
+            </button>
+          </div>
+        )}
         <Button type="submit" className="w-full" disabled={submitting || (mode === 'signup' && !agreedToTerms)}>
           {submitting ? 'Please wait...' : mode === 'signup' ? 'Create Account' : 'Log In'}
         </Button>
-        {mode === 'login' && (
-          <button
-            type="button"
-            onClick={() => setShowForgot(true)}
-            className="w-full text-center text-sm text-muted-foreground hover:text-primary transition-colors"
-          >
-            Forgot password?
-          </button>
-        )}
       </form>
 
       <div className="relative my-5">
