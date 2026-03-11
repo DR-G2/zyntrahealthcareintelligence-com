@@ -494,6 +494,5 @@ export default function BehaviorProfile() {
           </Button>
         </div>
       </div>
-    </div>
   );
 }

@@ -718,6 +718,5 @@ export default function TrustYourGut() {
           </TabsContent>
         </Tabs>
       </div>
-    </div>
   );
 }
