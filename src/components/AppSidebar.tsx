@@ -192,6 +192,7 @@ export function AppSidebar({ isMobile }: { isMobile?: boolean }) {
             showCollapseToggle={false}
             setCollapsed={setCollapsed}
             currentCollapsed={false}
+            navGroups={navGroups}
           />
         </aside>
       </TooltipProvider>
