@@ -164,7 +164,7 @@ function UsersTab() {
               {filtered.map(u => {
                 const t = getUserTier(u);
                 return (
-                  <TableRow key={u.id}>
+                  <TableRow key={u.id} className="cursor-pointer hover:bg-muted/50" onClick={() => setInspectUser({ id: u.id, email: u.email })}>
                     <TableCell className="font-mono text-xs">{u.email}</TableCell>
                     <TableCell>{u.name || '—'}</TableCell>
                     <TableCell>
