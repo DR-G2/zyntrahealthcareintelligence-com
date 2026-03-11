@@ -114,6 +114,24 @@ const CustomTooltipContent = ({ active, payload }: any) => {
   );
 };
 
+function CountUp({ target, duration = 1200 }: { target: number; duration?: number }) {
+  const [value, setValue] = useState(0);
+  const ref = useRef(false);
+  useEffect(() => {
+    if (ref.current || target === 0) return;
+    ref.current = true;
+    const start = performance.now();
+    const step = (now: number) => {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setValue(Math.round(eased * target));
+      if (progress < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }, [target, duration]);
+  return <>{value}</>;
+}
+
 export function ReadinessDNA() {
   const { user } = useAuth();
   const gate = useFeatureGate();
