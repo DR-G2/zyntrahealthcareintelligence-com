@@ -1,41 +1,95 @@
 
 
-## Plan: Enhanced Practice Results with Detailed Explanations
+## Plan: AI Feature Builder System
 
-### What Changes
+### Overview
+Create an admin-only AI Feature Builder at `/admin/ai-builder` (super_admin only) that accepts natural language feature descriptions, generates structured implementation plans via Lovable AI, and stores request history.
 
-**1. Expand the results review section (Practice.tsx, lines 225-245)**
+**Important caveat:** This system generates plans and code suggestions for review — it cannot directly modify production code. Code patches are displayed as diffs for manual implementation.
 
-Replace the current inline explanation snippet with a clickable card that navigates to a full-page explanation view. Each question card in results will show:
-- Question text, your answer vs correct answer, correct/incorrect badge
-- A "Read Full Explanation" button that opens a detailed view
+---
 
-**2. Create a full-page explanation view within the results phase**
+### 1. Database Migration
 
-Add a new sub-phase `'explanation'` to the drill session. When a user clicks a question, the view transitions to a full-page layout containing:
-- The question and all options (highlighted correct/incorrect)
-- A detailed explanation section
-- **Reference notes** organized by source book:
-  - **AMC Handbook** — key clinical points relevant to the question topic
-  - **John Murtagh's General Practice** — diagnostic approach and management
-  - **Tally O'Connor's Clinical Examination** — examination findings and signs
-- A "Back to Results" button
+**New table: `ai_feature_requests`**
+```sql
+CREATE TABLE public.ai_feature_requests (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  prompt text NOT NULL,
+  plan jsonb DEFAULT '{}',
+  generated_code jsonb DEFAULT '{}',
+  status text NOT NULL DEFAULT 'pending',
+  created_by text NOT NULL,
+  created_at timestamptz NOT NULL DEFAULT now()
+);
+ALTER TABLE public.ai_feature_requests ENABLE ROW LEVEL SECURITY;
+```
 
-**3. Store reference notes in the question explanation field**
+**New table: `ai_patch_logs`**
+```sql
+CREATE TABLE public.ai_patch_logs (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  feature_request_id uuid REFERENCES public.ai_feature_requests(id),
+  files_modified jsonb DEFAULT '[]',
+  changes jsonb DEFAULT '{}',
+  approved_by text NOT NULL,
+  created_at timestamptz NOT NULL DEFAULT now()
+);
+ALTER TABLE public.ai_patch_logs ENABLE ROW LEVEL SECURITY;
+```
 
-Since the `questions` table already has an `explanation` column, the detailed explanations with book references will be structured within that field. For now, the UI will parse and display the explanation, and add styled reference sections with book attribution headers even if the current explanation text is brief. The textbook reference sections will be rendered as distinct styled blocks.
+No RLS policies (service role only via edge functions).
 
-### Technical Approach
+---
 
-- Add state: `reviewQuestionIndex: number | null` to track which question is being viewed in detail
-- When set, render a full-page explanation component instead of the results list
-- Structure the explanation page with:
-  - Question card with all options color-coded
-  - Explanation text (from DB)
-  - Three reference cards (AMC Handbook, Murtagh's, Tally O'Connor) with topic-relevant headers derived from the question's category
-- Use `framer-motion` for page transitions
-- All changes are in `src/pages/Practice.tsx` only — no new files needed
+### 2. New Edge Function: `ai-feature-builder`
 
-### Files Modified
-- `src/pages/Practice.tsx` — refactor results phase to add clickable detail view with book reference sections
+**File:** `supabase/functions/ai-feature-builder/index.ts`
+
+- Validates caller is super_admin via `admin_roles` table
+- Accepts `{ prompt }` body
+- Calls Lovable AI (`google/gemini-2.5-pro`) with a system prompt that instructs the model to return structured output via tool calling:
+  - `affected_modules` (array of strings)
+  - `database_changes` (SQL migrations)
+  - `api_changes` (edge function code)
+  - `ui_changes` (React component code)
+  - `steps` (ordered implementation plan)
+- Saves the request + plan to `ai_feature_requests`
+- Returns the structured plan
+
+Second action `approve`:
+- Updates status to `approved`
+- Logs to `ai_patch_logs`
+
+---
+
+### 3. New Page: `src/pages/AIFeatureBuilder.tsx`
+
+Super-admin-only page with:
+
+1. **Prompt input** — textarea for natural language feature description
+2. **Generate button** — calls edge function, shows loading state
+3. **Plan display** — renders structured steps with affected modules, DB changes, API changes, UI changes
+4. **Code preview** — syntax-highlighted code blocks for each generated file/patch
+5. **Approve button** — marks the request as approved and logs the patch
+6. **History section** — table of past feature requests with status badges (pending/approved/rejected)
+
+---
+
+### 4. Routing & Navigation
+
+- Add route `/admin/ai-builder` in `App.tsx` (lazy loaded, protected)
+- Add sidebar link under Admin section (super_admin only) in `AppSidebar.tsx`
+
+---
+
+### Files Changed Summary
+
+| File | Change |
+|------|--------|
+| Database migration | `ai_feature_requests`, `ai_patch_logs` tables |
+| `supabase/functions/ai-feature-builder/index.ts` | **New** — AI plan generation + approval |
+| `src/pages/AIFeatureBuilder.tsx` | **New** — admin UI for feature builder |
+| `src/App.tsx` | Add route |
+| `src/components/AppSidebar.tsx` | Add nav link for super_admin |
 
