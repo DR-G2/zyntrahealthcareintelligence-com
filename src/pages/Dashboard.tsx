@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import { ClipboardCheck, Zap, ArrowRight, Rss, PlayCircle } from 'lucide-react';
 import { differenceInDays, parseISO } from 'date-fns';
 import { WelcomeTour } from '@/components/WelcomeTour';
-import { ReadinessScore } from '@/components/ReadinessScore';
+import { ReadinessDNA } from '@/components/ReadinessDNA';
 import { useFeatureGate } from '@/hooks/useFeatureGate';
 import { supabase } from '@/lib/supabase';
 
@@ -122,9 +122,9 @@ export default function Dashboard() {
         </Card>
       )}
 
-      {/* AMC Readiness Score */}
+      {/* AMC Readiness DNA */}
       <div className="mt-8">
-        <ReadinessScore />
+        <ReadinessDNA />
       </div>
 
       <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">

@@ -1,73 +1,41 @@
 
 
-## Plan: AMC Readiness DNA Visualization
+## Plan: Enhanced Practice Results with Detailed Explanations
 
-Build a circular DNA-style competency wheel showing per-subject readiness, with a composite readiness score and drill-down to practice weak areas.
+### What Changes
 
-### Architecture
+**1. Expand the results review section (Practice.tsx, lines 225-245)**
 
-**New file: `src/components/ReadinessDNA.tsx`**
-- Main component containing the circular DNA chart and composite score
-- Uses Recharts `RadarChart` (or `PolarAngleAxis` + custom radial bar) for the circular visualization
-- Fetches `user_attempts` joined with `questions` to compute per-subject stats (accuracy, count, avg time, trend)
-- Uses the existing `SYSTEMS` from `src/lib/filter-data.ts` as the subject list (Cardiology, Respiratory, Neurology, etc. -- already matches the AMC subjects requested)
-- Gated behind `gate.canAccessReadiness` with blurred upgrade prompt for free users
+Replace the current inline explanation snippet with a clickable card that navigates to a full-page explanation view. Each question card in results will show:
+- Question text, your answer vs correct answer, correct/incorrect badge
+- A "Read Full Explanation" button that opens a detailed view
 
-**Integration into Dashboard:**
-- Replace the existing `<ReadinessScore />` on `src/pages/Dashboard.tsx` with the new `<ReadinessDNA />` component
-- The composite readiness score (currently in `ReadinessScore.tsx`) will be integrated into the top of the DNA component
+**2. Create a full-page explanation view within the results phase**
 
-### Data Flow
+Add a new sub-phase `'explanation'` to the drill session. When a user clicks a question, the view transitions to a full-page layout containing:
+- The question and all options (highlighted correct/incorrect)
+- A detailed explanation section
+- **Reference notes** organized by source book:
+  - **AMC Handbook** — key clinical points relevant to the question topic
+  - **John Murtagh's General Practice** — diagnostic approach and management
+  - **Tally O'Connor's Clinical Examination** — examination findings and signs
+- A "Back to Results" button
 
-Query `user_attempts` with question category info:
-```sql
-user_attempts(id, is_correct, time_taken_seconds, created_at, question_id, answer_changes_count,
-  questions(category))
-```
-Group by `questions.category`, then map each category to the nearest SYSTEM from `filter-data.ts`. For each system compute:
-- **Accuracy %** = correct / total
-- **Questions attempted** = count
-- **Avg response time** = avg(time_taken_seconds)
-- **Trend** = compare last-30-day accuracy vs prior-30-day accuracy (improving/declining/stable)
-- **Readiness score per subject** = weighted blend of accuracy (50%), stability from answer_changes_count (25%), time efficiency (25%)
+**3. Store reference notes in the question explanation field**
 
-Composite score uses the existing formula weights: Clinical Accuracy 40%, Answer Stability 20%, Time Management 20%, Confidence Calibration 20% -- pulled from `performance_profiles`.
+Since the `questions` table already has an `explanation` column, the detailed explanations with book references will be structured within that field. For now, the UI will parse and display the explanation, and add styled reference sections with book attribution headers even if the current explanation text is brief. The textbook reference sections will be rendered as distinct styled blocks.
 
-### Visual Design
+### Technical Approach
 
-1. **Composite Score** at the top -- large circular gauge showing "68/100" style
-2. **DNA Wheel** below -- Recharts `RadarChart` with:
-   - Each axis = one AMC system (17 systems from SYSTEMS constant)
-   - Fill area colored with gradient (green center fading to red outer = inverted, or segments colored individually)
-   - Custom tooltip on hover showing: accuracy %, questions attempted, avg response time, trend arrow
-3. **Color coding**: Each subject dot/segment colored green (>=70%), yellow (50-69%), red (<50%)
-4. **Click interaction**: Clicking a red/yellow segment navigates to `/practice?category=SubjectName` to start a focused drill
+- Add state: `reviewQuestionIndex: number | null` to track which question is being viewed in detail
+- When set, render a full-page explanation component instead of the results list
+- Structure the explanation page with:
+  - Question card with all options color-coded
+  - Explanation text (from DB)
+  - Three reference cards (AMC Handbook, Murtagh's, Tally O'Connor) with topic-relevant headers derived from the question's category
+- Use `framer-motion` for page transitions
+- All changes are in `src/pages/Practice.tsx` only — no new files needed
 
-### Component Structure
-
-```
-<ReadinessDNA>
-  ├── CompositeScoreGauge (circular ring with score)
-  ├── DNARadarChart (Recharts RadarChart)
-  │   └── Custom tooltip with stats
-  └── WeakAreaActions (buttons for red segments → link to /practice?category=X)
-</ReadinessDNA>
-```
-
-### Files to Create/Edit
-
-| File | Action |
-|------|--------|
-| `src/components/ReadinessDNA.tsx` | Create -- main DNA visualization component |
-| `src/pages/Dashboard.tsx` | Edit -- replace `<ReadinessScore />` with `<ReadinessDNA />` |
-| `src/components/ReadinessScore.tsx` | Keep (the composite score logic will be reused inside ReadinessDNA) |
-
-### Key Implementation Details
-
-- Use Recharts `RadarChart` with `PolarGrid`, `PolarAngleAxis`, `Radar` -- already installed
-- Custom `<Tooltip>` content component for hover stats
-- Framer Motion for animated score counter and chart entrance
-- Mobile responsive: on small screens, show a simplified bar chart fallback or smaller radar
-- Feature-gated: free users see blurred preview with upgrade prompt
-- Navigation on weak-area click: `<Link to={/practice?category=${system}}>` to trigger a practice drill filtered to that subject
+### Files Modified
+- `src/pages/Practice.tsx` — refactor results phase to add clickable detail view with book reference sections
 
