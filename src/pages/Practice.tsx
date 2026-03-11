@@ -817,12 +817,15 @@ function DrillSession({
                   const isSelected = selectedAnswers[currentIndex] === letter;
                   const isLocked = lockedAnswers[currentIndex];
                   return (
-                    <button
+                    <motion.button
                       key={oi}
                       onClick={() => selectAnswer(letter)}
                       disabled={isLocked && !isSelected}
+                      whileTap={{ scale: 0.98 }}
+                      animate={isSelected ? { scale: 1.02, boxShadow: '0 0 0 3px hsl(var(--primary) / 0.15)' } : { scale: 1, boxShadow: '0 0 0 0px transparent' }}
+                      transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                       className={cn(
-                        'w-full rounded-lg border p-4 text-left text-sm transition-all',
+                        'w-full rounded-lg border p-4 text-left text-sm transition-colors',
                         isSelected ? 'border-primary bg-primary/5 ring-2 ring-primary/20' : 'border-border hover:border-primary/30',
                         isLocked && !isSelected && 'opacity-40 cursor-not-allowed'
                       )}
@@ -832,7 +835,7 @@ function DrillSession({
                       </span>
                       {opt.replace(/^[A-E]\.\s*/, '')}
                       {isLocked && isSelected && <Lock className="inline h-3 w-3 ml-2 text-primary" />}
-                    </button>
+                    </motion.button>
                   );
                 })}
               </CardContent>
