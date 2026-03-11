@@ -192,8 +192,7 @@ export default function BehaviorProfile() {
   const signals = data.archetype_signals || {};
 
   return (
-    <AppLayout>
-      <div className="mx-auto max-w-5xl space-y-8">
+    <div className="mx-auto max-w-5xl space-y-8">
         {/* Header */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="flex items-center justify-between">
           <div>
