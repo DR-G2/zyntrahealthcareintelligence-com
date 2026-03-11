@@ -34,13 +34,28 @@ serve(async (req) => {
       return new Response(JSON.stringify({ error: "Forbidden" }), { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
-    // Get all profiles with ban status and presence
+    const body = await req.json().catch(() => ({}));
+    const page = Math.max(1, body.page || 1);
+    const pageSize = Math.min(100, Math.max(1, body.page_size || 50));
+    const from = (page - 1) * pageSize;
+    const to = from + pageSize - 1;
+
+    // Get total count
+    const { count: totalCount } = await supabase
+      .from("profiles")
+      .select("id", { count: "exact", head: true });
+
+    // Get paginated profiles
     const { data: profiles, error: profilesError } = await supabase
       .from("profiles")
-      .select("id, email, name, created_at, onboarding_complete, exam_date, user_type, is_banned");
+      .select("id, email, name, created_at, onboarding_complete, exam_date, user_type, is_banned")
+      .order("created_at", { ascending: false })
+      .range(from, to);
     if (profilesError) throw profilesError;
 
-    const { data: overrides } = await supabase.from("manual_overrides").select("*");
+    const userIds = (profiles || []).map((p: any) => p.id);
+
+    const { data: overrides } = await supabase.from("manual_overrides").select("*").in("user_id", userIds);
     const overrideMap: Record<string, any> = {};
     for (const o of overrides || []) {
       overrideMap[o.user_id] = o;
@@ -49,7 +64,8 @@ serve(async (req) => {
     const { data: payments } = await supabase
       .from("payments")
       .select("*")
-      .eq("status", "active");
+      .eq("status", "active")
+      .in("user_id", userIds);
 
     const paymentMap: Record<string, any> = {};
     for (const p of payments || []) {
@@ -61,8 +77,7 @@ serve(async (req) => {
       };
     }
 
-    // Get presence data for last login
-    const { data: presenceData } = await supabase.from("user_presence").select("user_id, last_seen_at, is_online");
+    const { data: presenceData } = await supabase.from("user_presence").select("user_id, last_seen_at, is_online").in("user_id", userIds);
     const presenceMap: Record<string, any> = {};
     for (const p of presenceData || []) {
       presenceMap[p.user_id] = { last_seen_at: p.last_seen_at, is_online: p.is_online };
@@ -75,7 +90,7 @@ serve(async (req) => {
       presence: presenceMap[p.id] || null,
     }));
 
-    return new Response(JSON.stringify({ users }), {
+    return new Response(JSON.stringify({ users, total_count: totalCount || 0, page, page_size: pageSize }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (e: any) {

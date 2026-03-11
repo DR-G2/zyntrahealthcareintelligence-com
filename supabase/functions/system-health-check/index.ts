@@ -159,6 +159,28 @@ serve(async (req) => {
       return { ai_responding: true };
     }));
 
+    // Step 7b: AI Gateway latency check
+    steps.push(await runCheck("ai_gateway", async () => {
+      const aiStart = Date.now();
+      const lovableApiKey = Deno.env.get("LOVABLE_API_KEY");
+      if (!lovableApiKey) return { skipped: true, reason: "no_api_key" };
+      const resp = await fetch("https://ai.lovable.dev/api/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${lovableApiKey}`,
+        },
+        body: JSON.stringify({
+          model: "google/gemini-2.5-flash-lite",
+          messages: [{ role: "user", content: "ping" }],
+          max_tokens: 5,
+        }),
+      });
+      const aiLatency = Date.now() - aiStart;
+      if (!resp.ok) throw new Error(`AI gateway returned ${resp.status}`);
+      return { ai_gateway_responding: true, ai_latency_ms: aiLatency };
+    }));
+
     // Step 8: Payments system
     steps.push(await runCheck("payments", async () => {
       const { data, error } = await supabase
