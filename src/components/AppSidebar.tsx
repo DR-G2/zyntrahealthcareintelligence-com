@@ -24,7 +24,7 @@ export const SidebarContext = createContext<SidebarContextType>({
 });
 export const useSidebarCollapsed = () => useContext(SidebarContext);
 
-const ADMIN_EMAIL = "gopalrock.naren@gmail.com";
+const ADMIN_EMAILS = ["gopalrock.naren@gmail.com", "amc.osce.2026@gmail.com", "testuser123@zyntr.website"];
 
 interface NavItem { to: string; label: string; icon: React.ElementType; }
 interface NavGroup {
