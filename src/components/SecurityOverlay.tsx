@@ -78,7 +78,7 @@ export function SecurityOverlay({ children, opacityOverride }: SecurityOverlayPr
   const handleVisibilityChange = useCallback(() => {
     if (document.hidden) {
       setBlurred(true);
-      logScreenshotAttempt('tab_switch');
+      logScreenshotAttempt('screenshot');
     } else {
       setBlurred(false);
     }
