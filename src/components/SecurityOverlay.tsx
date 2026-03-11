@@ -47,6 +47,7 @@ export function SecurityOverlay({ children, opacityOverride }: SecurityOverlayPr
       setFlashing(true);
       setTimeout(() => setFlashing(false), 250);
       logScreenshotAttempt('printscreen_key');
+      toast.warning('Screenshot detected — your identity is watermarked on all content.');
     }
     if (e.key === 'F12') {
       e.preventDefault();
