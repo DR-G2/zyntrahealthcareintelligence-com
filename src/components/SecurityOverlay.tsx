@@ -2,6 +2,7 @@ import { useEffect, useCallback, useState, ReactNode } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { ShieldAlert } from 'lucide-react';
+import { toast } from 'sonner';
 
 interface SecurityOverlayProps {
   children: ReactNode;
