@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState, useRef, ReactNode } from 'react';
 import { Session, User } from '@supabase/supabase-js';
 import { supabase } from '@/lib/supabase';
 import { CURRENT_TERMS_VERSION } from '@/lib/legal';
@@ -17,6 +17,7 @@ interface Profile {
   graduation_year: number | null;
   current_location: string | null;
   exam_stage: string | null;
+  is_banned?: boolean;
 }
 
 export interface WatermarkState {
@@ -59,20 +60,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
   const [subscription, setSubscription] = useState<SubscriptionState>({
-    subscribed: false,
-    tier: 'free',
-    subscription_end: null,
-    loading: true,
+    subscribed: false, tier: 'free', subscription_end: null, loading: true,
   });
   const [watermark, setWatermark] = useState<WatermarkState>({
-    opacity_light: 0.055,
-    opacity_dark: 0.065,
-    suspended: false,
-    strike_count: 0,
-    loading: true,
+    opacity_light: 0.055, opacity_dark: 0.065, suspended: false, strike_count: 0, loading: true,
   });
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [termsLoading, setTermsLoading] = useState(true);
+
+  // Refs to prevent redundant fetches on TOKEN_REFRESHED
+  const termsAcceptedRef = useRef(false);
+  const isFetchingRef = useRef(false);
 
   const fetchTermsAcceptance = async (userId: string) => {
     try {
@@ -83,7 +81,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         .eq('terms_version', CURRENT_TERMS_VERSION)
         .limit(1)
         .maybeSingle();
-      setTermsAccepted(!!data);
+      const accepted = !!data;
+      termsAcceptedRef.current = accepted;
+      setTermsAccepted(accepted);
     } catch {
       setTermsAccepted(false);
     } finally {
@@ -98,6 +98,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       terms_version: CURRENT_TERMS_VERSION,
       user_agent: navigator.userAgent,
     });
+    termsAcceptedRef.current = true;
     setTermsAccepted(true);
   };
 
@@ -136,13 +137,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         supabase.from('watermark_settings').select('*').eq('user_id', userId).maybeSingle(),
         supabase.from('piracy_strikes').select('id', { count: 'exact', head: true }).eq('user_id', userId),
       ]);
-      const settings = settingsRes.data;
-      const strikeCount = strikesRes.count ?? 0;
       setWatermark({
-        opacity_light: settings?.opacity_light ?? 0.055,
-        opacity_dark: settings?.opacity_dark ?? 0.065,
-        suspended: settings?.suspended ?? false,
-        strike_count: strikeCount,
+        opacity_light: settingsRes.data?.opacity_light ?? 0.055,
+        opacity_dark: settingsRes.data?.opacity_dark ?? 0.065,
+        suspended: settingsRes.data?.suspended ?? false,
+        strike_count: strikesRes.count ?? 0,
         loading: false,
       });
     } catch (e) {
@@ -151,13 +150,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  // Handle "Remember Me" - if off, sign out on new browser session
+  const fetchAllUserData = async (userId: string) => {
+    if (isFetchingRef.current) return;
+    isFetchingRef.current = true;
+    try {
+      await Promise.all([
+        fetchProfile(userId),
+        checkSubscription(),
+        fetchWatermark(userId),
+        fetchTermsAcceptance(userId),
+      ]);
+    } finally {
+      isFetchingRef.current = false;
+    }
+  };
+
+  // Handle "Remember Me"
   useEffect(() => {
     const rememberMe = localStorage.getItem('zyntra_remember_me');
     if (rememberMe === 'false') {
       const sessionActive = sessionStorage.getItem('zyntra_session_active');
       if (!sessionActive) {
-        // New browser session and remember me is off — sign out
         supabase.auth.signOut();
         return;
       }
@@ -166,18 +179,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const { data: { subscription: authSub } } = supabase.auth.onAuthStateChange(
-      async (_event, session) => {
+      async (event, session) => {
         setSession(session);
         setUser(session?.user ?? null);
+
         if (session?.user) {
-          setTimeout(() => fetchProfile(session.user.id), 0);
-          setTimeout(() => checkSubscription(), 100);
-          setTimeout(() => fetchWatermark(session.user.id), 0);
-          setTimeout(() => fetchTermsAcceptance(session.user.id), 0);
+          // On TOKEN_REFRESHED, skip full re-fetch if terms already accepted
+          if (event === 'TOKEN_REFRESHED') {
+            // Only refresh profile (for ban check) — skip terms, watermark, subscription
+            setTimeout(() => fetchProfile(session.user.id), 0);
+            return;
+          }
+
+          if (event === 'SIGNED_IN' || event === 'INITIAL_SESSION') {
+            setTimeout(() => fetchAllUserData(session.user.id), 0);
+          }
         } else {
           setProfile(null);
           setSubscription({ subscribed: false, tier: 'free', subscription_end: null, loading: false });
           setWatermark({ opacity_light: 0.055, opacity_dark: 0.065, suspended: false, strike_count: 0, loading: false });
+          termsAcceptedRef.current = false;
           setTermsAccepted(false);
           setTermsLoading(false);
         }
@@ -189,10 +210,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setSession(session);
       setUser(session?.user ?? null);
       if (session?.user) {
-        fetchProfile(session.user.id);
-        checkSubscription();
-        fetchWatermark(session.user.id);
-        fetchTermsAcceptance(session.user.id);
+        fetchAllUserData(session.user.id);
       } else {
         setSubscription(prev => ({ ...prev, loading: false }));
         setWatermark(prev => ({ ...prev, loading: false }));
@@ -204,17 +222,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return () => authSub.unsubscribe();
   }, []);
 
-  // Periodic refresh every 60 seconds
+  // Periodic subscription refresh every 5 minutes (reduced from 60s)
   useEffect(() => {
     if (!user) return;
-    const interval = setInterval(checkSubscription, 60000);
+    const interval = setInterval(checkSubscription, 300000);
     return () => clearInterval(interval);
   }, [user]);
 
   const signUp = async (email: string, password: string) => {
     const { error } = await supabase.auth.signUp({
-      email,
-      password,
+      email, password,
       options: { emailRedirectTo: window.location.origin },
     });
     if (error) throw error;

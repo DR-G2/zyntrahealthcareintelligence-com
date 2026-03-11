@@ -18,8 +18,8 @@ export function usePresence(userId: string | undefined) {
     // Initial heartbeat
     trackPresence(true);
 
-    // Heartbeat every 30s
-    intervalRef.current = setInterval(() => trackPresence(true), 30000);
+    // Heartbeat every 60s (reduced from 30s)
+    intervalRef.current = setInterval(() => trackPresence(true), 60000);
 
     const handleVisibilityChange = () => {
       if (document.hidden) {

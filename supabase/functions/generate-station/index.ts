@@ -53,9 +53,9 @@ For ${mode === 'adaptive' ? 'adaptive training (may be psychiatry/communication 
                       medications: { type: "string" },
                       social_history: { type: "string" },
                       family_history: { type: "string" },
-                      emotional_state: { type: "string", description: "Patient's emotional presentation (e.g., anxious, tearful, angry, withdrawn)" },
-                      hidden_agenda: { type: "string", description: "Information patient only reveals if asked specifically" },
-                      system_prompt: { type: "string", description: "Instructions for AI to roleplay this patient in chat. Include personality, speech patterns, what to reveal and when." },
+                      emotional_state: { type: "string" },
+                      hidden_agenda: { type: "string" },
+                      system_prompt: { type: "string" },
                     },
                     required: ["name", "age", "gender", "presenting_complaint", "history_of_presenting_illness", "past_medical_history", "medications", "social_history", "family_history", "emotional_state", "hidden_agenda", "system_prompt"],
                   },
@@ -66,11 +66,10 @@ For ${mode === 'adaptive' ? 'adaptive training (may be psychiatry/communication 
                       properties: {
                         finding: { type: "string" },
                         is_relevant: { type: "boolean" },
-                        result: { type: "string", description: "What the examination shows" },
+                        result: { type: "string" },
                       },
                       required: ["finding", "is_relevant", "result"],
                     },
-                    description: "List of 8-12 examination findings, mix of relevant and distractors",
                   },
                   investigations: {
                     type: "array",
@@ -83,7 +82,6 @@ For ${mode === 'adaptive' ? 'adaptive training (may be psychiatry/communication 
                       },
                       required: ["investigation", "is_appropriate", "result"],
                     },
-                    description: "List of 8-12 investigations, mix of appropriate and inappropriate",
                   },
                   management_actions: {
                     type: "array",
@@ -96,26 +94,13 @@ For ${mode === 'adaptive' ? 'adaptive training (may be psychiatry/communication 
                       },
                       required: ["action", "is_correct", "priority"],
                     },
-                    description: "List of 10-14 management actions",
                   },
                   marking_rubric: {
                     type: "object",
                     properties: {
-                      communication_criteria: {
-                        type: "array",
-                        items: { type: "string" },
-                        description: "Key communication skills to assess (e.g., empathy, active listening, ICE exploration)",
-                      },
-                      clinical_safety_items: {
-                        type: "array",
-                        items: { type: "string" },
-                        description: "Critical safety items that must be addressed",
-                      },
-                      key_diagnoses: {
-                        type: "array",
-                        items: { type: "string" },
-                        description: "Expected differential diagnoses",
-                      },
+                      communication_criteria: { type: "array", items: { type: "string" } },
+                      clinical_safety_items: { type: "array", items: { type: "string" } },
+                      key_diagnoses: { type: "array", items: { type: "string" } },
                     },
                     required: ["communication_criteria", "clinical_safety_items", "key_diagnoses"],
                   },
@@ -134,6 +119,17 @@ For ${mode === 'adaptive' ? 'adaptive training (may be psychiatry/communication 
       const status = response.status;
       const text = await response.text();
       console.error("AI gateway error:", status, text);
+
+      // Log error to system_error_logs
+      try {
+        const { createClient } = await import("https://esm.sh/@supabase/supabase-js@2");
+        const sb = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
+        await sb.from("system_error_logs").insert({
+          error_type: "OSCE_STATION_GENERATION_FAILURE",
+          details: { status, body: text.slice(0, 500), subject, mode },
+        });
+      } catch (_) { /* best effort */ }
+
       if (status === 429) return new Response(JSON.stringify({ error: "Rate limited, try again shortly." }), { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } });
       if (status === 402) return new Response(JSON.stringify({ error: "AI credits exhausted." }), { status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" } });
       return new Response(JSON.stringify({ error: "Failed to generate station" }), { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } });
@@ -150,6 +146,17 @@ For ${mode === 'adaptive' ? 'adaptive training (may be psychiatry/communication 
     });
   } catch (e) {
     console.error("generate-station error:", e);
+
+    // Log error
+    try {
+      const { createClient } = await import("https://esm.sh/@supabase/supabase-js@2");
+      const sb = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
+      await sb.from("system_error_logs").insert({
+        error_type: "OSCE_STATION_GENERATION_EXCEPTION",
+        details: { message: e instanceof Error ? e.message : "Unknown error" },
+      });
+    } catch (_) { /* best effort */ }
+
     return new Response(JSON.stringify({ error: e instanceof Error ? e.message : "Unknown error" }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
