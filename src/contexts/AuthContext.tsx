@@ -63,7 +63,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     subscribed: false, tier: 'free', subscription_end: null, loading: true,
   });
   const [watermark, setWatermark] = useState<WatermarkState>({
-    opacity_light: 0.055, opacity_dark: 0.065, suspended: false, strike_count: 0, loading: true,
+    opacity_light: 0.08, opacity_dark: 0.09, suspended: false, strike_count: 0, loading: true,
   });
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [termsLoading, setTermsLoading] = useState(true);
