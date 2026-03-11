@@ -133,11 +133,7 @@ export default function Profile() {
   }, [mcqAttempts]);
 
   if (loading) {
-    return (
-      <AppLayout>
-        <ProfileSkeleton />
-      </AppLayout>
-    );
+    return <ProfileSkeleton />;
   }
 
   if (!data && !osceStats && !gutStats) {
