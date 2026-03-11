@@ -47,6 +47,7 @@ function UsersTab() {
   const [grantTier, setGrantTier] = useState("full_access");
   const [grantDuration, setGrantDuration] = useState("permanent");
   const [granting, setGranting] = useState(false);
+  const [inspectUser, setInspectUser] = useState<{ id: string; email: string } | null>(null);
   const { toast } = useToast();
 
   const fetchUsers = async () => {
