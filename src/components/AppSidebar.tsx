@@ -2,9 +2,10 @@ import { NavLink, useLocation } from 'react-router-dom';
 import {
   ClipboardCheck, BookOpen, Calendar, Settings, Zap, UserCircle, LogOut, Brain,
   Target, Activity, ChevronRight, Shield, Stethoscope, PanelLeftClose, PanelLeft,
-  MessageCircle, Users, Share2, AlertCircle, Rss, History,
+  MessageCircle, Users, Share2, AlertCircle, Rss, History, BarChart3,
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
+import { useFeatureGate } from '@/hooks/useFeatureGate';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { cn } from '@/lib/utils';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
