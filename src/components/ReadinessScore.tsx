@@ -22,6 +22,8 @@ export function ReadinessScore() {
   const gate = useFeatureGate();
   const [data, setData] = useState<ReadinessData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [displayScore, setDisplayScore] = useState(0);
+  const animatedRef = useRef(false);
 
   useEffect(() => {
     if (!user) return;
@@ -47,7 +49,6 @@ export function ReadinessScore() {
         : 0;
       const confidence = Math.max(0, 100 - confidenceGap);
 
-      // Weighted formula
       const score = Math.round(
         accuracy * 0.4 +
         stability * 0.15 +
@@ -62,19 +63,6 @@ export function ReadinessScore() {
     fetch();
   }, [user]);
 
-  if (loading) {
-    return (
-      <Card>
-        <CardContent className="py-8">
-          <div className="h-20 animate-pulse bg-muted rounded-lg" />
-        </CardContent>
-      </Card>
-    );
-  }
-
-  // Count-up animation
-  const [displayScore, setDisplayScore] = useState(0);
-  const animatedRef = useRef(false);
   const score = data?.score || 0;
 
   useEffect(() => {
@@ -95,6 +83,16 @@ export function ReadinessScore() {
   const color = displayScore >= 70 ? 'text-success' : displayScore >= 50 ? 'text-warning' : 'text-destructive';
   const bgColor = displayScore >= 70 ? 'bg-success/10' : displayScore >= 50 ? 'bg-warning/10' : 'bg-destructive/10';
   const label = score >= 70 ? 'Strong' : score >= 50 ? 'Developing' : 'Needs Work';
+
+  if (loading) {
+    return (
+      <Card>
+        <CardContent className="py-8">
+          <div className="h-20 animate-pulse bg-muted rounded-lg" />
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
     <Card className="relative overflow-hidden">
