@@ -49,6 +49,7 @@ const SERVICE_ICONS: Record<string, React.ReactNode> = {
   osce_engine: <Stethoscope className="h-5 w-5" />,
   osce_validation: <Stethoscope className="h-5 w-5" />,
   ai_service: <Brain className="h-5 w-5" />,
+  ai_gateway: <Zap className="h-5 w-5" />,
   payments: <CreditCard className="h-5 w-5" />,
   user_attempts_access: <Activity className="h-5 w-5" />,
   session_storage: <HardDrive className="h-5 w-5" />,
