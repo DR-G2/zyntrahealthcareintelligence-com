@@ -138,8 +138,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         supabase.from('piracy_strikes').select('id', { count: 'exact', head: true }).eq('user_id', userId),
       ]);
       setWatermark({
-        opacity_light: settingsRes.data?.opacity_light ?? 0.055,
-        opacity_dark: settingsRes.data?.opacity_dark ?? 0.065,
+        opacity_light: settingsRes.data?.opacity_light ?? 0.08,
+        opacity_dark: settingsRes.data?.opacity_dark ?? 0.09,
         suspended: settingsRes.data?.suspended ?? false,
         strike_count: strikesRes.count ?? 0,
         loading: false,
