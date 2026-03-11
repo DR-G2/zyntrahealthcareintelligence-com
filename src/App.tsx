@@ -82,10 +82,10 @@ const App = () => (
                 <Route path="/onboarding" element={<ErrorBoundary><Onboarding /></ErrorBoundary>} />
                 <Route path="/dashboard" element={<ProtectedRoute><ErrorBoundary><Dashboard /></ErrorBoundary></ProtectedRoute>} />
                 <Route path="/assess" element={<ProtectedRoute><ErrorBoundary><Assess /></ErrorBoundary></ProtectedRoute>} />
-                <Route path="/profile" element={<ProtectedRoute><ErrorBoundary><Profile /></ErrorBoundary></ProtectedRoute>} />
-                <Route path="/behavior" element={<ProtectedRoute><ErrorBoundary><BehaviorProfile /></ErrorBoundary></ProtectedRoute>} />
-                <Route path="/trust-your-gut" element={<ProtectedRoute><ErrorBoundary><TrustYourGut /></ErrorBoundary></ProtectedRoute>} />
-                <Route path="/practice" element={<ProtectedRoute><ErrorBoundary><Practice /></ErrorBoundary></ProtectedRoute>} />
+                <Route path="/intelligence" element={<ProtectedRoute><ErrorBoundary><PerformanceIntelligence /></ErrorBoundary></ProtectedRoute>} />
+                <Route path="/profile" element={<Navigate to="/intelligence?tab=performance" replace />} />
+                <Route path="/behavior" element={<Navigate to="/intelligence?tab=behavior" replace />} />
+                <Route path="/trust-your-gut" element={<Navigate to="/intelligence?tab=trust-your-gut" replace />} />
                 <Route path="/questions" element={<ProtectedRoute><ErrorBoundary><Questions /></ErrorBoundary></ProtectedRoute>} />
                 <Route path="/questions/mcq" element={<ProtectedRoute><ErrorBoundary><QuestionsMCQ /></ErrorBoundary></ProtectedRoute>} />
                 <Route path="/questions/osce" element={<ProtectedRoute><ErrorBoundary><QuestionsOSCE /></ErrorBoundary></ProtectedRoute>} />
