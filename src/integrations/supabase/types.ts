@@ -14,6 +14,66 @@ export type Database = {
   }
   public: {
     Tables: {
+      active_sessions: {
+        Row: {
+          answer_changes: Json
+          answers: Json
+          change_sequences: Json
+          config: Json
+          created_at: string
+          current_index: number
+          id: string
+          pause_events: Json
+          question_ids: Json
+          question_times: Json
+          restored: boolean
+          session_id: string
+          session_type: string
+          time_remaining: number
+          time_to_first_click: Json
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          answer_changes?: Json
+          answers?: Json
+          change_sequences?: Json
+          config?: Json
+          created_at?: string
+          current_index?: number
+          id?: string
+          pause_events?: Json
+          question_ids?: Json
+          question_times?: Json
+          restored?: boolean
+          session_id: string
+          session_type?: string
+          time_remaining?: number
+          time_to_first_click?: Json
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          answer_changes?: Json
+          answers?: Json
+          change_sequences?: Json
+          config?: Json
+          created_at?: string
+          current_index?: number
+          id?: string
+          pause_events?: Json
+          question_ids?: Json
+          question_times?: Json
+          restored?: boolean
+          session_id?: string
+          session_type?: string
+          time_remaining?: number
+          time_to_first_click?: Json
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       ai_training_context: {
         Row: {
           aggregate_data: Json
