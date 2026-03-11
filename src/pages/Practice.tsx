@@ -771,6 +771,32 @@ function DrillSession({
     );
   }
 
+  // Resume session overlay
+  if (restoring) {
+    return (
+      <AppLayout>
+        <AnimatePresence>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="mx-auto max-w-md py-24 text-center space-y-6"
+          >
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
+              className="mx-auto h-12 w-12 rounded-full border-4 border-primary border-t-transparent"
+            />
+            <h2 className="text-xl font-display font-semibold">Restoring your previous session...</h2>
+            <div className="h-2 w-full rounded-full bg-muted overflow-hidden">
+              <div className="h-full rounded-full bg-primary" style={{ animation: 'restore-progress 1.5s ease-out forwards' }} />
+            </div>
+          </motion.div>
+        </AnimatePresence>
+      </AppLayout>
+    );
+  }
+
   const question = questions[currentIndex];
   if (!question) {
     return (
