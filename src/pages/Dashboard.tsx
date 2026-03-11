@@ -122,9 +122,9 @@ export default function Dashboard() {
         </Card>
       )}
 
-      {/* AMC Readiness Score */}
+      {/* AMC Readiness DNA */}
       <div className="mt-8">
-        <ReadinessScore />
+        <ReadinessDNA />
       </div>
 
       <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
