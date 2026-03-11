@@ -202,6 +202,7 @@ export function AppSidebar({ isMobile }: { isMobile?: boolean }) {
         <SidebarInner
           collapsed={effectiveCollapsed}
           isAdmin={isAdmin}
+          isSuperAdmin={isSuperAdmin}
           location={location}
           signOut={signOut}
           showCollapseToggle
