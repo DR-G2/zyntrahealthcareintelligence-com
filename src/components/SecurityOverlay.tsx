@@ -13,6 +13,14 @@ export function SecurityOverlay({ children, opacityOverride }: SecurityOverlayPr
   const { user, profile, watermark } = useAuth();
   const [blurred, setBlurred] = useState(false);
   const [flashing, setFlashing] = useState(false);
+  const lastWarningRef = useRef(0);
+
+  const showWarningToast = useCallback(() => {
+    if (Date.now() - lastWarningRef.current > 5000) {
+      lastWarningRef.current = Date.now();
+      toast.warning('Screenshot detected — your identity is watermarked on all content.');
+    }
+  }, []);
 
   const watermarkText = [
     profile?.name || '',
