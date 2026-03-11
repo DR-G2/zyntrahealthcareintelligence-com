@@ -65,14 +65,14 @@ export default function Assess() {
   // Fetch question pool with tiers
   useEffect(() => {
     const fetchPool = async () => {
-      // Fetch difficulty-balanced pool: 50% hard, 30% medium, 20% easy
+      // Fetch difficulty-balanced pool: 50% difficult, 30% moderate, 20% easy
       const [hardRes, mediumRes, easyRes] = await Promise.all([
         supabase.from('questions')
           .select('id, question_text, options, correct_answer, explanation, category, difficulty, difficulty_tier')
-          .eq('difficulty', 'hard').limit(50),
+          .eq('difficulty', 'difficult').limit(50),
         supabase.from('questions')
           .select('id, question_text, options, correct_answer, explanation, category, difficulty, difficulty_tier')
-          .eq('difficulty', 'medium').limit(30),
+          .eq('difficulty', 'moderate').limit(30),
         supabase.from('questions')
           .select('id, question_text, options, correct_answer, explanation, category, difficulty, difficulty_tier')
           .eq('difficulty', 'easy').limit(20),

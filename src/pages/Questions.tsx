@@ -42,7 +42,7 @@ interface UserAttempt {
   created_at: string;
 }
 
-const difficulties = ['All', 'easy', 'medium', 'hard'];
+const difficulties = ['All', 'easy', 'moderate', 'difficult'];
 
 type FilterTab = 'all' | 'bookmarked' | 'incorrect' | 'unattempted';
 

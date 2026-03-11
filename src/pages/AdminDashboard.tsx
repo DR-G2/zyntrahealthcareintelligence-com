@@ -38,7 +38,7 @@ const CATEGORIES = [
   "Haematology", "Musculoskeletal", "Surgery"
 ];
 
-const DIFFICULTIES = ["easy", "medium", "hard"];
+const DIFFICULTIES = ["easy", "moderate", "difficult"];
 
 const OSCE_SUBJECTS = [
   "Cardiology", "Respiratory", "Gastroenterology", "Neurology", "Endocrinology",
@@ -298,7 +298,7 @@ function MCQTab() {
   const [bulkGenerating, setBulkGenerating] = useState(false);
   const [cleaning, setCleaning] = useState(false);
   const [category, setCategory] = useState("Cardiology");
-  const [difficulty, setDifficulty] = useState("medium");
+  const [difficulty, setDifficulty] = useState("moderate");
   const [batchSize, setBatchSize] = useState("10");
   const [jsonInput, setJsonInput] = useState("");
   const [fileName, setFileName] = useState<string | null>(null);

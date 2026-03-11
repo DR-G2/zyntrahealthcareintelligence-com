@@ -15,9 +15,47 @@ serve(async (req) => {
 
     const systemPrompt = `You are a clinical OSCE station generator for the AMC Clinical Exam. Generate a realistic clinical station scenario for the subject: ${subject}.
 
-The station must be a consultation scenario where a medical candidate interviews a simulated patient. The scenario should be realistic, clinically accurate, and test clinical reasoning.
+STRICT AMC CLINICAL EXAM FORMAT — the station MUST comply:
 
-For ${mode === 'adaptive' ? 'adaptive training (may be psychiatry/communication focused)' : 'standard training'}.`;
+1. STATION STRUCTURE:
+   - Reading time: 2 minutes (candidate reads instructions outside the room)
+   - Station time: 8 minutes (candidate performs tasks inside the room)
+   - The scenario must be completable within these time constraints
+
+2. CANDIDATE INSTRUCTIONS:
+   - Written in second person ("You are a doctor in...")
+   - Setting (GP clinic, ED, ward, outpatient clinic)
+   - Brief patient introduction (name, age, presenting complaint)
+   - Specific tasks to perform (e.g. "Take a focused history", "Explain the diagnosis", "Discuss management options")
+   - What NOT to do (e.g. "Do not perform a physical examination")
+
+3. EXAMINER INSTRUCTIONS:
+   - What to observe and mark
+   - When to provide prompts if candidate is stuck
+   - Key safety items that must be assessed
+   - Time management guidance
+
+4. SIMULATED PATIENT PERSONA:
+   - Realistic demographics, occupation, social context
+   - Emotional state and how it changes during consultation
+   - Hidden agenda or concern the candidate must elicit
+   - Specific responses to expected questions
+   - Information to volunteer only if asked directly
+
+5. MARKING CHECKLIST (scored items):
+   - Communication skills (introduction, rapport, empathy, active listening)
+   - History-taking completeness (presenting complaint, associated symptoms, red flags, PMHx, medications, social history)
+   - Clinical reasoning (appropriate differentials, logical approach)
+   - Management (correct plan, safety netting, follow-up)
+   - Patient-centred care (checking understanding, addressing concerns)
+   - Each item scored: 0 (not done), 1 (partially done), 2 (well done)
+
+6. CLINICAL ACCURACY:
+   - Follow Australian clinical guidelines (eTG, RACGP)
+   - Use Australian healthcare system context (Medicare, PBS, referral pathways)
+   - Include realistic examination findings and investigation results
+
+For ${mode === 'adaptive' ? 'adaptive training (may include psychiatry, communication-heavy, or ethically complex scenarios)' : 'standard AMC Clinical Exam training'}.`;
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
@@ -29,35 +67,40 @@ For ${mode === 'adaptive' ? 'adaptive training (may be psychiatry/communication 
         model: "google/gemini-2.5-pro",
         messages: [
           { role: "system", content: systemPrompt },
-          { role: "user", content: `Generate a complete OSCE station for: ${subject}` },
+          { role: "user", content: `Generate a complete AMC Clinical Exam OSCE station for: ${subject}. Include candidate instructions, examiner instructions, detailed patient persona, and a scored marking checklist.` },
         ],
         tools: [
           {
             type: "function",
             function: {
               name: "create_station",
-              description: "Create a structured OSCE clinical station scenario",
+              description: "Create a structured AMC Clinical Exam OSCE station scenario",
               parameters: {
                 type: "object",
                 properties: {
                   scenario_title: { type: "string", description: "Brief title of the scenario" },
+                  candidate_instructions: { type: "string", description: "What the candidate reads during 2-min reading time — setting, patient intro, tasks" },
+                  examiner_instructions: { type: "string", description: "Guidance for the examiner — what to observe, when to prompt, key safety items" },
+                  reading_time_minutes: { type: "integer", description: "Reading time in minutes (default 2)" },
+                  station_time_minutes: { type: "integer", description: "Station time in minutes (default 8)" },
                   patient_persona: {
                     type: "object",
                     properties: {
                       name: { type: "string" },
                       age: { type: "integer" },
                       gender: { type: "string" },
+                      occupation: { type: "string" },
                       presenting_complaint: { type: "string" },
                       history_of_presenting_illness: { type: "string" },
                       past_medical_history: { type: "string" },
                       medications: { type: "string" },
                       social_history: { type: "string" },
                       family_history: { type: "string" },
-                      emotional_state: { type: "string" },
-                      hidden_agenda: { type: "string" },
-                      system_prompt: { type: "string" },
+                      emotional_state: { type: "string", description: "Patient's emotional state and how it evolves during the consultation" },
+                      hidden_agenda: { type: "string", description: "Concern or fear the patient won't reveal unless specifically asked" },
+                      system_prompt: { type: "string", description: "AI system prompt for simulating this patient — include speech patterns, emotional cues, what to reveal when asked" },
                     },
-                    required: ["name", "age", "gender", "presenting_complaint", "history_of_presenting_illness", "past_medical_history", "medications", "social_history", "family_history", "emotional_state", "hidden_agenda", "system_prompt"],
+                    required: ["name", "age", "gender", "occupation", "presenting_complaint", "history_of_presenting_illness", "past_medical_history", "medications", "social_history", "family_history", "emotional_state", "hidden_agenda", "system_prompt"],
                   },
                   examination_findings: {
                     type: "array",
@@ -95,6 +138,19 @@ For ${mode === 'adaptive' ? 'adaptive training (may be psychiatry/communication 
                       required: ["action", "is_correct", "priority"],
                     },
                   },
+                  marking_checklist: {
+                    type: "array",
+                    description: "Scored marking items for examiner assessment",
+                    items: {
+                      type: "object",
+                      properties: {
+                        domain: { type: "string", enum: ["communication", "history", "clinical_reasoning", "management", "patient_centred", "safety"] },
+                        item: { type: "string", description: "What the examiner is assessing" },
+                        max_score: { type: "integer", description: "Maximum score for this item (typically 2)" },
+                      },
+                      required: ["domain", "item", "max_score"],
+                    },
+                  },
                   marking_rubric: {
                     type: "object",
                     properties: {
@@ -105,7 +161,7 @@ For ${mode === 'adaptive' ? 'adaptive training (may be psychiatry/communication 
                     required: ["communication_criteria", "clinical_safety_items", "key_diagnoses"],
                   },
                 },
-                required: ["scenario_title", "patient_persona", "examination_findings", "investigations", "management_actions", "marking_rubric"],
+                required: ["scenario_title", "candidate_instructions", "examiner_instructions", "reading_time_minutes", "station_time_minutes", "patient_persona", "examination_findings", "investigations", "management_actions", "marking_checklist", "marking_rubric"],
                 additionalProperties: false,
               },
             },
@@ -120,7 +176,6 @@ For ${mode === 'adaptive' ? 'adaptive training (may be psychiatry/communication 
       const text = await response.text();
       console.error("AI gateway error:", status, text);
 
-      // Log error to system_error_logs
       try {
         const { createClient } = await import("https://esm.sh/@supabase/supabase-js@2");
         const sb = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
@@ -147,7 +202,6 @@ For ${mode === 'adaptive' ? 'adaptive training (may be psychiatry/communication 
   } catch (e) {
     console.error("generate-station error:", e);
 
-    // Log error
     try {
       const { createClient } = await import("https://esm.sh/@supabase/supabase-js@2");
       const sb = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
