@@ -608,7 +608,6 @@ function DrillSession({
               .in('id', questionIds);
 
             if (qs && qs.length > 0) {
-              // Preserve original order
               const ordered = questionIds.map(id => qs.find(q => q.id === id)).filter(Boolean) as Question[];
               setQuestions(ordered);
               setSelectedAnswers((session.answers as Record<number, string>) || {});
@@ -620,10 +619,12 @@ function DrillSession({
               setCurrentIndex(session.current_index || 0);
               setTimeRemaining(session.time_remaining || timeSeconds);
 
-              // Mark restored
               await supabase.from('active_sessions').update({ restored: true } as any).eq('session_id', resumeSessionId);
 
-              toast({ title: 'Session Restored', description: 'Your previous session has been restored successfully.' });
+              // Show restore overlay
+              setRestoring(true);
+              setTimeout(() => setRestoring(false), 1500);
+
               setLoading(false);
               return;
             }
