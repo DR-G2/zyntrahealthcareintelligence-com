@@ -131,7 +131,7 @@ export function ReadinessScore() {
         ) : (
           <div className="flex items-center gap-6">
             <div className={cn('flex h-24 w-24 items-center justify-center rounded-full', bgColor)}>
-              <span className={cn('text-4xl font-bold font-display', color)}>{score}%</span>
+              <span className={cn('text-4xl font-bold font-display', color)}>{displayScore}%</span>
             </div>
             <div className="flex-1 space-y-1.5 text-sm">
               {[
