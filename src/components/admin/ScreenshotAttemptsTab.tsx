@@ -49,6 +49,7 @@ export function ScreenshotAttemptsTab() {
       case 'printscreen_key': return 'destructive';
       case 'ctrl_shift_s': return 'destructive';
       case 'tab_switch': return 'secondary';
+      case 'screenshot': return 'destructive';
       default: return 'outline';
     }
   };
