@@ -1,15 +1,16 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AppLayout } from '@/components/AppLayout';
 import { useAuth } from '@/contexts/AuthContext';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Link } from 'react-router-dom';
-import { ClipboardCheck, Zap, ArrowRight, Rss } from 'lucide-react';
+import { ClipboardCheck, Zap, ArrowRight, Rss, PlayCircle } from 'lucide-react';
 import { differenceInDays, parseISO } from 'date-fns';
 import { WelcomeTour } from '@/components/WelcomeTour';
 import { ReadinessScore } from '@/components/ReadinessScore';
 import { useFeatureGate } from '@/hooks/useFeatureGate';
+import { supabase } from '@/lib/supabase';
 
 export default function Dashboard() {
   const { profile } = useAuth();
