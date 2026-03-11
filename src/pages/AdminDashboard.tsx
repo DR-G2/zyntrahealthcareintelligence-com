@@ -258,9 +258,18 @@ function UsersTab() {
         email={inspectUser?.email}
         open={!!inspectUser}
         onOpenChange={(open) => !open && setInspectUser(null)}
+        currentUserEmail={currentUserEmail}
+        onUserUpdated={fetchUsers}
       />
     </div>
   );
+}
+
+// Helper to get current user email for role checks
+function useCurrentUserEmail() {
+  const { user } = useAuth();
+  return user?.email || "";
+}
 }
 
 // ─── MCQ Tab ─────────────────────────────────────────────────
