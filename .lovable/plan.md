@@ -1,25 +1,41 @@
 
 
-## Plan: Add Screenshot Warnings to Users
+## Plan: Enhanced Practice Results with Detailed Explanations
 
-### Problem
-When users trigger a screenshot via tab switching, OS screenshot tools, or window blur (the most common methods), the system silently logs the attempt but **never warns the user**. Only PrintScreen and Ctrl+Shift+S key combos show a toast. This means most screenshot attempts go unnoticed by the user.
+### What Changes
 
-### Changes
+**1. Expand the results review section (Practice.tsx, lines 225-245)**
 
-**File: `src/components/SecurityOverlay.tsx`**
+Replace the current inline explanation snippet with a clickable card that navigates to a full-page explanation view. Each question card in results will show:
+- Question text, your answer vs correct answer, correct/incorrect badge
+- A "Read Full Explanation" button that opens a detailed view
 
-1. **`handleVisibilityChange`** — When the tab becomes visible again after being hidden, show a toast warning:
-   - On `document.hidden`: blur + log (keep existing)
-   - On return (`!document.hidden`): unblur + show `toast.warning('Screenshot detected — your identity is watermarked on all content.')`
+**2. Create a full-page explanation view within the results phase**
 
-2. **`handleWindowBlur`** — Add a screenshot log call and show a warning toast when focus returns:
-   - `handleWindowFocus`: add `toast.warning(...)` notification so users know the blur was detected
+Add a new sub-phase `'explanation'` to the drill session. When a user clicks a question, the view transitions to a full-page layout containing:
+- The question and all options (highlighted correct/incorrect)
+- A detailed explanation section
+- **Reference notes** organized by source book:
+  - **AMC Handbook** — key clinical points relevant to the question topic
+  - **John Murtagh's General Practice** — diagnostic approach and management
+  - **Tally O'Connor's Clinical Examination** — examination findings and signs
+- A "Back to Results" button
 
-3. **Deduplicate warnings** — Add a simple debounce (e.g. a `lastWarningTime` ref) to prevent rapid-fire toasts when users alt-tab quickly. Only show a warning if the last one was more than 5 seconds ago.
+**3. Store reference notes in the question explanation field**
 
-### Technical Detail
-- Use a `useRef` for `lastWarningRef` timestamp
-- In both `handleVisibilityChange` (on return) and `handleWindowFocus`, check `Date.now() - lastWarningRef.current > 5000` before showing toast
-- Log the attempt on blur (existing), show warning on focus return (new)
+Since the `questions` table already has an `explanation` column, the detailed explanations with book references will be structured within that field. For now, the UI will parse and display the explanation, and add styled reference sections with book attribution headers even if the current explanation text is brief. The textbook reference sections will be rendered as distinct styled blocks.
+
+### Technical Approach
+
+- Add state: `reviewQuestionIndex: number | null` to track which question is being viewed in detail
+- When set, render a full-page explanation component instead of the results list
+- Structure the explanation page with:
+  - Question card with all options color-coded
+  - Explanation text (from DB)
+  - Three reference cards (AMC Handbook, Murtagh's, Tally O'Connor) with topic-relevant headers derived from the question's category
+- Use `framer-motion` for page transitions
+- All changes are in `src/pages/Practice.tsx` only — no new files needed
+
+### Files Modified
+- `src/pages/Practice.tsx` — refactor results phase to add clickable detail view with book reference sections
 

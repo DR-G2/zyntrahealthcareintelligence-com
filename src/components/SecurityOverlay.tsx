@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useState, ReactNode } from 'react';
+import { useEffect, useCallback, useState, useRef, ReactNode } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { ShieldAlert } from 'lucide-react';
@@ -13,6 +13,14 @@ export function SecurityOverlay({ children, opacityOverride }: SecurityOverlayPr
   const { user, profile, watermark } = useAuth();
   const [blurred, setBlurred] = useState(false);
   const [flashing, setFlashing] = useState(false);
+  const lastWarningRef = useRef(0);
+
+  const showWarningToast = useCallback(() => {
+    if (Date.now() - lastWarningRef.current > 5000) {
+      lastWarningRef.current = Date.now();
+      toast.warning('Screenshot detected — your identity is watermarked on all content.');
+    }
+  }, []);
 
   const watermarkText = [
     profile?.name || '',
@@ -81,16 +89,19 @@ export function SecurityOverlay({ children, opacityOverride }: SecurityOverlayPr
       logScreenshotAttempt('screenshot');
     } else {
       setBlurred(false);
+      showWarningToast();
     }
-  }, [logScreenshotAttempt]);
+  }, [logScreenshotAttempt, showWarningToast]);
 
   const handleWindowBlur = useCallback(() => {
     setBlurred(true);
-  }, []);
+    logScreenshotAttempt('window_blur');
+  }, [logScreenshotAttempt]);
 
   const handleWindowFocus = useCallback(() => {
     setBlurred(false);
-  }, []);
+    showWarningToast();
+  }, [showWarningToast]);
 
   useEffect(() => {
     document.addEventListener('contextmenu', handleContextMenu);
