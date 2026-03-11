@@ -11,7 +11,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { toast } from "@/hooks/use-toast";
 import {
   Wand2, CheckCircle, XCircle, Clock, Database, Server, Monitor, Shield,
-  Loader2, History, FileCode, ArrowRight,
+  Loader2, History, FileCode, ArrowRight, Copy, Check,
 } from "lucide-react";
 
 interface FeaturePlan {
