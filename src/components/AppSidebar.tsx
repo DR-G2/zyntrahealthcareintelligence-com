@@ -215,6 +215,7 @@ export function AppSidebar({ isMobile }: { isMobile?: boolean }) {
           showCollapseToggle
           setCollapsed={setCollapsed}
           currentCollapsed={effectiveCollapsed}
+          navGroups={navGroups}
         />
       </aside>
     </TooltipProvider>
