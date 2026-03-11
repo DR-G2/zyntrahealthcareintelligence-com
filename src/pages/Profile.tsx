@@ -450,6 +450,6 @@ export default function Profile() {
           </Button>
         </div>
       </div>
-    </AppLayout>
+    </div>
   );
 }
