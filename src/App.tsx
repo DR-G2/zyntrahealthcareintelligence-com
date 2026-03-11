@@ -96,7 +96,7 @@ const App = () => (
                 <Route path="/companion/ai-core" element={<ProtectedRoute><ErrorBoundary><ZyntraAICore /></ErrorBoundary></ProtectedRoute>} />
                 <Route path="/review" element={<Navigate to="/practice" replace />} />
                 <Route path="/feed" element={<ProtectedRoute><ErrorBoundary><Feed /></ErrorBoundary></ProtectedRoute>} />
-                <Route path="/history" element={<ProtectedRoute><ErrorBoundary><QuestionHistory /></ErrorBoundary></ProtectedRoute>} />
+                <Route path="/history" element={<Navigate to="/practice" replace />} />
                 <Route path="/admin" element={<ProtectedRoute><ErrorBoundary><AdminDashboard /></ErrorBoundary></ProtectedRoute>} />
                 
                 <Route path="/settings" element={<ProtectedRoute><ErrorBoundary><Settings /></ErrorBoundary></ProtectedRoute>} />
