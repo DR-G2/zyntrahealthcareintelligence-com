@@ -438,6 +438,7 @@ export type Database = {
       }
       profiles: {
         Row: {
+          amc_candidate_id: string | null
           country_of_graduation: string | null
           country_of_origin: string | null
           created_at: string
@@ -458,6 +459,7 @@ export type Database = {
           weak_areas: string[] | null
         }
         Insert: {
+          amc_candidate_id?: string | null
           country_of_graduation?: string | null
           country_of_origin?: string | null
           created_at?: string
@@ -478,6 +480,7 @@ export type Database = {
           weak_areas?: string[] | null
         }
         Update: {
+          amc_candidate_id?: string | null
           country_of_graduation?: string | null
           country_of_origin?: string | null
           created_at?: string
@@ -929,6 +932,33 @@ export type Database = {
           id?: string
           tasks?: Json
           user_id?: string
+        }
+        Relationships: []
+      }
+      system_error_logs: {
+        Row: {
+          created_at: string
+          details: Json | null
+          error_type: string
+          id: string
+          user_email: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          details?: Json | null
+          error_type: string
+          id?: string
+          user_email?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          details?: Json | null
+          error_type?: string
+          id?: string
+          user_email?: string | null
+          user_id?: string | null
         }
         Relationships: []
       }
