@@ -232,7 +232,7 @@ export default function SharedTests() {
 
   return (
     <AppLayout>
-      {!gate.canAccessSharedTests ? (
+      {!gate.isPaid ? (
         <div className="mx-auto max-w-xl py-12">
           <UpgradePrompt feature="Shared Tests" description="Create and share tests with other candidates. Available on the Full Access plan." />
         </div>

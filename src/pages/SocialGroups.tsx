@@ -239,7 +239,7 @@ export default function SocialGroups() {
 
   return (
     <AppLayout>
-      {!gate.canAccessSocialGroups ? (
+      {!gate.isPaid ? (
         <div className="mx-auto max-w-xl py-12">
           <UpgradePrompt feature="Social Study Groups" description="Create and join study groups with other candidates. Available on the Full Access plan." />
         </div>
