@@ -13,15 +13,22 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
-import { Loader2, Sparkles, Upload, FileUp, X, Users, BookOpen, Activity, Pencil, Trash2, Search, ShieldAlert, Radio, ChevronDown, Zap, Brain, Monitor } from 'lucide-react';
+import { Loader2, Sparkles, Upload, FileUp, X, Users, BookOpen, Activity, Pencil, Trash2, Search, ShieldAlert, Radio, ChevronDown, Zap, Brain, Monitor, FileText } from 'lucide-react';
 import { PiracyStrikesTab } from '@/components/admin/PiracyStrikesTab';
 import { LiveActivityTab } from '@/components/admin/LiveActivityTab';
 import { AIControlTab } from '@/components/admin/AIControlTab';
 import { UserInspectionPanel } from '@/components/admin/UserInspectionPanel';
 import { SystemMonitorTab } from '@/components/admin/SystemMonitorTab';
+import { ActivityLogsTab } from '@/components/admin/ActivityLogsTab';
 
-const ADMIN_EMAIL = "gopalrock.naren@gmail.com";
+const ADMIN_EMAILS = [
+  "gopalrock.naren@gmail.com",
+  "amc.osce.2026@gmail.com",
+  "testuser123@zyntr.website",
+];
+const SUPER_ADMIN_EMAIL = "gopalrock.naren@gmail.com";
 
 const CATEGORIES = [
   "Cardiology", "Respiratory", "Gastrointestinal", "Neurology", "Endocrinology",
