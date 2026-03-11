@@ -32,6 +32,8 @@ serve(async (req) => {
     const body = await req.json().catch(() => ({}));
     const currentPage = body.current_page || "/";
     const isOnline = body.is_online !== false;
+    const screenshotAttempt = body.screenshot_attempt === true;
+    const screenshotTrigger = body.screenshot_trigger || null;
 
     // Extract IP from headers
     const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
@@ -50,6 +52,24 @@ serve(async (req) => {
     );
 
     if (error) throw error;
+
+    // Log screenshot attempt to system_error_logs for admin visibility
+    if (screenshotAttempt) {
+      const serviceClient = createClient(
+        supabaseUrl,
+        Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
+      );
+      await serviceClient.from("system_error_logs").insert({
+        error_type: "screenshot_attempt",
+        user_id: userId,
+        details: {
+          trigger: screenshotTrigger,
+          page: currentPage,
+          ip_address: ip,
+          timestamp: new Date().toISOString(),
+        },
+      });
+    }
 
     return new Response(JSON.stringify({ ok: true }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
   } catch (e) {
