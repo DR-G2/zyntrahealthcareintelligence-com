@@ -93,7 +93,7 @@ export default function Dashboard() {
             </Button>
           </CardContent>
         </Card>
-      )
+      )}
 
       {/* Daily Usage for Free Users */}
       {!gate.isPaid && !gate.loading && (
