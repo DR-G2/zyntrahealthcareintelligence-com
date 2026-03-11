@@ -197,7 +197,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         } else {
           setProfile(null);
           setSubscription({ subscribed: false, tier: 'free', subscription_end: null, loading: false });
-          setWatermark({ opacity_light: 0.055, opacity_dark: 0.065, suspended: false, strike_count: 0, loading: false });
+          setWatermark({ opacity_light: 0.08, opacity_dark: 0.09, suspended: false, strike_count: 0, loading: false });
           termsAcceptedRef.current = false;
           setTermsAccepted(false);
           setTermsLoading(false);
