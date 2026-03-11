@@ -150,26 +150,24 @@ export default function BehaviorProfile() {
 
   if (!data) {
     return (
-      <AppLayout>
-        <div className="mx-auto max-w-2xl py-12 text-center">
-          <Card>
-            <CardContent className="py-12 space-y-4">
-              <Brain className="h-12 w-12 text-muted-foreground/50 mx-auto" />
-              <h2 className="text-xl font-display font-bold">No Behavior Profile Yet</h2>
-              <p className="text-muted-foreground">Complete some practice sessions, then run the analysis.</p>
-              <div className="flex gap-3 justify-center">
-                <Button asChild variant="outline">
-                  <Link to="/practice">Start Practice</Link>
-                </Button>
-                <Button onClick={runAnalysis} disabled={analyzing} className="gap-2">
-                  {analyzing ? <Loader2 className="h-4 w-4 animate-spin" /> : <Activity className="h-4 w-4" />}
-                  Run Analysis
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </AppLayout>
+      <div className="mx-auto max-w-2xl py-12 text-center">
+        <Card>
+          <CardContent className="py-12 space-y-4">
+            <Brain className="h-12 w-12 text-muted-foreground/50 mx-auto" />
+            <h2 className="text-xl font-display font-bold">No Behavior Profile Yet</h2>
+            <p className="text-muted-foreground">Complete some practice sessions, then run the analysis.</p>
+            <div className="flex gap-3 justify-center">
+              <Button asChild variant="outline">
+                <Link to="/practice">Start Practice</Link>
+              </Button>
+              <Button onClick={runAnalysis} disabled={analyzing} className="gap-2">
+                {analyzing ? <Loader2 className="h-4 w-4 animate-spin" /> : <Activity className="h-4 w-4" />}
+                Run Analysis
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     );
   }
 
