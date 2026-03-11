@@ -176,8 +176,7 @@ export default function Profile() {
   };
 
   return (
-    <AppLayout>
-      <div className="mx-auto max-w-4xl space-y-8">
+    <div className="mx-auto max-w-4xl space-y-8">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
           <h1 className="text-3xl font-bold font-display">Performance Profile</h1>
           <p className="text-muted-foreground mt-1">Unified readiness breakdown across MCQ, OSCE & Trust Your Gut</p>
