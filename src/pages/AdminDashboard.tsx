@@ -47,7 +47,7 @@ const OSCE_SUBJECTS = [
 
 // ─── Users Tab ───────────────────────────────────────────────
 
-function UsersTab() {
+function UsersTab({ currentUserEmail }: { currentUserEmail: string }) {
   const [users, setUsers] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
