@@ -107,6 +107,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       .select('*')
       .eq('id', userId)
       .single();
+    if (data?.is_banned) {
+      await supabase.auth.signOut();
+      return;
+    }
     setProfile(data);
   };
 

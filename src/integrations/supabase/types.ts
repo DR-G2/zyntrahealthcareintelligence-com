@@ -74,6 +74,60 @@ export type Database = {
         }
         Relationships: []
       }
+      admin_activity_logs: {
+        Row: {
+          action_type: string
+          admin_email: string
+          created_at: string
+          details: Json | null
+          id: string
+          ip_address: string | null
+          target_user_email: string | null
+          target_user_id: string | null
+        }
+        Insert: {
+          action_type: string
+          admin_email: string
+          created_at?: string
+          details?: Json | null
+          id?: string
+          ip_address?: string | null
+          target_user_email?: string | null
+          target_user_id?: string | null
+        }
+        Update: {
+          action_type?: string
+          admin_email?: string
+          created_at?: string
+          details?: Json | null
+          id?: string
+          ip_address?: string | null
+          target_user_email?: string | null
+          target_user_id?: string | null
+        }
+        Relationships: []
+      }
+      admin_roles: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          role: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          role: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          role?: string
+        }
+        Relationships: []
+      }
       ai_training_context: {
         Row: {
           aggregate_data: Json
@@ -394,6 +448,7 @@ export type Database = {
           free_trial_end: string | null
           graduation_year: number | null
           id: string
+          is_banned: boolean
           medical_college: string | null
           name: string | null
           onboarding_complete: boolean
@@ -413,6 +468,7 @@ export type Database = {
           free_trial_end?: string | null
           graduation_year?: number | null
           id: string
+          is_banned?: boolean
           medical_college?: string | null
           name?: string | null
           onboarding_complete?: boolean
@@ -432,6 +488,7 @@ export type Database = {
           free_trial_end?: string | null
           graduation_year?: number | null
           id?: string
+          is_banned?: boolean
           medical_college?: string | null
           name?: string | null
           onboarding_complete?: boolean

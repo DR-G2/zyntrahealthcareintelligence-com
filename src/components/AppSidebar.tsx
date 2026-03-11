@@ -24,7 +24,7 @@ export const SidebarContext = createContext<SidebarContextType>({
 });
 export const useSidebarCollapsed = () => useContext(SidebarContext);
 
-const ADMIN_EMAIL = "gopalrock.naren@gmail.com";
+const ADMIN_EMAILS = ["gopalrock.naren@gmail.com", "amc.osce.2026@gmail.com", "testuser123@zyntr.website"];
 
 interface NavItem { to: string; label: string; icon: React.ElementType; }
 interface NavGroup {
@@ -153,7 +153,7 @@ function CollapsibleNav({ item, location, collapsed, onNavigate }: {
 export function AppSidebar({ isMobile }: { isMobile?: boolean }) {
   const { signOut, user } = useAuth();
   const location = useLocation();
-  const isAdmin = user?.email === ADMIN_EMAIL;
+  const isAdmin = ADMIN_EMAILS.includes(user?.email || "");
   const { collapsed, setCollapsed, mobileOpen, setMobileOpen } = useSidebarCollapsed();
 
   const closeMobile = () => { if (isMobile) setMobileOpen(false); };

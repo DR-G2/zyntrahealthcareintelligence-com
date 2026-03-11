@@ -1,8 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
 
-const ADMIN_EMAIL = "gopalrock.naren@gmail.com";
-
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
@@ -24,7 +22,12 @@ serve(async (req) => {
     if (!authHeader) throw new Error("Unauthorized");
     const token = authHeader.replace("Bearer ", "");
     const { data: userData, error: userError } = await supabase.auth.getUser(token);
-    if (userError || userData.user?.email !== ADMIN_EMAIL) {
+    if (userError || !userData.user?.email) {
+      return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+
+    const { data: adminRole } = await supabase.from("admin_roles").select("role").eq("email", userData.user.email).maybeSingle();
+    if (!adminRole) {
       return new Response(JSON.stringify({ error: "Forbidden" }), { status: 403, headers: corsHeaders });
     }
 
@@ -53,7 +56,6 @@ serve(async (req) => {
 
     if (action === "delete") {
       if (!question_id) throw new Error("Missing question_id");
-      // Delete related records first
       await supabase.from("bookmarks").delete().eq("question_id", question_id);
       await supabase.from("user_notes").delete().eq("question_id", question_id);
       await supabase.from("user_attempts").delete().eq("question_id", question_id);

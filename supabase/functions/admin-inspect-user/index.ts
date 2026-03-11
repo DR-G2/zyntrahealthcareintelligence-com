@@ -5,22 +5,28 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
-const ADMIN_EMAIL = "gopalrock.naren@gmail.com";
-
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-    const anonKey = Deno.env.get("SUPABASE_ANON_KEY")!;
 
-    // Verify admin
     const authHeader = req.headers.get("Authorization")!;
-    const anonClient = createClient(supabaseUrl, anonKey, { global: { headers: { Authorization: authHeader } } });
-    const { data: { user } } = await anonClient.auth.getUser();
-    if (!user || user.email !== ADMIN_EMAIL) {
-      return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    if (!authHeader?.startsWith("Bearer ")) {
+      return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+
+    const admin = createClient(supabaseUrl, serviceKey);
+    const token = authHeader.replace("Bearer ", "");
+    const { data: userData, error: userError } = await admin.auth.getUser(token);
+    if (userError || !userData.user?.email) {
+      return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+
+    const { data: adminRole } = await admin.from("admin_roles").select("role").eq("email", userData.user.email).maybeSingle();
+    if (!adminRole) {
+      return new Response(JSON.stringify({ error: "Forbidden" }), { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
     const { user_id } = await req.json();
@@ -28,9 +34,6 @@ Deno.serve(async (req) => {
       return new Response(JSON.stringify({ error: "user_id required" }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
-    const admin = createClient(supabaseUrl, serviceKey);
-
-    // Parallel fetches
     const [profileRes, presenceRes, attemptsRes, behaviorRes, performanceRes, progressRes, osceRes, todayAttemptsRes] = await Promise.all([
       admin.from("profiles").select("*").eq("id", user_id).maybeSingle(),
       admin.from("user_presence").select("*").eq("user_id", user_id).maybeSingle(),
@@ -43,10 +46,8 @@ Deno.serve(async (req) => {
     ]);
 
     const attempts = attemptsRes.data || [];
-    const totalAttempts = attempts.length; // from the 50 we fetched - get real count
     const { count: realCount } = await admin.from("user_attempts").select("id", { count: "exact", head: true }).eq("user_id", user_id);
 
-    // Subject breakdown
     const subjectBreakdown: Record<string, { correct: number; total: number }> = {};
     for (const a of attempts) {
       const cat = (a as any).questions?.category || "Unknown";
@@ -67,7 +68,7 @@ Deno.serve(async (req) => {
       stats: {
         total_attempts: realCount || 0,
         today_attempts: todayAttemptsRes.count || 0,
-        accuracy: (realCount || 0) > 0 ? (totalCorrect / Math.min(totalAttempts, realCount || 1)) * 100 : 0,
+        accuracy: (realCount || 0) > 0 ? (totalCorrect / Math.min(attempts.length, realCount || 1)) * 100 : 0,
         avg_time: avgTime,
         total_changes: totalChanges,
         total_osce: osceRes.count || 0,
