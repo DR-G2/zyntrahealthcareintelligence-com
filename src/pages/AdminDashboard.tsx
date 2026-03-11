@@ -270,7 +270,6 @@ function useCurrentUserEmail() {
   const { user } = useAuth();
   return user?.email || "";
 }
-}
 
 // ─── MCQ Tab ─────────────────────────────────────────────────
 
