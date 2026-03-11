@@ -2,7 +2,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import {
   ClipboardCheck, BookOpen, Calendar, Settings, Zap, UserCircle, LogOut, Brain,
   Target, Activity, ChevronRight, Shield, Stethoscope, PanelLeftClose, PanelLeft,
-  MessageCircle, Users, Share2, AlertCircle, Rss, History,
+  MessageCircle, Users, Share2, AlertCircle, Rss, History, Wand2,
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { ThemeToggle } from '@/components/ThemeToggle';
@@ -25,6 +25,7 @@ export const SidebarContext = createContext<SidebarContextType>({
 export const useSidebarCollapsed = () => useContext(SidebarContext);
 
 const ADMIN_EMAILS = ["gopalrock.naren@gmail.com", "amc.osce.2026@gmail.com", "testuser123@zyntr.website"];
+const SUPER_ADMIN_EMAIL = "gopalrock.naren@gmail.com";
 
 interface NavItem { to: string; label: string; icon: React.ElementType; }
 interface NavGroup {
@@ -154,6 +155,7 @@ export function AppSidebar({ isMobile }: { isMobile?: boolean }) {
   const { signOut, user } = useAuth();
   const location = useLocation();
   const isAdmin = ADMIN_EMAILS.includes(user?.email || "");
+  const isSuperAdmin = user?.email === SUPER_ADMIN_EMAIL;
   const { collapsed, setCollapsed, mobileOpen, setMobileOpen } = useSidebarCollapsed();
 
   const closeMobile = () => { if (isMobile) setMobileOpen(false); };
@@ -177,6 +179,7 @@ export function AppSidebar({ isMobile }: { isMobile?: boolean }) {
           <SidebarInner
             collapsed={false}
             isAdmin={isAdmin}
+            isSuperAdmin={isSuperAdmin}
             location={location}
             signOut={signOut}
             onNavigate={closeMobile}
@@ -199,6 +202,7 @@ export function AppSidebar({ isMobile }: { isMobile?: boolean }) {
         <SidebarInner
           collapsed={effectiveCollapsed}
           isAdmin={isAdmin}
+          isSuperAdmin={isSuperAdmin}
           location={location}
           signOut={signOut}
           showCollapseToggle
@@ -211,10 +215,11 @@ export function AppSidebar({ isMobile }: { isMobile?: boolean }) {
 }
 
 function SidebarInner({
-  collapsed, isAdmin, location, signOut, onNavigate, showCollapseToggle, setCollapsed, currentCollapsed,
+  collapsed, isAdmin, isSuperAdmin, location, signOut, onNavigate, showCollapseToggle, setCollapsed, currentCollapsed,
 }: {
   collapsed: boolean;
   isAdmin: boolean;
+  isSuperAdmin: boolean;
   location: ReturnType<typeof useLocation>;
   signOut: () => void;
   onNavigate?: () => void;
@@ -296,11 +301,28 @@ function SidebarInner({
               className={cn(
                 'flex items-center rounded-lg text-sm font-medium transition-colors',
                 collapsed ? 'justify-center py-2' : 'gap-3 px-3 py-2',
-                location.pathname.startsWith('/admin') ? 'bg-sidebar-accent text-sidebar-primary' : 'text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground'
+                location.pathname.startsWith('/admin') && !location.pathname.startsWith('/admin/ai-builder') ? 'bg-sidebar-accent text-sidebar-primary' : 'text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground'
               )}
             >
               <Shield className="h-4 w-4 shrink-0" />
               {!collapsed && 'Admin'}
+            </NavLink>
+          </NavTooltip>
+        )}
+
+        {isSuperAdmin && (
+          <NavTooltip label="AI Builder" collapsed={collapsed}>
+            <NavLink
+              to="/admin/ai-builder"
+              onClick={onNavigate}
+              className={cn(
+                'flex items-center rounded-lg text-sm font-medium transition-colors',
+                collapsed ? 'justify-center py-2' : 'gap-3 px-3 py-2',
+                location.pathname === '/admin/ai-builder' ? 'bg-sidebar-accent text-sidebar-primary' : 'text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground'
+              )}
+            >
+              <Wand2 className="h-4 w-4 shrink-0" />
+              {!collapsed && 'AI Builder'}
             </NavLink>
           </NavTooltip>
         )}
