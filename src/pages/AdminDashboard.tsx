@@ -19,6 +19,7 @@ import { PiracyStrikesTab } from '@/components/admin/PiracyStrikesTab';
 import { LiveActivityTab } from '@/components/admin/LiveActivityTab';
 import { AIControlTab } from '@/components/admin/AIControlTab';
 import { UserInspectionPanel } from '@/components/admin/UserInspectionPanel';
+import { SystemMonitorTab } from '@/components/admin/SystemMonitorTab';
 
 const ADMIN_EMAIL = "gopalrock.naren@gmail.com";
 
