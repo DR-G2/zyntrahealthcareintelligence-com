@@ -56,15 +56,21 @@ function UsersTab({ currentUserEmail }: { currentUserEmail: string }) {
   const [grantDuration, setGrantDuration] = useState("permanent");
   const [granting, setGranting] = useState(false);
   const [inspectUser, setInspectUser] = useState<{ id: string; email: string } | null>(null);
+  const [page, setPage] = useState(1);
+  const [totalCount, setTotalCount] = useState(0);
+  const pageSize = 50;
   const { toast } = useToast();
 
-  const fetchUsers = async () => {
+  const fetchUsers = async (p = page) => {
     setLoading(true);
     try {
-      const { data, error } = await supabase.functions.invoke('admin-list-users');
+      const { data, error } = await supabase.functions.invoke('admin-list-users', {
+        body: { page: p, page_size: pageSize }
+      });
       if (error) throw error;
       if (data?.error) throw new Error(data.error);
       setUsers(data.users || []);
+      setTotalCount(data.total_count || 0);
     } catch (e: any) {
       toast({ title: 'Error', description: e.message, variant: 'destructive' });
     }
