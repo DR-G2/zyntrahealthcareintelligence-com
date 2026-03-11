@@ -51,11 +51,24 @@ const STATUS_CONFIG: Record<string, { variant: "default" | "secondary" | "destru
 };
 
 function CodeBlock({ code, label }: { code: string; label: string }) {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    await navigator.clipboard.writeText(code);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   return (
     <div className="space-y-2">
-      <h4 className="text-sm font-semibold text-muted-foreground flex items-center gap-2">
-        <FileCode className="h-4 w-4" /> {label}
-      </h4>
+      <div className="flex items-center justify-between">
+        <h4 className="text-sm font-semibold text-muted-foreground flex items-center gap-2">
+          <FileCode className="h-4 w-4" /> {label}
+        </h4>
+        <Button variant="ghost" size="icon" className="h-7 w-7" onClick={handleCopy}>
+          {copied ? <Check className="h-3.5 w-3.5 text-green-500" /> : <Copy className="h-3.5 w-3.5" />}
+        </Button>
+      </div>
       <ScrollArea className="max-h-96">
         <pre className="rounded-lg bg-muted/50 border p-4 text-xs font-mono overflow-x-auto whitespace-pre-wrap break-all">
           {code}
