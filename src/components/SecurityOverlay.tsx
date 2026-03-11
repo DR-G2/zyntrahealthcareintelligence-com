@@ -89,16 +89,19 @@ export function SecurityOverlay({ children, opacityOverride }: SecurityOverlayPr
       logScreenshotAttempt('screenshot');
     } else {
       setBlurred(false);
+      showWarningToast();
     }
-  }, [logScreenshotAttempt]);
+  }, [logScreenshotAttempt, showWarningToast]);
 
   const handleWindowBlur = useCallback(() => {
     setBlurred(true);
-  }, []);
+    logScreenshotAttempt('window_blur');
+  }, [logScreenshotAttempt]);
 
   const handleWindowFocus = useCallback(() => {
     setBlurred(false);
-  }, []);
+    showWarningToast();
+  }, [showWarningToast]);
 
   useEffect(() => {
     document.addEventListener('contextmenu', handleContextMenu);
