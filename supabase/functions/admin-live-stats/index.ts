@@ -30,7 +30,7 @@ serve(async (req) => {
       return new Response(JSON.stringify({ error: "Forbidden" }), { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
-    const supabase = createClient(supabaseUrl, serviceKey);
+    const supabase = supabaseAdmin;
 
     const todayStart = new Date();
     todayStart.setHours(0, 0, 0, 0);

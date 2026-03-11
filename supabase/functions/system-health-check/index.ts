@@ -6,37 +6,6 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
-const ADMIN_EMAIL = "gopalrock.naren@gmail.com";
-
-interface StepResult {
-  name: string;
-  status: "healthy" | "degraded" | "down";
-  latency_ms: number;
-  error?: string;
-  details?: Record<string, unknown>;
-}
-
-async function runCheck(name: string, fn: () => Promise<Record<string, unknown> | void>): Promise<StepResult> {
-  const start = Date.now();
-  try {
-    const details = await fn();
-    const latency = Date.now() - start;
-    return {
-      name,
-      status: latency > 2000 ? "degraded" : "healthy",
-      latency_ms: latency,
-      details: details || undefined,
-    };
-  } catch (e) {
-    return {
-      name,
-      status: "down",
-      latency_ms: Date.now() - start,
-      error: e instanceof Error ? e.message : "Unknown error",
-    };
-  }
-}
-
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
@@ -50,8 +19,15 @@ serve(async (req) => {
     if (authHeader) {
       const token = authHeader.replace("Bearer ", "");
       const { data: { user }, error: authErr } = await supabase.auth.getUser(token);
-      if (authErr || user?.email !== ADMIN_EMAIL) {
+      if (authErr || !user?.email) {
         return new Response(JSON.stringify({ error: "Unauthorized" }), {
+          status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+
+      const { data: adminRole } = await supabase.from("admin_roles").select("role").eq("email", user.email).maybeSingle();
+      if (!adminRole) {
+        return new Response(JSON.stringify({ error: "Forbidden" }), {
           status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
