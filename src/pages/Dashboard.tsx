@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import { ClipboardCheck, Zap, ArrowRight, Rss, PlayCircle } from 'lucide-react';
 import { differenceInDays, parseISO } from 'date-fns';
 import { WelcomeTour } from '@/components/WelcomeTour';
-import { ReadinessScore } from '@/components/ReadinessScore';
+import { ReadinessDNA } from '@/components/ReadinessDNA';
 import { useFeatureGate } from '@/hooks/useFeatureGate';
 import { supabase } from '@/lib/supabase';
 
