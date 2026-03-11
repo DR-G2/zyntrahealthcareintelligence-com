@@ -34,43 +34,53 @@ interface NavGroup {
   items: (NavItem | { label: string; icon: React.ElementType; children: NavItem[] })[];
 }
 
-const navGroups: NavGroup[] = [
-  {
-    label: 'Learn & Practice',
-    items: [
-      { to: '/practice', label: 'MCQ', icon: Zap },
-      { to: '/stations', label: 'OSCE', icon: Activity },
-    ],
-  },
-  {
-    label: 'APPE',
-    items: [
-      { to: '/feed', label: 'Feed', icon: Rss },
-      {
-        label: 'Diagnostic', icon: ClipboardCheck,
-        children: [
-          { to: '/assess', label: 'MCQ', icon: Zap },
-          { to: '/assess/osce', label: 'OSCE', icon: Stethoscope },
-        ],
-      },
-      { to: '/profile', label: 'Performance', icon: UserCircle },
-      { to: '/behavior', label: 'Behavior', icon: Brain },
-      { to: '/trust-your-gut', label: 'Trust Your Gut', icon: Target },
-      { to: '/review', label: 'Mistake Review', icon: AlertCircle },
-      { to: '/history', label: 'Question History', icon: History },
-    ],
-  },
-  {
-    label: 'Study Companion',
-    items: [
-      { to: '/companion/chat', label: 'AI Chat', icon: MessageCircle },
-      { to: '/companion/ai-core', label: 'Zyntra AI Core', icon: Zap },
-      { to: '/plan', label: 'Study Plan', icon: Calendar },
-      { to: '/companion/groups', label: 'Social Groups', icon: Users },
-      { to: '/companion/shared-tests', label: 'Shared Tests', icon: Share2 },
-    ],
-  },
-];
+// navGroups is now a function to support conditional rendering
+function getNavGroups(isPaid: boolean): NavGroup[] {
+  const appeItems: (NavItem | { label: string; icon: React.ElementType; children: NavItem[] })[] = [
+    { to: '/feed', label: 'Feed', icon: Rss },
+  ];
+
+  // Only show Diagnostic for trial/free users
+  if (!isPaid) {
+    appeItems.push({
+      label: 'Diagnostic', icon: ClipboardCheck,
+      children: [
+        { to: '/assess', label: 'MCQ', icon: Zap },
+        { to: '/assess/osce', label: 'OSCE', icon: Stethoscope },
+      ],
+    });
+  }
+
+  appeItems.push(
+    { to: '/intelligence', label: 'Performance Intelligence', icon: BarChart3 },
+    { to: '/review', label: 'Mistake Review', icon: AlertCircle },
+    { to: '/history', label: 'Question History', icon: History },
+  );
+
+  return [
+    {
+      label: 'Learn & Practice',
+      items: [
+        { to: '/practice', label: 'MCQ', icon: Zap },
+        { to: '/stations', label: 'OSCE', icon: Activity },
+      ],
+    },
+    {
+      label: 'APPE',
+      items: appeItems,
+    },
+    {
+      label: 'Study Companion',
+      items: [
+        { to: '/companion/chat', label: 'AI Chat', icon: MessageCircle },
+        { to: '/companion/ai-core', label: 'Zyntra AI Core', icon: Zap },
+        { to: '/plan', label: 'Study Plan', icon: Calendar },
+        { to: '/companion/groups', label: 'Social Groups', icon: Users },
+        { to: '/companion/shared-tests', label: 'Shared Tests', icon: Share2 },
+      ],
+    },
+  ];
+}
 
 function isNavItem(item: NavItem | { label: string; icon: React.ElementType; children: NavItem[] }): item is NavItem {
   return 'to' in item;
