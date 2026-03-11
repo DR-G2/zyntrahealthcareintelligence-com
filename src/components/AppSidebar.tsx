@@ -155,6 +155,7 @@ export function AppSidebar({ isMobile }: { isMobile?: boolean }) {
   const { signOut, user } = useAuth();
   const location = useLocation();
   const isAdmin = ADMIN_EMAILS.includes(user?.email || "");
+  const isSuperAdmin = user?.email === SUPER_ADMIN_EMAIL;
   const { collapsed, setCollapsed, mobileOpen, setMobileOpen } = useSidebarCollapsed();
 
   const closeMobile = () => { if (isMobile) setMobileOpen(false); };
