@@ -241,7 +241,7 @@ export function ReadinessDNA() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3 }}
             >
-              {score}
+              <CountUp target={score} duration={1200} />
             </motion.span>
             <span className="text-xs text-muted-foreground">/ 100</span>
           </div>
