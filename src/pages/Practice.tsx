@@ -1086,8 +1086,12 @@ function ResultsScreen({
 
 export default function Practice() {
   const gate = useFeatureGate();
-  const [phase, setPhase] = useState<'setup' | 'drill' | 'results'>('setup');
-  const [config, setConfig] = useState<SessionConfig | null>(null);
+  const [searchParams] = useSearchParams();
+  const resumeSessionId = searchParams.get('resume');
+  const [phase, setPhase] = useState<'setup' | 'drill' | 'results'>(resumeSessionId ? 'drill' : 'setup');
+  const [config, setConfig] = useState<SessionConfig | null>(
+    resumeSessionId ? { mode: 'recharge', topics: [], questionCount: 50 } : null
+  );
   const [resultData, setResultData] = useState<{
     questions: Question[];
     answers: Record<number, string>;
@@ -1123,6 +1127,7 @@ export default function Practice() {
     return (
       <DrillSession
         config={config}
+        resumeSessionId={resumeSessionId}
         onFinish={(questions, answers, changes) => {
           setResultData({ questions, answers, changes });
           setPhase('results');

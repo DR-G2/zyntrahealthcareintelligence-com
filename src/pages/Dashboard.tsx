@@ -71,6 +71,30 @@ export default function Dashboard() {
         )}
       </div>
 
+      {/* Resume Session Card */}
+      {activeSession && (
+        <Card className="mt-6 border-primary/30 bg-primary/5">
+          <CardContent className="flex items-center justify-between p-4">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <PlayCircle className="h-5 w-5" />
+              </div>
+              <div>
+                <h3 className="font-semibold font-display">Resume Your Last Session</h3>
+                <p className="text-sm text-muted-foreground">
+                  You stopped at Question {(activeSession.current_index || 0) + 1} of {(activeSession.question_ids as any[])?.length || '?'}.
+                </p>
+              </div>
+            </div>
+            <Button asChild>
+              <Link to={`/practice?resume=${activeSession.session_id}`}>
+                Resume <ArrowRight className="h-4 w-4 ml-1" />
+              </Link>
+            </Button>
+          </CardContent>
+        </Card>
+      )
+
       {/* Daily Usage for Free Users */}
       {!gate.isPaid && !gate.loading && (
         <Card className="mt-6 border-primary/20">
