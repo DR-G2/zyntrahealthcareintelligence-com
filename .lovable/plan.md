@@ -1,41 +1,45 @@
 
 
-## Plan: Enhanced Practice Results with Detailed Explanations
+## Plan: Screenshot Toast Warning + Admin Screenshot Attempts Tab
 
-### What Changes
+### 1. Toast warning on screenshot attempt
 
-**1. Expand the results review section (Practice.tsx, lines 225-245)**
+**File: `src/components/SecurityOverlay.tsx`**
+- Import `toast` from `sonner`
+- After each `logScreenshotAttempt` call (PrintScreen, Ctrl+Shift+S, tab_switch), show a toast: "Screenshot detected — your identity is watermarked on all content."
+- Only show toast for keyboard triggers (PrintScreen, Ctrl+Shift+S), not tab switches (too noisy)
 
-Replace the current inline explanation snippet with a clickable card that navigates to a full-page explanation view. Each question card in results will show:
-- Question text, your answer vs correct answer, correct/incorrect badge
-- A "Read Full Explanation" button that opens a detailed view
+### 2. New ScreenshotAttemptsTab component
 
-**2. Create a full-page explanation view within the results phase**
+**File: `src/components/admin/ScreenshotAttemptsTab.tsx`** (new)
+- Fetches from `system_error_logs` where `error_type = 'screenshot_attempt'` using an edge function (since table has no RLS, need service role)
+- Create new edge function `admin-screenshot-logs` that queries `system_error_logs` filtered by `error_type = 'screenshot_attempt'`, joined with profiles for user email/name
+- Displays a table with columns: User Email, Name, Trigger Type, Page, IP Address, Timestamp
+- Add a refresh button and loading state
+- Paginated (50 per page)
 
-Add a new sub-phase `'explanation'` to the drill session. When a user clicks a question, the view transitions to a full-page layout containing:
-- The question and all options (highlighted correct/incorrect)
-- A detailed explanation section
-- **Reference notes** organized by source book:
-  - **AMC Handbook** — key clinical points relevant to the question topic
-  - **John Murtagh's General Practice** — diagnostic approach and management
-  - **Tally O'Connor's Clinical Examination** — examination findings and signs
-- A "Back to Results" button
+### 3. New edge function
 
-**3. Store reference notes in the question explanation field**
+**File: `supabase/functions/admin-screenshot-logs/index.ts`** (new)
+- Validates admin role via `admin_roles` table
+- Queries `system_error_logs` where `error_type = 'screenshot_attempt'`, ordered by `created_at DESC`
+- Joins user_id with profiles to get email/name
+- Supports `page` and `page_size` params
+- Returns entries with user details
 
-Since the `questions` table already has an `explanation` column, the detailed explanations with book references will be structured within that field. For now, the UI will parse and display the explanation, and add styled reference sections with book attribution headers even if the current explanation text is brief. The textbook reference sections will be rendered as distinct styled blocks.
+### 4. Wire tab into AdminDashboard
 
-### Technical Approach
+**File: `src/pages/AdminDashboard.tsx`**
+- Import `ScreenshotAttemptsTab` and `Camera` icon from lucide
+- Add a new tab trigger "Screenshots" (super admin only) — update grid-cols from 8→9
+- Add corresponding `TabsContent`
 
-- Add state: `reviewQuestionIndex: number | null` to track which question is being viewed in detail
-- When set, render a full-page explanation component instead of the results list
-- Structure the explanation page with:
-  - Question card with all options color-coded
-  - Explanation text (from DB)
-  - Three reference cards (AMC Handbook, Murtagh's, Tally O'Connor) with topic-relevant headers derived from the question's category
-- Use `framer-motion` for page transitions
-- All changes are in `src/pages/Practice.tsx` only — no new files needed
+### Files Changed
 
-### Files Modified
-- `src/pages/Practice.tsx` — refactor results phase to add clickable detail view with book reference sections
+| File | Change |
+|------|--------|
+| `src/components/SecurityOverlay.tsx` | Add toast warning on screenshot detection |
+| `src/components/admin/ScreenshotAttemptsTab.tsx` | New component showing screenshot attempt logs |
+| `supabase/functions/admin-screenshot-logs/index.ts` | New edge function to fetch screenshot logs |
+| `src/pages/AdminDashboard.tsx` | Add Screenshots tab for super admin |
 
