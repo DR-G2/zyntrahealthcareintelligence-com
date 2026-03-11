@@ -1,5 +1,6 @@
-import { useEffect, useCallback, ReactNode } from 'react';
+import { useEffect, useCallback, useState, ReactNode } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
+import { supabase } from '@/integrations/supabase/client';
 import { ShieldAlert } from 'lucide-react';
 
 interface SecurityOverlayProps {
@@ -9,15 +10,29 @@ interface SecurityOverlayProps {
 
 export function SecurityOverlay({ children, opacityOverride }: SecurityOverlayProps) {
   const { user, profile, watermark } = useAuth();
+  const [blurred, setBlurred] = useState(false);
+  const [flashing, setFlashing] = useState(false);
 
   const watermarkText = [
     profile?.name || '',
     user?.email || '',
   ].filter(Boolean).join(' • ') || 'Protected Content';
 
-  // Dynamic opacity from watermark settings or override
   const lightOpacity = opacityOverride ?? watermark.opacity_light;
   const darkOpacity = opacityOverride ? opacityOverride + 0.01 : watermark.opacity_dark;
+
+  // Log screenshot attempt to backend
+  const logScreenshotAttempt = useCallback((trigger: string) => {
+    if (!user) return;
+    supabase.functions.invoke('track-presence', {
+      body: {
+        current_page: window.location.pathname,
+        is_online: true,
+        screenshot_attempt: true,
+        screenshot_trigger: trigger,
+      },
+    }).catch(() => {});
+  }, [user]);
 
   const handleContextMenu = useCallback((e: MouseEvent) => {
     e.preventDefault();
@@ -27,6 +42,10 @@ export function SecurityOverlay({ children, opacityOverride }: SecurityOverlayPr
     if (e.key === 'PrintScreen') {
       e.preventDefault();
       navigator.clipboard?.writeText?.('');
+      // Flash overlay to corrupt screenshot
+      setFlashing(true);
+      setTimeout(() => setFlashing(false), 250);
+      logScreenshotAttempt('printscreen_key');
     }
     if (e.key === 'F12') {
       e.preventDefault();
@@ -39,17 +58,35 @@ export function SecurityOverlay({ children, opacityOverride }: SecurityOverlayPr
       if (e.shiftKey && ['i', 'j', 'c'].includes(e.key.toLowerCase())) {
         e.preventDefault();
       }
+      // Ctrl+Shift+S (screenshot shortcut on some OS)
+      if (e.shiftKey && e.key.toLowerCase() === 's') {
+        setFlashing(true);
+        setTimeout(() => setFlashing(false), 250);
+        logScreenshotAttempt('ctrl_shift_s');
+      }
     }
-  }, []);
+  }, [logScreenshotAttempt]);
 
   const handleDragStart = useCallback((e: DragEvent) => {
     e.preventDefault();
   }, []);
 
+  // Blur on visibility loss + log attempt
   const handleVisibilityChange = useCallback(() => {
     if (document.hidden) {
-      console.warn('[Security] Tab switch detected at', new Date().toISOString());
+      setBlurred(true);
+      logScreenshotAttempt('tab_switch');
+    } else {
+      setBlurred(false);
     }
+  }, [logScreenshotAttempt]);
+
+  const handleWindowBlur = useCallback(() => {
+    setBlurred(true);
+  }, []);
+
+  const handleWindowFocus = useCallback(() => {
+    setBlurred(false);
   }, []);
 
   useEffect(() => {
@@ -57,14 +94,18 @@ export function SecurityOverlay({ children, opacityOverride }: SecurityOverlayPr
     document.addEventListener('keydown', handleKeyDown, true);
     document.addEventListener('dragstart', handleDragStart);
     document.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener('blur', handleWindowBlur);
+    window.addEventListener('focus', handleWindowFocus);
 
     return () => {
       document.removeEventListener('contextmenu', handleContextMenu);
       document.removeEventListener('keydown', handleKeyDown, true);
       document.removeEventListener('dragstart', handleDragStart);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('blur', handleWindowBlur);
+      window.removeEventListener('focus', handleWindowFocus);
     };
-  }, [handleContextMenu, handleKeyDown, handleDragStart, handleVisibilityChange]);
+  }, [handleContextMenu, handleKeyDown, handleDragStart, handleVisibilityChange, handleWindowBlur, handleWindowFocus]);
 
   // DevTools detection
   useEffect(() => {
@@ -103,7 +144,32 @@ export function SecurityOverlay({ children, opacityOverride }: SecurityOverlayPr
 
   return (
     <div className="relative select-none" style={{ WebkitUserSelect: 'none', MozUserSelect: 'none' } as React.CSSProperties}>
-      {children}
+      {/* Content with blur on focus loss */}
+      <div
+        className="transition-all duration-150"
+        style={{ filter: blurred ? 'blur(12px)' : 'none' }}
+      >
+        {children}
+      </div>
+
+      {/* Blur overlay message */}
+      {blurred && (
+        <div className="fixed inset-0 z-[9998] flex items-center justify-center" style={{ pointerEvents: 'none' }}>
+          <div className="bg-background/80 backdrop-blur-sm rounded-lg px-6 py-4 shadow-lg border border-border">
+            <p className="text-foreground font-medium text-sm">Content hidden — return to this tab to continue</p>
+          </div>
+        </div>
+      )}
+
+      {/* PrintScreen flash overlay */}
+      {flashing && (
+        <div
+          className="fixed inset-0 z-[99998] bg-background"
+          style={{ pointerEvents: 'none' }}
+          aria-hidden="true"
+        />
+      )}
+
       {/* Watermark overlay */}
       <div
         className="fixed inset-0 z-[9999] overflow-hidden"
@@ -139,7 +205,7 @@ export function SecurityOverlay({ children, opacityOverride }: SecurityOverlayPr
           ))}
         </div>
       </div>
-      {/* Dark mode uses dark opacity via a media query style */}
+      {/* Dark mode uses dark opacity */}
       <style>{`
         @media (prefers-color-scheme: dark) {
           [aria-hidden="true"] span {
