@@ -36,13 +36,10 @@ const QuestionsMCQ = lazy(() => import("./pages/QuestionsMCQ"));
 const QuestionsOSCE = lazy(() => import("./pages/QuestionsOSCE"));
 const DiagnosticOSCE = lazy(() => import("./pages/DiagnosticOSCE"));
 const CompanionChat = lazy(() => import("./pages/CompanionChat"));
-const SocialGroups = lazy(() => import("./pages/SocialGroups"));
-const SharedTests = lazy(() => import("./pages/SharedTests"));
-const MistakeReview = lazy(() => import("./pages/MistakeReview"));
 const Feed = lazy(() => import("./pages/Feed"));
 const Terms = lazy(() => import("./pages/Terms"));
 const ZyntraAICore = lazy(() => import("./pages/ZyntraAICore"));
-const QuestionHistory = lazy(() => import("./pages/QuestionHistory"));
+
 const PerformanceIntelligence = lazy(() => import("./pages/PerformanceIntelligence"));
 
 
@@ -94,12 +91,12 @@ const App = () => (
                 <Route path="/plan" element={<ProtectedRoute><ErrorBoundary><StudyPlan /></ErrorBoundary></ProtectedRoute>} />
                 <Route path="/stations" element={<ProtectedRoute><ErrorBoundary><Stations /></ErrorBoundary></ProtectedRoute>} />
                 <Route path="/companion/chat" element={<ProtectedRoute><ErrorBoundary><CompanionChat /></ErrorBoundary></ProtectedRoute>} />
-                <Route path="/companion/groups" element={<ProtectedRoute><ErrorBoundary><SocialGroups /></ErrorBoundary></ProtectedRoute>} />
-                <Route path="/companion/shared-tests" element={<ProtectedRoute><ErrorBoundary><SharedTests /></ErrorBoundary></ProtectedRoute>} />
+                <Route path="/companion/groups" element={<Navigate to="/dashboard" replace />} />
+                <Route path="/companion/shared-tests" element={<Navigate to="/dashboard" replace />} />
                 <Route path="/companion/ai-core" element={<ProtectedRoute><ErrorBoundary><ZyntraAICore /></ErrorBoundary></ProtectedRoute>} />
-                <Route path="/review" element={<ProtectedRoute><ErrorBoundary><MistakeReview /></ErrorBoundary></ProtectedRoute>} />
+                <Route path="/review" element={<Navigate to="/practice" replace />} />
                 <Route path="/feed" element={<ProtectedRoute><ErrorBoundary><Feed /></ErrorBoundary></ProtectedRoute>} />
-                <Route path="/history" element={<ProtectedRoute><ErrorBoundary><QuestionHistory /></ErrorBoundary></ProtectedRoute>} />
+                <Route path="/history" element={<Navigate to="/practice" replace />} />
                 <Route path="/admin" element={<ProtectedRoute><ErrorBoundary><AdminDashboard /></ErrorBoundary></ProtectedRoute>} />
                 
                 <Route path="/settings" element={<ProtectedRoute><ErrorBoundary><Settings /></ErrorBoundary></ProtectedRoute>} />

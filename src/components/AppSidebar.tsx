@@ -2,7 +2,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import {
   ClipboardCheck, BookOpen, Calendar, Settings, Zap, UserCircle, LogOut, Brain,
   Target, Activity, ChevronRight, Shield, Stethoscope, PanelLeftClose, PanelLeft,
-  MessageCircle, Users, Share2, AlertCircle, Rss, History, BarChart3,
+  MessageCircle, Rss, BarChart3,
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useFeatureGate } from '@/hooks/useFeatureGate';
@@ -53,8 +53,6 @@ function getNavGroups(isPaid: boolean): NavGroup[] {
 
   appeItems.push(
     { to: '/intelligence', label: 'Performance Intelligence', icon: BarChart3 },
-    { to: '/review', label: 'Mistake Review', icon: AlertCircle },
-    { to: '/history', label: 'Question History', icon: History },
   );
 
   return [
@@ -75,8 +73,6 @@ function getNavGroups(isPaid: boolean): NavGroup[] {
         { to: '/companion/chat', label: 'AI Chat', icon: MessageCircle },
         { to: '/companion/ai-core', label: 'Zyntra AI Core', icon: Zap },
         { to: '/plan', label: 'Study Plan', icon: Calendar },
-        { to: '/companion/groups', label: 'Social Groups', icon: Users },
-        { to: '/companion/shared-tests', label: 'Shared Tests', icon: Share2 },
       ],
     },
   ];

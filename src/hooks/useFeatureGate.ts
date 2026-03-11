@@ -28,9 +28,6 @@ export interface FeatureGate {
   canAccessNotes: boolean;
   canAccessHistory: boolean;
   canAccessLearningPoints: boolean;
-  canAccessMistakeReview: boolean;
-  canAccessSocialGroups: boolean;
-  canAccessSharedTests: boolean;
   canAccessStudyPlan: boolean;
   recordMCQ: () => Promise<void>;
   recordOSCE: () => Promise<void>;
@@ -122,7 +119,7 @@ export function useFeatureGate(): FeatureGate {
       canAccessAnalytics: true, canAccessBehavior: true, canAccessTrustGut: true,
       canAccessReadiness: true, canAccessAdaptiveOSCE: true, canAccessExamMode: true,
       canSaveBookmarks: true, canAccessNotes: true, canAccessHistory: true, canAccessLearningPoints: true,
-      canAccessMistakeReview: true, canAccessSocialGroups: true, canAccessSharedTests: true, canAccessStudyPlan: true,
+      canAccessStudyPlan: true,
     };
   }
 
@@ -138,7 +135,7 @@ export function useFeatureGate(): FeatureGate {
       canAccessAnalytics: true, canAccessBehavior: true, canAccessTrustGut: true,
       canAccessReadiness: true, canAccessAdaptiveOSCE: false, canAccessExamMode: false,
       canSaveBookmarks: true, canAccessNotes: true, canAccessHistory: true, canAccessLearningPoints: true,
-      canAccessMistakeReview: true, canAccessSocialGroups: false, canAccessSharedTests: false, canAccessStudyPlan: true,
+      canAccessStudyPlan: true,
     };
   }
 
@@ -154,7 +151,7 @@ export function useFeatureGate(): FeatureGate {
       canAccessAnalytics: false, canAccessBehavior: true, canAccessTrustGut: false,
       canAccessReadiness: false, canAccessAdaptiveOSCE: true, canAccessExamMode: true,
       canSaveBookmarks: true, canAccessNotes: true, canAccessHistory: true, canAccessLearningPoints: true,
-      canAccessMistakeReview: false, canAccessSocialGroups: false, canAccessSharedTests: false, canAccessStudyPlan: true,
+      canAccessStudyPlan: true,
     };
   }
 
@@ -169,6 +166,6 @@ export function useFeatureGate(): FeatureGate {
     canAccessAnalytics: true, canAccessBehavior: false, canAccessTrustGut: false,
     canAccessReadiness: false, canAccessAdaptiveOSCE: false, canAccessExamMode: false,
     canSaveBookmarks: false, canAccessNotes: false, canAccessHistory: false, canAccessLearningPoints: false,
-    canAccessMistakeReview: false, canAccessSocialGroups: false, canAccessSharedTests: false, canAccessStudyPlan: false,
+    canAccessStudyPlan: false,
   };
 }
