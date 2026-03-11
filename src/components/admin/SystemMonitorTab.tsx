@@ -64,6 +64,7 @@ const SERVICE_LABELS: Record<string, string> = {
   osce_engine: 'OSCE Engine',
   osce_validation: 'OSCE Validation',
   ai_service: 'AI Service',
+  ai_gateway: 'AI Gateway',
   payments: 'Payments',
   user_attempts_access: 'User Attempts',
   session_storage: 'Session Storage',
