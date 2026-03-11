@@ -2,6 +2,7 @@ import { useEffect, useCallback, useState, ReactNode } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { ShieldAlert } from 'lucide-react';
+import { toast } from 'sonner';
 
 interface SecurityOverlayProps {
   children: ReactNode;
@@ -46,6 +47,7 @@ export function SecurityOverlay({ children, opacityOverride }: SecurityOverlayPr
       setFlashing(true);
       setTimeout(() => setFlashing(false), 250);
       logScreenshotAttempt('printscreen_key');
+      toast.warning('Screenshot detected — your identity is watermarked on all content.');
     }
     if (e.key === 'F12') {
       e.preventDefault();
@@ -63,6 +65,7 @@ export function SecurityOverlay({ children, opacityOverride }: SecurityOverlayPr
         setFlashing(true);
         setTimeout(() => setFlashing(false), 250);
         logScreenshotAttempt('ctrl_shift_s');
+        toast.warning('Screenshot detected — your identity is watermarked on all content.');
       }
     }
   }, [logScreenshotAttempt]);
