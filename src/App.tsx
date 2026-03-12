@@ -42,6 +42,7 @@ const Terms = lazy(() => import("./pages/Terms"));
 const ZyntraAICore = lazy(() => import("./pages/ZyntraAICore"));
 
 const PerformanceIntelligence = lazy(() => import("./pages/PerformanceIntelligence"));
+const InboxPage = lazy(() => import("./pages/Inbox"));
 
 
 const queryClient = new QueryClient();
