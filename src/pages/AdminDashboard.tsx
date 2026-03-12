@@ -1105,6 +1105,57 @@ function CleanupReportDialog({ report, open, onOpenChange }: { report: CleanupRe
   );
 }
 
+// ─── Site Settings Card ────────────────────────────────────────
+function SiteSettingsCard() {
+  const [showAboutPricing, setShowAboutPricing] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [toggling, setToggling] = useState(false);
+  const { toast } = useToast();
+
+  useEffect(() => {
+    supabase
+      .from('site_settings' as any)
+      .select('value')
+      .eq('key', 'show_about_pricing')
+      .maybeSingle()
+      .then(({ data }) => {
+        setShowAboutPricing((data as any)?.value === true);
+        setLoading(false);
+      });
+  }, []);
+
+  const handleToggle = async (checked: boolean) => {
+    setToggling(true);
+    try {
+      const { error } = await supabase.functions.invoke('admin-toggle-setting', {
+        body: { key: 'show_about_pricing', value: checked }
+      });
+      if (error) throw error;
+      setShowAboutPricing(checked);
+      toast({ title: `About & Pricing pages ${checked ? 'enabled' : 'disabled'}` });
+    } catch (e: any) {
+      toast({ title: 'Error', description: e.message, variant: 'destructive' });
+    }
+    setToggling(false);
+  };
+
+  return (
+    <Card className="border-border">
+      <CardContent className="flex items-center justify-between p-4">
+        <div>
+          <h3 className="font-semibold text-sm">Show About &amp; Pricing Pages</h3>
+          <p className="text-xs text-muted-foreground">Toggle visibility of About and Pricing for public visitors</p>
+        </div>
+        <Switch
+          checked={showAboutPricing}
+          onCheckedChange={handleToggle}
+          disabled={loading || toggling}
+        />
+      </CardContent>
+    </Card>
+  );
+}
+
 // ─── Main Dashboard ──────────────────────────────────────────
 
 export default function AdminDashboard() {
