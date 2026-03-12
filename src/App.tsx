@@ -10,6 +10,8 @@ import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { usePresence } from "@/hooks/usePresence";
+import { useShowAboutPricing } from "@/hooks/useSiteSettings";
+import { usePresence } from "@/hooks/usePresence";
 
 // Eagerly load landing & login (critical path)
 import Landing from "./pages/Landing";
