@@ -102,6 +102,7 @@ function AppRoutes() {
         <Route path="/review" element={<Navigate to="/practice" replace />} />
         <Route path="/feed" element={<ProtectedRoute><ErrorBoundary><Feed /></ErrorBoundary></ProtectedRoute>} />
         <Route path="/history" element={<Navigate to="/practice" replace />} />
+        <Route path="/inbox" element={<ProtectedRoute><ErrorBoundary><InboxPage /></ErrorBoundary></ProtectedRoute>} />
         <Route path="/admin" element={<ProtectedRoute><ErrorBoundary><AdminDashboard /></ErrorBoundary></ProtectedRoute>} />
         <Route path="/settings" element={<ProtectedRoute><ErrorBoundary><Settings /></ErrorBoundary></ProtectedRoute>} />
         <Route path="*" element={<NotFound />} />

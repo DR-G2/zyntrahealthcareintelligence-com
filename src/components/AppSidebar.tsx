@@ -284,6 +284,7 @@ function SidebarInner({
 
       {/* Bottom */}
       <div className={cn('border-t border-sidebar-border py-3 space-y-1', collapsed ? 'px-1.5' : 'px-3')}>
+        <InboxNavItem collapsed={collapsed} location={location} onNavigate={onNavigate} />
         <NavTooltip label="Settings" collapsed={collapsed}>
           <NavLink
             to="/settings"
