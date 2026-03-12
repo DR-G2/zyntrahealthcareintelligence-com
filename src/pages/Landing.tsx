@@ -4,6 +4,7 @@ import { Zap, Brain, Clock, Target, BarChart3, ArrowRight, Rss } from 'lucide-re
 import { Button } from '@/components/ui/button';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { LegalFooter } from '@/components/LegalFooter';
+import { useShowAboutPricing } from '@/hooks/useSiteSettings';
 
 const features = [
   {
