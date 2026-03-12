@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { Switch } from '@/components/ui/switch';
 import { AppLayout } from '@/components/AppLayout';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
