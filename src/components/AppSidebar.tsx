@@ -2,8 +2,9 @@ import { NavLink, useLocation } from 'react-router-dom';
 import {
   ClipboardCheck, BookOpen, Calendar, Settings, Zap, UserCircle, LogOut, Brain,
   Target, Activity, ChevronRight, Shield, Stethoscope, PanelLeftClose, PanelLeft,
-  MessageCircle, Rss, BarChart3,
+  MessageCircle, Rss, BarChart3, Inbox,
 } from 'lucide-react';
+import { useInboxUnread } from '@/hooks/useInboxUnread';
 import { useAuth } from '@/contexts/AuthContext';
 import { useFeatureGate } from '@/hooks/useFeatureGate';
 import { ThemeToggle } from '@/components/ThemeToggle';
