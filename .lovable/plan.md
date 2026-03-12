@@ -1,41 +1,44 @@
 
 
-## Plan: Enhanced Practice Results with Detailed Explanations
+## Plan: Add Maintenance Mode & Registration Toggle to Site Settings
 
-### What Changes
+### 1. Database — Insert two new setting rows
 
-**1. Expand the results review section (Practice.tsx, lines 225-245)**
+Insert into the existing `site_settings` table:
+- `maintenance_mode` → `false`
+- `registration_open` → `true`
 
-Replace the current inline explanation snippet with a clickable card that navigates to a full-page explanation view. Each question card in results will show:
-- Question text, your answer vs correct answer, correct/incorrect badge
-- A "Read Full Explanation" button that opens a detailed view
+### 2. Refactor `SiteSettingsCard` in `AdminDashboard.tsx`
 
-**2. Create a full-page explanation view within the results phase**
+Replace the single-toggle card with a multi-toggle card that loads all settings at once and displays three switches:
 
-Add a new sub-phase `'explanation'` to the drill session. When a user clicks a question, the view transitions to a full-page layout containing:
-- The question and all options (highlighted correct/incorrect)
-- A detailed explanation section
-- **Reference notes** organized by source book:
-  - **AMC Handbook** — key clinical points relevant to the question topic
-  - **John Murtagh's General Practice** — diagnostic approach and management
-  - **Tally O'Connor's Clinical Examination** — examination findings and signs
-- A "Back to Results" button
+| Label | Key | Default | Description |
+|-------|-----|---------|-------------|
+| Show About & Pricing | `show_about_pricing` | off | Public page visibility |
+| Maintenance Mode | `maintenance_mode` | off | Shows maintenance page to non-admin users |
+| Registration Open | `registration_open` | on | Allow new signups |
 
-**3. Store reference notes in the question explanation field**
+Each toggle calls the existing `admin-toggle-setting` edge function.
 
-Since the `questions` table already has an `explanation` column, the detailed explanations with book references will be structured within that field. For now, the UI will parse and display the explanation, and add styled reference sections with book attribution headers even if the current explanation text is brief. The textbook reference sections will be rendered as distinct styled blocks.
+### 3. Add generic `useSiteSetting(key)` hook
 
-### Technical Approach
+Refactor `src/hooks/useSiteSettings.ts` to export a generic hook plus the existing `useShowAboutPricing`. Add `useMaintenanceMode()` and `useRegistrationOpen()` convenience wrappers.
 
-- Add state: `reviewQuestionIndex: number | null` to track which question is being viewed in detail
-- When set, render a full-page explanation component instead of the results list
-- Structure the explanation page with:
-  - Question card with all options color-coded
-  - Explanation text (from DB)
-  - Three reference cards (AMC Handbook, Murtagh's, Tally O'Connor) with topic-relevant headers derived from the question's category
-- Use `framer-motion` for page transitions
-- All changes are in `src/pages/Practice.tsx` only — no new files needed
+### 4. Maintenance Mode gate in `App.tsx`
 
-### Files Modified
-- `src/pages/Practice.tsx` — refactor results phase to add clickable detail view with book reference sections
+When `maintenance_mode` is `true`, render a branded "We'll be back soon" full-screen page for all routes except `/admin` and `/login`. Admin users (matched by `ADMIN_EMAILS` list or admin_roles check) bypass the gate.
+
+### 5. Registration gate in `Login.tsx`
+
+When `registration_open` is `false`, hide the "Sign Up" tab and show a "Registration is currently closed" notice instead.
+
+### Summary
+
+| File | Change |
+|------|--------|
+| DB insert | Add `maintenance_mode` and `registration_open` rows |
+| `src/hooks/useSiteSettings.ts` | Add generic hook + convenience wrappers |
+| `src/pages/AdminDashboard.tsx` | Expand SiteSettingsCard to 3 toggles |
+| `src/App.tsx` | Add maintenance mode gate |
+| `src/pages/Login.tsx` | Conditionally hide signup tab |
 
