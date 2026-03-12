@@ -24,6 +24,7 @@ import { UserInspectionPanel } from '@/components/admin/UserInspectionPanel';
 import { SystemMonitorTab } from '@/components/admin/SystemMonitorTab';
 import { ActivityLogsTab } from '@/components/admin/ActivityLogsTab';
 import { ScreenshotAttemptsTab } from '@/components/admin/ScreenshotAttemptsTab';
+import { MessagesTab } from '@/components/admin/MessagesTab';
 
 const ADMIN_EMAILS = [
   "gopalrock.naren@gmail.com",
