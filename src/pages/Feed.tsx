@@ -348,9 +348,6 @@ export default function Feed() {
         </div>
       )}
 
-      <p className="mt-8 text-[11px] text-muted-foreground/50 text-center">
-        Also used by Zyntra for internal content development.
-      </p>
     </AppLayout>
   );
 }
