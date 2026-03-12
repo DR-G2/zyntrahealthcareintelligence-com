@@ -1,83 +1,41 @@
 
 
-## Plan: Admin-Initiated Messaging System
+## Plan: Enhanced Practice Results with Detailed Explanations
 
-### Concept
-Admin can send messages to any candidate from the admin dashboard. Candidates see a notification/inbox in the app and can reply **only** to conversations the admin started. Candidates cannot initiate new conversations with admin.
+### What Changes
 
-### 1. Database — Two new tables
+**1. Expand the results review section (Practice.tsx, lines 225-245)**
 
-**`admin_messages`** — stores all messages in threads
+Replace the current inline explanation snippet with a clickable card that navigates to a full-page explanation view. Each question card in results will show:
+- Question text, your answer vs correct answer, correct/incorrect badge
+- A "Read Full Explanation" button that opens a detailed view
 
-```sql
-CREATE TABLE public.admin_messages (
-  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-  thread_id uuid NOT NULL,
-  sender_role text NOT NULL CHECK (sender_role IN ('admin', 'candidate')),
-  sender_id uuid NOT NULL,
-  content text NOT NULL,
-  read_at timestamptz,
-  created_at timestamptz NOT NULL DEFAULT now()
-);
-```
+**2. Create a full-page explanation view within the results phase**
 
-**`admin_message_threads`** — one row per admin→candidate conversation
+Add a new sub-phase `'explanation'` to the drill session. When a user clicks a question, the view transitions to a full-page layout containing:
+- The question and all options (highlighted correct/incorrect)
+- A detailed explanation section
+- **Reference notes** organized by source book:
+  - **AMC Handbook** — key clinical points relevant to the question topic
+  - **John Murtagh's General Practice** — diagnostic approach and management
+  - **Tally O'Connor's Clinical Examination** — examination findings and signs
+- A "Back to Results" button
 
-```sql
-CREATE TABLE public.admin_message_threads (
-  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-  admin_id uuid NOT NULL,
-  candidate_id uuid NOT NULL,
-  admin_email text NOT NULL,
-  candidate_email text,
-  subject text DEFAULT 'No subject',
-  created_at timestamptz NOT NULL DEFAULT now(),
-  updated_at timestamptz NOT NULL DEFAULT now(),
-  UNIQUE(admin_id, candidate_id)
-);
-```
+**3. Store reference notes in the question explanation field**
 
-**RLS policies:**
-- Admins (via edge function with service role) can read/write all threads and messages
-- Candidates can SELECT threads where `candidate_id = auth.uid()`
-- Candidates can SELECT messages where `thread_id` belongs to their thread
-- Candidates can INSERT messages only into threads where they are the candidate (reply only)
+Since the `questions` table already has an `explanation` column, the detailed explanations with book references will be structured within that field. For now, the UI will parse and display the explanation, and add styled reference sections with book attribution headers even if the current explanation text is brief. The textbook reference sections will be rendered as distinct styled blocks.
 
-### 2. Edge Function — `admin-send-message`
+### Technical Approach
 
-- Accepts `{ candidate_id, content, subject? }`
-- Verifies caller is admin (same pattern as `admin-toggle-setting`)
-- Creates thread if not exists, inserts message with `sender_role = 'admin'`
-- Uses service role for writes
+- Add state: `reviewQuestionIndex: number | null` to track which question is being viewed in detail
+- When set, render a full-page explanation component instead of the results list
+- Structure the explanation page with:
+  - Question card with all options color-coded
+  - Explanation text (from DB)
+  - Three reference cards (AMC Handbook, Murtagh's, Tally O'Connor) with topic-relevant headers derived from the question's category
+- Use `framer-motion` for page transitions
+- All changes are in `src/pages/Practice.tsx` only — no new files needed
 
-### 3. Admin Dashboard — Messages Tab
-
-Add a new tab "Messages" in the admin dashboard (visible to all admins):
-- Compose: Select a user from the user list, type a message, send
-- Thread view: See conversation history with each candidate
-- Unread indicator for candidate replies
-
-### 4. Candidate Inbox — New page + sidebar link
-
-**New page: `src/pages/Inbox.tsx`**
-- Shows list of threads (from admin only)
-- Click to open thread, view messages, reply
-- Unread badge on new admin messages
-
-**Sidebar update:** Add "Inbox" with a `Mail` icon and unread count badge
-
-### 5. Realtime (optional but recommended)
-
-Enable realtime on `admin_messages` table so both admin and candidates see new messages instantly.
-
-### Summary
-
-| Component | Change |
-|-----------|--------|
-| Migration | Create `admin_message_threads` + `admin_messages` tables with RLS |
-| `supabase/functions/admin-send-message/index.ts` | New edge function for admin to send messages |
-| `src/pages/Inbox.tsx` | New candidate inbox page |
-| `src/pages/AdminDashboard.tsx` | Add Messages tab with compose + thread view |
-| `src/components/AppSidebar.tsx` | Add Inbox link with unread badge |
-| `src/App.tsx` | Add `/inbox` route |
+### Files Modified
+- `src/pages/Practice.tsx` — refactor results phase to add clickable detail view with book reference sections
 

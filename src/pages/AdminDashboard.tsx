@@ -16,7 +16,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
-import { Loader2, Sparkles, Upload, FileUp, X, Users, BookOpen, Activity, Pencil, Trash2, Search, ShieldAlert, Radio, ChevronDown, Zap, Brain, Monitor, FileText, Camera } from 'lucide-react';
+import { Loader2, Sparkles, Upload, FileUp, X, Users, BookOpen, Activity, Pencil, Trash2, Search, ShieldAlert, Radio, ChevronDown, Zap, Brain, Monitor, FileText, Camera, MessageCircle } from 'lucide-react';
 import { PiracyStrikesTab } from '@/components/admin/PiracyStrikesTab';
 import { LiveActivityTab } from '@/components/admin/LiveActivityTab';
 import { AIControlTab } from '@/components/admin/AIControlTab';
@@ -24,6 +24,7 @@ import { UserInspectionPanel } from '@/components/admin/UserInspectionPanel';
 import { SystemMonitorTab } from '@/components/admin/SystemMonitorTab';
 import { ActivityLogsTab } from '@/components/admin/ActivityLogsTab';
 import { ScreenshotAttemptsTab } from '@/components/admin/ScreenshotAttemptsTab';
+import { MessagesTab } from '@/components/admin/MessagesTab';
 
 const ADMIN_EMAILS = [
   "gopalrock.naren@gmail.com",
@@ -1405,9 +1406,10 @@ export default function AdminDashboard() {
         )}
 
         <Tabs defaultValue="live">
-          <TabsList className={`grid w-full ${isSuperAdmin ? 'grid-cols-9' : 'grid-cols-5'}`}>
+          <TabsList className={`grid w-full ${isSuperAdmin ? 'grid-cols-10' : 'grid-cols-6'}`}>
             <TabsTrigger value="live" className="gap-2"><Radio className="h-4 w-4" /> Activity</TabsTrigger>
             <TabsTrigger value="users" className="gap-2"><Users className="h-4 w-4" /> Users</TabsTrigger>
+            <TabsTrigger value="messages" className="gap-2"><MessageCircle className="h-4 w-4" /> Messages</TabsTrigger>
             <TabsTrigger value="mcq" className="gap-2"><BookOpen className="h-4 w-4" /> MCQ</TabsTrigger>
             <TabsTrigger value="osce" className="gap-2"><Activity className="h-4 w-4" /> OSCE</TabsTrigger>
             <TabsTrigger value="strikes" className="gap-2"><ShieldAlert className="h-4 w-4" /> Strikes</TabsTrigger>
@@ -1418,6 +1420,7 @@ export default function AdminDashboard() {
           </TabsList>
           <TabsContent value="live"><LiveActivityTab /></TabsContent>
           <TabsContent value="users"><UsersTab currentUserEmail={currentUserEmail} /></TabsContent>
+          <TabsContent value="messages"><MessagesTab /></TabsContent>
           <TabsContent value="mcq"><MCQTab /></TabsContent>
           <TabsContent value="osce"><OSCETab /></TabsContent>
           <TabsContent value="strikes"><PiracyStrikesTab /></TabsContent>

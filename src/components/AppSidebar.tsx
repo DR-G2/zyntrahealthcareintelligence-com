@@ -2,8 +2,9 @@ import { NavLink, useLocation } from 'react-router-dom';
 import {
   ClipboardCheck, BookOpen, Calendar, Settings, Zap, UserCircle, LogOut, Brain,
   Target, Activity, ChevronRight, Shield, Stethoscope, PanelLeftClose, PanelLeft,
-  MessageCircle, Rss, BarChart3,
+  MessageCircle, Rss, BarChart3, Inbox,
 } from 'lucide-react';
+import { useInboxUnread } from '@/hooks/useInboxUnread';
 import { useAuth } from '@/contexts/AuthContext';
 import { useFeatureGate } from '@/hooks/useFeatureGate';
 import { ThemeToggle } from '@/components/ThemeToggle';
@@ -151,6 +152,40 @@ function CollapsibleNav({ item, location, collapsed, onNavigate }: {
   );
 }
 
+function InboxNavItem({ collapsed, location, onNavigate }: { collapsed: boolean; location: ReturnType<typeof useLocation>; onNavigate?: () => void }) {
+  const unread = useInboxUnread();
+  const isActive = location.pathname === '/inbox';
+  return (
+    <NavTooltip label={`Inbox${unread > 0 ? ` (${unread})` : ''}`} collapsed={collapsed}>
+      <NavLink
+        to="/inbox"
+        onClick={onNavigate}
+        className={cn(
+          'group flex items-center rounded-lg text-sm font-medium transition-colors',
+          collapsed ? 'justify-center py-2' : 'gap-3 px-3 py-2',
+          isActive ? 'bg-sidebar-accent text-sidebar-primary' : 'text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground'
+        )}
+      >
+        <div className="relative shrink-0">
+          <Inbox className="h-4 w-4 transition-transform duration-200 group-hover:scale-110" />
+          {unread > 0 && (
+            <span className="absolute -top-1.5 -right-1.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-destructive text-[9px] font-bold text-destructive-foreground">
+              {unread > 9 ? '9+' : unread}
+            </span>
+          )}
+        </div>
+        {!collapsed && 'Inbox'}
+        {!collapsed && unread > 0 && (
+          <span className="ml-auto flex h-5 min-w-5 items-center justify-center rounded-full bg-destructive px-1 text-[10px] font-bold text-destructive-foreground">
+            {unread}
+          </span>
+        )}
+      </NavLink>
+    </NavTooltip>
+  );
+}
+
+
 export function AppSidebar({ isMobile }: { isMobile?: boolean }) {
   const { signOut, user } = useAuth();
   const location = useLocation();
@@ -283,6 +318,7 @@ function SidebarInner({
 
       {/* Bottom */}
       <div className={cn('border-t border-sidebar-border py-3 space-y-1', collapsed ? 'px-1.5' : 'px-3')}>
+        <InboxNavItem collapsed={collapsed} location={location} onNavigate={onNavigate} />
         <NavTooltip label="Settings" collapsed={collapsed}>
           <NavLink
             to="/settings"
