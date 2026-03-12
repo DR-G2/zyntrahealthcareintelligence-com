@@ -62,6 +62,46 @@ function LazyFallback() {
   );
 }
 
+const ADMIN_EMAILS = [
+  "gopalrock.naren@gmail.com",
+  "amc.osce.2026@gmail.com",
+  "testuser123@zyntr.website",
+];
+
+function MaintenancePage() {
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-background p-4">
+      <div className="text-center space-y-4 max-w-md">
+        <div className="flex h-16 w-16 mx-auto items-center justify-center rounded-full bg-primary/10">
+          <Zap className="h-8 w-8 text-primary" />
+        </div>
+        <h1 className="text-2xl font-bold font-display">We'll be back soon</h1>
+        <p className="text-muted-foreground">
+          Zyntra is currently undergoing scheduled maintenance. We'll be back shortly — thanks for your patience!
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function MaintenanceGate({ children }: { children: React.ReactNode }) {
+  const { enabled: maintenance, loading } = useMaintenanceMode();
+  const { user } = useAuth();
+  const isAdmin = user?.email ? ADMIN_EMAILS.includes(user.email) : false;
+
+  if (loading) return <LazyFallback />;
+  if (maintenance && !isAdmin) {
+    return (
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/admin" element={<ProtectedRoute><ErrorBoundary><Suspense fallback={<LazyFallback />}><AdminDashboard /></Suspense></ErrorBoundary></ProtectedRoute>} />
+        <Route path="*" element={<MaintenancePage />} />
+      </Routes>
+    );
+  }
+  return <>{children}</>;
+}
+
 function AppRoutes() {
   const { show: showAboutPricing } = useShowAboutPricing();
   return (
