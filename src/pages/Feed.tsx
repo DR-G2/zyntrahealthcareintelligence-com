@@ -52,16 +52,6 @@ export default function Feed() {
   const [savingOsce, setSavingOsce] = useState(false);
   const [savedOsce, setSavedOsce] = useState(false);
 
-  if (!gate.canAccessAnalytics) {
-    return (
-      <AppLayout>
-        <UpgradePrompt
-          feature="Feed"
-          description="Paste clinical content and generate practice questions or OSCE stations instantly."
-        />
-      </AppLayout>
-    );
-  }
 
   const handleGenerate = async () => {
     if (!content.trim()) {
