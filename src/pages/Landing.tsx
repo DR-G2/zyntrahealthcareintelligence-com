@@ -45,6 +45,7 @@ const item = {
 };
 
 export default function Landing() {
+  const { show: showAboutPricing } = useShowAboutPricing();
   return (
     <div className="min-h-screen bg-background">
       {/* Nav */}
