@@ -150,11 +150,18 @@ export default function Feed() {
 
   return (
     <AppLayout>
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold font-display">Feed</h1>
-        <p className="text-muted-foreground">
-          Paste clinical content and generate practice questions or OSCE stations instantly.
-        </p>
+      <div className="mb-8">
+        <div className="flex items-center gap-3 mb-1">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10">
+            <Zap className="h-5 w-5 text-primary" />
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold font-display">Content Feed</h1>
+            <p className="text-sm text-muted-foreground">
+              Transform any clinical content into exam-ready practice material
+            </p>
+          </div>
+        </div>
       </div>
 
       <Tabs value={tab} onValueChange={(v) => { setTab(v as 'mcq' | 'osce'); setMcqResults(null); setOsceResult(null); }}>
