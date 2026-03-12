@@ -10,6 +10,7 @@ import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { usePresence } from "@/hooks/usePresence";
+import { useShowAboutPricing } from "@/hooks/useSiteSettings";
 
 // Eagerly load landing & login (critical path)
 import Landing from "./pages/Landing";
@@ -59,6 +60,55 @@ function LazyFallback() {
   );
 }
 
+function AppRoutes() {
+  const { show: showAboutPricing } = useShowAboutPricing();
+  return (
+    <Suspense fallback={<LazyFallback />}>
+      <Routes>
+        <Route path="/" element={<ErrorBoundary><Landing /></ErrorBoundary>} />
+        {showAboutPricing ? (
+          <>
+            <Route path="/about" element={<ErrorBoundary><About /></ErrorBoundary>} />
+            <Route path="/pricing" element={<ErrorBoundary><Pricing /></ErrorBoundary>} />
+          </>
+        ) : (
+          <>
+            <Route path="/about" element={<Navigate to="/" replace />} />
+            <Route path="/pricing" element={<Navigate to="/" replace />} />
+          </>
+        )}
+        <Route path="/login" element={<ErrorBoundary><Login /></ErrorBoundary>} />
+        <Route path="/reset-password" element={<ErrorBoundary><ResetPassword /></ErrorBoundary>} />
+        <Route path="/terms" element={<ErrorBoundary><Terms /></ErrorBoundary>} />
+        <Route path="/onboarding" element={<ErrorBoundary><Onboarding /></ErrorBoundary>} />
+        <Route path="/dashboard" element={<ProtectedRoute><ErrorBoundary><Dashboard /></ErrorBoundary></ProtectedRoute>} />
+        <Route path="/assess" element={<ProtectedRoute><ErrorBoundary><Assess /></ErrorBoundary></ProtectedRoute>} />
+        <Route path="/intelligence" element={<ProtectedRoute><ErrorBoundary><PerformanceIntelligence /></ErrorBoundary></ProtectedRoute>} />
+        <Route path="/profile" element={<Navigate to="/intelligence?tab=performance" replace />} />
+        <Route path="/behavior" element={<Navigate to="/intelligence?tab=behavior" replace />} />
+        <Route path="/trust-your-gut" element={<Navigate to="/intelligence?tab=trust-your-gut" replace />} />
+        <Route path="/practice" element={<ProtectedRoute><ErrorBoundary><Practice /></ErrorBoundary></ProtectedRoute>} />
+        <Route path="/questions" element={<ProtectedRoute><ErrorBoundary><Questions /></ErrorBoundary></ProtectedRoute>} />
+        <Route path="/questions/mcq" element={<ProtectedRoute><ErrorBoundary><QuestionsMCQ /></ErrorBoundary></ProtectedRoute>} />
+        <Route path="/questions/osce" element={<ProtectedRoute><ErrorBoundary><QuestionsOSCE /></ErrorBoundary></ProtectedRoute>} />
+        <Route path="/assess/osce" element={<ProtectedRoute><ErrorBoundary><DiagnosticOSCE /></ErrorBoundary></ProtectedRoute>} />
+        <Route path="/plan" element={<ProtectedRoute><ErrorBoundary><StudyPlan /></ErrorBoundary></ProtectedRoute>} />
+        <Route path="/stations" element={<ProtectedRoute><ErrorBoundary><Stations /></ErrorBoundary></ProtectedRoute>} />
+        <Route path="/companion/chat" element={<ProtectedRoute><ErrorBoundary><CompanionChat /></ErrorBoundary></ProtectedRoute>} />
+        <Route path="/companion/groups" element={<Navigate to="/dashboard" replace />} />
+        <Route path="/companion/shared-tests" element={<Navigate to="/dashboard" replace />} />
+        <Route path="/companion/ai-core" element={<ProtectedRoute><ErrorBoundary><ZyntraAICore /></ErrorBoundary></ProtectedRoute>} />
+        <Route path="/review" element={<Navigate to="/practice" replace />} />
+        <Route path="/feed" element={<ProtectedRoute><ErrorBoundary><Feed /></ErrorBoundary></ProtectedRoute>} />
+        <Route path="/history" element={<Navigate to="/practice" replace />} />
+        <Route path="/admin" element={<ProtectedRoute><ErrorBoundary><AdminDashboard /></ErrorBoundary></ProtectedRoute>} />
+        <Route path="/settings" element={<ProtectedRoute><ErrorBoundary><Settings /></ErrorBoundary></ProtectedRoute>} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </Suspense>
+  );
+}
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
@@ -68,41 +118,7 @@ const App = () => (
           <Sonner />
           <BrowserRouter>
             <PresenceTracker />
-            <Suspense fallback={<LazyFallback />}>
-              <Routes>
-                <Route path="/" element={<ErrorBoundary><Landing /></ErrorBoundary>} />
-                <Route path="/about" element={<ErrorBoundary><About /></ErrorBoundary>} />
-                <Route path="/pricing" element={<ErrorBoundary><Pricing /></ErrorBoundary>} />
-                <Route path="/login" element={<ErrorBoundary><Login /></ErrorBoundary>} />
-                <Route path="/reset-password" element={<ErrorBoundary><ResetPassword /></ErrorBoundary>} />
-                <Route path="/terms" element={<ErrorBoundary><Terms /></ErrorBoundary>} />
-                <Route path="/onboarding" element={<ErrorBoundary><Onboarding /></ErrorBoundary>} />
-                <Route path="/dashboard" element={<ProtectedRoute><ErrorBoundary><Dashboard /></ErrorBoundary></ProtectedRoute>} />
-                <Route path="/assess" element={<ProtectedRoute><ErrorBoundary><Assess /></ErrorBoundary></ProtectedRoute>} />
-                <Route path="/intelligence" element={<ProtectedRoute><ErrorBoundary><PerformanceIntelligence /></ErrorBoundary></ProtectedRoute>} />
-                <Route path="/profile" element={<Navigate to="/intelligence?tab=performance" replace />} />
-                <Route path="/behavior" element={<Navigate to="/intelligence?tab=behavior" replace />} />
-                <Route path="/trust-your-gut" element={<Navigate to="/intelligence?tab=trust-your-gut" replace />} />
-                <Route path="/practice" element={<ProtectedRoute><ErrorBoundary><Practice /></ErrorBoundary></ProtectedRoute>} />
-                <Route path="/questions" element={<ProtectedRoute><ErrorBoundary><Questions /></ErrorBoundary></ProtectedRoute>} />
-                <Route path="/questions/mcq" element={<ProtectedRoute><ErrorBoundary><QuestionsMCQ /></ErrorBoundary></ProtectedRoute>} />
-                <Route path="/questions/osce" element={<ProtectedRoute><ErrorBoundary><QuestionsOSCE /></ErrorBoundary></ProtectedRoute>} />
-                <Route path="/assess/osce" element={<ProtectedRoute><ErrorBoundary><DiagnosticOSCE /></ErrorBoundary></ProtectedRoute>} />
-                <Route path="/plan" element={<ProtectedRoute><ErrorBoundary><StudyPlan /></ErrorBoundary></ProtectedRoute>} />
-                <Route path="/stations" element={<ProtectedRoute><ErrorBoundary><Stations /></ErrorBoundary></ProtectedRoute>} />
-                <Route path="/companion/chat" element={<ProtectedRoute><ErrorBoundary><CompanionChat /></ErrorBoundary></ProtectedRoute>} />
-                <Route path="/companion/groups" element={<Navigate to="/dashboard" replace />} />
-                <Route path="/companion/shared-tests" element={<Navigate to="/dashboard" replace />} />
-                <Route path="/companion/ai-core" element={<ProtectedRoute><ErrorBoundary><ZyntraAICore /></ErrorBoundary></ProtectedRoute>} />
-                <Route path="/review" element={<Navigate to="/practice" replace />} />
-                <Route path="/feed" element={<ProtectedRoute><ErrorBoundary><Feed /></ErrorBoundary></ProtectedRoute>} />
-                <Route path="/history" element={<Navigate to="/practice" replace />} />
-                <Route path="/admin" element={<ProtectedRoute><ErrorBoundary><AdminDashboard /></ErrorBoundary></ProtectedRoute>} />
-                
-                <Route path="/settings" element={<ProtectedRoute><ErrorBoundary><Settings /></ErrorBoundary></ProtectedRoute>} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </Suspense>
+            <AppRoutes />
           </BrowserRouter>
         </TooltipProvider>
       </AuthProvider>

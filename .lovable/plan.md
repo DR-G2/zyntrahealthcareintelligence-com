@@ -1,57 +1,41 @@
 
 
-## Plan: Toggle About & Pricing Visibility via Database Setting
+## Plan: Enhanced Practice Results with Detailed Explanations
 
-### 1. Create `site_settings` table (migration)
+### What Changes
 
-```sql
-CREATE TABLE public.site_settings (
-  key text PRIMARY KEY,
-  value jsonb NOT NULL DEFAULT 'false'::jsonb,
-  updated_at timestamptz NOT NULL DEFAULT now()
-);
+**1. Expand the results review section (Practice.tsx, lines 225-245)**
 
-ALTER TABLE public.site_settings ENABLE ROW LEVEL SECURITY;
+Replace the current inline explanation snippet with a clickable card that navigates to a full-page explanation view. Each question card in results will show:
+- Question text, your answer vs correct answer, correct/incorrect badge
+- A "Read Full Explanation" button that opens a detailed view
 
--- Anyone can read settings (needed for landing page, which is public)
-CREATE POLICY "Anyone can read site settings"
-  ON public.site_settings FOR SELECT TO anon, authenticated
-  USING (true);
+**2. Create a full-page explanation view within the results phase**
 
--- Insert default setting (off by default)
-INSERT INTO public.site_settings (key, value) VALUES ('show_about_pricing', 'false'::jsonb);
-```
+Add a new sub-phase `'explanation'` to the drill session. When a user clicks a question, the view transitions to a full-page layout containing:
+- The question and all options (highlighted correct/incorrect)
+- A detailed explanation section
+- **Reference notes** organized by source book:
+  - **AMC Handbook** — key clinical points relevant to the question topic
+  - **John Murtagh's General Practice** — diagnostic approach and management
+  - **Tally O'Connor's Clinical Examination** — examination findings and signs
+- A "Back to Results" button
 
-No public write access — only admins via edge function or service role will toggle.
+**3. Store reference notes in the question explanation field**
 
-### 2. Create a hook `usePublicPages` 
+Since the `questions` table already has an `explanation` column, the detailed explanations with book references will be structured within that field. For now, the UI will parse and display the explanation, and add styled reference sections with book attribution headers even if the current explanation text is brief. The textbook reference sections will be rendered as distinct styled blocks.
 
-Reads from `site_settings` where `key = 'show_about_pricing'`. Returns a boolean. Used by Landing page nav and App.tsx routing.
+### Technical Approach
 
-### 3. Update Landing page (`src/pages/Landing.tsx`)
+- Add state: `reviewQuestionIndex: number | null` to track which question is being viewed in detail
+- When set, render a full-page explanation component instead of the results list
+- Structure the explanation page with:
+  - Question card with all options color-coded
+  - Explanation text (from DB)
+  - Three reference cards (AMC Handbook, Murtagh's, Tally O'Connor) with topic-relevant headers derived from the question's category
+- Use `framer-motion` for page transitions
+- All changes are in `src/pages/Practice.tsx` only — no new files needed
 
-Conditionally render the About and Pricing nav buttons based on the hook value.
-
-### 4. Update routing (`src/App.tsx`)
-
-Conditionally render `/about` and `/pricing` routes. When disabled, redirect to `/`.
-
-### 5. Add toggle to Admin Dashboard
-
-Add a simple Switch in the admin panel (visible to Super Admin) labeled "Show About & Pricing pages". On toggle, updates the `site_settings` row via service-role edge function or direct update (since admin).
-
-### 6. Edge function `admin-toggle-setting`
-
-Accepts `{ key, value }`, verifies caller is admin, updates `site_settings` using service role.
-
-### Summary
-
-| File | Change |
-|------|--------|
-| Migration | Create `site_settings` table with RLS |
-| `src/hooks/useSiteSettings.ts` | New hook to read setting |
-| `src/pages/Landing.tsx` | Conditionally show About/Pricing links |
-| `src/App.tsx` | Conditionally render routes |
-| `src/pages/AdminDashboard.tsx` | Add toggle switch |
-| `supabase/functions/admin-toggle-setting/index.ts` | New edge function |
+### Files Modified
+- `src/pages/Practice.tsx` — refactor results phase to add clickable detail view with book reference sections
 

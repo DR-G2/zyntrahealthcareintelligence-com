@@ -4,6 +4,7 @@ import { Zap, Brain, Clock, Target, BarChart3, ArrowRight, Rss } from 'lucide-re
 import { Button } from '@/components/ui/button';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { LegalFooter } from '@/components/LegalFooter';
+import { useShowAboutPricing } from '@/hooks/useSiteSettings';
 
 const features = [
   {
@@ -44,6 +45,7 @@ const item = {
 };
 
 export default function Landing() {
+  const { show: showAboutPricing } = useShowAboutPricing();
   return (
     <div className="min-h-screen bg-background">
       {/* Nav */}
@@ -56,12 +58,16 @@ export default function Landing() {
             <span className="text-lg font-bold font-display">Zyntra</span>
           </div>
           <div className="flex items-center gap-3">
-            <Button variant="ghost" asChild className="text-sm">
-              <Link to="/about">About</Link>
-            </Button>
-            <Button variant="ghost" asChild className="text-sm">
-              <Link to="/pricing">Pricing</Link>
-            </Button>
+            {showAboutPricing && (
+              <>
+                <Button variant="ghost" asChild className="text-sm">
+                  <Link to="/about">About</Link>
+                </Button>
+                <Button variant="ghost" asChild className="text-sm">
+                  <Link to="/pricing">Pricing</Link>
+                </Button>
+              </>
+            )}
             <ThemeToggle />
             <Button asChild>
               <Link to="/dashboard">Get Started</Link>
