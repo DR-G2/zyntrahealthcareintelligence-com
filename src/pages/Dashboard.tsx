@@ -146,58 +146,6 @@ export default function Dashboard() {
         </CardContent>
       </Card>
 
-      <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        <Card className="group hover:border-primary/30 transition-colors">
-          <CardHeader>
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary mb-2">
-              <ClipboardCheck className="h-5 w-5" />
-            </div>
-            <CardTitle className="font-display">Take Diagnostic</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground mb-4">
-              Start your APPE journey with a timed diagnostic test
-            </p>
-            <Button asChild className="gap-1">
-              <Link to="/assess">Begin Assessment <ArrowRight className="h-4 w-4" /></Link>
-            </Button>
-          </CardContent>
-        </Card>
-
-        <Card className="group hover:border-primary/30 transition-colors">
-          <CardHeader>
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-secondary/10 text-secondary mb-2">
-              <Zap className="h-5 w-5" />
-            </div>
-            <CardTitle className="font-display">Practice Drills</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground mb-4">
-              Speed rounds, commitment drills, and pressure tests
-            </p>
-            <Button variant="secondary" asChild className="gap-1">
-              <Link to="/practice">Start Practice <ArrowRight className="h-4 w-4" /></Link>
-            </Button>
-          </CardContent>
-        </Card>
-
-        <Card className="group hover:border-primary/30 transition-colors">
-          <CardHeader>
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent/10 text-accent-foreground mb-2">
-              <Rss className="h-5 w-5" />
-            </div>
-            <CardTitle className="font-display">Feed</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground mb-4">
-              Paste clinical content and generate practice questions instantly
-            </p>
-            <Button variant="outline" asChild className="gap-1">
-              <Link to="/feed">Open Feed <ArrowRight className="h-4 w-4" /></Link>
-            </Button>
-          </CardContent>
-        </Card>
-      </div>
     </AppLayout>
   );
 }

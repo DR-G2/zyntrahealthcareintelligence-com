@@ -175,40 +175,34 @@ export default function Feed() {
         </TabsList>
 
         <TabsContent value="mcq">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg font-display">Paste Clinical Content</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
+          <Card className="border-border/50 shadow-sm">
+            <CardContent className="pt-5 space-y-4">
               <Textarea
-                placeholder="Paste any clinical content, case study, or topic notes here. The AI will generate exam-style MCQ questions from it..."
+                placeholder="Paste clinical content, case studies, or topic notes…"
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
-                className="min-h-[160px]"
+                className="min-h-[140px] resize-none bg-muted/30 border-border/50 focus:bg-background transition-colors"
               />
-              <Button onClick={handleGenerate} disabled={loading || !content.trim()} className="gap-2">
+              <Button onClick={handleGenerate} disabled={loading || !content.trim()} className="w-full gap-2">
                 {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Zap className="h-4 w-4" />}
-                {loading ? 'Generating...' : 'Generate MCQ Questions'}
+                {loading ? 'Generating Questions…' : 'Generate MCQ Questions'}
               </Button>
             </CardContent>
           </Card>
         </TabsContent>
 
         <TabsContent value="osce">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg font-display">Paste Clinical Scenario</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
+          <Card className="border-border/50 shadow-sm">
+            <CardContent className="pt-5 space-y-4">
               <Textarea
-                placeholder="Paste a clinical scenario, patient presentation, or case description. The AI will generate a complete OSCE station from it..."
+                placeholder="Paste a clinical scenario or patient presentation…"
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
-                className="min-h-[160px]"
+                className="min-h-[140px] resize-none bg-muted/30 border-border/50 focus:bg-background transition-colors"
               />
-              <Button onClick={handleGenerate} disabled={loading || !content.trim()} className="gap-2">
+              <Button onClick={handleGenerate} disabled={loading || !content.trim()} className="w-full gap-2">
                 {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Stethoscope className="h-4 w-4" />}
-                {loading ? 'Generating...' : 'Generate OSCE Station'}
+                {loading ? 'Generating Station…' : 'Generate OSCE Station'}
               </Button>
             </CardContent>
           </Card>
