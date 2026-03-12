@@ -1,4 +1,5 @@
 import { lazy, Suspense } from "react";
+import { Zap } from "lucide-react";
 import { Navigate } from "react-router-dom";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";

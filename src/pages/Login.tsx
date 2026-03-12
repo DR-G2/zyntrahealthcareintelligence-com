@@ -11,6 +11,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/lib/supabase';
 import { CURRENT_TERMS_VERSION, LEGAL_EMAIL } from '@/lib/legal';
+import { useRegistrationOpen } from '@/hooks/useSiteSettings';
 
 export default function Login() {
   const [searchParams] = useSearchParams();
