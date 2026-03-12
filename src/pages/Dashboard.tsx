@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Link } from 'react-router-dom';
-import { ClipboardCheck, Zap, ArrowRight, Rss, PlayCircle, Brain } from 'lucide-react';
+import { ArrowRight, PlayCircle, Brain } from 'lucide-react';
 import { differenceInDays, parseISO } from 'date-fns';
 import { WelcomeTour } from '@/components/WelcomeTour';
 import { ReadinessDNA } from '@/components/ReadinessDNA';
