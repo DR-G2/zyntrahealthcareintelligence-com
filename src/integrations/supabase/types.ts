@@ -107,6 +107,77 @@ export type Database = {
         }
         Relationships: []
       }
+      admin_message_threads: {
+        Row: {
+          admin_email: string
+          admin_id: string
+          candidate_email: string | null
+          candidate_id: string
+          created_at: string
+          id: string
+          subject: string | null
+          updated_at: string
+        }
+        Insert: {
+          admin_email: string
+          admin_id: string
+          candidate_email?: string | null
+          candidate_id: string
+          created_at?: string
+          id?: string
+          subject?: string | null
+          updated_at?: string
+        }
+        Update: {
+          admin_email?: string
+          admin_id?: string
+          candidate_email?: string | null
+          candidate_id?: string
+          created_at?: string
+          id?: string
+          subject?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      admin_messages: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          read_at: string | null
+          sender_id: string
+          sender_role: string
+          thread_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          read_at?: string | null
+          sender_id: string
+          sender_role: string
+          thread_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          read_at?: string | null
+          sender_id?: string
+          sender_role?: string
+          thread_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "admin_messages_thread_id_fkey"
+            columns: ["thread_id"]
+            isOneToOne: false
+            referencedRelation: "admin_message_threads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       admin_roles: {
         Row: {
           created_at: string
