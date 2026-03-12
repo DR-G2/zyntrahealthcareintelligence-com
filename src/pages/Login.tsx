@@ -11,11 +11,13 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/lib/supabase';
 import { CURRENT_TERMS_VERSION, LEGAL_EMAIL } from '@/lib/legal';
+import { useRegistrationOpen } from '@/hooks/useSiteSettings';
 
 export default function Login() {
   const [searchParams] = useSearchParams();
   const defaultTab = searchParams.get('tab') === 'signup' ? 'signup' : 'login';
   const { session, loading } = useAuth();
+  const { enabled: registrationOpen, loading: regLoading } = useRegistrationOpen();
 
   if (!loading && session) return <Navigate to="/dashboard" replace />;
 
@@ -36,20 +38,30 @@ export default function Login() {
         </div>
 
         <Card className="border-border/50 shadow-xl">
-          <Tabs defaultValue={defaultTab}>
-            <CardHeader className="pb-2">
-              <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="login">Log In</TabsTrigger>
-                <TabsTrigger value="signup">Sign Up</TabsTrigger>
-              </TabsList>
-            </CardHeader>
-            <TabsContent value="login">
+          {registrationOpen ? (
+            <Tabs defaultValue={defaultTab}>
+              <CardHeader className="pb-2">
+                <TabsList className="grid w-full grid-cols-2">
+                  <TabsTrigger value="login">Log In</TabsTrigger>
+                  <TabsTrigger value="signup">Sign Up</TabsTrigger>
+                </TabsList>
+              </CardHeader>
+              <TabsContent value="login">
+                <AuthForm mode="login" />
+              </TabsContent>
+              <TabsContent value="signup">
+                <AuthForm mode="signup" />
+              </TabsContent>
+            </Tabs>
+          ) : (
+            <>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-lg">Log In</CardTitle>
+                <CardDescription className="text-xs text-muted-foreground">Registration is currently closed. Existing users can still log in.</CardDescription>
+              </CardHeader>
               <AuthForm mode="login" />
-            </TabsContent>
-            <TabsContent value="signup">
-              <AuthForm mode="signup" />
-            </TabsContent>
-          </Tabs>
+            </>
+          )}
         </Card>
       </div>
     </div>

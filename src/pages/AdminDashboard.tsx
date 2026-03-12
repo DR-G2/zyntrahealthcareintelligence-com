@@ -1107,51 +1107,63 @@ function CleanupReportDialog({ report, open, onOpenChange }: { report: CleanupRe
 }
 
 // ─── Site Settings Card ────────────────────────────────────────
+const SITE_SETTINGS_CONFIG = [
+  { key: 'show_about_pricing', label: 'Show About & Pricing Pages', description: 'Toggle visibility of About and Pricing for public visitors', defaultValue: false },
+  { key: 'maintenance_mode', label: 'Maintenance Mode', description: 'Shows a maintenance page to all non-admin users', defaultValue: false },
+  { key: 'registration_open', label: 'Registration Open', description: 'Allow new user signups. When off, the Sign Up tab is hidden', defaultValue: true },
+];
+
 function SiteSettingsCard() {
-  const [showAboutPricing, setShowAboutPricing] = useState(false);
+  const [settings, setSettings] = useState<Record<string, boolean>>({});
   const [loading, setLoading] = useState(true);
-  const [toggling, setToggling] = useState(false);
+  const [toggling, setToggling] = useState<string | null>(null);
   const { toast } = useToast();
 
   useEffect(() => {
     supabase
       .from('site_settings' as any)
-      .select('value')
-      .eq('key', 'show_about_pricing')
-      .maybeSingle()
+      .select('key, value')
       .then(({ data }) => {
-        setShowAboutPricing((data as any)?.value === true);
+        const map: Record<string, boolean> = {};
+        SITE_SETTINGS_CONFIG.forEach(s => { map[s.key] = s.defaultValue; });
+        ((data || []) as any[]).forEach((r: any) => { map[r.key] = r.value === true; });
+        setSettings(map);
         setLoading(false);
       });
   }, []);
 
-  const handleToggle = async (checked: boolean) => {
-    setToggling(true);
+  const handleToggle = async (key: string, checked: boolean) => {
+    setToggling(key);
     try {
       const { error } = await supabase.functions.invoke('admin-toggle-setting', {
-        body: { key: 'show_about_pricing', value: checked }
+        body: { key, value: checked }
       });
       if (error) throw error;
-      setShowAboutPricing(checked);
-      toast({ title: `About & Pricing pages ${checked ? 'enabled' : 'disabled'}` });
+      setSettings(prev => ({ ...prev, [key]: checked }));
+      const label = SITE_SETTINGS_CONFIG.find(s => s.key === key)?.label || key;
+      toast({ title: `${label} ${checked ? 'enabled' : 'disabled'}` });
     } catch (e: any) {
       toast({ title: 'Error', description: e.message, variant: 'destructive' });
     }
-    setToggling(false);
+    setToggling(null);
   };
 
   return (
     <Card className="border-border">
-      <CardContent className="flex items-center justify-between p-4">
-        <div>
-          <h3 className="font-semibold text-sm">Show About &amp; Pricing Pages</h3>
-          <p className="text-xs text-muted-foreground">Toggle visibility of About and Pricing for public visitors</p>
-        </div>
-        <Switch
-          checked={showAboutPricing}
-          onCheckedChange={handleToggle}
-          disabled={loading || toggling}
-        />
+      <CardContent className="p-4 space-y-4">
+        {SITE_SETTINGS_CONFIG.map(s => (
+          <div key={s.key} className="flex items-center justify-between">
+            <div>
+              <h3 className="font-semibold text-sm">{s.label}</h3>
+              <p className="text-xs text-muted-foreground">{s.description}</p>
+            </div>
+            <Switch
+              checked={settings[s.key] ?? s.defaultValue}
+              onCheckedChange={(v) => handleToggle(s.key, v)}
+              disabled={loading || toggling === s.key}
+            />
+          </div>
+        ))}
       </CardContent>
     </Card>
   );
