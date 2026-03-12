@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Loader2, Zap, Stethoscope, CheckCircle2, XCircle, ArrowRight, Save } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useFeatureGate } from '@/hooks/useFeatureGate';
-import { UpgradePrompt } from '@/components/UpgradePrompt';
+
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
@@ -52,16 +52,6 @@ export default function Feed() {
   const [savingOsce, setSavingOsce] = useState(false);
   const [savedOsce, setSavedOsce] = useState(false);
 
-  if (!gate.canAccessAnalytics) {
-    return (
-      <AppLayout>
-        <UpgradePrompt
-          feature="Feed"
-          description="Paste clinical content and generate practice questions or OSCE stations instantly."
-        />
-      </AppLayout>
-    );
-  }
 
   const handleGenerate = async () => {
     if (!content.trim()) {
@@ -160,11 +150,18 @@ export default function Feed() {
 
   return (
     <AppLayout>
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold font-display">Feed</h1>
-        <p className="text-muted-foreground">
-          Paste clinical content and generate practice questions or OSCE stations instantly.
-        </p>
+      <div className="mb-8">
+        <div className="flex items-center gap-3 mb-1">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10">
+            <Zap className="h-5 w-5 text-primary" />
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold font-display">Content Feed</h1>
+            <p className="text-sm text-muted-foreground">
+              Transform any clinical content into exam-ready practice material
+            </p>
+          </div>
+        </div>
       </div>
 
       <Tabs value={tab} onValueChange={(v) => { setTab(v as 'mcq' | 'osce'); setMcqResults(null); setOsceResult(null); }}>
@@ -178,40 +175,34 @@ export default function Feed() {
         </TabsList>
 
         <TabsContent value="mcq">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg font-display">Paste Clinical Content</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
+          <Card className="border-border/50 shadow-sm">
+            <CardContent className="pt-5 space-y-4">
               <Textarea
-                placeholder="Paste any clinical content, case study, or topic notes here. The AI will generate exam-style MCQ questions from it..."
+                placeholder="Paste clinical content, case studies, or topic notes…"
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
-                className="min-h-[160px]"
+                className="min-h-[140px] resize-none bg-muted/30 border-border/50 focus:bg-background transition-colors"
               />
-              <Button onClick={handleGenerate} disabled={loading || !content.trim()} className="gap-2">
+              <Button onClick={handleGenerate} disabled={loading || !content.trim()} className="w-full gap-2">
                 {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Zap className="h-4 w-4" />}
-                {loading ? 'Generating...' : 'Generate MCQ Questions'}
+                {loading ? 'Generating Questions…' : 'Generate MCQ Questions'}
               </Button>
             </CardContent>
           </Card>
         </TabsContent>
 
         <TabsContent value="osce">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg font-display">Paste Clinical Scenario</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
+          <Card className="border-border/50 shadow-sm">
+            <CardContent className="pt-5 space-y-4">
               <Textarea
-                placeholder="Paste a clinical scenario, patient presentation, or case description. The AI will generate a complete OSCE station from it..."
+                placeholder="Paste a clinical scenario or patient presentation…"
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
-                className="min-h-[160px]"
+                className="min-h-[140px] resize-none bg-muted/30 border-border/50 focus:bg-background transition-colors"
               />
-              <Button onClick={handleGenerate} disabled={loading || !content.trim()} className="gap-2">
+              <Button onClick={handleGenerate} disabled={loading || !content.trim()} className="w-full gap-2">
                 {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Stethoscope className="h-4 w-4" />}
-                {loading ? 'Generating...' : 'Generate OSCE Station'}
+                {loading ? 'Generating Station…' : 'Generate OSCE Station'}
               </Button>
             </CardContent>
           </Card>
@@ -358,9 +349,6 @@ export default function Feed() {
         </div>
       )}
 
-      <p className="mt-8 text-[11px] text-muted-foreground/50 text-center">
-        Also used by Zyntra for internal content development.
-      </p>
     </AppLayout>
   );
 }
