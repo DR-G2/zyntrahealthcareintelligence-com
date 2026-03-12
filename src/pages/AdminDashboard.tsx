@@ -1337,6 +1337,9 @@ export default function AdminDashboard() {
           </DialogContent>
         </Dialog>
 
+        {/* Site Settings — Super Admin only */}
+        {isSuperAdmin && <SiteSettingsCard />}
+
         {/* Quality Audit Card — Super Admin only */}
         {isSuperAdmin && (
           <Card className="border-warning/20 bg-warning/5">
