@@ -528,13 +528,17 @@ export type Database = {
       profiles: {
         Row: {
           amc_candidate_id: string | null
+          amc1_score: number | null
+          amc2_booking_status: string | null
           country_of_graduation: string | null
           country_of_origin: string | null
           created_at: string
           current_location: string | null
           email: string | null
           exam_date: string | null
+          exam_location: string | null
           exam_stage: string | null
+          exam_target: string | null
           free_trial_end: string | null
           graduation_year: number | null
           id: string
@@ -549,13 +553,17 @@ export type Database = {
         }
         Insert: {
           amc_candidate_id?: string | null
+          amc1_score?: number | null
+          amc2_booking_status?: string | null
           country_of_graduation?: string | null
           country_of_origin?: string | null
           created_at?: string
           current_location?: string | null
           email?: string | null
           exam_date?: string | null
+          exam_location?: string | null
           exam_stage?: string | null
+          exam_target?: string | null
           free_trial_end?: string | null
           graduation_year?: number | null
           id: string
@@ -570,13 +578,17 @@ export type Database = {
         }
         Update: {
           amc_candidate_id?: string | null
+          amc1_score?: number | null
+          amc2_booking_status?: string | null
           country_of_graduation?: string | null
           country_of_origin?: string | null
           created_at?: string
           current_location?: string | null
           email?: string | null
           exam_date?: string | null
+          exam_location?: string | null
           exam_stage?: string | null
+          exam_target?: string | null
           free_trial_end?: string | null
           graduation_year?: number | null
           id?: string
