@@ -1,8 +1,9 @@
-import { useEffect, useCallback, useState, useRef, ReactNode } from 'react';
+import { useEffect, useCallback, useState, ReactNode } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { ShieldAlert } from 'lucide-react';
 import { toast } from 'sonner';
+import { ADMIN_EMAILS } from '@/lib/admin-emails';
 
 interface SecurityOverlayProps {
   children: ReactNode;
@@ -13,14 +14,11 @@ export function SecurityOverlay({ children, opacityOverride }: SecurityOverlayPr
   const { user, profile, watermark } = useAuth();
   const [blurred, setBlurred] = useState(false);
   const [flashing, setFlashing] = useState(false);
-  const lastWarningRef = useRef(0);
 
-  const showWarningToast = useCallback(() => {
-    if (Date.now() - lastWarningRef.current > 5000) {
-      lastWarningRef.current = Date.now();
-      toast.warning('Screenshot detected — your identity is watermarked on all content.');
-    }
-  }, []);
+  const isAdmin = ADMIN_EMAILS.includes(user?.email || '');
+
+  // Admins bypass all security restrictions
+  if (isAdmin) return <>{children}</>;
 
   const watermarkText = [
     profile?.name || '',
@@ -30,7 +28,7 @@ export function SecurityOverlay({ children, opacityOverride }: SecurityOverlayPr
   const lightOpacity = opacityOverride ?? watermark.opacity_light;
   const darkOpacity = opacityOverride ? opacityOverride + 0.01 : watermark.opacity_dark;
 
-  // Log screenshot attempt to backend
+  // Log screenshot attempt to backend — only called for real screenshot key combos
   const logScreenshotAttempt = useCallback((trigger: string) => {
     if (!user) return;
     supabase.functions.invoke('track-presence', {
@@ -71,16 +69,16 @@ export function SecurityOverlay({ children, opacityOverride }: SecurityOverlayPr
       if (e.shiftKey && ['i', 'j', 'c'].includes(e.key.toLowerCase())) {
         e.preventDefault();
       }
-      // Ctrl+Shift+S / Cmd+Shift+S
+      // Ctrl+Shift+S / Cmd+Shift+S — actual screenshot shortcut
       if (e.shiftKey && e.key.toLowerCase() === 's') {
         flashAndLog('ctrl_shift_s');
       }
-      // Ctrl+Shift+4 / Cmd+Shift+4 (macOS screenshot region)
+      // Cmd+Shift+4 (macOS screenshot region)
       if (e.shiftKey && e.key === '4') {
         e.preventDefault();
         flashAndLog('cmd_shift_4');
       }
-      // Ctrl+Shift+3 / Cmd+Shift+3 (macOS full screenshot)
+      // Cmd+Shift+3 (macOS full screenshot)
       if (e.shiftKey && e.key === '3') {
         e.preventDefault();
         flashAndLog('cmd_shift_3');
@@ -92,62 +90,24 @@ export function SecurityOverlay({ children, opacityOverride }: SecurityOverlayPr
     e.preventDefault();
   }, []);
 
-  // Blur on visibility loss + log attempt
+  // Visual blur only on tab switch — NO logging (this is focus loss, not a screenshot)
   const handleVisibilityChange = useCallback(() => {
-    if (document.hidden) {
-      setBlurred(true);
-      logScreenshotAttempt('screenshot');
-    } else {
-      setBlurred(false);
-      showWarningToast();
-    }
-  }, [logScreenshotAttempt, showWarningToast]);
-
-  const handleWindowBlur = useCallback(() => {
-    setBlurred(true);
-    logScreenshotAttempt('window_blur');
-  }, [logScreenshotAttempt]);
-
-  const handleWindowFocus = useCallback(() => {
-    setBlurred(false);
-    showWarningToast();
-  }, [showWarningToast]);
+    setBlurred(document.hidden);
+  }, []);
 
   useEffect(() => {
     document.addEventListener('contextmenu', handleContextMenu);
     document.addEventListener('keydown', handleKeyDown, true);
     document.addEventListener('dragstart', handleDragStart);
     document.addEventListener('visibilitychange', handleVisibilityChange);
-    window.addEventListener('blur', handleWindowBlur);
-    window.addEventListener('focus', handleWindowFocus);
 
     return () => {
       document.removeEventListener('contextmenu', handleContextMenu);
       document.removeEventListener('keydown', handleKeyDown, true);
       document.removeEventListener('dragstart', handleDragStart);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
-      window.removeEventListener('blur', handleWindowBlur);
-      window.removeEventListener('focus', handleWindowFocus);
     };
-  }, [handleContextMenu, handleKeyDown, handleDragStart, handleVisibilityChange, handleWindowBlur, handleWindowFocus]);
-
-  // DevTools detection
-  useEffect(() => {
-    let devtoolsOpen = false;
-    const threshold = 160;
-    const check = () => {
-      const widthDiff = window.outerWidth - window.innerWidth > threshold;
-      const heightDiff = window.outerHeight - window.innerHeight > threshold;
-      if ((widthDiff || heightDiff) && !devtoolsOpen) {
-        devtoolsOpen = true;
-        console.warn('[Security] DevTools may be open');
-      } else if (!widthDiff && !heightDiff) {
-        devtoolsOpen = false;
-      }
-    };
-    const interval = setInterval(check, 1000);
-    return () => clearInterval(interval);
-  }, []);
+  }, [handleContextMenu, handleKeyDown, handleDragStart, handleVisibilityChange]);
 
   // Suspension blocker
   if (watermark.suspended) {
@@ -229,7 +189,6 @@ export function SecurityOverlay({ children, opacityOverride }: SecurityOverlayPr
           ))}
         </div>
       </div>
-      {/* Dark mode uses dark opacity */}
       <style>{`
         @media print {
           body { display: none !important; }
