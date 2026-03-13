@@ -109,6 +109,13 @@ export default function Stations() {
   // Session
   const sessionId = useRef(crypto.randomUUID());
 
+  // Refresh cache count on mode-select
+  useEffect(() => {
+    if (phase === 'mode-select') {
+      getCacheCount().then(setCachedCount);
+    }
+  }, [phase]);
+
   useEffect(() => {
     if (phase === 'station') {
       timerRef.current = setInterval(() => {
