@@ -48,15 +48,18 @@ export default function Dashboard() {
           onComplete={() => setShowTour(false)}
         />
       )}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold font-display">
-          Welcome back, {profile?.name?.split(' ')[0] || 'Doctor'}
-        </h1>
-        <p className="text-muted-foreground">
-          {daysUntilExam !== null && daysUntilExam > 0
-            ? `${daysUntilExam} days until your exam`
-            : 'Your exam preparation hub'}
-        </p>
+      <div className="mb-8 space-y-3">
+        <div>
+          <h1 className="text-3xl font-bold font-display">
+            Welcome back, {profile?.name?.split(' ')[0] || 'Doctor'}
+          </h1>
+          <p className="text-muted-foreground">
+            {daysUntilExam !== null && daysUntilExam > 0
+              ? `${daysUntilExam} days until your exam`
+              : 'Your exam preparation hub'}
+          </p>
+        </div>
+        <SubscriptionTimer />
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
