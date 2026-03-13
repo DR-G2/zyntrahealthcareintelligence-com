@@ -231,6 +231,9 @@ export function SecurityOverlay({ children, opacityOverride }: SecurityOverlayPr
       </div>
       {/* Dark mode uses dark opacity */}
       <style>{`
+        @media print {
+          body { display: none !important; }
+        }
         @media (prefers-color-scheme: dark) {
           [aria-hidden="true"] span {
             color: hsl(var(--foreground) / ${darkOpacity}) !important;
