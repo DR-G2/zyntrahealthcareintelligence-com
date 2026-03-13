@@ -124,6 +124,18 @@ export default function Settings() {
         {/* Strike Warning */}
         <StrikeWarning />
 
+        {/* Subscription Status */}
+        <Card>
+          <CardHeader className="pb-3">
+            <CardTitle className="font-display flex items-center gap-2">
+              <Calendar className="h-5 w-5 text-primary" /> Subscription
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <SubscriptionTimer />
+          </CardContent>
+        </Card>
+
         {/* Profile Info */}
         <Card>
           <CardHeader className="pb-3">
