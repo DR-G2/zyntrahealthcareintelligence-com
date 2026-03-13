@@ -8,6 +8,13 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 
@@ -15,6 +22,14 @@ const userTypes = [
   { value: 'first-timer', label: 'First-Time Candidate', desc: 'Taking the AMC for the first time' },
   { value: 'repeat', label: 'Repeat Candidate', desc: 'Retaking the AMC exam' },
   { value: 'img', label: 'International Medical Graduate', desc: 'IMG pathway candidate' },
+];
+
+const examTargets = [
+  { value: 'amc_mcq', label: 'AMC MCQ (CAT)' },
+  { value: 'amc_clinical', label: 'AMC Clinical' },
+  { value: 'plab', label: 'PLAB' },
+  { value: 'usmle', label: 'USMLE' },
+  { value: 'other', label: 'Other' },
 ];
 
 const medicalCategories = [
@@ -33,6 +48,11 @@ export default function Onboarding() {
   const [name, setName] = useState('');
   const [examDate, setExamDate] = useState('');
   const [userType, setUserType] = useState('');
+  const [examTarget, setExamTarget] = useState('');
+  const [passedMcq, setPassedMcq] = useState<'yes' | 'no' | 'preparing' | ''>('');
+  const [amc1Score, setAmc1Score] = useState('');
+  const [amc2BookingStatus, setAmc2BookingStatus] = useState('');
+  const [examLocation, setExamLocation] = useState('');
   const [weakAreas, setWeakAreas] = useState<string[]>([]);
   const [submitting, setSubmitting] = useState(false);
 
@@ -55,9 +75,13 @@ export default function Onboarding() {
           name,
           exam_date: examDate || null,
           user_type: userType,
+          exam_target: examTarget || null,
+          amc1_score: passedMcq === 'yes' && amc1Score ? parseInt(amc1Score) : null,
+          amc2_booking_status: examTarget === 'amc_clinical' ? (amc2BookingStatus || null) : null,
+          exam_location: amc2BookingStatus === 'booked' ? (examLocation || null) : null,
           weak_areas: weakAreas,
           onboarding_complete: true,
-        })
+        } as any)
         .eq('id', session.user.id);
       if (error) throw error;
       await refreshProfile();
@@ -70,10 +94,13 @@ export default function Onboarding() {
   };
 
   const canProceed = [
-    name.trim().length > 0,
-    userType.length > 0,
-    true, // weak areas optional
+    name.trim().length > 0,     // Step 0: name
+    userType.length > 0,        // Step 1: journey
+    true,                       // Step 2: exam target (optional)
+    true,                       // Step 3: weak areas (optional)
   ][step];
+
+  const totalSteps = 4;
 
   const steps = [
     // Step 0: Name & Exam Date
@@ -107,8 +134,86 @@ export default function Onboarding() {
       ))}
     </div>,
 
-    // Step 2: Weak Areas
-    <div key="2" className="space-y-3">
+    // Step 2: Exam Target
+    <div key="2" className="space-y-4">
+      <div className="space-y-2">
+        <Label>Exam Preparing For</Label>
+        <Select value={examTarget} onValueChange={setExamTarget}>
+          <SelectTrigger>
+            <SelectValue placeholder="Select exam" />
+          </SelectTrigger>
+          <SelectContent>
+            {examTargets.map(t => (
+              <SelectItem key={t.value} value={t.value}>{t.label}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
+      {examTarget === 'amc_clinical' && (
+        <>
+          <div className="space-y-2">
+            <Label>Have you passed AMC MCQ?</Label>
+            <div className="flex gap-2">
+              {(['yes', 'no', 'preparing'] as const).map(opt => (
+                <button
+                  key={opt}
+                  onClick={() => setPassedMcq(opt)}
+                  className={cn(
+                    'flex-1 rounded-lg border px-3 py-2 text-sm transition-all capitalize',
+                    passedMcq === opt
+                      ? 'border-primary bg-primary/5 ring-1 ring-primary/20'
+                      : 'border-border hover:border-primary/30'
+                  )}
+                >
+                  {opt}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {passedMcq === 'yes' && (
+            <div className="space-y-2">
+              <Label>AMC MCQ Score</Label>
+              <Input
+                type="number"
+                value={amc1Score}
+                onChange={(e) => setAmc1Score(e.target.value)}
+                placeholder="e.g. 250"
+              />
+            </div>
+          )}
+
+          <div className="space-y-2">
+            <Label>AMC Clinical Booking Status</Label>
+            <Select value={amc2BookingStatus} onValueChange={setAmc2BookingStatus}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="booked">Booked</SelectItem>
+                <SelectItem value="planning">Planning</SelectItem>
+                <SelectItem value="not_yet">Not Yet</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          {amc2BookingStatus === 'booked' && (
+            <div className="space-y-2">
+              <Label>Exam Location</Label>
+              <Input
+                value={examLocation}
+                onChange={(e) => setExamLocation(e.target.value)}
+                placeholder="e.g. Melbourne, Sydney"
+              />
+            </div>
+          )}
+        </>
+      )}
+    </div>,
+
+    // Step 3: Weak Areas
+    <div key="3" className="space-y-3">
       <p className="text-sm text-muted-foreground">Select areas you'd like to focus on (optional)</p>
       <div className="flex flex-wrap gap-2">
         {medicalCategories.map((cat) => (
@@ -129,6 +234,14 @@ export default function Onboarding() {
     </div>,
   ];
 
+  const stepTitles = ['About You', 'Your Journey', 'Exam Target', 'Focus Areas'];
+  const stepDescs = [
+    'Tell us a bit about yourself',
+    'What describes your exam journey?',
+    'Which exam are you preparing for?',
+    'Which areas need the most attention?',
+  ];
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-background p-4">
       <div className="w-full max-w-lg">
@@ -142,7 +255,7 @@ export default function Onboarding() {
 
         {/* Progress */}
         <div className="mb-6 flex items-center gap-2">
-          {[0, 1, 2].map((i) => (
+          {Array.from({ length: totalSteps }).map((_, i) => (
             <div
               key={i}
               className={cn(
@@ -155,16 +268,8 @@ export default function Onboarding() {
 
         <Card>
           <CardHeader>
-            <CardTitle className="font-display">
-              {['About You', 'Your Journey', 'Focus Areas'][step]}
-            </CardTitle>
-            <CardDescription>
-              {[
-                'Tell us a bit about yourself',
-                'What describes your exam journey?',
-                'Which areas need the most attention?',
-              ][step]}
-            </CardDescription>
+            <CardTitle className="font-display">{stepTitles[step]}</CardTitle>
+            <CardDescription>{stepDescs[step]}</CardDescription>
           </CardHeader>
           <CardContent>
             <AnimatePresence mode="wait">
@@ -188,7 +293,7 @@ export default function Onboarding() {
               >
                 <ArrowLeft className="h-4 w-4" /> Back
               </Button>
-              {step < 2 ? (
+              {step < totalSteps - 1 ? (
                 <Button onClick={() => setStep(step + 1)} disabled={!canProceed} className="gap-1">
                   Next <ArrowRight className="h-4 w-4" />
                 </Button>

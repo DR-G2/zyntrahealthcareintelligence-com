@@ -22,6 +22,7 @@ import { toast } from 'sonner';
 import { StudyPlanSkeleton } from '@/components/skeletons/PageSkeleton';
 import { useFeatureGate } from '@/hooks/useFeatureGate';
 import { UpgradePrompt } from '@/components/UpgradePrompt';
+import { SubscriptionTimer } from '@/components/SubscriptionTimer';
 
 interface PerformanceProfile {
   readiness_score: number | null;
@@ -196,6 +197,7 @@ export default function StudyPlan() {
         </div>
       ) : (
       <div className="mx-auto max-w-5xl space-y-8">
+        <SubscriptionTimer />
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold font-display">Study Plan</h1>

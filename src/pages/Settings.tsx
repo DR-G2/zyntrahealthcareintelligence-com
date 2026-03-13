@@ -30,6 +30,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { ReferralCard } from '@/components/settings/ReferralCard';
 import { StrikeWarning } from '@/components/settings/StrikeWarning';
 import { LEGAL_EMAIL } from '@/lib/legal';
+import { SubscriptionTimer } from '@/components/SubscriptionTimer';
 
 export default function Settings() {
   const { user, profile, signOut, refreshProfile } = useAuth();
@@ -44,6 +45,10 @@ export default function Settings() {
   const [graduationYear, setGraduationYear] = useState(profile?.graduation_year?.toString() ?? '');
   const [currentLocation, setCurrentLocation] = useState(profile?.current_location ?? '');
   const [examStage, setExamStage] = useState(profile?.exam_stage ?? '');
+  const [examTarget, setExamTarget] = useState(profile?.exam_target ?? '');
+  const [amc1Score, setAmc1Score] = useState(profile?.amc1_score?.toString() ?? '');
+  const [amc2BookingStatus, setAmc2BookingStatus] = useState(profile?.amc2_booking_status ?? '');
+  const [examLocation, setExamLocation] = useState(profile?.exam_location ?? '');
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
 
@@ -62,6 +67,10 @@ export default function Settings() {
         graduation_year: graduationYear ? parseInt(graduationYear) : null,
         current_location: currentLocation || null,
         exam_stage: examStage || null,
+        exam_target: examTarget || null,
+        amc1_score: amc1Score ? parseInt(amc1Score) : null,
+        amc2_booking_status: amc2BookingStatus || null,
+        exam_location: examLocation || null,
       } as any)
       .eq('id', user.id);
 
@@ -114,6 +123,18 @@ export default function Settings() {
 
         {/* Strike Warning */}
         <StrikeWarning />
+
+        {/* Subscription Status */}
+        <Card>
+          <CardHeader className="pb-3">
+            <CardTitle className="font-display flex items-center gap-2">
+              <Calendar className="h-5 w-5 text-primary" /> Subscription
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <SubscriptionTimer />
+          </CardContent>
+        </Card>
 
         {/* Profile Info */}
         <Card>
@@ -217,6 +238,61 @@ export default function Settings() {
                 </SelectContent>
               </Select>
             </div>
+            <div>
+              <Label>Exam Preparing For</Label>
+              <Select value={examTarget} onValueChange={setExamTarget}>
+                <SelectTrigger className="mt-1">
+                  <SelectValue placeholder="Select exam" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="amc_mcq">AMC MCQ (CAT)</SelectItem>
+                  <SelectItem value="amc_clinical">AMC Clinical</SelectItem>
+                  <SelectItem value="plab">PLAB</SelectItem>
+                  <SelectItem value="usmle">USMLE</SelectItem>
+                  <SelectItem value="other">Other</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            {examTarget === 'amc_clinical' && (
+              <>
+                <div>
+                  <Label>AMC MCQ Score (if passed)</Label>
+                  <Input
+                    type="number"
+                    value={amc1Score}
+                    onChange={(e) => setAmc1Score(e.target.value)}
+                    placeholder="e.g. 250"
+                    className="mt-1"
+                  />
+                </div>
+                <div>
+                  <Label>AMC Clinical Booking Status</Label>
+                  <Select value={amc2BookingStatus} onValueChange={setAmc2BookingStatus}>
+                    <SelectTrigger className="mt-1">
+                      <SelectValue placeholder="Select status" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="booked">Booked</SelectItem>
+                      <SelectItem value="planning">Planning</SelectItem>
+                      <SelectItem value="not_yet">Not Yet</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                {amc2BookingStatus === 'booked' && (
+                  <div>
+                    <Label>Exam Location</Label>
+                    <Input
+                      value={examLocation}
+                      onChange={(e) => setExamLocation(e.target.value)}
+                      placeholder="e.g. Melbourne, Sydney"
+                      className="mt-1"
+                    />
+                  </div>
+                )}
+              </>
+            )}
+
             <Button onClick={handleSaveProfile} disabled={saving}>
               {saving ? 'Saving…' : 'Save Changes'}
             </Button>

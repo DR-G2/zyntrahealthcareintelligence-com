@@ -18,6 +18,8 @@ import {
 } from 'lucide-react';
 import { useFeatureGate } from '@/hooks/useFeatureGate';
 import { UpgradePrompt } from '@/components/UpgradePrompt';
+import { useOSCEPreload } from '@/hooks/useOSCEPreload';
+import { getCacheCount } from '@/lib/osce-cache';
 
 type Phase = 'mode-select' | 'setup' | 'loading' | 'evaluating' | 'station' | 'results';
 type Mode = 'instant' | 'adaptive' | 'exam';
@@ -72,6 +74,8 @@ export default function Stations() {
   const { session } = useAuth();
   const { toast } = useToast();
   const gate = useFeatureGate();
+  const { preload } = useOSCEPreload();
+  const [cachedCount, setCachedCount] = useState(0);
   const [phase, setPhase] = useState<Phase>('mode-select');
   const [mode, setMode] = useState<Mode>('instant');
   const [selectedSubject, setSelectedSubject] = useState<string>('');
@@ -104,6 +108,13 @@ export default function Stations() {
 
   // Session
   const sessionId = useRef(crypto.randomUUID());
+
+  // Refresh cache count on mode-select
+  useEffect(() => {
+    if (phase === 'mode-select') {
+      getCacheCount().then(setCachedCount);
+    }
+  }, [phase]);
 
   useEffect(() => {
     if (phase === 'station') {
@@ -320,6 +331,12 @@ export default function Stations() {
               title="Welcome to Clinical Stations"
               description="Choose Single for a focused station, Adaptive for AI-selected stations based on your weak areas, or Exam mode for a timed 8-station circuit. You'll chat with an AI patient and complete a clinical checklist."
             />
+            {cachedCount > 0 && (
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <Zap className="h-4 w-4 text-primary" />
+                <span>⚡ {cachedCount} station{cachedCount !== 1 ? 's' : ''} ready offline</span>
+              </div>
+            )}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {modeCards.map(card => (
                 <Card
