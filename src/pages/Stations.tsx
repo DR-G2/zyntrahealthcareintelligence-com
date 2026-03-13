@@ -331,6 +331,12 @@ export default function Stations() {
               title="Welcome to Clinical Stations"
               description="Choose Single for a focused station, Adaptive for AI-selected stations based on your weak areas, or Exam mode for a timed 8-station circuit. You'll chat with an AI patient and complete a clinical checklist."
             />
+            {cachedCount > 0 && (
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <Zap className="h-4 w-4 text-primary" />
+                <span>⚡ {cachedCount} station{cachedCount !== 1 ? 's' : ''} ready offline</span>
+              </div>
+            )}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {modeCards.map(card => (
                 <Card
