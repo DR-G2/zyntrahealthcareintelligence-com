@@ -66,6 +66,10 @@ export default function Settings() {
         graduation_year: graduationYear ? parseInt(graduationYear) : null,
         current_location: currentLocation || null,
         exam_stage: examStage || null,
+        exam_target: examTarget || null,
+        amc1_score: amc1Score ? parseInt(amc1Score) : null,
+        amc2_booking_status: amc2BookingStatus || null,
+        exam_location: examLocation || null,
       } as any)
       .eq('id', user.id);
 
