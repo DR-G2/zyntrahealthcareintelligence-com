@@ -22,6 +22,7 @@ import { toast } from 'sonner';
 import { StudyPlanSkeleton } from '@/components/skeletons/PageSkeleton';
 import { useFeatureGate } from '@/hooks/useFeatureGate';
 import { UpgradePrompt } from '@/components/UpgradePrompt';
+import { SubscriptionTimer } from '@/components/SubscriptionTimer';
 
 interface PerformanceProfile {
   readiness_score: number | null;
