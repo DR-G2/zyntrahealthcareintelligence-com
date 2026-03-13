@@ -34,7 +34,7 @@ Deno.serve(async (req) => {
       return new Response(JSON.stringify({ error: "user_id required" }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
-    const [profileRes, presenceRes, attemptsRes, behaviorRes, performanceRes, progressRes, osceRes, todayAttemptsRes] = await Promise.all([
+    const [profileRes, presenceRes, attemptsRes, behaviorRes, performanceRes, progressRes, osceRes, todayAttemptsRes, overrideRes, paymentsRes] = await Promise.all([
       admin.from("profiles").select("*").eq("id", user_id).maybeSingle(),
       admin.from("user_presence").select("*").eq("user_id", user_id).maybeSingle(),
       admin.from("user_attempts").select("id, question_id, selected_answer, is_correct, answer_changes_count, time_taken_seconds, created_at, questions(question_text, correct_answer, category)").eq("user_id", user_id).order("created_at", { ascending: false }).limit(50),
@@ -43,6 +43,8 @@ Deno.serve(async (req) => {
       admin.from("user_progress").select("*").eq("user_id", user_id).maybeSingle(),
       admin.from("station_attempts").select("id", { count: "exact", head: true }).eq("user_id", user_id),
       admin.from("user_attempts").select("id", { count: "exact", head: true }).eq("user_id", user_id).gte("created_at", new Date().toISOString().split("T")[0]),
+      admin.from("manual_overrides").select("*").eq("user_id", user_id).maybeSingle(),
+      admin.from("payments").select("*").eq("user_id", user_id).eq("status", "active").order("created_at", { ascending: false }).limit(1),
     ]);
 
     const attempts = attemptsRes.data || [];
@@ -60,11 +62,47 @@ Deno.serve(async (req) => {
     const totalChanges = attempts.reduce((s, a) => s + (a.answer_changes_count || 0), 0);
     const avgTime = attempts.length > 0 ? attempts.reduce((s, a) => s + a.time_taken_seconds, 0) / attempts.length : 0;
 
+    // Build subscription info
+    let subscription: any = { status: "free", tier: "free", subscription_end: null, days_remaining: null };
+
+    const override = overrideRes.data;
+    if (override) {
+      const isExpired = override.expires_at && new Date(override.expires_at) < new Date();
+      if (!isExpired) {
+        subscription = {
+          status: "active",
+          tier: override.tier,
+          subscription_end: override.expires_at,
+          days_remaining: override.expires_at
+            ? Math.max(0, Math.ceil((new Date(override.expires_at).getTime() - Date.now()) / (1000 * 60 * 60 * 24)))
+            : null,
+          source: "manual_override",
+          granted_by: override.granted_by,
+        };
+      }
+    }
+
+    if (subscription.status === "free") {
+      const payments = paymentsRes.data || [];
+      if (payments.length > 0) {
+        const p = payments[0];
+        subscription = {
+          status: "active",
+          tier: p.tier,
+          subscription_end: null,
+          days_remaining: null,
+          source: "payment",
+          razorpay_subscription_id: p.razorpay_subscription_id,
+        };
+      }
+    }
+
     return new Response(JSON.stringify({
       profile: profileRes.data,
       presence: presenceRes.data,
       behavior: behaviorRes.data,
       performance: performanceRes.data,
+      subscription,
       stats: {
         total_attempts: realCount || 0,
         today_attempts: todayAttemptsRes.count || 0,

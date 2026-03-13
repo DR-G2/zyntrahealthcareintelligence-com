@@ -47,15 +47,18 @@ export function SecurityOverlay({ children, opacityOverride }: SecurityOverlayPr
     e.preventDefault();
   }, []);
 
+  const flashAndLog = useCallback((trigger: string) => {
+    setFlashing(true);
+    setTimeout(() => setFlashing(false), 250);
+    logScreenshotAttempt(trigger);
+    toast.warning('Screenshot detected — your identity is watermarked on all content.');
+  }, [logScreenshotAttempt]);
+
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
     if (e.key === 'PrintScreen') {
       e.preventDefault();
       navigator.clipboard?.writeText?.('');
-      // Flash overlay to corrupt screenshot
-      setFlashing(true);
-      setTimeout(() => setFlashing(false), 250);
-      logScreenshotAttempt('printscreen_key');
-      toast.warning('Screenshot detected — your identity is watermarked on all content.');
+      flashAndLog('printscreen_key');
     }
     if (e.key === 'F12') {
       e.preventDefault();
@@ -68,15 +71,22 @@ export function SecurityOverlay({ children, opacityOverride }: SecurityOverlayPr
       if (e.shiftKey && ['i', 'j', 'c'].includes(e.key.toLowerCase())) {
         e.preventDefault();
       }
-      // Ctrl+Shift+S (screenshot shortcut on some OS)
+      // Ctrl+Shift+S / Cmd+Shift+S
       if (e.shiftKey && e.key.toLowerCase() === 's') {
-        setFlashing(true);
-        setTimeout(() => setFlashing(false), 250);
-        logScreenshotAttempt('ctrl_shift_s');
-        toast.warning('Screenshot detected — your identity is watermarked on all content.');
+        flashAndLog('ctrl_shift_s');
+      }
+      // Ctrl+Shift+4 / Cmd+Shift+4 (macOS screenshot region)
+      if (e.shiftKey && e.key === '4') {
+        e.preventDefault();
+        flashAndLog('cmd_shift_4');
+      }
+      // Ctrl+Shift+3 / Cmd+Shift+3 (macOS full screenshot)
+      if (e.shiftKey && e.key === '3') {
+        e.preventDefault();
+        flashAndLog('cmd_shift_3');
       }
     }
-  }, [logScreenshotAttempt]);
+  }, [flashAndLog]);
 
   const handleDragStart = useCallback((e: DragEvent) => {
     e.preventDefault();
@@ -221,6 +231,9 @@ export function SecurityOverlay({ children, opacityOverride }: SecurityOverlayPr
       </div>
       {/* Dark mode uses dark opacity */}
       <style>{`
+        @media print {
+          body { display: none !important; }
+        }
         @media (prefers-color-scheme: dark) {
           [aria-hidden="true"] span {
             color: hsl(var(--foreground) / ${darkOpacity}) !important;

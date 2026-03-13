@@ -1,16 +1,30 @@
 import { useState, useEffect } from 'react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
-import { Loader2, User, Activity, Brain, Clock, Ban, RotateCcw, Trash2, Key } from 'lucide-react';
+import { Loader2, User, Activity, Brain, Clock, Ban, RotateCcw, Trash2, Key, CreditCard } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 
 const SUPER_ADMIN_EMAIL = "gopalrock.naren@gmail.com";
+
+const EXAM_TARGET_LABELS: Record<string, string> = {
+  amc_mcq: 'AMC MCQ',
+  amc_clinical: 'AMC Clinical',
+  plab: 'PLAB',
+  usmle: 'USMLE',
+  other: 'Other',
+};
+
+const BOOKING_LABELS: Record<string, string> = {
+  booked: 'Booked',
+  planning: 'Planning',
+  not_yet: 'Not Yet',
+};
 
 interface UserInspectionPanelProps {
   userId: string | null;
@@ -60,7 +74,6 @@ export function UserInspectionPanel({ userId, email, open, onOpenChange, current
       if (result?.error) throw new Error(result.error);
       toast({ title: 'Success', description: `Action "${action}" completed` });
       onUserUpdated?.();
-      // Refresh inspection data
       const { data: refreshed } = await supabase.functions.invoke('admin-inspect-user', { body: { user_id: userId } });
       if (refreshed && !refreshed.error) setData(refreshed);
     } catch (e: any) {
@@ -70,6 +83,7 @@ export function UserInspectionPanel({ userId, email, open, onOpenChange, current
   };
 
   const isBanned = data?.profile?.is_banned;
+  const sub = data?.subscription;
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
@@ -94,12 +108,7 @@ export function UserInspectionPanel({ userId, email, open, onOpenChange, current
             {!isTargetSuperAdmin && (
               <div className="flex flex-wrap gap-2 mt-4 mb-2 p-3 rounded-lg border bg-muted/30">
                 {isBanned ? (
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => executeAction('unban')}
-                    disabled={!!actionLoading}
-                  >
+                  <Button variant="outline" size="sm" onClick={() => executeAction('unban')} disabled={!!actionLoading}>
                     {actionLoading === 'unban' && <Loader2 className="h-3 w-3 mr-1 animate-spin" />}
                     <RotateCcw className="h-3.5 w-3.5 mr-1" /> Unban
                   </Button>
@@ -113,7 +122,7 @@ export function UserInspectionPanel({ userId, email, open, onOpenChange, current
                     <AlertDialogContent>
                       <AlertDialogHeader>
                         <AlertDialogTitle>Ban {email}?</AlertDialogTitle>
-                        <AlertDialogDescription>This will ban the user and invalidate their session. They won't be able to log in.</AlertDialogDescription>
+                        <AlertDialogDescription>This will ban the user and invalidate their session.</AlertDialogDescription>
                       </AlertDialogHeader>
                       <AlertDialogFooter>
                         <AlertDialogCancel>Cancel</AlertDialogCancel>
@@ -123,12 +132,7 @@ export function UserInspectionPanel({ userId, email, open, onOpenChange, current
                   </AlertDialog>
                 )}
 
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => executeAction('reset_password')}
-                  disabled={!!actionLoading}
-                >
+                <Button variant="outline" size="sm" onClick={() => executeAction('reset_password')} disabled={!!actionLoading}>
                   {actionLoading === 'reset_password' && <Loader2 className="h-3 w-3 mr-1 animate-spin" />}
                   <Key className="h-3.5 w-3.5 mr-1" /> Reset Password
                 </Button>
@@ -156,8 +160,9 @@ export function UserInspectionPanel({ userId, email, open, onOpenChange, current
             )}
 
             <Tabs defaultValue="profile" className="mt-2">
-              <TabsList className="grid w-full grid-cols-4">
+              <TabsList className="grid w-full grid-cols-5">
                 <TabsTrigger value="profile" className="text-xs"><User className="h-3.5 w-3.5 mr-1" />Profile</TabsTrigger>
+                <TabsTrigger value="subscription" className="text-xs"><CreditCard className="h-3.5 w-3.5 mr-1" />Sub</TabsTrigger>
                 <TabsTrigger value="analytics" className="text-xs"><Activity className="h-3.5 w-3.5 mr-1" />Stats</TabsTrigger>
                 <TabsTrigger value="history" className="text-xs"><Clock className="h-3.5 w-3.5 mr-1" />History</TabsTrigger>
                 <TabsTrigger value="behavior" className="text-xs"><Brain className="h-3.5 w-3.5 mr-1" />Behavior</TabsTrigger>
@@ -177,7 +182,11 @@ export function UserInspectionPanel({ userId, email, open, onOpenChange, current
                       ['Grad Year', data.profile?.graduation_year],
                       ['Location', data.profile?.current_location],
                       ['Exam Stage', data.profile?.exam_stage],
+                      ['Exam Target', data.profile?.exam_target ? (EXAM_TARGET_LABELS[data.profile.exam_target] || data.profile.exam_target) : null],
+                      ['AMC1 Score', data.profile?.amc1_score],
+                      ['AMC2 Booking', data.profile?.amc2_booking_status ? (BOOKING_LABELS[data.profile.amc2_booking_status] || data.profile.amc2_booking_status) : null],
                       ['Exam Date', data.profile?.exam_date],
+                      ['Exam Location', data.profile?.exam_location],
                       ['Joined', data.profile?.created_at ? new Date(data.profile.created_at).toLocaleDateString() : null],
                       ['Last Active', data.presence?.last_seen_at ? new Date(data.presence.last_seen_at).toLocaleString() : null],
                     ].map(([label, value]) => (
@@ -188,6 +197,55 @@ export function UserInspectionPanel({ userId, email, open, onOpenChange, current
                         </span>
                       </div>
                     ))}
+                  </CardContent>
+                </Card>
+              </TabsContent>
+
+              <TabsContent value="subscription">
+                <Card>
+                  <CardContent className="p-4 space-y-3">
+                    <div className="flex justify-between text-sm items-center">
+                      <span className="text-muted-foreground">Status</span>
+                      <Badge variant={sub?.status === 'active' ? 'default' : 'secondary'}>
+                        {sub?.status === 'active' ? 'Active' : 'Free'}
+                      </Badge>
+                    </div>
+                    <div className="flex justify-between text-sm items-center">
+                      <span className="text-muted-foreground">Tier</span>
+                      <Badge variant="outline" className="capitalize">{sub?.tier || 'free'}</Badge>
+                    </div>
+                    {sub?.subscription_end && (
+                      <>
+                        <div className="flex justify-between text-sm">
+                          <span className="text-muted-foreground">Expiry</span>
+                          <span className="font-medium">{new Date(sub.subscription_end).toLocaleDateString()}</span>
+                        </div>
+                        <div className="flex justify-between text-sm items-center">
+                          <span className="text-muted-foreground">Days Remaining</span>
+                          <span className={`font-bold ${sub.days_remaining != null && sub.days_remaining <= 3 ? 'text-amber-500' : ''}`}>
+                            {sub.days_remaining != null ? `${sub.days_remaining} days` : '—'}
+                          </span>
+                        </div>
+                      </>
+                    )}
+                    {!sub?.subscription_end && sub?.status === 'active' && (
+                      <div className="flex justify-between text-sm">
+                        <span className="text-muted-foreground">Expiry</span>
+                        <span className="font-medium text-emerald-500">Lifetime / No expiry</span>
+                      </div>
+                    )}
+                    {sub?.source && (
+                      <div className="flex justify-between text-sm">
+                        <span className="text-muted-foreground">Source</span>
+                        <span className="font-medium capitalize">{sub.source.replace('_', ' ')}</span>
+                      </div>
+                    )}
+                    {sub?.granted_by && (
+                      <div className="flex justify-between text-sm">
+                        <span className="text-muted-foreground">Granted By</span>
+                        <span className="font-medium">{sub.granted_by}</span>
+                      </div>
+                    )}
                   </CardContent>
                 </Card>
               </TabsContent>
