@@ -44,6 +44,10 @@ export default function Settings() {
   const [graduationYear, setGraduationYear] = useState(profile?.graduation_year?.toString() ?? '');
   const [currentLocation, setCurrentLocation] = useState(profile?.current_location ?? '');
   const [examStage, setExamStage] = useState(profile?.exam_stage ?? '');
+  const [examTarget, setExamTarget] = useState(profile?.exam_target ?? '');
+  const [amc1Score, setAmc1Score] = useState(profile?.amc1_score?.toString() ?? '');
+  const [amc2BookingStatus, setAmc2BookingStatus] = useState(profile?.amc2_booking_status ?? '');
+  const [examLocation, setExamLocation] = useState(profile?.exam_location ?? '');
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
 
