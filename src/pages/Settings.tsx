@@ -30,6 +30,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { ReferralCard } from '@/components/settings/ReferralCard';
 import { StrikeWarning } from '@/components/settings/StrikeWarning';
 import { LEGAL_EMAIL } from '@/lib/legal';
+import { SubscriptionTimer } from '@/components/SubscriptionTimer';
 
 export default function Settings() {
   const { user, profile, signOut, refreshProfile } = useAuth();
