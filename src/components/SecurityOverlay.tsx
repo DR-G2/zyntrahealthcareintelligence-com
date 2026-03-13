@@ -1,9 +1,8 @@
-import { useEffect, useCallback, useState, ReactNode } from 'react';
+import { useEffect, useCallback, useState, useRef, ReactNode } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { ShieldAlert } from 'lucide-react';
 import { toast } from 'sonner';
-import { ADMIN_EMAILS } from '@/lib/admin-emails';
 
 interface SecurityOverlayProps {
   children: ReactNode;
@@ -14,8 +13,14 @@ export function SecurityOverlay({ children, opacityOverride }: SecurityOverlayPr
   const { user, profile, watermark } = useAuth();
   const [blurred, setBlurred] = useState(false);
   const [flashing, setFlashing] = useState(false);
+  const lastWarningRef = useRef(0);
 
-  const isAdmin = ADMIN_EMAILS.includes(user?.email || '');
+  const showWarningToast = useCallback(() => {
+    if (Date.now() - lastWarningRef.current > 5000) {
+      lastWarningRef.current = Date.now();
+      toast.warning('Screenshot detected — your identity is watermarked on all content.');
+    }
+  }, []);
 
   const watermarkText = [
     profile?.name || '',
@@ -25,9 +30,9 @@ export function SecurityOverlay({ children, opacityOverride }: SecurityOverlayPr
   const lightOpacity = opacityOverride ?? watermark.opacity_light;
   const darkOpacity = opacityOverride ? opacityOverride + 0.01 : watermark.opacity_dark;
 
-  // Log screenshot attempt — only for real screenshot key combos, never for admins
+  // Log screenshot attempt to backend
   const logScreenshotAttempt = useCallback((trigger: string) => {
-    if (!user || isAdmin) return;
+    if (!user) return;
     supabase.functions.invoke('track-presence', {
       body: {
         current_page: window.location.pathname,
@@ -36,23 +41,20 @@ export function SecurityOverlay({ children, opacityOverride }: SecurityOverlayPr
         screenshot_trigger: trigger,
       },
     }).catch(() => {});
-  }, [user, isAdmin]);
+  }, [user]);
 
   const handleContextMenu = useCallback((e: MouseEvent) => {
-    if (isAdmin) return;
     e.preventDefault();
-  }, [isAdmin]);
+  }, []);
 
   const flashAndLog = useCallback((trigger: string) => {
-    if (isAdmin) return;
     setFlashing(true);
     setTimeout(() => setFlashing(false), 250);
     logScreenshotAttempt(trigger);
     toast.warning('Screenshot detected — your identity is watermarked on all content.');
-  }, [logScreenshotAttempt, isAdmin]);
+  }, [logScreenshotAttempt]);
 
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
-    if (isAdmin) return;
     if (e.key === 'PrintScreen') {
       e.preventDefault();
       navigator.clipboard?.writeText?.('');
@@ -69,48 +71,83 @@ export function SecurityOverlay({ children, opacityOverride }: SecurityOverlayPr
       if (e.shiftKey && ['i', 'j', 'c'].includes(e.key.toLowerCase())) {
         e.preventDefault();
       }
+      // Ctrl+Shift+S / Cmd+Shift+S
       if (e.shiftKey && e.key.toLowerCase() === 's') {
         flashAndLog('ctrl_shift_s');
       }
+      // Ctrl+Shift+4 / Cmd+Shift+4 (macOS screenshot region)
       if (e.shiftKey && e.key === '4') {
         e.preventDefault();
         flashAndLog('cmd_shift_4');
       }
+      // Ctrl+Shift+3 / Cmd+Shift+3 (macOS full screenshot)
       if (e.shiftKey && e.key === '3') {
         e.preventDefault();
         flashAndLog('cmd_shift_3');
       }
     }
-  }, [flashAndLog, isAdmin]);
+  }, [flashAndLog]);
 
   const handleDragStart = useCallback((e: DragEvent) => {
-    if (isAdmin) return;
     e.preventDefault();
-  }, [isAdmin]);
+  }, []);
 
-  // Visual blur only on tab switch — NO logging (focus loss ≠ screenshot)
+  // Blur on visibility loss + log attempt
   const handleVisibilityChange = useCallback(() => {
-    if (isAdmin) return;
-    setBlurred(document.hidden);
-  }, [isAdmin]);
+    if (document.hidden) {
+      setBlurred(true);
+      logScreenshotAttempt('screenshot');
+    } else {
+      setBlurred(false);
+      showWarningToast();
+    }
+  }, [logScreenshotAttempt, showWarningToast]);
+
+  const handleWindowBlur = useCallback(() => {
+    setBlurred(true);
+    logScreenshotAttempt('window_blur');
+  }, [logScreenshotAttempt]);
+
+  const handleWindowFocus = useCallback(() => {
+    setBlurred(false);
+    showWarningToast();
+  }, [showWarningToast]);
 
   useEffect(() => {
-    if (isAdmin) return;
     document.addEventListener('contextmenu', handleContextMenu);
     document.addEventListener('keydown', handleKeyDown, true);
     document.addEventListener('dragstart', handleDragStart);
     document.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener('blur', handleWindowBlur);
+    window.addEventListener('focus', handleWindowFocus);
 
     return () => {
       document.removeEventListener('contextmenu', handleContextMenu);
       document.removeEventListener('keydown', handleKeyDown, true);
       document.removeEventListener('dragstart', handleDragStart);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('blur', handleWindowBlur);
+      window.removeEventListener('focus', handleWindowFocus);
     };
-  }, [isAdmin, handleContextMenu, handleKeyDown, handleDragStart, handleVisibilityChange]);
+  }, [handleContextMenu, handleKeyDown, handleDragStart, handleVisibilityChange, handleWindowBlur, handleWindowFocus]);
 
-  // Admins bypass all security UI
-  if (isAdmin) return <>{children}</>;
+  // DevTools detection
+  useEffect(() => {
+    let devtoolsOpen = false;
+    const threshold = 160;
+    const check = () => {
+      const widthDiff = window.outerWidth - window.innerWidth > threshold;
+      const heightDiff = window.outerHeight - window.innerHeight > threshold;
+      if ((widthDiff || heightDiff) && !devtoolsOpen) {
+        devtoolsOpen = true;
+        console.warn('[Security] DevTools may be open');
+      } else if (!widthDiff && !heightDiff) {
+        devtoolsOpen = false;
+      }
+    };
+    const interval = setInterval(check, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   // Suspension blocker
   if (watermark.suspended) {
@@ -131,6 +168,7 @@ export function SecurityOverlay({ children, opacityOverride }: SecurityOverlayPr
 
   return (
     <div className="relative select-none" style={{ WebkitUserSelect: 'none', MozUserSelect: 'none' } as React.CSSProperties}>
+      {/* Content with blur on focus loss */}
       <div
         className="transition-all duration-150"
         style={{ filter: blurred ? 'blur(12px)' : 'none' }}
@@ -138,6 +176,7 @@ export function SecurityOverlay({ children, opacityOverride }: SecurityOverlayPr
         {children}
       </div>
 
+      {/* Blur overlay message */}
       {blurred && (
         <div className="fixed inset-0 z-[9998] flex items-center justify-center" style={{ pointerEvents: 'none' }}>
           <div className="bg-background/80 backdrop-blur-sm rounded-lg px-6 py-4 shadow-lg border border-border">
@@ -146,6 +185,7 @@ export function SecurityOverlay({ children, opacityOverride }: SecurityOverlayPr
         </div>
       )}
 
+      {/* PrintScreen flash overlay */}
       {flashing && (
         <div
           className="fixed inset-0 z-[99998] bg-background"
@@ -154,6 +194,7 @@ export function SecurityOverlay({ children, opacityOverride }: SecurityOverlayPr
         />
       )}
 
+      {/* Watermark overlay */}
       <div
         className="fixed inset-0 z-[9999] overflow-hidden"
         style={{ pointerEvents: 'none' }}
@@ -188,6 +229,7 @@ export function SecurityOverlay({ children, opacityOverride }: SecurityOverlayPr
           ))}
         </div>
       </div>
+      {/* Dark mode uses dark opacity */}
       <style>{`
         @media print {
           body { display: none !important; }

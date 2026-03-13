@@ -63,7 +63,11 @@ function LazyFallback() {
   );
 }
 
-import { ADMIN_EMAILS } from "@/lib/admin-emails";
+const ADMIN_EMAILS = [
+  "gopalrock.naren@gmail.com",
+  "amc.osce.2026@gmail.com",
+  "testuser123@zyntr.website",
+];
 
 function MaintenancePage() {
   return (

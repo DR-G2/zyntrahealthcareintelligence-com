@@ -26,7 +26,8 @@ export const SidebarContext = createContext<SidebarContextType>({
 });
 export const useSidebarCollapsed = () => useContext(SidebarContext);
 
-import { ADMIN_EMAILS, SUPER_ADMIN_EMAIL } from '@/lib/admin-emails';
+const ADMIN_EMAILS = ["gopalrock.naren@gmail.com", "amc.osce.2026@gmail.com", "testuser123@zyntr.website"];
+const SUPER_ADMIN_EMAIL = "gopalrock.naren@gmail.com";
 
 interface NavItem { to: string; label: string; icon: React.ElementType; }
 interface NavGroup {

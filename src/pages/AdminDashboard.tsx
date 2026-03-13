@@ -26,7 +26,12 @@ import { ActivityLogsTab } from '@/components/admin/ActivityLogsTab';
 import { ScreenshotAttemptsTab } from '@/components/admin/ScreenshotAttemptsTab';
 import { MessagesTab } from '@/components/admin/MessagesTab';
 
-import { ADMIN_EMAILS, SUPER_ADMIN_EMAIL } from '@/lib/admin-emails';
+const ADMIN_EMAILS = [
+  "gopalrock.naren@gmail.com",
+  "amc.osce.2026@gmail.com",
+  "testuser123@zyntr.website",
+];
+const SUPER_ADMIN_EMAIL = "gopalrock.naren@gmail.com";
 
 const CATEGORIES = [
   "Cardiology", "Respiratory", "Gastrointestinal", "Neurology", "Endocrinology",
