@@ -17,6 +17,10 @@ interface Profile {
   graduation_year: number | null;
   current_location: string | null;
   exam_stage: string | null;
+  exam_target: string | null;
+  amc1_score: number | null;
+  amc2_booking_status: string | null;
+  exam_location: string | null;
   is_banned?: boolean;
 }
 
