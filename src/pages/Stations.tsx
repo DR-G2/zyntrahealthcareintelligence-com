@@ -74,6 +74,8 @@ export default function Stations() {
   const { session } = useAuth();
   const { toast } = useToast();
   const gate = useFeatureGate();
+  const { preload } = useOSCEPreload();
+  const [cachedCount, setCachedCount] = useState(0);
   const [phase, setPhase] = useState<Phase>('mode-select');
   const [mode, setMode] = useState<Mode>('instant');
   const [selectedSubject, setSelectedSubject] = useState<string>('');
