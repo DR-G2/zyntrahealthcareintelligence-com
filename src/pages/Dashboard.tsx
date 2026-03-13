@@ -9,7 +9,9 @@ import { ArrowRight, PlayCircle, Brain } from 'lucide-react';
 import { differenceInDays, parseISO } from 'date-fns';
 import { WelcomeTour } from '@/components/WelcomeTour';
 import { ReadinessDNA } from '@/components/ReadinessDNA';
+import { SubscriptionTimer } from '@/components/SubscriptionTimer';
 import { useFeatureGate } from '@/hooks/useFeatureGate';
+import { useOSCEPreload } from '@/hooks/useOSCEPreload';
 import { supabase } from '@/lib/supabase';
 
 export default function Dashboard() {
