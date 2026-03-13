@@ -17,6 +17,7 @@ import { supabase } from '@/lib/supabase';
 export default function Dashboard() {
   const { profile, user } = useAuth();
   const gate = useFeatureGate();
+  useOSCEPreload();
   const [showTour, setShowTour] = useState(
     () => !localStorage.getItem(WelcomeTour.STORAGE_KEY)
   );

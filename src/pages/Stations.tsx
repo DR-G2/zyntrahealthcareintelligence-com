@@ -18,6 +18,8 @@ import {
 } from 'lucide-react';
 import { useFeatureGate } from '@/hooks/useFeatureGate';
 import { UpgradePrompt } from '@/components/UpgradePrompt';
+import { useOSCEPreload } from '@/hooks/useOSCEPreload';
+import { getCacheCount } from '@/lib/osce-cache';
 
 type Phase = 'mode-select' | 'setup' | 'loading' | 'evaluating' | 'station' | 'results';
 type Mode = 'instant' | 'adaptive' | 'exam';

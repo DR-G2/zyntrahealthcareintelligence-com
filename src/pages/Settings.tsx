@@ -225,6 +225,61 @@ export default function Settings() {
                 </SelectContent>
               </Select>
             </div>
+            <div>
+              <Label>Exam Preparing For</Label>
+              <Select value={examTarget} onValueChange={setExamTarget}>
+                <SelectTrigger className="mt-1">
+                  <SelectValue placeholder="Select exam" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="amc_mcq">AMC MCQ (CAT)</SelectItem>
+                  <SelectItem value="amc_clinical">AMC Clinical</SelectItem>
+                  <SelectItem value="plab">PLAB</SelectItem>
+                  <SelectItem value="usmle">USMLE</SelectItem>
+                  <SelectItem value="other">Other</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            {examTarget === 'amc_clinical' && (
+              <>
+                <div>
+                  <Label>AMC MCQ Score (if passed)</Label>
+                  <Input
+                    type="number"
+                    value={amc1Score}
+                    onChange={(e) => setAmc1Score(e.target.value)}
+                    placeholder="e.g. 250"
+                    className="mt-1"
+                  />
+                </div>
+                <div>
+                  <Label>AMC Clinical Booking Status</Label>
+                  <Select value={amc2BookingStatus} onValueChange={setAmc2BookingStatus}>
+                    <SelectTrigger className="mt-1">
+                      <SelectValue placeholder="Select status" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="booked">Booked</SelectItem>
+                      <SelectItem value="planning">Planning</SelectItem>
+                      <SelectItem value="not_yet">Not Yet</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                {amc2BookingStatus === 'booked' && (
+                  <div>
+                    <Label>Exam Location</Label>
+                    <Input
+                      value={examLocation}
+                      onChange={(e) => setExamLocation(e.target.value)}
+                      placeholder="e.g. Melbourne, Sydney"
+                      className="mt-1"
+                    />
+                  </div>
+                )}
+              </>
+            )}
+
             <Button onClick={handleSaveProfile} disabled={saving}>
               {saving ? 'Saving…' : 'Save Changes'}
             </Button>
