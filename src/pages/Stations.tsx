@@ -14,14 +14,15 @@ import { useToast } from '@/hooks/use-toast';
 import { SYSTEMS } from '@/lib/filter-data';
 import {
   Activity, Zap, Target, Shield, ArrowLeft, Clock, Loader2,
-  MessageSquare, Stethoscope, FlaskConical, ClipboardList, ChevronRight, RefreshCw,
+  MessageSquare, Stethoscope, FlaskConical, ClipboardList, ChevronRight, RefreshCw, BookOpen,
 } from 'lucide-react';
+import { OSCEHistory } from '@/components/history/OSCEHistory';
 import { useFeatureGate } from '@/hooks/useFeatureGate';
 import { UpgradePrompt } from '@/components/UpgradePrompt';
 import { useOSCEPreload } from '@/hooks/useOSCEPreload';
 import { getCacheCount } from '@/lib/osce-cache';
 
-type Phase = 'mode-select' | 'setup' | 'loading' | 'evaluating' | 'station' | 'results';
+type Phase = 'mode-select' | 'setup' | 'loading' | 'evaluating' | 'station' | 'results' | 'history';
 type Mode = 'instant' | 'adaptive' | 'exam';
 type StationTab = 'history' | 'examination' | 'investigations' | 'management';
 
@@ -319,9 +320,14 @@ export default function Stations() {
         {/* MODE SELECTION */}
         {phase === 'mode-select' && (
           <div className="space-y-6">
-            <div>
-              <h1 className="text-2xl font-bold font-display text-foreground">Clinical Stations</h1>
-              <p className="text-muted-foreground text-sm mt-1">APPE Adaptive Performance Profiling Engine</p>
+            <div className="flex items-center justify-between">
+              <div>
+                <h1 className="text-2xl font-bold font-display text-foreground">Clinical Stations</h1>
+                <p className="text-muted-foreground text-sm mt-1">APPE Adaptive Performance Profiling Engine</p>
+              </div>
+              <Button variant="outline" onClick={() => setPhase('history')} className="gap-2">
+                <BookOpen className="h-4 w-4" /> History
+              </Button>
             </div>
             {!gate.canUseOSCE && (
               <UpgradePrompt feature="Daily OSCE Limit Reached" description={`You've used ${gate.osceUsedToday}/${gate.osceDailyLimit} free OSCE station(s) today. Upgrade for unlimited stations.`} variant="banner" />
@@ -552,6 +558,26 @@ export default function Stations() {
               summary={results.summary}
               stationAttemptId={lastAttemptId || undefined}
             />
+          </div>
+        )}
+
+        {/* HISTORY */}
+        {phase === 'history' && (
+          <div className="space-y-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <h1 className="text-2xl font-bold font-display text-foreground">OSCE History</h1>
+                <p className="text-muted-foreground text-sm mt-1">Review your past station attempts</p>
+              </div>
+              <Button variant="outline" onClick={() => setPhase('mode-select')}>
+                <ArrowLeft className="h-4 w-4 mr-1" /> Back
+              </Button>
+            </div>
+            {gate.canAccessHistory ? (
+              <OSCEHistory />
+            ) : (
+              <UpgradePrompt feature="OSCE History" description="Upgrade to review your complete station attempt history." variant="card" />
+            )}
           </div>
         )}
       </div>

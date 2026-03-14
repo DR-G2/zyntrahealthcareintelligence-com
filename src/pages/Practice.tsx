@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Clock, Lock, RefreshCw, ChevronLeft, ChevronRight, CheckCircle, XCircle, Zap, TrendingUp, TrendingDown, ChevronDown, Minus, Plus, Search, X } from 'lucide-react';
+import { Clock, Lock, RefreshCw, ChevronLeft, ChevronRight, CheckCircle, XCircle, Zap, TrendingUp, TrendingDown, ChevronDown, Minus, Plus, Search, X, BookOpen } from 'lucide-react';
+import { MCQHistory } from '@/components/history/MCQHistory';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/contexts/AuthContext';
 import { AppLayout } from '@/components/AppLayout';
@@ -48,7 +49,7 @@ import { SYSTEMS, SUBJECTS, SYSTEM_SUBJECTS, SUBJECT_SYSTEMS, getAllPairs, type 
 
 // ─── Setup Screen ───────────────────────────────────────────────
 
-function SetupScreen({ onStart }: { onStart: (config: SessionConfig) => void }) {
+function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConfig) => void; onShowHistory?: () => void }) {
   const gate = useFeatureGate();
   const [mode, setMode] = useState<'recharge' | 'no-change'>('recharge');
   const [filterMode, setFilterMode] = useState<FilterMode>('system');
@@ -200,9 +201,16 @@ function SetupScreen({ onStart }: { onStart: (config: SessionConfig) => void }) 
   return (
     <AppLayout>
       <div className="mx-auto max-w-4xl space-y-8">
-        <div>
-          <h1 className="text-3xl font-bold font-display">Practice Drills</h1>
-          <p className="text-muted-foreground">Configure your session and start practising</p>
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold font-display">Practice Drills</h1>
+            <p className="text-muted-foreground">Configure your session and start practising</p>
+          </div>
+          {onShowHistory && (
+            <Button variant="outline" onClick={onShowHistory} className="gap-2">
+              <BookOpen className="h-4 w-4" /> History
+            </Button>
+          )}
         </div>
 
         {!gate.canUseMCQ && (
@@ -1119,7 +1127,7 @@ export default function Practice() {
   const gate = useFeatureGate();
   const [searchParams] = useSearchParams();
   const resumeSessionId = searchParams.get('resume');
-  const [phase, setPhase] = useState<'setup' | 'drill' | 'results'>(resumeSessionId ? 'drill' : 'setup');
+  const [phase, setPhase] = useState<'setup' | 'drill' | 'results' | 'history'>(resumeSessionId ? 'drill' : 'setup');
   const [config, setConfig] = useState<SessionConfig | null>(
     resumeSessionId ? { mode: 'recharge', topics: [], questionCount: 50 } : null
   );
@@ -1143,6 +1151,29 @@ export default function Practice() {
     );
   }
 
+  if (phase === 'history') {
+    return (
+      <AppLayout>
+        <div className="mx-auto max-w-4xl space-y-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold font-display">MCQ History</h1>
+              <p className="text-muted-foreground">Review all your past attempts</p>
+            </div>
+            <Button variant="outline" onClick={() => setPhase('setup')}>
+              <ChevronLeft className="h-4 w-4 mr-1" /> Back to Practice
+            </Button>
+          </div>
+          {gate.canAccessHistory ? (
+            <MCQHistory />
+          ) : (
+            <UpgradePrompt feature="Question History" description="Upgrade to review your complete attempt history." variant="card" />
+          )}
+        </div>
+      </AppLayout>
+    );
+  }
+
   if (phase === 'setup') {
     return (
       <SetupScreen
@@ -1150,6 +1181,7 @@ export default function Practice() {
           setConfig(cfg);
           setPhase('drill');
         }}
+        onShowHistory={() => setPhase('history')}
       />
     );
   }
