@@ -320,9 +320,14 @@ export default function Stations() {
         {/* MODE SELECTION */}
         {phase === 'mode-select' && (
           <div className="space-y-6">
-            <div>
-              <h1 className="text-2xl font-bold font-display text-foreground">Clinical Stations</h1>
-              <p className="text-muted-foreground text-sm mt-1">APPE Adaptive Performance Profiling Engine</p>
+            <div className="flex items-center justify-between">
+              <div>
+                <h1 className="text-2xl font-bold font-display text-foreground">Clinical Stations</h1>
+                <p className="text-muted-foreground text-sm mt-1">APPE Adaptive Performance Profiling Engine</p>
+              </div>
+              <Button variant="outline" onClick={() => setPhase('history')} className="gap-2">
+                <BookOpen className="h-4 w-4" /> History
+              </Button>
             </div>
             {!gate.canUseOSCE && (
               <UpgradePrompt feature="Daily OSCE Limit Reached" description={`You've used ${gate.osceUsedToday}/${gate.osceDailyLimit} free OSCE station(s) today. Upgrade for unlimited stations.`} variant="banner" />
