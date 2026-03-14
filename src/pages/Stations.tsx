@@ -560,6 +560,26 @@ export default function Stations() {
             />
           </div>
         )}
+
+        {/* HISTORY */}
+        {phase === 'history' && (
+          <div className="space-y-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <h1 className="text-2xl font-bold font-display text-foreground">OSCE History</h1>
+                <p className="text-muted-foreground text-sm mt-1">Review your past station attempts</p>
+              </div>
+              <Button variant="outline" onClick={() => setPhase('mode-select')}>
+                <ArrowLeft className="h-4 w-4 mr-1" /> Back
+              </Button>
+            </div>
+            {gate.canAccessHistory ? (
+              <OSCEHistory />
+            ) : (
+              <UpgradePrompt feature="OSCE History" description="Upgrade to review your complete station attempt history." variant="card" />
+            )}
+          </div>
+        )}
       </div>
     </AppLayout>
   );
