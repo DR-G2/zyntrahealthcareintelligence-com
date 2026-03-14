@@ -29,6 +29,7 @@ serve(async (req) => {
     }
 
     const userId = claimsData.claims.sub;
+    const userEmail = claimsData.claims.email as string | undefined;
     const body = await req.json().catch(() => ({}));
     const currentPage = body.current_page || "/";
     const isOnline = body.is_online !== false;
@@ -53,22 +54,32 @@ serve(async (req) => {
 
     if (error) throw error;
 
-    // Log screenshot attempt to system_error_logs for admin visibility
+    // Log screenshot attempt — skip for admin users (server-side guard)
     if (screenshotAttempt) {
       const serviceClient = createClient(
         supabaseUrl,
         Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
       );
-      await serviceClient.from("system_error_logs").insert({
-        error_type: "screenshot_attempt",
-        user_id: userId,
-        details: {
-          trigger: screenshotTrigger,
-          page: currentPage,
-          ip_address: ip,
-          timestamp: new Date().toISOString(),
-        },
-      });
+
+      // Check if user is an admin — if so, skip logging entirely
+      const { data: adminRole } = await serviceClient
+        .from("admin_roles")
+        .select("role")
+        .eq("email", userEmail || "")
+        .maybeSingle();
+
+      if (!adminRole) {
+        await serviceClient.from("system_error_logs").insert({
+          error_type: "screenshot_attempt",
+          user_id: userId,
+          details: {
+            trigger: screenshotTrigger,
+            page: currentPage,
+            ip_address: ip,
+            timestamp: new Date().toISOString(),
+          },
+        });
+      }
     }
 
     return new Response(JSON.stringify({ ok: true }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
