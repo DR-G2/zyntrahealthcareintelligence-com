@@ -14,8 +14,9 @@ import { useToast } from '@/hooks/use-toast';
 import { SYSTEMS } from '@/lib/filter-data';
 import {
   Activity, Zap, Target, Shield, ArrowLeft, Clock, Loader2,
-  MessageSquare, Stethoscope, FlaskConical, ClipboardList, ChevronRight, RefreshCw,
+  MessageSquare, Stethoscope, FlaskConical, ClipboardList, ChevronRight, RefreshCw, BookOpen,
 } from 'lucide-react';
+import { OSCEHistory } from '@/components/history/OSCEHistory';
 import { useFeatureGate } from '@/hooks/useFeatureGate';
 import { UpgradePrompt } from '@/components/UpgradePrompt';
 import { useOSCEPreload } from '@/hooks/useOSCEPreload';
