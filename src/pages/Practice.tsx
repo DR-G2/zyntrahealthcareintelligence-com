@@ -201,9 +201,16 @@ function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConf
   return (
     <AppLayout>
       <div className="mx-auto max-w-4xl space-y-8">
-        <div>
-          <h1 className="text-3xl font-bold font-display">Practice Drills</h1>
-          <p className="text-muted-foreground">Configure your session and start practising</p>
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold font-display">Practice Drills</h1>
+            <p className="text-muted-foreground">Configure your session and start practising</p>
+          </div>
+          {onShowHistory && (
+            <Button variant="outline" onClick={onShowHistory} className="gap-2">
+              <BookOpen className="h-4 w-4" /> History
+            </Button>
+          )}
         </div>
 
         {!gate.canUseMCQ && (
