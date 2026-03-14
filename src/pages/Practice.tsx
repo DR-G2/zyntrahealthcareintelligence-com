@@ -49,7 +49,7 @@ import { SYSTEMS, SUBJECTS, SYSTEM_SUBJECTS, SUBJECT_SYSTEMS, getAllPairs, type 
 
 // ─── Setup Screen ───────────────────────────────────────────────
 
-function SetupScreen({ onStart }: { onStart: (config: SessionConfig) => void }) {
+function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConfig) => void; onShowHistory?: () => void }) {
   const gate = useFeatureGate();
   const [mode, setMode] = useState<'recharge' | 'no-change'>('recharge');
   const [filterMode, setFilterMode] = useState<FilterMode>('system');
