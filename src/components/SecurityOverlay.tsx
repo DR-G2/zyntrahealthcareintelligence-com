@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useState, ReactNode } from 'react';
+import { useEffect, useCallback, useState, useRef, ReactNode } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { ShieldAlert } from 'lucide-react';
@@ -10,10 +10,15 @@ interface SecurityOverlayProps {
   opacityOverride?: number;
 }
 
+const DEBOUNCE_MS = 5000;
+const RAPID_FOCUS_THRESHOLD_MS = 400;
+
 export function SecurityOverlay({ children, opacityOverride }: SecurityOverlayProps) {
   const { user, profile, watermark } = useAuth();
   const [blurred, setBlurred] = useState(false);
   const [flashing, setFlashing] = useState(false);
+  const lastLogTime = useRef(0);
+  const hiddenAtTime = useRef<number | null>(null);
 
   const isAdmin = ADMIN_EMAILS.includes(user?.email || '');
 
@@ -25,9 +30,12 @@ export function SecurityOverlay({ children, opacityOverride }: SecurityOverlayPr
   const lightOpacity = opacityOverride ?? watermark.opacity_light;
   const darkOpacity = opacityOverride ? opacityOverride + 0.01 : watermark.opacity_dark;
 
-  // Log screenshot attempt — only for real screenshot key combos, never for admins
+  // Debounced screenshot log — only for non-admins, max once per 5s
   const logScreenshotAttempt = useCallback((trigger: string) => {
     if (!user || isAdmin) return;
+    const now = Date.now();
+    if (now - lastLogTime.current < DEBOUNCE_MS) return;
+    lastLogTime.current = now;
     supabase.functions.invoke('track-presence', {
       body: {
         current_page: window.location.pathname,
@@ -88,11 +96,21 @@ export function SecurityOverlay({ children, opacityOverride }: SecurityOverlayPr
     e.preventDefault();
   }, [isAdmin]);
 
-  // Visual blur only on tab switch — NO logging (focus loss ≠ screenshot)
+  // Visibility change: visual blur + rapid-focus screenshot detection
   const handleVisibilityChange = useCallback(() => {
     if (isAdmin) return;
-    setBlurred(document.hidden);
-  }, [isAdmin]);
+    if (document.hidden) {
+      hiddenAtTime.current = Date.now();
+      setBlurred(true);
+    } else {
+      // If tab was hidden for < 400ms, likely a screenshot tool stealing focus briefly
+      if (hiddenAtTime.current && (Date.now() - hiddenAtTime.current) < RAPID_FOCUS_THRESHOLD_MS) {
+        flashAndLog('screenshot_rapid_focus');
+      }
+      hiddenAtTime.current = null;
+      setBlurred(false);
+    }
+  }, [isAdmin, flashAndLog]);
 
   useEffect(() => {
     if (isAdmin) return;
