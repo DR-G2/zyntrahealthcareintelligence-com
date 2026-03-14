@@ -22,7 +22,7 @@ import { UpgradePrompt } from '@/components/UpgradePrompt';
 import { useOSCEPreload } from '@/hooks/useOSCEPreload';
 import { getCacheCount } from '@/lib/osce-cache';
 
-type Phase = 'mode-select' | 'setup' | 'loading' | 'evaluating' | 'station' | 'results';
+type Phase = 'mode-select' | 'setup' | 'loading' | 'evaluating' | 'station' | 'results' | 'history';
 type Mode = 'instant' | 'adaptive' | 'exam';
 type StationTab = 'history' | 'examination' | 'investigations' | 'management';
 
