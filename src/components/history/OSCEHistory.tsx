@@ -128,7 +128,7 @@ export function OSCEHistory() {
                   )}
                   {hasPsychograph && (
                     <div className="flex justify-center">
-                      <PsychographRadar data={psychograph} />
+                      <PsychographRadar data={psychograph as any} />
                     </div>
                   )}
                 </div>
