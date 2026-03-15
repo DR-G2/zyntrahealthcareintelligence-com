@@ -225,11 +225,14 @@ export type Database = {
           archetype: string
           archetype_signals: Json | null
           block_performance: Json | null
+          fatigue_index: number | null
+          hesitation_index: number | null
           id: string
           predicted_score_high: number | null
           predicted_score_low: number | null
           predicted_score_potential: number | null
           recommendations: Json | null
+          rush_index: number | null
           subject_patterns: Json | null
           trap_flags: Json | null
           updated_at: string
@@ -239,11 +242,14 @@ export type Database = {
           archetype?: string
           archetype_signals?: Json | null
           block_performance?: Json | null
+          fatigue_index?: number | null
+          hesitation_index?: number | null
           id?: string
           predicted_score_high?: number | null
           predicted_score_low?: number | null
           predicted_score_potential?: number | null
           recommendations?: Json | null
+          rush_index?: number | null
           subject_patterns?: Json | null
           trap_flags?: Json | null
           updated_at?: string
@@ -253,11 +259,14 @@ export type Database = {
           archetype?: string
           archetype_signals?: Json | null
           block_performance?: Json | null
+          fatigue_index?: number | null
+          hesitation_index?: number | null
           id?: string
           predicted_score_high?: number | null
           predicted_score_low?: number | null
           predicted_score_potential?: number | null
           recommendations?: Json | null
+          rush_index?: number | null
           subject_patterns?: Json | null
           trap_flags?: Json | null
           updated_at?: string
@@ -399,6 +408,36 @@ export type Database = {
           id?: string
           subject?: string | null
           user_id?: string
+        }
+        Relationships: []
+      }
+      ideal_candidate_profile: {
+        Row: {
+          description: string | null
+          id: string
+          max_value: number
+          metric: string
+          min_value: number
+          target_value: number
+          updated_at: string | null
+        }
+        Insert: {
+          description?: string | null
+          id?: string
+          max_value: number
+          metric: string
+          min_value: number
+          target_value: number
+          updated_at?: string | null
+        }
+        Update: {
+          description?: string | null
+          id?: string
+          max_value?: number
+          metric?: string
+          min_value?: number
+          target_value?: number
+          updated_at?: string | null
         }
         Relationships: []
       }
@@ -686,6 +725,53 @@ export type Database = {
           },
         ]
       }
+      question_dna: {
+        Row: {
+          accuracy_rate: number | null
+          answer_change_rate: number | null
+          attempt_count: number | null
+          average_time: number | null
+          confidence_error_rate: number | null
+          difficulty_score: number | null
+          id: string
+          question_id: string
+          trap_type: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          accuracy_rate?: number | null
+          answer_change_rate?: number | null
+          attempt_count?: number | null
+          average_time?: number | null
+          confidence_error_rate?: number | null
+          difficulty_score?: number | null
+          id?: string
+          question_id: string
+          trap_type?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          accuracy_rate?: number | null
+          answer_change_rate?: number | null
+          attempt_count?: number | null
+          average_time?: number | null
+          confidence_error_rate?: number | null
+          difficulty_score?: number | null
+          id?: string
+          question_id?: string
+          trap_type?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "question_dna_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: true
+            referencedRelation: "questions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       questions: {
         Row: {
           avg_time_seconds: number | null
@@ -761,6 +847,45 @@ export type Database = {
           system_category?: string | null
           tags?: string[] | null
           zyntra_id?: string | null
+        }
+        Relationships: []
+      }
+      readiness_dna: {
+        Row: {
+          answer_stability: number | null
+          attempt_count: number | null
+          clinical_accuracy: number | null
+          confidence_calibration: number | null
+          distance_from_ideal: number | null
+          id: string
+          readiness_score: number | null
+          time_management: number | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          answer_stability?: number | null
+          attempt_count?: number | null
+          clinical_accuracy?: number | null
+          confidence_calibration?: number | null
+          distance_from_ideal?: number | null
+          id?: string
+          readiness_score?: number | null
+          time_management?: number | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          answer_stability?: number | null
+          attempt_count?: number | null
+          clinical_accuracy?: number | null
+          confidence_calibration?: number | null
+          distance_from_ideal?: number | null
+          id?: string
+          readiness_score?: number | null
+          time_management?: number | null
+          updated_at?: string | null
+          user_id?: string
         }
         Relationships: []
       }
@@ -1066,6 +1191,42 @@ export type Database = {
         }
         Relationships: []
       }
+      subject_dna: {
+        Row: {
+          accuracy: number | null
+          attempt_count: number | null
+          avg_time: number | null
+          gap_score: number | null
+          id: string
+          stability: number | null
+          subject: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          accuracy?: number | null
+          attempt_count?: number | null
+          avg_time?: number | null
+          gap_score?: number | null
+          id?: string
+          stability?: number | null
+          subject: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          accuracy?: number | null
+          attempt_count?: number | null
+          avg_time?: number | null
+          gap_score?: number | null
+          id?: string
+          stability?: number | null
+          subject?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       system_error_logs: {
         Row: {
           created_at: string
@@ -1357,6 +1518,15 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      compute_distance_from_ideal: {
+        Args: {
+          p_accuracy: number
+          p_calibration: number
+          p_stability: number
+          p_time: number
+        }
+        Returns: number
+      }
       is_group_member: {
         Args: { _group_id: string; _user_id: string }
         Returns: boolean

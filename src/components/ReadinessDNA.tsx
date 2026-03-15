@@ -143,81 +143,73 @@ export function ReadinessDNA() {
     if (!user) return;
 
     const fetchData = async () => {
-      const thirtyDaysAgo = new Date(Date.now() - 30 * 86400000).toISOString();
-      const sixtyDaysAgo = new Date(Date.now() - 60 * 86400000).toISOString();
-
-      const [attemptsRes, perfRes] = await Promise.all([
-        supabase
-          .from('user_attempts')
-          .select('is_correct, time_taken_seconds, answer_changes_count, created_at, question_id, questions(category)')
-          .eq('user_id', user.id),
-        supabase.from('performance_profiles').select('*').eq('user_id', user.id).maybeSingle(),
+      // Read from precomputed tables instead of raw user_attempts
+      const [readinessRes, subjectRes] = await Promise.all([
+        supabase.from('readiness_dna').select('*').eq('user_id', user.id).maybeSingle(),
+        supabase.from('subject_dna').select('*').eq('user_id', user.id),
       ]);
 
-      const attempts = attemptsRes.data || [];
+      const r = readinessRes.data;
+      const subjects = subjectRes.data || [];
 
-      // Group by system
-      const systemMap: Record<string, {
-        correct: number; total: number; totalTime: number; totalChanges: number;
-        recentCorrect: number; recentTotal: number; priorCorrect: number; priorTotal: number;
-      }> = {};
-
-      SYSTEMS.forEach(s => {
-        systemMap[s] = { correct: 0, total: 0, totalTime: 0, totalChanges: 0, recentCorrect: 0, recentTotal: 0, priorCorrect: 0, priorTotal: 0 };
-      });
-
-      attempts.forEach((a: any) => {
-        const cat = a.questions?.category;
-        if (!cat) return;
-        const system = mapCategoryToSystem(cat);
-        if (!system || !systemMap[system]) return;
-        const s = systemMap[system];
-        s.total++;
-        if (a.is_correct) s.correct++;
-        s.totalTime += a.time_taken_seconds || 0;
-        s.totalChanges += a.answer_changes_count || 0;
-
-        const created = a.created_at;
-        if (created >= thirtyDaysAgo) {
-          s.recentTotal++;
-          if (a.is_correct) s.recentCorrect++;
-        } else if (created >= sixtyDaysAgo) {
-          s.priorTotal++;
-          if (a.is_correct) s.priorCorrect++;
-        }
-      });
+      // Build subject stats from precomputed subject_dna
+      const subjectMap = new Map(subjects.map((s: any) => [s.subject, s]));
 
       const stats: SubjectStats[] = SYSTEMS.map(system => {
-        const s = systemMap[system];
-        const accuracy = s.total > 0 ? (s.correct / s.total) * 100 : 0;
-        const avgTime = s.total > 0 ? s.totalTime / s.total : 0;
-        const avgChanges = s.total > 0 ? s.totalChanges / s.total : 0;
-        const stability = Math.max(0, 100 - avgChanges * 30);
+        // Find matching subject_dna rows by mapping category to system
+        let matchedSubject: any = null;
+        subjectMap.forEach((val: any, key: string) => {
+          if (mapCategoryToSystem(key) === system) {
+            if (!matchedSubject) {
+              matchedSubject = { ...val };
+            } else {
+              // Merge multiple categories into one system
+              const oldCount = matchedSubject.attempt_count;
+              const newCount = val.attempt_count;
+              const total = oldCount + newCount;
+              if (total > 0) {
+                matchedSubject.accuracy = (matchedSubject.accuracy * oldCount + val.accuracy * newCount) / total;
+                matchedSubject.avg_time = (matchedSubject.avg_time * oldCount + val.avg_time * newCount) / total;
+                matchedSubject.stability = (matchedSubject.stability * oldCount + val.stability * newCount) / total;
+                matchedSubject.attempt_count = total;
+                matchedSubject.gap_score = Math.max(matchedSubject.gap_score, val.gap_score);
+              }
+            }
+          }
+        });
+
+        const accuracy = matchedSubject ? Number(matchedSubject.accuracy) : 0;
+        const count = matchedSubject ? Number(matchedSubject.attempt_count) : 0;
+        const avgTime = matchedSubject ? Number(matchedSubject.avg_time) : 0;
+        const stability = matchedSubject ? Number(matchedSubject.stability) : 0;
         const timeEff = avgTime > 0 ? Math.min(100, (90 / avgTime) * 100) : 0;
-
-        const recentAcc = s.recentTotal > 0 ? s.recentCorrect / s.recentTotal : 0;
-        const priorAcc = s.priorTotal > 0 ? s.priorCorrect / s.priorTotal : 0;
-        const trend: SubjectStats['trend'] = s.recentTotal < 3 ? 'stable' : recentAcc > priorAcc + 0.05 ? 'improving' : recentAcc < priorAcc - 0.05 ? 'declining' : 'stable';
-
         const readiness = Math.round(accuracy * 0.5 + stability * 0.25 + timeEff * 0.25);
 
-        return { system, accuracy, count: s.total, avgTime, stability, trend, readiness };
+        return { system, accuracy, count, avgTime, stability, trend: 'stable' as const, readiness };
       });
 
       setSubjectStats(stats);
 
-      // Composite score from performance_profiles
-      const perf = perfRes.data;
-      const overallAccuracy = Number(perf?.clinical_accuracy || 0);
-      const overallStability = Number(perf?.stability_score || 50);
-      const confidenceGap = Number(perf?.confidence_gap || 50);
-      const timeSens = Number(perf?.time_sensitivity || 50);
-      const confidence = Math.max(0, 100 - confidenceGap);
-      const timeManagement = Math.max(0, 100 - timeSens);
+      // Composite from readiness_dna
+      if (r) {
+        const timeEff = r.time_management > 0 ? Math.min(100, (90 / r.time_management) * 100) : 0;
+        const score = Math.round(
+          Number(r.clinical_accuracy) * 0.4 +
+          Number(r.answer_stability) * 0.2 +
+          timeEff * 0.2 +
+          Number(r.confidence_calibration) * 0.2
+        );
+        setComposite({
+          score: Math.min(100, Math.max(0, score)),
+          accuracy: Number(r.clinical_accuracy),
+          stability: Number(r.answer_stability),
+          timeManagement: timeEff,
+          confidence: Number(r.confidence_calibration),
+        });
+      } else {
+        setComposite({ score: 0, accuracy: 0, stability: 0, timeManagement: 0, confidence: 0 });
+      }
 
-      const score = Math.round(overallAccuracy * 0.4 + overallStability * 0.2 + timeManagement * 0.2 + confidence * 0.2);
-
-      setComposite({ score: Math.min(100, Math.max(0, score)), accuracy: overallAccuracy, stability: overallStability, timeManagement, confidence });
       setLoading(false);
     };
 

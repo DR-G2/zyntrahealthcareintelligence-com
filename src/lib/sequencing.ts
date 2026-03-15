@@ -45,12 +45,19 @@ export function getTargetTier(state: SequencingState, totalQuestions: number): n
   return [2, 3];
 }
 
+export interface SubjectGap {
+  subject: string;
+  gap_score: number;
+  accuracy: number;
+}
+
 export function selectNextQuestion(
   pool: QuestionWithTier[],
   usedIds: Set<string>,
   state: SequencingState,
   totalQuestions: number,
-  weakAreas?: string[]
+  weakAreas?: string[],
+  subjectGaps?: SubjectGap[]
 ): QuestionWithTier | null {
   const targetTiers = getTargetTier(state, totalQuestions);
 
@@ -66,14 +73,31 @@ export function selectNextQuestion(
 
   // Prefer target tier questions
   const tierMatches = available.filter(q => {
-    const tier = q.difficulty_tier || 2; // default to tier 2 if unclassified
+    const tier = q.difficulty_tier || 2;
     return targetTiers.includes(tier);
   });
 
   let candidates = tierMatches.length > 0 ? tierMatches : available;
 
-  // Boost weak areas for targeting (when in hard tier range)
-  if (weakAreas && weakAreas.length > 0 && targetTiers.some(t => t >= 3)) {
+  // Gap-weighted subject selection using subject_dna data
+  if (subjectGaps && subjectGaps.length > 0) {
+    const sorted = [...subjectGaps].sort((a, b) => b.gap_score - a.gap_score);
+    const weakSubjects = sorted.slice(0, Math.ceil(sorted.length * 0.3)).map(s => s.subject);
+    const moderateSubjects = sorted.slice(Math.ceil(sorted.length * 0.3), Math.ceil(sorted.length * 0.7)).map(s => s.subject);
+
+    const roll = Math.random();
+    if (roll < 0.6) {
+      // 60% chance: pick from weakest subjects
+      const weak = candidates.filter(q => weakSubjects.includes(q.category));
+      if (weak.length > 0) candidates = weak;
+    } else if (roll < 0.9) {
+      // 30% chance: pick from moderate subjects
+      const mod = candidates.filter(q => moderateSubjects.includes(q.category));
+      if (mod.length > 0) candidates = mod;
+    }
+    // 10% chance: keep all candidates (strong subjects)
+  } else if (weakAreas && weakAreas.length > 0 && targetTiers.some(t => t >= 3)) {
+    // Legacy fallback
     const weakCandidates = candidates.filter(q => weakAreas.includes(q.category));
     if (weakCandidates.length > 0 && Math.random() < 0.4) {
       candidates = weakCandidates;
