@@ -27,27 +27,25 @@ export function ReadinessScore() {
 
   useEffect(() => {
     if (!user) return;
-    const fetch = async () => {
-      const [perfRes, attemptsRes, osceRes] = await Promise.all([
-        supabase.from('performance_profiles').select('*').eq('user_id', user.id).maybeSingle(),
-        supabase.from('user_attempts').select('id').eq('user_id', user.id),
+    const fetchReadiness = async () => {
+      // Read from precomputed readiness_dna + lightweight OSCE query
+      const [readinessRes, osceRes] = await Promise.all([
+        supabase.from('readiness_dna').select('*').eq('user_id', user.id).maybeSingle(),
         supabase.from('station_attempts').select('scores').eq('user_id', user.id).limit(200),
       ]);
 
-      const perf = perfRes.data;
-      const totalAttempts = attemptsRes.data?.length || 0;
+      const r = readinessRes.data;
       const osceScores = (osceRes.data || [])
         .map((s: any) => (typeof s.scores?.total === 'number' ? s.scores.total : null))
         .filter((v: any): v is number => v !== null);
 
-      const accuracy = Number(perf?.clinical_accuracy || 0);
-      const stability = Number(perf?.stability_score || 50);
-      const confidenceGap = Number(perf?.confidence_gap || 50);
-      const volume = Math.min(100, (totalAttempts / 2000) * 100);
+      const accuracy = Number(r?.clinical_accuracy || 0);
+      const stability = Number(r?.answer_stability || 0);
+      const volume = Math.min(100, (Number(r?.attempt_count || 0) / 2000) * 100);
       const osceAvg = osceScores.length > 0
         ? osceScores.reduce((a: number, b: number) => a + b, 0) / osceScores.length
         : 0;
-      const confidence = Math.max(0, 100 - confidenceGap);
+      const confidence = Number(r?.confidence_calibration || 0);
 
       const score = Math.round(
         accuracy * 0.4 +
@@ -60,7 +58,7 @@ export function ReadinessScore() {
       setData({ score: Math.min(100, Math.max(0, score)), accuracy, stability, volume, osceAvg, confidence });
       setLoading(false);
     };
-    fetch();
+    fetchReadiness();
   }, [user]);
 
   const score = data?.score || 0;
