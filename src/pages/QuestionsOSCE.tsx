@@ -64,8 +64,13 @@ export default function QuestionsOSCE() {
     return { persona, examCount, investCount, mgmtCount };
   };
 
+  const { enabled: osceEnabled, loading: osceLoading } = useOSCEEnabled();
+
   return (
     <AppLayout>
+      {!osceLoading && !osceEnabled ? (
+        <OSCEUnderConstruction />
+      ) : (
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold font-display">OSCE Station Bank</h1>
