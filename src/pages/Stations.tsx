@@ -1,5 +1,7 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { AppLayout } from '@/components/AppLayout';
+import { OSCEUnderConstruction } from '@/components/OSCEUnderConstruction';
+import { useOSCEEnabled } from '@/hooks/useSiteSettings';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
