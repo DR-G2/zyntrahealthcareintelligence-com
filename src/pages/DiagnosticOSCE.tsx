@@ -16,6 +16,8 @@ import {
 } from 'lucide-react';
 import { useFeatureGate } from '@/hooks/useFeatureGate';
 import { UpgradePrompt } from '@/components/UpgradePrompt';
+import { OSCEUnderConstruction } from '@/components/OSCEUnderConstruction';
+import { useOSCEEnabled } from '@/hooks/useSiteSettings';
 
 type Phase = 'intro' | 'loading' | 'station' | 'evaluating' | 'results';
 
