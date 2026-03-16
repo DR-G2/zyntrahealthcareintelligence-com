@@ -32,3 +32,7 @@ export function useMaintenanceMode() {
 export function useRegistrationOpen() {
   return useSiteSetting('registration_open', true);
 }
+
+export function useOSCEEnabled() {
+  return useSiteSetting('osce_enabled', false);
+}
