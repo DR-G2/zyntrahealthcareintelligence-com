@@ -16,6 +16,8 @@ import {
 } from 'lucide-react';
 import { useFeatureGate } from '@/hooks/useFeatureGate';
 import { UpgradePrompt } from '@/components/UpgradePrompt';
+import { OSCEUnderConstruction } from '@/components/OSCEUnderConstruction';
+import { useOSCEEnabled } from '@/hooks/useSiteSettings';
 
 type Phase = 'intro' | 'loading' | 'station' | 'evaluating' | 'results';
 
@@ -192,9 +194,13 @@ export default function DiagnosticOSCE() {
 
   const formatTime = (s: number) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
 
+  const { enabled: osceEnabled, loading: osceLoading } = useOSCEEnabled();
+
   return (
     <AppLayout>
-      {!gate.canAccessExamMode ? (
+      {!osceLoading && !osceEnabled ? (
+        <OSCEUnderConstruction />
+      ) : !gate.canAccessExamMode ? (
         <div className="mx-auto max-w-xl py-12">
           <UpgradePrompt feature="Diagnostic OSCE" description="Access exam-level OSCE simulations. Available on the OSCE Only or Full Access plan." />
         </div>

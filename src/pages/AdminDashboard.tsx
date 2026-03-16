@@ -1106,6 +1106,7 @@ const SITE_SETTINGS_CONFIG = [
   { key: 'show_about_pricing', label: 'Show About & Pricing Pages', description: 'Toggle visibility of About and Pricing for public visitors', defaultValue: false },
   { key: 'maintenance_mode', label: 'Maintenance Mode', description: 'Shows a maintenance page to all non-admin users', defaultValue: false },
   { key: 'registration_open', label: 'Registration Open', description: 'Allow new user signups. When off, the Sign Up tab is hidden', defaultValue: true },
+  { key: 'osce_enabled', label: 'OSCE Module', description: 'Enable/disable OSCE stations for all users', defaultValue: false },
 ];
 
 function SiteSettingsCard() {

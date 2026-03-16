@@ -9,6 +9,8 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Stethoscope, Search, Loader2, Activity, ChevronDown, ChevronUp, ClipboardList, FlaskConical, UserRound } from 'lucide-react';
 import { useFeatureGate } from '@/hooks/useFeatureGate';
 import { UpgradePrompt } from '@/components/UpgradePrompt';
+import { OSCEUnderConstruction } from '@/components/OSCEUnderConstruction';
+import { useOSCEEnabled } from '@/hooks/useSiteSettings';
 
 interface ClinicalStation {
   id: string;
@@ -62,8 +64,13 @@ export default function QuestionsOSCE() {
     return { persona, examCount, investCount, mgmtCount };
   };
 
+  const { enabled: osceEnabled, loading: osceLoading } = useOSCEEnabled();
+
   return (
     <AppLayout>
+      {!osceLoading && !osceEnabled ? (
+        <OSCEUnderConstruction />
+      ) : (
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold font-display">OSCE Station Bank</h1>
@@ -180,6 +187,7 @@ export default function QuestionsOSCE() {
           </>
         )}
       </div>
+      )}
     </AppLayout>
   );
 }
