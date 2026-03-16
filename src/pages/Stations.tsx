@@ -302,6 +302,16 @@ export default function Stations() {
     sessionId.current = crypto.randomUUID();
   };
 
+  const { enabled: osceEnabled, loading: osceLoading } = useOSCEEnabled();
+
+  if (!osceLoading && !osceEnabled) {
+    return (
+      <AppLayout>
+        <OSCEUnderConstruction />
+      </AppLayout>
+    );
+  }
+
   if (!gate.canAccessOSCEBank) {
     return (
       <AppLayout>
