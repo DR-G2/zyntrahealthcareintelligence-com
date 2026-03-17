@@ -25,6 +25,8 @@ import { SystemMonitorTab } from '@/components/admin/SystemMonitorTab';
 import { ActivityLogsTab } from '@/components/admin/ActivityLogsTab';
 import { ScreenshotAttemptsTab } from '@/components/admin/ScreenshotAttemptsTab';
 import { MessagesTab } from '@/components/admin/MessagesTab';
+import { MCQEditor } from '@/components/admin/MCQEditor';
+import { SubjectManager } from '@/components/admin/SubjectManager';
 
 import { ADMIN_EMAILS, SUPER_ADMIN_EMAIL } from '@/lib/admin-emails';
 
