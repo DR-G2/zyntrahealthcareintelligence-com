@@ -307,10 +307,27 @@ function MCQTab() {
   const [questions, setQuestions] = useState<any[]>([]);
   const [loadingQ, setLoadingQ] = useState(false);
   const [searchQ, setSearchQ] = useState("");
-  const [editQ, setEditQ] = useState<any>(null);
   const [saving, setSaving] = useState(false);
 
+  // New state for editor mode
+  const [editorMode, setEditorMode] = useState<'list' | 'create' | 'edit'>('list');
+  const [editingQuestion, setEditingQuestion] = useState<any>(null);
+  const [subjects, setSubjects] = useState<any[]>([]);
+
   const addLog = (msg: string) => setLog(prev => [...prev, `[${new Date().toLocaleTimeString()}] ${msg}`]);
+
+  const fetchSubjects = async () => {
+    try {
+      const { data, error } = await supabase.functions.invoke('admin-manage-questions', {
+        body: { action: 'manage_subject', subject_action: 'list' }
+      });
+      if (error) throw error;
+      setSubjects(data.subjects || []);
+    } catch (e: any) {
+      // Fallback to CATEGORIES
+      setSubjects(CATEGORIES.map((c, i) => ({ id: c, name: c, display_order: i })));
+    }
+  };
 
   const fetchQuestions = async () => {
     setLoadingQ(true);
@@ -326,7 +343,7 @@ function MCQTab() {
     setLoadingQ(false);
   };
 
-  useEffect(() => { fetchQuestions(); }, []);
+  useEffect(() => { fetchQuestions(); fetchSubjects(); }, []);
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -365,7 +382,8 @@ function MCQTab() {
     setBulkGenerating(true);
     addLog('Starting bulk generation...');
     let total = 0;
-    for (const cat of CATEGORIES) {
+    const cats = subjects.length ? subjects.map(s => s.name) : CATEGORIES;
+    for (const cat of cats) {
       for (const diff of DIFFICULTIES) {
         addLog(`Generating 10 ${diff} for ${cat}...`);
         try {
@@ -408,24 +426,6 @@ function MCQTab() {
     setImporting(false);
   };
 
-  const saveQuestion = async () => {
-    if (!editQ) return;
-    setSaving(true);
-    try {
-      const { id, created_at, ...rest } = editQ;
-      const { error } = await supabase.functions.invoke('admin-manage-questions', {
-        body: { action: 'update', question_id: id, question_data: rest }
-      });
-      if (error) throw error;
-      toast({ title: 'Saved' });
-      setEditQ(null);
-      fetchQuestions();
-    } catch (e: any) {
-      toast({ title: 'Error', description: e.message, variant: 'destructive' });
-    }
-    setSaving(false);
-  };
-
   const deleteQuestion = async (id: string) => {
     try {
       const { error } = await supabase.functions.invoke('admin-manage-questions', {
@@ -443,8 +443,37 @@ function MCQTab() {
     !searchQ || q.question_text?.toLowerCase().includes(searchQ.toLowerCase()) || q.category?.toLowerCase().includes(searchQ.toLowerCase())
   );
 
+  // Show MCQEditor for create/edit modes
+  if (editorMode === 'create' || editorMode === 'edit') {
+    return (
+      <MCQEditor
+        question={editorMode === 'edit' ? editingQuestion : undefined}
+        subjects={subjects}
+        onSave={() => {
+          setEditorMode('list');
+          setEditingQuestion(null);
+          fetchQuestions();
+        }}
+        onCancel={() => {
+          setEditorMode('list');
+          setEditingQuestion(null);
+        }}
+      />
+    );
+  }
+
   return (
     <div className="space-y-6">
+      {/* Create Question Button */}
+      <div className="flex justify-between items-center">
+        <Button onClick={() => setEditorMode('create')} className="gap-2">
+          <Pencil className="h-4 w-4" /> Create Question
+        </Button>
+      </div>
+
+      {/* Subject Manager */}
+      <SubjectManager subjects={subjects} onRefresh={fetchSubjects} />
+
       {/* Generate */}
       <Card>
         <CardHeader><CardTitle className="flex items-center gap-2 text-lg"><Sparkles className="h-5 w-5 text-primary" /> AI Generator</CardTitle></CardHeader>
@@ -452,7 +481,7 @@ function MCQTab() {
           <div className="grid grid-cols-3 gap-4">
             <div>
               <label className="text-sm text-muted-foreground mb-1 block">Category</label>
-              <Select value={category} onValueChange={setCategory}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>{CATEGORIES.map(c => <SelectItem key={c} value={c}>{c}</SelectItem>)}</SelectContent></Select>
+              <Select value={category} onValueChange={setCategory}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>{(subjects.length ? subjects.map(s => s.name) : CATEGORIES).map(c => <SelectItem key={c} value={c}>{c}</SelectItem>)}</SelectContent></Select>
             </div>
             <div>
               <label className="text-sm text-muted-foreground mb-1 block">Difficulty</label>
@@ -555,13 +584,13 @@ function MCQTab() {
               <TableBody>
                 {filteredQ.slice(0, 100).map(q => (
                   <TableRow key={q.id}>
-                    <TableCell className="text-xs max-w-[300px] truncate">{q.question_text?.slice(0, 100)}</TableCell>
+                    <TableCell className="text-xs max-w-[300px] truncate">{q.question_text?.replace(/<[^>]*>/g, '').slice(0, 100)}</TableCell>
                     <TableCell><Badge variant="outline">{q.category}</Badge></TableCell>
                     <TableCell><Badge variant="secondary">{q.difficulty}</Badge></TableCell>
                     <TableCell className="text-xs">{new Date(q.created_at).toLocaleDateString()}</TableCell>
                     <TableCell>
                       <div className="flex gap-1">
-                        <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => setEditQ({ ...q })}><Pencil className="h-3.5 w-3.5" /></Button>
+                        <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => { setEditingQuestion({ ...q }); setEditorMode('edit'); }}><Pencil className="h-3.5 w-3.5" /></Button>
                         <AlertDialog>
                           <AlertDialogTrigger asChild><Button variant="ghost" size="icon" className="h-7 w-7 text-destructive"><Trash2 className="h-3.5 w-3.5" /></Button></AlertDialogTrigger>
                           <AlertDialogContent>
@@ -578,47 +607,6 @@ function MCQTab() {
           )}
         </CardContent>
       </Card>
-
-      {/* Edit Dialog */}
-      <Dialog open={!!editQ} onOpenChange={open => !open && setEditQ(null)}>
-        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
-          <DialogHeader><DialogTitle>Edit Question</DialogTitle></DialogHeader>
-          {editQ && (
-            <div className="space-y-4">
-              <div>
-                <label className="text-sm font-medium">Question Text</label>
-                <Textarea value={editQ.question_text} onChange={e => setEditQ({ ...editQ, question_text: e.target.value })} className="min-h-[100px]" />
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="text-sm font-medium">Category</label>
-                  <Select value={editQ.category} onValueChange={v => setEditQ({ ...editQ, category: v })}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>{CATEGORIES.map(c => <SelectItem key={c} value={c}>{c}</SelectItem>)}</SelectContent></Select>
-                </div>
-                <div>
-                  <label className="text-sm font-medium">Difficulty</label>
-                  <Select value={editQ.difficulty} onValueChange={v => setEditQ({ ...editQ, difficulty: v })}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>{DIFFICULTIES.map(d => <SelectItem key={d} value={d}>{d}</SelectItem>)}</SelectContent></Select>
-                </div>
-              </div>
-              <div>
-                <label className="text-sm font-medium">Correct Answer</label>
-                <Input value={editQ.correct_answer} onChange={e => setEditQ({ ...editQ, correct_answer: e.target.value })} />
-              </div>
-              <div>
-                <label className="text-sm font-medium">Options (JSON)</label>
-                <Textarea value={JSON.stringify(editQ.options, null, 2)} onChange={e => { try { setEditQ({ ...editQ, options: JSON.parse(e.target.value) }); } catch {} }} className="font-mono text-xs min-h-[80px]" />
-              </div>
-              <div>
-                <label className="text-sm font-medium">Explanation</label>
-                <Textarea value={editQ.explanation || ''} onChange={e => setEditQ({ ...editQ, explanation: e.target.value })} />
-              </div>
-            </div>
-          )}
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setEditQ(null)}>Cancel</Button>
-            <Button onClick={saveQuestion} disabled={saving}>{saving && <Loader2 className="h-4 w-4 mr-2 animate-spin" />} Save</Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
 
       {/* Log */}
       {log.length > 0 && (
