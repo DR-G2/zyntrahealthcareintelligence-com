@@ -793,6 +793,7 @@ export type Database = {
           key_takeaways: string[] | null
           options: Json
           question_text: string
+          question_type: string
           subtopic: string | null
           system_category: string | null
           tags: string[] | null
@@ -818,6 +819,7 @@ export type Database = {
           key_takeaways?: string[] | null
           options: Json
           question_text: string
+          question_type?: string
           subtopic?: string | null
           system_category?: string | null
           tags?: string[] | null
@@ -843,6 +845,7 @@ export type Database = {
           key_takeaways?: string[] | null
           options?: Json
           question_text?: string
+          question_type?: string
           subtopic?: string | null
           system_category?: string | null
           tags?: string[] | null
