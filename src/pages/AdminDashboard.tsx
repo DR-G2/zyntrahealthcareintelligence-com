@@ -1201,6 +1201,7 @@ const SITE_SETTINGS_CONFIG = [
   { key: 'maintenance_mode', label: 'Maintenance Mode', description: 'Shows a maintenance page to all non-admin users', defaultValue: false },
   { key: 'registration_open', label: 'Registration Open', description: 'Allow new user signups. When off, the Sign Up tab is hidden', defaultValue: true },
   { key: 'osce_enabled', label: 'OSCE Module', description: 'Enable/disable OSCE stations for all users', defaultValue: false },
+  { key: 'mcq_temp_enabled', label: 'Enable MCQ TEMP', description: 'Include MCQ TEMP questions in user-facing practice modes', defaultValue: false },
 ];
 
 function SiteSettingsCard() {
