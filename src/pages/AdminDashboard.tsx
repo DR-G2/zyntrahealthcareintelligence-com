@@ -556,6 +556,110 @@ function MCQTab() {
         </CardContent>
       </Card>
 
+      {/* Required JSON Format */}
+      <Card>
+        <Collapsible>
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <CardTitle className="flex items-center gap-2 text-lg"><FileText className="h-5 w-5 text-primary" /> Required JSON Format</CardTitle>
+              <div className="flex items-center gap-2">
+                <Button variant="outline" size="sm" onClick={() => {
+                  const template = JSON.stringify({
+                    question_text: "",
+                    options: ["", "", "", "", ""],
+                    correct_answer: "A",
+                    category: "",
+                    difficulty: "moderate",
+                    explanation: "CORRECT ANSWER\n\n[ANSWER NAME]\n\n---\n\n1. CLINICAL DIAGNOSIS\n\n[DIAGNOSIS]\n\n---\n\n2. KEY CLUES IN THE STEM\n\n---\n\n3. PATHOPHYSIOLOGY\n\n---\n\n4. WHY THE CORRECT ANSWER IS RIGHT\n\n---\n\n5. WHEN THIS TREATMENT IS USED\n\n---\n\n6. WHY THE OTHER OPTIONS ARE INCORRECT\n\n---\n\n7. HIGH-YIELD AMC EXAM POINTS\n\n---\n\n8. CLINICAL PATTERN RECOGNITION\n\n---\n\n9. EXAM TRAP\n\n---\n\n10. MEMORY ANCHOR\n\n---\n\nEDITED BY HEISENBERG",
+                    diagnosis_explanation: "",
+                    first_line_investigation: "",
+                    gold_standard_investigation: "",
+                    best_treatment: "",
+                    differential_diagnoses: [{ diagnosis: "", reasoning: "", management: "" }],
+                    incorrect_answer_explanations: { B: "", C: "", D: "", E: "" },
+                    key_takeaways: [""],
+                    subtopic: "",
+                    clinical_vignette: true,
+                    guideline_reference: "",
+                    system_category: ""
+                  }, null, 2);
+                  navigator.clipboard.writeText(template);
+                  toast({ title: 'Copied', description: 'Blank template copied to clipboard' });
+                }}>Copy Template</Button>
+                <CollapsibleTrigger asChild>
+                  <Button variant="ghost" size="icon" className="h-8 w-8"><ChevronDown className="h-4 w-4" /></Button>
+                </CollapsibleTrigger>
+              </div>
+            </div>
+          </CardHeader>
+          <CollapsibleContent>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                  <div>
+                    <p className="font-semibold text-foreground mb-1">Required Fields</p>
+                    <ul className="space-y-0.5 text-muted-foreground text-xs">
+                      <li><code className="text-primary">question_text</code> — Full clinical vignette</li>
+                      <li><code className="text-primary">options</code> — Array of 5 strings [A–E]</li>
+                      <li><code className="text-primary">correct_answer</code> — "A", "B", "C", "D", or "E"</li>
+                      <li><code className="text-primary">category</code> — Subject heading</li>
+                      <li><code className="text-primary">difficulty</code> — "easy", "moderate", or "difficult"</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <p className="font-semibold text-foreground mb-1">Zyntra Explanation Fields</p>
+                    <ul className="space-y-0.5 text-muted-foreground text-xs">
+                      <li><code className="text-primary">explanation</code> — Full Zyntra Standard format (10 sections)</li>
+                      <li><code className="text-primary">diagnosis_explanation</code> — Clinical diagnosis name</li>
+                      <li><code className="text-primary">incorrect_answer_explanations</code> — Object {`{B: "...", C: "..."}`}</li>
+                      <li><code className="text-primary">key_takeaways</code> — Array of high-yield points</li>
+                      <li><code className="text-primary">best_treatment</code> / <code className="text-primary">differential_diagnoses</code></li>
+                    </ul>
+                  </div>
+                </div>
+                <pre className="bg-muted p-4 rounded-lg overflow-x-auto text-xs font-mono max-h-96 overflow-y-auto">
+{`{
+  "question_text": "A 54-year-old man presents with crushing chest pain...",
+  "options": [
+    "Dimercaptopropane sulfonate (DMPS)",
+    "Intravenous deferoxamine",
+    "Oral penicillamine",
+    "Intravenous N-acetylcysteine",
+    "Oral penicillin"
+  ],
+  "correct_answer": "A",
+  "category": "Toxicology",
+  "difficulty": "moderate",
+  "explanation": "CORRECT ANSWER\\n\\nDIMERCAPTOPROPANE SULFONATE (DMPS)\\n\\n---\\n\\n1. CLINICAL DIAGNOSIS\\n\\nACUTE MERCURY VAPOUR TOXICITY\\n\\n...(full 10-section Zyntra format)...\\n\\nEDITED BY HEISENBERG",
+  "diagnosis_explanation": "ACUTE MERCURY VAPOUR TOXICITY — This patient presents with acute inhalational exposure to mercury vapour...",
+  "first_line_investigation": "Urine mercury levels",
+  "gold_standard_investigation": "24-hour urine mercury collection",
+  "best_treatment": "DMPS (Dimercaptopropane Sulfonate)",
+  "differential_diagnoses": [
+    { "diagnosis": "Iron poisoning", "reasoning": "Different chelator needed", "management": "Deferoxamine" }
+  ],
+  "incorrect_answer_explanations": {
+    "B": "Deferoxamine is a chelating agent for iron toxicity...",
+    "C": "Penicillamine is used for copper toxicity (Wilson disease)...",
+    "D": "N-acetylcysteine is used for paracetamol overdose...",
+    "E": "Penicillin is an antibiotic for bacterial infections..."
+  },
+  "key_takeaways": [
+    "Heating dental amalgam releases mercury vapour",
+    "DMPS is the preferred chelating agent for mercury toxicity"
+  ],
+  "subtopic": "Mercury Poisoning",
+  "clinical_vignette": true,
+  "guideline_reference": "eTG Toxicology",
+  "system_category": "Toxicology"
+}`}
+                </pre>
+              </div>
+            </CardContent>
+          </CollapsibleContent>
+        </Collapsible>
+      </Card>
+
       {/* Browse */}
       <Card>
         <CardHeader>
