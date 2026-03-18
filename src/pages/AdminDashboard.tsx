@@ -1382,133 +1382,25 @@ export default function AdminDashboard() {
 
         <CleanupReportDialog report={cleanupReport} open={reportOpen} onOpenChange={setReportOpen} />
 
-        {/* Quality Audit Dialog */}
-        <Dialog open={auditOpen} onOpenChange={setAuditOpen}>
-          <DialogContent className="max-w-3xl max-h-[80vh]">
-            <DialogHeader>
-              <DialogTitle>Quality Audit Results</DialogTitle>
-            </DialogHeader>
-            {auditResult && (
-              <ScrollArea className="max-h-[60vh]">
-                <div className="space-y-6 pr-4">
-                  {/* Summary */}
-                  <div className="grid grid-cols-2 gap-4">
-                    <Card>
-                      <CardContent className="p-4 text-center">
-                        <p className="text-2xl font-bold text-destructive">{auditResult.mcq.flagged}</p>
-                        <p className="text-xs text-muted-foreground">of {auditResult.mcq.total} MCQs flagged</p>
-                      </CardContent>
-                    </Card>
-                    <Card>
-                      <CardContent className="p-4 text-center">
-                        <p className="text-2xl font-bold text-destructive">{auditResult.osce.flagged}</p>
-                        <p className="text-xs text-muted-foreground">of {auditResult.osce.total} OSCEs flagged</p>
-                      </CardContent>
-                    </Card>
-                  </div>
-
-                  {/* MCQ Flags */}
-                  {auditResult.mcq.flags.length > 0 && (
-                    <div>
-                      <h3 className="text-sm font-semibold mb-2">Flagged MCQs</h3>
-                      <Table>
-                        <TableHeader>
-                          <TableRow>
-                            <TableHead className="w-16">ID</TableHead>
-                            <TableHead>Question</TableHead>
-                            <TableHead>Issues</TableHead>
-                          </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                          {auditResult.mcq.flags.slice(0, 100).map((f: any) => (
-                            <TableRow key={f.id}>
-                              <TableCell className="font-mono text-xs">{f.zyntra_id || f.id.slice(0, 8)}</TableCell>
-                              <TableCell className="text-xs max-w-[200px] truncate">{f.title}</TableCell>
-                              <TableCell className="flex flex-wrap gap-1">
-                                {f.reasons.map((r: string) => (
-                                  <Badge key={r} variant="destructive" className="text-[10px]">{r}</Badge>
-                                ))}
-                              </TableCell>
-                            </TableRow>
-                          ))}
-                        </TableBody>
-                      </Table>
-                      {auditResult.mcq.flags.length > 100 && <p className="text-xs text-muted-foreground mt-1">...and {auditResult.mcq.flags.length - 100} more</p>}
-                    </div>
-                  )}
-
-                  {/* OSCE Flags */}
-                  {auditResult.osce.flags.length > 0 && (
-                    <div>
-                      <h3 className="text-sm font-semibold mb-2">Flagged OSCE Stations</h3>
-                      <Table>
-                        <TableHeader>
-                          <TableRow>
-                            <TableHead className="w-16">ID</TableHead>
-                            <TableHead>Title</TableHead>
-                            <TableHead>Issues</TableHead>
-                          </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                          {auditResult.osce.flags.slice(0, 100).map((f: any) => (
-                            <TableRow key={f.id}>
-                              <TableCell className="font-mono text-xs">{f.zyntra_id || f.id.slice(0, 8)}</TableCell>
-                              <TableCell className="text-xs max-w-[200px] truncate">{f.title}</TableCell>
-                              <TableCell className="flex flex-wrap gap-1">
-                                {f.reasons.map((r: string) => (
-                                  <Badge key={r} variant="outline" className="text-[10px] border-warning text-warning">{r}</Badge>
-                                ))}
-                              </TableCell>
-                            </TableRow>
-                          ))}
-                        </TableBody>
-                      </Table>
-                    </div>
-                  )}
-
-                  {auditResult.mcq.flagged === 0 && auditResult.osce.flagged === 0 && (
-                    <p className="text-center text-muted-foreground py-8">All content passes quality checks ✓</p>
-                  )}
-                </div>
-              </ScrollArea>
-            )}
-          </DialogContent>
-        </Dialog>
-
         {/* Site Settings — Super Admin only */}
         {isSuperAdmin && <SiteSettingsCard />}
 
-        {/* Quality Audit Card — Super Admin only */}
-        {isSuperAdmin && (
-          <Card className="border-warning/20 bg-warning/5">
-            <CardContent className="flex items-center justify-between p-4">
-              <div>
-                <h3 className="font-semibold flex items-center gap-2"><Search className="h-4 w-4 text-warning" /> Quality Audit</h3>
-                <p className="text-sm text-muted-foreground">Scan all MCQs &amp; OSCEs for missing explanations, short stems, and incomplete options.</p>
-              </div>
-              <Button variant="outline" onClick={runAudit} disabled={auditRunning}>{auditRunning && <Loader2 className="h-4 w-4 mr-2 animate-spin" />} Run Audit</Button>
-            </CardContent>
-          </Card>
-        )}
-
         <Tabs defaultValue="live">
-          <TabsList className={`grid w-full ${isSuperAdmin ? 'grid-cols-10' : 'grid-cols-6'}`}>
-            <TabsTrigger value="live" className="gap-2"><Radio className="h-4 w-4" /> Activity</TabsTrigger>
-            <TabsTrigger value="users" className="gap-2"><Users className="h-4 w-4" /> Users</TabsTrigger>
-            <TabsTrigger value="messages" className="gap-2"><MessageCircle className="h-4 w-4" /> Messages</TabsTrigger>
-            <TabsTrigger value="mcq" className="gap-2"><BookOpen className="h-4 w-4" /> MCQ</TabsTrigger>
-            <TabsTrigger value="osce" className="gap-2"><Activity className="h-4 w-4" /> OSCE</TabsTrigger>
-            <TabsTrigger value="strikes" className="gap-2"><ShieldAlert className="h-4 w-4" /> Strikes</TabsTrigger>
-            {isSuperAdmin && <TabsTrigger value="screenshots" className="gap-2"><Camera className="h-4 w-4" /> Screenshots</TabsTrigger>}
-            {isSuperAdmin && <TabsTrigger value="ai-core" className="gap-2"><Brain className="h-4 w-4" /> AI Core</TabsTrigger>}
-            {isSuperAdmin && <TabsTrigger value="system" className="gap-2"><Zap className="h-4 w-4" /> System</TabsTrigger>}
-            {isSuperAdmin && <TabsTrigger value="logs" className="gap-2"><FileText className="h-4 w-4" /> Logs</TabsTrigger>}
+          <TabsList className={`grid w-full ${isSuperAdmin ? 'grid-cols-9' : 'grid-cols-5'}`}>
+            <TabsTrigger value="live" className="gap-1 text-xs"><Radio className="h-3.5 w-3.5" /> Activity</TabsTrigger>
+            <TabsTrigger value="users" className="gap-1 text-xs"><Users className="h-3.5 w-3.5" /> Users</TabsTrigger>
+            <TabsTrigger value="messages" className="gap-1 text-xs"><MessageCircle className="h-3.5 w-3.5" /> Messages</TabsTrigger>
+            <TabsTrigger value="qns" className="gap-1 text-xs"><Database className="h-3.5 w-3.5" /> QNS</TabsTrigger>
+            <TabsTrigger value="strikes" className="gap-1 text-xs"><ShieldAlert className="h-3.5 w-3.5" /> Strikes</TabsTrigger>
+            {isSuperAdmin && <TabsTrigger value="screenshots" className="gap-1 text-xs"><Camera className="h-3.5 w-3.5" /> Screenshots</TabsTrigger>}
+            {isSuperAdmin && <TabsTrigger value="ai-core" className="gap-1 text-xs"><Brain className="h-3.5 w-3.5" /> AI Core</TabsTrigger>}
+            {isSuperAdmin && <TabsTrigger value="system" className="gap-1 text-xs"><Zap className="h-3.5 w-3.5" /> System</TabsTrigger>}
+            {isSuperAdmin && <TabsTrigger value="logs" className="gap-1 text-xs"><FileText className="h-3.5 w-3.5" /> Logs</TabsTrigger>}
           </TabsList>
           <TabsContent value="live"><LiveActivityTab /></TabsContent>
           <TabsContent value="users"><UsersTab currentUserEmail={currentUserEmail} /></TabsContent>
           <TabsContent value="messages"><MessagesTab /></TabsContent>
-          <TabsContent value="mcq"><MCQTab /></TabsContent>
-          <TabsContent value="osce"><OSCETab /></TabsContent>
+          <TabsContent value="qns"><QNSTab /></TabsContent>
           <TabsContent value="strikes"><PiracyStrikesTab /></TabsContent>
           {isSuperAdmin && <TabsContent value="screenshots"><ScreenshotAttemptsTab /></TabsContent>}
           {isSuperAdmin && <TabsContent value="ai-core"><AIControlTab /></TabsContent>}
