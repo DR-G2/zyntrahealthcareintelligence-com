@@ -36,3 +36,7 @@ export function useRegistrationOpen() {
 export function useOSCEEnabled() {
   return useSiteSetting('osce_enabled', false);
 }
+
+export function useMCQTempEnabled() {
+  return useSiteSetting('mcq_temp_enabled', false);
+}

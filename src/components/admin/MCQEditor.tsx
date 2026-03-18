@@ -109,6 +109,7 @@ export function MCQEditor({ question, subjects, onSave, onCancel, questionType =
         difficulty,
         correct_answer: correctAnswer,
         explanation: explanation || null,
+        question_type: question ? question.question_type : questionType,
         options: options.map(o => {
           if (o.image_url) return { text: o.text, image_url: o.image_url };
           return o.text;
