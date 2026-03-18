@@ -23,9 +23,10 @@ interface MCQEditorProps {
   subjects: { id: string; name: string }[];
   onSave: () => void;
   onCancel: () => void;
+  questionType?: 'mcq' | 'mcq_temp' | 'osce';
 }
 
-export function MCQEditor({ question, subjects, onSave, onCancel }: MCQEditorProps) {
+export function MCQEditor({ question, subjects, onSave, onCancel, questionType = 'mcq' }: MCQEditorProps) {
   const { toast } = useToast();
   const [saving, setSaving] = useState(false);
   const fileRefs = useRef<(HTMLInputElement | null)[]>([]);
@@ -108,6 +109,7 @@ export function MCQEditor({ question, subjects, onSave, onCancel }: MCQEditorPro
         difficulty,
         correct_answer: correctAnswer,
         explanation: explanation || null,
+        question_type: question ? question.question_type : questionType,
         options: options.map(o => {
           if (o.image_url) return { text: o.text, image_url: o.image_url };
           return o.text;

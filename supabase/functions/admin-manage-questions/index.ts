@@ -35,11 +35,16 @@ serve(async (req) => {
     const { action } = body;
 
     if (action === "list") {
-      const { data, error } = await supabase
+      const { question_type } = body;
+      let query = supabase
         .from("questions")
         .select("*")
         .order("created_at", { ascending: false })
         .limit(500);
+      if (question_type) {
+        query = query.eq("question_type", question_type);
+      }
+      const { data, error } = await query;
       if (error) throw error;
       return new Response(JSON.stringify({ questions: data }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
