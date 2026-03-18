@@ -23,6 +23,7 @@ interface MCQEditorProps {
   subjects: { id: string; name: string }[];
   onSave: () => void;
   onCancel: () => void;
+  questionType?: 'mcq' | 'mcq_temp' | 'osce';
 }
 
 export function MCQEditor({ question, subjects, onSave, onCancel }: MCQEditorProps) {
