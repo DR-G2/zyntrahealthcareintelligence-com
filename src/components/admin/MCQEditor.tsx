@@ -26,7 +26,7 @@ interface MCQEditorProps {
   questionType?: 'mcq' | 'mcq_temp' | 'osce';
 }
 
-export function MCQEditor({ question, subjects, onSave, onCancel }: MCQEditorProps) {
+export function MCQEditor({ question, subjects, onSave, onCancel, questionType = 'mcq' }: MCQEditorProps) {
   const { toast } = useToast();
   const [saving, setSaving] = useState(false);
   const fileRefs = useRef<(HTMLInputElement | null)[]>([]);
