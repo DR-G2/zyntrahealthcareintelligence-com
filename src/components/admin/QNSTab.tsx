@@ -17,18 +17,13 @@ import { MCQEditor } from './MCQEditor';
 import { SubjectManager } from './SubjectManager';
 
 const CATEGORIES = [
-  "Cardiology", "Respiratory", "Gastrointestinal", "Neurology", "Endocrinology",
-  "Renal", "Dermatology", "Psychiatry", "Paediatrics", "Obstetrics & Gynaecology",
-  "Emergency Medicine", "Infectious Diseases", "Population Health", "ENT",
-  "Haematology", "Musculoskeletal", "Surgery"
+  "Medicine", "Surgery", "OB&G", "Acute Medicine", "Population Health", "Basic Science"
 ];
 
 const DIFFICULTIES = ["easy", "moderate", "difficult"];
 
 const OSCE_SUBJECTS = [
-  "Cardiology", "Respiratory", "Gastroenterology", "Neurology", "Endocrinology",
-  "Nephrology", "Rheumatology", "Haematology", "Infectious Disease", "Dermatology",
-  "Psychiatry", "Obstetrics & Gynaecology", "Paediatrics", "Surgery"
+  "Medicine", "Surgery", "OB&G", "Acute Medicine", "Population Health", "Basic Science"
 ];
 
 // ─── Create-only MCQ sub-tab ─────────────────────────────────
