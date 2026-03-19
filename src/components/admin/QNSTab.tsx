@@ -35,6 +35,7 @@ function MCQCreateTab({ questionType }: { questionType: 'mcq' | 'mcq_temp' }) {
   const [importing, setImporting] = useState(false);
   const [jsonInput, setJsonInput] = useState("");
   const [fileName, setFileName] = useState<string | null>(null);
+  const [importProgress, setImportProgress] = useState<{ current: number; total: number; errors: string[] } | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -56,20 +57,47 @@ function MCQCreateTab({ questionType }: { questionType: 'mcq' | 'mcq_temp' }) {
 
   const importQuestions = async () => {
     setImporting(true);
+    const allErrors: string[] = [];
+    let totalImported = 0;
     try {
       const parsed = JSON.parse(jsonInput);
       const qs = Array.isArray(parsed) ? parsed : parsed.questions;
-      if (!Array.isArray(qs)) throw new Error("Expected JSON array");
-      // Inject question_type into each question
+      if (!Array.isArray(qs) || !qs.length) throw new Error("Expected non-empty JSON array");
+
+      // Auto-tag every question with the active tab's question_type
       const withType = qs.map(q => ({ ...q, question_type: questionType }));
-      const { data, error } = await supabase.functions.invoke('import-questions', { body: { questions: withType } });
-      if (error) throw error;
-      toast({ title: 'Imported', description: `${data.imported} questions as ${questionType.toUpperCase()}` });
-      setJsonInput("");
-      setFileName(null);
+      const BATCH_SIZE = 25;
+      const totalCount = withType.length;
+      setImportProgress({ current: 0, total: totalCount, errors: [] });
+
+      for (let i = 0; i < totalCount; i += BATCH_SIZE) {
+        const batch = withType.slice(i, i + BATCH_SIZE);
+        try {
+          const { data, error } = await supabase.functions.invoke('import-questions', { body: { questions: batch } });
+          if (error) throw error;
+          totalImported += data?.imported || 0;
+          if (data?.errors?.length) {
+            allErrors.push(...data.errors.map((e: string) => `Batch ${Math.floor(i / BATCH_SIZE) + 1}: ${e}`));
+          }
+        } catch (batchErr: any) {
+          allErrors.push(`Batch ${Math.floor(i / BATCH_SIZE) + 1}: ${batchErr.message}`);
+        }
+        setImportProgress({ current: Math.min(i + BATCH_SIZE, totalCount), total: totalCount, errors: [...allErrors] });
+      }
+
+      toast({
+        title: `Import Complete`,
+        description: `${totalImported}/${totalCount} questions imported as ${questionType.toUpperCase()}${allErrors.length ? ` · ${allErrors.length} errors` : ''}`,
+        variant: allErrors.length ? 'destructive' : 'default',
+      });
+      if (!allErrors.length) {
+        setJsonInput("");
+        setFileName(null);
+      }
     } catch (e: any) {
       toast({ title: 'Error', description: e.message, variant: 'destructive' });
     }
+    setTimeout(() => setImportProgress(null), 3000);
     setImporting(false);
   };
 
