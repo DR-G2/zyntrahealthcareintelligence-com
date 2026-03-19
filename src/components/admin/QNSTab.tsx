@@ -144,8 +144,26 @@ function MCQCreateTab({ questionType }: { questionType: 'mcq' | 'mcq_temp' }) {
             <Button variant="outline" onClick={() => fileInputRef.current?.click()}><FileUp className="h-4 w-4 mr-2" /> Choose File</Button>
             {fileName && <div className="flex items-center gap-2"><Badge variant="secondary">{fileName}</Badge><Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => { setJsonInput(""); setFileName(null); }}><X className="h-3 w-3" /></Button></div>}
           </div>
-          <Textarea placeholder="Or paste JSON array..." className="min-h-[120px] font-mono text-xs" value={jsonInput} onChange={e => setJsonInput(e.target.value)} />
-          <Button onClick={importQuestions} disabled={importing || !jsonInput.trim()}>{importing && <Loader2 className="h-4 w-4 mr-2 animate-spin" />} Import as {questionType === 'mcq_temp' ? 'MCQ TEMP' : 'MCQ'}</Button>
+          <Textarea placeholder="Or paste JSON array..." className="min-h-[120px] font-mono text-xs" value={jsonInput} onChange={e => setJsonInput(e.target.value)} disabled={importing} />
+
+          {importProgress && (
+            <div className="space-y-2">
+              <Progress value={(importProgress.current / importProgress.total) * 100} className="h-3" />
+              <p className="text-xs text-muted-foreground">
+                {importProgress.current} / {importProgress.total} questions · Importing as {questionType === 'mcq_temp' ? 'MCQ TEMP' : 'MCQ'}…
+              </p>
+              {importProgress.errors.length > 0 && (
+                <div className="max-h-24 overflow-y-auto rounded border border-destructive/30 bg-destructive/5 p-2 text-xs text-destructive">
+                  {importProgress.errors.map((e, i) => <p key={i}>⚠ {e}</p>)}
+                </div>
+              )}
+            </div>
+          )}
+
+          <Button onClick={importQuestions} disabled={importing || !jsonInput.trim()}>
+            {importing && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
+            {importing ? `Importing…` : `Import as ${questionType === 'mcq_temp' ? 'MCQ TEMP' : 'MCQ'}`}
+          </Button>
         </CardContent>
       </Card>
 
