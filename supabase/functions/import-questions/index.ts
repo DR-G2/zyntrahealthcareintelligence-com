@@ -46,6 +46,10 @@ serve(async (req) => {
           incorrect_answer_explanations: q.incorrect_answer_explanations || {},
           key_takeaways: q.key_takeaways || [],
           clinical_vignette: q.clinical_vignette ?? true,
+          question_type: q.question_type || "mcq",
+          subtopic: q.subtopic || null,
+          guideline_reference: q.guideline_reference || null,
+          system_category: q.system_category || null,
         };
       }).filter(Boolean);
 
