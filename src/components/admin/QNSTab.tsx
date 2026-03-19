@@ -23,9 +23,7 @@ const CATEGORIES = [
 const DIFFICULTIES = ["easy", "moderate", "difficult"];
 
 const OSCE_SUBJECTS = [
-  "Cardiology", "Respiratory", "Gastroenterology", "Neurology", "Endocrinology",
-  "Nephrology", "Rheumatology", "Haematology", "Infectious Disease", "Dermatology",
-  "Psychiatry", "Obstetrics & Gynaecology", "Paediatrics", "Surgery"
+  "Medicine", "Surgery", "OB&G", "Acute Medicine", "Population Health", "Basic Science"
 ];
 
 // ─── Create-only MCQ sub-tab ─────────────────────────────────
