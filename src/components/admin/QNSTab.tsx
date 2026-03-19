@@ -1,5 +1,6 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import { Progress } from '@/components/ui/progress';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -34,6 +35,7 @@ function MCQCreateTab({ questionType }: { questionType: 'mcq' | 'mcq_temp' }) {
   const [importing, setImporting] = useState(false);
   const [jsonInput, setJsonInput] = useState("");
   const [fileName, setFileName] = useState<string | null>(null);
+  const [importProgress, setImportProgress] = useState<{ current: number; total: number; errors: string[] } | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -55,20 +57,47 @@ function MCQCreateTab({ questionType }: { questionType: 'mcq' | 'mcq_temp' }) {
 
   const importQuestions = async () => {
     setImporting(true);
+    const allErrors: string[] = [];
+    let totalImported = 0;
     try {
       const parsed = JSON.parse(jsonInput);
       const qs = Array.isArray(parsed) ? parsed : parsed.questions;
-      if (!Array.isArray(qs)) throw new Error("Expected JSON array");
-      // Inject question_type into each question
+      if (!Array.isArray(qs) || !qs.length) throw new Error("Expected non-empty JSON array");
+
+      // Auto-tag every question with the active tab's question_type
       const withType = qs.map(q => ({ ...q, question_type: questionType }));
-      const { data, error } = await supabase.functions.invoke('import-questions', { body: { questions: withType } });
-      if (error) throw error;
-      toast({ title: 'Imported', description: `${data.imported} questions as ${questionType.toUpperCase()}` });
-      setJsonInput("");
-      setFileName(null);
+      const BATCH_SIZE = 25;
+      const totalCount = withType.length;
+      setImportProgress({ current: 0, total: totalCount, errors: [] });
+
+      for (let i = 0; i < totalCount; i += BATCH_SIZE) {
+        const batch = withType.slice(i, i + BATCH_SIZE);
+        try {
+          const { data, error } = await supabase.functions.invoke('import-questions', { body: { questions: batch } });
+          if (error) throw error;
+          totalImported += data?.imported || 0;
+          if (data?.errors?.length) {
+            allErrors.push(...data.errors.map((e: string) => `Batch ${Math.floor(i / BATCH_SIZE) + 1}: ${e}`));
+          }
+        } catch (batchErr: any) {
+          allErrors.push(`Batch ${Math.floor(i / BATCH_SIZE) + 1}: ${batchErr.message}`);
+        }
+        setImportProgress({ current: Math.min(i + BATCH_SIZE, totalCount), total: totalCount, errors: [...allErrors] });
+      }
+
+      toast({
+        title: `Import Complete`,
+        description: `${totalImported}/${totalCount} questions imported as ${questionType.toUpperCase()}${allErrors.length ? ` · ${allErrors.length} errors` : ''}`,
+        variant: allErrors.length ? 'destructive' : 'default',
+      });
+      if (!allErrors.length) {
+        setJsonInput("");
+        setFileName(null);
+      }
     } catch (e: any) {
       toast({ title: 'Error', description: e.message, variant: 'destructive' });
     }
+    setTimeout(() => setImportProgress(null), 3000);
     setImporting(false);
   };
 
@@ -115,8 +144,26 @@ function MCQCreateTab({ questionType }: { questionType: 'mcq' | 'mcq_temp' }) {
             <Button variant="outline" onClick={() => fileInputRef.current?.click()}><FileUp className="h-4 w-4 mr-2" /> Choose File</Button>
             {fileName && <div className="flex items-center gap-2"><Badge variant="secondary">{fileName}</Badge><Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => { setJsonInput(""); setFileName(null); }}><X className="h-3 w-3" /></Button></div>}
           </div>
-          <Textarea placeholder="Or paste JSON array..." className="min-h-[120px] font-mono text-xs" value={jsonInput} onChange={e => setJsonInput(e.target.value)} />
-          <Button onClick={importQuestions} disabled={importing || !jsonInput.trim()}>{importing && <Loader2 className="h-4 w-4 mr-2 animate-spin" />} Import as {questionType === 'mcq_temp' ? 'MCQ TEMP' : 'MCQ'}</Button>
+          <Textarea placeholder="Or paste JSON array..." className="min-h-[120px] font-mono text-xs" value={jsonInput} onChange={e => setJsonInput(e.target.value)} disabled={importing} />
+
+          {importProgress && (
+            <div className="space-y-2">
+              <Progress value={(importProgress.current / importProgress.total) * 100} className="h-3" />
+              <p className="text-xs text-muted-foreground">
+                {importProgress.current} / {importProgress.total} questions · Importing as {questionType === 'mcq_temp' ? 'MCQ TEMP' : 'MCQ'}…
+              </p>
+              {importProgress.errors.length > 0 && (
+                <div className="max-h-24 overflow-y-auto rounded border border-destructive/30 bg-destructive/5 p-2 text-xs text-destructive">
+                  {importProgress.errors.map((e, i) => <p key={i}>⚠ {e}</p>)}
+                </div>
+              )}
+            </div>
+          )}
+
+          <Button onClick={importQuestions} disabled={importing || !jsonInput.trim()}>
+            {importing && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
+            {importing ? `Importing…` : `Import as ${questionType === 'mcq_temp' ? 'MCQ TEMP' : 'MCQ'}`}
+          </Button>
         </CardContent>
       </Card>
 
