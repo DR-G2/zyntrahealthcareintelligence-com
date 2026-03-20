@@ -19,7 +19,7 @@ interface MCQOption {
 }
 
 interface MCQEditorProps {
-  question?: any; // existing question for edit mode
+  question?: any;
   subjects: { id: string; name: string }[];
   onSave: () => void;
   onCancel: () => void;
@@ -35,6 +35,7 @@ export function MCQEditor({ question, subjects, onSave, onCancel, questionType =
   const [questionText, setQuestionText] = useState('');
   const [category, setCategory] = useState('');
   const [subtopic, setSubtopic] = useState('');
+  const [customSubtopic, setCustomSubtopic] = useState('');
   const [difficulty, setDifficulty] = useState('moderate');
   const [correctAnswer, setCorrectAnswer] = useState('A');
   const [explanation, setExplanation] = useState('');
@@ -42,17 +43,47 @@ export function MCQEditor({ question, subjects, onSave, onCancel, questionType =
     OPTION_LABELS.map(() => ({ text: '' }))
   );
 
+  // Subtopics from DB
+  const [allSubtopics, setAllSubtopics] = useState<any[]>([]);
+  const [filteredSubtopics, setFilteredSubtopics] = useState<any[]>([]);
+
+  // Fetch all subtopics once
+  useEffect(() => {
+    supabase.functions.invoke('admin-manage-questions', {
+      body: { action: 'manage_subtopic', subtopic_action: 'list' }
+    }).then(({ data }) => {
+      setAllSubtopics(data?.subtopics || []);
+    });
+  }, []);
+
+  // Filter subtopics when category changes
+  useEffect(() => {
+    if (!category) {
+      setFilteredSubtopics([]);
+      return;
+    }
+    const matchedSubject = subjects.find(s => s.name === category);
+    if (matchedSubject) {
+      setFilteredSubtopics(allSubtopics.filter(st => st.subject_id === matchedSubject.id));
+    } else {
+      setFilteredSubtopics([]);
+    }
+  }, [category, allSubtopics, subjects]);
+
   // Populate for edit mode
   useEffect(() => {
     if (question) {
       setQuestionText(question.question_text || '');
       setCategory(question.category || '');
-      setSubtopic(question.subtopic || '');
       setDifficulty(question.difficulty || 'moderate');
       setCorrectAnswer(question.correct_answer || 'A');
       setExplanation(question.explanation || '');
 
-      // Parse options - handle both array of strings and array of objects
+      // Set subtopic - check if it matches a known subtopic or is custom
+      const existingSub = question.subtopic || '';
+      setSubtopic(existingSub);
+      setCustomSubtopic('');
+
       const opts = question.options || [];
       const parsed: MCQOption[] = OPTION_LABELS.map((_, i) => {
         const opt = opts[i];
@@ -63,6 +94,16 @@ export function MCQEditor({ question, subjects, onSave, onCancel, questionType =
       setOptions(parsed);
     }
   }, [question]);
+
+  // When category changes and we're not in edit-init, reset subtopic
+  const categoryRef = useRef(question?.category || '');
+  useEffect(() => {
+    if (categoryRef.current && categoryRef.current !== category) {
+      setSubtopic('');
+      setCustomSubtopic('');
+    }
+    categoryRef.current = category;
+  }, [category]);
 
   const updateOption = (index: number, field: keyof MCQOption, value: string) => {
     setOptions(prev => prev.map((o, i) => i === index ? { ...o, [field]: value } : o));
@@ -88,6 +129,8 @@ export function MCQEditor({ question, subjects, onSave, onCancel, questionType =
     updateOption(index, 'image_url', '');
   };
 
+  const resolvedSubtopic = subtopic === '__other__' ? customSubtopic : subtopic;
+
   const handleSave = async () => {
     if (!questionText.trim() || !category) {
       toast({ title: 'Missing fields', description: 'Question text and subject are required', variant: 'destructive' });
@@ -105,7 +148,7 @@ export function MCQEditor({ question, subjects, onSave, onCancel, questionType =
       const questionData = {
         question_text: questionText,
         category,
-        subtopic: subtopic || null,
+        subtopic: resolvedSubtopic || null,
         difficulty,
         correct_answer: correctAnswer,
         explanation: explanation || null,
@@ -117,14 +160,12 @@ export function MCQEditor({ question, subjects, onSave, onCancel, questionType =
       };
 
       if (question) {
-        // Update
         const { error } = await supabase.functions.invoke('admin-manage-questions', {
           body: { action: 'update', question_id: question.id, question_data: questionData }
         });
         if (error) throw error;
         toast({ title: 'Question updated' });
       } else {
-        // Create
         const { data, error } = await supabase.functions.invoke('admin-manage-questions', {
           body: { action: 'create', question_data: questionData }
         });
@@ -138,6 +179,12 @@ export function MCQEditor({ question, subjects, onSave, onCancel, questionType =
     }
     setSaving(false);
   };
+
+  // Check if the current subtopic value matches a known subtopic name
+  const isKnownSubtopic = filteredSubtopics.some(st => st.name === subtopic);
+  const selectValue = subtopic && !isKnownSubtopic && subtopic !== '__other__' && subtopic !== ''
+    ? '__other__'
+    : subtopic;
 
   return (
     <div className="space-y-6">
@@ -236,7 +283,31 @@ export function MCQEditor({ question, subjects, onSave, onCancel, questionType =
             </div>
             <div>
               <Label>Subtopic</Label>
-              <Input value={subtopic} onChange={e => setSubtopic(e.target.value)} placeholder="e.g. Acute MI" />
+              {filteredSubtopics.length > 0 ? (
+                <div className="space-y-2">
+                  <Select value={selectValue} onValueChange={(v) => {
+                    setSubtopic(v);
+                    if (v !== '__other__') setCustomSubtopic('');
+                  }}>
+                    <SelectTrigger><SelectValue placeholder="Select subtopic..." /></SelectTrigger>
+                    <SelectContent>
+                      {filteredSubtopics.map(st => (
+                        <SelectItem key={st.id} value={st.name}>{st.name}</SelectItem>
+                      ))}
+                      <SelectItem value="__other__">Other…</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  {(selectValue === '__other__') && (
+                    <Input
+                      placeholder="Type custom subtopic..."
+                      value={customSubtopic}
+                      onChange={e => setCustomSubtopic(e.target.value)}
+                    />
+                  )}
+                </div>
+              ) : (
+                <Input value={subtopic} onChange={e => setSubtopic(e.target.value)} placeholder="e.g. Acute MI" />
+              )}
             </div>
             <div>
               <Label>Difficulty</Label>
