@@ -113,7 +113,6 @@ serve(async (req) => {
       if (subject_action === "rename") {
         const { error } = await supabase.from("subjects").update({ name: new_name }).eq("id", subject_id);
         if (error) throw error;
-        // Also update questions with old category name
         if (old_name && new_name) {
           await supabase.from("questions").update({ category: new_name }).eq("category", old_name);
         }
@@ -133,6 +132,39 @@ serve(async (req) => {
       }
 
       throw new Error("Invalid subject_action");
+    }
+
+    // ─── Subtopic management ───
+    if (action === "manage_subtopic") {
+      const { subtopic_action, subtopic_id, subtopic_name, subject_id: st_subject_id, display_order: st_order } = body;
+
+      if (subtopic_action === "list") {
+        let query = supabase.from("subtopics").select("*").order("display_order");
+        if (st_subject_id) query = query.eq("subject_id", st_subject_id);
+        const { data, error } = await query;
+        if (error) throw error;
+        return new Response(JSON.stringify({ subtopics: data }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      }
+
+      if (subtopic_action === "add") {
+        const { error } = await supabase.from("subtopics").insert({ name: subtopic_name, subject_id: st_subject_id, display_order: st_order || 0 });
+        if (error) throw error;
+        return new Response(JSON.stringify({ success: true }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      }
+
+      if (subtopic_action === "rename") {
+        const { error } = await supabase.from("subtopics").update({ name: subtopic_name }).eq("id", subtopic_id);
+        if (error) throw error;
+        return new Response(JSON.stringify({ success: true }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      }
+
+      if (subtopic_action === "delete") {
+        const { error } = await supabase.from("subtopics").delete().eq("id", subtopic_id);
+        if (error) throw error;
+        return new Response(JSON.stringify({ success: true }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      }
+
+      throw new Error("Invalid subtopic_action");
     }
 
     throw new Error("Invalid action");
