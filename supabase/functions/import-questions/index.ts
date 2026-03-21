@@ -35,7 +35,7 @@ serve(async (req) => {
           options: Array.isArray(q.options) ? q.options : [],
           correct_answer: q.correct_answer,
           explanation: q.explanation || null,
-          category: q.category,
+          category: q.category || "Uncategorized",
           difficulty: q.difficulty || "medium",
           tags: q.tags || [],
           diagnosis_explanation: q.diagnosis_explanation || null,
