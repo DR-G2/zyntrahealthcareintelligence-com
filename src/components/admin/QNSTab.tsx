@@ -16,6 +16,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { Loader2, Sparkles, Upload, FileUp, X, Pencil, Trash2, Search, ChevronDown, FileText, Copy, ArrowRightLeft } from 'lucide-react';
 import { MCQEditor } from './MCQEditor';
 import { SubjectManager } from './SubjectManager';
+import { SubtopicManager } from './SubtopicManager';
 
 const CATEGORIES = [
   "Medicine", "Surgery", "OB&G", "Acute Medicine", "Population Health", "Basic Science"

@@ -26,7 +26,7 @@ serve(async (req) => {
     for (let i = 0; i < questions.length; i += 50) {
       const batch = questions.slice(i, i + 50);
       const rows = batch.map((q: any, idx: number) => {
-        if (!q.question_text || !q.options || !q.correct_answer || !q.category) {
+        if (!q.question_text || !q.options || !q.correct_answer) {
           errors.push(`Question ${i + idx}: missing required fields`);
           return null;
         }
