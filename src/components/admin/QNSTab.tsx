@@ -83,8 +83,42 @@ function MCQCreateTab({ questionType }: { questionType: 'mcq' | 'mcq_temp' }) {
       const qs = Array.isArray(parsed) ? parsed : parsed.questions;
       if (!Array.isArray(qs) || !qs.length) throw new Error("Expected non-empty JSON array");
 
-      // Auto-tag every question with the active tab's question_type
-      const withType = qs.map(q => ({ ...q, question_type: questionType }));
+      // Build flat lookup for auto-classification
+      const allSubtopicEntries: { subtopicName: string; subjectName: string }[] = [];
+      for (const [subjectName, sts] of Object.entries(subtopicMap)) {
+        for (const st of sts) {
+          allSubtopicEntries.push({ subtopicName: st.name, subjectName });
+        }
+      }
+      const subjectNames = subjects.map(s => s.name);
+
+      // Auto-tag every question with the active tab's question_type + auto-classify
+      const withType = qs.map(q => {
+        const tagged = { ...q, question_type: questionType };
+        const text = (q.question_text || '').toLowerCase();
+
+        // Auto-classify category if missing
+        if (!tagged.category) {
+          // Try subtopic match first (more specific)
+          const stMatch = allSubtopicEntries.find(e => text.includes(e.subtopicName.toLowerCase()));
+          if (stMatch) {
+            tagged.category = stMatch.subjectName;
+            if (!tagged.subtopic) tagged.subtopic = stMatch.subtopicName;
+          } else {
+            // Try subject name match
+            const subMatch = subjectNames.find(s => text.includes(s.toLowerCase()));
+            tagged.category = subMatch || 'Uncategorized';
+          }
+        }
+
+        // Auto-classify subtopic if missing but category exists
+        if (!tagged.subtopic && tagged.category && subtopicMap[tagged.category]) {
+          const stMatch = subtopicMap[tagged.category].find(st => text.includes(st.name.toLowerCase()));
+          if (stMatch) tagged.subtopic = stMatch.name;
+        }
+
+        return tagged;
+      });
       const BATCH_SIZE = 25;
       const totalCount = withType.length;
       setImportProgress({ current: 0, total: totalCount, errors: [] });
