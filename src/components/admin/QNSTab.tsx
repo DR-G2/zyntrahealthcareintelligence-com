@@ -39,13 +39,31 @@ function MCQCreateTab({ questionType }: { questionType: 'mcq' | 'mcq_temp' }) {
   const [importProgress, setImportProgress] = useState<{ current: number; total: number; errors: string[] } | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    supabase.functions.invoke('admin-manage-questions', {
+  const [subtopicMap, setSubtopicMap] = useState<Record<string, { name: string; subjectName: string }[]>>({});
+
+  const refreshSubjects = useCallback(async () => {
+    const { data } = await supabase.functions.invoke('admin-manage-questions', {
       body: { action: 'manage_subject', subject_action: 'list' }
-    }).then(({ data }) => {
-      setSubjects(data?.subjects || CATEGORIES.map((c, i) => ({ id: c, name: c, display_order: i })));
     });
+    const subs = data?.subjects || CATEGORIES.map((c, i) => ({ id: c, name: c, display_order: i }));
+    setSubjects(subs);
+    // Also fetch all subtopics for auto-classification
+    const { data: stData } = await supabase.functions.invoke('admin-manage-questions', {
+      body: { action: 'manage_subtopic', subtopic_action: 'list' }
+    });
+    const allSt = stData?.subtopics || [];
+    const map: Record<string, { name: string; subjectName: string }[]> = {};
+    for (const st of allSt) {
+      const parentSubject = subs.find((s: any) => s.id === st.subject_id);
+      if (parentSubject) {
+        if (!map[parentSubject.name]) map[parentSubject.name] = [];
+        map[parentSubject.name].push({ name: st.name, subjectName: parentSubject.name });
+      }
+    }
+    setSubtopicMap(map);
   }, []);
+
+  useEffect(() => { refreshSubjects(); }, [refreshSubjects]);
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
