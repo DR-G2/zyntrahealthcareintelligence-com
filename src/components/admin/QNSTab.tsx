@@ -148,11 +148,12 @@ function MCQCreateTab({ questionType }: { questionType: 'mcq' | 'mcq_temp' }) {
         </Button>
       </div>
 
-      {questionType === 'mcq' && <SubjectManager subjects={subjects} onRefresh={() => {
-        supabase.functions.invoke('admin-manage-questions', {
-          body: { action: 'manage_subject', subject_action: 'list' }
-        }).then(({ data }) => setSubjects(data?.subjects || []));
-      }} />}
+      {questionType === 'mcq' && (
+        <>
+          <SubjectManager subjects={subjects} onRefresh={refreshSubjects} />
+          <SubtopicManager subjects={subjects} onRefresh={refreshSubjects} />
+        </>
+      )}
 
       {/* Import */}
       <Card>
