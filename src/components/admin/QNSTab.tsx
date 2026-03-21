@@ -188,6 +188,46 @@ function MCQCreateTab({ questionType }: { questionType: 'mcq' | 'mcq_temp' }) {
         <>
           <SubjectManager subjects={subjects} onRefresh={refreshSubjects} />
           <SubtopicManager subjects={subjects} onRefresh={refreshSubjects} />
+          <Card>
+            <CardContent className="p-4 flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium">Auto-Classify Existing Questions</p>
+                <p className="text-xs text-muted-foreground">Scan all questions and assign category/subtopic based on keyword matching</p>
+              </div>
+              <div className="flex items-center gap-3">
+                {classifyResult && (
+                  <Badge variant="outline" className="text-xs">
+                    {classifyResult.category_updated} categories · {classifyResult.subtopic_updated} subtopics updated
+                  </Badge>
+                )}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  disabled={classifying}
+                  onClick={async () => {
+                    setClassifying(true);
+                    setClassifyResult(null);
+                    try {
+                      const { data, error } = await supabase.functions.invoke('auto-classify-questions', { body: {} });
+                      if (error) throw error;
+                      if (data?.error) throw new Error(data.error);
+                      setClassifyResult(data);
+                      toast({
+                        title: 'Classification Complete',
+                        description: `${data.category_updated} categories, ${data.subtopic_updated} subtopics updated out of ${data.total} questions`,
+                      });
+                    } catch (e: any) {
+                      toast({ title: 'Error', description: e.message, variant: 'destructive' });
+                    }
+                    setClassifying(false);
+                  }}
+                >
+                  {classifying ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Sparkles className="h-4 w-4 mr-2" />}
+                  {classifying ? 'Classifying…' : 'Re-classify All'}
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
         </>
       )}
 
