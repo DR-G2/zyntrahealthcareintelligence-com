@@ -26,7 +26,7 @@ serve(async (req) => {
     for (let i = 0; i < questions.length; i += 50) {
       const batch = questions.slice(i, i + 50);
       const rows = batch.map((q: any, idx: number) => {
-        if (!q.question_text || !q.options || !q.correct_answer || !q.category) {
+        if (!q.question_text || !q.options || !q.correct_answer) {
           errors.push(`Question ${i + idx}: missing required fields`);
           return null;
         }
@@ -35,7 +35,7 @@ serve(async (req) => {
           options: Array.isArray(q.options) ? q.options : [],
           correct_answer: q.correct_answer,
           explanation: q.explanation || null,
-          category: q.category,
+          category: q.category || "Uncategorized",
           difficulty: q.difficulty || "medium",
           tags: q.tags || [],
           diagnosis_explanation: q.diagnosis_explanation || null,

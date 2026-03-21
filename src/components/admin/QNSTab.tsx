@@ -16,6 +16,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { Loader2, Sparkles, Upload, FileUp, X, Pencil, Trash2, Search, ChevronDown, FileText, Copy, ArrowRightLeft } from 'lucide-react';
 import { MCQEditor } from './MCQEditor';
 import { SubjectManager } from './SubjectManager';
+import { SubtopicManager } from './SubtopicManager';
 
 const CATEGORIES = [
   "Medicine", "Surgery", "OB&G", "Acute Medicine", "Population Health", "Basic Science"
@@ -38,13 +39,31 @@ function MCQCreateTab({ questionType }: { questionType: 'mcq' | 'mcq_temp' }) {
   const [importProgress, setImportProgress] = useState<{ current: number; total: number; errors: string[] } | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    supabase.functions.invoke('admin-manage-questions', {
+  const [subtopicMap, setSubtopicMap] = useState<Record<string, { name: string; subjectName: string }[]>>({});
+
+  const refreshSubjects = useCallback(async () => {
+    const { data } = await supabase.functions.invoke('admin-manage-questions', {
       body: { action: 'manage_subject', subject_action: 'list' }
-    }).then(({ data }) => {
-      setSubjects(data?.subjects || CATEGORIES.map((c, i) => ({ id: c, name: c, display_order: i })));
     });
+    const subs = data?.subjects || CATEGORIES.map((c, i) => ({ id: c, name: c, display_order: i }));
+    setSubjects(subs);
+    // Also fetch all subtopics for auto-classification
+    const { data: stData } = await supabase.functions.invoke('admin-manage-questions', {
+      body: { action: 'manage_subtopic', subtopic_action: 'list' }
+    });
+    const allSt = stData?.subtopics || [];
+    const map: Record<string, { name: string; subjectName: string }[]> = {};
+    for (const st of allSt) {
+      const parentSubject = subs.find((s: any) => s.id === st.subject_id);
+      if (parentSubject) {
+        if (!map[parentSubject.name]) map[parentSubject.name] = [];
+        map[parentSubject.name].push({ name: st.name, subjectName: parentSubject.name });
+      }
+    }
+    setSubtopicMap(map);
   }, []);
+
+  useEffect(() => { refreshSubjects(); }, [refreshSubjects]);
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -64,8 +83,42 @@ function MCQCreateTab({ questionType }: { questionType: 'mcq' | 'mcq_temp' }) {
       const qs = Array.isArray(parsed) ? parsed : parsed.questions;
       if (!Array.isArray(qs) || !qs.length) throw new Error("Expected non-empty JSON array");
 
-      // Auto-tag every question with the active tab's question_type
-      const withType = qs.map(q => ({ ...q, question_type: questionType }));
+      // Build flat lookup for auto-classification
+      const allSubtopicEntries: { subtopicName: string; subjectName: string }[] = [];
+      for (const [subjectName, sts] of Object.entries(subtopicMap)) {
+        for (const st of sts) {
+          allSubtopicEntries.push({ subtopicName: st.name, subjectName });
+        }
+      }
+      const subjectNames = subjects.map(s => s.name);
+
+      // Auto-tag every question with the active tab's question_type + auto-classify
+      const withType = qs.map(q => {
+        const tagged = { ...q, question_type: questionType };
+        const text = (q.question_text || '').toLowerCase();
+
+        // Auto-classify category if missing
+        if (!tagged.category) {
+          // Try subtopic match first (more specific)
+          const stMatch = allSubtopicEntries.find(e => text.includes(e.subtopicName.toLowerCase()));
+          if (stMatch) {
+            tagged.category = stMatch.subjectName;
+            if (!tagged.subtopic) tagged.subtopic = stMatch.subtopicName;
+          } else {
+            // Try subject name match
+            const subMatch = subjectNames.find(s => text.includes(s.toLowerCase()));
+            tagged.category = subMatch || 'Uncategorized';
+          }
+        }
+
+        // Auto-classify subtopic if missing but category exists
+        if (!tagged.subtopic && tagged.category && subtopicMap[tagged.category]) {
+          const stMatch = subtopicMap[tagged.category].find(st => text.includes(st.name.toLowerCase()));
+          if (stMatch) tagged.subtopic = stMatch.name;
+        }
+
+        return tagged;
+      });
       const BATCH_SIZE = 25;
       const totalCount = withType.length;
       setImportProgress({ current: 0, total: totalCount, errors: [] });
@@ -129,11 +182,12 @@ function MCQCreateTab({ questionType }: { questionType: 'mcq' | 'mcq_temp' }) {
         </Button>
       </div>
 
-      {questionType === 'mcq' && <SubjectManager subjects={subjects} onRefresh={() => {
-        supabase.functions.invoke('admin-manage-questions', {
-          body: { action: 'manage_subject', subject_action: 'list' }
-        }).then(({ data }) => setSubjects(data?.subjects || []));
-      }} />}
+      {questionType === 'mcq' && (
+        <>
+          <SubjectManager subjects={subjects} onRefresh={refreshSubjects} />
+          <SubtopicManager subjects={subjects} onRefresh={refreshSubjects} />
+        </>
+      )}
 
       {/* Import */}
       <Card>
