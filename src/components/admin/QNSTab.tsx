@@ -38,6 +38,7 @@ function MCQCreateTab({ questionType }: { questionType: 'mcq' | 'mcq_temp' }) {
   const [classifyResult, setClassifyResult] = useState<any>(null);
   const [jsonInput, setJsonInput] = useState("");
   const [fileName, setFileName] = useState<string | null>(null);
+  const [importProgress, setImportProgress] = useState<{ current: number; total: number; errors: string[] } | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [subtopicMap, setSubtopicMap] = useState<Record<string, { name: string; subjectName: string }[]>>({});
