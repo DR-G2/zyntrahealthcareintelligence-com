@@ -21,6 +21,7 @@ import { QuestionExplanation } from '@/components/practice/QuestionExplanation';
 import { Progress } from '@/components/ui/progress';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { buildPracticeTopicResolver, normalizeTopicLabel, resolvePracticeQuestionPlacement } from '@/lib/practice-topic-mapping';
 
 interface Question {
   id: string;
@@ -41,6 +42,7 @@ interface Question {
 interface SessionConfig {
   mode: 'recharge' | 'no-change';
   topics: string[];
+  subtopics: string[];
   questionCount: number;
 }
 
@@ -58,6 +60,37 @@ interface DBSubtopic {
   name: string;
   subject_id: string;
   display_order: number | null;
+}
+
+interface QuestionTopicMeta {
+  id: string;
+  category: string;
+  subtopic: string | null;
+  question_text: string;
+}
+
+const QUESTION_META_PAGE_SIZE = 1000;
+
+async function fetchAllQuestionTopicMeta(): Promise<QuestionTopicMeta[]> {
+  const rows: QuestionTopicMeta[] = [];
+  let from = 0;
+
+  while (true) {
+    const { data, error } = await supabase
+      .from('questions')
+      .select('id, category, subtopic, question_text')
+      .range(from, from + QUESTION_META_PAGE_SIZE - 1);
+
+    if (error) throw error;
+    if (!data?.length) break;
+
+    rows.push(...(data as QuestionTopicMeta[]));
+
+    if (data.length < QUESTION_META_PAGE_SIZE) break;
+    from += QUESTION_META_PAGE_SIZE;
+  }
+
+  return rows;
 }
 
 // ─── Setup Screen ───────────────────────────────────────────────
@@ -78,35 +111,46 @@ function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConf
 
   useEffect(() => {
     const fetchAll = async () => {
-      // Fetch subjects, subtopics, and category counts in parallel
-      const [subjectsRes, subtopicsRes, questionsRes] = await Promise.all([
-        supabase.from('subjects').select('id, name, display_order').order('display_order'),
-        supabase.from('subtopics').select('id, name, subject_id, display_order').order('display_order'),
-        supabase.from('questions').select('category, subtopic'),
-      ]);
+      try {
+        const [subjectsRes, subtopicsRes, questionMeta] = await Promise.all([
+          supabase.from('subjects').select('id, name, display_order').order('display_order'),
+          supabase.from('subtopics').select('id, name, subject_id, display_order').order('display_order'),
+          fetchAllQuestionTopicMeta(),
+        ]);
 
-      const subjects = (subjectsRes.data || []) as DBSubject[];
-      const subtopics = (subtopicsRes.data || []) as DBSubtopic[];
-      setDbSubjects(subjects);
-      setDbSubtopics(subtopics);
+        if (subjectsRes.error) throw subjectsRes.error;
+        if (subtopicsRes.error) throw subtopicsRes.error;
 
-      if (questionsRes.data) {
+        const subjects = (subjectsRes.data || []) as DBSubject[];
+        const subtopics = (subtopicsRes.data || []) as DBSubtopic[];
+        const resolver = buildPracticeTopicResolver(subjects, subtopics);
         const catCounts: Record<string, number> = {};
         const stCounts: Record<string, number> = {};
-        questionsRes.data.forEach((d: any) => {
-          catCounts[d.category] = (catCounts[d.category] || 0) + 1;
-          if (d.subtopic) {
-            stCounts[d.subtopic] = (stCounts[d.subtopic] || 0) + 1;
+
+        questionMeta.forEach((question) => {
+          const placement = resolvePracticeQuestionPlacement(question, resolver);
+
+          if (placement.subjectName) {
+            catCounts[placement.subjectName] = (catCounts[placement.subjectName] || 0) + 1;
+          }
+
+          if (placement.subtopicName) {
+            stCounts[placement.subtopicName] = (stCounts[placement.subtopicName] || 0) + 1;
           }
         });
+
+        setDbSubjects(subjects);
+        setDbSubtopics(subtopics);
         setCategoryCounts(catCounts);
         setSubtopicCounts(stCounts);
-
-        // Default: select all subjects
-        setSelectedSubjects(new Set(subjects.map(s => s.name)));
+        setSelectedSubjects(new Set(subjects.map((subject) => subject.name)));
+      } catch (error: any) {
+        console.error('Failed to load practice filters', error);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
+
     fetchAll();
   }, []);
 
@@ -121,16 +165,7 @@ function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConf
     return map;
   }, [dbSubjects, dbSubtopics]);
 
-  // Count questions per subject
-  const subjectCounts = useMemo(() => {
-    const counts: Record<string, number> = {};
-    dbSubjects.forEach(s => {
-      counts[s.name] = Object.entries(categoryCounts)
-        .filter(([cat]) => cat.toLowerCase() === s.name.toLowerCase())
-        .reduce((sum, [, count]) => sum + count, 0);
-    });
-    return counts;
-  }, [categoryCounts, dbSubjects]);
+  const subjectCounts = categoryCounts;
 
   const toggleExpand = (item: string) => {
     setExpandedItems(prev => {
@@ -181,13 +216,6 @@ function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConf
   const clearAll = () => {
     setSelectedSubjects(new Set());
     setSelectedSubtopics(new Set());
-  };
-
-  const getMatchingCategories = (): string[] => {
-    if (selectedSubjects.size === 0) return [];
-    return Object.keys(categoryCounts).filter(cat =>
-      Array.from(selectedSubjects).some(sub => cat.toLowerCase() === sub.toLowerCase())
-    );
   };
 
   const handleQuestionCountChange = (value: string) => {
@@ -364,7 +392,6 @@ function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConf
               .map((subject) => {
                 const subtopics = subjectSubtopicsMap[subject.id] || [];
                 const isSelected = selectedSubjects.has(subject.name);
-                const hasSubtopicSelected = subtopics.some(st => selectedSubtopics.has(st.name));
                 const searchMatch = searchQuery.trim() && subtopics.some(st => st.name.toLowerCase().includes(searchQuery.toLowerCase()));
 
                 return (
@@ -435,10 +462,10 @@ function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConf
           size="lg"
           disabled={!canStart}
           onClick={() => {
-            const topics = getMatchingCategories().length > 0 ? getMatchingCategories() : Object.keys(categoryCounts);
             onStart({
               mode,
-              topics,
+              topics: Array.from(selectedSubjects),
+              subtopics: Array.from(selectedSubtopics),
               questionCount,
             });
           }}
@@ -569,14 +596,38 @@ function DrillSession({
       }
 
       // Normal fetch
-      const { data } = await supabase
-        .from('questions')
-        .select('id, question_text, options, correct_answer, explanation, category, diagnosis_explanation, first_line_investigation, gold_standard_investigation, best_treatment, differential_diagnoses, incorrect_answer_explanations, key_takeaways')
-        .in('category', config.topics)
-        .limit(200);
-      if (data) {
-        const shuffled = data.sort(() => Math.random() - 0.5).slice(0, config.questionCount);
-        setQuestions(shuffled as Question[]);
+      const [subjectsRes, subtopicsRes, questionMeta] = await Promise.all([
+        supabase.from('subjects').select('id, name'),
+        supabase.from('subtopics').select('name, subject_id'),
+        fetchAllQuestionTopicMeta(),
+      ]);
+
+      if (subjectsRes.error) throw subjectsRes.error;
+      if (subtopicsRes.error) throw subtopicsRes.error;
+
+      const resolver = buildPracticeTopicResolver(subjectsRes.data || [], subtopicsRes.data || []);
+      const selectedSubjects = new Set(config.topics.map((topic) => normalizeTopicLabel(topic)));
+      const matchingIds = questionMeta
+        .filter((question) => {
+          const placement = resolvePracticeQuestionPlacement(question, resolver);
+          return placement.subjectName && selectedSubjects.has(normalizeTopicLabel(placement.subjectName));
+        })
+        .map((question) => question.id)
+        .sort(() => Math.random() - 0.5)
+        .slice(0, config.questionCount);
+
+      if (matchingIds.length > 0) {
+        const { data } = await supabase
+          .from('questions')
+          .select('id, question_text, options, correct_answer, explanation, category, diagnosis_explanation, first_line_investigation, gold_standard_investigation, best_treatment, differential_diagnoses, incorrect_answer_explanations, key_takeaways')
+          .in('id', matchingIds);
+
+        if (data) {
+          const ordered = matchingIds
+            .map((id) => data.find((question) => question.id === id))
+            .filter(Boolean) as Question[];
+          setQuestions(ordered);
+        }
       }
       setLoading(false);
     };
@@ -1054,7 +1105,7 @@ export default function Practice() {
   const resumeSessionId = searchParams.get('resume');
   const [phase, setPhase] = useState<'setup' | 'drill' | 'results' | 'history'>(resumeSessionId ? 'drill' : 'setup');
   const [config, setConfig] = useState<SessionConfig | null>(
-    resumeSessionId ? { mode: 'recharge', topics: [], questionCount: 50 } : null
+    resumeSessionId ? { mode: 'recharge', topics: [], subtopics: [], questionCount: 50 } : null
   );
   const [resultData, setResultData] = useState<{
     questions: Question[];
