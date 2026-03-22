@@ -44,60 +44,93 @@ interface SessionConfig {
   questionCount: number;
 }
 
-// ─── Filter Data Structures (imported from shared) ──────────────
-import { SYSTEMS, SUBJECTS, SYSTEM_SUBJECTS, SUBJECT_SYSTEMS, getAllPairs, type FilterMode } from '@/lib/filter-data';
+// ─── Filter types ───────────────────────────────────────────────
+type FilterMode = 'subject';
+
+interface DBSubject {
+  id: string;
+  name: string;
+  display_order: number | null;
+}
+
+interface DBSubtopic {
+  id: string;
+  name: string;
+  subject_id: string;
+  display_order: number | null;
+}
 
 // ─── Setup Screen ───────────────────────────────────────────────
 
 function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConfig) => void; onShowHistory?: () => void }) {
   const gate = useFeatureGate();
   const [mode, setMode] = useState<'recharge' | 'no-change'>('recharge');
-  const [filterMode, setFilterMode] = useState<FilterMode>('system');
-  const [selectedPairs, setSelectedPairs] = useState<Set<string>>(new Set());
+  const [selectedSubjects, setSelectedSubjects] = useState<Set<string>>(new Set());
+  const [selectedSubtopics, setSelectedSubtopics] = useState<Set<string>>(new Set());
   const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
   const [questionCount, setQuestionCount] = useState(25);
   const [searchQuery, setSearchQuery] = useState('');
   const [categoryCounts, setCategoryCounts] = useState<Record<string, number>>({});
+  const [subtopicCounts, setSubtopicCounts] = useState<Record<string, number>>({});
+  const [dbSubjects, setDbSubjects] = useState<DBSubject[]>([]);
+  const [dbSubtopics, setDbSubtopics] = useState<DBSubtopic[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchCategories = async () => {
-      const { data } = await supabase.from('questions').select('category');
-      if (data) {
-        const counts: Record<string, number> = {};
-        data.forEach((d) => {
-          counts[d.category] = (counts[d.category] || 0) + 1;
+    const fetchAll = async () => {
+      // Fetch subjects, subtopics, and category counts in parallel
+      const [subjectsRes, subtopicsRes, questionsRes] = await Promise.all([
+        supabase.from('subjects').select('id, name, display_order').order('display_order'),
+        supabase.from('subtopics').select('id, name, subject_id, display_order').order('display_order'),
+        supabase.from('questions').select('category, subtopic'),
+      ]);
+
+      const subjects = (subjectsRes.data || []) as DBSubject[];
+      const subtopics = (subtopicsRes.data || []) as DBSubtopic[];
+      setDbSubjects(subjects);
+      setDbSubtopics(subtopics);
+
+      if (questionsRes.data) {
+        const catCounts: Record<string, number> = {};
+        const stCounts: Record<string, number> = {};
+        questionsRes.data.forEach((d: any) => {
+          catCounts[d.category] = (catCounts[d.category] || 0) + 1;
+          if (d.subtopic) {
+            stCounts[d.subtopic] = (stCounts[d.subtopic] || 0) + 1;
+          }
         });
-        setCategoryCounts(counts);
-        
-        // Default: select all available pairs
-        setSelectedPairs(getAllPairs());
+        setCategoryCounts(catCounts);
+        setSubtopicCounts(stCounts);
+
+        // Default: select all subjects
+        setSelectedSubjects(new Set(subjects.map(s => s.name)));
       }
       setLoading(false);
     };
-    fetchCategories();
+    fetchAll();
   }, []);
 
-  // Calculate question counts per system/subject
-  const systemCounts = useMemo(() => {
-    const counts: Record<string, number> = {};
-    SYSTEMS.forEach(system => {
-      counts[system] = Object.entries(categoryCounts)
-        .filter(([cat]) => cat.toLowerCase().includes(system.toLowerCase()))
-        .reduce((sum, [, count]) => sum + count, 0);
+  // Build subject → subtopics map
+  const subjectSubtopicsMap = useMemo(() => {
+    const map: Record<string, DBSubtopic[]> = {};
+    dbSubjects.forEach(s => {
+      map[s.id] = dbSubtopics
+        .filter(st => st.subject_id === s.id)
+        .sort((a, b) => (a.display_order || 0) - (b.display_order || 0));
     });
-    return counts;
-  }, [categoryCounts]);
+    return map;
+  }, [dbSubjects, dbSubtopics]);
 
+  // Count questions per subject
   const subjectCounts = useMemo(() => {
     const counts: Record<string, number> = {};
-    SUBJECTS.forEach(subject => {
-      counts[subject] = Object.entries(categoryCounts)
-        .filter(([cat]) => cat.toLowerCase().includes(subject.toLowerCase()))
+    dbSubjects.forEach(s => {
+      counts[s.name] = Object.entries(categoryCounts)
+        .filter(([cat]) => cat.toLowerCase() === s.name.toLowerCase())
         .reduce((sum, [, count]) => sum + count, 0);
     });
     return counts;
-  }, [categoryCounts]);
+  }, [categoryCounts, dbSubjects]);
 
   const toggleExpand = (item: string) => {
     setExpandedItems(prev => {
@@ -108,71 +141,53 @@ function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConf
     });
   };
 
-  const togglePair = (system: string, subject: string) => {
-    const key = `${system}:${subject}`;
-    setSelectedPairs(prev => {
+  const toggleSubject = (subjectName: string, subjectId: string) => {
+    const subtopicsForSubject = subjectSubtopicsMap[subjectId] || [];
+    setSelectedSubjects(prev => {
       const next = new Set(prev);
-      if (next.has(key)) next.delete(key);
-      else next.add(key);
+      if (next.has(subjectName)) {
+        next.delete(subjectName);
+        // Also deselect all subtopics for this subject
+        setSelectedSubtopics(prev2 => {
+          const next2 = new Set(prev2);
+          subtopicsForSubject.forEach(st => next2.delete(st.name));
+          return next2;
+        });
+      } else {
+        next.add(subjectName);
+      }
       return next;
     });
   };
 
-  const toggleSystem = (system: string) => {
-    const subjects = SYSTEM_SUBJECTS[system] || [];
-    const allSelected = subjects.every(sub => selectedPairs.has(`${system}:${sub}`));
-    
-    setSelectedPairs(prev => {
+  const toggleSubtopic = (subtopicName: string, parentSubjectName: string) => {
+    setSelectedSubtopics(prev => {
       const next = new Set(prev);
-      subjects.forEach(sub => {
-        const key = `${system}:${sub}`;
-        if (allSelected) next.delete(key);
-        else next.add(key);
-      });
+      if (next.has(subtopicName)) next.delete(subtopicName);
+      else next.add(subtopicName);
       return next;
     });
-  };
-
-  const toggleSubject = (subject: string) => {
-    const systems = SUBJECT_SYSTEMS[subject] || [];
-    const allSelected = systems.every(sys => selectedPairs.has(`${sys}:${subject}`));
-    
-    setSelectedPairs(prev => {
-      const next = new Set(prev);
-      systems.forEach(sys => {
-        const key = `${sys}:${subject}`;
-        if (allSelected) next.delete(key);
-        else next.add(key);
-      });
-      return next;
-    });
+    // Ensure parent subject is selected
+    if (!selectedSubjects.has(parentSubjectName)) {
+      setSelectedSubjects(prev => new Set(prev).add(parentSubjectName));
+    }
   };
 
   const selectAll = () => {
-    setSelectedPairs(getAllPairs());
+    setSelectedSubjects(new Set(dbSubjects.map(s => s.name)));
+    setSelectedSubtopics(new Set());
   };
 
   const clearAll = () => {
-    setSelectedPairs(new Set());
+    setSelectedSubjects(new Set());
+    setSelectedSubtopics(new Set());
   };
 
   const getMatchingCategories = (): string[] => {
-    if (selectedPairs.size === 0) return [];
-    
-    const selectedSystems = new Set<string>();
-    const selectedSubjects = new Set<string>();
-    
-    selectedPairs.forEach(pair => {
-      const [system, subject] = pair.split(':');
-      selectedSystems.add(system);
-      selectedSubjects.add(subject);
-    });
-
-    return Object.keys(categoryCounts).filter(cat => {
-      const catLower = cat.toLowerCase();
-      return Array.from(selectedSystems).some(sys => catLower.includes(sys.toLowerCase())) ||
-             Array.from(selectedSubjects).some(sub => catLower.includes(sub.toLowerCase()));
-    });
+    if (selectedSubjects.size === 0) return [];
+    return Object.keys(categoryCounts).filter(cat =>
+      Array.from(selectedSubjects).some(sub => cat.toLowerCase() === sub.toLowerCase())
+    );
   };
 
   const handleQuestionCountChange = (value: string) => {
@@ -188,7 +203,7 @@ function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConf
   const decrementCount = () => setQuestionCount(prev => Math.max(1, prev - 1));
 
   const quickPresets = [10, 20, 40, 60, 100];
-  const canStart = selectedPairs.size > 0;
+  const canStart = selectedSubjects.size > 0;
 
   if (loading) {
     return (
@@ -257,13 +272,13 @@ function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConf
               )}
             >
               <div className="flex items-center gap-3 mb-2">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-chart-4/10 text-chart-4">
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-chart-1/10 text-chart-1">
                   <Lock className="h-5 w-5" />
                 </div>
                 <span className="font-display font-semibold">No Change</span>
               </div>
               <p className="text-sm text-muted-foreground">
-                Once you select an answer, it locks immediately. No going back.
+                Once you select an answer, it's locked. No going back.
               </p>
             </button>
           </div>
@@ -273,7 +288,6 @@ function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConf
         <div className="space-y-3">
           <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Questions</h2>
           
-          {/* Quick Presets */}
           <div className="flex flex-wrap gap-2">
             {quickPresets.map((preset) => (
               <Button
@@ -288,14 +302,8 @@ function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConf
             ))}
           </div>
           
-          {/* Stepper Input */}
           <div className="flex items-center gap-3">
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={decrementCount}
-              disabled={questionCount <= 1}
-            >
+            <Button variant="outline" size="icon" onClick={decrementCount} disabled={questionCount <= 1}>
               <Minus className="h-4 w-4" />
             </Button>
             <Input
@@ -306,59 +314,29 @@ function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConf
               onChange={(e) => handleQuestionCountChange(e.target.value)}
               className="w-20 text-center font-mono text-lg"
             />
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={incrementCount}
-              disabled={questionCount >= 500}
-            >
+            <Button variant="outline" size="icon" onClick={incrementCount} disabled={questionCount >= 500}>
               <Plus className="h-4 w-4" />
             </Button>
           </div>
           
-          {/* Time Estimate */}
-          <p className="text-sm text-muted-foreground">
-            ≈ {questionCount} minutes
-          </p>
+          <p className="text-sm text-muted-foreground">≈ {questionCount} minutes</p>
         </div>
 
-        {/* Topic Filters */}
+        {/* Topic Filters — Subject → Subtopics */}
         <div className="space-y-3">
           <div className="flex items-center justify-between">
             <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Topic Filters</h2>
             <div className="flex items-center gap-2">
-              <Button variant="ghost" size="sm" onClick={selectAll}>
-                Select All
-              </Button>
-              <Button variant="ghost" size="sm" onClick={clearAll}>
-                Clear All
-              </Button>
+              <Button variant="ghost" size="sm" onClick={selectAll}>Select All</Button>
+              <Button variant="ghost" size="sm" onClick={clearAll}>Clear All</Button>
             </div>
           </div>
 
-          {/* Filter Mode Toggle */}
-          <div className="flex items-center gap-3">
-            <span className="text-sm text-muted-foreground">Filter Mode:</span>
-            <ToggleGroup
-              type="single"
-              value={filterMode}
-              onValueChange={(v) => v && setFilterMode(v as FilterMode)}
-              className="bg-muted rounded-lg p-1"
-            >
-              <ToggleGroupItem value="system" className="text-sm px-4">
-                System View
-              </ToggleGroupItem>
-              <ToggleGroupItem value="subject" className="text-sm px-4">
-                Subject View
-              </ToggleGroupItem>
-            </ToggleGroup>
-          </div>
-
-          {/* Search Input */}
+          {/* Search */}
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Search systems or subjects..."
+              placeholder="Search subjects or subtopics..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-9 pr-9"
@@ -373,138 +351,82 @@ function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConf
             )}
           </div>
 
-          {/* System View */}
-          {filterMode === 'system' && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              {SYSTEMS.filter((system) => {
+          {/* Subject list with subtopics */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {dbSubjects
+              .sort((a, b) => (a.display_order || 0) - (b.display_order || 0))
+              .filter((subject) => {
                 if (!searchQuery.trim()) return true;
                 const q = searchQuery.toLowerCase();
-                const subjects = SYSTEM_SUBJECTS[system] || [];
-                return system.toLowerCase().includes(q) || subjects.some(s => s.toLowerCase().includes(q));
-              }).map((system) => {
-                const subjects = SYSTEM_SUBJECTS[system] || [];
-                const selectedCount = subjects.filter(sub => selectedPairs.has(`${system}:${sub}`)).length;
-                const allSelected = selectedCount === subjects.length && subjects.length > 0;
-                const someSelected = selectedCount > 0;
-                
+                const subtopics = subjectSubtopicsMap[subject.id] || [];
+                return subject.name.toLowerCase().includes(q) || subtopics.some(st => st.name.toLowerCase().includes(q));
+              })
+              .map((subject) => {
+                const subtopics = subjectSubtopicsMap[subject.id] || [];
+                const isSelected = selectedSubjects.has(subject.name);
+                const hasSubtopicSelected = subtopics.some(st => selectedSubtopics.has(st.name));
+                const searchMatch = searchQuery.trim() && subtopics.some(st => st.name.toLowerCase().includes(searchQuery.toLowerCase()));
+
                 return (
                   <Collapsible
-                    key={system}
-                    open={expandedItems.has(system) || (!!searchQuery.trim() && (SYSTEM_SUBJECTS[system] || []).some(s => s.toLowerCase().includes(searchQuery.toLowerCase())))}
-                    onOpenChange={() => toggleExpand(system)}
+                    key={subject.id}
+                    open={expandedItems.has(subject.id) || searchMatch}
+                    onOpenChange={() => toggleExpand(subject.id)}
                   >
                     <div className={cn(
                       'rounded-lg border transition-colors',
-                      someSelected ? 'border-primary/40 bg-primary/5' : 'border-border'
+                      isSelected ? 'border-primary/40 bg-primary/5' : 'border-border'
                     )}>
                       <CollapsibleTrigger className="flex w-full items-center justify-between px-4 py-3 text-left">
                         <div className="flex items-center gap-3">
                           <Checkbox
-                            checked={allSelected}
-                            onCheckedChange={() => toggleSystem(system)}
+                            checked={isSelected}
+                            onCheckedChange={() => toggleSubject(subject.name, subject.id)}
                             onClick={(e) => e.stopPropagation()}
-                            className={cn(someSelected && !allSelected && "data-[state=unchecked]:bg-primary/30")}
                           />
-                          <span className="font-medium text-sm">{system}</span>
+                          <span className="font-medium text-sm">{subject.name}</span>
                           <Badge variant="secondary" className="text-xs">
-                            {systemCounts[system] || 0}
+                            {subjectCounts[subject.name] || 0}
                           </Badge>
                         </div>
-                        <ChevronDown className={cn(
-                          "h-4 w-4 text-muted-foreground transition-transform",
-                          expandedItems.has(system) && "rotate-180"
-                        )} />
+                        {subtopics.length > 0 && (
+                          <ChevronDown className={cn(
+                            "h-4 w-4 text-muted-foreground transition-transform",
+                            expandedItems.has(subject.id) && "rotate-180"
+                          )} />
+                        )}
                       </CollapsibleTrigger>
-                      <CollapsibleContent>
-                        <div className="border-t border-border/50 px-4 py-3 space-y-2">
-                          {subjects.map((subject) => (
-                            <label
-                              key={`${system}:${subject}`}
-                              className="flex items-center gap-2 cursor-pointer text-sm text-muted-foreground hover:text-foreground transition-colors"
-                            >
-                              <Checkbox
-                                checked={selectedPairs.has(`${system}:${subject}`)}
-                                onCheckedChange={() => togglePair(system, subject)}
-                              />
-                              {subject}
-                            </label>
-                          ))}
-                        </div>
-                      </CollapsibleContent>
+                      {subtopics.length > 0 && (
+                        <CollapsibleContent>
+                          <div className="border-t border-border/50 px-4 py-3 space-y-2">
+                            {subtopics.map((st) => (
+                              <label
+                                key={st.id}
+                                className="flex items-center gap-2 cursor-pointer text-sm text-muted-foreground hover:text-foreground transition-colors"
+                              >
+                                <Checkbox
+                                  checked={selectedSubtopics.has(st.name)}
+                                  onCheckedChange={() => toggleSubtopic(st.name, subject.name)}
+                                />
+                                <span>{st.name}</span>
+                                {subtopicCounts[st.name] ? (
+                                  <Badge variant="outline" className="text-[10px] ml-auto">
+                                    {subtopicCounts[st.name]}
+                                  </Badge>
+                                ) : null}
+                              </label>
+                            ))}
+                          </div>
+                        </CollapsibleContent>
+                      )}
                     </div>
                   </Collapsible>
                 );
               })}
-            </div>
-          )}
+          </div>
 
-          {/* Subject View */}
-          {filterMode === 'subject' && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              {SUBJECTS.filter((subject) => {
-                if (!searchQuery.trim()) return true;
-                const q = searchQuery.toLowerCase();
-                const systems = SUBJECT_SYSTEMS[subject] || [];
-                return subject.toLowerCase().includes(q) || systems.some(s => s.toLowerCase().includes(q));
-              }).map((subject) => {
-                const systems = SUBJECT_SYSTEMS[subject] || [];
-                const selectedCount = systems.filter(sys => selectedPairs.has(`${sys}:${subject}`)).length;
-                const allSelected = selectedCount === systems.length && systems.length > 0;
-                const someSelected = selectedCount > 0;
-                
-                return (
-                  <Collapsible
-                    key={subject}
-                    open={expandedItems.has(subject) || (!!searchQuery.trim() && (SUBJECT_SYSTEMS[subject] || []).some(s => s.toLowerCase().includes(searchQuery.toLowerCase())))}
-                    onOpenChange={() => toggleExpand(subject)}
-                  >
-                    <div className={cn(
-                      'rounded-lg border transition-colors',
-                      someSelected ? 'border-primary/40 bg-primary/5' : 'border-border'
-                    )}>
-                      <CollapsibleTrigger className="flex w-full items-center justify-between px-4 py-3 text-left">
-                        <div className="flex items-center gap-3">
-                          <Checkbox
-                            checked={allSelected}
-                            onCheckedChange={() => toggleSubject(subject)}
-                            onClick={(e) => e.stopPropagation()}
-                            className={cn(someSelected && !allSelected && "data-[state=unchecked]:bg-primary/30")}
-                          />
-                          <span className="font-medium text-sm">{subject}</span>
-                          <Badge variant="secondary" className="text-xs">
-                            {subjectCounts[subject] || 0}
-                          </Badge>
-                        </div>
-                        <ChevronDown className={cn(
-                          "h-4 w-4 text-muted-foreground transition-transform",
-                          expandedItems.has(subject) && "rotate-180"
-                        )} />
-                      </CollapsibleTrigger>
-                      <CollapsibleContent>
-                        <div className="border-t border-border/50 px-4 py-3 space-y-2">
-                          {systems.map((system) => (
-                            <label
-                              key={`${system}:${subject}`}
-                              className="flex items-center gap-2 cursor-pointer text-sm text-muted-foreground hover:text-foreground transition-colors"
-                            >
-                              <Checkbox
-                                checked={selectedPairs.has(`${system}:${subject}`)}
-                                onCheckedChange={() => togglePair(system, subject)}
-                              />
-                              {system}
-                            </label>
-                          ))}
-                        </div>
-                      </CollapsibleContent>
-                    </div>
-                  </Collapsible>
-                );
-              })}
-            </div>
-          )}
-
-          {selectedPairs.size === 0 && (
-            <p className="text-sm text-destructive">Select at least one topic combination</p>
+          {selectedSubjects.size === 0 && (
+            <p className="text-sm text-destructive">Select at least one subject</p>
           )}
         </div>
 
@@ -512,11 +434,14 @@ function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConf
         <Button
           size="lg"
           disabled={!canStart}
-          onClick={() => onStart({ 
-            mode, 
-            topics: getMatchingCategories().length > 0 ? getMatchingCategories() : Object.keys(categoryCounts), 
-            questionCount 
-          })}
+          onClick={() => {
+            const topics = getMatchingCategories().length > 0 ? getMatchingCategories() : Object.keys(categoryCounts);
+            onStart({
+              mode,
+              topics,
+              questionCount,
+            });
+          }}
           className="w-full sm:w-auto gap-2"
         >
           <Zap className="h-4 w-4" /> Start Drill
