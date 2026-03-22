@@ -44,8 +44,21 @@ interface SessionConfig {
   questionCount: number;
 }
 
-// ─── Filter Data Structures (imported from shared) ──────────────
-import { SYSTEMS, SUBJECTS, SYSTEM_SUBJECTS, SUBJECT_SYSTEMS, getAllPairs, type FilterMode } from '@/lib/filter-data';
+// ─── Filter types ───────────────────────────────────────────────
+type FilterMode = 'subject';
+
+interface DBSubject {
+  id: string;
+  name: string;
+  display_order: number | null;
+}
+
+interface DBSubtopic {
+  id: string;
+  name: string;
+  subject_id: string;
+  display_order: number | null;
+}
 
 // ─── Setup Screen ───────────────────────────────────────────────
 
