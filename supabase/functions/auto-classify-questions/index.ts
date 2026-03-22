@@ -118,6 +118,7 @@ serve(async (req) => {
     let subtopicUpdated = 0;
     let unchanged = 0;
     let failedUpdates = 0;
+    const pendingUpdates: Array<{ id: string; updateData: Record<string, string | null> }> = [];
 
     for (const q of allQuestions) {
       const normalizedCategory = normalizeTopicLabel(q.category);
@@ -172,21 +173,35 @@ serve(async (req) => {
       const needsUpdate = newCategory !== q.category || newSubtopic !== q.subtopic;
 
       if (needsUpdate) {
-        const updateData: any = {};
+        const updateData: Record<string, string | null> = {};
         if (newCategory !== q.category) updateData.category = newCategory;
         if (newSubtopic !== q.subtopic) updateData.subtopic = newSubtopic;
         if (Object.keys(updateData).length > 0) {
-          const { error: updateError } = await supabase.from("questions").update(updateData).eq("id", q.id);
-          if (updateError) {
-            failedUpdates++;
-            continue;
-          }
-          if (updateData.category) categoryUpdated++;
-          if (updateData.subtopic) subtopicUpdated++;
+          pendingUpdates.push({ id: q.id, updateData });
         }
       } else {
         unchanged++;
       }
+    }
+
+    for (let index = 0; index < pendingUpdates.length; index += 50) {
+      const batch = pendingUpdates.slice(index, index + 50);
+      const results = await Promise.all(
+        batch.map(async ({ id, updateData }) => {
+          const { error: updateError } = await supabase.from("questions").update(updateData).eq("id", id);
+          return { updateData, updateError };
+        }),
+      );
+
+      results.forEach(({ updateData, updateError }) => {
+        if (updateError) {
+          failedUpdates++;
+          return;
+        }
+
+        if ("category" in updateData) categoryUpdated++;
+        if ("subtopic" in updateData) subtopicUpdated++;
+      });
     }
 
     // Log the action
