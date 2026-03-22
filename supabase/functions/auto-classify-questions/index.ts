@@ -16,7 +16,7 @@ const SUBJECT_ALIAS_SEEDS: Record<string, string[]> = {
 };
 
 const SUBTOPIC_ALIAS_SEEDS: Record<string, string[]> = {
-  "gastroenterology": ["gastrointestinal", "gi"],
+  "gastroenterology": ["gastrointestinal"],
   "emergency medicine": ["acute emergency", "acute / emergency"],
   "gynaecology": ["gynecology"],
   "haematology": ["hematology"],
