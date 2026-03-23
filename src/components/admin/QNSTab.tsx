@@ -228,6 +228,49 @@ function MCQCreateTab({ questionType }: { questionType: 'mcq' | 'mcq_temp' }) {
               </div>
             </CardContent>
           </Card>
+
+          {/* Full Data Cleanup */}
+          <Card>
+            <CardContent className="p-4 flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium">🧹 Full Data Cleanup</p>
+                <p className="text-xs text-muted-foreground">Remove placeholders, duplicates, garbage options, weak stems, and invalid questions</p>
+              </div>
+              <div className="flex items-center gap-3">
+                {cleanupResult && (
+                  <Badge variant="outline" className="text-xs">
+                    {cleanupResult.deleted} deleted · {cleanupResult.fixed} fixed · {cleanupResult.total_after} remaining
+                  </Badge>
+                )}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  disabled={cleaning}
+                  className="border-destructive/50 text-destructive hover:bg-destructive/10"
+                  onClick={async () => {
+                    setCleaning(true);
+                    setCleanupResult(null);
+                    try {
+                      const { data, error } = await supabase.functions.invoke('admin-cleanup-questions', { body: {} });
+                      if (error) throw error;
+                      if (data?.error) throw new Error(data.error);
+                      setCleanupResult(data);
+                      toast({
+                        title: 'Cleanup Complete',
+                        description: `Deleted ${data.deleted}, fixed ${data.fixed}. ${data.total_after} questions remain.`,
+                      });
+                    } catch (e: any) {
+                      toast({ title: 'Error', description: e.message, variant: 'destructive' });
+                    }
+                    setCleaning(false);
+                  }}
+                >
+                  {cleaning ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Trash2 className="h-4 w-4 mr-2" />}
+                  {cleaning ? 'Cleaning…' : 'Run Full Cleanup'}
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
         </>
       )}
 
