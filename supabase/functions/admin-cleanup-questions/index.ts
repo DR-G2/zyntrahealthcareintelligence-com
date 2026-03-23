@@ -6,75 +6,28 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
-const CATEGORY_MAP: Record<string, string> = {
-  "cardiovascular": "Cardiology",
-  "cardiovascular system": "Cardiology",
-  "cardiac": "Cardiology",
-  "respiratory medicine": "Respiratory",
-  "respiratory system": "Respiratory",
-  "pulmonology": "Respiratory",
-  "gastroenterology": "Gastrointestinal",
-  "gi": "Gastrointestinal",
-  "digestive": "Gastrointestinal",
-  "hematology": "Haematology",
-  "haematology/oncology": "Haematology",
-  "hematology/oncology": "Haematology",
-  "oncology": "Haematology",
-  "mental health": "Psychiatry",
-  "mood disorders": "Psychiatry",
-  "psychosis": "Psychiatry",
-  "anxiety/ocd/ptsd": "Psychiatry",
-  "anxiety disorders": "Psychiatry",
-  "substance use": "Psychiatry",
-  "substance use disorders": "Psychiatry",
-  "organic/psychogeriatric": "Psychiatry",
-  "child & adolescent psychiatry": "Psychiatry",
-  "orthopaedics": "Musculoskeletal",
-  "orthopedics": "Musculoskeletal",
-  "orthopedic": "Musculoskeletal",
-  "rheumatology": "Musculoskeletal",
-  "trauma": "Emergency Medicine",
-  "trauma & emergency": "Emergency Medicine",
-  "general surgery": "Surgery",
-  "vascular surgery": "Surgery",
-  "cardiothoracic surgery": "Surgery",
-  "neurosurgery": "Surgery",
-  "surgical": "Surgery",
-  "neonatology": "Paediatrics",
-  "pediatrics": "Paediatrics",
-  "common paediatric conditions": "Paediatrics",
-  "paediatric emergencies": "Paediatrics",
-  "paediatric medicine": "Paediatrics",
-  "obstetrics": "Obstetrics & Gynaecology",
-  "gynaecology": "Obstetrics & Gynaecology",
-  "gynecology": "Obstetrics & Gynaecology",
-  "o&g": "Obstetrics & Gynaecology",
-  "urology": "Renal",
-  "nephrology": "Renal",
-  "renal medicine": "Renal",
-  "infectious disease": "Infectious Diseases",
-  "infection": "Infectious Diseases",
-  "microbiology": "Infectious Diseases",
-  "ethics/legal": "Population Health",
-  "ethics & law": "Population Health",
-  "ethics": "Population Health",
-  "epidemiology/screening": "Population Health",
-  "epidemiology": "Population Health",
-  "indigenous health": "Population Health",
-  "public health": "Population Health",
-  "public health/palliative": "Population Health",
-  "palliative care": "Population Health",
-  "preventive medicine": "Population Health",
-  "ophthalmology": "ENT",
-  "pharmacology": "Endocrinology",
-};
+// Placeholder patterns to detect template markers
+const PLACEHOLDER_REGEX = /\{(age|gender|symptom|diagnosis|treatment|condition|drug|finding|sign|test|result|location|duration|history|complaint|presentation|examination|investigation|lab|imaging)\}/gi;
 
-const VALID_SYSTEMS = new Set([
-  "Cardiology", "Respiratory", "Gastrointestinal", "Neurology", "Endocrinology",
-  "Renal", "Dermatology", "Psychiatry", "Paediatrics", "Obstetrics & Gynaecology",
-  "Emergency Medicine", "Infectious Diseases", "Population Health", "ENT",
-  "Haematology", "Musculoskeletal", "Surgery"
-]);
+// Garbage option patterns
+const GARBAGE_OPTION_PATTERNS = [
+  "initiate immediate empiric treatment targeting the suspected pathology",
+  "order the most definitive diagnostic investigation",
+  "prescribe the first-line pharmacological agent",
+  "recommend the most appropriate screening test",
+  "arrange urgent specialist referral",
+  "option a", "option b", "option c", "option d", "option e",
+  "answer 1", "answer 2", "answer 3", "answer 4", "answer 5",
+];
+
+// Template vignette patterns
+const TEMPLATE_PATTERNS = [
+  "a patient presents with a clinical scenario frequently reported in amc examination recalls",
+  "a patient presents with a clinical scenario commonly tested in amc",
+  "a clinical scenario frequently tested",
+  "insert clinical scenario",
+  "insert patient presentation",
+];
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -89,99 +42,155 @@ serve(async (req) => {
 
   try {
     const authHeader = req.headers.get("Authorization");
-    if (!authHeader) {
-      return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401, headers: corsHeaders });
-    }
+    if (!authHeader) return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401, headers: corsHeaders });
     const token = authHeader.replace("Bearer ", "");
     const { data: userData, error: userError } = await supabase.auth.getUser(token);
     if (userError || !userData.user?.email) {
-      return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401, headers: corsHeaders });
+      return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
-    // Only super_admin can run cleanup
     const { data: adminRole } = await supabase.from("admin_roles").select("role").eq("email", userData.user.email).maybeSingle();
     if (!adminRole || adminRole.role !== "super_admin") {
       return new Response(JSON.stringify({ error: "Forbidden - Super Admin only" }), { status: 403, headers: corsHeaders });
     }
 
-    const summary: Record<string, number> = {
+    const summary = {
+      total_before: 0,
+      total_after: 0,
+      deleted: 0,
+      fixed: 0,
+      duplicates_removed: 0,
+      placeholders_fixed: 0,
       garbage_deleted: 0,
       template_deleted: 0,
-      duplicates_deleted: 0,
-      categories_normalized: 0,
-      orphan_records_cleaned: 0,
+      weak_stems_deleted: 0,
+      invalid_json_deleted: 0,
+      missing_explanation_deleted: 0,
     };
 
-    const deleted_items: { id: string; title: string; category: string; reason: string }[] = [];
-    const normalized_items: { id: string; title: string; old_category: string; new_category: string }[] = [];
-
-    // Fetch ALL questions in batches
-    const allQuestions: { id: string; question_text: string; category: string; options: any }[] = [];
+    // Fetch ALL questions
+    const allQuestions: any[] = [];
     let from = 0;
-    const batchSize = 1000;
     while (true) {
       const { data, error } = await supabase
         .from("questions")
-        .select("id, question_text, category, options")
-        .range(from, from + batchSize - 1);
+        .select("id, question_text, category, subtopic, options, correct_answer, explanation, difficulty, question_type")
+        .range(from, from + 999);
       if (error) throw error;
       if (!data || data.length === 0) break;
       allQuestions.push(...data);
-      if (data.length < batchSize) break;
-      from += batchSize;
+      if (data.length < 1000) break;
+      from += 1000;
     }
 
+    summary.total_before = allQuestions.length;
     const idsToDelete = new Set<string>();
-
-    // Step 1: Garbage questions
-    const garbagePatterns = [
-      "initiate immediate empiric treatment targeting the suspected pathology",
-      "order the most definitive diagnostic investigation",
-      "prescribe the first-line pharmacological agent",
-      "recommend the most appropriate screening test",
-      "arrange urgent specialist referral",
-    ];
+    const idsToFix: { id: string; updates: Record<string, any> }[] = [];
 
     for (const q of allQuestions) {
-      const optStr = JSON.stringify(q.options).toLowerCase();
-      if (garbagePatterns.some(p => optStr.includes(p))) {
+      const textLower = (q.question_text || "").toLowerCase();
+      const optStr = JSON.stringify(q.options || []).toLowerCase();
+      const fullText = textLower + " " + optStr;
+
+      // 1. GARBAGE OPTIONS
+      if (GARBAGE_OPTION_PATTERNS.some(p => optStr.includes(p))) {
         idsToDelete.add(q.id);
-        deleted_items.push({ id: q.id, title: q.question_text.slice(0, 120), category: q.category, reason: "garbage" });
+        summary.garbage_deleted++;
+        continue;
       }
-    }
-    summary.garbage_deleted = idsToDelete.size;
 
-    // Step 2: Template vignette duplicates
-    const templatePatterns = [
-      "a patient presents with a clinical scenario frequently reported in amc examination recalls",
-      "a patient presents with a clinical scenario commonly tested in amc",
-    ];
-
-    for (const q of allQuestions) {
-      if (idsToDelete.has(q.id)) continue;
-      const textLower = q.question_text.toLowerCase();
-      if (templatePatterns.some(p => textLower.includes(p))) {
+      // 2. TEMPLATE VIGNETTES
+      if (TEMPLATE_PATTERNS.some(p => textLower.includes(p))) {
         idsToDelete.add(q.id);
         summary.template_deleted++;
-        deleted_items.push({ id: q.id, title: q.question_text.slice(0, 120), category: q.category, reason: "template" });
+        continue;
+      }
+
+      // 3. PLACEHOLDER DETECTION - delete if too many placeholders
+      const placeholderMatches = (q.question_text || "").match(PLACEHOLDER_REGEX);
+      if (placeholderMatches && placeholderMatches.length >= 2) {
+        idsToDelete.add(q.id);
+        summary.placeholders_fixed++;
+        continue;
+      }
+
+      // 4. WEAK STEMS - too short (< 50 chars) or non-clinical
+      if ((q.question_text || "").trim().length < 50) {
+        idsToDelete.add(q.id);
+        summary.weak_stems_deleted++;
+        continue;
+      }
+
+      // 5. INVALID JSON STRUCTURE - options must be array of 4-5 items
+      const opts = q.options;
+      const isValidOptions = Array.isArray(opts) && opts.length >= 4 && opts.length <= 5;
+      if (!isValidOptions) {
+        idsToDelete.add(q.id);
+        summary.invalid_json_deleted++;
+        continue;
+      }
+
+      // 6. MISSING correct_answer or it's not A-E
+      if (!q.correct_answer || !/^[A-E]$/i.test(q.correct_answer.trim())) {
+        idsToDelete.add(q.id);
+        summary.invalid_json_deleted++;
+        continue;
+      }
+
+      // 7. FIX: Normalize difficulty
+      const validDiffs = ["easy", "moderate", "difficult"];
+      const normDiff = (q.difficulty || "moderate").toLowerCase().trim();
+      let fixedDiff: string | null = null;
+      if (!validDiffs.includes(normDiff)) {
+        if (normDiff === "medium" || normDiff === "med") fixedDiff = "moderate";
+        else if (normDiff === "hard") fixedDiff = "difficult";
+        else fixedDiff = "moderate";
+      }
+
+      // 8. Single placeholder - fix by removing the braces
+      let fixedText: string | null = null;
+      if (placeholderMatches && placeholderMatches.length === 1) {
+        fixedText = q.question_text.replace(PLACEHOLDER_REGEX, (_: string, p1: string) => {
+          const replacements: Record<string, string> = {
+            age: "45", gender: "male", symptom: "progressive fatigue",
+            diagnosis: "the suspected condition", treatment: "first-line therapy",
+            condition: "the presenting condition", drug: "the prescribed medication",
+            finding: "the clinical finding", sign: "the examination finding",
+            test: "the diagnostic test", result: "the test result",
+            location: "the affected area", duration: "several weeks",
+            history: "a relevant past medical history", complaint: "the presenting complaint",
+            presentation: "the clinical presentation", examination: "clinical examination",
+            investigation: "appropriate investigations", lab: "laboratory results",
+            imaging: "imaging studies"
+          };
+          return replacements[p1.toLowerCase()] || p1;
+        });
+        summary.placeholders_fixed++;
+      }
+
+      if (fixedDiff || fixedText) {
+        const updates: Record<string, any> = {};
+        if (fixedDiff) updates.difficulty = fixedDiff;
+        if (fixedText) updates.question_text = fixedText;
+        idsToFix.push({ id: q.id, updates });
+        summary.fixed++;
       }
     }
 
-    // Step 3: Deduplicate by question_text
+    // 9. DEDUPLICATE - by normalized question_text
     const seenTexts = new Map<string, string>();
     for (const q of allQuestions) {
       if (idsToDelete.has(q.id)) continue;
-      const normalized = q.question_text.trim().toLowerCase().replace(/\s+/g, ' ');
+      const normalized = (q.question_text || "").trim().toLowerCase().replace(/\s+/g, " ").slice(0, 300);
       if (seenTexts.has(normalized)) {
         idsToDelete.add(q.id);
-        summary.duplicates_deleted++;
-        deleted_items.push({ id: q.id, title: q.question_text.slice(0, 120), category: q.category, reason: "duplicate" });
+        summary.duplicates_removed++;
       } else {
         seenTexts.set(normalized, q.id);
       }
     }
 
-    // Step 4: Delete junk questions and clean related tables
+    // EXECUTE DELETES in batches
     if (idsToDelete.size > 0) {
       const deleteIds = Array.from(idsToDelete);
       for (let i = 0; i < deleteIds.length; i += 100) {
@@ -190,54 +199,40 @@ serve(async (req) => {
         await supabase.from("user_notes").delete().in("question_id", batch);
         await supabase.from("user_attempts").delete().in("question_id", batch);
         await supabase.from("question_difficulty_tiers").delete().in("question_id", batch);
-        const { error } = await supabase.from("questions").delete().in("id", batch);
-        if (error) throw error;
-        summary.orphan_records_cleaned += batch.length;
+        await supabase.from("question_dna").delete().in("question_id", batch);
+        await supabase.from("questions").delete().in("id", batch);
       }
     }
 
-    // Step 5: Normalize categories
-    const remainingQuestions = allQuestions.filter(q => !idsToDelete.has(q.id));
-
-    for (const q of remainingQuestions) {
-      if (VALID_SYSTEMS.has(q.category)) continue;
-      const catLower = q.category.trim().toLowerCase();
-      let mapped = CATEGORY_MAP[catLower];
-      if (!mapped) {
-        for (const [key, val] of Object.entries(CATEGORY_MAP)) {
-          if (catLower.includes(key) || key.includes(catLower)) {
-            mapped = val;
-            break;
-          }
-        }
-      }
-      if (mapped) {
-        await supabase.from("questions").update({ category: mapped }).eq("id", q.id);
-        summary.categories_normalized++;
-        normalized_items.push({ id: q.id, title: q.question_text.slice(0, 120), old_category: q.category, new_category: mapped });
-      }
+    // EXECUTE FIXES in batches
+    for (let i = 0; i < idsToFix.length; i += 50) {
+      const batch = idsToFix.slice(i, i + 50);
+      await Promise.all(batch.map(({ id, updates }) =>
+        supabase.from("questions").update(updates).eq("id", id)
+      ));
     }
 
+    summary.deleted = idsToDelete.size;
+
+    // Get final count
     const { count: finalCount } = await supabase.from("questions").select("id", { count: "exact", head: true });
+    summary.total_after = finalCount || 0;
+
+    // Get category distribution
     const { data: finalQs } = await supabase.from("questions").select("category").limit(5000);
     const catDist: Record<string, number> = {};
     finalQs?.forEach(q => { catDist[q.category] = (catDist[q.category] || 0) + 1; });
 
     await supabase.from("admin_activity_logs").insert({
       admin_email: userData.user.email,
-      action_type: "cleanup_questions",
-      details: { summary, total_before: allQuestions.length, total_after: finalCount, total_deleted: idsToDelete.size },
+      action_type: "full_data_cleanup",
+      details: { summary },
     });
 
     return new Response(JSON.stringify({
       success: true,
-      summary,
-      total_before: allQuestions.length,
-      total_after: finalCount,
-      total_deleted: idsToDelete.size,
+      ...summary,
       category_distribution: catDist,
-      deleted_items,
-      normalized_items,
     }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
