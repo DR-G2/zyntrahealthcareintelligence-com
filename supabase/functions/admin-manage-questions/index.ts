@@ -167,6 +167,83 @@ serve(async (req) => {
       throw new Error("Invalid subtopic_action");
     }
 
+    // ─── Delete all questions by subject (category) ───
+    if (action === "delete_by_subject") {
+      const { subject_name } = body;
+      if (!subject_name) throw new Error("Missing subject_name");
+
+      // Count first
+      const { count: beforeCount } = await supabase.from("questions").select("id", { count: "exact", head: true }).eq("category", subject_name);
+
+      // Get all question IDs
+      const allIds: string[] = [];
+      let from = 0;
+      while (true) {
+        const { data } = await supabase.from("questions").select("id").eq("category", subject_name).range(from, from + 999);
+        if (!data || data.length === 0) break;
+        allIds.push(...data.map(d => d.id));
+        if (data.length < 1000) break;
+        from += 1000;
+      }
+
+      // Delete related records then questions in batches
+      for (let i = 0; i < allIds.length; i += 100) {
+        const batch = allIds.slice(i, i + 100);
+        await supabase.from("bookmarks").delete().in("question_id", batch);
+        await supabase.from("user_notes").delete().in("question_id", batch);
+        await supabase.from("user_attempts").delete().in("question_id", batch);
+        await supabase.from("question_difficulty_tiers").delete().in("question_id", batch);
+        await supabase.from("question_dna").delete().in("question_id", batch);
+        await supabase.from("questions").delete().in("id", batch);
+      }
+
+      await supabase.from("admin_activity_logs").insert({
+        admin_email: userData.user.email,
+        action_type: "delete_by_subject",
+        details: { subject_name, deleted_count: allIds.length },
+      });
+
+      return new Response(JSON.stringify({ success: true, deleted_count: allIds.length }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    // ─── Delete all questions by subtopic ───
+    if (action === "delete_by_subtopic") {
+      const { subtopic_name } = body;
+      if (!subtopic_name) throw new Error("Missing subtopic_name");
+
+      const allIds: string[] = [];
+      let from = 0;
+      while (true) {
+        const { data } = await supabase.from("questions").select("id").eq("subtopic", subtopic_name).range(from, from + 999);
+        if (!data || data.length === 0) break;
+        allIds.push(...data.map(d => d.id));
+        if (data.length < 1000) break;
+        from += 1000;
+      }
+
+      for (let i = 0; i < allIds.length; i += 100) {
+        const batch = allIds.slice(i, i + 100);
+        await supabase.from("bookmarks").delete().in("question_id", batch);
+        await supabase.from("user_notes").delete().in("question_id", batch);
+        await supabase.from("user_attempts").delete().in("question_id", batch);
+        await supabase.from("question_difficulty_tiers").delete().in("question_id", batch);
+        await supabase.from("question_dna").delete().in("question_id", batch);
+        await supabase.from("questions").delete().in("id", batch);
+      }
+
+      await supabase.from("admin_activity_logs").insert({
+        admin_email: userData.user.email,
+        action_type: "delete_by_subtopic",
+        details: { subtopic_name, deleted_count: allIds.length },
+      });
+
+      return new Response(JSON.stringify({ success: true, deleted_count: allIds.length }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
     throw new Error("Invalid action");
   } catch (e: any) {
     return new Response(JSON.stringify({ error: e.message }), {

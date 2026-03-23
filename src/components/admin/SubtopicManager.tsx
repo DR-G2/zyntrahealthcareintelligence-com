@@ -6,26 +6,12 @@ import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, Plus, Pencil, Trash2, Check, X, GripVertical } from 'lucide-react';
+import { Loader2, Plus, Pencil, Trash2, Check, X, GripVertical, AlertTriangle } from 'lucide-react';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 
-interface Subject {
-  id: string;
-  name: string;
-  display_order: number;
-}
-
-interface Subtopic {
-  id: string;
-  name: string;
-  subject_id: string;
-  display_order: number;
-}
-
-interface SubtopicManagerProps {
-  subjects: Subject[];
-  onRefresh: () => void;
-}
+interface Subject { id: string; name: string; display_order: number; }
+interface Subtopic { id: string; name: string; subject_id: string; display_order: number; }
+interface SubtopicManagerProps { subjects: Subject[]; onRefresh: () => void; }
 
 export function SubtopicManager({ subjects, onRefresh }: SubtopicManagerProps) {
   const { toast } = useToast();
@@ -36,19 +22,13 @@ export function SubtopicManager({ subjects, onRefresh }: SubtopicManagerProps) {
   const [adding, setAdding] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editName, setEditName] = useState('');
+  const [deletingQns, setDeletingQns] = useState<string | null>(null);
 
-  // Auto-select first subject
   useEffect(() => {
-    if (subjects.length && !selectedSubjectId) {
-      setSelectedSubjectId(subjects[0].id);
-    }
+    if (subjects.length && !selectedSubjectId) setSelectedSubjectId(subjects[0].id);
   }, [subjects, selectedSubjectId]);
 
-  // Fetch subtopics when subject changes
-  useEffect(() => {
-    if (!selectedSubjectId) return;
-    fetchSubtopics();
-  }, [selectedSubjectId]);
+  useEffect(() => { if (selectedSubjectId) fetchSubtopics(); }, [selectedSubjectId]);
 
   const fetchSubtopics = async () => {
     if (!selectedSubjectId) return;
@@ -114,6 +94,21 @@ export function SubtopicManager({ subjects, onRefresh }: SubtopicManagerProps) {
     }
   };
 
+  const deleteAllQuestions = async (subtopicName: string) => {
+    setDeletingQns(subtopicName);
+    try {
+      const { data, error } = await supabase.functions.invoke('admin-manage-questions', {
+        body: { action: 'delete_by_subtopic', subtopic_name: subtopicName }
+      });
+      if (error) throw error;
+      toast({ title: `Deleted ${data?.deleted_count || 0} questions from "${subtopicName}"` });
+      onRefresh();
+    } catch (e: any) {
+      toast({ title: 'Error', description: e.message, variant: 'destructive' });
+    }
+    setDeletingQns(null);
+  };
+
   const selectedSubjectName = subjects.find(s => s.id === selectedSubjectId)?.name || '';
 
   return (
@@ -122,11 +117,8 @@ export function SubtopicManager({ subjects, onRefresh }: SubtopicManagerProps) {
         <CardTitle className="text-base">Manage Subtopics</CardTitle>
       </CardHeader>
       <CardContent className="space-y-3">
-        {/* Subject selector */}
         <Select value={selectedSubjectId} onValueChange={setSelectedSubjectId}>
-          <SelectTrigger>
-            <SelectValue placeholder="Select subject…" />
-          </SelectTrigger>
+          <SelectTrigger><SelectValue placeholder="Select subject…" /></SelectTrigger>
           <SelectContent>
             {subjects.sort((a, b) => a.display_order - b.display_order).map(s => (
               <SelectItem key={s.id} value={s.id}>{s.name}</SelectItem>
@@ -134,7 +126,6 @@ export function SubtopicManager({ subjects, onRefresh }: SubtopicManagerProps) {
           </SelectContent>
         </Select>
 
-        {/* Add subtopic */}
         <div className="flex gap-2">
           <Input
             placeholder={`New subtopic under ${selectedSubjectName}...`}
@@ -147,13 +138,12 @@ export function SubtopicManager({ subjects, onRefresh }: SubtopicManagerProps) {
           </Button>
         </div>
 
-        {/* Subtopic list */}
         {loading ? (
           <div className="flex items-center justify-center py-4">
             <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
           </div>
         ) : (
-          <div className="space-y-1 max-h-[300px] overflow-y-auto">
+          <div className="space-y-1 max-h-[400px] overflow-y-auto">
             {subtopics.length === 0 && selectedSubjectId && (
               <p className="text-sm text-muted-foreground text-center py-3">No subtopics yet</p>
             )}
@@ -181,13 +171,42 @@ export function SubtopicManager({ subjects, onRefresh }: SubtopicManagerProps) {
                     <span className="text-sm flex-1">{st.name}</span>
                     <Badge variant="outline" className="text-[10px]">{st.display_order}</Badge>
                     <Button
-                      variant="ghost"
-                      size="icon"
+                      variant="ghost" size="icon"
                       className="h-6 w-6 opacity-0 group-hover:opacity-100"
                       onClick={() => { setEditingId(st.id); setEditName(st.name); }}
                     >
                       <Pencil className="h-3 w-3" />
                     </Button>
+
+                    {/* Delete all questions in subtopic */}
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button variant="ghost" size="icon" className="h-6 w-6 opacity-0 group-hover:opacity-100 text-orange-500" title="Delete all questions in this subtopic">
+                          <AlertTriangle className="h-3 w-3" />
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>🗑 Delete ALL questions in "{st.name}"?</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            This will permanently delete every question with subtopic "{st.name}" including all related bookmarks, notes, and attempts. This cannot be undone.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogAction
+                            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                            onClick={() => deleteAllQuestions(st.name)}
+                            disabled={deletingQns === st.name}
+                          >
+                            {deletingQns === st.name ? <Loader2 className="h-4 w-4 animate-spin mr-1" /> : null}
+                            Confirm Delete
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+
+                    {/* Delete subtopic entry */}
                     <AlertDialog>
                       <AlertDialogTrigger asChild>
                         <Button variant="ghost" size="icon" className="h-6 w-6 opacity-0 group-hover:opacity-100 text-destructive">
@@ -196,8 +215,8 @@ export function SubtopicManager({ subjects, onRefresh }: SubtopicManagerProps) {
                       </AlertDialogTrigger>
                       <AlertDialogContent>
                         <AlertDialogHeader>
-                          <AlertDialogTitle>Delete "{st.name}"?</AlertDialogTitle>
-                          <AlertDialogDescription>This subtopic will be removed. Questions using it won't be affected.</AlertDialogDescription>
+                          <AlertDialogTitle>Delete "{st.name}" subtopic entry?</AlertDialogTitle>
+                          <AlertDialogDescription>This removes the subtopic from the list. Questions won't be deleted.</AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
                           <AlertDialogCancel>Cancel</AlertDialogCancel>
