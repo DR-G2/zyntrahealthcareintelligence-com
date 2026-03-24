@@ -244,6 +244,42 @@ serve(async (req) => {
       });
     }
 
+    // ─── Delete ALL questions by type (mcq / mcq_temp / osce) ───
+    if (action === "delete_all_by_type") {
+      const { question_type } = body;
+      if (!question_type) throw new Error("Missing question_type");
+
+      const allIds: string[] = [];
+      let from = 0;
+      while (true) {
+        const { data } = await supabase.from("questions").select("id").eq("question_type", question_type).range(from, from + 999);
+        if (!data || data.length === 0) break;
+        allIds.push(...data.map(d => d.id));
+        if (data.length < 1000) break;
+        from += 1000;
+      }
+
+      for (let i = 0; i < allIds.length; i += 100) {
+        const batch = allIds.slice(i, i + 100);
+        await supabase.from("bookmarks").delete().in("question_id", batch);
+        await supabase.from("user_notes").delete().in("question_id", batch);
+        await supabase.from("user_attempts").delete().in("question_id", batch);
+        await supabase.from("question_difficulty_tiers").delete().in("question_id", batch);
+        await supabase.from("question_dna").delete().in("question_id", batch);
+        await supabase.from("questions").delete().in("id", batch);
+      }
+
+      await supabase.from("admin_activity_logs").insert({
+        admin_email: userData.user.email,
+        action_type: "delete_all_by_type",
+        details: { question_type, deleted_count: allIds.length },
+      });
+
+      return new Response(JSON.stringify({ success: true, deleted_count: allIds.length }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
     throw new Error("Invalid action");
   } catch (e: any) {
     return new Response(JSON.stringify({ error: e.message }), {

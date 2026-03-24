@@ -166,7 +166,7 @@ export function SubjectManager({ subjects, onRefresh }: SubjectManagerProps) {
                     </AlertDialogContent>
                   </AlertDialog>
 
-                  {/* Delete subject entry */}
+                  {/* Delete subject + all its questions */}
                   <AlertDialog>
                     <AlertDialogTrigger asChild>
                       <Button variant="ghost" size="icon" className="h-6 w-6 opacity-0 group-hover:opacity-100 text-destructive">
@@ -175,12 +175,18 @@ export function SubjectManager({ subjects, onRefresh }: SubjectManagerProps) {
                     </AlertDialogTrigger>
                     <AlertDialogContent>
                       <AlertDialogHeader>
-                        <AlertDialogTitle>Delete "{s.name}" subject entry?</AlertDialogTitle>
-                        <AlertDialogDescription>This removes the subject from the list. Questions won't be deleted but will become uncategorized.</AlertDialogDescription>
+                        <AlertDialogTitle>🗑 Delete "{s.name}" and ALL its questions?</AlertDialogTitle>
+                        <AlertDialogDescription>This will delete the subject entry AND permanently delete every question under "{s.name}" including all related data. This cannot be undone.</AlertDialogDescription>
                       </AlertDialogHeader>
                       <AlertDialogFooter>
                         <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        <AlertDialogAction onClick={() => deleteSubject(s.id)}>Delete</AlertDialogAction>
+                        <AlertDialogAction
+                          className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                          onClick={async () => {
+                            await deleteAllQuestions(s.name);
+                            await deleteSubject(s.id);
+                          }}
+                        >Confirm Delete</AlertDialogAction>
                       </AlertDialogFooter>
                     </AlertDialogContent>
                   </AlertDialog>
