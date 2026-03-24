@@ -1362,12 +1362,12 @@ function ResultsScreen({
 
                           {/* Key takeaways */}
                           {q.key_takeaways && q.key_takeaways.length > 0 && (
-                            <div className="rounded-lg border border-amber-500/20 p-3">
-                              <p className="text-xs font-semibold uppercase tracking-wider text-amber-500 mb-2">Key Takeaways</p>
+                            <div className="rounded-lg border border-warning/20 p-3">
+                              <p className="text-xs font-semibold uppercase tracking-wider text-warning mb-2">Key Takeaways</p>
                               <ul className="space-y-1">
                                 {q.key_takeaways.map((point, pi) => (
                                   <li key={pi} className="flex items-start gap-2 text-xs text-muted-foreground">
-                                    <span className="mt-1 h-1.5 w-1.5 rounded-full bg-amber-400 shrink-0" />
+                                    <span className="mt-1 h-1.5 w-1.5 rounded-full bg-warning shrink-0" />
                                     {point}
                                   </li>
                                 ))}
