@@ -206,7 +206,7 @@ export function SubtopicManager({ subjects, onRefresh }: SubtopicManagerProps) {
                       </AlertDialogContent>
                     </AlertDialog>
 
-                    {/* Delete subtopic entry */}
+                    {/* Delete subtopic + all its questions */}
                     <AlertDialog>
                       <AlertDialogTrigger asChild>
                         <Button variant="ghost" size="icon" className="h-6 w-6 opacity-0 group-hover:opacity-100 text-destructive">
@@ -215,12 +215,18 @@ export function SubtopicManager({ subjects, onRefresh }: SubtopicManagerProps) {
                       </AlertDialogTrigger>
                       <AlertDialogContent>
                         <AlertDialogHeader>
-                          <AlertDialogTitle>Delete "{st.name}" subtopic entry?</AlertDialogTitle>
-                          <AlertDialogDescription>This removes the subtopic from the list. Questions won't be deleted.</AlertDialogDescription>
+                          <AlertDialogTitle>🗑 Delete "{st.name}" and ALL its questions?</AlertDialogTitle>
+                          <AlertDialogDescription>This will delete the subtopic entry AND permanently delete every question under "{st.name}" including all related data. This cannot be undone.</AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
                           <AlertDialogCancel>Cancel</AlertDialogCancel>
-                          <AlertDialogAction onClick={() => deleteSubtopic(st.id)}>Delete</AlertDialogAction>
+                          <AlertDialogAction
+                            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                            onClick={async () => {
+                              await deleteAllQuestions(st.name);
+                              await deleteSubtopic(st.id);
+                            }}
+                          >Confirm Delete</AlertDialogAction>
                         </AlertDialogFooter>
                       </AlertDialogContent>
                     </AlertDialog>
