@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Clock, Lock, RefreshCw, ChevronLeft, ChevronRight, CheckCircle, XCircle, Zap, TrendingUp, TrendingDown, ChevronDown, Minus, Plus, Search, X, BookOpen } from 'lucide-react';
+import { Clock, Lock, RefreshCw, ChevronLeft, ChevronRight, CheckCircle, XCircle, Zap, TrendingUp, TrendingDown, ChevronDown, ChevronUp, Minus, Plus, Search, X, BookOpen, Stethoscope } from 'lucide-react';
 import { MCQHistory } from '@/components/history/MCQHistory';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/contexts/AuthContext';
@@ -30,6 +30,7 @@ interface Question {
   correct_answer: string;
   explanation: string | null;
   category: string;
+  difficulty?: string;
   diagnosis_explanation?: string | null;
   first_line_investigation?: string | null;
   gold_standard_investigation?: string | null;
@@ -1407,6 +1408,7 @@ export default function Practice() {
     questions: Question[];
     answers: Record<number, string>;
     changes: Record<number, number>;
+    times: Record<number, number>;
   } | null>(null);
 
   if (!gate.canAccessQBank) {
@@ -1463,8 +1465,8 @@ export default function Practice() {
       <DrillSession
         config={config}
         resumeSessionId={resumeSessionId}
-        onFinish={(questions, answers, changes) => {
-          setResultData({ questions, answers, changes });
+        onFinish={(questions, answers, changes, times) => {
+          setResultData({ questions, answers, changes, times });
           setPhase('results');
         }}
       />
@@ -1477,6 +1479,7 @@ export default function Practice() {
         questions={resultData.questions}
         answers={resultData.answers}
         changes={resultData.changes}
+        times={resultData.times}
         config={config}
       />
     );
