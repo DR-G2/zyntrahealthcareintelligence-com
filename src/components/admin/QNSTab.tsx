@@ -273,6 +273,16 @@ function MCQCreateTab({ questionType }: { questionType: 'mcq' | 'mcq_temp' }) {
               </div>
             </CardContent>
           </Card>
+          {/* Master Delete Buttons */}
+          <Card className="border-destructive/30">
+            <CardContent className="p-4 space-y-3">
+              <p className="text-sm font-medium text-destructive">⚠️ Danger Zone</p>
+              <div className="flex flex-wrap gap-3">
+                <MasterDeleteButton questionType="mcq" label="Delete ALL MCQ Questions" />
+                <MasterDeleteButton questionType="osce" label="Delete ALL OSCE Stations" />
+              </div>
+            </CardContent>
+          </Card>
         </>
       )}
 
