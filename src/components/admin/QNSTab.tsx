@@ -28,6 +28,57 @@ const OSCE_SUBJECTS = [
   "Medicine", "Surgery", "OB&G", "Acute Medicine", "Population Health", "Basic Science"
 ];
 
+// ─── Master Delete Button ────────────────────────────────────
+function MasterDeleteButton({ questionType, label }: { questionType: string; label: string }) {
+  const { toast } = useToast();
+  const [deleting, setDeleting] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  const handleDelete = async () => {
+    setDeleting(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('admin-manage-questions', {
+        body: { action: 'delete_all_by_type', question_type: questionType }
+      });
+      if (error) throw error;
+      toast({ title: `Deleted ${data?.deleted_count || 0} ${questionType.toUpperCase()} questions` });
+    } catch (e: any) {
+      toast({ title: 'Error', description: e.message, variant: 'destructive' });
+    }
+    setDeleting(false);
+    setOpen(false);
+  };
+
+  return (
+    <AlertDialog open={open} onOpenChange={setOpen}>
+      <AlertDialogTrigger asChild>
+        <Button variant="destructive" size="sm" className="gap-2">
+          <Trash2 className="h-4 w-4" /> {label}
+        </Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>🗑 {label}?</AlertDialogTitle>
+          <AlertDialogDescription>
+            This will permanently delete EVERY {questionType.toUpperCase()} question and all related data (attempts, bookmarks, notes, DNA). This cannot be undone.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction
+            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            onClick={handleDelete}
+            disabled={deleting}
+          >
+            {deleting ? <Loader2 className="h-4 w-4 animate-spin mr-1" /> : null}
+            Confirm Delete All
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+}
+
 // ─── Create-only MCQ sub-tab ─────────────────────────────────
 function MCQCreateTab({ questionType }: { questionType: 'mcq' | 'mcq_temp' }) {
   const { toast } = useToast();
