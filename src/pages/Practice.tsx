@@ -566,7 +566,7 @@ function DrillSession({
             const questionIds = session.question_ids as string[];
             const { data: qs } = await supabase
               .from('questions')
-              .select('id, question_text, options, correct_answer, explanation, category, diagnosis_explanation, first_line_investigation, gold_standard_investigation, best_treatment, differential_diagnoses, incorrect_answer_explanations, key_takeaways')
+              .select('id, question_text, options, correct_answer, explanation, category, difficulty, diagnosis_explanation, first_line_investigation, gold_standard_investigation, best_treatment, differential_diagnoses, incorrect_answer_explanations, key_takeaways')
               .in('id', questionIds);
 
             if (qs && qs.length > 0) {
@@ -620,7 +620,7 @@ function DrillSession({
       if (matchingIds.length > 0) {
         const { data } = await supabase
           .from('questions')
-          .select('id, question_text, options, correct_answer, explanation, category, diagnosis_explanation, first_line_investigation, gold_standard_investigation, best_treatment, differential_diagnoses, incorrect_answer_explanations, key_takeaways')
+          .select('id, question_text, options, correct_answer, explanation, category, difficulty, diagnosis_explanation, first_line_investigation, gold_standard_investigation, best_treatment, differential_diagnoses, incorrect_answer_explanations, key_takeaways')
           .in('id', matchingIds);
 
         if (data) {
