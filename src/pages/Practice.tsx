@@ -874,24 +874,36 @@ function DrillSession({
   );
 }
 
-// ─── Results Screen ─────────────────────────────────────────────
+// ─── Results Screen (Full Scrollable Review) ───────────────────
 
 function ResultsScreen({
   questions,
   answers,
   changes,
+  times,
   config,
 }: {
   questions: Question[];
   answers: Record<number, string>;
   changes: Record<number, number>;
+  times: Record<number, number>;
   config: SessionConfig;
 }) {
   const { user } = useAuth();
-  const [reviewIndex, setReviewIndex] = useState<number | null>(null);
   const [dnaUpdated, setDnaUpdated] = useState(false);
+  const [expandedQuestions, setExpandedQuestions] = useState<Set<number>>(new Set());
+  const [ruleOutMode, setRuleOutMode] = useState<Record<number, boolean>>({});
+  const [ruleOutSelections, setRuleOutSelections] = useState<Record<number, Set<string>>>({});
 
-  // Compute per-category stats
+  // Stats
+  const correct = questions.filter((q, i) => answers[i] === q.correct_answer).length;
+  const total = questions.length;
+  const accuracy = total > 0 ? Math.round((correct / total) * 100) : 0;
+  const totalChanges = Object.values(changes).reduce((a, b) => a + b, 0);
+  const totalTime = Object.values(times).reduce((a, b) => a + b, 0);
+  const avgTime = total > 0 ? Math.round(totalTime / total) : 0;
+
+  // Category stats
   const categoryStats: Record<string, { correct: number; total: number }> = {};
   questions.forEach((q, i) => {
     if (!categoryStats[q.category]) categoryStats[q.category] = { correct: 0, total: 0 };
@@ -899,33 +911,110 @@ function ResultsScreen({
     if (answers[i] === q.correct_answer) categoryStats[q.category].correct++;
   });
 
-  const correct = questions.filter((q, i) => answers[i] === q.correct_answer).length;
-  const total = questions.length;
-  const overallAccuracy = total > 0 ? correct / total : 0;
-
   const strengths = Object.entries(categoryStats).filter(([, s]) => s.total >= 1 && s.correct / s.total >= 0.8).map(([c]) => c);
   const weaknesses = Object.entries(categoryStats).filter(([, s]) => s.total >= 1 && s.correct / s.total < 0.6).map(([c]) => c);
 
-  // Update Performance DNA
+  // Generate insight
+  const generateInsight = () => {
+    const changesPerQ = total > 0 ? totalChanges / total : 0;
+    const easyWrong = questions.filter((q, i) => q.difficulty === 'easy' && answers[i] !== q.correct_answer).length;
+    const hardCorrect = questions.filter((q, i) => (q.difficulty === 'hard' || q.difficulty === 'difficult') && answers[i] === q.correct_answer).length;
+
+    if (changesPerQ > 1.5) return "You're overthinking — too many answer changes are costing you marks.";
+    if (easyWrong > total * 0.2) return "You're missing easy questions — slow down on straightforward stems.";
+    if (avgTime < 30 && accuracy < 60) return "You're rushing through questions — take more time to read the stem.";
+    if (hardCorrect > 0 && easyWrong > 0) return "You nail hard questions but slip on easy ones — watch for careless errors.";
+    if (accuracy >= 80) return "Strong performance! Focus on the few you missed to push higher.";
+    if (weaknesses.length > 0) return `Focus on ${weaknesses.slice(0, 2).join(' and ')} — these are dragging your score.`;
+    return "Keep practising consistently to build pattern recognition.";
+  };
+
+  // Rule-out scoring
+  const getRuleOutScore = (qIndex: number) => {
+    const q = questions[qIndex];
+    const selections = ruleOutSelections[qIndex];
+    if (!selections || selections.size === 0) return null;
+
+    const options = (q.options as string[]);
+    const correctLetter = q.correct_answer;
+    let correctEliminations = 0;
+    let wrongEliminations = 0;
+    const details: { letter: string; eliminated: boolean; shouldEliminate: boolean; isCorrectAnswer: boolean }[] = [];
+
+    options.forEach((_, oi) => {
+      const letter = String.fromCharCode(65 + oi);
+      const eliminated = selections.has(letter);
+      const isCorrectAnswer = letter === correctLetter;
+      const shouldEliminate = !isCorrectAnswer;
+
+      details.push({ letter, eliminated, shouldEliminate, isCorrectAnswer });
+
+      if (eliminated && shouldEliminate) correctEliminations++;
+      if (eliminated && isCorrectAnswer) wrongEliminations++;
+    });
+
+    return { correctEliminations, wrongEliminations, total: options.length - 1, details };
+  };
+
+  const toggleRuleOut = (qIndex: number) => {
+    setRuleOutMode(prev => ({ ...prev, [qIndex]: !prev[qIndex] }));
+  };
+
+  const toggleEliminateOption = (qIndex: number, letter: string) => {
+    setRuleOutSelections(prev => {
+      const current = prev[qIndex] || new Set<string>();
+      const next = new Set(current);
+      if (next.has(letter)) next.delete(letter);
+      else next.add(letter);
+      return { ...prev, [qIndex]: next };
+    });
+  };
+
+  const toggleExpand = (i: number) => {
+    setExpandedQuestions(prev => {
+      const next = new Set(prev);
+      if (next.has(i)) next.delete(i);
+      else next.add(i);
+      return next;
+    });
+  };
+
+  const expandAll = () => setExpandedQuestions(new Set(questions.map((_, i) => i)));
+  const collapseAll = () => setExpandedQuestions(new Set());
+
+  // Elimination metrics
+  const eliminationStats = useMemo(() => {
+    let totalCorrectElim = 0;
+    let totalWrongElim = 0;
+    let totalPossible = 0;
+    let questionsWithRuleOut = 0;
+
+    Object.keys(ruleOutSelections).forEach(key => {
+      const i = parseInt(key);
+      const score = getRuleOutScore(i);
+      if (score) {
+        questionsWithRuleOut++;
+        totalCorrectElim += score.correctEliminations;
+        totalWrongElim += score.wrongEliminations;
+        totalPossible += score.total;
+      }
+    });
+
+    return { totalCorrectElim, totalWrongElim, totalPossible, questionsWithRuleOut };
+  }, [ruleOutSelections]);
+
+  // DNA update
   useEffect(() => {
     if (!user || dnaUpdated) return;
     setDnaUpdated(true);
 
     const updateDNA = async () => {
-      // Stability: ratio of questions with 0 changes (only meaningful in recharge mode)
-      const totalChanges = Object.values(changes).reduce((a, b) => a + b, 0);
+      const overallAccuracy = total > 0 ? correct / total : 0;
       const stabilityScore = config.mode === 'recharge' ? Math.max(0, 100 - (totalChanges / total) * 50) : null;
-
-      // Confidence gap: difference between best and worst category accuracy
-      const accuracies = Object.values(categoryStats).map((s) => s.correct / s.total);
+      const accuracies = Object.values(categoryStats).map(s => s.correct / s.total);
       const confidenceGap = accuracies.length > 1 ? Math.max(...accuracies) - Math.min(...accuracies) : 0;
 
-      // Upsert performance_profiles
-      const { data: existing } = await supabase
-        .from('performance_profiles')
-        .select('*')
-        .eq('user_id', user.id)
-        .maybeSingle();
+      const { data: existing } = await supabase.from('performance_profiles').select('*').eq('user_id', user.id).maybeSingle();
 
       if (existing) {
         const blendedAccuracy = (existing.clinical_accuracy || 0) * 0.6 + overallAccuracy * 100 * 0.4;
@@ -947,7 +1036,6 @@ function ResultsScreen({
         });
       }
 
-      // Update weak_areas on profile
       if (weaknesses.length > 0) {
         await supabase.from('profiles').update({ weak_areas: weaknesses }).eq('id', user.id);
       }
@@ -956,141 +1044,349 @@ function ResultsScreen({
     updateDNA();
   }, [user]);
 
-  if (reviewIndex !== null) {
-    const q = questions[reviewIndex];
-    return (
-      <AppLayout>
-        <AnimatePresence mode="wait">
-          <QuestionExplanation
-            key={reviewIndex}
-            question={q}
-            userAnswer={answers[reviewIndex]}
-            questionIndex={reviewIndex}
-            onBack={() => setReviewIndex(null)}
-          />
-        </AnimatePresence>
-      </AppLayout>
-    );
-  }
-
   return (
     <AppLayout>
-      <div className="mx-auto max-w-2xl py-12 space-y-8">
-        {/* Score */}
-        <Card>
-          <CardHeader className="text-center">
-            <CardTitle className="text-2xl font-display">Drill Complete!</CardTitle>
-          </CardHeader>
-          <CardContent className="text-center space-y-4">
-            <div className="text-5xl font-bold font-display text-primary">{correct}/{total}</div>
-            <p className="text-muted-foreground">{Math.round(overallAccuracy * 100)}% accuracy</p>
-            <Badge variant="outline">
-              {config.mode === 'recharge' ? <><RefreshCw className="h-3 w-3 mr-1" />Recharge Mode</> : <><Lock className="h-3 w-3 mr-1" />No Change Mode</>}
-            </Badge>
-          </CardContent>
-        </Card>
+      <div className="mx-auto max-w-3xl py-6 space-y-6">
+        {/* ── SECTION 1: Summary Header ── */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+          <Card className="overflow-hidden">
+            <div className={cn('h-2', accuracy >= 80 ? 'bg-success' : accuracy >= 60 ? 'bg-warning' : 'bg-destructive')} />
+            <CardContent className="pt-6 pb-4 space-y-5">
+              <div className="text-center space-y-2">
+                <h1 className="text-2xl font-bold font-display">Drill Complete!</h1>
+                <div className="text-5xl font-bold font-display text-primary">{correct}<span className="text-2xl text-muted-foreground">/{total}</span></div>
+                <p className="text-lg text-muted-foreground">{accuracy}% accuracy</p>
+              </div>
 
-        {/* Category Breakdown */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-base font-display">Performance by Topic</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            {Object.entries(categoryStats)
-              .sort(([, a], [, b]) => a.correct / a.total - b.correct / b.total)
-              .map(([cat, stats]) => {
-                const pct = Math.round((stats.correct / stats.total) * 100);
-                return (
-                  <div key={cat} className="space-y-1">
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="truncate">{cat}</span>
-                      <span className={cn('font-mono text-xs font-semibold', pct >= 80 ? 'text-success' : pct >= 60 ? 'text-warning' : 'text-destructive')}>
-                        {stats.correct}/{stats.total} ({pct}%)
-                      </span>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <div className="rounded-lg bg-muted p-3 text-center">
+                  <p className="text-xs text-muted-foreground">Avg Time</p>
+                  <p className="text-lg font-bold font-mono">{avgTime}s</p>
+                </div>
+                <div className="rounded-lg bg-muted p-3 text-center">
+                  <p className="text-xs text-muted-foreground">Changes</p>
+                  <p className="text-lg font-bold font-mono">{totalChanges}</p>
+                </div>
+                <div className="rounded-lg bg-muted p-3 text-center">
+                  <p className="text-xs text-muted-foreground">Mode</p>
+                  <p className="text-sm font-semibold">{config.mode === 'recharge' ? 'Recharge' : 'No Change'}</p>
+                </div>
+                <div className="rounded-lg bg-muted p-3 text-center">
+                  <p className="text-xs text-muted-foreground">Total Time</p>
+                  <p className="text-lg font-bold font-mono">{Math.floor(totalTime / 60)}m {totalTime % 60}s</p>
+                </div>
+              </div>
+
+              {/* Insight */}
+              <div className="rounded-lg border border-primary/20 bg-primary/5 p-3">
+                <div className="flex items-start gap-2">
+                  <Zap className="h-4 w-4 text-primary mt-0.5 shrink-0" />
+                  <p className="text-sm text-foreground">{generateInsight()}</p>
+                </div>
+              </div>
+
+              {/* Category breakdown */}
+              {Object.keys(categoryStats).length > 1 && (
+                <div className="space-y-2">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">By Topic</p>
+                  {Object.entries(categoryStats)
+                    .sort(([, a], [, b]) => a.correct / a.total - b.correct / b.total)
+                    .map(([cat, stats]) => {
+                      const pct = Math.round((stats.correct / stats.total) * 100);
+                      return (
+                        <div key={cat} className="space-y-1">
+                          <div className="flex items-center justify-between text-sm">
+                            <span className="truncate text-xs">{cat}</span>
+                            <span className={cn('font-mono text-xs font-semibold', pct >= 80 ? 'text-success' : pct >= 60 ? 'text-warning' : 'text-destructive')}>
+                              {stats.correct}/{stats.total} ({pct}%)
+                            </span>
+                          </div>
+                          <Progress value={pct} className="h-1.5" />
+                        </div>
+                      );
+                    })}
+                </div>
+              )}
+
+              {/* Strengths / Weaknesses */}
+              {(strengths.length > 0 || weaknesses.length > 0) && (
+                <div className="flex flex-wrap gap-4">
+                  {strengths.length > 0 && (
+                    <div className="flex items-center gap-2">
+                      <TrendingUp className="h-4 w-4 text-success" />
+                      <div className="flex flex-wrap gap-1">
+                        {strengths.map(s => <Badge key={s} variant="outline" className="text-[10px] border-success/30 text-success">{s}</Badge>)}
+                      </div>
                     </div>
-                    <Progress value={pct} className="h-2" />
-                  </div>
-                );
-              })}
-          </CardContent>
-        </Card>
+                  )}
+                  {weaknesses.length > 0 && (
+                    <div className="flex items-center gap-2">
+                      <TrendingDown className="h-4 w-4 text-destructive" />
+                      <div className="flex flex-wrap gap-1">
+                        {weaknesses.map(w => <Badge key={w} variant="outline" className="text-[10px] border-destructive/30 text-destructive">{w}</Badge>)}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
 
-        {/* Strengths / Weaknesses */}
-        {(strengths.length > 0 || weaknesses.length > 0) && (
-          <div className="grid gap-4 sm:grid-cols-2">
-            {strengths.length > 0 && (
-              <Card className="border-l-4 border-l-success">
-                <CardHeader className="pb-2">
-                  <div className="flex items-center gap-2">
-                    <TrendingUp className="h-4 w-4 text-success" />
-                    <CardTitle className="text-sm font-display">Strengths</CardTitle>
+              {/* Elimination stats (only show if user has used rule-out) */}
+              {eliminationStats.questionsWithRuleOut > 0 && (
+                <div className="rounded-lg border p-3 space-y-2">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">🧠 Rule-Out Intelligence</p>
+                  <div className="grid grid-cols-3 gap-3 text-center">
+                    <div>
+                      <p className="text-lg font-bold text-success">{eliminationStats.totalCorrectElim}</p>
+                      <p className="text-[10px] text-muted-foreground">Correct Eliminations</p>
+                    </div>
+                    <div>
+                      <p className="text-lg font-bold text-destructive">{eliminationStats.totalWrongElim}</p>
+                      <p className="text-[10px] text-muted-foreground">Wrong Eliminations</p>
+                    </div>
+                    <div>
+                      <p className="text-lg font-bold text-primary">
+                        {eliminationStats.totalPossible > 0 ? Math.round((eliminationStats.totalCorrectElim / eliminationStats.totalPossible) * 100) : 0}%
+                      </p>
+                      <p className="text-[10px] text-muted-foreground">Elimination Accuracy</p>
+                    </div>
                   </div>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex flex-wrap gap-1.5">
-                    {strengths.map((s) => (
-                      <Badge key={s} variant="outline" className="text-xs border-success/30 text-success">{s}</Badge>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            )}
-            {weaknesses.length > 0 && (
-              <Card className="border-l-4 border-l-destructive">
-                <CardHeader className="pb-2">
-                  <div className="flex items-center gap-2">
-                    <TrendingDown className="h-4 w-4 text-destructive" />
-                    <CardTitle className="text-sm font-display">Needs Work</CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex flex-wrap gap-1.5">
-                    {weaknesses.map((w) => (
-                      <Badge key={w} variant="outline" className="text-xs border-destructive/30 text-destructive">{w}</Badge>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            )}
-          </div>
-        )}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </motion.div>
 
         {/* Actions */}
-        <div className="flex gap-4 justify-center">
-          <Button variant="outline" onClick={() => window.location.reload()}>More Drills</Button>
-          <Button asChild><a href="/profile">View Profile</a></Button>
+        <div className="flex gap-3 justify-center">
+          <Button variant="outline" onClick={() => window.location.reload()}>New Drill</Button>
+          <Button variant="outline" size="sm" onClick={expandAll}>Expand All</Button>
+          <Button variant="outline" size="sm" onClick={collapseAll}>Collapse All</Button>
         </div>
 
-        {/* Review Questions */}
+        {/* ── SECTION 2: Full Question Review ── */}
         <div className="space-y-4">
-          <h2 className="text-lg font-display font-semibold">Review Questions</h2>
+          <h2 className="text-lg font-display font-semibold">All Questions</h2>
           {questions.map((q, i) => {
             const userAnswer = answers[i];
             const isCorrect = userAnswer === q.correct_answer;
+            const isExpanded = expandedQuestions.has(i);
+            const isRuleOut = ruleOutMode[i];
+            const eliminated = ruleOutSelections[i] || new Set<string>();
+            const ruleOutScore = getRuleOutScore(i);
+            const options = q.options as string[];
+            const timeTaken = times[i] || 0;
+            const changeCount = changes[i] || 0;
+
             return (
-              <Card
+              <motion.div
                 key={q.id}
-                className={cn('border-l-4 cursor-pointer hover:shadow-md transition-shadow', isCorrect ? 'border-l-success' : 'border-l-destructive')}
-                onClick={() => setReviewIndex(i)}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: Math.min(i * 0.03, 0.5) }}
               >
-                <CardContent className="py-4">
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="flex-1">
-                      <p className="text-sm font-medium mb-1 line-clamp-2">{q.question_text}</p>
-                      <p className="text-xs text-muted-foreground">
-                        Your answer: <strong>{userAnswer || 'Not answered'}</strong> · Correct: <strong>{q.correct_answer}</strong>
+                <Card className={cn('border-l-4 overflow-hidden', isCorrect ? 'border-l-success' : 'border-l-destructive')}>
+                  {/* Question header - always visible */}
+                  <button
+                    onClick={() => toggleExpand(i)}
+                    className="w-full text-left px-4 py-3 flex items-start justify-between gap-3 hover:bg-muted/30 transition-colors"
+                  >
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="text-xs font-mono text-muted-foreground">Q{i + 1}</span>
+                        <Badge variant="outline" className="text-[10px]">{q.category}</Badge>
+                        {changeCount > 0 && <Badge variant="secondary" className="text-[10px]">{changeCount} change{changeCount > 1 ? 's' : ''}</Badge>}
+                        <span className="text-[10px] text-muted-foreground font-mono">{timeTaken}s</span>
+                      </div>
+                      <p className="text-sm font-medium leading-relaxed">{q.question_text}</p>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Your answer: <strong className={isCorrect ? 'text-success' : 'text-destructive'}>{userAnswer || '—'}</strong>
+                        {!isCorrect && <> · Correct: <strong className="text-success">{q.correct_answer}</strong></>}
                       </p>
                     </div>
-                    <Badge className={cn('shrink-0', isCorrect ? 'bg-success text-success-foreground' : 'bg-destructive text-destructive-foreground')}>
-                      {isCorrect ? <CheckCircle className="h-3 w-3 mr-1" /> : <XCircle className="h-3 w-3 mr-1" />}
-                      {isCorrect ? 'Correct' : 'Wrong'}
-                    </Badge>
-                  </div>
-                  <p className="text-xs text-primary mt-2 font-medium">Click to read full explanation →</p>
-                </CardContent>
-              </Card>
+                    <div className="flex items-center gap-2 shrink-0">
+                      {isCorrect
+                        ? <CheckCircle className="h-5 w-5 text-success" />
+                        : <XCircle className="h-5 w-5 text-destructive" />}
+                      {isExpanded
+                        ? <ChevronUp className="h-4 w-4 text-muted-foreground" />
+                        : <ChevronDown className="h-4 w-4 text-muted-foreground" />}
+                    </div>
+                  </button>
+
+                  {/* Expanded content */}
+                  <AnimatePresence>
+                    {isExpanded && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="overflow-hidden"
+                      >
+                        <div className="px-4 pb-4 space-y-4 border-t border-border/50 pt-3">
+                          {/* Rule-Out toggle */}
+                          <div className="flex justify-end">
+                            <Button
+                              variant={isRuleOut ? 'default' : 'outline'}
+                              size="sm"
+                              onClick={(e) => { e.stopPropagation(); toggleRuleOut(i); }}
+                              className="gap-1.5 text-xs"
+                            >
+                              🧠 {isRuleOut ? 'Exit Rule-Out' : 'Rule-Out Mode'}
+                            </Button>
+                          </div>
+
+                          {/* Options display */}
+                          <div className="space-y-2">
+                            {options.map((opt, oi) => {
+                              const letter = String.fromCharCode(65 + oi);
+                              const isUserAnswer = userAnswer === letter;
+                              const isCorrectAnswer = q.correct_answer === letter;
+                              const isEliminated = eliminated.has(letter);
+
+                              return (
+                                <div
+                                  key={oi}
+                                  className={cn(
+                                    'rounded-lg border p-3 text-sm flex items-center gap-3 transition-all',
+                                    isCorrectAnswer && 'border-success bg-success/5',
+                                    isUserAnswer && !isCorrectAnswer && 'border-destructive bg-destructive/5',
+                                    !isUserAnswer && !isCorrectAnswer && 'border-border',
+                                    isRuleOut && isEliminated && 'opacity-40 line-through',
+                                  )}
+                                >
+                                  {isRuleOut && (
+                                    <button
+                                      onClick={(e) => { e.stopPropagation(); toggleEliminateOption(i, letter); }}
+                                      className={cn(
+                                        'shrink-0 h-5 w-5 rounded border-2 flex items-center justify-center text-[10px] font-bold transition-colors',
+                                        isEliminated ? 'border-destructive bg-destructive text-destructive-foreground' : 'border-muted-foreground/30 hover:border-destructive/50'
+                                      )}
+                                    >
+                                      {isEliminated ? '✕' : ''}
+                                    </button>
+                                  )}
+                                  <span className={cn(
+                                    'inline-flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold shrink-0',
+                                    isCorrectAnswer ? 'bg-success text-success-foreground' : isUserAnswer ? 'bg-destructive text-destructive-foreground' : 'bg-muted text-muted-foreground'
+                                  )}>
+                                    {letter}
+                                  </span>
+                                  <span className="flex-1">{opt.replace(/^[A-E]\.\s*/, '')}</span>
+                                  {isCorrectAnswer && <CheckCircle className="h-4 w-4 text-success shrink-0" />}
+                                  {isUserAnswer && !isCorrectAnswer && <XCircle className="h-4 w-4 text-destructive shrink-0" />}
+                                </div>
+                              );
+                            })}
+                          </div>
+
+                          {/* Rule-out score */}
+                          {ruleOutScore && (
+                            <div className="rounded-lg bg-muted p-3 space-y-2">
+                              <div className="flex items-center justify-between">
+                                <p className="text-xs font-semibold">Elimination Score: {ruleOutScore.correctEliminations}/{ruleOutScore.total}</p>
+                                <Badge variant={ruleOutScore.wrongEliminations > 0 ? 'destructive' : 'default'} className="text-[10px]">
+                                  {ruleOutScore.wrongEliminations > 0 ? 'Eliminated correct answer!' : 'Good elimination'}
+                                </Badge>
+                              </div>
+                              <div className="space-y-1">
+                                {ruleOutScore.details.map(d => (
+                                  <p key={d.letter} className="text-xs text-muted-foreground">
+                                    {d.eliminated && d.shouldEliminate && <span className="text-success">✔ Eliminated {d.letter} correctly</span>}
+                                    {d.eliminated && d.isCorrectAnswer && <span className="text-destructive">✘ Eliminated correct answer {d.letter}!</span>}
+                                    {!d.eliminated && d.shouldEliminate && <span className="text-muted-foreground/60">— Did not eliminate {d.letter}</span>}
+                                    {!d.eliminated && d.isCorrectAnswer && <span className="text-success/60">✔ Kept correct answer {d.letter}</span>}
+                                  </p>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Explanation */}
+                          {q.explanation && (
+                            <div className="rounded-lg border p-3 space-y-2">
+                              <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Explanation</p>
+                              <p className="text-sm text-muted-foreground leading-relaxed">{q.explanation}</p>
+                            </div>
+                          )}
+
+                          {/* Diagnosis & Management */}
+                          {(q.diagnosis_explanation || q.first_line_investigation || q.best_treatment) && (
+                            <div className="rounded-lg border border-primary/20 p-3 space-y-3">
+                              <div className="flex items-center gap-2">
+                                <Stethoscope className="h-4 w-4 text-primary" />
+                                <p className="text-xs font-semibold">Diagnosis & Management</p>
+                              </div>
+                              {q.diagnosis_explanation && <p className="text-sm text-muted-foreground">{q.diagnosis_explanation}</p>}
+                              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                                {q.first_line_investigation && (
+                                  <div className="rounded bg-muted p-2">
+                                    <p className="text-[10px] text-muted-foreground">1st Line Ix</p>
+                                    <p className="text-xs font-medium">{q.first_line_investigation}</p>
+                                  </div>
+                                )}
+                                {q.gold_standard_investigation && (
+                                  <div className="rounded bg-muted p-2">
+                                    <p className="text-[10px] text-muted-foreground">Gold Standard</p>
+                                    <p className="text-xs font-medium">{q.gold_standard_investigation}</p>
+                                  </div>
+                                )}
+                                {q.best_treatment && (
+                                  <div className="rounded bg-muted p-2">
+                                    <p className="text-[10px] text-muted-foreground">Best Treatment</p>
+                                    <p className="text-xs font-medium">{q.best_treatment}</p>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Incorrect answer analysis */}
+                          {q.incorrect_answer_explanations && Object.keys(q.incorrect_answer_explanations).length > 0 && (
+                            <div className="rounded-lg border p-3 space-y-2">
+                              <p className="text-xs font-semibold uppercase tracking-wider text-destructive/70">Why Other Options Are Wrong</p>
+                              {Object.entries(q.incorrect_answer_explanations).map(([letter, exp]) => {
+                                if (letter === q.correct_answer) return null;
+                                const explanation = exp as any;
+                                return (
+                                  <div key={letter} className="text-xs space-y-0.5 pl-2 border-l-2 border-border">
+                                    <p className="font-medium">Option {letter}</p>
+                                    {explanation?.why_wrong && <p className="text-muted-foreground">Why wrong: {explanation.why_wrong}</p>}
+                                    {explanation?.when_correct && <p className="text-muted-foreground">When correct: {explanation.when_correct}</p>}
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          )}
+
+                          {/* Key takeaways */}
+                          {q.key_takeaways && q.key_takeaways.length > 0 && (
+                            <div className="rounded-lg border border-amber-500/20 p-3">
+                              <p className="text-xs font-semibold uppercase tracking-wider text-amber-500 mb-2">Key Takeaways</p>
+                              <ul className="space-y-1">
+                                {q.key_takeaways.map((point, pi) => (
+                                  <li key={pi} className="flex items-start gap-2 text-xs text-muted-foreground">
+                                    <span className="mt-1 h-1.5 w-1.5 rounded-full bg-amber-400 shrink-0" />
+                                    {point}
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </Card>
+              </motion.div>
             );
           })}
+        </div>
+
+        {/* Bottom actions */}
+        <div className="flex gap-3 justify-center pb-8">
+          <Button variant="outline" onClick={() => window.location.reload()}>Start New Drill</Button>
+          <Button asChild><a href="/intelligence">View Intelligence</a></Button>
         </div>
       </div>
     </AppLayout>
