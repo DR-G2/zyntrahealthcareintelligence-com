@@ -99,8 +99,11 @@ async function fetchAllQuestionTopicMeta(): Promise<QuestionTopicMeta[]> {
 function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConfig) => void; onShowHistory?: () => void }) {
   const gate = useFeatureGate();
   const [mode, setMode] = useState<'recharge' | 'no-change'>('recharge');
-  const [selectedSubjects, setSelectedSubjects] = useState<Set<string>>(new Set());
+  // Subtopic-level selection is source of truth
+  // Key: "subjectId::subtopicName", value: selected or not
   const [selectedSubtopics, setSelectedSubtopics] = useState<Set<string>>(new Set());
+  // Track subjects with no subtopics that are selected
+  const [selectedBareSubjects, setSelectedBareSubjects] = useState<Set<string>>(new Set());
   const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
   const [questionCount, setQuestionCount] = useState(25);
   const [searchQuery, setSearchQuery] = useState('');
@@ -144,7 +147,20 @@ function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConf
         setDbSubtopics(subtopics);
         setCategoryCounts(catCounts);
         setSubtopicCounts(stCounts);
-        setSelectedSubjects(new Set(subjects.map((subject) => subject.name)));
+
+        // Default: select all subtopics + all bare subjects
+        const allSt = new Set<string>();
+        const bareSubjects = new Set<string>();
+        subjects.forEach(s => {
+          const sts = subtopics.filter(st => st.subject_id === s.id);
+          if (sts.length > 0) {
+            sts.forEach(st => allSt.add(st.name));
+          } else {
+            bareSubjects.add(s.name);
+          }
+        });
+        setSelectedSubtopics(allSt);
+        setSelectedBareSubjects(bareSubjects);
       } catch (error: any) {
         console.error('Failed to load practice filters', error);
       } finally {
@@ -177,46 +193,71 @@ function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConf
     });
   };
 
+  // Compute subject check state from subtopics
+  const getSubjectState = (subjectId: string, subjectName: string): 'all' | 'some' | 'none' => {
+    const subtopics = subjectSubtopicsMap[subjectId] || [];
+    if (subtopics.length === 0) {
+      return selectedBareSubjects.has(subjectName) ? 'all' : 'none';
+    }
+    const selectedCount = subtopics.filter(st => selectedSubtopics.has(st.name)).length;
+    if (selectedCount === subtopics.length) return 'all';
+    if (selectedCount > 0) return 'some';
+    return 'none';
+  };
+
   const toggleSubject = (subjectName: string, subjectId: string) => {
-    const subtopicsForSubject = subjectSubtopicsMap[subjectId] || [];
-    setSelectedSubjects(prev => {
+    const subtopics = subjectSubtopicsMap[subjectId] || [];
+    if (subtopics.length === 0) {
+      // Bare subject toggle
+      setSelectedBareSubjects(prev => {
+        const next = new Set(prev);
+        if (next.has(subjectName)) next.delete(subjectName);
+        else next.add(subjectName);
+        return next;
+      });
+      return;
+    }
+    const state = getSubjectState(subjectId, subjectName);
+    setSelectedSubtopics(prev => {
       const next = new Set(prev);
-      if (next.has(subjectName)) {
-        next.delete(subjectName);
-        // Also deselect all subtopics for this subject
-        setSelectedSubtopics(prev2 => {
-          const next2 = new Set(prev2);
-          subtopicsForSubject.forEach(st => next2.delete(st.name));
-          return next2;
-        });
+      if (state === 'all') {
+        // Deselect all subtopics
+        subtopics.forEach(st => next.delete(st.name));
       } else {
-        next.add(subjectName);
+        // Select all subtopics
+        subtopics.forEach(st => next.add(st.name));
       }
       return next;
     });
   };
 
-  const toggleSubtopic = (subtopicName: string, parentSubjectName: string) => {
+  const toggleSubtopic = (subtopicName: string) => {
     setSelectedSubtopics(prev => {
       const next = new Set(prev);
       if (next.has(subtopicName)) next.delete(subtopicName);
       else next.add(subtopicName);
       return next;
     });
-    // Ensure parent subject is selected
-    if (!selectedSubjects.has(parentSubjectName)) {
-      setSelectedSubjects(prev => new Set(prev).add(parentSubjectName));
-    }
+  };
+
+  // Derive selected subject names for the drill config
+  const getSelectedSubjectNames = (): string[] => {
+    const names: string[] = [];
+    dbSubjects.forEach(s => {
+      const state = getSubjectState(s.id, s.name);
+      if (state !== 'none') names.push(s.name);
+    });
+    return names;
   };
 
   const selectAll = () => {
-    setSelectedSubjects(new Set(dbSubjects.map(s => s.name)));
-    setSelectedSubtopics(new Set());
+    setSelectedSubtopics(new Set(dbSubtopics.map(st => st.name)));
+    setSelectedBareSubjects(new Set(dbSubjects.filter(s => (subjectSubtopicsMap[s.id] || []).length === 0).map(s => s.name)));
   };
 
   const clearAll = () => {
-    setSelectedSubjects(new Set());
     setSelectedSubtopics(new Set());
+    setSelectedBareSubjects(new Set());
   };
 
   const handleQuestionCountChange = (value: string) => {
@@ -232,7 +273,8 @@ function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConf
   const decrementCount = () => setQuestionCount(prev => Math.max(1, prev - 1));
 
   const quickPresets = [10, 20, 40, 60, 100];
-  const canStart = selectedSubjects.size > 0;
+  const hasAnySelection = getSelectedSubjectNames().length > 0;
+  const canStart = hasAnySelection;
 
   if (loading) {
     return (
