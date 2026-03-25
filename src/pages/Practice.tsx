@@ -1473,6 +1473,7 @@ export default function Practice() {
     answers: Record<number, string>;
     changes: Record<number, number>;
     times: Record<number, number>;
+    ruledOut: Record<number, string[]>;
   } | null>(null);
 
   if (!gate.canAccessQBank) {
@@ -1529,8 +1530,8 @@ export default function Practice() {
       <DrillSession
         config={config}
         resumeSessionId={resumeSessionId}
-        onFinish={(questions, answers, changes, times) => {
-          setResultData({ questions, answers, changes, times });
+        onFinish={(questions, answers, changes, times, ruledOut) => {
+          setResultData({ questions, answers, changes, times, ruledOut });
           setPhase('results');
         }}
       />
@@ -1545,6 +1546,7 @@ export default function Practice() {
         changes={resultData.changes}
         times={resultData.times}
         config={config}
+        drillRuleOuts={resultData.ruledOut}
       />
     );
   }
