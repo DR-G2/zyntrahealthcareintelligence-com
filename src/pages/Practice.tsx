@@ -434,7 +434,9 @@ function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConf
               })
               .map((subject) => {
                 const subtopics = subjectSubtopicsMap[subject.id] || [];
-                const isSelected = selectedSubjects.has(subject.name);
+                const subjectState = getSubjectState(subject.id, subject.name);
+                const isSelected = subjectState !== 'none';
+                const isIndeterminate = subjectState === 'some';
                 const searchMatch = searchQuery.trim() && subtopics.some(st => st.name.toLowerCase().includes(searchQuery.toLowerCase()));
 
                 return (
@@ -450,7 +452,7 @@ function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConf
                       <CollapsibleTrigger className="flex w-full items-center justify-between px-4 py-3 text-left">
                         <div className="flex items-center gap-3">
                           <Checkbox
-                            checked={isSelected}
+                            checked={isIndeterminate ? 'indeterminate' : isSelected}
                             onCheckedChange={() => toggleSubject(subject.name, subject.id)}
                             onClick={(e) => e.stopPropagation()}
                           />
@@ -472,11 +474,13 @@ function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConf
                             {subtopics.map((st) => (
                               <label
                                 key={st.id}
+                                onClick={(e) => e.stopPropagation()}
                                 className="flex items-center gap-2 cursor-pointer text-sm text-muted-foreground hover:text-foreground transition-colors"
                               >
                                 <Checkbox
                                   checked={selectedSubtopics.has(st.name)}
-                                  onCheckedChange={() => toggleSubtopic(st.name, subject.name)}
+                                  onCheckedChange={() => toggleSubtopic(st.name)}
+                                  onClick={(e) => e.stopPropagation()}
                                 />
                                 <span>{st.name}</span>
                                 {subtopicCounts[st.name] ? (
@@ -495,8 +499,8 @@ function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConf
               })}
           </div>
 
-          {selectedSubjects.size === 0 && (
-            <p className="text-sm text-destructive">Select at least one subject</p>
+          {!hasAnySelection && (
+            <p className="text-sm text-destructive">Select at least one subject or subtopic</p>
           )}
         </div>
 
@@ -507,7 +511,7 @@ function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConf
           onClick={() => {
             onStart({
               mode,
-              topics: Array.from(selectedSubjects),
+              topics: getSelectedSubjectNames(),
               subtopics: Array.from(selectedSubtopics),
               questionCount,
             });
