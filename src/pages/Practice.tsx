@@ -507,6 +507,7 @@ function DrillSession({
   const [firstClickRecorded, setFirstClickRecorded] = useState<Record<number, boolean>>({});
   const [timeToFirstClick, setTimeToFirstClick] = useState<Record<number, number>>({});
   const [pauseEvents, setPauseEvents] = useState<Record<number, number>>({});
+  const [ruledOutOptions, setRuledOutOptions] = useState<Record<number, Set<string>>>({});
   const [timeRemaining, setTimeRemaining] = useState(timeSeconds);
   const [loading, setLoading] = useState(true);
   const [finished, setFinished] = useState(false);
@@ -696,11 +697,37 @@ function DrillSession({
       setLockedAnswers((p) => ({ ...p, [currentIndex]: true }));
     }
 
+    // If selecting a ruled-out option, remove the rule-out
+    setRuledOutOptions(prev => {
+      const current = prev[currentIndex];
+      if (current?.has(answer)) {
+        const next = new Set(current);
+        next.delete(answer);
+        return { ...prev, [currentIndex]: next };
+      }
+      return prev;
+    });
+
     // Auto-save (debounced)
     if (autoSaveRef.current) clearTimeout(autoSaveRef.current);
     autoSaveRef.current = setTimeout(() => {
       saveSession(questions, currentIndex, newAnswers, newChanges, newSequences, questionTimes, timeToFirstClick, pauseEvents, timeRemaining);
     }, 500);
+  };
+
+  const toggleRuleOutOption = (letter: string) => {
+    // Don't rule out the currently selected answer
+    if (selectedAnswers[currentIndex] === letter) return;
+    if (lockedAnswers[currentIndex]) return;
+    lastInteractionRef.current = Date.now();
+    
+    setRuledOutOptions(prev => {
+      const current = prev[currentIndex] || new Set<string>();
+      const next = new Set(current);
+      if (next.has(letter)) next.delete(letter);
+      else next.add(letter);
+      return { ...prev, [currentIndex]: next };
+    });
   };
 
   const goTo = (i: number) => {
@@ -742,7 +769,13 @@ function DrillSession({
       supabase.functions.invoke('analyze-behavior').catch(console.error);
     }
 
-    onFinish(questions, selectedAnswers, answerChanges, questionTimes);
+    // Convert ruled out sets to arrays for results
+    const ruledOutArrays: Record<number, string[]> = {};
+    Object.entries(ruledOutOptions).forEach(([key, set]) => {
+      ruledOutArrays[parseInt(key)] = Array.from(set);
+    });
+
+    onFinish(questions, selectedAnswers, answerChanges, questionTimes, ruledOutArrays);
   };
 
   const formatTime = (s: number) => `${Math.floor(s / 60)}:${(s % 60).toString().padStart(2, '0')}`;
