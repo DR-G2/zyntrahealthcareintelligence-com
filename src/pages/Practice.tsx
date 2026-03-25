@@ -958,7 +958,14 @@ function ResultsScreen({
   const [dnaUpdated, setDnaUpdated] = useState(false);
   const [expandedQuestions, setExpandedQuestions] = useState<Set<number>>(new Set());
   const [ruleOutMode, setRuleOutMode] = useState<Record<number, boolean>>({});
-  const [ruleOutSelections, setRuleOutSelections] = useState<Record<number, Set<string>>>({});
+  const [ruleOutSelections, setRuleOutSelections] = useState<Record<number, Set<string>>>(() => {
+    // Initialize from drill-time rule-outs
+    const initial: Record<number, Set<string>> = {};
+    Object.entries(drillRuleOuts).forEach(([key, arr]) => {
+      if (arr.length > 0) initial[parseInt(key)] = new Set(arr);
+    });
+    return initial;
+  });
 
   // Stats
   const correct = questions.filter((q, i) => answers[i] === q.correct_answer).length;
