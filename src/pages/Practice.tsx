@@ -828,6 +828,7 @@ function DrillSession({
   }
 
   const options = question.options as string[];
+  const currentRuledOut = ruledOutOptions[currentIndex] || new Set<string>();
 
   return (
     <AppLayout>
