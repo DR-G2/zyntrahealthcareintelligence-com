@@ -945,12 +945,14 @@ function ResultsScreen({
   changes,
   times,
   config,
+  drillRuleOuts,
 }: {
   questions: Question[];
   answers: Record<number, string>;
   changes: Record<number, number>;
   times: Record<number, number>;
   config: SessionConfig;
+  drillRuleOuts: Record<number, string[]>;
 }) {
   const { user } = useAuth();
   const [dnaUpdated, setDnaUpdated] = useState(false);
