@@ -487,7 +487,7 @@ function DrillSession({
   resumeSessionId,
 }: {
   config: SessionConfig;
-  onFinish: (questions: Question[], answers: Record<number, string>, changes: Record<number, number>, times: Record<number, number>) => void;
+  onFinish: (questions: Question[], answers: Record<number, string>, changes: Record<number, number>, times: Record<number, number>, ruledOut: Record<number, string[]>) => void;
   resumeSessionId?: string | null;
 }) {
   const { user } = useAuth();
