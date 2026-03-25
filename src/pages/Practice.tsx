@@ -863,26 +863,54 @@ function DrillSession({
                   const letter = String.fromCharCode(65 + oi);
                   const isSelected = selectedAnswers[currentIndex] === letter;
                   const isLocked = lockedAnswers[currentIndex];
+                  const isRuledOut = currentRuledOut.has(letter);
                   return (
-                    <motion.button
+                    <motion.div
                       key={oi}
-                      onClick={() => selectAnswer(letter)}
-                      disabled={isLocked && !isSelected}
                       whileTap={{ scale: 0.98 }}
                       animate={isSelected ? { scale: 1.02, boxShadow: '0 0 0 3px hsl(var(--primary) / 0.15)' } : { scale: 1, boxShadow: '0 0 0 0px transparent' }}
                       transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                       className={cn(
-                        'w-full rounded-lg border p-4 text-left text-sm transition-colors',
+                        'flex items-center rounded-lg border text-sm transition-all',
                         isSelected ? 'border-primary bg-primary/5 ring-2 ring-primary/20' : 'border-border hover:border-primary/30',
-                        isLocked && !isSelected && 'opacity-40 cursor-not-allowed'
+                        isLocked && !isSelected && 'opacity-40 cursor-not-allowed',
+                        isRuledOut && !isSelected && 'opacity-40'
                       )}
                     >
-                      <span className={cn('mr-3 inline-flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold', isSelected ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground')}>
-                        {letter}
-                      </span>
-                      {opt.replace(/^[A-E]\.\s*/, '')}
-                      {isLocked && isSelected && <Lock className="inline h-3 w-3 ml-2 text-primary" />}
-                    </motion.button>
+                      {/* Rule-out circle */}
+                      <button
+                        type="button"
+                        onClick={(e) => { e.stopPropagation(); toggleRuleOutOption(letter); }}
+                        className={cn(
+                          'shrink-0 flex items-center justify-center w-10 h-full min-h-[52px] border-r transition-colors rounded-l-lg',
+                          isRuledOut ? 'bg-destructive/10 border-destructive/20' : 'border-border/50 hover:bg-muted/50'
+                        )}
+                        disabled={isLocked}
+                        aria-label={`Rule out option ${letter}`}
+                      >
+                        {isRuledOut ? (
+                          <span className="text-destructive text-xs font-bold">✕</span>
+                        ) : (
+                          <Minus className="h-3.5 w-3.5 text-muted-foreground/50" />
+                        )}
+                      </button>
+                      {/* Main select area */}
+                      <button
+                        type="button"
+                        onClick={() => selectAnswer(letter)}
+                        disabled={isLocked && !isSelected}
+                        className={cn(
+                          'flex-1 p-4 text-left flex items-center',
+                          isRuledOut && !isSelected && 'line-through text-muted-foreground'
+                        )}
+                      >
+                        <span className={cn('mr-3 inline-flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold shrink-0', isSelected ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground')}>
+                          {letter}
+                        </span>
+                        <span className="flex-1">{opt.replace(/^[A-E]\.\s*/, '')}</span>
+                        {isLocked && isSelected && <Lock className="h-3 w-3 ml-2 text-primary shrink-0" />}
+                      </button>
+                    </motion.div>
                   );
                 })}
               </CardContent>
