@@ -654,11 +654,23 @@ function DrillSession({
       if (subtopicsRes.error) throw subtopicsRes.error;
 
       const resolver = buildPracticeTopicResolver(subjectsRes.data || [], subtopicsRes.data || []);
-      const selectedSubjects = new Set(config.topics.map((topic) => normalizeTopicLabel(topic)));
+      const selectedSubtopicSet = new Set(config.subtopics.map((s) => normalizeTopicLabel(s)));
+      const selectedSubjectSet = new Set(config.topics.map((t) => normalizeTopicLabel(t)));
+      const hasSubtopicFilter = selectedSubtopicSet.size > 0;
+
       const matchingIds = questionMeta
         .filter((question) => {
           const placement = resolvePracticeQuestionPlacement(question, resolver);
-          return placement.subjectName && selectedSubjects.has(normalizeTopicLabel(placement.subjectName));
+          if (!placement.subjectName) return false;
+
+          // If user selected specific subtopics, filter by subtopic match
+          if (hasSubtopicFilter && placement.subtopicName) {
+            return selectedSubtopicSet.has(normalizeTopicLabel(placement.subtopicName));
+          }
+
+          // For questions with no subtopic match, fall back to subject-level check
+          // but only if that subject is at least partially selected
+          return selectedSubjectSet.has(normalizeTopicLabel(placement.subjectName));
         })
         .map((question) => question.id)
         .sort(() => Math.random() - 0.5)
