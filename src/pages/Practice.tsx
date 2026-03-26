@@ -72,6 +72,10 @@ interface QuestionTopicMeta {
 
 const QUESTION_META_PAGE_SIZE = 1000;
 
+function createSelectedSubtopicKey(subjectName: string, subtopicName: string): string {
+  return `${normalizeTopicLabel(subjectName)}::${normalizeTopicLabel(subtopicName)}`;
+}
+
 async function fetchAllQuestionTopicMeta(): Promise<QuestionTopicMeta[]> {
   const rows: QuestionTopicMeta[] = [];
   let from = 0;
@@ -100,7 +104,7 @@ function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConf
   const gate = useFeatureGate();
   const [mode, setMode] = useState<'recharge' | 'no-change'>('recharge');
   // Subtopic-level selection is source of truth
-  // Key: "subjectId::subtopicName", value: selected or not
+  // Key: "normalized-subject::normalized-subtopic"
   const [selectedSubtopics, setSelectedSubtopics] = useState<Set<string>>(new Set());
   // Track subjects with no subtopics that are selected
   const [selectedBareSubjects, setSelectedBareSubjects] = useState<Set<string>>(new Set());
@@ -154,7 +158,7 @@ function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConf
         subjects.forEach(s => {
           const sts = subtopics.filter(st => st.subject_id === s.id);
           if (sts.length > 0) {
-            sts.forEach(st => allSt.add(st.name));
+            sts.forEach(st => allSt.add(createSelectedSubtopicKey(s.name, st.name)));
           } else {
             bareSubjects.add(s.name);
           }
@@ -199,7 +203,7 @@ function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConf
     if (subtopics.length === 0) {
       return selectedBareSubjects.has(subjectName) ? 'all' : 'none';
     }
-    const selectedCount = subtopics.filter(st => selectedSubtopics.has(st.name)).length;
+    const selectedCount = subtopics.filter((st) => selectedSubtopics.has(createSelectedSubtopicKey(subjectName, st.name))).length;
     if (selectedCount === subtopics.length) return 'all';
     if (selectedCount > 0) return 'some';
     return 'none';
@@ -222,20 +226,21 @@ function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConf
       const next = new Set(prev);
       if (state === 'all') {
         // Deselect all subtopics
-        subtopics.forEach(st => next.delete(st.name));
+        subtopics.forEach((st) => next.delete(createSelectedSubtopicKey(subjectName, st.name)));
       } else {
         // Select all subtopics
-        subtopics.forEach(st => next.add(st.name));
+        subtopics.forEach((st) => next.add(createSelectedSubtopicKey(subjectName, st.name)));
       }
       return next;
     });
   };
 
-  const toggleSubtopic = (subtopicName: string) => {
+  const toggleSubtopic = (subjectName: string, subtopicName: string) => {
+    const key = createSelectedSubtopicKey(subjectName, subtopicName);
     setSelectedSubtopics(prev => {
       const next = new Set(prev);
-      if (next.has(subtopicName)) next.delete(subtopicName);
-      else next.add(subtopicName);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
       return next;
     });
   };
@@ -251,7 +256,10 @@ function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConf
   };
 
   const selectAll = () => {
-    setSelectedSubtopics(new Set(dbSubtopics.map(st => st.name)));
+    setSelectedSubtopics(new Set(dbSubtopics.map((st) => {
+      const subject = dbSubjects.find((s) => s.id === st.subject_id);
+      return subject ? createSelectedSubtopicKey(subject.name, st.name) : null;
+    }).filter((value): value is string => Boolean(value))));
     setSelectedBareSubjects(new Set(dbSubjects.filter(s => (subjectSubtopicsMap[s.id] || []).length === 0).map(s => s.name)));
   };
 
@@ -478,8 +486,8 @@ function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConf
                                 className="flex items-center gap-2 cursor-pointer text-sm text-muted-foreground hover:text-foreground transition-colors"
                               >
                                 <Checkbox
-                                  checked={selectedSubtopics.has(st.name)}
-                                  onCheckedChange={() => toggleSubtopic(st.name)}
+                                  checked={selectedSubtopics.has(createSelectedSubtopicKey(subject.name, st.name))}
+                                  onCheckedChange={() => toggleSubtopic(subject.name, st.name)}
                                   onClick={(e) => e.stopPropagation()}
                                 />
                                 <span>{st.name}</span>
@@ -654,23 +662,30 @@ function DrillSession({
       if (subtopicsRes.error) throw subtopicsRes.error;
 
       const resolver = buildPracticeTopicResolver(subjectsRes.data || [], subtopicsRes.data || []);
-      const selectedSubtopicSet = new Set(config.subtopics.map((s) => normalizeTopicLabel(s)));
+      const selectedSubtopicSet = new Set(config.subtopics);
+      const subjectsWithExplicitSubtopicFilters = new Set(
+        config.subtopics
+          .map((value) => value.split('::')[0])
+          .filter(Boolean)
+      );
       const selectedSubjectSet = new Set(config.topics.map((t) => normalizeTopicLabel(t)));
-      const hasSubtopicFilter = selectedSubtopicSet.size > 0;
 
       const matchingIds = questionMeta
         .filter((question) => {
           const placement = resolvePracticeQuestionPlacement(question, resolver);
           if (!placement.subjectName) return false;
 
-          // If user selected specific subtopics, filter by subtopic match
-          if (hasSubtopicFilter && placement.subtopicName) {
-            return selectedSubtopicSet.has(normalizeTopicLabel(placement.subtopicName));
+          const subjectKey = normalizeTopicLabel(placement.subjectName);
+          const placementSubtopicKey = placement.subtopicName
+            ? createSelectedSubtopicKey(placement.subjectName, placement.subtopicName)
+            : null;
+
+          // Once a subject has explicit subtopic filters, only those subtopics are allowed.
+          if (subjectsWithExplicitSubtopicFilters.has(subjectKey)) {
+            return placementSubtopicKey ? selectedSubtopicSet.has(placementSubtopicKey) : false;
           }
 
-          // For questions with no subtopic match, fall back to subject-level check
-          // but only if that subject is at least partially selected
-          return selectedSubjectSet.has(normalizeTopicLabel(placement.subjectName));
+          return selectedSubjectSet.has(subjectKey);
         })
         .map((question) => question.id)
         .sort(() => Math.random() - 0.5)
