@@ -12,6 +12,7 @@ import { ReadinessDNA } from '@/components/ReadinessDNA';
 import { SubscriptionTimer } from '@/components/SubscriptionTimer';
 import { useFeatureGate } from '@/hooks/useFeatureGate';
 import { useOSCEPreload } from '@/hooks/useOSCEPreload';
+import { PostSessionInsightBanner } from '@/components/PostSessionInsightBanner';
 import { supabase } from '@/lib/supabase';
 
 export default function Dashboard() {
@@ -49,6 +50,7 @@ export default function Dashboard() {
           onComplete={() => setShowTour(false)}
         />
       )}
+      <PostSessionInsightBanner />
       <div className="mb-8 space-y-3">
         <div>
           <h1 className="text-3xl font-bold font-display">
