@@ -1337,6 +1337,57 @@ export type Database = {
         }
         Relationships: []
       }
+      training_notifications: {
+        Row: {
+          body: string
+          category: string
+          created_at: string
+          cta_label: string | null
+          cta_route: string | null
+          dismissed_at: string | null
+          icon: string | null
+          id: string
+          metadata: Json | null
+          priority: number
+          read_at: string | null
+          title: string
+          type: string
+          user_id: string
+        }
+        Insert: {
+          body: string
+          category?: string
+          created_at?: string
+          cta_label?: string | null
+          cta_route?: string | null
+          dismissed_at?: string | null
+          icon?: string | null
+          id?: string
+          metadata?: Json | null
+          priority?: number
+          read_at?: string | null
+          title: string
+          type?: string
+          user_id: string
+        }
+        Update: {
+          body?: string
+          category?: string
+          created_at?: string
+          cta_label?: string | null
+          cta_route?: string | null
+          dismissed_at?: string | null
+          icon?: string | null
+          id?: string
+          metadata?: Json | null
+          priority?: number
+          read_at?: string | null
+          title?: string
+          type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_attempts: {
         Row: {
           answer_changes_count: number
