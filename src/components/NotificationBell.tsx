@@ -177,6 +177,15 @@ export function NotificationBell({ collapsed, onNavigate }: NotificationBellProp
               ))
             )}
           </div>
+          {/* Footer */}
+          <div className="border-t border-border px-4 py-2.5">
+            <button
+              onClick={() => { navigate('/notifications'); setOpen(false); onNavigate?.(); }}
+              className="text-xs font-medium text-primary hover:underline w-full text-center"
+            >
+              View all notifications →
+            </button>
+          </div>
         </div>
       )}
     </div>
