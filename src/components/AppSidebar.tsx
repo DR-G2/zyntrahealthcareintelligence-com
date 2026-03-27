@@ -4,6 +4,7 @@ import {
   Target, Activity, ChevronRight, Shield, Stethoscope, PanelLeftClose, PanelLeft,
   MessageCircle, Rss, BarChart3, Inbox,
 } from 'lucide-react';
+import { NotificationBell } from '@/components/NotificationBell';
 import { useInboxUnread } from '@/hooks/useInboxUnread';
 import { useAuth } from '@/contexts/AuthContext';
 import { useFeatureGate } from '@/hooks/useFeatureGate';
@@ -317,6 +318,7 @@ function SidebarInner({
 
       {/* Bottom */}
       <div className={cn('border-t border-sidebar-border py-3 space-y-1', collapsed ? 'px-1.5' : 'px-3')}>
+        <NotificationBell collapsed={collapsed} onNavigate={onNavigate} />
         <InboxNavItem collapsed={collapsed} location={location} onNavigate={onNavigate} />
         <NavTooltip label="Settings" collapsed={collapsed}>
           <NavLink
