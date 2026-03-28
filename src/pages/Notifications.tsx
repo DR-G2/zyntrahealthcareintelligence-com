@@ -128,6 +128,46 @@ function AdminBroadcastPanel() {
   );
 }
 
+// ── Push Notification Toggle ──
+function PushNotificationCard() {
+  const { state, loading, subscribe, unsubscribe } = usePushNotifications();
+
+  if (state === 'unsupported') return null;
+
+  const isSubscribed = state === 'subscribed';
+  const isDenied = state === 'denied';
+
+  return (
+    <Card className="border-primary/20">
+      <CardHeader className="pb-2">
+        <CardTitle className="flex items-center gap-2 text-sm font-medium">
+          <BellRing className="h-4 w-4 text-primary" />
+          Browser Notifications
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-3">
+        <p className="text-xs text-muted-foreground">
+          {isDenied
+            ? 'Browser notifications are blocked. Enable them in your browser settings.'
+            : isSubscribed
+              ? 'You\'ll receive push alerts for training insights even when Zyntra is closed.'
+              : 'Get real-time training nudges and performance insights — even when the app isn\'t open.'}
+        </p>
+        <div className="flex items-center justify-between">
+          <span className="text-xs font-medium">
+            {isSubscribed ? 'Enabled' : isDenied ? 'Blocked' : 'Disabled'}
+          </span>
+          <Switch
+            checked={isSubscribed}
+            disabled={isDenied || loading}
+            onCheckedChange={(checked) => checked ? subscribe() : unsubscribe()}
+          />
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
 // ── Main Page ──
 export default function Notifications() {
   const { user } = useAuth();
