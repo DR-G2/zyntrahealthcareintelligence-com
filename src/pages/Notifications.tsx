@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { AppLayout } from '@/components/AppLayout';
 import { useAuth } from '@/contexts/AuthContext';
 import { useTrainingNotifications, TrainingNotification } from '@/hooks/useTrainingNotifications';
+import { usePushNotifications } from '@/hooks/usePushNotifications';
 import { ADMIN_EMAILS } from '@/lib/admin-emails';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -13,15 +14,16 @@ import { Calendar } from '@/components/ui/calendar';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Separator } from '@/components/ui/separator';
+import { Switch } from '@/components/ui/switch';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/lib/supabase';
 import { useToast } from '@/hooks/use-toast';
 import { format, subDays, isAfter, isBefore, startOfDay, endOfDay } from 'date-fns';
 import { cn } from '@/lib/utils';
 import {
-  Bell, BellOff, CheckCheck, X, TrendingUp, Target, Brain, Clock,
+  Bell, BellOff, BellRing, CheckCheck, X, TrendingUp, Target, Brain, Clock,
   BookOpen, Award, Flame, PlayCircle, Repeat, Zap, CalendarIcon,
-  Filter, Send, Users, ArrowRight, Trash2,
+  Filter, Send, Users, ArrowRight, Trash2, Smartphone,
 } from 'lucide-react';
 
 const iconMap: Record<string, React.ElementType> = {
@@ -121,6 +123,46 @@ function AdminBroadcastPanel() {
         <Button onClick={handleSend} disabled={sending} className="w-full">
           {sending ? 'Sending...' : 'Send to Users'}
         </Button>
+      </CardContent>
+    </Card>
+  );
+}
+
+// ── Push Notification Toggle ──
+function PushNotificationCard() {
+  const { state, loading, subscribe, unsubscribe } = usePushNotifications();
+
+  if (state === 'unsupported') return null;
+
+  const isSubscribed = state === 'subscribed';
+  const isDenied = state === 'denied';
+
+  return (
+    <Card className="border-primary/20">
+      <CardHeader className="pb-2">
+        <CardTitle className="flex items-center gap-2 text-sm font-medium">
+          <BellRing className="h-4 w-4 text-primary" />
+          Browser Notifications
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-3">
+        <p className="text-xs text-muted-foreground">
+          {isDenied
+            ? 'Browser notifications are blocked. Enable them in your browser settings.'
+            : isSubscribed
+              ? 'You\'ll receive push alerts for training insights even when Zyntra is closed.'
+              : 'Get real-time training nudges and performance insights — even when the app isn\'t open.'}
+        </p>
+        <div className="flex items-center justify-between">
+          <span className="text-xs font-medium">
+            {isSubscribed ? 'Enabled' : isDenied ? 'Blocked' : 'Disabled'}
+          </span>
+          <Switch
+            checked={isSubscribed}
+            disabled={isDenied || loading}
+            onCheckedChange={(checked) => checked ? subscribe() : unsubscribe()}
+          />
+        </div>
       </CardContent>
     </Card>
   );
@@ -358,6 +400,9 @@ export default function Notifications() {
 
         {/* Sidebar */}
         <div className="space-y-4">
+          {/* Push Notifications */}
+          <PushNotificationCard />
+
           {/* Quick Info */}
           <Card>
             <CardHeader className="pb-2">
