@@ -70,13 +70,13 @@ export function usePushNotifications() {
 
       const json = subscription.toJSON();
 
-      await supabase.from('push_subscriptions').upsert(
+      await (supabase as any).from('push_subscriptions').upsert(
         {
           user_id: user.id,
           endpoint: json.endpoint!,
           p256dh: json.keys!.p256dh,
           auth: json.keys!.auth,
-        } as any,
+        },
         { onConflict: 'user_id,endpoint' }
       );
 
