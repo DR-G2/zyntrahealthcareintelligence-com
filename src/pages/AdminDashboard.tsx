@@ -61,6 +61,9 @@ function UsersTab({ currentUserEmail }: { currentUserEmail: string }) {
   const [totalCount, setTotalCount] = useState(0);
   const pageSize = 50;
   const { toast } = useToast();
+  const bulkFileRef = useRef<HTMLInputElement>(null);
+  const [bulkImporting, setBulkImporting] = useState(false);
+  const [bulkResults, setBulkResults] = useState<{ email: string; status: string; error?: string }[] | null>(null);
 
   const fetchUsers = async (p = page) => {
     setLoading(true);
@@ -150,20 +153,110 @@ function UsersTab({ currentUserEmail }: { currentUserEmail: string }) {
     a.click(); URL.revokeObjectURL(url);
   };
 
+  const downloadTemplate = () => {
+    const headers = ['email', 'name', 'user_type', 'exam_date', 'tier', 'duration_days'];
+    const exampleRows = [
+      ['john@example.com', 'John Doe', 'img', '2026-06-15', 'full_access', '30'],
+      ['jane@example.com', 'Jane Smith', 'amc', '2026-09-01', 'free', ''],
+    ];
+    const csv = [headers.join(','), ...exampleRows.map(r => r.join(','))].join('\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'zyntra-user-import-template.csv';
+    a.click(); URL.revokeObjectURL(url);
+  };
+
+  const handleBulkUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setBulkImporting(true);
+    setBulkResults(null);
+    try {
+      const text = await file.text();
+      const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
+      if (lines.length < 2) throw new Error('CSV must have a header row and at least one data row');
+      
+      const headers = lines[0].split(',').map(h => h.trim().toLowerCase().replace(/^["']|["']$/g, ''));
+      const emailIdx = headers.indexOf('email');
+      if (emailIdx === -1) throw new Error('CSV must have an "email" column');
+      
+      const users = lines.slice(1).map(line => {
+        const vals = line.split(',').map(v => v.trim().replace(/^["']|["']$/g, ''));
+        const obj: Record<string, string> = {};
+        headers.forEach((h, i) => { if (vals[i]) obj[h] = vals[i]; });
+        return obj;
+      }).filter(u => u.email);
+
+      if (!users.length) throw new Error('No valid users found in CSV');
+
+      const { data, error } = await supabase.functions.invoke('admin-bulk-users', {
+        body: { users }
+      });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+
+      setBulkResults(data.results || []);
+      const created = data.results?.filter((r: any) => r.status === 'created').length || 0;
+      const exists = data.results?.filter((r: any) => r.status === 'exists').length || 0;
+      const errors = data.results?.filter((r: any) => r.status === 'error').length || 0;
+      toast({ title: 'Bulk Import Complete', description: `Created: ${created}, Existing: ${exists}, Errors: ${errors}` });
+      fetchUsers();
+    } catch (e: any) {
+      toast({ title: 'Import Error', description: e.message, variant: 'destructive' });
+    }
+    setBulkImporting(false);
+    if (bulkFileRef.current) bulkFileRef.current.value = '';
+  };
+
   return (
     <div className="space-y-4">
-      <div className="flex items-center gap-3">
-        <div className="relative flex-1 max-w-sm">
+      <div className="flex flex-wrap items-center gap-3">
+        <div className="relative flex-1 min-w-[200px] max-w-sm">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input placeholder="Search users..." value={search} onChange={e => setSearch(e.target.value)} className="pl-9" />
         </div>
         <Button variant="outline" onClick={downloadCSV}>
-          <FileUp className="h-4 w-4 mr-2" /> Download CSV
+          <FileUp className="h-4 w-4 mr-2" /> Export CSV
         </Button>
+        <Button variant="outline" onClick={downloadTemplate}>
+          <FileText className="h-4 w-4 mr-2" /> Download Template
+        </Button>
+        <Button variant="outline" onClick={() => bulkFileRef.current?.click()} disabled={bulkImporting}>
+          {bulkImporting ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Upload className="h-4 w-4 mr-2" />}
+          Upload CSV
+        </Button>
+        <input ref={bulkFileRef} type="file" accept=".csv" className="hidden" onChange={handleBulkUpload} />
         <Button variant="outline" onClick={() => fetchUsers()} disabled={loading}>
           {loading && <Loader2 className="h-4 w-4 mr-2 animate-spin" />} Refresh
         </Button>
       </div>
+
+      {/* Bulk Import Results */}
+      {bulkResults && (
+        <Card>
+          <CardHeader className="py-3 px-4">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-sm">Import Results</CardTitle>
+              <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => setBulkResults(null)}><X className="h-4 w-4" /></Button>
+            </div>
+          </CardHeader>
+          <CardContent className="px-4 pb-3 pt-0">
+            <div className="flex gap-3 mb-2 text-sm">
+              <Badge variant="default">{bulkResults.filter(r => r.status === 'created').length} Created</Badge>
+              <Badge variant="secondary">{bulkResults.filter(r => r.status === 'exists').length} Existing</Badge>
+              <Badge variant="destructive">{bulkResults.filter(r => r.status === 'error').length} Errors</Badge>
+            </div>
+            {bulkResults.filter(r => r.status === 'error').length > 0 && (
+              <ScrollArea className="max-h-32">
+                {bulkResults.filter(r => r.status === 'error').map((r, i) => (
+                  <p key={i} className="text-xs text-destructive">{r.email}: {r.error}</p>
+                ))}
+              </ScrollArea>
+            )}
+          </CardContent>
+        </Card>
+      )}
       <Card>
         <CardContent className="p-0">
            <Table>
