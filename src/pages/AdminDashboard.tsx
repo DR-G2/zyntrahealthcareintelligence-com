@@ -153,6 +153,62 @@ function UsersTab({ currentUserEmail }: { currentUserEmail: string }) {
     a.click(); URL.revokeObjectURL(url);
   };
 
+  const downloadTemplate = () => {
+    const headers = ['email', 'name', 'user_type', 'exam_date', 'tier', 'duration_days'];
+    const exampleRows = [
+      ['john@example.com', 'John Doe', 'img', '2026-06-15', 'full_access', '30'],
+      ['jane@example.com', 'Jane Smith', 'amc', '2026-09-01', 'free', ''],
+    ];
+    const csv = [headers.join(','), ...exampleRows.map(r => r.join(','))].join('\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'zyntra-user-import-template.csv';
+    a.click(); URL.revokeObjectURL(url);
+  };
+
+  const handleBulkUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setBulkImporting(true);
+    setBulkResults(null);
+    try {
+      const text = await file.text();
+      const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
+      if (lines.length < 2) throw new Error('CSV must have a header row and at least one data row');
+      
+      const headers = lines[0].split(',').map(h => h.trim().toLowerCase().replace(/^["']|["']$/g, ''));
+      const emailIdx = headers.indexOf('email');
+      if (emailIdx === -1) throw new Error('CSV must have an "email" column');
+      
+      const users = lines.slice(1).map(line => {
+        const vals = line.split(',').map(v => v.trim().replace(/^["']|["']$/g, ''));
+        const obj: Record<string, string> = {};
+        headers.forEach((h, i) => { if (vals[i]) obj[h] = vals[i]; });
+        return obj;
+      }).filter(u => u.email);
+
+      if (!users.length) throw new Error('No valid users found in CSV');
+
+      const { data, error } = await supabase.functions.invoke('admin-bulk-users', {
+        body: { users }
+      });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+
+      setBulkResults(data.results || []);
+      const created = data.results?.filter((r: any) => r.status === 'created').length || 0;
+      const exists = data.results?.filter((r: any) => r.status === 'exists').length || 0;
+      const errors = data.results?.filter((r: any) => r.status === 'error').length || 0;
+      toast({ title: 'Bulk Import Complete', description: `Created: ${created}, Existing: ${exists}, Errors: ${errors}` });
+      fetchUsers();
+    } catch (e: any) {
+      toast({ title: 'Import Error', description: e.message, variant: 'destructive' });
+    }
+    setBulkImporting(false);
+    if (bulkFileRef.current) bulkFileRef.current.value = '';
+  };
+
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3">
