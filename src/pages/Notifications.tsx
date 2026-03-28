@@ -400,6 +400,9 @@ export default function Notifications() {
 
         {/* Sidebar */}
         <div className="space-y-4">
+          {/* Push Notifications */}
+          <PushNotificationCard />
+
           {/* Quick Info */}
           <Card>
             <CardHeader className="pb-2">
