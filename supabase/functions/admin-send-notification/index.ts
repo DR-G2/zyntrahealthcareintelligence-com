@@ -117,6 +117,27 @@ Deno.serve(async (req) => {
       await supabase.from("training_notifications").insert(batch);
     }
 
+    // Trigger push notifications in the background
+    try {
+      const pushUrl = `${supabaseUrl}/functions/v1/send-push-notification`;
+      await fetch(pushUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${serviceKey}`,
+        },
+        body: JSON.stringify({
+          user_ids: userIds,
+          title,
+          body,
+          url: cta_route || "/notifications",
+          tag: "zyntra-broadcast",
+        }),
+      });
+    } catch (pushErr) {
+      console.error("Push notification send failed (non-blocking):", pushErr);
+    }
+
     return new Response(
       JSON.stringify({ sent_to: userIds.length }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
