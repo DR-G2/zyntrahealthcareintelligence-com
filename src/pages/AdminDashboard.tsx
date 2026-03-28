@@ -211,18 +211,52 @@ function UsersTab({ currentUserEmail }: { currentUserEmail: string }) {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center gap-3">
-        <div className="relative flex-1 max-w-sm">
+      <div className="flex flex-wrap items-center gap-3">
+        <div className="relative flex-1 min-w-[200px] max-w-sm">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input placeholder="Search users..." value={search} onChange={e => setSearch(e.target.value)} className="pl-9" />
         </div>
         <Button variant="outline" onClick={downloadCSV}>
-          <FileUp className="h-4 w-4 mr-2" /> Download CSV
+          <FileUp className="h-4 w-4 mr-2" /> Export CSV
         </Button>
+        <Button variant="outline" onClick={downloadTemplate}>
+          <FileText className="h-4 w-4 mr-2" /> Download Template
+        </Button>
+        <Button variant="outline" onClick={() => bulkFileRef.current?.click()} disabled={bulkImporting}>
+          {bulkImporting ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Upload className="h-4 w-4 mr-2" />}
+          Upload CSV
+        </Button>
+        <input ref={bulkFileRef} type="file" accept=".csv" className="hidden" onChange={handleBulkUpload} />
         <Button variant="outline" onClick={() => fetchUsers()} disabled={loading}>
           {loading && <Loader2 className="h-4 w-4 mr-2 animate-spin" />} Refresh
         </Button>
       </div>
+
+      {/* Bulk Import Results */}
+      {bulkResults && (
+        <Card>
+          <CardHeader className="py-3 px-4">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-sm">Import Results</CardTitle>
+              <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => setBulkResults(null)}><X className="h-4 w-4" /></Button>
+            </div>
+          </CardHeader>
+          <CardContent className="px-4 pb-3 pt-0">
+            <div className="flex gap-3 mb-2 text-sm">
+              <Badge variant="default">{bulkResults.filter(r => r.status === 'created').length} Created</Badge>
+              <Badge variant="secondary">{bulkResults.filter(r => r.status === 'exists').length} Existing</Badge>
+              <Badge variant="destructive">{bulkResults.filter(r => r.status === 'error').length} Errors</Badge>
+            </div>
+            {bulkResults.filter(r => r.status === 'error').length > 0 && (
+              <ScrollArea className="max-h-32">
+                {bulkResults.filter(r => r.status === 'error').map((r, i) => (
+                  <p key={i} className="text-xs text-destructive">{r.email}: {r.error}</p>
+                ))}
+              </ScrollArea>
+            )}
+          </CardContent>
+        </Card>
+      )}
       <Card>
         <CardContent className="p-0">
            <Table>
