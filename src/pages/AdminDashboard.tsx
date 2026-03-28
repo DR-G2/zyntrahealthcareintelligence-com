@@ -61,6 +61,9 @@ function UsersTab({ currentUserEmail }: { currentUserEmail: string }) {
   const [totalCount, setTotalCount] = useState(0);
   const pageSize = 50;
   const { toast } = useToast();
+  const bulkFileRef = useRef<HTMLInputElement>(null);
+  const [bulkImporting, setBulkImporting] = useState(false);
+  const [bulkResults, setBulkResults] = useState<{ email: string; status: string; error?: string }[] | null>(null);
 
   const fetchUsers = async (p = page) => {
     setLoading(true);
