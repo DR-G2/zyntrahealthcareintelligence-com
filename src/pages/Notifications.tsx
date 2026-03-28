@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { AppLayout } from '@/components/AppLayout';
 import { useAuth } from '@/contexts/AuthContext';
 import { useTrainingNotifications, TrainingNotification } from '@/hooks/useTrainingNotifications';
+import { usePushNotifications } from '@/hooks/usePushNotifications';
 import { ADMIN_EMAILS } from '@/lib/admin-emails';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -13,15 +14,16 @@ import { Calendar } from '@/components/ui/calendar';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Separator } from '@/components/ui/separator';
+import { Switch } from '@/components/ui/switch';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/lib/supabase';
 import { useToast } from '@/hooks/use-toast';
 import { format, subDays, isAfter, isBefore, startOfDay, endOfDay } from 'date-fns';
 import { cn } from '@/lib/utils';
 import {
-  Bell, BellOff, CheckCheck, X, TrendingUp, Target, Brain, Clock,
+  Bell, BellOff, BellRing, CheckCheck, X, TrendingUp, Target, Brain, Clock,
   BookOpen, Award, Flame, PlayCircle, Repeat, Zap, CalendarIcon,
-  Filter, Send, Users, ArrowRight, Trash2,
+  Filter, Send, Users, ArrowRight, Trash2, Smartphone,
 } from 'lucide-react';
 
 const iconMap: Record<string, React.ElementType> = {
