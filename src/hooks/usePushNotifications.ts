@@ -98,7 +98,7 @@ export function usePushNotifications() {
       if (sub) {
         const endpoint = sub.endpoint;
         await sub.unsubscribe();
-        await supabase
+        await (supabase as any)
           .from('push_subscriptions')
           .delete()
           .eq('user_id', user.id)
