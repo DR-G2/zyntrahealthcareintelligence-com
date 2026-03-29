@@ -69,6 +69,13 @@ function UsersTab({ currentUserEmail }: { currentUserEmail: string }) {
   const bulkFileRef = useRef<HTMLInputElement>(null);
   const [bulkImporting, setBulkImporting] = useState(false);
   const [bulkResults, setBulkResults] = useState<{ email: string; status: string; error?: string }[] | null>(null);
+  
+  // Bulk delete state
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [dateFrom, setDateFrom] = useState<Date | undefined>();
+  const [dateTo, setDateTo] = useState<Date | undefined>();
+  const [bulkDeleting, setBulkDeleting] = useState(false);
+  const [bulkDeleteResults, setBulkDeleteResults] = useState<{ user_id: string; email: string; status: string; error?: string }[] | null>(null);
 
   const fetchUsers = async (p = page) => {
     setLoading(true);
