@@ -16,7 +16,12 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
-import { Loader2, Sparkles, Upload, FileUp, X, Users, BookOpen, Activity, Pencil, Trash2, Search, ShieldAlert, Radio, ChevronDown, Zap, Brain, Monitor, FileText, Camera, MessageCircle, Database } from 'lucide-react';
+import { Loader2, Sparkles, Upload, FileUp, X, Users, BookOpen, Activity, Pencil, Trash2, Search, ShieldAlert, Radio, ChevronDown, Zap, Brain, Monitor, FileText, Camera, MessageCircle, Database, CalendarIcon } from 'lucide-react';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Calendar } from '@/components/ui/calendar';
+import { format } from 'date-fns';
+import { cn } from '@/lib/utils';
 import { PiracyStrikesTab } from '@/components/admin/PiracyStrikesTab';
 import { LiveActivityTab } from '@/components/admin/LiveActivityTab';
 import { AIControlTab } from '@/components/admin/AIControlTab';
@@ -64,6 +69,13 @@ function UsersTab({ currentUserEmail }: { currentUserEmail: string }) {
   const bulkFileRef = useRef<HTMLInputElement>(null);
   const [bulkImporting, setBulkImporting] = useState(false);
   const [bulkResults, setBulkResults] = useState<{ email: string; status: string; error?: string }[] | null>(null);
+  
+  // Bulk delete state
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [dateFrom, setDateFrom] = useState<Date | undefined>();
+  const [dateTo, setDateTo] = useState<Date | undefined>();
+  const [bulkDeleting, setBulkDeleting] = useState(false);
+  const [bulkDeleteResults, setBulkDeleteResults] = useState<{ user_id: string; email: string; status: string; error?: string }[] | null>(null);
 
   const fetchUsers = async (p = page) => {
     setLoading(true);
@@ -84,10 +96,57 @@ function UsersTab({ currentUserEmail }: { currentUserEmail: string }) {
   useEffect(() => { fetchUsers(page); }, [page]);
 
   const filtered = users.filter(u => {
-    if (!search) return true;
     const s = search.toLowerCase();
-    return u.email?.toLowerCase().includes(s) || u.name?.toLowerCase().includes(s) || u.id?.toLowerCase().includes(s);
+    const matchesSearch = !search || u.email?.toLowerCase().includes(s) || u.name?.toLowerCase().includes(s) || u.id?.toLowerCase().includes(s);
+    const joinedDate = new Date(u.created_at);
+    const matchesFrom = !dateFrom || joinedDate >= dateFrom;
+    const matchesTo = !dateTo || joinedDate <= new Date(dateTo.getTime() + 86400000); // include end date
+    return matchesSearch && matchesFrom && matchesTo;
   });
+
+  const toggleSelect = (id: string) => {
+    setSelectedIds(prev => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id); else next.add(id);
+      return next;
+    });
+  };
+
+  const toggleSelectAll = () => {
+    if (selectedIds.size === filtered.length) {
+      setSelectedIds(new Set());
+    } else {
+      setSelectedIds(new Set(filtered.map(u => u.id)));
+    }
+  };
+
+  const selectByDateRange = () => {
+    if (!dateFrom && !dateTo) return;
+    const ids = filtered.map(u => u.id);
+    setSelectedIds(new Set(ids));
+  };
+
+  const handleBulkDelete = async () => {
+    if (!selectedIds.size) return;
+    setBulkDeleting(true);
+    setBulkDeleteResults(null);
+    try {
+      const { data, error } = await supabase.functions.invoke('admin-bulk-delete-users', {
+        body: { user_ids: Array.from(selectedIds) }
+      });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      setBulkDeleteResults(data.results || []);
+      const deleted = data.results?.filter((r: any) => r.status === 'deleted').length || 0;
+      const errors = data.results?.filter((r: any) => r.status === 'error').length || 0;
+      toast({ title: 'Bulk Delete Complete', description: `Deleted: ${deleted}, Errors: ${errors}` });
+      setSelectedIds(new Set());
+      fetchUsers();
+    } catch (e: any) {
+      toast({ title: 'Delete Error', description: e.message, variant: 'destructive' });
+    }
+    setBulkDeleting(false);
+  };
 
   const getUserTier = (u: any) => {
     if (u.override) {
@@ -232,6 +291,71 @@ function UsersTab({ currentUserEmail }: { currentUserEmail: string }) {
         </Button>
       </div>
 
+      {/* Date Filter & Bulk Delete Controls */}
+      <div className="flex flex-wrap items-center gap-3">
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button variant="outline" size="sm" className={cn("justify-start text-left font-normal", !dateFrom && "text-muted-foreground")}>
+              <CalendarIcon className="h-4 w-4 mr-2" />
+              {dateFrom ? format(dateFrom, "PP") : "From date"}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-0" align="start">
+            <Calendar mode="single" selected={dateFrom} onSelect={setDateFrom} initialFocus className="p-3 pointer-events-auto" />
+          </PopoverContent>
+        </Popover>
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button variant="outline" size="sm" className={cn("justify-start text-left font-normal", !dateTo && "text-muted-foreground")}>
+              <CalendarIcon className="h-4 w-4 mr-2" />
+              {dateTo ? format(dateTo, "PP") : "To date"}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-0" align="start">
+            <Calendar mode="single" selected={dateTo} onSelect={setDateTo} initialFocus className="p-3 pointer-events-auto" />
+          </PopoverContent>
+        </Popover>
+        {(dateFrom || dateTo) && (
+          <>
+            <Button variant="secondary" size="sm" onClick={selectByDateRange}>
+              Select Filtered ({filtered.length})
+            </Button>
+            <Button variant="ghost" size="sm" onClick={() => { setDateFrom(undefined); setDateTo(undefined); }}>
+              <X className="h-4 w-4 mr-1" /> Clear Dates
+            </Button>
+          </>
+        )}
+        {selectedIds.size > 0 && (
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button variant="destructive" size="sm" disabled={bulkDeleting}>
+                {bulkDeleting ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Trash2 className="h-4 w-4 mr-2" />}
+                Delete Selected ({selectedIds.size})
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Delete {selectedIds.size} users permanently?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This will permanently delete all selected user accounts, their data, attempts, and subscriptions. This action cannot be undone.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={handleBulkDelete} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+                  Delete {selectedIds.size} Users
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        )}
+        {selectedIds.size > 0 && (
+          <Button variant="ghost" size="sm" onClick={() => setSelectedIds(new Set())}>
+            Clear Selection
+          </Button>
+        )}
+      </div>
+
       {/* Bulk Import Results */}
       {bulkResults && (
         <Card>
@@ -257,11 +381,44 @@ function UsersTab({ currentUserEmail }: { currentUserEmail: string }) {
           </CardContent>
         </Card>
       )}
+
+      {/* Bulk Delete Results */}
+      {bulkDeleteResults && (
+        <Card>
+          <CardHeader className="py-3 px-4">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-sm">Bulk Delete Results</CardTitle>
+              <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => setBulkDeleteResults(null)}><X className="h-4 w-4" /></Button>
+            </div>
+          </CardHeader>
+          <CardContent className="px-4 pb-3 pt-0">
+            <div className="flex gap-3 mb-2 text-sm">
+              <Badge variant="default">{bulkDeleteResults.filter(r => r.status === 'deleted').length} Deleted</Badge>
+              <Badge variant="secondary">{bulkDeleteResults.filter(r => r.status === 'skipped').length} Skipped</Badge>
+              <Badge variant="destructive">{bulkDeleteResults.filter(r => r.status === 'error').length} Errors</Badge>
+            </div>
+            {bulkDeleteResults.filter(r => r.status === 'error' || r.status === 'skipped').length > 0 && (
+              <ScrollArea className="max-h-32">
+                {bulkDeleteResults.filter(r => r.status !== 'deleted').map((r, i) => (
+                  <p key={i} className="text-xs text-destructive">{r.email}: {r.error || r.status}</p>
+                ))}
+              </ScrollArea>
+            )}
+          </CardContent>
+        </Card>
+      )}
+
       <Card>
         <CardContent className="p-0">
            <Table>
             <TableHeader>
               <TableRow>
+                <TableHead className="w-10">
+                  <Checkbox
+                    checked={filtered.length > 0 && selectedIds.size === filtered.length}
+                    onCheckedChange={toggleSelectAll}
+                  />
+                </TableHead>
                 <TableHead>Email</TableHead>
                 <TableHead>Name</TableHead>
                 <TableHead>Tier</TableHead>
@@ -276,7 +433,10 @@ function UsersTab({ currentUserEmail }: { currentUserEmail: string }) {
               {filtered.map(u => {
                 const t = getUserTier(u);
                 return (
-                  <TableRow key={u.id} className="cursor-pointer hover:bg-muted/50" onClick={() => setInspectUser({ id: u.id, email: u.email })}>
+                  <TableRow key={u.id} className={cn("cursor-pointer hover:bg-muted/50", selectedIds.has(u.id) && "bg-muted/30")} onClick={() => setInspectUser({ id: u.id, email: u.email })}>
+                    <TableCell onClick={e => e.stopPropagation()}>
+                      <Checkbox checked={selectedIds.has(u.id)} onCheckedChange={() => toggleSelect(u.id)} />
+                    </TableCell>
                     <TableCell className="font-mono text-xs">{u.email}</TableCell>
                     <TableCell>{u.name || '—'}</TableCell>
                     <TableCell>
@@ -310,7 +470,7 @@ function UsersTab({ currentUserEmail }: { currentUserEmail: string }) {
                 );
               })}
               {filtered.length === 0 && (
-                <TableRow><TableCell colSpan={8} className="text-center text-muted-foreground py-8">No users found</TableCell></TableRow>
+                <TableRow><TableCell colSpan={9} className="text-center text-muted-foreground py-8">No users found</TableCell></TableRow>
               )}
             </TableBody>
            </Table>
