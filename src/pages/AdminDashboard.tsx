@@ -96,10 +96,57 @@ function UsersTab({ currentUserEmail }: { currentUserEmail: string }) {
   useEffect(() => { fetchUsers(page); }, [page]);
 
   const filtered = users.filter(u => {
-    if (!search) return true;
     const s = search.toLowerCase();
-    return u.email?.toLowerCase().includes(s) || u.name?.toLowerCase().includes(s) || u.id?.toLowerCase().includes(s);
+    const matchesSearch = !search || u.email?.toLowerCase().includes(s) || u.name?.toLowerCase().includes(s) || u.id?.toLowerCase().includes(s);
+    const joinedDate = new Date(u.created_at);
+    const matchesFrom = !dateFrom || joinedDate >= dateFrom;
+    const matchesTo = !dateTo || joinedDate <= new Date(dateTo.getTime() + 86400000); // include end date
+    return matchesSearch && matchesFrom && matchesTo;
   });
+
+  const toggleSelect = (id: string) => {
+    setSelectedIds(prev => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id); else next.add(id);
+      return next;
+    });
+  };
+
+  const toggleSelectAll = () => {
+    if (selectedIds.size === filtered.length) {
+      setSelectedIds(new Set());
+    } else {
+      setSelectedIds(new Set(filtered.map(u => u.id)));
+    }
+  };
+
+  const selectByDateRange = () => {
+    if (!dateFrom && !dateTo) return;
+    const ids = filtered.map(u => u.id);
+    setSelectedIds(new Set(ids));
+  };
+
+  const handleBulkDelete = async () => {
+    if (!selectedIds.size) return;
+    setBulkDeleting(true);
+    setBulkDeleteResults(null);
+    try {
+      const { data, error } = await supabase.functions.invoke('admin-bulk-delete-users', {
+        body: { user_ids: Array.from(selectedIds) }
+      });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      setBulkDeleteResults(data.results || []);
+      const deleted = data.results?.filter((r: any) => r.status === 'deleted').length || 0;
+      const errors = data.results?.filter((r: any) => r.status === 'error').length || 0;
+      toast({ title: 'Bulk Delete Complete', description: `Deleted: ${deleted}, Errors: ${errors}` });
+      setSelectedIds(new Set());
+      fetchUsers();
+    } catch (e: any) {
+      toast({ title: 'Delete Error', description: e.message, variant: 'destructive' });
+    }
+    setBulkDeleting(false);
+  };
 
   const getUserTier = (u: any) => {
     if (u.override) {
