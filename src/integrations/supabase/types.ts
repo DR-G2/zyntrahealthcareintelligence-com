@@ -381,6 +381,45 @@ export type Database = {
         }
         Relationships: []
       }
+      data_export_history: {
+        Row: {
+          action_type: string
+          created_at: string
+          error_message: string | null
+          file_name: string | null
+          id: string
+          merge_mode: string | null
+          snapshot_data: Json
+          status: string
+          user_id: string
+          version: number
+        }
+        Insert: {
+          action_type?: string
+          created_at?: string
+          error_message?: string | null
+          file_name?: string | null
+          id?: string
+          merge_mode?: string | null
+          snapshot_data?: Json
+          status?: string
+          user_id: string
+          version?: number
+        }
+        Update: {
+          action_type?: string
+          created_at?: string
+          error_message?: string | null
+          file_name?: string | null
+          id?: string
+          merge_mode?: string | null
+          snapshot_data?: Json
+          status?: string
+          user_id?: string
+          version?: number
+        }
+        Relationships: []
+      }
       feed_submissions: {
         Row: {
           content_text: string
