@@ -25,17 +25,6 @@ interface AggregateData {
   generated_at?: string;
 }
 
-interface ExportHistoryItem {
-  id: string;
-  action_type: string;
-  file_name: string | null;
-  merge_mode: string | null;
-  version: number;
-  status: string;
-  created_at: string;
-  snapshot_data: any;
-}
-
 const LEARNING_NODES = [
   { label: 'Clinical Reasoning', icon: Brain, color: 'from-blue-500/20 to-cyan-500/20', glow: 'shadow-blue-500/20', delay: 0 },
   { label: 'Difficulty Mapping', icon: BarChart3, color: 'from-purple-500/20 to-pink-500/20', glow: 'shadow-purple-500/20', delay: 0.2 },
@@ -43,47 +32,20 @@ const LEARNING_NODES = [
   { label: 'Timing Patterns', icon: Clock, color: 'from-emerald-500/20 to-teal-500/20', glow: 'shadow-emerald-500/20', delay: 0.6 },
 ];
 
-type ExportRange = 'full' | '7d' | 'custom';
-type MergeMode = 'replace' | 'merge' | 'simulate';
-
 export default function ZyntraAICore() {
   const [data, setData] = useState<AggregateData | null>(null);
   const [candidateCount, setCandidateCount] = useState(0);
   const [updatedAt, setUpdatedAt] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // Export state
-  const [exportRange, setExportRange] = useState<ExportRange>('full');
-  const [exportFormat, setExportFormat] = useState<'json' | 'csv'>('json');
-  const [customStart, setCustomStart] = useState<Date>();
-  const [customEnd, setCustomEnd] = useState<Date>();
-  const [exporting, setExporting] = useState(false);
-
-  // Import state
-  const [importFile, setImportFile] = useState<File | null>(null);
-  const [mergeMode, setMergeMode] = useState<MergeMode>('merge');
-  const [importing, setImporting] = useState(false);
-  const [importResult, setImportResult] = useState<any>(null);
-  const [simulationResult, setSimulationResult] = useState<any>(null);
-  const [dragOver, setDragOver] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  // History
-  const [history, setHistory] = useState<ExportHistoryItem[]>([]);
-  const [showHistory, setShowHistory] = useState(false);
-
   useEffect(() => {
     (async () => {
-      const [{ data: row }, { data: historyData }] = await Promise.all([
-        supabase.from('ai_training_context').select('aggregate_data, candidate_count, updated_at').limit(1).maybeSingle(),
-        supabase.from('data_export_history').select('*').order('created_at', { ascending: false }).limit(20),
-      ]);
+      const { data: row } = await supabase.from('ai_training_context').select('aggregate_data, candidate_count, updated_at').limit(1).maybeSingle();
       if (row) {
         setData(row.aggregate_data as unknown as AggregateData);
         setCandidateCount(row.candidate_count ?? 0);
         setUpdatedAt(row.updated_at);
       }
-      setHistory((historyData as ExportHistoryItem[]) || []);
       setLoading(false);
     })();
   }, []);
@@ -95,117 +57,6 @@ export default function ZyntraAICore() {
   }, [data]);
 
   const totalInteractions = (data?.mcq?.total_attempts ?? 0) + (data?.osce?.total_stations ?? 0);
-
-  // === EXPORT ===
-  const handleExport = useCallback(async () => {
-    setExporting(true);
-    try {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) { toast.error('Please log in first'); return; }
-
-      const payload: any = { format: exportFormat, range: exportRange };
-      if (exportRange === 'custom') {
-        if (!customStart || !customEnd) { toast.error('Select both start and end dates'); setExporting(false); return; }
-        payload.start_date = customStart.toISOString();
-        payload.end_date = customEnd.toISOString();
-      }
-
-      const { data: result, error } = await supabase.functions.invoke('export-learning-data', { body: payload });
-      if (error) throw error;
-
-      const isCSV = exportFormat === 'csv';
-      const blob = new Blob([isCSV ? result : JSON.stringify(result, null, 2)], { type: isCSV ? 'text/csv' : 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      const userId = session.user.id.substring(0, 8);
-      const ts = new Date().toISOString().replace(/[:.]/g, '-');
-      a.download = `zyntra_ai_core_${userId}_${ts}.${exportFormat}`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-
-      toast.success('Learning data exported successfully');
-
-      // Refresh history
-      const { data: historyData } = await supabase.from('data_export_history').select('*').order('created_at', { ascending: false }).limit(20);
-      setHistory((historyData as ExportHistoryItem[]) || []);
-    } catch (e: any) {
-      toast.error(e.message || 'Export failed');
-    } finally {
-      setExporting(false);
-    }
-  }, [exportFormat, exportRange, customStart, customEnd]);
-
-  // === IMPORT ===
-  const handleFileDrop = useCallback((e: React.DragEvent) => {
-    e.preventDefault();
-    setDragOver(false);
-    const file = e.dataTransfer.files?.[0];
-    if (file && file.name.endsWith('.json')) {
-      setImportFile(file);
-      setImportResult(null);
-      setSimulationResult(null);
-    } else {
-      toast.error('Only .json files are accepted');
-    }
-  }, []);
-
-  const handleFileSelect = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setImportFile(file);
-      setImportResult(null);
-      setSimulationResult(null);
-    }
-  }, []);
-
-  const processImport = useCallback(async (simulate: boolean) => {
-    if (!importFile) return;
-    setImporting(true);
-    setImportResult(null);
-    setSimulationResult(null);
-
-    try {
-      const text = await importFile.text();
-      let parsed: any;
-      try {
-        parsed = JSON.parse(text);
-      } catch {
-        toast.error('Invalid JSON file');
-        setImporting(false);
-        return;
-      }
-
-      const { data: result, error } = await supabase.functions.invoke('import-learning-data', {
-        body: { data: parsed, merge_mode: simulate ? 'merge' : mergeMode, simulate },
-      });
-
-      if (error) throw error;
-
-      if (result?.error) {
-        toast.error(result.error);
-        if (result.details) setImportResult({ error: result.error, details: result.details });
-        return;
-      }
-
-      if (simulate) {
-        setSimulationResult(result);
-        toast.success('Simulation complete — review before applying');
-      } else {
-        setImportResult(result);
-        toast.success(result.message || 'Import complete');
-        // Refresh history
-        const { data: historyData } = await supabase.from('data_export_history').select('*').order('created_at', { ascending: false }).limit(20);
-        setHistory((historyData as ExportHistoryItem[]) || []);
-      }
-    } catch (e: any) {
-      toast.error(e.message || 'Import failed');
-    } finally {
-      setImporting(false);
-    }
-  }, [importFile, mergeMode]);
 
   return (
     <AppLayout>
