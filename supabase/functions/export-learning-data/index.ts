@@ -1,4 +1,3 @@
-import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {
@@ -6,7 +5,9 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
-serve(async (req) => {
+const ADMIN_EMAILS = ["gopalrock.naren@gmail.com", "amc.osce.2026@gmail.com", "testuser123@zyntr.website"];
+
+Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
@@ -15,30 +16,31 @@ serve(async (req) => {
       return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
+    const userClient = createClient(
+      Deno.env.get("SUPABASE_URL")!,
+      Deno.env.get("SUPABASE_ANON_KEY")!,
+      { global: { headers: { Authorization: authHeader } } }
+    );
+
+    const token = authHeader.replace("Bearer ", "");
+    const { data: claims, error: claimsErr } = await userClient.auth.getClaims(token);
+    if (claimsErr || !claims?.claims) {
+      return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+
+    const callerEmail = (claims.claims.email as string) ?? "";
+    if (!ADMIN_EMAILS.includes(callerEmail)) {
+      return new Response(JSON.stringify({ error: "Admin access required" }), { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+
     const supabase = createClient(
       Deno.env.get("SUPABASE_URL")!,
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
       { auth: { persistSession: false } }
     );
 
-    const token = authHeader.replace("Bearer ", "");
-    const { data: userData, error: userError } = await supabase.auth.getUser(token);
-    if (userError || !userData.user) {
-      return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
-    }
-
-    // Admin-only check
-    const ADMIN_EMAILS = ["gopalrock.naren@gmail.com", "amc.osce.2026@gmail.com", "testuser123@zyntr.website"];
-    const callerEmail = userData.user.email ?? "";
-    if (!ADMIN_EMAILS.includes(callerEmail)) {
-      return new Response(JSON.stringify({ error: "Admin access required" }), { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } });
-    }
-
     const body = await req.json().catch(() => ({}));
-    // Allow admin to export for a specific user
-    const targetUserId = body.target_user_id || userData.user.id;
-    const userId = targetUserId;
-
+    const userId = body.target_user_id || claims.claims.sub;
     const format = body.format || "json";
     const range = body.range || "full";
     const startDate = body.start_date || null;
@@ -54,47 +56,32 @@ serve(async (req) => {
       dateFilter = { from: new Date(startDate).toISOString(), to: new Date(endDate).toISOString() };
     }
 
-    // 1. Readiness DNA
-    const { data: readiness } = await supabase
-      .from("readiness_dna")
-      .select("*")
-      .eq("user_id", userId)
-      .maybeSingle();
+    // Fetch all data in parallel
+    const [readinessRes, behaviorRes, subjectDnaRes, performanceRes] = await Promise.all([
+      supabase.from("readiness_dna").select("*").eq("user_id", userId).maybeSingle(),
+      supabase.from("behavior_profiles").select("*").eq("user_id", userId).maybeSingle(),
+      supabase.from("subject_dna").select("*").eq("user_id", userId),
+      supabase.from("performance_profiles").select("*").eq("user_id", userId).maybeSingle(),
+    ]);
 
-    // 2. Behavior profile
-    const { data: behavior } = await supabase
-      .from("behavior_profiles")
-      .select("*")
-      .eq("user_id", userId)
-      .maybeSingle();
+    const readiness = readinessRes.data;
+    const behavior = behaviorRes.data;
+    const subjectDna = subjectDnaRes.data;
+    const performance = performanceRes.data;
 
-    // 3. Subject DNA
-    const { data: subjectDna } = await supabase
-      .from("subject_dna")
-      .select("*")
-      .eq("user_id", userId);
-
-    // 4. Performance profile
-    const { data: performance } = await supabase
-      .from("performance_profiles")
-      .select("*")
-      .eq("user_id", userId)
-      .maybeSingle();
-
-    // 5. Question history (with date filter)
+    // Question history (with date filter)
     let attemptsQuery = supabase
       .from("user_attempts")
       .select("id, question_id, is_correct, selected_answer, time_taken_seconds, answer_changes_count, change_sequence, question_position, time_to_first_click, created_at, questions(category, difficulty, subtopic, question_type)")
       .eq("user_id", userId)
       .order("created_at", { ascending: false })
       .limit(5000);
-
     if (dateFilter) {
       attemptsQuery = attemptsQuery.gte("created_at", dateFilter.from!).lte("created_at", dateFilter.to!);
     }
     const { data: attempts } = await attemptsQuery;
 
-    // 6. Psychograph history
+    // Psychograph history
     let psychQuery = supabase
       .from("psychograph_history")
       .select("*")
@@ -106,7 +93,7 @@ serve(async (req) => {
     }
     const { data: psychographs } = await psychQuery;
 
-    // 7. Station attempts
+    // Station attempts
     let stationQuery = supabase
       .from("station_attempts")
       .select("id, session_id, subject, scores, behavioral_signals, psychograph, time_taken_seconds, mode, station_index, created_at")
@@ -151,7 +138,6 @@ serve(async (req) => {
         avg_time_seconds: Math.round(s.time / s.total),
       }));
 
-    // Clean nulls helper
     const clean = (obj: any) => {
       if (obj === null || obj === undefined) return {};
       const cleaned: any = {};
@@ -276,7 +262,6 @@ serve(async (req) => {
     });
 
     if (format === "csv") {
-      // Flatten question_history to CSV
       const headers = ["question_id", "is_correct", "selected_answer", "time_taken_seconds", "answer_changes_count", "category", "difficulty", "subtopic", "created_at"];
       const rows = exportData.question_history.map(q =>
         headers.map(h => {
