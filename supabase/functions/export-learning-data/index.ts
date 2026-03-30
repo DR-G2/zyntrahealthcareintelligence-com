@@ -26,11 +26,21 @@ serve(async (req) => {
     if (userError || !userData.user) {
       return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
-    const userId = userData.user.id;
+
+    // Admin-only check
+    const ADMIN_EMAILS = ["gopalrock.naren@gmail.com", "amc.osce.2026@gmail.com", "testuser123@zyntr.website"];
+    const callerEmail = userData.user.email ?? "";
+    if (!ADMIN_EMAILS.includes(callerEmail)) {
+      return new Response(JSON.stringify({ error: "Admin access required" }), { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
 
     const body = await req.json().catch(() => ({}));
+    // Allow admin to export for a specific user
+    const targetUserId = body.target_user_id || userData.user.id;
+    const userId = targetUserId;
+
     const format = body.format || "json";
-    const range = body.range || "full"; // full | 7d | custom
+    const range = body.range || "full";
     const startDate = body.start_date || null;
     const endDate = body.end_date || null;
 

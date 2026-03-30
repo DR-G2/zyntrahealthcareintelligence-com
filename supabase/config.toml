@@ -71,3 +71,7 @@ project_id = "yudkfmgilucyhukfggij"
     verify_jwt = false
   [functions.admin-audit-quality]
     verify_jwt = false
+  [functions.export-learning-data]
+    verify_jwt = false
+  [functions.import-learning-data]
+    verify_jwt = false
