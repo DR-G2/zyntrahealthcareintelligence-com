@@ -1,4 +1,3 @@
-import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {
@@ -6,6 +5,7 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
+const ADMIN_EMAILS = ["gopalrock.naren@gmail.com", "amc.osce.2026@gmail.com", "testuser123@zyntr.website"];
 const REQUIRED_FIELDS = ["schema_version", "accuracy_metrics", "behavioral_patterns", "question_history"];
 
 function validateSchema(data: any): string[] {
@@ -35,7 +35,7 @@ function validateSchema(data: any): string[] {
   return errors;
 }
 
-serve(async (req) => {
+Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
@@ -44,29 +44,32 @@ serve(async (req) => {
       return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
+    const userClient = createClient(
+      Deno.env.get("SUPABASE_URL")!,
+      Deno.env.get("SUPABASE_ANON_KEY")!,
+      { global: { headers: { Authorization: authHeader } } }
+    );
+
+    const token = authHeader.replace("Bearer ", "");
+    const { data: claims, error: claimsErr } = await userClient.auth.getClaims(token);
+    if (claimsErr || !claims?.claims) {
+      return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+
+    const callerEmail = (claims.claims.email as string) ?? "";
+    if (!ADMIN_EMAILS.includes(callerEmail)) {
+      return new Response(JSON.stringify({ error: "Admin access required" }), { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+
     const supabase = createClient(
       Deno.env.get("SUPABASE_URL")!,
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
       { auth: { persistSession: false } }
     );
 
-    const token = authHeader.replace("Bearer ", "");
-    const { data: userData, error: userError } = await supabase.auth.getUser(token);
-    if (userError || !userData.user) {
-      return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
-    }
-
-    // Admin-only check
-    const ADMIN_EMAILS = ["gopalrock.naren@gmail.com", "amc.osce.2026@gmail.com", "testuser123@zyntr.website"];
-    const callerEmail = userData.user.email ?? "";
-    if (!ADMIN_EMAILS.includes(callerEmail)) {
-      return new Response(JSON.stringify({ error: "Admin access required" }), { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } });
-    }
-
     const body = await req.json();
     const { data: importData, merge_mode = "merge", simulate = false, target_user_id } = body;
-    const userId = target_user_id || userData.user.id;
-
+    const userId = target_user_id || claims.claims.sub;
 
     if (!importData) {
       return new Response(JSON.stringify({ error: "Missing 'data' field" }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
@@ -80,7 +83,7 @@ serve(async (req) => {
       });
     }
 
-    // Simulation mode — just validate and return preview
+    // Simulation mode
     if (simulate) {
       const preview = {
         valid: true,
@@ -117,7 +120,6 @@ serve(async (req) => {
     ]);
 
     const snapshot = { readiness: currentReadiness, behavior: currentBehavior, subjectDna: currentSubjectDna, performance: currentPerformance };
-
     const results: Record<string, string> = {};
 
     // === IMPORT READINESS DNA ===
@@ -136,7 +138,6 @@ serve(async (req) => {
         }, { onConflict: "user_id" });
         results.readiness_dna = "replaced";
       } else {
-        // Merge: weighted average based on attempt counts
         const existing = currentReadiness;
         const existCount = existing?.attempt_count ?? 0;
         const importCount = am.total_attempts ?? 0;
@@ -179,7 +180,6 @@ serve(async (req) => {
         await supabase.from("behavior_profiles").upsert(behaviorData, { onConflict: "user_id" });
         results.behavior_profiles = merge_mode === "replace" ? "replaced" : "created";
       } else {
-        // Merge: average indices
         const avg = (a: number, b: number) => Math.round(((a + b) / 2) * 100) / 100;
         await supabase.from("behavior_profiles").update({
           rush_index: avg(currentBehavior.rush_index ?? 0, bp.rush_index ?? 0),
@@ -247,7 +247,7 @@ serve(async (req) => {
       results.performance_profiles = merge_mode === "replace" ? "replaced" : "updated";
     }
 
-    // Log import with snapshot for rollback
+    // Log import
     const { data: lastVersion } = await supabase
       .from("data_export_history")
       .select("version")
