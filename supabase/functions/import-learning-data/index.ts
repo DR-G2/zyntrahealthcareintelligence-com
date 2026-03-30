@@ -55,7 +55,17 @@ serve(async (req) => {
     if (userError || !userData.user) {
       return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
-    const userId = userData.user.id;
+
+    // Admin-only check
+    const ADMIN_EMAILS = ["gopalrock.naren@gmail.com", "amc.osce.2026@gmail.com", "testuser123@zyntr.website"];
+    const callerEmail = userData.user.email ?? "";
+    if (!ADMIN_EMAILS.includes(callerEmail)) {
+      return new Response(JSON.stringify({ error: "Admin access required" }), { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+
+    const body = await req.json();
+    const { data: importData, merge_mode = "merge", simulate = false, target_user_id } = body;
+    const userId = target_user_id || userData.user.id;
 
     const body = await req.json();
     const { data: importData, merge_mode = "merge", simulate = false } = body;
