@@ -1,17 +1,11 @@
-import { useEffect, useState, useMemo, useRef, useCallback } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { AppLayout } from '@/components/AppLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Calendar } from '@/components/ui/calendar';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { supabase } from '@/integrations/supabase/client';
-import { Brain, Activity, Users, Zap, BarChart3, Clock, Download, Upload, FileJson, FileSpreadsheet, CalendarIcon, CheckCircle2, AlertTriangle, RotateCcw, Loader2 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { format } from 'date-fns';
-import { cn } from '@/lib/utils';
-import { toast } from 'sonner';
+import { Brain, Activity, Users, Zap, BarChart3, Clock } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 interface AggregateData {
   mcq?: {
