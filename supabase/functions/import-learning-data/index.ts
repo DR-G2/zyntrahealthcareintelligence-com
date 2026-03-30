@@ -67,18 +67,9 @@ serve(async (req) => {
     const { data: importData, merge_mode = "merge", simulate = false, target_user_id } = body;
     const userId = target_user_id || userData.user.id;
 
-    const body = await req.json();
-    const { data: importData, merge_mode = "merge", simulate = false } = body;
 
     if (!importData) {
       return new Response(JSON.stringify({ error: "Missing 'data' field" }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
-    }
-
-    // Ownership validation - reject if user_id in data doesn't match
-    if (importData.user_id && importData.user_id !== userId) {
-      return new Response(JSON.stringify({ error: "Data ownership mismatch. This dataset belongs to a different user." }), {
-        status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
     }
 
     // Schema validation
