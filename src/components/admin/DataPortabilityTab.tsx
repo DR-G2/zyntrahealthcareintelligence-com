@@ -13,31 +13,33 @@ import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 
 type ExportRange = 'full' | '7d' | 'custom';
-type MergeMode = 'replace' | 'merge' | 'simulate';
+type MergeMode = 'replace' | 'merge';
 
-interface ExportHistoryItem {
-  id: string;
-  action_type: string;
-  file_name: string | null;
-  merge_mode: string | null;
-  version: number;
-  status: string;
-  created_at: string;
-  snapshot_data: any;
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+/** Strip large arrays that the import function ignores anyway */
+function trimPayload(data: any) {
+  if (!data || typeof data !== 'object') return data;
+  const { question_history, osce_history, performance_trends, mistake_patterns, ...rest } = data;
+  return {
+    ...rest,
+    question_history: Array.isArray(question_history) ? question_history.slice(0, 5) : [],
+    osce_history: [],
+    _trimmed: {
+      question_history_count: Array.isArray(question_history) ? question_history.length : 0,
+      osce_history_count: Array.isArray(osce_history) ? osce_history.length : 0,
+    },
+  };
 }
 
 export function DataPortabilityTab() {
-  // Target user
   const [targetUserId, setTargetUserId] = useState('');
-
-  // Export state
   const [exportRange, setExportRange] = useState<ExportRange>('full');
   const [exportFormat, setExportFormat] = useState<'json' | 'csv'>('json');
   const [customStart, setCustomStart] = useState<Date>();
   const [customEnd, setCustomEnd] = useState<Date>();
   const [exporting, setExporting] = useState(false);
 
-  // Import state
   const [importFile, setImportFile] = useState<File | null>(null);
   const [mergeMode, setMergeMode] = useState<MergeMode>('merge');
   const [importing, setImporting] = useState(false);
@@ -46,19 +48,10 @@ export function DataPortabilityTab() {
   const [dragOver, setDragOver] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // History
-  const [history, setHistory] = useState<ExportHistoryItem[]>([]);
-  const [showHistory, setShowHistory] = useState(false);
-  const [historyLoaded, setHistoryLoaded] = useState(false);
-
-  const loadHistory = useCallback(async () => {
-    const { data } = await supabase.from('data_export_history').select('*').order('created_at', { ascending: false }).limit(50);
-    setHistory((data as ExportHistoryItem[]) || []);
-    setHistoryLoaded(true);
-    setShowHistory(true);
-  }, []);
+  const targetValid = targetUserId.trim() === '' || UUID_RE.test(targetUserId.trim());
 
   const handleExport = useCallback(async () => {
+    if (!targetValid) { toast.error('Invalid User ID format'); return; }
     setExporting(true);
     try {
       const payload: any = { format: exportFormat, range: exportRange };
@@ -71,6 +64,7 @@ export function DataPortabilityTab() {
 
       const { data: result, error } = await supabase.functions.invoke('export-learning-data', { body: payload });
       if (error) throw error;
+      if (result?.error) throw new Error(result.error);
 
       const isCSV = exportFormat === 'csv';
       const blob = new Blob([isCSV ? result : JSON.stringify(result, null, 2)], { type: isCSV ? 'text/csv' : 'application/json' });
@@ -90,7 +84,7 @@ export function DataPortabilityTab() {
     } finally {
       setExporting(false);
     }
-  }, [exportFormat, exportRange, customStart, customEnd, targetUserId]);
+  }, [exportFormat, exportRange, customStart, customEnd, targetUserId, targetValid]);
 
   const handleFileDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -107,15 +101,12 @@ export function DataPortabilityTab() {
 
   const handleFileSelect = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      setImportFile(file);
-      setImportResult(null);
-      setSimulationResult(null);
-    }
+    if (file) { setImportFile(file); setImportResult(null); setSimulationResult(null); }
   }, []);
 
   const processImport = useCallback(async (simulate: boolean) => {
     if (!importFile) return;
+    if (!targetValid) { toast.error('Invalid User ID format'); return; }
     setImporting(true);
     setImportResult(null);
     setSimulationResult(null);
@@ -125,15 +116,23 @@ export function DataPortabilityTab() {
       let parsed: any;
       try { parsed = JSON.parse(text); } catch { toast.error('Invalid JSON file'); setImporting(false); return; }
 
-      const body: any = { data: parsed, merge_mode: simulate ? 'merge' : mergeMode, simulate };
+      // Trim large arrays to reduce payload
+      const trimmed = simulate ? parsed : trimPayload(parsed);
+
+      const body: any = { data: trimmed, merge_mode: simulate ? 'merge' : mergeMode, simulate };
       if (targetUserId.trim()) body.target_user_id = targetUserId.trim();
 
       const { data: result, error } = await supabase.functions.invoke('import-learning-data', { body });
+
+      // Handle invoke-level errors
       if (error) throw error;
 
-      if (result?.error) {
-        toast.error(result.error);
-        if (result.details) setImportResult({ error: result.error, details: result.details });
+      // Handle structured error responses
+      if (result?.success === false) {
+        const errMsg = result.error || 'Import failed';
+        const stepInfo = result.step ? ` (step: ${result.step})` : '';
+        toast.error(`${errMsg}${stepInfo}`);
+        setImportResult({ error: errMsg, step: result.step, details: result.details });
         return;
       }
 
@@ -146,10 +145,11 @@ export function DataPortabilityTab() {
       }
     } catch (e: any) {
       toast.error(e.message || 'Import failed');
+      setImportResult({ error: e.message || 'Import failed' });
     } finally {
       setImporting(false);
     }
-  }, [importFile, mergeMode, targetUserId]);
+  }, [importFile, mergeMode, targetUserId, targetValid]);
 
   return (
     <div className="space-y-6">
@@ -160,11 +160,12 @@ export function DataPortabilityTab() {
         </CardHeader>
         <CardContent>
           <Input
-            placeholder="User ID (leave empty for your own data)"
+            placeholder="User ID (UUID — leave empty for your own data)"
             value={targetUserId}
             onChange={(e) => setTargetUserId(e.target.value)}
-            className="font-mono text-sm"
+            className={cn("font-mono text-sm", !targetValid && "border-destructive")}
           />
+          {!targetValid && <p className="text-xs text-destructive mt-1">Must be a valid UUID</p>}
           <p className="text-xs text-muted-foreground mt-2">Enter a user's UUID to export/import their learning data</p>
         </CardContent>
       </Card>
@@ -231,7 +232,7 @@ export function DataPortabilityTab() {
               </div>
             </div>
 
-            <Button onClick={handleExport} disabled={exporting} className="w-full gap-2">
+            <Button onClick={handleExport} disabled={exporting || !targetValid} className="w-full gap-2">
               {exporting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4" />}
               {exporting ? 'Exporting…' : 'Export Learning Data'}
             </Button>
@@ -280,7 +281,6 @@ export function DataPortabilityTab() {
                   {([
                     { value: 'merge' as MergeMode, label: 'Merge' },
                     { value: 'replace' as MergeMode, label: 'Replace' },
-                    { value: 'simulate' as MergeMode, label: 'Simulate' },
                   ]).map(m => (
                     <Button key={m.value} size="sm" variant={mergeMode === m.value ? 'default' : 'outline'} onClick={() => setMergeMode(m.value)} className="text-xs flex-1">
                       {m.label}
@@ -288,15 +288,26 @@ export function DataPortabilityTab() {
                   ))}
                 </div>
 
-                <Button
-                  onClick={() => processImport(mergeMode === 'simulate')}
-                  disabled={importing}
-                  className="w-full gap-2"
-                  variant={mergeMode === 'replace' ? 'destructive' : 'default'}
-                >
-                  {importing ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
-                  {importing ? 'Processing…' : mergeMode === 'simulate' ? 'Run Simulation' : mergeMode === 'replace' ? 'Replace & Import' : 'Merge & Import'}
-                </Button>
+                <div className="flex gap-2">
+                  <Button
+                    onClick={() => processImport(true)}
+                    disabled={importing || !targetValid}
+                    variant="outline"
+                    className="flex-1 gap-2 text-xs"
+                  >
+                    {importing ? <Loader2 className="h-3 w-3 animate-spin" /> : <CheckCircle2 className="h-3 w-3" />}
+                    Simulate
+                  </Button>
+                  <Button
+                    onClick={() => processImport(false)}
+                    disabled={importing || !targetValid}
+                    className="flex-1 gap-2 text-xs"
+                    variant={mergeMode === 'replace' ? 'destructive' : 'default'}
+                  >
+                    {importing ? <Loader2 className="h-3 w-3 animate-spin" /> : <Upload className="h-3 w-3" />}
+                    {mergeMode === 'replace' ? 'Replace & Import' : 'Merge & Import'}
+                  </Button>
+                </div>
               </motion.div>
             )}
 
@@ -320,9 +331,6 @@ export function DataPortabilityTab() {
                     <span>{simulationResult.warnings[0]}</span>
                   </div>
                 )}
-                <Button size="sm" className="w-full mt-2" onClick={() => { setMergeMode('merge'); processImport(false); }}>
-                  Apply Import
-                </Button>
               </motion.div>
             )}
 
@@ -335,6 +343,9 @@ export function DataPortabilityTab() {
                     <div className="flex items-center gap-2 text-sm font-medium text-destructive">
                       <AlertTriangle className="h-4 w-4" /> {importResult.error}
                     </div>
+                    {importResult.step && (
+                      <p className="text-xs text-muted-foreground">Failed at step: <code className="bg-muted px-1 rounded">{importResult.step}</code></p>
+                    )}
                     {importResult.details && (
                       <ul className="text-xs text-muted-foreground list-disc pl-5 space-y-1">
                         {importResult.details.map((d: string, i: number) => <li key={i}>{d}</li>)}
@@ -363,39 +374,6 @@ export function DataPortabilityTab() {
           </CardContent>
         </Card>
       </div>
-
-      {/* Version History */}
-      <Card>
-        <CardHeader className="pb-3 flex flex-row items-center justify-between">
-          <CardTitle className="text-base">Version History</CardTitle>
-          <Button variant="ghost" size="sm" onClick={loadHistory} className="text-xs">
-            {showHistory ? 'Refresh' : 'Load History'}
-          </Button>
-        </CardHeader>
-        {showHistory && (
-          <CardContent>
-            {history.length === 0 ? (
-              <p className="text-sm text-muted-foreground">No export/import history found.</p>
-            ) : (
-              <div className="space-y-2 max-h-64 overflow-y-auto">
-                {history.map((h) => (
-                  <div key={h.id} className="flex items-center justify-between p-2 rounded-lg border bg-card/50 text-xs">
-                    <div className="flex items-center gap-2">
-                      {h.action_type === 'export' ? <Download className="h-3 w-3 text-emerald-500" /> : <Upload className="h-3 w-3 text-blue-500" />}
-                      <span className="font-medium capitalize">{h.action_type}</span>
-                      {h.merge_mode && <Badge variant="outline" className="text-[9px]">{h.merge_mode}</Badge>}
-                    </div>
-                    <div className="flex items-center gap-3 text-muted-foreground">
-                      <span className="font-mono">v{h.version}</span>
-                      <span>{new Date(h.created_at).toLocaleDateString()}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </CardContent>
-        )}
-      </Card>
     </div>
   );
 }
