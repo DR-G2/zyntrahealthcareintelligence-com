@@ -293,6 +293,76 @@ function UsersTab({ currentUserEmail }: { currentUserEmail: string }) {
         <Button variant="outline" onClick={() => fetchUsers()} disabled={loading}>
           {loading && <Loader2 className="h-4 w-4 mr-2 animate-spin" />} Refresh
         </Button>
+        <Button
+          variant="outline"
+          onClick={async () => {
+            setSeeding(true);
+            setSeedResults(null);
+            try {
+              const { data, error } = await supabase.functions.invoke('admin-seed-synthetic-users', {
+                body: { count: 100 }
+              });
+              if (error) throw error;
+              if (data?.error) throw new Error(data.error);
+              setSeedResults({ created_count: data.created_count, error_count: data.error_count });
+              toast({ title: 'Synthetic Users Seeded', description: `Created: ${data.created_count}, Errors: ${data.error_count}` });
+              fetchUsers();
+            } catch (e: any) {
+              toast({ title: 'Seed Error', description: e.message, variant: 'destructive' });
+            }
+            setSeeding(false);
+          }}
+          disabled={seeding}
+        >
+          {seeding ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Sparkles className="h-4 w-4 mr-2" />}
+          Seed 100 Synthetic
+        </Button>
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button variant="destructive" size="default" disabled={bulkDeleting}>
+              <Trash2 className="h-4 w-4 mr-2" /> Delete Synthetic
+            </Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Delete all synthetic users?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This will permanently delete all users with @zyntra-demo.test emails and their associated data. This cannot be undone.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction
+                className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                onClick={async () => {
+                  setBulkDeleting(true);
+                  try {
+                    // Find all synthetic user IDs
+                    const synthIds = users.filter(u => u.email?.endsWith('@zyntra-demo.test')).map(u => u.id);
+                    if (!synthIds.length) {
+                      toast({ title: 'No synthetic users found' });
+                      setBulkDeleting(false);
+                      return;
+                    }
+                    const { data, error } = await supabase.functions.invoke('admin-bulk-delete-users', {
+                      body: { user_ids: synthIds }
+                    });
+                    if (error) throw error;
+                    if (data?.error) throw new Error(data.error);
+                    const deleted = data.results?.filter((r: any) => r.status === 'deleted').length || 0;
+                    toast({ title: 'Synthetic Users Deleted', description: `Removed ${deleted} synthetic accounts` });
+                    fetchUsers();
+                  } catch (e: any) {
+                    toast({ title: 'Delete Error', description: e.message, variant: 'destructive' });
+                  }
+                  setBulkDeleting(false);
+                }}
+              >
+                Delete All Synthetic
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
 
       {/* Date Filter & Bulk Delete Controls */}
