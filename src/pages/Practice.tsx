@@ -1022,7 +1022,7 @@ function DrillSession({
         </AnimatePresence>
 
         <div className="mt-6 flex justify-between">
-          <Button variant="ghost" onClick={() => goTo(currentIndex - 1)} disabled={currentIndex === 0} className="gap-1">
+          <Button variant="ghost" onClick={() => goTo(currentIndex - 1)} disabled={currentIndex === 0 || !canGoBack} className="gap-1">
             <ChevronLeft className="h-4 w-4" /> Prev
           </Button>
           {currentIndex < questions.length - 1 ? (
