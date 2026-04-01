@@ -576,7 +576,8 @@ function DrillSession({
   const { user } = useAuth();
   const { toast } = useToast();
   const canChangeAnswer = config.mode === 'recharge';
-  const timeSeconds = config.questionCount * 60;
+  const canGoBack = config.mode !== 'full-mock';
+  const timeSeconds = config.mode === 'full-mock' ? 210 * 60 : config.questionCount * 60;
 
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
