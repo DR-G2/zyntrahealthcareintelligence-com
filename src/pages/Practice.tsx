@@ -320,7 +320,7 @@ function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConf
         {/* Mode Selection */}
         <div className="space-y-3">
           <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Select Mode</h2>
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid gap-4 sm:grid-cols-3">
             <button
               onClick={() => setMode('recharge')}
               className={cn(
@@ -358,6 +358,26 @@ function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConf
               </div>
               <p className="text-sm text-muted-foreground">
                 Once you select an answer, it's locked. No going back.
+              </p>
+            </button>
+
+            <button
+              onClick={() => { setMode('full-mock'); setQuestionCount(150); }}
+              className={cn(
+                'rounded-xl border-2 p-5 text-left transition-all',
+                mode === 'full-mock'
+                  ? 'border-primary bg-primary/5 ring-2 ring-primary/20'
+                  : 'border-border hover:border-primary/30'
+              )}
+            >
+              <div className="flex items-center gap-3 mb-2">
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-destructive/10 text-destructive">
+                  <Shield className="h-5 w-5" />
+                </div>
+                <span className="font-display font-semibold">Full Mock</span>
+              </div>
+              <p className="text-sm text-muted-foreground">
+                150 questions in 210 minutes. Answers lock on selection. No going back.
               </p>
             </button>
           </div>
