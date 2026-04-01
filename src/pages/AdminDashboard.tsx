@@ -78,6 +78,8 @@ function UsersTab({ currentUserEmail }: { currentUserEmail: string }) {
   const [dateTo, setDateTo] = useState<Date | undefined>();
   const [bulkDeleting, setBulkDeleting] = useState(false);
   const [bulkDeleteResults, setBulkDeleteResults] = useState<{ user_id: string; email: string; status: string; error?: string }[] | null>(null);
+  const [seeding, setSeeding] = useState(false);
+  const [seedResults, setSeedResults] = useState<{ created_count: number; error_count: number } | null>(null);
 
   const fetchUsers = async (p = page) => {
     setLoading(true);
