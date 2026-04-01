@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Clock, Lock, RefreshCw, ChevronLeft, ChevronRight, CheckCircle, XCircle, Zap, TrendingUp, TrendingDown, ChevronDown, ChevronUp, Minus, Plus, Search, X, BookOpen, Stethoscope } from 'lucide-react';
+import { Clock, Lock, RefreshCw, ChevronLeft, ChevronRight, CheckCircle, XCircle, Zap, TrendingUp, TrendingDown, ChevronDown, ChevronUp, Minus, Plus, Search, X, BookOpen, Stethoscope, Shield } from 'lucide-react';
 import { MCQHistory } from '@/components/history/MCQHistory';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/contexts/AuthContext';
@@ -41,7 +41,7 @@ interface Question {
 }
 
 interface SessionConfig {
-  mode: 'recharge' | 'no-change';
+  mode: 'recharge' | 'no-change' | 'full-mock';
   topics: string[];
   subtopics: string[];
   questionCount: number;
@@ -102,7 +102,7 @@ async function fetchAllQuestionTopicMeta(): Promise<QuestionTopicMeta[]> {
 
 function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConfig) => void; onShowHistory?: () => void }) {
   const gate = useFeatureGate();
-  const [mode, setMode] = useState<'recharge' | 'no-change'>('recharge');
+  const [mode, setMode] = useState<'recharge' | 'no-change' | 'full-mock'>('recharge');
   // Subtopic-level selection is source of truth
   // Key: "normalized-subject::normalized-subtopic"
   const [selectedSubtopics, setSelectedSubtopics] = useState<Set<string>>(new Set());
@@ -320,7 +320,7 @@ function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConf
         {/* Mode Selection */}
         <div className="space-y-3">
           <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Select Mode</h2>
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid gap-4 sm:grid-cols-3">
             <button
               onClick={() => setMode('recharge')}
               className={cn(
@@ -360,10 +360,31 @@ function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConf
                 Once you select an answer, it's locked. No going back.
               </p>
             </button>
+
+            <button
+              onClick={() => { setMode('full-mock'); setQuestionCount(150); }}
+              className={cn(
+                'rounded-xl border-2 p-5 text-left transition-all',
+                mode === 'full-mock'
+                  ? 'border-primary bg-primary/5 ring-2 ring-primary/20'
+                  : 'border-border hover:border-primary/30'
+              )}
+            >
+              <div className="flex items-center gap-3 mb-2">
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-destructive/10 text-destructive">
+                  <Shield className="h-5 w-5" />
+                </div>
+                <span className="font-display font-semibold">Full Mock</span>
+              </div>
+              <p className="text-sm text-muted-foreground">
+                150 questions in 210 minutes. Answers lock on selection. No going back.
+              </p>
+            </button>
           </div>
         </div>
 
-        {/* Question Count Selector */}
+        {/* Question Count Selector — hidden in full-mock */}
+        {mode !== 'full-mock' && (
         <div className="space-y-3">
           <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Questions</h2>
           
@@ -400,6 +421,14 @@ function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConf
           
           <p className="text-sm text-muted-foreground">≈ {questionCount} minutes</p>
         </div>
+        )}
+
+        {mode === 'full-mock' && (
+          <div className="rounded-lg border border-destructive/30 bg-destructive/5 p-4">
+            <p className="text-sm font-medium">Full Mock Exam: <span className="text-destructive">150 questions • 210 minutes (3h 30m)</span></p>
+            <p className="text-xs text-muted-foreground mt-1">Answers lock immediately on selection. You cannot go back to previous questions.</p>
+          </div>
+        )}
 
         {/* Topic Filters — Subject → Subtopics */}
         <div className="space-y-3">
@@ -547,7 +576,8 @@ function DrillSession({
   const { user } = useAuth();
   const { toast } = useToast();
   const canChangeAnswer = config.mode === 'recharge';
-  const timeSeconds = config.questionCount * 60;
+  const canGoBack = config.mode !== 'full-mock';
+  const timeSeconds = config.mode === 'full-mock' ? 210 * 60 : config.questionCount * 60;
 
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -992,7 +1022,7 @@ function DrillSession({
         </AnimatePresence>
 
         <div className="mt-6 flex justify-between">
-          <Button variant="ghost" onClick={() => goTo(currentIndex - 1)} disabled={currentIndex === 0} className="gap-1">
+          <Button variant="ghost" onClick={() => goTo(currentIndex - 1)} disabled={currentIndex === 0 || !canGoBack} className="gap-1">
             <ChevronLeft className="h-4 w-4" /> Prev
           </Button>
           {currentIndex < questions.length - 1 ? (
