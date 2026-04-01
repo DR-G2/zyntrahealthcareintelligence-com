@@ -41,7 +41,7 @@ interface Question {
 }
 
 interface SessionConfig {
-  mode: 'recharge' | 'no-change';
+  mode: 'recharge' | 'no-change' | 'full-mock';
   topics: string[];
   subtopics: string[];
   questionCount: number;
