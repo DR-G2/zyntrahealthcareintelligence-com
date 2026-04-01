@@ -383,7 +383,8 @@ function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConf
           </div>
         </div>
 
-        {/* Question Count Selector */}
+        {/* Question Count Selector — hidden in full-mock */}
+        {mode !== 'full-mock' && (
         <div className="space-y-3">
           <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Questions</h2>
           
@@ -420,6 +421,14 @@ function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConf
           
           <p className="text-sm text-muted-foreground">≈ {questionCount} minutes</p>
         </div>
+        )}
+
+        {mode === 'full-mock' && (
+          <div className="rounded-lg border border-destructive/30 bg-destructive/5 p-4">
+            <p className="text-sm font-medium">Full Mock Exam: <span className="text-destructive">150 questions • 210 minutes (3h 30m)</span></p>
+            <p className="text-xs text-muted-foreground mt-1">Answers lock immediately on selection. You cannot go back to previous questions.</p>
+          </div>
+        )}
 
         {/* Topic Filters — Subject → Subtopics */}
         <div className="space-y-3">
