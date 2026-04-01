@@ -102,7 +102,7 @@ async function fetchAllQuestionTopicMeta(): Promise<QuestionTopicMeta[]> {
 
 function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConfig) => void; onShowHistory?: () => void }) {
   const gate = useFeatureGate();
-  const [mode, setMode] = useState<'recharge' | 'no-change'>('recharge');
+  const [mode, setMode] = useState<'recharge' | 'no-change' | 'full-mock'>('recharge');
   // Subtopic-level selection is source of truth
   // Key: "normalized-subject::normalized-subtopic"
   const [selectedSubtopics, setSelectedSubtopics] = useState<Set<string>>(new Set());
