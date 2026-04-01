@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Clock, Lock, RefreshCw, ChevronLeft, ChevronRight, CheckCircle, XCircle, Zap, TrendingUp, TrendingDown, ChevronDown, ChevronUp, Minus, Plus, Search, X, BookOpen, Stethoscope } from 'lucide-react';
+import { Clock, Lock, RefreshCw, ChevronLeft, ChevronRight, CheckCircle, XCircle, Zap, TrendingUp, TrendingDown, ChevronDown, ChevronUp, Minus, Plus, Search, X, BookOpen, Stethoscope, Shield } from 'lucide-react';
 import { MCQHistory } from '@/components/history/MCQHistory';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/contexts/AuthContext';
