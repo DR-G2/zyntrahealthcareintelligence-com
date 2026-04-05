@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Zap, Brain, Clock, Target, BarChart3, ArrowRight, Rss, Send, ChevronDown } from 'lucide-react';
+import { Zap, Brain, Clock, Target, BarChart3, ArrowRight, Rss, Send, ChevronDown, Stethoscope, MessageSquare, BookOpen, TrendingUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
