@@ -11,6 +11,8 @@ import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { usePresence } from "@/hooks/usePresence";
+import { VisitorTracker } from "@/components/VisitorTracker";
+import { NudgeButton } from "@/components/NudgeButton";
 import { useShowAboutPricing, useMaintenanceMode } from "@/hooks/useSiteSettings";
 import { supabase } from "@/integrations/supabase/client";
 
