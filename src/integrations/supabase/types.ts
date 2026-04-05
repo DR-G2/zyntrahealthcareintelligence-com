@@ -619,6 +619,53 @@ export type Database = {
         }
         Relationships: []
       }
+      intent_signals: {
+        Row: {
+          action: string
+          id: string
+          intent_level: string
+          metadata: Json | null
+          page: string | null
+          platform: string | null
+          session_id: string | null
+          timestamp: string
+          user_id: string | null
+          visitor_id: string
+        }
+        Insert: {
+          action: string
+          id?: string
+          intent_level?: string
+          metadata?: Json | null
+          page?: string | null
+          platform?: string | null
+          session_id?: string | null
+          timestamp?: string
+          user_id?: string | null
+          visitor_id: string
+        }
+        Update: {
+          action?: string
+          id?: string
+          intent_level?: string
+          metadata?: Json | null
+          page?: string | null
+          platform?: string | null
+          session_id?: string | null
+          timestamp?: string
+          user_id?: string | null
+          visitor_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "intent_signals_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "visitor_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       manual_overrides: {
         Row: {
           expires_at: string | null
@@ -677,6 +724,83 @@ export type Database = {
             columns: ["station_id"]
             isOneToOne: false
             referencedRelation: "clinical_stations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      nudge_signals: {
+        Row: {
+          id: string
+          message: string | null
+          page: string
+          platform: string | null
+          resolved_at: string | null
+          timestamp: string
+          user_id: string | null
+          visitor_id: string
+        }
+        Insert: {
+          id?: string
+          message?: string | null
+          page: string
+          platform?: string | null
+          resolved_at?: string | null
+          timestamp?: string
+          user_id?: string | null
+          visitor_id: string
+        }
+        Update: {
+          id?: string
+          message?: string | null
+          page?: string
+          platform?: string | null
+          resolved_at?: string | null
+          timestamp?: string
+          user_id?: string | null
+          visitor_id?: string
+        }
+        Relationships: []
+      }
+      page_views: {
+        Row: {
+          id: string
+          page: string
+          platform: string | null
+          scroll_depth: number | null
+          session_id: string | null
+          time_on_page_seconds: number | null
+          timestamp: string
+          user_id: string | null
+          visitor_id: string
+        }
+        Insert: {
+          id?: string
+          page: string
+          platform?: string | null
+          scroll_depth?: number | null
+          session_id?: string | null
+          time_on_page_seconds?: number | null
+          timestamp?: string
+          user_id?: string | null
+          visitor_id: string
+        }
+        Update: {
+          id?: string
+          page?: string
+          platform?: string | null
+          scroll_depth?: number | null
+          session_id?: string | null
+          time_on_page_seconds?: number | null
+          timestamp?: string
+          user_id?: string | null
+          visitor_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "page_views_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "visitor_sessions"
             referencedColumns: ["id"]
           },
         ]
@@ -1863,6 +1987,66 @@ export type Database = {
           osce_attempts?: number
           usage_date?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      visitor_sessions: {
+        Row: {
+          browser: string | null
+          city: string | null
+          country: string | null
+          device_type: string | null
+          duration_seconds: number | null
+          ended_at: string | null
+          exit_page: string | null
+          id: string
+          ip_hash: string | null
+          is_returning: boolean | null
+          pages_visited: number | null
+          platform: string | null
+          referrer: string | null
+          started_at: string
+          user_id: string | null
+          visit_number: number | null
+          visitor_id: string
+        }
+        Insert: {
+          browser?: string | null
+          city?: string | null
+          country?: string | null
+          device_type?: string | null
+          duration_seconds?: number | null
+          ended_at?: string | null
+          exit_page?: string | null
+          id?: string
+          ip_hash?: string | null
+          is_returning?: boolean | null
+          pages_visited?: number | null
+          platform?: string | null
+          referrer?: string | null
+          started_at?: string
+          user_id?: string | null
+          visit_number?: number | null
+          visitor_id: string
+        }
+        Update: {
+          browser?: string | null
+          city?: string | null
+          country?: string | null
+          device_type?: string | null
+          duration_seconds?: number | null
+          ended_at?: string | null
+          exit_page?: string | null
+          id?: string
+          ip_hash?: string | null
+          is_returning?: boolean | null
+          pages_visited?: number | null
+          platform?: string | null
+          referrer?: string | null
+          started_at?: string
+          user_id?: string | null
+          visit_number?: number | null
+          visitor_id?: string
         }
         Relationships: []
       }
