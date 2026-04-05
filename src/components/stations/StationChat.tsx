@@ -157,6 +157,11 @@ export function StationChat({ patientPersona, messages, onMessagesChange, onBeha
       </div>
 
       <div className="flex gap-2 pt-3 border-t border-border mt-3">
+        <VoiceChat
+          onSendMessage={(text) => sendMessage(text)}
+          lastAssistantMessage={messages.filter(m => m.role === 'assistant').pop()?.content}
+          disabled={isStreaming || disabled}
+        />
         <Input
           value={input}
           onChange={e => setInput(e.target.value)}
@@ -165,7 +170,7 @@ export function StationChat({ patientPersona, messages, onMessagesChange, onBeha
           disabled={isStreaming || disabled}
           className="flex-1"
         />
-        <Button onClick={sendMessage} disabled={!input.trim() || isStreaming || disabled} size="icon">
+        <Button onClick={() => sendMessage()} disabled={!input.trim() || isStreaming || disabled} size="icon">
           <Send className="h-4 w-4" />
         </Button>
       </div>
