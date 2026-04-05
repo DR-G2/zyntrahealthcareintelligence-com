@@ -19,7 +19,7 @@ export function UpgradePrompt({ feature, description, variant = 'card', stage }:
         <div className="flex items-center gap-3">
           <Lock className="h-4 w-4 text-primary" />
           <span className="text-sm font-medium">
-            {description || `${feature} is available on the Full Access plan`}
+            {effectiveDescription || `${feature} is available on the Full Access plan`}
           </span>
         </div>
         <Button asChild size="sm" className="gap-1">
