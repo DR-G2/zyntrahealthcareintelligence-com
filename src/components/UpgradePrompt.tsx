@@ -7,6 +7,7 @@ interface UpgradePromptProps {
   feature: string;
   description?: string;
   variant?: 'card' | 'banner' | 'overlay';
+  stage?: number;
 }
 
 export function UpgradePrompt({ feature, description, variant = 'card' }: UpgradePromptProps) {
