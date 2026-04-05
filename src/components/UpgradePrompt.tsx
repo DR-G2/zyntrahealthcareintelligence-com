@@ -38,7 +38,7 @@ export function UpgradePrompt({ feature, description, variant = 'card', stage }:
           </div>
           <h3 className="font-display font-semibold text-lg">{feature}</h3>
           <p className="text-sm text-muted-foreground">
-            {description || 'Upgrade to Full Access to unlock this feature'}
+            {effectiveDescription || 'Upgrade to Full Access to unlock this feature'}
           </p>
           <Button asChild className="gap-1">
             <Link to="/pricing">View Plans <ArrowRight className="h-4 w-4" /></Link>
