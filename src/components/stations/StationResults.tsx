@@ -65,7 +65,7 @@ function getProgressColor(score: number) {
   return '[&>div]:bg-destructive';
 }
 
-export function StationResults({ scores, psychograph, archetype, recommendations, summary, stationAttemptId }: StationResultsProps) {
+export function StationResults({ scores, psychograph, archetype, recommendations, summary, stationAttemptId, stationId, scenarioTitle, checklistItems, subject }: StationResultsProps) {
   const gate = useFeatureGate();
   const { user } = useAuth();
   const { toast } = useToast();
