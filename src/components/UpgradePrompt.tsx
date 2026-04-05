@@ -57,7 +57,7 @@ export function UpgradePrompt({ feature, description, variant = 'card', stage }:
         <div>
           <h3 className="text-xl font-display font-bold">{feature}</h3>
           <p className="text-sm text-muted-foreground mt-1">
-            {description || 'This feature requires the Full Access plan'}
+            {effectiveDescription || 'This feature requires the Full Access plan'}
           </p>
         </div>
         <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
