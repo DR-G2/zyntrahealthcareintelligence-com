@@ -34,7 +34,8 @@ import { MCQEditor } from '@/components/admin/MCQEditor';
 import { SubjectManager } from '@/components/admin/SubjectManager';
 import { QNSTab } from '@/components/admin/QNSTab';
 import { DataPortabilityTab } from '@/components/admin/DataPortabilityTab';
-import { Download } from 'lucide-react';
+import { VisitorIntelligenceTab } from '@/components/admin/VisitorIntelligenceTab';
+import { Download, Globe } from 'lucide-react';
 
 import { ADMIN_EMAILS, SUPER_ADMIN_EMAIL } from '@/lib/admin-emails';
 
@@ -1713,12 +1714,13 @@ export default function AdminDashboard() {
         {isSuperAdmin && <SiteSettingsCard />}
 
         <Tabs defaultValue="live">
-          <TabsList className={`grid w-full ${isSuperAdmin ? 'grid-cols-10' : 'grid-cols-5'}`}>
+          <TabsList className={`grid w-full ${isSuperAdmin ? 'grid-cols-11' : 'grid-cols-5'}`}>
             <TabsTrigger value="live" className="gap-1 text-xs"><Radio className="h-3.5 w-3.5" /> Activity</TabsTrigger>
             <TabsTrigger value="users" className="gap-1 text-xs"><Users className="h-3.5 w-3.5" /> Users</TabsTrigger>
             <TabsTrigger value="messages" className="gap-1 text-xs"><MessageCircle className="h-3.5 w-3.5" /> Messages</TabsTrigger>
             <TabsTrigger value="qns" className="gap-1 text-xs"><Database className="h-3.5 w-3.5" /> QNS</TabsTrigger>
             <TabsTrigger value="strikes" className="gap-1 text-xs"><ShieldAlert className="h-3.5 w-3.5" /> Strikes</TabsTrigger>
+            {isSuperAdmin && <TabsTrigger value="visitors" className="gap-1 text-xs"><Globe className="h-3.5 w-3.5" /> Visitors</TabsTrigger>}
             {isSuperAdmin && <TabsTrigger value="screenshots" className="gap-1 text-xs"><Camera className="h-3.5 w-3.5" /> Screenshots</TabsTrigger>}
             {isSuperAdmin && <TabsTrigger value="ai-core" className="gap-1 text-xs"><Brain className="h-3.5 w-3.5" /> AI Core</TabsTrigger>}
             {isSuperAdmin && <TabsTrigger value="data-port" className="gap-1 text-xs"><Download className="h-3.5 w-3.5" /> Data</TabsTrigger>}
@@ -1730,6 +1732,7 @@ export default function AdminDashboard() {
           <TabsContent value="messages"><MessagesTab /></TabsContent>
           <TabsContent value="qns"><QNSTab /></TabsContent>
           <TabsContent value="strikes"><PiracyStrikesTab /></TabsContent>
+          {isSuperAdmin && <TabsContent value="visitors"><VisitorIntelligenceTab /></TabsContent>}
           {isSuperAdmin && <TabsContent value="screenshots"><ScreenshotAttemptsTab /></TabsContent>}
           {isSuperAdmin && <TabsContent value="ai-core"><AIControlTab /></TabsContent>}
           {isSuperAdmin && <TabsContent value="data-port"><DataPortabilityTab /></TabsContent>}
