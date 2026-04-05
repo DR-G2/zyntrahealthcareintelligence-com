@@ -15,6 +15,10 @@ import { Bookmark, BookmarkCheck, StickyNote, Lock } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 
 interface StationResultsProps {
+  stationId?: string;
+  scenarioTitle?: string;
+  checklistItems?: { id: string; label: string }[];
+  subject?: string;
   scores: {
     overall: number;
     communication: number;
