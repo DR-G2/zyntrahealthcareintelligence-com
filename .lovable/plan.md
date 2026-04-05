@@ -1,93 +1,81 @@
 
 
-## Feature Gap Analysis: AMC PrepBlitz vs Zyntra
+## Plan: Rip Missing Features from AMC PrepBlitz
 
-After analyzing amcprepblitz.com, three features stand out that we lack:
+After analyzing amcprepblitz.com in detail, the three core product features (SRS Flashcards, Voice Practice, Gold-Standard Coaching) were already implemented in the last round. What remains are **policy pages, administrative features, and structural gaps**.
 
-### Features They Have That We Don't
+### Gap Analysis
 
 | Feature | PrepBlitz | Zyntra |
 |---------|-----------|--------|
-| SRS Flashcards | Spaced repetition decks per subject | None |
-| AI Voice Practice | Voice-based OSCE roleplay | Text chat only |
-| Gold-Standard Coaching | Demo walkthroughs showing "clear pass" answers | None |
-| AMC Scoring | Domain-by-domain | We have this already |
-| 50+ Stations | Yes | We have this already |
-| Analytics | Basic dashboard | We have much more |
+| Privacy Policy page | Full GDPR/APP-compliant page | Missing entirely |
+| Contact form | Embedded on landing page | No contact form anywhere |
+| Free trial with daily limits | 5-day trial, 2 sessions/day | Free trial end date exists but no daily session cap |
+| Competitive intelligence clauses | Detailed anti-competitor sections in ToS | Missing |
+| AMC independence disclaimer | Formal disclaimer section | Missing |
+| Voice/audio consent in ToS | Dedicated section | Missing |
+| AI content feeding prohibition | Explicit clause | Missing |
+| Beta access confidentiality | Dedicated section | Missing |
+| FAQ on landing page | Expandable FAQ section | Only on Pricing page |
 
 ---
 
-### What I Would Build (Priority Order)
+### Task 1: Create Privacy Policy Page
 
-#### 1. SRS Flashcard System (Highest Impact, Most Differentiated Gap)
+New page at `/privacy` with comprehensive sections mirroring PrepBlitz but branded for Zyntra:
+- Information collected (personal, usage, payment, cookies)
+- How information is used
+- Third-party sharing (Razorpay, analytics, error tracking)
+- Data security measures
+- Data retention policy
+- User privacy rights (access, correction, deletion)
+- Australian Privacy Principles compliance
+- Contact information
 
-**New page**: `/flashcards` accessible from sidebar
+**Files:** `src/pages/Privacy.tsx` (new), `src/App.tsx` (add route), `src/components/LegalFooter.tsx` (add Privacy link)
 
-**Database**:
-- `flashcard_decks` table: id, user_id, title, subject, card_count, created_at
-- `flashcards` table: id, deck_id, front (question/concept), back (answer/explanation), subject, subtopic
-- `flashcard_reviews` table: id, user_id, flashcard_id, ease_factor, interval_days, next_review_at, repetitions, created_at
+### Task 2: Expand Terms of Service
 
-**How it works**:
-- Auto-generate flashcards from incorrect MCQ attempts and OSCE weak areas using AI
-- SM-2 spaced repetition algorithm (same as Anki) for scheduling reviews
-- Cards show front (clinical question/concept), user rates recall (Again / Hard / Good / Easy)
-- Daily review queue sorted by due date
-- Subject-grouped decks with progress indicators
-- "Cards due today" counter on Dashboard
+Add missing sections to `src/pages/Terms.tsx`:
+- **Competitive intelligence prohibition** (anti-competitor access clause)
+- **AI content feeding prohibition** (no feeding content to LLMs/ML pipelines)
+- **Voice/audio processing consent** (Web Speech API usage disclosure)
+- **Beta access confidentiality** clause
+- **AMC independence disclaimer** (formal independence notice)
+- **Identity and eligibility** requirements (real identity, no competitor access)
+- **Original content notice** (scenarios are original, not recalled)
 
-**Files**:
-- `src/pages/Flashcards.tsx` (main page with deck list + review mode)
-- `src/lib/sm2.ts` (SM-2 algorithm)
-- `supabase/functions/generate-flashcards/index.ts` (AI generates cards from weak areas)
-- Migration for 3 new tables
-- Sidebar nav entry
+### Task 3: Add Contact Form to Landing Page
 
-#### 2. AI Voice Practice for OSCE Stations
+Add an embedded contact section at the bottom of the Landing page:
+- Name, email, message fields
+- Category selector (General / Support / Feedback)
+- Stores submissions in a new `contact_submissions` database table
+- Sends admin notification via existing admin messaging system
+- Success toast on submission
 
-**Enhancement to existing Stations page**
+**Database:** New `contact_submissions` table (id, name, email, category, message, created_at) with public insert RLS policy
 
-- Add a "Voice Mode" toggle button next to the existing text chat
-- Uses Web Speech API (`SpeechRecognition` for input, `SpeechSynthesis` for patient responses)
-- No external API needed -- browser-native
-- Transcribes user speech to text, sends to existing `station-patient-chat` edge function
-- Patient response is spoken aloud via TTS
-- Visual waveform indicator during listening/speaking
-- Falls back to text chat on unsupported browsers
+**Files:** `src/pages/Landing.tsx` (add contact section), migration for table
 
-**Files**:
-- `src/components/stations/VoiceChat.tsx` (voice UI with mic button, waveform, transcript)
-- `src/hooks/useVoiceChat.ts` (SpeechRecognition + SpeechSynthesis wrapper)
-- Minor updates to `StationChat.tsx` to support voice mode toggle
+### Task 4: Implement Free Trial Daily Session Limits
 
-#### 3. Gold-Standard Coaching (Model Answer Walkthroughs)
+PrepBlitz limits free users to 2 AI practice sessions per day and 6 free stations.
+- Track daily session count in `user_attempts` for MCQ and `station_attempts` for OSCE
+- Check count before starting a new session
+- Show upgrade prompt when limit reached
+- Free trial: 2 MCQ sessions + 2 OSCE sessions per day
+- Display remaining sessions on Dashboard
 
-**Enhancement to Station Results page**
-
-- After completing a station, show a "See Model Answer" expandable section
-- AI generates a "clear pass" walkthrough: what the ideal candidate would say at each checklist item
-- Displayed as a structured timeline with checklist items mapped to ideal responses
-- Stored for reuse so it's not re-generated each time
-
-**Files**:
-- `supabase/functions/generate-model-answer/index.ts` (AI generates ideal consultation walkthrough)
-- `src/components/stations/ModelAnswerCoaching.tsx` (expandable coaching panel)
-- Update `StationResults.tsx` to include the coaching component
-- `model_answers` table: station_id, subject, scenario_title, model_walkthrough (jsonb), created_at
+**Files:** `src/pages/Practice.tsx` (add limit check), `src/pages/Stations.tsx` (add limit check), `src/pages/Dashboard.tsx` (show remaining), new utility hook `src/hooks/useDailyLimits.ts`
 
 ---
 
-### Implementation Order
+### Technical Details
 
-1. **SRS Flashcards** -- 3 tables + 1 edge function + 1 page + algorithm
-2. **Voice Practice** -- Frontend-only (Web Speech API), no DB changes
-3. **Model Answer Coaching** -- 1 table + 1 edge function + 1 component
-
-### Technical Notes
-
-- Flashcard SM-2 algorithm is deterministic, runs client-side
-- Voice chat uses zero-cost browser APIs; no third-party speech service needed
-- Model answers use Lovable AI (gemini-3-flash-preview) for generation
-- All new tables get standard user-scoped RLS policies
-- Flashcard generation triggers from "Generate from my mistakes" button + manual card creation
+- Privacy page follows same minimal styling as existing Terms page
+- Contact form uses anonymous insert RLS (no auth required for public contact)
+- Daily limits query `user_attempts` with `created_at >= today` filter
+- All new ToS sections use existing `sectionClass`/`textClass` patterns
+- No new edge functions needed -- contact form inserts directly via Supabase client
 
