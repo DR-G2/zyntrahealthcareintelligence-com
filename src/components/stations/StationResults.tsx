@@ -210,6 +210,14 @@ export function StationResults({ scores, psychograph, archetype, recommendations
         <UpgradePrompt feature="Recommendations" description="Upgrade to see personalised recommendations for each station." variant="card" />
       )}
 
+      {/* Gold-Standard Coaching */}
+      <ModelAnswerCoaching
+        stationId={stationId}
+        subject={subject || ''}
+        scenarioTitle={scenarioTitle || ''}
+        checklistItems={checklistItems}
+      />
+
       {/* Notes Section */}
       {stationAttemptId && (
         <Card>
