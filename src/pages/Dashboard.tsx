@@ -13,6 +13,8 @@ import { SubscriptionTimer } from '@/components/SubscriptionTimer';
 import { useFeatureGate } from '@/hooks/useFeatureGate';
 import { useOSCEPreload } from '@/hooks/useOSCEPreload';
 import { PostSessionInsightBanner } from '@/components/PostSessionInsightBanner';
+import { NextBestStep } from '@/components/NextBestStep';
+import { ProgramTracker } from '@/components/ProgramTracker';
 import { supabase } from '@/lib/supabase';
 
 export default function Dashboard() {
@@ -51,6 +53,12 @@ export default function Dashboard() {
         />
       )}
       <PostSessionInsightBanner />
+
+      {/* Next Best Step Engine */}
+      <div className="mb-6">
+        <NextBestStep />
+      </div>
+
       <div className="mb-8 space-y-3">
         <div>
           <h1 className="text-3xl font-bold font-display">
@@ -129,6 +137,11 @@ export default function Dashboard() {
           </CardContent>
         </Card>
       )}
+
+      {/* AMC Mastery Program */}
+      <div className="mt-8">
+        <ProgramTracker />
+      </div>
 
       {/* AMC Readiness DNA */}
       <div className="mt-8">

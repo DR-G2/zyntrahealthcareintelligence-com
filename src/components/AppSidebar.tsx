@@ -58,7 +58,7 @@ function getNavGroups(isPaid: boolean): NavGroup[] {
 
   return [
     {
-      label: 'Learn & Practice',
+      label: 'Training Program',
       items: [
         { to: '/practice', label: 'MCQ', icon: Zap },
         { to: '/stations', label: 'OSCE', icon: Activity },
@@ -69,7 +69,7 @@ function getNavGroups(isPaid: boolean): NavGroup[] {
       items: appeItems,
     },
     {
-      label: 'Study Companion',
+      label: 'Study Tools',
       items: [
         { to: '/companion/chat', label: 'AI Chat', icon: MessageCircle },
         { to: '/companion/ai-core', label: 'Zyntra AI Core', icon: Zap },

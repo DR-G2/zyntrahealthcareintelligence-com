@@ -7,16 +7,19 @@ interface UpgradePromptProps {
   feature: string;
   description?: string;
   variant?: 'card' | 'banner' | 'overlay';
+  stage?: number;
 }
 
-export function UpgradePrompt({ feature, description, variant = 'card' }: UpgradePromptProps) {
+export function UpgradePrompt({ feature, description, variant = 'card', stage }: UpgradePromptProps) {
+  const stageText = stage ? `Complete Stage ${stage - 1} to unlock this level` : undefined;
+  const effectiveDescription = description || stageText;
   if (variant === 'banner') {
     return (
       <div className="flex items-center justify-between rounded-lg border border-primary/30 bg-primary/5 px-4 py-3">
         <div className="flex items-center gap-3">
           <Lock className="h-4 w-4 text-primary" />
           <span className="text-sm font-medium">
-            {description || `${feature} is available on the Full Access plan`}
+            {effectiveDescription || `${feature} is available on the Full Access plan`}
           </span>
         </div>
         <Button asChild size="sm" className="gap-1">
@@ -35,7 +38,7 @@ export function UpgradePrompt({ feature, description, variant = 'card' }: Upgrad
           </div>
           <h3 className="font-display font-semibold text-lg">{feature}</h3>
           <p className="text-sm text-muted-foreground">
-            {description || 'Upgrade to Full Access to unlock this feature'}
+            {effectiveDescription || 'Upgrade to Full Access to unlock this feature'}
           </p>
           <Button asChild className="gap-1">
             <Link to="/pricing">View Plans <ArrowRight className="h-4 w-4" /></Link>
@@ -54,7 +57,7 @@ export function UpgradePrompt({ feature, description, variant = 'card' }: Upgrad
         <div>
           <h3 className="text-xl font-display font-bold">{feature}</h3>
           <p className="text-sm text-muted-foreground mt-1">
-            {description || 'This feature requires the Full Access plan'}
+            {effectiveDescription || 'This feature requires the Full Access plan'}
           </p>
         </div>
         <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
