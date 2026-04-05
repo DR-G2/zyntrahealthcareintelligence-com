@@ -22,6 +22,7 @@ interface StationChatProps {
 export function StationChat({ patientPersona, messages, onMessagesChange, onBehavioralSignal, disabled }: StationChatProps) {
   const [input, setInput] = useState('');
   const [isStreaming, setIsStreaming] = useState(false);
+  const [voiceMode, setVoiceMode] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const lastMessageTime = useRef<number>(Date.now());
 
