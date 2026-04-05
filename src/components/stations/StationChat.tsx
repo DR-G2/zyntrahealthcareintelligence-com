@@ -1,8 +1,9 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Send, User, Stethoscope } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
+import { VoiceChat } from './VoiceChat';
 
 interface ChatMessage {
   role: 'user' | 'assistant';
@@ -21,6 +22,7 @@ interface StationChatProps {
 export function StationChat({ patientPersona, messages, onMessagesChange, onBehavioralSignal, disabled }: StationChatProps) {
   const [input, setInput] = useState('');
   const [isStreaming, setIsStreaming] = useState(false);
+  const [voiceMode, setVoiceMode] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const lastMessageTime = useRef<number>(Date.now());
 
@@ -28,20 +30,21 @@ export function StationChat({ patientPersona, messages, onMessagesChange, onBeha
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' });
   }, [messages]);
 
-  const sendMessage = async () => {
-    if (!input.trim() || isStreaming || disabled) return;
+  const sendMessage = async (overrideText?: string) => {
+    const text = overrideText || input.trim();
+    if (!text || isStreaming || disabled) return;
 
     const now = Date.now();
     const timeSinceLastMsg = (now - lastMessageTime.current) / 1000;
     lastMessageTime.current = now;
 
     onBehavioralSignal({ type: 'response_latency', value: timeSinceLastMsg });
-    onBehavioralSignal({ type: 'message_length', value: input.trim().split(/\s+/).length });
+    onBehavioralSignal({ type: 'message_length', value: text.split(/\s+/).length });
 
-    const userMsg: ChatMessage = { role: 'user', content: input.trim(), timestamp: now };
+    const userMsg: ChatMessage = { role: 'user', content: text, timestamp: now };
     const updated = [...messages, userMsg];
     onMessagesChange(updated);
-    setInput('');
+    if (!overrideText) setInput('');
     setIsStreaming(true);
 
     try {
@@ -154,6 +157,11 @@ export function StationChat({ patientPersona, messages, onMessagesChange, onBeha
       </div>
 
       <div className="flex gap-2 pt-3 border-t border-border mt-3">
+        <VoiceChat
+          onSendMessage={(text) => sendMessage(text)}
+          lastAssistantMessage={messages.filter(m => m.role === 'assistant').pop()?.content}
+          disabled={isStreaming || disabled}
+        />
         <Input
           value={input}
           onChange={e => setInput(e.target.value)}
@@ -162,7 +170,7 @@ export function StationChat({ patientPersona, messages, onMessagesChange, onBeha
           disabled={isStreaming || disabled}
           className="flex-1"
         />
-        <Button onClick={sendMessage} disabled={!input.trim() || isStreaming || disabled} size="icon">
+        <Button onClick={() => sendMessage()} disabled={!input.trim() || isStreaming || disabled} size="icon">
           <Send className="h-4 w-4" />
         </Button>
       </div>

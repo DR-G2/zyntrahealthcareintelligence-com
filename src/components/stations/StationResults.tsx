@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Textarea } from '@/components/ui/textarea';
 import { PsychographRadar } from './PsychographRadar';
+import { ModelAnswerCoaching } from './ModelAnswerCoaching';
 import { useFeatureGate } from '@/hooks/useFeatureGate';
 import { UpgradePrompt } from '@/components/UpgradePrompt';
 import { useAuth } from '@/contexts/AuthContext';
@@ -14,6 +15,10 @@ import { Bookmark, BookmarkCheck, StickyNote, Lock } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 
 interface StationResultsProps {
+  stationId?: string;
+  scenarioTitle?: string;
+  checklistItems?: { id: string; label: string }[];
+  subject?: string;
   scores: {
     overall: number;
     communication: number;
@@ -60,7 +65,7 @@ function getProgressColor(score: number) {
   return '[&>div]:bg-destructive';
 }
 
-export function StationResults({ scores, psychograph, archetype, recommendations, summary, stationAttemptId }: StationResultsProps) {
+export function StationResults({ scores, psychograph, archetype, recommendations, summary, stationAttemptId, stationId, scenarioTitle, checklistItems, subject }: StationResultsProps) {
   const gate = useFeatureGate();
   const { user } = useAuth();
   const { toast } = useToast();
@@ -204,6 +209,14 @@ export function StationResults({ scores, psychograph, archetype, recommendations
       ) : (
         <UpgradePrompt feature="Recommendations" description="Upgrade to see personalised recommendations for each station." variant="card" />
       )}
+
+      {/* Gold-Standard Coaching */}
+      <ModelAnswerCoaching
+        stationId={stationId}
+        subject={subject || ''}
+        scenarioTitle={scenarioTitle || ''}
+        checklistItems={checklistItems}
+      />
 
       {/* Notes Section */}
       {stationAttemptId && (

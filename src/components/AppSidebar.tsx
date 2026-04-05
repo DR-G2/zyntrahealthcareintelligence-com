@@ -73,6 +73,7 @@ function getNavGroups(isPaid: boolean): NavGroup[] {
       items: [
         { to: '/companion/chat', label: 'AI Chat', icon: MessageCircle },
         { to: '/companion/ai-core', label: 'Zyntra AI Core', icon: Zap },
+        { to: '/flashcards', label: 'Flashcards', icon: Brain },
         { to: '/plan', label: 'Study Plan', icon: Calendar },
       ],
     },
