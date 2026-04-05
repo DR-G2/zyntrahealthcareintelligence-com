@@ -80,7 +80,7 @@ export function NudgeButton() {
           <motion.span
             animate={{ scale: [1, 1.2, 1] }}
             transition={{ repeat: Infinity, duration: 2 }}
-            className="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-green-500 border-2 border-background"
+            className="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-primary border-2 border-background"
           />
         )}
       </Button>
