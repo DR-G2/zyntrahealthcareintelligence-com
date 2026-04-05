@@ -1779,6 +1779,39 @@ export type Database = {
         }
         Relationships: []
       }
+      user_program_progress: {
+        Row: {
+          completed_at: string | null
+          id: string
+          progress_pct: number
+          stage: number
+          track: string
+          unlocked: boolean
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          completed_at?: string | null
+          id?: string
+          progress_pct?: number
+          stage?: number
+          track: string
+          unlocked?: boolean
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          completed_at?: string | null
+          id?: string
+          progress_pct?: number
+          stage?: number
+          track?: string
+          unlocked?: boolean
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_progress: {
         Row: {
           accuracy_rate: number
