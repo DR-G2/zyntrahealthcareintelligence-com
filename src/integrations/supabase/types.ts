@@ -450,6 +450,118 @@ export type Database = {
         }
         Relationships: []
       }
+      flashcard_decks: {
+        Row: {
+          card_count: number
+          created_at: string
+          id: string
+          subject: string | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          card_count?: number
+          created_at?: string
+          id?: string
+          subject?: string | null
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          card_count?: number
+          created_at?: string
+          id?: string
+          subject?: string | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      flashcard_reviews: {
+        Row: {
+          created_at: string
+          ease_factor: number
+          flashcard_id: string
+          id: string
+          interval_days: number
+          next_review_at: string
+          repetitions: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          ease_factor?: number
+          flashcard_id: string
+          id?: string
+          interval_days?: number
+          next_review_at?: string
+          repetitions?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          ease_factor?: number
+          flashcard_id?: string
+          id?: string
+          interval_days?: number
+          next_review_at?: string
+          repetitions?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "flashcard_reviews_flashcard_id_fkey"
+            columns: ["flashcard_id"]
+            isOneToOne: false
+            referencedRelation: "flashcards"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      flashcards: {
+        Row: {
+          back: string
+          created_at: string
+          deck_id: string
+          front: string
+          id: string
+          subject: string | null
+          subtopic: string | null
+        }
+        Insert: {
+          back: string
+          created_at?: string
+          deck_id: string
+          front: string
+          id?: string
+          subject?: string | null
+          subtopic?: string | null
+        }
+        Update: {
+          back?: string
+          created_at?: string
+          deck_id?: string
+          front?: string
+          id?: string
+          subject?: string | null
+          subtopic?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "flashcards_deck_id_fkey"
+            columns: ["deck_id"]
+            isOneToOne: false
+            referencedRelation: "flashcard_decks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       ideal_candidate_profile: {
         Row: {
           description: string | null
@@ -506,6 +618,41 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      model_answers: {
+        Row: {
+          created_at: string
+          id: string
+          model_walkthrough: Json
+          scenario_title: string
+          station_id: string | null
+          subject: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          model_walkthrough?: Json
+          scenario_title: string
+          station_id?: string | null
+          subject: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          model_walkthrough?: Json
+          scenario_title?: string
+          station_id?: string | null
+          subject?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "model_answers_station_id_fkey"
+            columns: ["station_id"]
+            isOneToOne: false
+            referencedRelation: "clinical_stations"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       payments: {
         Row: {
