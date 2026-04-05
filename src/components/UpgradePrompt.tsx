@@ -10,7 +10,9 @@ interface UpgradePromptProps {
   stage?: number;
 }
 
-export function UpgradePrompt({ feature, description, variant = 'card' }: UpgradePromptProps) {
+export function UpgradePrompt({ feature, description, variant = 'card', stage }: UpgradePromptProps) {
+  const stageText = stage ? `Complete Stage ${stage - 1} to unlock this level` : undefined;
+  const effectiveDescription = description || stageText;
   if (variant === 'banner') {
     return (
       <div className="flex items-center justify-between rounded-lg border border-primary/30 bg-primary/5 px-4 py-3">
