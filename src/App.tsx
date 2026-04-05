@@ -167,6 +167,8 @@ const App = () => (
           <Sonner />
           <BrowserRouter>
             <PresenceTracker />
+            <VisitorTracker />
+            <NudgeButton />
             <AppRoutes />
           </BrowserRouter>
         </TooltipProvider>
