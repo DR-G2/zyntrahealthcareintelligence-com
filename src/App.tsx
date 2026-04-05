@@ -42,6 +42,7 @@ const CompanionChat = lazy(() => import("./pages/CompanionChat"));
 const Feed = lazy(() => import("./pages/Feed"));
 const Terms = lazy(() => import("./pages/Terms"));
 const ZyntraAICore = lazy(() => import("./pages/ZyntraAICore"));
+const Flashcards = lazy(() => import("./pages/Flashcards"));
 
 const PerformanceIntelligence = lazy(() => import("./pages/PerformanceIntelligence"));
 const InboxPage = lazy(() => import("./pages/Inbox"));
