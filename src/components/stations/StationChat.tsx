@@ -30,8 +30,9 @@ export function StationChat({ patientPersona, messages, onMessagesChange, onBeha
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' });
   }, [messages]);
 
-  const sendMessage = async () => {
-    if (!input.trim() || isStreaming || disabled) return;
+  const sendMessage = async (overrideText?: string) => {
+    const text = overrideText || input.trim();
+    if (!text || isStreaming || disabled) return;
 
     const now = Date.now();
     const timeSinceLastMsg = (now - lastMessageTime.current) / 1000;
