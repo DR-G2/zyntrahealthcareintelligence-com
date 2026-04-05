@@ -165,10 +165,15 @@ export default function Landing() {
               Zyntra goes beyond question banks. Our APPE engine identifies why candidates fail — 
               time pressure, answer hesitation, composure breakdown — and trains you to overcome it.
             </p>
-            <div className="flex items-center justify-center gap-4">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Button size="lg" asChild className="gap-2 text-base px-8">
                 <Link to="/dashboard">
                   Start Training <ArrowRight className="h-4 w-4" />
+                </Link>
+              </Button>
+              <Button size="lg" variant="outline" asChild className="gap-2 text-base px-8">
+                <Link to="/stations?demo=true">
+                  Try a Free Station <Stethoscope className="h-4 w-4" />
                 </Link>
               </Button>
             </div>
