@@ -219,7 +219,7 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* APPE Stages */}
+      {/* How It Works — Step-by-Step */}
       <section className="py-24 bg-muted/50">
         <div className="container">
           <motion.div
@@ -229,31 +229,39 @@ export default function Landing() {
             className="mb-16 text-center"
           >
             <h2 className="mb-4 text-3xl font-bold font-display">How It Works</h2>
-            <p className="text-muted-foreground text-lg">Five stages to exam readiness</p>
+            <p className="text-muted-foreground text-lg">From first login to exam readiness in 5 steps</p>
           </motion.div>
-          <div className="mx-auto grid max-w-4xl gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {[
-              { step: '01', title: 'Assess', desc: 'Take a timed diagnostic — we track every behavioral signal.' },
-              { step: '02', title: 'Feed', desc: 'Paste clinical content and generate targeted practice material instantly.' },
-              { step: '03', title: 'Identify', desc: 'AI generates your Performance Profile with stability and composure scores.' },
-              { step: '04', title: 'Adapt', desc: 'Get a personalized study plan targeting your specific failure patterns.' },
-              { step: '05', title: 'Build', desc: 'Train with pressure drills, speed rounds, and commitment exercises.' },
-            ].map((s, i) => (
-              <motion.div
-                key={s.step}
-                initial={{ opacity: 0, x: i % 2 === 0 ? -20 : 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="flex gap-4 rounded-xl border border-border bg-card p-6"
-              >
-                <span className="text-3xl font-bold font-display text-primary/30">{s.step}</span>
-                <div>
-                  <h3 className="mb-1 font-display font-semibold text-lg">{s.title}</h3>
-                  <p className="text-sm text-muted-foreground">{s.desc}</p>
-                </div>
-              </motion.div>
-            ))}
+          <div className="mx-auto max-w-5xl">
+            <div className="grid gap-6 md:grid-cols-5">
+              {[
+                { step: '1', icon: Target, title: 'Diagnose', desc: 'Take a diagnostic assessment. We track every behavioral signal.' },
+                { step: '2', icon: Stethoscope, title: 'Practice', desc: 'AI OSCE stations with voice. MCQ drills with pressure modes.' },
+                { step: '3', icon: BarChart3, title: 'Analyze', desc: 'Get your Readiness DNA score, behavior profile, and psychograph.' },
+                { step: '4', icon: Brain, title: 'Reinforce', desc: 'SRS flashcards and targeted drills fill your knowledge gaps.' },
+                { step: '5', icon: TrendingUp, title: 'Master', desc: 'Full mock exams and adaptive training until you\'re exam ready.' },
+              ].map((s, i) => (
+                <motion.div
+                  key={s.step}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className="relative flex flex-col items-center text-center rounded-xl border border-border bg-card p-6"
+                >
+                  <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
+                    <s.icon className="h-6 w-6" />
+                  </div>
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground/50 mb-1">Step {s.step}</span>
+                  <h3 className="mb-1 font-display font-semibold text-foreground">{s.title}</h3>
+                  <p className="text-xs text-muted-foreground leading-relaxed">{s.desc}</p>
+                  {i < 4 && (
+                    <div className="hidden md:block absolute -right-3 top-1/2 -translate-y-1/2 z-10">
+                      <ArrowRight className="h-4 w-4 text-muted-foreground/30" />
+                    </div>
+                  )}
+                </motion.div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
