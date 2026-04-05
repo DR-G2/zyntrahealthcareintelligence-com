@@ -10,7 +10,7 @@ export function LegalFooter() {
           <span>·</span>
           <Link to="/terms" className="hover:text-foreground transition-colors">Terms</Link>
           <span>·</span>
-          <Link to="/terms" className="hover:text-foreground transition-colors">Privacy</Link>
+          <Link to="/privacy" className="hover:text-foreground transition-colors">Privacy</Link>
           <span>·</span>
           <a href={`mailto:${LEGAL_EMAIL}?subject=Zyntra Support Request`} className="hover:text-foreground transition-colors">Contact</a>
         </div>
