@@ -53,6 +53,12 @@ export default function Dashboard() {
         />
       )}
       <PostSessionInsightBanner />
+
+      {/* Next Best Step Engine */}
+      <div className="mb-6">
+        <NextBestStep />
+      </div>
+
       <div className="mb-8 space-y-3">
         <div>
           <h1 className="text-3xl font-bold font-display">
