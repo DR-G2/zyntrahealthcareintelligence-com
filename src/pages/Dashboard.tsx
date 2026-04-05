@@ -13,6 +13,8 @@ import { SubscriptionTimer } from '@/components/SubscriptionTimer';
 import { useFeatureGate } from '@/hooks/useFeatureGate';
 import { useOSCEPreload } from '@/hooks/useOSCEPreload';
 import { PostSessionInsightBanner } from '@/components/PostSessionInsightBanner';
+import { NextBestStep } from '@/components/NextBestStep';
+import { ProgramTracker } from '@/components/ProgramTracker';
 import { supabase } from '@/lib/supabase';
 
 export default function Dashboard() {
