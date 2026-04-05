@@ -200,7 +200,7 @@ Deno.serve(async (req: Request) => {
     const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const vapidPrivate = Deno.env.get("VAPID_PRIVATE_KEY")!;
     const vapidPublic = "BCnk82lMbi10ivT9iHyZig2cLLQbFx1tPa_x2vyy3OHnibwRvrVLqxhzMxgotyIFZPYTIInmC8rABumhzorB1EI";
-    const vapidSubject = "mailto:admin@zyntra.com";
+    const vapidSubject = "mailto:heisenberg@zyntrahealthcareintelligence.com";
 
     const admin = createClient(supabaseUrl, serviceKey);
 

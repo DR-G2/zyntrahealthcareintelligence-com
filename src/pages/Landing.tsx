@@ -102,6 +102,15 @@ export default function Landing() {
         message: contactForm.message.trim(),
       });
       if (error) throw error;
+      // Also send notification email to admin
+      await supabase.functions.invoke('send-contact-notification', {
+        body: {
+          name: contactForm.name.trim(),
+          email: contactForm.email.trim(),
+          category: contactForm.category,
+          message: contactForm.message.trim(),
+        },
+      }).catch(() => {});
       toast.success('Message sent! We\'ll get back to you soon.');
       setContactForm({ name: '', email: '', category: 'general', message: '' });
     } catch {
