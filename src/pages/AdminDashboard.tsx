@@ -34,7 +34,8 @@ import { MCQEditor } from '@/components/admin/MCQEditor';
 import { SubjectManager } from '@/components/admin/SubjectManager';
 import { QNSTab } from '@/components/admin/QNSTab';
 import { DataPortabilityTab } from '@/components/admin/DataPortabilityTab';
-import { Download } from 'lucide-react';
+import { VisitorIntelligenceTab } from '@/components/admin/VisitorIntelligenceTab';
+import { Download, Globe } from 'lucide-react';
 
 import { ADMIN_EMAILS, SUPER_ADMIN_EMAIL } from '@/lib/admin-emails';
 
