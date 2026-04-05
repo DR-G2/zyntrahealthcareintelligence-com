@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Textarea } from '@/components/ui/textarea';
 import { PsychographRadar } from './PsychographRadar';
+import { ModelAnswerCoaching } from './ModelAnswerCoaching';
 import { useFeatureGate } from '@/hooks/useFeatureGate';
 import { UpgradePrompt } from '@/components/UpgradePrompt';
 import { useAuth } from '@/contexts/AuthContext';
