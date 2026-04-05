@@ -138,6 +138,11 @@ export default function Dashboard() {
         </Card>
       )}
 
+      {/* AMC Mastery Program */}
+      <div className="mt-8">
+        <ProgramTracker />
+      </div>
+
       {/* AMC Readiness DNA */}
       <div className="mt-8">
         <ReadinessDNA />
