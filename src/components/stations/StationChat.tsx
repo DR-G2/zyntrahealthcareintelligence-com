@@ -39,12 +39,12 @@ export function StationChat({ patientPersona, messages, onMessagesChange, onBeha
     lastMessageTime.current = now;
 
     onBehavioralSignal({ type: 'response_latency', value: timeSinceLastMsg });
-    onBehavioralSignal({ type: 'message_length', value: input.trim().split(/\s+/).length });
+    onBehavioralSignal({ type: 'message_length', value: text.split(/\s+/).length });
 
-    const userMsg: ChatMessage = { role: 'user', content: input.trim(), timestamp: now };
+    const userMsg: ChatMessage = { role: 'user', content: text, timestamp: now };
     const updated = [...messages, userMsg];
     onMessagesChange(updated);
-    setInput('');
+    if (!overrideText) setInput('');
     setIsStreaming(true);
 
     try {
