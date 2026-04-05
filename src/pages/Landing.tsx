@@ -1,10 +1,17 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Zap, Brain, Clock, Target, BarChart3, ArrowRight, Rss } from 'lucide-react';
+import { Zap, Brain, Clock, Target, BarChart3, ArrowRight, Rss, Send, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { LegalFooter } from '@/components/LegalFooter';
 import { useShowAboutPricing } from '@/hooks/useSiteSettings';
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from 'sonner';
 
 const features = [
   {
@@ -34,6 +41,33 @@ const features = [
   },
 ];
 
+const faqs = [
+  {
+    q: 'What is Zyntra?',
+    a: 'Zyntra is an AI-powered exam preparation platform for AMC (Australian Medical Council) examinations. It goes beyond traditional question banks by analyzing your behavioral patterns — answer changes, hesitation, time pressure responses — and training you to overcome the real reasons candidates fail.',
+  },
+  {
+    q: 'How is Zyntra different from other AMC prep platforms?',
+    a: 'Zyntra features the APPE (Adaptive Performance & Preparation Engine), which tracks behavioral signals like answer stability, composure under pressure, and confidence calibration. We also offer AI Voice Practice for OSCE stations, SRS flashcards, and gold-standard model answer coaching — features most platforms lack.',
+  },
+  {
+    q: 'Is Zyntra content the same as real AMC exam questions?',
+    a: 'No. All Zyntra content is original, independently developed by our team and AI systems. Our scenarios are not recalled, copied, or derived from actual AMC examination content. Zyntra is not affiliated with the Australian Medical Council.',
+  },
+  {
+    q: 'What does the free trial include?',
+    a: 'The free trial gives you access to the Diagnostic MCQ assessment and one Diagnostic OSCE station per day so you can experience the platform and see your initial performance profile before subscribing.',
+  },
+  {
+    q: 'How does the Voice Practice feature work?',
+    a: 'Voice Practice uses your browser\'s built-in Web Speech API to simulate OSCE patient conversations. All audio processing happens locally on your device — no recordings are sent to our servers. It works best in Chrome and Edge browsers.',
+  },
+  {
+    q: 'Can I export my learning data?',
+    a: 'Yes. Zyntra supports full data portability. You can export your performance history, study progress, and learning data from the Settings page at any time.',
+  },
+];
+
 const container = {
   hidden: { opacity: 0 },
   show: { opacity: 1, transition: { staggerChildren: 0.1 } },
@@ -46,6 +80,37 @@ const item = {
 
 export default function Landing() {
   const { show: showAboutPricing } = useShowAboutPricing();
+  const [contactForm, setContactForm] = useState({ name: '', email: '', category: 'general', message: '' });
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleContactSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!contactForm.name.trim() || !contactForm.email.trim() || !contactForm.message.trim()) {
+      toast.error('Please fill in all fields');
+      return;
+    }
+    if (contactForm.name.length > 100 || contactForm.email.length > 255 || contactForm.message.length > 2000) {
+      toast.error('Input exceeds maximum length');
+      return;
+    }
+    setSubmitting(true);
+    try {
+      const { error } = await supabase.from('contact_submissions').insert({
+        name: contactForm.name.trim(),
+        email: contactForm.email.trim(),
+        category: contactForm.category,
+        message: contactForm.message.trim(),
+      });
+      if (error) throw error;
+      toast.success('Message sent! We\'ll get back to you soon.');
+      setContactForm({ name: '', email: '', category: 'general', message: '' });
+    } catch {
+      toast.error('Failed to send message. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* Nav */}
@@ -185,6 +250,100 @@ export default function Landing() {
               </motion.div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="py-24 border-t border-border/50">
+        <div className="container max-w-3xl">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mb-12 text-center"
+          >
+            <h2 className="mb-4 text-3xl font-bold font-display">Frequently Asked Questions</h2>
+            <p className="text-muted-foreground text-lg">Everything you need to know about Zyntra</p>
+          </motion.div>
+          <Accordion type="single" collapsible className="space-y-3">
+            {faqs.map((faq, i) => (
+              <AccordionItem key={i} value={`faq-${i}`} className="rounded-xl border border-border bg-card px-6">
+                <AccordionTrigger className="text-left font-display font-semibold text-sm hover:no-underline">
+                  {faq.q}
+                </AccordionTrigger>
+                <AccordionContent className="text-sm text-muted-foreground leading-relaxed pb-4">
+                  {faq.a}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
+      </section>
+
+      {/* Contact */}
+      <section className="py-24 bg-muted/50">
+        <div className="container max-w-xl">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mb-12 text-center"
+          >
+            <h2 className="mb-4 text-3xl font-bold font-display">Get in Touch</h2>
+            <p className="text-muted-foreground text-lg">Have a question? We'd love to hear from you.</p>
+          </motion.div>
+          <form onSubmit={handleContactSubmit} className="space-y-4 rounded-xl border border-border bg-card p-6">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Input
+                placeholder="Your name"
+                value={contactForm.name}
+                onChange={(e) => setContactForm(prev => ({ ...prev, name: e.target.value }))}
+                maxLength={100}
+                required
+              />
+              <Input
+                type="email"
+                placeholder="Email address"
+                value={contactForm.email}
+                onChange={(e) => setContactForm(prev => ({ ...prev, email: e.target.value }))}
+                maxLength={255}
+                required
+              />
+            </div>
+            <Select value={contactForm.category} onValueChange={(v) => setContactForm(prev => ({ ...prev, category: v }))}>
+              <SelectTrigger>
+                <SelectValue placeholder="Category" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="general">General Inquiry</SelectItem>
+                <SelectItem value="support">Technical Support</SelectItem>
+                <SelectItem value="feedback">Feedback</SelectItem>
+                <SelectItem value="billing">Billing</SelectItem>
+                <SelectItem value="partnership">Partnership</SelectItem>
+              </SelectContent>
+            </Select>
+            <Textarea
+              placeholder="Your message..."
+              value={contactForm.message}
+              onChange={(e) => setContactForm(prev => ({ ...prev, message: e.target.value }))}
+              maxLength={2000}
+              rows={4}
+              required
+            />
+            <Button type="submit" className="w-full gap-2" disabled={submitting}>
+              <Send className="h-4 w-4" />
+              {submitting ? 'Sending...' : 'Send Message'}
+            </Button>
+          </form>
+        </div>
+      </section>
+
+      {/* AMC Disclaimer */}
+      <section className="border-t border-border/50 py-6">
+        <div className="container">
+          <p className="text-center text-[10px] text-muted-foreground/60 max-w-2xl mx-auto leading-relaxed">
+            Zyntra is an independent exam preparation platform and is not affiliated with, endorsed by, or connected to the Australian Medical Council (AMC), the Medical Board of Australia, or any official medical regulatory body. "AMC" is used solely for descriptive purposes.
+          </p>
         </div>
       </section>
 
