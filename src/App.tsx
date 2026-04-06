@@ -93,11 +93,14 @@ function MaintenanceGate({ children }: { children: React.ReactNode }) {
   if (loading) return <LazyFallback />;
   if (maintenance && !isAdmin) {
     return (
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/admin" element={<ProtectedRoute><ErrorBoundary><Suspense fallback={<LazyFallback />}><AdminDashboard /></Suspense></ErrorBoundary></ProtectedRoute>} />
-        <Route path="*" element={<MaintenancePage />} />
-      </Routes>
+      <>
+        <NudgeButton />
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/admin" element={<ProtectedRoute><ErrorBoundary><Suspense fallback={<LazyFallback />}><AdminDashboard /></Suspense></ErrorBoundary></ProtectedRoute>} />
+          <Route path="*" element={<MaintenancePage />} />
+        </Routes>
+      </>
     );
   }
   return <>{children}</>;
@@ -168,7 +171,7 @@ const App = () => (
           <BrowserRouter>
             <PresenceTracker />
             <VisitorTracker />
-            <NudgeButton />
+            <VisitorTracker />
             <AppRoutes />
           </BrowserRouter>
         </TooltipProvider>
