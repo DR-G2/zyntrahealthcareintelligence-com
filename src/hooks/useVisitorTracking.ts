@@ -67,10 +67,8 @@ async function flushEvents() {
   const pageViews = batch.filter(e => e._table === 'page_views').map(({ _table, ...rest }) => rest);
   const intents = batch.filter(e => e._table === 'intent_signals').map(({ _table, ...rest }) => rest);
 
-  const promises: Promise<any>[] = [];
-  if (pageViews.length) promises.push(supabase.from('page_views').insert(pageViews as any));
-  if (intents.length) promises.push(supabase.from('intent_signals').insert(intents as any));
-  await Promise.allSettled(promises);
+  if (pageViews.length) await supabase.from('page_views').insert(pageViews as any);
+  if (intents.length) await supabase.from('intent_signals').insert(intents as any);
 }
 
 function queueEvent(event: any) {
