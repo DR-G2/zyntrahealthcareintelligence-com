@@ -239,10 +239,11 @@ export function VisitorIntelligenceTab() {
                       <Badge variant="destructive" className="text-[10px]">{intent.action}</Badge>
                     </TableCell>
                     <TableCell className="text-xs">{intent.page}</TableCell>
+                    <TableCell className="text-xs text-muted-foreground">{intent.metadata?.country || '—'}</TableCell>
                   </TableRow>
                 ))}
                 {!metrics.highIntentUsers.length && (
-                  <TableRow><TableCell colSpan={4} className="text-center text-sm text-muted-foreground">No high-intent signals yet</TableCell></TableRow>
+                  <TableRow><TableCell colSpan={5} className="text-center text-sm text-muted-foreground">No high-intent signals yet</TableCell></TableRow>
                 )}
               </TableBody>
             </Table>
