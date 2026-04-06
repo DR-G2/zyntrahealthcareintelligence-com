@@ -36,6 +36,19 @@ function getDeviceInfo() {
   return { deviceType: isMobile ? 'mobile' : 'desktop', browser };
 }
 
+/** Fetch country/city from free IP geolocation API (no key required) */
+async function fetchGeoLocation(): Promise<{ country: string; city: string } | null> {
+  try {
+    const res = await fetch('https://ip-api.com/json/?fields=country,city', { signal: AbortSignal.timeout(3000) });
+    if (!res.ok) return null;
+    const data = await res.json();
+    if (data.country) return { country: data.country, city: data.city || 'Unknown' };
+    return null;
+  } catch {
+    return null;
+  }
+}
+
 // High-intent actions
 const HIGH_INTENT_ACTIONS = [
   'click_start_preparing', 'attempt_login', 'start_mcq', 'resume_session',
@@ -50,23 +63,20 @@ async function flushEvents() {
   if (!eventQueue.length) return;
   const batch = [...eventQueue];
   eventQueue = [];
-  
-  // Group by table
+
   const pageViews = batch.filter(e => e._table === 'page_views').map(({ _table, ...rest }) => rest);
   const intents = batch.filter(e => e._table === 'intent_signals').map(({ _table, ...rest }) => rest);
-  
-  if (pageViews.length) {
-    await supabase.from('page_views').insert(pageViews as any);
-  }
-  if (intents.length) {
-    await supabase.from('intent_signals').insert(intents as any);
-  }
+
+  const promises: Promise<any>[] = [];
+  if (pageViews.length) promises.push(supabase.from('page_views').insert(pageViews as any));
+  if (intents.length) promises.push(supabase.from('intent_signals').insert(intents as any));
+  await Promise.allSettled(promises);
 }
 
 function queueEvent(event: any) {
   eventQueue.push(event);
   if (flushTimeout) clearTimeout(flushTimeout);
-  flushTimeout = setTimeout(flushEvents, 2000); // batch every 2s
+  flushTimeout = setTimeout(flushEvents, 2000);
 }
 
 export function useVisitorTracking() {
@@ -84,38 +94,41 @@ export function useVisitorTracking() {
     const { deviceType, browser } = getDeviceInfo();
 
     const startSession = async () => {
-      const { data } = await supabase.from('visitor_sessions').insert({
-        visitor_id: visitorId.current,
-        user_id: user?.id || null,
-        device_type: deviceType,
-        browser,
-        is_returning: isReturning,
-        visit_number: count,
-        referrer: document.referrer || null,
-        platform: 'zyntra',
-      } as any).select('id').single();
-      
-      if (data) sessionIdRef.current = data.id;
+      // Fetch geo-location in parallel with session creation
+      const [geoResult, sessionResult] = await Promise.allSettled([
+        fetchGeoLocation(),
+        supabase.from('visitor_sessions').insert({
+          visitor_id: visitorId.current,
+          user_id: user?.id || null,
+          device_type: deviceType,
+          browser,
+          is_returning: isReturning,
+          visit_number: count,
+          referrer: document.referrer || null,
+          platform: 'zyntra',
+        } as any).select('id').single(),
+      ]);
+
+      const sessionData = sessionResult.status === 'fulfilled' ? sessionResult.value.data : null;
+      if (sessionData) {
+        sessionIdRef.current = sessionData.id;
+
+        // Update session with geo data if available
+        const geo = geoResult.status === 'fulfilled' ? geoResult.value : null;
+        if (geo) {
+          await supabase.from('visitor_sessions').update({
+            country: geo.country,
+            city: geo.city,
+          } as any).eq('id', sessionData.id);
+        }
+      }
     };
 
     startSession();
 
-    // End session on unload
     const endSession = () => {
       if (!sessionIdRef.current) return;
       const duration = Math.round((Date.now() - sessionStartRef.current) / 1000);
-      
-      // Fire-and-forget via sendBeacon
-      const body = JSON.stringify({
-        ended_at: new Date().toISOString(),
-        duration_seconds: duration,
-        pages_visited: pagesVisitedRef.current,
-        exit_page: location.pathname,
-      });
-      
-      const url = `${import.meta.env.VITE_SUPABASE_URL}/rest/v1/visitor_sessions?id=eq.${sessionIdRef.current}`;
-      navigator.sendBeacon?.(url); // fallback; real update below
-      
       supabase.from('visitor_sessions').update({
         ended_at: new Date().toISOString(),
         duration_seconds: duration,
@@ -124,13 +137,11 @@ export function useVisitorTracking() {
       } as any).eq('id', sessionIdRef.current).then(() => {});
     };
 
-    // Detect bounce (<10s)
     const bounceTimer = setTimeout(() => {}, 10000);
     const handleBeforeUnload = () => {
       flushEvents();
       const duration = Math.round((Date.now() - sessionStartRef.current) / 1000);
-      if (duration < 10) {
-        // Log bounce intent
+      if (duration < 10 && sessionIdRef.current) {
         queueEvent({
           _table: 'intent_signals',
           visitor_id: visitorId.current,
@@ -156,7 +167,6 @@ export function useVisitorTracking() {
 
   // Track page views
   useEffect(() => {
-    // Record time on previous page
     if (pageEntryRef.current && sessionIdRef.current) {
       const timeOnPage = Math.round((Date.now() - pageEntryRef.current.time) / 1000);
       queueEvent({
@@ -169,7 +179,6 @@ export function useVisitorTracking() {
         platform: 'zyntra',
       });
     }
-    
     pageEntryRef.current = { page: location.pathname, time: Date.now() };
     pagesVisitedRef.current += 1;
   }, [location.pathname]); // eslint-disable-line

@@ -222,9 +222,10 @@ export function VisitorIntelligenceTab() {
                   <TableHead className="text-xs">Time</TableHead>
                   <TableHead className="text-xs">Visitor</TableHead>
                   <TableHead className="text-xs">Action</TableHead>
-                  <TableHead className="text-xs">Page</TableHead>
-                </TableRow>
-              </TableHeader>
+                    <TableHead className="text-xs">Page</TableHead>
+                    <TableHead className="text-xs">Location</TableHead>
+                 </TableRow>
+               </TableHeader>
               <TableBody>
                 {metrics.highIntentUsers.map((intent: any) => (
                   <TableRow key={intent.id}>
