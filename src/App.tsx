@@ -171,7 +171,6 @@ const App = () => (
           <BrowserRouter>
             <PresenceTracker />
             <VisitorTracker />
-            <VisitorTracker />
             <AppRoutes />
           </BrowserRouter>
         </TooltipProvider>
