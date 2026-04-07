@@ -18,6 +18,7 @@ interface VisitorMetrics {
   recentNudges: any[];
   funnelData: { stage: string; count: number }[];
   deviceBreakdown: { mobile: number; desktop: number };
+  geoBreakdown: { country: string; city: string; count: number }[];
 }
 
 export function VisitorIntelligenceTab() {
