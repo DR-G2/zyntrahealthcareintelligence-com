@@ -64,6 +64,17 @@ export function VisitorIntelligenceTab() {
       const mobile = sessions.filter(s => s.device_type === 'mobile').length;
       const desktop = sessions.filter(s => s.device_type === 'desktop').length;
 
+      // Geo breakdown
+      const geoCounts: Record<string, { country: string; city: string; count: number }> = {};
+      sessions.forEach(s => {
+        if (s.country) {
+          const key = `${s.country}|${s.city || 'Unknown'}`;
+          if (!geoCounts[key]) geoCounts[key] = { country: s.country, city: s.city || 'Unknown', count: 0 };
+          geoCounts[key].count++;
+        }
+      });
+      const geoBreakdown = Object.values(geoCounts).sort((a, b) => b.count - a.count).slice(0, 15);
+
       // Funnel
       const funnelPages = ['/', '/login', '/dashboard', '/practice', '/stations'];
       const funnelLabels = ['Landing', 'Login', 'Dashboard', 'MCQ Practice', 'OSCE Stations'];
@@ -82,6 +93,7 @@ export function VisitorIntelligenceTab() {
         recentNudges: nudges,
         funnelData,
         deviceBreakdown: { mobile, desktop },
+        geoBreakdown,
       });
     } catch (e) {
       console.error('Failed to fetch visitor metrics:', e);
