@@ -201,6 +201,42 @@ export function VisitorIntelligenceTab() {
         </Card>
       </div>
 
+      {/* Geolocation Breakdown */}
+      <Card>
+        <CardHeader className="pb-2">
+          <CardTitle className="text-sm flex items-center gap-2">
+            <Globe className="h-4 w-4 text-muted-foreground" />
+            Geolocation (24h)
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          {metrics.geoBreakdown.length ? (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="text-xs">Country</TableHead>
+                  <TableHead className="text-xs">City</TableHead>
+                  <TableHead className="text-xs text-right">Sessions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {metrics.geoBreakdown.map((g, i) => (
+                  <TableRow key={i}>
+                    <TableCell className="text-sm font-medium">{g.country}</TableCell>
+                    <TableCell className="text-sm text-muted-foreground">{g.city}</TableCell>
+                    <TableCell className="text-sm text-right">
+                      <Badge variant="secondary">{g.count}</Badge>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          ) : (
+            <p className="text-sm text-muted-foreground text-center py-4">No geolocation data yet</p>
+          )}
+        </CardContent>
+      </Card>
+
       {/* Top Pages */}
       <Card>
         <CardHeader className="pb-2">
