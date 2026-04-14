@@ -13,6 +13,8 @@ export function LegalFooter() {
           <Link to="/privacy" className="hover:text-foreground transition-colors">Privacy</Link>
           <span>·</span>
           <a href={`mailto:${LEGAL_EMAIL}?subject=Zyntra Support Request`} className="hover:text-foreground transition-colors">Contact</a>
+          <span>·</span>
+          <Link to="/refund" className="hover:text-foreground transition-colors">Refund Policy</Link>
         </div>
         <p className="text-[10px] text-muted-foreground/60 max-w-lg mx-auto leading-relaxed">
           All Zyntra content is protected under the Copyright Act 1968 (Cth). Unauthorized copying, redistribution, scraping, or sharing of content is prohibited.
