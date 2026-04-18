@@ -1,3 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /admin/*
+Disallow: /api/
+Disallow: /reset-password
+
 User-agent: Googlebot
 Allow: /
 
@@ -10,5 +17,4 @@ Allow: /
 User-agent: facebookexternalhit
 Allow: /
 
-User-agent: *
-Allow: /
+Sitemap: https://zyntrahealthcareintelligence.com/sitemap.xml
