@@ -80,6 +80,18 @@ const faqs = [
     q: 'Can I export my learning data?',
     a: 'Yes. Zyntra supports full data portability. You can export your performance history, study progress, and learning data from the Settings page at any time.',
   },
+  {
+    q: 'Does Zyntra cover both AMC MCQ and Clinical (OSCE)?',
+    a: 'Yes. Zyntra is one of the few platforms covering both stages — a full MCQ question bank with behavioral analytics for AMC Part 1, and AI-powered voice OSCE stations with model-answer coaching for AMC Clinical. Most competitors only do one.',
+  },
+  {
+    q: 'How much time do I need each day?',
+    a: 'As little as 15 minutes. The platform is built for busy IMGs — you can complete a single OSCE station, a focused MCQ block, or a flashcard review on the bus, in the break room, or before bed. Consistency beats marathon sessions.',
+  },
+  {
+    q: 'Won\'t I pick up bad habits practising with AI?',
+    a: 'No — and that\'s why we built APPE. Every session is scored against AMC marking criteria, and our behavioral engine flags weak patterns (rushed answers, hesitation, structure breakdown) before they become habits. You also get gold-standard model walkthroughs after every station.',
+  },
 ];
 
 const container = {
