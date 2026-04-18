@@ -109,6 +109,25 @@ export default function Landing() {
   const [contactForm, setContactForm] = useState({ name: '', email: '', category: 'general', message: '' });
   const [submitting, setSubmitting] = useState(false);
 
+  // Inject FAQ JSON-LD for rich snippets
+  useEffect(() => {
+    const faqLd = {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faqs.map(f => ({
+        '@type': 'Question',
+        name: f.q,
+        acceptedAnswer: { '@type': 'Answer', text: f.a },
+      })),
+    };
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.id = 'faq-jsonld';
+    script.text = JSON.stringify(faqLd);
+    document.head.appendChild(script);
+    return () => { document.getElementById('faq-jsonld')?.remove(); };
+  }, []);
+
   const handleContactSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!contactForm.name.trim() || !contactForm.email.trim() || !contactForm.message.trim()) {
