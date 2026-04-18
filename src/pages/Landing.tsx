@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Zap, Brain, Clock, Target, BarChart3, ArrowRight, Rss, Send, Stethoscope, TrendingUp, CheckCircle, Smartphone, Heart, Pill, Baby, Bone, Syringe, Activity } from 'lucide-react';
@@ -109,6 +109,25 @@ export default function Landing() {
   const [contactForm, setContactForm] = useState({ name: '', email: '', category: 'general', message: '' });
   const [submitting, setSubmitting] = useState(false);
 
+  // Inject FAQ JSON-LD for rich snippets
+  useEffect(() => {
+    const faqLd = {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faqs.map(f => ({
+        '@type': 'Question',
+        name: f.q,
+        acceptedAnswer: { '@type': 'Answer', text: f.a },
+      })),
+    };
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.id = 'faq-jsonld';
+    script.text = JSON.stringify(faqLd);
+    document.head.appendChild(script);
+    return () => { document.getElementById('faq-jsonld')?.remove(); };
+  }, []);
+
   const handleContactSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!contactForm.name.trim() || !contactForm.email.trim() || !contactForm.message.trim()) {
@@ -192,12 +211,11 @@ export default function Landing() {
               AI-Powered AMC Exam Preparation
             </div>
             <h1 className="mb-6 text-5xl font-bold font-display leading-tight tracking-tight lg:text-6xl">
-              Don't just study.{' '}
+              AMC Exam Preparation.{' '}
               <span className="gradient-text">Train to pass.</span>
             </h1>
             <p className="mx-auto mb-10 max-w-2xl text-lg text-muted-foreground leading-relaxed">
-              Zyntra goes beyond question banks. Our APPE engine identifies why candidates fail — 
-              time pressure, answer hesitation, composure breakdown — and trains you to overcome it.
+              Zyntra is the AI-powered AMC prep platform for IMGs — covering AMC Part 1 MCQs and AMC Clinical (OSCE) with behavioral analytics, voice patient practice, and gold-standard AMC scoring.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Button size="lg" asChild className="gap-2 text-base px-8">
