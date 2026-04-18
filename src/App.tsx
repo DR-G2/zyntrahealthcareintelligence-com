@@ -47,6 +47,8 @@ const Privacy = lazy(() => import("./pages/Privacy"));
 const RefundPolicy = lazy(() => import("./pages/RefundPolicy"));
 const ZyntraAICore = lazy(() => import("./pages/ZyntraAICore"));
 const Flashcards = lazy(() => import("./pages/Flashcards"));
+const Blog = lazy(() => import("./pages/Blog"));
+const BlogPost = lazy(() => import("./pages/BlogPost"));
 
 const PerformanceIntelligence = lazy(() => import("./pages/PerformanceIntelligence"));
 const InboxPage = lazy(() => import("./pages/Inbox"));
@@ -130,6 +132,8 @@ function AppRoutes() {
           <Route path="/terms" element={<ErrorBoundary><Terms /></ErrorBoundary>} />
           <Route path="/privacy" element={<ErrorBoundary><Privacy /></ErrorBoundary>} />
           <Route path="/refund" element={<ErrorBoundary><RefundPolicy /></ErrorBoundary>} />
+          <Route path="/blog" element={<ErrorBoundary><Blog /></ErrorBoundary>} />
+          <Route path="/blog/:slug" element={<ErrorBoundary><BlogPost /></ErrorBoundary>} />
           <Route path="/onboarding" element={<ErrorBoundary><Onboarding /></ErrorBoundary>} />
           <Route path="/dashboard" element={<ProtectedRoute><ErrorBoundary><Dashboard /></ErrorBoundary></ProtectedRoute>} />
           <Route path="/assess" element={<ProtectedRoute><ErrorBoundary><Assess /></ErrorBoundary></ProtectedRoute>} />
