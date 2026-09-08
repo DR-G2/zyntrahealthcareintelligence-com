@@ -122,6 +122,29 @@ export default function Landing() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="Zyntra — AMC Exam Preparation &amp; OSCE Training"
+        description="AI-powered AMC exam prep: MCQ drills, OSCE stations with voice practice, and behavioural analytics that train clinical reasoning under real exam pressure."
+        path="/"
+        jsonLd={[
+          {
+            '@context': 'https://schema.org',
+            '@type': 'SoftwareApplication',
+            name: 'Zyntra Healthcare Intelligence',
+            applicationCategory: 'EducationalApplication',
+            operatingSystem: 'Web',
+            url: 'https://www.zyntrahealthcareintelligence.com/',
+            description: 'AI-powered AMC exam preparation with MCQ drills, OSCE stations and behavioural analytics.',
+          },
+          {
+            '@context': 'https://schema.org',
+            '@type': 'Course',
+            name: 'AMC Exam Preparation Program',
+            description: 'Structured AMC MCQ and clinical exam training with diagnostics, adaptive drills, OSCE stations and spaced repetition.',
+            provider: { '@type': 'Organization', name: 'Zyntra Healthcare Intelligence', url: 'https://www.zyntrahealthcareintelligence.com' },
+          },
+        ]}
+      />
       {/* Nav */}
       <nav className="fixed top-0 z-50 w-full border-b border-border/50 glass">
         <div className="container flex h-16 items-center justify-between">
