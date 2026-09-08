@@ -12,6 +12,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/lib/supabase';
 import { RAZORPAY_TIERS, type TierKey } from '@/lib/razorpay-config';
+import { SEO } from '@/components/SEO';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
