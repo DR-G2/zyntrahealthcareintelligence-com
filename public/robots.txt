@@ -12,3 +12,11 @@ Allow: /
 
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /settings
+Disallow: /inbox
+Disallow: /notifications
+Disallow: /reset-password
+
+Sitemap: https://www.zyntrahealthcareintelligence.com/sitemap.xml
