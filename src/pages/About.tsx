@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Zap, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ThemeToggle } from '@/components/ThemeToggle';
+import { SEO } from '@/components/SEO';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
