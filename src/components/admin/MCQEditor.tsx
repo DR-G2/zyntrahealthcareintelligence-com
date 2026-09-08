@@ -231,6 +231,7 @@ export function MCQEditor({ question, subjects, onSave, onCancel, questionType =
                         size="icon"
                         className="absolute -top-2 -right-2 h-6 w-6"
                         onClick={() => removeOptionImage(i)}
+                        aria-label={`Remove image from option ${label}`}
                       >
                         <X className="h-3 w-3" />
                       </Button>
