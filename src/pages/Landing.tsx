@@ -124,7 +124,7 @@ export default function Landing() {
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title="Zyntra — AMC Exam Preparation &amp; OSCE Training"
+        title="Zyntra — AMC Exam Preparation & OSCE Training"
         description="AI-powered AMC exam prep: MCQ drills, OSCE stations with voice practice, and behavioural analytics that train clinical reasoning under real exam pressure."
         path="/"
         jsonLd={[

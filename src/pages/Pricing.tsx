@@ -204,7 +204,7 @@ export default function Pricing() {
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title="Zyntra Pricing — AMC Prep Plans &amp; Free Trial"
+        title="Zyntra Pricing — AMC Prep Plans & Free Trial"
         description="Compare Zyntra plans for AMC MCQ and OSCE preparation, see what each tier includes, and start with the free diagnostic trial before subscribing."
         path="/pricing"
       />
