@@ -1,17 +1,18 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Zap, Brain, Clock, Target, BarChart3, ArrowRight, Rss, Send, Stethoscope, TrendingUp, CheckCircle, Smartphone, Heart, Pill, Baby, Bone, Syringe, Activity } from 'lucide-react';
+import { Zap, Brain, Clock, Target, BarChart3, ArrowRight, Rss, Send, ChevronDown, Stethoscope, MessageSquare, BookOpen, TrendingUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { ThemeToggle } from '@/components/ThemeToggle';
+import { LegalFooter } from '@/components/LegalFooter';
+import { SEO } from '@/components/SEO';
 import { useShowAboutPricing } from '@/hooks/useSiteSettings';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
-import { LEGAL_EMAIL } from '@/lib/legal';
 
 const features = [
   {
@@ -39,20 +40,6 @@ const features = [
     title: 'Deep Analytics',
     description: 'Performance profiles with stability scores, readiness metrics, and progress tracking.',
   },
-  {
-    icon: Smartphone,
-    title: 'Mobile Ready',
-    description: 'Train on the bus, in the break room, or on the couch. Full functionality on any device.',
-  },
-];
-
-const stationShowcase = [
-  { title: 'Chest Pain', specialty: 'Cardiology', icon: Heart },
-  { title: 'Type 2 Diabetes', specialty: 'Endocrinology', icon: Pill },
-  { title: 'Prenatal Care', specialty: 'Obstetrics', icon: Baby },
-  { title: 'Fracture Assessment', specialty: 'Orthopaedics', icon: Bone },
-  { title: 'Acute Abdomen', specialty: 'Surgery', icon: Syringe },
-  { title: 'Asthma Exacerbation', specialty: 'Respiratory', icon: Activity },
 ];
 
 const faqs = [
@@ -80,18 +67,6 @@ const faqs = [
     q: 'Can I export my learning data?',
     a: 'Yes. Zyntra supports full data portability. You can export your performance history, study progress, and learning data from the Settings page at any time.',
   },
-  {
-    q: 'Does Zyntra cover both AMC MCQ and Clinical (OSCE)?',
-    a: 'Yes. Zyntra is one of the few platforms covering both stages — a full MCQ question bank with behavioral analytics for AMC Part 1, and AI-powered voice OSCE stations with model-answer coaching for AMC Clinical. Most competitors only do one.',
-  },
-  {
-    q: 'How much time do I need each day?',
-    a: 'As little as 15 minutes. The platform is built for busy IMGs — you can complete a single OSCE station, a focused MCQ block, or a flashcard review on the bus, in the break room, or before bed. Consistency beats marathon sessions.',
-  },
-  {
-    q: 'Won\'t I pick up bad habits practising with AI?',
-    a: 'No — and that\'s why we built APPE. Every session is scored against AMC marking criteria, and our behavioral engine flags weak patterns (rushed answers, hesitation, structure breakdown) before they become habits. You also get gold-standard model walkthroughs after every station.',
-  },
 ];
 
 const container = {
@@ -108,25 +83,6 @@ export default function Landing() {
   const { show: showAboutPricing } = useShowAboutPricing();
   const [contactForm, setContactForm] = useState({ name: '', email: '', category: 'general', message: '' });
   const [submitting, setSubmitting] = useState(false);
-
-  // Inject FAQ JSON-LD for rich snippets
-  useEffect(() => {
-    const faqLd = {
-      '@context': 'https://schema.org',
-      '@type': 'FAQPage',
-      mainEntity: faqs.map(f => ({
-        '@type': 'Question',
-        name: f.q,
-        acceptedAnswer: { '@type': 'Answer', text: f.a },
-      })),
-    };
-    const script = document.createElement('script');
-    script.type = 'application/ld+json';
-    script.id = 'faq-jsonld';
-    script.text = JSON.stringify(faqLd);
-    document.head.appendChild(script);
-    return () => { document.getElementById('faq-jsonld')?.remove(); };
-  }, []);
 
   const handleContactSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -147,6 +103,7 @@ export default function Landing() {
         message: contactForm.message.trim(),
       });
       if (error) throw error;
+      // Also send notification email to admin
       await supabase.functions.invoke('send-contact-notification', {
         body: {
           name: contactForm.name.trim(),
@@ -166,6 +123,29 @@ export default function Landing() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="Zyntra — AMC Exam Preparation & OSCE Training"
+        description="AI-powered AMC exam prep: MCQ drills, OSCE stations with voice practice, and behavioural analytics that train clinical reasoning under real exam pressure."
+        path="/"
+        jsonLd={[
+          {
+            '@context': 'https://schema.org',
+            '@type': 'SoftwareApplication',
+            name: 'Zyntra Healthcare Intelligence',
+            applicationCategory: 'EducationalApplication',
+            operatingSystem: 'Web',
+            url: 'https://www.zyntrahealthcareintelligence.com/',
+            description: 'AI-powered AMC exam preparation with MCQ drills, OSCE stations and behavioural analytics.',
+          },
+          {
+            '@context': 'https://schema.org',
+            '@type': 'Course',
+            name: 'AMC Exam Preparation Program',
+            description: 'Structured AMC MCQ and clinical exam training with diagnostics, adaptive drills, OSCE stations and spaced repetition.',
+            provider: { '@type': 'Organization', name: 'Zyntra Healthcare Intelligence', url: 'https://www.zyntrahealthcareintelligence.com' },
+          },
+        ]}
+      />
       {/* Nav */}
       <nav className="fixed top-0 z-50 w-full border-b border-border/50 glass">
         <div className="container flex h-16 items-center justify-between">
@@ -211,11 +191,12 @@ export default function Landing() {
               AI-Powered AMC Exam Preparation
             </div>
             <h1 className="mb-6 text-5xl font-bold font-display leading-tight tracking-tight lg:text-6xl">
-              AMC Exam Preparation.{' '}
+              Don't just study.{' '}
               <span className="gradient-text">Train to pass.</span>
             </h1>
             <p className="mx-auto mb-10 max-w-2xl text-lg text-muted-foreground leading-relaxed">
-              Zyntra is the AI-powered AMC prep platform for IMGs — covering AMC Part 1 MCQs and AMC Clinical (OSCE) with behavioral analytics, voice patient practice, and gold-standard AMC scoring.
+              Zyntra goes beyond question banks. Our APPE engine identifies why candidates fail — 
+              time pressure, answer hesitation, composure breakdown — and trains you to overcome it.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Button size="lg" asChild className="gap-2 text-base px-8">
@@ -228,18 +209,6 @@ export default function Landing() {
                   Try a Free Station <Stethoscope className="h-4 w-4" />
                 </Link>
               </Button>
-            </div>
-            {/* Trust Badges */}
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-4 text-sm text-muted-foreground">
-              <span className="inline-flex items-center gap-1.5">
-                <CheckCircle className="h-4 w-4 text-primary" /> No credit card required
-              </span>
-              <span className="inline-flex items-center gap-1.5">
-                <CheckCircle className="h-4 w-4 text-primary" /> Free diagnostic assessment
-              </span>
-              <span className="inline-flex items-center gap-1.5">
-                <CheckCircle className="h-4 w-4 text-primary" /> Cancel anytime
-              </span>
             </div>
           </motion.div>
         </div>
@@ -264,7 +233,7 @@ export default function Landing() {
             initial="hidden"
             whileInView="show"
             viewport={{ once: true }}
-            className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+            className="grid gap-6 md:grid-cols-2 lg:grid-cols-4"
           >
             {features.map((f) => (
               <motion.div
@@ -283,7 +252,7 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* How It Works */}
+      {/* How It Works — Step-by-Step */}
       <section className="py-24 bg-muted/50">
         <div className="container">
           <motion.div
@@ -293,7 +262,7 @@ export default function Landing() {
             className="mb-16 text-center"
           >
             <h2 className="mb-4 text-3xl font-bold font-display">How It Works</h2>
-            <p className="text-muted-foreground text-lg">Practise. Score. Improve. Repeat.</p>
+            <p className="text-muted-foreground text-lg">From first login to exam readiness in 5 steps</p>
           </motion.div>
           <div className="mx-auto max-w-5xl">
             <div className="grid gap-6 md:grid-cols-5">
@@ -330,47 +299,8 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Station Showcase */}
-      <section className="py-24 border-t border-border/50">
-        <div className="container">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="mb-16 text-center"
-          >
-            <h2 className="mb-4 text-3xl font-bold font-display">Practice Real Clinical Stations</h2>
-            <p className="text-muted-foreground text-lg">AI-generated OSCE scenarios across key specialties</p>
-          </motion.div>
-          <motion.div
-            variants={container}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
-            className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 max-w-4xl mx-auto"
-          >
-            {stationShowcase.map((s) => (
-              <motion.div key={s.title} variants={item}>
-                <Link
-                  to="/stations?demo=true"
-                  className="flex items-center gap-4 rounded-xl border border-border bg-card p-5 transition-all hover:shadow-lg hover:border-primary/30 group"
-                >
-                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                    <s.icon className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <h3 className="font-display font-semibold text-sm">{s.title}</h3>
-                    <span className="text-xs text-muted-foreground">{s.specialty}</span>
-                  </div>
-                </Link>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
       {/* FAQ */}
-      <section className="py-24 bg-muted/50">
+      <section className="py-24 border-t border-border/50">
         <div className="container max-w-3xl">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -396,23 +326,8 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Emotional CTA Banner */}
-      <section className="py-16 gradient-primary">
-        <div className="container text-center">
-          <h2 className="mb-4 text-3xl font-bold font-display text-primary-foreground">Your training starts now.</h2>
-          <p className="mb-8 text-primary-foreground/80 text-lg max-w-xl mx-auto">
-            Join hundreds of AMC candidates who are training smarter with Zyntra's behavioral intelligence engine.
-          </p>
-          <Button size="lg" variant="secondary" asChild className="gap-2 text-base px-8">
-            <Link to="/dashboard">
-              Start Preparing <ArrowRight className="h-4 w-4" />
-            </Link>
-          </Button>
-        </div>
-      </section>
-
       {/* Contact */}
-      <section className="py-24">
+      <section className="py-24 bg-muted/50">
         <div className="container max-w-xl">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -478,66 +393,8 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Enhanced Footer */}
-      <footer className="border-t border-border/40 bg-muted/30 py-12">
-        <div className="container">
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            {/* Brand */}
-            <div>
-              <div className="flex items-center gap-2 mb-3">
-                <div className="flex h-7 w-7 items-center justify-center rounded-lg gradient-primary">
-                  <Zap className="h-3.5 w-3.5 text-primary-foreground" />
-                </div>
-                <span className="font-bold font-display">Zyntra</span>
-              </div>
-              <p className="text-xs text-muted-foreground leading-relaxed">
-                AI-powered AMC exam preparation. Train smarter, not harder.
-              </p>
-            </div>
-
-            {/* Quick Links */}
-            <div>
-              <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/70 mb-3">Quick Links</h4>
-              <ul className="space-y-2 text-sm">
-                {showAboutPricing && (
-                  <>
-                    <li><Link to="/about" className="text-muted-foreground hover:text-foreground transition-colors">About</Link></li>
-                    <li><Link to="/pricing" className="text-muted-foreground hover:text-foreground transition-colors">Pricing</Link></li>
-                  </>
-                )}
-                <li><Link to="/dashboard" className="text-muted-foreground hover:text-foreground transition-colors">Get Started</Link></li>
-                <li><Link to="/login" className="text-muted-foreground hover:text-foreground transition-colors">Login</Link></li>
-              </ul>
-            </div>
-
-            {/* Resources */}
-            <div>
-              <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/70 mb-3">Resources</h4>
-              <ul className="space-y-2 text-sm">
-                <li><a href="https://www.amc.org.au" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">AMC Official Site ↗</a></li>
-                <li><a href="#faq" onClick={(e) => { e.preventDefault(); document.querySelector('[data-faq]')?.scrollIntoView({ behavior: 'smooth' }); }} className="text-muted-foreground hover:text-foreground transition-colors">FAQ</a></li>
-              </ul>
-            </div>
-
-            {/* Legal */}
-            <div>
-              <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/70 mb-3">Legal</h4>
-              <ul className="space-y-2 text-sm">
-                <li><Link to="/terms" className="text-muted-foreground hover:text-foreground transition-colors">Terms of Service</Link></li>
-                <li><Link to="/privacy" className="text-muted-foreground hover:text-foreground transition-colors">Privacy Policy</Link></li>
-                <li><Link to="/refund" className="text-muted-foreground hover:text-foreground transition-colors">Refund Policy</Link></li>
-                <li><a href={`mailto:${LEGAL_EMAIL}`} className="text-muted-foreground hover:text-foreground transition-colors">Contact</a></li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="mt-10 border-t border-border/30 pt-6 text-center">
-            <p className="text-[10px] text-muted-foreground/60">
-              © {new Date().getFullYear()} Zyntra. All rights reserved. Content protected under the Copyright Act 1968 (Cth).
-            </p>
-          </div>
-        </div>
-      </footer>
+      {/* Footer */}
+      <LegalFooter />
     </div>
   );
 }

@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { Zap, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { LEGAL_EMAIL } from '@/lib/legal';
+import { SEO } from '@/components/SEO';
 
 const sectionClass = 'space-y-2';
 const headingClass = 'text-[13px] font-semibold text-foreground';
@@ -10,6 +11,12 @@ const textClass = 'text-[11px] leading-[1.4] text-foreground/85';
 export default function Privacy() {
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="Privacy Policy — Zyntra Healthcare Intelligence"
+        description="How Zyntra collects, stores, and protects your data, how long it is retained, and how to export or delete your learning history at any time."
+        path="/privacy"
+        jsonLd={{ '@context': 'https://schema.org', '@type': 'WebPage', name: 'Privacy Policy', url: 'https://www.zyntrahealthcareintelligence.com/privacy' }}
+      />
       <nav className="border-b border-border/50 bg-background">
         <div className="container flex h-14 items-center gap-3">
           <Button variant="ghost" size="sm" asChild>

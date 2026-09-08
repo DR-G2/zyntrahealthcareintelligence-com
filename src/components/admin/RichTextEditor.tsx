@@ -53,7 +53,7 @@ export function RichTextEditor({ value, onChange, placeholder = 'Start typing...
     }
 
     const { data: urlData } = supabase.storage.from('question-images').getPublicUrl(path);
-    exec('insertHTML', `<img src="${urlData.publicUrl}" alt="question image" style="max-width:100%;height:auto;margin:8px 0;border-radius:4px;" />`);
+    exec('insertHTML', `<img src="${urlData.publicUrl}" alt="Clinical illustration accompanying this AMC question" style="max-width:100%;height:auto;margin:8px 0;border-radius:4px;" />`);
 
     if (fileInputRef.current) fileInputRef.current.value = '';
   }, [exec, toast]);

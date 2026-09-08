@@ -12,6 +12,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/lib/supabase';
 import { RAZORPAY_TIERS, type TierKey } from '@/lib/razorpay-config';
+import { SEO } from '@/components/SEO';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
@@ -202,6 +203,11 @@ export default function Pricing() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="Zyntra Pricing — AMC Prep Plans & Free Trial"
+        description="Compare Zyntra plans for AMC MCQ and OSCE preparation, see what each tier includes, and start with the free diagnostic trial before subscribing."
+        path="/pricing"
+      />
       {/* Nav */}
       <nav className="fixed top-0 z-50 w-full border-b border-border/50 glass">
         <div className="container flex h-16 items-center justify-between">

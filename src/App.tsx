@@ -44,11 +44,8 @@ const CompanionChat = lazy(() => import("./pages/CompanionChat"));
 const Feed = lazy(() => import("./pages/Feed"));
 const Terms = lazy(() => import("./pages/Terms"));
 const Privacy = lazy(() => import("./pages/Privacy"));
-const RefundPolicy = lazy(() => import("./pages/RefundPolicy"));
 const ZyntraAICore = lazy(() => import("./pages/ZyntraAICore"));
 const Flashcards = lazy(() => import("./pages/Flashcards"));
-const Blog = lazy(() => import("./pages/Blog"));
-const BlogPost = lazy(() => import("./pages/BlogPost"));
 
 const PerformanceIntelligence = lazy(() => import("./pages/PerformanceIntelligence"));
 const InboxPage = lazy(() => import("./pages/Inbox"));
@@ -96,14 +93,11 @@ function MaintenanceGate({ children }: { children: React.ReactNode }) {
   if (loading) return <LazyFallback />;
   if (maintenance && !isAdmin) {
     return (
-      <>
-        <NudgeButton />
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/admin" element={<ProtectedRoute><ErrorBoundary><Suspense fallback={<LazyFallback />}><AdminDashboard /></Suspense></ErrorBoundary></ProtectedRoute>} />
-          <Route path="*" element={<MaintenancePage />} />
-        </Routes>
-      </>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/admin" element={<ProtectedRoute><ErrorBoundary><Suspense fallback={<LazyFallback />}><AdminDashboard /></Suspense></ErrorBoundary></ProtectedRoute>} />
+        <Route path="*" element={<MaintenancePage />} />
+      </Routes>
     );
   }
   return <>{children}</>;
@@ -131,9 +125,6 @@ function AppRoutes() {
           <Route path="/reset-password" element={<ErrorBoundary><ResetPassword /></ErrorBoundary>} />
           <Route path="/terms" element={<ErrorBoundary><Terms /></ErrorBoundary>} />
           <Route path="/privacy" element={<ErrorBoundary><Privacy /></ErrorBoundary>} />
-          <Route path="/refund" element={<ErrorBoundary><RefundPolicy /></ErrorBoundary>} />
-          <Route path="/blog" element={<ErrorBoundary><Blog /></ErrorBoundary>} />
-          <Route path="/blog/:slug" element={<ErrorBoundary><BlogPost /></ErrorBoundary>} />
           <Route path="/onboarding" element={<ErrorBoundary><Onboarding /></ErrorBoundary>} />
           <Route path="/dashboard" element={<ProtectedRoute><ErrorBoundary><Dashboard /></ErrorBoundary></ProtectedRoute>} />
           <Route path="/assess" element={<ProtectedRoute><ErrorBoundary><Assess /></ErrorBoundary></ProtectedRoute>} />
@@ -177,6 +168,7 @@ const App = () => (
           <BrowserRouter>
             <PresenceTracker />
             <VisitorTracker />
+            <NudgeButton />
             <AppRoutes />
           </BrowserRouter>
         </TooltipProvider>

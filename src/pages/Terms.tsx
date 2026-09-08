@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { Zap, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { CURRENT_TERMS_VERSION, LEGAL_EMAIL } from '@/lib/legal';
+import { SEO } from '@/components/SEO';
 
 const sectionClass = 'space-y-2';
 const headingClass = 'text-[13px] font-semibold text-foreground';
@@ -10,6 +11,11 @@ const textClass = 'text-[11px] leading-[1.4] text-foreground/85';
 export default function Terms() {
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="Terms of Service — Zyntra"
+        description="Zyntra's terms of service: acceptable use, subscription and refund rules, content originality, and account responsibilities for AMC candidates."
+        path="/terms"
+      />
       <nav className="border-b border-border/50 bg-background">
         <div className="container flex h-14 items-center gap-3">
           <Button variant="ghost" size="sm" asChild>

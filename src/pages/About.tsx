@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Zap, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ThemeToggle } from '@/components/ThemeToggle';
+import { SEO } from '@/components/SEO';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
@@ -12,6 +13,12 @@ const fadeUp = {
 export default function About() {
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="About Zyntra — Reasoning-First AMC Training"
+        description="Why Zyntra trains clinical reasoning instead of recall: the APPE engine, behavioural analytics, and original AMC-style content built by clinicians."
+        path="/about"
+        jsonLd={{ '@context': 'https://schema.org', '@type': 'WebPage', name: 'About Zyntra', url: 'https://www.zyntrahealthcareintelligence.com/about' }}
+      />
       {/* Nav */}
       <nav className="fixed top-0 z-50 w-full border-b border-border/50 glass">
         <div className="container flex h-16 items-center justify-between">
