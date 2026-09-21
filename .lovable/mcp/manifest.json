@@ -1,0 +1,224 @@
+{
+  "version": 1,
+  "sdk_version": "3.0.1",
+  "path": "/mcp",
+  "auth": {
+    "type": "oauth",
+    "issuer": "https://yudkfmgilucyhukfggij.supabase.co/auth/v1",
+    "accepted_audiences": [
+      "authenticated"
+    ]
+  },
+  "mcp": {
+    "server": {
+      "name": "zyntra-healthcare-intelligence",
+      "version": "0.1.0",
+      "title": "Zyntra Healthcare Intelligence"
+    },
+    "tools": [
+      {
+        "name": "get_study_profile",
+        "title": "Get study profile",
+        "description": "Get the signed-in candidate's AMC study profile: exam stage, exam target, exam date, AMC1 score and declared weak areas.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_readiness",
+        "title": "Get exam readiness",
+        "description": "Get the signed-in candidate's readiness scores: clinical accuracy, time management, answer stability, confidence calibration and overall readiness.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_recent_attempts",
+        "title": "List recent question attempts",
+        "description": "List the signed-in candidate's most recent MCQ attempts with the question text, chosen answer, correctness and timing.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50,
+              "default": 10,
+              "description": "How many attempts to return (1-50)."
+            },
+            "only_incorrect": {
+              "type": "boolean",
+              "default": false,
+              "description": "Return only attempts that were answered incorrectly."
+            }
+          },
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_subject_breakdown",
+        "title": "Get subject-by-subject accuracy",
+        "description": "Summarise the signed-in candidate's MCQ accuracy and average answer time per AMC subject, weakest subject first.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "sample_size": {
+              "type": "integer",
+              "minimum": 20,
+              "maximum": 1000,
+              "default": 400,
+              "description": "How many of the most recent attempts to analyse."
+            }
+          },
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_station_attempts",
+        "title": "List clinical station attempts",
+        "description": "List the signed-in candidate's recent OSCE clinical station attempts with subject, mode, scores and time taken.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 30,
+              "default": 10,
+              "description": "How many station attempts to return (1-30)."
+            }
+          },
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_flashcard_decks",
+        "title": "List flashcard decks",
+        "description": "List the signed-in candidate's flashcard decks, optionally including the cards inside each deck.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "include_cards": {
+              "type": "boolean",
+              "default": false,
+              "description": "Include the front/back of each card in every deck."
+            }
+          },
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "create_flashcard_deck",
+        "title": "Create a flashcard deck",
+        "description": "Create a new flashcard deck for the signed-in candidate and add cards to it, ready for spaced-repetition review in the app.",
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 120,
+              "description": "Deck title."
+            },
+            "subject": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "description": "AMC subject the deck belongs to."
+            },
+            "cards": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "front": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Prompt side of the card."
+                  },
+                  "back": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Answer side of the card."
+                  },
+                  "subtopic": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 120,
+                    "description": "Subtopic for this card."
+                  }
+                },
+                "required": [
+                  "front",
+                  "back"
+                ],
+                "additionalProperties": false
+              },
+              "minItems": 1,
+              "maxItems": 50,
+              "description": "Cards to add to the new deck (1-50)."
+            }
+          },
+          "required": [
+            "title",
+            "cards"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}
