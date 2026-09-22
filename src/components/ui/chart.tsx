@@ -1,4 +1,6 @@
-import * as React from "react";
+import * as React from "react"
+import DOMPurify from 'dompurify';
+;
 import * as RechartsPrimitive from "recharts";
 
 import { cn } from "@/lib/utils";

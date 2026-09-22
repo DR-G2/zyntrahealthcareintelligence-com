@@ -54,7 +54,7 @@ serve(async (req) => {
 
     // Get unique user_ids and fetch profiles
     const userIds = [...new Set((logs || []).map((l: any) => l.user_id).filter(Boolean))];
-    let profilesMap: Record<string, any> = {};
+    const profilesMap: Record<string, any> = {};
     if (userIds.length > 0) {
       const { data: profiles } = await serviceClient
         .from("profiles")

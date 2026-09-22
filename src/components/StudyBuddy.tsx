@@ -97,7 +97,7 @@ async function streamChat({
   }
 
   if (buffer.trim()) {
-    for (let raw of buffer.split('\n')) {
+    for (const raw of buffer.split('\n')) {
       if (!raw || !raw.startsWith('data: ')) continue;
       const json = raw.slice(6).trim();
       if (json === '[DONE]') continue;
@@ -238,7 +238,7 @@ export function StudyBuddy({ questionContext, onClearContext }: StudyBuddyProps)
     setIsLoading(true);
 
     let assistantSoFar = '';
-    let currentConvoId = activeConvoId;
+    const currentConvoId = activeConvoId;
 
     const upsertAssistant = (chunk: string) => {
       assistantSoFar += chunk;
