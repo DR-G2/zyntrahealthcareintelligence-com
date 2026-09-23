@@ -2091,6 +2091,7 @@ export type Database = {
         }
         Returns: number
       }
+      is_admin: { Args: { _email: string }; Returns: boolean }
       is_group_member: {
         Args: { _group_id: string; _user_id: string }
         Returns: boolean
