@@ -53,7 +53,7 @@ export default function Inbox() {
 
       // Get unread counts
       const threadIds = threadList.map((t: any) => t.id);
-      let unreadMap: Record<string, number> = {};
+      const unreadMap: Record<string, number> = {};
       if (threadIds.length > 0) {
         const { data: unread } = await supabase
           .from('admin_messages' as any)

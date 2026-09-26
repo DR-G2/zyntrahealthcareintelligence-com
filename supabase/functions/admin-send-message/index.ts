@@ -51,7 +51,7 @@ serve(async (req) => {
 
       // Get unread count per thread
       const threadIds = (threads || []).map((t: any) => t.id);
-      let unreadMap: Record<string, number> = {};
+      const unreadMap: Record<string, number> = {};
       if (threadIds.length > 0) {
         const { data: unread } = await supabase
           .from("admin_messages")
