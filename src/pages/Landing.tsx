@@ -151,6 +151,12 @@ export default function Landing() {
 
   const startDiagnostic = () => {
     setStarted(true);
+    setCompleted(false);
+    setAttempts([]);
+    setQuestion(QUESTION_BANK[0]);
+    setSelected(null);
+    setConfidence(null);
+    setChanges(0);
     setStartedAt(Date.now());
     document.getElementById("diagnostic")?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
