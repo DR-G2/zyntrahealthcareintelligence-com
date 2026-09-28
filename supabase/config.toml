@@ -75,3 +75,6 @@ project_id = "yudkfmgilucyhukfggij"
     verify_jwt = false
   [functions.import-learning-data]
     verify_jwt = false
+
+  [functions.public-mcq-diagnostic]
+    verify_jwt = false
