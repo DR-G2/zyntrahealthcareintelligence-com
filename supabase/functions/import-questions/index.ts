@@ -50,15 +50,29 @@ serve(async (req) => {
           subtopic: q.subtopic || null,
           guideline_reference: q.guideline_reference || null,
           system_category: q.system_category || null,
+          ...(q.zyntra_id ? { zyntra_id: String(q.zyntra_id).trim() } : {}),
+          ...(Number.isInteger(q.difficulty_tier) ? { difficulty_tier: q.difficulty_tier } : {}),
         };
       }).filter(Boolean);
 
       if (rows.length) {
-        const { data, error } = await supabase.from("questions").insert(rows).select("id");
-        if (error) {
-          errors.push(`Batch ${i}-${i + rows.length}: ${error.message}`);
-        } else {
-          successCount += data.length;
+        // Rows with a zyntra_id are upserted on it, so re-importing the same file updates
+        // questions in place instead of duplicating them. Rows without one are inserted and
+        // get an auto QN- id from the assign_zyntra_id_question trigger.
+        const withId = rows.filter((r: any) => r.zyntra_id);
+        const withoutId = rows.filter((r: any) => !r.zyntra_id);
+        if (withId.length) {
+          const { data, error } = await supabase
+            .from("questions")
+            .upsert(withId, { onConflict: "zyntra_id" })
+            .select("id");
+          if (error) errors.push(`Batch ${i}-${i + rows.length} (upsert): ${error.message}`);
+          else successCount += data.length;
+        }
+        if (withoutId.length) {
+          const { data, error } = await supabase.from("questions").insert(withoutId).select("id");
+          if (error) errors.push(`Batch ${i}-${i + rows.length}: ${error.message}`);
+          else successCount += data.length;
         }
       }
     }
