@@ -202,7 +202,7 @@ export default function DiagnosticOSCE() {
         <OSCEUnderConstruction />
       ) : !gate.canAccessExamMode ? (
         <div className="mx-auto max-w-xl py-12">
-          <UpgradePrompt feature="Diagnostic OSCE" description="Access exam-level OSCE simulations. Available on the OSCE Only or Full Access plan." />
+          <UpgradePrompt feature="Diagnostic OSCE" description="Access exam-level OSCE simulations. Available on the Pass Guarantee or Lifetime plan." />
         </div>
       ) : (
       <div className="space-y-6">

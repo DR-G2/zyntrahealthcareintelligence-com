@@ -19,7 +19,7 @@ export function UpgradePrompt({ feature, description, variant = 'card', stage }:
         <div className="flex items-center gap-3">
           <Lock className="h-4 w-4 text-primary" />
           <span className="text-sm font-medium">
-            {effectiveDescription || `${feature} is available on the Full Access plan`}
+            {effectiveDescription || `${feature} is available on the Pass Guarantee plan`}
           </span>
         </div>
         <Button asChild size="sm" className="gap-1">
@@ -38,7 +38,7 @@ export function UpgradePrompt({ feature, description, variant = 'card', stage }:
           </div>
           <h3 className="font-display font-semibold text-lg">{feature}</h3>
           <p className="text-sm text-muted-foreground">
-            {effectiveDescription || 'Upgrade to Full Access to unlock this feature'}
+            {effectiveDescription || 'Upgrade to Pass Guarantee to unlock this feature'}
           </p>
           <Button asChild className="gap-1">
             <Link to="/pricing">View Plans <ArrowRight className="h-4 w-4" /></Link>
@@ -57,7 +57,7 @@ export function UpgradePrompt({ feature, description, variant = 'card', stage }:
         <div>
           <h3 className="text-xl font-display font-bold">{feature}</h3>
           <p className="text-sm text-muted-foreground mt-1">
-            {effectiveDescription || 'This feature requires the Full Access plan'}
+            {effectiveDescription || 'This feature requires the Pass Guarantee plan'}
           </p>
         </div>
         <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
@@ -65,7 +65,7 @@ export function UpgradePrompt({ feature, description, variant = 'card', stage }:
           Starting at $39/month
         </div>
         <Button asChild size="lg" className="gap-2">
-          <Link to="/pricing">Upgrade to Full Access <ArrowRight className="h-4 w-4" /></Link>
+          <Link to="/pricing">Upgrade to Pass Guarantee <ArrowRight className="h-4 w-4" /></Link>
         </Button>
       </CardContent>
     </Card>
