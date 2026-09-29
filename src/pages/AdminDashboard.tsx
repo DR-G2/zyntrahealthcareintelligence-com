@@ -573,9 +573,8 @@ function UsersTab({ currentUserEmail }: { currentUserEmail: string }) {
               <Select value={grantTier} onValueChange={setGrantTier}>
                 <SelectTrigger><SelectValue /></SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="full_access">Full Access</SelectItem>
+                  <SelectItem value="full_access">Pass Guarantee</SelectItem>
                   <SelectItem value="mcq_only">MCQ Only</SelectItem>
-                  <SelectItem value="osce_only">OSCE Only</SelectItem>
                   <SelectItem value="lifetime">Lifetime</SelectItem>
                 </SelectContent>
               </Select>

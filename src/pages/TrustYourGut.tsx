@@ -280,7 +280,7 @@ export default function TrustYourGut() {
   if (!gate.canAccessTrustGut) {
     return (
       <div className="mx-auto max-w-2xl py-12">
-        <UpgradePrompt feature="Trust Your Gut" description="Train your first-instinct accuracy and reduce harmful answer changes. This advanced analytics feature requires Full Access." />
+        <UpgradePrompt feature="Trust Your Gut" description="Train your first-instinct accuracy and reduce harmful answer changes. This advanced analytics feature requires the Pass Guarantee plan." />
       </div>
     );
   }

@@ -15,6 +15,10 @@ project_id = "yudkfmgilucyhukfggij"
     verify_jwt = false
   [functions.verify-razorpay-payment]
     verify_jwt = false
+  [functions.create-paypal-order]
+    verify_jwt = false
+  [functions.verify-paypal-payment]
+    verify_jwt = false
   [functions.check-subscription]
     verify_jwt = false
   [functions.customer-portal]
