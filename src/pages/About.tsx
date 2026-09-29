@@ -4,6 +4,8 @@ import { Zap, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { SEO } from '@/components/SEO';
+import { PublicFooter } from '@/components/PublicFooter';
+import { useAuth } from '@/contexts/AuthContext';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
@@ -11,6 +13,7 @@ const fadeUp = {
 };
 
 export default function About() {
+  const { user } = useAuth();
   return (
     <div className="min-h-screen bg-background">
       <SEO
@@ -36,8 +39,13 @@ export default function About() {
               <Link to="/pricing">Pricing</Link>
             </Button>
             <ThemeToggle />
+            {!user && (
+              <Button variant="ghost" asChild className="hidden text-sm sm:inline-flex">
+                <Link to="/login">Log in</Link>
+              </Button>
+            )}
             <Button asChild>
-              <Link to="/dashboard">Get Started</Link>
+              <Link to="/dashboard">{user ? 'Dashboard' : 'Get Started'}</Link>
             </Button>
           </div>
         </div>
@@ -217,16 +225,8 @@ export default function About() {
         </div>
       </section>
 
-      {/* Copyright Footer */}
-      <footer className="border-t border-border py-8">
-        <div className="container flex items-center justify-between text-sm text-muted-foreground">
-          <div className="flex items-center gap-2">
-            <Zap className="h-4 w-4 text-primary" />
-            <span className="font-display font-semibold text-foreground">Zyntra</span>
-          </div>
-          <p>Built by an IMG · For IMGs</p>
-        </div>
-      </footer>
+      {/* Footer */}
+      <PublicFooter />
     </div>
   );
 }

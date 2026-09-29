@@ -3,6 +3,7 @@ import { Zap, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { CURRENT_TERMS_VERSION, LEGAL_EMAIL } from '@/lib/legal';
 import { SEO } from '@/components/SEO';
+import { PublicFooter } from '@/components/PublicFooter';
 
 const sectionClass = 'space-y-2';
 const headingClass = 'text-[13px] font-semibold text-foreground';
@@ -35,7 +36,7 @@ export default function Terms() {
       <div className="container max-w-2xl py-10 space-y-6">
         <div>
           <h1 className="text-xl font-bold font-display">Terms of Service</h1>
-          <p className={textClass}>Version: {CURRENT_TERMS_VERSION} · Last updated: March 2026</p>
+          <p className={textClass}>Version: {CURRENT_TERMS_VERSION} · Last updated: September 2026</p>
         </div>
 
         {/* 1 */}
@@ -159,6 +160,12 @@ export default function Terms() {
           <p className={textClass}>
             Zyntra offers subscription-based access. By subscribing, you authorise recurring payments. You may cancel at any time; access continues until the end of the current billing period. Zyntra reserves the right to modify pricing with reasonable notice. Refunds are provided only in accordance with Australian Consumer Law.
           </p>
+          <p className={textClass}>
+            Current plans (all prices in USD): Free ($0); MCQ Only ($39/month or $109 for 3 months); Pass Guarantee ($59/month or $169 for 3 months); Lifetime ($349 one-time payment, limited to the first 100 users).
+          </p>
+          <p className={textClass}>
+            <strong>Pass Guarantee — terms coming soon.</strong> The terms of the Pass Guarantee have not yet been published. They are not yet in effect, and you should not rely on any guarantee when deciding to purchase the Pass Guarantee plan.
+          </p>
         </section>
 
         {/* 14 */}
@@ -213,6 +220,7 @@ export default function Terms() {
           </p>
         </section>
       </div>
+      <PublicFooter />
     </div>
   );
 }

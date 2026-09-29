@@ -48,6 +48,8 @@ export async function paypalAccessToken(): Promise<string> {
   return json.access_token as string;
 }
 
+// PayPal responses are loosely-typed JSON; callers read the fields they need.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function paypalFetch(token: string, path: string, init: RequestInit = {}): Promise<any> {
   const res = await fetch(`${paypalBaseUrl()}${path}`, {
     ...init,
@@ -58,7 +60,7 @@ export async function paypalFetch(token: string, path: string, init: RequestInit
     },
   });
   const text = await res.text();
-  let body: any = null;
+  let body: unknown = null;
   try { body = text ? JSON.parse(text) : null; } catch { body = text; }
   if (!res.ok) throw new Error(`PayPal API error (${res.status}): ${typeof body === "string" ? body : JSON.stringify(body)}`);
   return body;

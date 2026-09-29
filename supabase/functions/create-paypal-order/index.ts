@@ -85,7 +85,7 @@ serve(async (req) => {
         }),
       });
 
-      const approve = (order.links || []).find((l: any) => l.rel === "payer-action" || l.rel === "approve");
+      const approve = (order.links || []).find((l: { rel?: string; href?: string }) => l.rel === "payer-action" || l.rel === "approve");
       if (!approve?.href) throw new Error("PayPal did not return an approval link");
 
       return new Response(JSON.stringify({
@@ -118,7 +118,7 @@ serve(async (req) => {
         }),
       });
 
-      const approve = (sub.links || []).find((l: any) => l.rel === "approve");
+      const approve = (sub.links || []).find((l: { rel?: string; href?: string }) => l.rel === "approve");
       if (!approve?.href) throw new Error("PayPal did not return an approval link");
 
       return new Response(JSON.stringify({
@@ -130,9 +130,10 @@ serve(async (req) => {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
-  } catch (error: any) {
-    console.error("[CREATE-PAYPAL-ORDER] Error:", error.message);
-    return new Response(JSON.stringify({ error: error.message }), {
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.error("[CREATE-PAYPAL-ORDER] Error:", message);
+    return new Response(JSON.stringify({ error: message }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 500,
     });

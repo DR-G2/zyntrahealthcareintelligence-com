@@ -62,7 +62,7 @@ export function UpgradePrompt({ feature, description, variant = 'card', stage }:
         </div>
         <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
           <Zap className="h-4 w-4 text-primary" />
-          Starting at $39/month
+          MCQ Only $39/month · Pass Guarantee $59/month
         </div>
         <Button asChild size="lg" className="gap-2">
           <Link to="/pricing">Upgrade to Pass Guarantee <ArrowRight className="h-4 w-4" /></Link>

@@ -6,7 +6,11 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Link } from "react-router-dom";
 import { SEO } from "@/components/SEO";
+import { PublicFooter } from "@/components/PublicFooter";
+import { useAuth } from "@/contexts/AuthContext";
+import { useShowAboutPricing } from "@/hooks/useSiteSettings";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
@@ -133,6 +137,8 @@ function scoreSnapshot(attempts: Attempt[]) {
 }
 
 export default function Landing() {
+  const { user } = useAuth();
+  const { show: showAboutPricing } = useShowAboutPricing();
   const [started, setStarted] = useState(false);
   const [attempts, setAttempts] = useState<Attempt[]>([]);
   const [question, setQuestion] = useState<Question>(QUESTION_BANK[0]);
@@ -263,12 +269,23 @@ export default function Landing() {
             </span>
             <span className="font-display text-lg font-bold tracking-tight">Zyntra<span className="text-[#16858c]">.</span></span>
           </button>
-          <div className="flex items-center gap-2 text-xs font-semibold text-slate-500">
-            <span className="hidden rounded-full border border-[#bfe5e7] bg-white px-3 py-1.5 sm:inline-flex">MCQ Intelligence</span>
+          <nav aria-label="Main" className="flex items-center gap-1 text-xs font-semibold text-slate-500 sm:gap-2">
+            <span className="hidden rounded-full border border-[#bfe5e7] bg-white px-3 py-1.5 lg:inline-flex">MCQ Intelligence</span>
+            {showAboutPricing && (
+              <>
+                <Link to="/about" className="hidden rounded-full px-3 py-2 transition hover:text-[#0f5f68] md:inline-flex">About</Link>
+                <Link to="/pricing" className="rounded-full px-2 py-2 transition hover:text-[#0f5f68] sm:px-3">Pricing</Link>
+              </>
+            )}
+            {user ? (
+              <Link to="/dashboard" className="rounded-full px-2 py-2 transition hover:text-[#0f5f68] sm:px-3">Dashboard</Link>
+            ) : (
+              <Link to="/login" className="rounded-full px-2 py-2 transition hover:text-[#0f5f68] sm:px-3">Log in</Link>
+            )}
             <button onClick={startDiagnostic} className="rounded-full bg-[#0f5f68] px-4 py-2 text-white transition hover:bg-[#0a4b52]">
               Try 6 questions
             </button>
-          </div>
+          </nav>
         </div>
       </header>
 
@@ -385,7 +402,7 @@ export default function Landing() {
                 {!registered ? (
                   <form onSubmit={submitEarlyAccess} className="mt-6 rounded-2xl bg-[#0f5f68] p-5 text-white sm:p-6">
                     <div className="text-lg font-bold">Want the rest of the picture?</div>
-                    <p className="mt-1 text-sm leading-6 text-white/70">Register for early access and notifications. No pricing. No payment. Just your place in the queue.</p>
+                    <p className="mt-1 text-sm leading-6 text-white/70">Register for early access and notifications. Free to register. No payment. Just your place in the queue.</p>
                     <div className="mt-4 grid gap-3 sm:grid-cols-[1fr_1fr_auto]">
                       <Input value={email} onChange={e => setEmail(e.target.value)} type="email" required maxLength={255} placeholder="Email address" className="h-11 border-white/15 bg-white/10 text-white placeholder:text-white/45" />
                       <Input value={name} onChange={e => setName(e.target.value)} maxLength={100} placeholder="Name (optional)" className="h-11 border-white/15 bg-white/10 text-white placeholder:text-white/45" />
@@ -481,6 +498,7 @@ export default function Landing() {
           <p className="mt-5 text-[11px] text-white/40">Zyntra is an independent exam preparation platform and is not affiliated with or endorsed by the Australian Medical Council.</p>
         </div>
       </section>
+      <PublicFooter showDisclaimer={false} />
     </main>
   );
 }

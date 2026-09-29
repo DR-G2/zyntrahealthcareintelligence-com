@@ -2,7 +2,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import {
   ClipboardCheck, BookOpen, Calendar, Settings, Zap, UserCircle, LogOut, Brain,
   Target, Activity, ChevronRight, Shield, Stethoscope, PanelLeftClose, PanelLeft,
-  MessageCircle, Rss, BarChart3, Inbox,
+  MessageCircle, Rss, BarChart3, Inbox, LayoutDashboard,
 } from 'lucide-react';
 import { NotificationBell } from '@/components/NotificationBell';
 import { useInboxUnread } from '@/hooks/useInboxUnread';
@@ -57,6 +57,12 @@ function getNavGroups(isPaid: boolean): NavGroup[] {
   );
 
   return [
+    {
+      label: 'Overview',
+      items: [
+        { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+      ],
+    },
     {
       label: 'Training Program',
       items: [

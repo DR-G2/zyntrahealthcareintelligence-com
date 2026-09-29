@@ -3,6 +3,7 @@ import { Zap, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { LEGAL_EMAIL } from '@/lib/legal';
 import { SEO } from '@/components/SEO';
+import { PublicFooter } from '@/components/PublicFooter';
 
 const sectionClass = 'space-y-2';
 const headingClass = 'text-[13px] font-semibold text-foreground';
@@ -141,6 +142,7 @@ export default function Privacy() {
           </p>
         </section>
       </div>
+      <PublicFooter />
     </div>
   );
 }

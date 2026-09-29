@@ -124,13 +124,14 @@ serve(async (req) => {
 
     if (insertError) {
       // Unique index hit by a concurrent request -> already processed
-      if ((insertError as any).code === "23505") return json({ success: true, tier, already_processed: true });
+      if ((insertError as { code?: string }).code === "23505") return json({ success: true, tier, already_processed: true });
       throw insertError;
     }
 
     return json({ success: true, tier });
-  } catch (error: any) {
-    console.error("[VERIFY-PAYPAL] Error:", error.message);
-    return json({ error: error.message }, 500);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.error("[VERIFY-PAYPAL] Error:", message);
+    return json({ error: message }, 500);
   }
 });
