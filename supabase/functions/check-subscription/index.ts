@@ -77,8 +77,55 @@ serve(async (req) => {
       const payment = payments[0];
       logStep("Active payment found", { tier: payment.tier, subscription_id: payment.razorpay_subscription_id });
 
+      // PayPal subscriptions: verify with PayPal API that it's still active
+      if (payment.paypal_subscription_id) {
+        try {
+          const paypalBase = (Deno.env.get("PAYPAL_ENV") || "sandbox").toLowerCase() === "live"
+            ? "https://api-m.paypal.com"
+            : "https://api-m.sandbox.paypal.com";
+          const ppAuth = btoa(`${Deno.env.get("PAYPAL_CLIENT_ID") || ""}:${Deno.env.get("PAYPAL_CLIENT_SECRET") || ""}`);
+          const tokenRes = await fetch(`${paypalBase}/v1/oauth2/token`, {
+            method: "POST",
+            headers: { "Authorization": `Basic ${ppAuth}`, "Content-Type": "application/x-www-form-urlencoded" },
+            body: "grant_type=client_credentials",
+          });
+          if (!tokenRes.ok) throw new Error(`PayPal auth failed (${tokenRes.status})`);
+          const { access_token } = await tokenRes.json();
+          const subRes = await fetch(`${paypalBase}/v1/billing/subscriptions/${payment.paypal_subscription_id}`, {
+            headers: { "Authorization": `Bearer ${access_token}` },
+          });
+          if (!subRes.ok) throw new Error(`PayPal subscription lookup failed (${subRes.status})`);
+          const sub = await subRes.json();
+          if (sub.status === "ACTIVE") {
+            return new Response(JSON.stringify({
+              subscribed: true,
+              tier: payment.tier,
+              subscription_end: sub.billing_info?.next_billing_time ?? null,
+            }), {
+              headers: { ...corsHeaders, "Content-Type": "application/json" },
+              status: 200,
+            });
+          }
+          // Subscription cancelled/suspended/expired — mark payment inactive
+          logStep("PayPal subscription no longer active", { status: sub.status });
+          await supabaseClient
+            .from("payments")
+            .update({ status: "cancelled" })
+            .eq("id", payment.id);
+        } catch (e) {
+          logStep("PayPal API check failed, using local data", { error: String(e) });
+          // Fallback to local data
+          return new Response(JSON.stringify({
+            subscribed: true,
+            tier: payment.tier,
+            subscription_end: null,
+          }), {
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+            status: 200,
+          });
+        }
       // For subscriptions, verify with Razorpay API that it's still active
-      if (payment.razorpay_subscription_id) {
+      } else if (payment.razorpay_subscription_id) {
         const keyId = Deno.env.get("RAZORPAY_KEY_ID") || "";
         const keySecret = Deno.env.get("RAZORPAY_KEY_SECRET") || "";
         const authString = btoa(`${keyId}:${keySecret}`);

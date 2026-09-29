@@ -16,26 +16,11 @@ export const RAZORPAY_TIERS = {
     currency: 'USD',
     interval: '3 months',
   },
-  osce_only: {
-    plan_id: 'plan_SOsOO6jO9w1WOH',
-    mode: 'subscription' as const,
-    name: 'OSCE Only',
-    price: 39,
-    currency: 'USD',
-    interval: 'month',
-  },
-  osce_only_3m: {
-    plan_id: 'plan_SOsOwdvVugEsde',
-    mode: 'subscription' as const,
-    name: 'OSCE Only (3 months)',
-    price: 109,
-    currency: 'USD',
-    interval: '3 months',
-  },
+  // Internal key 'full_access' kept for backend/Razorpay compatibility; displayed as "Pass Guarantee".
   full_access: {
     plan_id: 'plan_SOsQDhBQkgyFfr',
     mode: 'subscription' as const,
-    name: 'Full Access',
+    name: 'Pass Guarantee',
     price: 59,
     currency: 'USD',
     interval: 'month',
@@ -43,7 +28,7 @@ export const RAZORPAY_TIERS = {
   full_access_3m: {
     plan_id: 'plan_SOsR9Hjy6UHpNG',
     mode: 'subscription' as const,
-    name: 'Full Access (3 months)',
+    name: 'Pass Guarantee (3 months)',
     price: 169,
     currency: 'USD',
     interval: '3 months',
@@ -62,8 +47,6 @@ export const RAZORPAY_TIERS = {
 export const PLAN_TIER_MAP: Record<string, string> = {
   'plan_SOsMQofBcfw3BU': 'mcq_only',
   'plan_SOsNlReb9DLlAw': 'mcq_only',
-  'plan_SOsOO6jO9w1WOH': 'osce_only',
-  'plan_SOsOwdvVugEsde': 'osce_only',
   'plan_SOsQDhBQkgyFfr': 'full_access',
   'plan_SOsR9Hjy6UHpNG': 'full_access',
 };

@@ -139,7 +139,8 @@ export function useFeatureGate(): FeatureGate {
     };
   }
 
-  // OSCE Only — unlimited OSCE, NO MCQ at all
+  // OSCE Only — LEGACY: plan no longer sold. Kept so any existing 'osce_only'
+  // subscribers / manual overrides keep their access. Unlimited OSCE, NO MCQ.
   if (tier === 'osce_only') {
     return {
       ...base, isPaid: true,

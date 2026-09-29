@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Zap, Check, X, MessageCircle, Shield, Star, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -8,11 +8,14 @@ import { ThemeToggle } from '@/components/ThemeToggle';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Badge } from '@/components/ui/badge';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/lib/supabase';
 import { RAZORPAY_TIERS, type TierKey } from '@/lib/razorpay-config';
 import { SEO } from '@/components/SEO';
+import { PublicFooter } from '@/components/PublicFooter';
+import { PAYPAL_ENABLED } from '@/lib/payment-flags';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
@@ -38,7 +41,7 @@ const faqGroups = [
       },
       {
         q: 'Why is Lifetime $349?',
-        a: 'My MCQ-to-PGY1 journey: 2 years. $59 x 12 months = $708. $349 is less than half. Also: Lifetime users get direct access to me for quick questions. I limit to 50 so I can respond.',
+        a: 'My MCQ-to-PGY1 journey: 2 years. $59 x 12 months = $708. $349 is less than half. Also: Lifetime users get direct access to me for quick questions. Lifetime is limited to the first 100 users so I can respond.',
       },
     ],
   },
@@ -64,7 +67,7 @@ const faqGroups = [
     questions: [
       {
         q: 'Failed AMC twice. Which plan?',
-        a: "Full Access. You don't need more questions. You need to know why you're failing. The behavioral analytics show if it's knowledge gaps (study more) or panic changes (trainable).",
+        a: "Pass Guarantee. You don't need more questions. You need to know why you're failing. The behavioral analytics show if it's knowledge gaps (study more) or panic changes (trainable).",
       },
       {
         q: 'Working 40hrs/week. Which plan?',
@@ -76,7 +79,7 @@ const faqGroups = [
       },
       {
         q: '6 months away. What to do?',
-        a: "Free tier 2 months. Learn baseline. Then MCQ Only or Full Access depending on whether you need OSCE prep too.",
+        a: "Free tier 2 months. Learn baseline. Then MCQ Only or Pass Guarantee depending on whether you need OSCE prep too.",
       },
     ],
   },
@@ -88,6 +91,16 @@ export default function Pricing() {
   const navigate = useNavigate();
   const [loadingTier, setLoadingTier] = useState<TierKey | null>(null);
   const [lifetimeSoldOut, setLifetimeSoldOut] = useState(false);
+  const [paymentChoiceTier, setPaymentChoiceTier] = useState<TierKey | null>(null);
+  const location = useLocation();
+
+  // Support deep links such as /pricing#faq from the site footer
+  useEffect(() => {
+    if (!location.hash) return;
+    const id = location.hash.slice(1);
+    const t = window.setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }), 100);
+    return () => window.clearTimeout(t);
+  }, [location.hash]);
 
   useEffect(() => {
     supabase
@@ -187,13 +200,78 @@ export default function Pricing() {
     setLoadingTier(null);
   };
 
+  // Show the payment-method choice (Razorpay or PayPal) for a plan.
+  // PayPal is behind VITE_PAYPAL_ENABLED (off by default): when off, go straight to Razorpay.
+  const choosePayment = (tierKey: TierKey) => {
+    if (!user) {
+      navigate('/login');
+      return;
+    }
+    if (!PAYPAL_ENABLED) {
+      handleCheckout(tierKey);
+      return;
+    }
+    setPaymentChoiceTier(tierKey);
+  };
+
+  // PayPal: redirect approval flow. The server looks up the price/plan for the tier.
+  const handlePayPalCheckout = async (tierKey: TierKey) => {
+    if (!PAYPAL_ENABLED) return;
+    if (!user) {
+      navigate('/login');
+      return;
+    }
+    setLoadingTier(tierKey);
+    try {
+      const { data, error } = await supabase.functions.invoke('create-paypal-order', {
+        body: { tierKey },
+      });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      if (!data?.approve_url) throw new Error('PayPal did not return an approval link');
+      window.location.href = data.approve_url;
+      return;
+    } catch (e) {
+      toast({ title: 'Checkout failed', description: (e instanceof Error && e.message) || 'Please try again', variant: 'destructive' });
+    }
+    setLoadingTier(null);
+  };
+
+  // PayPal return: /pricing?paypal=return&token=ORDER_ID or &subscription_id=I-XXXX
+  useEffect(() => {
+    if (!PAYPAL_ENABLED || !user) return;
+    const params = new URLSearchParams(window.location.search);
+    const paypalState = params.get('paypal');
+    if (!paypalState) return;
+    const subscriptionId = params.get('subscription_id');
+    const orderId = params.get('token');
+    window.history.replaceState({}, '', window.location.pathname);
+    if (paypalState === 'cancel') {
+      toast({ title: 'PayPal checkout cancelled' });
+      return;
+    }
+    if (paypalState !== 'return' || (!subscriptionId && !orderId)) return;
+    (async () => {
+      try {
+        const { data, error } = await supabase.functions.invoke('verify-paypal-payment', {
+          body: subscriptionId ? { subscription_id: subscriptionId } : { order_id: orderId },
+        });
+        if (error) throw error;
+        if (data?.error) throw new Error(data.error);
+        toast({ title: 'Payment successful!', description: 'Your subscription is now active.' });
+        navigate('/dashboard?payment=success');
+      } catch (vErr) {
+        toast({ title: 'Payment verification failed', description: vErr instanceof Error ? vErr.message : String(vErr), variant: 'destructive' });
+      }
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
+
   const isCurrentTier = (tierKey: string) => {
     if (!subscription.subscribed) return false;
     const tierMap: Record<string, string[]> = {
       'mcq_only': ['mcq_only'],
       'mcq_only_3m': ['mcq_only'],
-      'osce_only': ['osce_only'],
-      'osce_only_3m': ['osce_only'],
       'full_access': ['full_access'],
       'full_access_3m': ['full_access'],
       'lifetime': ['lifetime'],
@@ -204,8 +282,8 @@ export default function Pricing() {
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title="Zyntra Pricing — AMC Prep Plans & Free Trial"
-        description="Compare Zyntra plans for AMC MCQ and OSCE preparation, see what each tier includes, and start with the free diagnostic trial before subscribing."
+        title="Zyntra Pricing — Free, MCQ Only, Pass Guarantee & Lifetime"
+        description="Zyntra plans in USD: Free $0, MCQ Only $39/month or $109 for 3 months, Pass Guarantee $59/month or $169 for 3 months, Lifetime $349 one-time for the first 100 users."
         path="/pricing"
       />
       {/* Nav */}
@@ -225,8 +303,13 @@ export default function Pricing() {
               <Link to="/pricing">Pricing</Link>
             </Button>
             <ThemeToggle />
+            {!user && (
+              <Button variant="ghost" asChild className="hidden text-sm sm:inline-flex">
+                <Link to="/login">Log in</Link>
+              </Button>
+            )}
             <Button asChild>
-              <Link to="/dashboard">Get Started</Link>
+              <Link to="/dashboard">{user ? 'Dashboard' : 'Get Started'}</Link>
             </Button>
           </div>
         </div>
@@ -246,7 +329,7 @@ export default function Pricing() {
             <h1 className="mb-4 text-4xl font-bold font-display leading-tight tracking-tight lg:text-5xl">
               Choose Your <span className="gradient-text">Plan</span>
             </h1>
-            <p className="text-lg text-muted-foreground">Simple pricing designed for IMGs.</p>
+            <p className="text-lg text-muted-foreground">Simple pricing designed for IMGs. All prices in USD.</p>
           </motion.div>
         </div>
       </section>
@@ -259,7 +342,7 @@ export default function Pricing() {
             whileInView="show"
             viewport={{ once: true }}
             variants={stagger}
-            className="mx-auto grid max-w-6xl gap-5 md:grid-cols-5"
+            className="mx-auto grid max-w-6xl gap-5 md:grid-cols-4"
           >
             {/* FREE */}
             <motion.div variants={fadeUp}>
@@ -297,10 +380,10 @@ export default function Pricing() {
                   </ul>
                   <p className="mb-4 text-xs text-muted-foreground italic">Best for candidates focusing on AMC MCQ.</p>
                   <div className="space-y-2">
-                    <Button size="sm" className="w-full" onClick={() => handleCheckout('mcq_only')} disabled={loadingTier === 'mcq_only' || isCurrentTier('mcq_only')}>
+                    <Button size="sm" className="w-full" onClick={() => choosePayment('mcq_only')} disabled={loadingTier === 'mcq_only' || isCurrentTier('mcq_only')}>
                       {isCurrentTier('mcq_only') ? 'Current' : loadingTier === 'mcq_only' ? <Loader2 className="h-4 w-4 animate-spin" /> : '$39/mo'}
                     </Button>
-                    <Button variant="outline" size="sm" className="w-full" onClick={() => handleCheckout('mcq_only_3m')} disabled={loadingTier === 'mcq_only_3m'}>
+                    <Button variant="outline" size="sm" className="w-full" onClick={() => choosePayment('mcq_only_3m')} disabled={loadingTier === 'mcq_only_3m'}>
                       {loadingTier === 'mcq_only_3m' ? <Loader2 className="h-4 w-4 animate-spin" /> : '$109/3mo'}
                     </Button>
                   </div>
@@ -308,61 +391,33 @@ export default function Pricing() {
               </Card>
             </motion.div>
 
-            {/* OSCE ONLY */}
-            <motion.div variants={fadeUp}>
-              <Card className="h-full flex flex-col border-border">
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-lg">OSCE Only</CardTitle>
-                  <p className="text-xs text-muted-foreground">AMC Clinical preparation</p>
-                  <div className="mt-3"><span className="text-3xl font-bold font-display">$39</span><span className="text-muted-foreground text-sm">/mo</span></div>
-                  <p className="text-xs text-muted-foreground">or $109/3mo</p>
-                </CardHeader>
-                <CardContent className="flex-1 flex flex-col">
-                  <ul className="mb-6 space-y-2 flex-1">
-                    {['Unlimited OSCE stations', 'Adaptive OSCE training', '16-station exam simulations', 'AI patient interaction', 'Psychograph feedback'].map((f) => (
-                      <li key={f} className="flex gap-2 text-xs"><Check className="h-3.5 w-3.5 mt-0.5 text-secondary shrink-0" /><span>{f}</span></li>
-                    ))}
-                  </ul>
-                  <p className="mb-4 text-xs text-muted-foreground italic">Designed for AMC Clinical preparation.</p>
-                  <div className="space-y-2">
-                    <Button size="sm" className="w-full" onClick={() => handleCheckout('osce_only')} disabled={loadingTier === 'osce_only' || isCurrentTier('osce_only')}>
-                      {isCurrentTier('osce_only') ? 'Current' : loadingTier === 'osce_only' ? <Loader2 className="h-4 w-4 animate-spin" /> : '$39/mo'}
-                    </Button>
-                    <Button variant="outline" size="sm" className="w-full" onClick={() => handleCheckout('osce_only_3m')} disabled={loadingTier === 'osce_only_3m'}>
-                      {loadingTier === 'osce_only_3m' ? <Loader2 className="h-4 w-4 animate-spin" /> : '$109/3mo'}
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            {/* FULL ACCESS */}
+            {/* PASS GUARANTEE (internal tier: full_access) */}
             <motion.div variants={fadeUp}>
               <Card className="h-full flex flex-col border-2 border-primary relative">
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                   <Badge className="bg-primary text-primary-foreground px-3 py-1 text-xs font-semibold"><Star className="h-3 w-3 mr-1" /> Best Value</Badge>
                 </div>
                 <CardHeader className="pb-3">
-                  <CardTitle className="text-lg">Full Access ⭐</CardTitle>
+                  <CardTitle className="text-lg">Pass Guarantee ⭐</CardTitle>
                   <p className="text-xs text-muted-foreground">Complete AMC preparation</p>
                   <div className="mt-3"><span className="text-3xl font-bold font-display">$59</span><span className="text-muted-foreground text-sm">/mo</span></div>
                   <p className="text-xs text-muted-foreground">or $169/3mo</p>
                 </CardHeader>
                 <CardContent className="flex-1 flex flex-col">
                   <ul className="mb-4 space-y-2 flex-1">
-                    {['Full MCQ question bank', 'Unlimited OSCE stations', 'Adaptive OSCE training', 'Exam simulations', 'Behavioural analytics (Trust Your Gut)', 'AI Study Companion', 'Study plan generator', 'Mistake review engine', 'Social study groups'].map((f) => (
+                    {['Full MCQ question bank', 'Unlimited OSCE stations', 'OSCE voice practice', 'Adaptive OSCE training', 'Exam simulations', 'Behavioural analytics (Trust Your Gut)', 'AI Study Companion', 'Study plan generator', 'Mistake review engine', 'Social study groups'].map((f) => (
                       <li key={f} className="flex gap-2 text-xs"><Check className="h-3.5 w-3.5 mt-0.5 text-secondary shrink-0" /><span>{f}</span></li>
                     ))}
                   </ul>
                   <p className="mb-4 text-xs text-muted-foreground italic">Best for candidates preparing for both MCQ and Clinical.</p>
                   <div className="mb-3 rounded-lg bg-muted p-2">
-                    <div className="flex items-center gap-1.5"><Shield className="h-3.5 w-3.5 text-primary" /><span className="text-xs font-semibold">Pass Guarantee</span></div>
+                    <div className="flex items-center gap-1.5"><Shield className="h-3.5 w-3.5 text-primary" /><span className="text-xs font-semibold">Pass Guarantee — terms coming soon</span></div>
                   </div>
                   <div className="space-y-2">
-                    <Button size="sm" className="w-full" onClick={() => handleCheckout('full_access')} disabled={loadingTier === 'full_access' || isCurrentTier('full_access')}>
+                    <Button size="sm" className="w-full" onClick={() => choosePayment('full_access')} disabled={loadingTier === 'full_access' || isCurrentTier('full_access')}>
                       {isCurrentTier('full_access') ? 'Current' : loadingTier === 'full_access' ? <Loader2 className="h-4 w-4 animate-spin" /> : '$59/mo'}
                     </Button>
-                    <Button variant="outline" size="sm" className="w-full" onClick={() => handleCheckout('full_access_3m')} disabled={loadingTier === 'full_access_3m'}>
+                    <Button variant="outline" size="sm" className="w-full" onClick={() => choosePayment('full_access_3m')} disabled={loadingTier === 'full_access_3m'}>
                       {loadingTier === 'full_access_3m' ? <Loader2 className="h-4 w-4 animate-spin" /> : '$169/3mo'}
                     </Button>
                   </div>
@@ -378,16 +433,16 @@ export default function Pricing() {
                 </div>
                 <CardHeader className="pb-3">
                   <CardTitle className="text-lg">Lifetime</CardTitle>
-                  <p className="text-xs text-muted-foreground">One Payment, Forever</p>
+                  <p className="text-xs text-muted-foreground">One payment · first 100 users</p>
                   <div className="mt-3"><span className="text-3xl font-bold font-display">$349</span><span className="text-muted-foreground text-sm"> once</span></div>
                 </CardHeader>
                 <CardContent className="flex-1 flex flex-col">
                   <ul className="mb-6 space-y-2 flex-1">
-                    {['Everything in Full Access', 'Lifetime platform access', 'Future updates included', 'No recurring payments'].map((f) => (
+                    {['Everything in Pass Guarantee', 'Lifetime platform access', 'Future updates included', 'No recurring payments'].map((f) => (
                       <li key={f} className="flex gap-2 text-xs"><Check className="h-3.5 w-3.5 mt-0.5 text-secondary shrink-0" /><span>{f}</span></li>
                     ))}
                   </ul>
-                  <Button variant="outline" size="sm" className="w-full" onClick={() => handleCheckout('lifetime')} disabled={lifetimeSoldOut || loadingTier === 'lifetime' || isCurrentTier('lifetime')}>
+                  <Button variant="outline" size="sm" className="w-full" onClick={() => choosePayment('lifetime')} disabled={lifetimeSoldOut || loadingTier === 'lifetime' || isCurrentTier('lifetime')}>
                     {lifetimeSoldOut ? 'Sold Out' : isCurrentTier('lifetime') ? 'Current' : loadingTier === 'lifetime' ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Get Lifetime'}
                   </Button>
                 </CardContent>
@@ -413,29 +468,28 @@ export default function Pricing() {
                         <TableHead className="w-[200px]">Feature</TableHead>
                         <TableHead className="text-center">Free</TableHead>
                         <TableHead className="text-center">MCQ Only</TableHead>
-                        <TableHead className="text-center">OSCE Only</TableHead>
-                        <TableHead className="text-center font-semibold text-primary">Full Access</TableHead>
+                        <TableHead className="text-center font-semibold text-primary">Pass Guarantee</TableHead>
                         <TableHead className="text-center">Lifetime</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
                       {[
-                        { feature: 'MCQ Questions', free: 'Diagnostic only', mcq: 'Unlimited', osce: false, full: 'Unlimited', life: 'Unlimited' },
-                        { feature: 'OSCE Stations', free: 'Diagnostic only', mcq: false, osce: 'Unlimited', full: 'Unlimited', life: 'Unlimited' },
-                        { feature: 'MCQ Question Bank', free: false, mcq: 'Full', osce: false, full: 'Full', life: 'Full' },
-                        { feature: 'OSCE Station Bank', free: false, mcq: false, osce: 'Full', full: 'Full', life: 'Full' },
-                        { feature: 'Performance Analytics', free: 'Basic', mcq: 'Full', osce: 'Full', full: 'Full', life: 'Full' },
-                        { feature: 'AI Companion', free: 'Limited', mcq: 'Unlimited', osce: 'Unlimited', full: 'Unlimited', life: 'Unlimited' },
-                        { feature: 'Trust Your Gut', free: false, mcq: true, osce: false, full: true, life: true },
-                        { feature: 'Adaptive OSCE', free: false, mcq: false, osce: true, full: true, life: true },
-                        { feature: 'Exam Simulations', free: false, mcq: false, osce: true, full: true, life: true },
-                        { feature: 'Mistake Review', free: false, mcq: true, osce: true, full: true, life: true },
-                        { feature: 'Study Groups', free: false, mcq: false, osce: false, full: true, life: true },
-                        { feature: 'Pass Guarantee', free: false, mcq: false, osce: false, full: true, life: true },
+                        { feature: 'MCQ Questions', free: 'Diagnostic only', mcq: 'Unlimited', full: 'Unlimited', life: 'Unlimited' },
+                        { feature: 'OSCE Stations', free: 'Diagnostic only', mcq: false, full: 'Unlimited', life: 'Unlimited' },
+                        { feature: 'MCQ Question Bank', free: false, mcq: 'Full', full: 'Full', life: 'Full' },
+                        { feature: 'OSCE Station Bank', free: false, mcq: false, full: 'Full', life: 'Full' },
+                        { feature: 'Performance Analytics', free: 'Basic', mcq: 'Full', full: 'Full', life: 'Full' },
+                        { feature: 'AI Companion', free: 'Limited', mcq: 'Unlimited', full: 'Unlimited', life: 'Unlimited' },
+                        { feature: 'Trust Your Gut', free: false, mcq: true, full: true, life: true },
+                        { feature: 'Adaptive OSCE', free: false, mcq: false, full: true, life: true },
+                        { feature: 'Exam Simulations', free: false, mcq: false, full: true, life: true },
+                        { feature: 'Mistake Review', free: false, mcq: true, full: true, life: true },
+                        { feature: 'Study Groups', free: false, mcq: false, full: true, life: true },
+                        { feature: 'Pass Guarantee', free: false, mcq: false, full: 'Terms coming soon', life: 'Terms coming soon' },
                       ].map((row) => (
                         <TableRow key={row.feature}>
                           <TableCell className="font-medium">{row.feature}</TableCell>
-                          {['free', 'mcq', 'osce', 'full', 'life'].map((key) => {
+                          {['free', 'mcq', 'full', 'life'].map((key) => {
                             const val = row[key as keyof typeof row];
                             return (
                               <TableCell key={key} className="text-center">
@@ -457,7 +511,7 @@ export default function Pricing() {
       </section>
 
       {/* FAQ */}
-      <section className="py-20 bg-muted/50">
+      <section id="faq" className="scroll-mt-20 py-20 bg-muted/50">
         <div className="container">
           <motion.div initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp}>
             <h2 className="mb-4 text-3xl font-bold font-display text-center">Frequently Asked Questions</h2>
@@ -489,16 +543,37 @@ export default function Pricing() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-border py-8">
-        <div className="container flex items-center justify-between text-sm text-muted-foreground">
-          <div className="flex items-center gap-2">
-            <Zap className="h-4 w-4 text-primary" />
-            <span className="font-display font-semibold text-foreground">Zyntra</span>
+      {/* Payment method choice (only rendered when PayPal is enabled) */}
+      {PAYPAL_ENABLED && (
+      <Dialog open={paymentChoiceTier !== null} onOpenChange={(open) => { if (!open) setPaymentChoiceTier(null); }}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Choose payment method</DialogTitle>
+            <DialogDescription>
+              {paymentChoiceTier ? `${RAZORPAY_TIERS[paymentChoiceTier].name} — $${RAZORPAY_TIERS[paymentChoiceTier].price} USD` : ''}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-3">
+            <Button
+              className="w-full"
+              onClick={() => { const t = paymentChoiceTier; setPaymentChoiceTier(null); if (t) handleCheckout(t); }}
+            >
+              Pay with Razorpay
+            </Button>
+            <Button
+              variant="outline"
+              className="w-full"
+              onClick={() => { const t = paymentChoiceTier; setPaymentChoiceTier(null); if (t) handlePayPalCheckout(t); }}
+            >
+              Pay with PayPal
+            </Button>
           </div>
-          <p>© 2026 Zyntra. All rights reserved.</p>
-        </div>
-      </footer>
+        </DialogContent>
+      </Dialog>
+      )}
+
+      {/* Footer */}
+      <PublicFooter />
     </div>
   );
 }

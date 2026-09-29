@@ -1,13 +1,21 @@
 import { Link } from 'react-router-dom';
 import { LEGAL_EMAIL } from '@/lib/legal';
+import { useShowAboutPricing } from '@/hooks/useSiteSettings';
 
 export function LegalFooter() {
+  const { show: showAboutPricing } = useShowAboutPricing();
   return (
     <footer className="mt-auto border-t border-border/40 py-6">
       <div className="container space-y-2 text-center">
         <div className="flex items-center justify-center gap-3 text-[10px] text-muted-foreground/70">
           <span>© 2026 Zyntra</span>
           <span>·</span>
+          {showAboutPricing && (
+            <>
+              <Link to="/pricing" className="hover:text-foreground transition-colors">Pricing</Link>
+              <span>·</span>
+            </>
+          )}
           <Link to="/terms" className="hover:text-foreground transition-colors">Terms</Link>
           <span>·</span>
           <Link to="/privacy" className="hover:text-foreground transition-colors">Privacy</Link>

@@ -104,13 +104,19 @@ function MaintenanceGate({ children }: { children: React.ReactNode }) {
 }
 
 function AppRoutes() {
-  const { show: showAboutPricing } = useShowAboutPricing();
+  const { show: showAboutPricing, loading: aboutPricingLoading } = useShowAboutPricing();
   return (
     <MaintenanceGate>
       <Suspense fallback={<LazyFallback />}>
         <Routes>
           <Route path="/" element={<ErrorBoundary><Landing /></ErrorBoundary>} />
-          {showAboutPricing ? (
+          {aboutPricingLoading ? (
+            <>
+              {/* Wait for the site setting before deciding, so direct visits to /pricing aren't bounced to / */}
+              <Route path="/about" element={<LazyFallback />} />
+              <Route path="/pricing" element={<LazyFallback />} />
+            </>
+          ) : showAboutPricing ? (
             <>
               <Route path="/about" element={<ErrorBoundary><About /></ErrorBoundary>} />
               <Route path="/pricing" element={<ErrorBoundary><Pricing /></ErrorBoundary>} />

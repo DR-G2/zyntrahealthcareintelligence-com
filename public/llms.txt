@@ -6,9 +6,9 @@ Zyntra is an independent preparation platform for the Australian Medical Council
 
 ## Pages
 
-- [Home](/): Overview of the platform, the APPE engine, how training works, and FAQs.
+- [Home](/): Overview of the platform, the APPE engine, and a free 6-question MCQ diagnostic.
 - [About](/about): Who builds Zyntra and the philosophy behind reasoning-first training.
-- [Pricing](/pricing): Subscription tiers, what each includes, and the free trial.
+- [Pricing](/pricing): Plans in USD (Free $0; MCQ Only $39/month or $109 for 3 months; Pass Guarantee $59/month or $169 for 3 months, terms coming soon; Lifetime $349 one-time for the first 100 users), what each includes, and FAQs.
 - [Terms of Service](/terms): Acceptable use, content originality, and account rules.
 - [Privacy Policy](/privacy): What data is collected, how it is stored, and data portability.
 

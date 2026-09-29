@@ -1,12 +1,20 @@
 import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  ArrowRight, Brain, Check, ChevronRight, Clock3, Eye, LockKeyhole,
-  Mail, RotateCcw, Sparkles, Target, Timer, Zap
+  ArrowRight, BarChart3, Brain, Check, ChevronRight, Clock, Clock3, LockKeyhole,
+  Mail, RotateCcw, Rss, Send, Sparkles, Stethoscope, Target, Timer, TrendingUp, Zap
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { LEGAL_EMAIL } from "@/lib/legal";
+import { Link } from "react-router-dom";
 import { SEO } from "@/components/SEO";
+import { PublicFooter } from "@/components/PublicFooter";
+import { useAuth } from "@/contexts/AuthContext";
+import { useShowAboutPricing } from "@/hooks/useSiteSettings";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
@@ -132,7 +140,72 @@ function scoreSnapshot(attempts: Attempt[]) {
   return { accuracy, avgTime, changes, confidence, stability, timing, readiness };
 }
 
+const FEATURES = [
+  {
+    icon: Brain,
+    title: "Behavioral Analysis",
+    description: "Track answer changes, hesitation patterns and time management: the habits that quietly cost marks under exam conditions.",
+  },
+  {
+    icon: Clock,
+    title: "Pressure Training",
+    description: "Timed drills and commitment exercises that simulate real exam conditions.",
+  },
+  {
+    icon: Rss,
+    title: "Feed",
+    description: "Paste any clinical content and instantly generate exam-style MCQ questions or OSCE stations.",
+  },
+  {
+    icon: Target,
+    title: "Adaptive Engine",
+    description: "AI identifies your weak patterns and builds a personalised training plan around them.",
+  },
+  {
+    icon: BarChart3,
+    title: "Deep Analytics",
+    description: "Performance profiles with stability scores, readiness metrics and progress tracking.",
+  },
+];
+
+const STEPS = [
+  { step: "1", icon: Target, title: "Diagnose", desc: "Take a diagnostic assessment. We track timing, answer changes and confidence, not just right or wrong." },
+  { step: "2", icon: Stethoscope, title: "Practice", desc: "MCQ drills with timed pressure modes. OSCE stations with voice practice are being rebuilt and switched on in stages." },
+  { step: "3", icon: BarChart3, title: "Analyze", desc: "See your Readiness DNA score and behaviour profile." },
+  { step: "4", icon: Brain, title: "Reinforce", desc: "Spaced-repetition flashcards and targeted drills fill your knowledge gaps." },
+  { step: "5", icon: TrendingUp, title: "Master", desc: "Timed exam simulations and adaptive training as you build towards exam day." },
+];
+
+const FAQS = [
+  {
+    q: "What is Zyntra?",
+    a: "Zyntra is an AI-assisted exam preparation platform for candidates preparing for the Australian Medical Council (AMC) examinations. It goes beyond a traditional question bank by looking at how you answer (answer changes, hesitation, timing and confidence) and using those signals to decide what you should practise next. Zyntra is independent and is not affiliated with or endorsed by the AMC.",
+  },
+  {
+    q: "How is Zyntra different from other AMC prep platforms?",
+    a: "Zyntra is built around the APPE (Adaptive Performance & Preparation Engine), which tracks behavioural signals such as answer stability, composure under time pressure and confidence calibration alongside accuracy. It also includes AI explanations, a study plan generator and spaced-repetition flashcards.",
+  },
+  {
+    q: "Is Zyntra content the same as real AMC exam questions?",
+    a: "No. All Zyntra content is original, independently developed by our team and AI systems. Our scenarios are not recalled, copied or derived from actual AMC examination content. Zyntra is not affiliated with the Australian Medical Council.",
+  },
+  {
+    q: "What does Zyntra cost?",
+    a: "Free: $0, including the diagnostic MCQ test, basic performance results and a limited AI study companion. MCQ Only: $39/month or $109 for 3 months. Pass Guarantee: $59/month or $169 for 3 months (Pass Guarantee terms coming soon). Lifetime: $349 one-time, limited to the first 100 users. All prices are in USD. The 6-question check on this page is free and needs no account.",
+  },
+  {
+    q: "Is OSCE and voice practice available?",
+    a: "Our OSCE module, including voice practice, is being rebuilt and is switched on in stages. If it isn't available on your account yet, you'll see a 'coming soon' notice. When it's on, voice practice uses your browser's built-in speech features and works best in Chrome and Edge.",
+  },
+  {
+    q: "Can I get a copy of my data or delete it?",
+    a: `Yes. Email ${LEGAL_EMAIL} to request a copy of the personal information we hold about you, or to have your account and data deleted. See our Privacy Policy for details.`,
+  },
+];
+
 export default function Landing() {
+  const { user } = useAuth();
+  const { show: showAboutPricing } = useShowAboutPricing();
   const [started, setStarted] = useState(false);
   const [attempts, setAttempts] = useState<Attempt[]>([]);
   const [question, setQuestion] = useState<Question>(QUESTION_BANK[0]);
@@ -195,6 +268,50 @@ export default function Landing() {
     window.scrollTo({ top: document.getElementById("diagnostic")?.offsetTop ?? 0, behavior: "smooth" });
   };
 
+  const [contactForm, setContactForm] = useState({ name: "", email: "", category: "general", message: "" });
+  const [contactSubmitting, setContactSubmitting] = useState(false);
+
+  const scrollToDiagnostic = (e?: React.MouseEvent) => {
+    e?.preventDefault();
+    document.getElementById("diagnostic")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  const handleContactSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!contactForm.name.trim() || !contactForm.email.trim() || !contactForm.message.trim()) {
+      toast.error("Please fill in all fields");
+      return;
+    }
+    if (contactForm.name.length > 100 || contactForm.email.length > 255 || contactForm.message.length > 2000) {
+      toast.error("Input exceeds maximum length");
+      return;
+    }
+    setContactSubmitting(true);
+    try {
+      const { error } = await supabase.from("contact_submissions").insert({
+        name: contactForm.name.trim(),
+        email: contactForm.email.trim(),
+        category: contactForm.category,
+        message: contactForm.message.trim(),
+      });
+      if (error) throw error;
+      await supabase.functions.invoke("send-contact-notification", {
+        body: {
+          name: contactForm.name.trim(),
+          email: contactForm.email.trim(),
+          category: contactForm.category,
+          message: contactForm.message.trim(),
+        },
+      }).catch(() => {});
+      toast.success("Message sent! We'll get back to you soon.");
+      setContactForm({ name: "", email: "", category: "general", message: "" });
+    } catch {
+      toast.error("Failed to send message. Please try again.");
+    } finally {
+      setContactSubmitting(false);
+    }
+  };
+
   const submitEarlyAccess = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email.trim()) {
@@ -248,13 +365,30 @@ export default function Landing() {
   };
 
   return (
-    <main className="min-h-screen overflow-x-hidden bg-[#f6fbfc] text-slate-950">
+    <main className="min-h-screen w-full overflow-x-hidden bg-[#f6fbfc] text-slate-950">
       <SEO
-        title="Zyntra MCQ | An AMC training engine that learns how you think"
-        description="Take Zyntra's free 6-question AMC-style diagnostic. No login. See a limited glimpse of your readiness and register for early access."
+        title="Zyntra | AMC exam preparation that learns how you think"
+        description="AMC exam prep that tracks how you answer: timing, answer changes and confidence. Try the free 6-question MCQ diagnostic, no login needed. Not affiliated with the AMC."
         path="/"
+        jsonLd={[
+          {
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            name: "Zyntra Healthcare Intelligence",
+            applicationCategory: "EducationalApplication",
+            operatingSystem: "Web",
+            url: "https://www.zyntrahealthcareintelligence.com/",
+            description: "AMC exam preparation with adaptive MCQ practice, a free 6-question diagnostic and behavioural analytics.",
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: FAQS.map(f => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+          },
+        ]}
       />
 
+      {/* 1. Header */}
       <header className="sticky top-0 z-50 border-b border-slate-200/70 bg-[#f6fbfc]/90 backdrop-blur-xl">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
           <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="flex items-center gap-2.5">
@@ -263,42 +397,55 @@ export default function Landing() {
             </span>
             <span className="font-display text-lg font-bold tracking-tight">Zyntra<span className="text-[#16858c]">.</span></span>
           </button>
-          <div className="flex items-center gap-2 text-xs font-semibold text-slate-500">
-            <span className="hidden rounded-full border border-[#bfe5e7] bg-white px-3 py-1.5 sm:inline-flex">MCQ Intelligence</span>
+          <nav aria-label="Main" className="flex items-center gap-1 text-xs font-semibold text-slate-500 sm:gap-2">
+            <span className="hidden rounded-full border border-[#bfe5e7] bg-white px-3 py-1.5 lg:inline-flex">MCQ Intelligence</span>
+            {showAboutPricing && (
+              <>
+                <Link to="/about" className="hidden rounded-full px-3 py-2 transition hover:text-[#0f5f68] md:inline-flex">About</Link>
+                <Link to="/pricing" className="rounded-full px-2 py-2 transition hover:text-[#0f5f68] sm:px-3">Pricing</Link>
+              </>
+            )}
+            {user ? (
+              <Link to="/dashboard" className="rounded-full px-2 py-2 transition hover:text-[#0f5f68] sm:px-3">Dashboard</Link>
+            ) : (
+              <Link to="/login" className="rounded-full px-2 py-2 transition hover:text-[#0f5f68] sm:px-3">Log in</Link>
+            )}
             <button onClick={startDiagnostic} className="rounded-full bg-[#0f5f68] px-4 py-2 text-white transition hover:bg-[#0a4b52]">
               Try 6 questions
             </button>
-          </div>
+          </nav>
         </div>
       </header>
 
-      <section className="relative overflow-hidden px-4 pb-16 pt-14 sm:px-6 sm:pb-24 sm:pt-20">
+      {/* 2. Hero */}
+      <section aria-labelledby="hero-title" className="relative overflow-hidden px-4 pb-16 pt-14 sm:px-6 sm:pb-24 sm:pt-20">
         <div className="pointer-events-none absolute -right-32 top-0 h-72 w-72 rounded-full bg-[#8edfe1]/30 blur-3xl" />
         <div className="pointer-events-none absolute -left-32 bottom-0 h-72 w-72 rounded-full bg-[#78a9df]/20 blur-3xl" />
-        <div className="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-[1.05fr_.95fr]">
+        <div className="relative mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-[1.05fr_.95fr]">
           <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .55 }}>
             <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#c6e6e8] bg-white/80 px-3 py-1.5 text-xs font-bold uppercase tracking-[.14em] text-[#0f5f68]">
-              <Sparkles className="h-3.5 w-3.5" /> Built for AMC candidates
+              <Zap className="h-3.5 w-3.5" /> AI-Powered AMC Exam Preparation
             </div>
-            <h1 className="max-w-3xl font-display text-[2.65rem] font-bold leading-[1.02] tracking-[-.045em] sm:text-5xl lg:text-[4.35rem]">
-              The question bank that <span className="text-[#0f6d76]">watches how you think.</span>
+            <h1 id="hero-title" className="max-w-3xl font-display text-[2.65rem] font-bold leading-[1.02] tracking-[-.045em] sm:text-5xl lg:text-[4.35rem]">
+              Don't just study. <span className="text-[#0f6d76]">Train to pass.</span>
             </h1>
             <p className="mt-6 max-w-2xl text-base leading-7 text-slate-600 sm:text-lg">
-              Zyntra MCQ learns from your confidence, timing, answer changes and rule-out behaviour, then uses those signals to choose what you should face next.
+              Zyntra goes beyond question banks. Our APPE engine looks for the patterns that cost candidates marks (time pressure, answer hesitation, composure under pressure) and trains you to work on them.
             </p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Button onClick={startDiagnostic} size="lg" className="h-12 rounded-xl bg-[#0f5f68] px-6 text-base shadow-lg shadow-[#0f5f68]/15 hover:bg-[#0a4b52]">
-                Run the free 6-question diagnostic <ArrowRight className="ml-1 h-4 w-4" />
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+              <Button asChild size="lg" className="h-12 rounded-xl bg-[#0f5f68] px-6 text-base shadow-lg shadow-[#0f5f68]/15 hover:bg-[#0a4b52]">
+                <Link to="/dashboard">Get Started <ArrowRight className="ml-1 h-4 w-4" /></Link>
               </Button>
-              <span className="flex items-center justify-center gap-2 px-2 text-xs font-medium text-slate-500 sm:justify-start">
-                <Check className="h-4 w-4 text-[#16858c]" /> No login · No card · ~3 minutes
-              </span>
+              <Button asChild size="lg" variant="outline" className="h-12 rounded-xl border-[#bfe5e7] bg-white px-6 text-base text-[#0f5f68] hover:bg-[#eaf8f8] hover:text-[#0a4b52]">
+                <Link to="/stations?demo=true">Try a demo station <Stethoscope className="ml-1 h-4 w-4" /></Link>
+              </Button>
+              <Button asChild size="lg" variant="outline" className="h-12 rounded-xl border-[#bfe5e7] bg-white px-6 text-base text-[#0f5f68] hover:bg-[#eaf8f8] hover:text-[#0a4b52]">
+                <a href="#diagnostic" onClick={scrollToDiagnostic}>Take the 6-question check <ChevronRight className="ml-1 h-4 w-4" /></a>
+              </Button>
             </div>
-            <div className="mt-7 flex flex-wrap gap-x-5 gap-y-2 text-xs font-medium text-slate-500">
-              <span className="inline-flex items-center gap-1.5"><Brain className="h-3.5 w-3.5 text-[#16858c]" /> Clinical reasoning</span>
-              <span className="inline-flex items-center gap-1.5"><Timer className="h-3.5 w-3.5 text-[#16858c]" /> Timing signals</span>
-              <span className="inline-flex items-center gap-1.5"><Target className="h-3.5 w-3.5 text-[#16858c]" /> Adaptive selection</span>
-            </div>
+            <p className="mt-4 flex items-center gap-2 text-xs font-medium text-slate-500">
+              <Check className="h-4 w-4 shrink-0 text-[#16858c]" /> The 6-question check needs no login, no card and takes about 3 minutes.
+            </p>
           </motion.div>
 
           <motion.div initial={{ opacity: 0, scale: .97 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: .6, delay: .08 }} className="relative">
@@ -331,6 +478,7 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* 3. MCQ diagnostic */}
       <section id="diagnostic" className="scroll-mt-20 border-y border-slate-200/80 bg-white px-4 py-12 sm:px-6 sm:py-20">
         <div className="mx-auto max-w-3xl">
           {!started ? (
@@ -385,7 +533,7 @@ export default function Landing() {
                 {!registered ? (
                   <form onSubmit={submitEarlyAccess} className="mt-6 rounded-2xl bg-[#0f5f68] p-5 text-white sm:p-6">
                     <div className="text-lg font-bold">Want the rest of the picture?</div>
-                    <p className="mt-1 text-sm leading-6 text-white/70">Register for early access and notifications. No pricing. No payment. Just your place in the queue.</p>
+                    <p className="mt-1 text-sm leading-6 text-white/70">Register for early access and notifications. Free to register. No payment. Just your place in the queue.</p>
                     <div className="mt-4 grid gap-3 sm:grid-cols-[1fr_1fr_auto]">
                       <Input value={email} onChange={e => setEmail(e.target.value)} type="email" required maxLength={255} placeholder="Email address" className="h-11 border-white/15 bg-white/10 text-white placeholder:text-white/45" />
                       <Input value={name} onChange={e => setName(e.target.value)} maxLength={100} placeholder="Name (optional)" className="h-11 border-white/15 bg-white/10 text-white placeholder:text-white/45" />
@@ -399,6 +547,12 @@ export default function Landing() {
                     <p className="mt-1 text-sm text-slate-500">We'll use this email for Zyntra MCQ early-access and product notifications.</p>
                   </div>
                 )}
+                <div className="mt-6 flex flex-col items-center gap-2 sm:flex-row sm:justify-between">
+                  <p className="text-xs text-slate-500">Want a fresh read? The questions adapt to how you answer.</p>
+                  <Button onClick={startDiagnostic} variant="outline" className="h-11 w-full rounded-xl border-[#bfe5e7] text-[#0f5f68] hover:bg-[#eaf8f8] sm:w-auto">
+                    Run it again <RotateCcw className="ml-2 h-4 w-4" />
+                  </Button>
+                </div>
               </motion.div>
             </AnimatePresence>
           ) : (
@@ -449,38 +603,187 @@ export default function Landing() {
               </div>
             </motion.div>
           )}
+
+          {!completed && (
+            <div className="mt-8 grid gap-4 sm:grid-cols-3">
+              {[
+                [Brain, "Knowledge", "Was your clinical reasoning sound?"],
+                [Timer, "Behaviour", "How did you manage the clock?"],
+                [Target, "Adaptation", "What should you see next?"]
+              ].map(([Icon,title,desc]) => (
+                <div key={String(title)} className="rounded-2xl border border-slate-200 bg-[#f8fcfc] p-5">
+                  <Icon className="h-5 w-5 text-[#16858c]" />
+                  <div className="mt-3 font-display font-bold">{String(title)}</div>
+                  <p className="mt-1 text-sm leading-6 text-slate-500">{String(desc)}</p>
+                </div>
+              ))}
+            </div>
+          )}
+
+          <div className="mt-8 rounded-[1.75rem] bg-[#0b3f46] px-5 py-10 text-center text-white sm:px-10">
+            <div className="mx-auto grid h-12 w-12 place-items-center rounded-2xl bg-white/10"><Sparkles className="h-5 w-5 text-[#9be7e9]" /></div>
+            <h3 className="mt-5 font-display text-2xl font-bold tracking-tight sm:text-3xl">Six questions can show a pattern.</h3>
+            <p className="mx-auto mt-3 max-w-xl text-sm leading-7 text-white/65 sm:text-base">The full Zyntra Learner DNA is built from much more: accuracy, timing, stability, confidence calibration, rule-out behaviour and how those signals move together.</p>
+            <Button onClick={startDiagnostic} className="mt-7 h-12 rounded-xl bg-white px-6 text-[#0b3f46] hover:bg-[#efffff]">
+              {completed ? "Run it again" : "Try the free diagnostic"} <RotateCcw className="ml-2 h-4 w-4" />
+            </Button>
+          </div>
         </div>
       </section>
 
-      {!completed && (
-        <section className="border-b border-slate-200 bg-[#f6fbfc] px-4 py-10 sm:px-6 sm:py-14">
-          <div className="mx-auto grid max-w-5xl gap-4 sm:grid-cols-3">
-            {[
-              [Brain, "Knowledge", "Was your clinical reasoning sound?"],
-              [Timer, "Behaviour", "How did you manage the clock?"],
-              [Target, "Adaptation", "What should you see next?"]
-            ].map(([Icon,title,desc]) => (
-              <div key={String(title)} className="rounded-2xl border border-slate-200 bg-white p-5">
-                <Icon className="h-5 w-5 text-[#16858c]" />
-                <div className="mt-3 font-display font-bold">{String(title)}</div>
-                <p className="mt-1 text-sm leading-6 text-slate-500">{String(desc)}</p>
-              </div>
+
+      {/* 4-7. APPE, How It Works, FAQ, Get in Touch; 8. footer */}
+      <section id="appe" aria-labelledby="appe-title" className="scroll-mt-20 px-4 py-14 sm:px-6 sm:py-20">
+        <div className="mx-auto max-w-6xl">
+          <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mx-auto mb-10 max-w-2xl text-center sm:mb-14">
+            <div className="text-xs font-bold uppercase tracking-[.18em] text-[#16858c]">How Zyntra trains you</div>
+            <h2 id="appe-title" className="mt-2 font-display text-3xl font-bold tracking-tight sm:text-4xl">The APPE Advantage</h2>
+            <p className="mt-3 text-base leading-7 text-slate-600 sm:text-lg">Adaptive Performance &amp; Preparation Engine</p>
+          </motion.div>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+            {FEATURES.map((f, i) => (
+              <motion.div
+                key={f.title}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.06 }}
+                className="group rounded-2xl border border-slate-200 bg-white p-5 transition hover:border-[#9ccfd1] hover:shadow-lg hover:shadow-[#0f5f68]/5"
+              >
+                <div className="grid h-10 w-10 place-items-center rounded-xl bg-[#dff4f4] text-[#0f5f68] transition-colors group-hover:bg-[#0f5f68] group-hover:text-white">
+                  <f.icon className="h-5 w-5" />
+                </div>
+                <h3 className="mt-4 font-display font-bold">{f.title}</h3>
+                <p className="mt-1.5 text-sm leading-6 text-slate-500">{f.description}</p>
+              </motion.div>
             ))}
           </div>
-        </section>
-      )}
-
-      <section className="bg-[#0b3f46] px-4 py-14 text-white sm:px-6 sm:py-20">
-        <div className="mx-auto max-w-4xl text-center">
-          <div className="mx-auto grid h-12 w-12 place-items-center rounded-2xl bg-white/10"><Sparkles className="h-5 w-5 text-[#9be7e9]" /></div>
-          <h2 className="mt-5 font-display text-3xl font-bold tracking-tight sm:text-4xl">Six questions can show a pattern.</h2>
-          <p className="mx-auto mt-3 max-w-xl text-sm leading-7 text-white/65 sm:text-base">The full Zyntra Learner DNA is built from much more: accuracy, timing, stability, confidence calibration, rule-out behaviour and how those signals move together.</p>
-          <Button onClick={startDiagnostic} className="mt-7 h-12 rounded-xl bg-white px-6 text-[#0b3f46] hover:bg-[#efffff]">
-            {completed ? "Run it again" : "Try the free diagnostic"} <RotateCcw className="ml-2 h-4 w-4" />
-          </Button>
-          <p className="mt-5 text-[11px] text-white/40">Zyntra is an independent exam preparation platform and is not affiliated with or endorsed by the Australian Medical Council.</p>
         </div>
       </section>
+
+      <section id="how-it-works" aria-labelledby="how-title" className="scroll-mt-20 border-y border-slate-200/80 bg-white px-4 py-14 sm:px-6 sm:py-20">
+        <div className="mx-auto max-w-6xl">
+          <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mx-auto mb-10 max-w-2xl text-center sm:mb-14">
+            <div className="text-xs font-bold uppercase tracking-[.18em] text-[#16858c]">Step by step</div>
+            <h2 id="how-title" className="mt-2 font-display text-3xl font-bold tracking-tight sm:text-4xl">How It Works</h2>
+            <p className="mt-3 text-base leading-7 text-slate-600 sm:text-lg">From first login to exam day in 5 steps</p>
+          </motion.div>
+          <ol className="grid gap-4 md:grid-cols-5">
+            {STEPS.map((s, i) => (
+              <motion.li
+                key={s.step}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08 }}
+                className="relative flex gap-4 rounded-2xl border border-slate-200 bg-[#f8fcfc] p-5 md:flex-col md:items-center md:text-center"
+              >
+                <div className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-[#dff4f4] text-[#0f5f68]">
+                  <s.icon className="h-5 w-5" />
+                </div>
+                <div>
+                  <span className="text-[10px] font-bold uppercase tracking-[.16em] text-[#16858c]">Step {s.step}</span>
+                  <h3 className="mt-0.5 font-display font-bold">{s.title}</h3>
+                  <p className="mt-1 text-sm leading-6 text-slate-500">{s.desc}</p>
+                </div>
+                {i < STEPS.length - 1 && (
+                  <ArrowRight aria-hidden="true" className="absolute -right-3 top-1/2 z-10 hidden h-4 w-4 -translate-y-1/2 text-slate-300 md:block" />
+                )}
+              </motion.li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <section id="faq" aria-labelledby="faq-title" className="scroll-mt-20 px-4 py-14 sm:px-6 sm:py-20">
+        <div className="mx-auto max-w-3xl">
+          <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mx-auto mb-10 max-w-2xl text-center sm:mb-14">
+            <div className="text-xs font-bold uppercase tracking-[.18em] text-[#16858c]">FAQ</div>
+            <h2 id="faq-title" className="mt-2 font-display text-3xl font-bold tracking-tight sm:text-4xl">Frequently Asked Questions</h2>
+            <p className="mt-3 text-base leading-7 text-slate-600 sm:text-lg">Everything you need to know about Zyntra</p>
+          </motion.div>
+          <Accordion type="single" collapsible className="space-y-3">
+            {FAQS.map((faq, i) => (
+              <AccordionItem key={faq.q} value={`faq-${i}`} className="rounded-2xl border border-slate-200 bg-white px-5">
+                <AccordionTrigger className="text-left font-display text-sm font-bold hover:no-underline sm:text-base">
+                  {faq.q}
+                </AccordionTrigger>
+                <AccordionContent className="pb-4 text-sm leading-6 text-slate-600">
+                  {faq.a}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+          <p className="mt-6 text-center text-sm text-slate-500">
+            Full plan details are on the {showAboutPricing ? <Link to="/pricing" className="font-semibold text-[#0f5f68] underline-offset-4 hover:underline">Pricing page</Link> : "Pricing page"}. Read how we handle your data in our <Link to="/privacy" className="font-semibold text-[#0f5f68] underline-offset-4 hover:underline">Privacy Policy</Link>.
+          </p>
+        </div>
+      </section>
+
+      <section id="contact" aria-labelledby="contact-title" className="scroll-mt-20 border-t border-slate-200/80 bg-white px-4 py-14 sm:px-6 sm:py-20">
+        <div className="mx-auto max-w-xl">
+          <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mx-auto mb-10 max-w-2xl text-center sm:mb-14">
+            <div className="text-xs font-bold uppercase tracking-[.18em] text-[#16858c]">Contact</div>
+            <h2 id="contact-title" className="mt-2 font-display text-3xl font-bold tracking-tight sm:text-4xl">Get in Touch</h2>
+            <p className="mt-3 text-base leading-7 text-slate-600 sm:text-lg">Have a question? We'd love to hear from you.</p>
+          </motion.div>
+          <form onSubmit={handleContactSubmit} className="space-y-4 rounded-[1.75rem] border border-slate-200 bg-[#f8fcfc] p-5 shadow-sm sm:p-7">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Input
+                aria-label="Your name"
+                placeholder="Your name"
+                value={contactForm.name}
+                onChange={(e) => setContactForm(prev => ({ ...prev, name: e.target.value }))}
+                maxLength={100}
+                required
+                className="h-11 bg-white"
+              />
+              <Input
+                aria-label="Email address"
+                type="email"
+                placeholder="Email address"
+                value={contactForm.email}
+                onChange={(e) => setContactForm(prev => ({ ...prev, email: e.target.value }))}
+                maxLength={255}
+                required
+                className="h-11 bg-white"
+              />
+            </div>
+            <Select value={contactForm.category} onValueChange={(v) => setContactForm(prev => ({ ...prev, category: v }))}>
+              <SelectTrigger aria-label="Category" className="h-11 bg-white">
+                <SelectValue placeholder="Category" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="general">General Inquiry</SelectItem>
+                <SelectItem value="support">Technical Support</SelectItem>
+                <SelectItem value="feedback">Feedback</SelectItem>
+                <SelectItem value="billing">Billing</SelectItem>
+                <SelectItem value="partnership">Partnership</SelectItem>
+              </SelectContent>
+            </Select>
+            <Textarea
+              aria-label="Your message"
+              placeholder="Your message..."
+              value={contactForm.message}
+              onChange={(e) => setContactForm(prev => ({ ...prev, message: e.target.value }))}
+              maxLength={2000}
+              rows={4}
+              required
+              className="bg-white"
+            />
+            <Button type="submit" className="h-12 w-full gap-2 rounded-xl bg-[#0f5f68] text-base hover:bg-[#0a4b52]" disabled={contactSubmitting}>
+              <Send className="h-4 w-4" />
+              {contactSubmitting ? "Sending..." : "Send Message"}
+            </Button>
+          </form>
+          <p className="mt-5 flex flex-wrap items-center justify-center gap-2 text-center text-sm text-slate-600">
+            <Mail className="h-4 w-4 text-[#16858c]" /> Prefer email?
+            <a href={`mailto:${LEGAL_EMAIL}`} className="break-all font-semibold text-[#0f5f68] underline-offset-4 hover:underline">{LEGAL_EMAIL}</a>
+          </p>
+        </div>
+      </section>
+
+      <PublicFooter />
     </main>
   );
 }
