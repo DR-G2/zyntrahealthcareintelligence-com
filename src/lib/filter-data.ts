@@ -1,7 +1,18 @@
 // Shared filter data structures for Subject filtering
 
 export const SUBJECTS = [
-  'Medicine', 'Surgery', 'OB&G', 'Acute Medicine', 'Population Health', 'Basic Science'
+  'Adult Medicine',
+  'Adult Surgery',
+  "Women's Health",
+  'Child Health',
+  'Mental Health',
+  'Population Health & Ethics',
+  'Embryology',
+  'Genetics',
+  'Immunology',
+  'Microbiology',
+  'Pathology',
+  'Pharmacology',
 ] as const;
 
 // Legacy aliases — many pages still import SYSTEMS
@@ -37,7 +48,6 @@ export function getMatchingCategories(
   });
 
   return Object.keys(categoryCounts).filter(cat => {
-    const catLower = cat.toLowerCase();
-    return Array.from(selectedSubjects).some(sub => catLower.includes(sub.toLowerCase()));
+    return Array.from(selectedSubjects).some(sub => cat === sub);
   });
 }
