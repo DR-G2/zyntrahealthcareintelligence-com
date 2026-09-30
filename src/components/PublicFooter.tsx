@@ -19,12 +19,14 @@ export function PublicFooter({ showDisclaimer = true }: PublicFooterProps) {
     <footer className="border-t border-border bg-background py-8">
       <div className="container space-y-4 text-sm text-muted-foreground">
         <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-          <Link to="/" className="flex items-center gap-2">
-            <Zap className="h-4 w-4 text-primary" />
+          <Link to="/" className="flex items-center gap-2" aria-label="Zyntra home">
+            <Zap className="h-4 w-4 text-primary" aria-hidden="true" />
             <span className="font-display font-semibold text-foreground">Zyntra</span>
           </Link>
           <nav aria-label="Footer" className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
             <Link to="/" className={linkClass}>Home</Link>
+            <Link to="/amc-part-1-mcq" className={linkClass}>AMC Part 1 MCQ</Link>
+            <Link to="/amc-clinical-osce" className={linkClass}>AMC Clinical OSCE</Link>
             {showAboutPricing && <Link to="/about" className={linkClass}>About</Link>}
             {showAboutPricing && <Link to="/pricing" className={linkClass}>Pricing</Link>}
             {showAboutPricing && <Link to="/pricing#faq" className={linkClass}>FAQ</Link>}
@@ -37,11 +39,11 @@ export function PublicFooter({ showDisclaimer = true }: PublicFooterProps) {
           </nav>
         </div>
         {showDisclaimer && (
-          <p className="text-center text-xs text-muted-foreground/70">
+          <p className="text-center text-xs text-muted-foreground">
             Zyntra is an independent exam preparation platform and is not affiliated with or endorsed by the Australian Medical Council.
           </p>
         )}
-        <p className="text-center text-xs text-muted-foreground/70">© 2026 Zyntra · <a href={`mailto:${LEGAL_EMAIL}`} className={linkClass}>{LEGAL_EMAIL}</a></p>
+        <p className="text-center text-xs text-muted-foreground">© 2026 Zyntra · <a href={`mailto:${LEGAL_EMAIL}`} className={linkClass}>{LEGAL_EMAIL}</a></p>
       </div>
     </footer>
   );

@@ -7,6 +7,8 @@ Zyntra is an independent preparation platform for the Australian Medical Council
 ## Pages
 
 - [Home](/): Overview of the platform, the APPE engine, and a free 6-question MCQ diagnostic.
+- [AMC Part 1 MCQ](/amc-part-1-mcq): Independent CAT MCQ preparation track, learning objectives and FAQs.
+- [AMC Clinical OSCE](/amc-clinical-osce): Independent clinical-station preparation track and staged OSCE practice notes.
 - [About](/about): Who builds Zyntra and the philosophy behind reasoning-first training.
 - [Pricing](/pricing): Plans in USD (Free $0; MCQ Only $39/month or $109 for 3 months; Pass Guarantee $59/month or $169 for 3 months, terms coming soon; Lifetime $349 one-time for the first 100 users), what each includes, and FAQs.
 - [Terms of Service](/terms): Acceptable use, content originality, and account rules.
