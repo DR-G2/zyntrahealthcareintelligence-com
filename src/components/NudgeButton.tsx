@@ -52,6 +52,8 @@ export function NudgeButton() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
             className="absolute bottom-16 right-0 w-56 rounded-xl border border-border bg-card shadow-lg p-3 space-y-2"
+            role="dialog"
+            aria-label="Send a nudge"
           >
             <p className="text-xs font-semibold text-foreground mb-2">What's on your mind?</p>
             {NUDGE_OPTIONS.map((opt) => (
@@ -74,13 +76,16 @@ export function NudgeButton() {
         onClick={() => setOpen(!open)}
         className="h-12 w-12 rounded-full shadow-lg relative"
         variant={open ? 'secondary' : 'default'}
+        aria-label={open ? 'Close nudge menu' : 'Send a nudge'}
+        aria-expanded={open}
       >
-        {open ? <X className="h-5 w-5" /> : <Hand className="h-5 w-5" />}
+        {open ? <X className="h-5 w-5" aria-hidden="true" /> : <Hand className="h-5 w-5" aria-hidden="true" />}
         {!open && (
           <motion.span
             animate={{ scale: [1, 1.2, 1] }}
             transition={{ repeat: Infinity, duration: 2 }}
             className="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-primary border-2 border-background"
+            aria-hidden="true"
           />
         )}
       </Button>

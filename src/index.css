@@ -1,4 +1,4 @@
-/* Google Fonts loaded via index.html with preload for better FCP */
+/* Display fonts are self-declared in index.html with font-display:optional */
 
 @tailwind base;
 @tailwind components;
@@ -18,14 +18,14 @@
     --primary: 215 80% 48%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 165 45% 40%;
+    --secondary: 165 45% 36%;
     --secondary-foreground: 0 0% 100%;
 
     --muted: 210 20% 94%;
-    --muted-foreground: 215 15% 50%;
+    --muted-foreground: 215 25% 32%;
 
     --accent: 165 40% 94%;
-    --accent-foreground: 165 45% 25%;
+    --accent-foreground: 165 50% 20%;
 
     --destructive: 0 72% 55%;
     --destructive-foreground: 0 0% 100%;
@@ -45,12 +45,12 @@
     --sidebar-border: 215 25% 18%;
     --sidebar-ring: 215 80% 60%;
 
-    --success: 165 45% 40%;
+    --success: 165 45% 36%;
     --success-foreground: 0 0% 100%;
     --warning: 38 92% 50%;
     --warning-foreground: 38 92% 15%;
     --chart-1: 215 80% 48%;
-    --chart-2: 165 45% 40%;
+    --chart-2: 165 45% 36%;
     --chart-3: 38 92% 50%;
     --chart-4: 280 60% 55%;
     --chart-5: 0 72% 55%;
@@ -73,10 +73,10 @@
     --secondary-foreground: 0 0% 100%;
 
     --muted: 215 25% 16%;
-    --muted-foreground: 215 15% 60%;
+    --muted-foreground: 210 16% 78%;
 
     --accent: 165 30% 15%;
-    --accent-foreground: 165 40% 70%;
+    --accent-foreground: 165 40% 78%;
 
     --destructive: 0 62% 45%;
     --destructive-foreground: 0 0% 100%;
@@ -116,7 +116,7 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'Space Grotesk', system-ui, sans-serif;
   }
 }
 
@@ -155,14 +155,12 @@
   to { width: 100%; }
 }
 
-/* Anti-print protection */
 @media print {
   body {
     display: none !important;
   }
 }
 
-/* Prevent image dragging globally */
 img {
   -webkit-user-drag: none;
   user-drag: none;
