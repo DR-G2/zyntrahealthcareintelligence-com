@@ -46,6 +46,8 @@ const Terms = lazy(() => import("./pages/Terms"));
 const Privacy = lazy(() => import("./pages/Privacy"));
 const ZyntraAICore = lazy(() => import("./pages/ZyntraAICore"));
 const Flashcards = lazy(() => import("./pages/Flashcards"));
+const AmcPart1Mcq = lazy(() => import("./pages/AmcPart1Mcq"));
+const AmcClinicalOsce = lazy(() => import("./pages/AmcClinicalOsce"));
 
 const PerformanceIntelligence = lazy(() => import("./pages/PerformanceIntelligence"));
 const InboxPage = lazy(() => import("./pages/Inbox"));
@@ -131,6 +133,8 @@ function AppRoutes() {
           <Route path="/reset-password" element={<ErrorBoundary><ResetPassword /></ErrorBoundary>} />
           <Route path="/terms" element={<ErrorBoundary><Terms /></ErrorBoundary>} />
           <Route path="/privacy" element={<ErrorBoundary><Privacy /></ErrorBoundary>} />
+          <Route path="/amc-part-1-mcq" element={<ErrorBoundary><AmcPart1Mcq /></ErrorBoundary>} />
+          <Route path="/amc-clinical-osce" element={<ErrorBoundary><AmcClinicalOsce /></ErrorBoundary>} />
           <Route path="/onboarding" element={<ErrorBoundary><Onboarding /></ErrorBoundary>} />
           <Route path="/dashboard" element={<ProtectedRoute><ErrorBoundary><Dashboard /></ErrorBoundary></ProtectedRoute>} />
           <Route path="/assess" element={<ProtectedRoute><ErrorBoundary><Assess /></ErrorBoundary></ProtectedRoute>} />
