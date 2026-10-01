@@ -169,7 +169,7 @@ export default function CompanionChat() {
     setIsLoading(true);
 
     let assistantSoFar = '';
-    let currentConvoId = activeConvoId;
+    const currentConvoId = activeConvoId;
 
     const upsertAssistant = (chunk: string) => {
       assistantSoFar += chunk;

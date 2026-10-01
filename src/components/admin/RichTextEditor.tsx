@@ -3,6 +3,8 @@ import { Button } from '@/components/ui/button';
 import { Bold, Italic, List, ListOrdered, ImagePlus } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import DOMPurify from 'dompurify';
+
 
 interface RichTextEditorProps {
   value: string;
@@ -93,7 +95,7 @@ export function RichTextEditor({ value, onChange, placeholder = 'Start typing...
         style={{ minHeight }}
         onInput={handleInput}
         onBlur={handleInput}
-        dangerouslySetInnerHTML={{ __html: value }}
+        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(value) }}
         data-placeholder={placeholder}
       />
     </div>

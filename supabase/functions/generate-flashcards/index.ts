@@ -121,7 +121,7 @@ Return a JSON array of objects with: front, back, subject, subtopic`;
 
     // Create or find "My Mistakes" deck
     const deckTitle = "Generated from Mistakes";
-    let { data: existingDeck } = await supabase
+    const { data: existingDeck } = await supabase
       .from("flashcard_decks")
       .select("id, card_count")
       .eq("user_id", user.id)
