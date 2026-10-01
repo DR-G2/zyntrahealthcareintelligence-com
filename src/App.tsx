@@ -112,7 +112,7 @@ function AppRoutes() {
           <Route path="/onboarding" element={<ErrorBoundary><Onboarding /></ErrorBoundary>} />
           <Route path="/dashboard" element={<Navigate to="/practice" replace />} />
           <Route path="/assess" element={<ProtectedRoute><ErrorBoundary><Assess /></ErrorBoundary></ProtectedRoute>} />
-          <Route path="/intelligence" element={<ProtectedRoute><ErrorBoundary><PerformanceIntelligence /></ErrorBoundary></ProtectedRoute>} />
+          <Route path="/intelligence" element={<ProtectedRoute><ErrorBoundary><Intelligence /></ErrorBoundary></ProtectedRoute>} />
           <Route path="/profile" element={<Navigate to="/intelligence?tab=performance" replace />} />
           <Route path="/behavior" element={<Navigate to="/intelligence?tab=behavior" replace />} />
           <Route path="/trust-your-gut" element={<Navigate to="/intelligence?tab=trust-your-gut" replace />} />
@@ -122,7 +122,7 @@ function AppRoutes() {
           <Route path="/questions/mcq" element={<ProtectedRoute><ErrorBoundary><QuestionsMCQ /></ErrorBoundary></ProtectedRoute>} />
           <Route path="/questions/osce" element={<Navigate to="/practice/osce" replace />} />
           <Route path="/assess/osce" element={<Navigate to="/practice/osce" replace />} />
-          <Route path="/plan" element={<ProtectedRoute><ErrorBoundary><StudyPlan /></ErrorBoundary></ProtectedRoute>} />
+          <Route path="/plan" element={<ProtectedRoute><ErrorBoundary><Plan /></ErrorBoundary></ProtectedRoute>} />
           <Route path="/stations" element={<Navigate to="/practice/osce" replace />} />
           <Route path="/companion/chat" element={<ProtectedRoute><ErrorBoundary><CompanionChat /></ErrorBoundary></ProtectedRoute>} />
           <Route path="/companion/groups" element={<Navigate to="/practice" replace />} />
