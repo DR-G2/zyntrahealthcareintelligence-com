@@ -311,7 +311,10 @@ function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConf
 
         {/* Mode Selection */}
         <div className="space-y-3">
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Select Mode</h2>
+          <div className="flex items-start gap-3">
+            <div className="mt-0.5 rounded-lg bg-primary/10 p-2 text-primary"><Zap className="h-4 w-4" /></div>
+            <div><h2 className="text-sm font-semibold uppercase tracking-wider text-foreground">Choose Your Training Mode</h2><p className="mt-1 text-xs text-muted-foreground">Set how you want to approach decisions before the questions begin.</p></div>
+          </div>
           <div className="grid gap-4 sm:grid-cols-3">
             <button
               onClick={() => setMode('recharge')}
@@ -378,7 +381,10 @@ function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConf
         {/* Question Count Selector — hidden in full-mock */}
         {mode !== 'full-mock' && (
         <div className="space-y-3">
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Questions</h2>
+          <div className="flex items-start gap-3">
+            <div className="mt-0.5 rounded-lg bg-primary/10 p-2 text-primary"><Target className="h-4 w-4" /></div>
+            <div><h2 className="text-sm font-semibold uppercase tracking-wider text-foreground">Question Load</h2><p className="mt-1 text-xs text-muted-foreground">Choose the amount of deliberate practice you want in this session.</p></div>
+          </div>
           
           <div className="flex flex-wrap gap-2">
             {quickPresets.map((preset) => (
@@ -425,7 +431,10 @@ function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConf
         {/* Topic Filters — Subject → Subtopics */}
         <div className="space-y-3">
           <div className="flex items-center justify-between">
-            <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Topic Filters</h2>
+            <div className="flex items-start gap-3">
+            <div className="mt-0.5 rounded-lg bg-primary/10 p-2 text-primary"><BookOpen className="h-4 w-4" /></div>
+            <div><h2 className="text-sm font-semibold uppercase tracking-wider text-foreground">Focus Areas</h2><p className="mt-1 text-xs text-muted-foreground">Target subjects and subtopics instead of spreading practice evenly.</p></div>
+          </div>
             <div className="flex items-center gap-2">
               <Button variant="ghost" size="sm" onClick={selectAll}>Select All</Button>
               <Button variant="ghost" size="sm" onClick={clearAll}>Clear All</Button>
