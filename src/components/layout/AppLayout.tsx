@@ -7,7 +7,7 @@ import { useIsMobile, useIsTablet } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
 import { LegalFooter } from '@/components/LegalFooter';
 
-interface AppLayoutProps {
+export interface AppLayoutProps {
   children: ReactNode;
 }
 
