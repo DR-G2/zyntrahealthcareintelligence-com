@@ -12,7 +12,6 @@ export function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const [checked, setChecked] = useState(false);
   const [accepting, setAccepting] = useState(false);
-  const diagnosticDone = typeof window !== 'undefined' && sessionStorage.getItem('zyntra_diagnostic_done') === '1';
 
   if (loading || termsLoading) {
     return (
@@ -24,9 +23,10 @@ export function ProtectedRoute({ children }: { children: React.ReactNode }) {
 
   if (!session) return <Navigate to="/login" replace />;
 
-  if (profile && !profile.onboarding_complete && !diagnosticDone) {
-    const path = location.pathname;
-    if (path !== '/assess' && path !== '/onboarding') return <Navigate to="/assess" replace />;
+  const path = location.pathname;
+  const allowAfterDiagnostic = path.startsWith('/intelligence') || path.startsWith('/practice') || path.startsWith('/plan') || path.startsWith('/settings') || path.startsWith('/inbox');
+  if (profile && !profile.onboarding_complete && !allowAfterDiagnostic && path !== '/assess' && path !== '/onboarding') {
+    return <Navigate to="/assess" replace />;
   }
 
   if (!termsAccepted) {
@@ -53,7 +53,7 @@ export function ProtectedRoute({ children }: { children: React.ReactNode }) {
   }
 
   const isProfileComplete = profile?.name && profile?.country_of_origin && profile?.user_type && profile?.medical_college && profile?.graduation_year;
-  if (!isProfileComplete) {
+  if (!isProfileComplete && !allowAfterDiagnostic) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-background p-4">
         <ProfileCompletionModal profile={profile} />
