@@ -55,34 +55,9 @@
     outline: 2px solid #35e4f4;
     outline-offset: 3px;
   }
-
-  /*
-   * Global layout safety for the authenticated application.
-   * Keep content-bearing flex/grid children shrinkable so long copy can wrap
-   * instead of overflowing into adjacent columns.
-   */
-  main,
-  main > div,
-  [class*="grid"] > *,
-  [class*="flex"] > * {
-    min-width: 0;
-  }
-
-  p,
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    overflow-wrap: anywhere;
-  }
 }
 
 /*
- * HOME PAGE ISOLATION
- *
- * Home.tsx is the canonical marketing page. Its visual system is implemented
- * with page-scoped Tailwind utilities and does not depend on legacy global
- * landing-page selectors. Do not reintroduce those selectors here.
+ * Zyntra Home is intentionally styled by Home.tsx + Tailwind utilities.
+ * Do not add legacy landing-page selectors here.
  */
