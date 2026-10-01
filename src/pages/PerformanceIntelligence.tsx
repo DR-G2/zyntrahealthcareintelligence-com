@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { AppLayout } from '@/components/AppLayout';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Brain, Target, UserCircle } from 'lucide-react';
+import { RoomHeader } from '@/components/RoomHeader';
 import { lazy, Suspense } from 'react';
 
 // Lazy load tab content
@@ -37,10 +38,7 @@ export default function PerformanceIntelligence() {
   return (
     <AppLayout>
       <div className="mx-auto max-w-5xl space-y-6">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-          <h1 className="text-3xl font-bold font-display">Performance Intelligence</h1>
-          <p className="text-muted-foreground mt-1">Unified analytics across MCQ, OSCE & behavioral dimensions</p>
-        </motion.div>
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}><RoomHeader kind="intelligence" /></motion.div>
 
         <Tabs value={activeTab} onValueChange={handleTabChange}>
           <TabsList className="w-full grid grid-cols-3">
