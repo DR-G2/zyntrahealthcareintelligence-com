@@ -70,18 +70,18 @@ export function RoomHeader({ kind, className }: { kind: RoomHeaderKind; classNam
   const Icon = c.icon;
   return (
     <section data-zyntra-room-header="true" className={cn(
-      'relative overflow-hidden rounded-2xl border border-border/70 bg-card/80 p-5 shadow-sm backdrop-blur-sm sm:p-6',
+      'relative overflow-hidden rounded-3xl border border-white/10 bg-[#081224]/70 p-6 shadow-[0_20px_80px_rgba(0,0,0,0.25)] backdrop-blur-xl transition-all hover:border-cyan-400/20 sm:p-7',
       className
     )}>
       <div className="relative z-10 max-w-full sm:max-w-[58%]">
-        <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[.14em] text-primary">
+        <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-cyan-400/20 bg-cyan-400/10 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[.14em] text-cyan-300">
           <Icon className="h-3.5 w-3.5" />{c.eyebrow}
         </div>
-        <h1 className="font-display text-2xl font-bold tracking-tight sm:text-3xl">{c.title}</h1>
-        <p className="mt-2 max-w-xl text-sm leading-6 text-muted-foreground sm:text-[15px]">{c.subtitle}</p>
+        <h1 className="font-display text-3xl font-bold tracking-tight text-white sm:text-4xl">{c.title}</h1>
+        <p className="mt-2 max-w-xl text-sm leading-6 text-slate-400 sm:text-[15px]">{c.subtitle}</p>
       </div>
       <Motif kind={kind} />
-      <div className="absolute bottom-0 left-0 h-px w-1/3 bg-gradient-to-r from-primary/70 via-secondary/50 to-transparent" />
+      <div className="absolute bottom-0 left-0 h-px w-1/3 bg-gradient-to-r from-cyan-400/80 via-purple-400/50 to-transparent" />
       <div className="absolute -bottom-20 left-1/3 h-32 w-64 rounded-full bg-primary/5 blur-3xl" />
     </section>
   );
