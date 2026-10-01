@@ -194,13 +194,9 @@ export default function BehaviorProfile() {
 
   return (
     <div className="mx-auto max-w-5xl space-y-8">
-        {/* Header */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold font-display">Behavior Analysis</h1>
-            <p className="text-muted-foreground mt-1">AI-powered exam behavior profiling</p>
-          </div>
-          <Button onClick={runAnalysis} disabled={analyzing} variant="outline" className="gap-2">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="flex items-center justify-between gap-4">
+          <RoomHeader kind="behaviour" className="flex-1" />
+          <Button onClick={runAnalysis} disabled={analyzing} variant="outline" className="shrink-0 gap-2">
             {analyzing ? <Loader2 className="h-4 w-4 animate-spin" /> : <RefreshCw className="h-4 w-4" />}
             Re-analyze
           </Button>
