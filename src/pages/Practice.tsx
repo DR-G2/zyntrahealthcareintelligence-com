@@ -1182,6 +1182,14 @@ function ResultsScreen({
   // Canonical intelligence is rebuilt by the database trigger from the raw attempt stream.
   // Do not write performance_profiles directly from the UI, which would create a second source of truth.
 
+  // Keep the learner's explicit weak-area profile in sync without writing derived performance metrics here.
+  useEffect(() => {
+    if (!user || weaknesses.length === 0) return;
+    supabase.from('profiles').update({ weak_areas: weaknesses }).eq('id', user.id).then(({ error }) => {
+      if (error) console.error('Failed to update weak areas:', error);
+    });
+  }, [user, weaknesses.join('|')]);
+
   return (
     <AppLayout>
       <div className="mx-auto max-w-3xl py-6 space-y-6">
