@@ -16,6 +16,7 @@ import { useMaintenanceMode } from "@/hooks/useSiteSettings";
 import { supabase } from "@/integrations/supabase/client";
 
 import Landing from "./pages/Landing";
+import Home from "./pages/Home";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 
@@ -93,7 +94,8 @@ function AppRoutes() {
     <MaintenanceGate>
       <Suspense fallback={<LazyFallback />}>
         <Routes>
-          <Route path="/" element={<ErrorBoundary><Landing /></ErrorBoundary>} />
+          <Route path="/" element={<ErrorBoundary><Home /></ErrorBoundary>} />
+          <Route path="/check" element={<ErrorBoundary><Landing /></ErrorBoundary>} />
           <Route path="/about" element={<Navigate to="/#about" replace />} />
           <Route path="/pricing" element={<Navigate to="/#pricing" replace />} />
           <Route path="/login" element={<ErrorBoundary><Login /></ErrorBoundary>} />
