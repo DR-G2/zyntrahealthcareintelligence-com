@@ -1,45 +1,28 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Zap } from 'lucide-react';
 import { LEGAL_EMAIL } from '@/lib/legal';
-import { useAuth } from '@/contexts/AuthContext';
-import { useShowAboutPricing } from '@/hooks/useSiteSettings';
-import { PricingScroll } from '@/components/PricingScroll';
 
-interface PublicFooterProps { showDisclaimer?: boolean; }
-
-export function PublicFooter({ showDisclaimer = true }: PublicFooterProps) {
-  const { user } = useAuth();
-  const { show: showAboutPricing } = useShowAboutPricing();
-  const { pathname } = useLocation();
+export function PublicFooter() {
   const linkClass = 'hover:text-foreground transition-colors';
-
   return (
-    <>
-      {pathname === '/' && <PricingScroll />}
-      <footer className="border-t border-border bg-background py-8">
-        <div className="container space-y-4 text-sm text-muted-foreground">
-          <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-            <Link to="/" className="flex items-center gap-2" aria-label="Zyntra home">
-              <Zap className="h-4 w-4 text-primary" aria-hidden="true" />
-              <span className="font-display font-semibold text-foreground">Zyntra</span>
-            </Link>
-            <nav aria-label="Footer" className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
-              <Link to="/" className={linkClass}>Home</Link>
-              <Link to="/amc-part-1-mcq" className={linkClass}>AMC Part 1 MCQ</Link>
-              <Link to="/osce-in-surgery" className={linkClass}>OSCE in surgery</Link>
-              {showAboutPricing && <a href="/#pricing" className={linkClass}>Pricing</a>}
-              <Link to="/terms" className={linkClass}>Terms</Link>
-              <Link to="/privacy" className={linkClass}>Privacy</Link>
-              <a href={`mailto:${LEGAL_EMAIL}?subject=Zyntra Support Request`} className={linkClass}>Contact</a>
-              {user ? <Link to="/practice" className={linkClass}>Practice</Link> : <Link to="/login" className={linkClass}>Log in</Link>}
-            </nav>
-          </div>
-          {showDisclaimer && (
-            <p className="text-center text-xs text-muted-foreground">Zyntra is an independent exam preparation platform and is not affiliated with or endorsed by the Australian Medical Council. Clinical stations are not live.</p>
-          )}
-          <p className="text-center text-xs text-muted-foreground">© 2026 Zyntra · <a href={`mailto:${LEGAL_EMAIL}`} className={linkClass}>{LEGAL_EMAIL}</a></p>
+    <footer className="border-t border-border bg-background py-8">
+      <div className="container space-y-4 text-sm text-muted-foreground">
+        <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
+          <Link to="/" className="flex items-center gap-2" aria-label="Zyntra home">
+            <Zap className="h-4 w-4 text-primary" />
+            <span className="font-display font-semibold text-foreground">Zyntra Healthcare Intelligence</span>
+          </Link>
+          <nav aria-label="Footer" className="flex flex-wrap justify-center gap-x-4 gap-y-2">
+            <a href="/#faq" className={linkClass}>FAQ</a>
+            <Link to="/terms" className={linkClass}>Terms</Link>
+            <Link to="/privacy" className={linkClass}>Privacy</Link>
+            <a href="/#contact" className={linkClass}>Contact</a>
+            <a href="/#contact" className={linkClass}>Get in touch</a>
+          </nav>
         </div>
-      </footer>
-    </>
+        <p className="text-center text-xs">Zyntra is an independent exam preparation platform and is not affiliated with or endorsed by the Australian Medical Council. Clinical stations are not live.</p>
+        <p className="text-center text-xs">© 2026 Zyntra · <a href={`mailto:${LEGAL_EMAIL}`} className={linkClass}>{LEGAL_EMAIL}</a></p>
+      </div>
+    </footer>
   );
 }
