@@ -53,29 +53,6 @@ export default function PerformanceIntelligence() {
           </TabsList>
         </Tabs>
 
-        <div className="grid gap-3 sm:grid-cols-3">
-          {[
-            { to: '/practice', title: 'Practice', description: 'Train MCQs and generate the telemetry that powers your intelligence.', icon: Brain, meta: 'MCQ' },
-            { to: '/practice/osce', title: 'OSCE', description: 'Add structured clinical-station performance to the same intelligence layer.', icon: ClipboardCheck, meta: 'Clinical' },
-            { to: '/plan', title: 'Study Plan', description: 'Turn the latest intelligence into a concrete study roadmap.', icon: Activity, meta: 'Roadmap' },
-          ].map(item => (
-            <motion.div key={item.to} whileHover={{ y: -2 }}>
-              <Button asChild variant="outline" className="group h-auto w-full min-w-0 justify-start whitespace-normal rounded-2xl border-border/70 bg-card/60 p-4 text-left hover:border-primary/30 hover:bg-card/90">
-                <Link to={item.to}>
-                  <div className="mr-3 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                    <item.icon className="h-5 w-5" />
-                  </div>
-                  <span className="min-w-0 flex-1">
-                    <span className="block font-display text-sm font-semibold text-foreground">{item.title}</span>
-                    <span className="mt-1 block text-xs leading-5 text-muted-foreground">{item.description}</span>
-                    <span className="mt-2 inline-flex items-center gap-1 text-[11px] font-semibold text-primary">{item.meta} <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" /></span>
-                  </span>
-                </Link>
-              </Button>
-            </motion.div>
-          ))}
-        </div>
-
         <AnimatePresence mode="wait">
           <motion.div
             key={activeTab}
