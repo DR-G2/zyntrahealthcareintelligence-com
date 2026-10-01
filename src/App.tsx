@@ -1,4 +1,4 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, type ReactNode } from "react";
 import { Zap } from "lucide-react";
 import { Navigate } from "react-router-dom";
 import { Toaster } from "@/components/ui/toaster";
@@ -13,7 +13,6 @@ import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { usePresence } from "@/hooks/usePresence";
 import { VisitorTracker } from "@/components/VisitorTracker";
 import { useMaintenanceMode } from "@/hooks/useSiteSettings";
-import { supabase } from "@/integrations/supabase/client";
 
 import Landing from "./pages/Landing";
 import Home from "./pages/Home";
@@ -74,7 +73,7 @@ function MaintenancePage() {
   );
 }
 
-function MaintenanceGate({ children }: { children: React.ReactNode }) {
+function MaintenanceGate({ children }: { children: ReactNode }) {
   const { enabled: maintenance, loading } = useMaintenanceMode();
   const { user } = useAuth();
   const isAdmin = user?.email ? ADMIN_EMAILS.includes(user.email) : false;
