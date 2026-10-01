@@ -300,7 +300,7 @@ export default function TrustYourGut() {
             Start Training
           </Button></div>
 
-        {/* Training Mode Overlay */
+        {/* Training Mode Overlay */}
         <AnimatePresence>
           {trainingMode && currentQuestion && (
             <motion.div
