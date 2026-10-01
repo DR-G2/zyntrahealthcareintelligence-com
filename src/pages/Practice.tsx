@@ -296,8 +296,8 @@ function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConf
 
   return (
     <AppLayout>
-      <div className="mx-auto max-w-4xl space-y-8">
-        <RoomHeader kind="practice" className="mb-2" />
+      <div className="mx-auto max-w-6xl space-y-6">
+        <RoomHeader kind="practice" className="mb-1" />
 
         {!gate.canUseMCQ && (
           <UpgradePrompt feature="Daily MCQ Limit Reached" description={`You've used ${gate.mcqUsedToday}/${gate.mcqDailyLimit} free MCQs today. Upgrade for unlimited practice.`} variant="banner" />
@@ -310,7 +310,7 @@ function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConf
         />
 
         {/* Mode Selection */}
-        <div className="space-y-3">
+        <div className="space-y-3 rounded-2xl border border-white/10 bg-white/[0.02] p-5 backdrop-blur-xl">
           <div className="flex items-start gap-3">
             <div className="mt-0.5 rounded-lg bg-primary/10 p-2 text-primary"><Zap className="h-4 w-4" /></div>
             <div><h2 className="text-sm font-semibold uppercase tracking-wider text-foreground">Choose Your Training Mode</h2><p className="mt-1 text-xs text-muted-foreground">Set how you want to approach decisions before the questions begin.</p></div>
@@ -319,10 +319,10 @@ function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConf
             <button
               onClick={() => setMode('recharge')}
               className={cn(
-                'rounded-xl border-2 p-5 text-left transition-all',
+                'rounded-2xl border border-white/10 bg-[#081224]/70 p-5 text-left backdrop-blur-xl transition-all hover:border-cyan-400/25 hover:bg-[#0a1629]',
                 mode === 'recharge'
-                  ? 'border-primary bg-primary/5 ring-2 ring-primary/20'
-                  : 'border-border hover:border-primary/30'
+                  ? 'border-cyan-300/80 bg-cyan-400/[0.06] ring-1 ring-cyan-400/20 shadow-[0_0_35px_rgba(34,211,238,0.08)]'
+                  : 'border-white/10 hover:border-cyan-400/25'
               )}
             >
               <div className="flex items-center gap-3 mb-2">
@@ -429,7 +429,7 @@ function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConf
         )}
 
         {/* Topic Filters — Subject → Subtopics */}
-        <div className="space-y-3">
+        <div className="space-y-4 rounded-2xl border border-white/10 bg-[#081224]/70 p-5 backdrop-blur-xl">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
             <div className="flex items-start gap-3">
               <div className="mt-0.5 rounded-lg bg-primary/10 p-2 text-primary"><BookOpen className="h-4 w-4" /></div>
@@ -461,7 +461,7 @@ function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConf
           </div>
 
           {/* Subject list with subtopics */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
             {dbSubjects
               .sort((a, b) => (a.display_order || 0) - (b.display_order || 0))
               .filter((subject) => {
