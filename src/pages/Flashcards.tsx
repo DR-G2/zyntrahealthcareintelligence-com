@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { AppLayout } from '@/components/AppLayout';
+import { RoomHeader } from '@/components/RoomHeader';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
