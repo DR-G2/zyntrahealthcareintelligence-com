@@ -42,13 +42,15 @@ function ZyntraVisual() {
       <div className="brain-halo brain-halo-a" aria-hidden="true" />
       <div className="brain-halo brain-halo-b" aria-hidden="true" />
       <div className="brain-art" aria-hidden="true">
+        <div className="brain-cortex cortex-a" />
+        <div className="brain-cortex cortex-b" />
+        <div className="brain-cortex cortex-c" />
+        <div className="brain-cortex cortex-d" />
+        <div className="brain-cortex cortex-e" />
+        <div className="brain-cortex cortex-f" />
         <div className="brain-rim rim-1" />
         <div className="brain-rim rim-2" />
         <div className="brain-rim rim-3" />
-        <div className="brain-lobe lobe-1" />
-        <div className="brain-lobe lobe-2" />
-        <div className="brain-lobe lobe-3" />
-        <div className="brain-lobe lobe-4" />
         <div className="brain-spine" />
       </div>
       <div className="chip-base" aria-hidden="true">
