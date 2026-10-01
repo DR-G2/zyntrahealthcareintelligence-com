@@ -1179,46 +1179,8 @@ function ResultsScreen({
     return { totalCorrectElim, totalWrongElim, totalPossible, questionsWithRuleOut };
   }, [ruleOutSelections]);
 
-  // DNA update
-  useEffect(() => {
-    if (!user || dnaUpdated) return;
-    setDnaUpdated(true);
-
-    const updateDNA = async () => {
-      const overallAccuracy = total > 0 ? correct / total : 0;
-      const stabilityScore = config.mode === 'recharge' ? Math.max(0, 100 - (totalChanges / total) * 50) : null;
-      const accuracies = Object.values(categoryStats).map(s => s.correct / s.total);
-      const confidenceGap = accuracies.length > 1 ? Math.max(...accuracies) - Math.min(...accuracies) : 0;
-
-      const { data: existing } = await supabase.from('performance_profiles').select('*').eq('user_id', user.id).maybeSingle();
-
-      if (existing) {
-        const blendedAccuracy = (existing.clinical_accuracy || 0) * 0.6 + overallAccuracy * 100 * 0.4;
-        const updateData: Record<string, any> = {
-          clinical_accuracy: Math.round(blendedAccuracy * 10) / 10,
-          confidence_gap: Math.round(confidenceGap * 100) / 100,
-        };
-        if (stabilityScore !== null) {
-          const blendedStability = ((existing.stability_score || 0) * 0.6 + stabilityScore * 0.4);
-          updateData.stability_score = Math.round(blendedStability * 10) / 10;
-        }
-        await supabase.from('performance_profiles').update(updateData).eq('user_id', user.id);
-      } else {
-        await supabase.from('performance_profiles').insert({
-          user_id: user.id,
-          clinical_accuracy: Math.round(overallAccuracy * 1000) / 10,
-          stability_score: stabilityScore !== null ? Math.round(stabilityScore * 10) / 10 : 0,
-          confidence_gap: Math.round(confidenceGap * 100) / 100,
-        });
-      }
-
-      if (weaknesses.length > 0) {
-        await supabase.from('profiles').update({ weak_areas: weaknesses }).eq('id', user.id);
-      }
-    };
-
-    updateDNA();
-  }, [user]);
+  // Canonical intelligence is rebuilt by the database trigger from the raw attempt stream.
+  // Do not write performance_profiles directly from the UI, which would create a second source of truth.
 
   return (
     <AppLayout>
