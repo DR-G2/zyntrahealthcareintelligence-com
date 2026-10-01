@@ -43,7 +43,7 @@ const Index: React.FC = () => {
   const [activeMetric,setActiveMetric]=useState<number|null>(null);
 
   return (
-    <div className="min-h-screen bg-[#040812] text-slate-100 selection:bg-cyan-500 selection:text-white font-sans overflow-x-hidden">
+    <div data-zyntra-home="canonical" className="min-h-screen bg-[#040812] text-slate-100 selection:bg-cyan-500 selection:text-white font-sans overflow-x-hidden">
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute -top-40 left-1/4 w-[600px] h-[600px] bg-cyan-600/10 rounded-full blur-[140px]" />
         <div className="absolute top-1/3 -right-20 w-[500px] h-[500px] bg-indigo-600/10 rounded-full blur-[140px]" />
