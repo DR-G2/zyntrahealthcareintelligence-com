@@ -298,7 +298,6 @@ function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConf
     <AppLayout>
       <div className="mx-auto max-w-4xl space-y-8">
         <RoomHeader kind="practice" className="mb-2" />
-        <div className="flex items-center justify-end">
 
         {!gate.canUseMCQ && (
           <UpgradePrompt feature="Daily MCQ Limit Reached" description={`You've used ${gate.mcqUsedToday}/${gate.mcqDailyLimit} free MCQs today. Upgrade for unlimited practice.`} variant="banner" />
