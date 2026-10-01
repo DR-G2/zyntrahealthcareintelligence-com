@@ -109,12 +109,91 @@ export default function Home() {
     setSent(true);
   };
 
+
+function SignalTelemetry({ tone, values, icon: Icon, label, state }: { tone: "blue"|"purple"|"red"|"green"; values: number[]; icon: React.ComponentType<{className?: string}>; label: string; state: string }) {
+  return (
+    <div className={`signal-tele-card tone-${tone}`}>
+      <div className="signal-tele-icon"><Icon className="h-5 w-5" /></div>
+      <div className="signal-tele-copy"><span>${label}</span><strong>${state}</strong></div>
+      <svg className="signal-tele-spark" viewBox="0 0 120 28" preserveAspectRatio="none" aria-hidden="true">
+        <polyline points={values.map((v,i)=>`${i*(120/(values.length-1))},${28-v}`).join(" ")} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    </div>
+  );
+}
+
+function ZyntraVisual() {
+  const telemetry = [
+    { tone:"blue" as const, icon:Brain, label:"Confidence", state:"Observed", values:[5,9,7,15,11,19,16,22,18,24] },
+    { tone:"purple" as const, icon:Clock, label:"Timing", state:"Measured", values:[4,18,10,22,8,15,11,24,14,22] },
+    { tone:"red" as const, icon:RotateCcw, label:"Answer changes", state:"Tracked", values:[2,8,22,11,24,17,20,9,23,13] },
+    { tone:"green" as const, icon:BarChart3, label:"Consistency", state:"Analysed", values:[6,12,8,19,13,23,17,21,15,25] },
+  ];
+  return (
+    <div className="hero-visual" aria-label="Zyntra behavioural telemetry visual">
+      <div className="brain-halo brain-halo-a" />
+      <div className="brain-halo brain-halo-b" />
+      <div className="brain-art" aria-hidden="true">
+        <div className="brain-rim rim-1" /><div className="brain-rim rim-2" /><div className="brain-rim rim-3" />
+        <div className="brain-lobe lobe-1" /><div className="brain-lobe lobe-2" /><div className="brain-lobe lobe-3" /><div className="brain-lobe lobe-4" />
+        <div className="brain-spine" />
+      </div>
+      <div className="chip-base"><span className="chip-z">Z</span><div className="chip-grid" /></div>
+      <div className="telemetry-stack">
+        {telemetry.map(item => <SignalTelemetry key={item.label} {...item} />)}
+      </div>
+      <div className="visual-lines" aria-hidden="true"><span/><span/><span/><span/></div>
+      <div className="visual-caption">Zyntra learns your pattern, then training adapts.</div>
+    </div>
+  );
+}
+
+function MiniTelemetryBars({ tone }: { tone: "blue"|"purple"|"red"|"green" }) {
+  const bars = [28,42,58,35,67,48,74];
+  return <div className={`mini-bars tone-${tone}`}>{bars.map((h,i)=><span key={i} style={{height:`${h}%`}} />)}</div>;
+}
+
+function PracticeWindow() {
+  return (
+    <div className="practice-window" aria-label="Zyntra AMC question engine preview">
+      <div className="practice-bar">
+        <div className="practice-brand"><span>Z</span> Practice</div>
+        <div className="practice-status">MCQ <i /></div>
+      </div>
+      <div className="practice-body">
+        <div className="practice-meta">QUESTION 042 <span>01:18</span></div>
+        <div className="practice-question">A patient presents with a new clinical finding. Which interpretation is most appropriate?</div>
+        <div className="practice-answer"><b>A</b><span>Read the pattern and context</span></div>
+        <div className="practice-answer selected"><b>B</b><span>Prioritise the strongest signal</span><i>✓</i></div>
+        <div className="practice-answer"><b>C</b><span>Choose the first plausible alternative</span></div>
+        <div className="practice-answer"><b>D</b><span>Wait for another clue</span></div>
+      </div>
+      <div className="practice-footer"><span>CONFIDENCE <b>7/10</b></span><span>TIMING <b>72s</b></span><span>CHANGES <b>0</b></span></div>
+    </div>
+  );
+}
+
+export default function Home() {
+  const [sent, setSent] = useState(false);
+  const [form, setForm] = useState({ name: '', email: '', message: '' });
+
+  const submit = async (e: FormEvent) => {
+    e.preventDefault();
+    const { error } = await supabase.from('contact_submissions').insert({
+      name: form.name.trim(),
+      email: form.email.trim(),
+      category: 'general',
+      message: form.message.trim(),
+    });
+    if (!error) setSent(true);
+  };
+
   return (
     <div className="zyntra-home">
       <header className="site-header">
         <div className="shell header-inner">
           <a className="brand" href="#top" aria-label="Zyntra">
-            <span className="brand-mark" aria-hidden="true">Z</span>
+            <span className="brand-mark" aria-hidden="true"><span className="brand-z">Z</span></span>
             <span className="brand-word">ZYNTRA</span>
           </a>
           <Link to="/login" className="header-cta">Get Started</Link>
@@ -125,21 +204,24 @@ export default function Home() {
         <section className="hero-section" aria-labelledby="hero-title">
           <div className="hero-glow hero-glow-a" aria-hidden="true" />
           <div className="hero-glow hero-glow-b" aria-hidden="true" />
+          <div className="hero-grid-lines" aria-hidden="true" />
           <div className="shell hero-layout">
             <div className="hero-copy">
               <p className="eyebrow">WHAT IS ZYNTRA?</p>
               <h1 id="hero-title">Zyntra is an AI-powered AMC exam preparation platform for medical students, medical graduates and doctors preparing for the Australian Medical Council examinations.</h1>
               <p className="hero-lead">Zyntra goes beyond whether an answer is right or wrong. It learns how you approach questions and uses those signals to make preparation more targeted.</p>
               <p className="hero-signal">Your answer is one signal. Your decision process is the dataset.</p>
-              <Link to="/login" className="primary-button">Get Started <span>↗</span></Link>
+              <Link to="/login" className="primary-button">Get Started <ChevronRight className="h-4 w-4" /></Link>
             </div>
-            <SignalField />
+            <ZyntraVisual />
           </div>
-          <div className="shell signal-rail">
-            <div><span className="rail-index">01</span><strong>Confidence</strong><small>Observed</small></div>
-            <div><span className="rail-index">02</span><strong>Timing</strong><small>Measured</small></div>
-            <div><span className="rail-index">03</span><strong>Answer changes</strong><small>Tracked</small></div>
-            <div><span className="rail-index">04</span><strong>Consistency</strong><small>Analysed</small></div>
+          <div className="shell telemetry-strip">
+            <div className="strip-shell">
+              <div className="strip-card tone-blue"><span className="strip-icon"><Brain className="h-5 w-5" /></span><div><b>Confidence</b><span>Observed</span></div><MiniTelemetryBars tone="blue" /></div>
+              <div className="strip-card tone-purple"><span className="strip-icon"><Clock className="h-5 w-5" /></span><div><b>Timing</b><span>Measured</span></div><MiniTelemetryBars tone="purple" /></div>
+              <div className="strip-card tone-red"><span className="strip-icon"><RotateCcw className="h-5 w-5" /></span><div><b>Answer changes</b><span>Tracked</span></div><MiniTelemetryBars tone="red" /></div>
+              <div className="strip-card tone-green"><span className="strip-icon"><BarChart3 className="h-5 w-5" /></span><div><b>Consistency</b><span>Analysed</span></div><MiniTelemetryBars tone="green" /></div>
+            </div>
           </div>
         </section>
 
@@ -160,10 +242,10 @@ export default function Home() {
             <h2>How Zyntra works</h2>
             <div className="how-timeline">
               {howItems.map(([title, text], i) => (
-                <div className="timeline-step" key={title}>
+                <button type="button" className="timeline-step" key={title} onClick={() => document.getElementById('trains')?.scrollIntoView({behavior:'smooth',block:'start'})}>
                   <div className="timeline-marker"><span>{String(i + 1).padStart(2, '0')}</span></div>
                   <div className="timeline-copy"><h3>{title}</h3><p>{text}</p></div>
-                </div>
+                </button>
               ))}
             </div>
           </div>
@@ -193,15 +275,15 @@ export default function Home() {
             <div className="pricing-list">
               <article className="price-row">
                 <div><h3>Free</h3><div className="price-main">$0</div><div className="price-note">APPE diagnostic only</div></div>
-                <div className="price-detail"><p>One diagnostic. It records timing, answer changes and confidence.</p><p>You see the pattern from that sitting. That is the free product.</p><p>No question bank, no study plan, no flashcards.</p><Link to="/login" className="secondary-button">Button: Start the diagnostic</Link></div>
+                <div className="price-detail"><p>One diagnostic. It records timing, answer changes and confidence.</p><p>You see the pattern from that sitting. That is the free product.</p><p>No question bank, no study plan, no flashcards.</p><Link to="/check" className="secondary-button">Start the diagnostic</Link></div>
               </article>
               <article className="price-row">
                 <div><h3>Practice</h3><div className="price-main">$39 AUD / month</div><div className="price-note">or $100 AUD for 3 months</div></div>
-                <div className="price-detail"><p>MCQ practice, Performance Intelligence and Study Plan.</p><p>Three months at the monthly rate is $117. You pay $100.</p><p>That is $17 off, 15% off the monthly price.</p><Link to="/login" className="secondary-button">Button: Log in to subscribe</Link></div>
+                <div className="price-detail"><p>MCQ practice, Performance Intelligence and Study Plan.</p><p>Three months at the monthly rate is $117. You pay $100.</p><p>That is $17 off, 15% off the monthly price.</p><Link to="/login" className="secondary-button">Log in to subscribe</Link></div>
               </article>
               <article className="price-row price-row-disabled">
                 <div><h3>Pass guarantee</h3><div className="price-main">Building</div><div className="price-note">Not on sale yet</div></div>
-                <div className="price-detail"><p>Follow a set daily load: questions done, revision queue cleared, weak topics first.</p><p>A person you name can see that you kept the load.</p><p>If you keep that load and do not pass AMC MCQ, the fee comes back. Same idea as a selection guarantee: the refund is for the method, not for logging in.</p><button type="button" className="secondary-button disabled-button" disabled>Button (disabled): Not open yet</button></div>
+                <div className="price-detail"><p>Follow a set daily load: questions done, revision queue cleared, weak topics first.</p><p>A person you name can see that you kept the load.</p><p>If you keep that load and do not pass AMC MCQ, the fee comes back. Same idea as a selection guarantee: the refund is for the method, not for logging in.</p><button type="button" className="secondary-button disabled-button" disabled>Not open yet</button></div>
               </article>
             </div>
           </div>
@@ -233,7 +315,7 @@ export default function Home() {
                   <label><span>Name</span><input required value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} /></label>
                   <label><span>Email</span><input required type="email" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} /></label>
                   <label><span>Message</span><textarea required value={form.message} onChange={e => setForm({ ...form, message: e.target.value })} /></label>
-                  <button type="submit" className="primary-button">Button: Send</button>
+                  <button type="submit" className="primary-button">Send Message</button>
                 </form>
               )}
             </div>
