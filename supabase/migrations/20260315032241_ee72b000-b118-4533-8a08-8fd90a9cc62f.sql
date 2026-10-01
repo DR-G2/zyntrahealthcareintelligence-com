@@ -262,12 +262,31 @@ BEGIN
     v_hesitation := CASE WHEN NEW.time_taken_seconds > 120 OR COALESCE(NEW.time_to_first_click, 0) > 30 THEN 1 ELSE 0 END;
     v_fatigue := CASE WHEN COALESCE(NEW.question_position, 0) > 40 AND NOT NEW.is_correct THEN 1 ELSE 0 END;
 
-    UPDATE public.behavior_profiles SET
-      rush_index = ROUND((COALESCE(rush_index, 0) * GREATEST(v_bp_count - 1, 0) + v_rush * 100) / GREATEST(v_bp_count, 1), 2),
-      hesitation_index = ROUND((COALESCE(hesitation_index, 0) * GREATEST(v_bp_count - 1, 0) + v_hesitation * 100) / GREATEST(v_bp_count, 1), 2),
-      fatigue_index = ROUND((COALESCE(fatigue_index, 0) * GREATEST(v_bp_count - 1, 0) + v_fatigue * 100) / GREATEST(v_bp_count, 1), 2),
-      updated_at = now()
-    WHERE user_id = NEW.user_id;
+    INSERT INTO public.behavior_profiles (
+      user_id, archetype, rush_index, hesitation_index, fatigue_index, updated_at
+    )
+    VALUES (
+      NEW.user_id,
+      'unclassified',
+      v_rush * 100,
+      v_hesitation * 100,
+      v_fatigue * 100,
+      now()
+    )
+    ON CONFLICT (user_id) DO UPDATE SET
+      rush_index = ROUND(
+        (COALESCE(public.behavior_profiles.rush_index, 0) * GREATEST(v_bp_count - 1, 0) + v_rush * 100)
+        / GREATEST(v_bp_count, 1), 2
+      ),
+      hesitation_index = ROUND(
+        (COALESCE(public.behavior_profiles.hesitation_index, 0) * GREATEST(v_bp_count - 1, 0) + v_hesitation * 100)
+        / GREATEST(v_bp_count, 1), 2
+      ),
+      fatigue_index = ROUND(
+        (COALESCE(public.behavior_profiles.fatigue_index, 0) * GREATEST(v_bp_count - 1, 0) + v_fatigue * 100)
+        / GREATEST(v_bp_count, 1), 2
+      ),
+      updated_at = now();
   END;
 
   RETURN NEW;

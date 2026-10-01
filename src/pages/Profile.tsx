@@ -14,9 +14,10 @@ import { RoomHeader } from '@/components/RoomHeader';
 import { ProfileSkeleton } from '@/components/skeletons/PageSkeleton';
 
 interface PerformanceData {
-  stability_score: number | null;
-  time_sensitivity: number | null;
-  confidence_gap: number | null;
+  answer_stability: number | null;
+  time_management: number | null;
+  confidence_calibration: number | null;
+  distance_from_ideal: number | null;
   clinical_accuracy: number | null;
   readiness_score: number | null;
 }
@@ -31,14 +32,14 @@ interface StationAttempt {
 }
 
 function ScoreRing({ value, label, icon: Icon, color }: {
-  value: number;
+  value: number | null;
   label: string;
   icon: React.ElementType;
   color: string;
 }) {
   const radius = 40;
   const circumference = 2 * Math.PI * radius;
-  const offset = circumference - (value / 100) * circumference;
+  const offset = value == null ? circumference : circumference - (value / 100) * circumference;
 
   return (
     <div className="flex flex-col items-center gap-3">
@@ -55,7 +56,7 @@ function ScoreRing({ value, label, icon: Icon, color }: {
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center">
           <Icon className="h-4 w-4 mb-0.5" style={{ color }} />
-          <span className="text-lg font-bold font-display">{value}</span>
+          <span className="text-lg font-bold font-display">{value == null ? 'N/A' : value}</span>
         </div>
       </div>
       <span className="text-sm text-muted-foreground text-center">{label}</span>
@@ -76,8 +77,8 @@ export default function Profile() {
     if (!user) return;
     const fetchAll = async () => {
       const [profileRes, stationsRes, mcqRes] = await Promise.all([
-        supabase.from('performance_profiles')
-          .select('stability_score, time_sensitivity, confidence_gap, clinical_accuracy, readiness_score')
+        supabase.from('readiness_dna')
+          .select('readiness_score, clinical_accuracy, answer_stability, time_management, confidence_calibration, distance_from_ideal, attempt_count, updated_at')
           .eq('user_id', user.id).maybeSingle(),
         supabase.from('station_attempts')
           .select('id, subject, scores, time_taken_seconds, mode, created_at')
@@ -163,10 +164,10 @@ export default function Profile() {
   const readinessColor = readiness >= 70 ? 'hsl(var(--success))' : readiness >= 40 ? 'hsl(var(--warning))' : 'hsl(var(--destructive))';
 
   const metrics = [
-    { value: data?.stability_score ?? 0, label: 'Answer Stability', icon: Shield, color: 'hsl(var(--chart-1))', desc: 'How often you change answers. Higher = more decisive.' },
-    { value: data?.time_sensitivity ?? 0, label: 'Time Management', icon: Clock, color: 'hsl(var(--chart-2))', desc: 'How well you manage time pressure.' },
-    { value: 100 - (data?.confidence_gap ?? 0), label: 'Confidence Calibration', icon: Brain, color: 'hsl(var(--chart-3))', desc: 'How well your confidence matches your accuracy.' },
-    { value: data?.clinical_accuracy ?? 0, label: 'Clinical Accuracy', icon: Target, color: 'hsl(var(--chart-4))', desc: 'Raw percentage of correct answers.' },
+    { value: data?.answer_stability ?? 0, label: 'Answer Stability', icon: Shield, color: 'hsl(var(--chart-1))', desc: 'Percentage of answers completed without changing selection.' },
+    { value: data?.time_management == null ? null : Math.round(Math.max(0, Math.min(100, data.time_management >= 45 && data.time_management <= 60 ? 100 : data.time_management < 45 ? 100 - ((45 - data.time_management) * 1.5) : 100 - ((data.time_management - 60) * 1.5)))), label: 'Time Management', icon: Clock, color: 'hsl(var(--chart-2))', desc: 'Timing score against the 45–60 second target window.' },
+    { value: data?.confidence_calibration ?? null, label: 'Confidence Calibration', icon: Brain, color: 'hsl(var(--chart-3))', desc: 'Not measured yet. Explicit confidence capture is required for this signal.' },
+    { value: data?.clinical_accuracy ?? 0, label: 'Clinical Accuracy', icon: Target, color: 'hsl(var(--chart-4))', desc: 'Percentage of correct attempts.' },
   ];
 
   const getReadinessLabel = (score: number) => {
