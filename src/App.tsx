@@ -40,6 +40,7 @@ const AmcPart1Mcq = lazy(() => import("./pages/AmcPart1Mcq"));
 const OsceInSurgery = lazy(() => import("./pages/OsceInSurgery"));
 const PerformanceIntelligence = lazy(() => import("./pages/PerformanceIntelligence"));
 const InboxPage = lazy(() => import("./pages/Inbox"));
+const OAuthConsent = lazy(() => import("./pages/OAuthConsent"));
 
 const queryClient = new QueryClient();
 
@@ -82,6 +83,7 @@ function MaintenanceGate({ children }: { children: React.ReactNode }) {
     return (
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/oauth/consent" element={<Suspense fallback={<LazyFallback />}><OAuthConsent /></Suspense>} />
         <Route path="/admin" element={<ProtectedRoute><ErrorBoundary><Suspense fallback={<LazyFallback />}><AdminDashboard /></Suspense></ErrorBoundary></ProtectedRoute>} />
         <Route path="*" element={<MaintenancePage />} />
       </Routes>
@@ -100,6 +102,7 @@ function AppRoutes() {
           <Route path="/about" element={<Navigate to="/#about" replace />} />
           <Route path="/pricing" element={<Navigate to="/#pricing" replace />} />
           <Route path="/login" element={<ErrorBoundary><Login /></ErrorBoundary>} />
+          <Route path="/oauth/consent" element={<ErrorBoundary><OAuthConsent /></ErrorBoundary>} />
           <Route path="/reset-password" element={<ErrorBoundary><ResetPassword /></ErrorBoundary>} />
           <Route path="/terms" element={<ErrorBoundary><Terms /></ErrorBoundary>} />
           <Route path="/privacy" element={<ErrorBoundary><Privacy /></ErrorBoundary>} />
