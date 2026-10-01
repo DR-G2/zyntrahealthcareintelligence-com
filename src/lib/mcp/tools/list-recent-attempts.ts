@@ -31,7 +31,7 @@ export default defineTool({
     if (error) throw new ToolError(error.message);
 
     const attempts = (data ?? []).map((row) => {
-      const question = row.questions as
+      const question = row.questions as unknown as
         | {
             zyntra_id: string | null;
             question_text: string;
