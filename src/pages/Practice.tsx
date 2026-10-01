@@ -430,12 +430,12 @@ function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConf
 
         {/* Topic Filters — Subject → Subtopics */}
         <div className="space-y-3">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
             <div className="flex items-start gap-3">
-            <div className="mt-0.5 rounded-lg bg-primary/10 p-2 text-primary"><BookOpen className="h-4 w-4" /></div>
-            <div><h2 className="text-sm font-semibold uppercase tracking-wider text-foreground">Focus Areas</h2><p className="mt-1 text-xs text-muted-foreground">Target subjects and subtopics instead of spreading practice evenly.</p></div>
-          </div>
-            <div className="flex items-center gap-2">
+              <div className="mt-0.5 rounded-lg bg-primary/10 p-2 text-primary"><BookOpen className="h-4 w-4" /></div>
+              <div><h2 className="text-sm font-semibold uppercase tracking-wider text-foreground">Focus Areas</h2><p className="mt-1 text-xs text-muted-foreground">Target subjects and subtopics instead of spreading practice evenly.</p></div>
+            </div>
+            <div className="flex flex-wrap gap-2 sm:shrink-0">
               <Button variant="ghost" size="sm" onClick={selectAll}>Select All</Button>
               <Button variant="ghost" size="sm" onClick={clearAll}>Clear All</Button>
             </div>
