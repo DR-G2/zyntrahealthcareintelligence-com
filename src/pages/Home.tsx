@@ -80,10 +80,10 @@ function MiniRoomPreview() {
   return (
     <div className="mini-room" aria-hidden="true">
       <div className="mini-top"><span className="mini-logo">Z</span><span>Practice</span><span className="mini-pill">MCQ</span></div>
-      <div className="mini-question">Your answer is one signal.</div>
-      <div className="mini-option"><b>A</b><span>Confidence: Observed</span></div>
-      <div className="mini-option active"><b>B</b><span>Timing: Measured</span><span className="mini-check">✓</span></div>
-      <div className="mini-option"><b>C</b><span>Answer changes: Tracked</span></div>
+      <div className="mini-question">Which finding most strongly supports the diagnosis?</div>
+      <div className="mini-option"><b>A</b><span>Clinical finding and timing</span></div>
+      <div className="mini-option active"><b>B</b><span>Pattern recognised from the stem</span><span className="mini-check">✓</span></div>
+      <div className="mini-option"><b>C</b><span>Alternative explanation</span></div>
       <div className="mini-footer"><span>Confidence</span><span>Timing</span><span>Changes</span></div>
     </div>
   );
@@ -113,7 +113,7 @@ export default function Home() {
           <div className="hero-stars" aria-hidden="true" />
           <div className="shell hero-layout">
             <div className="hero-copy">
-              <p className="eyebrow">What is Zyntra?</p>
+              <p className="eyebrow">WHAT IS ZYNTRA?</p>
               <h1 id="hero-title">Zyntra is an AI-powered AMC exam preparation platform for medical students, medical graduates and doctors preparing for the Australian Medical Council examinations.</h1>
               <p className="hero-lead">Zyntra goes beyond whether an answer is right or wrong. It learns how you approach questions and uses those signals to make preparation more targeted.</p>
               <p className="hero-signal">Your answer is one signal. Your decision process is the dataset.</p>
@@ -131,30 +131,30 @@ export default function Home() {
 
         <section id="about" className="dark-section about-section">
           <div className="shell split-section">
-            <div><h2>About Zyntra</h2><p>Zyntra is for medical students, medical graduates and doctors preparing for AMC examinations. A conventional bank marks the option. Zyntra also keeps timing, confidence and answer changes, then uses those signals in Performance Intelligence and the Study Plan.</p></div>
+            <div><p className="section-kicker">ABOUT ZYNTRA</p><h2>About Zyntra</h2><p>Zyntra is for medical students, medical graduates and doctors preparing for AMC examinations. A conventional bank marks the option. Zyntra also keeps timing, confidence and answer changes, then uses those signals in Performance Intelligence and the Study Plan.</p></div>
             <MiniRoomPreview />
           </div>
         </section>
 
         <section id="how" className="dark-section how-section">
-          <div className="shell"><h2>How Zyntra works</h2><div className="how-timeline">{howItems.map(([title, text], i) => <div className="timeline-step" key={title}><div className="timeline-node">{String(i + 1).padStart(2,'0')}</div><div className="timeline-line" /><div className="timeline-copy"><h3>{title}</h3><p>{text}</p></div></div>)}</div></div>
+          <div className="shell"><p className="section-kicker">THE LOOP</p><h2>How Zyntra works</h2><div className="how-timeline">{howItems.map(([title, text], i) => <div className="timeline-step" key={title}><div className="timeline-node">{String(i + 1).padStart(2,'0')}</div><div className="timeline-line" /><div className="timeline-copy"><h3>{title}</h3><p>{text}</p></div></div>)}</div></div>
         </section>
 
         <section id="trains" className="dark-section training-section">
-          <div className="shell"><h2>How Zyntra trains</h2><div className="training-list">{trainingItems.map(([title, description], i) => <article className="training-row" key={title}><span className="training-no">{String(i + 1).padStart(2,'0')}</span><div className="training-title">{title}</div><p>{description}</p></article>)}</div></div>
+          <div className="shell"><p className="section-kicker">THE TRAINING SYSTEM</p><h2>How Zyntra trains</h2><div className="training-list">{trainingItems.map(([title, description], i) => <article className="training-row" key={title}><span className="training-no">{String(i + 1).padStart(2,'0')}</span><div className="training-title">{title}</div><p>{description}</p></article>)}</div></div>
         </section>
 
         <section id="pricing" className="pricing-section">
-          <div className="shell"><h2>Pricing</h2><p className="pricing-intro">Three ways in</p><div className="pricing-list">
+          <div className="shell"><p className="section-kicker">PRICING</p><h2>Pricing</h2><p className="pricing-intro">Three ways in</p><div className="pricing-list">
             <article className="price-row"><div><h3>Free</h3><div className="price-main">$0</div><div className="price-note">APPE diagnostic only</div></div><div className="price-detail"><p>One diagnostic. It records timing, answer changes and confidence.</p><p>You see the pattern from that sitting. That is the free product.</p><p>No question bank, no study plan, no flashcards.</p><Link to="/login" className="secondary-button">Button: Start the diagnostic</Link></div></article>
             <article className="price-row"><div><h3>Practice</h3><div className="price-main">$39 AUD / month</div><div className="price-note">or $100 AUD for 3 months</div></div><div className="price-detail"><p>MCQ practice, Performance Intelligence and Study Plan.</p><p>Three months at the monthly rate is $117. You pay $100.</p><p>That is $17 off, 15% off the monthly price.</p><Link to="/login" className="secondary-button">Button: Log in to subscribe</Link></div></article>
             <article className="price-row price-row-disabled"><div><h3>Pass guarantee</h3><div className="price-main">Building</div><div className="price-note">Not on sale yet</div></div><div className="price-detail"><p>Follow a set daily load: questions done, revision queue cleared, weak topics first.</p><p>A person you name can see that you kept the load.</p><p>If you keep that load and do not pass AMC MCQ, the fee comes back. Same idea as a selection guarantee: the refund is for the method, not for logging in.</p><button type="button" className="secondary-button disabled-button" disabled>Button (disabled): Not open yet</button></div></article>
           </div></div>
         </section>
 
-        <section id="faq" className="dark-section faq-section"><div className="shell narrow"><h2>FAQ</h2><div className="faq-list">{faqs.map(([question, answer]) => <details key={question} className="faq-item"><summary>{question}</summary><p>{answer}</p></details>)}</div></div></section>
+        <section id="faq" className="dark-section faq-section"><div className="shell narrow"><p className="section-kicker">FAQ</p><h2>FAQ</h2><div className="faq-list">{faqs.map(([question, answer]) => <details key={question} className="faq-item"><summary>{question}</summary><p>{answer}</p></details>)}</div></div></section>
 
-        <section id="contact" className="contact-section"><div className="shell contact-layout"><div><h2>Get in touch</h2><p>A question about the product or an account. One form.</p><p className="contact-email">Or email <a href={`mailto:${LEGAL_EMAIL}`}>{LEGAL_EMAIL}</a></p></div><div className="contact-form-wrap">{sent ? <p className="sent-message">Sent.</p> : <form onSubmit={submit} className="contact-form"><label><span>Name</span><input required value={form.name} onChange={e => setForm({...form,name:e.target.value})}/></label><label><span>Email</span><input required type="email" value={form.email} onChange={e => setForm({...form,email:e.target.value})}/></label><label><span>Message</span><textarea required value={form.message} onChange={e => setForm({...form,message:e.target.value})}/></label><button type="submit" className="primary-button">Button: Send</button></form>}</div></div></section>
+        <section id="contact" className="contact-section"><div className="shell contact-layout"><div><p className="section-kicker">GET IN TOUCH</p><h2>Get in touch</h2><p>A question about the product or an account. One form.</p><p className="contact-email">Or email <a href={`mailto:${LEGAL_EMAIL}`}>{LEGAL_EMAIL}</a></p></div><div className="contact-form-wrap">{sent ? <p className="sent-message">Sent.</p> : <form onSubmit={submit} className="contact-form"><label><span>Name</span><input required value={form.name} onChange={e => setForm({...form,name:e.target.value})}/></label><label><span>Email</span><input required type="email" value={form.email} onChange={e => setForm({...form,email:e.target.value})}/></label><label><span>Message</span><textarea required value={form.message} onChange={e => setForm({...form,message:e.target.value})}/></label><button type="submit" className="primary-button">Button: Send</button></form>}</div></div></section>
       </main>
 
       <footer className="site-footer"><div className="shell footer-inner"><div className="footer-brand">Zyntra Healthcare Intelligence</div><nav className="footer-nav" aria-label="Footer"><a href="#faq">FAQ</a><Link to="/terms">Terms</Link><Link to="/privacy">Privacy</Link><a href="#contact">Contact</a><a href="#contact">Get in touch</a></nav></div><p className="shell footer-note">Zyntra is not affiliated with or endorsed by the Australian Medical Council. Clinical stations are not live.</p></footer>
