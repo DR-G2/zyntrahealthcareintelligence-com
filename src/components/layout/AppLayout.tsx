@@ -1,6 +1,6 @@
 import { ReactNode, useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, Sparkles, UserCircle, Zap } from 'lucide-react';
+import { Menu, UserCircle, Zap } from 'lucide-react';
 import { AppSidebar, SidebarContext, useSidebarCollapsed } from '@/components/AppSidebar';
 import { SecurityOverlay } from '@/components/SecurityOverlay';
 import { useIsMobile, useIsTablet } from '@/hooks/use-mobile';
