@@ -105,9 +105,8 @@ function clampScore(value: number | null | undefined): number | null {
   return Math.max(0, Math.min(100, Math.round(value)));
 }
 
-function buildTaskHref(category?: string, count = 20) {
-  if (!category) return '/practice';
-  return '/practice?planSubject=' + encodeURIComponent(category) + '&planCount=' + encodeURIComponent(String(count));
+function buildTaskHref(_category?: string, _count = 20) {
+  return '/practice';
 }
 
 function buildTasks(
