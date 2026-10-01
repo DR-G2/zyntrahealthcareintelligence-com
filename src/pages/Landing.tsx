@@ -34,6 +34,7 @@ export default function Landing() {
   const [selected, setSelected] = useState<number | null>(null);
   const [answerChanges, setAnswerChanges] = useState(0);
   const [correctCount, setCorrectCount] = useState(0);
+  const [previousCorrect, setPreviousCorrect] = useState<boolean | null>(null);
   const [score, setScore] = useState<number | null>(null);
   const [usedIds, setUsedIds] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
@@ -108,7 +109,7 @@ export default function Landing() {
       p_answer_changes_count: answerChanges,
       p_session_id: sessionIdRef.current,
       p_question_position: questionIndex + 1,
-      p_previous_question_correct: questionIndex === 0 ? null : undefined,
+      p_previous_question_correct: previousCorrect,
       p_time_to_first_click: timeToFirstClick,
       p_used_ids: usedIds,
       p_previous_difficulty_tier: question.difficulty_tier,
@@ -124,6 +125,7 @@ export default function Landing() {
     const result = data as SubmitResult;
     const nextCorrectCount = correctCount + (result.is_correct ? 1 : 0);
     setCorrectCount(nextCorrectCount);
+    setPreviousCorrect(result.is_correct);
 
     if (result.final) {
       setScore(Math.round((nextCorrectCount / TOTAL_QUESTIONS) * 10 * 10) / 10);
