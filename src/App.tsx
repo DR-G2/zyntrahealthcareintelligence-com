@@ -12,18 +12,15 @@ import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { usePresence } from "@/hooks/usePresence";
 import { VisitorTracker } from "@/components/VisitorTracker";
-import { useShowAboutPricing, useMaintenanceMode } from "@/hooks/useSiteSettings";
+import { useMaintenanceMode } from "@/hooks/useSiteSettings";
 import { supabase } from "@/integrations/supabase/client";
 
 import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 
-const About = lazy(() => import("./pages/About"));
-const Pricing = lazy(() => import("./pages/Pricing"));
 const ResetPassword = lazy(() => import("./pages/ResetPassword"));
 const Onboarding = lazy(() => import("./pages/Onboarding"));
-const Dashboard = lazy(() => import("./pages/Dashboard"));
 const Assess = lazy(() => import("./pages/Assess"));
 const Practice = lazy(() => import("./pages/Practice"));
 const Questions = lazy(() => import("./pages/Questions"));
@@ -41,7 +38,6 @@ const AmcPart1Mcq = lazy(() => import("./pages/AmcPart1Mcq"));
 const OsceInSurgery = lazy(() => import("./pages/OsceInSurgery"));
 const PerformanceIntelligence = lazy(() => import("./pages/PerformanceIntelligence"));
 const InboxPage = lazy(() => import("./pages/Inbox"));
-const NotificationsPage = lazy(() => import("./pages/Notifications"));
 
 const queryClient = new QueryClient();
 
@@ -69,9 +65,7 @@ function MaintenancePage() {
           <Zap className="h-8 w-8 text-primary" />
         </div>
         <h1 className="text-2xl font-bold font-display">We'll be back soon</h1>
-        <p className="text-muted-foreground">
-          Zyntra is currently undergoing scheduled maintenance. We'll be back shortly — thanks for your patience!
-        </p>
+        <p className="text-muted-foreground">Zyntra is currently undergoing scheduled maintenance. We'll be back shortly.</p>
       </div>
     </div>
   );
@@ -81,7 +75,6 @@ function MaintenanceGate({ children }: { children: React.ReactNode }) {
   const { enabled: maintenance, loading } = useMaintenanceMode();
   const { user } = useAuth();
   const isAdmin = user?.email ? ADMIN_EMAILS.includes(user.email) : false;
-
   if (loading) return <LazyFallback />;
   if (maintenance && !isAdmin) {
     return (
@@ -96,28 +89,13 @@ function MaintenanceGate({ children }: { children: React.ReactNode }) {
 }
 
 function AppRoutes() {
-  const { show: showAboutPricing, loading: aboutPricingLoading } = useShowAboutPricing();
   return (
     <MaintenanceGate>
       <Suspense fallback={<LazyFallback />}>
         <Routes>
           <Route path="/" element={<ErrorBoundary><Landing /></ErrorBoundary>} />
-          {aboutPricingLoading ? (
-            <>
-              <Route path="/about" element={<LazyFallback />} />
-              <Route path="/pricing" element={<LazyFallback />} />
-            </>
-          ) : showAboutPricing ? (
-            <>
-              <Route path="/about" element={<ErrorBoundary><About /></ErrorBoundary>} />
-              <Route path="/pricing" element={<ErrorBoundary><Pricing /></ErrorBoundary>} />
-            </>
-          ) : (
-            <>
-              <Route path="/about" element={<Navigate to="/" replace />} />
-              <Route path="/pricing" element={<Navigate to="/" replace />} />
-            </>
-          )}
+          <Route path="/about" element={<Navigate to="/#about" replace />} />
+          <Route path="/pricing" element={<Navigate to="/#pricing" replace />} />
           <Route path="/login" element={<ErrorBoundary><Login /></ErrorBoundary>} />
           <Route path="/reset-password" element={<ErrorBoundary><ResetPassword /></ErrorBoundary>} />
           <Route path="/terms" element={<ErrorBoundary><Terms /></ErrorBoundary>} />
@@ -126,7 +104,7 @@ function AppRoutes() {
           <Route path="/osce-in-surgery" element={<ErrorBoundary><OsceInSurgery /></ErrorBoundary>} />
           <Route path="/amc-clinical-osce" element={<ErrorBoundary><OsceInSurgery /></ErrorBoundary>} />
           <Route path="/onboarding" element={<ErrorBoundary><Onboarding /></ErrorBoundary>} />
-          <Route path="/dashboard" element={<ProtectedRoute><ErrorBoundary><Dashboard /></ErrorBoundary></ProtectedRoute>} />
+          <Route path="/dashboard" element={<Navigate to="/practice" replace />} />
           <Route path="/assess" element={<ProtectedRoute><ErrorBoundary><Assess /></ErrorBoundary></ProtectedRoute>} />
           <Route path="/intelligence" element={<ProtectedRoute><ErrorBoundary><PerformanceIntelligence /></ErrorBoundary></ProtectedRoute>} />
           <Route path="/profile" element={<Navigate to="/intelligence?tab=performance" replace />} />
@@ -140,8 +118,8 @@ function AppRoutes() {
           <Route path="/plan" element={<ProtectedRoute><ErrorBoundary><StudyPlan /></ErrorBoundary></ProtectedRoute>} />
           <Route path="/stations" element={<ErrorBoundary><OsceInSurgery /></ErrorBoundary>} />
           <Route path="/companion/chat" element={<ProtectedRoute><ErrorBoundary><CompanionChat /></ErrorBoundary></ProtectedRoute>} />
-          <Route path="/companion/groups" element={<Navigate to="/dashboard" replace />} />
-          <Route path="/companion/shared-tests" element={<Navigate to="/dashboard" replace />} />
+          <Route path="/companion/groups" element={<Navigate to="/practice" replace />} />
+          <Route path="/companion/shared-tests" element={<Navigate to="/practice" replace />} />
           <Route path="/companion/ai-core" element={<ProtectedRoute><ErrorBoundary><ZyntraAICore /></ErrorBoundary></ProtectedRoute>} />
           <Route path="/review" element={<Navigate to="/practice" replace />} />
           <Route path="/feed" element={<ProtectedRoute><ErrorBoundary><Feed /></ErrorBoundary></ProtectedRoute>} />
