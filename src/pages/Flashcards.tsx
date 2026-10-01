@@ -249,9 +249,9 @@ export default function Flashcards() {
       <div className="max-w-4xl mx-auto p-4 md:p-6 space-y-6">
         {phase === 'decks' && (
           <>
-            <div className="flex items-start justify-between gap-4">
-              <RoomHeader kind="flashcards" className="flex-1" />
-              <div className="flex shrink-0 gap-2 pt-1">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+              <RoomHeader kind="flashcards" className="w-full sm:flex-1" />
+              <div className="flex w-full flex-col gap-2 sm:w-auto sm:shrink-0 sm:pt-1">
 
                 <Button variant="outline" size="sm" onClick={generateFromMistakes} disabled={generating} className="gap-1.5">
                   {generating ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
