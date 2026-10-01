@@ -26,7 +26,7 @@ const Assess = lazy(() => import("./pages/Assess"));
 const Practice = lazy(() => import("./pages/Practice"));
 const PracticeOsce = lazy(() => import("./pages/PracticeOsce"));
 const Questions = lazy(() => import("./pages/Questions"));
-const StudyPlan = lazy(() => import("./pages/StudyPlan"));
+const Plan = lazy(() => import("./pages/Plan"));
 const Settings = lazy(() => import("./pages/Settings"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const QuestionsMCQ = lazy(() => import("./pages/QuestionsMCQ"));
@@ -38,7 +38,7 @@ const ZyntraAICore = lazy(() => import("./pages/ZyntraAICore"));
 const Flashcards = lazy(() => import("./pages/Flashcards"));
 const AmcPart1Mcq = lazy(() => import("./pages/AmcPart1Mcq"));
 const OsceInSurgery = lazy(() => import("./pages/OsceInSurgery"));
-const PerformanceIntelligence = lazy(() => import("./pages/PerformanceIntelligence"));
+const Intelligence = lazy(() => import("./pages/Intelligence"));
 const InboxPage = lazy(() => import("./pages/Inbox"));
 const OAuthConsent = lazy(() => import("./pages/OAuthConsent"));
 
