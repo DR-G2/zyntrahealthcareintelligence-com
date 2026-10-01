@@ -5,11 +5,9 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useShowAboutPricing } from '@/hooks/useSiteSettings';
 
 interface PublicFooterProps {
-  /** Show the AMC independence disclaimer (hide if the page already shows it). */
   showDisclaimer?: boolean;
 }
 
-/** Shared footer for public (logged-out) pages: home, about, pricing, terms, privacy. */
 export function PublicFooter({ showDisclaimer = true }: PublicFooterProps) {
   const { user } = useAuth();
   const { show: showAboutPricing } = useShowAboutPricing();
@@ -26,7 +24,7 @@ export function PublicFooter({ showDisclaimer = true }: PublicFooterProps) {
           <nav aria-label="Footer" className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
             <Link to="/" className={linkClass}>Home</Link>
             <Link to="/amc-part-1-mcq" className={linkClass}>AMC Part 1 MCQ</Link>
-            <Link to="/amc-clinical-osce" className={linkClass}>AMC Clinical OSCE</Link>
+            <Link to="/osce-in-surgery" className={linkClass}>OSCE in surgery</Link>
             {showAboutPricing && <Link to="/about" className={linkClass}>About</Link>}
             {showAboutPricing && <Link to="/pricing" className={linkClass}>Pricing</Link>}
             {showAboutPricing && <Link to="/pricing#faq" className={linkClass}>FAQ</Link>}
@@ -40,7 +38,7 @@ export function PublicFooter({ showDisclaimer = true }: PublicFooterProps) {
         </div>
         {showDisclaimer && (
           <p className="text-center text-xs text-muted-foreground">
-            Zyntra is an independent exam preparation platform and is not affiliated with or endorsed by the Australian Medical Council.
+            Zyntra is an independent exam preparation platform and is not affiliated with or endorsed by the Australian Medical Council. Clinical stations are not live.
           </p>
         )}
         <p className="text-center text-xs text-muted-foreground">© 2026 Zyntra · <a href={`mailto:${LEGAL_EMAIL}`} className={linkClass}>{LEGAL_EMAIL}</a></p>
