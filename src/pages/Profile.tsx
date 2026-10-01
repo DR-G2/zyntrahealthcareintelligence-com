@@ -10,7 +10,6 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Target, Clock, Shield, Brain, ArrowRight, TrendingUp, Stethoscope, Activity } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { RoomHeader } from '@/components/RoomHeader';
 import { ProfileSkeleton } from '@/components/skeletons/PageSkeleton';
 
 interface PerformanceData {
@@ -29,6 +28,10 @@ interface StationAttempt {
   time_taken_seconds: number;
   mode: string;
   created_at: string;
+}
+
+function formatScore(value: number | null | undefined) {
+  return value == null || !Number.isFinite(value) ? 'N/A' : Math.round(value).toString();
 }
 
 function ScoreRing({ value, label, icon: Icon, color }: {
@@ -56,7 +59,7 @@ function ScoreRing({ value, label, icon: Icon, color }: {
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center">
           <Icon className="h-4 w-4 mb-0.5" style={{ color }} />
-          <span className="text-lg font-bold font-display">{value == null ? 'N/A' : value}</span>
+          <span className="text-lg font-bold font-display">{formatScore(value)}</span>
         </div>
       </div>
       <span className="text-sm text-muted-foreground text-center">{label}</span>
@@ -166,7 +169,7 @@ export default function Profile() {
   const metrics = [
     { value: data?.answer_stability ?? 0, label: 'Answer Stability', icon: Shield, color: 'hsl(var(--chart-1))', desc: 'Percentage of answers completed without changing selection.' },
     { value: data?.time_management == null ? null : Math.round(Math.max(0, Math.min(100, data.time_management >= 45 && data.time_management <= 60 ? 100 : data.time_management < 45 ? 100 - ((45 - data.time_management) * 1.5) : 100 - ((data.time_management - 60) * 1.5)))), label: 'Time Management', icon: Clock, color: 'hsl(var(--chart-2))', desc: 'Timing score against the 45–60 second target window.' },
-    { value: data?.confidence_calibration ?? null, label: 'Confidence Calibration', icon: Brain, color: 'hsl(var(--chart-3))', desc: 'Not measured yet. Explicit confidence capture is required for this signal.' },
+    { value: null, label: 'Confidence Calibration', icon: Brain, color: 'hsl(var(--chart-3))', desc: 'Not measured yet. Explicit confidence capture is required for this signal.' },
     { value: data?.clinical_accuracy ?? 0, label: 'Clinical Accuracy', icon: Target, color: 'hsl(var(--chart-4))', desc: 'Percentage of correct attempts.' },
   ];
 
@@ -179,8 +182,6 @@ export default function Profile() {
 
   return (
     <div className="mx-auto max-w-4xl space-y-8">
-        <RoomHeader kind="performance" />
-
         <Tabs defaultValue="combined" className="w-full">
           <TabsList>
             <TabsTrigger value="combined">Combined</TabsTrigger>
@@ -241,7 +242,7 @@ export default function Profile() {
                     <CardDescription>Each score reflects a different aspect of exam performance</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-5 sm:gap-6">
                       {metrics.map(m => <ScoreRing key={m.label} {...m} />)}
                     </div>
                     <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -249,7 +250,7 @@ export default function Profile() {
                         <div key={m.label} className="flex items-start gap-3 rounded-lg bg-muted/50 p-3">
                           <m.icon className="h-4 w-4 mt-0.5 shrink-0" style={{ color: m.color }} />
                           <div>
-                            <p className="text-sm font-medium">{m.label}: {m.value}/100</p>
+                            <p className="text-sm font-medium break-words">{m.label}: {formatScore(m.value)}/100</p>
                             <p className="text-xs text-muted-foreground">{m.desc}</p>
                           </div>
                         </div>

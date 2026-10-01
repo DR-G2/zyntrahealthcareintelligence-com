@@ -9,7 +9,6 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
-import { RoomHeader } from '@/components/RoomHeader';
 import { BehaviorSkeleton } from '@/components/skeletons/PageSkeleton';
 import {
   Brain, AlertTriangle, Zap, Clock, Shield, Target,
@@ -194,13 +193,10 @@ export default function BehaviorProfile() {
 
   return (
     <div className="mx-auto max-w-5xl space-y-8">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <RoomHeader kind="behaviour" className="w-full sm:flex-1" />
-          <Button onClick={runAnalysis} disabled={analyzing} variant="outline" className="w-full shrink-0 gap-2 sm:w-auto">
+        <div className="flex justify-end"><Button onClick={runAnalysis} disabled={analyzing} variant="outline" className="w-full shrink-0 gap-2 sm:w-auto">
             {analyzing ? <Loader2 className="h-4 w-4 animate-spin" /> : <RefreshCw className="h-4 w-4" />}
             Re-analyze
-          </Button>
-        </motion.div>
+          </Button></div>
 
         {/* Archetype Card */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>

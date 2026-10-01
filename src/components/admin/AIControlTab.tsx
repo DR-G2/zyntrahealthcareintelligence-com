@@ -155,21 +155,25 @@ export function AIControlTab() {
           </div>
 
           <div className="space-y-4">
-            <h4 className="text-sm font-medium">Feature Weights</h4>
+            <div>
+              <h4 className="text-sm font-medium">Adaptive Feature Weights</h4>
+              <p className="mt-1 text-xs text-muted-foreground">These are engine weighting controls, not candidate performance scores.</p>
+            </div>
             {[
-              { key: 'accuracy', label: 'Clinical Accuracy' },
-              { key: 'stability', label: 'Answer Stability' },
-              { key: 'efficiency', label: 'Time Efficiency' },
-              { key: 'calibration', label: 'Confidence Calibration' },
-            ].map(({ key, label }) => (
-              <div key={key} className="space-y-1">
+              { key: 'accuracy', label: 'Clinical Accuracy', disabled: false },
+              { key: 'stability', label: 'Answer Stability', disabled: false },
+              { key: 'efficiency', label: 'Time Efficiency', disabled: false },
+              { key: 'calibration', label: 'Confidence Calibration', disabled: true },
+            ].map(({ key, label, disabled }) => (
+              <div key={key} className={`space-y-1 ${disabled ? "opacity-50" : ""}`}>
                 <div className="flex justify-between text-sm">
                   <span className="text-muted-foreground">{label}</span>
-                  <span className="font-mono text-xs">{weights[key]}%</span>
+                  <span className="font-mono text-xs">{disabled ? "N/A" : `${weights[key]}%`}</span>
                 </div>
                 <Slider
                   value={[weights[key]]}
                   onValueChange={([v]) => setWeights((prev: Record<string, number>) => ({ ...prev, [key]: v }))}
+                  disabled={disabled}
                   max={100}
                   step={5}
                   className="w-full"
