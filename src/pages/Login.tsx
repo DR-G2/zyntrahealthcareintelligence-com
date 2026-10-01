@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, Navigate, useSearchParams } from 'react-router-dom';
 import { Zap, Mail, Lock, Eye, EyeOff, ArrowLeft, MailCheck } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
+import { sanitizeNextPath } from '@/lib/post-auth-redirect';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -16,10 +17,11 @@ import { useRegistrationOpen } from '@/hooks/useSiteSettings';
 export default function Login() {
   const [searchParams] = useSearchParams();
   const defaultTab = searchParams.get('tab') === 'signup' ? 'signup' : 'login';
+  const nextPath = sanitizeNextPath(searchParams.get('next')) ?? '/dashboard';
   const { session, loading } = useAuth();
   const { enabled: registrationOpen, loading: regLoading } = useRegistrationOpen();
 
-  if (!loading && session) return <Navigate to="/dashboard" replace />;
+  if (!loading && session) return <Navigate to={nextPath} replace />;
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background p-4">
@@ -198,8 +200,12 @@ function AuthForm({ mode }: { mode: 'login' | 'signup' }) {
 
   const handleGoogleSignIn = async () => {
     const { lovable } = await import('@/integrations/lovable/index');
+    const nextPath = sanitizeNextPath(new URLSearchParams(window.location.search).get('next'));
+    const redirectUri = nextPath
+      ? `${window.location.origin}/login?next=${encodeURIComponent(nextPath)}`
+      : window.location.origin;
     const { error } = await lovable.auth.signInWithOAuth('google', {
-      redirect_uri: window.location.origin,
+      redirect_uri: redirectUri,
     });
     if (error) {
       toast({ title: 'Error', description: error.message, variant: 'destructive' });
