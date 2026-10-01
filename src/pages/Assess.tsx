@@ -274,39 +274,7 @@ export default function Assess() {
     if (user) {
       await supabase.from('user_attempts').insert(inserts);
 
-      // Compute performance data
-      const totalCorrect = inserts.filter(a => a.is_correct).length;
-      const totalAnswered = inserts.filter(a => a.selected_answer).length;
-      const totalChanges = inserts.reduce((sum, a) => sum + a.answer_changes_count, 0);
-      const avgTime = inserts.reduce((sum, a) => sum + a.time_taken_seconds, 0) / inserts.length;
-
-      const stabilityScore = Math.max(0, 100 - (totalChanges / inserts.length) * 50);
-      const clinicalAccuracy = totalAnswered > 0 ? (totalCorrect / totalAnswered) * 100 : 0;
-      const timeSensitivity = Math.max(0, 100 - Math.max(0, avgTime - 60) * 2);
-      const confidenceGap = Math.abs(70 - clinicalAccuracy);
-      const readinessScore = stabilityScore * 0.2 + timeSensitivity * 0.2 + (100 - confidenceGap) * 0.2 + clinicalAccuracy * 0.4;
-
-      const performanceData = {
-        stability_score: Math.round(stabilityScore),
-        time_sensitivity: Math.round(timeSensitivity),
-        confidence_gap: Math.round(confidenceGap),
-        clinical_accuracy: Math.round(clinicalAccuracy),
-        readiness_score: Math.round(readinessScore),
-      };
-
-      const { data: existing } = await supabase.from('performance_profiles').select('*').eq('user_id', user.id).maybeSingle();
-      if (existing) {
-        await supabase.from('performance_profiles').update({
-          clinical_accuracy: Math.round(((existing.clinical_accuracy || 0) * 0.4 + performanceData.clinical_accuracy * 0.6) * 10) / 10,
-          stability_score: Math.round(((existing.stability_score || 0) * 0.4 + performanceData.stability_score * 0.6) * 10) / 10,
-          time_sensitivity: Math.round(((existing.time_sensitivity || 0) * 0.4 + performanceData.time_sensitivity * 0.6) * 10) / 10,
-          confidence_gap: Math.round(((existing.confidence_gap || 0) * 0.4 + performanceData.confidence_gap * 0.6) * 10) / 10,
-          readiness_score: Math.round(((existing.readiness_score || 0) * 0.4 + performanceData.readiness_score * 0.6) * 10) / 10,
-        }).eq('user_id', user.id);
-      } else {
-        await supabase.from('performance_profiles').insert({ user_id: user.id, ...performanceData });
-      }
-
+      // Performance Intelligence is rebuilt from inserted attempt telemetry by the database trigger.
       // Trigger behavior analysis in background
       supabase.functions.invoke('analyze-behavior').catch(console.error);
     }
