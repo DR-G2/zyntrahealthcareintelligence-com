@@ -12,6 +12,7 @@ export function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const [checked, setChecked] = useState(false);
   const [accepting, setAccepting] = useState(false);
+  const diagnosticDone = typeof window !== 'undefined' && sessionStorage.getItem('zyntra_diagnostic_done') === '1';
 
   if (loading || termsLoading) {
     return (
@@ -23,7 +24,7 @@ export function ProtectedRoute({ children }: { children: React.ReactNode }) {
 
   if (!session) return <Navigate to="/login" replace />;
 
-  if (profile && !profile.onboarding_complete) {
+  if (profile && !profile.onboarding_complete && !diagnosticDone) {
     const path = location.pathname;
     if (path !== '/assess' && path !== '/onboarding') return <Navigate to="/assess" replace />;
   }
@@ -34,26 +35,17 @@ export function ProtectedRoute({ children }: { children: React.ReactNode }) {
       await acceptTerms();
       setAccepting(false);
     };
-
     return (
       <div className="flex min-h-screen items-center justify-center bg-background p-4">
         <Card className="w-full max-w-md border-border/50 shadow-xl">
-          <CardHeader>
-            <CardTitle className="font-display text-lg">Updated Terms of Service</CardTitle>
-          </CardHeader>
+          <CardHeader><CardTitle className="font-display text-lg">Updated Terms of Service</CardTitle></CardHeader>
           <CardContent className="space-y-4">
-            <p className="text-[11px] text-foreground/85 leading-[1.4]">
-              We've updated our Terms of Service ({CURRENT_TERMS_VERSION}). Please review and accept to continue using Zyntra.
-            </p>
+            <p className="text-[11px] text-foreground/85 leading-[1.4]">We've updated our Terms of Service ({CURRENT_TERMS_VERSION}). Please review and accept to continue using Zyntra.</p>
             <div className="flex items-start gap-2">
               <Checkbox id="terms-reaccept" checked={checked} onCheckedChange={(v) => setChecked(v === true)} className="mt-0.5" />
-              <label htmlFor="terms-reaccept" className="text-[11px] leading-[1.4] text-foreground/85 cursor-pointer">
-                I agree to the <Link to="/terms" target="_blank" className="text-primary underline">Terms of Service</Link> and Copyright Policy
-              </label>
+              <label htmlFor="terms-reaccept" className="text-[11px] leading-[1.4] text-foreground/85 cursor-pointer">I agree to the <Link to="/terms" target="_blank" className="text-primary underline">Terms of Service</Link> and Copyright Policy</label>
             </div>
-            <Button onClick={handleAccept} disabled={!checked || accepting} className="w-full">
-              {accepting ? 'Accepting…' : 'Accept & Continue'}
-            </Button>
+            <Button onClick={handleAccept} disabled={!checked || accepting} className="w-full">{accepting ? 'Accepting…' : 'Accept & Continue'}</Button>
           </CardContent>
         </Card>
       </div>
@@ -68,6 +60,5 @@ export function ProtectedRoute({ children }: { children: React.ReactNode }) {
       </div>
     );
   }
-
   return <>{children}</>;
 }
