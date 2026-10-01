@@ -31,13 +31,13 @@ export default defineTool({
       mode: row.mode,
       stationIndex: row.station_index,
       timeTakenSeconds: row.time_taken_seconds,
-      scores: JSON.parse(JSON.stringify(row.scores ?? {})) as Record<string, unknown>,
-      psychograph: JSON.parse(JSON.stringify(row.psychograph ?? {})) as Record<string, unknown>,
+      scores: JSON.parse(JSON.stringify(row.scores ?? {})) as never,
+      psychograph: JSON.parse(JSON.stringify(row.psychograph ?? {})) as never,
     }));
 
     return {
       content: [{ type: "text" as const, text: JSON.stringify(stations, null, 2) }],
-      structuredContent: { stations } as Record<string, unknown>,
+      structuredContent: { stations } as never,
     };
   },
 });
