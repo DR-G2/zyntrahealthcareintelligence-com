@@ -18,7 +18,6 @@ import {
   RotateCcw
 } from 'lucide-react';
 import { AppLayout } from '@/components/AppLayout';
-import { RoomHeader } from '@/components/RoomHeader';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
@@ -296,15 +295,12 @@ export default function TrustYourGut() {
 
   return (
     <div className="space-y-6">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <RoomHeader kind="trust" className="w-full sm:flex-1" />
-          <Button onClick={startTraining} className="w-full shrink-0 gap-2 sm:w-auto">
+        <div className="flex justify-end"><Button onClick={startTraining} className="w-full shrink-0 gap-2 sm:w-auto">
             <Play className="h-4 w-4" />
             Start Training
-          </Button>
-        </div>
+          </Button></div>
 
-        {/* Training Mode Overlay */}
+        {/* Training Mode Overlay */
         <AnimatePresence>
           {trainingMode && currentQuestion && (
             <motion.div
