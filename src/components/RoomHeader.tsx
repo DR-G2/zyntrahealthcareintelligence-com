@@ -69,7 +69,7 @@ export function RoomHeader({ kind, className }: { kind: RoomHeaderKind; classNam
   const c = CONFIG[kind];
   const Icon = c.icon;
   return (
-    <section className={cn(
+    <section data-zyntra-room-header="true" className={cn(
       'relative overflow-hidden rounded-2xl border border-border/70 bg-card/80 p-5 shadow-sm backdrop-blur-sm sm:p-6',
       className
     )}>
