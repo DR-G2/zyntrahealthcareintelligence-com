@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -9,7 +9,7 @@
   * { @apply border-border; }
   html { scroll-behavior: smooth; }
   body { @apply bg-background text-foreground antialiased; margin: 0; font-family: 'Space Grotesk', system-ui, sans-serif; }
-  h1,h2,h3,h4,h5,h6 { font-family: 'Space Grotesk', system-ui, sans-serif; }
+  /* Keep typography page-scoped. Home.tsx uses Tailwind's font-sans. */
 }
 :root {
   --ink:#edf7fb; --muted:#91a9b6; --quiet:#5f7988; --navy:#030a11; --panel:#061520; --line:rgba(87,174,214,.16);
