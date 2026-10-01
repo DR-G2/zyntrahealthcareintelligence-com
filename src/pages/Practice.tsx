@@ -339,10 +339,10 @@ function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConf
             <button
               onClick={() => setMode('no-change')}
               className={cn(
-                'rounded-xl border-2 p-5 text-left transition-all',
+                'rounded-2xl border border-white/10 bg-[#081224]/70 p-5 text-left backdrop-blur-xl transition-all hover:border-cyan-400/25 hover:bg-[#0a1629]',
                 mode === 'no-change'
-                  ? 'border-primary bg-primary/5 ring-2 ring-primary/20'
-                  : 'border-border hover:border-primary/30'
+                  ? 'border-cyan-300/80 bg-cyan-400/[0.06] ring-1 ring-cyan-400/20 shadow-[0_0_35px_rgba(34,211,238,0.08)]'
+                  : 'border-white/10 hover:border-cyan-400/25'
               )}
             >
               <div className="flex items-center gap-3 mb-2">
@@ -359,10 +359,10 @@ function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConf
             <button
               onClick={() => { setMode('full-mock'); setQuestionCount(150); }}
               className={cn(
-                'rounded-xl border-2 p-5 text-left transition-all',
+                'rounded-2xl border border-white/10 bg-[#081224]/70 p-5 text-left backdrop-blur-xl transition-all hover:border-cyan-400/25 hover:bg-[#0a1629]',
                 mode === 'full-mock'
-                  ? 'border-primary bg-primary/5 ring-2 ring-primary/20'
-                  : 'border-border hover:border-primary/30'
+                  ? 'border-cyan-300/80 bg-cyan-400/[0.06] ring-1 ring-cyan-400/20 shadow-[0_0_35px_rgba(34,211,238,0.08)]'
+                  : 'border-white/10 hover:border-cyan-400/25'
               )}
             >
               <div className="flex items-center gap-3 mb-2">
@@ -976,7 +976,7 @@ function DrillSession({
                       transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                       className={cn(
                         'flex items-center rounded-lg border text-sm transition-all',
-                        isSelected ? 'border-primary bg-primary/5 ring-2 ring-primary/20' : 'border-border hover:border-primary/30',
+                        isSelected ? 'border-cyan-300/80 bg-cyan-400/[0.06] ring-1 ring-cyan-400/20 shadow-[0_0_35px_rgba(34,211,238,0.08)]' : 'border-white/10 hover:border-cyan-400/25',
                         isLocked && !isSelected && 'opacity-40 cursor-not-allowed',
                         isRuledOut && !isSelected && 'opacity-40'
                       )}
