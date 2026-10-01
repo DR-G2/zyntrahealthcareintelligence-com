@@ -5,6 +5,7 @@ import { AppLayout } from '@/components/AppLayout';
 import { useFeatureGate } from '@/hooks/useFeatureGate';
 import { UpgradePrompt } from '@/components/UpgradePrompt';
 import { SubscriptionTimer } from '@/components/SubscriptionTimer';
+import { cn } from '@/lib/utils';
 import { differenceInDays } from 'date-fns';
 import { toast } from 'sonner';
 import { Calendar, CheckCircle2, Clock, Lightbulb, Loader2, Sparkles, Target, TrendingUp, ArrowRight } from 'lucide-react';
