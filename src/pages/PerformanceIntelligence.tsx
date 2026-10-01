@@ -3,9 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AppLayout } from '@/components/AppLayout';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Activity, ArrowRight, Brain, ClipboardCheck, Target, UserCircle } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Link } from 'react-router-dom';
+import { Brain, Target, UserCircle } from 'lucide-react';
 import { RoomHeader } from '@/components/RoomHeader';
 import { lazy, Suspense } from 'react';
 
@@ -33,9 +31,6 @@ export default function PerformanceIntelligence() {
     setActiveTab(tab as TabId);
     setSearchParams({ tab }, { replace: true });
   };
-
-  // Direction for slide animation
-  const tabIndex = tabs.findIndex(t => t.id === activeTab);
 
   return (
     <AppLayout>
