@@ -12,7 +12,6 @@ import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { usePresence } from "@/hooks/usePresence";
 import { VisitorTracker } from "@/components/VisitorTracker";
-import { NudgeButton } from "@/components/NudgeButton";
 import { useShowAboutPricing, useMaintenanceMode } from "@/hooks/useSiteSettings";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -149,7 +148,7 @@ function AppRoutes() {
           <Route path="/flashcards" element={<ProtectedRoute><ErrorBoundary><Flashcards /></ErrorBoundary></ProtectedRoute>} />
           <Route path="/history" element={<Navigate to="/practice" replace />} />
           <Route path="/inbox" element={<ProtectedRoute><ErrorBoundary><InboxPage /></ErrorBoundary></ProtectedRoute>} />
-          <Route path="/notifications" element={<ProtectedRoute><ErrorBoundary><NotificationsPage /></ErrorBoundary></ProtectedRoute>} />
+          <Route path="/notifications" element={<Navigate to="/inbox" replace />} />
           <Route path="/admin" element={<ProtectedRoute><ErrorBoundary><AdminDashboard /></ErrorBoundary></ProtectedRoute>} />
           <Route path="/settings" element={<ProtectedRoute><ErrorBoundary><Settings /></ErrorBoundary></ProtectedRoute>} />
           <Route path="*" element={<NotFound />} />
@@ -169,7 +168,6 @@ const App = () => (
           <BrowserRouter>
             <PresenceTracker />
             <VisitorTracker />
-            <NudgeButton />
             <AppRoutes />
           </BrowserRouter>
         </TooltipProvider>
