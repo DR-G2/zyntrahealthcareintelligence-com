@@ -1,5 +1,5 @@
 import { NavLink, useLocation } from 'react-router-dom';
-import { Zap, Shield, PanelLeftClose, PanelLeft, Brain, Network, Route } from 'lucide-react';
+import { Zap, Shield, PanelLeftClose, PanelLeft, Brain, Network, Route, Settings } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils';
 import { TooltipProvider } from '@/components/ui/tooltip';
@@ -33,7 +33,7 @@ export function AppSidebar({ isMobile }: { isMobile?: boolean }) {
 
   const inner = (
     <>
-      <NavLink to="/practice" onClick={close} className={cn('flex items-center gap-2 py-5', effectiveCollapsed ? 'justify-center px-2' : 'px-6')}>
+      <NavLink to="/" onClick={close} className={cn('flex items-center gap-2 py-5', effectiveCollapsed ? 'justify-center px-2' : 'px-6')}>
         <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg gradient-primary"><Zap className="h-4 w-4 text-primary-foreground" /></div>
         {!effectiveCollapsed && <span className="text-lg font-bold font-display tracking-tight">Zyntra</span>}
       </NavLink>
@@ -46,7 +46,8 @@ export function AppSidebar({ isMobile }: { isMobile?: boolean }) {
         })}
       </nav>
       <div className={cn('border-t border-sidebar-border py-3', effectiveCollapsed ? 'px-1.5' : 'px-3')}>
-        {isAdmin && <NavLink to="/admin" onClick={close} className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-sidebar-foreground/70"><Shield className="h-4 w-4" />{!effectiveCollapsed && 'Admin'}</NavLink>}
+        {<NavLink to="/settings" onClick={close} title={effectiveCollapsed ? 'Settings' : undefined} className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-sidebar-foreground/70 hover:bg-sidebar-accent"><Settings className="h-4 w-4" />{!effectiveCollapsed && 'Settings'}</NavLink>}
+        {isAdmin && <NavLink to="/admin" onClick={close} title={effectiveCollapsed ? 'Admin' : undefined} className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-sidebar-foreground/70 hover:bg-sidebar-accent"><Shield className="h-4 w-4" />{!effectiveCollapsed && 'Admin'}</NavLink>}
         {!isMobile && (
           <button onClick={() => setCollapsed(!collapsed)} className="flex w-full items-center gap-2 px-3 py-2 text-sm text-sidebar-foreground/50">
             {collapsed ? <PanelLeft className="h-4 w-4" /> : <PanelLeftClose className="h-4 w-4" />}
