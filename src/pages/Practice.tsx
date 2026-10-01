@@ -18,6 +18,7 @@ import { useFeatureGate } from '@/hooks/useFeatureGate';
 import { UpgradePrompt } from '@/components/UpgradePrompt';
 import { PracticeSkeleton } from '@/components/skeletons/PageSkeleton';
 import { QuestionExplanation } from '@/components/practice/QuestionExplanation';
+import { parseExplanation } from '@/lib/explanation-layout';
 import { Progress } from '@/components/ui/progress';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
@@ -1478,21 +1479,35 @@ function ResultsScreen({
                           )}
 
                           {/* Explanation */}
-                          {q.explanation && (
-                            <div className="rounded-lg border p-3 space-y-2">
+                          {(() => {
+                            const parsed = parseExplanation(q.explanation, q.options, q.correct_answer);
+                            return (
+                            <div className="rounded-lg border p-3 space-y-3">
                               <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Explanation</p>
-                              <p className="text-sm text-muted-foreground leading-relaxed">{q.explanation}</p>
+                              <p className="text-sm leading-relaxed">{parsed.lead}</p>
+                              <div className="space-y-3">
+                                {parsed.options.map((item) => (
+                                  <div key={item.letter} className="space-y-1">
+                                    <p className="text-sm font-medium">{item.letter}. {q.options[item.letter.charCodeAt(0) - 65]}</p>
+                                    <p className="text-sm text-muted-foreground leading-relaxed">{item.text}</p>
+                                  </div>
+                                ))}
+                              </div>
                             </div>
-                          )}
+                            );
+                          })()}
 
                           {/* Diagnosis & Management */}
-                          {(q.diagnosis_explanation || q.first_line_investigation || q.best_treatment) && (
+                          {(() => {
+                            const parsed = parseExplanation(q.explanation, q.options, q.correct_answer);
+                            const diagnosis = q.diagnosis_explanation || parsed.diagnosis;
+                            return (
                             <div className="rounded-lg border border-primary/20 p-3 space-y-3">
                               <div className="flex items-center gap-2">
                                 <Stethoscope className="h-4 w-4 text-primary" />
                                 <p className="text-xs font-semibold">Diagnosis & Management</p>
                               </div>
-                              {q.diagnosis_explanation && <p className="text-sm text-muted-foreground">{q.diagnosis_explanation}</p>}
+                              <p className="text-sm text-muted-foreground">{diagnosis}</p>
                               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                                 {q.first_line_investigation && (
                                   <div className="rounded bg-muted p-2">
@@ -1514,25 +1529,8 @@ function ResultsScreen({
                                 )}
                               </div>
                             </div>
-                          )}
-
-                          {/* Incorrect answer analysis */}
-                          {q.incorrect_answer_explanations && Object.keys(q.incorrect_answer_explanations).length > 0 && (
-                            <div className="rounded-lg border p-3 space-y-2">
-                              <p className="text-xs font-semibold uppercase tracking-wider text-destructive/70">Why Other Options Are Wrong</p>
-                              {Object.entries(q.incorrect_answer_explanations).map(([letter, exp]) => {
-                                if (letter === q.correct_answer) return null;
-                                const explanation = exp as any;
-                                return (
-                                  <div key={letter} className="text-xs space-y-0.5 pl-2 border-l-2 border-border">
-                                    <p className="font-medium">Option {letter}</p>
-                                    {explanation?.why_wrong && <p className="text-muted-foreground">Why wrong: {explanation.why_wrong}</p>}
-                                    {explanation?.when_correct && <p className="text-muted-foreground">When correct: {explanation.when_correct}</p>}
-                                  </div>
-                                );
-                              })}
-                            </div>
-                          )}
+                          );
+                          })()}
 
                           {/* Key takeaways */}
                           {q.key_takeaways && q.key_takeaways.length > 0 && (
