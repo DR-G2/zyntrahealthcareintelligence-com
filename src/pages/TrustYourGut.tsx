@@ -296,9 +296,9 @@ export default function TrustYourGut() {
 
   return (
     <div className="space-y-6">
-        <div className="flex items-center justify-between gap-4">
-          <RoomHeader kind="trust" className="flex-1" />
-          <Button onClick={startTraining} className="shrink-0 gap-2">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <RoomHeader kind="trust" className="w-full sm:flex-1" />
+          <Button onClick={startTraining} className="w-full shrink-0 gap-2 sm:w-auto">
             <Play className="h-4 w-4" />
             Start Training
           </Button>
