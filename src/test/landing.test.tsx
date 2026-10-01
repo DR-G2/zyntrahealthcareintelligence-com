@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeAll } from "vitest";
-import { render, screen, fireEvent, within } from "@testing-library/react";
+import { render } from "@testing-library/react";
+import { screen, fireEvent, within } from "@testing-library/dom";
 import { MemoryRouter } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 

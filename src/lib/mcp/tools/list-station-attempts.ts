@@ -36,8 +36,8 @@ export default defineTool({
     }));
 
     return {
-      content: [{ type: "text", text: JSON.stringify(stations, null, 2) }],
-      structuredContent: { stations },
+      content: [{ type: "text" as const, text: JSON.stringify(stations, null, 2) }],
+      structuredContent: { stations } as Record<string, unknown>,
     };
   },
 });

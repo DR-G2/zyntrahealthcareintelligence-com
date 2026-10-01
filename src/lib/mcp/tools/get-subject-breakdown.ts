@@ -32,7 +32,7 @@ export default defineTool({
 
     const buckets = new Map<string, { attempts: number; correct: number; totalTime: number }>();
     for (const row of data ?? []) {
-      const question = row.questions as { category: string } | null;
+      const question = row.questions as unknown as { category: string } | null;
       const subject = question?.category ?? "Unclassified";
       const bucket = buckets.get(subject) ?? { attempts: 0, correct: 0, totalTime: 0 };
       bucket.attempts += 1;
