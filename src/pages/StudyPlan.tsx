@@ -1,77 +1,25 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/lib/supabase';
 import { AppLayout } from '@/components/AppLayout';
-import { RoomHeader } from '@/components/RoomHeader';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
-import { Button } from '@/components/ui/button';
-import {
-  Target,
-  Calendar,
-  Lightbulb,
-  TrendingUp,
-  AlertTriangle,
-  CheckCircle2,
-  Clock,
-  Sparkles,
-  Loader2,
-} from 'lucide-react';
-import { differenceInDays } from 'date-fns';
-import { toast } from 'sonner';
-import { StudyPlanSkeleton } from '@/components/skeletons/PageSkeleton';
 import { useFeatureGate } from '@/hooks/useFeatureGate';
 import { UpgradePrompt } from '@/components/UpgradePrompt';
 import { SubscriptionTimer } from '@/components/SubscriptionTimer';
+import { differenceInDays } from 'date-fns';
+import { toast } from 'sonner';
+import { Calendar, CheckCircle2, Clock, Lightbulb, Loader2, Sparkles, Target, TrendingUp, ArrowRight } from 'lucide-react';
 
-interface PerformanceProfile {
-  readiness_score: number | null;
-  clinical_accuracy: number | null;
-  stability_score: number | null;
-  time_sensitivity: number | null;
-  confidence_gap: number | null;
-}
+interface PerformanceProfile { readiness_score: number | null; clinical_accuracy: number | null; stability_score: number | null; time_sensitivity: number | null; confidence_gap: number | null; }
+interface CategoryStat { category: string; correct: number; total: number; accuracy: number; priority: 'high' | 'medium' | 'maintain'; }
+interface StudyTask { category: string; priority: 'high' | 'medium' | 'maintain' | string; daily_questions?: number; accuracy?: number; study_tip?: string; spaced_repetition_note?: string; }
+interface AIScheduleDay { day: string; total_questions: number; topics: { category: string; count: number; focus_note: string }[]; }
+interface AIRecommendation { tip: string; reason: string; }
+interface AIPlan { focus_areas: StudyTask[]; weekly_schedule: AIScheduleDay[]; recommendations: AIRecommendation[]; motivation: string; }
 
-interface CategoryStat {
-  category: string;
-  correct: number;
-  total: number;
-  accuracy: number;
-  priority: 'high' | 'medium' | 'maintain';
-}
-
-interface AIFocusArea {
-  category: string;
-  priority: string;
-  daily_questions: number;
-  study_tip: string;
-  spaced_repetition_note?: string;
-}
-
-interface AIScheduleDay {
-  day: string;
-  total_questions: number;
-  topics: { category: string; count: number; focus_note: string }[];
-}
-
-interface AIRecommendation {
-  tip: string;
-  reason: string;
-}
-
-interface AIPlan {
-  focus_areas: AIFocusArea[];
-  weekly_schedule: AIScheduleDay[];
-  recommendations: AIRecommendation[];
-  motivation: string;
-}
-
-function getReadinessLabel(score: number): { label: string; color: string } {
-  if (score >= 80) return { label: 'Exam Ready', color: 'text-green-500' };
-  if (score >= 60) return { label: 'Almost There', color: 'text-yellow-500' };
-  if (score >= 40) return { label: 'Building Up', color: 'text-orange-500' };
-  return { label: 'Early Stage', color: 'text-red-500' };
+function priorityTone(priority: string) {
+  if (priority === 'high') return 'border-rose-400/20 bg-rose-400/10 text-rose-300';
+  if (priority === 'medium') return 'border-purple-400/20 bg-purple-400/10 text-purple-300';
+  return 'border-emerald-400/20 bg-emerald-400/10 text-emerald-300';
 }
 
 export default function StudyPlan() {
@@ -79,70 +27,42 @@ export default function StudyPlan() {
   const gate = useFeatureGate();
   const [perfProfile, setPerfProfile] = useState<PerformanceProfile | null>(null);
   const [categoryStats, setCategoryStats] = useState<CategoryStat[]>([]);
-  const [loading, setLoading] = useState(true);
   const [aiPlan, setAiPlan] = useState<AIPlan | null>(null);
+  const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
 
   useEffect(() => {
-    if (!user) return;
-
+    if (!user) { setLoading(false); return; }
     const fetchData = async () => {
       const [perfRes, attemptsRes, planRes] = await Promise.all([
-        supabase
-          .from('performance_profiles')
-          .select('readiness_score, clinical_accuracy, stability_score, time_sensitivity, confidence_gap')
-          .eq('user_id', user.id)
-          .single(),
-        supabase
-          .from('user_attempts')
-          .select('is_correct, questions(category)')
-          .eq('user_id', user.id),
-        supabase
-          .from('study_plans')
-          .select('tasks')
-          .eq('user_id', user.id)
-          .order('generated_at', { ascending: false })
-          .limit(1)
-          .maybeSingle(),
+        supabase.from('performance_profiles').select('readiness_score, clinical_accuracy, stability_score, time_sensitivity, confidence_gap').eq('user_id', user.id).maybeSingle(),
+        supabase.from('user_attempts').select('is_correct, questions(category)').eq('user_id', user.id),
+        supabase.from('study_plans').select('tasks').eq('user_id', user.id).order('generated_at', { ascending: false }).limit(1).maybeSingle(),
       ]);
-
       if (perfRes.data) setPerfProfile(perfRes.data);
-
-      // Load cached AI plan
       if (planRes.data?.tasks) {
-        try {
-          const cached = planRes.data.tasks as unknown as AIPlan;
-          if (cached.weekly_schedule && cached.recommendations) setAiPlan(cached);
-        } catch { /* ignore bad data */ }
+        const cached = planRes.data.tasks as unknown as AIPlan;
+        if (cached?.weekly_schedule && cached?.recommendations) setAiPlan(cached);
       }
-
-      const catMap = new Map<string, { correct: number; total: number }>();
+      const map = new Map<string, { correct: number; total: number }>();
       (attemptsRes.data || []).forEach((a: any) => {
-        const cat = a.questions?.category || 'Unknown';
-        const entry = catMap.get(cat) || { correct: 0, total: 0 };
-        entry.total++;
-        if (a.is_correct) entry.correct++;
-        catMap.set(cat, entry);
+        const category = a.questions?.category || 'Uncategorised';
+        const entry = map.get(category) || { correct: 0, total: 0 };
+        entry.total += 1;
+        if (a.is_correct) entry.correct += 1;
+        map.set(category, entry);
       });
-
-      const stats: CategoryStat[] = Array.from(catMap.entries()).map(([category, d]) => {
+      const stats = Array.from(map.entries()).map(([category, d]) => {
         const accuracy = Math.round((d.correct / d.total) * 100);
-        const priority: CategoryStat['priority'] =
-          accuracy < 60 ? 'high' : accuracy < 80 ? 'medium' : 'maintain';
-        return { category, ...d, accuracy, priority };
-      });
-      stats.sort((a, b) => a.accuracy - b.accuracy);
+        return { category, ...d, accuracy, priority: accuracy < 60 ? 'high' : accuracy < 80 ? 'medium' : 'maintain' } as CategoryStat;
+      }).sort((a, b) => a.accuracy - b.accuracy);
       setCategoryStats(stats);
       setLoading(false);
     };
-
     fetchData();
   }, [user]);
 
-  const daysUntilExam = useMemo(() => {
-    if (!profile?.exam_date) return null;
-    return differenceInDays(new Date(profile.exam_date), new Date());
-  }, [profile?.exam_date]);
+  const daysUntilExam = useMemo(() => profile?.exam_date ? differenceInDays(new Date(profile.exam_date), new Date()) : null, [profile?.exam_date]);
 
   const generateAIPlan = async () => {
     if (!user || generating) return;
@@ -151,27 +71,12 @@ export default function StudyPlan() {
       const { data: { session } } = await supabase.auth.getSession();
       const resp = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/generate-study-plan`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${session?.access_token || import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
-        },
-        body: JSON.stringify({
-          categoryStats,
-          perfProfile,
-          examDate: profile?.exam_date,
-          daysUntilExam,
-          weakAreas: profile?.weak_areas,
-        }),
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${session?.access_token || import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}` },
+        body: JSON.stringify({ categoryStats, perfProfile, examDate: profile?.exam_date, daysUntilExam, weakAreas: profile?.weak_areas }),
       });
-
-      if (!resp.ok) {
-        const err = await resp.json().catch(() => ({ error: 'Failed to generate plan' }));
-        throw new Error(err.error);
-      }
-
-      const plan = await resp.json();
-      setAiPlan(plan);
-      toast.success('AI study plan generated!');
+      if (!resp.ok) throw new Error((await resp.json().catch(() => ({ error: 'Failed to generate plan' }))).error);
+      setAiPlan(await resp.json());
+      toast.success('Study plan generated');
     } catch (e: any) {
       toast.error(e.message || 'Failed to generate study plan');
     } finally {
@@ -179,201 +84,119 @@ export default function StudyPlan() {
     }
   };
 
-  if (loading) {
-    return (
-      <AppLayout>
-        <StudyPlanSkeleton />
-      </AppLayout>
-    );
+  if (loading) return <AppLayout><div className="mx-auto max-w-6xl animate-pulse space-y-5"><div className="h-40 rounded-3xl bg-white/5" /><div className="h-48 rounded-3xl bg-white/5" /></div></AppLayout>;
+
+  if (!gate.canAccessStudyPlan) {
+    return <AppLayout><div className="mx-auto max-w-xl py-16"><UpgradePrompt feature="AI Study Plan" description="Generate a focused roadmap from your recorded performance signals." /></div></AppLayout>;
   }
 
-  const readiness = perfProfile?.readiness_score ?? 0;
-  const readinessInfo = getReadinessLabel(readiness);
+  const readiness = Math.max(0, Math.min(100, Number(perfProfile?.readiness_score || 0)));
+  const accuracy = Number(perfProfile?.clinical_accuracy || 0);
+  const stability = Number(perfProfile?.stability_score || 0);
+  const targetDelta = Math.max(0, 80 - readiness);
+  const tasks: StudyTask[] = aiPlan?.focus_areas?.length ? aiPlan.focus_areas : categoryStats.map(s => ({ category: s.category, priority: s.priority, accuracy: s.accuracy, daily_questions: Math.max(10, Math.round((100 - s.accuracy) / 5)) }));
 
   return (
     <AppLayout>
-      {!gate.canAccessStudyPlan ? (
-        <div className="mx-auto max-w-xl py-12">
-          <UpgradePrompt feature="AI Study Plan" description="Get a personalized study plan generated by AI. Available on any paid plan." />
-        </div>
-      ) : (
-      <div className="mx-auto max-w-5xl space-y-8">
+      <div className="mx-auto max-w-6xl space-y-6">
         <SubscriptionTimer />
-        <RoomHeader kind="study-plan" className="mb-2" />
-        <div className="flex items-center justify-end">
-          <Button onClick={generateAIPlan} disabled={generating || categoryStats.length === 0} className="gap-2">{generating ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />} {aiPlan ? 'Regenerate AI Plan' : 'Generate AI Plan'}</Button>
+
+        <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-[#081224]/70 p-6 backdrop-blur-xl sm:p-7">
+          <div className="relative z-10 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-cyan-400/20 bg-cyan-400/10 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[.14em] text-cyan-300"><Target className="h-3.5 w-3.5" /> Study Plan</div>
+              <h1 className="font-display text-3xl font-bold tracking-tight text-white sm:text-4xl">Study Plan</h1>
+              <p className="mt-2 max-w-xl text-sm leading-6 text-slate-400">Convert performance signals into your next training priorities.</p>
+            </div>
+            <button onClick={generateAIPlan} disabled={generating || categoryStats.length === 0} className="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-cyan-400 to-cyan-500 px-4 py-2.5 text-sm font-semibold text-slate-950 shadow-[0_0_30px_rgba(34,211,238,.16)] transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-50">
+              {generating ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
+              {aiPlan ? 'Regenerate Plan' : 'Generate Plan'}
+            </button>
+          </div>
+          <div className="pointer-events-none absolute -right-24 -top-28 h-72 w-72 rounded-full bg-cyan-500/10 blur-[100px]" />
         </div>
 
-        {/* AI Motivation */}
-        {aiPlan?.motivation && (
-          <Card className="border-primary/20 bg-primary/5">
-            <CardContent className="py-4">
-              <div className="flex items-start gap-3">
-                <Sparkles className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                <p className="text-sm font-medium">{aiPlan.motivation}</p>
-              </div>
-            </CardContent>
-          </Card>
-        )}
-
-        {/* Readiness Summary */}
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="font-display flex items-center gap-2">
-              <TrendingUp className="h-5 w-5 text-primary" /> Readiness Summary
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex items-center justify-between">
+        {(aiPlan?.motivation || categoryStats.length > 0) && (
+          <div className="rounded-2xl border border-cyan-400/15 bg-cyan-400/[0.045] p-5">
+            <div className="flex gap-3">
+              <Sparkles className="mt-0.5 h-5 w-5 shrink-0 text-cyan-300" />
               <div>
-                <div className="text-4xl font-bold font-display">{readiness}%</div>
-                <div className={`text-sm font-medium ${readinessInfo.color}`}>{readinessInfo.label}</div>
-              </div>
-              <div className="grid grid-cols-2 gap-4 text-sm">
-                <div>
-                  <div className="text-muted-foreground">Accuracy</div>
-                  <div className="font-semibold">{perfProfile?.clinical_accuracy ?? 0}%</div>
-                </div>
-                <div>
-                  <div className="text-muted-foreground">Stability</div>
-                  <div className="font-semibold">{perfProfile?.stability_score ?? 0}%</div>
-                </div>
+                <p className="text-sm font-medium text-slate-200">{aiPlan?.motivation || 'Your latest performance signals are ready to be converted into focused training.'}</p>
+                <p className="mt-1 text-xs text-slate-500">Recommendations are generated from recorded practice data.</p>
               </div>
             </div>
-            <Progress value={readiness} className="h-2" />
-          </CardContent>
-        </Card>
-
-        {/* AI Focus Areas or Data-driven */}
-        {(aiPlan?.focus_areas || categoryStats.length > 0) && (
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="font-display flex items-center gap-2">
-                <Target className="h-5 w-5 text-primary" /> Focus Areas
-                {aiPlan?.focus_areas && <Badge variant="secondary" className="text-xs gap-1"><Sparkles className="h-3 w-3" /> AI</Badge>}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                {(aiPlan?.focus_areas || categoryStats).map((item: any) => (
-                  <div key={item.category} className="flex items-center justify-between gap-4">
-                    <div className="flex items-center gap-3 min-w-0 flex-1">
-                      <Badge
-                        variant={item.priority === 'high' ? 'destructive' : item.priority === 'medium' ? 'secondary' : 'outline'}
-                        className="shrink-0 text-xs"
-                      >
-                        {item.priority === 'high' ? 'High' : item.priority === 'medium' ? 'Medium' : 'Maintain'}
-                      </Badge>
-                      <span className="text-sm font-medium truncate">{item.category}</span>
-                    </div>
-                    <div className="flex items-center gap-3 shrink-0">
-                      {item.accuracy !== undefined && (
-                        <>
-                          <Progress value={item.accuracy} className="h-2 w-24" />
-                          <span className="text-sm text-muted-foreground w-10 text-right">{item.accuracy}%</span>
-                        </>
-                      )}
-                      {item.daily_questions && (
-                        <span className="text-xs text-muted-foreground">{item.daily_questions}q/day</span>
-                      )}
-                    </div>
-                  </div>
-                ))}
-                {aiPlan?.focus_areas && aiPlan.focus_areas.some(f => f.study_tip || f.spaced_repetition_note) && (
-                  <div className="mt-4 space-y-2">
-                    {aiPlan.focus_areas.filter(f => f.study_tip || f.spaced_repetition_note).map((f, i) => (
-                      <div key={i} className="text-xs text-muted-foreground bg-muted/50 rounded-lg p-2 space-y-1">
-                        <div><strong>{f.category}:</strong> {f.study_tip}</div>
-                        {f.spaced_repetition_note && (
-                          <div className="flex items-center gap-1 text-primary/70">
-                            <Clock className="h-3 w-3 shrink-0" />
-                            <span>{f.spaced_repetition_note}</span>
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </CardContent>
-          </Card>
+          </div>
         )}
 
-        {/* Weekly Schedule */}
-        {aiPlan?.weekly_schedule && aiPlan.weekly_schedule.length > 0 && (
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="font-display flex items-center gap-2">
-                <Calendar className="h-5 w-5 text-primary" /> Weekly Schedule
-                <Badge variant="secondary" className="text-xs gap-1"><Sparkles className="h-3 w-3" /> AI</Badge>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                {aiPlan.weekly_schedule.map((day) => (
-                  <div key={day.day} className="rounded-lg border border-border bg-muted/30 p-3 space-y-2">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm font-semibold">{day.day}</span>
-                      <span className="text-xs text-muted-foreground">{day.total_questions} Qs</span>
-                    </div>
-                    {day.topics.map((t) => (
-                      <div key={t.category} className="space-y-0.5">
-                        <div className="flex items-center justify-between text-xs">
-                          <span className="text-muted-foreground truncate">{t.category}</span>
-                          <span className="font-medium">{t.count}</span>
-                        </div>
-                        {t.focus_note && (
-                          <p className="text-[10px] text-muted-foreground/70 italic">{t.focus_note}</p>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        )}
-
-        {/* AI Recommendations or Static */}
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="font-display flex items-center gap-2">
-              <Lightbulb className="h-5 w-5 text-primary" /> Recommended Actions
-              {aiPlan?.recommendations && <Badge variant="secondary" className="text-xs gap-1"><Sparkles className="h-3 w-3" /> AI</Badge>}
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              {aiPlan?.recommendations ? (
-                aiPlan.recommendations.map((rec, i) => (
-                  <div key={i} className="flex items-start gap-3 text-sm">
-                    <Lightbulb className="h-4 w-4 mt-0.5 text-primary shrink-0" />
-                    <div>
-                      <p className="font-medium">{rec.tip}</p>
-                      <p className="text-xs text-muted-foreground mt-0.5">{rec.reason}</p>
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <div className="flex items-start gap-3 text-sm">
-                  <CheckCircle2 className="h-4 w-4 mt-0.5 text-muted-foreground shrink-0" />
-                  <span>Complete practice sessions to get AI-powered recommendations.</span>
-                </div>
-              )}
+        <section className="grid gap-4 md:grid-cols-3">
+          {[
+            { label: 'Current Readiness', value: `${Math.round(readiness)}%`, helper: 'Composite signal', icon: TrendingUp, accent: 'text-cyan-300' },
+            { label: 'Target Delta', value: `${Math.round(targetDelta)} pts`, helper: 'Distance to 80', icon: Target, accent: 'text-purple-300' },
+            { label: 'Stability Index', value: stability ? `${Math.round(stability)}%` : '—', helper: 'Answer consistency', icon: ActivityIcon, accent: 'text-emerald-300' },
+          ].map(item => (
+            <div key={item.label} className="rounded-2xl border border-white/10 bg-[#081224]/70 p-5 backdrop-blur-xl">
+              <item.icon className={`h-5 w-5 ${item.accent}`} />
+              <p className="mt-5 text-xs text-slate-500">{item.label}</p>
+              <p className="mt-1 font-display text-3xl font-semibold text-white">{item.value}</p>
+              <p className="mt-1 text-[11px] font-mono text-slate-600">{item.helper}</p>
             </div>
-          </CardContent>
-        </Card>
+          ))}
+        </section>
 
-        {categoryStats.length === 0 && (
-          <Card>
-            <CardContent className="py-12 text-center">
-              <Calendar className="h-12 w-12 text-muted-foreground/50 mx-auto mb-4" />
-              <p className="text-muted-foreground">Complete a diagnostic or practice session to generate your study plan.</p>
-            </CardContent>
-          </Card>
-        )}
+        <section className="rounded-3xl border border-white/10 bg-[#081224]/70 p-6 backdrop-blur-xl">
+          <div className="mb-5 flex items-end justify-between">
+            <div>
+              <h2 className="font-display text-xl font-semibold text-white">Priority Actions</h2>
+              <p className="mt-1 text-xs text-slate-500">Focus the next block of questions where the signal says it matters.</p>
+            </div>
+            <span className="text-xs font-mono text-slate-600">{tasks.length} priorities</span>
+          </div>
+          <div className="space-y-3">
+            {tasks.slice(0, 8).map((task, index) => (
+              <div key={`${task.category}-${index}`} className="grid gap-4 rounded-2xl border border-white/10 bg-white/[0.02] p-4 sm:grid-cols-[1fr_auto_auto] sm:items-center">
+                <div className="min-w-0">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className={cn('rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider', priorityTone(task.priority))}>{task.priority === 'maintain' ? 'Maintain' : task.priority}</span>
+                    <p className="truncate text-sm font-medium text-slate-200">{task.category}</p>
+                  </div>
+                  {task.study_tip && <p className="mt-2 text-xs leading-5 text-slate-500">{task.study_tip}</p>}
+                </div>
+                <div className="text-left sm:text-right">
+                  <p className="text-sm font-semibold text-white">{task.daily_questions || 0} q/day</p>
+                  {task.accuracy !== undefined && <p className="text-[11px] font-mono text-slate-600">{task.accuracy}% accuracy</p>}
+                </div>
+                <Link to="/practice" className="inline-flex items-center justify-center gap-1 rounded-lg border border-white/10 px-3 py-2 text-xs font-semibold text-slate-300 transition hover:border-cyan-400/30 hover:text-cyan-300">Practice <ArrowRight className="h-3 w-3" /></Link>
+              </div>
+            ))}
+            {tasks.length === 0 && <div className="py-12 text-center text-sm text-slate-500">Complete a practice session to populate priorities.</div>}
+          </div>
+        </section>
+
+        {aiPlan?.weekly_schedule?.length ? (
+          <section className="rounded-3xl border border-white/10 bg-[#081224]/70 p-6 backdrop-blur-xl">
+            <div className="mb-5 flex items-center gap-2"><Calendar className="h-5 w-5 text-purple-300" /><h2 className="font-display text-xl font-semibold text-white">Weekly Rhythm</h2></div>
+            <div className="grid gap-3 md:grid-cols-3">
+              {aiPlan.weekly_schedule.slice(0, 6).map(day => (
+                <div key={day.day} className="rounded-2xl border border-white/10 bg-white/[0.02] p-4">
+                  <div className="flex items-center justify-between"><span className="text-sm font-semibold text-slate-200">{day.day}</span><span className="text-xs font-mono text-slate-500">{day.total_questions} q</span></div>
+                  <div className="mt-3 space-y-2">{day.topics.slice(0, 4).map(topic => <div key={topic.category} className="flex items-center justify-between text-xs"><span className="truncate text-slate-500">{topic.category}</span><span className="text-slate-300">{topic.count}</span></div>)}</div>
+                </div>
+              ))}
+            </div>
+          </section>
+        ) : null}
+
+        <section className="rounded-3xl border border-white/10 bg-[#081224]/70 p-6 backdrop-blur-xl">
+          <div className="mb-4 flex items-center gap-2"><Lightbulb className="h-5 w-5 text-amber-300" /><h2 className="font-display text-xl font-semibold text-white">Recommendations</h2></div>
+          {aiPlan?.recommendations?.length ? (
+            <div className="space-y-3">{aiPlan.recommendations.map((rec, i) => <div key={i} className="flex gap-3 rounded-2xl border border-white/10 bg-white/[0.02] p-4"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-300" /><div><p className="text-sm text-slate-200">{rec.tip}</p><p className="mt-1 text-xs text-slate-500">{rec.reason}</p></div></div>)}</div>
+          ) : <p className="text-sm text-slate-500">Generate a plan after enough practice data has accumulated.</p>}
+        </section>
       </div>
-      )}
     </AppLayout>
   );
+}
+
+function ActivityIcon(props: React.SVGProps<SVGSVGElement>) {
+  return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" {...props}><path d="M3 12h4l2-7 4 14 2-7h6" strokeLinecap="round" strokeLinejoin="round" /></svg>;
 }
