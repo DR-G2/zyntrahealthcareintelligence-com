@@ -16,30 +16,22 @@ import { NudgeButton } from "@/components/NudgeButton";
 import { useShowAboutPricing, useMaintenanceMode } from "@/hooks/useSiteSettings";
 import { supabase } from "@/integrations/supabase/client";
 
-// Eagerly load landing & login (critical path)
 import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 
-// Lazy load all other pages
 const About = lazy(() => import("./pages/About"));
 const Pricing = lazy(() => import("./pages/Pricing"));
 const ResetPassword = lazy(() => import("./pages/ResetPassword"));
 const Onboarding = lazy(() => import("./pages/Onboarding"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const Assess = lazy(() => import("./pages/Assess"));
-const Profile = lazy(() => import("./pages/Profile"));
-const BehaviorProfile = lazy(() => import("./pages/BehaviorProfile"));
-const TrustYourGut = lazy(() => import("./pages/TrustYourGut"));
 const Practice = lazy(() => import("./pages/Practice"));
 const Questions = lazy(() => import("./pages/Questions"));
 const StudyPlan = lazy(() => import("./pages/StudyPlan"));
 const Settings = lazy(() => import("./pages/Settings"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
-const Stations = lazy(() => import("./pages/Stations"));
 const QuestionsMCQ = lazy(() => import("./pages/QuestionsMCQ"));
-const QuestionsOSCE = lazy(() => import("./pages/QuestionsOSCE"));
-const DiagnosticOSCE = lazy(() => import("./pages/DiagnosticOSCE"));
 const CompanionChat = lazy(() => import("./pages/CompanionChat"));
 const Feed = lazy(() => import("./pages/Feed"));
 const Terms = lazy(() => import("./pages/Terms"));
@@ -47,8 +39,7 @@ const Privacy = lazy(() => import("./pages/Privacy"));
 const ZyntraAICore = lazy(() => import("./pages/ZyntraAICore"));
 const Flashcards = lazy(() => import("./pages/Flashcards"));
 const AmcPart1Mcq = lazy(() => import("./pages/AmcPart1Mcq"));
-const AmcClinicalOsce = lazy(() => import("./pages/AmcClinicalOsce"));
-
+const OsceInSurgery = lazy(() => import("./pages/OsceInSurgery"));
 const PerformanceIntelligence = lazy(() => import("./pages/PerformanceIntelligence"));
 const InboxPage = lazy(() => import("./pages/Inbox"));
 const NotificationsPage = lazy(() => import("./pages/Notifications"));
@@ -114,7 +105,6 @@ function AppRoutes() {
           <Route path="/" element={<ErrorBoundary><Landing /></ErrorBoundary>} />
           {aboutPricingLoading ? (
             <>
-              {/* Wait for the site setting before deciding, so direct visits to /pricing aren't bounced to / */}
               <Route path="/about" element={<LazyFallback />} />
               <Route path="/pricing" element={<LazyFallback />} />
             </>
@@ -134,7 +124,8 @@ function AppRoutes() {
           <Route path="/terms" element={<ErrorBoundary><Terms /></ErrorBoundary>} />
           <Route path="/privacy" element={<ErrorBoundary><Privacy /></ErrorBoundary>} />
           <Route path="/amc-part-1-mcq" element={<ErrorBoundary><AmcPart1Mcq /></ErrorBoundary>} />
-          <Route path="/amc-clinical-osce" element={<ErrorBoundary><AmcClinicalOsce /></ErrorBoundary>} />
+          <Route path="/osce-in-surgery" element={<ErrorBoundary><OsceInSurgery /></ErrorBoundary>} />
+          <Route path="/amc-clinical-osce" element={<ErrorBoundary><OsceInSurgery /></ErrorBoundary>} />
           <Route path="/onboarding" element={<ErrorBoundary><Onboarding /></ErrorBoundary>} />
           <Route path="/dashboard" element={<ProtectedRoute><ErrorBoundary><Dashboard /></ErrorBoundary></ProtectedRoute>} />
           <Route path="/assess" element={<ProtectedRoute><ErrorBoundary><Assess /></ErrorBoundary></ProtectedRoute>} />
@@ -145,10 +136,10 @@ function AppRoutes() {
           <Route path="/practice" element={<ProtectedRoute><ErrorBoundary><Practice /></ErrorBoundary></ProtectedRoute>} />
           <Route path="/questions" element={<ProtectedRoute><ErrorBoundary><Questions /></ErrorBoundary></ProtectedRoute>} />
           <Route path="/questions/mcq" element={<ProtectedRoute><ErrorBoundary><QuestionsMCQ /></ErrorBoundary></ProtectedRoute>} />
-          <Route path="/questions/osce" element={<ProtectedRoute><ErrorBoundary><QuestionsOSCE /></ErrorBoundary></ProtectedRoute>} />
-          <Route path="/assess/osce" element={<ProtectedRoute><ErrorBoundary><DiagnosticOSCE /></ErrorBoundary></ProtectedRoute>} />
+          <Route path="/questions/osce" element={<ErrorBoundary><OsceInSurgery /></ErrorBoundary>} />
+          <Route path="/assess/osce" element={<ErrorBoundary><OsceInSurgery /></ErrorBoundary>} />
           <Route path="/plan" element={<ProtectedRoute><ErrorBoundary><StudyPlan /></ErrorBoundary></ProtectedRoute>} />
-          <Route path="/stations" element={<ProtectedRoute><ErrorBoundary><Stations /></ErrorBoundary></ProtectedRoute>} />
+          <Route path="/stations" element={<ErrorBoundary><OsceInSurgery /></ErrorBoundary>} />
           <Route path="/companion/chat" element={<ProtectedRoute><ErrorBoundary><CompanionChat /></ErrorBoundary></ProtectedRoute>} />
           <Route path="/companion/groups" element={<Navigate to="/dashboard" replace />} />
           <Route path="/companion/shared-tests" element={<Navigate to="/dashboard" replace />} />
