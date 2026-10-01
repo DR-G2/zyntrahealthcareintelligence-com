@@ -10,6 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Target, Clock, Shield, Brain, ArrowRight, TrendingUp, Stethoscope, Activity } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { RoomHeader } from '@/components/RoomHeader';
 import { ProfileSkeleton } from '@/components/skeletons/PageSkeleton';
 
 interface PerformanceData {
@@ -177,10 +178,7 @@ export default function Profile() {
 
   return (
     <div className="mx-auto max-w-4xl space-y-8">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-          <h1 className="text-3xl font-bold font-display">Performance Profile</h1>
-          <p className="text-muted-foreground mt-1">Unified readiness breakdown across MCQ, OSCE & Trust Your Gut</p>
-        </motion.div>
+        <RoomHeader kind="performance" />
 
         <Tabs defaultValue="combined" className="w-full">
           <TabsList>

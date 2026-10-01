@@ -18,6 +18,7 @@ import {
   RotateCcw
 } from 'lucide-react';
 import { AppLayout } from '@/components/AppLayout';
+import { RoomHeader } from '@/components/RoomHeader';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
@@ -315,87 +316,7 @@ export default function TrustYourGut() {
         {/* Training Mode Overlay */}
         <AnimatePresence>
           {trainingMode && currentQuestion && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 z-50 bg-background/95 backdrop-blur-sm flex items-center justify-center p-6"
-            >
-              <Card className="w-full max-w-3xl">
-                <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <Badge variant="outline">
-                      Question {currentTrainingIndex + 1} of {trainingQuestions.length}
-                    </Badge>
-                    <Button variant="ghost" size="sm" onClick={() => setTrainingMode(false)}>
-                      Exit Training
-                    </Button>
-                  </div>
-                  <CardTitle className="text-lg mt-4">{currentQuestion.question_text}</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  {/* Decision timer indicator */}
-                  {!confirmed && selectedAnswer && (
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <Clock className="h-4 w-4" />
-                      <span>Decide in {decisionTimer}s — trust your gut!</span>
-                      <Progress value={(decisionTimer / 3) * 100} className="h-2 flex-1 max-w-32" />
-                    </div>
-                  )}
-
-                  {/* Options */}
-                  <div className="space-y-2">
-                    {Object.entries(currentQuestion.options as Record<string, string>).map(([key, value]) => {
-                      const isSelected = selectedAnswer === key;
-                      const isCorrect = key === currentQuestion.correct_answer;
-                      
-                      let optionClass = 'border-border hover:border-primary/50';
-                      if (showFeedback) {
-                        if (isCorrect) optionClass = 'border-green-500 bg-green-500/10';
-                        else if (isSelected && !isCorrect) optionClass = 'border-red-500 bg-red-500/10';
-                      } else if (isSelected) {
-                        optionClass = 'border-primary bg-primary/10';
-                      }
-
-                      return (
-                        <button
-                          key={key}
-                          disabled={confirmed}
-                          onClick={() => {
-                            if (!confirmed) {
-                              setSelectedAnswer(key);
-                              setDecisionTimer(3);
-                            }
-                          }}
-                          className={`w-full text-left p-4 rounded-lg border-2 transition-all ${optionClass} ${confirmed ? 'cursor-default' : 'cursor-pointer'}`}
-                        >
-                          <span className="font-medium">{key}.</span> {value}
-                        </button>
-                      );
-                    })}
-                  </div>
-
-                  {/* Feedback */}
-                  {showFeedback && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className={`p-4 rounded-lg ${selectedAnswer === currentQuestion.correct_answer ? 'bg-green-500/10 border border-green-500/30' : 'bg-red-500/10 border border-red-500/30'}`}
-                    >
-                      <div className="flex items-center gap-2 font-medium">
-                        {selectedAnswer === currentQuestion.correct_answer ? (
-                          <>
-                            <CheckCircle2 className="h-5 w-5 text-green-500" />
-                            <span className="text-green-700 dark:text-green-400">Your first instinct was correct!</span>
-                          </>
-                        ) : (
-                          <>
-                            <XCircle className="h-5 w-5 text-red-500" />
-                            <span className="text-red-700 dark:text-red-400">Your first instinct was incorrect</span>
-                          </>
-                        )}
-                      </div>
-                    </motion.div>
+            <RoomHeader kind="trust" />
                   )}
 
                   {/* Actions */}
