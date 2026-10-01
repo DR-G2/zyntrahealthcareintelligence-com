@@ -3,8 +3,9 @@ import { useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AppLayout } from '@/components/AppLayout';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Brain, Target, UserCircle } from 'lucide-react';
+import { Activity, ArrowRight, Brain, ClipboardCheck, Target, UserCircle } from 'lucide-react';
 import { RoomHeader } from '@/components/RoomHeader';
+import { Button } from '@/components/ui/button';
 import { lazy, Suspense } from 'react';
 
 // Lazy load tab content
@@ -50,6 +51,29 @@ export default function PerformanceIntelligence() {
             ))}
           </TabsList>
         </Tabs>
+
+        <div className="grid gap-3 sm:grid-cols-3">
+          {[
+            { to: '/practice', title: 'Practice', description: 'Start targeted MCQ training and build the data behind your intelligence.', icon: Brain, meta: 'MCQ' },
+            { to: '/practice/osce', title: 'OSCE', description: 'Train structured clinical stations and add practical performance signals.', icon: ClipboardCheck, meta: 'Clinical stations' },
+            { to: '/plan', title: 'Study Plan', description: 'Turn your latest performance signals into concrete next steps.', icon: Activity, meta: 'Roadmap' },
+          ].map(item => (
+            <motion.div key={item.to} whileHover={{ y: -2 }} transition={{ duration: 0.15 }}>
+              <Button asChild variant="outline" className="group h-auto w-full justify-start rounded-2xl border-border/70 bg-card/60 p-4 text-left hover:border-primary/30 hover:bg-card/90">
+                <a href={item.to}>
+                  <div className="mr-3 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                    <item.icon className="h-5 w-5" />
+                  </div>
+                  <span className="min-w-0 flex-1">
+                    <span className="block font-display text-sm font-semibold text-foreground">{item.title}</span>
+                    <span className="mt-1 block text-xs leading-5 text-muted-foreground">{item.description}</span>
+                    <span className="mt-2 inline-flex items-center gap-1 text-[11px] font-semibold text-primary">{item.meta} <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" /></span>
+                  </span>
+                </a>
+              </Button>
+            </motion.div>
+          ))}
+        </div>
 
         <AnimatePresence mode="wait">
           <motion.div
