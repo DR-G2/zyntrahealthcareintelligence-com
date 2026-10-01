@@ -60,7 +60,7 @@ export default function PerformanceIntelligence() {
             { to: '/plan', title: 'Study Plan', description: 'Turn the latest intelligence into a concrete study roadmap.', icon: Activity, meta: 'Roadmap' },
           ].map(item => (
             <motion.div key={item.to} whileHover={{ y: -2 }}>
-              <Button asChild variant="outline" className="group h-auto w-full justify-start rounded-2xl border-border/70 bg-card/60 p-4 text-left hover:border-primary/30 hover:bg-card/90">
+              <Button asChild variant="outline" className="group h-auto w-full min-w-0 justify-start whitespace-normal rounded-2xl border-border/70 bg-card/60 p-4 text-left hover:border-primary/30 hover:bg-card/90">
                 <Link to={item.to}>
                   <div className="mr-3 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
                     <item.icon className="h-5 w-5" />
