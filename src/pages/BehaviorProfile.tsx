@@ -194,9 +194,9 @@ export default function BehaviorProfile() {
 
   return (
     <div className="mx-auto max-w-5xl space-y-8">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="flex items-center justify-between gap-4">
-          <RoomHeader kind="behaviour" className="flex-1" />
-          <Button onClick={runAnalysis} disabled={analyzing} variant="outline" className="shrink-0 gap-2">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <RoomHeader kind="behaviour" className="w-full sm:flex-1" />
+          <Button onClick={runAnalysis} disabled={analyzing} variant="outline" className="w-full shrink-0 gap-2 sm:w-auto">
             {analyzing ? <Loader2 className="h-4 w-4 animate-spin" /> : <RefreshCw className="h-4 w-4" />}
             Re-analyze
           </Button>
