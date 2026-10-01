@@ -33,7 +33,7 @@ function AccountMenu() {
 }
 
 function RoomTabs() {
-  const { pathname } = useLocation();
+  const { pathname, search } = useLocation();
   const item = (to: string, label: string, on: boolean) => (
     <Link to={to} className={cn('flex-1 rounded-md px-3 py-2 text-center text-sm font-medium', on ? 'bg-background text-foreground shadow-sm' : 'text-muted-foreground')}>{label}</Link>
   );
@@ -41,7 +41,7 @@ function RoomTabs() {
   const inPlan = pathname === '/plan';
   if (!inPractice && !inPlan) return null;
   if (inPlan) {
-    const generate = location.search.includes('tab=generate');
+    const generate = search.includes('tab=generate');
     return <div className="mb-4 grid grid-cols-2 rounded-lg bg-muted p-1">{item('/plan', 'Current', !generate)}{item('/plan?tab=generate', 'Generate New', generate)}</div>;
   }
   return (
