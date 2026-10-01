@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/lib/supabase';
 import { AppLayout } from '@/components/AppLayout';
+import { RoomHeader } from '@/components/RoomHeader';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
@@ -198,19 +199,9 @@ export default function StudyPlan() {
       ) : (
       <div className="mx-auto max-w-5xl space-y-8">
         <SubscriptionTimer />
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold font-display">Study Plan</h1>
-            <p className="text-muted-foreground">
-              {daysUntilExam !== null && daysUntilExam > 0
-                ? `${daysUntilExam} days until your exam`
-                : 'Set your exam date in Settings to see a countdown'}
-            </p>
-          </div>
-          <Button onClick={generateAIPlan} disabled={generating || categoryStats.length === 0} className="gap-2">
-            {generating ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
-            {aiPlan ? 'Regenerate AI Plan' : 'Generate AI Plan'}
-          </Button>
+        <RoomHeader kind="study-plan" className="mb-2" />
+        <div className="flex items-center justify-end">
+          <Button onClick={generateAIPlan} disabled={generating || categoryStats.length === 0} className="gap-2">{generating ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />} {aiPlan ? 'Regenerate AI Plan' : 'Generate AI Plan'}</Button>
         </div>
 
         {/* AI Motivation */}
