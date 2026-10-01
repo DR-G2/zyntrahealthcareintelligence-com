@@ -27,7 +27,7 @@ function Motif({ kind }: { kind: RoomHeaderKind }) {
   return (
     <div aria-hidden className={cn(
       'pointer-events-none absolute inset-y-0 right-0 hidden w-[46%] overflow-hidden sm:block',
-      motif === 'grid' ? 'opacity-45' : 'opacity-60'
+      motif === 'grid' ? 'opacity-[.45]' : 'opacity-60'
     )}>
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_72%_50%,hsl(var(--primary)/.18),transparent_64%)]" />
       {motif === 'grid' && (
@@ -73,7 +73,7 @@ export function RoomHeader({ kind, className }: { kind: RoomHeaderKind; classNam
       'relative overflow-hidden rounded-2xl border border-border/70 bg-card/80 p-5 shadow-sm backdrop-blur-sm sm:p-6',
       className
     )}>
-      <div className="relative z-10 max-w-[64%] sm:max-w-[58%]">
+      <div className="relative z-10 max-w-full sm:max-w-[58%]">
         <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[.14em] text-primary">
           <Icon className="h-3.5 w-3.5" />{c.eyebrow}
         </div>
