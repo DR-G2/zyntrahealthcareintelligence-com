@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ChevronLeft, ChevronDown, ChevronUp, CheckCircle, XCircle, BookOpen, Stethoscope, ClipboardList, FlaskConical, Pill, AlertCircle, Lightbulb, MessageCircle, Bookmark, BookmarkCheck, StickyNote, Lock } from 'lucide-react';
+import { ChevronLeft, ChevronDown, ChevronUp, CheckCircle, XCircle, BookOpen, Stethoscope, ClipboardList, FlaskConical, Pill, Lightbulb, MessageCircle, Bookmark, BookmarkCheck, StickyNote, Lock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -12,6 +12,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useFeatureGate } from '@/hooks/useFeatureGate';
 import { UpgradePrompt } from '@/components/UpgradePrompt';
 import { useToast } from '@/hooks/use-toast';
+import { parseExplanation } from '@/lib/explanation-layout';
 
 interface DifferentialDiagnosis {
   diagnosis: string;
@@ -83,22 +84,15 @@ export function QuestionExplanation({ question, userAnswer, questionIndex, onBac
   const isCorrect = userAnswer === question.correct_answer;
   const options = question.options as string[];
   const [openDiffs, setOpenDiffs] = useState<Record<number, boolean>>({});
-  const [openIncorrect, setOpenIncorrect] = useState(false);
-
   const { user } = useAuth();
   const gate = useFeatureGate();
   const { toast } = useToast();
-
-  // Bookmark state
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [bookmarkLoading, setBookmarkLoading] = useState(false);
-
-  // Notes state
   const [noteText, setNoteText] = useState('');
   const [savedNote, setSavedNote] = useState('');
   const [editingNote, setEditingNote] = useState(false);
 
-  // Load bookmark and note on mount
   useEffect(() => {
     if (!user) return;
     const load = async () => {
@@ -140,45 +134,35 @@ export function QuestionExplanation({ question, userAnswer, questionIndex, onBac
     toast({ title: 'Note saved' });
   };
 
-  const hasDiagnosisData = question.diagnosis_explanation || question.first_line_investigation || question.best_treatment;
+  const parsed = parseExplanation(question.explanation, options, question.correct_answer);
+  const optionNotes = parsed.options.map((item) => {
+    const extra = question.incorrect_answer_explanations?.[item.letter];
+    if (item.letter === question.correct_answer || !extra?.why_wrong) return item;
+    if (item.text.length > 40) return item;
+    return { ...item, text: extra.why_wrong };
+  });
+  const diagnosis = question.diagnosis_explanation || parsed.diagnosis;
+  const takeaways = (question.key_takeaways && question.key_takeaways.length > 0) ? question.key_takeaways : parsed.takeaways;
   const hasDifferentials = question.differential_diagnoses && question.differential_diagnoses.length > 0;
-  const hasIncorrectExplanations = question.incorrect_answer_explanations && Object.keys(question.incorrect_answer_explanations).length > 0;
-  const hasKeyTakeaways = question.key_takeaways && question.key_takeaways.length > 0;
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
-      transition={{ duration: 0.25 }}
-      className="mx-auto max-w-3xl py-8 space-y-6"
-    >
+    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.25 }} className="mx-auto max-w-3xl py-6 space-y-4">
       <div className="flex items-center justify-between mb-2">
-        <Button variant="ghost" onClick={onBack} className="gap-1">
-          <ChevronLeft className="h-4 w-4" /> Back to Results
-        </Button>
+        <Button variant="ghost" onClick={onBack} className="gap-1"><ChevronLeft className="h-4 w-4" /> Back to Results</Button>
         <div className="flex items-center gap-2">
-          {/* Bookmark button */}
           {gate.canSaveBookmarks ? (
             <Button variant="ghost" size="icon" onClick={toggleBookmark} disabled={bookmarkLoading}>
-              {isBookmarked
-                ? <BookmarkCheck className="h-4 w-4 text-primary" />
-                : <Bookmark className="h-4 w-4 text-muted-foreground" />}
+              {isBookmarked ? <BookmarkCheck className="h-4 w-4 text-primary" /> : <Bookmark className="h-4 w-4 text-muted-foreground" />}
             </Button>
           ) : (
-            <Button variant="ghost" size="icon" disabled className="opacity-50">
-              <Lock className="h-4 w-4 text-muted-foreground" />
-            </Button>
+            <Button variant="ghost" size="icon" disabled className="opacity-50"><Lock className="h-4 w-4 text-muted-foreground" /></Button>
           )}
           {onAskStudyBuddy && (
-            <Button variant="outline" size="sm" onClick={() => onAskStudyBuddy(question)} className="gap-1.5">
-              <MessageCircle className="h-4 w-4" /> Ask Study Buddy
-            </Button>
+            <Button variant="outline" size="sm" onClick={() => onAskStudyBuddy(question)} className="gap-1.5"><MessageCircle className="h-4 w-4" /> Ask Study Buddy</Button>
           )}
         </div>
       </div>
 
-      {/* Question header */}
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between mb-2">
@@ -187,9 +171,7 @@ export function QuestionExplanation({ question, userAnswer, questionIndex, onBac
               {isCorrect ? <><CheckCircle className="h-3 w-3 mr-1" /> Correct</> : <><XCircle className="h-3 w-3 mr-1" /> Incorrect</>}
             </Badge>
           </div>
-          <CardTitle className="text-lg font-normal leading-relaxed">
-            Q{questionIndex + 1}. {question.question_text}
-          </CardTitle>
+          <CardTitle className="text-lg font-normal leading-relaxed">Q{questionIndex + 1}. {question.question_text}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-2">
           {options.map((opt, oi) => {
@@ -197,21 +179,8 @@ export function QuestionExplanation({ question, userAnswer, questionIndex, onBac
             const isUserAnswer = userAnswer === letter;
             const isCorrectAnswer = question.correct_answer === letter;
             return (
-              <div
-                key={oi}
-                className={cn(
-                  'rounded-lg border p-3 text-sm',
-                  isCorrectAnswer && 'border-success bg-success/5',
-                  isUserAnswer && !isCorrectAnswer && 'border-destructive bg-destructive/5',
-                  !isUserAnswer && !isCorrectAnswer && 'border-border opacity-60'
-                )}
-              >
-                <span className={cn(
-                  'mr-3 inline-flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold',
-                  isCorrectAnswer ? 'bg-success text-success-foreground' : isUserAnswer ? 'bg-destructive text-destructive-foreground' : 'bg-muted text-muted-foreground'
-                )}>
-                  {letter}
-                </span>
+              <div key={oi} className={cn('rounded-lg border p-3 text-sm', isCorrectAnswer && 'border-success bg-success/5', isUserAnswer && !isCorrectAnswer && 'border-destructive bg-destructive/5', !isUserAnswer && !isCorrectAnswer && 'border-border opacity-60')}>
+                <span className={cn('mr-3 inline-flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold', isCorrectAnswer ? 'bg-success text-success-foreground' : isUserAnswer ? 'bg-destructive text-destructive-foreground' : 'bg-muted text-muted-foreground')}>{letter}</span>
                 {opt.replace(/^[A-E]\.\s*/, '')}
                 {isCorrectAnswer && <CheckCircle className="inline h-4 w-4 ml-2 text-success" />}
                 {isUserAnswer && !isCorrectAnswer && <XCircle className="inline h-4 w-4 ml-2 text-destructive" />}
@@ -221,193 +190,100 @@ export function QuestionExplanation({ question, userAnswer, questionIndex, onBac
         </CardContent>
       </Card>
 
-      {/* Explanation */}
-      {question.explanation && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-base font-display">Explanation</CardTitle>
+      <Card>
+        <CardHeader><CardTitle className="text-base font-display">Explanation</CardTitle></CardHeader>
+        <CardContent className="space-y-4">
+          <p className="text-sm leading-relaxed">{parsed.lead}</p>
+          <div className="space-y-4">
+            {optionNotes.map((item) => (
+              <div key={item.letter} className="space-y-1">
+                <p className="text-sm font-medium">{item.letter}. {options[item.letter.charCodeAt(0) - 65]}</p>
+                <p className="text-sm text-muted-foreground leading-relaxed">{item.text}</p>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      {gate.canAccessLearningPoints ? (
+        <Card className="border-primary/20">
+          <CardHeader className="pb-3">
+            <div className="flex items-center gap-2">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10"><Stethoscope className="h-4 w-4 text-primary" /></div>
+              <CardTitle className="text-sm font-display">Diagnosis & Management</CardTitle>
+            </div>
           </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground leading-relaxed">{question.explanation}</p>
+          <CardContent className="space-y-3">
+            <p className="text-sm leading-relaxed">{diagnosis}</p>
+            {(question.first_line_investigation || question.gold_standard_investigation || question.best_treatment) && (
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                {question.first_line_investigation && <div className="rounded-lg bg-muted p-3"><div className="flex items-center gap-1.5 mb-1"><FlaskConical className="h-3.5 w-3.5 text-muted-foreground" /><p className="text-xs font-medium text-muted-foreground">1st Line Ix</p></div><p className="text-sm font-medium">{question.first_line_investigation}</p></div>}
+                {question.gold_standard_investigation && <div className="rounded-lg bg-muted p-3"><div className="flex items-center gap-1.5 mb-1"><FlaskConical className="h-3.5 w-3.5 text-muted-foreground" /><p className="text-xs font-medium text-muted-foreground">Gold Standard Ix</p></div><p className="text-sm font-medium">{question.gold_standard_investigation}</p></div>}
+                {question.best_treatment && <div className="rounded-lg bg-muted p-3"><div className="flex items-center gap-1.5 mb-1"><Pill className="h-3.5 w-3.5 text-muted-foreground" /><p className="text-xs font-medium text-muted-foreground">Best Treatment</p></div><p className="text-sm font-medium">{question.best_treatment}</p></div>}
+              </div>
+            )}
           </CardContent>
         </Card>
+      ) : (
+        <UpgradePrompt feature="Diagnosis & Management" description="Upgrade to see the diagnosis and management synthesis." variant="card" />
       )}
 
-      {/* Diagnosis & Management — gated to paid for learning points */}
-      {hasDiagnosisData && (
-        gate.canAccessLearningPoints ? (
-          <Card className="border-primary/20">
-            <CardHeader className="pb-3">
-              <div className="flex items-center gap-2">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10">
-                  <Stethoscope className="h-4 w-4 text-primary" />
-                </div>
-                <CardTitle className="text-sm font-display">Diagnosis & Management</CardTitle>
-              </div>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              {question.diagnosis_explanation && (
-                <div>
-                  <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-1">Diagnosis</p>
-                  <p className="text-sm leading-relaxed">{question.diagnosis_explanation}</p>
-                </div>
-              )}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                {question.first_line_investigation && (
-                  <div className="rounded-lg bg-muted p-3">
-                    <div className="flex items-center gap-1.5 mb-1">
-                      <FlaskConical className="h-3.5 w-3.5 text-muted-foreground" />
-                      <p className="text-xs font-medium text-muted-foreground">1st Line Ix</p>
-                    </div>
-                    <p className="text-sm font-medium">{question.first_line_investigation}</p>
-                  </div>
-                )}
-                {question.gold_standard_investigation && (
-                  <div className="rounded-lg bg-muted p-3">
-                    <div className="flex items-center gap-1.5 mb-1">
-                      <FlaskConical className="h-3.5 w-3.5 text-muted-foreground" />
-                      <p className="text-xs font-medium text-muted-foreground">Gold Standard Ix</p>
-                    </div>
-                    <p className="text-sm font-medium">{question.gold_standard_investigation}</p>
-                  </div>
-                )}
-                {question.best_treatment && (
-                  <div className="rounded-lg bg-muted p-3">
-                    <div className="flex items-center gap-1.5 mb-1">
-                      <Pill className="h-3.5 w-3.5 text-muted-foreground" />
-                      <p className="text-xs font-medium text-muted-foreground">Best Treatment</p>
-                    </div>
-                    <p className="text-sm font-medium">{question.best_treatment}</p>
-                  </div>
-                )}
-              </div>
-            </CardContent>
-          </Card>
-        ) : (
-          <UpgradePrompt feature="Diagnosis & Management" description="Upgrade to see full diagnosis, investigations, and treatment details." variant="card" />
-        )
-      )}
-
-      {/* Differential Diagnoses — gated */}
-      {hasDifferentials && (
-        gate.canAccessLearningPoints ? (
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-display">Differential Diagnoses</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-2">
-              {question.differential_diagnoses!.map((diff, i) => (
-                <Collapsible key={i} open={openDiffs[i]} onOpenChange={(open) => setOpenDiffs(prev => ({ ...prev, [i]: open }))}>
-                  <CollapsibleTrigger className="w-full flex items-center justify-between rounded-lg border p-3 text-sm hover:bg-muted/50 transition-colors">
-                    <span className="font-medium">{diff.diagnosis}</span>
-                    {openDiffs[i] ? <ChevronUp className="h-4 w-4 text-muted-foreground" /> : <ChevronDown className="h-4 w-4 text-muted-foreground" />}
-                  </CollapsibleTrigger>
-                  <CollapsibleContent className="px-3 pb-3">
-                    <div className="mt-2 space-y-2 text-sm text-muted-foreground">
-                      <p><strong>Reasoning:</strong> {diff.reasoning}</p>
-                      <p><strong>Investigation:</strong> {diff.investigation}</p>
-                      <p><strong>Treatment:</strong> {diff.treatment}</p>
-                    </div>
-                  </CollapsibleContent>
-                </Collapsible>
-              ))}
-            </CardContent>
-          </Card>
-        ) : (
-          <UpgradePrompt feature="Differential Diagnoses" description="Upgrade to access differential diagnoses for each question." variant="card" />
-        )
-      )}
-
-      {/* Incorrect Answer Analysis — gated */}
-      {hasIncorrectExplanations && (
-        gate.canAccessLearningPoints ? (
-          <Collapsible open={openIncorrect} onOpenChange={setOpenIncorrect}>
-            <Card>
-              <CardHeader className="pb-3">
-                <CollapsibleTrigger className="w-full flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-destructive/10">
-                      <AlertCircle className="h-4 w-4 text-destructive" />
-                    </div>
-                    <CardTitle className="text-sm font-display">Incorrect Answer Analysis</CardTitle>
-                  </div>
-                  {openIncorrect ? <ChevronUp className="h-4 w-4 text-muted-foreground" /> : <ChevronDown className="h-4 w-4 text-muted-foreground" />}
+      {hasDifferentials && (gate.canAccessLearningPoints ? (
+        <Card>
+          <CardHeader className="pb-3"><CardTitle className="text-sm font-display">Differential Diagnoses</CardTitle></CardHeader>
+          <CardContent className="space-y-2">
+            {question.differential_diagnoses!.map((diff, i) => (
+              <Collapsible key={i} open={openDiffs[i]} onOpenChange={(open) => setOpenDiffs(prev => ({ ...prev, [i]: open }))}>
+                <CollapsibleTrigger className="w-full flex items-center justify-between rounded-lg border p-3 text-sm hover:bg-muted/50 transition-colors">
+                  <span className="font-medium">{diff.diagnosis}</span>
+                  {openDiffs[i] ? <ChevronUp className="h-4 w-4 text-muted-foreground" /> : <ChevronDown className="h-4 w-4 text-muted-foreground" />}
                 </CollapsibleTrigger>
-              </CardHeader>
-              <CollapsibleContent>
-                <CardContent className="space-y-3 pt-0">
-                  {Object.entries(question.incorrect_answer_explanations!).map(([letter, exp]) => {
-                    if (letter === question.correct_answer) return null;
-                    return (
-                      <div key={letter} className="rounded-lg border p-3 text-sm space-y-1">
-                        <p className="font-medium">Option {letter}</p>
-                        <p className="text-muted-foreground"><strong>Why wrong:</strong> {exp.why_wrong}</p>
-                        <p className="text-muted-foreground"><strong>When correct:</strong> {exp.when_correct}</p>
-                      </div>
-                    );
-                  })}
-                </CardContent>
-              </CollapsibleContent>
-            </Card>
-          </Collapsible>
-        ) : null
-      )}
+                <CollapsibleContent className="px-3 pb-3">
+                  <div className="mt-2 space-y-2 text-sm text-muted-foreground">
+                    <p><strong>Reasoning:</strong> {diff.reasoning}</p>
+                    <p><strong>Investigation:</strong> {diff.investigation}</p>
+                    <p><strong>Treatment:</strong> {diff.treatment}</p>
+                  </div>
+                </CollapsibleContent>
+              </Collapsible>
+            ))}
+          </CardContent>
+        </Card>
+      ) : <UpgradePrompt feature="Differential Diagnoses" description="Upgrade to access differential diagnoses for each question." variant="card" />)}
 
-      {/* Key Takeaways — gated */}
-      {hasKeyTakeaways && (
-        gate.canAccessLearningPoints ? (
-          <Card className="border-amber-500/20">
-            <CardHeader className="pb-3">
-              <div className="flex items-center gap-2">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-amber-500/10">
-                  <Lightbulb className="h-4 w-4 text-amber-400" />
-                </div>
-                <CardTitle className="text-sm font-display">Key Takeaways</CardTitle>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-2">
-                {question.key_takeaways!.map((point, i) => (
-                  <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
-                    <span className="mt-1 h-1.5 w-1.5 rounded-full bg-amber-400 shrink-0" />
-                    {point}
-                  </li>
-                ))}
-              </ul>
-            </CardContent>
-          </Card>
-        ) : (
-          <UpgradePrompt feature="Key Takeaways" description="Upgrade to see key learning points for each question." variant="card" />
-        )
-      )}
+      {gate.canAccessLearningPoints ? (
+        <Card className="border-amber-500/20">
+          <CardHeader className="pb-3">
+            <div className="flex items-center gap-2">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-amber-500/10"><Lightbulb className="h-4 w-4 text-amber-400" /></div>
+              <CardTitle className="text-sm font-display">Key Takeaways</CardTitle>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <ul className="space-y-2">
+              {takeaways.map((point, i) => (
+                <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground"><span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-amber-400 shrink-0" />{point}</li>
+              ))}
+            </ul>
+          </CardContent>
+        </Card>
+      ) : <UpgradePrompt feature="Key Takeaways" description="Upgrade to see key learning points for each question." variant="card" />}
 
-      {/* Notes Section */}
       <Card>
         <CardHeader className="pb-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-chart-4/10">
-                <StickyNote className="h-4 w-4 text-chart-4" />
-              </div>
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-chart-4/10"><StickyNote className="h-4 w-4 text-chart-4" /></div>
               <CardTitle className="text-sm font-display">My Notes</CardTitle>
             </div>
-            {!gate.canAccessNotes && (
-              <Badge variant="outline" className="text-xs gap-1">
-                <Lock className="h-3 w-3" /> Pro
-              </Badge>
-            )}
+            {!gate.canAccessNotes && <Badge variant="outline" className="text-xs gap-1"><Lock className="h-3 w-3" /> Pro</Badge>}
           </div>
         </CardHeader>
         <CardContent>
           {gate.canAccessNotes ? (
             editingNote || !savedNote ? (
               <div className="space-y-2">
-                <Textarea
-                  value={noteText}
-                  onChange={e => setNoteText(e.target.value)}
-                  placeholder="Add your study notes for this question…"
-                  rows={3}
-                />
+                <Textarea value={noteText} onChange={e => setNoteText(e.target.value)} placeholder="Add your study notes for this question…" rows={3} />
                 <div className="flex gap-2">
                   <Button size="sm" onClick={saveNote}>Save Note</Button>
                   {savedNote && <Button size="sm" variant="ghost" onClick={() => { setEditingNote(false); setNoteText(savedNote); }}>Cancel</Button>}
@@ -416,33 +292,22 @@ export function QuestionExplanation({ question, userAnswer, questionIndex, onBac
             ) : (
               <div className="space-y-2">
                 <p className="text-sm text-muted-foreground">{savedNote}</p>
-                <Button size="sm" variant="ghost" onClick={() => setEditingNote(true)} className="gap-1">
-                  <StickyNote className="h-3.5 w-3.5" /> Edit Note
-                </Button>
+                <Button size="sm" variant="ghost" onClick={() => setEditingNote(true)} className="gap-1"><StickyNote className="h-3.5 w-3.5" /> Edit Note</Button>
               </div>
             )
-          ) : (
-            <p className="text-sm text-muted-foreground">Upgrade to a paid plan to add personal notes to questions.</p>
-          )}
+          ) : <p className="text-sm text-muted-foreground">Upgrade to a paid plan to add personal notes to questions.</p>}
         </CardContent>
       </Card>
 
-      {/* Textbook references */}
       {bookReferences.map((book) => (
         <Card key={book.title} className={cn('border', book.borderColor)}>
           <CardHeader className="pb-3">
             <div className="flex items-center gap-2">
-              <div className={cn('flex h-8 w-8 items-center justify-center rounded-lg', book.bgColor)}>
-                <book.icon className={cn('h-4 w-4', book.color)} />
-              </div>
+              <div className={cn('flex h-8 w-8 items-center justify-center rounded-lg', book.bgColor)}><book.icon className={cn('h-4 w-4', book.color)} /></div>
               <CardTitle className="text-sm font-display">{book.title}</CardTitle>
             </div>
           </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              {book.getContent(question.category)}
-            </p>
-          </CardContent>
+          <CardContent><p className="text-sm text-muted-foreground leading-relaxed">{book.getContent(question.category)}</p></CardContent>
         </Card>
       ))}
     </motion.div>
