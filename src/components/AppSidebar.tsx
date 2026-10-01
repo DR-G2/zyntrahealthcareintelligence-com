@@ -2,7 +2,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { Zap, Shield, PanelLeftClose, PanelLeft } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { TooltipProvider } from '@/components/ui/tooltip';
 import { createContext, useContext, useState } from 'react';
 import { ADMIN_EMAILS } from '@/lib/admin-emails';
 
@@ -18,9 +18,9 @@ export const SidebarContext = createContext<SidebarContextType>({
 export const useSidebarCollapsed = () => useContext(SidebarContext);
 
 const ROOMS = [
-  { to: '/practice', label: 'Practice', match: ['/practice', '/questions', '/assess', '/feed', '/osce-in-surgery', '/stations'] },
-  { to: '/intelligence', label: 'My pattern', match: ['/intelligence', '/profile', '/behavior'] },
-  { to: '/plan', label: 'Plan', match: ['/plan', '/flashcards'] },
+  { to: '/practice', label: 'Practice', match: ['/practice', '/questions', '/assess', '/flashcards', '/osce-in-surgery', '/stations'] },
+  { to: '/intelligence', label: 'Performance Intelligence', match: ['/intelligence', '/profile', '/behavior'] },
+  { to: '/plan', label: 'Study Plan', match: ['/plan'] },
 ];
 
 export function AppSidebar({ isMobile }: { isMobile?: boolean }) {
@@ -34,41 +34,26 @@ export function AppSidebar({ isMobile }: { isMobile?: boolean }) {
   const inner = (
     <>
       <NavLink to="/practice" onClick={close} className={cn('flex items-center gap-2 py-5', effectiveCollapsed ? 'justify-center px-2' : 'px-6')}>
-        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg gradient-primary">
-          <Zap className="h-4 w-4 text-primary-foreground" />
-        </div>
+        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg gradient-primary"><Zap className="h-4 w-4 text-primary-foreground" /></div>
         {!effectiveCollapsed && <span className="text-lg font-bold font-display tracking-tight">Zyntra</span>}
       </NavLink>
-      <nav className={cn('flex-1 py-2', effectiveCollapsed ? 'px-1.5' : 'px-3')}>
+      <nav className={cn('flex-1 space-y-1 py-2', effectiveCollapsed ? 'px-1.5' : 'px-3')}>
         {ROOMS.map((room) => {
           const active = room.match.some((p) => location.pathname === p || location.pathname.startsWith(p + '/'));
           return (
-            <NavLink key={room.to} to={room.to} onClick={close} className={cn(
-              'flex items-center rounded-lg text-sm font-medium',
-              effectiveCollapsed ? 'justify-center py-3' : 'px-3 py-2.5',
-              active ? 'bg-sidebar-accent text-sidebar-primary' : 'text-sidebar-foreground/70 hover:bg-sidebar-accent'
-            )}>{room.label}</NavLink>
+            <NavLink key={room.to} to={room.to} onClick={close} className={cn('flex items-center rounded-lg text-sm font-medium', effectiveCollapsed ? 'justify-center py-3' : 'px-3 py-2.5', active ? 'bg-sidebar-accent text-sidebar-primary' : 'text-sidebar-foreground/70 hover:bg-sidebar-accent')}>{effectiveCollapsed ? room.label.slice(0, 1) : room.label}</NavLink>
           );
         })}
-        <div className={cn('mt-6 space-y-1 text-xs text-sidebar-foreground/50', effectiveCollapsed && 'hidden')}>
-          <NavLink to="/practice" onClick={close} className="block px-3 py-1 hover:text-sidebar-foreground">MCQ</NavLink>
-          <NavLink to="/osce-in-surgery" onClick={close} className="block px-3 py-1 hover:text-sidebar-foreground">OSCE · not live</NavLink>
-          <NavLink to="/flashcards" onClick={close} className="block px-3 py-1 hover:text-sidebar-foreground">Flashcards</NavLink>
-        </div>
       </nav>
-      {isAdmin && (
-        <div className={cn('border-t border-sidebar-border py-3', effectiveCollapsed ? 'px-1.5' : 'px-3')}>
-          <NavLink to="/admin" onClick={close} className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-sidebar-foreground/70">
-            <Shield className="h-4 w-4" />{!effectiveCollapsed && 'Admin'}
-          </NavLink>
-          {!isMobile && (
-            <button onClick={() => setCollapsed(!collapsed)} className="flex w-full items-center gap-2 px-3 py-2 text-sm text-sidebar-foreground/50">
-              {collapsed ? <PanelLeft className="h-4 w-4" /> : <PanelLeftClose className="h-4 w-4" />}
-              {!collapsed && 'Collapse'}
-            </button>
-          )}
-        </div>
-      )}
+      <div className={cn('border-t border-sidebar-border py-3', effectiveCollapsed ? 'px-1.5' : 'px-3')}>
+        {isAdmin && <NavLink to="/admin" onClick={close} className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-sidebar-foreground/70"><Shield className="h-4 w-4" />{!effectiveCollapsed && 'Admin'}</NavLink>}
+        {!isMobile && (
+          <button onClick={() => setCollapsed(!collapsed)} className="flex w-full items-center gap-2 px-3 py-2 text-sm text-sidebar-foreground/50">
+            {collapsed ? <PanelLeft className="h-4 w-4" /> : <PanelLeftClose className="h-4 w-4" />}
+            {!collapsed && 'Collapse'}
+          </button>
+        )}
+      </div>
     </>
   );
 
@@ -76,13 +61,13 @@ export function AppSidebar({ isMobile }: { isMobile?: boolean }) {
     return (
       <TooltipProvider>
         {mobileOpen && <div className="fixed inset-0 z-40 bg-black/60" onClick={() => setMobileOpen(false)} />}
-        <aside className={cn('fixed left-0 top-0 z-50 flex h-screen w-72 flex-col bg-sidebar text-sidebar-foreground border-r transition-transform', mobileOpen ? 'translate-x-0' : '-translate-x-full')}>{inner}</aside>
+        <aside className={cn('fixed left-0 top-0 z-50 flex h-screen w-72 flex-col border-r bg-sidebar text-sidebar-foreground transition-transform', mobileOpen ? 'translate-x-0' : '-translate-x-full')}>{inner}</aside>
       </TooltipProvider>
     );
   }
   return (
     <TooltipProvider>
-      <aside className={cn('fixed left-0 top-0 z-40 flex h-screen flex-col bg-sidebar text-sidebar-foreground border-r transition-all', effectiveCollapsed ? 'w-16' : 'w-64')}>{inner}</aside>
+      <aside className={cn('fixed left-0 top-0 z-40 flex h-screen flex-col border-r bg-sidebar text-sidebar-foreground transition-all', effectiveCollapsed ? 'w-16' : 'w-64')}>{inner}</aside>
     </TooltipProvider>
   );
 }
