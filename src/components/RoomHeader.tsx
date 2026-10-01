@@ -70,7 +70,7 @@ export function RoomHeader({ kind, className }: { kind: RoomHeaderKind; classNam
   const Icon = c.icon;
   return (
     <section className={cn(
-      'relative overflow-hidden rounded-2xl border border-border/70 bg-card/75 p-5 shadow-sm backdrop-blur-sm sm:p-6',
+      'relative overflow-hidden rounded-2xl border border-border/70 bg-card/80 p-5 shadow-sm backdrop-blur-sm sm:p-6',
       className
     )}>
       <div className="relative z-10 max-w-[64%] sm:max-w-[58%]">
@@ -82,6 +82,7 @@ export function RoomHeader({ kind, className }: { kind: RoomHeaderKind; classNam
       </div>
       <Motif kind={kind} />
       <div className="absolute bottom-0 left-0 h-px w-1/3 bg-gradient-to-r from-primary/70 via-secondary/50 to-transparent" />
+      <div className="absolute -bottom-20 left-1/3 h-32 w-64 rounded-full bg-primary/5 blur-3xl" />
     </section>
   );
 }
