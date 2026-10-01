@@ -296,18 +296,9 @@ export default function TrustYourGut() {
 
   return (
     <div className="space-y-6">
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold font-display flex items-center gap-3">
-              <Target className="h-8 w-8 text-primary" />
-              Trust Your Gut
-            </h1>
-            <p className="text-muted-foreground mt-1">
-              Train your first-instinct accuracy and reduce harmful answer changes
-            </p>
-          </div>
-          <Button onClick={startTraining} className="gap-2">
+        <div className="flex items-center justify-between gap-4">
+          <RoomHeader kind="trust" className="flex-1" />
+          <Button onClick={startTraining} className="shrink-0 gap-2">
             <Play className="h-4 w-4" />
             Start Training
           </Button>
