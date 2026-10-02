@@ -524,7 +524,7 @@ export default function PerformanceIntelligence() {
             <QuickLink to="/practice/osce" title="OSCE" description="Add structured clinical-station signals." icon={ClipboardCheck} />
             <QuickLink to="/plan" title="Study Plan" description="Turn current signals into the next training priorities." icon={Activity} />
           </div>
-        </section>
+        </motion.section>
 
         <motion.section variants={reveal}>
           <div className="mb-3 flex items-end justify-between">
