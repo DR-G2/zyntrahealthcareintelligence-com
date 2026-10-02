@@ -48,6 +48,7 @@ interface SessionConfig {
   topics: string[];
   subtopics: string[];
   questionCount: number;
+  adaptivePoolIds?: string[];
 }
 
 // ─── Filter types ───────────────────────────────────────────────
@@ -613,6 +614,7 @@ function DrillSession({
   config: SessionConfig;
   onFinish: (questions: Question[], answers: Record<number, string>, changes: Record<number, number>, times: Record<number, number>, ruledOut: Record<number, string[]>) => void;
   resumeSessionId?: string | null;
+  onConfigRestore?: (config: SessionConfig) => void;
 }) {
   const { user } = useAuth();
   const { toast } = useToast();
@@ -656,8 +658,11 @@ function DrillSession({
         user_id: user.id,
         session_id: sessionIdRef.current,
         session_type: 'mcq',
-        config: config as any,
-        // Only persist the configured session, not the larger adaptive candidate pool.
+        config: {
+          ...config,
+          adaptivePoolIds: adaptivePoolRef.current.map(q => q.id),
+        } as any,
+        // Persist the visible session separately from the hidden adaptive candidate pool.
         question_ids: qs.slice(0, config.questionCount).map(q => q.id),
         answers: answers,
         answer_changes: changes,
@@ -696,29 +701,47 @@ function DrillSession({
             .single();
 
           if (session) {
-            const questionIds = session.question_ids as string[];
+            const storedConfig = (session.config && typeof session.config === 'object')
+              ? (session.config as SessionConfig)
+              : config;
+            onConfigRestore?.(storedConfig);
+
+            const visibleIds = Array.isArray(session.question_ids) ? session.question_ids as string[] : [];
+            const adaptivePoolIds = Array.isArray(storedConfig.adaptivePoolIds) ? storedConfig.adaptivePoolIds : [];
+            const allIds = [...new Set([...visibleIds, ...adaptivePoolIds])];
+
             const { data: qs } = await supabase
               .from('questions')
               .select('id, question_text, options, correct_answer, explanation, category, difficulty, diagnosis_explanation, first_line_investigation, gold_standard_investigation, best_treatment, differential_diagnoses, incorrect_answer_explanations, key_takeaways')
-              .in('id', questionIds);
+              .in('id', allIds);
 
             if (qs && qs.length > 0) {
-              const ordered = questionIds.map(id => qs.find(q => q.id === id)).filter(Boolean) as Question[];
-              if (config.mode === 'full-mock') {
-            setQuestions(ordered.slice(0, config.questionCount));
-            adaptivePoolRef.current = [];
-          } else {
-            setQuestions(ordered.slice(0, config.questionCount));
-            adaptivePoolRef.current = ordered.slice(config.questionCount);
-          }
-              setSelectedAnswers((session.answers as Record<number, string>) || {});
+              const orderedVisible = visibleIds.map(id => qs.find(q => q.id === id)).filter(Boolean) as Question[];
+              const orderedPool = adaptivePoolIds.map(id => qs.find(q => q.id === id)).filter(Boolean) as Question[];
+              const restoredCount = storedConfig.questionCount || config.questionCount;
+              const restoredMode = storedConfig.mode || config.mode;
+
+              setQuestions(orderedVisible.slice(0, restoredCount));
+              adaptivePoolRef.current = restoredMode === 'full-mock' ? [] : orderedPool;
+              maxViewedIndexRef.current = session.current_index || 0;
+
+              const restoredAnswers = (session.answers as Record<number, string>) || {};
+              setSelectedAnswers(restoredAnswers);
+              setLockedAnswers(
+                restoredMode === 'full-mock' || restoredMode === 'no-change'
+                  ? Object.keys(restoredAnswers).reduce<Record<number, boolean>>((acc, key) => {
+                      acc[Number(key)] = true;
+                      return acc;
+                    }, {})
+                  : {}
+              );
               setAnswerChanges((session.answer_changes as Record<number, number>) || {});
               setChangeSequences((session.change_sequences as Record<number, string[]>) || {});
               setQuestionTimes((session.question_times as Record<number, number>) || {});
               setTimeToFirstClick((session.time_to_first_click as Record<number, number>) || {});
               setPauseEvents((session.pause_events as Record<number, number>) || {});
               setCurrentIndex(session.current_index || 0);
-              setTimeRemaining(session.time_remaining || timeSeconds);
+              setTimeRemaining(session.time_remaining || (restoredMode === 'full-mock' ? 210 * 60 : restoredCount * 60));
 
               await supabase.from('active_sessions').update({ restored: true } as any).eq('session_id', resumeSessionId);
 
@@ -920,7 +943,10 @@ function DrillSession({
           const ordered = matchingIds
             .map((id) => data.find((question) => question.id === id))
             .filter(Boolean) as Question[];
-          setQuestions(ordered);
+          setQuestions(ordered.slice(0, config.questionCount));
+          adaptivePoolRef.current = config.mode === 'full-mock'
+            ? []
+            : ordered.slice(config.questionCount);
         }
       }
       setLoading(false);
@@ -1944,6 +1970,9 @@ export default function Practice() {
       <DrillSession
         config={config}
         resumeSessionId={resumeSessionId}
+        onConfigRestore={(restoredConfig) => {
+          setConfig(restoredConfig);
+        }}
         onFinish={(questions, answers, changes, times, ruledOut) => {
           setResultData({ questions, answers, changes, times, ruledOut });
           setPhase('results');
