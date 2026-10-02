@@ -89,6 +89,16 @@ function MetricCard({ metric }: { metric: TelemetryMetric }) {
   );
 }
 
+const reveal = {
+  hidden: { opacity: 0, y: 18 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: 'easeOut' } },
+};
+
+const stagger = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.07 } },
+};
+
 function QuickLink({ to, title, description, icon: Icon }: { to: string; title: string; description: string; icon: typeof Brain }) {
   return (
     <Link to={to} className="group flex min-w-0 items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.025] p-4 transition-all hover:border-cyan-400/30 hover:bg-cyan-400/[0.035]">
@@ -260,10 +270,10 @@ export default function PerformanceIntelligence() {
 
   return (
     <AppLayout>
-      <div className="mx-auto max-w-6xl space-y-6">
-        <RoomHeader kind="intelligence" />
+      <motion.div variants={stagger} initial="hidden" animate="show" className="mx-auto max-w-6xl space-y-6">
+        <motion.div variants={reveal}><RoomHeader kind="intelligence" /></motion.div>
 
-        <div className="grid grid-cols-3 rounded-2xl border border-white/10 bg-white/[0.025] p-1.5">
+        <motion.div variants={reveal} className="grid grid-cols-3 rounded-2xl border border-white/10 bg-white/[0.025] p-1.5">
           {TABS.map(tab => (
             <button key={tab.id} onClick={() => handleTab(tab.id)} className={cn('relative flex items-center justify-center gap-2 rounded-xl px-3 py-2.5 text-sm font-medium transition-all', activeTab === tab.id ? 'bg-white/[0.08] text-white' : 'text-slate-500 hover:text-slate-300')}>
               <tab.icon className="h-4 w-4" />
@@ -271,9 +281,9 @@ export default function PerformanceIntelligence() {
               {activeTab === tab.id && <span className="absolute bottom-0 h-px w-12 bg-cyan-400 shadow-[0_0_10px_rgba(34,211,238,.8)]" />}
             </button>
           ))}
-        </div>
+        </motion.div>
 
-        <section className="rounded-3xl border border-cyan-400/10 bg-gradient-to-br from-cyan-400/[0.045] via-[#081224]/80 to-[#081224]/70 p-5 md:p-6">
+        <motion.section variants={reveal} className="rounded-3xl border border-cyan-400/10 bg-gradient-to-br from-cyan-400/[0.045] via-[#081224]/80 to-[#081224]/70 p-5 md:p-6">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div>
               <p className="text-[11px] font-mono uppercase tracking-[0.18em] text-cyan-300/80">Your intelligence layer</p>
@@ -285,9 +295,9 @@ export default function PerformanceIntelligence() {
               <Link to="/plan" className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/[0.04] px-3 py-2 text-xs font-medium text-slate-300 hover:bg-white/[0.07]">Study Plan <ArrowRight className="h-3.5 w-3.5" /></Link>
             </div>
           </div>
-        </section>
+        </motion.section>
 
-        <section className="grid gap-4 lg:grid-cols-[1.1fr_1.9fr]">
+        <motion.section variants={reveal} className="grid gap-4 lg:grid-cols-[1.1fr_1.9fr]">
           <div className="rounded-3xl border border-white/10 bg-[#081224]/70 p-6 backdrop-blur-xl">
             <div className="flex items-center gap-2 text-sm font-medium text-slate-200">
               <Gauge className="h-4 w-4 text-cyan-300" /> Overall Readiness
@@ -320,9 +330,9 @@ export default function PerformanceIntelligence() {
               <p className="mt-2 text-[11px] font-mono text-slate-600">telemetry sample</p>
             </div>
           </div>
-        </section>
+        </motion.section>
 
-        <section className="grid gap-4 lg:grid-cols-2">
+        <motion.section variants={reveal} className="grid gap-4 lg:grid-cols-2">
           <div className="rounded-2xl border border-white/10 bg-[#081224]/70 p-5 backdrop-blur-xl">
             <div className="mb-4 flex items-center justify-between">
               <div>
@@ -360,9 +370,9 @@ export default function PerformanceIntelligence() {
               <div className="flex items-center justify-between rounded-xl border border-white/8 bg-white/[0.025] px-3 py-2.5"><span className="text-xs text-slate-400">Under-confident correct</span><span className="text-sm font-semibold text-emerald-300">{snapshot.underconfidentCorrect}</span></div>
             </div>
           </div>
-        </section>
+        </motion.section>
 
-        <section>
+        <motion.section variants={reveal}>
           <div className="mb-3 flex items-end justify-between">
             <div>
               <p className="text-lg font-display font-semibold text-white">Next Best Study Priorities</p>
@@ -399,9 +409,9 @@ export default function PerformanceIntelligence() {
               </div>
             )}
           </div>
-        </section>
+        </motion.section>
 
-        <section>
+        <motion.section variants={reveal}>
           <div className="mb-3 flex items-end justify-between">
             <div>
               <p className="text-lg font-display font-semibold text-white">Confidence by Subject</p>
@@ -426,8 +436,8 @@ export default function PerformanceIntelligence() {
               </div>
             )}
           </div>
-        </section>
-        <section>
+        </motion.section>
+        <motion.section variants={reveal}>
           <div className="mb-3 flex items-end justify-between">
             <div>
               <p className="text-lg font-display font-semibold text-white">Subject Trajectory</p>
@@ -461,9 +471,9 @@ export default function PerformanceIntelligence() {
               </div>
             )}
           </div>
-        </section>
+        </motion.section>
 
-        <section>
+        <motion.section variants={reveal}>
           <div className="mb-3 flex items-end justify-between">
             <div>
               <p className="text-lg font-display font-semibold text-white">Subtopic Weakness Map</p>
@@ -499,9 +509,9 @@ export default function PerformanceIntelligence() {
               </div>
             )}
           </div>
-        </section>
+        </motion.section>
 
-        <section>
+        <motion.section variants={reveal}>
           <div className="mb-3 flex items-end justify-between">
             <div>
               <p className="text-lg font-display font-semibold text-white">Connected Training Rooms</p>
@@ -526,9 +536,9 @@ export default function PerformanceIntelligence() {
           <div className="grid gap-4 md:grid-cols-2">
             {metrics.map(metric => <MetricCard key={metric.id} metric={metric} />)}
           </div>
-        </section>
+        </motion.section>
 
-        <AnimatePresence mode="wait">
+        <motion.div variants={reveal}><AnimatePresence mode="wait">
           <motion.div key={activeTab} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.2 }}>
             <Suspense fallback={<div className="rounded-2xl border border-white/10 bg-[#081224]/70 p-12 text-center text-sm text-slate-500">Loading intelligence layer...</div>}>
               {activeTab === 'performance' && <ProfileContent />}
@@ -536,8 +546,8 @@ export default function PerformanceIntelligence() {
               {activeTab === 'trust-your-gut' && <TrustYourGutContent />}
             </Suspense>
           </motion.div>
-        </AnimatePresence>
-      </div>
+        </AnimatePresence></motion.div>
+      </motion.div>
     </AppLayout>
   );
 }
