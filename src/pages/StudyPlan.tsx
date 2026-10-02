@@ -32,6 +32,7 @@ export default function StudyPlan() {
   const [aiPlan, setAiPlan] = useState<AIPlan | null>(null);
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
+  const [generationLocked, setGenerationLocked] = useState(false);
 
   useEffect(() => {
     if (!user) { setLoading(false); return; }
@@ -39,12 +40,20 @@ export default function StudyPlan() {
       const [perfRes, attemptsRes, planRes] = await Promise.all([
         supabase.from('performance_profiles').select('readiness_score, clinical_accuracy, stability_score, time_sensitivity, confidence_gap').eq('user_id', user.id).maybeSingle(),
         supabase.from('user_attempts').select('is_correct, questions(category)').eq('user_id', user.id),
-        supabase.from('study_plans').select('tasks').eq('user_id', user.id).order('generated_at', { ascending: false }).limit(1).maybeSingle(),
+        supabase.from('study_plans').select('tasks, generated_at').eq('user_id', user.id).order('generated_at', { ascending: false }).limit(1).maybeSingle(),
       ]);
       if (perfRes.data) setPerfProfile(perfRes.data);
       if (planRes.data?.tasks) {
         const cached = planRes.data.tasks as unknown as AIPlan;
         if (cached?.weekly_schedule && cached?.recommendations) setAiPlan(cached);
+      }
+      if (planRes.data?.generated_at) {
+        const generatedAt = new Date(planRes.data.generated_at);
+        const now = new Date();
+        const nextMonth = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1));
+        if (generatedAt.getUTCFullYear() === now.getUTCFullYear() && generatedAt.getUTCMonth() === now.getUTCMonth()) {
+          setGenerationLocked(true);
+        }
       }
       const map = new Map<string, { correct: number; total: number }>();
       (attemptsRes.data || []).forEach((a: any) => {
@@ -67,7 +76,7 @@ export default function StudyPlan() {
   const daysUntilExam = useMemo(() => profile?.exam_date ? differenceInDays(new Date(profile.exam_date), new Date()) : null, [profile?.exam_date]);
 
   const generateAIPlan = async () => {
-    if (!user || generating) return;
+    if (!user || generating || generationLocked) return;
     setGenerating(true);
     try {
       const { data: { session } } = await supabase.auth.getSession();
@@ -80,7 +89,9 @@ export default function StudyPlan() {
       setAiPlan(await resp.json());
       toast.success('Study plan generated');
     } catch (e: any) {
-      toast.error(e.message || 'Failed to generate study plan');
+      const message = e.message || 'Failed to generate study plan';
+      if (message.toLowerCase().includes('next generation available')) setGenerationLocked(true);
+      toast.error(message);
     } finally {
       setGenerating(false);
     }
@@ -110,11 +121,16 @@ export default function StudyPlan() {
               <h1 className="font-display text-3xl font-bold tracking-tight text-white sm:text-4xl">Study Plan</h1>
               <p className="mt-2 max-w-xl text-sm leading-6 text-slate-400">Convert performance signals into your next training priorities.</p>
             </div>
-            <button onClick={generateAIPlan} disabled={generating || categoryStats.length === 0} className="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-cyan-400 to-cyan-500 px-4 py-2.5 text-sm font-semibold text-slate-950 shadow-[0_0_30px_rgba(34,211,238,.16)] transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-50">
+            <button onClick={generateAIPlan} disabled={generating || generationLocked || categoryStats.length === 0} className="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-cyan-400 to-cyan-500 px-4 py-2.5 text-sm font-semibold text-slate-950 shadow-[0_0_30px_rgba(34,211,238,.16)] transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-50">
               {generating ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
-              {aiPlan ? 'Regenerate Plan' : 'Generate Plan'}
+              {generationLocked ? 'Monthly limit reached' : aiPlan ? 'Regenerate Plan' : 'Generate Plan'}
             </button>
           </div>
+          {generationLocked && (
+            <p className="relative z-10 mt-3 text-xs text-slate-500">
+              One successful study-plan generation is allowed per calendar month. The next generation window opens on the first day of next month.
+            </p>
+          )}
           <div className="pointer-events-none absolute -right-24 -top-28 h-72 w-72 rounded-full bg-cyan-500/10 blur-[100px]" />
         </div>
 
