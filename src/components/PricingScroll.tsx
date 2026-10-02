@@ -16,8 +16,8 @@ const plans = [
   },
   {
     name: 'Practice',
-    price: '$39 AUD / month',
-    note: 'or $100 AUD for 3 months',
+    price: '$39 USD / month',
+    note: 'or $100 USD for 3 months',
     points: [
       'MCQ practice, Performance Intelligence and Study Plan.',
       'Three months at the monthly rate is $117. You pay $100.',
@@ -28,13 +28,13 @@ const plans = [
     live: true,
   },
   {
-    name: 'Pass guarantee',
+    name: 'Exam Master',
     price: 'Building',
     note: 'Not on sale yet',
     points: [
       'Follow a set daily load: questions done, revision queue cleared, weak topics first.',
-      'A person you name can see that you kept the load.',
-      'If you keep that load and do not pass AMC MCQ, the fee comes back. Same idea as a selection guarantee: the refund is for the method, not for logging in.',
+      'Progress and performance signals are available within the applicable account features.',
+      'Professional features are subject to the applicable plan terms; Zyntra does not guarantee examination outcomes.',
     ],
     cta: 'Not open yet',
     to: '/login',
@@ -48,8 +48,8 @@ export function PricingScroll() {
       <div className="mx-auto max-w-6xl">
         <div className="mx-auto mb-10 max-w-2xl text-center">
           <div className="text-xs font-bold uppercase tracking-[.18em] text-[#16858c]">Pricing</div>
-          <h2 className="mt-2 font-display text-3xl font-bold tracking-tight sm:text-4xl">Three ways in</h2>
-          <p className="mt-3 text-slate-600">Free is the diagnostic. Practice is the live room. The pass guarantee is being built.</p>
+          <h2 className="mt-2 font-display text-3xl font-bold tracking-tight sm:text-4xl">Three ways to train</h2>
+          <p className="mt-3 text-slate-600">Free is the diagnostic. Practice is the live room. Exam Master extends the training stack with deeper simulation and analytics.</p>
         </div>
         <div className="grid gap-4 md:grid-cols-3">
           {plans.map((plan) => (
