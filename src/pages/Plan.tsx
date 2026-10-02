@@ -189,8 +189,6 @@ const Plan: React.FC = () => {
           </div>
         </div>
       </div>
-        </div>
-      </div>
     </AppLayout>
   );
 };
