@@ -5,221 +5,104 @@ import { CURRENT_TERMS_VERSION, LEGAL_EMAIL } from '@/lib/legal';
 import { SEO } from '@/components/SEO';
 import { PublicFooter } from '@/components/PublicFooter';
 
-const sectionClass = 'space-y-2';
-const headingClass = 'text-[13px] font-semibold text-foreground';
-const textClass = 'text-[11px] leading-[1.4] text-foreground/85';
+const sectionClass = 'space-y-3';
+const headingClass = 'text-base font-semibold text-foreground';
+const textClass = 'text-sm leading-6 text-foreground/85';
 
 export default function Terms() {
   return (
     <div className="min-h-screen bg-background">
-      <SEO
-        title="Terms of Service — Zyntra"
-        description="Zyntra's terms of service: acceptable use, subscription and refund rules, content originality, and account responsibilities for AMC candidates."
-        path="/terms"
-      />
+      <SEO title="Terms of Service — Zyntra" description="Terms governing use of the Zyntra Healthcare Intelligence educational SaaS platform." path="/terms" />
       <nav className="border-b border-border/50 bg-background">
         <div className="container flex h-14 items-center gap-3">
-          <Button variant="ghost" size="sm" asChild>
-            <Link to="/" className="gap-2">
-              <ArrowLeft className="h-4 w-4" /> Back
-            </Link>
-          </Button>
-          <div className="flex items-center gap-2">
-            <div className="flex h-6 w-6 items-center justify-center rounded-md gradient-primary">
-              <Zap className="h-3 w-3 text-primary-foreground" />
-            </div>
-            <span className="font-display font-semibold text-sm">Zyntra</span>
-          </div>
+          <Button variant="ghost" size="sm" asChild><Link to="/" className="gap-2"><ArrowLeft className="h-4 w-4" /> Back</Link></Button>
+          <div className="flex items-center gap-2"><div className="flex h-6 w-6 items-center justify-center rounded-md gradient-primary"><Zap className="h-3 w-3 text-primary-foreground" /></div><span className="font-display font-semibold text-sm">Zyntra</span></div>
         </div>
       </nav>
+      <main className="container max-w-3xl py-12 space-y-8">
+        <header><h1 className="text-3xl font-bold font-display">Terms of Service</h1><p className="mt-2 text-sm leading-6 text-foreground/85">Version: {CURRENT_TERMS_VERSION} · Effective date: October 2026</p></header>
 
-      <div className="container max-w-2xl py-10 space-y-6">
-        <div>
-          <h1 className="text-xl font-bold font-display">Terms of Service</h1>
-          <p className={textClass}>Version: {CURRENT_TERMS_VERSION} · Last updated: September 2026</p>
-        </div>
-
-        {/* 1 */}
-        <section className={sectionClass}>
-          <h2 className={headingClass}>1. Introduction</h2>
-          <p className={textClass}>
-            Welcome to Zyntra ("the Platform"), an AI-powered exam preparation service for the Australian Medical Council (AMC) examinations. By accessing or using Zyntra, you agree to be bound by these Terms of Service ("Terms"). If you do not agree, you must not use the Platform.
-          </p>
+        <section className={sectionClass}><h2 className={headingClass}>1. Agreement and Definitions</h2>
+          <p className={textClass}>These Terms of Service (the “Terms”) are a binding agreement between you (“you”, “your” or “User”) and [Company Legal Entity Name] trading as Zyntra Healthcare Intelligence (“Zyntra”, “we”, “us” or “our”). “Platform” means Zyntra websites, applications, software, APIs, databases and related services. “Authorized User” means an individual authorised to use a subscription. “Proprietary Content” means Zyntra questions, explanations, simulations, prompts, scoring systems, models, interfaces, documentation, analytics and datasets. “Simulated Outputs” means AI-generated or algorithmically generated questions, scenarios, feedback, recommendations, scores or other outputs.</p>
+          <p className={textClass}>By creating an account, purchasing a subscription, clicking acceptance or accessing the Platform, you agree to these Terms and the Privacy &amp; Data Governance Policy. If you do not agree, do not use the Platform. Organisational users represent that they have authority to bind the relevant organisation.</p>
         </section>
 
-        {/* 2 */}
-        <section className={sectionClass}>
-          <h2 className={headingClass}>2. Platform Usage Rules</h2>
-          <p className={textClass}>
-            You must be at least 18 years old to use Zyntra. You are responsible for maintaining the confidentiality of your account credentials. Each account is for individual use only — sharing login credentials is prohibited. You agree to use the Platform solely for personal exam preparation and not for any commercial purpose.
-          </p>
+        <section className={sectionClass}><h2 className={headingClass}>2. Educational Purpose; No Medical Advice or Clinical Relationship</h2>
+          <p className={textClass}>Zyntra is an educational and examination-preparation service. It does not provide medical advice, diagnosis, treatment, triage, prescribing, patient-specific clinical recommendations or patient care. Platform materials are educational simulations and training tools only. Use of the Platform creates no doctor-patient, clinician-patient, fiduciary, employment or professional relationship with Zyntra.</p>
+          <p className={textClass}>You must not rely on Platform content or Simulated Outputs as a substitute for professional judgement, supervision, local law, institutional protocols, official examination materials or advice from a qualified professional. Do not upload live-patient information or Protected Health Information (“PHI”).</p>
         </section>
 
-        {/* 3 */}
-        <section className={sectionClass}>
-          <h2 className={headingClass}>3. Identity & Eligibility</h2>
-          <p className={textClass}>
-            You must register with your real identity. Fake, misleading, or anonymous accounts are not permitted. You represent and warrant that you are a genuine AMC exam candidate or medical professional seeking exam preparation. Access by competitors, rival platforms, or individuals acting on behalf of competing services is strictly prohibited and constitutes a material breach of these Terms. Zyntra reserves the right to immediately suspend accounts suspected of being operated by or on behalf of competing platforms.
-          </p>
+        <section className={sectionClass}><h2 className={headingClass}>3. Examination, Accreditation and Employment Disclaimer</h2>
+          <p className={textClass}>Zyntra does not warrant or guarantee that use of the Platform will result in passing AMC, USMLE, PLAB, NMC or any other licensing, registration, accreditation or qualifying examination. Zyntra does not guarantee scores, rank, registration, internship placement, employment, visa outcomes, promotion or other professional outcomes. Examination formats and eligibility requirements may change independently of Zyntra. Third-party examination names are descriptive only and do not imply affiliation or endorsement.</p>
         </section>
 
-        {/* 4 */}
-        <section className={sectionClass}>
-          <h2 className={headingClass}>4. Intellectual Property Protection</h2>
-          <p className={textClass}>
-            All content on Zyntra — including but not limited to questions, explanations, OSCE scenarios, AI-generated study plans, clinical vignettes, and analytical tools — is the proprietary intellectual property of Zyntra and is protected under the Copyright Act 1968 (Cth) and applicable international copyright treaties. You are granted a limited, non-exclusive, non-transferable licence to access this content solely for personal study purposes.
-          </p>
+        <section className={sectionClass}><h2 className={headingClass}>4. Accounts and Security</h2>
+          <p className={textClass}>You must provide accurate registration information, maintain credential confidentiality and promptly report unauthorised access. Accounts are personal unless an Institutional / Enterprise agreement expressly provides otherwise. Credential sharing, account lending, resale and circumvention of seat controls are prohibited.</p>
         </section>
 
-        {/* 5 */}
-        <section className={sectionClass}>
-          <h2 className={headingClass}>5. Original Content Notice</h2>
-          <p className={textClass}>
-            All clinical scenarios, OSCE stations, MCQ questions, and study material on Zyntra are original works created by our team and AI systems. They are not recalled, copied, or derived from actual AMC examination content. Any resemblance to real exam questions is coincidental. Using Zyntra content as if it were "recalled" AMC material is a misrepresentation and violation of these Terms.
-          </p>
+        <section className={sectionClass}><h2 className={headingClass}>5. Acceptable Use and Anti-Extraction Controls</h2>
+          <p className={textClass}>You must not reverse engineer, decompile, disassemble or attempt to derive source code, model weights or proprietary logic; scrape, crawl, spider, bulk-download or automate extraction; bypass access controls, rate limits, paywalls, watermarking or security measures; use prompt injection, model extraction, jailbreaks or adversarial techniques to obtain restricted Proprietary Content; reproduce, publish, distribute, sell, sublicense or commercially exploit Proprietary Content; use Zyntra data to train, fine-tune, benchmark or evaluate a downstream machine-learning or generative-AI model except with Zyntra’s written authorisation; falsely represent Zyntra material as official examination content; or use the Platform to build or improve a competing service.</p>
+          <p className={textClass}>Nothing in this section removes a right that applicable law expressly protects, including a legally mandated interoperability or security-research exception.</p>
         </section>
 
-        {/* 6 */}
-        <section className={sectionClass}>
-          <h2 className={headingClass}>6. Anti-Piracy Policy</h2>
-          <p className={textClass}>
-            Zyntra content is protected under the Copyright Act 1968 (Cth). The following actions are strictly prohibited:
-          </p>
-          <ul className={`${textClass} list-disc pl-5 space-y-1`}>
-            <li>Copying, reproducing, or screenshotting platform questions or explanations</li>
-            <li>Redistributing OSCE cases, scenarios, or clinical content</li>
-            <li>Scraping, crawling, or automated extraction of platform data</li>
-            <li>Sharing account credentials with third parties</li>
-            <li>Posting content to Telegram groups, recall groups, or any external platform</li>
-            <li>Reselling, sublicensing, or commercially distributing Zyntra material</li>
-          </ul>
-          <p className={textClass}>
-            Violations may result in immediate account suspension, permanent ban, and/or legal action under Australian law including claims for damages and injunctive relief.
-          </p>
+        <section className={sectionClass}><h2 className={headingClass}>6. Intellectual Property</h2>
+          <p className={textClass}>Zyntra and its licensors retain all right, title and interest in the Platform and Proprietary Content. Except for the limited, revocable, non-exclusive, non-transferable licence to use the Platform during an applicable subscription term, no rights are granted. Feedback may be used by Zyntra to improve the Platform, subject to applicable privacy law.</p>
         </section>
 
-        {/* 7 */}
-        <section className={sectionClass}>
-          <h2 className={headingClass}>7. Competitive Intelligence Prohibition</h2>
-          <p className={textClass}>
-            You may not access, use, or interact with the Platform for the purpose of competitive intelligence, benchmarking, or building a competing product. This includes but is not limited to: analyzing platform features, question structures, AI methodologies, scoring algorithms, or user experience patterns for the purpose of replication or competitive advantage. Any such activity constitutes a material breach of these Terms and may result in immediate termination and legal action.
-          </p>
+        <section className={sectionClass}><h2 className={headingClass}>7. AI and Simulated Outputs</h2>
+          <p className={textClass}>The Platform may use machine-learning and generative-AI systems. Simulated Outputs may contain omissions, outdated information, ambiguity, hallucinations, incorrect reasoning, synthetic data or other errors. Outputs are not authoritative medical, legal, regulatory or examination advice. You are responsible for independently evaluating outputs before relying on them for study. Zyntra does not warrant that AI-generated material is complete, accurate, current, original, unbiased or error-free except to the extent a non-excludable law provides otherwise.</p>
+          <p className={textClass}>Automated analysis is used for educational personalisation and platform functionality, not to determine professional licensure, medical fitness or employment eligibility.</p>
         </section>
 
-        {/* 8 */}
-        <section className={sectionClass}>
-          <h2 className={headingClass}>8. AI Content Feeding Prohibition</h2>
-          <p className={textClass}>
-            You may not use any content from Zyntra — including questions, explanations, clinical scenarios, OSCE scripts, model answers, or any AI-generated material — as training data, input, or context for any artificial intelligence system, large language model (LLM), machine learning pipeline, or automated content generation tool. This prohibition applies regardless of whether the content is used directly, paraphrased, summarized, or transformed. Violation of this section constitutes theft of intellectual property and will be pursued under the full extent of applicable law.
-          </p>
+        <section className={sectionClass}><h2 className={headingClass}>8. Third-Party Services</h2>
+          <p className={textClass}>The Platform may depend on third-party hosting, authentication, payment, communications, analytics and AI providers. Third-party outages or policy changes may affect availability. Your use of third-party services may be subject to their terms. Zyntra remains responsible for obligations that applicable law places on Zyntra.</p>
         </section>
 
-        {/* 9 */}
-        <section className={sectionClass}>
-          <h2 className={headingClass}>9. Three-Strike Enforcement System</h2>
-          <p className={textClass}>
-            Zyntra operates a graduated enforcement system for intellectual property violations:
-          </p>
-          <ul className={`${textClass} list-disc pl-5 space-y-1`}>
-            <li><strong>Strike 1:</strong> Written warning and increased content watermarking.</li>
-            <li><strong>Strike 2:</strong> Further increased watermarking and final warning.</li>
-            <li><strong>Strike 3:</strong> Immediate and permanent account suspension with no refund.</li>
-          </ul>
-          <p className={textClass}>
-            Zyntra reserves the right to bypass the graduated system and immediately suspend accounts in cases of severe or egregious violations.
-          </p>
+        <section className={sectionClass}><h2 className={headingClass}>9. Subscription, Billing and Cancellation</h2>
+          <p className={textClass}>Subscription fees, billing periods, renewals, taxes, plan features, refunds and plan changes are governed by the SaaS Pricing Architecture &amp; Commercial Billing Policy, which forms part of these Terms. Unless stated otherwise at checkout, recurring subscriptions renew automatically for the same billing period until cancelled. Cancellation ordinarily prevents future renewal and does not reverse a completed billing period.</p>
         </section>
 
-        {/* 10 */}
-        <section className={sectionClass}>
-          <h2 className={headingClass}>10. Account Suspension Policy</h2>
-          <p className={textClass}>
-            Zyntra may suspend or terminate your account at any time for breach of these Terms, including but not limited to intellectual property violations, fraudulent activity, or abuse of the Platform. Suspended accounts forfeit access to all content and data. Refunds are not provided for suspended accounts.
-          </p>
+        <section className={sectionClass}><h2 className={headingClass}>10. Refunds and Mandatory Consumer Rights</h2>
+          <p className={textClass}>Except where applicable law requires otherwise, charges for digital services and digital content are non-refundable after the relevant service or Proprietary Content has been accessed. Nothing in these Terms excludes, restricts or modifies a statutory consumer guarantee, cooling-off right, cancellation right or other mandatory remedy that cannot lawfully be excluded or modified.</p>
         </section>
 
-        {/* 11 */}
-        <section className={sectionClass}>
-          <h2 className={headingClass}>11. Voice & Audio Processing Consent</h2>
-          <p className={textClass}>
-            Zyntra offers an optional Voice Practice mode for OSCE stations. When enabled, this feature uses your browser's built-in Web Speech API for speech-to-text and text-to-speech processing. All audio processing occurs locally on your device — no audio recordings are transmitted to, stored on, or processed by Zyntra servers. By using Voice Practice mode, you consent to your browser accessing your device microphone for the duration of the voice session. You may revoke microphone access at any time through your browser settings.
-          </p>
+        <section className={sectionClass}><h2 className={headingClass}>11. Suspension and Termination</h2>
+          <p className={textClass}>Zyntra may suspend or terminate access immediately where reasonably necessary to protect the Platform, users, Proprietary Content, security or legal interests, including for fraud, credential sharing, scraping, content extraction, security attacks, payment abuse, unlawful conduct or material breach. Where practicable for curable non-urgent breaches, Zyntra may provide notice and an opportunity to cure. Termination does not waive accrued obligations or surviving provisions.</p>
         </section>
 
-        {/* 12 */}
-        <section className={sectionClass}>
-          <h2 className={headingClass}>12. Beta & Early Access Features</h2>
-          <p className={textClass}>
-            From time to time, Zyntra may offer beta or early access features. These features are provided "as is" without warranty. By participating in beta features, you agree to: (a) not disclose the existence, nature, or details of beta features to third parties; (b) provide feedback as requested; (c) accept that beta features may be modified or removed without notice. Beta content and features remain the confidential intellectual property of Zyntra.
-          </p>
+        <section className={sectionClass}><h2 className={headingClass}>12. Indemnification</h2>
+          <p className={textClass}>To the maximum extent permitted by law, you agree to indemnify Zyntra and its officers, employees, contractors and licensors against third-party claims, losses, liabilities, damages, costs and reasonable legal fees arising from your unlawful use of the Platform, breach of these Terms, infringement of another person’s rights, or prohibited patient information you submit. This indemnity does not apply to the extent caused by Zyntra’s own unlawful conduct or where prohibited by law.</p>
         </section>
 
-        {/* 13 */}
-        <section className={sectionClass}>
-          <h2 className={headingClass}>13. Subscription & Billing</h2>
-          <p className={textClass}>
-            Zyntra offers subscription-based access. By subscribing, you authorise recurring payments. You may cancel at any time; access continues until the end of the current billing period. Zyntra reserves the right to modify pricing with reasonable notice. Refunds are provided only in accordance with Australian Consumer Law.
-          </p>
-          <p className={textClass}>
-            Current plans (all prices in USD): Free ($0); MCQ Only ($39/month or $109 for 3 months); Pass Guarantee ($59/month or $169 for 3 months); Lifetime ($349 one-time payment, limited to the first 100 users).
-          </p>
-          <p className={textClass}>
-            <strong>Pass Guarantee — terms coming soon.</strong> The terms of the Pass Guarantee have not yet been published. They are not yet in effect, and you should not rely on any guarantee when deciding to purchase the Pass Guarantee plan.
-          </p>
+        <section className={sectionClass}><h2 className={headingClass}>13. Disclaimer of Warranties and Availability</h2>
+          <p className={textClass}>Except for warranties that cannot lawfully be excluded, the Platform is provided “as is” and “as available”. Zyntra does not warrant uninterrupted or error-free operation, compatibility with every device, or that the Platform will meet every individual study objective. Maintenance, security events, third-party failures and product changes may affect availability.</p>
         </section>
 
-        {/* 14 */}
-        <section className={sectionClass}>
-          <h2 className={headingClass}>14. Limitation of Liability</h2>
-          <p className={textClass}>
-            Zyntra provides educational tools and practice materials. The Platform does not guarantee exam success. To the maximum extent permitted by law, Zyntra disclaims all warranties, express or implied, and shall not be liable for any indirect, incidental, special, or consequential damages arising from your use of the Platform. Nothing in these Terms excludes or limits liability that cannot be excluded under Australian Consumer Law.
-          </p>
+        <section className={sectionClass}><h2 className={headingClass}>14. Limitation of Liability</h2>
+          <p className={textClass}>To the maximum extent permitted by law, Zyntra will not be liable for indirect, incidental, special, punitive or consequential losses, or loss of profits, revenue, business, goodwill, opportunity or data. Zyntra’s aggregate liability for claims arising from or relating to the Platform will not exceed the lesser of (a) the subscription fees actually paid by you to Zyntra during the 12 months before the event giving rise to the claim and (b) US$100.</p>
+          <p className={textClass}>These limitations do not apply where liability cannot legally be limited, including mandatory consumer rights or other non-excludable liabilities.</p>
         </section>
 
-        {/* 15 */}
-        <section className={sectionClass}>
-          <h2 className={headingClass}>15. AMC Independence Disclaimer</h2>
-          <p className={textClass}>
-            Zyntra is an independent exam preparation platform. Zyntra is not affiliated with, endorsed by, or connected to the Australian Medical Council (AMC), the Medical Board of Australia, or any official medical regulatory body. "AMC" is used solely for descriptive purposes to indicate the target examination. All content is independently developed and does not represent official AMC examination material.
-          </p>
+        <section className={sectionClass}><h2 className={headingClass}>15. Disputes and Individual Proceedings</h2>
+          <p className={textClass}>Before formal proceedings, parties should attempt in good faith to resolve a dispute by written notice to [Designated Contact Email]. Where mandatory law gives a consumer or other protected person access to a court, tribunal, regulator, small-claims forum or collective procedure, those rights prevail. Where legally permitted and separately agreed, disputes may be referred to binding individual arbitration under [Arbitration Rules / Institution], seated in [Jurisdiction / Governing Law State]. To the maximum extent permitted by law, claims will be brought individually rather than as a class, representative or collective action. Nothing prevents urgent injunctive relief for intellectual property, confidentiality or security.</p>
         </section>
 
-        {/* 16 */}
-        <section className={sectionClass}>
-          <h2 className={headingClass}>16. Governing Law</h2>
-          <p className={textClass}>
-            These Terms are governed by and construed in accordance with the laws of Australia. Any disputes arising under these Terms shall be subject to the exclusive jurisdiction of the courts of Australia.
-          </p>
+        <section className={sectionClass}><h2 className={headingClass}>16. Governing Law and Jurisdiction</h2>
+          <p className={textClass}>These Terms are governed by the laws of [Jurisdiction / Governing Law State], subject to mandatory consumer, privacy and data-protection laws applicable to you. Courts in [Jurisdiction / Governing Law State] have jurisdiction except where mandatory law provides otherwise.</p>
         </section>
 
-        {/* 17 */}
-        <section className={sectionClass}>
-          <h2 className={headingClass}>17. Piracy Reporting</h2>
-          <p className={textClass}>
-            If you believe Zyntra content has been copied, redistributed, or used without permission, please report it immediately.
-          </p>
-          <p className={textClass}>
-            Email:{' '}
-            <a href={`mailto:${LEGAL_EMAIL}?subject=Piracy Report`} className="text-primary underline">
-              {LEGAL_EMAIL}
-            </a>
-          </p>
+        <section className={sectionClass}><h2 className={headingClass}>17. Changes</h2>
+          <p className={textClass}>Zyntra may update these Terms for legal, security, product or commercial reasons. Material changes will be notified through the Platform or by email where required. Changes do not retroactively alter accrued rights unless permitted by law.</p>
         </section>
 
-        {/* 18 */}
-        <section className={sectionClass}>
-          <h2 className={headingClass}>18. Contact & Legal Notices</h2>
-          <p className={textClass}>
-            If you have questions regarding these Terms of Service, intellectual property rights, or copyright concerns related to Zyntra content, you may contact the platform administrator.
-          </p>
-          <p className={textClass}>
-            Email:{' '}
-            <a href={`mailto:${LEGAL_EMAIL}`} className="text-primary underline">
-              {LEGAL_EMAIL}
-            </a>
-          </p>
+        <section className={sectionClass}><h2 className={headingClass}>18. General</h2>
+          <p className={textClass}>If a provision is invalid or unenforceable, it will be modified or severed only to the minimum extent necessary and the remainder will continue. No waiver is effective unless written. These Terms, the Privacy &amp; Data Governance Policy and the applicable checkout or order document form the agreement concerning the Platform. Electronic records and acceptance are valid to the extent permitted by law.</p>
         </section>
-      </div>
+
+        <section className={sectionClass}><h2 className={headingClass}>19. Contact and Notices</h2>
+          <p className={textClass}>Legal notices and questions may be sent to <a href={`mailto:${LEGAL_EMAIL}`} className="text-primary underline">{LEGAL_EMAIL}</a>.</p>
+        </section>
+      </main>
       <PublicFooter />
     </div>
   );
