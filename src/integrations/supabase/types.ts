@@ -2091,6 +2091,14 @@ export type Database = {
         }
         Returns: number
       }
+      get_diagnostic_question: {
+        Args: {
+          p_previous_correct?: boolean
+          p_previous_difficulty_tier?: number
+          p_used_ids?: string[]
+        }
+        Returns: Json
+      }
       is_admin: { Args: { _email: string }; Returns: boolean }
       is_group_member: {
         Args: { _group_id: string; _user_id: string }
@@ -2099,6 +2107,22 @@ export type Database = {
       is_test_participant: {
         Args: { _test_id: string; _user_id: string }
         Returns: boolean
+      }
+      submit_diagnostic_answer: {
+        Args: {
+          p_answer_changes_count?: number
+          p_is_final?: boolean
+          p_previous_difficulty_tier?: number
+          p_previous_question_correct?: boolean
+          p_question_id: string
+          p_question_position?: number
+          p_selected_answer: string
+          p_session_id?: string
+          p_time_taken_seconds: number
+          p_time_to_first_click?: number
+          p_used_ids?: string[]
+        }
+        Returns: Json
       }
     }
     Enums: {
