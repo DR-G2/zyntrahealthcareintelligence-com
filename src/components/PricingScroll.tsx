@@ -15,7 +15,7 @@ const plans = [
     live: true,
   },
   {
-    name: 'Practice',
+    name: 'Clinical Starter',
     price: '$39/month',
     note: 'or $100 for 3 months',
     points: [
