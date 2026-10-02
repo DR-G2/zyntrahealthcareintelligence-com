@@ -1,11 +1,11 @@
 import React, { useState } from "react";
+import { AppLayout } from "@/components/layout/AppLayout";
 import {
   Sparkles,
   RefreshCw,
   Target,
   ArrowUpRight,
   Layers,
-  ShieldCheck,
 } from "lucide-react";
 
 interface FocusArea {
@@ -17,7 +17,6 @@ interface FocusArea {
 }
 
 const Plan: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<"current" | "generate">("current");
   const [isRegenerating, setIsRegenerating] = useState(false);
 
   const focusAreas: FocusArea[] = [
@@ -34,37 +33,30 @@ const Plan: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#040812] text-slate-100 font-sans p-6 sm:p-10 relative overflow-x-hidden">
-      <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute top-10 right-1/4 w-[500px] h-[500px] bg-cyan-600/10 rounded-full blur-[140px]" />
-        <div className="absolute bottom-10 left-10 w-[450px] h-[450px] bg-indigo-600/10 rounded-full blur-[140px]" />
-      </div>
-
-      <div className="relative z-10 max-w-5xl mx-auto space-y-8">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-white/5">
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => setActiveTab("current")}
-              className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${activeTab === "current" ? "bg-cyan-500/15 border border-cyan-500/40 text-cyan-300" : "text-slate-400 hover:text-slate-200"}`}
-            >
-              Current Plan
-            </button>
-            <button
-              onClick={() => setActiveTab("generate")}
-              className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${activeTab === "generate" ? "bg-cyan-500/15 border border-cyan-500/40 text-cyan-300" : "text-slate-400 hover:text-slate-200"}`}
-            >
-              Generate New
-            </button>
+    <AppLayout>
+      <div className="relative isolate overflow-visible">
+        <div className="pointer-events-none absolute -left-24 top-6 hidden h-[calc(100%-3rem)] w-28 xl:block">
+          <div className="absolute inset-y-0 left-1/2 w-px bg-gradient-to-b from-transparent via-cyan-400/20 to-transparent" />
+          <div className="absolute left-1 top-10 h-40 w-24 rounded-2xl border border-cyan-400/10 bg-cyan-400/[0.025] shadow-[0_0_50px_rgba(34,211,238,0.06)] backdrop-blur-sm" />
+          <div className="absolute left-3 top-16 space-y-3 opacity-70">
+            {[38, 64, 47, 82, 55, 71].map((width, i) => <div key={i} className="flex items-center gap-2"><span className="h-1 w-1 rounded-full bg-cyan-300 shadow-[0_0_8px_rgba(103,232,249,0.9)]" /><span className="h-px bg-cyan-300/30" style={{ width: width + "px" }} /></div>)}
           </div>
-
-          <div className="flex items-center gap-2 text-xs font-mono px-3 py-1.5 rounded-full bg-slate-900/80 border border-white/10 text-slate-300">
-            <ShieldCheck className="w-3.5 h-3.5 text-cyan-400" />
-            <span>Active Subscription Tier</span>
-          </div>
+          <div className="absolute left-2 top-64 h-28 w-24 rounded-xl border border-indigo-400/10 bg-indigo-400/[0.025]" />
+          <div className="absolute left-5 top-[17rem] h-20 w-20 rounded-full border border-cyan-400/10 shadow-[0_0_30px_rgba(34,211,238,0.06)]" />
+          <div className="absolute left-5 top-[17.9rem] h-20 w-20 rounded-full border border-dashed border-cyan-400/10" />
         </div>
-
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-          <div className="space-y-2">
+        <div className="pointer-events-none absolute -right-24 top-6 hidden h-[calc(100%-3rem)] w-28 xl:block">
+          <div className="absolute inset-y-0 right-1/2 w-px bg-gradient-to-b from-transparent via-indigo-400/20 to-transparent" />
+          <div className="absolute right-1 top-10 h-40 w-24 rounded-2xl border border-indigo-400/10 bg-indigo-400/[0.025] shadow-[0_0_50px_rgba(99,102,241,0.06)] backdrop-blur-sm" />
+          <div className="absolute right-3 top-16 space-y-3 opacity-70">
+            {[72, 44, 86, 58, 76, 49].map((width, i) => <div key={i} className="flex items-center justify-end gap-2"><span className="h-px bg-indigo-300/30" style={{ width: width + "px" }} /><span className="h-1 w-1 rounded-full bg-indigo-300 shadow-[0_0_8px_rgba(165,180,252,0.9)]" /></div>)}
+          </div>
+          <div className="absolute right-2 top-64 h-28 w-24 rounded-xl border border-cyan-400/10 bg-cyan-400/[0.025]" />
+          <div className="absolute right-5 top-[17rem] h-20 w-20 rounded-full border border-indigo-400/10 shadow-[0_0_30px_rgba(99,102,241,0.06)]" />
+          <div className="absolute right-5 top-[17.9rem] h-20 w-20 rounded-full border border-dashed border-indigo-400/10" />
+        </div>
+        <div className="relative z-10 mx-auto max-w-6xl space-y-8">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">          <div className="space-y-2">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-cyan-950/60 border border-cyan-500/30 text-cyan-400 text-xs font-bold uppercase tracking-wider">
               <Layers className="w-3.5 h-3.5" />
               Study Plan
@@ -197,7 +189,9 @@ const Plan: React.FC = () => {
           </div>
         </div>
       </div>
-    </div>
+        </div>
+      </div>
+    </AppLayout>
   );
 };
 
