@@ -37,7 +37,7 @@ export function AppSidebar({ isMobile }: { isMobile?: boolean }) {
         <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg gradient-primary"><Zap className="h-4 w-4 text-primary-foreground" /></div>
         {!effectiveCollapsed && <span className="text-lg font-bold font-display tracking-tight">Zyntra</span>}
       </NavLink>
-      <nav className={cn('flex-1 space-y-1 py-2', effectiveCollapsed ? 'px-1.5' : 'px-3')}>
+      <nav className={cn('flex flex-1 flex-col justify-center space-y-1 py-2', effectiveCollapsed ? 'px-1.5' : 'px-3')}>
         {ROOMS.map((room) => {
           const active = room.match.some((p) => location.pathname === p || location.pathname.startsWith(p + '/'));
           return (
