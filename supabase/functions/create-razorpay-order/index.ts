@@ -3,11 +3,11 @@ import { createClient } from "npm:@supabase/supabase-js@2.57.2";
 
 // Server-side price and plan catalogue — never trust amounts or tiers from the browser.
 const LIFETIME_PRICE_USD = 349;
-const PLAN_TIER_MAP: Record<string, string> = {
-  plan_SOsMQofBcfw3BU: "mcq_only",
-  plan_SOsNlReb9DLlAw: "mcq_only",
-  plan_SOsQDhBQkgyFfr: "full_access",
-  plan_SOsR9Hjy6UHpNG: "full_access",
+const PLAN_CATALOG: Record<string, { tier: string; intervalMonths: number }> = {
+  plan_SOsMQofBcfw3BU: { tier: "mcq_only", intervalMonths: 1 },
+  plan_SOsNlReb9DLlAw: { tier: "mcq_only", intervalMonths: 3 },
+  plan_SOsQDhBQkgyFfr: { tier: "full_access", intervalMonths: 1 },
+  plan_SOsR9Hjy6UHpNG: { tier: "full_access", intervalMonths: 6 },
 };
 
 const corsHeaders = {
@@ -75,8 +75,9 @@ serve(async (req) => {
       });
     } else {
       // Subscription — create Razorpay Subscription
-      const tier = PLAN_TIER_MAP[planId];
-      if (!planId || !tier) throw new Error("Unknown plan");
+      const catalog = planId ? PLAN_CATALOG[planId] : undefined;
+      if (!planId || !catalog) throw new Error("Unknown plan");
+      const { tier, intervalMonths } = catalog;
 
       const subRes = await fetch("https://api.razorpay.com/v1/subscriptions", {
         method: "POST",
@@ -86,7 +87,7 @@ serve(async (req) => {
         },
         body: JSON.stringify({
           plan_id: planId,
-          total_count: mode === "subscription" ? 12 : 1,
+          total_count: intervalMonths === 1 ? 12 : 1,
           notes: {
             user_id: user.id,
             email: user.email,
