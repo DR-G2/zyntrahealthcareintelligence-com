@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
 
+import { requireUser } from "../_shared/auth.ts";
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
@@ -18,10 +19,25 @@ serve(async (req) => {
   );
 
   try {
-    const { referral_code, referred_user_id } = await req.json();
+    // The referred account is always the signed-in caller — never a request-chosen ID
+    const caller = await requireUser(req);
+    if (caller instanceof Response) return caller;
+    const referred_user_id = caller.userId;
 
-    if (!referral_code || !referred_user_id) {
-      throw new Error("Missing referral_code or referred_user_id");
+    const { referral_code } = await req.json();
+    if (typeof referral_code !== "string" || !referral_code) {
+      throw new Error("Missing referral_code");
+    }
+
+    // Each account can only redeem one referral, and only as a new account (first 7 days)
+    const { data: prior } = await supabase.from("referrals").select("id").eq("referred_id", referred_user_id).limit(1);
+    const { data: prof } = await supabase.from("profiles").select("created_at").eq("id", referred_user_id).maybeSingle();
+    const isNew = prof?.created_at && Date.now() - new Date(prof.created_at).getTime() < 7 * 24 * 3600 * 1000;
+    if ((prior && prior.length) || !isNew) {
+      return new Response(JSON.stringify({ error: "This account is not eligible for a referral bonus" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     // Find the referral
