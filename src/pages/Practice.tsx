@@ -642,6 +642,9 @@ function DrillSession({
   const lastInteractionRef = useRef(Date.now());
   const pauseTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const autoSaveRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // Session-level ability estimate. This is intentionally local to the drill and
+  // is used only to choose the next unanswered question from the preloaded pool.
+  const sessionAbilityRef = useRef(0.5);
 
   // Auto-save to active_sessions
   const saveSession = useCallback(async (qs: Question[], idx: number, answers: Record<number, string>, changes: Record<number, number>, sequences: Record<number, string[]>, times: Record<number, number>, ttfc: Record<number, number>, pauses: Record<number, number>, timeLeft: number) => {
@@ -652,7 +655,8 @@ function DrillSession({
         session_id: sessionIdRef.current,
         session_type: 'mcq',
         config: config as any,
-        question_ids: qs.map(q => q.id),
+        // Only persist the configured session, not the larger adaptive candidate pool.
+        question_ids: qs.slice(0, config.questionCount).map(q => q.id),
         answers: answers,
         answer_changes: changes,
         change_sequences: sequences,
@@ -860,6 +864,7 @@ function DrillSession({
         const overallKnown = [...historyByDifficulty.values()].reduce((a, b) => a + b.total, 0);
         const overallCorrect = [...historyByDifficulty.values()].reduce((a, b) => a + b.correct, 0);
         const overallAccuracy = overallKnown ? overallCorrect / overallKnown : 0.5;
+        sessionAbilityRef.current = overallAccuracy;
 
         const difficultyRank = (difficulty: string) => {
           if (difficulty.includes('easy')) return 1;
@@ -885,9 +890,17 @@ function DrillSession({
         );
       }
 
-      // If history is unavailable, retain a randomised pool rather than forcing a
-      // difficulty assumption.
-      matchingIds = matchingIds.slice(0, config.questionCount);
+      // Preload a larger candidate pool for Recharge / No Change. The visible
+      // session remains exactly config.questionCount, but the next question can
+      // be selected from this pool after each completed response.
+      const poolSize = config.mode === 'full-mock'
+        ? config.questionCount
+        : Math.min(
+            matchingIds.length,
+            Math.max(config.questionCount * 3, config.questionCount + 10, 25),
+            1000
+          );
+      matchingIds = matchingIds.slice(0, poolSize);
 
       if (matchingIds.length > 0) {
         const { data } = await supabase
@@ -1009,7 +1022,8 @@ function DrillSession({
   };
 
   const setConfidence = (level: number) => {
-    if (lockedAnswers[currentIndex]) return;
+    // Confidence is a telemetry signal, not an answer change. It must remain
+    // recordable after No Change / Full Mock locks the selected answer.
     lastInteractionRef.current = Date.now();
     setConfidenceByIndex(prev => ({ ...prev, [currentIndex]: level }));
   };
@@ -1029,7 +1043,73 @@ function DrillSession({
     });
   };
 
+  const adaptNextQuestion = useCallback(() => {
+    if (config.mode === 'full-mock' || currentIndex >= config.questionCount - 1) return;
+
+    const currentQuestion = questions[currentIndex];
+    if (!currentQuestion) return;
+
+    const selected = selectedAnswers[currentIndex];
+    if (!selected) return;
+
+    const answeredCorrectly = selected === currentQuestion.correct_answer;
+    const confidence = confidenceByIndex[currentIndex] ?? 3;
+
+    // Smooth ability update. High-confidence errors reduce the estimate faster;
+    // low-confidence correct answers increase it more cautiously.
+    const previousAbility = sessionAbilityRef.current;
+    const outcome = answeredCorrectly ? 1 : 0;
+    let nextAbility = previousAbility + (outcome - previousAbility) * 0.22;
+
+    if (!answeredCorrectly && confidence >= 4) nextAbility -= 0.08;
+    if (answeredCorrectly && confidence <= 2) nextAbility += 0.04;
+
+    sessionAbilityRef.current = Math.max(0, Math.min(1, nextAbility));
+
+    const targetRank = 1 + sessionAbilityRef.current * 2;
+    const currentCategory = currentQuestion.category;
+
+    const rankOf = (difficulty?: string | null) => {
+      const value = String(difficulty || 'moderate').toLowerCase();
+      if (value.includes('easy')) return 1;
+      if (value.includes('difficult') || value.includes('hard')) return 3;
+      return 2;
+    };
+
+    setQuestions(prev => {
+      if (currentIndex >= prev.length - 1) return prev;
+
+      const head = prev.slice(0, currentIndex + 1);
+      const tail = [...prev.slice(currentIndex + 1)];
+
+      tail.sort((a, b) => {
+        const rankA = rankOf(a.difficulty);
+        const rankB = rankOf(b.difficulty);
+
+        // Primary signal: closeness to the current session ability.
+        const distanceA = Math.abs(rankA - targetRank);
+        const distanceB = Math.abs(rankB - targetRank);
+
+        // After an error, modestly favour another question from the same
+        // category for reinforcement. After a high-confidence correct answer,
+        // modestly favour a different category to broaden exposure.
+        const sameCategoryA = a.category === currentCategory ? 0.12 : 0;
+        const sameCategoryB = b.category === currentCategory ? 0.12 : 0;
+        const reinforcement = answeredCorrectly && confidence >= 4 ? -sameCategoryA : sameCategoryA;
+        const reinforcementB = answeredCorrectly && confidence >= 4 ? -sameCategoryB : sameCategoryB;
+
+        return (
+          (distanceA + reinforcement) -
+          (distanceB + reinforcementB)
+        ) || (Math.random() - 0.5);
+      });
+
+      return [...head, ...tail];
+    });
+  }, [config.mode, config.questionCount, currentIndex, questions, selectedAnswers, confidenceByIndex]);
+
   const goTo = (i: number) => {
+    if (i > currentIndex) adaptNextQuestion();
     recordTime();
     lastInteractionRef.current = Date.now();
     setCurrentIndex(i);
@@ -1045,9 +1125,12 @@ function DrillSession({
     // Delete active session
     await deleteSession();
 
+    // Save only the configured session, not the hidden adaptive candidate pool.
+    const sessionQuestions = questions.slice(0, config.questionCount);
+
     // Save attempts with enhanced tracking
-    if (user && questions.length > 0) {
-      const inserts = questions.map((q, i) => ({
+    if (user && sessionQuestions.length > 0) {
+      const inserts = sessionQuestions.map((q, i) => ({
         user_id: user.id,
         question_id: q.id,
         selected_answer: selectedAnswers[i] || '',
@@ -1075,7 +1158,7 @@ function DrillSession({
       ruledOutArrays[parseInt(key)] = Array.from(set);
     });
 
-    onFinish(questions, selectedAnswers, answerChanges, questionTimes, ruledOutArrays);
+    onFinish(sessionQuestions, selectedAnswers, answerChanges, questionTimes, ruledOutArrays);
   };
 
   const formatTime = (s: number) => `${Math.floor(s / 60)}:${(s % 60).toString().padStart(2, '0')}`;
@@ -1136,7 +1219,7 @@ function DrillSession({
         {/* Timer bar */}
         <div className="mb-6 space-y-2">
           <div className="flex items-center justify-between text-sm">
-            <span className="text-muted-foreground">Q{currentIndex + 1}/{questions.length}</span>
+            <span className="text-muted-foreground">Q{currentIndex + 1}/{config.questionCount}</span>
             <div className="flex items-center gap-3">
               <Badge variant="outline" className="text-xs">
                 {config.mode === 'recharge' ? <><RefreshCw className="h-3 w-3 mr-1" />Recharge</> : <><Lock className="h-3 w-3 mr-1" />No Change</>}
@@ -1222,7 +1305,7 @@ function DrillSession({
           <Button variant="ghost" onClick={() => goTo(currentIndex - 1)} disabled={currentIndex === 0 || !canGoBack} className="gap-1">
             <ChevronLeft className="h-4 w-4" /> Prev
           </Button>
-          {currentIndex < questions.length - 1 ? (
+          {currentIndex < config.questionCount - 1 ? (
             <Button onClick={() => goTo(currentIndex + 1)} className="gap-1">
               Next <ChevronRight className="h-4 w-4" />
             </Button>
@@ -1662,7 +1745,7 @@ function ResultsScreen({
                 </div>
                 <div className="grid grid-cols-5 gap-2">
                   {[1, 2, 3, 4, 5].map(level => (
-                    <Button key={level} type="button" variant={confidenceByIndex[currentIndex] === level ? 'default' : 'outline'} size="sm" onClick={() => setConfidence(level)} disabled={!!lockedAnswers[currentIndex]}>
+                    <Button key={level} type="button" variant={confidenceByIndex[currentIndex] === level ? 'default' : 'outline'} size="sm" onClick={() => setConfidence(level)} disabled={false}>
                       {level}
                     </Button>
                   ))}
