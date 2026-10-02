@@ -82,7 +82,13 @@ const bookReferences = [
 
 export function QuestionExplanation({ question, userAnswer, questionIndex, onBack, onAskStudyBuddy }: QuestionExplanationProps) {
   const isCorrect = userAnswer === question.correct_answer;
-  const options = question.options as string[];
+  const options = Array.isArray(question.options)
+    ? question.options
+    : question.options && typeof question.options === 'object'
+      ? Object.entries(question.options as unknown as Record<string, unknown>)
+          .sort(([a], [b]) => a.localeCompare(b))
+          .map(([, value]) => String(value))
+      : [];
   const [openDiffs, setOpenDiffs] = useState<Record<number, boolean>>({});
   const { user } = useAuth();
   const gate = useFeatureGate();
