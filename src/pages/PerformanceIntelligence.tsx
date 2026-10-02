@@ -123,7 +123,7 @@ export default function PerformanceIntelligence() {
       return;
     }
     const load = async () => {
-      const [profileRes, attemptsRes] = await Promise.all([
+      const [profileRes, dnaRes, attemptsRes] = await Promise.all([
         supabase.from('performance_profiles').select('readiness_score, clinical_accuracy, stability_score, time_sensitivity, confidence_calibration').eq('user_id', user.id).maybeSingle(),
         supabase.from('user_attempts').select('is_correct, answer_changes_count, confidence_level, created_at, questions(category, subtopic)').eq('user_id', user.id).order('created_at', { ascending: false }).limit(2000),
       ]);
@@ -207,7 +207,7 @@ export default function PerformanceIntelligence() {
       setPriorityStats(priorityRows.sort((a, b) => b.score - a.score).slice(0, 5));
       setSnapshot({
         readiness: Number(profileRes.data?.readiness_score || 0),
-        calibration: Number(profileRes.data?.confidence_calibration || 0),
+        calibration: Number(dnaRes.data?.confidence_calibration || 0),
         accuracy: Number(profileRes.data?.clinical_accuracy || 0),
         stability: Number(profileRes.data?.stability_score || 0),
         timeSensitivity: Number(profileRes.data?.time_sensitivity || 0),
@@ -228,7 +228,7 @@ export default function PerformanceIntelligence() {
       { id: 'timing', label: 'Deliberation Timing', value: snapshot.timeSensitivity, displayValue: loading ? '...' : snapshot.attempts ? `${Math.round(snapshot.timeSensitivity)}%` : 'Awaiting data', helper: 'Time-management signal from recorded attempts.', accent: 'cyan', points: [42, 48, 45, 58, 54, 63, Math.max(snapshot.timeSensitivity, 8)] },
       { id: 'swaps', label: 'Option Swaps', value: changeRate, displayValue: snapshot.attempts ? `${changeRate}%` : 'Awaiting data', helper: 'Share of recorded attempts where an answer changed.', accent: 'rose', points: [20, 28, 24, 32, 26, 35, Math.max(changeRate, 6)] },
       { id: 'stability', label: 'Answer Stability', value: snapshot.stability, displayValue: snapshot.attempts ? `${Math.round(snapshot.stability)}%` : 'Awaiting data', helper: 'Consistency signal calculated by the intelligence engine.', accent: 'purple', points: [55, 52, 61, 58, 66, 64, Math.max(snapshot.stability, 8)] },
-      { id: 'calibration', label: 'Confidence Calibration', value: snapshot.calibration, displayValue: snapshot.attempts ? `${Math.round(snapshot.calibration)}%` : 'Awaiting data', helper: 'How closely confidence matches the outcome across recorded attempts. Confidence sample: ${snapshot.confidenceAttempts} attempts.', accent: 'emerald', points: [42, 46, 44, 53, 50, 58, Math.max(snapshot.calibration, 8)] },
+      { id: 'calibration', label: 'Confidence Calibration', value: snapshot.calibration, displayValue: snapshot.attempts ? `${Math.round(snapshot.calibration)}%` : 'Awaiting data', helper: `How closely confidence matches the outcome across recorded attempts. Confidence sample: ${snapshot.confidenceAttempts} attempts.`, accent: 'emerald', points: [42, 46, 44, 53, 50, 58, Math.max(snapshot.calibration, 8)] },
     ];
   }, [snapshot, loading]);
 
