@@ -105,6 +105,9 @@ async function fetchAllQuestionTopicMeta(): Promise<QuestionTopicMeta[]> {
 
 function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (config: SessionConfig) => void; onShowHistory?: () => void; onShowReviewQueue?: () => void }) {
   const gate = useFeatureGate();
+  const [searchParams] = useSearchParams();
+  const focusSubtopic = searchParams.get('focus');
+  const focusSubject = searchParams.get('subject');
   const [mode, setMode] = useState<'recharge' | 'no-change' | 'full-mock'>('recharge');
   // Subtopic-level selection is source of truth
   // Key: "normalized-subject::normalized-subtopic"
@@ -166,6 +169,22 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
             bareSubjects.add(s.name);
           }
         });
+        if (focusSubtopic) {
+          const matchingSubject = subjects.find(s => s.name.toLowerCase() === (focusSubject || '').toLowerCase());
+          const matchingSubtopic = subtopics.find(st =>
+            st.name.toLowerCase() === focusSubtopic.toLowerCase() &&
+            (!matchingSubject || st.subject_id === matchingSubject.id)
+          );
+          if (matchingSubtopic) {
+            const subject = subjects.find(s => s.id === matchingSubtopic.subject_id);
+            setSelectedSubtopics(new Set(subject ? [createSelectedSubtopicKey(subject.name, matchingSubtopic.name)] : []));
+            setSelectedBareSubjects(new Set());
+            setExpandedItems(new Set(subject ? [subject.id] : []));
+            setSearchQuery(focusSubtopic);
+            return;
+          }
+        }
+
         setSelectedSubtopics(allSt);
         setSelectedBareSubjects(bareSubjects);
       } catch (error: any) {
@@ -314,6 +333,13 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
 
         {!gate.canUseMCQ && (
           <UpgradePrompt feature="Daily MCQ Limit Reached" description={`You've used ${gate.mcqUsedToday}/${gate.mcqDailyLimit} free MCQs today. Upgrade for unlimited practice.`} variant="banner" />
+        )}
+
+        {focusSubtopic && (
+          <div className="rounded-2xl border border-cyan-400/20 bg-cyan-400/[0.04] px-4 py-3">
+            <p className="text-xs font-medium text-cyan-200">Targeted practice</p>
+            <p className="mt-1 text-xs text-slate-400">Focus is set to <span className="font-medium text-white">{focusSubtopic}</span>{focusSubject ? ` in ${focusSubject}` : ''}. Start the drill when ready.</p>
+          </div>
         )}
 
         <OnboardingTooltip
