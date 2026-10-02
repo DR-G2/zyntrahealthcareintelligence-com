@@ -71,15 +71,15 @@ const faqGroups = [
       },
       {
         q: 'Working 40hrs/week. Which plan?',
-        a: 'MCQ Only. You need efficiency. Weakness targeting tells you "skip Cardio, focus on Psych." Do 30 mins/day on commute.',
+        a: 'Clinical Starter. You need efficiency. Weakness targeting tells you "skip Cardio, focus on Psych." Do 30 mins/day on commute.',
       },
       {
         q: 'Sitting AMC in 6 weeks. Too late?',
-        a: "MCQ Only. 100 questions/day. Use weakness report to cram worst 3 topics. Just grind.",
+        a: "Clinical Starter. 100 questions/day. Use weakness report to cram worst 3 topics. Just grind.",
       },
       {
         q: '6 months away. What to do?',
-        a: "Free tier 2 months. Learn baseline. Then MCQ Only or Exam Master depending on whether you need OSCE prep too.",
+        a: "Free tier 2 months. Learn baseline. Then Clinical Starter or Exam Master depending on whether you need OSCE prep too.",
       },
     ],
   },
@@ -276,12 +276,14 @@ export default function Pricing() {
       'full_access_3m': ['full_access'],
       'lifetime': ['lifetime'],
     };
+    return tierMap[tierKey]?.includes(subscription.tier) ?? false;
+  };
 
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title="Zyntra Pricing — Free, MCQ Only, Exam Master & Lifetime"
-        description="Zyntra plans in USD: Free $0, MCQ Only $39/month or $109 for 3 months, Exam Master $59/month or $169 for 3 months, Lifetime $349 one-time for the first 100 users."
+        title="Zyntra Pricing — Free, Clinical Starter, Exam Master & Lifetime"
+        description="Zyntra plans in USD: Free $0, Clinical Starter $39/month or $100 for 3 months, Exam Master $59/month or $159 for 6 months, Lifetime $349 one-time for the first 100 users."
         path="/pricing"
       />
       {/* Nav */}
@@ -365,7 +367,7 @@ export default function Pricing() {
             <motion.div variants={fadeUp}>
               <Card className="h-full flex flex-col border-border">
                 <CardHeader className="pb-3">
-                  <CardTitle className="text-lg">MCQ Only</CardTitle>
+                  <CardTitle className="text-lg">Clinical Starter</CardTitle>
                   <p className="text-xs text-muted-foreground">Core AMC preparation</p>
                   <div className="mt-3"><span className="text-3xl font-bold font-display">$39</span><span className="text-muted-foreground text-sm">/mo</span></div>
                   <p className="text-xs text-muted-foreground">or $100/3mo</p>
@@ -399,7 +401,7 @@ export default function Pricing() {
                   <CardTitle className="text-lg">Exam Master</CardTitle>
                   <p className="text-xs text-muted-foreground">Full exam preparation</p>
                   <div className="mt-3"><span className="text-3xl font-bold font-display">$59</span><span className="text-muted-foreground text-sm">/mo</span></div>
-                  <p className="text-xs text-muted-foreground">or $159/6mo</p>
+                  <p className="text-xs text-muted-foreground">6-month access · $159</p>
                 </CardHeader>
                 <CardContent className="flex-1 flex flex-col">
                   <ul className="mb-4 space-y-2 flex-1">
@@ -465,7 +467,7 @@ export default function Pricing() {
                       <TableRow>
                         <TableHead className="w-[200px]">Feature</TableHead>
                         <TableHead className="text-center">Free</TableHead>
-                        <TableHead className="text-center">MCQ Only</TableHead>
+                        <TableHead className="text-center">Clinical Starter</TableHead>
                         <TableHead className="text-center font-semibold text-primary">Exam Master</TableHead>
                         <TableHead className="text-center">Lifetime</TableHead>
                       </TableRow>
