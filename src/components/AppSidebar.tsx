@@ -1,5 +1,5 @@
-import { NavLink, useLocation } from 'react-router-dom';
-import { Zap, Shield, PanelLeftClose, PanelLeft, Brain, Network, Route, Settings } from 'lucide-react';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { Zap, Shield, PanelLeftClose, PanelLeft, Brain, Network, Route, Settings, Bell, LogOut } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils';
 import { TooltipProvider } from '@/components/ui/tooltip';
@@ -24,8 +24,9 @@ const ROOMS = [
 ];
 
 export function AppSidebar({ isMobile }: { isMobile?: boolean }) {
-  const { user } = useAuth();
+  const { user, signOut } = useAuth();
   const location = useLocation();
+  const navigate = useNavigate();
   const isAdmin = ADMIN_EMAILS.includes(user?.email || '');
   const { collapsed, setCollapsed, mobileOpen, setMobileOpen } = useSidebarCollapsed();
   const effectiveCollapsed = isMobile ? false : collapsed;
@@ -46,8 +47,21 @@ export function AppSidebar({ isMobile }: { isMobile?: boolean }) {
         })}
       </nav>
       <div className={cn('border-t border-sidebar-border py-3', effectiveCollapsed ? 'px-1.5' : 'px-3')}>
-        {<NavLink to="/settings" onClick={close} title={effectiveCollapsed ? 'Settings' : undefined} className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-sidebar-foreground/70 hover:bg-sidebar-accent"><Settings className="h-4 w-4" />{!effectiveCollapsed && 'Settings'}</NavLink>}
+        <NavLink to="/inbox" onClick={close} title={effectiveCollapsed ? 'Notifications' : undefined} className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-sidebar-foreground/70 hover:bg-sidebar-accent">
+          <Bell className="h-4 w-4" />{!effectiveCollapsed && 'Notifications'}
+        </NavLink>
+        <NavLink to="/settings" onClick={close} title={effectiveCollapsed ? 'Settings' : undefined} className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-sidebar-foreground/70 hover:bg-sidebar-accent">
+          <Settings className="h-4 w-4" />{!effectiveCollapsed && 'Settings'}
+        </NavLink>
         {isAdmin && <NavLink to="/admin" onClick={close} title={effectiveCollapsed ? 'Admin' : undefined} className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-sidebar-foreground/70 hover:bg-sidebar-accent"><Shield className="h-4 w-4" />{!effectiveCollapsed && 'Admin'}</NavLink>}
+        <button
+          type="button"
+          onClick={async () => { close(); await signOut(); navigate('/'); }}
+          title={effectiveCollapsed ? 'Log out' : undefined}
+          className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground"
+        >
+          <LogOut className="h-4 w-4" />{!effectiveCollapsed && 'Log out'}
+        </button>
         {!isMobile && (
           <button onClick={() => setCollapsed(!collapsed)} className="flex w-full items-center gap-2 px-3 py-2 text-sm text-sidebar-foreground/50">
             {collapsed ? <PanelLeft className="h-4 w-4" /> : <PanelLeftClose className="h-4 w-4" />}
