@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Brain } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 import { supabase } from "@/lib/supabase";
 
 type Question = {
@@ -173,6 +174,22 @@ export default function Landing() {
           </div>
           <div className="mt-3 font-display text-6xl font-bold tracking-tight text-[#0f5f68]">
             {score}<span className="text-2xl text-slate-400">/10</span>
+          </div>
+
+          <div className="mx-auto mt-8 max-w-md">
+            <p className="mb-4 text-sm leading-6 text-slate-500">
+              Your diagnostic is complete. Log in to see your Performance Intelligence review and how Zyntra interprets your performance.
+            </p>
+            <Button
+              asChild
+              className="h-12 w-full rounded-xl bg-[#0f5f68] text-base font-semibold shadow-sm hover:bg-[#0a4b52]"
+            >
+              <Link to="/login?next=%2Fintelligence">
+                <Brain className="mr-2 h-4 w-4" />
+                Log in to see Performance Intelligence
+                <ChevronRight className="ml-1 h-4 w-4" />
+              </Link>
+            </Button>
           </div>
         </div>
       </main>
