@@ -110,7 +110,8 @@ export default function PerformanceIntelligence() {
   });
   const [loading, setLoading] = useState(true);
   const [subjectStats, setSubjectStats] = useState<Array<{ subject: string; attempts: number; accuracy: number; recentAccuracy: number; trend: 'up' | 'down' | 'flat' }>>([]);
-  const [subtopicStats, setSubtopicStats] = useState<Array<{ subtopic: string; subject: string; attempts: number; accuracy: number; recentAccuracy: number; trend: 'up' | 'down' | 'flat' }>>([]);
+  const [subtopicStats, setSubtopicStats] = useState<Array<{ subtopic: string; subject: string; attempts: number; accuracy: number; recentAccuracy: number; trend: 'up' | 'down' | 'flat'; misses: number; swaps: number }>>([]);
+  const [priorityStats, setPriorityStats] = useState<Array<{ subtopic: string; subject: string; score: number; accuracy: number; attempts: number; reason: string }>>([]);
 
   useEffect(() => {
     if (!user) {
@@ -125,7 +126,7 @@ export default function PerformanceIntelligence() {
       const attempts = attemptsRes.data || [];
 
       const bySubject = new Map<string, Array<{ is_correct: boolean; created_at: string }>>();
-      const bySubtopic = new Map<string, Array<{ is_correct: boolean; created_at: string; subject: string }>>();
+      const bySubtopic = new Map<string, Array<{ is_correct: boolean; created_at: string; subject: string; answer_changes_count: number }>>();
       attempts.forEach((a: any) => {
         const subject = a.questions?.category || 'Uncategorised';
         const list = bySubject.get(subject) || [];
@@ -135,7 +136,7 @@ export default function PerformanceIntelligence() {
         const subtopic = a.questions?.subtopic || 'Uncategorised';
         const subtopicKey = `${subject}::${subtopic}`;
         const subtopicList = bySubtopic.get(subtopicKey) || [];
-        subtopicList.push({ is_correct: Boolean(a.is_correct), created_at: a.created_at, subject });
+        subtopicList.push({ is_correct: Boolean(a.is_correct), created_at: a.created_at, subject, answer_changes_count: Number(a.answer_changes_count || 0) });
         bySubtopic.set(subtopicKey, subtopicList);
       });
 
@@ -173,11 +174,33 @@ export default function PerformanceIntelligence() {
             accuracy: Math.round(accuracy),
             recentAccuracy: Math.round(recentAccuracy),
             trend: delta >= 5 ? 'up' : delta <= -5 ? 'down' : 'flat',
+            misses: ordered.filter(r => !r.is_correct).length,
+            swaps: ordered.filter(r => r.answer_changes_count > 0).length,
           };
         })
         .filter(row => row.attempts >= 3)
         .sort((a, b) => a.accuracy - b.accuracy || b.attempts - a.attempts)
         .slice(0, 12));
+
+      const priorityRows = Array.from(bySubtopic.entries()).map(([key, rows]) => {
+        const ordered = [...rows].sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime());
+        const attemptsCount = ordered.length;
+        if (attemptsCount < 3) return null;
+        const accuracy = ordered.filter(r => r.is_correct).length / attemptsCount * 100;
+        const recent = ordered.slice(-Math.max(1, Math.min(10, Math.floor(attemptsCount / 2))));
+        const recentAccuracy = recent.filter(r => r.is_correct).length / recent.length * 100;
+        const misses = ordered.filter(r => !r.is_correct).length;
+        const swaps = ordered.filter(r => r.answer_changes_count > 0).length;
+        const [subject, subtopic] = key.split('::');
+        const weakness = Math.max(0, 100 - accuracy);
+        const recencyPenalty = Math.max(0, 60 - recentAccuracy);
+        const repeatMissSignal = Math.min(25, (misses / attemptsCount) * 25);
+        const instabilitySignal = Math.min(15, (swaps / attemptsCount) * 15);
+        const score = Math.round(weakness * 0.5 + recencyPenalty * 0.25 + repeatMissSignal + instabilitySignal);
+        const reason = accuracy < 50 ? 'Low accuracy' : recentAccuracy < accuracy - 10 ? 'Recent decline' : swaps / attemptsCount >= 0.35 ? 'Answer instability' : 'Needs reinforcement';
+        return { subtopic, subject, score, accuracy: Math.round(accuracy), attempts: attemptsCount, reason };
+      }).filter(Boolean) as Array<{ subtopic: string; subject: string; score: number; accuracy: number; attempts: number; reason: string }>;
+      setPriorityStats(priorityRows.sort((a, b) => b.score - a.score).slice(0, 5));
       setSnapshot({
         readiness: Number(profileRes.data?.readiness_score || 0),
         accuracy: Number(profileRes.data?.clinical_accuracy || 0),
@@ -270,6 +293,39 @@ export default function PerformanceIntelligence() {
               <p className="mt-3 font-display text-3xl font-semibold text-white">{snapshot.attempts}</p>
               <p className="mt-2 text-[11px] font-mono text-slate-600">telemetry sample</p>
             </div>
+          </div>
+        </section>
+
+        <section>
+          <div className="mb-3 flex items-end justify-between">
+            <div>
+              <p className="text-lg font-display font-semibold text-white">Next Best Study Priorities</p>
+              <p className="mt-1 text-xs text-slate-500">Combines weakness, recent performance, repeated misses and answer instability into a focused queue.</p>
+            </div>
+            <Target className="h-4 w-4 text-cyan-300/70" />
+          </div>
+          <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-5">
+            {loading ? [1, 2, 3, 4, 5].map(i => (
+              <div key={i} className="h-32 animate-pulse rounded-2xl border border-white/10 bg-white/[0.03]" />
+            )) : priorityStats.length ? priorityStats.map((row, index) => (
+              <div key={`${row.subject}::${row.subtopic}`} className="rounded-2xl border border-cyan-400/15 bg-cyan-400/[0.025] p-4">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-[10px] font-mono uppercase tracking-wider text-cyan-300/70">Priority {index + 1}</span>
+                  <span className="text-xs font-semibold text-white">{row.score}</span>
+                </div>
+                <p className="mt-3 truncate text-sm font-semibold text-white">{row.subtopic}</p>
+                <p className="mt-1 truncate text-[11px] text-slate-500">{row.subject}</p>
+                <div className="mt-4 flex items-center justify-between text-[11px]">
+                  <span className="text-slate-500">{row.attempts} attempts</span>
+                  <span className="font-medium text-rose-300">{row.accuracy}% accuracy</span>
+                </div>
+                <p className="mt-2 text-[11px] text-slate-600">{row.reason}</p>
+              </div>
+            )) : (
+              <div className="lg:col-span-5 rounded-2xl border border-white/10 bg-white/[0.02] p-8 text-center text-sm text-slate-500">
+                Complete at least 3 attempts in a subtopic to generate study priorities.
+              </div>
+            )}
           </div>
         </section>
 
