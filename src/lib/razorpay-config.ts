@@ -14,7 +14,7 @@ export const RAZORPAY_TIERS = {
     name: 'Clinical Starter (3 months)',
     price: 100,
     currency: 'USD',
-    interval: '6 months',
+    interval: '3 months',
   },
   // Internal key 'full_access' kept for backend/Razorpay compatibility; displayed as "Exam Master".
   full_access: {
