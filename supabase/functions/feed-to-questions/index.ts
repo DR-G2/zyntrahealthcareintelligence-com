@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
+import { requireUser } from "../_shared/auth.ts";
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers":
@@ -10,6 +11,8 @@ serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
+    const __caller = await requireUser(req);
+    if (__caller instanceof Response) return __caller;
     const { content_text, type, subject } = await req.json();
     if (!content_text || !type) {
       return new Response(JSON.stringify({ error: "content_text and type are required" }), {

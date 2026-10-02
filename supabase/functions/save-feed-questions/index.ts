@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
+import { isAdmin } from "../_shared/auth.ts";
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers":
@@ -45,6 +46,13 @@ serve(async (req) => {
     const { type, questions, station } = await req.json();
 
     if (type === "mcq" && Array.isArray(questions) && questions.length > 0) {
+      // Only admins may add questions to the shared bank
+      if (!(await isAdmin((claimsData.claims.email as string | undefined) ?? null))) {
+        return new Response(JSON.stringify({ error: "Only admins can save questions to the shared bank." }), {
+          status: 403,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
       const rows = questions.map((q: any) => ({
         question_text: q.question_text,
         options: q.options || {},
