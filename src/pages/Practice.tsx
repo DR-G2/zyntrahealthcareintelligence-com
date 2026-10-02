@@ -633,6 +633,7 @@ function DrillSession({
   const [timeToFirstClick, setTimeToFirstClick] = useState<Record<number, number>>({});
   const [pauseEvents, setPauseEvents] = useState<Record<number, number>>({});
   const [ruledOutOptions, setRuledOutOptions] = useState<Record<number, Set<string>>>({});
+  const [confidenceByIndex, setConfidenceByIndex] = useState<Record<number, number>>({});
   const [timeRemaining, setTimeRemaining] = useState(timeSeconds);
   const [loading, setLoading] = useState(true);
   const [finished, setFinished] = useState(false);
@@ -958,6 +959,12 @@ function DrillSession({
     }, 500);
   };
 
+  const setConfidence = (level: number) => {
+    if (lockedAnswers[currentIndex]) return;
+    lastInteractionRef.current = Date.now();
+    setConfidenceByIndex(prev => ({ ...prev, [currentIndex]: level }));
+  };
+
   const toggleRuleOutOption = (letter: string) => {
     // Don't rule out the currently selected answer
     if (selectedAnswers[currentIndex] === letter) return;
@@ -1002,6 +1009,7 @@ function DrillSession({
         time_to_first_click: timeToFirstClick[i] || 0,
         change_sequence: changeSequences[i] || [],
         pause_events: pauseEvents[i] || 0,
+        confidence_level: confidenceByIndex[i] || null,
         time_of_day: new Date().toISOString(),
         question_position: i,
         previous_question_correct: i > 0 ? (selectedAnswers[i - 1] === questions[i - 1]?.correct_answer) : null,
@@ -1598,7 +1606,22 @@ function ResultsScreen({
                             <div className="rounded-lg border p-3 space-y-3">
                               <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Explanation</p>
                               <p className="text-sm leading-relaxed">{parsed.lead}</p>
-                              <div className="space-y-3">
+                              <div className="mb-5 rounded-lg border bg-muted/30 p-3">
+                <div className="mb-2 flex items-center justify-between">
+                  <span className="text-sm font-medium">How confident are you?</span>
+                  <span className="text-xs text-muted-foreground">{confidenceByIndex[currentIndex] ? String(confidenceByIndex[currentIndex]) + '/5' : 'Optional'}</span>
+                </div>
+                <div className="grid grid-cols-5 gap-2">
+                  {[1, 2, 3, 4, 5].map(level => (
+                    <Button key={level} type="button" variant={confidenceByIndex[currentIndex] === level ? 'default' : 'outline'} size="sm" onClick={() => setConfidence(level)} disabled={!!lockedAnswers[currentIndex]}>
+                      {level}
+                    </Button>
+                  ))}
+                </div>
+                <p className="mt-2 text-xs text-muted-foreground">1 = guessing · 5 = certain</p>
+              </div>
+
+              <div className="space-y-3">
                                 {parsed.options.map((item) => (
                                   <div key={item.letter} className="space-y-1">
                                     <p className="text-sm font-medium">{item.letter}. {options[item.letter.charCodeAt(0) - 65]}</p>
