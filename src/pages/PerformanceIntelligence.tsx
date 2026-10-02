@@ -273,21 +273,21 @@ export default function PerformanceIntelligence() {
           ))}
         </div>
 
-        <section>
-          <div className="mb-3 flex items-center justify-between">
+        <section className="rounded-3xl border border-cyan-400/10 bg-gradient-to-br from-cyan-400/[0.045] via-[#081224]/80 to-[#081224]/70 p-5 md:p-6">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div>
-              <p className="text-[11px] font-mono uppercase tracking-[0.18em] text-cyan-300/80">Connected rooms</p>
-              <p className="mt-1 text-xs text-slate-500">Move between training surfaces without leaving the intelligence layer.</p>
+              <p className="text-[11px] font-mono uppercase tracking-[0.18em] text-cyan-300/80">Your intelligence layer</p>
+              <h2 className="mt-1 font-display text-xl font-semibold text-white">Performance at a glance</h2>
+              <p className="mt-1 max-w-2xl text-xs leading-5 text-slate-500">Zyntra combines accuracy, decision behaviour, timing and confidence into one evolving picture of how you perform under exam conditions.</p>
             </div>
-          </div>
-          <div className="grid gap-3 md:grid-cols-3">
-            <QuickLink to="/practice" title="Practice" description="Generate the question telemetry that feeds intelligence." icon={Brain} />
-            <QuickLink to="/practice/osce" title="OSCE" description="Add structured clinical-station signals." icon={ClipboardCheck} />
-            <QuickLink to="/plan" title="Study Plan" description="Turn current signals into the next training priorities." icon={Activity} />
+            <div className="flex shrink-0 gap-2">
+              <Link to="/practice" className="inline-flex items-center gap-1.5 rounded-lg border border-cyan-400/20 bg-cyan-400/10 px-3 py-2 text-xs font-medium text-cyan-200 hover:bg-cyan-400/15">Practice <ArrowRight className="h-3.5 w-3.5" /></Link>
+              <Link to="/plan" className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/[0.04] px-3 py-2 text-xs font-medium text-slate-300 hover:bg-white/[0.07]">Study Plan <ArrowRight className="h-3.5 w-3.5" /></Link>
+            </div>
           </div>
         </section>
 
-        <section className="grid gap-4 lg:grid-cols-[1.05fr_2fr]">
+        <section className="grid gap-4 lg:grid-cols-[1.1fr_1.9fr]">
           <div className="rounded-3xl border border-white/10 bg-[#081224]/70 p-6 backdrop-blur-xl">
             <div className="flex items-center gap-2 text-sm font-medium text-slate-200">
               <Gauge className="h-4 w-4 text-cyan-300" /> Overall Readiness
@@ -318,6 +318,46 @@ export default function PerformanceIntelligence() {
               <p className="text-xs text-slate-500">Recorded Attempts</p>
               <p className="mt-3 font-display text-3xl font-semibold text-white">{snapshot.attempts}</p>
               <p className="mt-2 text-[11px] font-mono text-slate-600">telemetry sample</p>
+            </div>
+          </div>
+        </section>
+
+        <section className="grid gap-4 lg:grid-cols-2">
+          <div className="rounded-2xl border border-white/10 bg-[#081224]/70 p-5 backdrop-blur-xl">
+            <div className="mb-4 flex items-center justify-between">
+              <div>
+                <p className="text-sm font-display font-semibold text-white">Intelligence Signals</p>
+                <p className="mt-1 text-[11px] text-slate-500">The four behavioural dimensions currently feeding your readiness model.</p>
+              </div>
+              <Brain className="h-4 w-4 text-cyan-300/70" />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              {metrics.map(metric => (
+                <div key={metric.id} className="rounded-xl border border-white/8 bg-white/[0.025] p-3">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="text-[11px] text-slate-400">{metric.label}</span>
+                    <span className="font-display text-sm font-semibold text-white">{metric.displayValue}</span>
+                  </div>
+                  <div className="mt-2 h-1 overflow-hidden rounded-full bg-white/5">
+                    <div className="h-full rounded-full bg-cyan-400" style={{ width: metric.value == null ? '0%' : String(Math.min(100, Math.max(0, metric.value))) + '%' }} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="rounded-2xl border border-white/10 bg-[#081224]/70 p-5 backdrop-blur-xl">
+            <div className="mb-4 flex items-center justify-between">
+              <div>
+                <p className="text-sm font-display font-semibold text-white">What the data says</p>
+                <p className="mt-1 text-[11px] text-slate-500">A compact read of the strongest signals in your current sample.</p>
+              </div>
+              <Sparkles className="h-4 w-4 text-cyan-300/70" />
+            </div>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between rounded-xl border border-white/8 bg-white/[0.025] px-3 py-2.5"><span className="text-xs text-slate-400">Answer changes</span><span className="text-sm font-semibold text-white">{snapshot.attempts ? String(Math.round((snapshot.changedAnswers / snapshot.attempts) * 100)) + '%' : 'Awaiting data'}</span></div>
+              <div className="flex items-center justify-between rounded-xl border border-white/8 bg-white/[0.025] px-3 py-2.5"><span className="text-xs text-slate-400">Confidence-rated attempts</span><span className="text-sm font-semibold text-white">{snapshot.confidenceAttempts || 'Awaiting data'}</span></div>
+              <div className="flex items-center justify-between rounded-xl border border-white/8 bg-white/[0.025] px-3 py-2.5"><span className="text-xs text-slate-400">Confident errors</span><span className="text-sm font-semibold text-rose-300">{snapshot.overconfidentErrors}</span></div>
+              <div className="flex items-center justify-between rounded-xl border border-white/8 bg-white/[0.025] px-3 py-2.5"><span className="text-xs text-slate-400">Under-confident correct</span><span className="text-sm font-semibold text-emerald-300">{snapshot.underconfidentCorrect}</span></div>
             </div>
           </div>
         </section>
@@ -464,7 +504,21 @@ export default function PerformanceIntelligence() {
         <section>
           <div className="mb-3 flex items-end justify-between">
             <div>
-              <p className="text-lg font-display font-semibold text-white">Cognitive &amp; Behavioural Telemetry</p>
+              <p className="text-lg font-display font-semibold text-white">Connected Training Rooms</p>
+              <p className="mt-1 text-xs text-slate-500">Keep training, planning and intelligence connected without leaving this layer.</p>
+            </div>
+          </div>
+          <div className="grid gap-3 md:grid-cols-3">
+            <QuickLink to="/practice" title="Practice" description="Generate the question telemetry that feeds intelligence." icon={Brain} />
+            <QuickLink to="/practice/osce" title="OSCE" description="Add structured clinical-station signals." icon={ClipboardCheck} />
+            <QuickLink to="/plan" title="Study Plan" description="Turn current signals into the next training priorities." icon={Activity} />
+          </div>
+        </section>
+
+        <section>
+          <div className="mb-3 flex items-end justify-between">
+            <div>
+              <p className="text-lg font-display font-semibold text-white">Cognitive &amp; Behavioural Telemetry</p
               <p className="mt-1 text-xs text-slate-500">Signals are derived from recorded decision behaviour, not guessed from profile text.</p>
             </div>
             <RefreshCw className="h-4 w-4 text-slate-600" />
