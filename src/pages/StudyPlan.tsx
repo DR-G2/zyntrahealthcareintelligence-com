@@ -33,6 +33,7 @@ export default function StudyPlan() {
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
   const [generationLocked, setGenerationLocked] = useState(false);
+  const [generationDaysRemaining, setGenerationDaysRemaining] = useState<number | null>(null);
 
   useEffect(() => {
     if (!user) { setLoading(false); return; }
@@ -53,6 +54,7 @@ export default function StudyPlan() {
         const nextMonth = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1));
         if (generatedAt.getUTCFullYear() === now.getUTCFullYear() && generatedAt.getUTCMonth() === now.getUTCMonth()) {
           setGenerationLocked(true);
+          setGenerationDaysRemaining(Math.max(1, Math.ceil((nextMonth.getTime() - now.getTime()) / 86400000)));
         }
       }
       const map = new Map<string, { correct: number; total: number }>();
@@ -90,7 +92,12 @@ export default function StudyPlan() {
       toast.success('Study plan generated');
     } catch (e: any) {
       const message = e.message || 'Failed to generate study plan';
-      if (message.toLowerCase().includes('next generation available')) setGenerationLocked(true);
+      if (message.toLowerCase().includes('next generation available')) {
+        setGenerationLocked(true);
+        const now = new Date();
+        const nextMonth = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1));
+        setGenerationDaysRemaining(Math.max(1, Math.ceil((nextMonth.getTime() - now.getTime()) / 86400000)));
+      }
       toast.error(message);
     } finally {
       setGenerating(false);
@@ -128,7 +135,7 @@ export default function StudyPlan() {
           </div>
           {generationLocked && (
             <p className="relative z-10 mt-3 text-xs text-slate-500">
-              One successful study-plan generation is allowed per calendar month. The next generation window opens on the first day of next month.
+              One successful study-plan generation is allowed per calendar month. Next generation available in {generationDaysRemaining ?? 1} day{(generationDaysRemaining ?? 1) === 1 ? '' : 's'}.
             </p>
           )}
           <div className="pointer-events-none absolute -right-24 -top-28 h-72 w-72 rounded-full bg-cyan-500/10 blur-[100px]" />
