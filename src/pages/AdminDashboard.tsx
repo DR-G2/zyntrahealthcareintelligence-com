@@ -207,7 +207,7 @@ function UsersTab({ currentUserEmail }: { currentUserEmail: string }) {
         u.subscription?.status || 'none',
         u.override?.expires_at ? new Date(u.override.expires_at).toLocaleDateString() : '',
         new Date(u.created_at).toLocaleDateString(),
-      ].map(v => `"${String(v).replace(/"/g, '""')}"`).join(',');
+      ].map(v => { let s = String(v); if (/^[=+\-@\t\r]/.test(s)) s = "'" + s; return `"${s.replace(/"/g, '""')}"`; }).join(',');
     });
     const csv = [headers.join(','), ...rows].join('\n');
     const blob = new Blob([csv], { type: 'text/csv' });
