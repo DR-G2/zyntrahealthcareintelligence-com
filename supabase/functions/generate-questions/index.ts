@@ -1,7 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-import { requireAdmin } from "../_shared/auth.ts";
+import { requireAdmin, safeLabel } from "../_shared/auth.ts";
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
@@ -30,7 +30,7 @@ serve(async (req) => {
     const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabase = createClient(supabaseUrl, supabaseKey);
 
-    const selectedCategory = (typeof category === "string" && AMC_CATEGORIES.includes(category)) ? category : AMC_CATEGORIES[Math.floor(Math.random() * AMC_CATEGORIES.length)];
+    const selectedCategory = typeof category === "string" && category.trim() ? safeLabel(category, "General Medicine") : AMC_CATEGORIES[Math.floor(Math.random() * AMC_CATEGORIES.length)];
     const selectedDifficulty = ["easy", "moderate", "difficult"].includes(difficulty) ? difficulty : "moderate";
 
     // Fetch AI training context for population-level insights
