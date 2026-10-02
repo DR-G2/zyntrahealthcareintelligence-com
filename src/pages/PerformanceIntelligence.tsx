@@ -116,6 +116,7 @@ export default function PerformanceIntelligence() {
   const [subjectStats, setSubjectStats] = useState<Array<{ subject: string; attempts: number; accuracy: number; recentAccuracy: number; trend: 'up' | 'down' | 'flat' }>>([]);
   const [subtopicStats, setSubtopicStats] = useState<Array<{ subtopic: string; subject: string; attempts: number; accuracy: number; recentAccuracy: number; trend: 'up' | 'down' | 'flat'; misses: number; swaps: number }>>([]);
   const [priorityStats, setPriorityStats] = useState<Array<{ subtopic: string; subject: string; score: number; accuracy: number; attempts: number; reason: string }>>([]);
+  const [confidenceBySubject, setConfidenceBySubject] = useState<Array<{ subject: string; calibration: number; attempts: number }>>([]);
 
   useEffect(() => {
     if (!user) {
@@ -205,6 +206,23 @@ export default function PerformanceIntelligence() {
         return { subtopic, subject, score, accuracy: Math.round(accuracy), attempts: attemptsCount, reason };
       }).filter(Boolean) as Array<{ subtopic: string; subject: string; score: number; accuracy: number; attempts: number; reason: string }>;
       setPriorityStats(priorityRows.sort((a, b) => b.score - a.score).slice(0, 5));
+
+      const confidenceMap = new Map<string, { total: number; score: number }>();
+      attempts.forEach((a: any) => {
+        const confidence = Number(a.confidence_level);
+        if (confidence < 1 || confidence > 5) return;
+        const subject = a.questions?.category || 'Uncategorised';
+        const entry = confidenceMap.get(subject) || { total: 0, score: 0 };
+        const confidencePct = (confidence - 1) * 25;
+        const calibration = Math.max(0, 100 - Math.abs(confidencePct - (a.is_correct ? 100 : 0)));
+        entry.total += 1;
+        entry.score += calibration;
+        confidenceMap.set(subject, entry);
+      });
+      setConfidenceBySubject(Array.from(confidenceMap.entries())
+        .map(([subject, value]) => ({ subject, attempts: value.total, calibration: Math.round(value.score / value.total) }))
+        .sort((a, b) => a.calibration - b.calibration)
+        .slice(0, 6));
       setSnapshot({
         readiness: Number(profileRes.data?.readiness_score || 0),
         calibration: Number(dnaRes.data?.confidence_calibration || 0),
@@ -343,6 +361,32 @@ export default function PerformanceIntelligence() {
           </div>
         </section>
 
+        <section>
+          <div className="mb-3 flex items-end justify-between">
+            <div>
+              <p className="text-lg font-display font-semibold text-white">Confidence by Subject</p>
+              <p className="mt-1 text-xs text-slate-500">Where confidence and outcomes are most misaligned, based only on attempts with recorded confidence.</p>
+            </div>
+          </div>
+          <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+            {confidenceBySubject.length ? confidenceBySubject.map(row => (
+              <div key={row.subject} className="rounded-2xl border border-white/10 bg-[#081224]/70 p-4">
+                <div className="flex items-center justify-between gap-3">
+                  <p className="truncate text-sm font-semibold text-white">{row.subject}</p>
+                  <span className="text-sm font-semibold text-emerald-300">{row.calibration}%</span>
+                </div>
+                <p className="mt-1 text-[11px] text-slate-500">{row.attempts} confidence-rated attempts</p>
+                <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-white/5">
+                  <div className="h-full rounded-full bg-emerald-400" style={{ width: row.calibration + '%' }} />
+                </div>
+              </div>
+            )) : (
+              <div className="md:col-span-2 lg:col-span-3 rounded-2xl border border-white/10 bg-white/[0.02] p-6 text-center text-sm text-slate-500">
+                Confidence-rated attempts will build this map.
+              </div>
+            )}
+          </div>
+        </section>
         <section>
           <div className="mb-3 flex items-end justify-between">
             <div>
