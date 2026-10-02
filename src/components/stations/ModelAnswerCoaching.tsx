@@ -38,22 +38,10 @@ export function ModelAnswerCoaching({ stationId, subject, scenarioTitle, checkli
     setError(null);
 
     try {
-      // Check cache
-      if (stationId) {
-        const { data: cached } = await supabase
-          .from('model_answers' as any)
-          .select('model_walkthrough')
-          .eq('station_id', stationId)
-          .maybeSingle();
-        if (cached) {
-          setWalkthrough((cached as any).model_walkthrough as WalkthroughStep[]);
-          setExpanded(true);
-          setLoading(false);
-          return;
-        }
-      }
-
-      // Generate via edge function
+      // Protected model-answer cache is never read directly from the browser.
+      // The Edge Function reads the private cache with service_role and returns
+      // only the requested walkthrough to the signed-in user.
+      // Generate/retrieve via Edge Function
       const resp = await supabase.functions.invoke('generate-model-answer', {
         body: {
           station_id: stationId,
