@@ -109,6 +109,7 @@ export default function PerformanceIntelligence() {
     readiness: 0, accuracy: 0, stability: 0, timeSensitivity: 0, attempts: 0, changedAnswers: 0,
   });
   const [loading, setLoading] = useState(true);
+  const [subjectStats, setSubjectStats] = useState<Array<{ subject: string; attempts: number; accuracy: number; recentAccuracy: number; trend: 'up' | 'down' | 'flat' }>>([]);
 
   useEffect(() => {
     if (!user) {
@@ -118,9 +119,35 @@ export default function PerformanceIntelligence() {
     const load = async () => {
       const [profileRes, attemptsRes] = await Promise.all([
         supabase.from('performance_profiles').select('readiness_score, clinical_accuracy, stability_score, time_sensitivity').eq('user_id', user.id).maybeSingle(),
-        supabase.from('user_attempts').select('is_correct, answer_changes_count').eq('user_id', user.id).limit(1000),
+        supabase.from('user_attempts').select('is_correct, answer_changes_count, created_at, questions(category, subtopic)').eq('user_id', user.id).order('created_at', { ascending: false }).limit(2000),
       ]);
       const attempts = attemptsRes.data || [];
+
+      const bySubject = new Map<string, Array<{ is_correct: boolean; created_at: string }>>();
+      attempts.forEach((a: any) => {
+        const subject = a.questions?.category || 'Uncategorised';
+        const list = bySubject.get(subject) || [];
+        list.push({ is_correct: Boolean(a.is_correct), created_at: a.created_at });
+        bySubject.set(subject, list);
+      });
+
+      setSubjectStats(Array.from(bySubject.entries()).map(([subject, rows]) => {
+        const ordered = [...rows].sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime());
+        const split = Math.max(1, Math.floor(ordered.length / 2));
+        const earlier = ordered.slice(0, split);
+        const recent = ordered.slice(-Math.max(1, Math.min(10, Math.floor(ordered.length / 2))));
+        const accuracy = ordered.filter(r => r.is_correct).length / ordered.length * 100;
+        const recentAccuracy = recent.filter(r => r.is_correct).length / recent.length * 100;
+        const earlierAccuracy = earlier.filter(r => r.is_correct).length / earlier.length * 100;
+        const delta = recentAccuracy - earlierAccuracy;
+        return {
+          subject,
+          attempts: ordered.length,
+          accuracy: Math.round(accuracy),
+          recentAccuracy: Math.round(recentAccuracy),
+          trend: delta >= 5 ? 'up' : delta <= -5 ? 'down' : 'flat',
+        };
+      }).sort((a, b) => a.accuracy - b.accuracy));
       setSnapshot({
         readiness: Number(profileRes.data?.readiness_score || 0),
         accuracy: Number(profileRes.data?.clinical_accuracy || 0),
@@ -213,6 +240,42 @@ export default function PerformanceIntelligence() {
               <p className="mt-3 font-display text-3xl font-semibold text-white">{snapshot.attempts}</p>
               <p className="mt-2 text-[11px] font-mono text-slate-600">telemetry sample</p>
             </div>
+          </div>
+        </section>
+
+        <section>
+          <div className="mb-3 flex items-end justify-between">
+            <div>
+              <p className="text-lg font-display font-semibold text-white">Subject Trajectory</p>
+              <p className="mt-1 text-xs text-slate-500">Accuracy and direction from your recorded MCQ attempts.</p>
+            </div>
+          </div>
+          <div className="grid gap-3 md:grid-cols-2">
+            {loading ? [1, 2, 3, 4].map(i => (
+              <div key={i} className="h-28 animate-pulse rounded-2xl border border-white/10 bg-white/[0.03]" />
+            )) : subjectStats.length ? subjectStats.map(row => (
+              <div key={row.subject} className="rounded-2xl border border-white/10 bg-[#081224]/70 p-4 backdrop-blur-xl">
+                <div className="flex items-center justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="truncate text-sm font-semibold text-white">{row.subject}</p>
+                    <p className="mt-1 text-xs text-slate-500">{row.attempts} attempts · recent {row.recentAccuracy}%</p>
+                  </div>
+                  <span className={cn('text-xs font-medium', row.trend === 'up' ? 'text-emerald-300' : row.trend === 'down' ? 'text-rose-300' : 'text-slate-400')}>
+                    {row.trend === 'up' ? 'Improving' : row.trend === 'down' ? 'Declining' : 'Stable'}
+                  </span>
+                </div>
+                <div className="mt-4 flex items-center gap-3">
+                  <div className="h-2 flex-1 overflow-hidden rounded-full bg-white/5">
+                    <div className="h-full rounded-full bg-cyan-400" style={{ width: `${row.accuracy}%` }} />
+                  </div>
+                  <span className="w-10 text-right text-sm font-semibold text-white">{row.accuracy}%</span>
+                </div>
+              </div>
+            )) : (
+              <div className="md:col-span-2 rounded-2xl border border-white/10 bg-white/[0.02] p-8 text-center text-sm text-slate-500">
+                Complete MCQs to build subject trajectories.
+              </div>
+            )}
           </div>
         </section>
 
