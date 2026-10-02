@@ -78,7 +78,7 @@ describe("Landing (combined homepage)", () => {
       fireEvent.click(trigger);
       text += " " + (container.querySelector("#faq")?.textContent || "");
     }
-    for (const p of ["$39/month", "$109 for 3 months", "$59/month", "$169 for 3 months", "$349", "first 100 users", "terms coming soon"]) {
+    for (const p of ["$39/month", "$100 for 3 months", "$59/month", "$159 for 3 months", "$349", "first 100 users", "available under the applicable commercial terms"]) {
       expect(text).toContain(p);
     }
     for (const bad of [/full access/i, /osce[ -]?only/i, /paypal/i, /AMC[- ]approved/i, /pass rate/i, /docdoc/i, /cannabis/i]) {
