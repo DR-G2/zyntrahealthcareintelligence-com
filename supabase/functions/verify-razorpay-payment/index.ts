@@ -47,8 +47,6 @@ serve(async (req) => {
       razorpay_order_id,
       razorpay_subscription_id,
       razorpay_signature,
-      tier,
-      amount,
     } = await req.json();
 
     const keySecret = Deno.env.get("RAZORPAY_KEY_SECRET") || "";
@@ -70,15 +68,31 @@ serve(async (req) => {
       throw new Error("Invalid payment signature");
     }
 
+    // Derive tier and amount from Razorpay's own record (notes were set server-side at checkout)
+    const keyId = Deno.env.get("RAZORPAY_KEY_ID") || "";
+    const rzAuth = `Basic ${btoa(`${keyId}:${keySecret}`)}`;
+    const rzPath = razorpay_order_id
+      ? `orders/${encodeURIComponent(razorpay_order_id)}`
+      : `subscriptions/${encodeURIComponent(razorpay_subscription_id)}`;
+    const rzRes = await fetch(`https://api.razorpay.com/v1/${rzPath}`, { headers: { Authorization: rzAuth } });
+    if (!rzRes.ok) throw new Error("Could not confirm payment with provider");
+    const rz = await rzRes.json();
+    if (rz?.notes?.user_id !== userId) throw new Error("Payment does not belong to this account");
+    const allowedTiers = ["mcq_only", "full_access", "lifetime"];
+    const tier = rz?.notes?.tier;
+    if (!allowedTiers.includes(tier)) throw new Error("Unknown plan on payment");
+    if (razorpay_order_id && rz.status !== "paid") throw new Error("Order not paid");
+    const amount = razorpay_order_id && typeof rz.amount_paid === "number" ? Math.round(rz.amount_paid / 100) : null;
+
     // Store payment record
     const { error: insertError } = await supabase.from("payments").insert({
       user_id: userId,
       razorpay_payment_id,
       razorpay_order_id: razorpay_order_id || null,
       razorpay_subscription_id: razorpay_subscription_id || null,
-      tier: tier || "full_access",
+      tier,
       status: "active",
-      amount: amount || null,
+      amount,
     });
 
     if (insertError) throw insertError;
