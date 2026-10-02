@@ -22,14 +22,18 @@ serve(async (req) => {
       global: { headers: { Authorization: authHeader } },
     });
 
-    const token = authHeader.replace("Bearer ", "");
-    const { data: claimsData, error: claimsErr } = await supabase.auth.getClaims(token);
-    if (claimsErr || !claimsData?.claims) {
+    const token = authHeader.slice("Bearer ".length).trim();
+    if (!token) {
       return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
-    const userId = claimsData.claims.sub;
-    const userEmail = claimsData.claims.email as string | undefined;
+    const { data: userData, error: userErr } = await supabase.auth.getUser(token);
+    if (userErr || !userData?.user?.id) {
+      return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+
+    const userId = userData.user.id;
+    const userEmail = userData.user.email;
     const body = await req.json().catch(() => ({}));
     const currentPage = body.current_page || "/";
     const isOnline = body.is_online !== false;
