@@ -32,6 +32,7 @@ interface Question {
   category: string;
   difficulty: string;
   tags: string[] | null;
+  subtopic?: string | null;
 }
 
 interface UserAttempt {
@@ -44,7 +45,7 @@ interface UserAttempt {
 
 const difficulties = ['All', 'easy', 'moderate', 'difficult'];
 
-type FilterTab = 'all' | 'bookmarked' | 'incorrect' | 'unattempted';
+type FilterTab = 'all' | 'attempted' | 'unattempted' | 'correct' | 'incorrect' | 'bookmarked';
 
 export default function Questions() {
   const { user } = useAuth();
@@ -104,7 +105,14 @@ export default function Questions() {
       user ? fetchAllRows('user_notes', 'question_id, note_text', { column: 'user_id', value: user.id }) : Promise.resolve([]),
     ]);
 
-    setQuestions(allQuestions.map((q: any) => ({ ...q, options: q.options as string[] })));
+    setQuestions(allQuestions.map((q: any) => ({
+      ...q,
+      options: Array.isArray(q.options)
+        ? q.options.map(String)
+        : q.options && typeof q.options === 'object'
+          ? Object.entries(q.options).sort(([a], [b]) => a.localeCompare(b)).map(([, value]) => String(value))
+          : [],
+    })));
     setBookmarks(new Set(bData.map((b: any) => b.question_id)));
     setAttempts(aData as UserAttempt[]);
     const noteMap: Record<string, string> = {};
@@ -144,6 +152,7 @@ export default function Questions() {
   }, [categoryCounts]);
 
   const attemptedIds = useMemo(() => new Set(attempts.map(a => a.question_id)), [attempts]);
+  const correctIds = useMemo(() => new Set(attempts.filter(a => a.is_correct).map(a => a.question_id)), [attempts]);
   const incorrectIds = useMemo(() => new Set(attempts.filter(a => !a.is_correct).map(a => a.question_id)), [attempts]);
 
   // Get matching categories from hierarchical selection
@@ -173,13 +182,15 @@ export default function Questions() {
     }
 
     switch (tab) {
-      case 'bookmarked': result = result.filter(r => bookmarks.has(r.id)); break;
-      case 'incorrect': result = result.filter(r => incorrectIds.has(r.id)); break;
+      case 'attempted': result = result.filter(r => attemptedIds.has(r.id)); break;
       case 'unattempted': result = result.filter(r => !attemptedIds.has(r.id)); break;
+      case 'correct': result = result.filter(r => correctIds.has(r.id)); break;
+      case 'incorrect': result = result.filter(r => incorrectIds.has(r.id)); break;
+      case 'bookmarked': result = result.filter(r => bookmarks.has(r.id)); break;
     }
 
     return result;
-  }, [questions, search, difficulty, tab, bookmarks, incorrectIds, attemptedIds, allPairsSelected, matchingCategories]);
+  }, [questions, search, difficulty, tab, bookmarks, incorrectIds, correctIds, attemptedIds, allPairsSelected, matchingCategories]);
 
   // Filter helpers
   const toggleExpand = (item: string) => {
@@ -525,9 +536,11 @@ export default function Questions() {
         <Tabs value={tab} onValueChange={v => setTab(v as FilterTab)}>
           <TabsList>
             <TabsTrigger value="all">All ({questions.length})</TabsTrigger>
-            <TabsTrigger value="bookmarked">Bookmarked ({bookmarks.size})</TabsTrigger>
+            <TabsTrigger value="attempted">Attempted ({attemptedIds.size})</TabsTrigger>
+            <TabsTrigger value="unattempted">Unanswered ({questions.length - attemptedIds.size})</TabsTrigger>
+            <TabsTrigger value="correct">Correct ({correctIds.size})</TabsTrigger>
             <TabsTrigger value="incorrect">Incorrect ({incorrectIds.size})</TabsTrigger>
-            <TabsTrigger value="unattempted">Unattempted ({questions.length - attemptedIds.size})</TabsTrigger>
+            <TabsTrigger value="bookmarked">Bookmarked ({bookmarks.size})</TabsTrigger>
           </TabsList>
         </Tabs>
       </div>
