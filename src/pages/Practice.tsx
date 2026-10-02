@@ -661,6 +661,7 @@ function DrillSession({
         config: {
           ...config,
           adaptivePoolIds: adaptivePoolRef.current.map(q => q.id),
+          confidenceByIndex,
         } as any,
         // Persist the visible session separately from the hidden adaptive candidate pool.
         question_ids: qs.slice(0, config.questionCount).map(q => q.id),
@@ -677,7 +678,7 @@ function DrillSession({
     } catch (e) {
       console.error('Auto-save failed', e);
     }
-  }, [user, config]);
+  }, [user, config, confidenceByIndex]);
 
   const deleteSession = useCallback(async () => {
     if (!user) return;
@@ -1011,31 +1012,6 @@ function DrillSession({
     }
     const newAnswers = { ...selectedAnswers, [currentIndex]: answer };
     setSelectedAnswers(newAnswers);
-
-    // Within-session adaptation: use the just-answered question to shape the
-    // difficulty of the next few unanswered questions. Only the untouched tail
-    // is reordered, so completed answers remain attached to their original index.
-    setQuestions(prev => {
-      if (currentIndex >= prev.length - 1) return prev;
-      const currentDifficulty = String(prev[currentIndex]?.difficulty || 'moderate').toLowerCase();
-      const currentRank = currentDifficulty.includes('easy') ? 1 : (currentDifficulty.includes('difficult') || currentDifficulty.includes('hard') ? 3 : 2);
-      const answeredCorrectly = answer === prev[currentIndex]?.correct_answer;
-      const targetRank = Math.max(1, Math.min(3, currentRank + (answeredCorrectly ? 1 : -1)));
-      const head = prev.slice(0, currentIndex + 1);
-      const tail = [...prev.slice(currentIndex + 1)];
-      const rankOf = (difficulty?: string | null) => {
-        const value = String(difficulty || 'moderate').toLowerCase();
-        return value.includes('easy') ? 1 : (value.includes('difficult') || value.includes('hard') ? 3 : 2);
-      };
-      tail.sort((a, b) =>
-        Math.abs(rankOf(a.difficulty) - targetRank) - Math.abs(rankOf(b.difficulty) - targetRank) ||
-        Math.random() - 0.5
-      );
-      return [...head, ...tail];
-    });
-    if (!canChangeAnswer) {
-      setLockedAnswers((p) => ({ ...p, [currentIndex]: true }));
-    }
 
     // If selecting a ruled-out option, remove the rule-out
     setRuledOutOptions(prev => {
