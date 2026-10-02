@@ -2091,6 +2091,7 @@ export type Database = {
         }
         Returns: number
       }
+      current_user_can_read_questions: { Args: never; Returns: boolean }
       get_diagnostic_question: {
         Args: {
           p_previous_correct?: boolean
@@ -2099,7 +2100,6 @@ export type Database = {
         }
         Returns: Json
       }
-      has_paid_access: { Args: { _user_id: string }; Returns: boolean }
       is_admin: { Args: { _email: string }; Returns: boolean }
       is_group_member: {
         Args: { _group_id: string; _user_id: string }
