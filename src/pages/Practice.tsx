@@ -651,7 +651,7 @@ function DrillSession({
   const maxViewedIndexRef = useRef(0);
 
   // Auto-save to active_sessions
-  const saveSession = useCallback(async (qs: Question[], idx: number, answers: Record<number, string>, changes: Record<number, number>, sequences: Record<number, string[]>, times: Record<number, number>, ttfc: Record<number, number>, pauses: Record<number, number>, timeLeft: number) => {
+  const saveSession = useCallback(async (qs: Question[], idx: number, answers: Record<number, string>, changes: Record<number, number>, sequences: Record<number, string[]>, times: Record<number, number>, ttfc: Record<number, number>, pauses: Record<number, number>, timeLeft: number, confidence: Record<number, number> = confidenceByIndex) => {
     if (!user || qs.length === 0) return;
     try {
       await supabase.from('active_sessions').upsert({
@@ -661,7 +661,7 @@ function DrillSession({
         config: {
           ...config,
           adaptivePoolIds: adaptivePoolRef.current.map(q => q.id),
-          confidenceByIndex,
+          confidenceByIndex: confidence,
         } as any,
         // Persist the visible session separately from the hidden adaptive candidate pool.
         question_ids: qs.slice(0, config.questionCount).map(q => q.id),
@@ -1048,6 +1048,7 @@ function DrillSession({
         timeToFirstClick,
         pauseEvents,
         timeRemaining,
+        nextConfidence,
       );
     }, 500);
   };
