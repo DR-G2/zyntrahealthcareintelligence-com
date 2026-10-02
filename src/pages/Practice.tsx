@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Clock, Lock, RefreshCw, ChevronLeft, ChevronRight, CheckCircle, XCircle, Zap, TrendingUp, TrendingDown, ChevronDown, ChevronUp, Minus, Plus, Search, X, BookOpen, Target, Stethoscope, Shield } from 'lucide-react';
 import { MCQHistory } from '@/components/history/MCQHistory';
+import { MCQReviewQueue } from '@/components/history/MCQReviewQueue';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/contexts/AuthContext';
 import { AppLayout } from '@/components/AppLayout';
@@ -102,7 +103,7 @@ async function fetchAllQuestionTopicMeta(): Promise<QuestionTopicMeta[]> {
 
 // ─── Setup Screen ───────────────────────────────────────────────
 
-function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConfig) => void; onShowHistory?: () => void }) {
+function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (config: SessionConfig) => void; onShowHistory?: () => void; onShowReviewQueue?: () => void }) {
   const gate = useFeatureGate();
   const [mode, setMode] = useState<'recharge' | 'no-change' | 'full-mock'>('recharge');
   // Subtopic-level selection is source of truth
@@ -298,6 +299,18 @@ function SetupScreen({ onStart, onShowHistory }: { onStart: (config: SessionConf
     <AppLayout>
       <div className="mx-auto max-w-6xl space-y-6">
         <RoomHeader kind="practice" className="mb-1" />
+        <div className="flex flex-wrap justify-end gap-2">
+          {onShowReviewQueue && (
+            <Button variant="outline" size="sm" onClick={onShowReviewQueue} className="gap-1.5">
+              <Target className="h-4 w-4" /> Review Queue
+            </Button>
+          )}
+          {onShowHistory && (
+            <Button variant="outline" size="sm" onClick={onShowHistory} className="gap-1.5">
+              <BookOpen className="h-4 w-4" /> MCQ History
+            </Button>
+          )}
+        </div>
 
         {!gate.canUseMCQ && (
           <UpgradePrompt feature="Daily MCQ Limit Reached" description={`You've used ${gate.mcqUsedToday}/${gate.mcqDailyLimit} free MCQs today. Upgrade for unlimited practice.`} variant="banner" />
@@ -1546,7 +1559,7 @@ export default function Practice() {
   const gate = useFeatureGate();
   const [searchParams] = useSearchParams();
   const resumeSessionId = searchParams.get('resume');
-  const [phase, setPhase] = useState<'setup' | 'drill' | 'results' | 'history'>(resumeSessionId ? 'drill' : 'setup');
+  const [phase, setPhase] = useState<'setup' | 'drill' | 'results' | 'history' | 'review'>(resumeSessionId ? 'drill' : 'setup');
   const [config, setConfig] = useState<SessionConfig | null>(
     resumeSessionId ? { mode: 'recharge', topics: [], subtopics: [], questionCount: 50 } : null
   );
@@ -1575,8 +1588,8 @@ export default function Practice() {
   if (phase === 'history') {
     return (
       <AppLayout>
-        <div className="mx-auto max-w-4xl space-y-6">
-          <div className="flex items-center justify-between">
+        <div className="mx-auto max-w-5xl space-y-6">
+          <div className="flex items-center justify-between gap-4">
             <div>
               <h1 className="text-3xl font-bold font-display">MCQ History</h1>
               <p className="text-muted-foreground">Review all your past attempts</p>
@@ -1595,6 +1608,29 @@ export default function Practice() {
     );
   }
 
+  if (phase === 'review') {
+    return (
+      <AppLayout>
+        <div className="mx-auto max-w-5xl space-y-6">
+          <div className="flex items-center justify-between gap-4">
+            <div>
+              <h1 className="text-3xl font-bold font-display">Review Queue</h1>
+              <p className="text-muted-foreground">Questions Zyntra has identified as needing another look</p>
+            </div>
+            <Button variant="outline" onClick={() => setPhase('setup')}>
+              <ChevronLeft className="h-4 w-4 mr-1" /> Back to Practice
+            </Button>
+          </div>
+          {gate.canAccessHistory ? (
+            <MCQReviewQueue />
+          ) : (
+            <UpgradePrompt feature="Question Review Queue" description="Upgrade to access your personalised MCQ review queue." variant="card" />
+          )}
+        </div>
+      </AppLayout>
+    );
+  }
+
   if (phase === 'setup') {
     return (
       <SetupScreen
@@ -1603,6 +1639,7 @@ export default function Practice() {
           setPhase('drill');
         }}
         onShowHistory={() => setPhase('history')}
+        onShowReviewQueue={() => setPhase('review')}
       />
     );
   }
