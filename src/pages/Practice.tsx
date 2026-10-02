@@ -765,17 +765,18 @@ function DrillSession({
       if (user && matchingIds.length > 0) {
         const { data: history } = await supabase
           .from('user_attempts')
-          .select('question_id, is_correct, created_at')
+          .select('question_id, is_correct, confidence_level, created_at')
           .eq('user_id', user.id)
           .in('question_id', candidateIds)
           .order('created_at', { ascending: false })
           .limit(2000);
 
-        const latest = new Map<string, { is_correct: boolean; created_at: string }>();
+        const latest = new Map<string, { is_correct: boolean; confidence_level: number | null; created_at: string }>();
         (history || []).forEach((attempt: any) => {
           if (!latest.has(attempt.question_id)) {
             latest.set(attempt.question_id, {
               is_correct: Boolean(attempt.is_correct),
+              confidence_level: Number(attempt.confidence_level) || null,
               created_at: attempt.created_at,
             });
           }
@@ -786,8 +787,12 @@ function DrillSession({
           const attempt = latest.get(id);
           if (!attempt) return 100;
           const ageDays = Math.max(0, (now - new Date(attempt.created_at).getTime()) / 86400000);
-          if (!attempt.is_correct) return 95 + Math.min(ageDays, 30);
-          return Math.min(ageDays * 2, 60);
+          const confidence = attempt.confidence_level;
+          const calibrationSignal =
+            confidence !== null && confidence >= 4 && !attempt.is_correct ? 35 :
+            confidence !== null && confidence <= 2 && attempt.is_correct ? 18 : 0;
+          if (!attempt.is_correct) return 95 + Math.min(ageDays, 30) + calibrationSignal;
+          return Math.min(ageDays * 2, 60) + calibrationSignal;
         };
 
         // Build a difficulty profile from the candidate's past attempts.
