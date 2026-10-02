@@ -384,7 +384,7 @@ export default function Pricing() {
                       {isCurrentTier('mcq_only') ? 'Current' : loadingTier === 'mcq_only' ? <Loader2 className="h-4 w-4 animate-spin" /> : '$39/mo'}
                     </Button>
                     <Button variant="outline" size="sm" className="w-full" onClick={() => choosePayment('mcq_only_3m')} disabled={loadingTier === 'mcq_only_3m'}>
-                      {loadingTier === 'mcq_only_3m' ? <Loader2 className="h-4 w-4 animate-spin" /> : '$109/3mo'}
+                      {loadingTier === 'mcq_only_3m' ? <Loader2 className="h-4 w-4 animate-spin" /> : '$100/3mo'}
                     </Button>
                   </div>
                 </CardContent>
