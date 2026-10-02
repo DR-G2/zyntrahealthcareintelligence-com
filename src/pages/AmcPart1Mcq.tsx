@@ -118,7 +118,7 @@ export default function AmcPart1Mcq() {
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
           <Button asChild size="lg">
-            <Link to="/#diagnostic">Try the 6-question diagnostic <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" /></Link>
+            <Link to="/check">Try the 6-question diagnostic <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" /></Link>
           </Button>
           <Button asChild size="lg" variant="outline">
             <Link to="/amc-clinical-osce">AMC Clinical / OSCE track</Link>
