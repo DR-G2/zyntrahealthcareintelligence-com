@@ -740,26 +740,57 @@ function DrillSession({
       );
       const selectedSubjectSet = new Set(config.topics.map((t) => normalizeTopicLabel(t)));
 
-      const matchingIds = questionMeta
+      const candidateIds = questionMeta
         .filter((question) => {
           const placement = resolvePracticeQuestionPlacement(question, resolver);
           if (!placement.subjectName) return false;
-
           const subjectKey = normalizeTopicLabel(placement.subjectName);
           const placementSubtopicKey = placement.subtopicName
             ? createSelectedSubtopicKey(placement.subjectName, placement.subtopicName)
             : null;
-
-          // Once a subject has explicit subtopic filters, only those subtopics are allowed.
           if (subjectsWithExplicitSubtopicFilters.has(subjectKey)) {
             return placementSubtopicKey ? selectedSubtopicSet.has(placementSubtopicKey) : false;
           }
-
           return selectedSubjectSet.has(subjectKey);
         })
-        .map((question) => question.id)
-        .sort(() => Math.random() - 0.5)
-        .slice(0, config.questionCount);
+        .map((question) => question.id);
+
+      // Adaptive selection: when practising a targeted area, prefer questions the
+      // candidate has not answered recently, then unseen questions, while retaining
+      // randomness so the same session is not deterministic.
+      let matchingIds = [...candidateIds];
+      if (user && matchingIds.length > 0) {
+        const { data: history } = await supabase
+          .from('user_attempts')
+          .select('question_id, is_correct, created_at')
+          .eq('user_id', user.id)
+          .in('question_id', candidateIds)
+          .order('created_at', { ascending: false })
+          .limit(2000);
+
+        const latest = new Map<string, { is_correct: boolean; created_at: string }>();
+        (history || []).forEach((attempt: any) => {
+          if (!latest.has(attempt.question_id)) {
+            latest.set(attempt.question_id, {
+              is_correct: Boolean(attempt.is_correct),
+              created_at: attempt.created_at,
+            });
+          }
+        });
+
+        const now = Date.now();
+        const scoreQuestion = (id: string) => {
+          const attempt = latest.get(id);
+          if (!attempt) return 100;
+          const ageDays = Math.max(0, (now - new Date(attempt.created_at).getTime()) / 86400000);
+          if (!attempt.is_correct) return 95 + Math.min(ageDays, 30);
+          return Math.min(ageDays * 2, 60);
+        };
+
+        matchingIds.sort((a, b) => scoreQuestion(b) - scoreQuestion(a) || Math.random() - 0.5);
+      }
+
+      matchingIds = matchingIds.slice(0, config.questionCount);
 
       if (matchingIds.length > 0) {
         const { data } = await supabase
