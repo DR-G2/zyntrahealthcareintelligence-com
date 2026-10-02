@@ -110,6 +110,7 @@ export default function PerformanceIntelligence() {
   });
   const [loading, setLoading] = useState(true);
   const [subjectStats, setSubjectStats] = useState<Array<{ subject: string; attempts: number; accuracy: number; recentAccuracy: number; trend: 'up' | 'down' | 'flat' }>>([]);
+  const [subtopicStats, setSubtopicStats] = useState<Array<{ subtopic: string; subject: string; attempts: number; accuracy: number; recentAccuracy: number; trend: 'up' | 'down' | 'flat' }>>([]);
 
   useEffect(() => {
     if (!user) {
@@ -124,11 +125,18 @@ export default function PerformanceIntelligence() {
       const attempts = attemptsRes.data || [];
 
       const bySubject = new Map<string, Array<{ is_correct: boolean; created_at: string }>>();
+      const bySubtopic = new Map<string, Array<{ is_correct: boolean; created_at: string; subject: string }>>();
       attempts.forEach((a: any) => {
         const subject = a.questions?.category || 'Uncategorised';
         const list = bySubject.get(subject) || [];
         list.push({ is_correct: Boolean(a.is_correct), created_at: a.created_at });
         bySubject.set(subject, list);
+
+        const subtopic = a.questions?.subtopic || 'Uncategorised';
+        const subtopicKey = `${subject}::${subtopic}`;
+        const subtopicList = bySubtopic.get(subtopicKey) || [];
+        subtopicList.push({ is_correct: Boolean(a.is_correct), created_at: a.created_at, subject });
+        bySubtopic.set(subtopicKey, subtopicList);
       });
 
       setSubjectStats(Array.from(bySubject.entries()).map(([subject, rows]) => {
@@ -148,6 +156,28 @@ export default function PerformanceIntelligence() {
           trend: delta >= 5 ? 'up' : delta <= -5 ? 'down' : 'flat',
         };
       }).sort((a, b) => a.accuracy - b.accuracy));
+      setSubtopicStats(Array.from(bySubtopic.entries())
+        .map(([key, rows]) => {
+          const ordered = [...rows].sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime());
+          const accuracy = ordered.filter(r => r.is_correct).length / ordered.length * 100;
+          const recent = ordered.slice(-Math.max(1, Math.min(10, Math.floor(ordered.length / 2))));
+          const earlier = ordered.slice(0, Math.max(1, Math.floor(ordered.length / 2)));
+          const recentAccuracy = recent.filter(r => r.is_correct).length / recent.length * 100;
+          const earlierAccuracy = earlier.filter(r => r.is_correct).length / earlier.length * 100;
+          const delta = recentAccuracy - earlierAccuracy;
+          const [subject, subtopic] = key.split('::');
+          return {
+            subtopic,
+            subject,
+            attempts: ordered.length,
+            accuracy: Math.round(accuracy),
+            recentAccuracy: Math.round(recentAccuracy),
+            trend: delta >= 5 ? 'up' : delta <= -5 ? 'down' : 'flat',
+          };
+        })
+        .filter(row => row.attempts >= 3)
+        .sort((a, b) => a.accuracy - b.accuracy || b.attempts - a.attempts)
+        .slice(0, 12));
       setSnapshot({
         readiness: Number(profileRes.data?.readiness_score || 0),
         accuracy: Number(profileRes.data?.clinical_accuracy || 0),
@@ -274,6 +304,44 @@ export default function PerformanceIntelligence() {
             )) : (
               <div className="md:col-span-2 rounded-2xl border border-white/10 bg-white/[0.02] p-8 text-center text-sm text-slate-500">
                 Complete MCQs to build subject trajectories.
+              </div>
+            )}
+          </div>
+        </section>
+
+        <section>
+          <div className="mb-3 flex items-end justify-between">
+            <div>
+              <p className="text-lg font-display font-semibold text-white">Subtopic Weakness Map</p>
+              <p className="mt-1 text-xs text-slate-500">Repeated subtopics with enough attempts to form a useful signal, ranked by current accuracy.</p>
+            </div>
+            <Sparkles className="h-4 w-4 text-cyan-300/70" />
+          </div>
+          <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+            {loading ? [1, 2, 3, 4, 5, 6].map(i => (
+              <div key={i} className="h-32 animate-pulse rounded-2xl border border-white/10 bg-white/[0.03]" />
+            )) : subtopicStats.length ? subtopicStats.map(row => (
+              <div key={`${row.subject}::${row.subtopic}`} className="rounded-2xl border border-white/10 bg-[#081224]/70 p-4 backdrop-blur-xl">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="truncate text-sm font-semibold text-white">{row.subtopic}</p>
+                    <p className="mt-1 truncate text-[11px] text-slate-500">{row.subject} · {row.attempts} attempts</p>
+                  </div>
+                  <span className={cn('shrink-0 text-xs font-medium', row.trend === 'up' ? 'text-emerald-300' : row.trend === 'down' ? 'text-rose-300' : 'text-slate-400')}>
+                    {row.trend === 'up' ? 'Improving' : row.trend === 'down' ? 'Declining' : 'Stable'}
+                  </span>
+                </div>
+                <div className="mt-4 flex items-center gap-3">
+                  <div className="h-2 flex-1 overflow-hidden rounded-full bg-white/5">
+                    <div className="h-full rounded-full bg-cyan-400" style={{ width: `${row.accuracy}%` }} />
+                  </div>
+                  <span className="w-10 text-right text-sm font-semibold text-white">{row.accuracy}%</span>
+                </div>
+                <p className="mt-2 text-[11px] text-slate-600">Recent: {row.recentAccuracy}%</p>
+              </div>
+            )) : (
+              <div className="md:col-span-2 lg:col-span-3 rounded-2xl border border-white/10 bg-white/[0.02] p-8 text-center text-sm text-slate-500">
+                Complete at least 3 attempts in a subtopic to build a reliable weakness signal.
               </div>
             )}
           </div>
