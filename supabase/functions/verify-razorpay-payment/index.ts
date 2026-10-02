@@ -81,7 +81,6 @@ serve(async (req) => {
     const allowedTiers = ["mcq_only", "full_access", "lifetime"];
     const tier = rz?.notes?.tier;
     if (!allowedTiers.includes(tier)) throw new Error("Unknown plan on payment");
-    if (razorpay_order_id && rz.status !== "paid") throw new Error("Order not paid");
     const amount = razorpay_order_id && typeof rz.amount_paid === "number" ? Math.round(rz.amount_paid / 100) : null;
 
     // Store payment record
