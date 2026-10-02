@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { AlertTriangle, CheckCircle, Clock3, RotateCcw, Search, Target, XCircle } from 'lucide-react';
+import { AlertTriangle, CheckCircle, Clock3, RotateCcw, Search, Target, XCircle, CalendarClock, TrendingUp } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { Card, CardContent } from '@/components/ui/card';
@@ -29,7 +29,7 @@ interface Attempt {
   };
 }
 
-type Reason = 'all' | 'incorrect' | 'unstable';
+type Reason = 'all' | 'incorrect' | 'unstable' | 'spaced';
 
 function normalizeOptions(value: any): string[] {
   if (Array.isArray(value)) return value.map(String);
@@ -73,15 +73,30 @@ export function MCQReviewQueue() {
   }, [attempts]);
 
   const queue = useMemo(() => {
+    const now = Date.now();
     const rows = Array.from(latestByQuestion.entries()).map(([questionId, history]) => {
       const latest = history[0];
       const incorrectCount = history.filter(a => !a.is_correct).length;
       const repeatedMiss = incorrectCount >= 2;
       const unstable = latest.answer_changes_count >= 2;
+      const ordered = [...history].sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime());
+      const recent = ordered.slice(-3);
+      const recentAccuracy = recent.length ? recent.filter(a => a.is_correct).length / recent.length : 0;
+      const overallAccuracy = history.length ? history.filter(a => a.is_correct).length / history.length : 0;
+      const avgChanges = recent.length ? recent.reduce((s, a) => s + (a.answer_changes_count || 0), 0) / recent.length : 0;
+      const mastery = history.length >= 3 && recentAccuracy >= 0.67 && overallAccuracy >= 0.7 && avgChanges < 2;
+      const daysSince = Math.max(0, (now - new Date(latest.created_at).getTime()) / 86400000);
+      let intervalDays = 0;
+      if (!latest.is_correct) intervalDays = history.length >= 2 && repeatedMiss ? 2 : 1;
+      else if (unstable) intervalDays = 3;
+      else if (mastery) intervalDays = Math.min(30, Math.max(7, history.length * 3));
+      else if (recentAccuracy >= 0.67) intervalDays = 7;
+      else intervalDays = 3;
+      const dueAt = new Date(new Date(latest.created_at).getTime() + intervalDays * 86400000);
+      const spacedDue = intervalDays > 0 && now >= dueAt.getTime();
       const needsReview = !latest.is_correct || unstable;
-      const mastery = latest.is_correct && history.length >= 2 && history.filter(a => a.is_correct).length / history.length >= 0.8;
-      return { questionId, latest, history, incorrectCount, repeatedMiss, unstable, needsReview, mastery };
-    }).filter(row => row.needsReview && !row.mastery);
+      return { questionId, latest, history, incorrectCount, repeatedMiss, unstable, needsReview, mastery, daysSince, intervalDays, dueAt, spacedDue };
+    }).filter(row => (row.needsReview && !row.mastery) || row.spacedDue);
 
     return rowSort(queue);
   }, [latestByQuestion]);
@@ -92,6 +107,7 @@ export function MCQReviewQueue() {
     let rows = queue;
     if (reason === 'incorrect') rows = rows.filter(r => !r.latest.is_correct);
     if (reason === 'unstable') rows = rows.filter(r => r.unstable);
+    if (reason === 'spaced') rows = rows.filter(r => r.spacedDue);
     if (subject !== 'all') rows = rows.filter(r => r.latest.questions?.category === subject);
     if (search.trim()) {
       const term = search.toLowerCase();
@@ -126,6 +142,7 @@ export function MCQReviewQueue() {
           ['Repeated Misses', stats.repeated],
           ['Unstable Answers', stats.unstable],
           ['Subjects', stats.subjects],
+          ['Due Today', queue.filter(r => r.spacedDue).length],
         ].map(([label, value]) => (
           <Card key={label as string}><CardContent className="py-4 text-center"><p className="text-2xl font-bold font-display">{value}</p><p className="text-xs text-muted-foreground">{label}</p></CardContent></Card>
         ))}
@@ -144,6 +161,7 @@ export function MCQReviewQueue() {
                 <SelectItem value="all">All Review Reasons</SelectItem>
                 <SelectItem value="incorrect">Incorrect</SelectItem>
                 <SelectItem value="unstable">Unstable Answer</SelectItem>
+                <SelectItem value="spaced">Due for Review</SelectItem>
               </SelectContent>
             </Select>
             <Select value={subject} onValueChange={setSubject}>
@@ -173,12 +191,14 @@ export function MCQReviewQueue() {
                       {q?.subtopic && <Badge variant="secondary">{q.subtopic}</Badge>}
                       {row.repeatedMiss && <Badge variant="destructive">Repeated miss</Badge>}
                       {row.unstable && <Badge variant="outline">Answer changed</Badge>}
+                      {row.spacedDue && <Badge variant="outline" className="gap-1"><CalendarClock className="h-3 w-3" /> Due</Badge>}
                     </div>
                     <p className="font-medium text-sm leading-relaxed">{q?.question_text || 'Question unavailable'}</p>
                     <div className="flex flex-wrap items-center gap-3 mt-2 text-xs text-muted-foreground">
                       <span className="flex items-center gap-1"><Clock3 className="h-3 w-3" /> {row.latest.time_taken_seconds}s</span>
                       <span>{row.history.length} attempt{row.history.length === 1 ? '' : 's'}</span>
                       <span>{row.incorrectCount} incorrect</span>
+                      <span>Review interval: {row.intervalDays}d</span>
                     </div>
                   </div>
                   <Badge className={cn('shrink-0', row.latest.is_correct ? 'bg-success text-success-foreground' : 'bg-destructive text-destructive-foreground')}>
