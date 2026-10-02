@@ -16,8 +16,8 @@ const plans = [
   },
   {
     name: 'Practice',
-    price: '$39 USD / month',
-    note: 'or $100 USD for 3 months',
+    price: '$39/month',
+    note: 'or $100 for 3 months',
     points: [
       'MCQ practice, Performance Intelligence and Study Plan.',
       'Three months at the monthly rate is $117. You pay $100.',
@@ -30,7 +30,7 @@ const plans = [
   {
     name: 'Exam Master',
     price: 'Building',
-    note: 'Not on sale yet',
+    note: 'Available under a separate commercial agreement',
     points: [
       'Follow a set daily load: questions done, revision queue cleared, weak topics first.',
       'Progress and performance signals are available within the applicable account features.',
