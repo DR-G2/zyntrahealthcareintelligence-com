@@ -67,7 +67,7 @@ const faqGroups = [
     questions: [
       {
         q: 'Failed AMC twice. Which plan?',
-        a: "Pass Guarantee. You don't need more questions. You need to know why you're failing. The behavioral analytics show if it's knowledge gaps (study more) or panic changes (trainable).",
+        a: "Exam Master. You don't need more questions. You need to know why you're failing. The behavioral analytics show if it's knowledge gaps (study more) or panic changes (trainable).",
       },
       {
         q: 'Working 40hrs/week. Which plan?',
@@ -79,7 +79,7 @@ const faqGroups = [
       },
       {
         q: '6 months away. What to do?',
-        a: "Free tier 2 months. Learn baseline. Then MCQ Only or Pass Guarantee depending on whether you need OSCE prep too.",
+        a: "Free tier 2 months. Learn baseline. Then MCQ Only or Exam Master depending on whether you need OSCE prep too.",
       },
     ],
   },
@@ -276,14 +276,12 @@ export default function Pricing() {
       'full_access_3m': ['full_access'],
       'lifetime': ['lifetime'],
     };
-    return tierMap[tierKey]?.includes(subscription.tier) ?? false;
-  };
 
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title="Zyntra Pricing — Free, MCQ Only, Pass Guarantee & Lifetime"
-        description="Zyntra plans in USD: Free $0, MCQ Only $39/month or $109 for 3 months, Pass Guarantee $59/month or $169 for 3 months, Lifetime $349 one-time for the first 100 users."
+        title="Zyntra Pricing — Free, MCQ Only, Exam Master & Lifetime"
+        description="Zyntra plans in USD: Free $0, MCQ Only $39/month or $109 for 3 months, Exam Master $59/month or $169 for 3 months, Lifetime $349 one-time for the first 100 users."
         path="/pricing"
       />
       {/* Nav */}
@@ -329,7 +327,7 @@ export default function Pricing() {
             <h1 className="mb-4 text-4xl font-bold font-display leading-tight tracking-tight lg:text-5xl">
               Choose Your <span className="gradient-text">Plan</span>
             </h1>
-            <p className="text-lg text-muted-foreground">Simple pricing designed for IMGs. All prices in USD.</p>
+            <p className="text-lg text-muted-foreground">Simple pricing designed for IMGs. Prices shown in USD unless stated otherwise.</p>
           </motion.div>
         </div>
       </section>
@@ -368,9 +366,9 @@ export default function Pricing() {
               <Card className="h-full flex flex-col border-border">
                 <CardHeader className="pb-3">
                   <CardTitle className="text-lg">MCQ Only</CardTitle>
-                  <p className="text-xs text-muted-foreground">AMC MCQ preparation</p>
+                  <p className="text-xs text-muted-foreground">Core AMC preparation</p>
                   <div className="mt-3"><span className="text-3xl font-bold font-display">$39</span><span className="text-muted-foreground text-sm">/mo</span></div>
-                  <p className="text-xs text-muted-foreground">or $109/3mo</p>
+                  <p className="text-xs text-muted-foreground">or $100/3mo</p>
                 </CardHeader>
                 <CardContent className="flex-1 flex flex-col">
                   <ul className="mb-6 space-y-2 flex-1">
@@ -398,27 +396,27 @@ export default function Pricing() {
                   <Badge className="bg-primary text-primary-foreground px-3 py-1 text-xs font-semibold"><Star className="h-3 w-3 mr-1" /> Best Value</Badge>
                 </div>
                 <CardHeader className="pb-3">
-                  <CardTitle className="text-lg">Pass Guarantee ⭐</CardTitle>
-                  <p className="text-xs text-muted-foreground">Complete AMC preparation</p>
+                  <CardTitle className="text-lg">Exam Master</CardTitle>
+                  <p className="text-xs text-muted-foreground">Full exam preparation</p>
                   <div className="mt-3"><span className="text-3xl font-bold font-display">$59</span><span className="text-muted-foreground text-sm">/mo</span></div>
-                  <p className="text-xs text-muted-foreground">or $169/3mo</p>
+                  <p className="text-xs text-muted-foreground">or $159/6mo</p>
                 </CardHeader>
                 <CardContent className="flex-1 flex flex-col">
                   <ul className="mb-4 space-y-2 flex-1">
-                    {['Full MCQ question bank', 'Unlimited OSCE stations', 'OSCE voice practice', 'Adaptive OSCE training', 'Exam simulations', 'Behavioural analytics (Trust Your Gut)', 'AI Study Companion', 'Study plan generator', 'Mistake review engine', 'Social study groups'].map((f) => (
+                    {['Full MCQ question bank', 'Clinical simulations (when live)', 'Voice simulation tools (when live)', 'Adaptive clinical simulations (when live)', 'Timed simulated mock exams', 'Behavioural analytics', 'AI Study Companion', 'Study plan generator', 'Targeted review tools', 'Study support features as available'].map((f) => (
                       <li key={f} className="flex gap-2 text-xs"><Check className="h-3.5 w-3.5 mt-0.5 text-secondary shrink-0" /><span>{f}</span></li>
                     ))}
                   </ul>
-                  <p className="mb-4 text-xs text-muted-foreground italic">Best for candidates preparing for both MCQ and Clinical.</p>
+                  <p className="mb-4 text-xs text-muted-foreground italic">Best for candidates who want the full professional training stack.</p>
                   <div className="mb-3 rounded-lg bg-muted p-2">
-                    <div className="flex items-center gap-1.5"><Shield className="h-3.5 w-3.5 text-primary" /><span className="text-xs font-semibold">Pass Guarantee — terms coming soon</span></div>
+                    <div className="flex items-center gap-1.5"><Shield className="h-3.5 w-3.5 text-primary" /><span className="text-xs font-semibold">Professional / Exam Master</span></div>
                   </div>
                   <div className="space-y-2">
                     <Button size="sm" className="w-full" onClick={() => choosePayment('full_access')} disabled={loadingTier === 'full_access' || isCurrentTier('full_access')}>
                       {isCurrentTier('full_access') ? 'Current' : loadingTier === 'full_access' ? <Loader2 className="h-4 w-4 animate-spin" /> : '$59/mo'}
                     </Button>
                     <Button variant="outline" size="sm" className="w-full" onClick={() => choosePayment('full_access_3m')} disabled={loadingTier === 'full_access_3m'}>
-                      {loadingTier === 'full_access_3m' ? <Loader2 className="h-4 w-4 animate-spin" /> : '$169/3mo'}
+                      {loadingTier === 'full_access_3m' ? <Loader2 className="h-4 w-4 animate-spin" /> : '$159/6mo'}
                     </Button>
                   </div>
                 </CardContent>
@@ -438,7 +436,7 @@ export default function Pricing() {
                 </CardHeader>
                 <CardContent className="flex-1 flex flex-col">
                   <ul className="mb-6 space-y-2 flex-1">
-                    {['Everything in Pass Guarantee', 'Lifetime platform access', 'Future updates included', 'No recurring payments'].map((f) => (
+                    {['Everything in Exam Master', 'Lifetime platform access', 'Future updates included', 'No recurring payments'].map((f) => (
                       <li key={f} className="flex gap-2 text-xs"><Check className="h-3.5 w-3.5 mt-0.5 text-secondary shrink-0" /><span>{f}</span></li>
                     ))}
                   </ul>
@@ -468,7 +466,7 @@ export default function Pricing() {
                         <TableHead className="w-[200px]">Feature</TableHead>
                         <TableHead className="text-center">Free</TableHead>
                         <TableHead className="text-center">MCQ Only</TableHead>
-                        <TableHead className="text-center font-semibold text-primary">Pass Guarantee</TableHead>
+                        <TableHead className="text-center font-semibold text-primary">Exam Master</TableHead>
                         <TableHead className="text-center">Lifetime</TableHead>
                       </TableRow>
                     </TableHeader>
@@ -485,7 +483,7 @@ export default function Pricing() {
                         { feature: 'Exam Simulations', free: false, mcq: false, full: true, life: true },
                         { feature: 'Mistake Review', free: false, mcq: true, full: true, life: true },
                         { feature: 'Study Groups', free: false, mcq: false, full: true, life: true },
-                        { feature: 'Pass Guarantee', free: false, mcq: false, full: 'Terms coming soon', life: 'Terms coming soon' },
+                        { feature: 'Exam Master', free: false, mcq: false, full: 'Terms coming soon', life: 'Terms coming soon' },
                       ].map((row) => (
                         <TableRow key={row.feature}>
                           <TableCell className="font-medium">{row.feature}</TableCell>
