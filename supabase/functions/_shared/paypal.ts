@@ -12,10 +12,10 @@ export type PayPalPlan = {
 
 // Keys match the frontend RAZORPAY_TIERS keys. Prices match the site (USD).
 export const PAYPAL_PLANS: Record<string, PayPalPlan> = {
-  mcq_only: { tier: "mcq_only", name: "MCQ Only", price: "39.00", kind: "subscription", planEnv: "PAYPAL_PLAN_MCQ_1M" },
-  mcq_only_3m: { tier: "mcq_only", name: "MCQ Only (3 months)", price: "109.00", kind: "subscription", planEnv: "PAYPAL_PLAN_MCQ_3M" },
-  full_access: { tier: "full_access", name: "Pass Guarantee", price: "59.00", kind: "subscription", planEnv: "PAYPAL_PLAN_PASS_1M" },
-  full_access_3m: { tier: "full_access", name: "Pass Guarantee (3 months)", price: "169.00", kind: "subscription", planEnv: "PAYPAL_PLAN_PASS_3M" },
+  mcq_only: { tier: "mcq_only", name: "Clinical Starter", price: "39.00", kind: "subscription", planEnv: "PAYPAL_PLAN_MCQ_1M" },
+  mcq_only_3m: { tier: "mcq_only", name: "Clinical Starter (3 months)", price: "109.00", kind: "subscription", planEnv: "PAYPAL_PLAN_MCQ_3M" },
+  full_access: { tier: "full_access", name: "Exam Master", price: "59.00", kind: "subscription", planEnv: "PAYPAL_PLAN_PASS_1M" },
+  full_access_3m: { tier: "full_access", name: "Exam Master (3 months)", price: "169.00", kind: "subscription", planEnv: "PAYPAL_PLAN_PASS_3M" },
   lifetime: { tier: "lifetime", name: "Lifetime", price: "349.00", kind: "order" },
 };
 
