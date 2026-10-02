@@ -71,6 +71,7 @@ interface QuestionTopicMeta {
   category: string;
   subtopic: string | null;
   question_text: string;
+  difficulty?: string | null;
 }
 
 const QUESTION_META_PAGE_SIZE = 1000;
@@ -86,7 +87,7 @@ async function fetchAllQuestionTopicMeta(): Promise<QuestionTopicMeta[]> {
   while (true) {
     const { data, error } = await supabase
       .from('questions')
-      .select('id, category, subtopic, question_text')
+      .select('id, category, subtopic, question_text, difficulty')
       .range(from, from + QUESTION_META_PAGE_SIZE - 1);
 
     if (error) throw error;
@@ -740,7 +741,7 @@ function DrillSession({
       );
       const selectedSubjectSet = new Set(config.topics.map((t) => normalizeTopicLabel(t)));
 
-      const candidateIds = questionMeta
+      const candidateQuestions = questionMeta
         .filter((question) => {
           const placement = resolvePracticeQuestionPlacement(question, resolver);
           if (!placement.subjectName) return false;
@@ -752,8 +753,9 @@ function DrillSession({
             return placementSubtopicKey ? selectedSubtopicSet.has(placementSubtopicKey) : false;
           }
           return selectedSubjectSet.has(subjectKey);
-        })
-        .map((question) => question.id);
+        });
+
+      const candidateIds = candidateQuestions.map(question => question.id);
 
       // Adaptive selection: when practising a targeted area, prefer questions the
       // candidate has not answered recently, then unseen questions, while retaining
@@ -787,9 +789,54 @@ function DrillSession({
           return Math.min(ageDays * 2, 60);
         };
 
-        matchingIds.sort((a, b) => scoreQuestion(b) - scoreQuestion(a) || Math.random() - 0.5);
+        // Build a difficulty profile from the candidate's past attempts.
+        // This changes the mix, not the medical content or answer key.
+        const difficultyById = new Map(candidateQuestions.map(q => [q.id, String(q.difficulty || 'moderate').toLowerCase()]));
+        const historyByDifficulty = new Map<string, { total: number; correct: number }>();
+        (history || []).forEach((attempt: any) => {
+          const difficulty = difficultyById.get(attempt.question_id);
+          if (!difficulty) return;
+          const bucket = historyByDifficulty.get(difficulty) || { total: 0, correct: 0 };
+          bucket.total += 1;
+          if (attempt.is_correct) bucket.correct += 1;
+          historyByDifficulty.set(difficulty, bucket);
+        });
+
+        const accuracyFor = (difficulty: string) => {
+          const bucket = historyByDifficulty.get(difficulty);
+          return bucket && bucket.total ? bucket.correct / bucket.total : null;
+        };
+
+        const overallKnown = [...historyByDifficulty.values()].reduce((a, b) => a + b.total, 0);
+        const overallCorrect = [...historyByDifficulty.values()].reduce((a, b) => a + b.correct, 0);
+        const overallAccuracy = overallKnown ? overallCorrect / overallKnown : 0.5;
+
+        const difficultyRank = (difficulty: string) => {
+          if (difficulty.includes('easy')) return 1;
+          if (difficulty.includes('difficult') || difficulty.includes('hard')) return 3;
+          return 2;
+        };
+
+        // Weak candidates get a gentler ramp. Strong candidates get more difficult
+        // exposure. Unknown candidates receive a balanced mix.
+        const targetRank = overallAccuracy < 0.55 ? 1.7 : overallAccuracy >= 0.75 ? 2.5 : 2.0;
+        const difficultyScore = (id: string) => {
+          const difficulty = difficultyById.get(id) || 'moderate';
+          const rank = difficultyRank(difficulty);
+          const historicalAccuracy = accuracyFor(difficulty);
+          const exposureBonus = historicalAccuracy === null ? 0.25 : Math.max(0, 0.6 - historicalAccuracy);
+          return -Math.abs(rank - targetRank) + exposureBonus;
+        };
+
+        matchingIds.sort((a, b) =>
+          (difficultyScore(b) + scoreQuestion(b) / 1000) -
+          (difficultyScore(a) + scoreQuestion(a) / 1000) ||
+          Math.random() - 0.5
+        );
       }
 
+      // If history is unavailable, retain a randomised pool rather than forcing a
+      // difficulty assumption.
       matchingIds = matchingIds.slice(0, config.questionCount);
 
       if (matchingIds.length > 0) {
