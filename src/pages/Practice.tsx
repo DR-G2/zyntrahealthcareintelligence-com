@@ -43,11 +43,14 @@ interface Question {
   key_takeaways?: string[] | null;
 }
 
+type QuestionStatusFilter = 'all' | 'attempted' | 'not-attempted' | 'correct' | 'incorrect';
+
 interface SessionConfig {
   mode: 'recharge' | 'no-change' | 'full-mock';
   topics: string[];
   subtopics: string[];
   questionCount: number;
+  statusFilter?: QuestionStatusFilter;
   adaptivePoolIds?: string[];
 }
 
@@ -111,6 +114,10 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
   const focusSubtopic = searchParams.get('focus');
   const focusSubject = searchParams.get('subject');
   const [mode, setMode] = useState<'recharge' | 'no-change' | 'full-mock'>('recharge');
+  const [statusFilter, setStatusFilter] = useState<QuestionStatusFilter>('all');
+  const [statusCounts, setStatusCounts] = useState<Record<QuestionStatusFilter, number>>({
+    all: 0, attempted: 0, 'not-attempted': 0, correct: 0, incorrect: 0,
+  });
   // Subtopic-level selection is source of truth
   // Key: "normalized-subject::normalized-subtopic"
   const [selectedSubtopics, setSelectedSubtopics] = useState<Set<string>>(new Set());
@@ -124,6 +131,7 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
   const [dbSubjects, setDbSubjects] = useState<DBSubject[]>([]);
   const [dbSubtopics, setDbSubtopics] = useState<DBSubtopic[]>([]);
   const [loading, setLoading] = useState(true);
+  const { user } = useAuth();
 
   useEffect(() => {
     const fetchAll = async () => {
@@ -159,6 +167,53 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
         setDbSubtopics(subtopics);
         setCategoryCounts(catCounts);
         setSubtopicCounts(stCounts);
+
+        // Build status counts from the user's latest attempt for each question.
+        // This is intentionally independent of the nested questions relationship.
+        if (user && questionMeta.length) {
+          const questionIds = questionMeta.map(q => q.id);
+          const attempts: Array<{ question_id: string; is_correct: boolean; created_at: string }> = [];
+          for (let from = 0; from < questionIds.length; from += 500) {
+            const ids = questionIds.slice(from, from + 500);
+            const { data: rows, error: attemptsError } = await supabase
+              .from('user_attempts')
+              .select('question_id, is_correct, created_at')
+              .eq('user_id', user.id)
+              .in('question_id', ids)
+              .order('created_at', { ascending: false })
+              .limit(1000);
+            if (attemptsError) throw attemptsError;
+            attempts.push(...(rows || []));
+          }
+
+          const latest = new Map<string, { is_correct: boolean; created_at: string }>();
+          attempts
+            .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+            .forEach(a => {
+              if (!latest.has(a.question_id)) latest.set(a.question_id, a);
+            });
+
+          const counts: Record<QuestionStatusFilter, number> = {
+            all: questionMeta.length,
+            attempted: latest.size,
+            'not-attempted': questionMeta.length - latest.size,
+            correct: 0,
+            incorrect: 0,
+          };
+          latest.forEach(a => {
+            if (a.is_correct) counts.correct += 1;
+            else counts.incorrect += 1;
+          });
+          setStatusCounts(counts);
+        } else {
+          setStatusCounts({
+            all: questionMeta.length,
+            attempted: 0,
+            'not-attempted': questionMeta.length,
+            correct: 0,
+            incorrect: 0,
+          });
+        }
 
         // Default: select all subtopics + all bare subjects
         const allSt = new Set<string>();
@@ -469,6 +524,38 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
           </div>
         )}
 
+        {/* Question Status Filter */}
+        <div className="space-y-3 rounded-2xl border border-white/10 bg-[#081224]/70 p-5 backdrop-blur-xl">
+          <div className="flex items-start gap-3">
+            <div className="mt-0.5 rounded-lg bg-primary/10 p-2 text-primary"><Target className="h-4 w-4" /></div>
+            <div>
+              <h2 className="text-sm font-semibold uppercase tracking-wider text-foreground">Question Status</h2>
+              <p className="mt-1 text-xs text-muted-foreground">Control whether Zyntra gives you questions you have seen before, mastered, or missed.</p>
+            </div>
+          </div>
+          <ToggleGroup
+            type="single"
+            value={statusFilter}
+            onValueChange={(value) => value && setStatusFilter(value as QuestionStatusFilter)}
+            className="grid grid-cols-2 gap-2 sm:grid-cols-5"
+          >
+            {([
+              ['all', 'All'],
+              ['attempted', 'Attempted'],
+              ['not-attempted', 'Not Attempted'],
+              ['correct', 'Correct'],
+              ['incorrect', 'Incorrect'],
+            ] as const).map(([value, label]) => (
+              <ToggleGroupItem key={value} value={value} variant="outline" className="h-auto min-h-10 justify-between gap-2 px-3 py-2 text-xs">
+                <span>{label}</span>
+                <Badge variant={statusFilter === value ? 'secondary' : 'outline'} className="text-[10px]">
+                  {statusCounts[value]}
+                </Badge>
+              </ToggleGroupItem>
+            ))}
+          </ToggleGroup>
+        </div>
+
         {/* Topic Filters — Subject → Subtopics */}
         <div className="space-y-4 rounded-2xl border border-white/10 bg-[#081224]/70 p-5 backdrop-blur-xl">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
@@ -593,6 +680,7 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
               topics: getSelectedSubjectNames(),
               subtopics: Array.from(selectedSubtopics),
               questionCount,
+              statusFilter,
             });
           }}
           className="w-full sm:w-auto gap-2"
@@ -794,17 +882,47 @@ function DrillSession({
 
       const candidateIds = candidateQuestions.map(question => question.id);
 
+      // Apply the explicit question-status filter before adaptive ranking.
+      // "Correct" and "Incorrect" always mean the user's latest attempt.
+      let filteredCandidateIds = [...candidateIds];
+      if (user && candidateIds.length > 0 && config.statusFilter && config.statusFilter !== 'all') {
+        const latestStatus = new Map<string, boolean>();
+        for (let from = 0; from < candidateIds.length; from += 500) {
+          const ids = candidateIds.slice(from, from + 500);
+          const { data: rows, error: statusError } = await supabase
+            .from('user_attempts')
+            .select('question_id, is_correct, created_at')
+            .eq('user_id', user.id)
+            .in('question_id', ids)
+            .order('created_at', { ascending: false })
+            .limit(1000);
+          if (statusError) throw statusError;
+          (rows || []).forEach((row: any) => {
+            if (!latestStatus.has(row.question_id)) latestStatus.set(row.question_id, Boolean(row.is_correct));
+          });
+        }
+
+        filteredCandidateIds = candidateIds.filter(id => {
+          const attempted = latestStatus.has(id);
+          if (config.statusFilter === 'attempted') return attempted;
+          if (config.statusFilter === 'not-attempted') return !attempted;
+          if (config.statusFilter === 'correct') return attempted && latestStatus.get(id) === true;
+          if (config.statusFilter === 'incorrect') return attempted && latestStatus.get(id) === false;
+          return true;
+        });
+      }
+
       // Adaptive selection: when practising a targeted area, prefer questions the
       // candidate has not answered recently, then unseen questions, while retaining
       // randomness so the same session is not deterministic.
-      let matchingIds = [...candidateIds];
+      let matchingIds = [...filteredCandidateIds];
       if (user && matchingIds.length > 0) {
         const [{ data: history }, { data: questionDna }] = await Promise.all([
           supabase
             .from('user_attempts')
             .select('question_id, is_correct, confidence_level, created_at')
             .eq('user_id', user.id)
-            .in('question_id', candidateIds)
+            .in('question_id', filteredCandidateIds)
             .order('created_at', { ascending: false })
             .limit(2000),
           supabase
@@ -877,7 +995,7 @@ function DrillSession({
 
         // Build a difficulty profile from the candidate's past attempts.
         // This changes the mix, not the medical content or answer key.
-        const difficultyById = new Map(candidateQuestions.map(q => [q.id, String(q.difficulty || 'moderate').toLowerCase()]));
+        const difficultyById = new Map(candidateQuestions.filter(q => filteredCandidateIds.includes(q.id)).map(q => [q.id, String(q.difficulty || 'moderate').toLowerCase()]));
         const historyByDifficulty = new Map<string, { total: number; correct: number }>();
         (history || []).forEach((attempt: any) => {
           const difficulty = difficultyById.get(attempt.question_id);
@@ -1874,7 +1992,7 @@ export default function Practice() {
   const resumeSessionId = searchParams.get('resume');
   const [phase, setPhase] = useState<'setup' | 'drill' | 'results' | 'history' | 'review'>(resumeSessionId ? 'drill' : 'setup');
   const [config, setConfig] = useState<SessionConfig | null>(
-    resumeSessionId ? { mode: 'recharge', topics: [], subtopics: [], questionCount: 50 } : null
+    resumeSessionId ? { mode: 'recharge', topics: [], subtopics: [], questionCount: 50, statusFilter: 'all' } : null
   );
   const [resultData, setResultData] = useState<{
     questions: Question[];
