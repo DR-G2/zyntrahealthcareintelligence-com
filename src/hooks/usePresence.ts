@@ -10,9 +10,14 @@ export function usePresence(userId: string | undefined) {
     if (!userId) return;
 
     const trackPresence = async (isOnline: boolean) => {
-      await supabase.functions.invoke('track-presence', {
-        body: { current_page: location.pathname, is_online: isOnline },
-      });
+      try {
+        await supabase.functions.invoke('track-presence', {
+          body: { current_page: location.pathname, is_online: isOnline },
+        });
+      } catch (error) {
+        // Presence telemetry must never interrupt or blank the application.
+        console.warn('Presence tracking unavailable:', error);
+      }
     };
 
     // Initial heartbeat
