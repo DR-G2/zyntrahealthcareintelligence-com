@@ -7,7 +7,10 @@ const corsHeaders = {
 };
 
 const TEST_EMAIL = "testuser123@zyntr.website";
-const TEST_PASSWORD = "gNs@2304";
+function randomPassword(): string {
+  const bytes = crypto.getRandomValues(new Uint8Array(18));
+  return btoa(String.fromCharCode(...bytes)).replace(/[+/=]/g, "x") + "!9a";
+}
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -55,6 +58,7 @@ serve(async (req) => {
       await supabase.auth.admin.deleteUser(uid);
     }
 
+    const TEST_PASSWORD = randomPassword();
     const { data: newUser, error: createError } = await supabase.auth.admin.createUser({
       email: TEST_EMAIL,
       password: TEST_PASSWORD,
@@ -65,7 +69,8 @@ serve(async (req) => {
 
     return new Response(JSON.stringify({
       success: true,
-      message: `Test account reset. Email: ${TEST_EMAIL}`,
+      message: `Test account reset. Email: ${TEST_EMAIL}. New password: ${TEST_PASSWORD}`,
+      password: TEST_PASSWORD,
       user_id: newUser.user?.id,
     }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },

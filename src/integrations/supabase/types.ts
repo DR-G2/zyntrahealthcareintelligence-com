@@ -2091,6 +2091,7 @@ export type Database = {
         }
         Returns: number
       }
+      current_user_can_read_questions: { Args: never; Returns: boolean }
       get_diagnostic_question: {
         Args: {
           p_previous_correct?: boolean
