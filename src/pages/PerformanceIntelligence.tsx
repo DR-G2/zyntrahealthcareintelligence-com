@@ -135,7 +135,8 @@ export default function PerformanceIntelligence() {
     }
     const load = async () => {
       const [profileRes, dnaRes, attemptsRes] = await Promise.all([
-        supabase.from('performance_profiles').select('readiness_score, clinical_accuracy, stability_score, time_sensitivity, confidence_calibration').eq('user_id', user.id).maybeSingle(),
+        supabase.from('performance_profiles').select('readiness_score, clinical_accuracy, stability_score, time_sensitivity').eq('user_id', user.id).maybeSingle(),
+        supabase.from('readiness_dna').select('confidence_calibration, confidence_attempt_count').eq('user_id', user.id).maybeSingle(),
         supabase.from('user_attempts').select('is_correct, answer_changes_count, confidence_level, created_at, questions(category, subtopic)').eq('user_id', user.id).order('created_at', { ascending: false }).limit(2000),
       ]);
       const attempts = attemptsRes.data || [];
@@ -528,7 +529,7 @@ export default function PerformanceIntelligence() {
         <section>
           <div className="mb-3 flex items-end justify-between">
             <div>
-              <p className="text-lg font-display font-semibold text-white">Cognitive &amp; Behavioural Telemetry</p
+              <p className="text-lg font-display font-semibold text-white">Cognitive &amp; Behavioural Telemetry</p>
               <p className="mt-1 text-xs text-slate-500">Signals are derived from recorded decision behaviour, not guessed from profile text.</p>
             </div>
             <RefreshCw className="h-4 w-4 text-slate-600" />
