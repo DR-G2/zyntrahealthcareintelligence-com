@@ -28,7 +28,8 @@ export function ReferralCard() {
         setReferralCount(existing.filter((r: any) => r.status === 'completed').length);
       } else {
         // Generate a new code
-        const code = `ZYNTRA-${user.id.slice(0, 6).toUpperCase()}`;
+        const rand = Array.from(crypto.getRandomValues(new Uint8Array(9)), b => b.toString(36).padStart(2, '0')).join('').slice(0, 14).toUpperCase();
+        const code = `ZYNTRA-${rand}`;
         await (supabase.from('referrals' as any).insert({
           referrer_id: user.id,
           referral_code: code,

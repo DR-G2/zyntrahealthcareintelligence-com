@@ -30,8 +30,12 @@ serve(async (req) => {
       .select("id, scenario_title, scenario_data, candidate_instructions, examiner_instructions, marking_checklist, subject")
       .limit(count * 2); // Fetch extra to filter
 
-    if (exclude_ids.length > 0) {
-      query = query.not("id", "in", `(${exclude_ids.join(",")})`);
+    const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    const safeExclude = Array.isArray(exclude_ids)
+      ? exclude_ids.filter((id: unknown) => typeof id === "string" && UUID_RE.test(id)).slice(0, 500)
+      : [];
+    if (safeExclude.length > 0) {
+      query = query.not("id", "in", `(${safeExclude.join(",")})`);
     }
 
     const { data: allStations, error: fetchError } = await query;

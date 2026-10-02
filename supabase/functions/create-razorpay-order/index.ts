@@ -1,6 +1,15 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
 
+// Server-side price and plan catalogue — never trust amounts or tiers from the browser.
+const LIFETIME_PRICE_USD = 349;
+const PLAN_TIER_MAP: Record<string, string> = {
+  plan_SOsMQofBcfw3BU: "mcq_only",
+  plan_SOsNlReb9DLlAw: "mcq_only",
+  plan_SOsQDhBQkgyFfr: "full_access",
+  plan_SOsR9Hjy6UHpNG: "full_access",
+};
+
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
@@ -23,7 +32,7 @@ serve(async (req) => {
     const user = data.user;
     if (!user?.email) throw new Error("User not authenticated");
 
-    const { planId, mode, tier, amount } = await req.json();
+    const { planId, mode } = await req.json();
 
     const keyId = Deno.env.get("RAZORPAY_KEY_ID") || "";
     const keySecret = Deno.env.get("RAZORPAY_KEY_SECRET") || "";
@@ -38,12 +47,12 @@ serve(async (req) => {
           "Authorization": `Basic ${authString}`,
         },
         body: JSON.stringify({
-          amount: (amount || 34900) * 100, // amount in paise/cents
+          amount: LIFETIME_PRICE_USD * 100, // fixed server-side price in cents
           currency: "USD",
           notes: {
             user_id: user.id,
             email: user.email,
-            tier: tier || "lifetime",
+            tier: "lifetime",
           },
         }),
       });
@@ -60,13 +69,14 @@ serve(async (req) => {
         amount: order.amount,
         currency: order.currency,
         key_id: keyId,
-        tier: tier || "lifetime",
+        tier: "lifetime",
       }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     } else {
       // Subscription — create Razorpay Subscription
-      if (!planId) throw new Error("planId is required for subscriptions");
+      const tier = PLAN_TIER_MAP[planId];
+      if (!planId || !tier) throw new Error("Unknown plan");
 
       const subRes = await fetch("https://api.razorpay.com/v1/subscriptions", {
         method: "POST",
@@ -80,7 +90,7 @@ serve(async (req) => {
           notes: {
             user_id: user.id,
             email: user.email,
-            tier: tier || "full_access",
+            tier,
           },
         }),
       });
@@ -95,7 +105,7 @@ serve(async (req) => {
       return new Response(JSON.stringify({
         subscription_id: sub.id,
         key_id: keyId,
-        tier: tier || "full_access",
+        tier,
       }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });

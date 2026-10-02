@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
+import { isAdmin, hasPaidAccess, safeLabel } from "../_shared/auth.ts";
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
@@ -32,7 +33,20 @@ serve(async (req) => {
       });
     }
 
-    const { station_id, subject, scenario_title, checklist_items } = await req.json();
+    if (!(await isAdmin(user.email ?? null)) && !(await hasPaidAccess(user.id))) {
+      return new Response(JSON.stringify({ error: "Model-answer coaching is available on paid plans." }), {
+        status: 403,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    const body = await req.json();
+    const station_id = typeof body.station_id === "string" ? body.station_id : null;
+    const subject = safeLabel(body.subject, "General");
+    const scenario_title = safeLabel(body.scenario_title, "Unknown", 160);
+    const checklist_items = Array.isArray(body.checklist_items)
+      ? body.checklist_items.filter((c: unknown) => typeof c === "string").slice(0, 30).map((c: string) => c.slice(0, 300))
+      : [];
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY not configured");
 
@@ -99,9 +113,12 @@ For each checklist item, provide:
     const { walkthrough } = JSON.parse(toolCall.function.arguments);
 
     // Cache in DB
+    // Only cache against an existing station that the caller owns (or any station for admins)
     if (station_id) {
       const supabase = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
-      await supabase.from("model_answers").insert({
+      const { data: st } = await supabase.from("clinical_stations").select("id, user_id").eq("id", station_id).maybeSingle();
+      const canCache = st && (st.user_id === user.id || (await isAdmin(user.email ?? null)));
+      if (canCache) await supabase.from("model_answers").insert({
         station_id,
         subject: subject || "General",
         scenario_title: scenario_title || "Unknown",

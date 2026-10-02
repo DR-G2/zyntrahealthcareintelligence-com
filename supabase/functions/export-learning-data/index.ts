@@ -210,7 +210,7 @@ Deno.serve(async (req) => {
 
     if (format === "csv") {
       const headers = ["question_id", "is_correct", "selected_answer", "time_taken_seconds", "answer_changes_count", "category", "difficulty", "subtopic", "created_at"];
-      const rows = exportData.question_history.map(q => headers.map(hd => { const v = (q as any)[hd]; return v === null || v === undefined ? "" : `"${String(v).replace(/"/g, '""')}"`; }).join(","));
+      const rows = exportData.question_history.map(q => headers.map(hd => { const v = (q as any)[hd]; return v === null || v === undefined ? "" : `"${(/^[=+\-@\t\r]/.test(String(v)) ? "'" : "") + String(v).replace(/"/g, '""')}"`; }).join(","));
       return new Response([headers.join(","), ...rows].join("\n"), {
         headers: { ...corsHeaders, "Content-Type": "text/csv", "Content-Disposition": `attachment; filename="${fileName}"` },
       });

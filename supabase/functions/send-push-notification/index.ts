@@ -1,5 +1,6 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
+import { requireAdminOrService } from "../_shared/auth.ts";
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers":
@@ -196,6 +197,8 @@ Deno.serve(async (req: Request) => {
   }
 
   try {
+    const __caller = await requireAdminOrService(req);
+    if (__caller instanceof Response) return __caller;
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const vapidPrivate = Deno.env.get("VAPID_PRIVATE_KEY")!;
