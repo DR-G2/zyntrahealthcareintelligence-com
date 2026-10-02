@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState, type SVGProps } from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/lib/supabase';
 import { AppLayout } from '@/components/AppLayout';
