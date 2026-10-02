@@ -526,7 +526,7 @@ export default function PerformanceIntelligence() {
           </div>
         </section>
 
-        <section>
+        <motion.section variants={reveal}>
           <div className="mb-3 flex items-end justify-between">
             <div>
               <p className="text-lg font-display font-semibold text-white">Cognitive &amp; Behavioural Telemetry</p>
