@@ -80,3 +80,11 @@ export function safeLabel(value: unknown, fallback: string, maxLen = 60): string
   const cleaned = value.replace(/[^\p{L}\p{N} &/,.()'-]/gu, "").trim().slice(0, maxLen);
   return cleaned || fallback;
 }
+
+/** Allows trusted server-to-server calls made with the service key, otherwise requires an admin. */
+export async function requireAdminOrService(req: Request): Promise<Caller | "service" | Response> {
+  const header = req.headers.get("Authorization") ?? "";
+  const key = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+  if (key && header === `Bearer ${key}`) return "service";
+  return await requireAdmin(req);
+}
