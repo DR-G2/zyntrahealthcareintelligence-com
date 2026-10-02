@@ -1319,7 +1319,11 @@ function ResultsScreen({
             const isRuleOut = ruleOutMode[i];
             const eliminated = ruleOutSelections[i] || new Set<string>();
             const ruleOutScore = getRuleOutScore(i);
-            const options = q.options as string[];
+            const options = Array.isArray(q.options)
+              ? q.options
+              : q.options && typeof q.options === 'object'
+                ? Object.values(q.options as Record<string, unknown>).map(String)
+                : [];
             const timeTaken = times[i] || 0;
             const changeCount = changes[i] || 0;
 
@@ -1450,7 +1454,7 @@ function ResultsScreen({
 
                           {/* Explanation */}
                           {(() => {
-                            const parsed = parseExplanation(q.explanation, q.options, q.correct_answer);
+                            const parsed = parseExplanation(q.explanation, options, q.correct_answer);
                             return (
                             <div className="rounded-lg border p-3 space-y-3">
                               <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Explanation</p>
@@ -1458,7 +1462,7 @@ function ResultsScreen({
                               <div className="space-y-3">
                                 {parsed.options.map((item) => (
                                   <div key={item.letter} className="space-y-1">
-                                    <p className="text-sm font-medium">{item.letter}. {q.options[item.letter.charCodeAt(0) - 65]}</p>
+                                    <p className="text-sm font-medium">{item.letter}. {options[item.letter.charCodeAt(0) - 65]}</p>
                                     <p className="text-sm text-muted-foreground leading-relaxed">{item.text}</p>
                                   </div>
                                 ))}
@@ -1469,7 +1473,7 @@ function ResultsScreen({
 
                           {/* Diagnosis & Management */}
                           {(() => {
-                            const parsed = parseExplanation(q.explanation, q.options, q.correct_answer);
+                            const parsed = parseExplanation(q.explanation, options, q.correct_answer);
                             const diagnosis = q.diagnosis_explanation || parsed.diagnosis;
                             return (
                             <div className="rounded-lg border border-primary/20 p-3 space-y-3">
