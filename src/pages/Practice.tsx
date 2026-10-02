@@ -763,13 +763,20 @@ function DrillSession({
       // randomness so the same session is not deterministic.
       let matchingIds = [...candidateIds];
       if (user && matchingIds.length > 0) {
-        const { data: history } = await supabase
-          .from('user_attempts')
-          .select('question_id, is_correct, confidence_level, created_at')
-          .eq('user_id', user.id)
-          .in('question_id', candidateIds)
-          .order('created_at', { ascending: false })
-          .limit(2000);
+        const [{ data: history }, { data: questionDna }] = await Promise.all([
+          supabase
+            .from('user_attempts')
+            .select('question_id, is_correct, confidence_level, created_at')
+            .eq('user_id', user.id)
+            .in('question_id', candidateIds)
+            .order('created_at', { ascending: false })
+            .limit(2000),
+          supabase
+            .from('question_dna')
+            .select('question_id, confidence_error_rate, difficulty_score, attempt_count')
+            .in('question_id', candidateIds)
+            .limit(5000),
+        ]);
 
         const latest = new Map<string, { is_correct: boolean; confidence_level: number | null; created_at: string }>();
         (history || []).forEach((attempt: any) => {
@@ -782,17 +789,54 @@ function DrillSession({
           }
         });
 
+        const questionDnaById = new Map<string, {
+          confidence_error_rate: number;
+          difficulty_score: number;
+          attempt_count: number;
+        }>();
+        (questionDna || []).forEach((row: any) => {
+          questionDnaById.set(row.question_id, {
+            confidence_error_rate: Number(row.confidence_error_rate) || 0,
+            difficulty_score: Number(row.difficulty_score) || 50,
+            attempt_count: Number(row.attempt_count) || 0,
+          });
+        });
+
         const now = Date.now();
         const scoreQuestion = (id: string) => {
           const attempt = latest.get(id);
-          if (!attempt) return 100;
-          const ageDays = Math.max(0, (now - new Date(attempt.created_at).getTime()) / 86400000);
-          const confidence = attempt.confidence_level;
-          const calibrationSignal =
-            confidence !== null && confidence >= 4 && !attempt.is_correct ? 35 :
-            confidence !== null && confidence <= 2 && attempt.is_correct ? 18 : 0;
-          if (!attempt.is_correct) return 95 + Math.min(ageDays, 30) + calibrationSignal;
-          return Math.min(ageDays * 2, 60) + calibrationSignal;
+          const dna = questionDnaById.get(id);
+          const ageDays = attempt
+            ? Math.max(0, (now - new Date(attempt.created_at).getTime()) / 86400000)
+            : 0;
+
+          // Base priority: unseen questions remain valuable, but demonstrated
+          // weaknesses can outrank them when the signal is strong.
+          let score = attempt ? 300 : 520;
+
+          if (attempt) {
+            if (!attempt.is_correct) {
+              score += 260 + Math.min(ageDays, 30) * 4;
+            } else {
+              score += Math.min(ageDays, 30) * 3;
+            }
+
+            const confidence = attempt.confidence_level;
+            if (confidence !== null && confidence >= 4 && !attempt.is_correct) {
+              score += 220;
+            } else if (confidence !== null && confidence <= 2 && attempt.is_correct) {
+              score += 110;
+            }
+          }
+
+          // Global question DNA adds difficulty/confidence-error information
+          // without exposing or depending on another candidate's identity.
+          if (dna) {
+            score += Math.min(150, dna.confidence_error_rate * 1.5);
+            score += Math.min(80, dna.difficulty_score * 0.8);
+          }
+
+          return score;
         };
 
         // Build a difficulty profile from the candidate's past attempts.
@@ -823,8 +867,8 @@ function DrillSession({
           return 2;
         };
 
-        // Weak candidates get a gentler ramp. Strong candidates get more difficult
-        // exposure. Unknown candidates receive a balanced mix.
+        // Difficulty is now a secondary shaping signal. The primary signal is
+        // demonstrated weakness, confidence error and question DNA.
         const targetRank = overallAccuracy < 0.55 ? 1.7 : overallAccuracy >= 0.75 ? 2.5 : 2.0;
         const difficultyScore = (id: string) => {
           const difficulty = difficultyById.get(id) || 'moderate';
@@ -839,8 +883,6 @@ function DrillSession({
           (difficultyScore(a) + scoreQuestion(a) / 1000) ||
           Math.random() - 0.5
         );
-      }
-
       // If history is unavailable, retain a randomised pool rather than forcing a
       // difficulty assumption.
       matchingIds = matchingIds.slice(0, config.questionCount);
