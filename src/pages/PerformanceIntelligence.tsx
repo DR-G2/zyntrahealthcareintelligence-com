@@ -33,6 +33,9 @@ interface PerformanceSnapshot {
   timeSensitivity: number;
   attempts: number;
   changedAnswers: number;
+  confidenceAttempts: number;
+  overconfidentErrors: number;
+  underconfidentCorrect: number;
 }
 
 const TABS: Array<{ id: TabId; label: string; icon: typeof UserCircle }> = [
@@ -107,7 +110,7 @@ export default function PerformanceIntelligence() {
   const requested = searchParams.get('tab') as TabId | null;
   const [activeTab, setActiveTab] = useState<TabId>(TABS.some(t => t.id === requested) ? requested! : 'performance');
   const [snapshot, setSnapshot] = useState<PerformanceSnapshot>({
-    readiness: 0, accuracy: 0, calibration: 0, stability: 0, timeSensitivity: 0, attempts: 0, changedAnswers: 0,
+    readiness: 0, accuracy: 0, calibration: 0, stability: 0, timeSensitivity: 0, attempts: 0, changedAnswers: 0, confidenceAttempts: 0, overconfidentErrors: 0, underconfidentCorrect: 0,
   });
   const [loading, setLoading] = useState(true);
   const [subjectStats, setSubjectStats] = useState<Array<{ subject: string; attempts: number; accuracy: number; recentAccuracy: number; trend: 'up' | 'down' | 'flat' }>>([]);
@@ -122,7 +125,7 @@ export default function PerformanceIntelligence() {
     const load = async () => {
       const [profileRes, attemptsRes] = await Promise.all([
         supabase.from('performance_profiles').select('readiness_score, clinical_accuracy, stability_score, time_sensitivity, confidence_calibration').eq('user_id', user.id).maybeSingle(),
-        supabase.from('user_attempts').select('is_correct, answer_changes_count, created_at, questions(category, subtopic)').eq('user_id', user.id).order('created_at', { ascending: false }).limit(2000),
+        supabase.from('user_attempts').select('is_correct, answer_changes_count, confidence_level, created_at, questions(category, subtopic)').eq('user_id', user.id).order('created_at', { ascending: false }).limit(2000),
       ]);
       const attempts = attemptsRes.data || [];
 
@@ -210,6 +213,9 @@ export default function PerformanceIntelligence() {
         timeSensitivity: Number(profileRes.data?.time_sensitivity || 0),
         attempts: attempts.length,
         changedAnswers: attempts.filter(a => (a.answer_changes_count || 0) > 0).length,
+        confidenceAttempts: attempts.filter(a => Number(a.confidence_level) >= 1 && Number(a.confidence_level) <= 5).length,
+        overconfidentErrors: attempts.filter(a => Number(a.confidence_level) >= 4 && !a.is_correct).length,
+        underconfidentCorrect: attempts.filter(a => Number(a.confidence_level) <= 2 && a.is_correct).length,
       });
       setLoading(false);
     };
@@ -222,7 +228,7 @@ export default function PerformanceIntelligence() {
       { id: 'timing', label: 'Deliberation Timing', value: snapshot.timeSensitivity, displayValue: loading ? '...' : snapshot.attempts ? `${Math.round(snapshot.timeSensitivity)}%` : 'Awaiting data', helper: 'Time-management signal from recorded attempts.', accent: 'cyan', points: [42, 48, 45, 58, 54, 63, Math.max(snapshot.timeSensitivity, 8)] },
       { id: 'swaps', label: 'Option Swaps', value: changeRate, displayValue: snapshot.attempts ? `${changeRate}%` : 'Awaiting data', helper: 'Share of recorded attempts where an answer changed.', accent: 'rose', points: [20, 28, 24, 32, 26, 35, Math.max(changeRate, 6)] },
       { id: 'stability', label: 'Answer Stability', value: snapshot.stability, displayValue: snapshot.attempts ? `${Math.round(snapshot.stability)}%` : 'Awaiting data', helper: 'Consistency signal calculated by the intelligence engine.', accent: 'purple', points: [55, 52, 61, 58, 66, 64, Math.max(snapshot.stability, 8)] },
-      { id: 'calibration', label: 'Confidence Calibration', value: snapshot.calibration, displayValue: snapshot.attempts ? `${Math.round(snapshot.calibration)}%` : 'Awaiting data', helper: 'How closely confidence matches the outcome across recorded attempts.', accent: 'emerald', points: [42, 46, 44, 53, 50, 58, Math.max(snapshot.calibration, 8)] },
+      { id: 'calibration', label: 'Confidence Calibration', value: snapshot.calibration, displayValue: snapshot.attempts ? `${Math.round(snapshot.calibration)}%` : 'Awaiting data', helper: 'How closely confidence matches the outcome across recorded attempts. Confidence sample: ${snapshot.confidenceAttempts} attempts.', accent: 'emerald', points: [42, 46, 44, 53, 50, 58, Math.max(snapshot.calibration, 8)] },
     ];
   }, [snapshot, loading]);
 
