@@ -546,9 +546,28 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
               ['correct', 'Correct'],
               ['incorrect', 'Incorrect'],
             ] as const).map(([value, label]) => (
-              <ToggleGroupItem key={value} value={value} variant="outline" className="h-auto min-h-10 justify-between gap-2 px-3 py-2 text-xs">
-                <span>{label}</span>
-                <Badge variant={statusFilter === value ? 'secondary' : 'outline'} className="text-[10px]">
+              <ToggleGroupItem
+                key={value}
+                value={value}
+                variant="outline"
+                aria-label={label}
+                className={cn(
+                  "h-auto min-h-10 justify-between gap-2 rounded-xl border px-3 py-2 text-xs transition-all",
+                  statusFilter === value
+                    ? "border-primary bg-primary text-primary-foreground shadow-md ring-2 ring-primary/30 hover:bg-primary/90 hover:text-primary-foreground"
+                    : "border-border bg-background/60 text-muted-foreground hover:border-primary/40 hover:bg-primary/5 hover:text-foreground"
+                )}
+              >
+                <span className="font-medium">{label}</span>
+                <Badge
+                  variant="outline"
+                  className={cn(
+                    "text-[10px] font-semibold",
+                    statusFilter === value
+                      ? "border-primary-foreground/40 bg-primary-foreground/15 text-primary-foreground"
+                      : "border-border bg-muted/50 text-muted-foreground"
+                  )}
+                >
                   {statusCounts[value]}
                 </Badge>
               </ToggleGroupItem>
