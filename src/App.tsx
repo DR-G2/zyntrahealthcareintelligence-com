@@ -10,6 +10,7 @@ import { ThemeProvider } from "next-themes";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { SEO } from "@/components/SEO";
 import { usePresence } from "@/hooks/usePresence";
 import { VisitorTracker } from "@/components/VisitorTracker";
 import { useMaintenanceMode } from "@/hooks/useSiteSettings";
@@ -96,11 +97,11 @@ function AppRoutes() {
     <MaintenanceGate>
       <Suspense fallback={<LazyFallback />}>
         <Routes>
-          <Route path="/" element={<ErrorBoundary><Home /></ErrorBoundary>} />
-          <Route path="/check" element={<ErrorBoundary><Landing /></ErrorBoundary>} />
+          <Route path="/" element={<ErrorBoundary><SEO title="Zyntra | AMC Exam Preparation That Learns How You Think" description="Adaptive AMC MCQ and Clinical exam preparation for IMGs: clinical reasoning practice, performance analytics and personalised next steps." path="/" /><Home /></ErrorBoundary>} />
+          <Route path="/check" element={<ErrorBoundary><SEO title="Free AMC Readiness Check | Adaptive Diagnostic | Zyntra" description="Take a free adaptive AMC-style diagnostic. Questions adjust to your answers and show where your clinical reasoning needs work." path="/check" /><Landing /></ErrorBoundary>} />
           <Route path="/about" element={<Navigate to="/#about" replace />} />
           <Route path="/pricing" element={<Navigate to="/#pricing" replace />} />
-          <Route path="/login" element={<ErrorBoundary><Login /></ErrorBoundary>} />
+          <Route path="/login" element={<ErrorBoundary><SEO title="Sign In or Create Account | Zyntra" description="Sign in to Zyntra to continue your AMC exam preparation, or create a free account to start practising." path="/login" /><Login /></ErrorBoundary>} />
           <Route path="/oauth/consent" element={<ErrorBoundary><OAuthConsent /></ErrorBoundary>} />
           <Route path="/reset-password" element={<ErrorBoundary><ResetPassword /></ErrorBoundary>} />
           <Route path="/terms" element={<ErrorBoundary><Terms /></ErrorBoundary>} />
