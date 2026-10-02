@@ -3,7 +3,7 @@ export const RAZORPAY_TIERS = {
   mcq_only: {
     plan_id: 'plan_SOsMQofBcfw3BU',
     mode: 'subscription' as const,
-    name: 'MCQ Only',
+    name: 'Clinical Starter',
     price: 39,
     currency: 'USD',
     interval: 'month',
@@ -11,16 +11,16 @@ export const RAZORPAY_TIERS = {
   mcq_only_3m: {
     plan_id: 'plan_SOsNlReb9DLlAw',
     mode: 'subscription' as const,
-    name: 'MCQ Only (3 months)',
-    price: 109,
+    name: 'Clinical Starter (3 months)',
+    price: 100,
     currency: 'USD',
-    interval: '3 months',
+    interval: '6 months',
   },
-  // Internal key 'full_access' kept for backend/Razorpay compatibility; displayed as "Pass Guarantee".
+  // Internal key 'full_access' kept for backend/Razorpay compatibility; displayed as "Exam Master".
   full_access: {
     plan_id: 'plan_SOsQDhBQkgyFfr',
     mode: 'subscription' as const,
-    name: 'Pass Guarantee',
+    name: 'Exam Master',
     price: 59,
     currency: 'USD',
     interval: 'month',
@@ -28,10 +28,10 @@ export const RAZORPAY_TIERS = {
   full_access_3m: {
     plan_id: 'plan_SOsR9Hjy6UHpNG',
     mode: 'subscription' as const,
-    name: 'Pass Guarantee (3 months)',
-    price: 169,
+    name: 'Exam Master (6 months)',
+    price: 159,
     currency: 'USD',
-    interval: '3 months',
+    interval: '6 months',
   },
   lifetime: {
     plan_id: '',
