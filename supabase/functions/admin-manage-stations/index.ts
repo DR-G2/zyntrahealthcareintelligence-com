@@ -6,6 +6,9 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
+const STATION_FIELDS = ["subject","scenario_title","scenario_data","zyntra_id","candidate_instructions","examiner_instructions","marking_checklist","reading_time_minutes","station_time_minutes"];
+const pickStation = (d: Record<string, unknown>) => Object.fromEntries(Object.entries(d ?? {}).filter(([k]) => STATION_FIELDS.includes(k)));
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -47,7 +50,7 @@ serve(async (req) => {
 
     if (action === "update") {
       if (!station_id || !station_data) throw new Error("Missing station_id or station_data");
-      const { error } = await supabase.from("clinical_stations").update(station_data).eq("id", station_id);
+      const { error } = await supabase.from("clinical_stations").update(pickStation(station_data)).eq("id", station_id);
       if (error) throw error;
       await supabase.from("admin_activity_logs").insert({
         admin_email: userData.user.email,

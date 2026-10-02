@@ -30,8 +30,8 @@ serve(async (req) => {
     const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabase = createClient(supabaseUrl, supabaseKey);
 
-    const selectedCategory = category || AMC_CATEGORIES[Math.floor(Math.random() * AMC_CATEGORIES.length)];
-    const selectedDifficulty = difficulty || "moderate";
+    const selectedCategory = (typeof category === "string" && AMC_CATEGORIES.includes(category)) ? category : AMC_CATEGORIES[Math.floor(Math.random() * AMC_CATEGORIES.length)];
+    const selectedDifficulty = ["easy", "moderate", "difficult"].includes(difficulty) ? difficulty : "moderate";
 
     // Fetch AI training context for population-level insights
     let trainingContextPrompt = "";

@@ -6,6 +6,9 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
+const QUESTION_FIELDS = ["question_text","options","correct_answer","explanation","category","difficulty","tags","avg_time_seconds","diagnosis_explanation","first_line_investigation","gold_standard_investigation","best_treatment","differential_diagnoses","incorrect_answer_explanations","key_takeaways","clinical_vignette","difficulty_tier","zyntra_id","subtopic","system_category","guideline_reference","question_type"];
+const pickQuestion = (d: Record<string, unknown>) => Object.fromEntries(Object.entries(d ?? {}).filter(([k]) => QUESTION_FIELDS.includes(k)));
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -54,7 +57,7 @@ serve(async (req) => {
     if (action === "create") {
       const { question_data } = body;
       if (!question_data) throw new Error("Missing question_data");
-      const { data, error } = await supabase.from("questions").insert(question_data).select("id").single();
+      const { data, error } = await supabase.from("questions").insert(pickQuestion(question_data)).select("id").single();
       if (error) throw error;
       await supabase.from("admin_activity_logs").insert({
         admin_email: userData.user.email,
@@ -69,7 +72,7 @@ serve(async (req) => {
     if (action === "update") {
       const { question_id, question_data } = body;
       if (!question_id || !question_data) throw new Error("Missing question_id or question_data");
-      const { error } = await supabase.from("questions").update(question_data).eq("id", question_id);
+      const { error } = await supabase.from("questions").update(pickQuestion(question_data)).eq("id", question_id);
       if (error) throw error;
       await supabase.from("admin_activity_logs").insert({
         admin_email: userData.user.email,
