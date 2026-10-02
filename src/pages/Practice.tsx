@@ -914,6 +914,28 @@ function DrillSession({
     }
     const newAnswers = { ...selectedAnswers, [currentIndex]: answer };
     setSelectedAnswers(newAnswers);
+
+    // Within-session adaptation: use the just-answered question to shape the
+    // difficulty of the next few unanswered questions. Only the untouched tail
+    // is reordered, so completed answers remain attached to their original index.
+    setQuestions(prev => {
+      if (currentIndex >= prev.length - 1) return prev;
+      const currentDifficulty = String(prev[currentIndex]?.difficulty || 'moderate').toLowerCase();
+      const currentRank = currentDifficulty.includes('easy') ? 1 : (currentDifficulty.includes('difficult') || currentDifficulty.includes('hard') ? 3 : 2);
+      const answeredCorrectly = answer === prev[currentIndex]?.correct_answer;
+      const targetRank = Math.max(1, Math.min(3, currentRank + (answeredCorrectly ? 1 : -1)));
+      const head = prev.slice(0, currentIndex + 1);
+      const tail = [...prev.slice(currentIndex + 1)];
+      const rankOf = (difficulty?: string | null) => {
+        const value = String(difficulty || 'moderate').toLowerCase();
+        return value.includes('easy') ? 1 : (value.includes('difficult') || value.includes('hard') ? 3 : 2);
+      };
+      tail.sort((a, b) =>
+        Math.abs(rankOf(a.difficulty) - targetRank) - Math.abs(rankOf(b.difficulty) - targetRank) ||
+        Math.random() - 0.5
+      );
+      return [...head, ...tail];
+    });
     if (!canChangeAnswer) {
       setLockedAnswers((p) => ({ ...p, [currentIndex]: true }));
     }
