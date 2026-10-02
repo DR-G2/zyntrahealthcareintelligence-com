@@ -57,10 +57,14 @@ function TopHeader() {
         <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.9)]" />
         Session active
       </div>
-      <div className="flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.035] px-3 py-1.5 text-xs text-slate-300">
+      <Link
+        to="/settings"
+        aria-label="Open account settings"
+        className="flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.035] px-3 py-1.5 text-xs text-slate-300 transition-colors hover:border-cyan-400/30 hover:bg-white/[0.06] hover:text-white focus:outline-none focus:ring-2 focus:ring-cyan-400/50"
+      >
         <UserCircle className="h-4 w-4 text-cyan-300" />
         <span>Account</span>
-      </div>
+      </Link>
     </header>
   );
 }
@@ -93,7 +97,9 @@ function LayoutInner({ children }: AppLayoutProps) {
             </span>
             <span className="font-display text-sm font-bold tracking-tight">Zyntra</span>
           </Link>
-          <UserCircle className="h-5 w-5 text-slate-400" />
+          <Link to="/settings" aria-label="Open account settings" className="rounded-lg p-1.5 text-slate-400 hover:bg-white/5 hover:text-white focus:outline-none focus:ring-2 focus:ring-cyan-400/50">
+            <UserCircle className="h-5 w-5" />
+          </Link>
         </header>
       )}
 
