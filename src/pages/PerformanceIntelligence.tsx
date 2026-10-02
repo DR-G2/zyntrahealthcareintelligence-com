@@ -320,6 +320,12 @@ export default function PerformanceIntelligence() {
                   <span className="font-medium text-rose-300">{row.accuracy}% accuracy</span>
                 </div>
                 <p className="mt-2 text-[11px] text-slate-600">{row.reason}</p>
+                <Link
+                  to={`/practice?focus=${encodeURIComponent(row.subtopic)}&subject=${encodeURIComponent(row.subject)}`}
+                  className="mt-3 inline-flex items-center gap-1 text-[11px] font-medium text-cyan-300 hover:text-cyan-200"
+                >
+                  Practice this <ArrowRight className="h-3 w-3" />
+                </Link>
               </div>
             )) : (
               <div className="lg:col-span-5 rounded-2xl border border-white/10 bg-white/[0.02] p-8 text-center text-sm text-slate-500">
