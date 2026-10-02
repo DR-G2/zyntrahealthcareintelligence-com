@@ -34,7 +34,7 @@ function RoomTabs() {
   if (pathname === '/plan') {
     const generate = search.includes('tab=generate');
     return (
-      <div className="mx-auto mb-6 grid max-w-sm grid-cols-2 rounded-2xl border border-white/10 bg-white/[0.025] p-1.5">
+      <div className="mx-auto mb-6 grid w-fit min-w-[18rem] grid-cols-2 rounded-2xl border border-white/10 bg-white/[0.025] p-1.5">
         {item('/plan', 'Current', !generate)}
         {item('/plan?tab=generate', 'Generate New', generate)}
       </div>
@@ -42,7 +42,7 @@ function RoomTabs() {
   }
   if (!practice) return null;
   return (
-    <div className="mx-auto mb-6 grid max-w-md grid-cols-3 rounded-2xl border border-white/10 bg-white/[0.025] p-1.5">
+    <div className="mx-auto mb-6 grid w-fit min-w-[20rem] grid-cols-3 rounded-2xl border border-white/10 bg-white/[0.025] p-1.5">
       {item('/practice', 'MCQ', pathname === '/practice' || pathname.startsWith('/questions') || pathname.startsWith('/assess'))}
       {item('/practice/osce', 'OSCE', pathname.startsWith('/practice/osce'))}
       {item('/flashcards', 'Flashcards', pathname.startsWith('/flashcards'))}
