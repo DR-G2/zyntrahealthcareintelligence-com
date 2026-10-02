@@ -645,6 +645,8 @@ function DrillSession({
   // Session-level ability estimate. This is intentionally local to the drill and
   // is used only to choose the next unanswered question from the preloaded pool.
   const sessionAbilityRef = useRef(0.5);
+  const adaptivePoolRef = useRef<Question[]>([]);
+  const maxViewedIndexRef = useRef(0);
 
   // Auto-save to active_sessions
   const saveSession = useCallback(async (qs: Question[], idx: number, answers: Record<number, string>, changes: Record<number, number>, sequences: Record<number, string[]>, times: Record<number, number>, ttfc: Record<number, number>, pauses: Record<number, number>, timeLeft: number) => {
@@ -702,7 +704,13 @@ function DrillSession({
 
             if (qs && qs.length > 0) {
               const ordered = questionIds.map(id => qs.find(q => q.id === id)).filter(Boolean) as Question[];
-              setQuestions(ordered);
+              if (config.mode === 'full-mock') {
+            setQuestions(ordered.slice(0, config.questionCount));
+            adaptivePoolRef.current = [];
+          } else {
+            setQuestions(ordered.slice(0, config.questionCount));
+            adaptivePoolRef.current = ordered.slice(config.questionCount);
+          }
               setSelectedAnswers((session.answers as Record<number, string>) || {});
               setAnswerChanges((session.answer_changes as Record<number, number>) || {});
               setChangeSequences((session.change_sequences as Record<number, string[]>) || {});
@@ -1022,8 +1030,7 @@ function DrillSession({
   };
 
   const setConfidence = (level: number) => {
-    // Confidence is a telemetry signal, not an answer change. It must remain
-    // recordable after No Change / Full Mock locks the selected answer.
+    if (lockedAnswers[currentIndex]) return;
     lastInteractionRef.current = Date.now();
     setConfidenceByIndex(prev => ({ ...prev, [currentIndex]: level }));
   };
@@ -1045,30 +1052,25 @@ function DrillSession({
 
   const adaptNextQuestion = useCallback(() => {
     if (config.mode === 'full-mock' || currentIndex >= config.questionCount - 1) return;
+    if (currentIndex !== maxViewedIndexRef.current) return;
+    if (adaptivePoolRef.current.length === 0) return;
 
     const currentQuestion = questions[currentIndex];
-    if (!currentQuestion) return;
-
     const selected = selectedAnswers[currentIndex];
-    if (!selected) return;
+    if (!currentQuestion || !selected) return;
 
     const answeredCorrectly = selected === currentQuestion.correct_answer;
     const confidence = confidenceByIndex[currentIndex] ?? 3;
 
-    // Smooth ability update. High-confidence errors reduce the estimate faster;
-    // low-confidence correct answers increase it more cautiously.
     const previousAbility = sessionAbilityRef.current;
     const outcome = answeredCorrectly ? 1 : 0;
     let nextAbility = previousAbility + (outcome - previousAbility) * 0.22;
-
     if (!answeredCorrectly && confidence >= 4) nextAbility -= 0.08;
     if (answeredCorrectly && confidence <= 2) nextAbility += 0.04;
-
     sessionAbilityRef.current = Math.max(0, Math.min(1, nextAbility));
 
     const targetRank = 1 + sessionAbilityRef.current * 2;
     const currentCategory = currentQuestion.category;
-
     const rankOf = (difficulty?: string | null) => {
       const value = String(difficulty || 'moderate').toLowerCase();
       if (value.includes('easy')) return 1;
@@ -1076,40 +1078,52 @@ function DrillSession({
       return 2;
     };
 
+    const pool = [...adaptivePoolRef.current];
+    pool.sort((a, b) => {
+      const distanceA = Math.abs(rankOf(a.difficulty) - targetRank);
+      const distanceB = Math.abs(rankOf(b.difficulty) - targetRank);
+      const sameA = a.category === currentCategory;
+      const sameB = b.category === currentCategory;
+
+      let scoreA = distanceA;
+      let scoreB = distanceB;
+
+      if (!answeredCorrectly) {
+        if (sameA) scoreA -= 0.12;
+        if (sameB) scoreB -= 0.12;
+      } else if (confidence >= 4) {
+        if (sameA) scoreA += 0.12;
+        if (sameB) scoreB += 0.12;
+      }
+
+      return scoreA - scoreB || Math.random() - 0.5;
+    });
+
+    const nextQuestion = pool.shift();
+    if (!nextQuestion) return;
+
+    // The previously provisional next question returns to the pool, unless it
+    // has already been viewed. This keeps the adaptive pool reusable without
+    // ever duplicating an answered question.
+    const provisionalNext = questions[currentIndex + 1];
+    if (provisionalNext && !selectedAnswers[currentIndex + 1]) {
+      pool.push(provisionalNext);
+    }
+    adaptivePoolRef.current = pool;
+
     setQuestions(prev => {
       if (currentIndex >= prev.length - 1) return prev;
-
-      const head = prev.slice(0, currentIndex + 1);
-      const tail = [...prev.slice(currentIndex + 1)];
-
-      tail.sort((a, b) => {
-        const rankA = rankOf(a.difficulty);
-        const rankB = rankOf(b.difficulty);
-
-        // Primary signal: closeness to the current session ability.
-        const distanceA = Math.abs(rankA - targetRank);
-        const distanceB = Math.abs(rankB - targetRank);
-
-        // After an error, modestly favour another question from the same
-        // category for reinforcement. After a high-confidence correct answer,
-        // modestly favour a different category to broaden exposure.
-        const sameCategoryA = a.category === currentCategory ? 0.12 : 0;
-        const sameCategoryB = b.category === currentCategory ? 0.12 : 0;
-        const reinforcement = answeredCorrectly && confidence >= 4 ? -sameCategoryA : sameCategoryA;
-        const reinforcementB = answeredCorrectly && confidence >= 4 ? -sameCategoryB : sameCategoryB;
-
-        return (
-          (distanceA + reinforcement) -
-          (distanceB + reinforcementB)
-        ) || (Math.random() - 0.5);
-      });
-
-      return [...head, ...tail];
+      const next = [...prev];
+      next[currentIndex + 1] = nextQuestion;
+      return next;
     });
   }, [config.mode, config.questionCount, currentIndex, questions, selectedAnswers, confidenceByIndex]);
 
   const goTo = (i: number) => {
-    if (i > currentIndex) adaptNextQuestion();
+    if (i > currentIndex) {
+      adaptNextQuestion();
+      maxViewedIndexRef.current = Math.max(maxViewedIndexRef.current, i);
+    }
     recordTime();
     lastInteractionRef.current = Date.now();
     setCurrentIndex(i);
@@ -1745,7 +1759,7 @@ function ResultsScreen({
                 </div>
                 <div className="grid grid-cols-5 gap-2">
                   {[1, 2, 3, 4, 5].map(level => (
-                    <Button key={level} type="button" variant={confidenceByIndex[currentIndex] === level ? 'default' : 'outline'} size="sm" onClick={() => setConfidence(level)} disabled={false}>
+                    <Button key={level} type="button" variant={confidenceByIndex[currentIndex] === level ? 'default' : 'outline'} size="sm" onClick={() => setConfidence(level)} disabled={!!lockedAnswers[currentIndex]}>
                       {level}
                     </Button>
                   ))}
