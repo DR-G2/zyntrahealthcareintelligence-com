@@ -21,8 +21,6 @@ async function runCheck(
 ): Promise<StepResult> {
   const start = Date.now();
   try {
-    const __caller = await requireAdminOrService(req);
-    if (__caller instanceof Response) return __caller;
     const details = await fn();
     const latency = Date.now() - start;
     return {
@@ -49,6 +47,8 @@ serve(async (req) => {
     const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabase = createClient(supabaseUrl, serviceKey);
 
+    const __caller = await requireAdminOrService(req);
+    if (__caller instanceof Response) return __caller;
     // Verify admin
     const authHeader = req.headers.get("authorization");
     if (authHeader) {
