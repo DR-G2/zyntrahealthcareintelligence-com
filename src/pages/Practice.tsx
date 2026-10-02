@@ -1034,7 +1034,22 @@ function DrillSession({
   const setConfidence = (level: number) => {
     if (lockedAnswers[currentIndex]) return;
     lastInteractionRef.current = Date.now();
-    setConfidenceByIndex(prev => ({ ...prev, [currentIndex]: level }));
+    const nextConfidence = { ...confidenceByIndex, [currentIndex]: level };
+    setConfidenceByIndex(nextConfidence);
+    if (autoSaveRef.current) clearTimeout(autoSaveRef.current);
+    autoSaveRef.current = setTimeout(() => {
+      saveSession(
+        questions,
+        currentIndex,
+        selectedAnswers,
+        answerChanges,
+        changeSequences,
+        questionTimes,
+        timeToFirstClick,
+        pauseEvents,
+        timeRemaining,
+      );
+    }, 500);
   };
 
   const toggleRuleOutOption = (letter: string) => {
