@@ -883,6 +883,8 @@ function DrillSession({
           (difficultyScore(a) + scoreQuestion(a) / 1000) ||
           Math.random() - 0.5
         );
+      }
+
       // If history is unavailable, retain a randomised pool rather than forcing a
       // difficulty assumption.
       matchingIds = matchingIds.slice(0, config.questionCount);
