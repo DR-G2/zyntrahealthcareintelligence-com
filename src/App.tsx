@@ -37,7 +37,6 @@ const Privacy = lazy(() => import("./pages/Privacy"));
 const ZyntraAICore = lazy(() => import("./pages/ZyntraAICore"));
 const Flashcards = lazy(() => import("./pages/Flashcards"));
 const AmcPart1Mcq = lazy(() => import("./pages/AmcPart1Mcq"));
-const OsceInSurgery = lazy(() => import("./pages/OsceInSurgery"));
 const Intelligence = lazy(() => import("./pages/Intelligence"));
 const InboxPage = lazy(() => import("./pages/Inbox"));
 const OAuthConsent = lazy(() => import("./pages/OAuthConsent"));
@@ -107,8 +106,8 @@ function AppRoutes() {
           <Route path="/terms" element={<ErrorBoundary><Terms /></ErrorBoundary>} />
           <Route path="/privacy" element={<ErrorBoundary><Privacy /></ErrorBoundary>} />
           <Route path="/amc-part-1-mcq" element={<ErrorBoundary><AmcPart1Mcq /></ErrorBoundary>} />
-          <Route path="/osce-in-surgery" element={<ErrorBoundary><OsceInSurgery /></ErrorBoundary>} />
-          <Route path="/amc-clinical-osce" element={<ErrorBoundary><OsceInSurgery /></ErrorBoundary>} />
+          <Route path="/osce-in-surgery" element={<Navigate to="/practice/osce" replace />} />
+          <Route path="/amc-clinical-osce" element={<Navigate to="/practice/osce" replace />} />
           <Route path="/onboarding" element={<ErrorBoundary><Onboarding /></ErrorBoundary>} />
           <Route path="/dashboard" element={<Navigate to="/practice" replace />} />
           <Route path="/assess" element={<ProtectedRoute><ErrorBoundary><Assess /></ErrorBoundary></ProtectedRoute>} />
