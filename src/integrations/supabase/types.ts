@@ -1757,6 +1757,7 @@ export type Database = {
           answer_changes_count: number
           change_sequence: Json | null
           created_at: string
+          confidence_level: number | null
           id: string
           is_correct: boolean
           pause_events: number | null
@@ -1774,6 +1775,7 @@ export type Database = {
           answer_changes_count?: number
           change_sequence?: Json | null
           created_at?: string
+          confidence_level?: number | null
           id?: string
           is_correct: boolean
           pause_events?: number | null
@@ -1791,6 +1793,7 @@ export type Database = {
           answer_changes_count?: number
           change_sequence?: Json | null
           created_at?: string
+          confidence_level?: number | null
           id?: string
           is_correct?: boolean
           pause_events?: number | null
