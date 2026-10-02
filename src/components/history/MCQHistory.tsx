@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import {
   Clock, BookOpen, CheckCircle, XCircle, ChevronLeft, ChevronRight,
-  Search, RotateCcw, SlidersHorizontal
+  Search, RotateCcw, SlidersHorizontal, TrendingUp, TrendingDown, Minus
 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
@@ -120,6 +120,16 @@ export function MCQHistory() {
   const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
   const paged = filtered.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
 
+  const questionTrajectories = useMemo(() => {
+    const map = new Map<string, AttemptRow[]>();
+    attempts.forEach(a => {
+      const list = map.get(a.question_id) || [];
+      list.push(a);
+      map.set(a.question_id, list);
+    });
+    return map;
+  }, [attempts]);
+
   const stats = useMemo(() => ({
     total: attempts.length,
     correct: attempts.filter(a => a.is_correct).length,
@@ -129,6 +139,24 @@ export function MCQHistory() {
       ? Math.round(attempts.reduce((sum, a) => sum + (a.time_taken_seconds || 0), 0) / attempts.length)
       : 0,
   }), [attempts]);
+
+  const getMastery = (history: AttemptRow[]) => {
+    const ordered = [...history].sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime());
+    const recent = ordered.slice(-3);
+    const accuracy = ordered.filter(a => a.is_correct).length / ordered.length;
+    const recentAccuracy = recent.filter(a => a.is_correct).length / recent.length;
+    const avgChanges = recent.reduce((s, a) => s + (a.answer_changes_count || 0), 0) / recent.length;
+    if (ordered.length >= 3 && recentAccuracy >= 0.67 && accuracy >= 0.7 && avgChanges < 2) return 'Reinforced';
+    if (ordered.length >= 2 && recentAccuracy === 1 && avgChanges < 2) return 'Improving';
+    if (ordered.length >= 2 && recentAccuracy < 0.5) return 'Needs Work';
+    if (avgChanges >= 2) return 'Unstable';
+    return ordered[ordered.length - 1].is_correct ? 'Developing' : 'Needs Review';
+  };
+
+  const getTrajectory = (history: AttemptRow[]) => {
+    const ordered = [...history].sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime());
+    return ordered.map(a => a.is_correct ? '✓' : '✕').join(' → ');
+  };
 
   const resetFilters = () => {
     setFilter('all');
@@ -249,6 +277,9 @@ export function MCQHistory() {
           const q = attempt.questions;
           const options = normalizeOptions(q?.options);
           const changeSeq = Array.isArray(attempt.change_sequence) ? attempt.change_sequence : [];
+          const history = questionTrajectories.get(attempt.question_id) || [attempt];
+          const mastery = getMastery(history);
+          const trajectory = getTrajectory(history);
           const isExpanded = expandedId === attempt.id;
 
           return (
@@ -281,10 +312,21 @@ export function MCQHistory() {
                   </Badge>
                 </div>
 
-                <div className="mt-2 flex items-center gap-4 text-sm">
+                <div className="mt-2 flex flex-wrap items-center gap-3 text-sm">
                   <span>Your answer: <strong className={attempt.is_correct ? 'text-success' : 'text-destructive'}>{attempt.selected_answer}</strong></span>
                   {!attempt.is_correct && <span>Correct: <strong className="text-success">{q?.correct_answer || '—'}</strong></span>}
+                  <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
+                    {mastery === 'Reinforced' || mastery === 'Improving' ? <TrendingUp className="h-3 w-3" /> : mastery === 'Needs Work' || mastery === 'Needs Review' ? <TrendingDown className="h-3 w-3" /> : <Minus className="h-3 w-3" />}
+                    {mastery}
+                  </span>
                 </div>
+                {history.length > 1 && (
+                  <div className="mt-2 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+                    <span>Trajectory: <strong className="text-foreground">{trajectory}</strong></span>
+                    <span>•</span>
+                    <span>{history.length} attempts on this question</span>
+                  </div>
+                )}
 
                 {changeSeq.length > 1 && (
                   <p className="mt-1 text-xs text-muted-foreground">Path: {changeSeq.join(' → ')}</p>
