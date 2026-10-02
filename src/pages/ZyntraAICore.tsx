@@ -4,7 +4,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { supabase } from '@/integrations/supabase/client';
-import { Brain, Activity, Users, Zap, BarChart3, Clock } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
+import { ADMIN_EMAILS } from '@/lib/admin-emails';
+import { Brain, Activity, Users, Zap, BarChart3, Clock, LockKeyhole } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface AggregateData {
@@ -36,9 +38,16 @@ export default function ZyntraAICore() {
   const [data, setData] = useState<AggregateData | null>(null);
   const [candidateCount, setCandidateCount] = useState(0);
   const [updatedAt, setUpdatedAt] = useState<string | null>(null);
+  const { user } = useAuth();
+  const isAdmin = !!user?.email && ADMIN_EMAILS.includes(user.email);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!isAdmin) {
+      setLoading(false);
+      return;
+    }
+
     (async () => {
       const { data: row } = await supabase.from('ai_training_context').select('aggregate_data, candidate_count, updated_at').limit(1).maybeSingle();
       if (row) {
@@ -48,7 +57,7 @@ export default function ZyntraAICore() {
       }
       setLoading(false);
     })();
-  }, []);
+  }, [isAdmin]);
 
   const intelligenceScore = useMemo(() => {
     if (!data?.mcq) return 0;
@@ -60,6 +69,21 @@ export default function ZyntraAICore() {
 
   return (
     <AppLayout>
+      {!isAdmin ? (
+        <div className="mx-auto max-w-xl py-16">
+          <Card className="border-primary/10">
+            <CardContent className="flex flex-col items-center text-center p-8 space-y-4">
+              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10">
+                <LockKeyhole className="h-7 w-7 text-primary" />
+              </div>
+              <h1 className="text-xl font-display font-semibold">Zyntra AI Core</h1>
+              <p className="text-sm text-muted-foreground">
+                The AI training context, population benchmarks, and internal learning data are private system data.
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+      ) : (
       <div className="mx-auto max-w-4xl space-y-8">
         {/* Header */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
@@ -189,6 +213,7 @@ export default function ZyntraAICore() {
           </Card>
         </motion.div>
       </div>
+      )}
     </AppLayout>
   );
 }
