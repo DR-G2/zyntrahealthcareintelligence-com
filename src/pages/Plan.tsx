@@ -56,7 +56,8 @@ const Plan: React.FC = () => {
           <div className="absolute right-5 top-[17.9rem] h-20 w-20 rounded-full border border-dashed border-indigo-400/10" />
         </div>
         <div className="relative z-10 mx-auto max-w-6xl space-y-8">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">          <div className="space-y-2">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+            <div className="space-y-2">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-cyan-950/60 border border-cyan-500/30 text-cyan-400 text-xs font-bold uppercase tracking-wider">
               <Layers className="w-3.5 h-3.5" />
               Study Plan
