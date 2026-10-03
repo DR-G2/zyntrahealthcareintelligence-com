@@ -65,9 +65,6 @@ interface BehaviorData {
   block_performance: Record<string, { accuracy: number; avgTime: number; changeRate: number }>;
   subject_patterns: Record<string, { accuracy: number; changeRate: number; avgTime: number; total: number; type: string }>;
   trap_flags: Array<{ trap: string; description: string; severity: string }>;
-  predicted_score_low: number | null;
-  predicted_score_high: number | null;
-  predicted_score_potential: number | null;
   recommendations: Array<{ title: string; description: string; priority: string; action_link?: string }>;
 }
 
@@ -79,39 +76,24 @@ export default function BehaviorProfile() {
   const [loading, setLoading] = useState(true);
   const [analyzing, setAnalyzing] = useState(false);
 
-  const [osceStats, setOsceStats] = useState<{ count: number; avgScore: number; subjects: string[] } | null>(null);
-  const [psychograph, setPsychograph] = useState<any>(null);
-
   useEffect(() => {
     if (!user) return;
-    const fetchAll = async () => {
-      const [profileRes, stationsRes, psychRes] = await Promise.all([
-        supabase.from('behavior_profiles').select('*').eq('user_id', user.id).maybeSingle(),
-        supabase.from('station_attempts').select('subject, scores, time_taken_seconds').eq('user_id', user.id).limit(200),
-        supabase.from('psychograph_history').select('*').eq('user_id', user.id).order('created_at', { ascending: false }).limit(1),
-      ]);
-      if (profileRes.data) setData(profileRes.data as any);
-
-      const stations = stationsRes.data || [];
-      if (stations.length > 0) {
-        const totalScore = stations.reduce((s, a) => s + (typeof (a.scores as any)?.total === 'number' ? (a.scores as any).total : 0), 0);
-        const subjects = [...new Set(stations.map(s => s.subject))];
-        setOsceStats({ count: stations.length, avgScore: Math.round(totalScore / stations.length), subjects });
-      }
-
-      if (psychRes.data && psychRes.data.length > 0) {
-        setPsychograph(psychRes.data[0]);
-      }
-
+    const fetchProfile = async () => {
+      const { data: profile } = await supabase
+        .from('behavior_profiles')
+        .select('*')
+        .eq('user_id', user.id)
+        .maybeSingle();
+      if (profile) setData(profile as any);
       setLoading(false);
     };
-    fetchAll();
+    fetchProfile();
   }, [user]);
 
   const runAnalysis = async () => {
     setAnalyzing(true);
     try {
-      const { data: result, error } = await supabase.functions.invoke('analyze-behavior');
+      const { error } = await supabase.functions.invoke('analyze-behavior');
       if (error) throw error;
       // Refetch profile
       const { data: profile } = await supabase
@@ -130,7 +112,7 @@ export default function BehaviorProfile() {
   if (!gate.canAccessBehavior) {
     return (
       <div className="mx-auto max-w-2xl py-12">
-        <UpgradePrompt feature="Behavior Analysis" description="AI-powered exam behavior profiling is a paid feature. Upgrade to see your archetype, trap detection, and personalized recommendations." />
+        <UpgradePrompt feature="Behavior Analysis" description="Behaviour analysis is an advanced feature that summarizes recorded timing, answer-change and session patterns." />
       </div>
     );
   }
