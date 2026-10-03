@@ -6,12 +6,6 @@ function jsonHeaders() {
   return { ...corsHeaders, "Content-Type": "application/json" };
 }
 
-function encryptPlaintext(plaintext: string, secret: string): string {
-  // V1 uses WebCrypto AES-GCM with a SHA-256 derived key.
-  // The plaintext never returns to the client after this function completes.
-  throw new Error("Encryption helper must run in async path");
-}
-
 async function deriveCryptoKey(secret: string) {
   const bytes = new TextEncoder().encode(secret);
   const digest = await crypto.subtle.digest("SHA-256", bytes);
