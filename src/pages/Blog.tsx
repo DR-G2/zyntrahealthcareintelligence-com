@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { ArrowRight, BookOpen, Brain, Clock, Search, Sparkles, Target } from "lucide-react";
 import { Link } from "react-router-dom";
+import { SEO } from "@/components/SEO";
 
 type Article = {
   slug: string;
@@ -161,6 +162,19 @@ export default function Blog() {
   const featured = articles.find((a) => a.featured)!;
 
   return (
+    <>
+      <SEO
+        title="AMC Exam Preparation, Clinical Reasoning & Medical Exam Strategy | Zyntra"
+        description="Practical AMC exam preparation guidance on Part 1 MCQs, Part 2 clinical examination, clinical reasoning, study strategy and Zyntra Performance Intelligence."
+        path="/blog"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          name: "Zyntra Intelligence Lab",
+          description: "AMC exam preparation, clinical reasoning and medical examination training insights.",
+          url: "https://www.zyntrahealthcareintelligence.com/blog",
+        }}
+      />
     <div className="min-h-screen bg-[#040812] text-slate-100 overflow-x-hidden">
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute -top-40 left-1/4 w-[600px] h-[600px] bg-cyan-600/10 rounded-full blur-[140px]" />
@@ -253,6 +267,7 @@ export default function Blog() {
         </div>
       </footer>
     </div>
+    </>
   );
 }
 
