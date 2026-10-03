@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { lazy, useEffect, useMemo, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
   Activity,
@@ -280,7 +280,10 @@ function PerformanceView({
   );
 }
 
-const BehaviorContent = lazy(() => import('./BehaviorProfile'));\nconst TrustYourGutContent = lazy(() => import('./TrustYourGut'));\n\nexport default function PerformanceIntelligence() {
+const BehaviorContent = lazy(() => import('./BehaviorProfile'));\nconst TrustYourGutContent = lazy(() => import('./TrustYourGut'));\n\nconst BehaviorContent = lazy(() => import('./BehaviorProfile'));
+const TrustYourGutContent = lazy(() => import('./TrustYourGut'));
+
+export default function PerformanceIntelligence() {
   const { user } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
   const requested = searchParams.get('tab') as TabId | null;
@@ -508,6 +511,3 @@ const BehaviorContent = lazy(() => import('./BehaviorProfile'));\nconst TrustYou
   );
 }
 
-
-const BehaviorContent = lazy(() => import('./BehaviorProfile'));
-const TrustYourGutContent = lazy(() => import('./TrustYourGut'));
