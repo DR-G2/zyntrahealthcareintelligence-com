@@ -431,15 +431,10 @@ export default function PerformanceIntelligence() {
 
     const load = async () => {
       setLoading(true);
-      const [profileRes, dnaRes, attemptsRes, confidenceRes] = await Promise.all([
+      const [profileRes, attemptsRes, confidenceRes] = await Promise.all([
         supabase
           .from('performance_profiles')
           .select('readiness_score, clinical_accuracy, stability_score, time_sensitivity')
-          .eq('user_id', user.id)
-          .maybeSingle(),
-        supabase
-          .from('readiness_dna')
-          .select('confidence_calibration, confidence_attempt_count')
           .eq('user_id', user.id)
           .maybeSingle(),
         supabase
