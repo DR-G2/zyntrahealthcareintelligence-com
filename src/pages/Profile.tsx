@@ -1,14 +1,13 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { useLocation, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/contexts/AuthContext';
 import { AppLayout } from '@/components/AppLayout';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Target, Clock, Shield, Brain, ArrowRight, TrendingUp, Stethoscope, Activity } from 'lucide-react';
+import { Target, Activity, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { ProfileSkeleton } from '@/components/skeletons/PageSkeleton';
 
@@ -21,51 +20,6 @@ interface PerformanceData {
   readiness_score: number | null;
 }
 
-interface StationAttempt {
-  id: string;
-  subject: string;
-  scores: any;
-  time_taken_seconds: number;
-  mode: string;
-  created_at: string;
-}
-
-function formatScore(value: number | null | undefined) {
-  return value == null || !Number.isFinite(value) ? 'N/A' : Math.round(value).toString();
-}
-
-function ScoreRing({ value, label, icon: Icon, color }: {
-  value: number | null;
-  label: string;
-  icon: React.ElementType;
-  color: string;
-}) {
-  const radius = 40;
-  const circumference = 2 * Math.PI * radius;
-  const offset = value == null ? circumference : circumference - (value / 100) * circumference;
-
-  return (
-    <div className="flex flex-col items-center gap-3">
-      <div className="relative">
-        <svg width="100" height="100" className="-rotate-90">
-          <circle cx="50" cy="50" r={radius} fill="none" stroke="hsl(var(--muted))" strokeWidth="6" />
-          <motion.circle
-            cx="50" cy="50" r={radius} fill="none" stroke={color} strokeWidth="6" strokeLinecap="round"
-            strokeDasharray={circumference}
-            initial={{ strokeDashoffset: circumference }}
-            animate={{ strokeDashoffset: offset }}
-            transition={{ duration: 1, delay: 0.3, ease: 'easeOut' }}
-          />
-        </svg>
-        <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <Icon className="h-4 w-4 mb-0.5" style={{ color }} />
-          <span className="text-lg font-bold font-display">{formatScore(value)}</span>
-        </div>
-      </div>
-      <span className="text-sm text-muted-foreground text-center">{label}</span>
-    </div>
-  );
-}
 
 export default function Profile() {
   const { user } = useAuth();
