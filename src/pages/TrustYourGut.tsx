@@ -17,7 +17,6 @@ import {
   Play,
   RotateCcw
 } from 'lucide-react';
-import { AppLayout } from '@/components/AppLayout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
@@ -280,7 +279,7 @@ export default function TrustYourGut() {
   if (!gate.canAccessTrustGut) {
     return (
       <div className="mx-auto max-w-2xl py-12">
-        <UpgradePrompt feature="Trust Your Gut" description="Train your first-instinct accuracy and reduce harmful answer changes. This advanced analytics feature requires the Pass Guarantee plan." />
+        <UpgradePrompt feature="Trust Your Gut" description="Train your first-instinct accuracy and reduce harmful answer changes. This advanced analytics feature requires an eligible plan." />
       </div>
     );
   }
