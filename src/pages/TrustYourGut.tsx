@@ -2,8 +2,6 @@ import { useState, useMemo, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  Target, 
-  TrendingUp, 
   TrendingDown, 
   Brain, 
   AlertTriangle, 
@@ -13,7 +11,6 @@ import {
   Clock,
   Zap,
   Award,
-  BarChart3,
   Play,
   RotateCcw
 } from 'lucide-react';
@@ -22,7 +19,7 @@ import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
-import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, AreaChart, Area } from 'recharts';
+import { XAxis, YAxis, AreaChart, Area } from 'recharts';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { useFeatureGate } from '@/hooks/useFeatureGate';
