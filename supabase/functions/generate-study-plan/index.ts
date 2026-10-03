@@ -53,14 +53,19 @@ serve(async (req) => {
       }, 429);
     }
 
-    const { categoryStats = [], perfProfile = null, examDate = null, daysUntilExam = null, weakAreas = [] } = await req.json();
+    const { examDate = null, daysUntilExam = null, weakAreas = [] } = await req.json();
 
-    const [attemptsRes, dnaRes, behaviourRes, trainingRes] = await Promise.all([
+    const [attemptsRes, subjectRes, dnaRes, behaviourRes, trainingRes] = await Promise.all([
       supabaseAdmin
         .from("user_attempts")
         .select("created_at, is_correct, confidence_level, answer_changes_count, time_taken_seconds, questions(category, subtopic)")
         .eq("user_id", userId)
         .order("created_at", { ascending: false }),
+      supabaseAdmin
+        .from("subject_dna")
+        .select("subject, accuracy, attempt_count, avg_time, stability, gap_score")
+        .eq("user_id", userId)
+        .order("accuracy", { ascending: true }),
       supabaseAdmin
         .from("readiness_dna")
         .select("readiness_score, clinical_accuracy, answer_stability, time_management, confidence_calibration, distance_from_ideal, attempt_count")
@@ -79,10 +84,21 @@ serve(async (req) => {
     ]);
 
     if (attemptsRes.error) throw attemptsRes.error;
+    if (subjectRes.error) throw subjectRes.error;
     if (dnaRes.error && dnaRes.error.code !== "PGRST116") throw dnaRes.error;
     if (behaviourRes.error && behaviourRes.error.code !== "PGRST116") throw behaviourRes.error;
 
     const attempts = attemptsRes.data || [];
+    const categoryStats = (subjectRes.data || []).map((row: any) => ({
+      category: row.subject,
+      correct: Math.round(Number(row.attempt_count || 0) * Number(row.accuracy || 0) / 100),
+      total: Number(row.attempt_count || 0),
+      accuracy: Math.round(Number(row.accuracy || 0)),
+      priority: Number(row.accuracy || 0) < 60 ? "high" : Number(row.accuracy || 0) < 80 ? "medium" : "maintain",
+      avg_time: Number(row.avg_time || 0),
+      stability: Number(row.stability || 0),
+      gap_score: Number(row.gap_score || 0),
+    }));
     const recent = attempts.slice(0, 20);
     const confidenceAttempts = recent.filter((a: any) => a.confidence_level != null);
     const confidenceSummary = confidenceAttempts.length
