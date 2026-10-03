@@ -11,9 +11,9 @@ serve(async (req) => {
 
   try {
     const authHeader = req.headers.get("Authorization") || "";
-    if (!authHeader.startsWith("Bearer ")) {
-      return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
-    }
+    // Presence is best-effort telemetry: never fail the client for missing/stale sessions.
+    const skip = () => new Response(JSON.stringify({ ok: false, skipped: true }), { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    if (!authHeader.startsWith("Bearer ")) return skip();
 
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const anonKey = Deno.env.get("SUPABASE_ANON_KEY")!;
@@ -23,14 +23,10 @@ serve(async (req) => {
     });
 
     const token = authHeader.slice("Bearer ".length).trim();
-    if (!token) {
-      return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
-    }
+    if (!token) return skip();
 
     const { data: userData, error: userErr } = await supabase.auth.getUser(token);
-    if (userErr || !userData?.user?.id) {
-      return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
-    }
+    if (userErr || !userData?.user?.id) return skip();
 
     const userId = userData.user.id;
     const userEmail = userData.user.email;
