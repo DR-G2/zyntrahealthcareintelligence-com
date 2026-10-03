@@ -70,7 +70,7 @@ export default function Plan() {
     (async () => {
       const [perfRes, attemptsRes, planRes] = await Promise.all([
         supabase.from('readiness_dna').select('readiness_score, clinical_accuracy, answer_stability, time_management').eq('user_id', user.id).maybeSingle(),
-        supabase.from('user_attempts').select('is_correct, questions(category)').eq('user_id', user.id),
+        supabase.from('subject_dna').select('subject, accuracy, attempt_count').eq('user_id', user.id).order('accuracy', { ascending: true }),
         supabase.from('study_plans').select('tasks, generated_at').eq('user_id', user.id).maybeSingle(),
       ]);
       if (cancelled) return;
@@ -81,21 +81,17 @@ export default function Plan() {
         if (cached?.focus_areas && cached?.weekly_schedule) setPlan(cached);
       }
 
-      const map = new Map<string, { correct: number; total: number }>();
-      (attemptsRes.data || []).forEach((a: any) => {
-        const category = a.questions?.category || 'Uncategorised';
-        const row = map.get(category) || { correct: 0, total: 0 };
-        row.total += 1;
-        if (a.is_correct) row.correct += 1;
-        map.set(category, row);
-      });
-      setCategories(Array.from(map.entries()).map(([category, d]) => {
-        const accuracy = Math.round((d.correct / d.total) * 100);
+      setCategories((attemptsRes.data || []).map((row: any) => {
+        const accuracy = Math.round(Number(row.accuracy || 0));
+        const total = Number(row.attempt_count || 0);
         return {
-          category, ...d, accuracy,
+          category: row.subject || 'Uncategorised',
+          correct: Math.round(total * accuracy / 100),
+          total,
+          accuracy,
           priority: accuracy < 60 ? 'high' : accuracy < 80 ? 'medium' : 'maintain',
         };
-      }).sort((a, b) => a.accuracy - b.accuracy));
+      }).filter((row: CategoryStat) => row.total > 0));
       setLoading(false);
     })();
     return () => { cancelled = true; };
@@ -144,16 +140,16 @@ export default function Plan() {
         }),
       });
       const body = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(body.error || 'Failed to generate study plan');
+      if (!response.ok) {
+        if (body.generated_at) setGeneratedAt(body.generated_at);
+        throw new Error(body.error || 'Failed to generate study plan');
+      }
       setPlan(body);
-      setGeneratedAt(new Date().toISOString());
+      if (body.generated_at) setGeneratedAt(body.generated_at);
       setParams({ tab: 'current' });
       toast.success('Study plan generated');
     } catch (error: any) {
       const message = error?.message || 'Failed to generate study plan';
-      if (message.toLowerCase().includes('next generation available')) {
-        setGeneratedAt(new Date().toISOString());
-      }
       toast.error(message);
     } finally {
       setGenerating(false);
