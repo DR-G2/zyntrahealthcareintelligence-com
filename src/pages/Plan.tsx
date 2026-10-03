@@ -1,205 +1,283 @@
-import React, { useState } from "react";
-import { AppLayout } from "@/components/layout/AppLayout";
-import {
-  Activity,
-  ArrowUpRight,
-  Layers,
-  RefreshCw,
-  Sparkles,
-  Target,
-} from "lucide-react";
+import { useEffect, useMemo, useState } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
+import { differenceInDays } from 'date-fns';
+import { toast } from 'sonner';
+import { ArrowRight, CalendarDays, CheckCircle2, Clock3, Loader2, Sparkles, Target, TrendingUp } from 'lucide-react';
+import { AppLayout } from '@/components/AppLayout';
+import { RoomHeader } from '@/components/RoomHeader';
+import { useAuth } from '@/contexts/AuthContext';
+import { useFeatureGate } from '@/hooks/useFeatureGate';
+import { UpgradePrompt } from '@/components/UpgradePrompt';
+import { SubscriptionTimer } from '@/components/SubscriptionTimer';
+import { supabase } from '@/lib/supabase';
+import { cn } from '@/lib/utils';
 
-interface FocusArea {
-  id: string;
-  priority: "High" | "Medium" | "Low";
-  name: string;
-  recommendedDaily: string;
-  mastery: number;
+interface PerformanceProfile {
+  readiness_score: number | null;
+  clinical_accuracy: number | null;
+  stability_score: number | null;
+  time_sensitivity: number | null;
+}
+interface CategoryStat {
+  category: string;
+  correct: number;
+  total: number;
+  accuracy: number;
+  priority: 'high' | 'medium' | 'maintain';
+}
+interface StudyTask {
+  category: string;
+  priority: string;
+  daily_questions?: number;
+  accuracy?: number;
+  study_tip?: string;
+  spaced_repetition_note?: string;
+}
+interface AIScheduleDay {
+  day: string;
+  total_questions: number;
+  topics: { category: string; count: number; focus_note: string }[];
+}
+interface AIPlan {
+  focus_areas: StudyTask[];
+  weekly_schedule: AIScheduleDay[];
+  recommendations: { tip: string; reason: string }[];
+  motivation: string;
 }
 
-const FOCUS_AREAS: FocusArea[] = [
-  { id: "1", priority: "High", name: "Microbiology & Immunology", recommendedDaily: "15q / day", mastery: 28 },
-  { id: "2", priority: "High", name: "Adult Surgery & Emergency Care", recommendedDaily: "10q / day", mastery: 35 },
-  { id: "3", priority: "Medium", name: "Paediatrics & Neonatology", recommendedDaily: "8q / day", mastery: 54 },
-  { id: "4", priority: "Medium", name: "Obstetrics & Gynaecology", recommendedDaily: "8q / day", mastery: 62 },
-  { id: "5", priority: "Low", name: "Medical Ethics & Medicolegal Practice", recommendedDaily: "5q / day", mastery: 84 },
-];
+function priorityTone(priority: string) {
+  if (priority === 'high') return 'border-rose-400/20 bg-rose-400/10 text-rose-300';
+  if (priority === 'medium') return 'border-amber-400/20 bg-amber-400/10 text-amber-300';
+  return 'border-emerald-400/20 bg-emerald-400/10 text-emerald-300';
+}
 
-const priorityClasses: Record<FocusArea["priority"], string> = {
-  High: "border-rose-400/20 bg-rose-400/10 text-rose-300",
-  Medium: "border-amber-400/20 bg-amber-400/10 text-amber-300",
-  Low: "border-emerald-400/20 bg-emerald-400/10 text-emerald-300",
-};
+export default function Plan() {
+  const { user, profile } = useAuth();
+  const gate = useFeatureGate();
+  const [params, setParams] = useSearchParams();
+  const [perf, setPerf] = useState<PerformanceProfile | null>(null);
+  const [categories, setCategories] = useState<CategoryStat[]>([]);
+  const [plan, setPlan] = useState<AIPlan | null>(null);
+  const [generatedAt, setGeneratedAt] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [generating, setGenerating] = useState(false);
 
-const Plan: React.FC = () => {
-  const [isRegenerating, setIsRegenerating] = useState(false);
+  const tab = params.get('tab') === 'generate' ? 'generate' : 'current';
 
-  const handleRegenerate = () => {
-    setIsRegenerating(true);
-    window.setTimeout(() => setIsRegenerating(false), 1000);
+  useEffect(() => {
+    if (!user) { setLoading(false); return; }
+    let cancelled = false;
+    (async () => {
+      const [perfRes, attemptsRes, planRes] = await Promise.all([
+        supabase.from('performance_profiles').select('readiness_score, clinical_accuracy, stability_score, time_sensitivity').eq('user_id', user.id).maybeSingle(),
+        supabase.from('user_attempts').select('is_correct, questions(category)').eq('user_id', user.id),
+        supabase.from('study_plans').select('tasks, generated_at').eq('user_id', user.id).maybeSingle(),
+      ]);
+      if (cancelled) return;
+      if (perfRes.data) setPerf(perfRes.data);
+      if (planRes.data?.generated_at) setGeneratedAt(planRes.data.generated_at);
+      if (planRes.data?.tasks) {
+        const cached = planRes.data.tasks as unknown as AIPlan;
+        if (cached?.focus_areas && cached?.weekly_schedule) setPlan(cached);
+      }
+
+      const map = new Map<string, { correct: number; total: number }>();
+      (attemptsRes.data || []).forEach((a: any) => {
+        const category = a.questions?.category || 'Uncategorised';
+        const row = map.get(category) || { correct: 0, total: 0 };
+        row.total += 1;
+        if (a.is_correct) row.correct += 1;
+        map.set(category, row);
+      });
+      setCategories(Array.from(map.entries()).map(([category, d]) => {
+        const accuracy = Math.round((d.correct / d.total) * 100);
+        return {
+          category, ...d, accuracy,
+          priority: accuracy < 60 ? 'high' : accuracy < 80 ? 'medium' : 'maintain',
+        };
+      }).sort((a, b) => a.accuracy - b.accuracy));
+      setLoading(false);
+    })();
+    return () => { cancelled = true; };
+  }, [user]);
+
+  const daysUntilExam = useMemo(
+    () => profile?.exam_date ? differenceInDays(new Date(profile.exam_date), new Date()) : null,
+    [profile?.exam_date]
+  );
+
+  const generationLocked = useMemo(() => {
+    if (!generatedAt) return false;
+    const d = new Date(generatedAt);
+    const now = new Date();
+    return d.getUTCFullYear() === now.getUTCFullYear() && d.getUTCMonth() === now.getUTCMonth();
+  }, [generatedAt]);
+
+  const nextGenerationDays = useMemo(() => {
+    if (!generationLocked) return null;
+    const now = new Date();
+    const next = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1));
+    return Math.max(1, Math.ceil((next.getTime() - now.getTime()) / 86400000));
+  }, [generationLocked]);
+
+  const readiness = Math.max(0, Math.min(100, Number(perf?.readiness_score || 0)));
+  const accuracy = Math.max(0, Math.min(100, Number(perf?.clinical_accuracy || 0)));
+  const stability = Math.max(0, Math.min(100, Number(perf?.stability_score || 0)));
+
+  const generatePlan = async () => {
+    if (!user || generating || generationLocked || categories.length === 0) return;
+    setGenerating(true);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/generate-study-plan`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${session?.access_token || import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+        },
+        body: JSON.stringify({
+          categoryStats: categories,
+          perfProfile: perf,
+          examDate: profile?.exam_date,
+          daysUntilExam,
+          weakAreas: profile?.weak_areas,
+        }),
+      });
+      const body = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(body.error || 'Failed to generate study plan');
+      setPlan(body);
+      setGeneratedAt(new Date().toISOString());
+      setParams({ tab: 'current' });
+      toast.success('Study plan generated');
+    } catch (error: any) {
+      const message = error?.message || 'Failed to generate study plan';
+      if (message.toLowerCase().includes('next generation available')) {
+        setGeneratedAt(new Date().toISOString());
+      }
+      toast.error(message);
+    } finally {
+      setGenerating(false);
+    }
   };
+
+  if (loading) {
+    return <AppLayout><div className="mx-auto max-w-6xl animate-pulse space-y-5"><div className="h-44 rounded-3xl bg-white/5" /><div className="h-64 rounded-3xl bg-white/5" /></div></AppLayout>;
+  }
+
+  if (!gate.canAccessStudyPlan) {
+    return <AppLayout><div className="mx-auto max-w-xl py-16"><UpgradePrompt feature="AI Study Plan" description="Generate a focused roadmap from your recorded performance signals." /></div></AppLayout>;
+  }
+
+  const tasks = plan?.focus_areas?.length
+    ? plan.focus_areas
+    : categories.map(c => ({ category: c.category, priority: c.priority, accuracy: c.accuracy, daily_questions: Math.max(10, Math.round((100 - c.accuracy) / 5)) }));
 
   return (
     <AppLayout>
-      <section className="relative isolate overflow-hidden rounded-[2rem] border border-white/[0.06] bg-[#030914]">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(34,211,238,.09),transparent_38%),radial-gradient(circle_at_50%_100%,rgba(99,102,241,.07),transparent_42%)]" />
-        <div className="pointer-events-none absolute inset-0 opacity-20 [background-image:linear-gradient(rgba(148,163,184,.035)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,.035)_1px,transparent_1px)] [background-size:48px_48px]" />
+      <div className="mx-auto max-w-6xl space-y-6">
+        <SubscriptionTimer />
+        <RoomHeader kind="study-plan" />
 
-        <div className="pointer-events-none absolute inset-y-0 left-0 hidden w-[19%] lg:block">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(34,211,238,.13),transparent_52%)]" />
-          <div className="absolute left-0 top-24 h-px w-44 bg-gradient-to-r from-transparent via-cyan-300/40 to-transparent" />
-          <div className="absolute left-3 top-32 space-y-4 opacity-70">
-            {[42, 76, 54, 88, 63, 34, 72].map((width, index) => (
-              <div key={index} className="flex items-center gap-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-cyan-300 shadow-[0_0_10px_rgba(103,232,249,.9)]" />
-                <span className="h-px bg-cyan-300/40" style={{ width: width + "px" }} />
-              </div>
-            ))}
-          </div>
-          <div className="absolute left-7 top-[21rem] h-28 w-28 rounded-full border border-dashed border-cyan-300/15 shadow-[0_0_50px_rgba(34,211,238,.08)]" />
-          <div className="absolute left-7 top-[21.8rem] h-28 w-28 rounded-full border border-cyan-300/10" />
-          <Activity className="absolute left-[4.6rem] top-[22.75rem] h-4 w-4 text-cyan-300/50" />
-          <div className="absolute bottom-24 left-0 h-24 w-36 rounded-r-2xl border border-l-0 border-cyan-300/10 bg-cyan-300/[0.02] p-3">
-            <div className="h-full rounded-xl border border-white/5 bg-[repeating-linear-gradient(0deg,transparent,transparent_7px,rgba(148,163,184,.06)_8px)]" />
-          </div>
+        <div className="mx-auto grid w-fit min-w-[18rem] grid-cols-2 rounded-2xl border border-white/10 bg-white/[0.025] p-1.5">
+          <button onClick={() => setParams({ tab: 'current' })} className={cn('relative rounded-xl px-5 py-2.5 text-sm font-medium transition', tab === 'current' ? 'bg-white/[0.08] text-white' : 'text-slate-400 hover:text-white')}>
+            Current
+            {tab === 'current' && <span className="absolute inset-x-5 -bottom-px h-px bg-cyan-400 shadow-[0_0_10px_rgba(34,211,238,.8)]" />}
+          </button>
+          <button onClick={() => setParams({ tab: 'generate' })} className={cn('relative rounded-xl px-5 py-2.5 text-sm font-medium transition', tab === 'generate' ? 'bg-white/[0.08] text-white' : 'text-slate-400 hover:text-white')}>
+            Generate New
+            {tab === 'generate' && <span className="absolute inset-x-5 -bottom-px h-px bg-cyan-400 shadow-[0_0_10px_rgba(34,211,238,.8)]" />}
+          </button>
         </div>
 
-        <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-[19%] lg:block">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_24%,rgba(99,102,241,.13),transparent_52%)]" />
-          <div className="absolute right-0 top-24 h-px w-44 bg-gradient-to-r from-transparent via-indigo-300/40 to-transparent" />
-          <div className="absolute right-3 top-32 space-y-4 opacity-70">
-            {[70, 48, 86, 58, 78, 40, 66].map((width, index) => (
-              <div key={index} className="flex items-center justify-end gap-2">
-                <span className="h-px bg-indigo-300/40" style={{ width: width + "px" }} />
-                <span className="h-1.5 w-1.5 rounded-full bg-indigo-300 shadow-[0_0_10px_rgba(165,180,252,.9)]" />
-              </div>
-            ))}
-          </div>
-          <div className="absolute right-7 top-[21rem] h-28 w-28 rounded-full border border-dashed border-indigo-300/15 shadow-[0_0_50px_rgba(99,102,241,.08)]" />
-          <div className="absolute right-7 top-[21.8rem] h-28 w-28 rounded-full border border-indigo-300/10" />
-          <Activity className="absolute right-[4.6rem] top-[22.75rem] h-4 w-4 text-indigo-300/50" />
-          <div className="absolute bottom-24 right-0 h-24 w-36 rounded-l-2xl border border-r-0 border-indigo-300/10 bg-indigo-300/[0.02] p-3">
-            <div className="h-full rounded-xl border border-white/5 bg-[repeating-linear-gradient(0deg,transparent,transparent_7px,rgba(148,163,184,.06)_8px)]" />
-          </div>
-        </div>
-
-        <div className="relative z-10 mx-auto max-w-5xl px-5 py-8 sm:px-8 sm:py-10 lg:px-10">
-          <header className="flex flex-col gap-6 border-b border-white/[0.06] pb-7 sm:flex-row sm:items-end sm:justify-between">
-            <div className="space-y-3">
-              <div className="inline-flex items-center gap-2 rounded-md border border-cyan-400/20 bg-cyan-400/[0.07] px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.18em] text-cyan-300">
-                <Layers className="h-3.5 w-3.5" />
-                Study Plan
-              </div>
+        {tab === 'generate' ? (
+          <section className="rounded-3xl border border-white/10 bg-[#081224]/70 p-6 backdrop-blur-xl sm:p-7">
+            <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
               <div>
-                <h1 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
-                  Adaptive Study Plan
-                </h1>
-                <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-400 sm:text-base">
-                  Convert real-time performance telemetry into targeted daily training priorities.
-                </p>
+                <div className="flex items-center gap-2 text-cyan-300"><Sparkles className="h-5 w-5" /><span className="text-sm font-semibold">Generate New Plan</span></div>
+                <h2 className="mt-2 font-display text-2xl font-semibold text-white">Build from what Zyntra knows now.</h2>
+                <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-400">The generator uses your recorded performance, weaknesses, answer stability, timing, confidence signals, behaviour patterns, progress and exam date. It does not invent a separate readiness model.</p>
               </div>
+              <button onClick={generatePlan} disabled={generating || generationLocked || categories.length === 0} className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-cyan-400 to-cyan-500 px-5 py-3 text-sm font-semibold text-slate-950 shadow-[0_0_30px_rgba(34,211,238,.16)] transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-50">
+                {generating ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
+                {generationLocked ? 'Monthly limit reached' : 'Generate plan'}
+              </button>
             </div>
 
-            <button
-              type="button"
-              onClick={handleRegenerate}
-              disabled={isRegenerating}
-              className="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-xl border border-cyan-400/25 bg-cyan-400/[0.06] px-5 text-sm font-semibold text-cyan-200 shadow-[0_0_30px_rgba(34,211,238,.06)] transition hover:border-cyan-300/50 hover:bg-cyan-400/10 hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              <RefreshCw className={"h-4 w-4 " + (isRegenerating ? "animate-spin" : "")} />
-              {isRegenerating ? "Synthesizing..." : "Regenerate AI Plan"}
-            </button>
-          </header>
-
-          <div className="mt-7 rounded-2xl border border-cyan-300/15 bg-gradient-to-r from-cyan-400/[0.07] via-slate-950/40 to-indigo-400/[0.06] p-5 shadow-[0_0_50px_rgba(34,211,238,.05)]">
-            <div className="flex items-start gap-4">
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-cyan-300/20 bg-cyan-300/[0.08] text-cyan-300">
-                <Sparkles className="h-5 w-5" />
-              </div>
-              <div>
-                <p className="text-sm font-semibold text-white">AI Diagnostic Synthesis</p>
-                <p className="mt-1 text-sm leading-6 text-slate-300">
-                  Target low-baseline subtopics first, then progress toward comprehensive timed mocks as your signal stabilises.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-5 grid gap-4 md:grid-cols-3">
-            {[
-              { label: "Readiness Index", value: "38.4%", description: "Calibrated from recent MCQ & clinical signals", status: "Active Phase", gradient: "from-blue-500 to-cyan-400", width: "38.4%" },
-              { label: "Observed Accuracy", value: "45.1%", description: "Benchmark target: 65.0%+", status: "Optimal Trajectory", gradient: "from-emerald-500 to-teal-300", width: "45.1%" },
-              { label: "Decision Stability", value: "95.8%", description: "Low oscillation rate on confident stems", status: "Consistent", gradient: "from-violet-500 to-fuchsia-300", width: "95.8%" },
-            ].map((metric) => (
-              <article key={metric.label} className="rounded-2xl border border-white/[0.07] bg-[#07111f]/90 p-5 backdrop-blur-xl">
-                <div className="flex items-center justify-between gap-3 text-[11px] uppercase tracking-[0.12em] text-slate-500">
-                  <span>{metric.label}</span>
-                  <span className="normal-case tracking-normal text-cyan-300/80">{metric.status}</span>
+            <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              {[
+                ['Readiness', `${Math.round(readiness)}%`],
+                ['Accuracy', `${Math.round(accuracy)}%`],
+                ['Stability', `${Math.round(stability)}%`],
+                ['Exam horizon', daysUntilExam == null ? 'Not set' : `${Math.max(0, daysUntilExam)} days`],
+              ].map(([label, value]) => (
+                <div key={label} className="rounded-2xl border border-white/10 bg-white/[0.02] p-4">
+                  <p className="text-[11px] uppercase tracking-wider text-slate-500">{label}</p>
+                  <p className="mt-2 font-display text-2xl font-semibold text-white">{value}</p>
                 </div>
-                <div className="mt-4 text-4xl font-extrabold tracking-tight text-white">{metric.value}</div>
-                <p className="mt-1 min-h-10 text-xs leading-5 text-slate-500">{metric.description}</p>
-                <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-slate-800/80">
-                  <div className={"h-full rounded-full bg-gradient-to-r " + metric.gradient} style={{ width: metric.width }} />
-                </div>
-              </article>
-            ))}
-          </div>
-
-          <section className="mt-5 rounded-2xl border border-white/[0.07] bg-[#07111f]/90 p-5 backdrop-blur-xl sm:p-6">
-            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-              <div className="flex items-center gap-2">
-                <Target className="h-4 w-4 text-cyan-300" />
-                <h2 className="text-lg font-bold text-white">Priority Focus Areas</h2>
-              </div>
-              <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-slate-500">Ranked by score impact</span>
-            </div>
-
-            <div className="mt-5 space-y-3">
-              {FOCUS_AREAS.map((item) => (
-                <article
-                  key={item.id}
-                  className="rounded-xl border border-white/[0.05] bg-[#030914]/75 p-4 transition hover:border-cyan-300/20 hover:bg-cyan-300/[0.025]"
-                >
-                  <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                    <div className="flex min-w-0 items-center gap-3">
-                      <span className={"shrink-0 rounded-md border px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em] " + priorityClasses[item.priority]}>
-                        {item.priority}
-                      </span>
-                      <div className="min-w-0">
-                        <h3 className="truncate text-sm font-semibold text-white">{item.name}</h3>
-                        <p className="mt-1 text-xs text-slate-500">
-                          Target volume: <span className="font-mono text-slate-300">{item.recommendedDaily}</span>
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center justify-between gap-5 sm:justify-end">
-                      <div className="w-28">
-                        <div className="mb-1 flex justify-between font-mono text-[10px] text-slate-500">
-                          <span>Mastery</span>
-                          <span>{item.mastery}%</span>
-                        </div>
-                        <div className="h-1.5 overflow-hidden rounded-full bg-slate-800">
-                          <div className="h-full rounded-full bg-gradient-to-r from-cyan-500 to-cyan-300" style={{ width: item.mastery + "%" }} />
-                        </div>
-                      </div>
-                      <button
-                        type="button"
-                        className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/[0.04] px-3.5 py-2 text-xs font-medium text-slate-200 transition hover:border-cyan-300/30 hover:bg-cyan-300/[0.08] hover:text-cyan-200"
-                      >
-                        Train
-                        <ArrowUpRight className="h-3.5 w-3.5" />
-                      </button>
-                    </div>
-                  </div>
-                </article>
               ))}
             </div>
+
+            {generationLocked ? (
+              <div className="mt-5 flex items-start gap-3 rounded-2xl border border-amber-400/15 bg-amber-400/[0.04] p-4">
+                <Clock3 className="mt-0.5 h-4 w-4 shrink-0 text-amber-300" />
+                <div><p className="text-sm font-medium text-slate-200">Monthly generation used</p><p className="mt-1 text-xs leading-5 text-slate-500">One successful study-plan generation is allowed per calendar month. Next generation available in {nextGenerationDays} day{nextGenerationDays === 1 ? '' : 's'}.</p></div>
+              </div>
+            ) : (
+              <div className="mt-5 flex items-start gap-3 rounded-2xl border border-cyan-400/15 bg-cyan-400/[0.04] p-4">
+                <Target className="mt-0.5 h-4 w-4 shrink-0 text-cyan-300" />
+                <div><p className="text-sm font-medium text-slate-200">What feeds the plan</p><p className="mt-1 text-xs leading-5 text-slate-500">Performance Intelligence → priorities → daily training → new attempts → updated intelligence.</p></div>
+              </div>
+            )}
           </section>
-        </div>
-      </section>
+        ) : (
+          <>
+            {!plan ? (
+              <section className="rounded-3xl border border-white/10 bg-[#081224]/70 p-8 text-center backdrop-blur-xl">
+                <CalendarDays className="mx-auto h-7 w-7 text-cyan-300" />
+                <h2 className="mt-4 font-display text-xl font-semibold text-white">No active plan yet</h2>
+                <p className="mx-auto mt-2 max-w-lg text-sm leading-6 text-slate-500">Complete practice to build performance signals, then generate your first 7-day roadmap.</p>
+                <button onClick={() => setParams({ tab: 'generate' })} className="mt-5 inline-flex items-center gap-2 rounded-xl border border-cyan-400/25 bg-cyan-400/[0.06] px-4 py-2.5 text-sm font-semibold text-cyan-200">Generate New <ArrowRight className="h-4 w-4" /></button>
+              </section>
+            ) : (
+              <>
+                {plan.motivation && <div className="rounded-2xl border border-cyan-400/15 bg-cyan-400/[0.045] p-5"><div className="flex gap-3"><Sparkles className="mt-0.5 h-5 w-5 shrink-0 text-cyan-300" /><p className="text-sm leading-6 text-slate-200">{plan.motivation}</p></div></div>}
+
+                <section className="grid gap-4 md:grid-cols-3">
+                  {[
+                    ['Current Readiness', `${Math.round(readiness)}%`, 'Composite signal', TrendingUp],
+                    ['Clinical Accuracy', `${Math.round(accuracy)}%`, 'Recorded MCQ performance', Target],
+                    ['Answer Stability', `${Math.round(stability)}%`, 'Consistency of decisions', CheckCircle2],
+                  ].map(([label, value, helper, Icon]) => (
+                    <div key={String(label)} className="rounded-2xl border border-white/10 bg-[#081224]/70 p-5 backdrop-blur-xl">
+                      <Icon className="h-5 w-5 text-cyan-300" />
+                      <p className="mt-5 text-xs text-slate-500">{label}</p>
+                      <p className="mt-1 font-display text-3xl font-semibold text-white">{value}</p>
+                      <p className="mt-1 text-[11px] font-mono text-slate-600">{helper}</p>
+                    </div>
+                  ))}
+                </section>
+
+                <section className="rounded-3xl border border-white/10 bg-[#081224]/70 p-6 backdrop-blur-xl">
+                  <div className="mb-5 flex items-end justify-between gap-3"><div><h2 className="font-display text-xl font-semibold text-white">Next Training Priorities</h2><p className="mt-1 text-xs text-slate-500">Start with the areas where your current signal shows the largest need for reinforcement.</p></div><span className="text-xs font-mono text-slate-600">{tasks.length} priorities</span></div>
+                  <div className="space-y-3">
+                    {tasks.slice(0, 8).map((task, i) => (
+                      <div key={task.category + i} className="grid gap-4 rounded-2xl border border-white/10 bg-white/[0.02] p-4 sm:grid-cols-[1fr_auto_auto] sm:items-center">
+                        <div className="min-w-0"><div className="flex flex-wrap items-center gap-2"><span className={cn('rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider', priorityTone(task.priority))}>{task.priority}</span><p className="truncate text-sm font-medium text-slate-200">{task.category}</p></div>{task.study_tip && <p className="mt-2 text-xs leading-5 text-slate-500">{task.study_tip}</p>}</div>
+                        <div><p className="text-sm font-semibold text-white">{task.daily_questions || 0} q/day</p>{task.accuracy != null && <p className="text-[11px] font-mono text-slate-600">{task.accuracy}% accuracy</p>}</div>
+                        <Link to="/practice" className="inline-flex items-center justify-center gap-1 rounded-lg border border-white/10 px-3 py-2 text-xs font-semibold text-slate-300 hover:border-cyan-400/30 hover:text-cyan-300">Practice <ArrowRight className="h-3 w-3" /></Link>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+
+                {plan.weekly_schedule?.length > 0 && <section className="rounded-3xl border border-white/10 bg-[#081224]/70 p-6 backdrop-blur-xl"><div className="mb-5 flex items-center gap-2"><CalendarDays className="h-5 w-5 text-purple-300" /><h2 className="font-display text-xl font-semibold text-white">Weekly Rhythm</h2></div><div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{plan.weekly_schedule.slice(0, 7).map(day => <div key={day.day} className="rounded-2xl border border-white/10 bg-white/[0.02] p-4"><div className="flex items-center justify-between"><span className="text-sm font-semibold text-slate-200">{day.day}</span><span className="text-xs font-mono text-slate-500">{day.total_questions} q</span></div><div className="mt-3 space-y-2">{day.topics.slice(0, 4).map(topic => <div key={topic.category} className="flex items-center justify-between text-xs"><span className="truncate text-slate-500">{topic.category}</span><span className="text-slate-300">{topic.count}</span></div>)}</div></div>)}</div></section>}
+
+                <section className="rounded-3xl border border-white/10 bg-[#081224]/70 p-6 backdrop-blur-xl"><div className="mb-4 flex items-center gap-2"><CheckCircle2 className="h-5 w-5 text-emerald-300" /><h2 className="font-display text-xl font-semibold text-white">Review & Reinforcement</h2></div><p className="text-sm text-slate-400">Use Flashcards to reinforce mistakes and weak areas surfaced by your plan.</p><Link to="/flashcards" className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-cyan-300 hover:text-cyan-200">Open Flashcards <ArrowRight className="h-4 w-4" /></Link></section>
+              </>
+            )}
+          </>
+        )}
+      </div>
     </AppLayout>
   );
-};
-
-export default Plan;
+}
