@@ -144,16 +144,16 @@ export default function Plan() {
         }),
       });
       const body = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(body.error || 'Failed to generate study plan');
+      if (!response.ok) {
+        if (body.generated_at) setGeneratedAt(body.generated_at);
+        throw new Error(body.error || 'Failed to generate study plan');
+      }
       setPlan(body);
-      setGeneratedAt(new Date().toISOString());
+      if (body.generated_at) setGeneratedAt(body.generated_at);
       setParams({ tab: 'current' });
       toast.success('Study plan generated');
     } catch (error: any) {
       const message = error?.message || 'Failed to generate study plan';
-      if (message.toLowerCase().includes('next generation available')) {
-        setGeneratedAt(new Date().toISOString());
-      }
       toast.error(message);
     } finally {
       setGenerating(false);
