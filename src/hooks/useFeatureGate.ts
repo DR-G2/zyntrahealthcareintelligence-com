@@ -80,7 +80,7 @@ export function useFeatureGate(): FeatureGate {
     // Try update first
     const { data: updated } = await supabase
       .from('user_usage_logs')
-      .update({ [field]: (field === 'mcq_attempts' ? mcqUsedToday : field === 'osce_attempts' ? osceUsedToday : promptsUsedToday) + 1 })
+      .update({ [field]: (field === 'mcq_attempts' ? mcqUsedToday : field === 'osce_attempts' ? osceUsedToday : promptsUsedToday) + 1 } as any)
       .eq('user_id', user.id)
       .eq('usage_date', today)
       .select()
