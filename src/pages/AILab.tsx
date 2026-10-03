@@ -69,8 +69,28 @@ export default function AILab() {
   const invoke = async (body: Record<string, unknown>) => {
     const { supabase } = await import('@/lib/supabase');
     const { data, error } = await supabase.functions.invoke('ai-lab', { body });
-    if (error) throw error;
-    if (!data?.success) throw new Error(data?.error || 'AI Lab request failed');
+
+    if (error) {
+      let message = error.message || 'AI Lab Edge Function request failed.';
+      const context = (error as { context?: Response }).context;
+
+      if (context && typeof context.json === 'function') {
+        try {
+          const payload = await context.json();
+          if (typeof payload?.error === 'string') message = payload.error;
+          else if (typeof payload?.message === 'string') message = payload.message;
+        } catch {
+          // Keep the Supabase client error when the response body is unavailable.
+        }
+      }
+
+      throw new Error(message);
+    }
+
+    if (!data?.success) {
+      throw new Error(data?.error || 'AI Lab request failed');
+    }
+
     return data;
   };
 
