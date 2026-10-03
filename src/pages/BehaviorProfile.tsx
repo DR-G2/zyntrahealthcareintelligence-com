@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/contexts/AuthContext';
-import { AppLayout } from '@/components/AppLayout';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -12,15 +11,13 @@ import { cn } from '@/lib/utils';
 import { BehaviorSkeleton } from '@/components/skeletons/PageSkeleton';
 import {
   Brain, AlertTriangle, Zap, Clock, Shield, Target,
-  TrendingUp, TrendingDown, ArrowRight, RefreshCw, Activity,
-  CheckCircle, XCircle, Loader2
+  TrendingUp, TrendingDown, ArrowRight, RefreshCw, Loader2
 } from 'lucide-react';
 import { useFeatureGate } from '@/hooks/useFeatureGate';
 import { UpgradePrompt } from '@/components/UpgradePrompt';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
-  ResponsiveContainer, RadarChart, Radar, PolarGrid,
-  PolarAngleAxis, PolarRadiusAxis, Legend
+  ResponsiveContainer, Legend
 } from 'recharts';
 
 const ARCHETYPE_META: Record<string, { label: string; icon: typeof Brain; color: string; description: string }> = {
@@ -367,7 +364,6 @@ export default function BehaviorProfile() {
             <Link to="/practice">Continue Practice <ArrowRight className="h-4 w-4" /></Link>
           </Button>
         </div>
-div>
       </div>
   );
 }
