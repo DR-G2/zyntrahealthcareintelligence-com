@@ -411,7 +411,8 @@ export default function PerformanceIntelligence() {
       const orderedAttempts = [...attempts].sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime());
       const trendValues: number[] = [];
       const blockSize = 10;
-      for (let i = 0; i < orderedAttempts.length && trendValues.length < 8; i += blockSize) {
+      const trendStart = Math.max(0, orderedAttempts.length - blockSize * 8);
+      for (let i = trendStart; i < orderedAttempts.length && trendValues.length < 8; i += blockSize) {
         const block = orderedAttempts.slice(i, i + blockSize);
         if (block.length >= Math.min(blockSize, 3)) {
           trendValues.push(Math.round(block.filter(row => row.is_correct).length / block.length * 100));
