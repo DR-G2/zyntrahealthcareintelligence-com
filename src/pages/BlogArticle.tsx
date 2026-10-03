@@ -55,7 +55,7 @@ export default function BlogArticle() {
         <main className="max-w-4xl mx-auto px-6 py-14 sm:py-20">
           <div className="text-xs font-bold uppercase tracking-[.18em] text-cyan-400">{article.category}</div>
           <h1 className="mt-4 text-3xl sm:text-5xl font-extrabold leading-tight tracking-tight text-white">{article.title}</h1>
-          <div className="mt-5 flex items-center gap-3 text-xs text-slate-500"><BookOpen className="w-4 h-4 text-cyan-400" /><span>Public article</span><span>·</span><Clock className="w-3.5 h-3.5" /><span>{article.readTime}</span></div>
+          <div className="mt-5 flex items-center gap-3 text-xs text-slate-500"><span>By Mike Ehrmantraut</span><span>·</span><BookOpen className="w-4 h-4 text-cyan-400" /><span>Public article</span><span>·</span><Clock className="w-3.5 h-3.5" /><span>{article.readTime}</span></div>
           <p className="mt-8 text-lg leading-8 text-slate-300 border-l-2 border-cyan-500/40 pl-5">{content?.intro ?? article.excerpt}</p>
           <article className="mt-12 space-y-10">
             {sections.map((section) => (
