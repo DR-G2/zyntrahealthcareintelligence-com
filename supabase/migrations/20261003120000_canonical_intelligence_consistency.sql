@@ -82,7 +82,7 @@ BEGIN
     END, 2
   );
 
-  -- No confidence field exists in user_attempts yet. Do not fabricate calibration.
+  -- Confidence calibration is computed only from attempts with a valid candidate-reported confidence level.
   v_readiness := ROUND(
     v_accuracy * 0.50 +
     v_stability * 0.20 +
