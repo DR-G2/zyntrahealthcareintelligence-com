@@ -68,387 +68,123 @@ function ScoreRing({ value, label, icon: Icon, color }: {
 }
 
 export default function Profile() {
-  const location = useLocation();
   const { user } = useAuth();
-  const stateData = (location.state as any)?.performanceData as PerformanceData | undefined;
-  const [data, setData] = useState<PerformanceData | undefined>(stateData);
-  const [loading, setLoading] = useState(!stateData);
-  const [stationAttempts, setStationAttempts] = useState<StationAttempt[]>([]);
-  const [mcqAttempts, setMcqAttempts] = useState<any[]>([]);
+  const [data, setData] = useState<PerformanceData | undefined>();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!user) return;
-    const fetchAll = async () => {
-      const [profileRes, stationsRes, mcqRes] = await Promise.all([
-        supabase.from('readiness_dna')
-          .select('readiness_score, clinical_accuracy, answer_stability, time_management, confidence_calibration, distance_from_ideal, attempt_count, updated_at')
-          .eq('user_id', user.id).maybeSingle(),
-        supabase.from('station_attempts')
-          .select('id, subject, scores, time_taken_seconds, mode, created_at')
-          .eq('user_id', user.id).order('created_at', { ascending: false }).limit(100),
-        supabase.from('user_attempts')
-          .select('id, is_correct, answer_changes_count, change_sequence, selected_answer, questions(correct_answer)')
-          .eq('user_id', user.id).limit(500),
-      ]);
-      if (profileRes.data) setData(profileRes.data as any);
-      setStationAttempts(stationsRes.data || []);
-      setMcqAttempts(mcqRes.data || []);
+    const fetchProfile = async () => {
+      const { data: profile } = await supabase.from('readiness_dna')
+        .select('readiness_score, clinical_accuracy, answer_stability, time_management, confidence_calibration, distance_from_ideal, attempt_count, updated_at')
+        .eq('user_id', user.id)
+        .maybeSingle();
+      setData(profile as PerformanceData | undefined);
       setLoading(false);
     };
-    fetchAll();
+    fetchProfile();
   }, [user]);
 
-  // OSCE stats
-  const osceStats = useMemo(() => {
-    if (stationAttempts.length === 0) return null;
-    const totalScore = stationAttempts.reduce((s, a) => s + (typeof (a.scores as any)?.total === 'number' ? (a.scores as any).total : 0), 0);
-    const avgScore = Math.round(totalScore / stationAttempts.length);
-    const avgTime = Math.round(stationAttempts.reduce((s, a) => s + a.time_taken_seconds, 0) / stationAttempts.length);
+  if (loading) return <ProfileSkeleton />;
 
-    const bySubject: Record<string, { total: number; count: number }> = {};
-    stationAttempts.forEach(a => {
-      const subj = a.subject || 'Unknown';
-      if (!bySubject[subj]) bySubject[subj] = { total: 0, count: 0 };
-      bySubject[subj].total += typeof (a.scores as any)?.total === 'number' ? (a.scores as any).total : 0;
-      bySubject[subj].count++;
-    });
-
-    return { avgScore, avgTime, count: stationAttempts.length, bySubject };
-  }, [stationAttempts]);
-
-  // Trust Your Gut stats
-  const gutStats = useMemo(() => {
-    const withChanges = mcqAttempts.filter(a => a.answer_changes_count > 0 && Array.isArray(a.change_sequence) && a.change_sequence.length > 0);
-    if (withChanges.length === 0) return null;
-    let firstCorrect = 0;
-    let correctToWrong = 0;
-    withChanges.forEach(a => {
-      const first = a.change_sequence[0];
-      const correct = a.questions?.correct_answer;
-      if (first === correct) {
-        firstCorrect++;
-        if (a.selected_answer !== correct) correctToWrong++;
-      }
-    });
-    return {
-      firstInstinctAccuracy: Math.round((firstCorrect / withChanges.length) * 100),
-      pointsLost: correctToWrong,
-      totalWithChanges: withChanges.length,
-    };
-  }, [mcqAttempts]);
-
-  if (loading) {
-    return <ProfileSkeleton />;
-  }
-
-  if (!data && !osceStats && !gutStats) {
+  if (!data) {
     return (
-      <div className="mx-auto max-w-2xl py-12 text-center">
-        <Card>
-          <CardContent className="py-12 space-y-4">
-            <Target className="h-12 w-12 text-muted-foreground/50 mx-auto" />
-            <h2 className="text-xl font-display font-bold">No Performance Profile Yet</h2>
-            <p className="text-muted-foreground">Complete a diagnostic assessment or OSCE station to generate your profile.</p>
-            <div className="flex gap-3 justify-center">
-              <Button asChild className="gap-1">
-                <Link to="/assess">Take MCQ Diagnostic <ArrowRight className="h-4 w-4" /></Link>
-              </Button>
-              <Button asChild variant="outline" className="gap-1">
-                <Link to="/stations">Try OSCE Station <ArrowRight className="h-4 w-4" /></Link>
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+      <div className="rounded-3xl border border-white/10 bg-[#081224]/70 p-10 text-center backdrop-blur-xl">
+        <Target className="mx-auto h-10 w-10 text-cyan-300/60" />
+        <h2 className="mt-4 font-display text-xl font-semibold text-white">Build your first performance signal</h2>
+        <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-slate-500">
+          Complete practice questions to start building your performance view.
+        </p>
+        <Button asChild className="mt-5 gap-2">
+          <Link to="/practice">Start Practice <ArrowRight className="h-4 w-4" /></Link>
+        </Button>
       </div>
     );
   }
 
-  const readiness = data?.readiness_score ?? 0;
-  const readinessColor = readiness >= 70 ? 'hsl(var(--success))' : readiness >= 40 ? 'hsl(var(--warning))' : 'hsl(var(--destructive))';
+  const readiness = Math.max(0, Math.min(100, Number(data.readiness_score ?? 0)));
+  const timing = data.time_management == null
+    ? null
+    : Math.round(Math.max(0, Math.min(100, data.time_management >= 45 && data.time_management <= 60
+      ? 100
+      : data.time_management < 45
+        ? 100 - ((45 - data.time_management) * 1.5)
+        : 100 - ((data.time_management - 60) * 1.5))));
 
-  const metrics = [
-    { value: data?.answer_stability ?? 0, label: 'Answer Stability', icon: Shield, color: 'hsl(var(--chart-1))', desc: 'Percentage of answers completed without changing selection.' },
-    { value: data?.time_management == null ? null : Math.round(Math.max(0, Math.min(100, data.time_management >= 45 && data.time_management <= 60 ? 100 : data.time_management < 45 ? 100 - ((45 - data.time_management) * 1.5) : 100 - ((data.time_management - 60) * 1.5)))), label: 'Time Management', icon: Clock, color: 'hsl(var(--chart-2))', desc: 'Timing score against the 45–60 second target window.' },
-    { value: null, label: 'Confidence Calibration', icon: Brain, color: 'hsl(var(--chart-3))', desc: 'Not measured yet. Explicit confidence capture is required for this signal.' },
-    { value: data?.clinical_accuracy ?? 0, label: 'Clinical Accuracy', icon: Target, color: 'hsl(var(--chart-4))', desc: 'Percentage of correct attempts.' },
-  ];
-
-  const getReadinessLabel = (score: number) => {
-    if (score >= 80) return 'Exam Ready';
-    if (score >= 60) return 'Almost There';
-    if (score >= 40) return 'Building Up';
-    return 'Early Stage';
-  };
+  const getReadinessLabel = (score: number) =>
+    score >= 80 ? 'Strong signal' : score >= 50 ? 'Developing signal' : 'Early signal';
 
   return (
-    <div className="mx-auto max-w-4xl space-y-8">
-        <Tabs defaultValue="combined" className="w-full">
-          <TabsList>
-            <TabsTrigger value="combined">Combined</TabsTrigger>
-            <TabsTrigger value="mcq">MCQ</TabsTrigger>
-            <TabsTrigger value="osce">OSCE</TabsTrigger>
-            <TabsTrigger value="gut">Trust Your Gut</TabsTrigger>
-          </TabsList>
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="space-y-5"
+    >
+      <div className="rounded-3xl border border-cyan-400/10 bg-gradient-to-br from-cyan-400/[0.05] via-[#081224]/80 to-[#081224]/70 p-6 backdrop-blur-xl">
+        <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="text-[11px] font-mono uppercase tracking-[0.18em] text-cyan-300/80">Performance</p>
+            <h2 className="mt-2 font-display text-2xl font-semibold text-white">How you are performing</h2>
+            <p className="mt-1 max-w-xl text-sm leading-6 text-slate-500">
+              A focused view of the performance signals currently built from your recorded practice.
+            </p>
+          </div>
+          <div className="text-left sm:text-right">
+            <div className="font-display text-5xl font-bold text-white">{Math.round(readiness)}</div>
+            <div className="text-xs font-mono uppercase tracking-wider text-slate-500">readiness / 100</div>
+            <div className="mt-2 inline-flex rounded-full border border-cyan-400/20 bg-cyan-400/10 px-2.5 py-1 text-xs text-cyan-200">{getReadinessLabel(readiness)}</div>
+          </div>
+        </div>
+      </div>
 
-          {/* Combined / MCQ Tab */}
-          {['combined', 'mcq'].map(tab => (
-            <TabsContent key={tab} value={tab} className="space-y-6">
-              {/* Readiness Score */}
-              {data && (
-                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
-                  <Card className="overflow-hidden">
-                    <CardHeader className="pb-2">
-                      <CardTitle className="flex items-center gap-2">
-                        <TrendingUp className="h-5 w-5 text-primary" />
-                        Overall Readiness
-                      </CardTitle>
-                      <CardDescription>Composite score across all behavioral dimensions</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="flex items-center gap-6">
-                        <div className="relative">
-                          <svg width="120" height="120" className="-rotate-90">
-                            <circle cx="60" cy="60" r="50" fill="none" stroke="hsl(var(--muted))" strokeWidth="8" />
-                            <motion.circle
-                              cx="60" cy="60" r="50" fill="none" stroke={readinessColor} strokeWidth="8" strokeLinecap="round"
-                              strokeDasharray={2 * Math.PI * 50}
-                              initial={{ strokeDashoffset: 2 * Math.PI * 50 }}
-                              animate={{ strokeDashoffset: 2 * Math.PI * 50 - (readiness / 100) * 2 * Math.PI * 50 }}
-                              transition={{ duration: 1.2, ease: 'easeOut' }}
-                            />
-                          </svg>
-                          <div className="absolute inset-0 flex flex-col items-center justify-center">
-                            <span className="text-3xl font-bold font-display">{readiness}</span>
-                            <span className="text-xs text-muted-foreground">/ 100</span>
-                          </div>
-                        </div>
-                        <div>
-                          <p className="text-lg font-bold" style={{ color: readinessColor }}>{getReadinessLabel(readiness)}</p>
-                          <p className="text-sm text-muted-foreground mt-1">
-                            {readiness >= 70 ? 'Strong performance across most dimensions.' : readiness >= 40 ? 'Solid foundation with room for improvement.' : 'Focus on building core exam skills.'}
-                          </p>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              )}
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        {[
+          { label: 'Clinical Accuracy', value: data.clinical_accuracy },
+          { label: 'Answer Stability', value: data.answer_stability },
+          { label: 'Time Management', value: timing },
+          { label: 'Confidence Calibration', value: data.confidence_calibration },
+        ].map(metric => (
+          <div key={metric.label} className="rounded-2xl border border-white/10 bg-[#081224]/70 p-5 backdrop-blur-xl">
+            <p className="text-xs text-slate-500">{metric.label}</p>
+            <p className="mt-2 font-display text-3xl font-semibold text-white">
+              {metric.value == null ? '—' : `${Math.round(Number(metric.value))}%`}
+            </p>
+            <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-white/5">
+              <div className="h-full rounded-full bg-cyan-400" style={{ width: metric.value == null ? '0%' : `${Math.max(0, Math.min(100, Number(metric.value)))}%` }} />
+            </div>
+          </div>
+        ))}
+      </div>
 
-              {/* Score Rings */}
-              {data && (
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Behavioral Dimensions</CardTitle>
-                    <CardDescription>Each score reflects a different aspect of exam performance</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-5 sm:gap-6">
-                      {metrics.map(m => <ScoreRing key={m.label} {...m} />)}
-                    </div>
-                    <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {metrics.map(m => (
-                        <div key={m.label} className="flex items-start gap-3 rounded-lg bg-muted/50 p-3">
-                          <m.icon className="h-4 w-4 mt-0.5 shrink-0" style={{ color: m.color }} />
-                          <div>
-                            <p className="text-sm font-medium break-words">{m.label}: {formatScore(m.value)}/100</p>
-                            <p className="text-xs text-muted-foreground">{m.desc}</p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              )}
+      <div className="grid gap-5 lg:grid-cols-[1.2fr_.8fr]">
+        <div className="rounded-2xl border border-white/10 bg-[#081224]/70 p-5 backdrop-blur-xl">
+          <div className="flex items-center gap-2">
+            <Activity className="h-4 w-4 text-cyan-300" />
+            <h3 className="font-display text-base font-semibold text-white">Performance focus</h3>
+          </div>
+          <p className="mt-1 text-xs leading-5 text-slate-500">
+            Current performance is represented by the four signals above. Subject and subtopic detail stays in the intelligence data layer rather than being repeated here.
+          </p>
+          <div className="mt-5 rounded-xl border border-white/8 bg-white/[0.02] p-4">
+            <div className="flex items-center justify-between text-xs">
+              <span className="text-slate-500">Distance from ideal</span>
+              <span className="font-semibold text-white">{data.distance_from_ideal == null ? '—' : Math.round(Number(data.distance_from_ideal))}</span>
+            </div>
+            <div className="mt-3 h-2 overflow-hidden rounded-full bg-white/5">
+              <div className="h-full rounded-full bg-purple-400" style={{ width: data.distance_from_ideal == null ? '0%' : `${Math.max(0, Math.min(100, Number(data.distance_from_ideal)))}%` }} />
+            </div>
+          </div>
+        </div>
 
-              {/* OSCE Summary (combined tab only) */}
-              {tab === 'combined' && osceStats && (
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <Stethoscope className="h-5 w-5 text-primary" />
-                      OSCE Performance
-                    </CardTitle>
-                    <CardDescription>{osceStats.count} stations completed</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="grid grid-cols-3 gap-4 mb-4">
-                      <div className="text-center">
-                        <p className="text-2xl font-bold font-display">{osceStats.avgScore}%</p>
-                        <p className="text-xs text-muted-foreground">Avg Score</p>
-                      </div>
-                      <div className="text-center">
-                        <p className="text-2xl font-bold font-display">{Math.round(osceStats.avgTime / 60)}m</p>
-                        <p className="text-xs text-muted-foreground">Avg Time</p>
-                      </div>
-                      <div className="text-center">
-                        <p className="text-2xl font-bold font-display">{osceStats.count}</p>
-                        <p className="text-xs text-muted-foreground">Stations</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              )}
-
-              {/* Trust Your Gut Summary (combined tab only) */}
-              {tab === 'combined' && gutStats && (
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <Target className="h-5 w-5 text-primary" />
-                      Trust Your Gut
-                    </CardTitle>
-                    <CardDescription>First-instinct analysis across {gutStats.totalWithChanges} changed answers</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="grid grid-cols-3 gap-4">
-                      <div className="text-center">
-                        <p className="text-2xl font-bold font-display text-primary">{gutStats.firstInstinctAccuracy}%</p>
-                        <p className="text-xs text-muted-foreground">First Instinct Accuracy</p>
-                      </div>
-                      <div className="text-center">
-                        <p className="text-2xl font-bold font-display text-destructive">{gutStats.pointsLost}</p>
-                        <p className="text-xs text-muted-foreground">Points Lost</p>
-                      </div>
-                      <div className="text-center">
-                        <p className="text-2xl font-bold font-display">{gutStats.totalWithChanges}</p>
-                        <p className="text-xs text-muted-foreground">Changed Answers</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              )}
-            </TabsContent>
-          ))}
-
-          {/* OSCE Tab */}
-          <TabsContent value="osce" className="space-y-6">
-            {osceStats ? (
-              <>
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <Stethoscope className="h-5 w-5 text-primary" />
-                      OSCE Performance
-                    </CardTitle>
-                    <CardDescription>{osceStats.count} stations completed</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="grid grid-cols-3 gap-4 mb-6">
-                      <div className="text-center">
-                        <p className="text-2xl font-bold font-display">{osceStats.avgScore}%</p>
-                        <p className="text-xs text-muted-foreground">Avg Score</p>
-                      </div>
-                      <div className="text-center">
-                        <p className="text-2xl font-bold font-display">{Math.round(osceStats.avgTime / 60)}m</p>
-                        <p className="text-xs text-muted-foreground">Avg Time</p>
-                      </div>
-                      <div className="text-center">
-                        <p className="text-2xl font-bold font-display">{osceStats.count}</p>
-                        <p className="text-xs text-muted-foreground">Stations</p>
-                      </div>
-                    </div>
-                    {/* Subject breakdown */}
-                    <div className="space-y-3">
-                      <p className="text-sm font-medium">By Subject</p>
-                      {Object.entries(osceStats.bySubject)
-                        .sort(([, a], [, b]) => (b.total / b.count) - (a.total / a.count))
-                        .map(([subj, s]) => {
-                          const avg = Math.round(s.total / s.count);
-                          return (
-                            <div key={subj} className="flex items-center gap-4">
-                              <div className="w-36 truncate text-sm">{subj}</div>
-                              <div className="flex-1 h-5 rounded-full bg-muted overflow-hidden">
-                                <div
-                                  className={cn('h-full rounded-full', avg >= 70 ? 'bg-success' : avg >= 50 ? 'bg-warning' : 'bg-destructive')}
-                                  style={{ width: `${avg}%` }}
-                                />
-                              </div>
-                              <span className="text-sm font-mono w-12 text-right">{avg}%</span>
-                              <Badge variant="outline" className="text-xs">{s.count} stations</Badge>
-                            </div>
-                          );
-                        })}
-                    </div>
-                  </CardContent>
-                </Card>
-              </>
-            ) : (
-              <Card>
-                <CardContent className="py-12 text-center space-y-4">
-                  <Stethoscope className="h-12 w-12 text-muted-foreground/50 mx-auto" />
-                  <h2 className="text-xl font-display font-bold">No OSCE Data Yet</h2>
-                  <p className="text-muted-foreground">Complete some OSCE stations to see your performance here.</p>
-                  <Button asChild className="gap-1">
-                    <Link to="/stations">Start OSCE Practice <ArrowRight className="h-4 w-4" /></Link>
-                  </Button>
-                </CardContent>
-              </Card>
-            )}
-          </TabsContent>
-
-          {/* Trust Your Gut Tab */}
-          <TabsContent value="gut" className="space-y-6">
-            {gutStats ? (
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Target className="h-5 w-5 text-primary" />
-                    Trust Your Gut Analysis
-                  </CardTitle>
-                  <CardDescription>Analysis of {gutStats.totalWithChanges} answers where you changed your selection</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  <div className="grid grid-cols-3 gap-4">
-                    <div className="rounded-lg bg-muted/50 p-4 text-center">
-                      <p className="text-3xl font-bold font-display text-primary">{gutStats.firstInstinctAccuracy}%</p>
-                      <p className="text-xs text-muted-foreground mt-1">First Instinct Accuracy</p>
-                    </div>
-                    <div className="rounded-lg bg-destructive/5 border border-destructive/20 p-4 text-center">
-                      <p className="text-3xl font-bold font-display text-destructive">{gutStats.pointsLost}</p>
-                      <p className="text-xs text-muted-foreground mt-1">Points Lost from Changes</p>
-                    </div>
-                    <div className="rounded-lg bg-muted/50 p-4 text-center">
-                      <p className="text-3xl font-bold font-display">{gutStats.totalWithChanges}</p>
-                      <p className="text-xs text-muted-foreground mt-1">Total Changed Answers</p>
-                    </div>
-                  </div>
-                  {gutStats.firstInstinctAccuracy > 60 && gutStats.pointsLost > 0 && (
-                    <div className="rounded-lg bg-warning/5 border border-warning/20 p-4">
-                      <p className="text-sm font-medium text-warning">⚠️ Your first instinct is right {gutStats.firstInstinctAccuracy}% of the time, but you lost {gutStats.pointsLost} points by changing correct answers. Trust your gut more!</p>
-                    </div>
-                  )}
-                  <Button asChild className="gap-1">
-                    <Link to="/trust-your-gut">Go to Trust Your Gut Training <ArrowRight className="h-4 w-4" /></Link>
-                  </Button>
-                </CardContent>
-              </Card>
-            ) : (
-              <Card>
-                <CardContent className="py-12 text-center space-y-4">
-                  <Target className="h-12 w-12 text-muted-foreground/50 mx-auto" />
-                  <h2 className="text-xl font-display font-bold">No Gut Instinct Data Yet</h2>
-                  <p className="text-muted-foreground">Complete some practice questions to see first-instinct analysis.</p>
-                  <Button asChild className="gap-1">
-                    <Link to="/practice">Start Practice <ArrowRight className="h-4 w-4" /></Link>
-                  </Button>
-                </CardContent>
-              </Card>
-            )}
-          </TabsContent>
-        </Tabs>
-
-        {/* Action buttons */}
-        <div className="flex gap-3 flex-wrap">
-          <Button asChild className="gap-1">
-            <Link to="/practice">Start Targeted Practice <ArrowRight className="h-4 w-4" /></Link>
-          </Button>
-          <Button variant="outline" asChild>
-            <Link to="/behavior">View Behavior Analysis</Link>
-          </Button>
-          <Button variant="outline" asChild>
-            <Link to="/assess">Retake Diagnostic</Link>
+        <div className="rounded-2xl border border-white/10 bg-[#081224]/70 p-5 backdrop-blur-xl">
+          <p className="text-xs text-slate-500">Recorded sample</p>
+          <p className="mt-2 font-display text-4xl font-semibold text-white">{data.attempt_count ?? 0}</p>
+          <p className="mt-1 text-xs text-slate-500">practice attempts contributing to the current profile</p>
+          <Button asChild variant="outline" className="mt-5 w-full gap-2">
+            <Link to="/practice">Continue Practice <ArrowRight className="h-4 w-4" /></Link>
           </Button>
         </div>
       </div>
+    </motion.div>
   );
 }
