@@ -79,6 +79,34 @@ interface Snapshot {
   changedAnswers: number;
 }
 
+interface ConfidenceSubject {
+  subject: string;
+  attempts: number;
+  accuracy: number;
+  average_confidence: number;
+  calibration: number;
+  bias: number;
+  high_confidence_wrong: number;
+  low_confidence_correct: number;
+}
+
+interface ConfidenceIntelligence {
+  confidence_attempts: number;
+  calibration: number;
+  average_confidence: number;
+  accuracy: number;
+  bias: number;
+  overconfidence: number;
+  underconfidence: number;
+  high_confidence_wrong: number;
+  low_confidence_correct: number;
+  recent_calibration: number;
+  prior_calibration: number;
+  calibration_delta: number;
+  levels: Array<{ level: number; label: string; attempts: number; accuracy: number; calibration: number }>;
+  subjects: ConfidenceSubject[];
+}
+
 function ProgressBar({ value, className }: { value: number; className?: string }) {
   return (
     <div className={cn('h-2 overflow-hidden rounded-full bg-white/[0.06]', className)}>
@@ -122,12 +150,14 @@ function PerformanceView({
   subjects,
   priorities,
   trend,
+  confidence,
   loading,
 }: {
   snapshot: Snapshot;
   subjects: SubjectStat[];
   priorities: PriorityStat[];
   trend: number[];
+  confidence: ConfidenceIntelligence;
   loading: boolean;
 }) {
   const readiness = Math.max(0, Math.min(100, snapshot.readiness));
@@ -180,6 +210,89 @@ function PerformanceView({
           <SignalCard label="Timing" value={snapshot.attempts ? `${Math.round(snapshot.timing)}%` : '—'} helper="Time-management signal from attempts." accent="rose" />
           <SignalCard label="Calibration" value={snapshot.confidenceAttempts ? `${Math.round(snapshot.calibration)}%` : '—'} helper={snapshot.confidenceAttempts ? `${snapshot.confidenceAttempts} confidence records.` : 'No confidence data yet.'} accent="emerald" />
         </div>
+      </section>
+
+      <section className="rounded-3xl border border-emerald-400/15 bg-[#081224]/75 p-5 backdrop-blur-xl">
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <p className="font-display text-lg font-semibold text-white">Confidence Intelligence</p>
+            <p className="mt-1 max-w-2xl text-xs leading-5 text-slate-500">Calibration measures how closely your confidence matches whether the answer was actually correct. It is not a confidence-in-you score.</p>
+          </div>
+          <div className="text-right">
+            <p className="font-display text-2xl font-semibold text-emerald-300">{confidence.confidence_attempts ? `${Math.round(confidence.calibration)}%` : '—'}</p>
+            <p className="text-[10px] uppercase tracking-wider text-slate-600">Calibration</p>
+          </div>
+        </div>
+
+        {confidence.confidence_attempts ? (
+          <>
+            <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              <SignalCard label="Confidence" value={`${(confidence.average_confidence / 25 + 1).toFixed(1)}/5`} helper={`${confidence.confidence_attempts} confidence-rated attempts.`} accent="cyan" />
+              <SignalCard label="Bias" value={`${confidence.bias > 0 ? '+' : ''}${Math.round(confidence.bias)} pts`} helper={confidence.bias > 5 ? 'Pattern leans overconfident.' : confidence.bias < -5 ? 'Pattern leans underconfident.' : 'Confidence and outcomes are broadly aligned.'} accent="purple" />
+              <SignalCard label="High-confidence errors" value={`${confidence.high_confidence_wrong}`} helper="Confidence 4–5 followed by an incorrect answer." accent="rose" />
+              <SignalCard label="Low-confidence correct" value={`${confidence.low_confidence_correct}`} helper="Confidence 1–2 followed by a correct answer." accent="emerald" />
+            </div>
+
+            <div className="mt-5 grid gap-5 lg:grid-cols-[1.15fr_1fr]">
+              <div className="rounded-2xl border border-white/8 bg-white/[0.02] p-4">
+                <div className="flex items-center justify-between gap-3">
+                  <p className="text-xs font-medium uppercase tracking-[0.12em] text-slate-400">Confidence → outcome</p>
+                  <span className="text-[10px] text-slate-600">1 low · 5 high</span>
+                </div>
+                <div className="mt-4 space-y-3">
+                  {confidence.levels.map(level => (
+                    <div key={level.level}>
+                      <div className="mb-1.5 flex items-center justify-between text-xs">
+                        <span className="text-slate-400">{level.level} · {level.label}</span>
+                        <span className="font-mono text-slate-500">{level.accuracy}% correct · {level.attempts}</span>
+                      </div>
+                      <ProgressBar value={level.accuracy} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="rounded-2xl border border-white/8 bg-white/[0.02] p-4">
+                <p className="text-xs font-medium uppercase tracking-[0.12em] text-slate-400">Calibration trend</p>
+                <div className="mt-4 flex items-end gap-4">
+                  <div className="flex-1">
+                    <p className="text-[10px] uppercase tracking-wider text-slate-600">Previous</p>
+                    <p className="mt-1 font-display text-xl text-white">{confidence.prior_calibration ? `${Math.round(confidence.prior_calibration)}%` : '—'}</p>
+                  </div>
+                  <ArrowRight className="mb-1 h-4 w-4 text-slate-600" />
+                  <div className="flex-1">
+                    <p className="text-[10px] uppercase tracking-wider text-slate-600">Recent</p>
+                    <p className="mt-1 font-display text-xl text-emerald-300">{confidence.recent_calibration ? `${Math.round(confidence.recent_calibration)}%` : '—'}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-[10px] uppercase tracking-wider text-slate-600">Change</p>
+                    <p className={cn('mt-1 font-mono text-sm', confidence.calibration_delta >= 0 ? 'text-emerald-300' : 'text-rose-300')}>{confidence.calibration_delta > 0 ? '+' : ''}{Math.round(confidence.calibration_delta)} pts</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {confidence.subjects.length ? (
+              <div className="mt-5">
+                <p className="text-xs font-medium uppercase tracking-[0.12em] text-slate-400">Calibration by subject</p>
+                <div className="mt-3 grid gap-3 md:grid-cols-2">
+                  {confidence.subjects.slice(0, 6).map(item => (
+                    <div key={item.subject} className="rounded-2xl border border-white/8 bg-white/[0.02] p-4">
+                      <div className="flex items-center justify-between gap-3">
+                        <span className="truncate text-sm font-medium text-white">{item.subject}</span>
+                        <span className="font-mono text-xs text-emerald-300">{Math.round(item.calibration)}%</span>
+                      </div>
+                      <div className="mt-2"><ProgressBar value={item.calibration} /></div>
+                      <p className="mt-2 text-[10px] text-slate-600">{item.attempts} attempts · {Math.round(item.accuracy)}% accuracy · bias {item.bias > 0 ? '+' : ''}{Math.round(item.bias)}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : null}
+          </>
+        ) : (
+          <div className="mt-5 rounded-2xl border border-dashed border-white/10 py-10 text-center text-sm text-slate-500">Confidence intelligence starts when you rate confidence on answered MCQs.</div>
+        )}
       </section>
 
       <section className="grid gap-5 lg:grid-cols-[1.35fr_1fr]">
@@ -302,6 +415,11 @@ export default function PerformanceIntelligence() {
   const [subjects, setSubjects] = useState<SubjectStat[]>([]);
   const [priorities, setPriorities] = useState<PriorityStat[]>([]);
   const [trend, setTrend] = useState<number[]>([]);
+  const [confidence, setConfidence] = useState<ConfidenceIntelligence>({
+    confidence_attempts: 0, calibration: 0, average_confidence: 0, accuracy: 0, bias: 0,
+    overconfidence: 0, underconfidence: 0, high_confidence_wrong: 0, low_confidence_correct: 0,
+    recent_calibration: 0, prior_calibration: 0, calibration_delta: 0, levels: [], subjects: [],
+  });
 
   useEffect(() => {
     if (!user) {
@@ -313,15 +431,10 @@ export default function PerformanceIntelligence() {
 
     const load = async () => {
       setLoading(true);
-      const [profileRes, dnaRes, attemptsRes] = await Promise.all([
+      const [profileRes, attemptsRes, confidenceRes] = await Promise.all([
         supabase
           .from('performance_profiles')
           .select('readiness_score, clinical_accuracy, stability_score, time_sensitivity')
-          .eq('user_id', user.id)
-          .maybeSingle(),
-        supabase
-          .from('readiness_dna')
-          .select('confidence_calibration, confidence_attempt_count')
           .eq('user_id', user.id)
           .maybeSingle(),
         supabase
@@ -330,6 +443,7 @@ export default function PerformanceIntelligence() {
           .eq('user_id', user.id)
           .order('created_at', { ascending: false })
           .limit(2000),
+        supabase.rpc('get_confidence_intelligence'),
       ]);
 
       if (cancelled) return;
@@ -419,18 +533,37 @@ export default function PerformanceIntelligence() {
         }
       }
 
+      const confidenceData = (confidenceRes.data || {}) as Partial<ConfidenceIntelligence>;
+      const canonicalConfidence: ConfidenceIntelligence = {
+        confidence_attempts: Number(confidenceData.confidence_attempts || 0),
+        calibration: Number(confidenceData.calibration || 0),
+        average_confidence: Number(confidenceData.average_confidence || 0),
+        accuracy: Number(confidenceData.accuracy || 0),
+        bias: Number(confidenceData.bias || 0),
+        overconfidence: Number(confidenceData.overconfidence || 0),
+        underconfidence: Number(confidenceData.underconfidence || 0),
+        high_confidence_wrong: Number(confidenceData.high_confidence_wrong || 0),
+        low_confidence_correct: Number(confidenceData.low_confidence_correct || 0),
+        recent_calibration: Number(confidenceData.recent_calibration || 0),
+        prior_calibration: Number(confidenceData.prior_calibration || 0),
+        calibration_delta: Number(confidenceData.calibration_delta || 0),
+        levels: Array.isArray(confidenceData.levels) ? confidenceData.levels : [],
+        subjects: Array.isArray(confidenceData.subjects) ? confidenceData.subjects : [],
+      };
+
       setSubjects(subjectRows);
       setPriorities(priorityRows.sort((a, b) => b.score - a.score).slice(0, 6));
       setTrend(trendValues);
+      setConfidence(canonicalConfidence);
 
       setSnapshot({
         readiness: Number(profileRes.data?.readiness_score || 0),
         accuracy: Number(profileRes.data?.clinical_accuracy || 0),
         stability: Number(profileRes.data?.stability_score || 0),
         timing: Number(profileRes.data?.time_sensitivity || 0),
-        calibration: Number((dnaRes.data as any)?.confidence_calibration || 0),
+        calibration: canonicalConfidence.calibration,
         attempts: attempts.length,
-        confidenceAttempts: attempts.filter(row => Number(row.confidence_level) >= 1 && Number(row.confidence_level) <= 5).length,
+        confidenceAttempts: canonicalConfidence.confidence_attempts,
         changedAnswers: attempts.filter(row => Number(row.answer_changes_count || 0) > 0).length,
       });
 
@@ -493,6 +626,7 @@ export default function PerformanceIntelligence() {
               subjects={subjects}
               priorities={priorities}
               trend={trend}
+              confidence={confidence}
               loading={loading}
             />
           )}
