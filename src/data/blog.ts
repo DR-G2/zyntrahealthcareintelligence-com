@@ -13,7 +13,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
   {
     slug: "amc-part-1-mcq",
     category: "AMC",
-    title: "AMC Part 1 MCQ: What You Are Really Training For",
+    title: "AMC Part 1: What the AMC CAT MCQ Examination Actually Tests",
     excerpt: "AMC-style preparation is not only about collecting correct answers. Applied reasoning, timing and decision behaviour matter to the way you train.",
     readTime: "6 min read",
     date: "October 2026",
@@ -35,7 +35,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
   {
     slug: "amc-part-2-osce",
     category: "AMC",
-    title: "AMC Part 2 Clinical Examination: What the OSCE Actually Tests",
+    title: "AMC Part 2 Clinical Examination: What the AMC OSCE Actually Tests",
     excerpt: "A practical introduction to clinical examination preparation, from structured reasoning and communication to examination, management and safe clinical decisions.",
     readTime: "8 min read",
     date: "October 2026",
@@ -57,7 +57,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
   {
     slug: "amc-exam-not-just-knowledge-test",
     category: "Clinical Reasoning",
-    title: "The AMC Exam Is Not Just a Knowledge Test",
+    title: "The AMC Exam Is Not Just a Knowledge Test: Knowledge vs Clinical Performance",
     excerpt: "Knowing the medicine is necessary. Turning that knowledge into a timely, defensible clinical decision is a different skill.",
     readTime: "5 min read",
     date: "October 2026",
@@ -75,7 +75,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
   {
     slug: "why-getting-a-question-wrong-isnt-the-whole-story",
     category: "Performance Intelligence",
-    title: "Why Getting a Question Wrong Isn't the Whole Story",
+    title: "Why Getting an AMC Question Wrong Isn't the Whole Story",
     excerpt: "Two incorrect answers can represent completely different training problems. The path to the answer contains useful information.",
     readTime: "5 min read",
     date: "October 2026",
@@ -91,8 +91,8 @@ export const BLOG_ARTICLES: BlogArticle[] = [
   },
   {
     slug: "hidden-cost-of-changing-a-correct-answer",
-    category: "Study Strategy",
-    title: "The Hidden Cost of Changing a Correct Answer",
+    category: "Performance Intelligence",
+    title: "The Hidden Cost of Changing a Correct AMC Answer",
     excerpt: "Changing an answer is sometimes exactly what good reasoning requires. The useful question is what happened between the first and final decision.",
     readTime: "5 min read",
     date: "October 2026",
@@ -109,7 +109,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
   {
     slug: "confidence-calibration-and-study",
     category: "Performance Intelligence",
-    title: "How Confidence Calibration Can Change the Way You Study",
+    title: "Confidence Calibration for AMC Preparation: When Certainty and Accuracy Don't Match",
     excerpt: "Confidence becomes useful when it is compared with outcomes rather than treated as a feeling to maximise.",
     readTime: "6 min read",
     date: "October 2026",

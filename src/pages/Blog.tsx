@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { ArrowRight, BookOpen, Brain, Clock, Search, Sparkles, Target } from "lucide-react";
 import { Link } from "react-router-dom";
+import { SEO } from "@/components/SEO";
 
 type Article = {
   slug: string;
@@ -13,88 +14,142 @@ type Article = {
 
 const articles: Article[] = [
   {
-    slug: "amc-part-2-osce",
-    category: "AMC",
-    title: "AMC Part 2 Clinical Examination: What the OSCE Actually Tests",
-    excerpt: "A practical guide to the clinical examination, the skills being assessed, and how candidates can structure their preparation.",
-    readTime: "8 min read",
+    slug: "what-is-zyntra",
+    category: "Zyntra",
+    title: "What Is Zyntra? AI-Powered Medical Exam Training Built Around Performance Intelligence",
+    excerpt: "Zyntra is a medical examination training platform built around Performance Intelligence, starting with AMC preparation and expanding toward USMLE, Royal College, medical school and healthcare examinations.",
+    readTime: "7 min read",
     featured: true,
   },
   {
     slug: "amc-part-1-mcq",
     category: "AMC",
-    title: "AMC Part 1 MCQ: What Candidates Actually Need to Practise",
-    excerpt: "Beyond collecting questions: understanding clinical reasoning, decision-making, timing and consistency in AMC-style MCQs.",
+    title: "AMC Part 1: What the AMC CAT MCQ Examination Actually Tests",
+    excerpt: "A practical guide to AMC Part 1 preparation, clinical reasoning, decision-making, timing and the difference between knowing medicine and performing in the examination.",
+    readTime: "8 min read",
+  },
+  {
+    slug: "amc-part-2-osce",
+    category: "AMC",
+    title: "AMC Part 2 Clinical Examination: What the AMC OSCE Actually Tests",
+    excerpt: "Understand what AMC Part 2 preparation really demands: history taking, examination, communication, clinical reasoning, management and safe clinical performance.",
+    readTime: "9 min read",
+  },
+  {
+    slug: "performance-intelligence-engine",
+    category: "Performance Intelligence",
+    title: "What Is a Performance Intelligence Engine? A New Way to Train for Medical Exams",
+    excerpt: "Learn how performance intelligence adds context to accuracy by examining training signals such as timing, confidence, answer changes and consistency.",
     readTime: "7 min read",
   },
   {
-    slug: "amc-exam-is-not-just-a-knowledge-test",
-    category: "Clinical Reasoning",
-    title: "The AMC Exam Is Not Just a Knowledge Test",
-    excerpt: "Why knowing the medicine is only one part of performing well under examination conditions.",
-    readTime: "6 min read",
+    slug: "how-to-use-zyntra-properly",
+    category: "Zyntra",
+    title: "How to Use Zyntra Properly: A Practical AMC Exam Preparation Guide",
+    excerpt: "A practical guide to using Zyntra as a training system rather than simply another question bank, from baseline assessment to targeted revision.",
+    readTime: "10 min read",
   },
   {
     slug: "why-getting-a-question-wrong-isnt-the-whole-story",
     category: "Performance Intelligence",
-    title: "Why Getting a Question Wrong Isn't the Whole Story",
-    excerpt: "A wrong answer can reveal timing, uncertainty, reasoning and decision patterns that a score alone cannot show.",
+    title: "Why Getting an AMC Question Wrong Isn't the Whole Story",
+    excerpt: "Two wrong answers can represent completely different training problems. The path to the answer can contain useful information.",
     readTime: "5 min read",
-  },
-  {
-    slug: "clinical-reasoning-vs-memorisation",
-    category: "Study Strategy",
-    title: "Clinical Reasoning vs Memorisation: What IMGs Need to Practise",
-    excerpt: "A closer look at the difference between remembering information and using it to make a clinical decision.",
-    readTime: "6 min read",
   },
   {
     slug: "hidden-cost-of-changing-a-correct-answer",
     category: "Performance Intelligence",
-    title: "The Hidden Cost of Changing a Correct Answer",
-    excerpt: "What answer changes can tell you about decision stability, hesitation and exam behaviour.",
+    title: "The Hidden Cost of Changing a Correct AMC Answer",
+    excerpt: "Changing an answer is sometimes good reasoning and sometimes avoidable uncertainty. Learn how to review the transition from first instinct to final answer.",
     readTime: "5 min read",
   },
   {
-    slug: "confidence-calibration",
+    slug: "confidence-calibration-and-study",
     category: "Performance Intelligence",
-    title: "How Confidence Calibration Can Change the Way You Study",
-    excerpt: "Confidence is useful when it is measured against outcomes. Calibration helps separate certainty from accuracy.",
+    title: "Confidence Calibration for AMC Preparation: When Certainty and Accuracy Don't Match",
+    excerpt: "Confidence becomes useful when it is compared with outcomes. Calibration can help identify high-confidence errors and unstable knowledge.",
     readTime: "6 min read",
-  },
-  {
-    slug: "why-zyntra-exists",
-    category: "Zyntra",
-    title: "From Question Bank to Training Intelligence: Why Zyntra Exists",
-    excerpt: "The thinking behind building a training system that observes more than the final answer.",
-    readTime: "7 min read",
   },
 ];
 
 const categories = ["All", "AMC", "Clinical Reasoning", "Study Strategy", "IMG Journey", "Performance Intelligence", "Zyntra"];
 
 const articleBody: Record<string, { intro: string; sections: { title: string; body: string }[] }> = {
-  "amc-part-2-osce": {
-    intro: "The AMC Part 2 Clinical Examination is a practical assessment of clinical skills, communication and clinical decision-making. Preparation therefore needs to go beyond memorising station scripts.",
+  "what-is-zyntra": {
+    intro: "Zyntra is a medical examination training platform built around Performance Intelligence. The starting point is AMC preparation, but the larger ambition is to build a training environment that can support doctors and medical students across multiple examination systems.",
     sections: [
-      { title: "What the examination is designed to assess", body: "Clinical encounters require a candidate to gather relevant information, communicate clearly, perform an appropriate examination when required, identify the important problems and formulate a safe plan. The exact demands vary by station." },
-      { title: "The skills worth practising", body: "History taking, focused examination, explanation, counselling, clinical reasoning, differential diagnosis and management planning all need deliberate practice. Candidates also need to practise moving from information gathering to a clear clinical decision." },
-      { title: "Why structure matters", body: "A reliable consultation structure reduces cognitive load. The goal is not to sound scripted. It is to make sure important steps are consistently covered while leaving enough attention for the patient's actual presentation." },
-      { title: "Preparation should include feedback", body: "Reading model answers is useful, but it cannot reproduce the pressure of a live encounter. Repeated practice with specific feedback on communication, reasoning, omissions and time management is a different kind of preparation." },
-      { title: "Where Zyntra fits", body: "Zyntra's current live training room is MCQ practice. Its authenticated OSCE room is not yet live. This article is educational content, not a representation that live OSCE training is currently available in the product." },
+      { title: "Zyntra is a training platform, not another question bank", body: "The basic idea is simple. Learning the subject and learning to crack the examination are related, but they are not the same task. You can know a great deal of medicine and still lose marks through poor timing, avoidable answer changes, weak decision-making or inconsistent performance. Zyntra is designed to train the performance side as well as the medical knowledge side." },
+      { title: "Why AMC is the first platform", body: "AMC is where Zyntra is growing first. AMC preparation gives the platform a demanding environment in which broad medical knowledge, clinical reasoning and examination performance all matter. Part 1 and Part 2 also require different forms of preparation, making the AMC ecosystem a useful foundation for building a broader medical-examination training platform." },
+      { title: "Where Zyntra is going", body: "The longer-term direction extends beyond AMC. Zyntra is being developed toward USMLE, Royal College examinations, medical school examinations, postgraduate medical examinations and other healthcare-related assessments. The examination changes, but the underlying training problem remains: learn the material, practise applying it, understand your performance and improve deliberately." },
+      { title: "The Zyntra principle", body: "An answer is one signal. Your decision process is the dataset. Zyntra uses that distinction to help candidates understand not only what they got right or wrong, but how they are performing while they train." },
     ],
   },
   "amc-part-1-mcq": {
-    intro: "AMC Part 1 is a computer-based multiple-choice examination. Preparing effectively involves more than accumulating a large number of questions.",
+    intro: "AMC Part 1 is not simply a test of how many medical facts you can remember. Preparation requires broad knowledge, clinical reasoning, prioritisation and the ability to make decisions consistently under examination conditions.",
     sections: [
-      { title: "Knowledge is the foundation", body: "Candidates need broad clinical knowledge across the disciplines represented in the examination. But knowing a fact and selecting the best answer in a clinical vignette are different tasks." },
-      { title: "Practise the decision", body: "AMC-style questions require candidates to identify the key information, prioritise possibilities and select the most appropriate action or diagnosis. Deliberate practice should therefore include the reasoning process, not just the answer key." },
-      { title: "Timing and consistency matter", body: "A candidate may know the material but lose performance through rushing, hesitation or repeated answer changes. Those patterns are difficult to see if preparation records only right versus wrong." },
-      { title: "Use errors as training signals", body: "A mistake should lead to a useful question: was the problem knowledge, interpretation, prioritisation, timing or decision stability? That distinction can make subsequent study more targeted." },
-      { title: "Where Zyntra fits", body: "Zyntra combines MCQ practice with telemetry around timing, confidence, answer changes and consistency, then surfaces those signals through Performance Intelligence and Study Plan." },
+      { title: "First, understand what you are training for", body: "AMC-style clinical questions ask you to interpret information and select the most appropriate answer. That means knowledge is the foundation, but the examination also rewards the ability to recognise the problem, identify the important clue and decide what matters most." },
+      { title: "Stop measuring preparation only in questions completed", body: "A candidate can complete thousands of questions and still have the same recurring weaknesses. The useful questions are different: Which subjects are weak? Which errors repeat? Are you rushing? Are you changing answers unnecessarily? Are you spending too long between two plausible options? Those answers tell you what to train next." },
+      { title: "Learn the medicine, then train the decision", body: "Review explanations properly. Ask why the correct answer fits and why the alternatives do not. When you miss a question, decide whether the problem was knowledge, interpretation, prioritisation, timing or decision stability. Different problems need different corrections." },
+      { title: "Build examination discipline", body: "Timed practice should eventually become normal. You are not trying to become excellent at answering questions in comfortable conditions. You are trying to become reliable when the clock is running and the options are deliberately close." },
+      { title: "The practical rule", body: "Do not ask only, 'How many questions have I done?' Ask, 'What is my performance telling me, and what should I train next?' That is a much more useful AMC preparation question." },
+    ],
+  },
+  "amc-part-2-osce": {
+    intro: "AMC Part 2 is a clinical performance examination. Preparing for it means learning to demonstrate safe, structured clinical practice rather than simply memorising station scripts.",
+    sections: [
+      { title: "AMC Part 2 is a performance environment", body: "You are no longer selecting an answer on a screen. You have to listen, communicate, examine when required, reason through the findings and formulate an appropriate plan. The examiner needs to see the clinical process, not merely hear a rehearsed conclusion." },
+      { title: "The skills you need to train", body: "History taking, communication, focused examination, clinical reasoning, differential diagnosis, investigation and management planning all matter. So do explanation, shared decision-making, safety-netting and professional interaction." },
+      { title: "Use frameworks without becoming robotic", body: "Good preparation gives you reliable structures. It should not turn every patient into a memorised script. Learn how to approach a station, then deliberately vary the presentation so that the underlying reasoning becomes transferable." },
+      { title: "Feedback changes the quality of practice", body: "Reading a model station is useful. Performing the station under time pressure and receiving specific feedback is different. Review omissions, communication, reasoning, structure and time management rather than simply asking whether the station felt good." },
+      { title: "Where Zyntra fits today", body: "Zyntra's authenticated OSCE room is currently marked 'Not live yet'. This article is educational content and does not represent a live Zyntra OSCE engine. Candidates should use current official AMC information for examination rules, eligibility, format and scheduling." },
+    ],
+  },
+  "performance-intelligence-engine": {
+    intro: "A Performance Intelligence Engine is designed to make training information more useful than a simple right-or-wrong score. Zyntra uses performance signals to help candidates understand how they are performing while they practise.",
+    sections: [
+      { title: "Why accuracy alone is incomplete", body: "Imagine two candidates both score 70%. One is consistently performing around that level. The other gets questions right but repeatedly rushes, changes correct answers and struggles with a particular subject. The percentage is identical. The training problem is not." },
+      { title: "What performance intelligence observes", body: "Depending on the training activity and available data, useful signals can include accuracy, response time, confidence, answer changes, consistency, recurring mistakes and subject-level performance. These signals add context to the outcome of the question." },
+      { title: "It is not a personality test", body: "Performance signals should be treated as training information, not psychological diagnoses. A pattern can tell you what deserves review without telling you what kind of person you are." },
+      { title: "The useful question", body: "The purpose of performance intelligence is not to create a mysterious score and leave you staring at a dashboard. The useful question is practical: what does the evidence from my training suggest I should work on next?" },
+      { title: "A deliberate boundary", body: "Zyntra does not publish every implementation detail of its underlying intelligence systems. Candidates do not need a technical blueprint to use the resulting information effectively. They need clear signals, sensible interpretation and useful training actions." },
+    ],
+  },
+  "how-to-use-zyntra-properly": {
+    intro: "Zyntra works best when you treat it as a training system rather than a scoreboard. The quality of the information you give the platform directly affects the usefulness of the performance picture you get back.",
+    sections: [
+      { title: "1. Establish a genuine baseline", body: "Answer honestly. Do not deliberately manipulate your timing or confidence to make the dashboard look better. Your early performance is useful precisely because it shows where you are starting." },
+      { title: "2. Review the explanation, not just the letter", body: "After an incorrect answer, ask why the correct option is correct and why the alternatives are less appropriate. Then decide what actually caused the miss. Knowledge gaps, stem interpretation errors and poor prioritisation require different responses." },
+      { title: "3. Stop worshipping the percentage", body: "A score is important, but one percentage cannot describe an entire preparation. Look for trends, recurring weaknesses, timing problems and changes in decision behaviour across your training." },
+      { title: "4. Attack weaknesses", body: "Do not spend every session in subjects you enjoy simply because the scores feel good. Use performance information to identify where additional training is required. Avoiding a weak area does not make it disappear." },
+      { title: "5. Use mistakes and answer changes intelligently", body: "A wrong answer is not automatically the same type of mistake every time. If you changed a correct answer, ask what evidence changed your mind. If nothing meaningful changed, that transition deserves review." },
+      { title: "6. Use repetition properly", body: "Repeatedly missing the same concept is more important than a single isolated error. Return to the underlying knowledge, practise a variation of the problem and check whether the mistake persists." },
+      { title: "7. Use Zyntra alongside proper medical study", body: "Zyntra is an educational training platform, not a replacement for textbooks, guidelines, lectures or other appropriate medical learning resources. If the problem is missing knowledge, learn the knowledge. Then return and test whether it transfers into performance." },
+      { title: "The Zyntra rule", body: "Do not use Zyntra merely to find out how many questions you got right. Use it to understand how you are performing while you answer them. That is where the training value lives." },
+    ],
+  },
+  "why-getting-a-question-wrong-isnt-the-whole-story": {
+    intro: "Two incorrect answers can represent completely different training problems. The result matters, but the path to the result can contain additional information.",
+    sections: [
+      { title: "Wrong is not one category", body: "A fast guess, a careful but incorrect decision and a correct answer changed into an incorrect one are different events. Treating them as identical can hide useful training signals." },
+      { title: "Review what happened", body: "Look at timing, confidence, answer changes and the clinical reasoning behind the decision. These signals do not diagnose personality. They help you decide what deserves another look." },
+    ],
+  },
+  "hidden-cost-of-changing-a-correct-answer": {
+    intro: "Changing an answer is not automatically a mistake. Sometimes it is exactly what good reasoning requires. The useful question is what happened between the first and final decision.",
+    sections: [
+      { title: "Changing is not automatically bad", body: "A changed answer can reflect a genuine correction after noticing a missed clue. It can also reflect uncertainty without new evidence. The distinction is more useful than simply counting changes." },
+      { title: "Review the transition", body: "When a first answer becomes a final answer, review what changed your mind. If the evidence changed, the revision may represent good reasoning. If nothing meaningful changed, the event may deserve closer review." },
+    ],
+  },
+  "confidence-calibration-and-study": {
+    intro: "Confidence calibration asks whether certainty tends to match outcomes. It is useful because confidence and accuracy are not automatically the same thing.",
+    sections: [
+      { title: "Confidence versus calibration", body: "A candidate can be highly confident and well calibrated, or highly confident and frequently wrong. Those are different training situations." },
+      { title: "Turn the signal into action", body: "High-confidence errors can deserve deliberate review. Low-confidence correct answers can reveal knowledge that is present but not yet stable. The point is not to maximise confidence. It is to make confidence more informative." },
     ],
   },
 };
+
 
 export default function Blog() {
   const [category, setCategory] = useState("All");
@@ -107,6 +162,19 @@ export default function Blog() {
   const featured = articles.find((a) => a.featured)!;
 
   return (
+    <>
+      <SEO
+        title="AMC Exam Preparation, Clinical Reasoning & Medical Exam Strategy | Zyntra"
+        description="Practical AMC exam preparation guidance on Part 1 MCQs, Part 2 clinical examination, clinical reasoning, study strategy and Zyntra Performance Intelligence."
+        path="/blog"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          name: "Zyntra Intelligence Lab",
+          description: "AMC exam preparation, clinical reasoning and medical examination training insights.",
+          url: "https://www.zyntrahealthcareintelligence.com/blog",
+        }}
+      />
     <div className="min-h-screen bg-[#040812] text-slate-100 overflow-x-hidden">
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute -top-40 left-1/4 w-[600px] h-[600px] bg-cyan-600/10 rounded-full blur-[140px]" />
@@ -199,6 +267,7 @@ export default function Blog() {
         </div>
       </footer>
     </div>
+    </>
   );
 }
 
