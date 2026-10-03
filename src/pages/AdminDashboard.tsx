@@ -54,6 +54,88 @@ const OSCE_SUBJECTS = [
   "Psychiatry", "Obstetrics & Gynaecology", "Paediatrics", "Surgery"
 ];
 
+// ─── Zyntra Command ───────────────────────────────────────────
+
+const ZYNTRA_COMMAND_ROLES = [
+  {
+    name: "Heisenberg",
+    role: "Founder / Strategy",
+    scope: "Product vision, strategy, architecture, final decisions",
+    icon: Brain,
+  },
+  {
+    name: "Gus Fring",
+    role: "Operations / Quality",
+    scope: "Operations, release discipline, QA, production readiness",
+    icon: Activity,
+  },
+  {
+    name: "Jessi",
+    role: "AMC / OSCE Operations",
+    scope: "AMC training operations, OSCE workflow, candidate operations",
+    icon: Stethoscope,
+  },
+  {
+    name: "Kim Wexler",
+    role: "Academic / Clinical Standards",
+    scope: "Question quality, clinical accuracy, explanations, academic standards",
+    icon: BookOpen,
+  },
+  {
+    name: "Mike Ehrmantraut",
+    role: "Editorial / Content",
+    scope: "Blog, educational content, AMC guidance, public knowledge",
+    icon: FileText,
+  },
+  {
+    name: "Saul Goodman",
+    role: "Legal / Compliance",
+    scope: "Terms, privacy, contracts, compliance, legal-risk review",
+    icon: ShieldAlert,
+  },
+  {
+    name: "Hank Schrader",
+    role: "Security / Forensics",
+    scope: "Security audits, RLS, authentication boundaries, forensic QA, threat testing",
+    icon: ShieldAlert,
+  },
+] as const;
+
+function ZyntraCommandPanel() {
+  return (
+    <Card className="border-primary/15 bg-card/80">
+      <CardHeader className="pb-3">
+        <CardTitle className="text-base font-semibold tracking-tight">ZYNTRA COMMAND</CardTitle>
+        <p className="text-sm text-muted-foreground">Seven operating roles. One intelligence platform.</p>
+      </CardHeader>
+      <CardContent>
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
+          {ZYNTRA_COMMAND_ROLES.map(({ name, role, scope, icon: Icon }) => (
+            <Card key={name} className="border-border/70 bg-background/40 shadow-none">
+              <CardContent className="p-4">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex min-w-0 items-center gap-2.5">
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-primary/20 bg-primary/10">
+                      <Icon className="h-4 w-4 text-primary" />
+                    </div>
+                    <div className="min-w-0">
+                      <div className="truncate text-sm font-semibold uppercase tracking-wide">{name}</div>
+                      <div className="text-xs text-muted-foreground">{role}</div>
+                    </div>
+                  </div>
+                  <Badge variant="outline" className="shrink-0 text-[10px] uppercase tracking-wider">Active</Badge>
+                </div>
+                <p className="mt-3 text-xs leading-relaxed text-muted-foreground">{scope}</p>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+
 // ─── Users Tab ───────────────────────────────────────────────
 
 function UsersTab({ currentUserEmail }: { currentUserEmail: string }) {
@@ -1663,6 +1745,8 @@ export default function AdminDashboard() {
     <AppLayout>
       <div className="mx-auto max-w-6xl py-8 space-y-6">
         <h1 className="text-2xl font-display font-bold">Admin Dashboard</h1>
+
+        {isSuperAdmin && <ZyntraCommandPanel />}
 
         {/* Admins Online Panel */}
         <Card>
