@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { AppLayout } from '@/components/AppLayout';
 import { RoomHeader } from '@/components/RoomHeader';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -35,7 +35,15 @@ export default function AILab() {
   const [difficulty, setDifficulty] = useState('moderate');
   const [questionCount, setQuestionCount] = useState('5');
   const [loading, setLoading] = useState(false);
+  const [history, setHistory] = useState<Array<{ id: string; mode: string; provider: string; model: string | null; created_at: string; status: string }>>([]);
   const canRun = useMemo(() => connected && !!model && (mode !== 'performance' || !!prompt.trim()) && (mode !== 'questions' || !!subject.trim()), [connected, model, mode, prompt, subject]);
+
+  const loadHistory = async () => {
+    const { data, error } = await supabase.from('ai_lab_sessions').select('id, mode, provider, model, created_at, status').order('created_at', { ascending: false }).limit(10);
+    if (!error && data) setHistory(data);
+  };
+
+  useEffect(() => { void loadHistory(); }, []);
 
   const invoke = async (body: Record<string, unknown>) => {
     const { data, error } = await supabase.functions.invoke('ai-lab', { body });
@@ -75,6 +83,7 @@ export default function AILab() {
         generation: mode === 'questions' ? { subject: subject.trim(), focus: focus.trim(), difficulty, count: Number(questionCount) } : undefined,
       });
       toast({ title: 'AI Lab session complete' });
+      await loadHistory();
       if (mode === 'performance') setPrompt('');
     } catch (e: any) {
       toast({ title: 'AI Lab error', description: e?.message || 'Unable to complete the session.', variant: 'destructive' });
@@ -109,7 +118,9 @@ export default function AILab() {
         </CardContent>
       </Card>
     </div>
-    <Card className="border-white/10 bg-[#081224]/70"><CardHeader><CardTitle className="flex items-center gap-2"><History className="h-4 w-4 text-cyan-300"/>Recent AI Lab</CardTitle><CardDescription>AI Lab sessions stay separate from canonical Zyntra attempts.</CardDescription></CardHeader><CardContent><div className="text-sm text-slate-400">Session history will appear here once the backend is connected.</div></CardContent></Card>
+    <Card className="border-white/10 bg-[#081224]/70"><CardHeader><CardTitle className="flex items-center gap-2"><History className="h-4 w-4 text-cyan-300"/>Recent AI Lab</CardTitle><CardDescription>AI Lab sessions stay separate from canonical Zyntra attempts.</CardDescription></CardHeader><CardContent>
+          {history.length ? <div className="space-y-2">{history.map((session) => <div key={session.id} className="flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/[0.02] p-3"><div className="min-w-0"><div className="text-sm font-medium text-white">{session.mode === 'performance' ? 'Ask My Performance' : session.mode === 'questions' ? 'Generate Questions' : 'Weak Area Drill'}</div><div className="text-xs text-slate-500">{session.provider} · {session.model || 'model'} · {new Date(session.created_at).toLocaleString()}</div></div><Badge variant="outline" className="shrink-0">{session.status}</Badge></div>)}</div> : <div className="text-sm text-slate-400">No AI Lab sessions yet.</div>}
+        </CardContent></Card>
     <p className="text-xs leading-5 text-slate-500">AI Lab is an experimental training environment. External AI outputs are not official AMC assessments and should be independently checked.</p>
   </div></AppLayout>;
 }
