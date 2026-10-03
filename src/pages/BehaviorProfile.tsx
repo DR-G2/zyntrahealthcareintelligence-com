@@ -1,20 +1,13 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion } from "framer-motion";
 import { Link } from 'react-router-dom';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/contexts/AuthContext';
-import { AppLayout } from '@/components/AppLayout';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import { BehaviorSkeleton } from '@/components/skeletons/PageSkeleton';
-import {
-  Brain, AlertTriangle, Zap, Clock, Shield, Target,
-  TrendingUp, TrendingDown, ArrowRight, RefreshCw, Activity,
-  CheckCircle, XCircle, Loader2
-} from 'lucide-react';
+import { Brain, Zap, Clock, Shield, ArrowRight, RefreshCw, Activity, Loader2, TrendingDown } from "lucide-react";
 import { useFeatureGate } from '@/hooks/useFeatureGate';
 import { UpgradePrompt } from '@/components/UpgradePrompt';
 import {
