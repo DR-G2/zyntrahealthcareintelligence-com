@@ -49,11 +49,12 @@ BEGIN
   IF v_count = 0 THEN
     INSERT INTO public.readiness_dna (
       user_id, clinical_accuracy, answer_stability, time_management,
-      confidence_calibration, readiness_score, distance_from_ideal, attempt_count, updated_at
+      confidence_calibration, confidence_attempt_count, readiness_score, distance_from_ideal, attempt_count, updated_at
     )
     VALUES (
       p_user_id, 0, 0, 0,
       COALESCE(v_confidence_calibration, 50),
+      COALESCE(v_confidence_attempt_count, 0),
       0, NULL, 0, now()
     )
     ON CONFLICT (user_id) DO UPDATE SET
@@ -61,6 +62,7 @@ BEGIN
       answer_stability = 0,
       time_management = 0,
       confidence_calibration = COALESCE(v_confidence_calibration, 50),
+      confidence_attempt_count = COALESCE(v_confidence_attempt_count, 0),
       readiness_score = 0,
       distance_from_ideal = NULL,
       attempt_count = 0,
@@ -95,13 +97,14 @@ BEGIN
   )
   VALUES (
     p_user_id, v_accuracy, v_stability, v_avg_time,
-    COALESCE(v_confidence_calibration, 50), v_readiness, v_distance, v_count, now()
+    COALESCE(v_confidence_calibration, 50), COALESCE(v_confidence_attempt_count, 0), v_readiness, v_distance, v_count, now()
   )
   ON CONFLICT (user_id) DO UPDATE SET
     clinical_accuracy = EXCLUDED.clinical_accuracy,
     answer_stability = EXCLUDED.answer_stability,
     time_management = EXCLUDED.time_management,
     confidence_calibration = EXCLUDED.confidence_calibration,
+    confidence_attempt_count = EXCLUDED.confidence_attempt_count,
     readiness_score = EXCLUDED.readiness_score,
     distance_from_ideal = EXCLUDED.distance_from_ideal,
     attempt_count = EXCLUDED.attempt_count,
