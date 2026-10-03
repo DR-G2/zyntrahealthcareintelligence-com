@@ -27,7 +27,7 @@ export default function BlogArticle() {
         <div className="mt-5 flex items-center gap-3 text-xs text-slate-500"><BookOpen className="w-4 h-4 text-cyan-400" /><span>Public article</span><span>·</span><Clock className="w-3.5 h-3.5" /><span>{article.readTime}</span></div>
         <p className="mt-8 text-lg leading-8 text-slate-300 border-l-2 border-cyan-500/40 pl-5">{content?.intro ?? article.excerpt}</p>
         <article className="mt-12 space-y-10">
-          {(content?.sections ?? []).map((section) => <section key={section.title}><h2 className="text-2xl font-bold text-white">{section.title}</h2><p className="mt-3 text-base leading-8 text-slate-400">{section.body}</p></section>)}
+          {(content?.sections ?? [{ title: "Why this matters", body: article.excerpt + " This article is part of the Zyntra Intelligence Lab, where we explore practical approaches to AMC preparation and learning." }]).map((section) => <section key={section.title}><h2 className="text-2xl font-bold text-white">{section.title}</h2><p className="mt-3 text-base leading-8 text-slate-400">{section.body}</p></section>)}
         </article>
         <div className="mt-16 rounded-2xl border border-cyan-500/20 bg-[#081224]/80 p-6">
           <p className="text-xs uppercase tracking-[.18em] text-cyan-400">Continue with Zyntra</p>
