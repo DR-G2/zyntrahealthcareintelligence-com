@@ -207,7 +207,7 @@ function PerformanceView({
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
           <SignalCard label="Accuracy" value={snapshot.attempts ? `${Math.round(snapshot.accuracy)}%` : '—'} helper="Clinical correctness across recorded attempts." />
           <SignalCard label="Stability" value={snapshot.attempts ? `${Math.round(snapshot.stability)}%` : '—'} helper="Consistency based on recorded answer changes." accent="purple" />
-          <SignalCard label="Timing" value={snapshot.attempts ? `${Math.round(snapshot.timing)}%` : '—'} helper="Time-management signal from attempts." accent="rose" />
+          <SignalCard label="Avg Time" value={snapshot.attempts ? `${Math.round(snapshot.timing)}s` : '—'} helper="Average response time across recorded attempts." accent="rose" />
           <SignalCard label="Calibration" value={snapshot.confidenceAttempts ? `${Math.round(snapshot.calibration)}%` : '—'} helper={snapshot.confidenceAttempts ? `${snapshot.confidenceAttempts} confidence records.` : 'No confidence data yet.'} accent="emerald" />
         </div>
       </section>
