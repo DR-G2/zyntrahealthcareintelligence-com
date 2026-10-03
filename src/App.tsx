@@ -25,6 +25,7 @@ const Onboarding = lazy(() => import("./pages/Onboarding"));
 const Assess = lazy(() => import("./pages/Assess"));
 const Practice = lazy(() => import("./pages/Practice"));
 const PracticeOsce = lazy(() => import("./pages/PracticeOsce"));
+const AILab = lazy(() => import("./pages/AILab"));
 const Questions = lazy(() => import("./pages/Questions"));
 const Plan = lazy(() => import("./pages/Plan"));
 const Settings = lazy(() => import("./pages/Settings"));
@@ -121,6 +122,7 @@ function AppRoutes() {
           <Route path="/trust-your-gut" element={<Navigate to="/intelligence?tab=trust-your-gut" replace />} />
           <Route path="/practice" element={<ProtectedRoute><ErrorBoundary><Practice /></ErrorBoundary></ProtectedRoute>} />
           <Route path="/practice/osce" element={<ProtectedRoute><ErrorBoundary><PracticeOsce /></ErrorBoundary></ProtectedRoute>} />
+          <Route path="/practice/ai-lab" element={<ProtectedRoute><ErrorBoundary><AILab /></ErrorBoundary></ProtectedRoute>} />
           <Route path="/questions" element={<ProtectedRoute><ErrorBoundary><Questions /></ErrorBoundary></ProtectedRoute>} />
           <Route path="/questions/mcq" element={<ProtectedRoute><ErrorBoundary><QuestionsMCQ /></ErrorBoundary></ProtectedRoute>} />
           <Route path="/questions/osce" element={<Navigate to="/practice/osce" replace />} />
