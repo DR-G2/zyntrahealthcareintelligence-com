@@ -136,7 +136,7 @@ export function MCQReviewQueue() {
     return rowSort(queue);
   }, [latestByQuestion]);
 
-  const subjects = useMemo(() => Array.from(new Set(queue.map(r => r.latest.questions?.category).filter(Boolean))).sort(), [queue]);
+  const subjects = useMemo(() => Array.from(new Set(queue.map(r => r.latest.questions?.category).filter(Boolean) as string[])).sort(), [queue]);
 
   const filtered = useMemo(() => {
     let rows = queue;

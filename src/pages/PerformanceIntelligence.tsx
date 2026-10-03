@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect, useMemo, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion, type Variants } from 'framer-motion';
 import { Brain, ClipboardCheck, Activity, ArrowRight, Gauge, RefreshCw, Sparkles, Target, UserCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useSearchParams } from 'react-router-dom';
@@ -89,12 +89,12 @@ function MetricCard({ metric }: { metric: TelemetryMetric }) {
   );
 }
 
-const reveal = {
+const reveal: Variants = {
   hidden: { opacity: 0, y: 18 },
   show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: 'easeOut' } },
 };
 
-const stagger = {
+const stagger: Variants = {
   hidden: {},
   show: { transition: { staggerChildren: 0.07 } },
 };
@@ -136,8 +136,8 @@ export default function PerformanceIntelligence() {
     const load = async () => {
       const [profileRes, dnaRes, attemptsRes] = await Promise.all([
         supabase.from('performance_profiles').select('readiness_score, clinical_accuracy, stability_score, time_sensitivity').eq('user_id', user.id).maybeSingle(),
-        supabase.from('readiness_dna').select('confidence_calibration, confidence_attempt_count').eq('user_id', user.id).maybeSingle(),
-        supabase.from('user_attempts').select('is_correct, answer_changes_count, confidence_level, created_at, questions(category, subtopic)').eq('user_id', user.id).order('created_at', { ascending: false }).limit(2000),
+        (supabase.from('readiness_dna') as any).select('confidence_calibration, confidence_attempt_count').eq('user_id', user.id).maybeSingle(),
+        (supabase.from('user_attempts') as any).select('is_correct, answer_changes_count, confidence_level, created_at, questions(category, subtopic)').eq('user_id', user.id).order('created_at', { ascending: false }).limit(2000),
       ]);
       const attempts = attemptsRes.data || [];
 
@@ -170,7 +170,7 @@ export default function PerformanceIntelligence() {
           attempts: ordered.length,
           accuracy: Math.round(accuracy),
           recentAccuracy: Math.round(recentAccuracy),
-          trend: delta >= 5 ? 'up' : delta <= -5 ? 'down' : 'flat',
+          trend: (delta >= 5 ? 'up' : delta <= -5 ? 'down' : 'flat') as 'up' | 'down' | 'flat',
         };
       }).sort((a, b) => a.accuracy - b.accuracy));
       setSubtopicStats(Array.from(bySubtopic.entries())
@@ -189,7 +189,7 @@ export default function PerformanceIntelligence() {
             attempts: ordered.length,
             accuracy: Math.round(accuracy),
             recentAccuracy: Math.round(recentAccuracy),
-            trend: delta >= 5 ? 'up' : delta <= -5 ? 'down' : 'flat',
+            trend: (delta >= 5 ? 'up' : delta <= -5 ? 'down' : 'flat') as 'up' | 'down' | 'flat',
             misses: ordered.filter(r => !r.is_correct).length,
             swaps: ordered.filter(r => r.answer_changes_count > 0).length,
           };
