@@ -1,10 +1,7 @@
 import { corsHeaders, json, requireUser, serviceClient, safeLabel } from "../_shared/auth.ts";
 
 const OPENAI_API = "https://api.openai.com/v1";
-
-function jsonHeaders() {
-  return { ...corsHeaders, "Content-Type": "application/json" };
-}
+const ALLOWED_MODELS = new Set(["gpt-5.6-sol", "gpt-6-luna"]);
 
 async function deriveCryptoKey(secret: string) {
   const bytes = new TextEncoder().encode(secret);
@@ -48,24 +45,30 @@ async function buildContext(sb: ReturnType<typeof serviceClient>, userId: string
     sb.from("subject_dna").select("subject, accuracy, attempt_count, avg_time, stability, gap_score").eq("user_id", userId).order("gap_score", { ascending: false }).limit(8),
     sb.from("behavior_profiles").select("archetype, rush_index, hesitation_index, fatigue_index").eq("user_id", userId).maybeSingle(),
   ]);
-  return {
-    readiness: r.data ?? null,
-    subjects: s.data ?? [],
-    behavior: b.data ?? null,
-  };
+  return { readiness: r.data ?? null, subjects: s.data ?? [], behavior: b.data ?? null };
 }
 
-function systemPrompt(context: any) {
+function systemPrompt(context: unknown) {
   return [
     "You are an external AI training assistant operating inside Zyntra AI Lab.",
     "Use the supplied Zyntra Training Context only to personalize educational guidance.",
     "Do not claim to be the AMC, do not claim official assessment status, and do not expose hidden Zyntra algorithms.",
-    "Treat the candidate context as private and do not infer information that is not supplied.",
+    "Treat candidate context as private and do not infer information that is not supplied.",
     "For question generation, create AMC-style single-best-answer educational practice, not copied official questions.",
     "",
     "BOUNDED ZYNTRA TRAINING CONTEXT:",
     JSON.stringify(context),
   ].join("\n");
+}
+
+async function getAvailableModels(apiKey: string): Promise<string[]> {
+  const response = await fetch(`${OPENAI_API}/models`, { headers: { Authorization: `Bearer ${apiKey}` } });
+  if (!response.ok) return [];
+  const payload = await response.json().catch(() => ({}));
+  if (!Array.isArray(payload?.data)) return [];
+  return payload.data
+    .map((m: any) => typeof m?.id === "string" ? m.id : "")
+    .filter((id: string) => ALLOWED_MODELS.has(id));
 }
 
 Deno.serve(async (req) => {
@@ -85,11 +88,13 @@ Deno.serve(async (req) => {
         return json({ success: false, error: "OpenAI API key is required." }, 400);
       }
       const apiKey = body.api_key.trim();
-      const response = await fetch(`${OPENAI_API}/models`, { headers: { Authorization: `Bearer ${apiKey}` } });
-      if (!response.ok) return json({ success: false, error: "OpenAI rejected the API credential." }, 400);
+      const models = await getAvailableModels(apiKey);
+      if (!models.length) return json({ success: false, error: "API credential is valid, but no supported AI Lab model is available to this credential." }, 403);
+
+      const preferred = ["gpt-5.6-sol", "gpt-6-luna"];
+      const defaultModel = preferred.find((id) => models.includes(id)) ?? models[0];
       const encrypted = await encryptApiKey(apiKey, encryptionSecret);
-      const defaultModel = "gpt-5.6";
-      await sb.from("ai_lab_connections").upsert({
+      const { error } = await sb.from("ai_lab_connections").upsert({
         user_id: caller.userId,
         provider: "openai",
         encrypted_api_key: encrypted,
@@ -98,11 +103,13 @@ Deno.serve(async (req) => {
         last_verified_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
       }, { onConflict: "user_id,provider" });
-      return json({ success: true, model: defaultModel });
+      if (error) return json({ success: false, error: "Unable to save the provider connection." }, 500);
+      return json({ success: true, model: defaultModel, models });
     }
 
     if (action === "disconnect") {
-      await sb.from("ai_lab_connections").delete().eq("user_id", caller.userId).eq("provider", "openai");
+      const { error } = await sb.from("ai_lab_connections").delete().eq("user_id", caller.userId).eq("provider", "openai");
+      if (error) return json({ success: false, error: "Unable to disconnect the provider." }, 500);
       return json({ success: true });
     }
 
@@ -110,10 +117,16 @@ Deno.serve(async (req) => {
       if (body.provider !== "openai") return json({ success: false, error: "Provider not supported in V1." }, 400);
       const connection = await sb.from("ai_lab_connections").select("encrypted_api_key, selected_model").eq("user_id", caller.userId).eq("provider", "openai").maybeSingle();
       if (connection.error || !connection.data) return json({ success: false, error: "Connect OpenAI before starting an AI Lab session." }, 400);
+
+      const requestedModel = safeLabel(body.model, connection.data.selected_model || "");
+      if (!ALLOWED_MODELS.has(requestedModel)) return json({ success: false, error: "Unsupported model selected." }, 400);
+
       const apiKey = await decryptApiKey(connection.data.encrypted_api_key, encryptionSecret);
-      const model = safeLabel(body.model, connection.data.selected_model || "gpt-5.6", 80);
+      const model = requestedModel;
       const mode = safeLabel(body.mode, "performance", 30);
-      const useIntelligence = body.use_intelligence !== false;
+      if (!["performance", "questions", "weak-area"].includes(mode)) return json({ success: false, error: "Unsupported AI Lab mode." }, 400);
+
+      const useIntelligence = body.use_intelligence === true;
       const context = useIntelligence ? await buildContext(sb, caller.userId) : null;
 
       let userTask = "";
@@ -128,17 +141,14 @@ Deno.serve(async (req) => {
         const count = Math.min(10, Math.max(1, Number(g.count) || 5));
         userTask = `Generate ${count} AMC-style single-best-answer practice questions. Subject: ${subject}. Focus: ${focus}. Difficulty: ${difficulty}. Return ONLY a JSON array. Each object must contain stem, options, correct_answer and explanation.`;
       } else {
+        if (!useIntelligence) return json({ success: false, error: "Enable Training Context for Weak Area Drill." }, 400);
         userTask = "Design a focused educational weak-area drill from the supplied training context. Ask one question or exercise at a time and adapt to the candidate's responses.";
       }
 
-      const messages = [
-        { role: "system", content: systemPrompt(context) },
-        { role: "user", content: userTask },
-      ];
       const response = await fetch(`${OPENAI_API}/chat/completions`, {
         method: "POST",
         headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
-        body: JSON.stringify({ model, messages, temperature: 0.3, max_tokens: mode === "questions" ? 5000 : 1800 }),
+        body: JSON.stringify({ model, messages: [{ role: "system", content: systemPrompt(context) }, { role: "user", content: userTask }], temperature: 0.3, max_tokens: mode === "questions" ? 5000 : 1800 }),
       });
       const result = await response.json().catch(() => ({}));
       if (!response.ok) return json({ success: false, error: result?.error?.message || "OpenAI request failed." }, 400);
@@ -155,7 +165,7 @@ Deno.serve(async (req) => {
         }
       }
 
-      await sb.from("ai_lab_sessions").insert({
+      const { error: sessionError } = await sb.from("ai_lab_sessions").insert({
         user_id: caller.userId,
         provider: "openai",
         model,
@@ -168,6 +178,7 @@ Deno.serve(async (req) => {
         response_tokens: result?.usage?.completion_tokens ?? null,
         updated_at: new Date().toISOString(),
       });
+      if (sessionError) return json({ success: false, error: "AI completed, but the session could not be saved." }, 500);
 
       return json({ success: true, mode, result: rendered, usage: result?.usage ?? null });
     }
