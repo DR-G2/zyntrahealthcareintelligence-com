@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { ArrowRight, BookOpen, Brain, Clock, Layers, Search, Sparkles, Target } from "lucide-react";
+import { ArrowRight, BookOpen, Brain, Clock, Search, Sparkles, Target } from "lucide-react";
 import { Link } from "react-router-dom";
 
 type Article = {
