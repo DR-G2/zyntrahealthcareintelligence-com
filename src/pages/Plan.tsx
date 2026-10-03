@@ -15,8 +15,8 @@ import { cn } from '@/lib/utils';
 interface PerformanceProfile {
   readiness_score: number | null;
   clinical_accuracy: number | null;
-  stability_score: number | null;
-  time_sensitivity: number | null;
+  answer_stability: number | null;
+  time_management: number | null;
 }
 interface CategoryStat {
   category: string;
@@ -69,7 +69,7 @@ export default function Plan() {
     let cancelled = false;
     (async () => {
       const [perfRes, attemptsRes, planRes] = await Promise.all([
-        supabase.from('performance_profiles').select('readiness_score, clinical_accuracy, stability_score, time_sensitivity').eq('user_id', user.id).maybeSingle(),
+        supabase.from('readiness_dna').select('readiness_score, clinical_accuracy, answer_stability, time_management').eq('user_id', user.id).maybeSingle(),
         supabase.from('user_attempts').select('is_correct, questions(category)').eq('user_id', user.id),
         supabase.from('study_plans').select('tasks, generated_at').eq('user_id', user.id).maybeSingle(),
       ]);
@@ -122,7 +122,7 @@ export default function Plan() {
 
   const readiness = Math.max(0, Math.min(100, Number(perf?.readiness_score || 0)));
   const accuracy = Math.max(0, Math.min(100, Number(perf?.clinical_accuracy || 0)));
-  const stability = Math.max(0, Math.min(100, Number(perf?.stability_score || 0)));
+  const stability = Math.max(0, Math.min(100, Number(perf?.answer_stability || 0)));
 
   const generatePlan = async () => {
     if (!user || generating || generationLocked || categories.length === 0) return;
@@ -177,17 +177,6 @@ export default function Plan() {
       <div className="mx-auto max-w-6xl space-y-6">
         <SubscriptionTimer />
         <RoomHeader kind="study-plan" />
-
-        <div className="mx-auto grid w-fit min-w-[18rem] grid-cols-2 rounded-2xl border border-white/10 bg-white/[0.025] p-1.5">
-          <button onClick={() => setParams({ tab: 'current' })} className={cn('relative rounded-xl px-5 py-2.5 text-sm font-medium transition', tab === 'current' ? 'bg-white/[0.08] text-white' : 'text-slate-400 hover:text-white')}>
-            Current
-            {tab === 'current' && <span className="absolute inset-x-5 -bottom-px h-px bg-cyan-400 shadow-[0_0_10px_rgba(34,211,238,.8)]" />}
-          </button>
-          <button onClick={() => setParams({ tab: 'generate' })} className={cn('relative rounded-xl px-5 py-2.5 text-sm font-medium transition', tab === 'generate' ? 'bg-white/[0.08] text-white' : 'text-slate-400 hover:text-white')}>
-            Generate New
-            {tab === 'generate' && <span className="absolute inset-x-5 -bottom-px h-px bg-cyan-400 shadow-[0_0_10px_rgba(34,211,238,.8)]" />}
-          </button>
-        </div>
 
         {tab === 'generate' ? (
           <section className="rounded-3xl border border-white/10 bg-[#081224]/70 p-6 backdrop-blur-xl sm:p-7">
