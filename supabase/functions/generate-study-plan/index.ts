@@ -136,10 +136,10 @@ serve(async (req) => {
     const prompt = `You are an AMC exam preparation expert. Generate a personalized, actionable 7-day study plan.
 
 AUTHORITATIVE PERFORMANCE INTELLIGENCE:
-- Readiness: ${dnaRes.data?.readiness_score ?? perfProfile?.readiness_score ?? 0}%
-- Clinical accuracy: ${dnaRes.data?.clinical_accuracy ?? perfProfile?.clinical_accuracy ?? 0}%
-- Answer stability: ${dnaRes.data?.answer_stability ?? perfProfile?.stability_score ?? 0}%
-- Time management: ${dnaRes.data?.time_management ?? perfProfile?.time_sensitivity ?? 0}%
+- Readiness: ${dnaRes.data?.readiness_score ?? 0}%
+- Clinical accuracy: ${dnaRes.data?.clinical_accuracy ?? 0}%
+- Answer stability: ${dnaRes.data?.answer_stability ?? 0}%
+- Average response time: ${dnaRes.data?.time_management ?? "n/a"} seconds
 - Confidence calibration: ${dnaRes.data?.confidence_calibration ?? "n/a"}%
 - Distance from ideal: ${dnaRes.data?.distance_from_ideal ?? "n/a"}
 - Attempts represented: ${dnaRes.data?.attempt_count ?? attempts.length}
