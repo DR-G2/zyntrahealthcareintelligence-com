@@ -1,9 +1,9 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
-import { Activity, Brain, CalendarDays, ClipboardCheck, Compass, Network, Route, Target } from 'lucide-react';
+import { Activity, Brain, CalendarDays, ClipboardCheck, Compass, Network, Route, Target, Sparkles } from 'lucide-react';
 
 export type RoomHeaderKind =
-  | 'practice' | 'mcq' | 'osce' | 'flashcards' | 'intelligence'
+  | 'practice' | 'mcq' | 'osce' | 'flashcards' | 'ai-lab' | 'intelligence'
   | 'performance' | 'behaviour' | 'trust' | 'study-plan' | 'current-plan' | 'generate-plan';
 
 const CONFIG: Record<RoomHeaderKind, {
@@ -13,6 +13,7 @@ const CONFIG: Record<RoomHeaderKind, {
   mcq: { icon: Target, eyebrow:'Practice · MCQ', title:'MCQ', subtitle:'Question → decision → feedback.', motif:'grid' },
   osce: { icon: ClipboardCheck, eyebrow:'Practice · OSCE', title:'OSCE', subtitle:'Clinical assessment stations and structured reasoning.', motif:'path' },
   flashcards: { icon: Brain, eyebrow:'Practice · Flashcards', title:'Flashcards', subtitle:'Reinforce mistakes and weak areas with focused review.', motif:'nodes' },
+  'ai-lab': { icon: Sparkles, eyebrow:'Practice · AI Lab', title:'AI Lab', subtitle:'Use external AI with a bounded view of your Zyntra performance.', motif:'pulse' },
   intelligence: { icon: Network, eyebrow:'Performance Intelligence', title:'Performance Intelligence', subtitle:'Understand how you think, decide and change answers.', motif:'nodes' },
   performance: { icon: Activity, eyebrow:'Performance', title:'Performance', subtitle:'See what your answers reveal about your preparation.', motif:'grid' },
   behaviour: { icon: Network, eyebrow:'Behaviour', title:'Behaviour', subtitle:'Understand timing, confidence and decision patterns.', motif:'pulse' },
