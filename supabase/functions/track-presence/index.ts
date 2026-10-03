@@ -15,8 +15,16 @@ serve(async (req) => {
       return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
-    const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
-    const anonKey = Deno.env.get("SUPABASE_ANON_KEY")!;
+    const supabaseUrl = Deno.env.get("SUPABASE_URL");
+    const anonKey = Deno.env.get("SUPABASE_ANON_KEY");
+
+    if (!supabaseUrl || !anonKey) {
+      console.error("track-presence: Supabase environment is not configured");
+      return new Response(JSON.stringify({ error: "Service configuration unavailable" }), {
+        status: 503,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
 
     const supabase = createClient(supabaseUrl, anonKey, {
       global: { headers: { Authorization: authHeader } },
@@ -60,29 +68,37 @@ serve(async (req) => {
 
     // Log screenshot attempt — skip for admin users (server-side guard)
     if (screenshotAttempt) {
-      const serviceClient = createClient(
-        supabaseUrl,
-        Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
-      );
+      const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
 
-      // Check if user is an admin — if so, skip logging entirely
-      const { data: adminRole } = await serviceClient
-        .from("admin_roles")
-        .select("role")
-        .eq("email", userEmail || "")
-        .maybeSingle();
+      // Screenshot logging is best-effort and must never take down presence.
+      if (serviceRoleKey) {
+        const serviceClient = createClient(supabaseUrl, serviceRoleKey);
 
-      if (!adminRole) {
-        await serviceClient.from("system_error_logs").insert({
-          error_type: "screenshot_attempt",
-          user_id: userId,
-          details: {
-            trigger: screenshotTrigger,
-            page: currentPage,
-            ip_address: ip,
-            timestamp: new Date().toISOString(),
-          },
-        });
+        // Check if user is an admin — if so, skip logging entirely
+        const { data: adminRole, error: adminRoleError } = await serviceClient
+          .from("admin_roles")
+          .select("role")
+          .eq("email", userEmail || "")
+          .maybeSingle();
+
+        if (adminRoleError) {
+          console.error("track-presence admin lookup failed:", adminRoleError);
+        } else if (!adminRole) {
+          const { error: logError } = await serviceClient.from("system_error_logs").insert({
+            error_type: "screenshot_attempt",
+            user_id: userId,
+            details: {
+              trigger: screenshotTrigger,
+              page: currentPage,
+              ip_address: ip,
+              timestamp: new Date().toISOString(),
+            },
+          });
+
+          if (logError) console.error("track-presence screenshot log failed:", logError);
+        }
+      } else {
+        console.error("track-presence: service role key unavailable; screenshot event not persisted");
       }
     }
 
