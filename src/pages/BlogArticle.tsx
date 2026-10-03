@@ -1,6 +1,7 @@
 import React from "react";
 import { ArrowLeft, ArrowRight, BookOpen, Clock } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
+import { SEO } from "@/components/SEO";
 import { articles, articleBody } from "./Blog";
 
 export default function BlogArticle() {
