@@ -9,7 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import { BehaviorSkeleton } from '@/components/skeletons/PageSkeleton';
-import {
+import { Activity,
   Brain, AlertTriangle, Zap, Clock, Shield, Target,
   TrendingUp, TrendingDown, ArrowRight, RefreshCw, Loader2
 } from 'lucide-react';
@@ -20,7 +20,7 @@ import {
   ResponsiveContainer, Legend
 } from 'recharts';
 
-const ARCHETYPE_META: Record<string, { label: string; icon: typeof Brain; color: string; description: string }> = {
+const ARCHETYPE_META: Record<string, { label: string; icon: typeof Brain; color: string; description: string; risk?: string }> = {
   panic_changer: {
     label: 'Frequent Answer Changes',
     icon: RefreshCw,
@@ -182,9 +182,9 @@ export default function BehaviorProfile() {
                 <div>
                   <CardTitle className="text-2xl font-display">{meta.label}</CardTitle>
                   <div className="flex items-center gap-2 mt-1">
-                    <Badge variant={meta.risk === 'Low' ? 'default' : meta.risk === 'High' ? 'destructive' : 'secondary'}>
+                    {meta.risk && (<Badge variant={meta.risk === 'Low' ? 'default' : meta.risk === 'High' ? 'destructive' : 'secondary'}>
                       AMC Risk: {meta.risk}
-                    </Badge>
+                    </Badge>)}
                   </div>
                 </div>
               </div>
