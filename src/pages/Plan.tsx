@@ -70,7 +70,7 @@ export default function Plan() {
     (async () => {
       const [perfRes, attemptsRes, planRes] = await Promise.all([
         supabase.from('readiness_dna').select('readiness_score, clinical_accuracy, answer_stability, time_management').eq('user_id', user.id).maybeSingle(),
-        supabase.from('user_attempts').select('is_correct, questions(category)').eq('user_id', user.id),
+        supabase.from('subject_dna').select('subject, accuracy, attempt_count').eq('user_id', user.id).order('accuracy', { ascending: true }),
         supabase.from('study_plans').select('tasks, generated_at').eq('user_id', user.id).maybeSingle(),
       ]);
       if (cancelled) return;
@@ -81,21 +81,17 @@ export default function Plan() {
         if (cached?.focus_areas && cached?.weekly_schedule) setPlan(cached);
       }
 
-      const map = new Map<string, { correct: number; total: number }>();
-      (attemptsRes.data || []).forEach((a: any) => {
-        const category = a.questions?.category || 'Uncategorised';
-        const row = map.get(category) || { correct: 0, total: 0 };
-        row.total += 1;
-        if (a.is_correct) row.correct += 1;
-        map.set(category, row);
-      });
-      setCategories(Array.from(map.entries()).map(([category, d]) => {
-        const accuracy = Math.round((d.correct / d.total) * 100);
+      setCategories((attemptsRes.data || []).map((row: any) => {
+        const accuracy = Math.round(Number(row.accuracy || 0));
+        const total = Number(row.attempt_count || 0);
         return {
-          category, ...d, accuracy,
+          category: row.subject || 'Uncategorised',
+          correct: Math.round(total * accuracy / 100),
+          total,
+          accuracy,
           priority: accuracy < 60 ? 'high' : accuracy < 80 ? 'medium' : 'maintain',
         };
-      }).sort((a, b) => a.accuracy - b.accuracy));
+      }).filter((row: CategoryStat) => row.total > 0));
       setLoading(false);
     })();
     return () => { cancelled = true; };
@@ -253,7 +249,7 @@ export default function Plan() {
                       <div key={task.category + i} className="grid gap-4 rounded-2xl border border-white/10 bg-white/[0.02] p-4 sm:grid-cols-[1fr_auto_auto] sm:items-center">
                         <div className="min-w-0"><div className="flex flex-wrap items-center gap-2"><span className={cn('rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider', priorityTone(task.priority))}>{task.priority}</span><p className="truncate text-sm font-medium text-slate-200">{task.category}</p></div>{task.study_tip && <p className="mt-2 text-xs leading-5 text-slate-500">{task.study_tip}</p>}</div>
                         <div><p className="text-sm font-semibold text-white">{task.daily_questions || 0} q/day</p>{task.accuracy != null && <p className="text-[11px] font-mono text-slate-600">{task.accuracy}% accuracy</p>}</div>
-                        <Link to="/practice" className="inline-flex items-center justify-center gap-1 rounded-lg border border-white/10 px-3 py-2 text-xs font-semibold text-slate-300 hover:border-cyan-400/30 hover:text-cyan-300">Practice <ArrowRight className="h-3 w-3" /></Link>
+                        <Link to={`/practice?subject=${encodeURIComponent(task.category)}`} className="inline-flex items-center justify-center gap-1 rounded-lg border border-white/10 px-3 py-2 text-xs font-semibold text-slate-300 hover:border-cyan-400/30 hover:text-cyan-300">Practice <ArrowRight className="h-3 w-3" /></Link>
                       </div>
                     ))}
                   </div>
