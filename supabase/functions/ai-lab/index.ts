@@ -83,6 +83,13 @@ Deno.serve(async (req) => {
   if (!encryptionSecret) return json({ success: false, error: "AI Lab encryption secret is not configured." }, 500);
 
   try {
+    if (action === "status") {
+      const { data, error } = await sb.from("ai_lab_connections").select("selected_model, status").eq("user_id", caller.userId).eq("provider", "openai").maybeSingle();
+      if (error) return json({ success: false, error: "Unable to read the provider connection." }, 500);
+      if (!data || data.status !== "connected") return json({ success: true, connected: false, models: [] });
+      return json({ success: true, connected: true, model: data.selected_model, models: [...ALLOWED_MODELS] });
+    }
+
     if (action === "connect") {
       if (body.provider !== "openai" || typeof body.api_key !== "string" || !body.api_key.trim()) {
         return json({ success: false, error: "OpenAI API key is required." }, 400);
