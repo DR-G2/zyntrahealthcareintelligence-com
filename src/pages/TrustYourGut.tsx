@@ -1,12 +1,9 @@
+import { useState, useMemo, useEffect } from "react";
 import { Target, Brain, CheckCircle2, ArrowRight, Loader2 } from "lucide-react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
-import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, AreaChart, Area } from 'recharts';
-import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/contexts/AuthContext';
-import { useFeatureGate } from '@/hooks/useFeatureGate';
-import { UpgradePrompt } from '@/components/UpgradePrompt';
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
+import { useFeatureGate } from "@/hooks/useFeatureGate";
+import { UpgradePrompt } from "@/components/UpgradePrompt";
 
 interface AttemptWithQuestion {
   id: string;
