@@ -46,7 +46,11 @@ serve(async (req) => {
 
     if (existingPlan?.generated_at && new Date(existingPlan.generated_at) >= monthStart) {
       const days = Math.max(1, Math.ceil((nextMonth.getTime() - Date.now()) / 86400000));
-      return json({ error: `Next generation available in ${days} days` }, 429);
+      return json({
+        error: `Next generation available in ${days} days`,
+        generated_at: existingPlan.generated_at,
+        next_generation_at: nextMonth.toISOString(),
+      }, 429);
     }
 
     const { categoryStats = [], perfProfile = null, examDate = null, daysUntilExam = null, weakAreas = [] } = await req.json();
@@ -192,15 +196,16 @@ RULES:
     const generatedPlan = JSON.parse(toolCall.function.arguments);
     const focusAreaNames = generatedPlan.focus_areas?.map((f: any) => f.category) || [];
 
+    const savedGeneratedAt = new Date().toISOString();
     const { error: saveError } = await supabase
       .from("study_plans")
       .upsert(
-        { user_id: userId, tasks: generatedPlan, focus_areas: focusAreaNames, generated_at: new Date().toISOString() },
+        { user_id: userId, tasks: generatedPlan, focus_areas: focusAreaNames, generated_at: savedGeneratedAt },
         { onConflict: "user_id" }
       );
     if (saveError) throw saveError;
 
-    return json(generatedPlan);
+    return json({ ...generatedPlan, generated_at: savedGeneratedAt });
   } catch (error) {
     console.error("generate-study-plan error:", error);
     return json({ error: error instanceof Error ? error.message : "Unknown error" }, 500);
