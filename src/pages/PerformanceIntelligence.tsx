@@ -334,7 +334,7 @@ export default function PerformanceIntelligence() {
 
       if (cancelled) return;
 
-      const attempts = (attemptsRes.data || []) as Attempt[];
+      const attempts = (attemptsRes.data || []) as unknown as Attempt[];
 
       const bySubject = new Map<string, Attempt[]>();
       const bySubtopic = new Map<string, Attempt[]>();
@@ -368,7 +368,7 @@ export default function PerformanceIntelligence() {
             attempts: ordered.length,
             accuracy: Math.round(accuracy),
             recentAccuracy: Math.round(recentAccuracy),
-            trend: delta >= 5 ? 'up' : delta <= -5 ? 'down' : 'flat',
+            trend: (delta >= 5 ? 'up' : delta <= -5 ? 'down' : 'flat') as 'up' | 'down' | 'flat',
           };
         })
         .sort((a, b) => a.accuracy - b.accuracy);
@@ -428,7 +428,7 @@ export default function PerformanceIntelligence() {
         accuracy: Number(profileRes.data?.clinical_accuracy || 0),
         stability: Number(profileRes.data?.stability_score || 0),
         timing: Number(profileRes.data?.time_sensitivity || 0),
-        calibration: Number(dnaRes.data?.confidence_calibration || 0),
+        calibration: Number((dnaRes.data as any)?.confidence_calibration || 0),
         attempts: attempts.length,
         confidenceAttempts: attempts.filter(row => Number(row.confidence_level) >= 1 && Number(row.confidence_level) <= 5).length,
         changedAnswers: attempts.filter(row => Number(row.answer_changes_count || 0) > 0).length,
