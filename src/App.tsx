@@ -40,6 +40,8 @@ const AmcPart1Mcq = lazy(() => import("./pages/AmcPart1Mcq"));
 const Intelligence = lazy(() => import("./pages/Intelligence"));
 const InboxPage = lazy(() => import("./pages/Inbox"));
 const OAuthConsent = lazy(() => import("./pages/OAuthConsent"));
+const Blog = lazy(() => import("./pages/Blog"));
+const BlogArticle = lazy(() => import("./pages/BlogArticle"));
 
 const queryClient = new QueryClient();
 
@@ -99,6 +101,8 @@ function AppRoutes() {
           <Route path="/" element={<ErrorBoundary><SEO title="Zyntra | AMC Exam Preparation That Learns How You Think" description="Adaptive AMC MCQ and Clinical exam preparation for IMGs: clinical reasoning practice, performance analytics and personalised next steps." path="/" /><Home /></ErrorBoundary>} />
           <Route path="/check" element={<ErrorBoundary><SEO title="Free AMC Readiness Check | Adaptive Diagnostic | Zyntra" description="Take a free adaptive AMC-style diagnostic. Questions adjust to your answers and show where your clinical reasoning needs work." path="/check" /><Landing /></ErrorBoundary>} />
           <Route path="/about" element={<Navigate to="/#about" replace />} />
+          <Route path="/blog" element={<ErrorBoundary><SEO title="Zyntra Intelligence Lab | AMC Preparation, Clinical Reasoning & Study Strategy" description="Practical writing from Zyntra on AMC examinations, clinical reasoning, study strategy, performance intelligence and learning." path="/blog" /><Blog /></ErrorBoundary>} />
+          <Route path="/blog/:slug" element={<ErrorBoundary><BlogArticle /></ErrorBoundary>} />
           <Route path="/pricing" element={<Navigate to="/#pricing" replace />} />
           <Route path="/login" element={<ErrorBoundary><SEO title="Sign In or Create Account | Zyntra" description="Sign in to Zyntra to continue your AMC exam preparation, or create a free account to start practising." path="/login" /><Login /></ErrorBoundary>} />
           <Route path="/oauth/consent" element={<ErrorBoundary><OAuthConsent /></ErrorBoundary>} />
