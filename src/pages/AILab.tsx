@@ -49,7 +49,22 @@ export default function AILab() {
     if (!error && data) setHistory(data);
   };
 
-  useEffect(() => { void loadHistory(); }, []);
+  useEffect(() => {
+    void (async () => {
+      await loadHistory();
+      try {
+        const data = await invoke({ action: 'status', provider: 'openai' });
+        if (data.connected) {
+          const available = Array.isArray(data.models) ? data.models.filter((m: unknown): m is string => typeof m === 'string') : [];
+          setConnected(true);
+          setModels(available);
+          setModel(data.model || available[0] || '');
+        }
+      } catch {
+        // A missing connection is a normal first-visit state.
+      }
+    })();
+  }, []);
 
   const invoke = async (body: Record<string, unknown>) => {
     const { supabase } = await import('@/lib/supabase');
