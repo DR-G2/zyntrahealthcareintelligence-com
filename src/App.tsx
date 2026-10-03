@@ -40,6 +40,8 @@ const AmcPart1Mcq = lazy(() => import("./pages/AmcPart1Mcq"));
 const Intelligence = lazy(() => import("./pages/Intelligence"));
 const InboxPage = lazy(() => import("./pages/Inbox"));
 const OAuthConsent = lazy(() => import("./pages/OAuthConsent"));
+const Blog = lazy(() => import("./pages/Blog"));
+const BlogArticle = lazy(() => import("./pages/BlogArticle"));
 
 const queryClient = new QueryClient();
 
@@ -106,6 +108,8 @@ function AppRoutes() {
           <Route path="/terms" element={<ErrorBoundary><Terms /></ErrorBoundary>} />
           <Route path="/privacy" element={<ErrorBoundary><Privacy /></ErrorBoundary>} />
           <Route path="/amc-part-1-mcq" element={<ErrorBoundary><AmcPart1Mcq /></ErrorBoundary>} />
+          <Route path="/blog" element={<ErrorBoundary><Blog /></ErrorBoundary>} />
+          <Route path="/blog/:slug" element={<ErrorBoundary><BlogArticle /></ErrorBoundary>} />
           <Route path="/osce-in-surgery" element={<Navigate to="/practice/osce" replace />} />
           <Route path="/amc-clinical-osce" element={<Navigate to="/practice/osce" replace />} />
           <Route path="/onboarding" element={<ErrorBoundary><Onboarding /></ErrorBoundary>} />
