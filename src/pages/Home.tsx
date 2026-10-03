@@ -64,7 +64,7 @@ const Index: React.FC = () => {
             <Link to="/blog" className="px-4 py-2.5 rounded-full text-sm font-semibold tracking-wide text-slate-300 hover:text-cyan-300 transition-colors">
               Blog
             </Link>
-            <button onClick={()=>setModalOpen(true)} className="px-6 py-2.5 rounded-full text-sm font-semibold tracking-wide bg-gradient-to-r from-cyan-500/20 to-blue-500/20 hover:from-cyan-500 hover:to-blue-600 text-cyan-300 hover:text-white border border-cyan-500/40 hover:border-transparent transition-all duration-300 shadow-lg shadow-cyan-500/10 hover:shadow-cyan-500/30 active:scale-95">
+            <div className="flex items-center gap-3"><Link to="/blog" className="hidden rounded-full px-4 py-2 text-sm font-medium text-slate-400 hover:text-white sm:inline-flex">Blog</Link><button onClick={()=>setModalOpen(true)} className="px-6 py-2.5 rounded-full text-sm font-semibold tracking-wide bg-gradient-to-r from-cyan-500/20 to-blue-500/20 hover:from-cyan-500 hover:to-blue-600 text-cyan-300 hover:text-white border border-cyan-500/40 hover:border-transparent transition-all duration-300 shadow-lg shadow-cyan-500/10 hover:shadow-cyan-500/30 active:scale-95">
               Get Started
             </button>
           </div>
@@ -181,6 +181,19 @@ const Index: React.FC = () => {
           <div className="max-w-7xl mx-auto px-6"><div className="flex items-center gap-3 mb-8"><Layers className="w-5 h-5 text-cyan-400"/><h2 className="text-3xl font-extrabold text-white">Training system</h2></div><div className="divide-y divide-white/5 border-y border-white/5">{trainingItems.map(([title,desc],i)=><article key={title} className="grid md:grid-cols-[70px_230px_1fr] gap-4 py-6"><span className="font-mono text-xs text-cyan-500/60">{String(i+1).padStart(2,"0")}</span><h3 className="font-bold text-white">{title}</h3><p className="text-sm text-slate-400 leading-relaxed">{desc}</p></article>)}</div></div>
         </section>
 
+
+        <section className="border-t border-white/5 bg-[#030712]/50 py-20">
+          <div className="max-w-7xl mx-auto px-6">
+            <div className="flex items-end justify-between gap-4">
+              <div><p className="text-xs font-bold tracking-[.2em] text-cyan-400 uppercase">Zyntra Intelligence Lab</p><h2 className="mt-3 text-3xl font-extrabold text-white tracking-tight">From the Intelligence Lab</h2><p className="mt-3 max-w-2xl text-sm leading-7 text-slate-400">Practical writing on AMC preparation, clinical reasoning, study strategy and learning intelligence.</p></div>
+              <Link to="/blog" className="hidden sm:inline-flex items-center gap-2 text-sm font-semibold text-cyan-300 hover:text-white">Explore the Blog <ChevronRight className="h-4 w-4"/></Link>
+            </div>
+            <div className="mt-8 grid gap-5 md:grid-cols-3">
+              {[["AMC","AMC Part 1 MCQ: What You Are Really Training For","/blog/amc-part-1-mcq"],["AMC","AMC Part 2 Clinical Examination: What the OSCE Actually Tests","/blog/amc-part-2-osce"],["Performance Intelligence","Why Getting a Question Wrong Isn't the Whole Story","/blog/why-getting-a-question-wrong-isnt-the-whole-story"]].map(([cat,title,to])=><Link key={to} to={to} className="group rounded-2xl border border-white/10 bg-[#071021]/70 p-6 backdrop-blur-md transition hover:-translate-y-0.5 hover:border-cyan-500/30 hover:bg-[#0a162e]"><p className="text-[11px] font-bold uppercase tracking-[.15em] text-cyan-400">{cat}</p><h3 className="mt-4 text-lg font-bold leading-snug text-white">{title}</h3><span className="mt-5 inline-flex items-center gap-1 text-xs font-semibold text-slate-500 group-hover:text-cyan-300">Read article <ArrowLeftRight className="h-3.5 w-3.5"/></span></Link>)}
+            </div>
+            <Link to="/blog" className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-cyan-300 sm:hidden">Explore the Blog <ChevronRight className="h-4 w-4"/></Link>
+          </div>
+        </section>
         <section id="pricing" className="py-20 bg-[#07101c] border-t border-white/5">
           <div className="max-w-7xl mx-auto px-6"><p className="text-xs font-bold tracking-[.2em] text-cyan-400 uppercase">Pricing</p><h2 className="mt-3 text-3xl font-extrabold text-white">Pricing</h2><div className="mt-10 divide-y divide-white/5 border-y border-white/5">
             <div className="grid md:grid-cols-[280px_1fr] gap-8 py-8"><div><h3 className="font-bold">Free</h3><div className="text-4xl font-extrabold mt-2">$0</div><p className="text-xs text-slate-500 mt-2">APPE diagnostic only</p></div><div><p className="text-slate-400 text-sm leading-7">One diagnostic. It records timing, answer changes and confidence. You see the pattern from that sitting.</p><Link to="/check" className="inline-flex mt-4 px-4 py-2 border border-cyan-500/30 rounded text-sm text-cyan-300 hover:bg-cyan-500/10">Start the diagnostic</Link></div></div>
