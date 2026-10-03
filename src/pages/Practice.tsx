@@ -810,7 +810,7 @@ function DrillSession({
 
           if (session) {
             const storedConfig = (session.config && typeof session.config === 'object')
-              ? (session.config as SessionConfig)
+              ? (session.config as unknown as SessionConfig)
               : config;
             onConfigRestore?.(storedConfig);
 
@@ -1315,7 +1315,7 @@ function DrillSession({
         question_position: i,
         previous_question_correct: i > 0 ? (selectedAnswers[i - 1] === questions[i - 1]?.correct_answer) : null,
       }));
-      await supabase.from('user_attempts').insert(inserts);
+      await supabase.from('user_attempts').insert(inserts as any);
 
       // Trigger behavior analysis in background
       supabase.functions.invoke('analyze-behavior').catch(console.error);
@@ -1907,20 +1907,6 @@ function ResultsScreen({
                             <div className="rounded-lg border p-3 space-y-3">
                               <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Explanation</p>
                               <p className="text-sm leading-relaxed">{parsed.lead}</p>
-                              <div className="mb-5 rounded-lg border bg-muted/30 p-3">
-                <div className="mb-2 flex items-center justify-between">
-                  <span className="text-sm font-medium">How confident are you?</span>
-                  <span className="text-xs text-muted-foreground">{confidenceByIndex[currentIndex] ? String(confidenceByIndex[currentIndex]) + '/5' : 'Optional'}</span>
-                </div>
-                <div className="grid grid-cols-5 gap-2">
-                  {[1, 2, 3, 4, 5].map(level => (
-                    <Button key={level} type="button" variant={confidenceByIndex[currentIndex] === level ? 'default' : 'outline'} size="sm" onClick={() => setConfidence(level)} disabled={!!lockedAnswers[currentIndex]}>
-                      {level}
-                    </Button>
-                  ))}
-                </div>
-                <p className="mt-2 text-xs text-muted-foreground">1 = guessing · 5 = certain</p>
-              </div>
 
               <div className="space-y-3">
                                 {parsed.options.map((item) => (
