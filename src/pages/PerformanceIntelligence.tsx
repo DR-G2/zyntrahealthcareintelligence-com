@@ -280,7 +280,7 @@ function PerformanceView({
   );
 }
 
-const BehaviorContent = lazy(() => import('./BehaviorProfile'));\nconst TrustYourGutContent = lazy(() => import('./TrustYourGut'));\n\nconst BehaviorContent = lazy(() => import('./BehaviorProfile'));
+const BehaviorContent = lazy(() => import('./BehaviorProfile'));
 const TrustYourGutContent = lazy(() => import('./TrustYourGut'));
 
 export default function PerformanceIntelligence() {
