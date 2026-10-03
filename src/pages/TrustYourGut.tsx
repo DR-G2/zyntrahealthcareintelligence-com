@@ -1,27 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Target, 
-  TrendingUp, 
-  TrendingDown, 
-  Brain, 
-  AlertTriangle, 
-  CheckCircle2, 
-  XCircle,
-  ArrowRight,
-  Clock,
-  Zap,
-  Award,
-  BarChart3,
-  Play,
-  RotateCcw
-} from 'lucide-react';
-import { AppLayout } from '@/components/AppLayout';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Progress } from '@/components/ui/progress';
-import { Badge } from '@/components/ui/badge';
+import { Target, Brain, CheckCircle2, ArrowRight, Loader2 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
