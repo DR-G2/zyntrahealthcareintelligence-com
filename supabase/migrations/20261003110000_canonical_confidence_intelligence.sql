@@ -149,3 +149,49 @@ GRANT EXECUTE ON FUNCTION public.get_confidence_intelligence() TO authenticated;
 
 COMMENT ON FUNCTION public.get_confidence_intelligence() IS
 'Canonical candidate-scoped confidence intelligence. Calibration is the mean item-level distance from confidence (0-100) to actual correctness (0/100); attempts without confidence are excluded.';
+
+
+-- Backfill the canonical aggregate for existing candidates.
+WITH confidence AS (
+  SELECT
+    user_id,
+    COUNT(*)::integer AS confidence_attempt_count,
+    AVG(
+      GREATEST(
+        0,
+        100 - ABS(
+          ((confidence_level - 1) * 25.0)
+          - CASE WHEN is_correct THEN 100.0 ELSE 0.0 END
+        )
+      )
+    ) AS calibration
+  FROM public.user_attempts
+  WHERE confidence_level BETWEEN 1 AND 5
+  GROUP BY user_id
+)
+UPDATE public.readiness_dna r
+SET
+  confidence_calibration = COALESCE(c.calibration, 50),
+  confidence_attempt_count = COALESCE(c.confidence_attempt_count, 0),
+  updated_at = now()
+FROM (SELECT * FROM confidence) c
+WHERE r.user_id = c.user_id;
+
+UPDATE public.readiness_dna r
+SET
+  confidence_calibration = 50,
+  confidence_attempt_count = 0,
+  updated_at = now()
+WHERE NOT EXISTS (
+  SELECT 1
+  FROM public.user_attempts ua
+  WHERE ua.user_id = r.user_id
+    AND ua.confidence_level BETWEEN 1 AND 5
+);
+
+-- Question DNA is shared/global, so candidate confidence must not be stored there.
+-- Remove the old cross-candidate confidence aggregation and neutralise its legacy values.
+DROP TRIGGER IF EXISTS trg_update_question_confidence_dna ON public.user_attempts;
+UPDATE public.question_dna
+SET confidence_error_rate = 0
+WHERE confidence_error_rate IS NOT NULL;
