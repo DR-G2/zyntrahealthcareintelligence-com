@@ -88,404 +88,178 @@ export default function BehaviorProfile() {
   const [loading, setLoading] = useState(true);
   const [analyzing, setAnalyzing] = useState(false);
 
-  const [osceStats, setOsceStats] = useState<{ count: number; avgScore: number; subjects: string[] } | null>(null);
-  const [psychograph, setPsychograph] = useState<any>(null);
-
   useEffect(() => {
     if (!user) return;
-    const fetchAll = async () => {
-      const [profileRes, stationsRes, psychRes] = await Promise.all([
-        supabase.from('behavior_profiles').select('*').eq('user_id', user.id).maybeSingle(),
-        supabase.from('station_attempts').select('subject, scores, time_taken_seconds').eq('user_id', user.id).limit(200),
-        supabase.from('psychograph_history').select('*').eq('user_id', user.id).order('created_at', { ascending: false }).limit(1),
-      ]);
-      if (profileRes.data) setData(profileRes.data as any);
-
-      const stations = stationsRes.data || [];
-      if (stations.length > 0) {
-        const totalScore = stations.reduce((s, a) => s + (typeof (a.scores as any)?.total === 'number' ? (a.scores as any).total : 0), 0);
-        const subjects = [...new Set(stations.map(s => s.subject))];
-        setOsceStats({ count: stations.length, avgScore: Math.round(totalScore / stations.length), subjects });
-      }
-
-      if (psychRes.data && psychRes.data.length > 0) {
-        setPsychograph(psychRes.data[0]);
-      }
-
+    const fetchProfile = async () => {
+      const { data: profile } = await supabase
+        .from('behavior_profiles')
+        .select('*')
+        .eq('user_id', user.id)
+        .maybeSingle();
+      setData(profile as any);
       setLoading(false);
     };
-    fetchAll();
+    fetchProfile();
   }, [user]);
 
   const runAnalysis = async () => {
     setAnalyzing(true);
     try {
-      const { data: result, error } = await supabase.functions.invoke('analyze-behavior');
+      const { error } = await supabase.functions.invoke('analyze-behavior');
       if (error) throw error;
-      // Refetch profile
       const { data: profile } = await supabase
         .from('behavior_profiles')
         .select('*')
         .eq('user_id', user!.id)
         .maybeSingle();
-      if (profile) setData(profile as any);
-      toast({ title: 'Analysis complete', description: 'Your behavior profile has been updated.' });
+      setData(profile as any);
+      toast({ title: 'Analysis complete', description: 'Your behaviour profile has been updated.' });
     } catch (e: any) {
       toast({ title: 'Analysis failed', description: e.message || 'Try again later', variant: 'destructive' });
+    } finally {
+      setAnalyzing(false);
     }
-    setAnalyzing(false);
   };
 
   if (!gate.canAccessBehavior) {
     return (
-      <div className="mx-auto max-w-2xl py-12">
-        <UpgradePrompt feature="Behavior Analysis" description="AI-powered exam behavior profiling is a paid feature. Upgrade to see your archetype, trap detection, and personalized recommendations." />
+      <div className="rounded-3xl border border-white/10 bg-[#081224]/70 p-8 backdrop-blur-xl">
+        <UpgradePrompt feature="Behavior Analysis" description="Behaviour analysis is available on eligible plans." />
       </div>
     );
   }
 
-  if (loading) {
-    return <BehaviorSkeleton />;
-  }
+  if (loading) return <BehaviorSkeleton />;
 
   if (!data) {
     return (
-      <div className="mx-auto max-w-2xl py-12 text-center">
-        <Card>
-          <CardContent className="py-12 space-y-4">
-            <Brain className="h-12 w-12 text-muted-foreground/50 mx-auto" />
-            <h2 className="text-xl font-display font-bold">No Behavior Profile Yet</h2>
-            <p className="text-muted-foreground">Complete some practice sessions, then run the analysis.</p>
-            <div className="flex gap-3 justify-center">
-              <Button asChild variant="outline">
-                <Link to="/practice">Start Practice</Link>
-              </Button>
-              <Button onClick={runAnalysis} disabled={analyzing} className="gap-2">
-                {analyzing ? <Loader2 className="h-4 w-4 animate-spin" /> : <Activity className="h-4 w-4" />}
-                Run Analysis
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+      <div className="rounded-3xl border border-white/10 bg-[#081224]/70 p-10 text-center backdrop-blur-xl">
+        <Brain className="mx-auto h-10 w-10 text-cyan-300/60" />
+        <h2 className="mt-4 font-display text-xl font-semibold text-white">Build your behaviour view</h2>
+        <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-slate-500">
+          Complete practice sessions, then run the analysis to turn recorded decision behaviour into a usable view.
+        </p>
+        <div className="mt-5 flex flex-col justify-center gap-2 sm:flex-row">
+          <Button asChild variant="outline"><Link to="/practice">Start Practice</Link></Button>
+          <Button onClick={runAnalysis} disabled={analyzing} className="gap-2">
+            {analyzing ? <Loader2 className="h-4 w-4 animate-spin" /> : <Activity className="h-4 w-4" />}
+            Run Analysis
+          </Button>
+        </div>
       </div>
     );
   }
 
-  const meta = ARCHETYPE_META[data.archetype] || ARCHETYPE_META.strategist;
-  const ArchIcon = meta.icon;
-
-  // Prepare block chart data
-  const blockChartData = Object.entries(data.block_performance || {}).map(([key, val]) => ({
-    name: key,
-    accuracy: val.accuracy,
-    avgTime: val.avgTime,
-    changeRate: val.changeRate,
-  }));
-
-  // Prepare subject radar data
-  const subjectData = Object.entries(data.subject_patterns || {}).map(([cat, s]) => ({
-    subject: cat.length > 12 ? cat.slice(0, 12) + '…' : cat,
-    accuracy: s.accuracy,
-    changeRate: s.changeRate,
-  }));
-
   const signals = data.archetype_signals || {};
+  const blocks = Object.entries(data.block_performance || {}).map(([name, value]) => ({
+    name,
+    accuracy: value.accuracy,
+    avgTime: value.avgTime,
+    changeRate: value.changeRate,
+  }));
 
   return (
-    <div className="mx-auto max-w-5xl space-y-8">
-        <div className="flex justify-end"><Button onClick={runAnalysis} disabled={analyzing} variant="outline" className="w-full shrink-0 gap-2 sm:w-auto">
-            {analyzing ? <Loader2 className="h-4 w-4 animate-spin" /> : <RefreshCw className="h-4 w-4" />}
-            Re-analyze
-          </Button></div>
+    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-5">
+      <div className="flex flex-col gap-3 rounded-3xl border border-white/10 bg-[#081224]/70 p-5 backdrop-blur-xl sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <p className="text-[11px] font-mono uppercase tracking-[0.18em] text-purple-300/80">Behaviour</p>
+          <h2 className="mt-1 font-display text-2xl font-semibold text-white">How you approach questions</h2>
+          <p className="mt-1 text-sm text-slate-500">Observed timing, changes and session patterns from recorded practice behaviour.</p>
+        </div>
+        <Button onClick={runAnalysis} disabled={analyzing} variant="outline" className="gap-2 self-start sm:self-auto">
+          {analyzing ? <Loader2 className="h-4 w-4 animate-spin" /> : <RefreshCw className="h-4 w-4" />}
+          Re-analyze
+        </Button>
+      </div>
 
-        {/* Archetype Card */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
-          <Card className="border-l-4" style={{ borderLeftColor: meta.color }}>
-            <CardHeader>
-              <div className="flex items-center gap-4">
-                <div className="flex h-14 w-14 items-center justify-center rounded-2xl" style={{ backgroundColor: `${meta.color}20` }}>
-                  <ArchIcon className="h-7 w-7" style={{ color: meta.color }} />
-                </div>
-                <div>
-                  <CardTitle className="text-2xl font-display">{meta.label}</CardTitle>
-                  <div className="flex items-center gap-2 mt-1">
-                    <Badge variant={meta.risk === 'Low' ? 'default' : meta.risk === 'High' ? 'destructive' : 'secondary'}>
-                      AMC Risk: {meta.risk}
-                    </Badge>
-                  </div>
-                </div>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">{meta.description}</p>
-            </CardContent>
-          </Card>
-        </motion.div>
+      <div className="grid gap-3 sm:grid-cols-3">
+        {[
+          { label: 'Rush Index', value: signals.rushIndex, icon: Zap, accent: 'text-amber-300 bg-amber-400/10 border-amber-400/15' },
+          { label: 'Hesitation Index', value: signals.hesitationIndex, icon: Clock, accent: 'text-purple-300 bg-purple-400/10 border-purple-400/15' },
+          { label: 'Fatigue Index', value: signals.fatigueIndex, icon: TrendingDown, accent: 'text-rose-300 bg-rose-400/10 border-rose-400/15' },
+        ].map(item => {
+          const Icon = item.icon;
+          return (
+            <div key={item.label} className="rounded-2xl border border-white/10 bg-[#081224]/70 p-5 backdrop-blur-xl">
+              <div className={cn('mb-4 inline-flex rounded-lg border p-2', item.accent)}><Icon className="h-4 w-4" /></div>
+              <p className="text-xs text-slate-500">{item.label}</p>
+              <p className="mt-2 font-display text-3xl font-semibold text-white">{item.value == null ? '—' : Math.round(Number(item.value))}</p>
+              <p className="mt-1 text-[11px] text-slate-600">recorded behaviour signal</p>
+            </div>
+          );
+        })}
+      </div>
 
-        {/* Key Stats Row */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[
-              { label: 'Avg Time/Q', value: `${signals.avgTime || 0}s`, icon: Clock },
-              { label: 'Change Rate', value: `${Math.round((signals.changeRate || 0) * 100)}%`, icon: RefreshCw },
-              { label: 'Accuracy', value: `${Math.round((signals.correctRate || 0) * 100)}%`, icon: Target },
-              { label: 'Fatigue Factor', value: `${Math.round((signals.fatigueIncrease || 1) * 100 - 100)}%`, icon: TrendingDown },
-            ].map(stat => (
-              <Card key={stat.label}>
-                <CardContent className="pt-4 pb-4 text-center">
-                  <stat.icon className="h-5 w-5 mx-auto mb-2 text-muted-foreground" />
-                  <p className="text-2xl font-bold font-display">{stat.value}</p>
-                  <p className="text-xs text-muted-foreground">{stat.label}</p>
-                </CardContent>
-              </Card>
-            ))}
+      <div className="grid gap-5 lg:grid-cols-[1.05fr_.95fr]">
+        <div className="rounded-2xl border border-white/10 bg-[#081224]/70 p-5 backdrop-blur-xl">
+          <div className="flex items-center gap-2">
+            <Clock className="h-4 w-4 text-cyan-300" />
+            <h3 className="font-display text-base font-semibold text-white">Decision timing</h3>
           </div>
-        </motion.div>
+          <p className="mt-1 text-xs leading-5 text-slate-500">Average timing, before-first-click timing and changes are kept as observable behaviour signals.</p>
+          <div className="mt-5 grid grid-cols-2 gap-3">
+            <div className="rounded-xl border border-white/8 bg-white/[0.02] p-4">
+              <p className="text-[11px] text-slate-500">Average time / question</p>
+              <p className="mt-2 font-display text-2xl font-semibold text-white">{signals.avgTime ? Math.round(Number(signals.avgTime)) + 's' : '—'}</p>
+            </div>
+            <div className="rounded-xl border border-white/8 bg-white/[0.02] p-4">
+              <p className="text-[11px] text-slate-500">Answer change rate</p>
+              <p className="mt-2 font-display text-2xl font-semibold text-white">{signals.changeRate == null ? '—' : Math.round(Number(signals.changeRate) * 100) + '%'}</p>
+            </div>
+          </div>
+        </div>
 
-        {/* Predicted Score */}
-        {data.predicted_score_low && (
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <TrendingUp className="h-5 w-5 text-primary" />
-                  Predicted AMC Score
-                </CardTitle>
-                <CardDescription>Based on behavioral patterns and accuracy data</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="flex items-center gap-8">
-                  <div className="flex-1">
-                    <div className="relative h-8 rounded-full bg-muted overflow-hidden">
-                      {/* Pass line at 230/300 */}
-                      <div className="absolute top-0 bottom-0 w-0.5 bg-foreground/30 z-10" style={{ left: `${(230 / 300) * 100}%` }} />
-                      {/* Current range */}
-                      <div
-                        className="absolute top-0 bottom-0 rounded-full bg-primary/30"
-                        style={{
-                          left: `${((data.predicted_score_low || 0) / 300) * 100}%`,
-                          width: `${(((data.predicted_score_high || 0) - (data.predicted_score_low || 0)) / 300) * 100}%`,
-                        }}
-                      />
-                      {/* Potential */}
-                      <div
-                        className="absolute top-1 bottom-1 w-1 rounded-full bg-success"
-                        style={{ left: `${((data.predicted_score_potential || 0) / 300) * 100}%` }}
-                      />
-                    </div>
-                    <div className="flex justify-between mt-2 text-xs text-muted-foreground">
-                      <span>0</span>
-                      <span className="text-foreground/50">Pass: 230</span>
-                      <span>300</span>
-                    </div>
+        <div className="rounded-2xl border border-white/10 bg-[#081224]/70 p-5 backdrop-blur-xl">
+          <div className="flex items-center gap-2">
+            <Activity className="h-4 w-4 text-purple-300" />
+            <h3 className="font-display text-base font-semibold text-white">Behaviour through a session</h3>
+          </div>
+          <p className="mt-1 text-xs leading-5 text-slate-500">See whether recorded behaviour changes as question position increases.</p>
+          {blocks.length ? (
+            <div className="mt-5 space-y-3">
+              {blocks.slice(0, 6).map(block => (
+                <div key={block.name}>
+                  <div className="mb-1 flex items-center justify-between text-[11px]">
+                    <span className="text-slate-400">{block.name}</span>
+                    <span className="text-slate-500">{Math.round(block.accuracy)}% accuracy</span>
                   </div>
-                  <div className="text-right space-y-1">
-                    <p className="text-sm">Current: <span className="font-bold text-primary">{data.predicted_score_low}–{data.predicted_score_high}</span></p>
-                    <p className="text-sm">Potential: <span className="font-bold text-success">{data.predicted_score_potential}</span></p>
+                  <div className="h-2 overflow-hidden rounded-full bg-white/5">
+                    <div className="h-full rounded-full bg-purple-400" style={{ width: Math.max(0, Math.min(100, block.accuracy)) + '%' }} />
                   </div>
                 </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-        )}
-
-        {/* Block Performance Chart */}
-        {blockChartData.length > 0 && (
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }}>
-            <Card>
-              <CardHeader>
-                <CardTitle>Block Performance</CardTitle>
-                <CardDescription>How your performance changes across question segments</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <ResponsiveContainer width="100%" height={250}>
-                  <BarChart data={blockChartData}>
-                    <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
-                    <XAxis dataKey="name" className="text-xs" />
-                    <YAxis className="text-xs" />
-                    <Tooltip
-                      contentStyle={{ backgroundColor: 'hsl(var(--card))', border: '1px solid hsl(var(--border))', borderRadius: '8px' }}
-                      labelStyle={{ color: 'hsl(var(--foreground))' }}
-                    />
-                    <Legend />
-                    <Bar dataKey="accuracy" name="Accuracy %" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
-                    <Bar dataKey="changeRate" name="Change Rate %" fill="hsl(var(--warning))" radius={[4, 4, 0, 0]} />
-                  </BarChart>
-                </ResponsiveContainer>
-              </CardContent>
-            </Card>
-          </motion.div>
-        )}
-
-        {/* Subject Patterns */}
-        {subjectData.length > 0 && (
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
-            <Card>
-              <CardHeader>
-                <CardTitle>Subject Analysis</CardTitle>
-                <CardDescription>Behavioral vs knowledge weaknesses by topic</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  {Object.entries(data.subject_patterns || {})
-                    .sort(([, a], [, b]) => a.accuracy - b.accuracy)
-                    .map(([cat, s]) => (
-                      <div key={cat} className="flex items-center gap-4">
-                        <div className="w-36 truncate text-sm font-medium">{cat}</div>
-                        <div className="flex-1 h-6 rounded-full bg-muted overflow-hidden relative">
-                          <div
-                            className={cn('h-full rounded-full', s.accuracy >= 70 ? 'bg-success' : s.accuracy >= 50 ? 'bg-warning' : 'bg-destructive')}
-                            style={{ width: `${s.accuracy}%` }}
-                          />
-                        </div>
-                        <span className="text-sm font-mono w-12 text-right">{s.accuracy}%</span>
-                        <Badge variant="outline" className="text-xs w-24 justify-center">
-                          {s.type === 'behavioral' ? '🧠 Behavioral' : s.type === 'knowledge' ? '📚 Knowledge' : '✅ Stable'}
-                        </Badge>
-                      </div>
-                    ))}
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-        )}
-
-        {/* AMC Trap Detection */}
-        {(data.trap_flags || []).length > 0 && (
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }}>
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <AlertTriangle className="h-5 w-5 text-warning" />
-                  AMC Trap Detection
-                </CardTitle>
-                <CardDescription>Common exam traps detected in your behavior</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                {data.trap_flags.map((trap, i) => (
-                  <div key={i} className="flex items-start gap-3 rounded-lg border p-3">
-                    <div className={cn(
-                      'mt-0.5 h-2 w-2 rounded-full shrink-0',
-                      trap.severity === 'high' ? 'bg-destructive' : trap.severity === 'medium' ? 'bg-warning' : 'bg-muted-foreground'
-                    )} />
-                    <div>
-                      <p className="text-sm font-medium">{trap.trap.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</p>
-                      <p className="text-xs text-muted-foreground mt-0.5">{trap.description}</p>
-                    </div>
-                    <Badge variant={trap.severity === 'high' ? 'destructive' : 'secondary'} className="ml-auto shrink-0 text-xs">
-                      {trap.severity}
-                    </Badge>
-                  </div>
-                ))}
-              </CardContent>
-            </Card>
-          </motion.div>
-        )}
-
-        {/* Recommendations */}
-        {(data.recommendations as any[])?.length > 0 && (
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
-            <Card>
-              <CardHeader>
-                <CardTitle>Recommendations</CardTitle>
-                <CardDescription>Personalized action plan based on your behavior</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                {(data.recommendations as any[]).map((rec: any, i: number) => (
-                  <div key={i} className="flex items-start gap-3 rounded-lg bg-muted/50 p-4">
-                    <div className={cn(
-                      'flex h-8 w-8 items-center justify-center rounded-lg shrink-0',
-                      rec.priority === 'high' ? 'bg-destructive/10 text-destructive' : rec.priority === 'medium' ? 'bg-warning/10 text-warning' : 'bg-muted text-muted-foreground'
-                    )}>
-                      {rec.priority === 'high' ? <AlertTriangle className="h-4 w-4" /> : <ArrowRight className="h-4 w-4" />}
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-sm font-medium">{rec.title}</p>
-                      <p className="text-xs text-muted-foreground mt-0.5">{rec.description}</p>
-                    </div>
-                    {rec.action_link && (
-                      <Button size="sm" variant="outline" asChild>
-                        <Link to={rec.action_link}>Go</Link>
-                      </Button>
-                    )}
-                  </div>
-                ))}
-              </CardContent>
-            </Card>
-          </motion.div>
-        )}
-
-        {/* OSCE + Psychograph Summary */}
-        {(osceStats || psychograph) && (
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45 }}>
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Activity className="h-5 w-5 text-primary" />
-                  OSCE Behavioral Insights
-                </CardTitle>
-                <CardDescription>Clinical station behavioral patterns</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {osceStats && (
-                  <div className="grid grid-cols-3 gap-4">
-                    <div className="text-center rounded-lg bg-muted/50 p-3">
-                      <p className="text-2xl font-bold font-display">{osceStats.count}</p>
-                      <p className="text-xs text-muted-foreground">Stations Done</p>
-                    </div>
-                    <div className="text-center rounded-lg bg-muted/50 p-3">
-                      <p className="text-2xl font-bold font-display">{osceStats.avgScore}%</p>
-                      <p className="text-xs text-muted-foreground">Avg Score</p>
-                    </div>
-                    <div className="text-center rounded-lg bg-muted/50 p-3">
-                      <p className="text-2xl font-bold font-display">{osceStats.subjects.length}</p>
-                      <p className="text-xs text-muted-foreground">Subjects Covered</p>
-                    </div>
-                  </div>
-                )}
-                {psychograph && (
-                  <div className="space-y-2">
-                    <p className="text-sm font-medium">Psychograph Dimensions</p>
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                      {[
-                        { label: 'Cognitive Stability', value: psychograph.cognitive_stability },
-                        { label: 'Emotional Reactivity', value: psychograph.emotional_reactivity },
-                        { label: 'Silence Tolerance', value: psychograph.silence_tolerance },
-                        { label: 'Delegation Confidence', value: psychograph.delegation_confidence },
-                        { label: 'Structure Integrity', value: psychograph.structure_integrity },
-                        { label: 'Time Compression', value: psychograph.time_compression_vulnerability },
-                      ].map(dim => (
-                        <div key={dim.label} className="flex items-center gap-2 rounded-lg bg-muted/30 p-2">
-                          <div className="flex-1">
-                            <p className="text-xs text-muted-foreground">{dim.label}</p>
-                            <div className="h-1.5 rounded-full bg-muted mt-1">
-                              <div className="h-full rounded-full bg-primary" style={{ width: `${dim.value}%` }} />
-                            </div>
-                          </div>
-                          <span className="text-xs font-mono font-bold">{dim.value}</span>
-                        </div>
-                      ))}
-                    </div>
-                    <Badge variant="outline" className="mt-2">OSCE Archetype: {psychograph.archetype}</Badge>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          </motion.div>
-        )}
-
-        {/* Action Buttons */}
-        <div className="flex gap-3 flex-wrap">
-          <Button asChild className="gap-1">
-            <Link to="/practice">Start Targeted Practice <ArrowRight className="h-4 w-4" /></Link>
-          </Button>
-          <Button variant="outline" asChild>
-            <Link to="/profile">View Performance Profile</Link>
-          </Button>
-          <Button variant="outline" asChild>
-            <Link to="/trust-your-gut">Trust Your Gut Training</Link>
-          </Button>
+              ))}
+            </div>
+          ) : (
+            <div className="mt-5 rounded-xl border border-white/8 bg-white/[0.02] p-6 text-center text-xs text-slate-500">
+              More recorded sessions are needed to show session behaviour.
+            </div>
+          )}
         </div>
       </div>
+
+      <div className="rounded-2xl border border-white/10 bg-[#081224]/70 p-5 backdrop-blur-xl">
+        <div className="flex items-center gap-2">
+          <Shield className="h-4 w-4 text-cyan-300" />
+          <h3 className="font-display text-base font-semibold text-white">Observed behaviour</h3>
+        </div>
+        <p className="mt-1 max-w-3xl text-xs leading-5 text-slate-500">
+          Zyntra reports interaction signals from practice data. These are behavioural measurements, not personality or clinical judgements.
+        </p>
+        <div className="mt-4 grid gap-3 sm:grid-cols-3">
+          <div className="rounded-xl border border-white/8 bg-white/[0.02] p-4">
+            <p className="text-xs font-medium text-white">Rush</p>
+            <p className="mt-1 text-[11px] leading-5 text-slate-500">Fast recorded responses that cross the engine's rush threshold.</p>
+          </div>
+          <div className="rounded-xl border border-white/8 bg-white/[0.02] p-4">
+            <p className="text-xs font-medium text-white">Hesitation</p>
+            <p className="mt-1 text-[11px] leading-5 text-slate-500">Long response time or delayed first interaction.</p>
+          </div>
+          <div className="rounded-xl border border-white/8 bg-white/[0.02] p-4">
+            <p className="text-xs font-medium text-white">Fatigue</p>
+            <p className="mt-1 text-[11px] leading-5 text-slate-500">Later-session incorrect responses used as an endurance signal.</p>
+          </div>
+        </div>
+      </div>
+    </motion.div>
   );
 }
