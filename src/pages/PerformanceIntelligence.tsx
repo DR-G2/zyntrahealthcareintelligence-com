@@ -433,8 +433,8 @@ export default function PerformanceIntelligence() {
       setLoading(true);
       const [profileRes, attemptsRes, confidenceRes] = await Promise.all([
         supabase
-          .from('performance_profiles')
-          .select('readiness_score, clinical_accuracy, stability_score, time_sensitivity')
+          .from('readiness_dna')
+          .select('readiness_score, clinical_accuracy, answer_stability, time_management')
           .eq('user_id', user.id)
           .maybeSingle(),
         supabase
@@ -559,8 +559,8 @@ export default function PerformanceIntelligence() {
       setSnapshot({
         readiness: Number(profileRes.data?.readiness_score || 0),
         accuracy: Number(profileRes.data?.clinical_accuracy || 0),
-        stability: Number(profileRes.data?.stability_score || 0),
-        timing: Number(profileRes.data?.time_sensitivity || 0),
+        stability: Number(profileRes.data?.answer_stability || 0),
+        timing: Number(profileRes.data?.time_management || 0),
         calibration: canonicalConfidence.calibration,
         attempts: attempts.length,
         confidenceAttempts: canonicalConfidence.confidence_attempts,
