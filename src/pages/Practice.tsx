@@ -717,6 +717,7 @@ function DrillSession({
   config,
   onFinish,
   resumeSessionId,
+  onConfigRestore,
 }: {
   config: SessionConfig;
   onFinish: (questions: Question[], answers: Record<number, string>, changes: Record<number, number>, times: Record<number, number>, ruledOut: Record<number, string[]>) => void;
