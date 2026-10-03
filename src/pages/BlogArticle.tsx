@@ -38,6 +38,10 @@ export default function BlogArticle() {
           "@type": "Article",
           headline: article.title,
           description: article.excerpt,
+          author: { "@type": "Person", name: "Mike Ehrmantraut" },
+          publisher: { "@type": "Organization", name: "Zyntra Healthcare Intelligence", url: "https://www.zyntrahealthcareintelligence.com" },
+          datePublished: "2026-10-03",
+          dateModified: "2026-10-03",
           mainEntityOfPage: "https://www.zyntrahealthcareintelligence.com/blog/" + article.slug,
         }}
       />
