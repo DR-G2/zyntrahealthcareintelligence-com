@@ -30,7 +30,7 @@ function RoomTabs() {
 
   const practice = ['/practice', '/questions', '/assess', '/flashcards'].some(
     p => pathname === p || pathname.startsWith(p + '/')
-  );
+  ) || pathname.startsWith('/practice/ai-lab');
   if (pathname === '/plan') {
     const generate = search.includes('tab=generate');
     return (
@@ -42,10 +42,11 @@ function RoomTabs() {
   }
   if (!practice) return null;
   return (
-    <div className="mx-auto mb-6 grid w-full max-w-md grid-cols-3 rounded-2xl border border-white/10 bg-white/[0.025] p-1.5">
+    <div className="mx-auto mb-6 grid w-full max-w-4xl grid-cols-2 gap-1 rounded-2xl border border-white/10 bg-white/[0.025] p-1.5 sm:grid-cols-4">
       {item('/practice', 'MCQ', pathname === '/practice' || pathname.startsWith('/questions') || pathname.startsWith('/assess'))}
       {item('/practice/osce', 'OSCE', pathname.startsWith('/practice/osce'))}
       {item('/flashcards', 'Flashcards', pathname.startsWith('/flashcards'))}
+      {item('/practice/ai-lab', 'AI Lab', pathname.startsWith('/practice/ai-lab'))}
     </div>
   );
 }
