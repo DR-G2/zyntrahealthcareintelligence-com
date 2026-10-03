@@ -283,7 +283,7 @@ export default function BehaviorProfile() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <AlertTriangle className="h-5 w-5 text-warning" />
-                  AMC Trap Detection
+                  Observed Decision Flags
                 </CardTitle>
                 <CardDescription>Patterns flagged by the existing behaviour analysis.</CardDescription>
               </CardHeader>
