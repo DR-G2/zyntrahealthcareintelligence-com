@@ -2,8 +2,6 @@ import { useState, useMemo, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  Target, 
-  TrendingUp, 
   TrendingDown, 
   Brain, 
   AlertTriangle, 
@@ -13,7 +11,6 @@ import {
   Clock,
   Zap,
   Award,
-  BarChart3,
   Play,
   RotateCcw
 } from 'lucide-react';
@@ -21,10 +18,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
-import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, AreaChart, Area } from 'recharts';
+import { XAxis, YAxis, AreaChart, Area } from 'recharts';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { useFeatureGate } from '@/hooks/useFeatureGate';
@@ -62,7 +57,6 @@ interface CategoryBreakdown {
 export default function TrustYourGut() {
   const { user } = useAuth();
   const gate = useFeatureGate();
-  const [activeTab, setActiveTab] = useState('stats');
   const [trainingMode, setTrainingMode] = useState(false);
   const [trainingQuestions, setTrainingQuestions] = useState<any[]>([]);
   const [currentTrainingIndex, setCurrentTrainingIndex] = useState(0);
@@ -511,199 +505,176 @@ export default function TrustYourGut() {
           </Card>
         </div>
 
-        {/* Tabs */}
-        <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList>
-            <TabsTrigger value="stats" className="gap-2">
-              <BarChart3 className="h-4 w-4" />
-              Analysis
-            </TabsTrigger>
-            <TabsTrigger value="breakdown" className="gap-2">
-              <AlertTriangle className="h-4 w-4" />
-              Problem Areas
-            </TabsTrigger>
-            <TabsTrigger value="trend" className="gap-2">
-              <TrendingUp className="h-4 w-4" />
-              Progress
-            </TabsTrigger>
-          </TabsList>
+        <section className="grid gap-5 lg:grid-cols-[1.1fr_1.9fr]">
+          <Card className="relative overflow-hidden border-cyan-400/15 bg-gradient-to-br from-cyan-400/[0.07] via-[#081224]/90 to-[#081224]/75">
+            <CardContent className="relative p-6">
+              <div className="flex items-center gap-2 text-sm font-medium text-slate-200">
+                <Brain className="h-4 w-4 text-cyan-300" />
+                First instinct vs final answer
+              </div>
+              <div className="mt-6 grid grid-cols-2 gap-3">
+                <div className="rounded-2xl border border-cyan-400/15 bg-cyan-400/[0.045] p-4">
+                  <p className="text-[10px] font-medium uppercase tracking-[0.14em] text-cyan-300/80">First instinct</p>
+                  <p className="mt-2 text-3xl font-bold text-white">{stats.firstInstinctAccuracy.toFixed(1)}%</p>
+                </div>
+                <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+                  <p className="text-[10px] font-medium uppercase tracking-[0.14em] text-slate-500">Final answer</p>
+                  <p className="mt-2 text-3xl font-bold text-white">{stats.finalAccuracy.toFixed(1)}%</p>
+                </div>
+              </div>
+              <p className="mt-4 text-xs leading-5 text-slate-500">
+                Based on attempts where an answer change was recorded. This shows what happened after changing, not whether you should always keep your first answer.
+              </p>
+            </CardContent>
+          </Card>
 
-          <TabsContent value="stats" className="mt-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* Change Analysis */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-lg">Change Outcome Analysis</CardTitle>
-                  <CardDescription>
-                    What happens when you change your answer
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between p-3 rounded-lg bg-red-500/10">
-                      <div className="flex items-center gap-2">
-                        <XCircle className="h-5 w-5 text-red-500" />
-                        <span>Correct → Wrong</span>
-                      </div>
-                      <span className="font-bold text-red-600 dark:text-red-400">{stats.changeAnalysis.correctToWrong}</span>
-                    </div>
-                    <div className="flex items-center justify-between p-3 rounded-lg bg-green-500/10">
-                      <div className="flex items-center gap-2">
-                        <CheckCircle2 className="h-5 w-5 text-green-500" />
-                        <span>Wrong → Correct</span>
-                      </div>
-                      <span className="font-bold text-green-600 dark:text-green-400">{stats.changeAnalysis.wrongToCorrect}</span>
-                    </div>
-                    <div className="flex items-center justify-between p-3 rounded-lg bg-muted">
-                      <div className="flex items-center gap-2">
-                        <AlertTriangle className="h-5 w-5 text-muted-foreground" />
-                        <span>Wrong → Wrong</span>
-                      </div>
-                      <span className="font-bold">{stats.changeAnalysis.wrongToWrong}</span>
-                    </div>
-                  </div>
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+            <Card className="border-red-500/20 bg-red-500/[0.035]">
+              <CardContent className="p-4">
+                <p className="text-[10px] uppercase tracking-[0.12em] text-red-300/80">Correct → Wrong</p>
+                <p className="mt-2 text-2xl font-bold text-white">{stats.changeAnalysis.correctToWrong}</p>
+                <p className="mt-1 text-xs text-slate-500">Points lost</p>
+              </CardContent>
+            </Card>
+            <Card className="border-emerald-500/20 bg-emerald-500/[0.035]">
+              <CardContent className="p-4">
+                <p className="text-[10px] uppercase tracking-[0.12em] text-emerald-300/80">Wrong → Correct</p>
+                <p className="mt-2 text-2xl font-bold text-white">{stats.changeAnalysis.wrongToCorrect}</p>
+                <p className="mt-1 text-xs text-slate-500">Points gained</p>
+              </CardContent>
+            </Card>
+            <Card className="border-white/10 bg-white/[0.025]">
+              <CardContent className="p-4">
+                <p className="text-[10px] uppercase tracking-[0.12em] text-slate-500">Wrong → Wrong</p>
+                <p className="mt-2 text-2xl font-bold text-white">{stats.changeAnalysis.wrongToWrong}</p>
+                <p className="mt-1 text-xs text-slate-500">Changed, still wrong</p>
+              </CardContent>
+            </Card>
+            <Card className="border-purple-400/15 bg-purple-400/[0.035]">
+              <CardContent className="p-4">
+                <p className="text-[10px] uppercase tracking-[0.12em] text-purple-300/80">Change rate</p>
+                <p className="mt-2 text-2xl font-bold text-white">{stats.changeRate.toFixed(1)}%</p>
+                <p className="mt-1 text-xs text-slate-500">{stats.totalWithChanges} changed attempts</p>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
 
-                  {stats.pointsLost > stats.pointsGained && (
-                    <div className="mt-6 p-4 rounded-lg border border-amber-500/30 bg-amber-500/5">
-                      <div className="flex items-start gap-2">
-                        <AlertTriangle className="h-5 w-5 text-amber-500 mt-0.5" />
-                        <div>
-                          <p className="font-medium text-amber-700 dark:text-amber-400">Changing hurts your score</p>
-                          <p className="text-sm text-muted-foreground mt-1">
-                            You've lost {stats.pointsLost - stats.pointsGained} net points by changing answers. 
-                            Practice trusting your first instinct.
-                          </p>
+        <section className="grid gap-5 lg:grid-cols-2">
+          <Card className="border-white/10 bg-[#081224]/75 backdrop-blur-xl">
+            <CardHeader>
+              <CardTitle className="text-lg">Change outcome</CardTitle>
+              <CardDescription>What happened when you changed an answer.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                {[
+                  { label: 'Correct → Wrong', value: stats.changeAnalysis.correctToWrong, icon: XCircle, tone: 'text-red-400 bg-red-400/10' },
+                  { label: 'Wrong → Correct', value: stats.changeAnalysis.wrongToCorrect, icon: CheckCircle2, tone: 'text-emerald-400 bg-emerald-400/10' },
+                  { label: 'Wrong → Wrong', value: stats.changeAnalysis.wrongToWrong, icon: AlertTriangle, tone: 'text-slate-400 bg-white/[0.04]' },
+                ].map(item => {
+                  const Icon = item.icon;
+                  return (
+                    <div key={item.label} className="flex items-center justify-between rounded-2xl border border-white/8 bg-white/[0.02] p-4">
+                      <div className="flex items-center gap-3">
+                        <div className={`flex h-9 w-9 items-center justify-center rounded-xl ${item.tone}`}>
+                          <Icon className="h-4 w-4" />
                         </div>
+                        <span className="text-sm text-slate-300">{item.label}</span>
                       </div>
+                      <span className="font-mono text-lg font-semibold text-white">{item.value}</span>
                     </div>
-                  )}
-                </CardContent>
-              </Card>
+                  );
+                })}
+              </div>
+            </CardContent>
+          </Card>
 
-              {/* Key Insight */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-lg">Key Insight</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    <div className="text-center py-6">
-                      <div className="text-5xl font-bold mb-2">
-                        {(stats.firstInstinctAccuracy - stats.finalAccuracy).toFixed(1)}%
+          <Card className="border-white/10 bg-[#081224]/75 backdrop-blur-xl">
+            <CardHeader>
+              <CardTitle className="text-lg">What the data says</CardTitle>
+              <CardDescription>A neutral reading of the recorded change outcomes.</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-5">
+              <div className="rounded-2xl border border-cyan-400/10 bg-cyan-400/[0.035] p-5 text-center">
+                <p className="text-4xl font-bold text-white">{Math.abs(stats.firstInstinctAccuracy - stats.finalAccuracy).toFixed(1)}%</p>
+                <p className="mt-2 text-sm text-slate-400">
+                  difference between first-instinct and final-answer accuracy
+                </p>
+              </div>
+              <div className="grid grid-cols-2 gap-3 text-sm">
+                <div className="rounded-xl border border-white/8 bg-white/[0.02] p-3">
+                  <p className="text-xs text-slate-600">Changed attempts</p>
+                  <p className="mt-1 font-semibold text-white">{stats.totalWithChanges}</p>
+                </div>
+                <div className="rounded-xl border border-white/8 bg-white/[0.02] p-3">
+                  <p className="text-xs text-slate-600">All attempts</p>
+                  <p className="mt-1 font-semibold text-white">{stats.totalAttempts}</p>
+                </div>
+              </div>
+              {stats.pointsLost !== stats.pointsGained && (
+                <p className="text-xs leading-5 text-slate-500">
+                  Recorded changes produced {stats.pointsLost} correct-to-wrong outcomes and {stats.pointsGained} wrong-to-correct outcomes. The engine reports the pattern rather than prescribing a universal rule.
+                </p>
+              )}
+            </CardContent>
+          </Card>
+        </section>
+
+        <section className="grid gap-5 lg:grid-cols-[1fr_1.25fr]">
+          <Card className="border-white/10 bg-[#081224]/75 backdrop-blur-xl">
+            <CardHeader>
+              <CardTitle className="text-lg">Where changes matter</CardTitle>
+              <CardDescription>Subjects with recorded answer-change activity.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              {categoryBreakdown.length ? (
+                <div className="space-y-3">
+                  {categoryBreakdown.slice(0, 8).map(row => (
+                    <div key={row.category} className="rounded-2xl border border-white/8 bg-white/[0.02] p-3">
+                      <div className="flex items-center justify-between gap-3">
+                        <span className="truncate text-sm text-slate-300">{row.category}</span>
+                        <span className="font-mono text-xs text-slate-400">{row.changeRate.toFixed(1)}%</span>
                       </div>
-                      <p className="text-muted-foreground">
-                        {stats.firstInstinctAccuracy > stats.finalAccuracy 
-                          ? 'Higher accuracy if you trusted your gut'
-                          : stats.firstInstinctAccuracy < stats.finalAccuracy
-                          ? 'Your changes improved your score'
-                          : 'No difference between first and final'
-                        }
-                      </p>
+                      <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/[0.06]">
+                        <div className="h-full rounded-full bg-gradient-to-r from-purple-400 to-cyan-300" style={{ width: `${Math.min(100, row.changeRate)}%` }} />
+                      </div>
+                      <p className="mt-1 text-[10px] text-slate-600">{row.attempts} attempts · {row.pointsLost} correct-to-wrong</p>
                     </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="rounded-2xl border border-dashed border-white/10 py-10 text-center text-sm text-slate-500">
+                  Complete more practice to build change-pattern data.
+                </div>
+              )}
+            </CardContent>
+          </Card>
 
-                    <div className="space-y-2">
-                      <div className="flex justify-between text-sm">
-                        <span>Questions with changes</span>
-                        <span className="font-medium">{stats.totalWithChanges}</span>
-                      </div>
-                      <div className="flex justify-between text-sm">
-                        <span>Overall change rate</span>
-                        <span className="font-medium">{stats.changeRate.toFixed(1)}%</span>
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </TabsContent>
-
-          <TabsContent value="breakdown" className="mt-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Category Breakdown</CardTitle>
-                <CardDescription>
-                  Subjects where answer changes hurt you the most
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                {categoryBreakdown.length > 0 ? (
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Category</TableHead>
-                        <TableHead className="text-center">Points Lost</TableHead>
-                        <TableHead className="text-center">Change Rate</TableHead>
-                        <TableHead className="text-center">Attempts</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {categoryBreakdown.slice(0, 10).map(row => (
-                        <TableRow key={row.category}>
-                          <TableCell className="font-medium">{row.category}</TableCell>
-                          <TableCell className="text-center">
-                            {row.pointsLost > 0 ? (
-                              <Badge variant="destructive">{row.pointsLost}</Badge>
-                            ) : (
-                              <span className="text-muted-foreground">0</span>
-                            )}
-                          </TableCell>
-                          <TableCell className="text-center">{row.changeRate.toFixed(1)}%</TableCell>
-                          <TableCell className="text-center text-muted-foreground">{row.attempts}</TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                ) : (
-                  <div className="text-center py-8 text-muted-foreground">
-                    Complete more practice sessions to see category insights
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="trend" className="mt-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Accuracy Trend Over Sessions</CardTitle>
-                <CardDescription>
-                  Compare your first-instinct vs final-answer accuracy
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                {trendData.length > 1 ? (
-                  <ChartContainer config={chartConfig} className="h-[300px]">
-                    <AreaChart data={trendData}>
-                      <XAxis dataKey="session" />
-                      <YAxis domain={[0, 100]} />
-                      <ChartTooltip content={<ChartTooltipContent />} />
-                      <Area 
-                        type="monotone" 
-                        dataKey="firstInstinct" 
-                        stroke="hsl(var(--primary))" 
-                        fill="hsl(var(--primary))" 
-                        fillOpacity={0.2}
-                        name="First Instinct"
-                      />
-                      <Area 
-                        type="monotone" 
-                        dataKey="final" 
-                        stroke="hsl(var(--muted-foreground))" 
-                        fill="hsl(var(--muted-foreground))" 
-                        fillOpacity={0.1}
-                        name="Final Answer"
-                      />
-                    </AreaChart>
-                  </ChartContainer>
-                ) : (
-                  <div className="text-center py-8 text-muted-foreground">
-                    Complete more practice sessions to see trends
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
+          <Card className="border-white/10 bg-[#081224]/75 backdrop-blur-xl">
+            <CardHeader>
+              <CardTitle className="text-lg">Progress across sessions</CardTitle>
+              <CardDescription>First-instinct and final-answer accuracy over recent sessions.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              {trendData.length > 1 ? (
+                <ChartContainer config={chartConfig} className="h-[280px] w-full">
+                  <AreaChart data={trendData}>
+                    <XAxis dataKey="session" />
+                    <YAxis domain={[0, 100]} />
+                    <ChartTooltip content={<ChartTooltipContent />} />
+                    <Area type="monotone" dataKey="firstInstinct" stroke="hsl(var(--primary))" fill="hsl(var(--primary))" fillOpacity={0.18} name="First Instinct" />
+                    <Area type="monotone" dataKey="final" stroke="hsl(var(--muted-foreground))" fill="hsl(var(--muted-foreground))" fillOpacity={0.08} name="Final Answer" />
+                  </AreaChart>
+                </ChartContainer>
+              ) : (
+                <div className="flex h-[280px] items-center justify-center rounded-2xl border border-dashed border-white/10 text-sm text-slate-500">
+                  Complete more practice sessions to see a trend.
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </section>
       </div>
   );
 }
