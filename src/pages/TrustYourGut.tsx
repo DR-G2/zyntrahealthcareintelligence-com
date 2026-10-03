@@ -62,649 +62,177 @@ interface CategoryBreakdown {
 
 export default function TrustYourGut() {
   const { user } = useAuth();
-  const gate = useFeatureGate();
-  const [activeTab, setActiveTab] = useState('stats');
-  const [trainingMode, setTrainingMode] = useState(false);
-  const [trainingQuestions, setTrainingQuestions] = useState<any[]>([]);
-  const [currentTrainingIndex, setCurrentTrainingIndex] = useState(0);
-  const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
-  const [confirmed, setConfirmed] = useState(false);
-  const [decisionTimer, setDecisionTimer] = useState(3);
-  const [showFeedback, setShowFeedback] = useState(false);
-  const [trainingResults, setTrainingResults] = useState<{ correct: number; total: number }>({ correct: 0, total: 0 });
+  const [mcqAttempts, setMcqAttempts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  // Fetch user attempts with questions
-  const { data: attempts = [], isLoading } = useQuery({
-    queryKey: ['trust-gut-attempts', user?.id],
-    queryFn: async () => {
-      if (!user) return [];
-      const { data, error } = await supabase
+  useEffect(() => {
+    if (!user) return;
+    const fetchAttempts = async () => {
+      const { data } = await supabase
         .from('user_attempts')
-        .select('id, question_id, selected_answer, is_correct, answer_changes_count, change_sequence, created_at, session_id, questions(correct_answer, category)')
+        .select('id, is_correct, answer_changes_count, change_sequence, selected_answer, created_at, questions(correct_answer)')
         .eq('user_id', user.id)
-        .order('created_at', { ascending: true });
-      
-      if (error) throw error;
-      return (data || []).map(a => ({
-        ...a,
-        change_sequence: Array.isArray(a.change_sequence) ? a.change_sequence : [],
-        questions: a.questions || { correct_answer: '', category: '' }
-      })) as AttemptWithQuestion[];
-    },
-    enabled: !!user
-  });
+        .order('created_at', { ascending: true })
+        .limit(1000);
+      setMcqAttempts(data || []);
+      setLoading(false);
+    };
+    fetchAttempts();
+  }, [user]);
 
-  // Fetch questions for training mode
-  const { data: allQuestions = [] } = useQuery({
-    queryKey: ['training-questions'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('questions')
-        .select('id, question_text, options, correct_answer, category')
-        .limit(100);
-      if (error) throw error;
-      return data || [];
-    }
-  });
-
-  // Compute stats
   const stats = useMemo(() => {
-    const attemptsWithChanges = attempts.filter(a => a.answer_changes_count > 0 && a.change_sequence.length > 0);
-    
-    let firstInstinctCorrect = 0;
+    const changed = mcqAttempts.filter(a => a.answer_changes_count > 0 && Array.isArray(a.change_sequence) && a.change_sequence.length > 0);
+    if (!changed.length) {
+      return {
+        firstInstinctAccuracy: 0,
+        finalAccuracy: 0,
+        pointsLost: 0,
+        pointsGained: 0,
+        wrongToWrong: 0,
+        totalWithChanges: 0,
+        changeRate: 0,
+      };
+    }
+
+    let firstCorrect = 0;
     let finalCorrect = 0;
     let correctToWrong = 0;
     let wrongToCorrect = 0;
     let wrongToWrong = 0;
-    
-    attemptsWithChanges.forEach(a => {
-      const firstAnswer = a.change_sequence[0];
-      const correctAnswer = a.questions?.correct_answer;
+
+    changed.forEach(a => {
+      const first = a.change_sequence[0];
+      const correct = a.questions?.correct_answer;
       const finalAnswer = a.selected_answer;
-      
-      if (firstAnswer === correctAnswer) firstInstinctCorrect++;
-      if (finalAnswer === correctAnswer) finalCorrect++;
-      
-      const firstWasCorrect = firstAnswer === correctAnswer;
-      const finalIsCorrect = finalAnswer === correctAnswer;
-      
-      if (firstWasCorrect && !finalIsCorrect) correctToWrong++;
-      else if (!firstWasCorrect && finalIsCorrect) wrongToCorrect++;
-      else if (!firstWasCorrect && !finalIsCorrect && firstAnswer !== finalAnswer) wrongToWrong++;
+      const firstWasCorrect = first === correct;
+      const finalWasCorrect = finalAnswer === correct;
+      if (firstWasCorrect) firstCorrect++;
+      if (finalWasCorrect) finalCorrect++;
+      if (firstWasCorrect && !finalWasCorrect) correctToWrong++;
+      if (!firstWasCorrect && finalWasCorrect) wrongToCorrect++;
+      if (!firstWasCorrect && !finalWasCorrect) wrongToWrong++;
     });
-
-    const firstInstinctAccuracy = attemptsWithChanges.length > 0 
-      ? (firstInstinctCorrect / attemptsWithChanges.length) * 100 
-      : 0;
-    const finalAccuracy = attemptsWithChanges.length > 0 
-      ? (finalCorrect / attemptsWithChanges.length) * 100 
-      : 0;
-
-    // Overall stats
-    const totalAttempts = attempts.length;
-    const attemptsWithChangesCount = attemptsWithChanges.length;
-    const changeRate = totalAttempts > 0 ? (attemptsWithChangesCount / totalAttempts) * 100 : 0;
 
     return {
-      firstInstinctAccuracy,
-      finalAccuracy,
+      firstInstinctAccuracy: Math.round((firstCorrect / changed.length) * 100),
+      finalAccuracy: Math.round((finalCorrect / changed.length) * 100),
       pointsLost: correctToWrong,
       pointsGained: wrongToCorrect,
-      changeRate,
-      totalWithChanges: attemptsWithChangesCount,
-      totalAttempts,
-      changeAnalysis: {
-        correctToWrong,
-        wrongToCorrect,
-        wrongToWrong,
-        total: attemptsWithChangesCount
-      } as ChangeAnalysis
+      wrongToWrong,
+      totalWithChanges: changed.length,
+      changeRate: mcqAttempts.length ? Math.round((changed.length / mcqAttempts.length) * 100) : 0,
     };
-  }, [attempts]);
+  }, [mcqAttempts]);
 
-  // Category breakdown
-  const categoryBreakdown = useMemo((): CategoryBreakdown[] => {
-    const categoryMap = new Map<string, { pointsLost: number; changes: number; attempts: number }>();
-    
-    attempts.forEach(a => {
-      const category = a.questions?.category || 'Unknown';
-      if (!categoryMap.has(category)) {
-        categoryMap.set(category, { pointsLost: 0, changes: 0, attempts: 0 });
-      }
-      const entry = categoryMap.get(category)!;
-      entry.attempts++;
-      
-      if (a.answer_changes_count > 0 && a.change_sequence.length > 0) {
-        entry.changes++;
-        const firstAnswer = a.change_sequence[0];
-        const correctAnswer = a.questions?.correct_answer;
-        if (firstAnswer === correctAnswer && a.selected_answer !== correctAnswer) {
-          entry.pointsLost++;
-        }
-      }
-    });
+  const delta = stats.finalAccuracy - stats.firstInstinctAccuracy;
 
-    return Array.from(categoryMap.entries())
-      .map(([category, data]) => ({
-        category,
-        pointsLost: data.pointsLost,
-        changeRate: data.attempts > 0 ? (data.changes / data.attempts) * 100 : 0,
-        attempts: data.attempts
-      }))
-      .filter(c => c.attempts >= 3)
-      .sort((a, b) => b.pointsLost - a.pointsLost);
-  }, [attempts]);
-
-  // Trend data (last 10 sessions)
-  const trendData = useMemo(() => {
-    const sessionMap = new Map<string, { firstCorrect: number; finalCorrect: number; total: number; date: string }>();
-    
-    attempts.forEach(a => {
-      if (!sessionMap.has(a.session_id)) {
-        sessionMap.set(a.session_id, { firstCorrect: 0, finalCorrect: 0, total: 0, date: a.created_at.split('T')[0] });
-      }
-      const session = sessionMap.get(a.session_id)!;
-      session.total++;
-      
-      if (a.is_correct) session.finalCorrect++;
-      if (a.change_sequence.length > 0) {
-        const firstAnswer = a.change_sequence[0];
-        if (firstAnswer === a.questions?.correct_answer) session.firstCorrect++;
-      } else if (a.is_correct) {
-        // No changes, so first = final
-        session.firstCorrect++;
-      }
-    });
-
-    return Array.from(sessionMap.values())
-      .slice(-10)
-      .map((s, i) => ({
-        session: `S${i + 1}`,
-        firstInstinct: s.total > 0 ? Math.round((s.firstCorrect / s.total) * 100) : 0,
-        final: s.total > 0 ? Math.round((s.finalCorrect / s.total) * 100) : 0
-      }));
-  }, [attempts]);
-
-  // Training mode logic
-  const startTraining = () => {
-    const shuffled = [...allQuestions].sort(() => Math.random() - 0.5).slice(0, 10);
-    setTrainingQuestions(shuffled);
-    setCurrentTrainingIndex(0);
-    setSelectedAnswer(null);
-    setConfirmed(false);
-    setShowFeedback(false);
-    setTrainingResults({ correct: 0, total: 0 });
-    setTrainingMode(true);
-    setDecisionTimer(3);
-  };
-
-  const confirmAnswer = () => {
-    if (!selectedAnswer) return;
-    setConfirmed(true);
-    const currentQ = trainingQuestions[currentTrainingIndex];
-    const isCorrect = selectedAnswer === currentQ.correct_answer;
-    setShowFeedback(true);
-    setTrainingResults(prev => ({
-      correct: prev.correct + (isCorrect ? 1 : 0),
-      total: prev.total + 1
-    }));
-  };
-
-  const nextQuestion = () => {
-    if (currentTrainingIndex < trainingQuestions.length - 1) {
-      setCurrentTrainingIndex(prev => prev + 1);
-      setSelectedAnswer(null);
-      setConfirmed(false);
-      setShowFeedback(false);
-      setDecisionTimer(3);
-    } else {
-      setTrainingMode(false);
-    }
-  };
-
-  // Decision timer countdown
-  useEffect(() => {
-    if (trainingMode && !confirmed && selectedAnswer && decisionTimer > 0) {
-      const timer = setTimeout(() => setDecisionTimer(prev => prev - 1), 1000);
-      return () => clearTimeout(timer);
-    }
-  }, [trainingMode, confirmed, selectedAnswer, decisionTimer]);
-
-  const currentQuestion = trainingQuestions[currentTrainingIndex];
-
-  const chartConfig = {
-    firstInstinct: { label: 'First Instinct', color: 'hsl(var(--primary))' },
-    final: { label: 'Final Answer', color: 'hsl(var(--muted-foreground))' }
-  };
-
-  if (!gate.canAccessTrustGut) {
-    return (
-      <div className="mx-auto max-w-2xl py-12">
-        <UpgradePrompt feature="Trust Your Gut" description="Train your first-instinct accuracy and reduce harmful answer changes. This advanced analytics feature requires the Pass Guarantee plan." />
-      </div>
-    );
-  }
-
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center min-h-[60vh]">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
-      </div>
-    );
+  if (loading) {
+    return <div className="flex min-h-[50vh] items-center justify-center"><Loader2 className="h-6 w-6 animate-spin text-cyan-300" /></div>;
   }
 
   return (
-    <div className="space-y-6">
-        <div className="flex justify-end"><Button onClick={startTraining} className="w-full shrink-0 gap-2 sm:w-auto">
-            <Play className="h-4 w-4" />
-            Start Training
-          </Button></div>
-
-        {/* Training Mode Overlay */}
-        <AnimatePresence>
-          {trainingMode && currentQuestion && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 z-50 bg-background/95 backdrop-blur-sm flex items-center justify-center p-6"
-            >
-              <Card className="w-full max-w-3xl">
-                <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <Badge variant="outline">
-                      Question {currentTrainingIndex + 1} of {trainingQuestions.length}
-                    </Badge>
-                    <Button variant="ghost" size="sm" onClick={() => setTrainingMode(false)}>
-                      Exit Training
-                    </Button>
-                  </div>
-                  <CardTitle className="text-lg mt-4">{currentQuestion.question_text}</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  {/* Decision timer indicator */}
-                  {!confirmed && selectedAnswer && (
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <Clock className="h-4 w-4" />
-                      <span>Decide in {decisionTimer}s — trust your gut!</span>
-                      <Progress value={(decisionTimer / 3) * 100} className="h-2 flex-1 max-w-32" />
-                    </div>
-                  )}
-
-                  {/* Options */}
-                  <div className="space-y-2">
-                    {Object.entries(currentQuestion.options as Record<string, string>).map(([key, value]) => {
-                      const isSelected = selectedAnswer === key;
-                      const isCorrect = key === currentQuestion.correct_answer;
-                      
-                      let optionClass = 'border-border hover:border-primary/50';
-                      if (showFeedback) {
-                        if (isCorrect) optionClass = 'border-green-500 bg-green-500/10';
-                        else if (isSelected && !isCorrect) optionClass = 'border-red-500 bg-red-500/10';
-                      } else if (isSelected) {
-                        optionClass = 'border-primary bg-primary/10';
-                      }
-
-                      return (
-                        <button
-                          key={key}
-                          disabled={confirmed}
-                          onClick={() => {
-                            if (!confirmed) {
-                              setSelectedAnswer(key);
-                              setDecisionTimer(3);
-                            }
-                          }}
-                          className={`w-full text-left p-4 rounded-lg border-2 transition-all ${optionClass} ${confirmed ? 'cursor-default' : 'cursor-pointer'}`}
-                        >
-                          <span className="font-medium">{key}.</span> {value}
-                        </button>
-                      );
-                    })}
-                  </div>
-
-                  {/* Feedback */}
-                  {showFeedback && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className={`p-4 rounded-lg ${selectedAnswer === currentQuestion.correct_answer ? 'bg-green-500/10 border border-green-500/30' : 'bg-red-500/10 border border-red-500/30'}`}
-                    >
-                      <div className="flex items-center gap-2 font-medium">
-                        {selectedAnswer === currentQuestion.correct_answer ? (
-                          <>
-                            <CheckCircle2 className="h-5 w-5 text-green-500" />
-                            <span className="text-green-700 dark:text-green-400">Your first instinct was correct!</span>
-                          </>
-                        ) : (
-                          <>
-                            <XCircle className="h-5 w-5 text-red-500" />
-                            <span className="text-red-700 dark:text-red-400">Your first instinct was incorrect</span>
-                          </>
-                        )}
-                      </div>
-                    </motion.div>
-                  )}
-
-                  {/* Actions */}
-                  <div className="flex justify-end gap-2 pt-4">
-                    {!confirmed ? (
-                      <Button onClick={confirmAnswer} disabled={!selectedAnswer}>
-                        Lock In Answer
-                      </Button>
-                    ) : (
-                      <Button onClick={nextQuestion}>
-                        {currentTrainingIndex < trainingQuestions.length - 1 ? (
-                          <>Next Question <ArrowRight className="h-4 w-4 ml-2" /></>
-                        ) : (
-                          'Finish Training'
-                        )}
-                      </Button>
-                    )}
-                  </div>
-
-                  {/* Progress */}
-                  {confirmed && (
-                    <div className="text-center text-sm text-muted-foreground">
-                      Score: {trainingResults.correct}/{trainingResults.total}
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Training Complete Modal */}
-        <AnimatePresence>
-          {!trainingMode && trainingResults.total > 0 && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            >
-              <Card className="border-primary/30 bg-primary/5">
-                <CardContent className="py-6">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                      <div className="h-12 w-12 rounded-full bg-primary/20 flex items-center justify-center">
-                        <Award className="h-6 w-6 text-primary" />
-                      </div>
-                      <div>
-                        <h3 className="font-semibold">Training Complete!</h3>
-                        <p className="text-muted-foreground">
-                          You got {trainingResults.correct} out of {trainingResults.total} correct using your first instinct
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex gap-2">
-                      <Button variant="outline" onClick={() => setTrainingResults({ correct: 0, total: 0 })}>
-                        Dismiss
-                      </Button>
-                      <Button onClick={startTraining}>
-                        <RotateCcw className="h-4 w-4 mr-2" />
-                        Train Again
-                      </Button>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Stats Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <Card>
-            <CardContent className="pt-6">
-              <div className="flex items-center gap-3">
-                <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                  <Brain className="h-5 w-5 text-primary" />
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">First Instinct Accuracy</p>
-                  <p className="text-2xl font-bold">{stats.firstInstinctAccuracy.toFixed(1)}%</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="pt-6">
-              <div className="flex items-center gap-3">
-                <div className="h-10 w-10 rounded-lg bg-muted flex items-center justify-center">
-                  <CheckCircle2 className="h-5 w-5 text-muted-foreground" />
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">Final Answer Accuracy</p>
-                  <p className="text-2xl font-bold">{stats.finalAccuracy.toFixed(1)}%</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="border-red-500/30">
-            <CardContent className="pt-6">
-              <div className="flex items-center gap-3">
-                <div className="h-10 w-10 rounded-lg bg-red-500/10 flex items-center justify-center">
-                  <TrendingDown className="h-5 w-5 text-red-500" />
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">Points Lost by Changing</p>
-                  <p className="text-2xl font-bold text-red-600 dark:text-red-400">{stats.pointsLost}</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="border-green-500/30">
-            <CardContent className="pt-6">
-              <div className="flex items-center gap-3">
-                <div className="h-10 w-10 rounded-lg bg-green-500/10 flex items-center justify-center">
-                  <TrendingUp className="h-5 w-5 text-green-500" />
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">Points Gained by Changing</p>
-                  <p className="text-2xl font-bold text-green-600 dark:text-green-400">{stats.pointsGained}</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Tabs */}
-        <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList>
-            <TabsTrigger value="stats" className="gap-2">
-              <BarChart3 className="h-4 w-4" />
-              Analysis
-            </TabsTrigger>
-            <TabsTrigger value="breakdown" className="gap-2">
-              <AlertTriangle className="h-4 w-4" />
-              Problem Areas
-            </TabsTrigger>
-            <TabsTrigger value="trend" className="gap-2">
-              <TrendingUp className="h-4 w-4" />
-              Progress
-            </TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="stats" className="mt-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* Change Analysis */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-lg">Change Outcome Analysis</CardTitle>
-                  <CardDescription>
-                    What happens when you change your answer
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between p-3 rounded-lg bg-red-500/10">
-                      <div className="flex items-center gap-2">
-                        <XCircle className="h-5 w-5 text-red-500" />
-                        <span>Correct → Wrong</span>
-                      </div>
-                      <span className="font-bold text-red-600 dark:text-red-400">{stats.changeAnalysis.correctToWrong}</span>
-                    </div>
-                    <div className="flex items-center justify-between p-3 rounded-lg bg-green-500/10">
-                      <div className="flex items-center gap-2">
-                        <CheckCircle2 className="h-5 w-5 text-green-500" />
-                        <span>Wrong → Correct</span>
-                      </div>
-                      <span className="font-bold text-green-600 dark:text-green-400">{stats.changeAnalysis.wrongToCorrect}</span>
-                    </div>
-                    <div className="flex items-center justify-between p-3 rounded-lg bg-muted">
-                      <div className="flex items-center gap-2">
-                        <AlertTriangle className="h-5 w-5 text-muted-foreground" />
-                        <span>Wrong → Wrong</span>
-                      </div>
-                      <span className="font-bold">{stats.changeAnalysis.wrongToWrong}</span>
-                    </div>
-                  </div>
-
-                  {stats.pointsLost > stats.pointsGained && (
-                    <div className="mt-6 p-4 rounded-lg border border-amber-500/30 bg-amber-500/5">
-                      <div className="flex items-start gap-2">
-                        <AlertTriangle className="h-5 w-5 text-amber-500 mt-0.5" />
-                        <div>
-                          <p className="font-medium text-amber-700 dark:text-amber-400">Changing hurts your score</p>
-                          <p className="text-sm text-muted-foreground mt-1">
-                            You've lost {stats.pointsLost - stats.pointsGained} net points by changing answers. 
-                            Practice trusting your first instinct.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-
-              {/* Key Insight */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-lg">Key Insight</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    <div className="text-center py-6">
-                      <div className="text-5xl font-bold mb-2">
-                        {(stats.firstInstinctAccuracy - stats.finalAccuracy).toFixed(1)}%
-                      </div>
-                      <p className="text-muted-foreground">
-                        {stats.firstInstinctAccuracy > stats.finalAccuracy 
-                          ? 'Higher accuracy if you trusted your gut'
-                          : stats.firstInstinctAccuracy < stats.finalAccuracy
-                          ? 'Your changes improved your score'
-                          : 'No difference between first and final'
-                        }
-                      </p>
-                    </div>
-
-                    <div className="space-y-2">
-                      <div className="flex justify-between text-sm">
-                        <span>Questions with changes</span>
-                        <span className="font-medium">{stats.totalWithChanges}</span>
-                      </div>
-                      <div className="flex justify-between text-sm">
-                        <span>Overall change rate</span>
-                        <span className="font-medium">{stats.changeRate.toFixed(1)}%</span>
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </TabsContent>
-
-          <TabsContent value="breakdown" className="mt-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Category Breakdown</CardTitle>
-                <CardDescription>
-                  Subjects where answer changes hurt you the most
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                {categoryBreakdown.length > 0 ? (
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Category</TableHead>
-                        <TableHead className="text-center">Points Lost</TableHead>
-                        <TableHead className="text-center">Change Rate</TableHead>
-                        <TableHead className="text-center">Attempts</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {categoryBreakdown.slice(0, 10).map(row => (
-                        <TableRow key={row.category}>
-                          <TableCell className="font-medium">{row.category}</TableCell>
-                          <TableCell className="text-center">
-                            {row.pointsLost > 0 ? (
-                              <Badge variant="destructive">{row.pointsLost}</Badge>
-                            ) : (
-                              <span className="text-muted-foreground">0</span>
-                            )}
-                          </TableCell>
-                          <TableCell className="text-center">{row.changeRate.toFixed(1)}%</TableCell>
-                          <TableCell className="text-center text-muted-foreground">{row.attempts}</TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                ) : (
-                  <div className="text-center py-8 text-muted-foreground">
-                    Complete more practice sessions to see category insights
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="trend" className="mt-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Accuracy Trend Over Sessions</CardTitle>
-                <CardDescription>
-                  Compare your first-instinct vs final-answer accuracy
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                {trendData.length > 1 ? (
-                  <ChartContainer config={chartConfig} className="h-[300px]">
-                    <AreaChart data={trendData}>
-                      <XAxis dataKey="session" />
-                      <YAxis domain={[0, 100]} />
-                      <ChartTooltip content={<ChartTooltipContent />} />
-                      <Area 
-                        type="monotone" 
-                        dataKey="firstInstinct" 
-                        stroke="hsl(var(--primary))" 
-                        fill="hsl(var(--primary))" 
-                        fillOpacity={0.2}
-                        name="First Instinct"
-                      />
-                      <Area 
-                        type="monotone" 
-                        dataKey="final" 
-                        stroke="hsl(var(--muted-foreground))" 
-                        fill="hsl(var(--muted-foreground))" 
-                        fillOpacity={0.1}
-                        name="Final Answer"
-                      />
-                    </AreaChart>
-                  </ChartContainer>
-                ) : (
-                  <div className="text-center py-8 text-muted-foreground">
-                    Complete more practice sessions to see trends
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
+    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-5">
+      <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-rose-400/[0.05] via-[#081224]/80 to-[#081224]/70 p-6 backdrop-blur-xl">
+        <p className="text-[11px] font-mono uppercase tracking-[0.18em] text-rose-300/80">Trust Your Gut</p>
+        <h2 className="mt-2 font-display text-2xl font-semibold text-white">What happens when you change your answer?</h2>
+        <p className="mt-1 max-w-2xl text-sm leading-6 text-slate-500">
+          Compare your first recorded selection with the final answer on questions where you changed it.
+        </p>
       </div>
+
+      <div className="grid gap-3 sm:grid-cols-2">
+        <div className="rounded-2xl border border-white/10 bg-[#081224]/70 p-5 backdrop-blur-xl">
+          <p className="text-xs text-slate-500">First instinct accuracy</p>
+          <p className="mt-2 font-display text-4xl font-semibold text-white">{stats.totalWithChanges ? stats.firstInstinctAccuracy + '%' : '—'}</p>
+          <p className="mt-1 text-[11px] text-slate-600">questions with a recorded answer change</p>
+        </div>
+        <div className="rounded-2xl border border-white/10 bg-[#081224]/70 p-5 backdrop-blur-xl">
+          <p className="text-xs text-slate-500">Final answer accuracy</p>
+          <p className="mt-2 font-display text-4xl font-semibold text-white">{stats.totalWithChanges ? stats.finalAccuracy + '%' : '—'}</p>
+          <p className="mt-1 text-[11px] text-slate-600">same changed-answer sample</p>
+        </div>
+      </div>
+
+      <div className="rounded-2xl border border-white/10 bg-[#081224]/70 p-5 backdrop-blur-xl">
+        <div className="flex items-center justify-between gap-3">
+          <div>
+            <h3 className="font-display text-base font-semibold text-white">Change outcomes</h3>
+            <p className="mt-1 text-xs text-slate-500">The actual outcome of changing a recorded first selection.</p>
+          </div>
+          <Target className="h-4 w-4 text-rose-300" />
+        </div>
+        <div className="mt-5 grid gap-3 sm:grid-cols-3">
+          <div className="rounded-xl border border-rose-400/15 bg-rose-400/[0.045] p-4">
+            <p className="text-xs text-slate-400">Correct → Wrong</p>
+            <p className="mt-2 font-display text-2xl font-semibold text-rose-300">{stats.pointsLost}</p>
+          </div>
+          <div className="rounded-xl border border-emerald-400/15 bg-emerald-400/[0.045] p-4">
+            <p className="text-xs text-slate-400">Wrong → Correct</p>
+            <p className="mt-2 font-display text-2xl font-semibold text-emerald-300">{stats.pointsGained}</p>
+          </div>
+          <div className="rounded-xl border border-white/8 bg-white/[0.02] p-4">
+            <p className="text-xs text-slate-400">Wrong → Wrong</p>
+            <p className="mt-2 font-display text-2xl font-semibold text-white">{stats.wrongToWrong}</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="rounded-2xl border border-white/10 bg-[#081224]/70 p-5 backdrop-blur-xl">
+        <div className="flex items-center justify-between gap-3">
+          <div>
+            <h3 className="font-display text-base font-semibold text-white">Instinct vs final</h3>
+            <p className="mt-1 text-xs text-slate-500">Same changed-answer sample, shown side by side.</p>
+          </div>
+          <span className={cn(
+            'rounded-full border px-2.5 py-1 text-xs font-medium',
+            delta > 0 ? 'border-emerald-400/20 bg-emerald-400/10 text-emerald-300' :
+            delta < 0 ? 'border-rose-400/20 bg-rose-400/10 text-rose-300' :
+            'border-white/10 bg-white/[0.03] text-slate-400'
+          )}>
+            {stats.totalWithChanges ? (delta > 0 ? '+' : '') + delta + ' pts' : 'No change data'}
+          </span>
+        </div>
+        <div className="mt-5 space-y-4">
+          {[
+            { label: 'First instinct', value: stats.firstInstinctAccuracy, icon: Brain },
+            { label: 'Final answer', value: stats.finalAccuracy, icon: CheckCircle2 },
+          ].map(row => {
+            const Icon = row.icon;
+            return (
+              <div key={row.label}>
+                <div className="mb-2 flex items-center justify-between gap-3 text-xs">
+                  <span className="flex items-center gap-2 text-slate-400"><Icon className="h-3.5 w-3.5" />{row.label}</span>
+                  <span className="font-semibold text-white">{stats.totalWithChanges ? row.value + '%' : '—'}</span>
+                </div>
+                <div className="h-2 overflow-hidden rounded-full bg-white/5">
+                  <div className="h-full rounded-full bg-rose-400" style={{ width: Math.max(0, Math.min(100, row.value)) + '%' }} />
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="grid gap-3 sm:grid-cols-3">
+        <div className="rounded-2xl border border-white/10 bg-[#081224]/70 p-5">
+          <p className="text-xs text-slate-500">Questions changed</p>
+          <p className="mt-2 font-display text-3xl font-semibold text-white">{stats.totalWithChanges}</p>
+        </div>
+        <div className="rounded-2xl border border-white/10 bg-[#081224]/70 p-5">
+          <p className="text-xs text-slate-500">Overall change rate</p>
+          <p className="mt-2 font-display text-3xl font-semibold text-white">{stats.changeRate}%</p>
+        </div>
+        <div className="rounded-2xl border border-white/10 bg-[#081224]/70 p-5">
+          <p className="text-xs text-slate-500">Net change outcome</p>
+          <p className={cn('mt-2 font-display text-3xl font-semibold', stats.pointsGained - stats.pointsLost >= 0 ? 'text-emerald-300' : 'text-rose-300')}>
+            {stats.pointsGained - stats.pointsLost > 0 ? '+' : ''}{stats.pointsGained - stats.pointsLost}
+          </p>
+        </div>
+      </div>
+
+      <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-4 text-xs leading-5 text-slate-500">
+        This view reports recorded answer-change outcomes. It does not infer personality, confidence, or clinical competence from a change alone.
+      </div>
+    </motion.div>
   );
 }
