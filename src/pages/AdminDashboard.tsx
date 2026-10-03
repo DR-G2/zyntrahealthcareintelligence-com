@@ -73,7 +73,7 @@ const ZYNTRA_COMMAND_ROLES = [
     name: "Jessi",
     role: "AMC / OSCE Operations",
     scope: "AMC training operations, OSCE workflow, candidate operations",
-    icon: Stethoscope,
+    icon: Activity,
   },
   {
     name: "Kim Wexler",
