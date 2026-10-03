@@ -46,17 +46,26 @@ serve(async (req) => {
 
     if (existingPlan?.generated_at && new Date(existingPlan.generated_at) >= monthStart) {
       const days = Math.max(1, Math.ceil((nextMonth.getTime() - Date.now()) / 86400000));
-      return json({ error: `Next generation available in ${days} days` }, 429);
+      return json({
+        error: `Next generation available in ${days} days`,
+        generated_at: existingPlan.generated_at,
+        next_generation_at: nextMonth.toISOString(),
+      }, 429);
     }
 
-    const { categoryStats = [], perfProfile = null, examDate = null, daysUntilExam = null, weakAreas = [] } = await req.json();
+    const { examDate = null, daysUntilExam = null, weakAreas = [] } = await req.json();
 
-    const [attemptsRes, dnaRes, behaviourRes, trainingRes] = await Promise.all([
+    const [attemptsRes, subjectRes, dnaRes, behaviourRes, trainingRes] = await Promise.all([
       supabaseAdmin
         .from("user_attempts")
         .select("created_at, is_correct, confidence_level, answer_changes_count, time_taken_seconds, questions(category, subtopic)")
         .eq("user_id", userId)
         .order("created_at", { ascending: false }),
+      supabaseAdmin
+        .from("subject_dna")
+        .select("subject, accuracy, attempt_count, avg_time, stability, gap_score")
+        .eq("user_id", userId)
+        .order("accuracy", { ascending: true }),
       supabaseAdmin
         .from("readiness_dna")
         .select("readiness_score, clinical_accuracy, answer_stability, time_management, confidence_calibration, distance_from_ideal, attempt_count")
@@ -75,10 +84,21 @@ serve(async (req) => {
     ]);
 
     if (attemptsRes.error) throw attemptsRes.error;
+    if (subjectRes.error) throw subjectRes.error;
     if (dnaRes.error && dnaRes.error.code !== "PGRST116") throw dnaRes.error;
     if (behaviourRes.error && behaviourRes.error.code !== "PGRST116") throw behaviourRes.error;
 
     const attempts = attemptsRes.data || [];
+    const categoryStats = (subjectRes.data || []).map((row: any) => ({
+      category: row.subject,
+      correct: Math.round(Number(row.attempt_count || 0) * Number(row.accuracy || 0) / 100),
+      total: Number(row.attempt_count || 0),
+      accuracy: Math.round(Number(row.accuracy || 0)),
+      priority: Number(row.accuracy || 0) < 60 ? "high" : Number(row.accuracy || 0) < 80 ? "medium" : "maintain",
+      avg_time: Number(row.avg_time || 0),
+      stability: Number(row.stability || 0),
+      gap_score: Number(row.gap_score || 0),
+    }));
     const recent = attempts.slice(0, 20);
     const confidenceAttempts = recent.filter((a: any) => a.confidence_level != null);
     const confidenceSummary = confidenceAttempts.length
@@ -116,10 +136,10 @@ serve(async (req) => {
     const prompt = `You are an AMC exam preparation expert. Generate a personalized, actionable 7-day study plan.
 
 AUTHORITATIVE PERFORMANCE INTELLIGENCE:
-- Readiness: ${dnaRes.data?.readiness_score ?? perfProfile?.readiness_score ?? 0}%
-- Clinical accuracy: ${dnaRes.data?.clinical_accuracy ?? perfProfile?.clinical_accuracy ?? 0}%
-- Answer stability: ${dnaRes.data?.answer_stability ?? perfProfile?.stability_score ?? 0}%
-- Time management: ${dnaRes.data?.time_management ?? perfProfile?.time_sensitivity ?? 0}%
+- Readiness: ${dnaRes.data?.readiness_score ?? 0}%
+- Clinical accuracy: ${dnaRes.data?.clinical_accuracy ?? 0}%
+- Answer stability: ${dnaRes.data?.answer_stability ?? 0}%
+- Average response time: ${dnaRes.data?.time_management ?? "n/a"} seconds
 - Confidence calibration: ${dnaRes.data?.confidence_calibration ?? "n/a"}%
 - Distance from ideal: ${dnaRes.data?.distance_from_ideal ?? "n/a"}
 - Attempts represented: ${dnaRes.data?.attempt_count ?? attempts.length}
@@ -192,15 +212,16 @@ RULES:
     const generatedPlan = JSON.parse(toolCall.function.arguments);
     const focusAreaNames = generatedPlan.focus_areas?.map((f: any) => f.category) || [];
 
+    const savedGeneratedAt = new Date().toISOString();
     const { error: saveError } = await supabase
       .from("study_plans")
       .upsert(
-        { user_id: userId, tasks: generatedPlan, focus_areas: focusAreaNames, generated_at: new Date().toISOString() },
+        { user_id: userId, tasks: generatedPlan, focus_areas: focusAreaNames, generated_at: savedGeneratedAt },
         { onConflict: "user_id" }
       );
     if (saveError) throw saveError;
 
-    return json(generatedPlan);
+    return json({ ...generatedPlan, generated_at: savedGeneratedAt });
   } catch (error) {
     console.error("generate-study-plan error:", error);
     return json({ error: error instanceof Error ? error.message : "Unknown error" }, 500);
