@@ -61,10 +61,10 @@ const Index: React.FC = () => {
             <span className="text-xl font-extrabold tracking-widest text-white uppercase group-hover:text-cyan-400 transition-colors">Zyntra</span>
           </a>
           <div className="flex items-center gap-3">
-            <Link to="/blog" className="px-4 py-2.5 rounded-full text-sm font-semibold tracking-wide text-slate-300 hover:text-cyan-300 transition-colors">
+            <Link to="/blog" className="hidden sm:inline-flex px-4 py-2.5 rounded-full text-sm font-semibold tracking-wide text-slate-300 hover:text-cyan-300 transition-colors">
               Blog
             </Link>
-            <div className="flex items-center gap-3"><Link to="/blog" className="hidden rounded-full px-4 py-2 text-sm font-medium text-slate-400 hover:text-white sm:inline-flex">Blog</Link><div className="flex items-center gap-3"><Link to="/blog" className="hidden sm:inline-flex px-4 py-2 text-sm font-semibold text-slate-300 hover:text-cyan-300 transition-colors">Blog</Link><button onClick={()=>setModalOpen(true)} className="px-6 py-2.5 rounded-full text-sm font-semibold tracking-wide bg-gradient-to-r from-cyan-500/20 to-blue-500/20 hover:from-cyan-500 hover:to-blue-600 text-cyan-300 hover:text-white border border-cyan-500/40 hover:border-transparent transition-all duration-300 shadow-lg shadow-cyan-500/10 hover:shadow-cyan-500/30 active:scale-95">
+            <button onClick={()=>setModalOpen(true)} className="px-6 py-2.5 rounded-full text-sm font-semibold tracking-wide bg-gradient-to-r from-cyan-500/20 to-blue-500/20 hover:from-cyan-500 hover:to-blue-600 text-cyan-300 hover:text-white border border-cyan-500/40 hover:border-transparent transition-all duration-300 shadow-lg shadow-cyan-500/10 hover:shadow-cyan-500/30 active:scale-95">
               Get Started
             </button>
           </div>
