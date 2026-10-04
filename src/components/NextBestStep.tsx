@@ -1,132 +1,79 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Compass, Zap, Brain, Activity, BookOpen, Target, ArrowRight, Loader2 } from 'lucide-react';
+import { Activity, ArrowRight, Brain, Compass, Gauge, Loader2, Target, TimerReset } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 
-interface Recommendation {
-  icon: React.ElementType;
-  title: string;
-  description: string;
-  link: string;
-  linkLabel: string;
-  accent: string;
+interface NextBestAction {
+  id?: string;
+  candidate_intervention_id?: string;
+  action: string;
+  subject?: string | null;
+  priority?: number;
+  diagnosis_code?: string;
+  evidence_level?: string;
+  expected_signal?: string;
+  reason?: string;
 }
+
+const actionMeta: Record<string, { title: string; icon: React.ElementType; label: string }> = {
+  TIMING_DRILL: { title: 'Timing Drill', icon: TimerReset, label: 'Start Drill' },
+  CONFIDENCE_CALIBRATION: { title: 'Confidence Calibration', icon: Gauge, label: 'Start Calibration' },
+  FIRST_INSTINCT_DRILL: { title: 'First-Instinct Drill', icon: Target, label: 'Start Drill' },
+  DIFFICULTY_REMEDIATION: { title: 'Difficulty Remediation', icon: Brain, label: 'Start Remediation' },
+  KNOWLEDGE_REVIEW: { title: 'Targeted Knowledge Review', icon: Brain, label: 'Start Review' },
+  SUBJECT_REMEDIATION: { title: 'Subject Remediation', icon: Target, label: 'Start Practice' },
+  MIXED_RETEST: { title: 'Mixed Retest', icon: Activity, label: 'Start Retest' },
+};
 
 export function NextBestStep() {
   const { user } = useAuth();
-  const [rec, setRec] = useState<Recommendation | null>(null);
+  const [rec, setRec] = useState<NextBestAction | null>(null);
   const [loading, setLoading] = useState(true);
+  const [starting, setStarting] = useState(false);
 
   useEffect(() => {
-    if (!user) { setLoading(false); return; }
+    if (!user) {
+      setLoading(false);
+      return;
+    }
 
-    const compute = async () => {
+    let cancelled = false;
+
+    (async () => {
       try {
-        const [readinessRes, subjectRes, behaviorRes, flashcardRes, osceRes] = await Promise.all([
-          supabase.from('readiness_dna').select('attempt_count, clinical_accuracy, readiness_score').eq('user_id', user.id).maybeSingle(),
-          supabase.from('subject_dna').select('subject, accuracy, attempt_count').eq('user_id', user.id),
-          supabase.from('behavior_profiles').select('rush_index').eq('user_id', user.id).maybeSingle(),
-          supabase.from('flashcard_reviews').select('id').eq('user_id', user.id).lte('next_review_at', new Date().toISOString()).limit(1),
-          supabase.from('station_attempts').select('id').eq('user_id', user.id).limit(1),
-        ]);
-
-        const attempts = readinessRes.data?.attempt_count || 0;
-
-        // No attempts → take diagnostic
-        if (attempts === 0) {
-          setRec({
-            icon: Compass,
-            title: 'Take Your Diagnostic Assessment',
-            description: 'Complete a quick diagnostic MCQ to establish your baseline and unlock personalized recommendations.',
-            link: '/assess',
-            linkLabel: 'Start Diagnostic',
-            accent: 'text-primary',
-          });
-          setLoading(false);
-          return;
-        }
-
-        // Flashcards due
-        if (flashcardRes.data && flashcardRes.data.length > 0) {
-          setRec({
-            icon: Brain,
-            title: 'Review Due Flashcards',
-            description: 'You have flashcards due for review. Spaced repetition is most effective when done on schedule.',
-            link: '/flashcards',
-            linkLabel: 'Review Now',
-            accent: 'text-chart-3',
-          });
-          setLoading(false);
-          return;
-        }
-
-        // No OSCE attempts
-        if (!osceRes.data || osceRes.data.length === 0) {
-          setRec({
-            icon: Activity,
-            title: 'Try Your First OSCE Station',
-            description: 'Practice clinical communication with an AI patient. Complete at least one station to unlock your psychograph.',
-            link: '/stations',
-            linkLabel: 'Start Station',
-            accent: 'text-chart-1',
-          });
-          setLoading(false);
-          return;
-        }
-
-        // Find weakest subject
-        const subjects = subjectRes.data || [];
-        if (subjects.length > 0) {
-          const weakest = subjects.reduce((min, s) => ((s.accuracy ?? 100) < (min.accuracy ?? 100) ? s : min), subjects[0]);
-          if ((weakest.accuracy ?? 100) < 60) {
-            setRec({
-              icon: Target,
-              title: `Strengthen ${weakest.subject}`,
-              description: `Your accuracy in ${weakest.subject} is ${Math.round(weakest.accuracy ?? 0)}%. Focused practice can close this gap.`,
-              link: '/practice',
-              linkLabel: 'Practice Now',
-              accent: 'text-destructive',
-            });
-            setLoading(false);
-            return;
-          }
-        }
-
-        // High rush index
-        if (behaviorRes.data && (behaviorRes.data.rush_index ?? 0) > 30) {
-          setRec({
-            icon: Zap,
-            title: 'Slow Down with Recharge Mode',
-            description: 'Your rush index is high. Try a Recharge session where you can change answers to practice deliberate thinking.',
-            link: '/practice',
-            linkLabel: 'Start Recharge',
-            accent: 'text-chart-4',
-          });
-          setLoading(false);
-          return;
-        }
-
-        // Default: full mock
-        setRec({
-          icon: BookOpen,
-          title: 'Run a Full Mock Exam',
-          description: 'You\'re progressing well. Test yourself with a timed 150-question mock to simulate exam day.',
-          link: '/practice',
-          linkLabel: 'Start Mock',
-          accent: 'text-primary',
+        const { data, error } = await supabase.rpc('get_next_best_action', {
+          p_user_id: user.id,
         });
-      } catch {
-        setRec(null);
-      } finally {
-        setLoading(false);
-      }
-    };
 
-    compute();
+        if (error) throw error;
+        if (!cancelled) setRec((data ?? null) as unknown as NextBestAction | null);
+      } catch {
+        if (!cancelled) setRec(null);
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
   }, [user]);
+
+  const start = async () => {
+    if (!rec?.id || starting) return;
+    setStarting(true);
+    try {
+      const { error } = await supabase.rpc('start_next_best_action', {
+        p_action_id: rec.id,
+      });
+      if (error) throw error;
+    } finally {
+      setStarting(false);
+    }
+  };
 
   if (loading) {
     return (
@@ -140,22 +87,50 @@ export function NextBestStep() {
 
   if (!rec) return null;
 
+  const meta = actionMeta[rec.action] ?? actionMeta.MIXED_RETEST;
+  const Icon = meta.icon;
+
   return (
     <Card className="border-primary/20 bg-gradient-to-r from-primary/5 to-transparent overflow-hidden">
       <CardContent className="p-5">
         <div className="flex items-start gap-4">
-          <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-background shadow-sm ${rec.accent}`}>
-            <rec.icon className="h-5 w-5" />
+          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-background shadow-sm text-primary">
+            <Icon className="h-5 w-5" />
           </div>
+
           <div className="flex-1 min-w-0 space-y-1">
             <div className="flex items-center gap-2">
-              <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Next Best Step</span>
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+                Next Best Action
+              </span>
+              {rec.evidence_level && (
+                <span className="text-[10px] uppercase tracking-wider text-muted-foreground">
+                  · {rec.evidence_level}
+                </span>
+              )}
             </div>
-            <h3 className="font-display font-semibold text-foreground">{rec.title}</h3>
-            <p className="text-sm text-muted-foreground leading-relaxed">{rec.description}</p>
-            <Button asChild size="sm" className="mt-2 gap-1">
-              <Link to={rec.link}>
-                {rec.linkLabel} <ArrowRight className="h-3.5 w-3.5" />
+
+            <h3 className="font-display font-semibold text-foreground">
+              {meta.title}{rec.subject ? ` · ${rec.subject}` : ''}
+            </h3>
+
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              {rec.reason || 'This is the current highest-priority training action supported by your observed data.'}
+            </p>
+
+            <Button asChild size="sm" className="mt-2 gap-1" disabled={starting}>
+              <Link
+                to="/practice"
+                state={{
+                  nextBestActionId: rec.id,
+                  candidateInterventionId: rec.candidate_intervention_id,
+                  action: rec.action,
+                  subject: rec.subject,
+                }}
+                onClick={() => void start()}
+              >
+                {starting ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : null}
+                {meta.label} <ArrowRight className="h-3.5 w-3.5" />
               </Link>
             </Button>
           </div>

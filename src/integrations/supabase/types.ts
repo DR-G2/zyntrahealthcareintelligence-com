@@ -2396,6 +2396,22 @@ export type Database = {
         }
         Returns: Json
       }
+      get_next_best_action: {
+        Args: { p_user_id: string }
+        Returns: Json
+      }
+      start_next_best_action: {
+        Args: { p_action_id: string }
+        Returns: Json
+      }
+      complete_candidate_intervention: {
+        Args: { p_candidate_intervention_id: string }
+        Returns: Json
+      }
+      get_intervention_effectiveness: {
+        Args: { p_user_id: string }
+        Returns: Json
+      }
       is_admin: { Args: { _email: string }; Returns: boolean }
       is_group_member: {
         Args: { _group_id: string; _user_id: string }
