@@ -1,7 +1,7 @@
 import { LabError, type GenerateInput, type ProviderAdapter } from "./types.ts";
 
 const API = "https://generativelanguage.googleapis.com/v1beta";
-const PREFERRED = ["gemini-2.5-flash-lite", "gemini-2.5-flash", "gemini-2.0-flash"];
+const PREFERRED = ["gemini-3.8-flash", "gemini-3.6-flash", "gemini-3.5-flash-lite", "gemini-3.1-flash-lite", "gemini-2.5-flash-lite", "gemini-2.5-flash"];
 
 async function providerError(res: Response): Promise<never> {
   const payload = await res.json().catch(() => ({}));
@@ -15,7 +15,7 @@ async function providerError(res: Response): Promise<never> {
 export const geminiAdapter: ProviderAdapter = {
   id: "gemini",
   async listModels(apiKey) {
-    const res = await fetch(`${API}/models?key=${encodeURIComponent(apiKey)}&pageSize=100`);
+    const res = await fetch(`${API}/models?pageSize=100`, { headers: { "x-goog-api-key": apiKey } });
     if (!res.ok) await providerError(res);
     const payload = await res.json().catch(() => ({}));
     return (Array.isArray(payload?.models) ? payload.models : [])
@@ -31,8 +31,8 @@ export const geminiAdapter: ProviderAdapter = {
       contents: [{ role: "user", parts: [{ text: input.input }] }],
       generationConfig: { maxOutputTokens: input.maxOutputTokens, ...(input.jsonSchema ? { responseMimeType: "application/json" } : {}) },
     };
-    const res = await fetch(`${API}/models/${encodeURIComponent(input.model)}:generateContent?key=${encodeURIComponent(input.apiKey)}`, {
-      method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body),
+    const res = await fetch(`${API}/models/${encodeURIComponent(input.model)}:generateContent`, {
+      method: "POST", headers: { "Content-Type": "application/json", "x-goog-api-key": input.apiKey }, body: JSON.stringify(body),
     });
     if (!res.ok) await providerError(res);
     const result = await res.json().catch(() => null);
