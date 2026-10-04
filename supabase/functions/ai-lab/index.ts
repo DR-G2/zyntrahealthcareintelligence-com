@@ -135,8 +135,18 @@ Deno.serve(async (req) => {
   const sb = serviceClient();
 
   try {
-    const secret = Deno.env.get("AI_LAB_ENCRYPTION_SECRET");
-    if (!secret) throw new LabError("ENCRYPTION_SECRET_MISSING", "AI Lab is not configured on the server yet. Contact support.", 500);
+    // Do not require the encryption secret for read-only/status/telemetry actions.
+    // This keeps the AI Lab shell usable when BYOK server configuration is incomplete.
+    // The secret is required only when reading/writing encrypted provider credentials or running a model.
+    const getEncryptionSecret = () => {
+      const secret = Deno.env.get("AI_LAB_ENCRYPTION_SECRET");
+      if (!secret) throw new LabError(
+        "ENCRYPTION_SECRET_MISSING",
+        "AI Lab server encryption is not configured yet. Connect an administrator's server secret before adding an API key.",
+        500,
+      );
+      return secret;
+    };
 
     const providerId = typeof body?.provider === "string" ? body.provider : "openai";
     const adapter = PROVIDERS[providerId];
@@ -166,7 +176,7 @@ Deno.serve(async (req) => {
     if (action === "status") {
       const conn = await loadConnection();
       if (!conn || conn.status !== "connected") { await audit("status", { metadata: { connected: false } }); return json({ success: true, connected: false, models: [] }); }
-      const apiKey = await decrypt(conn.encrypted_api_key, secret);
+      const apiKey = await decrypt(conn.encrypted_api_key, getEncryptionSecret());
       const models = await adapter.listModels(apiKey);
       if (!models.length) throw new LabError("NO_SUPPORTED_MODEL", "No supported model is available for this API credential.", 403);
       const model = models.includes(conn.selected_model ?? "") ? conn.selected_model : adapter.preferredModel(models);
@@ -183,7 +193,7 @@ Deno.serve(async (req) => {
       const model = adapter.preferredModel(models);
       const now = new Date().toISOString();
       const { error } = await sb.from("ai_lab_connections").upsert({
-        user_id: caller.userId, provider: adapter.id, encrypted_api_key: await encrypt(apiKey, secret),
+        user_id: caller.userId, provider: adapter.id, encrypted_api_key: await encrypt(apiKey, getEncryptionSecret()),
         selected_model: model, status: "connected", last_verified_at: now, updated_at: now,
       }, { onConflict: "user_id,provider" });
       if (error) throw new LabError("DATABASE_ERROR", "Unable to save the provider connection.", 500);
