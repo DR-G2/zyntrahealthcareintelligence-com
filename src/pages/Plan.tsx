@@ -196,7 +196,7 @@ export default function Plan() {
                 ['Exam horizon', daysUntilExam == null ? 'Not set' : `${Math.max(0, daysUntilExam)} days`],
               ].map(([label, value]) => (
                 <div key={label} className="rounded-2xl border border-white/10 bg-white/[0.02] p-4">
-                  <p className="text-[11px] uppercase tracking-wider text-slate-500">{label}</p>
+                  <p className="text-[11px] uppercase tracking-wider text-slate-400">{label}</p>
                   <p className="mt-2 font-display text-2xl font-semibold text-white">{value}</p>
                 </div>
               ))}
@@ -205,12 +205,12 @@ export default function Plan() {
             {generationLocked ? (
               <div className="mt-5 flex items-start gap-3 rounded-2xl border border-amber-400/15 bg-amber-400/[0.04] p-4">
                 <Clock3 className="mt-0.5 h-4 w-4 shrink-0 text-amber-300" />
-                <div><p className="text-sm font-medium text-slate-200">Monthly generation used</p><p className="mt-1 text-xs leading-5 text-slate-500">One successful study-plan generation is allowed per calendar month. Next generation available in {nextGenerationDays} day{nextGenerationDays === 1 ? '' : 's'}.</p></div>
+                <div><p className="text-sm font-medium text-slate-200">Monthly generation used</p><p className="mt-1 text-xs leading-5 text-slate-400">One successful study-plan generation is allowed per calendar month. Next generation available in {nextGenerationDays} day{nextGenerationDays === 1 ? '' : 's'}.</p></div>
               </div>
             ) : (
               <div className="mt-5 flex items-start gap-3 rounded-2xl border border-cyan-400/15 bg-cyan-400/[0.04] p-4">
                 <Target className="mt-0.5 h-4 w-4 shrink-0 text-cyan-300" />
-                <div><p className="text-sm font-medium text-slate-200">What feeds the plan</p><p className="mt-1 text-xs leading-5 text-slate-500">Performance Intelligence → priorities → daily training → new attempts → updated intelligence.</p></div>
+                <div><p className="text-sm font-medium text-slate-200">What feeds the plan</p><p className="mt-1 text-xs leading-5 text-slate-400">Performance Intelligence → priorities → daily training → new attempts → updated intelligence.</p></div>
               </div>
             )}
           </section>
@@ -220,7 +220,7 @@ export default function Plan() {
               <section className="rounded-3xl border border-white/10 bg-[#081224]/70 p-8 text-center backdrop-blur-xl">
                 <CalendarDays className="mx-auto h-7 w-7 text-cyan-300" />
                 <h2 className="mt-4 font-display text-xl font-semibold text-white">No active plan yet</h2>
-                <p className="mx-auto mt-2 max-w-lg text-sm leading-6 text-slate-500">Complete practice to build performance signals, then generate your first 7-day roadmap.</p>
+                <p className="mx-auto mt-2 max-w-lg text-sm leading-6 text-slate-400">Complete practice to build performance signals, then generate your first 7-day roadmap.</p>
                 <button onClick={() => setParams({ tab: 'generate' })} className="mt-5 inline-flex items-center gap-2 rounded-xl border border-cyan-400/25 bg-cyan-400/[0.06] px-4 py-2.5 text-sm font-semibold text-cyan-200">Generate New <ArrowRight className="h-4 w-4" /></button>
               </section>
             ) : (
@@ -235,27 +235,27 @@ export default function Plan() {
                   ].map(([label, value, helper, Icon]) => (
                     <div key={String(label)} className="rounded-2xl border border-white/10 bg-[#081224]/70 p-5 backdrop-blur-xl">
                       <Icon className="h-5 w-5 text-cyan-300" />
-                      <p className="mt-5 text-xs text-slate-500">{label}</p>
+                      <p className="mt-5 text-xs text-slate-400">{label}</p>
                       <p className="mt-1 font-display text-3xl font-semibold text-white">{value}</p>
-                      <p className="mt-1 text-[11px] font-mono text-slate-600">{helper}</p>
+                      <p className="mt-1 text-[11px] font-mono text-slate-400">{helper}</p>
                     </div>
                   ))}
                 </section>
 
                 <section className="rounded-3xl border border-white/10 bg-[#081224]/70 p-6 backdrop-blur-xl">
-                  <div className="mb-5 flex items-end justify-between gap-3"><div><h2 className="font-display text-xl font-semibold text-white">Next Training Priorities</h2><p className="mt-1 text-xs text-slate-500">Start with the areas where your current signal shows the largest need for reinforcement.</p></div><span className="text-xs font-mono text-slate-600">{tasks.length} priorities</span></div>
+                  <div className="mb-5 flex items-end justify-between gap-3"><div><h2 className="font-display text-xl font-semibold text-white">Next Training Priorities</h2><p className="mt-1 text-xs text-slate-400">Start with the areas where your current signal shows the largest need for reinforcement.</p></div><span className="text-xs font-mono text-slate-400">{tasks.length} priorities</span></div>
                   <div className="space-y-3">
                     {tasks.slice(0, 8).map((task, i) => (
                       <div key={task.category + i} className="grid gap-4 rounded-2xl border border-white/10 bg-white/[0.02] p-4 sm:grid-cols-[1fr_auto_auto] sm:items-center">
-                        <div className="min-w-0"><div className="flex flex-wrap items-center gap-2"><span className={cn('rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider', priorityTone(task.priority))}>{task.priority}</span><p className="truncate text-sm font-medium text-slate-200">{task.category}</p></div>{task.study_tip && <p className="mt-2 text-xs leading-5 text-slate-500">{task.study_tip}</p>}</div>
-                        <div><p className="text-sm font-semibold text-white">{task.daily_questions || 0} q/day</p>{task.accuracy != null && <p className="text-[11px] font-mono text-slate-600">{task.accuracy}% accuracy</p>}</div>
+                        <div className="min-w-0"><div className="flex flex-wrap items-center gap-2"><span className={cn('rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider', priorityTone(task.priority))}>{task.priority}</span><p className="truncate text-sm font-medium text-slate-200">{task.category}</p></div>{task.study_tip && <p className="mt-2 text-xs leading-5 text-slate-400">{task.study_tip}</p>}</div>
+                        <div><p className="text-sm font-semibold text-white">{task.daily_questions || 0} q/day</p>{task.accuracy != null && <p className="text-[11px] font-mono text-slate-400">{task.accuracy}% accuracy</p>}</div>
                         <Link to={`/practice?subject=${encodeURIComponent(task.category)}`} className="inline-flex items-center justify-center gap-1 rounded-lg border border-white/10 px-3 py-2 text-xs font-semibold text-slate-300 hover:border-cyan-400/30 hover:text-cyan-300">Practice <ArrowRight className="h-3 w-3" /></Link>
                       </div>
                     ))}
                   </div>
                 </section>
 
-                {plan.weekly_schedule?.length > 0 && <section className="rounded-3xl border border-white/10 bg-[#081224]/70 p-6 backdrop-blur-xl"><div className="mb-5 flex items-center gap-2"><CalendarDays className="h-5 w-5 text-purple-300" /><h2 className="font-display text-xl font-semibold text-white">Weekly Rhythm</h2></div><div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{plan.weekly_schedule.slice(0, 7).map(day => <div key={day.day} className="rounded-2xl border border-white/10 bg-white/[0.02] p-4"><div className="flex items-center justify-between"><span className="text-sm font-semibold text-slate-200">{day.day}</span><span className="text-xs font-mono text-slate-500">{day.total_questions} q</span></div><div className="mt-3 space-y-2">{day.topics.slice(0, 4).map(topic => <div key={topic.category} className="flex items-center justify-between text-xs"><span className="truncate text-slate-500">{topic.category}</span><span className="text-slate-300">{topic.count}</span></div>)}</div></div>)}</div></section>}
+                {plan.weekly_schedule?.length > 0 && <section className="rounded-3xl border border-white/10 bg-[#081224]/70 p-6 backdrop-blur-xl"><div className="mb-5 flex items-center gap-2"><CalendarDays className="h-5 w-5 text-purple-300" /><h2 className="font-display text-xl font-semibold text-white">Weekly Rhythm</h2></div><div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{plan.weekly_schedule.slice(0, 7).map(day => <div key={day.day} className="rounded-2xl border border-white/10 bg-white/[0.02] p-4"><div className="flex items-center justify-between"><span className="text-sm font-semibold text-slate-200">{day.day}</span><span className="text-xs font-mono text-slate-400">{day.total_questions} q</span></div><div className="mt-3 space-y-2">{day.topics.slice(0, 4).map(topic => <div key={topic.category} className="flex items-center justify-between text-xs"><span className="truncate text-slate-400">{topic.category}</span><span className="text-slate-300">{topic.count}</span></div>)}</div></div>)}</div></section>}
 
                 <section className="rounded-3xl border border-white/10 bg-[#081224]/70 p-6 backdrop-blur-xl"><div className="mb-4 flex items-center gap-2"><CheckCircle2 className="h-5 w-5 text-emerald-300" /><h2 className="font-display text-xl font-semibold text-white">Review & Reinforcement</h2></div><p className="text-sm text-slate-400">Use Flashcards to reinforce mistakes and weak areas surfaced by your plan.</p><Link to="/flashcards" className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-cyan-300 hover:text-cyan-200">Open Flashcards <ArrowRight className="h-4 w-4" /></Link></section>
               </>
