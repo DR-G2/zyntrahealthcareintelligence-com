@@ -177,6 +177,16 @@ Deno.serve(async (req) => {
       return json({ success: true });
     }
 
+    if (action === "history") {
+      const { data, error } = await sb.from("ai_lab_sessions")
+        .select("id, mode, provider, model, created_at, status")
+        .eq("user_id", caller.userId)
+        .order("created_at", { ascending: false })
+        .limit(10);
+      if (error) throw new LabError("DATABASE_ERROR", "Unable to load AI Lab history.", 500);
+      return json({ success: true, sessions: data ?? [] });
+    }
+
     if (action === "log_event") {
       const type = body.event_type;
       const sessionId = body.session_id;
