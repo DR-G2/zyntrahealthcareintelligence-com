@@ -22,7 +22,7 @@ ALTER TABLE public.question_dna
   ADD COLUMN IF NOT EXISTS references jsonb NOT NULL DEFAULT '[]'::jsonb,
   ADD COLUMN IF NOT EXISTS version integer NOT NULL DEFAULT 1,
   ADD COLUMN IF NOT EXISTS duplicate_cluster text,
-  ADD COLUMN IF NOT EXISTS production_status text NOT NULL DEFAULT 'production',
+  ADD COLUMN IF NOT EXISTS production_status text NOT NULL DEFAULT 'unclassified',
   ADD COLUMN IF NOT EXISTS source_question_version text,
   ADD COLUMN IF NOT EXISTS observed_confidence_error_rate numeric DEFAULT 0;
 
