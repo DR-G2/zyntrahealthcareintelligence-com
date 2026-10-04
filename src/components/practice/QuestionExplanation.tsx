@@ -161,7 +161,7 @@ export function QuestionExplanation({ question, userAnswer, questionIndex, onBac
               {isBookmarked ? <BookmarkCheck className="h-4 w-4 text-primary" /> : <Bookmark className="h-4 w-4 text-muted-foreground" />}
             </Button>
           ) : (
-            <Button variant="ghost" size="icon" disabled className="opacity-50"><Lock className="h-4 w-4 text-muted-foreground" /></Button>
+            <Button variant="ghost" size="icon" disabled className="opacity-100"><Lock className="h-4 w-4 text-muted-foreground" /></Button>
           )}
           {onAskStudyBuddy && (
             <Button variant="outline" size="sm" onClick={() => onAskStudyBuddy(question)} className="gap-1.5"><MessageCircle className="h-4 w-4" /> Ask Study Buddy</Button>
