@@ -26,6 +26,13 @@ ALTER TABLE public.question_dna
   ADD COLUMN IF NOT EXISTS source_question_version text,
   ADD COLUMN IF NOT EXISTS observed_confidence_error_rate numeric DEFAULT 0;
 
+ALTER TABLE public.question_dna
+  DROP CONSTRAINT IF EXISTS question_dna_reviewer_status_check,
+  DROP CONSTRAINT IF EXISTS question_dna_production_status_check;
+ALTER TABLE public.question_dna
+  ADD CONSTRAINT question_dna_reviewer_status_check CHECK (reviewer_status IN ('unreviewed','in_review','approved','rejected')),
+  ADD CONSTRAINT question_dna_production_status_check CHECK (production_status IN ('unclassified','draft','production','temp','archived'));
+
 ALTER TABLE public.user_attempts
   ADD COLUMN IF NOT EXISTS question_difficulty_at_attempt text,
   ADD COLUMN IF NOT EXISTS question_dna_version_at_attempt integer;
@@ -52,14 +59,16 @@ BEGIN
     q.id,
     q.category,
     q.subtopic,
-    CASE WHEN q.guideline_reference IS NOT NULL THEN 'reference-linked' ELSE 'unverified' END,
-    'production',
+    q.system_category,
+    'unreviewed',
+    'unclassified',
     1,
     now()
   )
   ON CONFLICT (question_id) DO UPDATE SET
     subject = EXCLUDED.subject,
     specialty = EXCLUDED.specialty,
+    blueprint_domain = COALESCE(EXCLUDED.blueprint_domain, public.question_dna.blueprint_domain),
     australian_context = CASE
       WHEN public.question_dna.australian_context IN ('reviewed-australian', 'reviewed-non-australian')
         THEN public.question_dna.australian_context
@@ -117,18 +126,19 @@ BEFORE INSERT ON public.user_attempts
 FOR EACH ROW EXECUTE FUNCTION public.snapshot_question_dna_on_attempt();
 
 -- Backfill canonical DNA metadata for the existing question bank.
-INSERT INTO public.question_dna (question_id, subject, specialty, australian_context, production_status, version, updated_at)
+INSERT INTO public.question_dna (question_id, subject, specialty, blueprint_domain, australian_context, production_status, version, updated_at)
 SELECT q.id,
        q.category,
        q.subtopic,
-       CASE WHEN q.guideline_reference IS NOT NULL THEN 'reference-linked' ELSE 'unverified' END,
-       'production',
+       'unreviewed',
+       'unclassified',
        1,
        now()
 FROM public.questions q
 ON CONFLICT (question_id) DO UPDATE SET
   subject = EXCLUDED.subject,
   specialty = EXCLUDED.specialty,
+  blueprint_domain = EXCLUDED.blueprint_domain,
   australian_context = CASE
     WHEN public.question_dna.australian_context IN ('reviewed-australian', 'reviewed-non-australian')
       THEN public.question_dna.australian_context
