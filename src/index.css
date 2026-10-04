@@ -9,9 +9,31 @@
   }
 
   :root {
+    /* High-contrast dark design tokens. Keep interactive surfaces opaque enough
+       that text never relies on backdrop/background bleed-through. */
     --background: 220 45% 5%;
     --foreground: 210 35% 96%;
-    --border: 210 35% 18%;
+    --card: 222 38% 9%;
+    --card-foreground: 210 35% 96%;
+    --popover: 222 38% 10%;
+    --popover-foreground: 210 35% 97%;
+    --primary: 187 86% 58%;
+    --primary-foreground: 220 45% 5%;
+    --secondary: 217 28% 17%;
+    --secondary-foreground: 210 35% 96%;
+    --muted: 217 28% 15%;
+    --muted-foreground: 214 20% 72%;
+    --accent: 190 55% 18%;
+    --accent-foreground: 190 90% 92%;
+    --input: 215 24% 27%;
+    --ring: 187 86% 58%;
+    --destructive: 0 72% 55%;
+    --destructive-foreground: 210 40% 98%;
+    --success: 158 64% 45%;
+    --success-foreground: 210 40% 98%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 220 45% 5%;
+    --border: 210 35% 24%;
   }
 
   * {
