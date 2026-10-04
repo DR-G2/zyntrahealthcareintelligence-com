@@ -17,10 +17,10 @@ function RoomTabs() {
     <Link
       to={to}
       className={cn(
-        'relative rounded-xl px-4 py-2 text-center text-sm font-medium transition-all',
+        'relative rounded-xl border border-transparent px-4 py-2.5 text-center text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300/80',
         active
-          ? 'bg-white/[0.08] text-white shadow-[0_0_24px_rgba(34,211,238,0.08)]'
-          : 'text-slate-400 hover:bg-white/[0.04] hover:text-slate-200'
+          ? 'border-cyan-400/35 bg-cyan-400/12 text-cyan-100 shadow-[0_0_24px_rgba(34,211,238,0.12)]'
+          : 'text-slate-200 hover:border-white/15 hover:bg-white/[0.07] hover:text-white'
       )}
     >
       {active && <span className="absolute inset-x-5 -bottom-px h-px bg-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.8)]" />}
