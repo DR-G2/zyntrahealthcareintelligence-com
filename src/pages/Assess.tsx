@@ -135,12 +135,22 @@ export default function Assess() {
     pauseTimerRef.current = setInterval(() => {
       const elapsed = (Date.now() - lastInteractionRef.current) / 1000;
       if (elapsed > 10) {
-        setPauseEvents(prev => ({ ...prev, [currentIndex]: (prev[currentIndex] || 0) + 1 }));
-        lastInteractionRef.current = Date.now(); // reset to avoid counting same pause
+        const pauseCount = (pauseEvents[currentIndex] || 0) + 1;
+        setPauseEvents(prev => ({ ...prev, [currentIndex]: pauseCount }));
+        void emitBehaviorEvent({
+          userId: user?.id ?? '',
+          eventType: 'SESSION_PAUSED',
+          sessionId: sessionIdRef.current,
+          questionId: questions[currentIndex]?.id,
+          sequenceNo: currentIndex,
+          questionPosition: currentIndex,
+          payload: { idle_seconds: Math.round(elapsed), pause_count: pauseCount, mode: 'diagnostic' },
+        });
+        lastInteractionRef.current = Date.now();
       }
     }, 5000);
     return () => { if (pauseTimerRef.current) clearInterval(pauseTimerRef.current); };
-  }, [phase, currentIndex]);
+  }, [phase, currentIndex, pauseEvents, user, questions]);
 
   const getNextQuestion = useCallback((): Question | null => {
     const next = selectNextQuestion(
@@ -249,8 +259,30 @@ export default function Assess() {
     // Check for interventions
     const interventionType = shouldShowIntervention(sequencingRef.current);
     if (interventionType && !intervention) {
+      const interventionQuestionId = questions[currentIndex]?.id;
+      const interventionSequenceNo = currentIndex;
       setIntervention(interventionType);
-      setTimeout(() => setIntervention(null), 5000);
+      void emitBehaviorEvent({
+        userId: user?.id ?? '',
+        eventType: 'INTERVENTION_STARTED',
+        sessionId: sessionIdRef.current,
+        questionId: interventionQuestionId,
+        sequenceNo: interventionSequenceNo,
+        questionPosition: interventionSequenceNo,
+        payload: { intervention_type: interventionType, mode: 'diagnostic' },
+      });
+      setTimeout(() => {
+        setIntervention(null);
+        void emitBehaviorEvent({
+          userId: user?.id ?? '',
+          eventType: 'INTERVENTION_COMPLETED',
+          sessionId: sessionIdRef.current,
+          questionId: interventionQuestionId,
+          sequenceNo: interventionSequenceNo,
+          questionPosition: interventionSequenceNo,
+          payload: { intervention_type: interventionType, mode: 'diagnostic', displayed_seconds: 5 },
+        });
+      }, 5000);
     }
   };
 
@@ -394,6 +426,12 @@ export default function Assess() {
                     setPhase('test');
                     setQuestionStartTime(Date.now());
                     setQuestionLoadTime(Date.now());
+                    void emitBehaviorEvent({
+                      userId: user?.id ?? '',
+                      eventType: 'SESSION_STARTED',
+                      sessionId: sessionIdRef.current,
+                      payload: { mode: 'diagnostic', question_count: QUESTION_COUNT },
+                    });
                   }}
                 >
                   Begin Diagnostic
