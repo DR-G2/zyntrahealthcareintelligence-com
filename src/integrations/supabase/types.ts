@@ -1256,39 +1256,105 @@ export type Database = {
       question_dna: {
         Row: {
           accuracy_rate: number | null
+          ambiguity_risk: number | null
           answer_change_rate: number | null
           attempt_count: number | null
           average_time: number | null
+          australian_context: string | null
+          blueprint_domain: string | null
+          clinical_reasoning_type: string | null
+          cognitive_task: string | null
           confidence_error_rate: number | null
           difficulty_score: number | null
+          distractor_type: string | null
+          duplicate_cluster: string | null
+          expected_discrimination: number | null
+          explanation_quality: number | null
+          has_ecg: boolean
+          has_image: boolean
+          has_radiology: boolean
           id: string
+          knowledge_type: string | null
+          last_reviewed_at: string | null
+          production_status: string
           question_id: string
+          references: Json
+          reviewer_status: string
+          source_question_version: string | null
+          specialty: string | null
+          subject: string | null
           trap_type: string | null
           updated_at: string | null
+          version: number
+          observed_confidence_error_rate: number | null
         }
         Insert: {
           accuracy_rate?: number | null
+          ambiguity_risk?: number | null
           answer_change_rate?: number | null
           attempt_count?: number | null
           average_time?: number | null
+          australian_context?: string | null
+          blueprint_domain?: string | null
+          clinical_reasoning_type?: string | null
+          cognitive_task?: string | null
           confidence_error_rate?: number | null
           difficulty_score?: number | null
+          distractor_type?: string | null
+          duplicate_cluster?: string | null
+          expected_discrimination?: number | null
+          explanation_quality?: number | null
+          has_ecg?: boolean
+          has_image?: boolean
+          has_radiology?: boolean
           id?: string
+          knowledge_type?: string | null
+          last_reviewed_at?: string | null
+          production_status?: string
           question_id: string
+          references?: Json
+          reviewer_status?: string
+          source_question_version?: string | null
+          specialty?: string | null
+          subject?: string | null
           trap_type?: string | null
           updated_at?: string | null
+          version?: number
+          observed_confidence_error_rate?: number | null
         }
         Update: {
           accuracy_rate?: number | null
+          ambiguity_risk?: number | null
           answer_change_rate?: number | null
           attempt_count?: number | null
           average_time?: number | null
+          australian_context?: string | null
+          blueprint_domain?: string | null
+          clinical_reasoning_type?: string | null
+          cognitive_task?: string | null
           confidence_error_rate?: number | null
           difficulty_score?: number | null
+          distractor_type?: string | null
+          duplicate_cluster?: string | null
+          expected_discrimination?: number | null
+          explanation_quality?: number | null
+          has_ecg?: boolean
+          has_image?: boolean
+          has_radiology?: boolean
           id?: string
+          knowledge_type?: string | null
+          last_reviewed_at?: string | null
+          production_status?: string
           question_id?: string
+          references?: Json
+          reviewer_status?: string
+          source_question_version?: string | null
+          specialty?: string | null
+          subject?: string | null
           trap_type?: string | null
           updated_at?: string | null
+          version?: number
+          observed_confidence_error_rate?: number | null
         }
         Relationships: [
           {
