@@ -299,9 +299,6 @@ Predict AMC score range (out of 300, pass is ~230):
                       required: ["trap", "description", "severity"],
                     },
                   },
-                  predicted_score_low: { type: "integer" },
-                  predicted_score_high: { type: "integer" },
-                  predicted_score_potential: { type: "integer" },
                   recommendations: {
                     type: "array",
                     items: {
@@ -317,7 +314,7 @@ Predict AMC score range (out of 300, pass is ~230):
                   },
                   critical_finding: { type: "string" },
                 },
-                required: ["archetype", "trap_flags", "predicted_score_low", "predicted_score_high", "predicted_score_potential", "recommendations", "critical_finding"],
+                required: ["archetype", "trap_flags", "recommendations", "critical_finding"],
               },
             },
           },
@@ -347,9 +344,6 @@ Predict AMC score range (out of 300, pass is ~230):
       classification = {
         archetype: changeRate > 2 ? "panic_changer" : avgTime < 45 ? "rusher" : avgTime > 300 ? "paralyzer" : fatigueIncrease > 1.4 ? "fatigue_victim" : "strategist",
         trap_flags: [],
-        predicted_score_low: Math.round(correctRate * 300 * 0.8),
-        predicted_score_high: Math.round(correctRate * 300 * 1.1),
-        predicted_score_potential: Math.round(correctRate * 300 * 1.2),
         recommendations: [{ title: "Continue practicing", description: "Keep up your current routine", priority: "medium" }],
         critical_finding: `Your overall accuracy is ${Math.round(correctRate * 100)}%.`,
       };
@@ -371,9 +365,6 @@ Predict AMC score range (out of 300, pass is ~230):
         }])
       ),
       trap_flags: classification.trap_flags,
-      predicted_score_low: classification.predicted_score_low,
-      predicted_score_high: classification.predicted_score_high,
-      predicted_score_potential: classification.predicted_score_potential,
       recommendations: classification.recommendations,
       updated_at: new Date().toISOString(),
     };
