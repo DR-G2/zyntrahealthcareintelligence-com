@@ -140,6 +140,20 @@ Deno.serve(async (req) => {
 
     const providerId = typeof body?.provider === "string" ? body.provider : "openai";
     const adapter = PROVIDERS[providerId];
+
+    const audit = async (actionName: string, fields: Record<string, unknown> = {}) => {
+      await sb.from("ai_lab_interactions").insert({
+        user_id: caller.userId,
+        action: actionName,
+        provider: typeof fields.provider === "string" ? fields.provider : adapter?.id ?? providerId,
+        model: typeof fields.model === "string" ? fields.model : null,
+        mode: typeof fields.mode === "string" ? fields.mode : null,
+        session_id: typeof fields.session_id === "string" ? fields.session_id : null,
+        request_text: typeof fields.request_text === "string" ? fields.request_text.slice(0, 10000) : null,
+        response_text: typeof fields.response_text === "string" ? fields.response_text.slice(0, 30000) : null,
+        metadata: fields.metadata && typeof fields.metadata === "object" ? fields.metadata : {},
+      });
+    };
     if (!adapter) throw new LabError("INVALID_REQUEST", "Provider not supported.", 400);
 
     const loadConnection = async () => {
