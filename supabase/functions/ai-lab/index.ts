@@ -293,6 +293,20 @@ Deno.serve(async (req) => {
         if (mode === "questions") events.push({ ...evBase, event_type: "question_generated", metadata: { count: (rendered as unknown[]).length } });
         events.push({ ...evBase, event_type: "session_completed", duration_ms: duration, input_tokens: usage.input_tokens, output_tokens: usage.output_tokens, estimated_cost: cost });
         await sb.from("ai_lab_events").insert(events);
+        await audit("run_completed", {
+          session_id: session.id,
+          provider: adapter.id,
+          model,
+          mode,
+          metadata: {
+            use_intelligence: useIntelligence,
+            duration_ms: duration,
+            input_tokens: usage.input_tokens,
+            output_tokens: usage.output_tokens,
+            total_tokens: usage.total_tokens,
+            estimated_cost: cost,
+          },
+        });
 
         return json({ success: true, mode, session_id: session.id, result: rendered, usage, estimated_cost: cost });
       } catch (e) {
