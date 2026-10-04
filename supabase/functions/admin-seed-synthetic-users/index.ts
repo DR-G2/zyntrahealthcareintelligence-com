@@ -144,9 +144,6 @@ serve(async (req) => {
           rush_index: normalRand(15, 12, 0, 80),
           hesitation_index: normalRand(20, 15, 0, 75),
           fatigue_index: normalRand(12, 10, 0, 60),
-          predicted_score_low: randInt(45, 65),
-          predicted_score_high: randInt(70, 95),
-          predicted_score_potential: randInt(75, 99),
         });
 
         // Subject DNA — all 6 AMC subjects
