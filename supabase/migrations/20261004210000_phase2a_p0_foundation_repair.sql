@@ -264,18 +264,45 @@ $$;
 REVOKE ALL ON FUNCTION public.rebuild_candidate_behavior_profile(UUID)
   FROM PUBLIC, anon, authenticated;
 
--- Run the canonical rebuild after the existing attempt-intelligence trigger.
+-- Run canonical rebuilds after the existing attempt-intelligence trigger.
+CREATE OR REPLACE FUNCTION public.trg_rebuild_candidate_intelligence()
+RETURNS trigger
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path TO 'public'
+AS $
+BEGIN
+  PERFORM public.rebuild_candidate_intelligence(NEW.user_id);
+  RETURN NEW;
+END;
+$;
+
+CREATE OR REPLACE FUNCTION public.trg_rebuild_candidate_behavior_profile()
+RETURNS trigger
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path TO 'public'
+AS $
+BEGIN
+  PERFORM public.rebuild_candidate_behavior_profile(NEW.user_id);
+  RETURN NEW;
+END;
+$;
+
+REVOKE ALL ON FUNCTION public.trg_rebuild_candidate_intelligence() FROM PUBLIC, anon, authenticated;
+REVOKE ALL ON FUNCTION public.trg_rebuild_candidate_behavior_profile() FROM PUBLIC, anon, authenticated;
+
 DROP TRIGGER IF EXISTS zz_rebuild_candidate_intelligence ON public.user_attempts;
 CREATE TRIGGER zz_rebuild_candidate_intelligence
 AFTER INSERT ON public.user_attempts
 FOR EACH ROW
-EXECUTE FUNCTION public.rebuild_candidate_intelligence(NEW.user_id);
+EXECUTE FUNCTION public.trg_rebuild_candidate_intelligence();
 
 DROP TRIGGER IF EXISTS zz_rebuild_candidate_behavior_profile ON public.user_attempts;
 CREATE TRIGGER zz_rebuild_candidate_behavior_profile
 AFTER INSERT ON public.user_attempts
 FOR EACH ROW
-EXECUTE FUNCTION public.rebuild_candidate_behavior_profile(NEW.user_id);
+EXECUTE FUNCTION public.trg_rebuild_candidate_behavior_profile();
 
 -- 5. The question ID trigger must have exactly one canonical owner.
 DROP TRIGGER IF EXISTS set_zyntra_id_question ON public.questions;
