@@ -1193,6 +1193,13 @@ function DrillSession({
     lastInteractionRef.current = Date.now();
     const nextConfidence = { ...confidenceByIndex, [currentIndex]: level };
     setConfidenceByIndex(nextConfidence);
+    void emitBehaviorEvent({
+      eventType: 'CONFIDENCE_SET',
+      sessionId: sessionIdRef.current,
+      questionId: questions[currentIndex]?.id,
+      sequenceNo: currentIndex,
+      payload: { confidence_level: level },
+    });
     if (autoSaveRef.current) clearTimeout(autoSaveRef.current);
     autoSaveRef.current = setTimeout(() => {
       saveSession(
@@ -1335,6 +1342,28 @@ function DrillSession({
         question_position: i,
         previous_question_correct: i > 0 ? (selectedAnswers[i - 1] === questions[i - 1]?.correct_answer) : null,
       }));
+      for (let i = 0; i < inserts.length; i += 1) {
+        const attempt = inserts[i];
+        void emitBehaviorEvent({
+          eventType: 'QUESTION_SUBMITTED',
+          sessionId: sessionIdRef.current,
+          questionId: attempt.question_id,
+          sequenceNo: i,
+          payload: {
+            is_correct: attempt.is_correct,
+            time_taken_seconds: attempt.time_taken_seconds,
+            answer_changes_count: attempt.answer_changes_count,
+            time_to_first_click: attempt.time_to_first_click,
+            pause_events: attempt.pause_events,
+            confidence_level: attempt.confidence_level,
+          },
+        });
+      }
+      void emitBehaviorEvent({
+        eventType: 'SESSION_COMPLETED',
+        sessionId: sessionIdRef.current,
+        payload: { question_count: inserts.length, mode: config.mode },
+      });
       await supabase.from('user_attempts').insert(inserts as any);
 
       // Trigger behavior analysis in background
