@@ -60,3 +60,19 @@ $$;
 
 REVOKE ALL ON FUNCTION public.clear_candidate_intelligence_after_reset() FROM PUBLIC, anon, authenticated;
 NOTIFY pgrst, 'reload schema';
+
+-- Extend the immutable event vocabulary for explicit option-elimination telemetry.
+ALTER TABLE public.behavior_events
+  DROP CONSTRAINT IF EXISTS behavior_events_event_type_check;
+ALTER TABLE public.behavior_events
+  ADD CONSTRAINT behavior_events_event_type_check CHECK (
+    event_type IN (
+      'QUESTION_OPENED', 'QUESTION_FIRST_INTERACTION', 'ANSWER_SELECTED', 'ANSWER_CHANGED',
+      'CONFIDENCE_SET', 'QUESTION_SUBMITTED', 'SESSION_STARTED', 'SESSION_RESUMED',
+      'SESSION_COMPLETED', 'SESSION_ABANDONED', 'SESSION_PAUSED',
+      'OPTION_RULED_OUT', 'OPTION_RULED_IN',
+      'INTERVENTION_STARTED', 'INTERVENTION_COMPLETED', 'INTERVENTION_OUTCOME'
+    )
+  );
+
+NOTIFY pgrst, 'reload schema';
