@@ -1144,16 +1144,18 @@ function DrillSession({
   }, [currentIndex, questionStartTime]);
 
   useEffect(() => {
-    if (!user || !question || phase !== 'test') return;
+    if (!user || phase !== 'test') return;
+    const currentQuestion = questions[currentIndex];
+    if (!currentQuestion) return;
     void emitBehaviorEvent({
-      userId: user?.id ?? '',
+      userId: user.id,
       eventType: 'QUESTION_OPENED',
       sessionId: sessionIdRef.current,
-      questionId: question.id,
+      questionId: currentQuestion.id,
       sequenceNo: currentIndex,
       payload: { question_position: currentIndex },
     });
-  }, [user, phase, question?.id, currentIndex]);
+  }, [user, phase, currentIndex, questions[currentIndex]?.id]);
 
   const selectAnswer = (answer: string) => {
     if (lockedAnswers[currentIndex]) return;
