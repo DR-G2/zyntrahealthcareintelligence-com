@@ -1984,7 +1984,6 @@ export type Database = {
           answer_changes_count?: number
           change_sequence?: Json | null
           confidence_level?: number | null
-          confidence_level?: number | null
           created_at?: string
           id?: string
           is_correct: boolean
