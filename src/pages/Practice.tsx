@@ -1130,6 +1130,7 @@ function DrillSession({
   useEffect(() => {
     if (!user || !question || phase !== 'test') return;
     void emitBehaviorEvent({
+      userId: user?.id ?? '',
       eventType: 'QUESTION_OPENED',
       sessionId: sessionIdRef.current,
       questionId: question.id,
@@ -1148,6 +1149,7 @@ function DrillSession({
       setTimeToFirstClick(prev => ({ ...prev, [currentIndex]: delta }));
       setFirstClickRecorded(prev => ({ ...prev, [currentIndex]: true }));
       void emitBehaviorEvent({
+        userId: user?.id ?? '',
         eventType: 'QUESTION_FIRST_INTERACTION',
         sessionId: sessionIdRef.current,
         questionId: questions[currentIndex]?.id,
@@ -1162,13 +1164,30 @@ function DrillSession({
     newSequences[currentIndex] = [...seq, answer];
     setChangeSequences(newSequences);
 
+    const previousAnswer = selectedAnswers[currentIndex];
     const newChanges = { ...answerChanges };
-    if (selectedAnswers[currentIndex] && selectedAnswers[currentIndex] !== answer) {
+    if (previousAnswer && previousAnswer !== answer) {
       newChanges[currentIndex] = (newChanges[currentIndex] || 0) + 1;
       setAnswerChanges(newChanges);
+      void emitBehaviorEvent({
+        userId: user?.id ?? '',
+        eventType: 'ANSWER_CHANGED',
+        sessionId: sessionIdRef.current,
+        questionId: questions[currentIndex]?.id,
+        sequenceNo: currentIndex,
+        payload: { from: previousAnswer, to: answer, change_count: newChanges[currentIndex] },
+      });
     }
     const newAnswers = { ...selectedAnswers, [currentIndex]: answer };
     setSelectedAnswers(newAnswers);
+    void emitBehaviorEvent({
+      userId: user?.id ?? '',
+      eventType: 'ANSWER_SELECTED',
+      sessionId: sessionIdRef.current,
+      questionId: questions[currentIndex]?.id,
+      sequenceNo: currentIndex,
+      payload: { answer, is_change: Boolean(previousAnswer && previousAnswer !== answer) },
+    });
 
     // If selecting a ruled-out option, remove the rule-out
     setRuledOutOptions(prev => {
@@ -1194,6 +1213,7 @@ function DrillSession({
     const nextConfidence = { ...confidenceByIndex, [currentIndex]: level };
     setConfidenceByIndex(nextConfidence);
     void emitBehaviorEvent({
+      userId: user?.id ?? '',
       eventType: 'CONFIDENCE_SET',
       sessionId: sessionIdRef.current,
       questionId: questions[currentIndex]?.id,
@@ -1345,6 +1365,7 @@ function DrillSession({
       for (let i = 0; i < inserts.length; i += 1) {
         const attempt = inserts[i];
         void emitBehaviorEvent({
+          userId: user?.id ?? '',
           eventType: 'QUESTION_SUBMITTED',
           sessionId: sessionIdRef.current,
           questionId: attempt.question_id,
@@ -1360,6 +1381,7 @@ function DrillSession({
         });
       }
       void emitBehaviorEvent({
+        userId: user?.id ?? '',
         eventType: 'SESSION_COMPLETED',
         sessionId: sessionIdRef.current,
         payload: { question_count: inserts.length, mode: config.mode },
