@@ -21,6 +21,7 @@ interface Question {
   category: string;
   difficulty: string;
   difficulty_tier: number | null;
+  subtopic?: string | null;
 }
 
 const TOTAL_TIME_SECONDS = 20 * 60;
@@ -69,13 +70,13 @@ export default function Assess() {
       // Fetch difficulty-balanced pool: 50% difficult, 30% moderate, 20% easy
       const [hardRes, mediumRes, easyRes] = await Promise.all([
         supabase.from('questions')
-          .select('id, question_text, options, correct_answer, explanation, category, difficulty, difficulty_tier')
+          .select('id, question_text, options, correct_answer, explanation, category, subtopic, difficulty, difficulty_tier')
           .eq('difficulty', 'difficult').limit(50),
         supabase.from('questions')
-          .select('id, question_text, options, correct_answer, explanation, category, difficulty, difficulty_tier')
+          .select('id, question_text, options, correct_answer, explanation, category, subtopic, difficulty, difficulty_tier')
           .eq('difficulty', 'moderate').limit(30),
         supabase.from('questions')
-          .select('id, question_text, options, correct_answer, explanation, category, difficulty, difficulty_tier')
+          .select('id, question_text, options, correct_answer, explanation, category, subtopic, difficulty, difficulty_tier')
           .eq('difficulty', 'easy').limit(20),
       ]);
 
@@ -125,7 +126,7 @@ export default function Assess() {
       sessionId: sessionIdRef.current,
       questionId: question.id,
       sequenceNo: currentIndex,
-      payload: { question_position: currentIndex },
+      payload: { question_position: currentIndex, difficulty: question.difficulty, category: question.category, subtopic: question.subtopic ?? null },
     });
   }, [user, phase, currentIndex, questions[currentIndex]?.id]);
 
@@ -352,6 +353,9 @@ export default function Assess() {
             answer_changes_count: attempt.answer_changes_count,
             time_to_first_click: attempt.time_to_first_click,
             pause_events: attempt.pause_events,
+            difficulty: questions[i]?.difficulty ?? null,
+            category: questions[i]?.category ?? null,
+            subtopic: questions[i]?.subtopic ?? null,
           },
         });
       }
