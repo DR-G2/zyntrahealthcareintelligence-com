@@ -235,9 +235,76 @@ export type Database = {
         }
         Relationships: []
       }
+      ai_lab_events: {
+        Row: {
+          answer_changes: number | null
+          confidence: number | null
+          created_at: string
+          duration_ms: number | null
+          estimated_cost: number | null
+          event_type: string
+          id: string
+          input_tokens: number | null
+          metadata: Json
+          mode: string | null
+          model: string | null
+          output_tokens: number | null
+          provider: string | null
+          session_id: string | null
+          subject: string | null
+          user_id: string
+        }
+        Insert: {
+          answer_changes?: number | null
+          confidence?: number | null
+          created_at?: string
+          duration_ms?: number | null
+          estimated_cost?: number | null
+          event_type: string
+          id?: string
+          input_tokens?: number | null
+          metadata?: Json
+          mode?: string | null
+          model?: string | null
+          output_tokens?: number | null
+          provider?: string | null
+          session_id?: string | null
+          subject?: string | null
+          user_id: string
+        }
+        Update: {
+          answer_changes?: number | null
+          confidence?: number | null
+          created_at?: string
+          duration_ms?: number | null
+          estimated_cost?: number | null
+          event_type?: string
+          id?: string
+          input_tokens?: number | null
+          metadata?: Json
+          mode?: string | null
+          model?: string | null
+          output_tokens?: number | null
+          provider?: string | null
+          session_id?: string | null
+          subject?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_lab_events_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "ai_lab_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       ai_lab_sessions: {
         Row: {
+          context_attached: boolean
           created_at: string
+          error_code: string | null
           estimated_cost: number | null
           id: string
           mode: string
@@ -248,12 +315,16 @@ export type Database = {
           response_text: string | null
           response_tokens: number | null
           status: string
+          subject: string | null
+          total_tokens: number | null
           updated_at: string
           use_intelligence: boolean
           user_id: string
         }
         Insert: {
+          context_attached?: boolean
           created_at?: string
+          error_code?: string | null
           estimated_cost?: number | null
           id?: string
           mode: string
@@ -264,12 +335,16 @@ export type Database = {
           response_text?: string | null
           response_tokens?: number | null
           status?: string
+          subject?: string | null
+          total_tokens?: number | null
           updated_at?: string
           use_intelligence?: boolean
           user_id: string
         }
         Update: {
+          context_attached?: boolean
           created_at?: string
+          error_code?: string | null
           estimated_cost?: number | null
           id?: string
           mode?: string
@@ -280,6 +355,8 @@ export type Database = {
           response_text?: string | null
           response_tokens?: number | null
           status?: string
+          subject?: string | null
+          total_tokens?: number | null
           updated_at?: string
           use_intelligence?: boolean
           user_id?: string
