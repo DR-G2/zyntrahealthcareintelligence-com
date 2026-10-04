@@ -199,6 +199,93 @@ export type Database = {
         }
         Relationships: []
       }
+      ai_lab_connections: {
+        Row: {
+          created_at: string
+          encrypted_api_key: string
+          id: string
+          last_verified_at: string | null
+          provider: string
+          selected_model: string | null
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          encrypted_api_key: string
+          id?: string
+          last_verified_at?: string | null
+          provider: string
+          selected_model?: string | null
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          encrypted_api_key?: string
+          id?: string
+          last_verified_at?: string | null
+          provider?: string
+          selected_model?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      ai_lab_sessions: {
+        Row: {
+          created_at: string
+          estimated_cost: number | null
+          id: string
+          mode: string
+          model: string | null
+          prompt: string | null
+          provider: string
+          request_tokens: number | null
+          response_text: string | null
+          response_tokens: number | null
+          status: string
+          updated_at: string
+          use_intelligence: boolean
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          estimated_cost?: number | null
+          id?: string
+          mode: string
+          model?: string | null
+          prompt?: string | null
+          provider: string
+          request_tokens?: number | null
+          response_text?: string | null
+          response_tokens?: number | null
+          status?: string
+          updated_at?: string
+          use_intelligence?: boolean
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          estimated_cost?: number | null
+          id?: string
+          mode?: string
+          model?: string | null
+          prompt?: string | null
+          provider?: string
+          request_tokens?: number | null
+          response_text?: string | null
+          response_tokens?: number | null
+          status?: string
+          updated_at?: string
+          use_intelligence?: boolean
+          user_id?: string
+        }
+        Relationships: []
+      }
       ai_training_context: {
         Row: {
           aggregate_data: Json
