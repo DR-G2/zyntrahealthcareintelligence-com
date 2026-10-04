@@ -1,6 +1,6 @@
 import { createOpenAICompatibleAdapter } from "./openai-compatible.ts";
 
-const TEXT = /^(openai\\/|qwen\\/|llama|meta-llama\\/|moonshotai\\/|minimaxai\\/)/i;
+const TEXT = /^(openai\/|qwen\/|llama|meta-llama\/|moonshotai\/|minimaxai\/)/i;
 const EXCLUDE = /(whisper|audio|tts|transcribe|guard|compound)/i;
 
 export const groqAdapter = createOpenAICompatibleAdapter({
