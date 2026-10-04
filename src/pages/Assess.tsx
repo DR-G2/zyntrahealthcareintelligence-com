@@ -259,14 +259,16 @@ export default function Assess() {
     // Check for interventions
     const interventionType = shouldShowIntervention(sequencingRef.current);
     if (interventionType && !intervention) {
+      const interventionQuestionId = questions[currentIndex]?.id;
+      const interventionSequenceNo = currentIndex;
       setIntervention(interventionType);
       void emitBehaviorEvent({
         userId: user?.id ?? '',
         eventType: 'INTERVENTION_STARTED',
         sessionId: sessionIdRef.current,
-        questionId: questions[currentIndex]?.id,
-        sequenceNo: currentIndex,
-        questionPosition: currentIndex,
+        questionId: interventionQuestionId,
+        sequenceNo: interventionSequenceNo,
+        questionPosition: interventionSequenceNo,
         payload: { intervention_type: interventionType, mode: 'diagnostic' },
       });
       setTimeout(() => {
@@ -275,9 +277,9 @@ export default function Assess() {
           userId: user?.id ?? '',
           eventType: 'INTERVENTION_COMPLETED',
           sessionId: sessionIdRef.current,
-          questionId: questions[currentIndex]?.id,
-          sequenceNo: currentIndex,
-          questionPosition: currentIndex,
+          questionId: interventionQuestionId,
+          sequenceNo: interventionSequenceNo,
+          questionPosition: interventionSequenceNo,
           payload: { intervention_type: interventionType, mode: 'diagnostic', displayed_seconds: 5 },
         });
       }, 5000);
