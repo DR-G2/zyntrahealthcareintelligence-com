@@ -1121,7 +1121,7 @@ function DrillSession({
       }
     }, 5000);
     return () => { if (pauseTimerRef.current) clearInterval(pauseTimerRef.current); };
-  }, [loading, finished, currentIndex]);
+  }, [loading, finished, currentIndex, pauseEvents, user, questions]);
 
   useEffect(() => {
     if (loading || finished) return;
@@ -1144,16 +1144,19 @@ function DrillSession({
   }, [currentIndex, questionStartTime]);
 
   useEffect(() => {
-    if (!user || !question || phase !== 'test') return;
+    if (!user || loading || finished) return;
+    const currentQuestion = questions[currentIndex];
+    if (!currentQuestion) return;
     void emitBehaviorEvent({
-      userId: user?.id ?? '',
+      userId: user.id,
       eventType: 'QUESTION_OPENED',
       sessionId: sessionIdRef.current,
-      questionId: question.id,
+      questionId: currentQuestion.id,
       sequenceNo: currentIndex,
+      questionPosition: currentIndex,
       payload: { question_position: currentIndex },
     });
-  }, [user, phase, question?.id, currentIndex]);
+  }, [user, loading, finished, currentIndex, questions[currentIndex]?.id]);
 
   const selectAnswer = (answer: string) => {
     if (lockedAnswers[currentIndex]) return;

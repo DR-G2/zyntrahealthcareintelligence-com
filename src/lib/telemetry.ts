@@ -27,15 +27,18 @@ interface EmitBehaviorEventInput {
 }
 
 export async function emitBehaviorEvent({
+  userId,
   eventType,
   sessionId = null,
   questionId = null,
   sequenceNo = null,
+  questionPosition = null,
   payload = {},
 }: EmitBehaviorEventInput): Promise<void> {
   if (!userId) return;
+
   try {
-    const { error } = await (supabase as any).from('behavior_events').insert({
+    const { error } = await supabase.from('behavior_events').insert({
       user_id: userId,
       event_type: eventType,
       event_version: 1,
@@ -45,7 +48,7 @@ export async function emitBehaviorEvent({
       question_position: questionPosition,
       payload,
       occurred_at: new Date().toISOString(),
-    } as any);
+    });
 
     if (error) {
       // Telemetry must never block exam/practice flow.

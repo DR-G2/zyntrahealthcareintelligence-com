@@ -74,6 +74,48 @@ export type Database = {
         }
         Relationships: []
       }
+      behavior_events: {
+        Row: {
+          created_at: string
+          event_type: string
+          event_version: number
+          id: string
+          occurred_at: string
+          payload: Json
+          question_id: string | null
+          question_position: number | null
+          sequence_no: number | null
+          session_id: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          event_type: string
+          event_version?: number
+          id?: string
+          occurred_at?: string
+          payload?: Json
+          question_id?: string | null
+          question_position?: number | null
+          sequence_no?: number | null
+          session_id?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          event_type?: string
+          event_version?: number
+          id?: string
+          occurred_at?: string
+          payload?: Json
+          question_id?: string | null
+          question_position?: number | null
+          sequence_no?: number | null
+          session_id?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       admin_activity_logs: {
         Row: {
           action_type: string
