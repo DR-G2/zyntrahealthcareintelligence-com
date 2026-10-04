@@ -6,7 +6,7 @@
 -- attempts and their derived intelligence cannot drift apart.
 
 -- 1. Server-own all derived intelligence tables.
-REVOKE INSERT, UPDATE, DELETE, TRUNCATE, REFERENCES, TRIGGER
+REVOKE INSERT, UPDATE, TRUNCATE, REFERENCES, TRIGGER
   ON TABLE public.readiness_dna, public.subject_dna, public.behavior_profiles,
            public.performance_profiles, public.question_dna
   FROM anon, authenticated;
