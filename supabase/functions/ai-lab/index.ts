@@ -63,9 +63,11 @@ function validateQuestions(payload: any) {
   if (!Array.isArray(list) || !list.length) return null;
   const out = list.map((q: any) => {
     if (!q || typeof q.stem !== "string" || !Array.isArray(q.options) || typeof q.correct_answer !== "string" || typeof q.explanation !== "string") return null;
-    const options = q.options.filter((o: unknown) => typeof o === "string").map((o: string) => o.slice(0, 1000));
-    if (options.length < 2 || !options.includes(q.correct_answer)) return null;
-    return { stem: q.stem.slice(0, 5000), options, correct_answer: q.correct_answer.slice(0, 1000), explanation: q.explanation.slice(0, 5000) };
+    const options = q.options.filter((o: unknown) => typeof o === "string").map((o: string) => o.trim().slice(0, 1000)).filter(Boolean);
+    const uniqueOptions = new Set(options.map((o: string) => o.toLowerCase()));
+    if (options.length !== 5 || uniqueOptions.size !== 5 || !options.includes(q.correct_answer.trim())) return null;
+    if (!q.stem.trim() || !q.explanation.trim()) return null;
+    return { stem: q.stem.trim().slice(0, 5000), options, correct_answer: q.correct_answer.trim().slice(0, 1000), explanation: q.explanation.trim().slice(0, 5000) };
   });
   return out.every(Boolean) ? out : null;
 }
