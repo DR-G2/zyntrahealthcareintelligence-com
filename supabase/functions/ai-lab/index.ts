@@ -1,8 +1,11 @@
 import { corsHeaders, json, requireUser, serviceClient, safeLabel } from "../_shared/auth.ts";
 import { LabError, type ProviderAdapter } from "./providers/types.ts";
 import { openaiAdapter } from "./providers/openai.ts";
+import { groqAdapter } from "./providers/groq.ts";
+import { openrouterAdapter } from "./providers/openrouter.ts";
+import { geminiAdapter } from "./providers/gemini.ts";
 
-const PROVIDERS: Record<string, ProviderAdapter> = { openai: openaiAdapter };
+const PROVIDERS: Record<string, ProviderAdapter> = { openai: openaiAdapter, gemini: geminiAdapter, groq: groqAdapter, openrouter: openrouterAdapter };
 const MODES = ["performance", "questions", "weak-area"] as const;
 const CLIENT_EVENTS = new Set(["question_started", "answer_submitted", "answer_changed", "hint_requested", "explanation_requested"]);
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;

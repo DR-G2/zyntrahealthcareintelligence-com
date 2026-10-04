@@ -13,6 +13,13 @@ import { useToast } from '@/hooks/use-toast';
 import { MessageSquare, Sparkles, Target, Link2, Unplug, Loader2, History, ShieldCheck } from 'lucide-react';
 
 type Mode = 'performance' | 'questions' | 'weak-area';
+type Provider = 'openai' | 'gemini' | 'groq' | 'openrouter';
+const PROVIDERS: Array<{ id: Provider; label: string; note: string }> = [
+  { id: 'openrouter', label: 'OpenRouter', note: 'Free models' },
+  { id: 'gemini', label: 'Google Gemini', note: 'Free tier' },
+  { id: 'groq', label: 'Groq', note: 'Free tier' },
+  { id: 'openai', label: 'OpenAI', note: 'Paid API' },
+];
 type QuestionResult = { stem: string; options: string[]; correct_answer: string; explanation: string };
 
 const MODES = [
@@ -24,6 +31,7 @@ const MODES = [
 export default function AILab() {
   const { toast } = useToast();
   const [mode, setMode] = useState<Mode>('performance');
+  const [provider, setProvider] = useState<Provider>('openrouter');
   const [useIntelligence, setUseIntelligence] = useState(false);
   const [connected, setConnected] = useState(false);
   const [models, setModels] = useState<string[]>([]);
@@ -49,7 +57,7 @@ export default function AILab() {
 
   const loadHistory = async () => {
     try {
-      const data = await invoke({ action: 'history', provider: 'openai' });
+      const data = await invoke({ action: 'history' });
       if (Array.isArray(data.sessions)) setHistory(data.sessions);
     } catch {
       // History is supplementary; the main AI Lab flow should remain usable if it cannot load.
@@ -59,28 +67,28 @@ export default function AILab() {
   const logEvent = async (event_type: string, extra: Record<string, unknown> = {}) => {
     if (!sessionId) return;
     try {
-      await invoke({ action: 'log_event', provider: 'openai', session_id: sessionId, event_type, ...extra });
+      await invoke({ action: 'log_event', session_id: sessionId, event_type, ...extra });
     } catch {
       // Telemetry failure must never block training.
     }
   };
 
   useEffect(() => {
+    void loadHistory();
+  }, []);
+
+  useEffect(() => {
     void (async () => {
-      await loadHistory();
+      setConnected(false); setModels([]); setModel('');
       try {
-        const data = await invoke({ action: 'status', provider: 'openai' });
+        const data = await invoke({ action: 'status', provider });
         if (data.connected) {
           const available = Array.isArray(data.models) ? data.models.filter((m: unknown): m is string => typeof m === 'string') : [];
-          setConnected(true);
-          setModels(available);
-          setModel(data.model || available[0] || '');
+          setConnected(true); setModels(available); setModel(data.model || available[0] || '');
         }
-      } catch {
-        // A missing connection is a normal first-visit state.
-      }
+      } catch { /* first visit / unconfigured provider */ }
     })();
-  }, []);
+  }, [provider]);
 
   const invoke = async (body: Record<string, unknown>) => {
     const { supabase } = await import('@/lib/supabase');
@@ -111,16 +119,16 @@ export default function AILab() {
   };
 
   const connect = async () => {
-    if (!apiKey.trim()) return toast({ title: 'API key required', description: 'Enter your OpenAI API key.', variant: 'destructive' });
+    if (!apiKey.trim()) return toast({ title: 'API key required', description: 'Enter your selected provider API key.', variant: 'destructive' });
     setLoading(true);
     try {
-      const data = await invoke({ action: 'connect', provider: 'openai', api_key: apiKey.trim() });
+      const data = await invoke({ action: 'connect', provider, api_key: apiKey.trim() });
       const available = Array.isArray(data.models) ? data.models.filter((m: unknown): m is string => typeof m === 'string') : [];
       setModels(available);
       setModel(data.model || available[0] || '');
       setConnected(true);
       setApiKey('');
-      toast({ title: 'OpenAI connected', description: 'API access verified on the server.' });
+      toast({ title: `${PROVIDERS.find(p => p.id === provider)?.label ?? provider} connected`, description: 'API access verified on the server.' });
     } catch (e: any) {
       toast({ title: 'Connection failed', description: e?.message || 'Unable to verify the provider.', variant: 'destructive' });
     } finally { setLoading(false); }
@@ -129,14 +137,14 @@ export default function AILab() {
   const disconnect = async () => {
     setLoading(true);
     try {
-      await invoke({ action: 'disconnect', provider: 'openai' });
+      await invoke({ action: 'disconnect', provider });
       setConnected(false);
       setModels([]);
       setModel('');
       setResult(null);
       setSessionId(null);
       setSelectedAnswers({});
-      toast({ title: 'OpenAI disconnected' });
+      toast({ title: `${PROVIDERS.find(p => p.id === provider)?.label ?? provider} disconnected` });
     } catch (e: any) {
       toast({ title: 'Disconnect failed', description: e?.message || 'Please try again.', variant: 'destructive' });
     } finally { setLoading(false); }
@@ -149,7 +157,7 @@ export default function AILab() {
     try {
       const data = await invoke({
         action: 'run',
-        provider: 'openai',
+        provider,
         model,
         mode,
         use_intelligence: useIntelligence,
@@ -176,10 +184,11 @@ export default function AILab() {
     <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
       <div className="space-y-6">
         <Card className="border-white/10 bg-[#081224]/70">
-          <CardHeader><CardTitle className="flex items-center gap-2"><Link2 className="h-4 w-4 text-cyan-300" />Connected AI</CardTitle><CardDescription>V1 uses OpenAI with your own API credential. Zyntra does not pay the provider's inference bill.</CardDescription></CardHeader>
+          <CardHeader><CardTitle className="flex items-center gap-2"><Link2 className="h-4 w-4 text-cyan-300" />Connected AI</CardTitle><CardDescription>Bring your own provider key. Free-tier availability and limits are controlled by each provider.</CardDescription></CardHeader>
           <CardContent className="space-y-4">
-            {!connected ? <><div className="space-y-2"><Label htmlFor="openai-key">OpenAI API key</Label><Input id="openai-key" type="password" autoComplete="off" value={apiKey} onChange={e => setApiKey(e.target.value)} placeholder="sk-••••••••" /><p className="text-xs leading-5 text-slate-500">Your key is sent to the secure AI Lab function for verification and encrypted server-side. Zyntra cannot verify your provider billing status.</p></div><Button onClick={connect} disabled={loading} className="w-full">{loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <ShieldCheck className="mr-2 h-4 w-4" />}Test & Connect</Button><p className="text-xs leading-5 text-slate-500">AI Lab uses your own external AI provider credentials. Zyntra routes AI Lab requests through its secure server infrastructure and may store AI Lab session and usage telemetry to support your training experience. Your external provider account and billing remain your responsibility.</p></> :
-            <><div className="flex items-center justify-between rounded-xl border border-emerald-400/20 bg-emerald-400/5 p-3"><div><div className="text-sm font-medium text-white">OpenAI</div><div className="text-xs text-slate-400">API access verified</div></div><Badge variant="outline" className="border-emerald-400/30 text-emerald-300">Connected</Badge></div>
+            <div className="space-y-2"><Label>Provider</Label><Select value={provider} onValueChange={(v) => setProvider(v as Provider)} disabled={loading || connected}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>{PROVIDERS.map(p => <SelectItem key={p.id} value={p.id}>{p.label} · {p.note}</SelectItem>)}</SelectContent></Select></div>
+            {!connected ? <><div className="space-y-2"><Label htmlFor="provider-key">{PROVIDERS.find(p => p.id === provider)?.label} API key</Label><Input id="provider-key" type="password" autoComplete="off" value={apiKey} onChange={e => setApiKey(e.target.value)} placeholder="Paste API key" /><p className="text-xs leading-5 text-slate-500">The key is sent only to the secure AI Lab function, verified server-side, and encrypted before storage. Zyntra does not need or store your provider key in the browser.</p></div><Button onClick={connect} disabled={loading} className="w-full">{loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <ShieldCheck className="mr-2 h-4 w-4" />}Test & Connect</Button><p className="text-xs leading-5 text-slate-500">OpenRouter exposes free models; Gemini and Groq offer provider free tiers. Model availability and rate limits can change.</p></> :
+            <><div className="flex items-center justify-between rounded-xl border border-emerald-400/20 bg-emerald-400/5 p-3"><div><div className="text-sm font-medium text-white">{PROVIDERS.find(p => p.id === provider)?.label}</div><div className="text-xs text-slate-400">API access verified</div></div><Badge variant="outline" className="border-emerald-400/30 text-emerald-300">Connected</Badge></div>
             <div className="space-y-2"><Label>Model</Label><Select value={model} onValueChange={setModel}><SelectTrigger><SelectValue placeholder="Select model" /></SelectTrigger><SelectContent>{models.map(m => <SelectItem key={m} value={m}>{m}</SelectItem>)}</SelectContent></Select></div>
             <Button variant="outline" onClick={disconnect} disabled={loading} className="w-full"><Unplug className="mr-2 h-4 w-4" />Disconnect</Button></>}
           </CardContent>
@@ -207,7 +216,7 @@ export default function AILab() {
       </Card>
     </div>
 
-    <Card className="border-white/10 bg-[#081224]/70"><CardHeader><CardTitle className="flex items-center gap-2"><History className="h-4 w-4 text-cyan-300"/>Recent AI Lab</CardTitle><CardDescription>AI Lab sessions stay separate from canonical Zyntra attempts.</CardDescription></CardHeader><CardContent>
+    <Card className="border-white/10 bg-[#081224]/70"><CardHeader><CardTitle className="flex items-center gap-2"><History className="h-4 w-4 text-cyan-300"/>Recent AI Lab</CardTitle><CardDescription>AI Lab sessions stay separate from canonical Zyntra attempts. Provider: your selected external model.</CardDescription></CardHeader><CardContent>
       {history.length ? <div className="space-y-2">{history.map((session) => <div key={session.id} className="flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/[0.02] p-3"><div className="min-w-0"><div className="text-sm font-medium text-white">{session.mode === 'performance' ? 'Ask My Performance' : session.mode === 'questions' ? 'Generate Questions' : 'Weak Area Drill'}</div><div className="text-xs text-slate-500">{session.provider} · {session.model || 'model'} · {new Date(session.created_at).toLocaleString()}</div></div><Badge variant="outline" className="shrink-0">{session.status}</Badge></div>)}</div> : <div className="text-sm text-slate-400">No AI Lab sessions yet.</div>}
     </CardContent></Card>
     <p className="text-xs leading-5 text-slate-500">AI Lab is an experimental training environment. External AI outputs are not official AMC assessments and should be independently checked.</p>
