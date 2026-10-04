@@ -53,50 +53,7 @@ const articleBody: Record<string, { intro: string; sections: { title: string; bo
       { title: "Where Zyntra fits today", body: "Zyntra's authenticated OSCE room is currently marked 'Not live yet'. This article is educational content and does not represent a live Zyntra OSCE engine. Candidates should use current official AMC information for examination rules, eligibility, format and scheduling." },
     ],
   },
-  "performance-intelligence-engine": {
-    intro: "A Performance Intelligence Engine is designed to make training information more useful than a simple right-or-wrong score. Zyntra uses performance signals to help candidates understand how they are performing while they practise.",
-    sections: [
-      { title: "Why accuracy alone is incomplete", body: "Imagine two candidates both score 70%. One is consistently performing around that level. The other gets questions right but repeatedly rushes, changes correct answers and struggles with a particular subject. The percentage is identical. The training problem is not." },
-      { title: "What performance intelligence observes", body: "Depending on the training activity and available data, useful signals can include accuracy, response time, confidence, answer changes, consistency, recurring mistakes and subject-level performance. These signals add context to the outcome of the question." },
-      { title: "It is not a personality test", body: "Performance signals should be treated as training information, not psychological diagnoses. A pattern can tell you what deserves review without telling you what kind of person you are." },
-      { title: "The useful question", body: "The purpose of performance intelligence is not to create a mysterious score and leave you staring at a dashboard. The useful question is practical: what does the evidence from my training suggest I should work on next?" },
-      { title: "A deliberate boundary", body: "Zyntra does not publish every implementation detail of its underlying intelligence systems. Candidates do not need a technical blueprint to use the resulting information effectively. They need clear signals, sensible interpretation and useful training actions." },
-    ],
-  },
-  "how-to-use-zyntra-properly": {
-    intro: "Zyntra works best when you treat it as a training system rather than a scoreboard. The quality of the information you give the platform directly affects the usefulness of the performance picture you get back.",
-    sections: [
-      { title: "1. Establish a genuine baseline", body: "Answer honestly. Do not deliberately manipulate your timing or confidence to make the dashboard look better. Your early performance is useful precisely because it shows where you are starting." },
-      { title: "2. Review the explanation, not just the letter", body: "After an incorrect answer, ask why the correct option is correct and why the alternatives are less appropriate. Then decide what actually caused the miss. Knowledge gaps, stem interpretation errors and poor prioritisation require different responses." },
-      { title: "3. Stop worshipping the percentage", body: "A score is important, but one percentage cannot describe an entire preparation. Look for trends, recurring weaknesses, timing problems and changes in decision behaviour across your training." },
-      { title: "4. Attack weaknesses", body: "Do not spend every session in subjects you enjoy simply because the scores feel good. Use performance information to identify where additional training is required. Avoiding a weak area does not make it disappear." },
-      { title: "5. Use mistakes and answer changes intelligently", body: "A wrong answer is not automatically the same type of mistake every time. If you changed a correct answer, ask what evidence changed your mind. If nothing meaningful changed, that transition deserves review." },
-      { title: "6. Use repetition properly", body: "Repeatedly missing the same concept is more important than a single isolated error. Return to the underlying knowledge, practise a variation of the problem and check whether the mistake persists." },
-      { title: "7. Use Zyntra alongside proper medical study", body: "Zyntra is an educational training platform, not a replacement for textbooks, guidelines, lectures or other appropriate medical learning resources. If the problem is missing knowledge, learn the knowledge. Then return and test whether it transfers into performance." },
-      { title: "The Zyntra rule", body: "Do not use Zyntra merely to find out how many questions you got right. Use it to understand how you are performing while you answer them. That is where the training value lives." },
-    ],
-  },
-  "why-getting-a-question-wrong-isnt-the-whole-story": {
-    intro: "Two incorrect answers can represent completely different training problems. The result matters, but the path to the result can contain additional information.",
-    sections: [
-      { title: "Wrong is not one category", body: "A fast guess, a careful but incorrect decision and a correct answer changed into an incorrect one are different events. Treating them as identical can hide useful training signals." },
-      { title: "Review what happened", body: "Look at timing, confidence, answer changes and the clinical reasoning behind the decision. These signals do not diagnose personality. They help you decide what deserves another look." },
-    ],
-  },
-  "hidden-cost-of-changing-a-correct-answer": {
-    intro: "Changing an answer is not automatically a mistake. Sometimes it is exactly what good reasoning requires. The useful question is what happened between the first and final decision.",
-    sections: [
-      { title: "Changing is not automatically bad", body: "A changed answer can reflect a genuine correction after noticing a missed clue. It can also reflect uncertainty without new evidence. The distinction is more useful than simply counting changes." },
-      { title: "Review the transition", body: "When a first answer becomes a final answer, review what changed your mind. If the evidence changed, the revision may represent good reasoning. If nothing meaningful changed, the event may deserve closer review." },
-    ],
-  },
-  "confidence-calibration-and-study": {
-    intro: "Confidence calibration asks whether certainty tends to match outcomes. It is useful because confidence and accuracy are not automatically the same thing.",
-    sections: [
-      { title: "Confidence versus calibration", body: "A candidate can be highly confident and well calibrated, or highly confident and frequently wrong. Those are different training situations." },
-      { title: "Turn the signal into action", body: "High-confidence errors can deserve deliberate review. Low-confidence correct answers can reveal knowledge that is present but not yet stable. The point is not to maximise confidence. It is to make confidence more informative." },
-    ],
-  },
+
 };
 
 
