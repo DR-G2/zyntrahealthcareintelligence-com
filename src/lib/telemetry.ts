@@ -10,13 +10,19 @@ export type BehaviorEventType =
   | 'SESSION_STARTED'
   | 'SESSION_RESUMED'
   | 'SESSION_COMPLETED'
-  | 'SESSION_ABANDONED';
+  | 'SESSION_ABANDONED'
+  | 'SESSION_PAUSED'
+  | 'INTERVENTION_STARTED'
+  | 'INTERVENTION_COMPLETED'
+  | 'INTERVENTION_OUTCOME';
 
 interface EmitBehaviorEventInput {
+  userId: string;
   eventType: BehaviorEventType;
   sessionId?: string | null;
   questionId?: string | null;
   sequenceNo?: number | null;
+  questionPosition?: number | null;
   payload?: Record<string, unknown>;
 }
 
@@ -29,10 +35,13 @@ export async function emitBehaviorEvent({
 }: EmitBehaviorEventInput): Promise<void> {
   try {
     const { error } = await supabase.from('behavior_events').insert({
+      user_id: userId,
       event_type: eventType,
+      event_version: 1,
       session_id: sessionId,
       question_id: questionId,
       sequence_no: sequenceNo,
+      question_position: questionPosition,
       payload,
       occurred_at: new Date().toISOString(),
     } as any);
