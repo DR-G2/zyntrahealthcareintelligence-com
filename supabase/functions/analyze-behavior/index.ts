@@ -266,8 +266,7 @@ Trust Your Gut signals:
 - Points lost from correct-to-wrong changes
 - Whether the candidate should trust their gut more
 
-Predict AMC score range (out of 300, pass is ~230):
-- Use correctRate, OSCE performance, behavioral patterns, and subject coverage to estimate`,
+Do not predict an AMC scaled score, pass probability, or pass/fail outcome. Report only observable training signals and behaviour.`,
           },
           {
             role: "user",
@@ -279,7 +278,7 @@ Predict AMC score range (out of 300, pass is ~230):
             type: "function",
             function: {
               name: "classify_behavior",
-              description: "Classify the candidate's behavioral archetype and generate predictions from unified MCQ + OSCE + TYG data",
+              description: "Classify the candidate's behavioral archetype and summarize observable training signals from unified MCQ + OSCE + TYG data",
               parameters: {
                 type: "object",
                 properties: {
