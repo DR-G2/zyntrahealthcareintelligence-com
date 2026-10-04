@@ -54,7 +54,7 @@ function RoomTabs() {
 function TopHeader() {
   return (
     <header className="mb-6 flex min-h-10 items-center justify-between gap-4">
-      <div className="flex items-center gap-2 text-[11px] font-mono uppercase tracking-[0.18em] text-slate-500">
+      <div className="flex items-center gap-2 text-[11px] font-mono uppercase tracking-[0.18em] text-slate-400">
         <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.9)]" />
         Session active
       </div>

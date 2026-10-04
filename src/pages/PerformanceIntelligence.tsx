@@ -140,7 +140,7 @@ function SignalCard({
     <div className={cn('rounded-2xl border p-4', accents[accent])}>
       <p className="text-[11px] font-medium uppercase tracking-[0.14em] opacity-80">{label}</p>
       <p className="mt-2 font-display text-2xl font-semibold text-white">{value}</p>
-      <p className="mt-1 text-xs leading-5 text-slate-500">{helper}</p>
+      <p className="mt-1 text-xs leading-5 text-slate-400">{helper}</p>
     </div>
   );
 }
@@ -188,13 +188,13 @@ function PerformanceView({
                 <div className="flex h-full w-full items-center justify-center rounded-full bg-[#081224]">
                   <div className="text-center">
                     <div className="font-display text-3xl font-bold text-white">{loading ? '...' : Math.round(readiness)}</div>
-                    <div className="text-[10px] font-mono uppercase tracking-wider text-slate-500">/ 100</div>
+                    <div className="text-[10px] font-mono uppercase tracking-wider text-slate-400">/ 100</div>
                   </div>
                 </div>
               </div>
               <div>
                 <p className="font-display text-lg font-semibold text-white">{readinessLabel}</p>
-                <p className="mt-2 text-xs leading-5 text-slate-500">
+                <p className="mt-2 text-xs leading-5 text-slate-400">
                   {snapshot.attempts
                     ? `${snapshot.attempts} recorded attempts contribute to this signal.`
                     : 'Complete practice to build your first performance signal.'}
@@ -216,11 +216,11 @@ function PerformanceView({
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <p className="font-display text-lg font-semibold text-white">Confidence Intelligence</p>
-            <p className="mt-1 max-w-2xl text-xs leading-5 text-slate-500">Calibration measures how closely your confidence matches whether the answer was actually correct. It is not a confidence-in-you score.</p>
+            <p className="mt-1 max-w-2xl text-xs leading-5 text-slate-400">Calibration measures how closely your confidence matches whether the answer was actually correct. It is not a confidence-in-you score.</p>
           </div>
           <div className="text-right">
             <p className="font-display text-2xl font-semibold text-emerald-300">{confidence.confidence_attempts ? `${Math.round(confidence.calibration)}%` : '—'}</p>
-            <p className="text-[10px] uppercase tracking-wider text-slate-600">Calibration</p>
+            <p className="text-[10px] uppercase tracking-wider text-slate-400">Calibration</p>
           </div>
         </div>
 
@@ -237,14 +237,14 @@ function PerformanceView({
               <div className="rounded-2xl border border-white/8 bg-white/[0.02] p-4">
                 <div className="flex items-center justify-between gap-3">
                   <p className="text-xs font-medium uppercase tracking-[0.12em] text-slate-400">Confidence → outcome</p>
-                  <span className="text-[10px] text-slate-600">1 low · 5 high</span>
+                  <span className="text-[10px] text-slate-400">1 low · 5 high</span>
                 </div>
                 <div className="mt-4 space-y-3">
                   {confidence.levels.map(level => (
                     <div key={level.level}>
                       <div className="mb-1.5 flex items-center justify-between text-xs">
                         <span className="text-slate-400">{level.level} · {level.label}</span>
-                        <span className="font-mono text-slate-500">{level.accuracy}% correct · {level.attempts}</span>
+                        <span className="font-mono text-slate-400">{level.accuracy}% correct · {level.attempts}</span>
                       </div>
                       <ProgressBar value={level.accuracy} />
                     </div>
@@ -256,16 +256,16 @@ function PerformanceView({
                 <p className="text-xs font-medium uppercase tracking-[0.12em] text-slate-400">Calibration trend</p>
                 <div className="mt-4 flex items-end gap-4">
                   <div className="flex-1">
-                    <p className="text-[10px] uppercase tracking-wider text-slate-600">Previous</p>
+                    <p className="text-[10px] uppercase tracking-wider text-slate-400">Previous</p>
                     <p className="mt-1 font-display text-xl text-white">{confidence.prior_calibration ? `${Math.round(confidence.prior_calibration)}%` : '—'}</p>
                   </div>
-                  <ArrowRight className="mb-1 h-4 w-4 text-slate-600" />
+                  <ArrowRight className="mb-1 h-4 w-4 text-slate-400" />
                   <div className="flex-1">
-                    <p className="text-[10px] uppercase tracking-wider text-slate-600">Recent</p>
+                    <p className="text-[10px] uppercase tracking-wider text-slate-400">Recent</p>
                     <p className="mt-1 font-display text-xl text-emerald-300">{confidence.recent_calibration ? `${Math.round(confidence.recent_calibration)}%` : '—'}</p>
                   </div>
                   <div className="text-right">
-                    <p className="text-[10px] uppercase tracking-wider text-slate-600">Change</p>
+                    <p className="text-[10px] uppercase tracking-wider text-slate-400">Change</p>
                     <p className={cn('mt-1 font-mono text-sm', confidence.calibration_delta >= 0 ? 'text-emerald-300' : 'text-rose-300')}>{confidence.calibration_delta > 0 ? '+' : ''}{Math.round(confidence.calibration_delta)} pts</p>
                   </div>
                 </div>
@@ -283,7 +283,7 @@ function PerformanceView({
                         <span className="font-mono text-xs text-emerald-300">{Math.round(item.calibration)}%</span>
                       </div>
                       <div className="mt-2"><ProgressBar value={item.calibration} /></div>
-                      <p className="mt-2 text-[10px] text-slate-600">{item.attempts} attempts · {Math.round(item.accuracy)}% accuracy · bias {item.bias > 0 ? '+' : ''}{Math.round(item.bias)}</p>
+                      <p className="mt-2 text-[10px] text-slate-400">{item.attempts} attempts · {Math.round(item.accuracy)}% accuracy · bias {item.bias > 0 ? '+' : ''}{Math.round(item.bias)}</p>
                     </div>
                   ))}
                 </div>
@@ -291,7 +291,7 @@ function PerformanceView({
             ) : null}
           </>
         ) : (
-          <div className="mt-5 rounded-2xl border border-dashed border-white/10 py-10 text-center text-sm text-slate-500">Confidence intelligence starts when you rate confidence on answered MCQs.</div>
+          <div className="mt-5 rounded-2xl border border-dashed border-white/10 py-10 text-center text-sm text-slate-400">Confidence intelligence starts when you rate confidence on answered MCQs.</div>
         )}
       </section>
 
@@ -300,9 +300,9 @@ function PerformanceView({
           <div className="flex items-end justify-between gap-4">
             <div>
               <p className="font-display text-lg font-semibold text-white">Performance by Subject</p>
-              <p className="mt-1 text-xs text-slate-500">Accuracy from your recorded MCQ attempts.</p>
+              <p className="mt-1 text-xs text-slate-400">Accuracy from your recorded MCQ attempts.</p>
             </div>
-            <span className="text-[10px] font-mono uppercase tracking-wider text-slate-600">{subjects.length} subjects</span>
+            <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400">{subjects.length} subjects</span>
           </div>
 
           <div className="mt-5 space-y-4">
@@ -313,13 +313,13 @@ function PerformanceView({
                   <span className="shrink-0 font-mono text-slate-400">{subject.accuracy}%</span>
                 </div>
                 <ProgressBar value={subject.accuracy} />
-                <div className="mt-1 flex items-center gap-1 text-[10px] text-slate-600">
+                <div className="mt-1 flex items-center gap-1 text-[10px] text-slate-400">
                   {subject.trend === 'up' ? <TrendingUp className="h-3 w-3 text-emerald-400" /> : subject.trend === 'down' ? <TrendingDown className="h-3 w-3 text-rose-400" /> : null}
                   {subject.attempts} attempts · recent {subject.recentAccuracy}%
                 </div>
               </div>
             )) : (
-              <div className="rounded-2xl border border-dashed border-white/10 py-12 text-center text-sm text-slate-500">
+              <div className="rounded-2xl border border-dashed border-white/10 py-12 text-center text-sm text-slate-400">
                 No subject-level performance yet.
               </div>
             )}
@@ -328,22 +328,22 @@ function PerformanceView({
 
         <div className="rounded-3xl border border-white/10 bg-[#081224]/75 p-5 backdrop-blur-xl">
           <p className="font-display text-lg font-semibold text-white">Recent Performance</p>
-          <p className="mt-1 text-xs text-slate-500">Accuracy across recent blocks of recorded attempts.</p>
+          <p className="mt-1 text-xs text-slate-400">Accuracy across recent blocks of recorded attempts.</p>
 
           {trend.length ? (
             <div className="mt-8 flex h-40 items-end gap-2">
               {trend.map((value, index) => (
                 <div key={`trend-${index}`} className="flex min-w-0 flex-1 flex-col items-center gap-2">
-                  <span className="text-[10px] font-mono text-slate-500">{value}%</span>
+                  <span className="text-[10px] font-mono text-slate-400">{value}%</span>
                   <div className="flex h-28 w-full items-end rounded-lg bg-white/[0.025]">
                     <div className="w-full rounded-lg bg-gradient-to-t from-cyan-500/30 to-cyan-300/70" style={{ height: `${Math.max(4, value)}%` }} />
                   </div>
-                  <span className="text-[9px] text-slate-600">{index + 1}</span>
+                  <span className="text-[9px] text-slate-400">{index + 1}</span>
                 </div>
               ))}
             </div>
           ) : (
-            <div className="mt-8 rounded-2xl border border-dashed border-white/10 py-12 text-center text-sm text-slate-500">
+            <div className="mt-8 rounded-2xl border border-dashed border-white/10 py-12 text-center text-sm text-slate-400">
               Complete more practice to build a trend.
             </div>
           )}
@@ -354,7 +354,7 @@ function PerformanceView({
         <div className="flex items-end justify-between gap-4">
           <div>
             <p className="font-display text-lg font-semibold text-white">Priority Areas</p>
-            <p className="mt-1 text-xs text-slate-500">Areas the existing intelligence rules identify for reinforcement.</p>
+            <p className="mt-1 text-xs text-slate-400">Areas the existing intelligence rules identify for reinforcement.</p>
           </div>
           <Link to="/practice" className="inline-flex items-center gap-1.5 text-xs font-medium text-cyan-300 hover:text-cyan-200">
             Practice <ArrowRight className="h-3.5 w-3.5" />
@@ -368,13 +368,13 @@ function PerformanceView({
                 <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-cyan-400/10 text-xs font-semibold text-cyan-300">{index + 1}</div>
                 <div className="min-w-0">
                   <p className="truncate text-sm font-medium text-white">{item.subtopic}</p>
-                  <p className="mt-0.5 text-[11px] text-slate-600">{item.subject} · {item.attempts} attempts</p>
+                  <p className="mt-0.5 text-[11px] text-slate-400">{item.subject} · {item.attempts} attempts</p>
                   <p className="mt-2 text-xs text-slate-400">{item.reason} · {item.accuracy}% accuracy</p>
                 </div>
               </div>
             </div>
           )) : (
-            <div className="md:col-span-2 rounded-2xl border border-dashed border-white/10 py-10 text-center text-sm text-slate-500">
+            <div className="md:col-span-2 rounded-2xl border border-dashed border-white/10 py-10 text-center text-sm text-slate-400">
               Priority areas will appear after enough attempts are recorded.
             </div>
           )}
@@ -606,7 +606,7 @@ export default function PerformanceIntelligence() {
                     'relative flex min-h-12 items-center justify-center gap-2 rounded-xl px-2 py-2 text-xs font-semibold transition-all sm:text-sm',
                     active
                       ? 'bg-cyan-400/10 text-white shadow-[inset_0_0_0_1px_rgba(34,211,238,.18)]'
-                      : 'text-slate-500 hover:bg-white/[0.035] hover:text-slate-300',
+                      : 'text-slate-400 hover:bg-white/[0.035] hover:text-slate-300',
                   )}
                 >
                   <Icon className={cn('h-4 w-4', active && 'text-cyan-300')} />
@@ -616,7 +616,7 @@ export default function PerformanceIntelligence() {
               );
             })}
           </div>
-          <p className="px-2 pb-1 pt-2 text-center text-[11px] text-slate-600">{tabDescription}</p>
+          <p className="px-2 pb-1 pt-2 text-center text-[11px] text-slate-400">{tabDescription}</p>
         </section>
 
         <AnimatePresence mode="wait">

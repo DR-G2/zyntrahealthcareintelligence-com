@@ -125,7 +125,7 @@ export function StationResults({ scores, psychograph, archetype, recommendations
               {isBookmarked ? 'Saved' : 'Save Station'}
             </Button>
           ) : (
-            <Button variant="outline" size="sm" disabled className="gap-1.5 opacity-50">
+            <Button variant="outline" size="sm" disabled className="gap-1.5 disabled:opacity-100 text-muted-foreground">
               <Lock className="h-3.5 w-3.5" /> Save (Pro)
             </Button>
           )}

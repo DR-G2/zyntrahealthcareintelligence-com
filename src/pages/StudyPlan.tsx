@@ -134,7 +134,7 @@ export default function StudyPlan() {
             </button>
           </div>
           {generationLocked && (
-            <p className="relative z-10 mt-3 text-xs text-slate-500">
+            <p className="relative z-10 mt-3 text-xs text-slate-400">
               One successful study-plan generation is allowed per calendar month. Next generation available in {generationDaysRemaining ?? 1} day{(generationDaysRemaining ?? 1) === 1 ? '' : 's'}.
             </p>
           )}
@@ -147,7 +147,7 @@ export default function StudyPlan() {
               <Sparkles className="mt-0.5 h-5 w-5 shrink-0 text-cyan-300" />
               <div>
                 <p className="text-sm font-medium text-slate-200">{aiPlan?.motivation || 'Your latest performance signals are ready to be converted into focused training.'}</p>
-                <p className="mt-1 text-xs text-slate-500">Recommendations are generated from recorded practice data.</p>
+                <p className="mt-1 text-xs text-slate-400">Recommendations are generated from recorded practice data.</p>
               </div>
             </div>
           </div>
@@ -161,9 +161,9 @@ export default function StudyPlan() {
           ].map(item => (
             <div key={item.label} className="rounded-2xl border border-white/10 bg-[#081224]/70 p-5 backdrop-blur-xl">
               <item.icon className={`h-5 w-5 ${item.accent}`} />
-              <p className="mt-5 text-xs text-slate-500">{item.label}</p>
+              <p className="mt-5 text-xs text-slate-400">{item.label}</p>
               <p className="mt-1 font-display text-3xl font-semibold text-white">{item.value}</p>
-              <p className="mt-1 text-[11px] font-mono text-slate-600">{item.helper}</p>
+              <p className="mt-1 text-[11px] font-mono text-slate-400">{item.helper}</p>
             </div>
           ))}
         </section>
@@ -172,9 +172,9 @@ export default function StudyPlan() {
           <div className="mb-5 flex items-end justify-between">
             <div>
               <h2 className="font-display text-xl font-semibold text-white">Priority Actions</h2>
-              <p className="mt-1 text-xs text-slate-500">Focus the next block of questions where the signal says it matters.</p>
+              <p className="mt-1 text-xs text-slate-400">Focus the next block of questions where the signal says it matters.</p>
             </div>
-            <span className="text-xs font-mono text-slate-600">{tasks.length} priorities</span>
+            <span className="text-xs font-mono text-slate-400">{tasks.length} priorities</span>
           </div>
           <div className="space-y-3">
             {tasks.slice(0, 8).map((task, index) => (
@@ -184,16 +184,16 @@ export default function StudyPlan() {
                     <span className={cn('rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider', priorityTone(task.priority))}>{task.priority === 'maintain' ? 'Maintain' : task.priority}</span>
                     <p className="truncate text-sm font-medium text-slate-200">{task.category}</p>
                   </div>
-                  {task.study_tip && <p className="mt-2 text-xs leading-5 text-slate-500">{task.study_tip}</p>}
+                  {task.study_tip && <p className="mt-2 text-xs leading-5 text-slate-400">{task.study_tip}</p>}
                 </div>
                 <div className="text-left sm:text-right">
                   <p className="text-sm font-semibold text-white">{task.daily_questions || 0} q/day</p>
-                  {task.accuracy !== undefined && <p className="text-[11px] font-mono text-slate-600">{task.accuracy}% accuracy</p>}
+                  {task.accuracy !== undefined && <p className="text-[11px] font-mono text-slate-400">{task.accuracy}% accuracy</p>}
                 </div>
                 <Link to="/practice" className="inline-flex items-center justify-center gap-1 rounded-lg border border-white/10 px-3 py-2 text-xs font-semibold text-slate-300 transition hover:border-cyan-400/30 hover:text-cyan-300">Practice <ArrowRight className="h-3 w-3" /></Link>
               </div>
             ))}
-            {tasks.length === 0 && <div className="py-12 text-center text-sm text-slate-500">Complete a practice session to populate priorities.</div>}
+            {tasks.length === 0 && <div className="py-12 text-center text-sm text-slate-400">Complete a practice session to populate priorities.</div>}
           </div>
         </section>
 
@@ -203,8 +203,8 @@ export default function StudyPlan() {
             <div className="grid gap-3 md:grid-cols-3">
               {aiPlan.weekly_schedule.slice(0, 6).map(day => (
                 <div key={day.day} className="rounded-2xl border border-white/10 bg-white/[0.02] p-4">
-                  <div className="flex items-center justify-between"><span className="text-sm font-semibold text-slate-200">{day.day}</span><span className="text-xs font-mono text-slate-500">{day.total_questions} q</span></div>
-                  <div className="mt-3 space-y-2">{day.topics.slice(0, 4).map(topic => <div key={topic.category} className="flex items-center justify-between text-xs"><span className="truncate text-slate-500">{topic.category}</span><span className="text-slate-300">{topic.count}</span></div>)}</div>
+                  <div className="flex items-center justify-between"><span className="text-sm font-semibold text-slate-200">{day.day}</span><span className="text-xs font-mono text-slate-400">{day.total_questions} q</span></div>
+                  <div className="mt-3 space-y-2">{day.topics.slice(0, 4).map(topic => <div key={topic.category} className="flex items-center justify-between text-xs"><span className="truncate text-slate-400">{topic.category}</span><span className="text-slate-300">{topic.count}</span></div>)}</div>
                 </div>
               ))}
             </div>
@@ -214,8 +214,8 @@ export default function StudyPlan() {
         <section className="rounded-3xl border border-white/10 bg-[#081224]/70 p-6 backdrop-blur-xl">
           <div className="mb-4 flex items-center gap-2"><Lightbulb className="h-5 w-5 text-amber-300" /><h2 className="font-display text-xl font-semibold text-white">Recommendations</h2></div>
           {aiPlan?.recommendations?.length ? (
-            <div className="space-y-3">{aiPlan.recommendations.map((rec, i) => <div key={i} className="flex gap-3 rounded-2xl border border-white/10 bg-white/[0.02] p-4"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-300" /><div><p className="text-sm text-slate-200">{rec.tip}</p><p className="mt-1 text-xs text-slate-500">{rec.reason}</p></div></div>)}</div>
-          ) : <p className="text-sm text-slate-500">Generate a plan after enough practice data has accumulated.</p>}
+            <div className="space-y-3">{aiPlan.recommendations.map((rec, i) => <div key={i} className="flex gap-3 rounded-2xl border border-white/10 bg-white/[0.02] p-4"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-300" /><div><p className="text-sm text-slate-200">{rec.tip}</p><p className="mt-1 text-xs text-slate-400">{rec.reason}</p></div></div>)}</div>
+          ) : <p className="text-sm text-slate-400">Generate a plan after enough practice data has accumulated.</p>}
         </section>
       </div>
     </AppLayout>

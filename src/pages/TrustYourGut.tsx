@@ -519,11 +519,11 @@ export default function TrustYourGut() {
                   <p className="mt-2 text-3xl font-bold text-white">{stats.firstInstinctAccuracy.toFixed(1)}%</p>
                 </div>
                 <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
-                  <p className="text-[10px] font-medium uppercase tracking-[0.14em] text-slate-500">Final answer</p>
+                  <p className="text-[10px] font-medium uppercase tracking-[0.14em] text-slate-400">Final answer</p>
                   <p className="mt-2 text-3xl font-bold text-white">{stats.finalAccuracy.toFixed(1)}%</p>
                 </div>
               </div>
-              <p className="mt-4 text-xs leading-5 text-slate-500">
+              <p className="mt-4 text-xs leading-5 text-slate-400">
                 Based on attempts where an answer change was recorded. This shows what happened after changing, not whether you should always keep your first answer.
               </p>
             </CardContent>
@@ -534,28 +534,28 @@ export default function TrustYourGut() {
               <CardContent className="p-4">
                 <p className="text-[10px] uppercase tracking-[0.12em] text-red-300/80">Correct → Wrong</p>
                 <p className="mt-2 text-2xl font-bold text-white">{stats.changeAnalysis.correctToWrong}</p>
-                <p className="mt-1 text-xs text-slate-500">Points lost</p>
+                <p className="mt-1 text-xs text-slate-400">Points lost</p>
               </CardContent>
             </Card>
             <Card className="border-emerald-500/20 bg-emerald-500/[0.035]">
               <CardContent className="p-4">
                 <p className="text-[10px] uppercase tracking-[0.12em] text-emerald-300/80">Wrong → Correct</p>
                 <p className="mt-2 text-2xl font-bold text-white">{stats.changeAnalysis.wrongToCorrect}</p>
-                <p className="mt-1 text-xs text-slate-500">Points gained</p>
+                <p className="mt-1 text-xs text-slate-400">Points gained</p>
               </CardContent>
             </Card>
             <Card className="border-white/10 bg-white/[0.025]">
               <CardContent className="p-4">
-                <p className="text-[10px] uppercase tracking-[0.12em] text-slate-500">Wrong → Wrong</p>
+                <p className="text-[10px] uppercase tracking-[0.12em] text-slate-400">Wrong → Wrong</p>
                 <p className="mt-2 text-2xl font-bold text-white">{stats.changeAnalysis.wrongToWrong}</p>
-                <p className="mt-1 text-xs text-slate-500">Changed, still wrong</p>
+                <p className="mt-1 text-xs text-slate-400">Changed, still wrong</p>
               </CardContent>
             </Card>
             <Card className="border-purple-400/15 bg-purple-400/[0.035]">
               <CardContent className="p-4">
                 <p className="text-[10px] uppercase tracking-[0.12em] text-purple-300/80">Change rate</p>
                 <p className="mt-2 text-2xl font-bold text-white">{stats.changeRate.toFixed(1)}%</p>
-                <p className="mt-1 text-xs text-slate-500">{stats.totalWithChanges} changed attempts</p>
+                <p className="mt-1 text-xs text-slate-400">{stats.totalWithChanges} changed attempts</p>
               </CardContent>
             </Card>
           </div>
@@ -605,16 +605,16 @@ export default function TrustYourGut() {
               </div>
               <div className="grid grid-cols-2 gap-3 text-sm">
                 <div className="rounded-xl border border-white/8 bg-white/[0.02] p-3">
-                  <p className="text-xs text-slate-600">Changed attempts</p>
+                  <p className="text-xs text-slate-400">Changed attempts</p>
                   <p className="mt-1 font-semibold text-white">{stats.totalWithChanges}</p>
                 </div>
                 <div className="rounded-xl border border-white/8 bg-white/[0.02] p-3">
-                  <p className="text-xs text-slate-600">All attempts</p>
+                  <p className="text-xs text-slate-400">All attempts</p>
                   <p className="mt-1 font-semibold text-white">{stats.totalAttempts}</p>
                 </div>
               </div>
               {stats.pointsLost !== stats.pointsGained && (
-                <p className="text-xs leading-5 text-slate-500">
+                <p className="text-xs leading-5 text-slate-400">
                   Recorded changes produced {stats.pointsLost} correct-to-wrong outcomes and {stats.pointsGained} wrong-to-correct outcomes. The engine reports the pattern rather than prescribing a universal rule.
                 </p>
               )}
@@ -640,12 +640,12 @@ export default function TrustYourGut() {
                       <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/[0.06]">
                         <div className="h-full rounded-full bg-gradient-to-r from-purple-400 to-cyan-300" style={{ width: `${Math.min(100, row.changeRate)}%` }} />
                       </div>
-                      <p className="mt-1 text-[10px] text-slate-600">{row.attempts} attempts · {row.pointsLost} correct-to-wrong</p>
+                      <p className="mt-1 text-[10px] text-slate-400">{row.attempts} attempts · {row.pointsLost} correct-to-wrong</p>
                     </div>
                   ))}
                 </div>
               ) : (
-                <div className="rounded-2xl border border-dashed border-white/10 py-10 text-center text-sm text-slate-500">
+                <div className="rounded-2xl border border-dashed border-white/10 py-10 text-center text-sm text-slate-400">
                   Complete more practice to build change-pattern data.
                 </div>
               )}
@@ -669,7 +669,7 @@ export default function TrustYourGut() {
                   </AreaChart>
                 </ChartContainer>
               ) : (
-                <div className="flex h-[280px] items-center justify-center rounded-2xl border border-dashed border-white/10 text-sm text-slate-500">
+                <div className="flex h-[280px] items-center justify-center rounded-2xl border border-dashed border-white/10 text-sm text-slate-400">
                   Complete more practice sessions to see a trend.
                 </div>
               )}

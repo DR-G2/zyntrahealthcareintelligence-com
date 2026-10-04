@@ -33,15 +33,6 @@ const articles: Article[] = [
 const categories = ["All", "AMC"];
 
 const articleBody: Record<string, { intro: string; sections: { title: string; body: string }[] }> = {
-  "what-is-zyntra": {
-    intro: "Zyntra is a medical examination training platform built around Performance Intelligence. The starting point is AMC preparation, but the larger ambition is to build a training environment that can support doctors and medical students across multiple examination systems.",
-    sections: [
-      { title: "Zyntra is a training platform, not another question bank", body: "The basic idea is simple. Learning the subject and learning to crack the examination are related, but they are not the same task. You can know a great deal of medicine and still lose marks through poor timing, avoidable answer changes, weak decision-making or inconsistent performance. Zyntra is designed to train the performance side as well as the medical knowledge side." },
-      { title: "Why AMC is the first platform", body: "AMC is where Zyntra is growing first. AMC preparation gives the platform a demanding environment in which broad medical knowledge, clinical reasoning and examination performance all matter. Part 1 and Part 2 also require different forms of preparation, making the AMC ecosystem a useful foundation for building a broader medical-examination training platform." },
-      { title: "Where Zyntra is going", body: "The longer-term direction extends beyond AMC. Zyntra is being developed toward USMLE, Royal College examinations, medical school examinations, postgraduate medical examinations and other healthcare-related assessments. The examination changes, but the underlying training problem remains: learn the material, practise applying it, understand your performance and improve deliberately." },
-      { title: "The Zyntra principle", body: "An answer is one signal. Your decision process is the dataset. Zyntra uses that distinction to help candidates understand not only what they got right or wrong, but how they are performing while they train." },
-    ],
-  },
   "amc-part-1-mcq": {
     intro: "AMC Part 1 is not simply a test of how many medical facts you can remember. Preparation requires broad knowledge, clinical reasoning, prioritisation and the ability to make decisions consistently under examination conditions.",
     sections: [
@@ -62,50 +53,7 @@ const articleBody: Record<string, { intro: string; sections: { title: string; bo
       { title: "Where Zyntra fits today", body: "Zyntra's authenticated OSCE room is currently marked 'Not live yet'. This article is educational content and does not represent a live Zyntra OSCE engine. Candidates should use current official AMC information for examination rules, eligibility, format and scheduling." },
     ],
   },
-  "performance-intelligence-engine": {
-    intro: "A Performance Intelligence Engine is designed to make training information more useful than a simple right-or-wrong score. Zyntra uses performance signals to help candidates understand how they are performing while they practise.",
-    sections: [
-      { title: "Why accuracy alone is incomplete", body: "Imagine two candidates both score 70%. One is consistently performing around that level. The other gets questions right but repeatedly rushes, changes correct answers and struggles with a particular subject. The percentage is identical. The training problem is not." },
-      { title: "What performance intelligence observes", body: "Depending on the training activity and available data, useful signals can include accuracy, response time, confidence, answer changes, consistency, recurring mistakes and subject-level performance. These signals add context to the outcome of the question." },
-      { title: "It is not a personality test", body: "Performance signals should be treated as training information, not psychological diagnoses. A pattern can tell you what deserves review without telling you what kind of person you are." },
-      { title: "The useful question", body: "The purpose of performance intelligence is not to create a mysterious score and leave you staring at a dashboard. The useful question is practical: what does the evidence from my training suggest I should work on next?" },
-      { title: "A deliberate boundary", body: "Zyntra does not publish every implementation detail of its underlying intelligence systems. Candidates do not need a technical blueprint to use the resulting information effectively. They need clear signals, sensible interpretation and useful training actions." },
-    ],
-  },
-  "how-to-use-zyntra-properly": {
-    intro: "Zyntra works best when you treat it as a training system rather than a scoreboard. The quality of the information you give the platform directly affects the usefulness of the performance picture you get back.",
-    sections: [
-      { title: "1. Establish a genuine baseline", body: "Answer honestly. Do not deliberately manipulate your timing or confidence to make the dashboard look better. Your early performance is useful precisely because it shows where you are starting." },
-      { title: "2. Review the explanation, not just the letter", body: "After an incorrect answer, ask why the correct option is correct and why the alternatives are less appropriate. Then decide what actually caused the miss. Knowledge gaps, stem interpretation errors and poor prioritisation require different responses." },
-      { title: "3. Stop worshipping the percentage", body: "A score is important, but one percentage cannot describe an entire preparation. Look for trends, recurring weaknesses, timing problems and changes in decision behaviour across your training." },
-      { title: "4. Attack weaknesses", body: "Do not spend every session in subjects you enjoy simply because the scores feel good. Use performance information to identify where additional training is required. Avoiding a weak area does not make it disappear." },
-      { title: "5. Use mistakes and answer changes intelligently", body: "A wrong answer is not automatically the same type of mistake every time. If you changed a correct answer, ask what evidence changed your mind. If nothing meaningful changed, that transition deserves review." },
-      { title: "6. Use repetition properly", body: "Repeatedly missing the same concept is more important than a single isolated error. Return to the underlying knowledge, practise a variation of the problem and check whether the mistake persists." },
-      { title: "7. Use Zyntra alongside proper medical study", body: "Zyntra is an educational training platform, not a replacement for textbooks, guidelines, lectures or other appropriate medical learning resources. If the problem is missing knowledge, learn the knowledge. Then return and test whether it transfers into performance." },
-      { title: "The Zyntra rule", body: "Do not use Zyntra merely to find out how many questions you got right. Use it to understand how you are performing while you answer them. That is where the training value lives." },
-    ],
-  },
-  "why-getting-a-question-wrong-isnt-the-whole-story": {
-    intro: "Two incorrect answers can represent completely different training problems. The result matters, but the path to the result can contain additional information.",
-    sections: [
-      { title: "Wrong is not one category", body: "A fast guess, a careful but incorrect decision and a correct answer changed into an incorrect one are different events. Treating them as identical can hide useful training signals." },
-      { title: "Review what happened", body: "Look at timing, confidence, answer changes and the clinical reasoning behind the decision. These signals do not diagnose personality. They help you decide what deserves another look." },
-    ],
-  },
-  "hidden-cost-of-changing-a-correct-answer": {
-    intro: "Changing an answer is not automatically a mistake. Sometimes it is exactly what good reasoning requires. The useful question is what happened between the first and final decision.",
-    sections: [
-      { title: "Changing is not automatically bad", body: "A changed answer can reflect a genuine correction after noticing a missed clue. It can also reflect uncertainty without new evidence. The distinction is more useful than simply counting changes." },
-      { title: "Review the transition", body: "When a first answer becomes a final answer, review what changed your mind. If the evidence changed, the revision may represent good reasoning. If nothing meaningful changed, the event may deserve closer review." },
-    ],
-  },
-  "confidence-calibration-and-study": {
-    intro: "Confidence calibration asks whether certainty tends to match outcomes. It is useful because confidence and accuracy are not automatically the same thing.",
-    sections: [
-      { title: "Confidence versus calibration", body: "A candidate can be highly confident and well calibrated, or highly confident and frequently wrong. Those are different training situations." },
-      { title: "Turn the signal into action", body: "High-confidence errors can deserve deliberate review. Low-confidence correct answers can reveal knowledge that is present but not yet stable. The point is not to maximise confidence. It is to make confidence more informative." },
-    ],
-  },
+
 };
 
 
@@ -180,11 +128,11 @@ export default function Blog() {
                 <div className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-cyan-300">Read article <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" /></div>
               </div>
               <div className="rounded-2xl border border-white/5 bg-[#050b18] p-5">
-                <div className="flex items-center gap-2 text-xs text-slate-500"><Brain className="w-4 h-4 text-cyan-400" /> CLINICAL REASONING</div>
+                <div className="flex items-center gap-2 text-xs text-slate-400"><Brain className="w-4 h-4 text-cyan-400" /> CLINICAL REASONING</div>
                 <div className="mt-6 grid grid-cols-3 gap-2 items-end h-28">
                   {[35, 60, 45, 78, 55, 92, 70, 86].map((h, i) => <div key={i} className="rounded-t bg-gradient-to-t from-cyan-500/20 to-cyan-400/70" style={{height: h + "%"}} />)}
                 </div>
-                <div className="mt-4 pt-3 border-t border-white/5 flex justify-between text-[10px] uppercase tracking-wider text-slate-500"><span>Reasoning</span><span>Decision</span><span>Feedback</span></div>
+                <div className="mt-4 pt-3 border-t border-white/5 flex justify-between text-[10px] uppercase tracking-wider text-slate-400"><span>Reasoning</span><span>Decision</span><span>Feedback</span></div>
               </div>
             </div>
           </Link>
@@ -196,21 +144,21 @@ export default function Blog() {
               {categories.map((item) => <button key={item} type="button" onClick={() => setCategory(item)} className={"px-3.5 py-2 rounded-full text-xs font-semibold border transition-colors " + (category === item ? "bg-cyan-500/15 border-cyan-400/40 text-cyan-300" : "border-white/10 text-slate-400 hover:text-white hover:border-white/20")}>{item}</button>)}
             </div>
             <div className="relative w-full lg:w-72">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
-              <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search the lab..." className="w-full rounded-xl border border-white/10 bg-[#071021]/80 py-2.5 pl-9 pr-3 text-sm text-white placeholder:text-slate-600 outline-none focus:border-cyan-500/40" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search the lab..." className="w-full rounded-xl border border-white/10 bg-[#071021]/80 py-2.5 pl-9 pr-3 text-sm text-white placeholder:text-slate-400 outline-none focus:border-cyan-500/40" />
             </div>
           </div>
         </section>
 
         <section className="max-w-7xl mx-auto px-6 pb-24">
           {filtered.length === 0 ? (
-            <div className="rounded-2xl border border-white/10 bg-[#071021]/60 p-10 text-center text-sm text-slate-500">No articles match that search.</div>
+            <div className="rounded-2xl border border-white/10 bg-[#071021]/60 p-10 text-center text-sm text-slate-400">No articles match that search.</div>
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
               {filtered.map((article) => (
                 <div key={article.slug} className="group rounded-2xl border border-white/10 bg-[#071021]/70 p-5 hover:border-cyan-500/30 hover:bg-[#0a162e] transition-all">
                   <Link to={"/blog/" + article.slug} className="block">
-                    <div className="flex items-center justify-between text-[10px] uppercase tracking-[.16em] text-cyan-400"><span>{article.category}</span><span className="flex items-center gap-1 text-slate-500"><Clock className="w-3 h-3" /> {article.readTime}</span></div>
+                    <div className="flex items-center justify-between text-[10px] uppercase tracking-[.16em] text-cyan-400"><span>{article.category}</span><span className="flex items-center gap-1 text-slate-400"><Clock className="w-3 h-3" /> {article.readTime}</span></div>
                     <h3 className="mt-4 text-lg font-bold text-white leading-snug group-hover:text-cyan-200 transition-colors">{article.title}</h3>
                     <p className="mt-3 text-sm leading-6 text-slate-400">{article.excerpt}</p>
                   </Link>
@@ -230,7 +178,7 @@ export default function Blog() {
       </main>
 
       <footer className="relative z-10 border-t border-white/5 bg-[#02050b] py-8">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4 text-xs text-slate-500">
+        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4 text-xs text-slate-400">
           <span>Zyntra Healthcare Intelligence</span>
           <div className="flex gap-5"><Link to="/terms" className="hover:text-cyan-300">Terms</Link><Link to="/privacy" className="hover:text-cyan-300">Privacy</Link><Link to="/" className="hover:text-cyan-300">Zyntra</Link></div>
         </div>
