@@ -11,12 +11,9 @@ REVOKE INSERT, UPDATE, DELETE, TRUNCATE, REFERENCES, TRIGGER
            public.performance_profiles, public.question_dna
   FROM anon, authenticated;
 
--- 2. Prevent direct deletion of raw attempt history.
--- Destructive reset is routed through the ownership-checked RPC below so raw
--- attempts and derived intelligence cannot drift apart.
-REVOKE DELETE ON TABLE public.user_attempts FROM anon, authenticated;
-
--- 3. Canonical candidate data reset.
+-- 2. Canonical candidate data reset.
+-- The Settings surface should call this RPC for a complete reset so raw attempts
+-- and derived intelligence are cleared together.
 CREATE OR REPLACE FUNCTION public.reset_candidate_training_data()
 RETURNS void
 LANGUAGE plpgsql
