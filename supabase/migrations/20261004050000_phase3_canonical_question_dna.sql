@@ -52,7 +52,7 @@ BEGIN
   IF NOT FOUND THEN RETURN; END IF;
 
   INSERT INTO public.question_dna (
-    question_id, subject, specialty, australian_context,
+    question_id, subject, specialty, blueprint_domain, australian_context,
     production_status, version, updated_at
   )
   VALUES (
@@ -130,6 +130,7 @@ INSERT INTO public.question_dna (question_id, subject, specialty, blueprint_doma
 SELECT q.id,
        q.category,
        q.subtopic,
+       q.system_category,
        'unreviewed',
        'unclassified',
        1,
