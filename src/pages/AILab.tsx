@@ -40,6 +40,7 @@ export default function AILab() {
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [selectedAnswers, setSelectedAnswers] = useState<Record<number, string>>({});
   const loggedExplanations = useRef<Set<number>>(new Set());
+  const startedQuestions = useRef<Set<number>>(new Set());
 
   const canRun = useMemo(
     () => connected && !!model && (mode !== 'performance' || !!prompt.trim()) && (mode !== 'questions' || !!subject.trim()),
@@ -161,6 +162,7 @@ export default function AILab() {
       setSessionId(typeof data.session_id === 'string' ? data.session_id : null);
       setSelectedAnswers({});
       loggedExplanations.current.clear();
+      startedQuestions.current.clear();
       await loadHistory();
       if (mode === 'performance') setPrompt('');
       toast({ title: 'AI Lab session complete' });
@@ -198,7 +200,7 @@ export default function AILab() {
 
           {result && <div className="space-y-3 rounded-2xl border border-cyan-400/15 bg-black/20 p-4">
             <div className="flex items-center justify-between gap-3"><div className="text-xs font-mono uppercase tracking-[0.16em] text-cyan-300">AI output</div><Badge variant="outline">{model}</Badge></div>
-            {Array.isArray(result) ? result.map((q, i) => <div key={i} className="rounded-xl border border-white/10 bg-white/[0.02] p-4"><div className="mb-3 text-sm font-medium text-white">Question {i + 1}</div><p className="text-sm leading-6 text-slate-200">{q.stem}</p><div className="mt-3 space-y-2">{q.options.map((option, j) => { const selected = selectedAnswers[i] === option; return <button key={j} type="button" onClick={() => { const previous = selectedAnswers[i]; setSelectedAnswers((current) => ({ ...current, [i]: option })); void logEvent(previous && previous !== option ? 'answer_changed' : 'answer_submitted', { question_index: i, answer_changes: previous && previous !== option ? 1 : 0, is_correct: option === q.correct_answer }); }} className={`w-full rounded-lg border px-3 py-2 text-left text-sm transition-colors ${selected ? 'border-cyan-400/50 bg-cyan-400/10 text-white' : 'border-white/10 text-slate-300 hover:border-cyan-400/30 hover:bg-white/[0.03]'}`}>{option}</button>; })}</div><details className="mt-3" onToggle={(event) => { if ((event.currentTarget as HTMLDetailsElement).open && !loggedExplanations.current.has(i)) { loggedExplanations.current.add(i); void logEvent('explanation_requested', { question_index: i }); } }}><summary className="cursor-pointer text-xs text-cyan-300">Reveal answer & explanation</summary><div className="mt-2 text-sm leading-6 text-slate-300"><strong className="text-white">{q.correct_answer}</strong><div className="mt-1">{q.explanation}</div></div></details></div>) :
+            {Array.isArray(result) ? result.map((q, i) => <div key={i} className="rounded-xl border border-white/10 bg-white/[0.02] p-4"><div className="mb-3 text-sm font-medium text-white">Question {i + 1}</div><p className="text-sm leading-6 text-slate-200">{q.stem}</p><div className="mt-3 space-y-2">{q.options.map((option, j) => { const selected = selectedAnswers[i] === option; return <button key={j} type="button" onClick={() => { const previous = selectedAnswers[i]; setSelectedAnswers((current) => ({ ...current, [i]: option })); if (!startedQuestions.current.has(i)) { startedQuestions.current.add(i); void logEvent('question_started', { question_index: i }); } void logEvent(previous && previous !== option ? 'answer_changed' : 'answer_submitted', { question_index: i, answer_changes: previous && previous !== option ? 1 : 0 }); }} className={`w-full rounded-lg border px-3 py-2 text-left text-sm transition-colors ${selected ? 'border-cyan-400/50 bg-cyan-400/10 text-white' : 'border-white/10 text-slate-300 hover:border-cyan-400/30 hover:bg-white/[0.03]'}`}>{option}</button>; })}</div><details className="mt-3" onToggle={(event) => { if ((event.currentTarget as HTMLDetailsElement).open && !loggedExplanations.current.has(i)) { loggedExplanations.current.add(i); void logEvent('explanation_requested', { question_index: i }); } }}><summary className="cursor-pointer text-xs text-cyan-300">Reveal answer & explanation</summary><div className="mt-2 text-sm leading-6 text-slate-300"><strong className="text-white">{q.correct_answer}</strong><div className="mt-1">{q.explanation}</div></div></details></div>) :
               <div className="whitespace-pre-wrap text-sm leading-6 text-slate-200">{result}</div>}
           </div>}
         </CardContent>
