@@ -120,6 +120,7 @@ export default function Assess() {
     const question = questions[currentIndex];
     if (!question) return;
     void emitBehaviorEvent({
+      userId: user?.id ?? '',
       eventType: 'QUESTION_OPENED',
       sessionId: sessionIdRef.current,
       questionId: question.id,
@@ -196,6 +197,7 @@ export default function Assess() {
       setTimeToFirstClick(prev => ({ ...prev, [currentIndex]: delta }));
       setFirstClickRecorded(prev => ({ ...prev, [currentIndex]: true }));
       void emitBehaviorEvent({
+        userId: user?.id ?? '',
         eventType: 'QUESTION_FIRST_INTERACTION',
         sessionId: sessionIdRef.current,
         questionId: questions[currentIndex]?.id,
@@ -227,6 +229,7 @@ export default function Assess() {
 
     setSelectedAnswers((prev) => ({ ...prev, [currentIndex]: answer }));
     void emitBehaviorEvent({
+      userId: user?.id ?? '',
       eventType: prevAnswer && prevAnswer !== answer ? 'ANSWER_CHANGED' : 'ANSWER_SELECTED',
       sessionId: sessionIdRef.current,
       questionId: questions[currentIndex]?.id,
@@ -306,6 +309,7 @@ export default function Assess() {
       for (let i = 0; i < inserts.length; i += 1) {
         const attempt = inserts[i];
         void emitBehaviorEvent({
+          userId: user?.id ?? '',
           eventType: 'QUESTION_SUBMITTED',
           sessionId: sessionIdRef.current,
           questionId: attempt.question_id,
@@ -320,6 +324,7 @@ export default function Assess() {
         });
       }
       void emitBehaviorEvent({
+        userId: user?.id ?? '',
         eventType: 'SESSION_COMPLETED',
         sessionId: sessionIdRef.current,
         payload: { question_count: inserts.length, mode: 'diagnostic' },
