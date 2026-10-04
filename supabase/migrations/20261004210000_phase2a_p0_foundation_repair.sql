@@ -34,6 +34,8 @@ CREATE INDEX IF NOT EXISTS idx_behavior_events_question
 
 ALTER TABLE public.behavior_events ENABLE ROW LEVEL SECURITY;
 
+GRANT SELECT, INSERT ON public.behavior_events TO authenticated;
+
 DROP POLICY IF EXISTS "Users can view own behavior events" ON public.behavior_events;
 CREATE POLICY "Users can view own behavior events"
   ON public.behavior_events FOR SELECT TO authenticated
