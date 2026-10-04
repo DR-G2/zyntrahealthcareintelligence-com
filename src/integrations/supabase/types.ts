@@ -384,6 +384,72 @@ export type Database = {
         }
         Relationships: []
       }
+      behavior_dna: {
+        Row: {
+          answer_instability_index: number
+          confidence_miscalibration: number
+          correct_to_wrong_change_rate: number | null
+          data_quality: number
+          difficulty_behavior: Json
+          evidence_level: string
+          fatigue_index: number
+          first_instinct_accuracy: number | null
+          hesitation_index: number
+          id: string
+          latest_observation_at: string | null
+          premature_commitment_index: number
+          rule_out_rate: number
+          rush_index: number
+          sample_size: number
+          signal_version: number
+          subject_behavior: Json
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          answer_instability_index?: number
+          confidence_miscalibration?: number
+          correct_to_wrong_change_rate?: number | null
+          data_quality?: number
+          difficulty_behavior?: Json
+          evidence_level?: string
+          fatigue_index?: number
+          first_instinct_accuracy?: number | null
+          hesitation_index?: number
+          id?: string
+          latest_observation_at?: string | null
+          premature_commitment_index?: number
+          rule_out_rate?: number
+          rush_index?: number
+          sample_size?: number
+          signal_version?: number
+          subject_behavior?: Json
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          answer_instability_index?: number
+          confidence_miscalibration?: number
+          correct_to_wrong_change_rate?: number | null
+          data_quality?: number
+          difficulty_behavior?: Json
+          evidence_level?: string
+          fatigue_index?: number
+          first_instinct_accuracy?: number | null
+          hesitation_index?: number
+          id?: string
+          latest_observation_at?: string | null
+          premature_commitment_index?: number
+          rule_out_rate?: number
+          rush_index?: number
+          sample_size?: number
+          signal_version?: number
+          subject_behavior?: Json
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       behavior_profiles: {
         Row: {
           archetype: string

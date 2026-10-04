@@ -19,7 +19,7 @@ ALTER TABLE public.question_dna
   ADD COLUMN IF NOT EXISTS explanation_quality numeric,
   ADD COLUMN IF NOT EXISTS reviewer_status text NOT NULL DEFAULT 'unreviewed',
   ADD COLUMN IF NOT EXISTS last_reviewed_at timestamptz,
-  ADD COLUMN IF NOT EXISTS references jsonb NOT NULL DEFAULT '[]'::jsonb,
+  ADD COLUMN IF NOT EXISTS "references" jsonb NOT NULL DEFAULT '[]'::jsonb,
   ADD COLUMN IF NOT EXISTS version integer NOT NULL DEFAULT 1,
   ADD COLUMN IF NOT EXISTS duplicate_cluster text,
   ADD COLUMN IF NOT EXISTS production_status text NOT NULL DEFAULT 'unclassified',
