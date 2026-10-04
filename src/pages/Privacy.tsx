@@ -56,49 +56,49 @@ export default function Privacy() {
           <p className={textClass}>When Performance Intelligence context is enabled, Zyntra may send a bounded training summary such as performance, weak areas, timing and behaviour signals to the selected external model. It is not intended to include API credentials, other candidates' data, question-bank dumps or hidden Zyntra scoring logic. External AI outputs are educational and should be independently checked.</p>
         </section>
 
-        <section className={sectionClass}><h2 className={headingClass}>6. Service Providers and Disclosures</h2>
+        <section className={sectionClass}><h2 className={headingClass}>7. Service Providers and Disclosures</h2>
           <p className={textClass}>We may disclose limited information to hosting/infrastructure providers, authentication services, payment processors such as Razorpay and/or Stripe, communications providers, analytics/security providers and AI compute providers. We may also disclose information where necessary to comply with law, protect rights or safety, investigate fraud or security incidents, enforce agreements, or support a corporate transaction.</p>
           <p className={textClass}>We do not sell personal information for monetary consideration. Where a jurisdiction treats certain advertising or analytics practices as “sale” or “sharing”, Zyntra will apply the relevant rights and controls required by law.</p>
         </section>
 
-        <section className={sectionClass}><h2 className={headingClass}>7. International Transfers</h2>
+        <section className={sectionClass}><h2 className={headingClass}>8. International Transfers</h2>
           <p className={textClass}>Personal information may be processed in countries outside the country where you reside. Where GDPR applies, transfers outside the EEA will use an applicable adequacy mechanism, Standard Contractual Clauses or another lawful transfer mechanism, together with supplementary safeguards where required. For Australian users, Zyntra will take reasonable steps required by APP 8 for overseas disclosures and will identify overseas recipients where required by applicable law.</p>
         </section>
 
-        <section className={sectionClass}><h2 className={headingClass}>8. Security</h2>
+        <section className={sectionClass}><h2 className={headingClass}>9. Security</h2>
           <p className={textClass}>Zyntra uses reasonable technical and organisational safeguards appropriate to the risks, including encryption at rest targeted at AES-256 or equivalent, TLS 1.3 or current industry-standard transport encryption where supported, access controls, row-level database security where applicable, authentication protections, logging, backups and security monitoring. No online service can guarantee absolute security.</p>
         </section>
 
-        <section className={sectionClass}><h2 className={headingClass}>9. Retention</h2>
+        <section className={sectionClass}><h2 className={headingClass}>10. Retention</h2>
           <p className={textClass}>We retain personal information only for as long as reasonably necessary for the purposes described in this Policy, contractual administration, legitimate business needs, security, dispute handling and legal obligations. Unless a longer period is required by law or a contractual arrangement, inactive accounts and associated personal information may be deleted or anonymised after [24 months] of inactivity. Transaction and legal records may be retained for the period required by applicable law. Aggregated, appropriately de-identified information may be retained longer where it no longer identifies an individual.</p>
         </section>
 
-        <section className={sectionClass}><h2 className={headingClass}>10. Your Rights</h2>
+        <section className={sectionClass}><h2 className={headingClass}>11. Your Rights</h2>
           <p className={textClass}>Subject to applicable law and legitimate exceptions, you may request access, correction, deletion, portability and information about processing; withdraw consent where consent is the legal basis; object to or restrict certain processing; and lodge a complaint with the competent privacy regulator. California residents may have additional CCPA/CPRA rights, including rights relating to sensitive personal information and certain disclosures, subject to applicable thresholds and exceptions.</p>
           <p className={textClass}>To exercise rights, contact <a href={`mailto:${LEGAL_EMAIL}`} className="text-primary underline">{LEGAL_EMAIL}</a>. We may verify identity before completing a request. We will respond within the time required by applicable law.</p>
         </section>
 
-        <section className={sectionClass}><h2 className={headingClass}>11. Cookies, Local Storage and Telemetry</h2>
+        <section className={sectionClass}><h2 className={headingClass}>12. Cookies, Local Storage and Telemetry</h2>
           <p className={textClass}>Zyntra may use essential cookies and browser storage for authentication, security, theme preferences, session continuity and feature operation. Product telemetry may record interaction and performance events necessary to operate analytics and improve the Platform. Where consent is legally required for non-essential cookies or tracking, Zyntra will obtain it before such processing.</p>
         </section>
 
-        <section className={sectionClass}><h2 className={headingClass}>12. Automated Profiling</h2>
+        <section className={sectionClass}><h2 className={headingClass}>13. Automated Profiling</h2>
           <p className={textClass}>Zyntra may generate behavioural and performance profiles from learning activity. These profiles are designed to personalise educational content and identify training patterns. They are not intended to make decisions about medical fitness, professional licensure, employment eligibility or access to healthcare.</p>
         </section>
 
-        <section className={sectionClass}><h2 className={headingClass}>13. Data Breaches</h2>
+        <section className={sectionClass}><h2 className={headingClass}>14. Data Breaches</h2>
           <p className={textClass}>Zyntra maintains incident-response procedures. Where a breach triggers a legal notification obligation, Zyntra will notify affected individuals, customers and/or regulators within the period required by applicable law. Where no fixed statutory period applies, we will act without undue delay after determining that notification is required. We will not promise a universal “72-hour” deadline because notification rules differ by jurisdiction and breach type.</p>
         </section>
 
-        <section className={sectionClass}><h2 className={headingClass}>14. Children</h2>
+        <section className={sectionClass}><h2 className={headingClass}>15. Children</h2>
           <p className={textClass}>The Platform is intended for adults and is not knowingly directed to children. If applicable law imposes a different age or consent standard, Zyntra will follow that mandatory standard.</p>
         </section>
 
-        <section className={sectionClass}><h2 className={headingClass}>15. Policy Changes</h2>
+        <section className={sectionClass}><h2 className={headingClass}>16. Policy Changes</h2>
           <p className={textClass}>We may update this Policy for legal, regulatory, security, product or operational reasons. Material changes will be communicated through the Platform or by email where required. The effective date will be updated when changes become effective.</p>
         </section>
 
-        <section className={sectionClass}><h2 className={headingClass}>16. Contact and Complaints</h2>
+        <section className={sectionClass}><h2 className={headingClass}>17. Contact and Complaints</h2>
           <p className={textClass}>Privacy requests and complaints may be sent to <a href={`mailto:${LEGAL_EMAIL}`} className="text-primary underline">{LEGAL_EMAIL}</a>. Depending on your location, you may also complain to your applicable supervisory or privacy authority, including the OAIC in Australia or the relevant EU supervisory authority.</p>
         </section>
       </main>
