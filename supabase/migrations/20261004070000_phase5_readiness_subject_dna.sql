@@ -243,11 +243,11 @@ BEGIN
       THEN CASE WHEN ua.is_correct THEN 100.0 ELSE 0.0 END
       ELSE NULL
     END), 2) AS difficulty_handling,
-    ROUND(AVG(CASE
+    ROUND(GREATEST(0, 100 - COALESCE(AVG(CASE
       WHEN ua.confidence_level BETWEEN 1 AND 5
       THEN ABS(((ua.confidence_level - 1) * 25.0) - CASE WHEN ua.is_correct THEN 100.0 ELSE 0.0 END)
       ELSE NULL
-    END), 2) AS confidence_calibration,
+    END), 0)), 2) AS confidence_calibration,
     ROUND(AVG(CASE WHEN COALESCE(ua.answer_changes_count, 0) > 0 THEN 0.0 ELSE 100.0 END), 2) AS behavior_score,
     CASE WHEN COUNT(*) >= 10 THEN 'emerging' ELSE 'insufficient' END,
     ROUND(LEAST(100, (LEAST(COUNT(*), 100)::numeric / 100) * 100), 2),
