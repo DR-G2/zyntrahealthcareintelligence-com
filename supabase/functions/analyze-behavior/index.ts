@@ -25,10 +25,10 @@ serve(async (req) => {
     const supabase = createClient(supabaseUrl, supabaseKey);
 
     // Fetch MCQ attempts, OSCE station attempts, and psychograph history in parallel
-    const [attRes, stationRes, psychRes] = await Promise.all([
+    const [attRes, stationRes, psychRes, behaviorDnaRes] = await Promise.all([
       supabase
         .from("user_attempts")
-        .select("*, questions(category, difficulty, difficulty_tier)")
+        .select("*, questions(category, difficulty, difficulty_tier, correct_answer)")
         .eq("user_id", user.id)
         .order("created_at", { ascending: true })
         .limit(1000),
@@ -44,12 +44,18 @@ serve(async (req) => {
         .eq("user_id", user.id)
         .order("created_at", { ascending: false })
         .limit(20),
+      supabase
+        .from("behavior_dna")
+        .select("*")
+        .eq("user_id", user.id)
+        .maybeSingle(),
     ]);
 
     if (attRes.error) throw attRes.error;
     const attempts = attRes.data || [];
     const stationAttempts = stationRes.data || [];
     const psychographs = psychRes.data || [];
+    const behaviorDna = behaviorDnaRes.data || null;
 
     if (attempts.length === 0 && stationAttempts.length === 0) {
       return new Response(JSON.stringify({ error: "No attempts found" }), { status: 404, headers: { ...corsHeaders, "Content-Type": "application/json" } });
@@ -186,6 +192,22 @@ serve(async (req) => {
       avgPauses: Math.round(avgPauses * 100) / 100,
       avgFirstClick: Math.round(avgFirstClick),
       fatigueIncrease: Math.round(fatigueIncrease * 100) / 100,
+      canonicalBehaviorDna: behaviorDna ? {
+        sampleSize: behaviorDna.sample_size,
+        evidenceLevel: behaviorDna.evidence_level,
+        dataQuality: behaviorDna.data_quality,
+        rushIndex: behaviorDna.rush_index,
+        hesitationIndex: behaviorDna.hesitation_index,
+        fatigueIndex: behaviorDna.fatigue_index,
+        answerInstabilityIndex: behaviorDna.answer_instability_index,
+        prematureCommitmentIndex: behaviorDna.premature_commitment_index,
+        ruleOutRate: behaviorDna.rule_out_rate,
+        confidenceMiscalibration: behaviorDna.confidence_miscalibration,
+        firstInstinctAccuracy: behaviorDna.first_instinct_accuracy,
+        correctToWrongChangeRate: behaviorDna.correct_to_wrong_change_rate,
+        difficultyBehavior: behaviorDna.difficulty_behavior,
+        subjectBehavior: behaviorDna.subject_behavior,
+      } : null,
       subjectStats: Object.entries(subjectMap).map(([cat, s]) => ({
         category: cat,
         accuracy: Math.round((s.correct / s.total) * 100),
