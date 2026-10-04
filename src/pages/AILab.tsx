@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { AppLayout } from '@/components/AppLayout';
 import { RoomHeader } from '@/components/RoomHeader';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -37,6 +37,9 @@ export default function AILab() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<string | QuestionResult[] | null>(null);
   const [history, setHistory] = useState<Array<{ id: string; mode: string; provider: string; model: string | null; created_at: string; status: string }>>([]);
+  const [sessionId, setSessionId] = useState<string | null>(null);
+  const [selectedAnswers, setSelectedAnswers] = useState<Record<number, string>>({});
+  const loggedExplanations = useRef<Set<number>>(new Set());
 
   const canRun = useMemo(
     () => connected && !!model && (mode !== 'performance' || !!prompt.trim()) && (mode !== 'questions' || !!subject.trim()),
@@ -44,9 +47,21 @@ export default function AILab() {
   );
 
   const loadHistory = async () => {
-    const { supabase } = await import('@/lib/supabase');
-    const { data, error } = await supabase.from('ai_lab_sessions').select('id, mode, provider, model, created_at, status').order('created_at', { ascending: false }).limit(10);
-    if (!error && data) setHistory(data);
+    try {
+      const data = await invoke({ action: 'history', provider: 'openai' });
+      if (Array.isArray(data.sessions)) setHistory(data.sessions);
+    } catch {
+      // History is supplementary; the main AI Lab flow should remain usable if it cannot load.
+    }
+  };
+
+  const logEvent = async (event_type: string, extra: Record<string, unknown> = {}) => {
+    if (!sessionId) return;
+    try {
+      await invoke({ action: 'log_event', provider: 'openai', session_id: sessionId, event_type, ...extra });
+    } catch {
+      // Telemetry failure must never block training.
+    }
   };
 
   useEffect(() => {
@@ -118,6 +133,8 @@ export default function AILab() {
       setModels([]);
       setModel('');
       setResult(null);
+      setSessionId(null);
+      setSelectedAnswers({});
       toast({ title: 'OpenAI disconnected' });
     } catch (e: any) {
       toast({ title: 'Disconnect failed', description: e?.message || 'Please try again.', variant: 'destructive' });
@@ -141,6 +158,9 @@ export default function AILab() {
           : undefined,
       });
       setResult(data.result ?? null);
+      setSessionId(typeof data.session_id === 'string' ? data.session_id : null);
+      setSelectedAnswers({});
+      loggedExplanations.current.clear();
       await loadHistory();
       if (mode === 'performance') setPrompt('');
       toast({ title: 'AI Lab session complete' });
@@ -156,7 +176,7 @@ export default function AILab() {
         <Card className="border-white/10 bg-[#081224]/70">
           <CardHeader><CardTitle className="flex items-center gap-2"><Link2 className="h-4 w-4 text-cyan-300" />Connected AI</CardTitle><CardDescription>V1 uses OpenAI with your own API credential. Zyntra does not pay the provider's inference bill.</CardDescription></CardHeader>
           <CardContent className="space-y-4">
-            {!connected ? <><div className="space-y-2"><Label htmlFor="openai-key">OpenAI API key</Label><Input id="openai-key" type="password" autoComplete="off" value={apiKey} onChange={e => setApiKey(e.target.value)} placeholder="sk-••••••••" /><p className="text-xs leading-5 text-slate-500">Your key is sent to the secure AI Lab function for verification and encrypted server-side. Zyntra cannot verify your provider billing status.</p></div><Button onClick={connect} disabled={loading} className="w-full">{loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <ShieldCheck className="mr-2 h-4 w-4" />}Test & Connect</Button></> :
+            {!connected ? <><div className="space-y-2"><Label htmlFor="openai-key">OpenAI API key</Label><Input id="openai-key" type="password" autoComplete="off" value={apiKey} onChange={e => setApiKey(e.target.value)} placeholder="sk-••••••••" /><p className="text-xs leading-5 text-slate-500">Your key is sent to the secure AI Lab function for verification and encrypted server-side. Zyntra cannot verify your provider billing status.</p></div><Button onClick={connect} disabled={loading} className="w-full">{loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <ShieldCheck className="mr-2 h-4 w-4" />}Test & Connect</Button><p className="text-xs leading-5 text-slate-500">AI Lab uses your own external AI provider credentials. Zyntra routes AI Lab requests through its secure server infrastructure and may store AI Lab session and usage telemetry to support your training experience. Your external provider account and billing remain your responsibility.</p></> :
             <><div className="flex items-center justify-between rounded-xl border border-emerald-400/20 bg-emerald-400/5 p-3"><div><div className="text-sm font-medium text-white">OpenAI</div><div className="text-xs text-slate-400">API access verified</div></div><Badge variant="outline" className="border-emerald-400/30 text-emerald-300">Connected</Badge></div>
             <div className="space-y-2"><Label>Model</Label><Select value={model} onValueChange={setModel}><SelectTrigger><SelectValue placeholder="Select model" /></SelectTrigger><SelectContent>{models.map(m => <SelectItem key={m} value={m}>{m}</SelectItem>)}</SelectContent></Select></div>
             <Button variant="outline" onClick={disconnect} disabled={loading} className="w-full"><Unplug className="mr-2 h-4 w-4" />Disconnect</Button></>}
@@ -164,7 +184,7 @@ export default function AILab() {
         </Card>
         <Card className="border-white/10 bg-[#081224]/70">
           <CardHeader><CardTitle>Training Context</CardTitle><CardDescription>External AI can receive only the bounded Performance Intelligence fields shown by Zyntra.</CardDescription></CardHeader>
-          <CardContent className="flex items-center justify-between gap-4"><div><div className="text-sm font-medium text-white">Use my Performance Intelligence</div><div className="text-xs leading-5 text-slate-400">Off by default. Turn it on only when you want Zyntra training signals shared with the external model.</div></div><Switch checked={useIntelligence} onCheckedChange={setUseIntelligence} /></CardContent>
+          <CardContent className="flex items-center justify-between gap-4"><div><div className="text-sm font-medium text-white">Use my Performance Intelligence</div><div className="text-xs leading-5 text-slate-400">Off sends only your immediate request. On adds a bounded Zyntra training summary such as performance, weak areas, timing and behaviour signals. It never sends your API key or question-bank data.</div></div><Switch checked={useIntelligence} onCheckedChange={setUseIntelligence} /></CardContent>
         </Card>
       </div>
 
@@ -178,7 +198,7 @@ export default function AILab() {
 
           {result && <div className="space-y-3 rounded-2xl border border-cyan-400/15 bg-black/20 p-4">
             <div className="flex items-center justify-between gap-3"><div className="text-xs font-mono uppercase tracking-[0.16em] text-cyan-300">AI output</div><Badge variant="outline">{model}</Badge></div>
-            {Array.isArray(result) ? result.map((q, i) => <div key={i} className="rounded-xl border border-white/10 bg-white/[0.02] p-4"><div className="mb-3 text-sm font-medium text-white">Question {i + 1}</div><p className="text-sm leading-6 text-slate-200">{q.stem}</p><div className="mt-3 space-y-2">{q.options.map((option, j) => <div key={j} className="rounded-lg border border-white/10 px-3 py-2 text-sm text-slate-300">{option}</div>)}</div><details className="mt-3"><summary className="cursor-pointer text-xs text-cyan-300">Reveal answer & explanation</summary><div className="mt-2 text-sm leading-6 text-slate-300"><strong className="text-white">{q.correct_answer}</strong><div className="mt-1">{q.explanation}</div></div></details></div>) :
+            {Array.isArray(result) ? result.map((q, i) => <div key={i} className="rounded-xl border border-white/10 bg-white/[0.02] p-4"><div className="mb-3 text-sm font-medium text-white">Question {i + 1}</div><p className="text-sm leading-6 text-slate-200">{q.stem}</p><div className="mt-3 space-y-2">{q.options.map((option, j) => { const selected = selectedAnswers[i] === option; return <button key={j} type="button" onClick={() => { const previous = selectedAnswers[i]; setSelectedAnswers((current) => ({ ...current, [i]: option })); void logEvent(previous && previous !== option ? 'answer_changed' : 'answer_submitted', { question_index: i, answer_changes: previous && previous !== option ? 1 : 0, is_correct: option === q.correct_answer }); }} className={`w-full rounded-lg border px-3 py-2 text-left text-sm transition-colors ${selected ? 'border-cyan-400/50 bg-cyan-400/10 text-white' : 'border-white/10 text-slate-300 hover:border-cyan-400/30 hover:bg-white/[0.03]'}`}>{option}</button>; })}</div><details className="mt-3" onToggle={(event) => { if ((event.currentTarget as HTMLDetailsElement).open && !loggedExplanations.current.has(i)) { loggedExplanations.current.add(i); void logEvent('explanation_requested', { question_index: i }); } }}><summary className="cursor-pointer text-xs text-cyan-300">Reveal answer & explanation</summary><div className="mt-2 text-sm leading-6 text-slate-300"><strong className="text-white">{q.correct_answer}</strong><div className="mt-1">{q.explanation}</div></div></details></div>) :
               <div className="whitespace-pre-wrap text-sm leading-6 text-slate-200">{result}</div>}
           </div>}
         </CardContent>
