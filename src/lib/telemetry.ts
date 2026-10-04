@@ -17,7 +17,7 @@ export type BehaviorEventType =
   | 'INTERVENTION_OUTCOME';
 
 interface EmitBehaviorEventInput {
-  userId: string;
+  userId?: string;
   eventType: BehaviorEventType;
   sessionId?: string | null;
   questionId?: string | null;
@@ -33,6 +33,7 @@ export async function emitBehaviorEvent({
   sequenceNo = null,
   payload = {},
 }: EmitBehaviorEventInput): Promise<void> {
+  if (!userId) return;
   try {
     const { error } = await (supabase as any).from('behavior_events').insert({
       user_id: userId,
