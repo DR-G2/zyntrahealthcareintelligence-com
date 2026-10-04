@@ -207,12 +207,23 @@ export default function Blog() {
             <div className="rounded-2xl border border-white/10 bg-[#071021]/60 p-10 text-center text-sm text-slate-500">No articles match that search.</div>
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-              {filtered.map((article) => <Link key={article.slug} to={"/blog/" + article.slug} className="group rounded-2xl border border-white/10 bg-[#071021]/70 p-5 hover:border-cyan-500/30 hover:bg-[#0a162e] transition-all">
-                <div className="flex items-center justify-between text-[10px] uppercase tracking-[.16em] text-cyan-400"><span>{article.category}</span><span className="flex items-center gap-1 text-slate-500"><Clock className="w-3 h-3" /> {article.readTime}</span></div>
-                <h3 className="mt-4 text-lg font-bold text-white leading-snug group-hover:text-cyan-200 transition-colors">{article.title}</h3>
-                <p className="mt-3 text-sm leading-6 text-slate-400">{article.excerpt}</p>
-                <div className="mt-5 flex items-center gap-2 text-xs font-semibold text-cyan-300">Read <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" /></div>
-              </Link>)}
+              {filtered.map((article) => (
+                <div key={article.slug} className="group rounded-2xl border border-white/10 bg-[#071021]/70 p-5 hover:border-cyan-500/30 hover:bg-[#0a162e] transition-all">
+                  <Link to={"/blog/" + article.slug} className="block">
+                    <div className="flex items-center justify-between text-[10px] uppercase tracking-[.16em] text-cyan-400"><span>{article.category}</span><span className="flex items-center gap-1 text-slate-500"><Clock className="w-3 h-3" /> {article.readTime}</span></div>
+                    <h3 className="mt-4 text-lg font-bold text-white leading-snug group-hover:text-cyan-200 transition-colors">{article.title}</h3>
+                    <p className="mt-3 text-sm leading-6 text-slate-400">{article.excerpt}</p>
+                  </Link>
+                  <div className="mt-5 flex flex-wrap items-center gap-3">
+                    <Link to={"/blog/" + article.slug} className="inline-flex items-center gap-2 text-xs font-semibold text-cyan-300 hover:text-cyan-200">
+                      Read article <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                    <Link to="/login" className="inline-flex items-center gap-2 rounded-full border border-cyan-400/30 bg-cyan-500/10 px-3.5 py-2 text-xs font-semibold text-cyan-200 hover:bg-cyan-500/20 hover:border-cyan-300/50 transition-colors">
+                      Get Started <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                  </div>
+                </div>
+              ))}
             </div>
           )}
         </section>
