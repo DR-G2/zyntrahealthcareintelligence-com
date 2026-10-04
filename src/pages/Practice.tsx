@@ -25,6 +25,7 @@ import { Progress } from '@/components/ui/progress';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { buildPracticeTopicResolver, normalizeTopicLabel, resolvePracticeQuestionPlacement } from '@/lib/practice-topic-mapping';
+import { emitBehaviorEvent } from '@/lib/telemetry';
 
 interface Question {
   id: string;
@@ -757,6 +758,7 @@ function DrillSession({
   const sessionAbilityRef = useRef(0.5);
   const adaptivePoolRef = useRef<Question[]>([]);
   const maxViewedIndexRef = useRef(0);
+  const sessionTelemetrySentRef = useRef(false);
 
   // Auto-save to active_sessions
   const saveSession = useCallback(async (qs: Question[], idx: number, answers: Record<number, string>, changes: Record<number, number>, sequences: Record<number, string[]>, times: Record<number, number>, ttfc: Record<number, number>, pauses: Record<number, number>, timeLeft: number, confidence: Record<number, number> = confidenceByIndex) => {
@@ -1093,6 +1095,21 @@ function DrillSession({
     fetchQ();
   }, []);
 
+  useEffect(() => {
+    if (!user || loading || sessionTelemetrySentRef.current) return;
+    sessionTelemetrySentRef.current = true;
+    void emitBehaviorEvent({
+      userId: user.id,
+      eventType: resumeSessionId ? 'SESSION_RESUMED' : 'SESSION_STARTED',
+      sessionId: sessionIdRef.current,
+      payload: {
+        mode: config.mode,
+        question_count: config.questionCount,
+        resumed: Boolean(resumeSessionId),
+      },
+    });
+  }, [user, loading, resumeSessionId, config.mode, config.questionCount]);
+
   // Pause detection
   useEffect(() => {
     if (loading || finished) return;
@@ -1126,6 +1143,18 @@ function DrillSession({
     setQuestionTimes((p) => ({ ...p, [currentIndex]: (p[currentIndex] || 0) + elapsed }));
   }, [currentIndex, questionStartTime]);
 
+  useEffect(() => {
+    if (!user || !question || phase !== 'test') return;
+    void emitBehaviorEvent({
+      userId: user?.id ?? '',
+      eventType: 'QUESTION_OPENED',
+      sessionId: sessionIdRef.current,
+      questionId: question.id,
+      sequenceNo: currentIndex,
+      payload: { question_position: currentIndex },
+    });
+  }, [user, phase, question?.id, currentIndex]);
+
   const selectAnswer = (answer: string) => {
     if (lockedAnswers[currentIndex]) return;
     lastInteractionRef.current = Date.now();
@@ -1135,6 +1164,14 @@ function DrillSession({
       const delta = Math.round((Date.now() - questionLoadTime) / 1000);
       setTimeToFirstClick(prev => ({ ...prev, [currentIndex]: delta }));
       setFirstClickRecorded(prev => ({ ...prev, [currentIndex]: true }));
+      void emitBehaviorEvent({
+        userId: user?.id ?? '',
+        eventType: 'QUESTION_FIRST_INTERACTION',
+        sessionId: sessionIdRef.current,
+        questionId: questions[currentIndex]?.id,
+        sequenceNo: currentIndex,
+        payload: { time_to_first_click_seconds: delta },
+      });
     }
 
     // Track change sequence
@@ -1143,13 +1180,30 @@ function DrillSession({
     newSequences[currentIndex] = [...seq, answer];
     setChangeSequences(newSequences);
 
+    const previousAnswer = selectedAnswers[currentIndex];
     const newChanges = { ...answerChanges };
-    if (selectedAnswers[currentIndex] && selectedAnswers[currentIndex] !== answer) {
+    if (previousAnswer && previousAnswer !== answer) {
       newChanges[currentIndex] = (newChanges[currentIndex] || 0) + 1;
       setAnswerChanges(newChanges);
+      void emitBehaviorEvent({
+        userId: user?.id ?? '',
+        eventType: 'ANSWER_CHANGED',
+        sessionId: sessionIdRef.current,
+        questionId: questions[currentIndex]?.id,
+        sequenceNo: currentIndex,
+        payload: { from: previousAnswer, to: answer, change_count: newChanges[currentIndex] },
+      });
     }
     const newAnswers = { ...selectedAnswers, [currentIndex]: answer };
     setSelectedAnswers(newAnswers);
+    void emitBehaviorEvent({
+      userId: user?.id ?? '',
+      eventType: 'ANSWER_SELECTED',
+      sessionId: sessionIdRef.current,
+      questionId: questions[currentIndex]?.id,
+      sequenceNo: currentIndex,
+      payload: { answer, is_change: Boolean(previousAnswer && previousAnswer !== answer) },
+    });
 
     // If selecting a ruled-out option, remove the rule-out
     setRuledOutOptions(prev => {
@@ -1174,6 +1228,14 @@ function DrillSession({
     lastInteractionRef.current = Date.now();
     const nextConfidence = { ...confidenceByIndex, [currentIndex]: level };
     setConfidenceByIndex(nextConfidence);
+    void emitBehaviorEvent({
+      userId: user?.id ?? '',
+      eventType: 'CONFIDENCE_SET',
+      sessionId: sessionIdRef.current,
+      questionId: questions[currentIndex]?.id,
+      sequenceNo: currentIndex,
+      payload: { confidence_level: level },
+    });
     if (autoSaveRef.current) clearTimeout(autoSaveRef.current);
     autoSaveRef.current = setTimeout(() => {
       saveSession(
@@ -1316,6 +1378,30 @@ function DrillSession({
         question_position: i,
         previous_question_correct: i > 0 ? (selectedAnswers[i - 1] === questions[i - 1]?.correct_answer) : null,
       }));
+      for (let i = 0; i < inserts.length; i += 1) {
+        const attempt = inserts[i];
+        void emitBehaviorEvent({
+          userId: user?.id ?? '',
+          eventType: 'QUESTION_SUBMITTED',
+          sessionId: sessionIdRef.current,
+          questionId: attempt.question_id,
+          sequenceNo: i,
+          payload: {
+            is_correct: attempt.is_correct,
+            time_taken_seconds: attempt.time_taken_seconds,
+            answer_changes_count: attempt.answer_changes_count,
+            time_to_first_click: attempt.time_to_first_click,
+            pause_events: attempt.pause_events,
+            confidence_level: attempt.confidence_level,
+          },
+        });
+      }
+      void emitBehaviorEvent({
+        userId: user?.id ?? '',
+        eventType: 'SESSION_COMPLETED',
+        sessionId: sessionIdRef.current,
+        payload: { question_count: inserts.length, mode: config.mode },
+      });
       await supabase.from('user_attempts').insert(inserts as any);
 
       // Trigger behavior analysis in background
