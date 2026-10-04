@@ -34,7 +34,7 @@ export async function emitBehaviorEvent({
   payload = {},
 }: EmitBehaviorEventInput): Promise<void> {
   try {
-    const { error } = await supabase.from('behavior_events').insert({
+    const { error } = await (supabase as any).from('behavior_events').insert({
       user_id: userId,
       event_type: eventType,
       event_version: 1,
