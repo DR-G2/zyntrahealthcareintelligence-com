@@ -37,6 +37,12 @@ ALTER TABLE public.user_attempts
   ADD COLUMN IF NOT EXISTS question_difficulty_at_attempt text,
   ADD COLUMN IF NOT EXISTS question_dna_version_at_attempt integer;
 
+-- Existing Question DNA rows predate editorial status fields. Keep their state explicitly unknown.
+UPDATE public.question_dna
+SET production_status = 'unclassified'
+WHERE reviewer_status = 'unreviewed'
+  AND last_reviewed_at IS NULL;
+
 -- Static metadata currently available on questions is copied into canonical DNA.
 -- Fields requiring clinical/editorial review remain explicitly unreviewed rather than invented.
 CREATE OR REPLACE FUNCTION public.sync_question_dna_from_question(p_question_id uuid)
