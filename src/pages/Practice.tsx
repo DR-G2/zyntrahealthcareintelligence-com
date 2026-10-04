@@ -25,6 +25,7 @@ import { Progress } from '@/components/ui/progress';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { buildPracticeTopicResolver, normalizeTopicLabel, resolvePracticeQuestionPlacement } from '@/lib/practice-topic-mapping';
+import { emitBehaviorEvent } from '@/lib/telemetry';
 
 interface Question {
   id: string;
@@ -1126,6 +1127,17 @@ function DrillSession({
     setQuestionTimes((p) => ({ ...p, [currentIndex]: (p[currentIndex] || 0) + elapsed }));
   }, [currentIndex, questionStartTime]);
 
+  useEffect(() => {
+    if (!user || !question || phase !== 'test') return;
+    void emitBehaviorEvent({
+      eventType: 'QUESTION_OPENED',
+      sessionId: sessionIdRef.current,
+      questionId: question.id,
+      sequenceNo: currentIndex,
+      payload: { question_position: currentIndex },
+    });
+  }, [user, phase, question?.id, currentIndex]);
+
   const selectAnswer = (answer: string) => {
     if (lockedAnswers[currentIndex]) return;
     lastInteractionRef.current = Date.now();
@@ -1135,6 +1147,13 @@ function DrillSession({
       const delta = Math.round((Date.now() - questionLoadTime) / 1000);
       setTimeToFirstClick(prev => ({ ...prev, [currentIndex]: delta }));
       setFirstClickRecorded(prev => ({ ...prev, [currentIndex]: true }));
+      void emitBehaviorEvent({
+        eventType: 'QUESTION_FIRST_INTERACTION',
+        sessionId: sessionIdRef.current,
+        questionId: questions[currentIndex]?.id,
+        sequenceNo: currentIndex,
+        payload: { time_to_first_click_seconds: delta },
+      });
     }
 
     // Track change sequence
