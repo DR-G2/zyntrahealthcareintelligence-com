@@ -1288,12 +1288,12 @@ function DrillSession({
     });
     void emitBehaviorEvent({
       userId: user?.id ?? '',
-      eventType: 'ANSWER_SELECTED',
+      eventType: wasRuledOut ? 'OPTION_RULED_IN' : 'OPTION_RULED_OUT',
       sessionId: sessionIdRef.current,
       questionId: questions[currentIndex]?.id,
       sequenceNo: currentIndex,
       questionPosition: currentIndex,
-      payload: { interaction: wasRuledOut ? 'rule_out_removed' : 'rule_out_added', option: letter },
+      payload: { option: letter },
     });
   };
 
