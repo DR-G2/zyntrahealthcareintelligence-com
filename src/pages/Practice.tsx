@@ -758,6 +758,7 @@ function DrillSession({
   const sessionAbilityRef = useRef(0.5);
   const adaptivePoolRef = useRef<Question[]>([]);
   const maxViewedIndexRef = useRef(0);
+  const sessionTelemetrySentRef = useRef(false);
 
   // Auto-save to active_sessions
   const saveSession = useCallback(async (qs: Question[], idx: number, answers: Record<number, string>, changes: Record<number, number>, sequences: Record<number, string[]>, times: Record<number, number>, ttfc: Record<number, number>, pauses: Record<number, number>, timeLeft: number, confidence: Record<number, number> = confidenceByIndex) => {
@@ -1093,6 +1094,21 @@ function DrillSession({
     };
     fetchQ();
   }, []);
+
+  useEffect(() => {
+    if (!user || loading || sessionTelemetrySentRef.current) return;
+    sessionTelemetrySentRef.current = true;
+    void emitBehaviorEvent({
+      userId: user.id,
+      eventType: resumeSessionId ? 'SESSION_RESUMED' : 'SESSION_STARTED',
+      sessionId: sessionIdRef.current,
+      payload: {
+        mode: config.mode,
+        question_count: config.questionCount,
+        resumed: Boolean(resumeSessionId),
+      },
+    });
+  }, [user, loading, resumeSessionId, config.mode, config.questionCount]);
 
   // Pause detection
   useEffect(() => {
