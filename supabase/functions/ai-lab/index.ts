@@ -241,7 +241,7 @@ Deno.serve(async (req) => {
       const mode = MODES.find((m) => m === body.mode);
       if (!mode) throw new LabError("INVALID_REQUEST", "Unsupported AI Lab mode.", 400);
 
-      const apiKey = await decrypt(conn.encrypted_api_key, secret);
+      const apiKey = await decrypt(conn.encrypted_api_key, getEncryptionSecret());
       const models = await adapter.listModels(apiKey);
       const model = typeof body.model === "string" && models.includes(body.model) ? body.model : null;
       if (!models.length) throw new LabError("NO_SUPPORTED_MODEL", "No supported model is available for this API credential.", 403);
