@@ -157,11 +157,12 @@ BEGIN
       v_correct_to_wrong_rate := NULL;
     END IF;
 
-    SELECT COUNT(DISTINCT question_id)
+    SELECT COUNT(DISTINCT (session_id, question_id))
     INTO v_rule_out_questions
     FROM public.behavior_events
     WHERE user_id = p_user_id
-      AND event_type IN ('OPTION_RULED_OUT', 'OPTION_RULED_IN');
+      AND event_type = 'OPTION_RULED_OUT'
+      AND question_id IS NOT NULL;
 
     IF v_attempt_count > 0 THEN
       v_rule_out := ROUND(LEAST(100.0, (v_rule_out_questions::numeric / v_attempt_count) * 100), 2);
@@ -266,27 +267,10 @@ BEGIN
 END;
 $$;
 
--- Keep the canonical model refreshed after a submitted attempt or persisted attempt.
-CREATE OR REPLACE FUNCTION public.trg_rebuild_behavior_dna_on_attempt()
-RETURNS trigger
-LANGUAGE plpgsql
-SECURITY DEFINER
-SET search_path TO 'public'
-AS $$
-BEGIN
-  PERFORM public.rebuild_behavior_dna(NEW.user_id);
-  RETURN NEW;
-END;
-$$;
-
-DROP TRIGGER IF EXISTS trg_rebuild_behavior_dna_on_attempt ON public.user_attempts;
-CREATE TRIGGER trg_rebuild_behavior_dna_on_attempt
-AFTER INSERT ON public.user_attempts
-FOR EACH ROW EXECUTE FUNCTION public.trg_rebuild_behavior_dna_on_attempt();
-
--- Event telemetry is the source for decision-level signals such as rule-out behaviour.
--- Recompute only on lifecycle events that represent a completed question/session to
--- avoid rebuilding on every click.
+-- Refresh is intentionally lifecycle-bound rather than per-attempt.\n-- This prevents a full candidate-wide aggregation on every INSERT.\n-- Event telemetry is the source for decision-level signals such as rule-out behaviour.
+-- Recompute only on lifecycle events that represent a completed question/session.
+-- QUESTION_SUBMITTED is the primary refresh boundary; session lifecycle events provide
+-- a fallback for abandoned/completed sessions.
 CREATE OR REPLACE FUNCTION public.trg_rebuild_behavior_dna_on_event()
 RETURNS trigger
 LANGUAGE plpgsql
@@ -344,7 +328,6 @@ $$;
 REVOKE ALL ON FUNCTION public.reset_candidate_training_data() FROM PUBLIC, anon;
 GRANT EXECUTE ON FUNCTION public.reset_candidate_training_data() TO authenticated;
 REVOKE ALL ON FUNCTION public.rebuild_behavior_dna(uuid) FROM PUBLIC, anon, authenticated;
-REVOKE ALL ON FUNCTION public.trg_rebuild_behavior_dna_on_attempt() FROM PUBLIC, anon, authenticated;
 REVOKE ALL ON FUNCTION public.trg_rebuild_behavior_dna_on_event() FROM PUBLIC, anon, authenticated;
 
 -- If the last attempt is deleted outside the explicit reset RPC, remove derived DNA.
