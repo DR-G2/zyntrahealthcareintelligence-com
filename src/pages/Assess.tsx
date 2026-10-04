@@ -10,6 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import { selectNextQuestion, shouldShowIntervention, type SequencingState, type QuestionWithTier } from '@/lib/sequencing';
+import { emitBehaviorEvent } from '@/lib/telemetry';
 
 interface Question {
   id: string;
@@ -114,6 +115,19 @@ export default function Assess() {
     fetchPool();
   }, []);
 
+  useEffect(() => {
+    if (!user || phase !== 'test') return;
+    const question = questions[currentIndex];
+    if (!question) return;
+    void emitBehaviorEvent({
+      eventType: 'QUESTION_OPENED',
+      sessionId: sessionIdRef.current,
+      questionId: question.id,
+      sequenceNo: currentIndex,
+      payload: { question_position: currentIndex },
+    });
+  }, [user, phase, currentIndex, questions[currentIndex]?.id]);
+
   // Pause detection timer
   useEffect(() => {
     if (phase !== 'test') return;
@@ -181,6 +195,13 @@ export default function Assess() {
       const delta = Math.round((Date.now() - questionLoadTime) / 1000);
       setTimeToFirstClick(prev => ({ ...prev, [currentIndex]: delta }));
       setFirstClickRecorded(prev => ({ ...prev, [currentIndex]: true }));
+      void emitBehaviorEvent({
+        eventType: 'QUESTION_FIRST_INTERACTION',
+        sessionId: sessionIdRef.current,
+        questionId: questions[currentIndex]?.id,
+        sequenceNo: currentIndex,
+        payload: { time_to_first_click_seconds: delta },
+      });
     }
 
     // Track change sequence
@@ -205,6 +226,16 @@ export default function Assess() {
     }
 
     setSelectedAnswers((prev) => ({ ...prev, [currentIndex]: answer }));
+    void emitBehaviorEvent({
+      eventType: prevAnswer && prevAnswer !== answer ? 'ANSWER_CHANGED' : 'ANSWER_SELECTED',
+      sessionId: sessionIdRef.current,
+      questionId: questions[currentIndex]?.id,
+      sequenceNo: currentIndex,
+      payload: {
+        answer_changes_count: Math.max(0, (changeSequences[currentIndex]?.length || 0)),
+        has_previous_answer: Boolean(prevAnswer),
+      },
+    });
 
     // Track changes for interventions
     if (prevAnswer && prevAnswer !== answer) {
@@ -272,6 +303,27 @@ export default function Assess() {
     }));
 
     if (user) {
+      for (let i = 0; i < inserts.length; i += 1) {
+        const attempt = inserts[i];
+        void emitBehaviorEvent({
+          eventType: 'QUESTION_SUBMITTED',
+          sessionId: sessionIdRef.current,
+          questionId: attempt.question_id,
+          sequenceNo: i,
+          payload: {
+            is_correct: attempt.is_correct,
+            time_taken_seconds: attempt.time_taken_seconds,
+            answer_changes_count: attempt.answer_changes_count,
+            time_to_first_click: attempt.time_to_first_click,
+            pause_events: attempt.pause_events,
+          },
+        });
+      }
+      void emitBehaviorEvent({
+        eventType: 'SESSION_COMPLETED',
+        sessionId: sessionIdRef.current,
+        payload: { question_count: inserts.length, mode: 'diagnostic' },
+      });
       await supabase.from('user_attempts').insert(inserts);
 
       // Performance Intelligence is rebuilt from inserted attempt telemetry by the database trigger.
