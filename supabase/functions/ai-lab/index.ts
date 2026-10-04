@@ -140,6 +140,20 @@ Deno.serve(async (req) => {
 
     const providerId = typeof body?.provider === "string" ? body.provider : "openai";
     const adapter = PROVIDERS[providerId];
+
+    const audit = async (actionName: string, fields: Record<string, unknown> = {}) => {
+      await sb.from("ai_lab_interactions").insert({
+        user_id: caller.userId,
+        action: actionName,
+        provider: typeof fields.provider === "string" ? fields.provider : adapter?.id ?? providerId,
+        model: typeof fields.model === "string" ? fields.model : null,
+        mode: typeof fields.mode === "string" ? fields.mode : null,
+        session_id: typeof fields.session_id === "string" ? fields.session_id : null,
+        request_text: typeof fields.request_text === "string" ? fields.request_text.slice(0, 10000) : null,
+        response_text: typeof fields.response_text === "string" ? fields.response_text.slice(0, 30000) : null,
+        metadata: fields.metadata && typeof fields.metadata === "object" ? fields.metadata : {},
+      });
+    };
     if (!adapter) throw new LabError("INVALID_REQUEST", "Provider not supported.", 400);
 
     const loadConnection = async () => {
@@ -151,12 +165,12 @@ Deno.serve(async (req) => {
 
     if (action === "status") {
       const conn = await loadConnection();
-      if (!conn || conn.status !== "connected") return json({ success: true, connected: false, models: [] });
+      if (!conn || conn.status !== "connected") { await audit("status", { metadata: { connected: false } }); return json({ success: true, connected: false, models: [] }); }
       const apiKey = await decrypt(conn.encrypted_api_key, secret);
       const models = await adapter.listModels(apiKey);
       if (!models.length) throw new LabError("NO_SUPPORTED_MODEL", "No supported model is available for this API credential.", 403);
       const model = models.includes(conn.selected_model ?? "") ? conn.selected_model : adapter.preferredModel(models);
-      return json({ success: true, connected: true, model, models });
+      await audit("status", { model, metadata: { connected: true, model_count: models.length } }); return json({ success: true, connected: true, model, models });
     }
 
     if (action === "connect") {
@@ -173,13 +187,13 @@ Deno.serve(async (req) => {
         selected_model: model, status: "connected", last_verified_at: now, updated_at: now,
       }, { onConflict: "user_id,provider" });
       if (error) throw new LabError("DATABASE_ERROR", "Unable to save the provider connection.", 500);
-      return json({ success: true, model, models });
+      await audit("connect", { model, metadata: { model_count: models.length } }); return json({ success: true, model, models });
     }
 
     if (action === "disconnect") {
       const { error } = await sb.from("ai_lab_connections").delete().eq("user_id", caller.userId).eq("provider", adapter.id);
       if (error) throw new LabError("DATABASE_ERROR", "Unable to disconnect the provider.", 500);
-      return json({ success: true });
+      await audit("disconnect"); return json({ success: true });
     }
 
     if (action === "history") {
@@ -189,7 +203,7 @@ Deno.serve(async (req) => {
         .order("created_at", { ascending: false })
         .limit(10);
       if (error) throw new LabError("DATABASE_ERROR", "Unable to load AI Lab history.", 500);
-      return json({ success: true, sessions: data ?? [] });
+      await audit("history", { metadata: { count: (data ?? []).length } }); return json({ success: true, sessions: data ?? [] });
     }
 
     if (action === "log_event") {
@@ -208,7 +222,7 @@ Deno.serve(async (req) => {
         metadata: { question_index: qi, is_correct: typeof body.is_correct === "boolean" ? body.is_correct : null },
       });
       if (error) throw new LabError("DATABASE_ERROR", "Unable to record the event.", 500);
-      return json({ success: true });
+      await audit("interaction_event", { session_id: s.id, provider: s.provider, model: s.model, mode: s.mode, metadata: { event_type: type, question_index: qi } }); return json({ success: true });
     }
 
     if (action === "run") {
@@ -279,6 +293,20 @@ Deno.serve(async (req) => {
         if (mode === "questions") events.push({ ...evBase, event_type: "question_generated", metadata: { count: (rendered as unknown[]).length } });
         events.push({ ...evBase, event_type: "session_completed", duration_ms: duration, input_tokens: usage.input_tokens, output_tokens: usage.output_tokens, estimated_cost: cost });
         await sb.from("ai_lab_events").insert(events);
+        await audit("run_completed", {
+          session_id: session.id,
+          provider: adapter.id,
+          model,
+          mode,
+          metadata: {
+            use_intelligence: useIntelligence,
+            duration_ms: duration,
+            input_tokens: usage.input_tokens,
+            output_tokens: usage.output_tokens,
+            total_tokens: usage.total_tokens,
+            estimated_cost: cost,
+          },
+        });
 
         return json({ success: true, mode, session_id: session.id, result: rendered, usage, estimated_cost: cost });
       } catch (e) {

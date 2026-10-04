@@ -15,10 +15,10 @@ import { MessageSquare, Sparkles, Target, Link2, Unplug, Loader2, History, Shiel
 type Mode = 'performance' | 'questions' | 'weak-area';
 type Provider = 'openai' | 'gemini' | 'groq' | 'openrouter';
 const PROVIDERS: Array<{ id: Provider; label: string; note: string }> = [
-  { id: 'openrouter', label: 'OpenRouter', note: 'Free models' },
-  { id: 'gemini', label: 'Google Gemini', note: 'Free tier' },
-  { id: 'groq', label: 'Groq', note: 'Free tier' },
-  { id: 'openai', label: 'OpenAI', note: 'Paid API' },
+  { id: 'openrouter', label: 'OpenRouter', note: 'Multiple models' },
+  { id: 'gemini', label: 'Google Gemini', note: 'Google AI' },
+  { id: 'groq', label: 'Groq', note: 'Groq API' },
+  { id: 'openai', label: 'OpenAI', note: 'OpenAI API' },
 ];
 type QuestionResult = { stem: string; options: string[]; correct_answer: string; explanation: string };
 
@@ -184,10 +184,10 @@ export default function AILab() {
     <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
       <div className="space-y-6">
         <Card className="border-white/10 bg-[#081224]/70">
-          <CardHeader><CardTitle className="flex items-center gap-2"><Link2 className="h-4 w-4 text-cyan-300" />Connected AI</CardTitle><CardDescription>Bring your own provider key. Free-tier availability and limits are controlled by each provider.</CardDescription></CardHeader>
+          <CardHeader><CardTitle className="flex items-center gap-2"><Link2 className="h-4 w-4 text-cyan-300" />Connected AI</CardTitle><CardDescription>Connect your own AI provider. Model availability, access and limits are controlled by the provider.</CardDescription></CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2"><Label>Provider</Label><Select value={provider} onValueChange={(v) => setProvider(v as Provider)} disabled={loading || connected}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>{PROVIDERS.map(p => <SelectItem key={p.id} value={p.id}>{p.label} · {p.note}</SelectItem>)}</SelectContent></Select></div>
-            {!connected ? <><div className="space-y-2"><Label htmlFor="provider-key">{PROVIDERS.find(p => p.id === provider)?.label} API key</Label><Input id="provider-key" type="password" autoComplete="off" value={apiKey} onChange={e => setApiKey(e.target.value)} placeholder="Paste API key" /><p className="text-xs leading-5 text-slate-500">The key is sent only to the secure AI Lab function, verified server-side, and encrypted before storage. Zyntra does not need or store your provider key in the browser.</p></div><Button onClick={connect} disabled={loading} className="w-full">{loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <ShieldCheck className="mr-2 h-4 w-4" />}Test & Connect</Button><p className="text-xs leading-5 text-slate-500">OpenRouter exposes free models; Gemini and Groq offer provider free tiers. Model availability and rate limits can change.</p></> :
+            {!connected ? <><div className="space-y-2"><Label htmlFor="provider-key">{PROVIDERS.find(p => p.id === provider)?.label} API key</Label><Input id="provider-key" type="password" autoComplete="off" value={apiKey} onChange={e => setApiKey(e.target.value)} placeholder="Paste API key" /><p className="text-xs leading-5 text-slate-500">The key is sent only to the secure AI Lab function, verified server-side, and encrypted before storage. Zyntra does not need or store your provider key in the browser.</p></div><Button onClick={connect} disabled={loading} className="w-full">{loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <ShieldCheck className="mr-2 h-4 w-4" />}Test & Connect</Button><p className="text-xs leading-5 text-slate-500">Provider availability and rate limits can change. Zyntra does not charge for provider inference.</p></> :
             <><div className="flex items-center justify-between rounded-xl border border-emerald-400/20 bg-emerald-400/5 p-3"><div><div className="text-sm font-medium text-white">{PROVIDERS.find(p => p.id === provider)?.label}</div><div className="text-xs text-slate-400">API access verified</div></div><Badge variant="outline" className="border-emerald-400/30 text-emerald-300">Connected</Badge></div>
             <div className="space-y-2"><Label>Model</Label><Select value={model} onValueChange={setModel}><SelectTrigger><SelectValue placeholder="Select model" /></SelectTrigger><SelectContent>{models.map(m => <SelectItem key={m} value={m}>{m}</SelectItem>)}</SelectContent></Select></div>
             <Button variant="outline" onClick={disconnect} disabled={loading} className="w-full"><Unplug className="mr-2 h-4 w-4" />Disconnect</Button></>}
