@@ -14,19 +14,12 @@ type Article = {
 
 const articles: Article[] = [
   {
-    slug: "what-is-zyntra",
-    category: "Zyntra",
-    title: "What Is Zyntra? AI-Powered Medical Exam Training Built Around Performance Intelligence",
-    excerpt: "Zyntra is a medical examination training platform built around Performance Intelligence, starting with AMC preparation and expanding toward USMLE, Royal College, medical school and healthcare examinations.",
-    readTime: "7 min read",
-    featured: true,
-  },
-  {
     slug: "amc-part-1-mcq",
     category: "AMC",
     title: "AMC Part 1: What the AMC CAT MCQ Examination Actually Tests",
     excerpt: "A practical guide to AMC Part 1 preparation, clinical reasoning, decision-making, timing and the difference between knowing medicine and performing in the examination.",
     readTime: "8 min read",
+    featured: true,
   },
   {
     slug: "amc-part-2-osce",
@@ -35,44 +28,9 @@ const articles: Article[] = [
     excerpt: "Understand what AMC Part 2 preparation really demands: history taking, examination, communication, clinical reasoning, management and safe clinical performance.",
     readTime: "9 min read",
   },
-  {
-    slug: "performance-intelligence-engine",
-    category: "Performance Intelligence",
-    title: "What Is a Performance Intelligence Engine? A New Way to Train for Medical Exams",
-    excerpt: "Learn how performance intelligence adds context to accuracy by examining training signals such as timing, confidence, answer changes and consistency.",
-    readTime: "7 min read",
-  },
-  {
-    slug: "how-to-use-zyntra-properly",
-    category: "Zyntra",
-    title: "How to Use Zyntra Properly: A Practical AMC Exam Preparation Guide",
-    excerpt: "A practical guide to using Zyntra as a training system rather than simply another question bank, from baseline assessment to targeted revision.",
-    readTime: "10 min read",
-  },
-  {
-    slug: "why-getting-a-question-wrong-isnt-the-whole-story",
-    category: "Performance Intelligence",
-    title: "Why Getting an AMC Question Wrong Isn't the Whole Story",
-    excerpt: "Two wrong answers can represent completely different training problems. The path to the answer can contain useful information.",
-    readTime: "5 min read",
-  },
-  {
-    slug: "hidden-cost-of-changing-a-correct-answer",
-    category: "Performance Intelligence",
-    title: "The Hidden Cost of Changing a Correct AMC Answer",
-    excerpt: "Changing an answer is sometimes good reasoning and sometimes avoidable uncertainty. Learn how to review the transition from first instinct to final answer.",
-    readTime: "5 min read",
-  },
-  {
-    slug: "confidence-calibration-and-study",
-    category: "Performance Intelligence",
-    title: "Confidence Calibration for AMC Preparation: When Certainty and Accuracy Don't Match",
-    excerpt: "Confidence becomes useful when it is compared with outcomes. Calibration can help identify high-confidence errors and unstable knowledge.",
-    readTime: "6 min read",
-  },
 ];
 
-const categories = ["All", "AMC", "Clinical Reasoning", "Study Strategy", "IMG Journey", "Performance Intelligence", "Zyntra"];
+const categories = ["All", "AMC"];
 
 const articleBody: Record<string, { intro: string; sections: { title: string; body: string }[] }> = {
   "what-is-zyntra": {
@@ -249,12 +207,23 @@ export default function Blog() {
             <div className="rounded-2xl border border-white/10 bg-[#071021]/60 p-10 text-center text-sm text-slate-500">No articles match that search.</div>
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-              {filtered.map((article) => <Link key={article.slug} to={"/blog/" + article.slug} className="group rounded-2xl border border-white/10 bg-[#071021]/70 p-5 hover:border-cyan-500/30 hover:bg-[#0a162e] transition-all">
-                <div className="flex items-center justify-between text-[10px] uppercase tracking-[.16em] text-cyan-400"><span>{article.category}</span><span className="flex items-center gap-1 text-slate-500"><Clock className="w-3 h-3" /> {article.readTime}</span></div>
-                <h3 className="mt-4 text-lg font-bold text-white leading-snug group-hover:text-cyan-200 transition-colors">{article.title}</h3>
-                <p className="mt-3 text-sm leading-6 text-slate-400">{article.excerpt}</p>
-                <div className="mt-5 flex items-center gap-2 text-xs font-semibold text-cyan-300">Read <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" /></div>
-              </Link>)}
+              {filtered.map((article) => (
+                <div key={article.slug} className="group rounded-2xl border border-white/10 bg-[#071021]/70 p-5 hover:border-cyan-500/30 hover:bg-[#0a162e] transition-all">
+                  <Link to={"/blog/" + article.slug} className="block">
+                    <div className="flex items-center justify-between text-[10px] uppercase tracking-[.16em] text-cyan-400"><span>{article.category}</span><span className="flex items-center gap-1 text-slate-500"><Clock className="w-3 h-3" /> {article.readTime}</span></div>
+                    <h3 className="mt-4 text-lg font-bold text-white leading-snug group-hover:text-cyan-200 transition-colors">{article.title}</h3>
+                    <p className="mt-3 text-sm leading-6 text-slate-400">{article.excerpt}</p>
+                  </Link>
+                  <div className="mt-5 flex flex-wrap items-center gap-3">
+                    <Link to={"/blog/" + article.slug} className="inline-flex items-center gap-2 text-xs font-semibold text-cyan-300 hover:text-cyan-200">
+                      Read article <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                    <Link to="/login" className="inline-flex items-center gap-2 rounded-full border border-cyan-400/30 bg-cyan-500/10 px-3.5 py-2 text-xs font-semibold text-cyan-200 hover:bg-cyan-500/20 hover:border-cyan-300/50 transition-colors">
+                      Get Started <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                  </div>
+                </div>
+              ))}
             </div>
           )}
         </section>
