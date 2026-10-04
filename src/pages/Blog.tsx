@@ -33,15 +33,6 @@ const articles: Article[] = [
 const categories = ["All", "AMC"];
 
 const articleBody: Record<string, { intro: string; sections: { title: string; body: string }[] }> = {
-  "what-is-zyntra": {
-    intro: "Zyntra is a medical examination training platform built around Performance Intelligence. The starting point is AMC preparation, but the larger ambition is to build a training environment that can support doctors and medical students across multiple examination systems.",
-    sections: [
-      { title: "Zyntra is a training platform, not another question bank", body: "The basic idea is simple. Learning the subject and learning to crack the examination are related, but they are not the same task. You can know a great deal of medicine and still lose marks through poor timing, avoidable answer changes, weak decision-making or inconsistent performance. Zyntra is designed to train the performance side as well as the medical knowledge side." },
-      { title: "Why AMC is the first platform", body: "AMC is where Zyntra is growing first. AMC preparation gives the platform a demanding environment in which broad medical knowledge, clinical reasoning and examination performance all matter. Part 1 and Part 2 also require different forms of preparation, making the AMC ecosystem a useful foundation for building a broader medical-examination training platform." },
-      { title: "Where Zyntra is going", body: "The longer-term direction extends beyond AMC. Zyntra is being developed toward USMLE, Royal College examinations, medical school examinations, postgraduate medical examinations and other healthcare-related assessments. The examination changes, but the underlying training problem remains: learn the material, practise applying it, understand your performance and improve deliberately." },
-      { title: "The Zyntra principle", body: "An answer is one signal. Your decision process is the dataset. Zyntra uses that distinction to help candidates understand not only what they got right or wrong, but how they are performing while they train." },
-    ],
-  },
   "amc-part-1-mcq": {
     intro: "AMC Part 1 is not simply a test of how many medical facts you can remember. Preparation requires broad knowledge, clinical reasoning, prioritisation and the ability to make decisions consistently under examination conditions.",
     sections: [
@@ -180,11 +171,11 @@ export default function Blog() {
                 <div className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-cyan-300">Read article <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" /></div>
               </div>
               <div className="rounded-2xl border border-white/5 bg-[#050b18] p-5">
-                <div className="flex items-center gap-2 text-xs text-slate-500"><Brain className="w-4 h-4 text-cyan-400" /> CLINICAL REASONING</div>
+                <div className="flex items-center gap-2 text-xs text-slate-400"><Brain className="w-4 h-4 text-cyan-400" /> CLINICAL REASONING</div>
                 <div className="mt-6 grid grid-cols-3 gap-2 items-end h-28">
                   {[35, 60, 45, 78, 55, 92, 70, 86].map((h, i) => <div key={i} className="rounded-t bg-gradient-to-t from-cyan-500/20 to-cyan-400/70" style={{height: h + "%"}} />)}
                 </div>
-                <div className="mt-4 pt-3 border-t border-white/5 flex justify-between text-[10px] uppercase tracking-wider text-slate-500"><span>Reasoning</span><span>Decision</span><span>Feedback</span></div>
+                <div className="mt-4 pt-3 border-t border-white/5 flex justify-between text-[10px] uppercase tracking-wider text-slate-400"><span>Reasoning</span><span>Decision</span><span>Feedback</span></div>
               </div>
             </div>
           </Link>
@@ -196,21 +187,21 @@ export default function Blog() {
               {categories.map((item) => <button key={item} type="button" onClick={() => setCategory(item)} className={"px-3.5 py-2 rounded-full text-xs font-semibold border transition-colors " + (category === item ? "bg-cyan-500/15 border-cyan-400/40 text-cyan-300" : "border-white/10 text-slate-400 hover:text-white hover:border-white/20")}>{item}</button>)}
             </div>
             <div className="relative w-full lg:w-72">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
-              <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search the lab..." className="w-full rounded-xl border border-white/10 bg-[#071021]/80 py-2.5 pl-9 pr-3 text-sm text-white placeholder:text-slate-600 outline-none focus:border-cyan-500/40" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search the lab..." className="w-full rounded-xl border border-white/10 bg-[#071021]/80 py-2.5 pl-9 pr-3 text-sm text-white placeholder:text-slate-400 outline-none focus:border-cyan-500/40" />
             </div>
           </div>
         </section>
 
         <section className="max-w-7xl mx-auto px-6 pb-24">
           {filtered.length === 0 ? (
-            <div className="rounded-2xl border border-white/10 bg-[#071021]/60 p-10 text-center text-sm text-slate-500">No articles match that search.</div>
+            <div className="rounded-2xl border border-white/10 bg-[#071021]/60 p-10 text-center text-sm text-slate-400">No articles match that search.</div>
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
               {filtered.map((article) => (
                 <div key={article.slug} className="group rounded-2xl border border-white/10 bg-[#071021]/70 p-5 hover:border-cyan-500/30 hover:bg-[#0a162e] transition-all">
                   <Link to={"/blog/" + article.slug} className="block">
-                    <div className="flex items-center justify-between text-[10px] uppercase tracking-[.16em] text-cyan-400"><span>{article.category}</span><span className="flex items-center gap-1 text-slate-500"><Clock className="w-3 h-3" /> {article.readTime}</span></div>
+                    <div className="flex items-center justify-between text-[10px] uppercase tracking-[.16em] text-cyan-400"><span>{article.category}</span><span className="flex items-center gap-1 text-slate-400"><Clock className="w-3 h-3" /> {article.readTime}</span></div>
                     <h3 className="mt-4 text-lg font-bold text-white leading-snug group-hover:text-cyan-200 transition-colors">{article.title}</h3>
                     <p className="mt-3 text-sm leading-6 text-slate-400">{article.excerpt}</p>
                   </Link>
@@ -230,7 +221,7 @@ export default function Blog() {
       </main>
 
       <footer className="relative z-10 border-t border-white/5 bg-[#02050b] py-8">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4 text-xs text-slate-500">
+        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4 text-xs text-slate-400">
           <span>Zyntra Healthcare Intelligence</span>
           <div className="flex gap-5"><Link to="/terms" className="hover:text-cyan-300">Terms</Link><Link to="/privacy" className="hover:text-cyan-300">Privacy</Link><Link to="/" className="hover:text-cyan-300">Zyntra</Link></div>
         </div>
