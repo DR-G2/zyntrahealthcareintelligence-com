@@ -35,6 +35,7 @@ interface Question {
   explanation: string | null;
   category: string;
   difficulty?: string;
+  subtopic?: string | null;
   diagnosis_explanation?: string | null;
   first_line_investigation?: string | null;
   gold_standard_investigation?: string | null;
@@ -823,7 +824,7 @@ function DrillSession({
 
             const { data: qs } = await supabase
               .from('questions')
-              .select('id, question_text, options, correct_answer, explanation, category, difficulty, diagnosis_explanation, first_line_investigation, gold_standard_investigation, best_treatment, differential_diagnoses, incorrect_answer_explanations, key_takeaways')
+              .select('id, question_text, options, correct_answer, explanation, category, subtopic, difficulty, diagnosis_explanation, first_line_investigation, gold_standard_investigation, best_treatment, differential_diagnoses, incorrect_answer_explanations, key_takeaways')
               .in('id', allIds);
 
             if (qs && qs.length > 0) {
@@ -851,6 +852,11 @@ function DrillSession({
               setQuestionTimes((session.question_times as Record<number, number>) || {});
               setTimeToFirstClick((session.time_to_first_click as Record<number, number>) || {});
               setPauseEvents((session.pause_events as Record<number, number>) || {});
+              const restoredConfigRecord = (session.config && typeof session.config === 'object') ? session.config as Record<string, unknown> : {};
+              const restoredConfidence = restoredConfigRecord.confidenceByIndex;
+              if (restoredConfidence && typeof restoredConfidence === 'object') {
+                setConfidenceByIndex(restoredConfidence as Record<number, number>);
+              }
               setCurrentIndex(session.current_index || 0);
               setTimeRemaining(session.time_remaining || (restoredMode === 'full-mock' ? 210 * 60 : restoredCount * 60));
 
@@ -1077,7 +1083,7 @@ function DrillSession({
       if (matchingIds.length > 0) {
         const { data } = await supabase
           .from('questions')
-          .select('id, question_text, options, correct_answer, explanation, category, difficulty, diagnosis_explanation, first_line_investigation, gold_standard_investigation, best_treatment, differential_diagnoses, incorrect_answer_explanations, key_takeaways')
+          .select('id, question_text, options, correct_answer, explanation, category, subtopic, difficulty, diagnosis_explanation, first_line_investigation, gold_standard_investigation, best_treatment, differential_diagnoses, incorrect_answer_explanations, key_takeaways')
           .in('id', matchingIds);
 
         if (data) {
@@ -1116,7 +1122,17 @@ function DrillSession({
     pauseTimerRef.current = setInterval(() => {
       const elapsed = (Date.now() - lastInteractionRef.current) / 1000;
       if (elapsed > 10) {
-        setPauseEvents(prev => ({ ...prev, [currentIndex]: (prev[currentIndex] || 0) + 1 }));
+        const pauseCount = (pauseEvents[currentIndex] || 0) + 1;
+        setPauseEvents(prev => ({ ...prev, [currentIndex]: pauseCount }));
+        void emitBehaviorEvent({
+          userId: user?.id ?? '',
+          eventType: 'SESSION_PAUSED',
+          sessionId: sessionIdRef.current,
+          questionId: questions[currentIndex]?.id,
+          sequenceNo: currentIndex,
+          questionPosition: currentIndex,
+          payload: { idle_seconds: Math.round(elapsed), pause_count: pauseCount, mode: config.mode },
+        });
         lastInteractionRef.current = Date.now();
       }
     }, 5000);
@@ -1154,7 +1170,7 @@ function DrillSession({
       questionId: currentQuestion.id,
       sequenceNo: currentIndex,
       questionPosition: currentIndex,
-      payload: { question_position: currentIndex },
+      payload: { question_position: currentIndex, difficulty: currentQuestion.difficulty ?? null, category: currentQuestion.category, subtopic: currentQuestion.subtopic ?? null },
     });
   }, [user, loading, finished, currentIndex, questions[currentIndex]?.id]);
 
@@ -1262,12 +1278,22 @@ function DrillSession({
     if (lockedAnswers[currentIndex]) return;
     lastInteractionRef.current = Date.now();
     
+    const wasRuledOut = ruledOutOptions[currentIndex]?.has(letter) ?? false;
     setRuledOutOptions(prev => {
       const current = prev[currentIndex] || new Set<string>();
       const next = new Set(current);
       if (next.has(letter)) next.delete(letter);
       else next.add(letter);
       return { ...prev, [currentIndex]: next };
+    });
+    void emitBehaviorEvent({
+      userId: user?.id ?? '',
+      eventType: 'ANSWER_SELECTED',
+      sessionId: sessionIdRef.current,
+      questionId: questions[currentIndex]?.id,
+      sequenceNo: currentIndex,
+      questionPosition: currentIndex,
+      payload: { interaction: wasRuledOut ? 'rule_out_removed' : 'rule_out_added', option: letter },
     });
   };
 
@@ -1391,6 +1417,9 @@ function DrillSession({
           sequenceNo: i,
           payload: {
             is_correct: attempt.is_correct,
+            difficulty: sessionQuestions[i]?.difficulty ?? null,
+            category: sessionQuestions[i]?.category ?? null,
+            subtopic: sessionQuestions[i]?.subtopic ?? null,
             time_taken_seconds: attempt.time_taken_seconds,
             answer_changes_count: attempt.answer_changes_count,
             time_to_first_click: attempt.time_to_first_click,
