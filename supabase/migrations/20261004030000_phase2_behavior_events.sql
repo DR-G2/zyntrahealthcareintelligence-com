@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS public.behavior_events (
   user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
   session_id UUID,
   question_id UUID REFERENCES public.questions(id) ON DELETE SET NULL,
+  event_version INTEGER NOT NULL DEFAULT 1,
   event_type TEXT NOT NULL CHECK (
     event_type IN (
       'QUESTION_OPENED',
@@ -17,11 +18,16 @@ CREATE TABLE IF NOT EXISTS public.behavior_events (
       'SESSION_STARTED',
       'SESSION_RESUMED',
       'SESSION_COMPLETED',
-      'SESSION_ABANDONED'
+      'SESSION_ABANDONED',
+      'SESSION_PAUSED',
+      'INTERVENTION_STARTED',
+      'INTERVENTION_COMPLETED',
+      'INTERVENTION_OUTCOME'
     )
   ),
   occurred_at TIMESTAMPTZ NOT NULL DEFAULT now(),
   sequence_no INTEGER,
+  question_position INTEGER,
   payload JSONB NOT NULL DEFAULT '{}'::jsonb,
   created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
@@ -32,6 +38,8 @@ CREATE INDEX IF NOT EXISTS idx_behavior_events_session
   ON public.behavior_events (user_id, session_id, sequence_no);
 CREATE INDEX IF NOT EXISTS idx_behavior_events_question
   ON public.behavior_events (user_id, question_id, occurred_at DESC);
+CREATE INDEX IF NOT EXISTS idx_behavior_events_type
+  ON public.behavior_events (event_type, occurred_at DESC);
 
 ALTER TABLE public.behavior_events ENABLE ROW LEVEL SECURITY;
 
@@ -52,3 +60,10 @@ REVOKE UPDATE, DELETE, TRUNCATE ON public.behavior_events FROM anon, authenticat
 
 -- Server-side analytics can read events through SECURITY DEFINER functions/service role.
 NOTIFY pgrst, 'reload schema';
+
+
+COMMENT ON TABLE public.behavior_events IS
+  'Raw candidate behavioural telemetry. Client-writable, candidate-scoped and immutable; derived intelligence is server-owned.';
+
+COMMENT ON COLUMN public.behavior_events.payload IS
+  'Event-specific metadata only. Never store secrets, raw PII, or cross-user data.';
