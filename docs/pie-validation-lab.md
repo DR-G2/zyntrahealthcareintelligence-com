@@ -30,28 +30,28 @@ No production readiness score is calculated here.
 
 ## 20-test program
 
-1. Capability recovery
-2. Timing separation
-3. Decision separation
-4. Calibration recovery
-5. Change-point recovery
-6. Interruption recovery
-7. Learning recovery
-8. Question difficulty recovery
-9. Bad-question protection
-10. Missing-data robustness
-11. Technical contamination
-12. Equal-score separation
-13. False-separation resistance
-14. Uncertainty convergence
-15. False-certainty resistance
-16. Prior sensitivity
-17. Exam neutrality
-18. Decision validity
-19. Causal validity
-20. Reproducibility and stability
+001. Capability recovery
+002. Timing separation
+003. Decision separation
+004. Calibration recovery
+005. Sustained-performance recovery
+006. Change-point recovery
+007. Interruption recovery
+008. Learning recovery
+009. Question difficulty recovery
+010. Bad-question protection
+011. Missing-data robustness
+012. Technical contamination
+013. Equal-score separation
+014. False-separation resistance
+015. Uncertainty convergence
+016. False-certainty resistance
+017. Prior sensitivity
+018. Exam neutrality
+019. Decision validity
+020. Causal validity
 
-The repository catalog preserves the original 001-020 numbering used by the PIE research plan. The executable implementation will be expanded in subsequent phases. We do not mark unimplemented tests as passed.
+The repository catalog preserves the 001-020 numbering used by the PIE research plan. Only tests with executable evidence are marked as implemented. Unimplemented tests are never marked as passed.
 
 ## Acceptance rule
 
