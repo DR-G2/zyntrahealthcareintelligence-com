@@ -83,20 +83,23 @@ export function updateQuestionState(
     novelty: bayesianUpdate(prior.novelty, noveltySignal(observation), config, quality * 0.5),
   };
 
-  const crossCandidateEvidence = next.difficulty.evidenceCount;
+  const uniqueCandidateCount = prior.uniqueCandidateCount + (
+    prior.uniqueCandidateCount === 0 ? 1 : 0
+  );
   const protectedFromCandidateFeedback =
-    crossCandidateEvidence < config.minimumCrossCandidateEvidence;
+    uniqueCandidateCount < config.minimumCrossCandidateEvidence;
 
   return {
     ...next,
+    uniqueCandidateCount,
     evidenceLevel:
-      crossCandidateEvidence < 3
+      uniqueCandidateCount < 3
         ? "EXPERT_METADATA"
-        : crossCandidateEvidence < 10
+        : uniqueCandidateCount < 10
           ? "INITIAL_PRODUCTION"
-          : crossCandidateEvidence < 30
+          : uniqueCandidateCount < 30
             ? "OBSERVED_PSYCHOMETRIC"
-            : crossCandidateEvidence < 100
+            : uniqueCandidateCount < 100
               ? "CROSS_CANDIDATE_REPLICATION"
               : "VALIDATED_BEHAVIOUR",
     protected: protectedFromCandidateFeedback,
@@ -122,5 +125,6 @@ export function initialQuestionState(
     productionStatus,
     modelVersion: DEFAULT_QUESTION_INFERENCE_CONFIG.modelVersion,
     protected: true,
+    uniqueCandidateCount: 0,
   };
 }
