@@ -1434,7 +1434,11 @@ function DrillSession({
         sessionId: sessionIdRef.current,
         payload: { question_count: inserts.length, mode: config.mode },
       });
-      await supabase.from('user_attempts').insert(inserts as any);
+      const { error: attemptInsertError } = await supabase.from('user_attempts').insert(inserts as any);
+      if (attemptInsertError) throw attemptInsertError;
+
+      // Legacy intelligence remains authoritative. PIE runs in shadow mode only.
+      void syncPieShadow();
 
       // Trigger behavior analysis in background
       supabase.functions.invoke('analyze-behavior').catch(console.error);
