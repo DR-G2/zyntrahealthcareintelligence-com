@@ -5,6 +5,8 @@ import {
   updateCandidateState,
   type CandidateState,
   type PieObservation,
+  type CandidateState,
+  deriveDynamics,
 } from "../../../src/lib/pie/inference/index.ts";
 
 const corsHeaders = {
@@ -151,6 +153,97 @@ Deno.serve(async (req) => {
   );
 
   if (persistError) return json({ error: "state_persist_failed", detail: persistError.message }, 500);
+
+  const persistedState = persisted?.[0];
+  const { data: recentStates } = await serviceClient
+    .from("pie_candidate_state")
+    .select("*")
+    .eq("user_id", userId)
+    .order("state_sequence", { ascending: false })
+    .limit(60);
+
+  let dynamic = null;
+  if (recentStates?.length) {
+    const history: CandidateState[] = recentStates
+      .reverse()
+      .map((row) => ({
+        timestamp: row.state_timestamp,
+        sequence: Number(row.state_sequence),
+        capability: {
+          estimate: Number(row.capability_estimate ?? 0.5),
+          variance: 0.1,
+          lower: 0,
+          upper: 1,
+          confidenceLevel: 0.95,
+          evidenceCount: Number(row.observation_count ?? 0),
+          evidenceQuality: Number(row.data_quality ?? 0),
+        },
+        decision: {
+          estimate: Number(row.decision_estimate ?? 0.5),
+          variance: 0.1,
+          lower: 0,
+          upper: 1,
+          confidenceLevel: 0.95,
+          evidenceCount: Number(row.observation_count ?? 0),
+          evidenceQuality: Number(row.data_quality ?? 0),
+        },
+        timing: {
+          estimate: Number(row.timing_estimate ?? 0.5),
+          variance: 0.1,
+          lower: 0,
+          upper: 1,
+          confidenceLevel: 0.95,
+          evidenceCount: Number(row.observation_count ?? 0),
+          evidenceQuality: Number(row.data_quality ?? 0),
+        },
+        calibration: {
+          estimate: Number(row.calibration_estimate ?? 0.5),
+          variance: 0.1,
+          lower: 0,
+          upper: 1,
+          confidenceLevel: 0.95,
+          evidenceCount: Number(row.observation_count ?? 0),
+          evidenceQuality: Number(row.data_quality ?? 0),
+        },
+        sustainedPerformance: {
+          estimate: Number(row.sustained_performance_estimate ?? 0.5),
+          variance: 0.1,
+          lower: 0,
+          upper: 1,
+          confidenceLevel: 0.95,
+          evidenceCount: Number(row.observation_count ?? 0),
+          evidenceQuality: Number(row.data_quality ?? 0),
+        },
+        learning: {
+          estimate: Number(row.learning_estimate ?? 0.5),
+          variance: 0.1,
+          lower: 0,
+          upper: 1,
+          confidenceLevel: 0.95,
+          evidenceCount: Number(row.observation_count ?? 0),
+          evidenceQuality: Number(row.data_quality ?? 0),
+        },
+        identificationStatus: row.identification_status,
+        evidenceLevel: row.evidence_level,
+        dataQuality: Number(row.data_quality ?? 0),
+        modelVersion: row.model_version,
+      }));
+
+    const derived = deriveDynamics(history);
+    dynamic = {
+      ...derived,
+      user_id: userId,
+      candidate_state_id: persistedState?.state_id ?? null,
+      state_timestamp: next.timestamp,
+      state_sequence: persistedState?.state_sequence ?? next.sequence,
+      model_version: next.modelVersion,
+      identification_status: next.identificationStatus,
+      evidence_quality: next.dataQuality,
+      evidence_count: observations.length,
+    };
+
+    await serviceClient.from("pie_dynamic_state").insert(dynamic);
+  }
 
   return json({
     status: "completed",
