@@ -90,6 +90,22 @@ interface ConfidenceSubject {
   low_confidence_correct: number;
 }
 
+interface PieState {
+  state_timestamp: string | null;
+  state_sequence: number;
+  capability: number;
+  decision: number;
+  timing: number;
+  calibration: number;
+  sustained_performance: number;
+  learning: number;
+  identification_status: string;
+  evidence_level: string;
+  data_quality: number;
+  observation_count: number;
+  model_version: string;
+}
+
 interface ConfidenceIntelligence {
   confidence_attempts: number;
   calibration: number;
@@ -151,6 +167,7 @@ function PerformanceView({
   priorities,
   trend,
   confidence,
+  pie,
   loading,
 }: {
   snapshot: Snapshot;
@@ -158,6 +175,7 @@ function PerformanceView({
   priorities: PriorityStat[];
   trend: number[];
   confidence: ConfidenceIntelligence;
+  pie: PieState | null;
   loading: boolean;
 }) {
   const readiness = Math.max(0, Math.min(100, snapshot.readiness));
@@ -210,6 +228,57 @@ function PerformanceView({
           <SignalCard label="Avg Time" value={snapshot.attempts ? `${Math.round(snapshot.timing)}s` : '—'} helper="Average response time across recorded attempts." accent="rose" />
           <SignalCard label="Calibration" value={snapshot.confidenceAttempts ? `${Math.round(snapshot.calibration)}%` : '—'} helper={snapshot.confidenceAttempts ? `${snapshot.confidenceAttempts} confidence records.` : 'No confidence data yet.'} accent="emerald" />
         </div>
+      </section>
+
+      <section className="rounded-3xl border border-cyan-400/15 bg-[#081224]/75 p-5 backdrop-blur-xl">
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <p className="font-display text-lg font-semibold text-white">PIE Live Inference</p>
+            <p className="mt-1 max-w-2xl text-xs leading-5 text-slate-500">
+              The Performance Intelligence Engine is now connected to this page through the controlled PIE runtime bridge.
+              These are inferred state signals, not a replacement for the validated readiness score.
+            </p>
+          </div>
+          <div className="text-right">
+            <p className="font-mono text-[10px] uppercase tracking-wider text-cyan-300">
+              {pie ? pie.identification_status.replaceAll('_', ' ') : 'AWAITING SIGNAL'}
+            </p>
+            <p className="mt-1 text-[10px] text-slate-600">
+              {pie ? `Evidence: ${pie.evidence_level.replaceAll('_', ' ')}` : 'Complete practice to initialise PIE'}
+            </p>
+          </div>
+        </div>
+
+        {pie ? (
+          <>
+            <div className="mt-5 grid gap-3 grid-cols-2 sm:grid-cols-3 lg:grid-cols-6">
+              {[
+                ['Capability', pie.capability],
+                ['Decision', pie.decision],
+                ['Timing', pie.timing],
+                ['Calibration', pie.calibration],
+                ['Sustained', pie.sustained_performance],
+                ['Learning', pie.learning],
+              ].map(([label, value]) => (
+                <div key={String(label)} className="rounded-2xl border border-white/8 bg-white/[0.02] p-4">
+                  <p className="text-[10px] font-medium uppercase tracking-[0.12em] text-slate-500">{label}</p>
+                  <p className="mt-2 font-display text-xl font-semibold text-white">{Math.round(Number(value) * 100)}%</p>
+                  <ProgressBar value={Number(value) * 100} />
+                </div>
+              ))}
+            </div>
+            <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-[10px] text-slate-600">
+              <span>{pie.observation_count} observations in latest inference</span>
+              <span>Data quality {Math.round(pie.data_quality * 100)}%</span>
+              <span>Model {pie.model_version}</span>
+              {pie.state_timestamp ? <span>Updated {new Date(pie.state_timestamp).toLocaleString()}</span> : null}
+            </div>
+          </>
+        ) : (
+          <div className="mt-5 rounded-2xl border border-dashed border-white/10 py-8 text-center text-sm text-slate-500">
+            PIE has not produced a candidate state yet.
+          </div>
+        )}
       </section>
 
       <section className="rounded-3xl border border-emerald-400/15 bg-[#081224]/75 p-5 backdrop-blur-xl">
@@ -415,6 +484,7 @@ export default function PerformanceIntelligence() {
   const [subjects, setSubjects] = useState<SubjectStat[]>([]);
   const [priorities, setPriorities] = useState<PriorityStat[]>([]);
   const [trend, setTrend] = useState<number[]>([]);
+  const [pie, setPie] = useState<PieState | null>(null);
   const [confidence, setConfidence] = useState<ConfidenceIntelligence>({
     confidence_attempts: 0, calibration: 0, average_confidence: 0, accuracy: 0, bias: 0,
     overconfidence: 0, underconfidence: 0, high_confidence_wrong: 0, low_confidence_correct: 0,
@@ -431,6 +501,11 @@ export default function PerformanceIntelligence() {
 
     const load = async () => {
       setLoading(true);
+
+      // Refresh the PIE shadow runtime from the user's latest attempts.
+      // The Edge Function is the only candidate-facing read boundary for PIE.
+      const { data: pieBridge } = await supabase.functions.invoke('pie-shadow-sync');
+
       const [profileRes, attemptsRes, confidenceRes] = await Promise.all([
         supabase
           .from('readiness_dna')
@@ -447,6 +522,9 @@ export default function PerformanceIntelligence() {
       ]);
 
       if (cancelled) return;
+
+      const bridgePie = (pieBridge?.pie ?? null) as PieState | null;
+      setPie(bridgePie);
 
       const attempts = (attemptsRes.data || []) as unknown as Attempt[];
 
@@ -627,6 +705,7 @@ export default function PerformanceIntelligence() {
               priorities={priorities}
               trend={trend}
               confidence={confidence}
+              pie={pie}
               loading={loading}
             />
           )}
