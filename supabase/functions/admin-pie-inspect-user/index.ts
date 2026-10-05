@@ -37,7 +37,7 @@ Deno.serve(async (req) => {
     const { data: userData, error: userError } = await admin.auth.getUser(token);
 
     if (userError || !userData.user?.email) {
-      return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401, headers: { ...headers, "Content-Type": "application/json" } });
     }
 
     const { data: adminRole } = await admin
@@ -47,12 +47,12 @@ Deno.serve(async (req) => {
       .maybeSingle();
 
     if (!adminRole) {
-      return new Response(JSON.stringify({ error: "Forbidden" }), { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      return new Response(JSON.stringify({ error: "Forbidden" }), { status: 403, headers: { ...headers, "Content-Type": "application/json" } });
     }
 
     const { user_id } = await req.json();
     if (!user_id) {
-      return new Response(JSON.stringify({ error: "user_id required" }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      return new Response(JSON.stringify({ error: "user_id required" }), { status: 400, headers: { ...headers, "Content-Type": "application/json" } });
     }
 
     const [
@@ -88,7 +88,7 @@ Deno.serve(async (req) => {
     ].filter(Boolean);
 
     if (errors.length) {
-      return new Response(JSON.stringify({ error: errors[0]?.message || "PIE inspection query failed" }), { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      return new Response(JSON.stringify({ error: errors[0]?.message || "PIE inspection query failed" }), { status: 500, headers: { ...headers, "Content-Type": "application/json" } });
     }
 
     return new Response(JSON.stringify({
@@ -103,8 +103,8 @@ Deno.serve(async (req) => {
       decisions: decisionRes.data || [],
       validation_runs: validationRes.data || [],
       inference_runs: inferenceRes.data || [],
-    }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }), { headers: { ...headers, "Content-Type": "application/json" } });
   } catch (e) {
-    return new Response(JSON.stringify({ error: e instanceof Error ? e.message : "Unknown error" }), { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    return new Response(JSON.stringify({ error: e instanceof Error ? e.message : "Unknown error" }), { status: 500, headers: { ...headers, "Content-Type": "application/json" } });
   }
 });
