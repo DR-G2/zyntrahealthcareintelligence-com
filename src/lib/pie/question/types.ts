@@ -30,6 +30,7 @@ export interface QuestionState {
   productionStatus: string;
   modelVersion: string;
   protected: boolean;
+  uniqueCandidateCount: number;
 }
 
 export interface QuestionObservation {
