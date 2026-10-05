@@ -99,7 +99,7 @@ export function makeDataset(
       const decisionSignal = candidate.decision - q.cognitiveDemand * 0.18;
       const timingPenalty = Math.max(0, timePressure - candidate.timing) * 0.9;
       const logit =
-        (candidate.capability - q.difficulty) * q.discrimination +
+        (candidate.capability - q.difficulty) * q.discrimination * 2 +
         decisionSignal * 0.65 -
         timingPenalty -
         q.ambiguity;
