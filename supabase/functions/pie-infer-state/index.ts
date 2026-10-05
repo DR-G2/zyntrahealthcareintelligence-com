@@ -5,7 +5,6 @@ import {
   updateCandidateState,
   type CandidateState,
   type PieObservation,
-  type CandidateState,
   deriveDynamics,
 } from "../../../src/lib/pie/inference/index.ts";
 
