@@ -211,7 +211,7 @@ WITH p AS (
   SELECT id FROM public.amc_plugin_version WHERE plugin_code='AMC' AND plugin_version='1.0.0'
 )
 INSERT INTO public.amc_blueprint (plugin_version_id, exam_mode, blueprint_version, patient_group, proportion, item_target, metadata)
-SELECT p.id,'MCQ','2026.1',v.patient_group,v.proportion,ROUND(v.proportion*150)::int,v.metadata
+SELECT p.id,'MCQ','2026.1',v.patient_group,v.proportion,NULL,v.metadata
 FROM p CROSS JOIN (VALUES
   ('ADULT_MEDICINE',0.30,jsonb_build_object('source','AMC V8')),
   ('ADULT_SURGERY',0.20,jsonb_build_object('source','AMC V8')),
