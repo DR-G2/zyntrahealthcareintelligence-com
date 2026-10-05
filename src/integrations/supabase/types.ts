@@ -384,72 +384,6 @@ export type Database = {
         }
         Relationships: []
       }
-      behavior_dna: {
-        Row: {
-          answer_instability_index: number
-          confidence_miscalibration: number
-          correct_to_wrong_change_rate: number | null
-          data_quality: number
-          difficulty_behavior: Json
-          evidence_level: string
-          fatigue_index: number
-          first_instinct_accuracy: number | null
-          hesitation_index: number
-          id: string
-          latest_observation_at: string | null
-          premature_commitment_index: number
-          rule_out_rate: number
-          rush_index: number
-          sample_size: number
-          signal_version: number
-          subject_behavior: Json
-          updated_at: string
-          user_id: string
-        }
-        Insert: {
-          answer_instability_index?: number
-          confidence_miscalibration?: number
-          correct_to_wrong_change_rate?: number | null
-          data_quality?: number
-          difficulty_behavior?: Json
-          evidence_level?: string
-          fatigue_index?: number
-          first_instinct_accuracy?: number | null
-          hesitation_index?: number
-          id?: string
-          latest_observation_at?: string | null
-          premature_commitment_index?: number
-          rule_out_rate?: number
-          rush_index?: number
-          sample_size?: number
-          signal_version?: number
-          subject_behavior?: Json
-          updated_at?: string
-          user_id: string
-        }
-        Update: {
-          answer_instability_index?: number
-          confidence_miscalibration?: number
-          correct_to_wrong_change_rate?: number | null
-          data_quality?: number
-          difficulty_behavior?: Json
-          evidence_level?: string
-          fatigue_index?: number
-          first_instinct_accuracy?: number | null
-          hesitation_index?: number
-          id?: string
-          latest_observation_at?: string | null
-          premature_commitment_index?: number
-          rule_out_rate?: number
-          rush_index?: number
-          sample_size?: number
-          signal_version?: number
-          subject_behavior?: Json
-          updated_at?: string
-          user_id?: string
-        }
-        Relationships: []
-      }
       behavior_profiles: {
         Row: {
           archetype: string
@@ -1322,105 +1256,39 @@ export type Database = {
       question_dna: {
         Row: {
           accuracy_rate: number | null
-          ambiguity_risk: number | null
           answer_change_rate: number | null
           attempt_count: number | null
           average_time: number | null
-          australian_context: string | null
-          blueprint_domain: string | null
-          clinical_reasoning_type: string | null
-          cognitive_task: string | null
           confidence_error_rate: number | null
           difficulty_score: number | null
-          distractor_type: string | null
-          duplicate_cluster: string | null
-          expected_discrimination: number | null
-          explanation_quality: number | null
-          has_ecg: boolean
-          has_image: boolean
-          has_radiology: boolean
           id: string
-          knowledge_type: string | null
-          last_reviewed_at: string | null
-          production_status: string
           question_id: string
-          references: Json
-          reviewer_status: string
-          source_question_version: string | null
-          specialty: string | null
-          subject: string | null
           trap_type: string | null
           updated_at: string | null
-          version: number
-          observed_confidence_error_rate: number | null
         }
         Insert: {
           accuracy_rate?: number | null
-          ambiguity_risk?: number | null
           answer_change_rate?: number | null
           attempt_count?: number | null
           average_time?: number | null
-          australian_context?: string | null
-          blueprint_domain?: string | null
-          clinical_reasoning_type?: string | null
-          cognitive_task?: string | null
           confidence_error_rate?: number | null
           difficulty_score?: number | null
-          distractor_type?: string | null
-          duplicate_cluster?: string | null
-          expected_discrimination?: number | null
-          explanation_quality?: number | null
-          has_ecg?: boolean
-          has_image?: boolean
-          has_radiology?: boolean
           id?: string
-          knowledge_type?: string | null
-          last_reviewed_at?: string | null
-          production_status?: string
           question_id: string
-          references?: Json
-          reviewer_status?: string
-          source_question_version?: string | null
-          specialty?: string | null
-          subject?: string | null
           trap_type?: string | null
           updated_at?: string | null
-          version?: number
-          observed_confidence_error_rate?: number | null
         }
         Update: {
           accuracy_rate?: number | null
-          ambiguity_risk?: number | null
           answer_change_rate?: number | null
           attempt_count?: number | null
           average_time?: number | null
-          australian_context?: string | null
-          blueprint_domain?: string | null
-          clinical_reasoning_type?: string | null
-          cognitive_task?: string | null
           confidence_error_rate?: number | null
           difficulty_score?: number | null
-          distractor_type?: string | null
-          duplicate_cluster?: string | null
-          expected_discrimination?: number | null
-          explanation_quality?: number | null
-          has_ecg?: boolean
-          has_image?: boolean
-          has_radiology?: boolean
           id?: string
-          knowledge_type?: string | null
-          last_reviewed_at?: string | null
-          production_status?: string
           question_id?: string
-          references?: Json
-          reviewer_status?: string
-          source_question_version?: string | null
-          specialty?: string | null
-          subject?: string | null
           trap_type?: string | null
           updated_at?: string | null
-          version?: number
-          observed_confidence_error_rate?: number | null
         }
         Relationships: [
           {
@@ -2394,22 +2262,6 @@ export type Database = {
           p_previous_difficulty_tier?: number
           p_used_ids?: string[]
         }
-        Returns: Json
-      }
-      get_next_best_action: {
-        Args: { p_user_id: string }
-        Returns: Json
-      }
-      start_next_best_action: {
-        Args: { p_action_id: string }
-        Returns: Json
-      }
-      complete_candidate_intervention: {
-        Args: { p_candidate_intervention_id: string }
-        Returns: Json
-      }
-      get_intervention_effectiveness: {
-        Args: { p_user_id: string }
         Returns: Json
       }
       is_admin: { Args: { _email: string }; Returns: boolean }
