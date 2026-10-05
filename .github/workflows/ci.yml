@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - "pie/**"
+      - "amc/**"
   pull_request:
     branches: [main]
 
@@ -28,3 +29,6 @@ jobs:
           test -f supabase/functions/pie-shadow-run/index.ts
           test -f supabase/functions/admin-pie-certification/index.ts
           test -f supabase/migrations/20261005043000_pie_p11_certification.sql
+          test -f src/lib/amc/p7-runtime-validation.test.ts
+          test -f supabase/migrations/20261005051000_amc_plugin_v1_p7_validation.sql
+          test -f supabase/migrations/20261005052000_amc_plugin_v1_p8_certification.sql
