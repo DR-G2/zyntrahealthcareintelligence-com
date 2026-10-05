@@ -37,7 +37,20 @@ Deno.serve(async (req) => {
     .eq("production_status", "PRODUCTION")
     .limit(25);
 
-  const questions: QuestionState[] = (questionRows ?? []).map((q) => q as QuestionState);
+  const questions: QuestionState[] = (questionRows ?? []).map((q) => ({
+    questionId: q.question_id ?? q.id,
+    questionVersion: q.question_version ?? q.version ?? "unknown",
+    difficulty: q.difficulty,
+    discrimination: q.discrimination,
+    ambiguity: q.ambiguity,
+    novelty: q.novelty,
+    evidenceLevel: q.evidence_level,
+    productionStatus: q.production_status,
+    modelVersion: q.model_version,
+    protected: q.protected,
+    uniqueCandidateCount: q.unique_candidate_count ?? 0,
+    candidateIdsSeen: q.candidate_ids_seen ?? [],
+  } as QuestionState));
   const result = orchestrate({
     candidate: state,
     questions,
