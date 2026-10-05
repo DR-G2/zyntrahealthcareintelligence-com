@@ -83,15 +83,17 @@ export function updateQuestionState(
     novelty: bayesianUpdate(prior.novelty, noveltySignal(observation), config, quality * 0.5),
   };
 
-  const uniqueCandidateCount = prior.uniqueCandidateCount + (
-    prior.uniqueCandidateCount === 0 ? 1 : 0
-  );
+  const candidateIdsSeen = prior.candidateIdsSeen.includes(observation.candidateId)
+    ? prior.candidateIdsSeen
+    : [...prior.candidateIdsSeen, observation.candidateId];
+  const uniqueCandidateCount = candidateIdsSeen.length;
   const protectedFromCandidateFeedback =
     uniqueCandidateCount < config.minimumCrossCandidateEvidence;
 
   return {
     ...next,
     uniqueCandidateCount,
+    candidateIdsSeen,
     evidenceLevel:
       uniqueCandidateCount < 3
         ? "EXPERT_METADATA"
@@ -126,5 +128,6 @@ export function initialQuestionState(
     modelVersion: DEFAULT_QUESTION_INFERENCE_CONFIG.modelVersion,
     protected: true,
     uniqueCandidateCount: 0,
+    candidateIdsSeen: [],
   };
 }
