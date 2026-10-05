@@ -122,7 +122,8 @@ Deno.serve(async (req) => {
   if (!observations.length) {
     return json({
       status: "no_observations",
-      state: state ?? initialCandidateState(undefined, DEFAULT_INFERENCE_CONFIG),
+      candidate_facing: false,
+      legacy_authoritative: true,
     });
   }
 
@@ -246,9 +247,9 @@ Deno.serve(async (req) => {
 
   return json({
     status: "completed",
+    candidate_facing: false,
+    legacy_authoritative: true,
     model_version: next.modelVersion,
     observation_count: observations.length,
-    state: next,
-    persisted: persisted?.[0] ?? null,
   });
 });
