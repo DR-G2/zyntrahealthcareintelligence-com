@@ -21,3 +21,10 @@ jobs:
       # P8 integration gate: test the complete development intelligence stack before build.
       - run: npm run test
       - run: npm run build
+      - name: P8-P11 contract gate
+        run: |
+          test -f src/lib/pie/validation/full-system.ts
+          test -f src/lib/pie/p9-security.test.ts
+          test -f supabase/functions/pie-shadow-run/index.ts
+          test -f supabase/functions/admin-pie-certification/index.ts
+          test -f supabase/migrations/20261005043000_pie_p11_certification.sql
