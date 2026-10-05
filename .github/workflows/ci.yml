@@ -2,12 +2,15 @@ name: Zyntra CI
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+      - "pie/**"
+      - "amc/**"
   pull_request:
     branches: [main]
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -16,4 +19,16 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm install --no-audit --no-fund
+      # P8 integration gate: test the complete development intelligence stack before build.
+      - run: npm run test
       - run: npm run build
+      - name: P8-P11 contract gate
+        run: |
+          test -f src/lib/pie/validation/full-system.ts
+          test -f src/lib/pie/p9-security.test.ts
+          test -f supabase/functions/pie-shadow-run/index.ts
+          test -f supabase/functions/admin-pie-certification/index.ts
+          test -f supabase/migrations/20261005043000_pie_p11_certification.sql
+          test -f src/lib/amc/p7-runtime-validation.test.ts
+          test -f supabase/migrations/20261005051000_amc_plugin_v1_p7_validation.sql
+          test -f supabase/migrations/20261005052000_amc_plugin_v1_p8_certification.sql
