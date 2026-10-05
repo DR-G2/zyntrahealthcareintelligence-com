@@ -41,6 +41,7 @@ export interface InterventionOutcome {
 }
 
 export interface InterventionEffectEstimate {
+  modelVersion: string;
   interventionId: string;
   targetDimension: string;
   treatmentMean: number;
