@@ -35,6 +35,7 @@ import { SubjectManager } from '@/components/admin/SubjectManager';
 import { QNSTab } from '@/components/admin/QNSTab';
 import { DataPortabilityTab } from '@/components/admin/DataPortabilityTab';
 import { VisitorIntelligenceTab } from '@/components/admin/VisitorIntelligenceTab';
+import { PIEInspectionTab } from '@/components/admin/PIEInspectionTab';
 import { Download, Globe } from 'lucide-react';
 
 import { ADMIN_EMAILS, SUPER_ADMIN_EMAIL } from '@/lib/admin-emails';
@@ -1797,7 +1798,7 @@ export default function AdminDashboard() {
         {isSuperAdmin && <SiteSettingsCard />}
 
         <Tabs defaultValue="live">
-          <TabsList className={`grid w-full ${isSuperAdmin ? 'grid-cols-11' : 'grid-cols-5'}`}>
+          <TabsList className={`grid w-full ${isSuperAdmin ? 'grid-cols-12' : 'grid-cols-5'}`}>
             <TabsTrigger value="live" className="gap-1 text-xs"><Radio className="h-3.5 w-3.5" /> Activity</TabsTrigger>
             <TabsTrigger value="users" className="gap-1 text-xs"><Users className="h-3.5 w-3.5" /> Users</TabsTrigger>
             <TabsTrigger value="messages" className="gap-1 text-xs"><MessageCircle className="h-3.5 w-3.5" /> Messages</TabsTrigger>
@@ -1809,6 +1810,7 @@ export default function AdminDashboard() {
             {isSuperAdmin && <TabsTrigger value="data-port" className="gap-1 text-xs"><Download className="h-3.5 w-3.5" /> Data</TabsTrigger>}
             {isSuperAdmin && <TabsTrigger value="system" className="gap-1 text-xs"><Zap className="h-3.5 w-3.5" /> System</TabsTrigger>}
             {isSuperAdmin && <TabsTrigger value="logs" className="gap-1 text-xs"><FileText className="h-3.5 w-3.5" /> Logs</TabsTrigger>}
+            {isSuperAdmin && <TabsTrigger value="pie" className="gap-1 text-xs"><Brain className="h-3.5 w-3.5" /> PIE</TabsTrigger>}
           </TabsList>
           <TabsContent value="live"><LiveActivityTab /></TabsContent>
           <TabsContent value="users"><UsersTab currentUserEmail={currentUserEmail} /></TabsContent>
@@ -1821,6 +1823,7 @@ export default function AdminDashboard() {
           {isSuperAdmin && <TabsContent value="data-port"><DataPortabilityTab /></TabsContent>}
           {isSuperAdmin && <TabsContent value="system"><SystemMonitorTab /></TabsContent>}
           {isSuperAdmin && <TabsContent value="logs"><ActivityLogsTab /></TabsContent>}
+          {isSuperAdmin && <TabsContent value="pie"><PIEInspectionTab /></TabsContent>}
         </Tabs>
       </div>
     </AppLayout>
