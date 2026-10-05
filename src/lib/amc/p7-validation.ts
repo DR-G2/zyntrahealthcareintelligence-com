@@ -52,7 +52,18 @@ export const AMC_P7_REQUIRED_CHECKS = [
  * A validation result cannot become a certification decision merely because
  * a metric passes. P7 records evidence. P8 decides certification status.
  */
-export function canProposeP8(run: AMCValidationRun): boolean {
-  return run.status === "PASSED" &&
-    run.metrics.every(m => m.status === "PASS" || m.status === "NOT_APPLICABLE");
+export function canProposeP8(runs: AMCValidationRun[]): boolean {
+  const required = new Set<AMCValidationType>([
+    "AMC_SPEC",
+    "BLUEPRINT",
+    "PSYCHOMETRIC_EXTERNAL",
+    "SYNTHETIC",
+    "SECURITY",
+    "INTEGRATION",
+  ]);
+  return [...required].every(type => runs.some(run =>
+    run.validationType === type &&
+    run.status === "PASSED" &&
+    run.metrics.every(m => m.status === "PASS" || m.status === "NOT_APPLICABLE"),
+  ));
 }
