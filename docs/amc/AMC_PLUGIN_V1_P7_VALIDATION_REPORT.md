@@ -38,7 +38,7 @@ The plugin stores:
 ### 3. AMC response-matrix simulation
 Status: IMPLEMENTED.
 
-The P7 harness now includes a deterministic AMC CAT response-matrix simulator. It generates candidate truth, an item pool with calibrated and new items, 150-item candidate-specific adaptive examinations, confidence, timing and answer-change observations, and a sparse candidate × question response matrix. The simulator follows the public AMC structural constraints but is explicitly not presented as the proprietary AMC CAT selection/scoring algorithm. The current AMC specification states that at least half of the questions come from previously calibrated questions and that new questions are inspected and calibrated before scoring. citeturn0search12
+The P7 harness now includes a deterministic AMC CAT response-matrix simulator. It generates candidate truth, an item pool with calibrated and new items, 150-item candidate-specific adaptive examinations, confidence, timing and answer-change observations, and a sparse candidate × question response matrix. The simulator follows the public AMC structural constraints but is explicitly not presented as the proprietary AMC CAT selection/scoring algorithm. The current AMC specification states that at least half of the questions come from previously calibrated questions and that new questions are inspected and calibrated before scoring.
 
 ### 4. Synthetic truth recovery
 Status: PASS at engineering-test level.
