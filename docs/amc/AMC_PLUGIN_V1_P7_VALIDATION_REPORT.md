@@ -35,7 +35,12 @@ The plugin stores:
 - diagnostic formulation
 - management/counselling/education
 
-### 3. Synthetic truth recovery
+### 3. AMC response-matrix simulation
+Status: IMPLEMENTED.
+
+The P7 harness now includes a deterministic AMC CAT response-matrix simulator. It generates candidate truth, an item pool with calibrated and new items, 150-item candidate-specific adaptive examinations, confidence, timing and answer-change observations, and a sparse candidate × question response matrix. The simulator follows the public AMC structural constraints but is explicitly not presented as the proprietary AMC CAT selection/scoring algorithm. The current AMC specification states that at least half of the questions come from previously calibrated questions and that new questions are inspected and calibrated before scoring. citeturn0search12
+
+### 4. Synthetic truth recovery
 Status: PASS at engineering-test level.
 
 The P7 runtime test uses an independently generated synthetic truth and checks capability recovery, uncertainty behaviour and confidence/outcome separation.
@@ -44,12 +49,12 @@ Independent local replication across five seeds produced Spearman correlations b
 
 These are engineering validation results, not clinical or population validity claims.
 
-### 4. Confidence calibration boundary
+### 5. Confidence calibration boundary
 Status: PASS at contract/test level.
 
 Confidence is retained as an observation separate from correctness. The test records Brier score as a calibration diagnostic rather than treating accuracy as confidence calibration.
 
-### 5. Security boundary
+### 6. Security boundary
 Status: PASS at code-contract level.
 
 The candidate DTO exposes only:
@@ -63,12 +68,12 @@ The candidate DTO exposes only:
 
 Raw state, question posterior, hypotheses, DWIG internals, causal evidence, intervention effects and certification state are excluded.
 
-### 6. Independent psychometric cross-check
+### 7. Independent psychometric cross-check
 Status: INCONCLUSIVE / NOT EXECUTED.
 
 PACER supports independent 1PL/2PL/3PL calibration and related psychometric analysis. A PACER run requires an approved response dataset. No live AMC attempt dataset was available through the current database connector, so no external PACER result is claimed.
 
-### 7. Empirical Zyntra AMC attempt validation
+### 8. Empirical Zyntra AMC attempt validation
 Status: BLOCKED.
 
 The available database backup contains the legacy `user_attempts` table but does not contain AMC plugin validation tables or a usable anonymised AMC response matrix. Direct live Supabase SQL permission was also unavailable in this environment.
