@@ -37,19 +37,54 @@ Deno.serve(async (req) => {
     .eq("production_status", "PRODUCTION")
     .limit(25);
 
+  const questionIds = (questionRows ?? []).map((q) => q.question_id);
+  const { data: uncertaintyRows } = questionIds.length
+    ? await service.from("pie_question_uncertainty")
+        .select("*")
+        .in("question_id", questionIds)
+    : { data: [] };
+
+  const uncertaintyByKey = new Map(
+    (uncertaintyRows ?? []).map((u) => [
+      `${u.question_id}:${u.question_version}:${String(u.parameter_name).toUpperCase()}`,
+      u,
+    ]),
+  );
+
+  const posterior = (q: Record<string, unknown>, parameter: string, fallback: number) => {
+    const key = `${q.question_id}:${q.question_version}:${parameter}`;
+    const u = uncertaintyByKey.get(key);
+    const estimate = Number(q[`${parameter.toLowerCase()}_estimate`] ?? fallback);
+    const variance = Number(u?.uncertainty_measure ?? 0.16);
+    return {
+      estimate: Math.max(0, Math.min(1, estimate)),
+      variance: Math.max(0, variance),
+      lower: Math.max(0, Math.min(1, Number(u?.lower_bound ?? estimate - Math.sqrt(variance) * 1.96))),
+      upper: Math.max(0, Math.min(1, Number(u?.upper_bound ?? estimate + Math.sqrt(variance) * 1.96))),
+      evidenceCount: Number(u?.evidence_count ?? 0),
+      evidenceQuality: Number(u?.evidence_quality ?? 0),
+    };
+  };
+
+  const protectedLevels = new Set([
+    "EXPERT_METADATA",
+    "INITIAL_PRODUCTION",
+    "OBSERVED_PSYCHOMETRIC",
+  ]);
+
   const questions: QuestionState[] = (questionRows ?? []).map((q) => ({
-    questionId: q.question_id ?? q.id,
-    questionVersion: q.question_version ?? q.version ?? "unknown",
-    difficulty: q.difficulty,
-    discrimination: q.discrimination,
-    ambiguity: q.ambiguity,
-    novelty: q.novelty,
+    questionId: String(q.question_id),
+    questionVersion: String(q.question_version),
+    difficulty: posterior(q, "DIFFICULTY", 0.5),
+    discrimination: posterior(q, "DISCRIMINATION", 0.5),
+    ambiguity: posterior(q, "AMBIGUITY", 0.1),
+    novelty: posterior(q, "NOVELTY", 0.5),
     evidenceLevel: q.evidence_level,
     productionStatus: q.production_status,
-    modelVersion: q.model_version,
-    protected: q.protected,
-    uniqueCandidateCount: q.unique_candidate_count ?? 0,
-    candidateIdsSeen: q.candidate_ids_seen ?? [],
+    modelVersion: String(q.model_version),
+    protected: protectedLevels.has(String(q.evidence_level)),
+    uniqueCandidateCount: Number(q.evidence_count ?? 0),
+    candidateIdsSeen: [],
   } as QuestionState));
   const result = orchestrate({
     candidate: state,
