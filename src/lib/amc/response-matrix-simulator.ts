@@ -151,9 +151,19 @@ function selectQuestion(
 
   if (rng() < 0.08) return pick(rng, pool);
 
-  return [...pool].sort((a, b) =>
-    Math.abs(a.difficulty - theta) - Math.abs(b.difficulty - theta),
-  )[0];
+  // Linear nearest-neighbour selection avoids sorting the full pool for every
+  // CAT step. This keeps the validation simulator deterministic while making
+  // the CI-sized simulations comfortably below Vitest's default test timeout.
+  let best = pool[0];
+  let bestDistance = Math.abs(best.difficulty - theta);
+  for (let i = 1; i < pool.length; i += 1) {
+    const distance = Math.abs(pool[i].difficulty - theta);
+    if (distance < bestDistance) {
+      best = pool[i];
+      bestDistance = distance;
+    }
+  }
+  return best;
 }
 
 function nextBlueprintGroup(

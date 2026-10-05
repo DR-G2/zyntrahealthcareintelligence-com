@@ -26,6 +26,8 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/component
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { buildPracticeTopicResolver, normalizeTopicLabel, resolvePracticeQuestionPlacement } from '@/lib/practice-topic-mapping';
 import { emitBehaviorEvent } from '@/lib/telemetry';
+import { syncPieShadow } from '@/lib/pie/shadow-client';
+import { syncPieShadow } from '@/lib/pie/shadow-client';
 
 interface Question {
   id: string;
@@ -1433,7 +1435,11 @@ function DrillSession({
         sessionId: sessionIdRef.current,
         payload: { question_count: inserts.length, mode: config.mode },
       });
-      await supabase.from('user_attempts').insert(inserts as any);
+      const { error: attemptInsertError } = await supabase.from('user_attempts').insert(inserts as any);
+      if (attemptInsertError) throw attemptInsertError;
+
+      // Legacy intelligence remains authoritative. PIE runs in shadow mode only.
+      void syncPieShadow();
 
       // Trigger behavior analysis in background
       supabase.functions.invoke('analyze-behavior').catch(console.error);
