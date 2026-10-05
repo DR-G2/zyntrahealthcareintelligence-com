@@ -99,6 +99,48 @@ export default {
       return Response.json({ status: "normalized_inference_pending", normalized: fresh.length });
     }
 
-    return Response.json({ status: fresh.length ? "completed" : "no_new_observations", normalized: fresh.length });
+    // Controlled candidate-facing bridge: expose only the bounded PIE state
+    // required by the Performance Intelligence page. Internal PIE tables remain
+    // unreadable to authenticated clients.
+    const latestState = await ctx.supabaseAdmin
+      .from("pie_candidate_state")
+      .select("state_timestamp,state_sequence,capability_estimate,decision_estimate,timing_estimate,calibration_estimate,sustained_performance_estimate,learning_estimate,identification_status,evidence_level,data_quality,observation_count,model_version")
+      .eq("user_id", userId)
+      .order("state_sequence", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (latestState.error) {
+      console.warn("[PIE shadow] latest state read failed", latestState.error.message);
+      return Response.json({
+        status: fresh.length ? "completed" : "no_new_observations",
+        normalized: fresh.length,
+        pie: null,
+      });
+    }
+
+    const pie = latestState.data
+      ? {
+          state_timestamp: latestState.data.state_timestamp,
+          state_sequence: Number(latestState.data.state_sequence ?? 0),
+          capability: Number(latestState.data.capability_estimate ?? 0),
+          decision: Number(latestState.data.decision_estimate ?? 0),
+          timing: Number(latestState.data.timing_estimate ?? 0),
+          calibration: Number(latestState.data.calibration_estimate ?? 0),
+          sustained_performance: Number(latestState.data.sustained_performance_estimate ?? 0),
+          learning: Number(latestState.data.learning_estimate ?? 0),
+          identification_status: latestState.data.identification_status,
+          evidence_level: latestState.data.evidence_level,
+          data_quality: Number(latestState.data.data_quality ?? 0),
+          observation_count: Number(latestState.data.observation_count ?? 0),
+          model_version: latestState.data.model_version,
+        }
+      : null;
+
+    return Response.json({
+      status: fresh.length ? "completed" : "no_new_observations",
+      normalized: fresh.length,
+      pie,
+    });
   }, { cors: { origin } }),
 };
