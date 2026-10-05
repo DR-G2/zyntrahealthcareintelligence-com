@@ -14,6 +14,7 @@ export function estimateDescriptiveEffect(
     : 1;
 
   return {
+    modelVersion: "pie-intervention-dev-0.1",
     interventionId: outcomes[0]?.interventionId ?? "unknown",
     targetDimension: "UNSPECIFIED",
     treatmentMean: mean(treatment),
@@ -51,6 +52,7 @@ export function estimateBetweenGroupContrast(
     : 1;
 
   return {
+    modelVersion: "pie-intervention-dev-0.1",
     interventionId: treatment.interventionId,
     targetDimension: "UNSPECIFIED",
     treatmentMean,
