@@ -1,6 +1,8 @@
 # AMC Plugin v1 P7 Validation Report
 
 Date: 2026-10-05
+
+Validation harness revision: P7-runtime-1
 Branch: `amc/plugin-v1-p0-p6`
 PR: #50
 Status: DEVELOPMENT
