@@ -28,7 +28,7 @@ Deno.serve(async (req) => {
     const { data: adminRole } = await admin
       .from("admin_roles")
       .select("role")
-      .eq("email", userData.user.email)
+      .ilike("email", userData.user.email)
       .maybeSingle();
 
     if (!adminRole) {
