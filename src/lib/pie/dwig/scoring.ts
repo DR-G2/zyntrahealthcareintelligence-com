@@ -32,11 +32,16 @@ function expectedReductionForQuestion(
 ): number {
   const candidateU = decisionTargetUncertainty(candidate);
   const qU = questionUncertainty(question);
-
+  const candidateVariance = Math.max(1e-8, candidate.capability.variance);
+  const questionVariance = Math.max(1e-8, question.difficulty.variance);
+  const measurementNoise = Math.max(0.01, qU * qU);
   const discrimination = Math.max(0.05, question.discrimination.estimate);
-  const taskSignal = discrimination * (1 - qU);
-  const reduction = candidateU * taskSignal * (1 - qU);
-  return clamp01(reduction);
+  const sensitivity = discrimination * discrimination;
+  const posteriorVariance =
+    candidateVariance -
+    (candidateVariance * sensitivity * candidateVariance) /
+      Math.max(1e-8, sensitivity * candidateVariance + measurementNoise + questionVariance);
+  return clamp01(Math.max(0, candidateVariance - posteriorVariance));
 }
 
 function completionProbability(question: QuestionState): number {
