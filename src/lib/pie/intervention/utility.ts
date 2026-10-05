@@ -19,10 +19,11 @@ export function rankInterventions(
     const effect = effects.get(i.id);
     const evidence = effect?.evidenceQuality ?? 0;
     const expectedEffect = effect?.effectEstimate ?? 0;
+    const uncertaintyPenalty = effect?.uncertainty ?? 1;
     const expectedUtility =
-      effect && effect.causalStatus !== "NOT_CAUSAL"
-        ? expectedEffect * i.completionProbability - i.estimatedCost
-        : expectedEffect * i.completionProbability * evidence - i.estimatedCost;
+      effect
+        ? Math.max(0, expectedEffect - uncertaintyPenalty) * i.completionProbability * evidence - i.estimatedCost
+        : Number.NEGATIVE_INFINITY;
 
     const eligible = i.productionStatus === "ACTIVE" && evidence >= 0.25;
 
