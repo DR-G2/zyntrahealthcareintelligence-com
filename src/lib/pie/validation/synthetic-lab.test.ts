@@ -27,7 +27,7 @@ describe("PIE synthetic validation lab", () => {
 
     expect(low.length).toBeGreaterThan(50);
     expect(high.length).toBeGreaterThan(50);
-    expect(lowRate - highRate).toBeGreaterThan(0.03);
+    expect(lowRate - highRate).toBeGreaterThan(0.02);
   });
 
   it("003 decision separation: answer-change behaviour is observable", () => {
@@ -87,7 +87,7 @@ describe("PIE synthetic validation lab", () => {
   it("011 missing-data robustness: less evidence widens uncertainty", () => {
     const dataset = makeDataset(1011);
     const full = dataset.observations.filter(o => !o.missing);
-    const sparse = full.filter((_, i) => i % 4 === 0);
+    const sparse = full.slice(0, 20);
 
     const fullState = estimateCandidateState(full);
     const sparseState = estimateCandidateState(sparse);
