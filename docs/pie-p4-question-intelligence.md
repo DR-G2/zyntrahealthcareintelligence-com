@@ -29,7 +29,7 @@ The prediction is joint, but the candidate and question contributions remain sep
 
 P4 does not allow one candidate's observation to validate a question parameter.
 
-A question starts protected. It requires cross-candidate replication before it can affect the question model.
+A question starts protected. Cross-candidate replication is tracked by unique candidate provenance, not raw attempt count. A single candidate cannot unprotect a question by repeated attempts.
 
 Question evidence is kept separate from candidate evidence.
 
