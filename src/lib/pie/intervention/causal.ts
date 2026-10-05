@@ -21,17 +21,21 @@ export function recoverRandomizedEffect(
   treated: PotentialOutcomePair[],
   control: PotentialOutcomePair[],
 ): CausalRecovery {
-  const t=mean(treated.map(x=>x.treated-x.untreated));
-  const c=mean(control.map(x=>x.treated-x.untreated));
+  // In a randomized trial, the observed contrast is:
+  // mean(Y(1) in treated) - mean(Y(0) in control).
+  // Individual potential outcomes are available only because this is a
+  // synthetic validation universe.
+  const observedEffect =
+    mean(treated.map(x=>x.treated)) -
+    mean(control.map(x=>x.untreated));
   const trueEffect=mean([...treated,...control].map(x=>x.treated-x.untreated));
-  const observedEffect=t-c;
   return {
     averageTreatmentEffect: observedEffect,
     trueEffect,
     absoluteError: Math.abs(observedEffect-trueEffect),
     treatedN:treated.length,
     controlN:control.length,
-    assignmentBias:Math.abs(t-c),
+    assignmentBias:Math.abs(observedEffect-trueEffect),
   };
 }
 
