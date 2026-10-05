@@ -3,7 +3,7 @@ export const PIE_VALIDATION_CATALOG = [
   "002 timing separation",
   "003 decision separation",
   "004 calibration recovery",
-  "005 missing-data uncertainty robustness",
+  "005 sustained-performance recovery",
   "006 change-point recovery",
   "007 interruption recovery",
   "008 learning recovery",
