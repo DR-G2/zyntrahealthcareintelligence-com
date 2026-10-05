@@ -45,14 +45,6 @@ Deno.serve(async (req) => {
   const userId = user.id;
   const modelVersion = DEFAULT_INFERENCE_CONFIG.modelVersion;
 
-  const { data: rows, error: observationError } = await serviceClient
-    .from("pie_observation")
-    .select("*")
-    .eq("user_id", userId)
-    .order("occurred_at", { ascending: true });
-
-  if (observationError) return json({ error: "observation_query_failed", detail: observationError.message }, 500);
-
   const { data: priorRow } = await serviceClient
     .from("pie_candidate_state")
     .select("*")
@@ -97,6 +89,18 @@ Deno.serve(async (req) => {
       modelVersion: priorRow.model_version,
     };
   }
+
+  const observationQuery = serviceClient
+    .from("pie_observation")
+    .select("*")
+    .eq("user_id", userId)
+    .order("occurred_at", { ascending: true });
+
+  const { data: rows, error: observationError } = priorRow
+    ? await observationQuery.gt("occurred_at", priorRow.state_timestamp)
+    : await observationQuery;
+
+  if (observationError) return json({ error: "observation_query_failed", detail: observationError.message }, 500);
 
   const observations: PieObservation[] = (rows ?? []).map((row) => ({
     occurredAt: row.occurred_at,
