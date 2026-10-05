@@ -15,18 +15,13 @@ export interface CandidateEstimate {
   evidenceCount: number;
 }
 
-function weightedMean(values: number[], weights: number[]): number {
-  const total = weights.reduce((a, b) => a + b, 0);
-  return total ? values.reduce((s, v, i) => s + v * weights[i], 0) / total : 0.5;
-}
-
 /**
  * Development-only executable PIE candidate.
  *
  * This is deliberately NOT the final hierarchical dynamic state-space model.
  * It exists so the validation lab has a stable, inspectable model to challenge.
- * It estimates separate dimensions from conditional evidence instead of producing
- * one fixed-weight readiness score.
+ * It estimates separate dimensions instead of producing one fixed-weight
+ * readiness score.
  */
 export function estimateCandidateState(observations: SyntheticObservation[]): CandidateEstimate {
   const valid = observations.filter(o => !o.missing);
@@ -42,17 +37,26 @@ export function estimateCandidateState(observations: SyntheticObservation[]): Ca
     };
   }
 
-  const capabilitySignals = valid.map(o => clamp01(o.outcome ? o.difficulty + 0.5 : o.difficulty - 0.25));
-  const capabilityWeights = valid.map(o => 0.6 + o.discriminationSafe());
-  const capability = weightedMean(capabilitySignals, capabilityWeights);
+  // This first estimator is intentionally transparent. It is a validation
+  // instrument, not a production estimator and not a final psychometric model.
+  const capabilitySignals = valid.map(o =>
+    clamp01(o.outcome ? 0.55 + o.difficulty * 0.45 : o.difficulty * 0.25),
+  );
+  const capability = mean(capabilitySignals);
 
-  const timingSignals = valid.map(o => clamp01(1 - Math.abs(o.timePressure - (o.outcome ? 0.55 : 0.35))));
+  const timingSignals = valid.map(o =>
+    clamp01(1 - Math.abs(o.timePressure - (o.outcome ? 0.55 : 0.35))),
+  );
   const timing = mean(timingSignals);
 
-  const decisionSignals = valid.map(o => o.answerChanged ? (o.finalCorrect ? 0.55 : 0.35) : 0.5);
+  const decisionSignals = valid.map(o =>
+    o.answerChanged ? (o.finalCorrect ? 0.55 : 0.35) : 0.5,
+  );
   const decision = mean(decisionSignals);
 
-  const calibrationErrors = valid.map(o => Math.abs(o.confidence - (o.outcome ? 1 : 0)));
+  const calibrationErrors = valid.map(o =>
+    Math.abs(o.confidence - (o.outcome ? 1 : 0)),
+  );
   const calibration = clamp01(1 - mean(calibrationErrors));
 
   const evidenceFactor = Math.min(1, Math.sqrt(valid.length / 40));
@@ -73,21 +77,10 @@ export function estimateCandidateState(observations: SyntheticObservation[]): Ca
   };
 }
 
-declare global {
-  interface Object {
-    discriminationSafe?: () => number;
-  }
-}
-
-export function attachQuestionDiscrimination(observations: SyntheticObservation[], discrimination = 1): SyntheticObservation[] {
-  return observations.map(o => ({ ...o, discrimination }));
-}
-
-// Kept local to avoid storing production-only question parameters in the observation contract.
-(SyntheticObservation.prototype as unknown as { discriminationSafe?: () => number }).discriminationSafe = function () {
-  return 0.5;
-};
-
-export function estimateOutcomeProbability(capability: number, difficulty: number, discrimination = 1): number {
+export function estimateOutcomeProbability(
+  capability: number,
+  difficulty: number,
+  discrimination = 1,
+): number {
   return sigmoid((capability - difficulty) * discrimination);
 }
