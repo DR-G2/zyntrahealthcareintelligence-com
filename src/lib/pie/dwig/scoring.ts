@@ -70,6 +70,9 @@ function eligibility(
 ): { eligible: boolean; reason?: string; qU: number } {
   const qU = questionUncertainty(question);
   if (question.protected) return { eligible: false, reason: "QUESTION_PROTECTED", qU };
+  if (question.difficulty.variance > 0.12 || question.discrimination.variance > 0.12) {
+    return { eligible: false, reason: "QUESTION_PARAMETER_UNCERTAIN", qU };
+  }
   if (qU > config.maximumQuestionUncertainty) return { eligible: false, reason: "QUESTION_UNCERTAIN", qU };
   if (question.productionStatus && question.productionStatus !== "PRODUCTION") {
     return { eligible: false, reason: "NOT_PRODUCTION", qU };
