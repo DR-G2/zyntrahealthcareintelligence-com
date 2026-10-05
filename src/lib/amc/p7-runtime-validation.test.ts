@@ -96,12 +96,12 @@ describe("AMC P7 executable validation", () => {
     expect(AMC_P7_REQUIRED_CHECKS).toContain("IRT_EXTERNAL_CROSS_CHECK");
     expect(AMC_P7_REQUIRED_CHECKS).toContain("SYNTHETIC_TRUTH_RECOVERY");
     expect(AMC_P7_REQUIRED_CHECKS).toContain("SECURITY_BOUNDARY");
-    expect(canProposeP8({
+    expect(canProposeP8([{
       validationType: "SYNTHETIC",
       status: "INCONCLUSIVE",
       datasetManifest: {},
       methodology: {},
       metrics: [],
-    })).toBe(false);
+    }])).toBe(false);
   });
 });
