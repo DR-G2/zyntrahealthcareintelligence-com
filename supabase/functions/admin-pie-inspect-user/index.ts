@@ -1,24 +1,13 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-const configuredOrigin = Deno.env.get("PIE_ALLOWED_ORIGIN");
-const allowedOrigins = new Set([
-  "https://www.zyntrahealthcareintelligence.com",
-  "https://zyntrahealthcareintelligence.com",
-  ...(configuredOrigin ? configuredOrigin.split(",").map((value) => value.trim()).filter(Boolean) : []),
-]);
-
-const corsHeaders = (origin?: string | null) => ({
-  "Access-Control-Allow-Origin": origin && allowedOrigins.has(origin)
-    ? origin
-    : "https://www.zyntrahealthcareintelligence.com",
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
   "Access-Control-Allow-Methods": "POST, OPTIONS",
-  "Vary": "Origin",
-});
+};
 
 Deno.serve(async (req) => {
-  const origin = req.headers.get("Origin");
-  const headers = corsHeaders(origin);
+  const headers = corsHeaders;
 
   if (req.method === "OPTIONS") return new Response(null, { status: 204, headers });
   if (req.method !== "POST") return new Response(JSON.stringify({ error: "method_not_allowed" }), { status: 405, headers: { ...headers, "Content-Type": "application/json" } });
@@ -55,8 +44,27 @@ Deno.serve(async (req) => {
       return new Response(JSON.stringify({ error: "user_id required" }), { status: 400, headers: { ...headers, "Content-Type": "application/json" } });
     }
 
+    // Core PIE state is required. Secondary inspection panels are deliberately
+    // best-effort so a newly-added/optional PIE table cannot blank the entire
+    // admin inspection surface.
+    const stateRes = await admin
+      .from("pie_candidate_state")
+      .select("*")
+      .eq("user_id", user_id)
+      .order("state_sequence", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (stateRes.error) {
+      return new Response(JSON.stringify({
+        error: "candidate_state_query_failed",
+        detail: stateRes.error.message,
+      }), { status: 500, headers: { ...headers, "Content-Type": "application/json" } });
+    }
+
+    const stateId = stateRes.data?.id;
+
     const [
-      stateRes,
       uncertaintyRes,
       dynamicRes,
       readinessRes,
@@ -67,11 +75,9 @@ Deno.serve(async (req) => {
       validationRes,
       inferenceRes,
     ] = await Promise.all([
-      admin.from("pie_candidate_state").select("*").eq("user_id", user_id).order("state_sequence", { ascending: false }).limit(1).maybeSingle(),
-      admin.from("pie_state_uncertainty").select("*").in(
-        "candidate_state_id",
-        (await admin.from("pie_candidate_state").select("id").eq("user_id", user_id).order("state_sequence", { ascending: false }).limit(1)).data?.map((x: any) => x.id) || ["00000000-0000-0000-0000-000000000000"]
-      ),
+      stateId
+        ? admin.from("pie_state_uncertainty").select("*").eq("candidate_state_id", stateId)
+        : Promise.resolve({ data: [], error: null }),
       admin.from("pie_dynamic_state").select("*").eq("user_id", user_id).order("state_sequence", { ascending: false }).limit(1).maybeSingle(),
       admin.from("pie_exam_readiness").select("*, pie_exam_environment(exam_code, exam_version, status)").eq("user_id", user_id).order("evaluated_at", { ascending: false }).limit(5),
       admin.from("pie_legacy_compatibility").select("*").eq("user_id", user_id).maybeSingle(),
@@ -82,27 +88,30 @@ Deno.serve(async (req) => {
       admin.from("pie_inference_run").select("*").eq("user_id", user_id).order("started_at", { ascending: false }).limit(20),
     ]);
 
-    const errors = [
-      stateRes.error, uncertaintyRes.error, dynamicRes.error, readinessRes.error,
-      compatibilityRes.error, hypothesesRes.error, dwigRes.error, decisionRes.error, validationRes.error, inferenceRes.error,
+    const optionalErrors = [
+      uncertaintyRes.error, dynamicRes.error, readinessRes.error,
+      compatibilityRes.error, hypothesesRes.error, dwigRes.error,
+      decisionRes.error, validationRes.error, inferenceRes.error,
     ].filter(Boolean);
 
-    if (errors.length) {
-      return new Response(JSON.stringify({ error: errors[0]?.message || "PIE inspection query failed" }), { status: 500, headers: { ...headers, "Content-Type": "application/json" } });
+    if (optionalErrors.length) {
+      console.warn("[PIE admin inspect] optional query failures:",
+        optionalErrors.map((e: any) => e?.message).filter(Boolean));
     }
 
     return new Response(JSON.stringify({
       inspected_user_id: user_id,
       candidate_state: stateRes.data,
       state_uncertainty: uncertaintyRes.data || [],
-      dynamic_state: dynamicRes.data,
+      dynamic_state: dynamicRes.data || null,
       exam_readiness: readinessRes.data || [],
-      legacy_compatibility: compatibilityRes.data,
+      legacy_compatibility: compatibilityRes.data || null,
       hypotheses: hypothesesRes.data || [],
       dwig_selections: dwigRes.data || [],
       decisions: decisionRes.data || [],
       validation_runs: validationRes.data || [],
       inference_runs: inferenceRes.data || [],
+      inspection_warnings: optionalErrors.map((e: any) => e?.message).filter(Boolean),
     }), { headers: { ...headers, "Content-Type": "application/json" } });
   } catch (e) {
     return new Response(JSON.stringify({ error: e instanceof Error ? e.message : "Unknown error" }), { status: 500, headers: { ...headers, "Content-Type": "application/json" } });
