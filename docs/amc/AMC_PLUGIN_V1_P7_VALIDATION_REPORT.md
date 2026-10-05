@@ -38,7 +38,7 @@ The plugin stores:
 ### 3. AMC response-matrix simulation
 Status: IMPLEMENTED.
 
-The P7 harness now includes a deterministic AMC CAT response-matrix simulator. It generates candidate truth, an item pool with calibrated and new items, 150-item candidate-specific adaptive examinations, confidence, timing and answer-change observations, and a sparse candidate × question response matrix. The simulator follows the public AMC structural constraints but is explicitly not presented as the proprietary AMC CAT selection/scoring algorithm. The current AMC specification states that at least half of the questions come from previously calibrated questions and that new questions are inspected and calibrated before scoring.
+The P7 harness now includes a deterministic AMC CAT response-matrix simulator. It generates candidate truth, an item pool with calibrated and new items, 150-item candidate-specific adaptive examinations, confidence, timing and answer-change observations, and a sparse candidate × question response matrix. The simulator follows the public AMC structural constraints but is explicitly not presented as the proprietary AMC CAT selection/scoring algorithm. A reference 1,000-candidate / 1,000-item-pool run produced 150,000 candidate-item responses, exact per-exam blueprint allocation of 45/30/19/19/19/18 across the six patient groups, and more than 50% calibrated-item exposure. These values are simulator outputs, not AMC operational statistics. The current AMC specification states that at least half of the questions come from previously calibrated questions and that new questions are inspected and calibrated before scoring.
 
 ### 4. Synthetic truth recovery
 Status: PASS at engineering-test level.
@@ -75,6 +75,8 @@ PACER supports independent 1PL/2PL/3PL calibration and related psychometric anal
 
 ### 8. Empirical Zyntra AMC attempt validation
 Status: BLOCKED.
+
+The simulator now provides the synthetic response matrix needed for controlled validation. Real Zyntra candidate data remains separate and is not required for synthetic truth-recovery tests.
 
 The available database backup contains the legacy `user_attempts` table but does not contain AMC plugin validation tables or a usable anonymised AMC response matrix. Direct live Supabase SQL permission was also unavailable in this environment.
 
