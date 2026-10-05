@@ -1,0 +1,5 @@
+import type { AmcExamEnvironment, AmcPluginVersion } from "./types";
+export const AMC_PLUGIN_V1:AmcPluginVersion={pluginKey:"AMC_EXAM_INTELLIGENCE",pluginVersion:"1.0.0",examCode:"AMC",contractVersion:"1.0",status:"DEVELOPMENT"};
+export const AMC_MCQ_ENVIRONMENT_V1:AmcExamEnvironment={environmentKey:"AMC_MCQ",environmentVersion:"1.0",blueprintVersion:"UNPOPULATED_1.0",taskMixVersion:"UNPOPULATED_1.0",timingVersion:"UNPOPULATED_1.0",targetVersion:"UNPOPULATED_1.0"};
+export const AMC_PLUGIN_SECURITY_RULES=Object.freeze({candidateDirectDbRead:false,candidateDirectDbWrite:false,candidateReadsModelParameters:false,candidateReadsQuestionPosteriors:false,candidateReadsDwig:false,candidateReadsCausalEstimates:false,candidateReadsOtherCandidates:false,serviceRoleOnlyInternalPersistence:true});
+export function assertAmcPluginVersion(plugin:AmcPluginVersion):void{if(plugin.pluginKey!=="AMC_EXAM_INTELLIGENCE")throw new Error("invalid_amc_plugin");if(plugin.examCode!=="AMC")throw new Error("invalid_amc_exam");if(!/^\d+\.\d+\.\d+$/.test(plugin.pluginVersion))throw new Error("invalid_amc_plugin_version");}
