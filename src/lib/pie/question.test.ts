@@ -49,7 +49,9 @@ describe("PIE P4 question intelligence", () => {
 
   test("joint prediction keeps candidate and question contributions separate", () => {
     const candidate = initialCandidateState();
+    candidate.capability.estimate = 0.72;
     const question = initialQuestionState("q1", "v1");
+    question.difficulty.estimate = 0.38;
     const prediction = predictCandidateQuestion(candidate, question);
     expect(prediction.candidateContribution).not.toBe(prediction.questionContribution);
     expect(prediction.questionUncertainty).toBeGreaterThan(0);
