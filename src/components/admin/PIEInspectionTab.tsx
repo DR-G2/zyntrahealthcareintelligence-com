@@ -76,11 +76,13 @@ export function PIEInspectionTab() {
 
       {data && (
         <>
-          <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+          <div className="grid grid-cols-2 gap-3 lg:grid-cols-6">
             <Card><CardContent className="p-4"><div className="text-xs text-muted-foreground">Capability</div><div className="text-xl font-semibold">{pct(state?.capability_estimate)}</div></CardContent></Card>
             <Card><CardContent className="p-4"><div className="text-xs text-muted-foreground">Decision</div><div className="text-xl font-semibold">{pct(state?.decision_estimate)}</div></CardContent></Card>
             <Card><CardContent className="p-4"><div className="text-xs text-muted-foreground">Timing</div><div className="text-xl font-semibold">{pct(state?.timing_estimate)}</div></CardContent></Card>
             <Card><CardContent className="p-4"><div className="text-xs text-muted-foreground">Calibration</div><div className="text-xl font-semibold">{pct(state?.calibration_estimate)}</div></CardContent></Card>
+            <Card><CardContent className="p-4"><div className="text-xs text-muted-foreground">Sustained performance</div><div className="text-xl font-semibold">{pct(state?.sustained_performance_estimate)}</div></CardContent></Card>
+            <Card><CardContent className="p-4"><div className="text-xs text-muted-foreground">Learning</div><div className="text-xl font-semibold">{pct(state?.learning_estimate)}</div></CardContent></Card>
           </div>
 
           <Card>
