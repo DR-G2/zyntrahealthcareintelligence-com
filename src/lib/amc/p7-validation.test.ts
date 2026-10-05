@@ -9,22 +9,22 @@ describe("AMC P7 validation contract", () => {
   });
 
   it("does not propose certification from inconclusive evidence", () => {
-    expect(canProposeP8({
+    expect(canProposeP8([{
       validationType: "PSYCHOMETRIC_EXTERNAL",
       status: "INCONCLUSIVE",
       datasetManifest: {},
       methodology: {},
       metrics: [],
-    })).toBe(false);
+    }])).toBe(false);
   });
 
   it("requires every recorded metric to pass before proposing P8", () => {
-    expect(canProposeP8({
+    expect(canProposeP8([{
       validationType: "SYNTHETIC",
       status: "PASSED",
       datasetManifest: {},
       methodology: {},
       metrics: [{ code: "truth_recovery", direction: "HIGHER_IS_BETTER", status: "FAIL" }],
-    })).toBe(false);
+    }])).toBe(false);
   });
 });
