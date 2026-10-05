@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -16,4 +16,5 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm install --no-audit --no-fund
+      - run: npm run test
       - run: npm run build
