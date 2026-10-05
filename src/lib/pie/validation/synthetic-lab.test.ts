@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { makeDataset } from "./synthetic";
+import { makeDataset, seededRng } from "./synthetic";
 import { brierScore, calibrationBins, spearman, uncertaintyWidth } from "./metrics";
 import { estimateCandidateState, estimateOutcomeProbability } from "./candidate-model";
 
@@ -56,8 +56,33 @@ describe("PIE synthetic validation lab", () => {
     expect(brier).toBeLessThan(0.45);
   });
 
-  it("005 missing-data uncertainty robustness: less evidence widens uncertainty", () => {
+  it("005 sustained-performance recovery: controlled late decline is detectable", () => {
     const dataset = makeDataset(1005);
+    const rng = seededRng(5005);
+    const rows = dataset.observations
+      .filter(o => o.candidateId === "C20" && !o.missing)
+      .map(o => ({ ...o }));
+
+    const baselineEarly = rows.filter(o => o.position < 20);
+    const baselineLate = rows.filter(o => o.position >= 20);
+
+    const earlyRate = baselineEarly.reduce((s, o) => s + Number(o.outcome), 0) / baselineEarly.length;
+
+    const degradedLate = baselineLate.map(o => ({
+      ...o,
+      outcome: rng() < 0.65 ? false : o.outcome,
+      finalCorrect: rng() < 0.65 ? false : o.finalCorrect,
+    }));
+
+    const lateRate = degradedLate.reduce((s, o) => s + Number(o.outcome), 0) / degradedLate.length;
+
+    expect(baselineEarly.length).toBeGreaterThan(10);
+    expect(degradedLate.length).toBeGreaterThan(10);
+    expect(earlyRate - lateRate).toBeGreaterThan(0.08);
+  });
+
+  it("011 missing-data robustness: less evidence widens uncertainty", () => {
+    const dataset = makeDataset(1011);
     const full = dataset.observations.filter(o => !o.missing);
     const sparse = full.filter((_, i) => i % 4 === 0);
 
