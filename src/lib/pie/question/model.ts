@@ -8,6 +8,18 @@ import {
 
 const clamp01 = (x: number) => Math.max(0, Math.min(1, x));
 
+function initialQuestionPosterior(estimate: number): QuestionPosterior {
+  const variance = 0.25;
+  return {
+    estimate: clamp01(estimate),
+    variance,
+    lower: clamp01(estimate - 0.5),
+    upper: clamp01(estimate + 0.5),
+    evidenceCount: 0,
+    evidenceQuality: 0,
+  };
+}
+
 function qualityOf(o: QuestionObservation): number {
   switch (o.observationQuality) {
     case "UNUSABLE": return 0;
@@ -41,8 +53,6 @@ function bayesianUpdate(
 }
 
 function difficultySignal(o: QuestionObservation): number {
-  // Observed difficulty is estimated relative to the candidate capability.
-  // This is a local observation, not a final question parameter.
   return clamp01(o.candidateCapabilityEstimate + (o.outcome ? -0.18 : 0.18));
 }
 
@@ -52,8 +62,6 @@ function ambiguitySignal(o: QuestionObservation): number {
 }
 
 function discriminationSignal(o: QuestionObservation): number {
-  // A single candidate cannot identify discrimination reliably.
-  // This weak signal is retained only as evidence with explicit uncertainty.
   return clamp01(0.5 + (o.outcome ? 0.08 : -0.08));
 }
 
@@ -78,7 +86,12 @@ export function updateQuestionState(
     ...prior,
     modelVersion: config.modelVersion,
     difficulty: bayesianUpdate(prior.difficulty, difficultySignal(observation), config, quality),
-    discrimination: bayesianUpdate(prior.discrimination, discriminationSignal(observation), config, quality * 0.5),
+    discrimination: bayesianUpdate(
+      prior.discrimination,
+      discriminationSignal(observation),
+      config,
+      quality * 0.5,
+    ),
     ambiguity: bayesianUpdate(prior.ambiguity, ambiguitySignal(observation), config, quality),
     novelty: bayesianUpdate(prior.novelty, noveltySignal(observation), config, quality * 0.5),
   };
@@ -116,10 +129,7 @@ export function initialQuestionState(
   return {
     questionId,
     questionVersion,
-    difficulty: {
-      ...initialPosterior(0.5),
-      estimate: 0.5,
-    },
+    difficulty: initialQuestionPosterior(0.5),
     discrimination: initialQuestionPosterior(0.5),
     ambiguity: initialQuestionPosterior(0.1),
     novelty: initialQuestionPosterior(0.5),
