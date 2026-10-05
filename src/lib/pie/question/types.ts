@@ -31,6 +31,7 @@ export interface QuestionState {
   modelVersion: string;
   protected: boolean;
   uniqueCandidateCount: number;
+  candidateIdsSeen: string[];
 }
 
 export interface QuestionObservation {
