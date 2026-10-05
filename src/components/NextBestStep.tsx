@@ -44,7 +44,7 @@ export function NextBestStep() {
 
     (async () => {
       try {
-        const { data, error } = await supabase.rpc('get_next_best_action', {
+        const { data, error } = await (supabase.rpc as any)('get_next_best_action', {
           p_user_id: user.id,
         });
 
@@ -66,7 +66,7 @@ export function NextBestStep() {
     if (!rec?.id || starting) return;
     setStarting(true);
     try {
-      const { error } = await supabase.rpc('start_next_best_action', {
+      const { error } = await (supabase.rpc as any)('start_next_best_action', {
         p_action_id: rec.id,
       });
       if (error) throw error;

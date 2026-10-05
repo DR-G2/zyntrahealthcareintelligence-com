@@ -89,7 +89,7 @@ export default function Plan() {
           correct: Math.round(total * accuracy / 100),
           total,
           accuracy,
-          priority: accuracy < 60 ? 'high' : accuracy < 80 ? 'medium' : 'maintain',
+          priority: (accuracy < 60 ? 'high' : accuracy < 80 ? 'medium' : 'maintain') as CategoryStat['priority'],
         };
       }).filter((row: CategoryStat) => row.total > 0));
       setLoading(false);
@@ -228,11 +228,11 @@ export default function Plan() {
                 {plan.motivation && <div className="rounded-2xl border border-cyan-400/15 bg-cyan-400/[0.045] p-5"><div className="flex gap-3"><Sparkles className="mt-0.5 h-5 w-5 shrink-0 text-cyan-300" /><p className="text-sm leading-6 text-slate-200">{plan.motivation}</p></div></div>}
 
                 <section className="grid gap-4 md:grid-cols-3">
-                  {[
+                  {([
                     ['Current Readiness', `${Math.round(readiness)}%`, 'Composite signal', TrendingUp],
                     ['Clinical Accuracy', `${Math.round(accuracy)}%`, 'Recorded MCQ performance', Target],
                     ['Answer Stability', `${Math.round(stability)}%`, 'Consistency of decisions', CheckCircle2],
-                  ].map(([label, value, helper, Icon]) => (
+                  ] as [string, string, string, typeof TrendingUp][]).map(([label, value, helper, Icon]) => (
                     <div key={String(label)} className="rounded-2xl border border-white/10 bg-[#081224]/70 p-5 backdrop-blur-xl">
                       <Icon className="h-5 w-5 text-cyan-300" />
                       <p className="mt-5 text-xs text-slate-500">{label}</p>

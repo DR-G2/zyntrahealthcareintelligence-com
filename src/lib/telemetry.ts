@@ -48,7 +48,7 @@ export async function emitBehaviorEvent({
       question_id: questionId,
       sequence_no: sequenceNo,
       question_position: questionPosition,
-      payload,
+      payload: payload as never,
       occurred_at: new Date().toISOString(),
     });
 

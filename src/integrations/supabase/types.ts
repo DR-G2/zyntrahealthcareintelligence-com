@@ -384,6 +384,56 @@ export type Database = {
         }
         Relationships: []
       }
+      behavior_events: {
+        Row: {
+          created_at: string
+          event_type: string
+          event_version: number
+          id: string
+          occurred_at: string
+          payload: Json
+          question_id: string | null
+          question_position: number | null
+          sequence_no: number | null
+          session_id: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          event_type: string
+          event_version?: number
+          id?: string
+          occurred_at?: string
+          payload?: Json
+          question_id?: string | null
+          question_position?: number | null
+          sequence_no?: number | null
+          session_id?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          event_type?: string
+          event_version?: number
+          id?: string
+          occurred_at?: string
+          payload?: Json
+          question_id?: string | null
+          question_position?: number | null
+          sequence_no?: number | null
+          session_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "behavior_events_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "questions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       behavior_profiles: {
         Row: {
           archetype: string

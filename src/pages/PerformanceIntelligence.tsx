@@ -443,7 +443,7 @@ export default function PerformanceIntelligence() {
           .eq('user_id', user.id)
           .order('created_at', { ascending: false })
           .limit(2000),
-        supabase.rpc('get_confidence_intelligence'),
+        (supabase.rpc as any)('get_confidence_intelligence'),
       ]);
 
       if (cancelled) return;
