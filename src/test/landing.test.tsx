@@ -92,6 +92,6 @@ describe("Landing diagnostic", () => {
   it("keeps the six-question contract visible", async () => {
     renderLanding();
     expect(await screen.findByText("Question 1 of 6")).toBeInTheDocument();
-    expect(screen.getByText("100%")).not.toBeInTheDocument();
+    expect(screen.getByText("17%")).toBeInTheDocument();
   });
 });
