@@ -95,8 +95,9 @@ export function validateMissingData(
 }
 
 export function runMissingDataValidation(
-  seeds:number[]=[101,202,303,404,505],
+  seeds:number[]|number=[101,202,303,404,505],
 ):MissingDataResult[] {
+  const normalizedSeeds=Array.isArray(seeds)?seeds:[seeds];
   const mechanisms:MissingnessMechanism[]=["MCAR","MAR","MNAR"];
-  return seeds.flatMap(seed=>mechanisms.map(m=>validateMissingData(seed,m)));
+  return normalizedSeeds.flatMap(seed=>mechanisms.map(m=>validateMissingData(seed,m)));
 }
