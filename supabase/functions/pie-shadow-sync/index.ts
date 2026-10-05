@@ -1,11 +1,30 @@
 import { withSupabase } from "npm:@supabase/server@1";
 
-const origin = Deno.env.get("PIE_ALLOWED_ORIGIN") ?? "https://www.zyntrahealthcareintelligence.com";
+const configuredOrigin = Deno.env.get("PIE_ALLOWED_ORIGIN");
+const allowedOrigins = new Set([
+  "https://www.zyntrahealthcareintelligence.com",
+  "https://zyntrahealthcareintelligence.com",
+  ...(configuredOrigin ? configuredOrigin.split(",").map((value) => value.trim()).filter(Boolean) : []),
+]);
 
 export default {
   fetch: withSupabase({ auth: "user" }, async (req, ctx) => {
+    const requestOrigin = req.headers.get("Origin");
+    const responseCors = {
+      "Access-Control-Allow-Origin": requestOrigin && allowedOrigins.has(requestOrigin)
+        ? requestOrigin
+        : "https://www.zyntrahealthcareintelligence.com",
+      "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
+      "Access-Control-Allow-Methods": "POST, OPTIONS",
+      "Vary": "Origin",
+    };
+
+    if (req.method === "OPTIONS") {
+      return new Response(null, { status: 204, headers: responseCors });
+    }
+
     if (req.method !== "POST") {
-      return Response.json({ error: "method_not_allowed" }, { status: 405 });
+      return new Response(JSON.stringify({ error: "method_not_allowed" }), { status: 405, headers: { ...responseCors, "Content-Type": "application/json" } });
     }
 
     const userId = ctx.userClaims?.sub;
@@ -142,5 +161,5 @@ export default {
       normalized: fresh.length,
       pie,
     });
-  }, { cors: { origin } }),
+  }, { cors: { origin: "*" } }),
 };
