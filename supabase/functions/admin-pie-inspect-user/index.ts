@@ -50,6 +50,7 @@ Deno.serve(async (req) => {
       dwigRes,
       decisionRes,
       validationRes,
+      inferenceRes,
     ] = await Promise.all([
       admin.from("pie_candidate_state").select("*").eq("user_id", user_id).order("state_sequence", { ascending: false }).limit(1).maybeSingle(),
       admin.from("pie_state_uncertainty").select("*").in(
@@ -63,11 +64,12 @@ Deno.serve(async (req) => {
       admin.from("pie_dwig_selection").select("*, pie_dwig_candidate(*)").eq("user_id", user_id).order("evaluated_at", { ascending: false }).limit(5),
       admin.from("pie_decision").select("*").eq("user_id", user_id).order("decided_at", { ascending: false }).limit(5),
       admin.from("pie_validation_run").select("*").order("created_at", { ascending: false }).limit(10),
+      admin.from("pie_inference_run").select("*").eq("user_id", user_id).order("started_at", { ascending: false }).limit(20),
     ]);
 
     const errors = [
       stateRes.error, uncertaintyRes.error, dynamicRes.error, readinessRes.error,
-      compatibilityRes.error, hypothesesRes.error, dwigRes.error, decisionRes.error, validationRes.error,
+      compatibilityRes.error, hypothesesRes.error, dwigRes.error, decisionRes.error, validationRes.error, inferenceRes.error,
     ].filter(Boolean);
 
     if (errors.length) {
@@ -85,6 +87,7 @@ Deno.serve(async (req) => {
       dwig_selections: dwigRes.data || [],
       decisions: decisionRes.data || [],
       validation_runs: validationRes.data || [],
+      inference_runs: inferenceRes.data || [],
     }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
   } catch (e) {
     return new Response(JSON.stringify({ error: e instanceof Error ? e.message : "Unknown error" }), { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } });
