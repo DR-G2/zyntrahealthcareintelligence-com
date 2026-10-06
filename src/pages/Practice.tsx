@@ -948,20 +948,38 @@ function DrillSession({
       // randomness so the same session is not deterministic.
       let matchingIds = [...filteredCandidateIds];
       if (user && matchingIds.length > 0) {
-        const [{ data: history }, { data: questionDna }] = await Promise.all([
-          supabase
+        // Confidence is an optional telemetry column during staged migration.
+        // Never let its absence prevent the Practice page from loading.
+        let historyResult = await supabase
+          .from('user_attempts')
+          .select('question_id, is_correct, confidence_level, created_at')
+          .eq('user_id', user.id)
+          .in('question_id', filteredCandidateIds)
+          .order('created_at', { ascending: false })
+          .limit(2000);
+
+        if (historyResult.error && /confidence_level.*column|column.*confidence_level|schema cache/i.test(historyResult.error.message || '')) {
+          console.warn('[Practice] confidence_level unavailable; using legacy adaptive history.');
+          historyResult = await supabase
             .from('user_attempts')
-            .select('question_id, is_correct, confidence_level, created_at')
+            .select('question_id, is_correct, created_at')
             .eq('user_id', user.id)
             .in('question_id', filteredCandidateIds)
             .order('created_at', { ascending: false })
-            .limit(2000),
-          supabase
-            .from('question_dna')
-            .select('question_id, confidence_error_rate, difficulty_score, attempt_count')
-            .in('question_id', candidateIds)
-            .limit(5000),
-        ]);
+            .limit(2000);
+        }
+
+        if (historyResult.error) throw historyResult.error;
+
+        const { data: questionDna, error: questionDnaError } = await supabase
+          .from('question_dna')
+          .select('question_id, confidence_error_rate, difficulty_score, attempt_count')
+          .in('question_id', candidateIds)
+          .limit(5000);
+
+        if (questionDnaError) throw questionDnaError;
+
+        const history = historyResult.data;
 
         const latest = new Map<string, { is_correct: boolean; confidence_level: number | null; created_at: string }>();
         (history || []).forEach((attempt: any) => {
