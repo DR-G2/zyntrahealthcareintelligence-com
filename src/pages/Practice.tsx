@@ -976,7 +976,69 @@ function DrillSession({
         }
       }
 
-      // Normal fetch
+      // V2 test mode intentionally bypasses the legacy adaptive pipeline.
+      // This keeps the V2 test independent from legacy history/DNA queries.
+      if (v2PracticeEnabled && user) {
+        await ensureV2AdminSession();
+
+        const v2PoolSize = config.mode === 'full-mock'
+          ? config.questionCount
+          : Math.min(Math.max(config.questionCount * 3, config.questionCount + 10, 25), 1000);
+
+        const v2Pool = await getV2PracticeQuestionPool(v2PoolSize);
+        const v2Visible = v2Pool.slice(0, config.questionCount);
+
+        if (!v2Visible.length) {
+          throw new Error('The V2 Practice question pool is empty.');
+        }
+
+        const v2Session = await createV2PracticeSession(
+          'mcq',
+          {
+            ...config,
+            v2PracticeEnabled: true,
+            adaptivePoolIds: v2Pool.slice(config.questionCount).map(q => q.question_id),
+          },
+          v2Visible.map(q => q.question_id),
+        );
+
+        v2SessionIdRef.current = v2Session.id;
+
+        const v2Questions = await getV2PracticeQuestions(v2Session.id);
+
+        if (!v2Questions.length) {
+          throw new Error('V2 session was created, but no questions were returned.');
+        }
+
+        const safeQuestions = v2Questions.map((vq) => ({
+          id: vq.question_id,
+          zyntra_id: vq.zyntra_id,
+          question_text: vq.stem,
+          options: Array.isArray(vq.options) ? vq.options as string[] : [],
+          correct_answer: '',
+          explanation: vq.explanation,
+          category: vq.subject_id || '',
+          subtopic: vq.subtopic_id ?? null,
+          difficulty: vq.difficulty_tier || undefined,
+        } as Question));
+
+        setQuestions(safeQuestions.slice(0, config.questionCount));
+        adaptivePoolRef.current = [];
+
+        await supabase.from('active_sessions').update({
+          config: {
+            ...config,
+            v2PracticeEnabled: true,
+            adaptivePoolIds: v2Pool.slice(config.questionCount).map(q => q.question_id),
+            v2SessionId: v2Session.id,
+          },
+        } as any).eq('session_id', sessionIdRef.current).eq('user_id', user.id);
+
+        setLoading(false);
+        return;
+      }
+
+      // Legacy mode continues through the existing adaptive-selection pipeline.
       const [subjectsRes, subtopicsRes, questionMeta] = await Promise.all([
         supabase.from('subjects').select('id, name'),
         supabase.from('subtopics').select('name, subject_id'),
@@ -1011,8 +1073,6 @@ function DrillSession({
 
       const candidateIds = candidateQuestions.map(question => question.id);
 
-      // Apply the explicit question-status filter before adaptive ranking.
-      // "Correct" and "Incorrect" always mean the user's latest attempt.
       let filteredCandidateIds = [...candidateIds];
       if (user && candidateIds.length > 0 && config.statusFilter && config.statusFilter !== 'all') {
         const latestStatus = new Map<string, boolean>();
@@ -1041,13 +1101,8 @@ function DrillSession({
         });
       }
 
-      // Adaptive selection: when practising a targeted area, prefer questions the
-      // candidate has not answered recently, then unseen questions, while retaining
-      // randomness so the same session is not deterministic.
       let matchingIds = [...filteredCandidateIds];
       if (user && matchingIds.length > 0) {
-        // Confidence is an optional telemetry column during staged migration.
-        // Never let its absence prevent the Practice page from loading.
         let historyResult = await supabase
           .from('user_attempts')
           .select('question_id, is_correct, confidence_level, created_at')
@@ -1057,7 +1112,6 @@ function DrillSession({
           .limit(2000);
 
         if (historyResult.error && /confidence_level.*column|column.*confidence_level|schema cache/i.test(historyResult.error.message || '')) {
-          console.warn('[Practice] confidence_level unavailable; using legacy adaptive history.');
           historyResult = await supabase
             .from('user_attempts')
             .select('question_id, is_correct, created_at')
@@ -1069,9 +1123,6 @@ function DrillSession({
 
         if (historyResult.error) throw historyResult.error;
 
-        // Question DNA is an optional adaptive signal. It must never be a
-        // hard dependency for opening Practice, especially during staged PIE/
-        // confidence migrations.
         const questionDnaResult = await supabase
           .from('question_dna')
           .select('question_id, confidence_error_rate, difficulty_score, attempt_count')
@@ -1079,10 +1130,6 @@ function DrillSession({
           .limit(5000);
 
         const questionDna = questionDnaResult.error ? [] : (questionDnaResult.data || []);
-        if (questionDnaResult.error) {
-          console.warn('[Practice] question_dna unavailable; continuing without DNA ranking:', questionDnaResult.error.message);
-        }
-
         const history = historyResult.data;
 
         const latest = new Map<string, { is_correct: boolean; confidence_level: number | null; created_at: string }>();
@@ -1113,41 +1160,22 @@ function DrillSession({
         const scoreQuestion = (id: string) => {
           const attempt = latest.get(id);
           const dna = questionDnaById.get(id);
-          const ageDays = attempt
-            ? Math.max(0, (now - new Date(attempt.created_at).getTime()) / 86400000)
-            : 0;
-
-          // Base priority: unseen questions remain valuable, but demonstrated
-          // weaknesses can outrank them when the signal is strong.
+          const ageDays = attempt ? Math.max(0, (now - new Date(attempt.created_at).getTime()) / 86400000) : 0;
           let score = attempt ? 300 : 520;
-
           if (attempt) {
-            if (!attempt.is_correct) {
-              score += 260 + Math.min(ageDays, 30) * 4;
-            } else {
-              score += Math.min(ageDays, 30) * 3;
-            }
-
+            if (!attempt.is_correct) score += 260 + Math.min(ageDays, 30) * 4;
+            else score += Math.min(ageDays, 30) * 3;
             const confidence = attempt.confidence_level;
-            if (confidence !== null && confidence >= 4 && !attempt.is_correct) {
-              score += 220;
-            } else if (confidence !== null && confidence <= 2 && attempt.is_correct) {
-              score += 110;
-            }
+            if (confidence !== null && confidence >= 4 && !attempt.is_correct) score += 220;
+            else if (confidence !== null && confidence <= 2 && attempt.is_correct) score += 110;
           }
-
-          // Global question DNA adds difficulty/confidence-error information
-          // without exposing or depending on another candidate's identity.
           if (dna) {
             score += Math.min(150, dna.confidence_error_rate * 1.5);
             score += Math.min(80, dna.difficulty_score * 0.8);
           }
-
           return score;
         };
 
-        // Build a difficulty profile from the candidate's past attempts.
-        // This changes the mix, not the medical content or answer key.
         const difficultyById = new Map(candidateQuestions.filter(q => filteredCandidateIds.includes(q.id)).map(q => [q.id, String(q.difficulty || 'moderate').toLowerCase()]));
         const historyByDifficulty = new Map<string, { total: number; correct: number }>();
         (history || []).forEach((attempt: any) => {
@@ -1175,8 +1203,6 @@ function DrillSession({
           return 2;
         };
 
-        // Difficulty is now a secondary shaping signal. The primary signal is
-        // demonstrated weakness, confidence error and question DNA.
         const targetRank = overallAccuracy < 0.55 ? 1.7 : overallAccuracy >= 0.75 ? 2.5 : 2.0;
         const difficultyScore = (id: string) => {
           const difficulty = difficultyById.get(id) || 'moderate';
@@ -1193,6 +1219,7 @@ function DrillSession({
         );
       }
 
+      // Legacy mode continues to use the legacy content pool.
       // V2 is intentionally sourced from the V2 content pool. This keeps the
       // V2 test independent from the legacy question UUIDs while the content
       // migration is still being completed.
