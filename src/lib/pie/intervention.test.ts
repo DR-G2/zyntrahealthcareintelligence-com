@@ -62,7 +62,7 @@ describe("PIE P6 intervention intelligence", () => {
       treatmentMean:.7, comparisonMean:.5, effectEstimate:.2,
       uncertainty:.02, sampleSize:100, evidenceQuality:1,
       confoundingRisk:0.1, design:"QUASI_EXPERIMENTAL",
-      causalStatus:"NOT_CAUSAL"
+      causalStatus:"NOT_CAUSAL", modelVersion:"test"
     })).toBe(false);
   });
 });
