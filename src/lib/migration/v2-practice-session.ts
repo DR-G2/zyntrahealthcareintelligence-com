@@ -60,7 +60,7 @@ export async function ensureV2Session(): Promise<void> {
 
   const { error } = await v2.auth.verifyOtp({
     token_hash: payload.token_hash,
-    type: 'magiclink',
+    type: 'email',
   });
   if (error) throw new Error(error.message || 'V2 admin authentication could not be established.');
 
