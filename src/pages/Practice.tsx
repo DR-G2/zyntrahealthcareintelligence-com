@@ -27,7 +27,7 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { buildPracticeTopicResolver, normalizeTopicLabel, resolvePracticeQuestionPlacement } from '@/lib/practice-topic-mapping';
 import { emitBehaviorEvent } from '@/lib/telemetry';
 import { syncPieShadow } from '@/lib/pie/shadow-client';
-import { createV2PracticeSession, getV2PracticeQuestions, getV2PracticeQuestionPool, getV2PracticeResults, resumeV2PracticeSession, completeV2PracticeSession, ensureV2Session } from '@/lib/migration/v2-practice-session';
+import { createV2PracticeSession, getV2PracticeResults, resumeV2PracticeSession, completeV2PracticeSession, ensureV2Session } from '@/lib/migration/v2-practice-session';
 import { saveAttemptToV2 } from '@/lib/migration/v2-practice-adapter';
 import { ADMIN_EMAILS } from '@/lib/admin-emails';
 
@@ -927,24 +927,15 @@ function DrillSession({
                 await ensureV2Session();
                 const v2Session = await resumeV2PracticeSession(restoredSessionConfig.v2SessionId);
                 v2SessionIdRef.current = v2Session.id;
-                const v2Questions = await getV2PracticeQuestions(v2Session.id);
-                const legacyById = new Map<string, Question>();
-                (qs || []).forEach((q: any) => legacyById.set(q.id, q as Question));
-                const legacyByZyntraId = new Map((qs || []).map((q: any) => [q.zyntra_id, q as Question]));
-                const safeQuestions = v2Questions.map((vq) => {
-                  const legacy = legacyById.get(vq.question_id) || legacyByZyntraId.get(vq.zyntra_id);
-                  return {
-                    ...(legacy || {}),
-                    id: vq.question_id,
-                    question_text: vq.stem,
-                    options: Array.isArray(vq.options) ? vq.options as string[] : [],
+                // V2 uses the existing normal question bank for content delivery.
+                // The V2 session remains the secure telemetry/correctness boundary.
+                const safeQuestions = visibleIds
+                  .map(id => (qs || []).find((q: any) => q.id === id))
+                  .filter(Boolean)
+                  .map((q: any) => ({
+                    ...(q as Question),
                     correct_answer: '',
-                    explanation: vq.explanation,
-                    category: legacy?.category || '',
-                    subtopic: legacy?.subtopic ?? null,
-                    difficulty: vq.difficulty_tier || legacy?.difficulty,
-                  } as Question;
-                });
+                  })) as Question[];
                 setQuestions(safeQuestions.slice(0, restoredCount));
                 adaptivePoolRef.current = [];
                 const restoredConfidence = restoredSessionConfig.confidenceByIndex;
@@ -980,93 +971,11 @@ function DrillSession({
         }
       }
 
-      // V2 test mode intentionally bypasses the legacy adaptive pipeline.
+      // V2 uses the existing normal question bank.
+      // It does NOT load or select from a separate V2 question pool.
+      // V2 is only the authenticated session/attempt/intelligence boundary.
       if (v2PracticeEnabled && user) {
-        const withTimeout = async <T,>(promise: Promise<T>, label: string, ms = 15000): Promise<T> => {
-          let timer: ReturnType<typeof setTimeout> | undefined;
-          try {
-            return await Promise.race([
-              promise,
-              new Promise<T>((_, reject) => {
-                timer = setTimeout(() => reject(new Error(`V2 startup timed out while ${label}. Please try again.`)), ms);
-              }),
-            ]);
-          } finally {
-            if (timer) clearTimeout(timer);
-          }
-        };
-
-        setV2StartupStage('1/4 Authenticating V2 admin session…');
-        await withTimeout(ensureV2Session(), 'authenticating the V2 admin session');
-
-        setV2StartupStage('2/4 Loading V2 question pool…');
-        const v2PoolSize = config.mode === 'full-mock'
-          ? config.questionCount
-          : Math.min(Math.max(config.questionCount * 3, config.questionCount + 10, 25), 1000);
-
-        const v2Pool = await withTimeout(
-          getV2PracticeQuestionPool(v2PoolSize),
-          'loading the V2 question pool'
-        );
-
-        const v2Visible = v2Pool.slice(0, config.questionCount);
-        if (!v2Visible.length) {
-          throw new Error('The V2 Practice question pool is empty.');
-        }
-
-        setV2StartupStage('3/4 Creating V2 practice session…');
-        const v2Session = await withTimeout(
-          createV2PracticeSession(
-            'mcq',
-            {
-              ...config,
-              v2PracticeEnabled: true,
-              adaptivePoolIds: v2Pool.slice(config.questionCount).map(q => q.question_id),
-            },
-            v2Visible.map(q => q.question_id),
-          ),
-          'creating the V2 practice session'
-        );
-
-        v2SessionIdRef.current = v2Session.id;
-
-        setV2StartupStage('4/4 Loading your V2 questions…');
-        const v2Questions = await withTimeout(
-          getV2PracticeQuestions(v2Session.id),
-          'loading the V2 session questions'
-        );
-
-        if (!v2Questions.length) {
-          throw new Error('V2 session was created, but no questions were returned.');
-        }
-
-        const safeQuestions = v2Questions.map((vq) => ({
-          id: vq.question_id,
-          zyntra_id: vq.zyntra_id,
-          question_text: vq.stem,
-          options: Array.isArray(vq.options) ? vq.options as string[] : [],
-          correct_answer: '',
-          explanation: vq.explanation,
-          category: vq.subject_id || '',
-          subtopic: vq.subtopic_id ?? null,
-          difficulty: vq.difficulty_tier || undefined,
-        } as Question));
-
-        setQuestions(safeQuestions.slice(0, config.questionCount));
-        adaptivePoolRef.current = [];
-
-        await supabase.from('active_sessions').update({
-          config: {
-            ...config,
-            v2PracticeEnabled: true,
-            adaptivePoolIds: v2Pool.slice(config.questionCount).map(q => q.question_id),
-            v2SessionId: v2Session.id,
-          },
-        } as any).eq('session_id', sessionIdRef.current).eq('user_id', user.id);
-
-        setV2StartupStage(null);
-        setLoading(false);
-        return;
+        await ensureV2Session();
       }
 
       // Legacy mode continues through the existing adaptive-selection pipeline.
@@ -1250,56 +1159,8 @@ function DrillSession({
         );
       }
 
-      // Legacy mode continues to use the legacy content pool.
-      // V2 is intentionally sourced from the V2 content pool. This keeps the
-      // V2 test independent from the legacy question UUIDs while the content
-      // migration is still being completed.
-      if (v2PracticeEnabled && user) {
-        // V2 RPCs require a V2 Auth session. The normal Zyntra login belongs
-        // to the legacy Supabase project, so establish the admin-only bridge
-        // before touching the V2 question pool.
-        await ensureV2Session();
-
-        const v2PoolSize = config.mode === 'full-mock'
-          ? config.questionCount
-          : Math.min(Math.max(config.questionCount * 3, config.questionCount + 10, 25), 1000);
-        const v2Pool = await getV2PracticeQuestionPool(v2PoolSize);
-        const v2Visible = v2Pool.slice(0, config.questionCount);
-        if (!v2Visible.length) {
-          throw new Error('The V2 Practice question pool is empty.');
-        }
-        const v2Session = await createV2PracticeSession(
-          'mcq',
-          { ...config, v2PracticeEnabled: true, adaptivePoolIds: v2Pool.slice(config.questionCount).map(q => q.question_id) },
-          v2Visible.map(q => q.question_id),
-        );
-        v2SessionIdRef.current = v2Session.id;
-        const v2Questions = await getV2PracticeQuestions(v2Session.id);
-        const safeQuestions = v2Questions.map((vq) => ({
-          id: vq.question_id,
-          question_text: vq.stem,
-          options: Array.isArray(vq.options) ? vq.options as string[] : [],
-          correct_answer: '',
-          explanation: vq.explanation,
-          category: vq.subject_id || '',
-          subtopic: vq.subtopic_id ?? null,
-          difficulty: vq.difficulty_tier || undefined,
-        } as Question));
-        setQuestions(safeQuestions.slice(0, config.questionCount));
-        adaptivePoolRef.current = [];
-        await supabase.from('active_sessions').update({
-          config: {
-            ...config,
-            v2PracticeEnabled: true,
-            adaptivePoolIds: v2Pool.slice(config.questionCount).map(q => q.question_id),
-            v2SessionId: v2Session.id,
-          },
-        } as any).eq('session_id', sessionIdRef.current).eq('user_id', user.id);
-        setLoading(false);
-        return;
-      }
-
-      // Legacy mode continues to use the legacy content pool.
+      // Both Legacy and V2 use the same normal question bank.
+      // V2 never exposes correct_answer to the learner-facing state.
       const poolSize = config.mode === 'full-mock'
         ? config.questionCount
         : Math.min(
@@ -1312,13 +1173,47 @@ function DrillSession({
       if (matchingIds.length > 0) {
         const { data } = await supabase
           .from('questions')
-           .select(v2PracticeEnabled ? 'id, zyntra_id, question_text, options, explanation, category, subtopic, difficulty, diagnosis_explanation, first_line_investigation, gold_standard_investigation, best_treatment, differential_diagnoses, incorrect_answer_explanations, key_takeaways' : 'id, question_text, options, correct_answer, explanation, category, subtopic, difficulty, diagnosis_explanation, first_line_investigation, gold_standard_investigation, best_treatment, differential_diagnoses, incorrect_answer_explanations, key_takeaways')
+          .select(v2PracticeEnabled
+            ? 'id, zyntra_id, question_text, options, explanation, category, subtopic, difficulty, diagnosis_explanation, first_line_investigation, gold_standard_investigation, best_treatment, differential_diagnoses, incorrect_answer_explanations, key_takeaways'
+            : 'id, question_text, options, correct_answer, explanation, category, subtopic, difficulty, diagnosis_explanation, first_line_investigation, gold_standard_investigation, best_treatment, differential_diagnoses, incorrect_answer_explanations, key_takeaways')
           .in('id', matchingIds);
 
         if (data) {
           const ordered = matchingIds
             .map((id) => data.find((question) => question.id === id))
             .filter(Boolean) as Question[];
+
+          if (v2PracticeEnabled && user) {
+            const visible = ordered.slice(0, config.questionCount).map((q) => ({
+              ...q,
+              correct_answer: '',
+            })) as Question[];
+            const adaptivePool = config.mode === 'full-mock' ? [] : ordered.slice(config.questionCount);
+            const v2Session = await createV2PracticeSession(
+              'mcq',
+              {
+                ...config,
+                v2PracticeEnabled: true,
+                adaptivePoolIds: adaptivePool.map(q => q.id),
+              },
+              visible.map(q => q.id),
+            );
+            v2SessionIdRef.current = v2Session.id;
+            setQuestions(visible);
+            adaptivePoolRef.current = adaptivePool;
+            await supabase.from('active_sessions').update({
+              config: {
+                ...config,
+                v2PracticeEnabled: true,
+                adaptivePoolIds: adaptivePool.map(q => q.id),
+                v2SessionId: v2Session.id,
+              },
+            } as any).eq('session_id', sessionIdRef.current).eq('user_id', user.id);
+            setV2StartupStage(null);
+            setLoading(false);
+            return;
+          }
+
           setQuestions(ordered.slice(0, config.questionCount));
           adaptivePoolRef.current = config.mode === 'full-mock'
             ? []
