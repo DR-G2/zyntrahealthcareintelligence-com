@@ -23,10 +23,26 @@ export function PIEInspectionTab() {
       const { data: result, error } = await supabase.functions.invoke('admin-pie-inspect-user', {
         body: { user_id: userId.trim() },
       });
-      if (error) throw error;
+      if (error) {
+        // Surface the real function response instead of the generic SDK message.
+        let detail = error.message;
+        const ctx = (error as any).context;
+        if (ctx && typeof ctx.text === 'function') {
+          try {
+            const body = await ctx.text();
+            console.error('[PIE inspect] function response', ctx.status, body);
+            detail = `HTTP ${ctx.status}: ${body}`;
+          } catch { /* response already consumed */ }
+        } else {
+          console.error('[PIE inspect] invoke error', error);
+        }
+        throw new Error(detail);
+      }
       if (result?.error) throw new Error(result.error);
+      if (result?.inspection_warnings?.length) console.warn('[PIE inspect] warnings', result.inspection_warnings);
       setData(result);
     } catch (e: any) {
+      console.error('[PIE inspect] failed', e);
       toast({ title: 'PIE inspection failed', description: e.message, variant: 'destructive' });
       setData(null);
     } finally {
