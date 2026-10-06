@@ -888,7 +888,7 @@ function DrillSession({
 
             const { data: qs } = await supabase
               .from('questions')
-               .select(sessionUsesV2 ? 'id, question_text, options, explanation, category, subtopic, difficulty, diagnosis_explanation, first_line_investigation, gold_standard_investigation, best_treatment, differential_diagnoses, incorrect_answer_explanations, key_takeaways' : 'id, question_text, options, correct_answer, explanation, category, subtopic, difficulty, diagnosis_explanation, first_line_investigation, gold_standard_investigation, best_treatment, differential_diagnoses, incorrect_answer_explanations, key_takeaways')
+               .select(sessionUsesV2 ? 'id, zyntra_id, question_text, options, explanation, category, subtopic, difficulty, diagnosis_explanation, first_line_investigation, gold_standard_investigation, best_treatment, differential_diagnoses, incorrect_answer_explanations, key_takeaways' : 'id, zyntra_id, question_text, options, correct_answer, explanation, category, subtopic, difficulty, diagnosis_explanation, first_line_investigation, gold_standard_investigation, best_treatment, differential_diagnoses, incorrect_answer_explanations, key_takeaways')
               .in('id', allIds);
 
             if (qs && qs.length > 0) {
@@ -925,6 +925,7 @@ function DrillSession({
                 const v2Questions = await getV2PracticeQuestions(v2Session.id);
                 const legacyById = new Map<string, Question>();
                 (qs || []).forEach((q: any) => legacyById.set(q.id, q as Question));
+                const legacyByZyntraId = new Map((qs || []).map((q: any) => [q.zyntra_id, q as Question]));
                 const safeQuestions = v2Questions.map((vq) => {
                   const legacy = legacyById.get(vq.question_id) || legacyByZyntraId.get(vq.zyntra_id);
                   return {
