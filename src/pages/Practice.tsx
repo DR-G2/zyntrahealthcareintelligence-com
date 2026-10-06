@@ -27,7 +27,7 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { buildPracticeTopicResolver, normalizeTopicLabel, resolvePracticeQuestionPlacement } from '@/lib/practice-topic-mapping';
 import { emitBehaviorEvent } from '@/lib/telemetry';
 import { syncPieShadow } from '@/lib/pie/shadow-client';
-import { createV2PracticeSession, getV2PracticeQuestions, getV2PracticeQuestionPool, getV2PracticeResults, resumeV2PracticeSession, completeV2PracticeSession, ensureV2AdminSession } from '@/lib/migration/v2-practice-session';
+import { createV2PracticeSession, getV2PracticeQuestions, getV2PracticeQuestionPool, getV2PracticeResults, resumeV2PracticeSession, completeV2PracticeSession, ensureV2Session } from '@/lib/migration/v2-practice-session';
 import { saveAttemptToV2 } from '@/lib/migration/v2-practice-adapter';
 import { ADMIN_EMAILS } from '@/lib/admin-emails';
 
@@ -948,7 +948,7 @@ function DrillSession({
                 ? session.config as Record<string, unknown>
                 : {};
               if (sessionUsesV2 && typeof restoredSessionConfig.v2SessionId === 'string') {
-                await ensureV2AdminSession();
+                await ensureV2Session();
                 const v2Session = await resumeV2PracticeSession(restoredSessionConfig.v2SessionId);
                 v2SessionIdRef.current = v2Session.id;
                 const v2Questions = await getV2PracticeQuestions(v2Session.id);
@@ -1021,7 +1021,7 @@ function DrillSession({
         };
 
         setV2StartupStage('1/4 Authenticating V2 admin session…');
-        await withTimeout(ensureV2AdminSession(), 'authenticating the V2 admin session');
+        await withTimeout(ensureV2Session(), 'authenticating the V2 admin session');
 
         setV2StartupStage('2/4 Loading V2 question pool…');
         const v2PoolSize = config.mode === 'full-mock'
@@ -1282,7 +1282,7 @@ function DrillSession({
         // V2 RPCs require a V2 Auth session. The normal Zyntra login belongs
         // to the legacy Supabase project, so establish the admin-only bridge
         // before touching the V2 question pool.
-        await ensureV2AdminSession();
+        await ensureV2Session();
 
         const v2PoolSize = config.mode === 'full-mock'
           ? config.questionCount
@@ -1349,7 +1349,7 @@ function DrillSession({
             : ordered.slice(config.questionCount);
 
           if (v2PracticeEnabled && user) {
-            await ensureV2AdminSession();
+            await ensureV2Session();
             // Legacy and V2 question UUIDs are not assumed to be identical.
             // Zyntra ID is the stable cross-database identity during migration.
             const v2Pool = await getV2PracticeQuestionPool(1000);
