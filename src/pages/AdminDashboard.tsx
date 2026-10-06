@@ -1700,7 +1700,6 @@ export default function AdminDashboard() {
         const adminRoleMap: Record<string, string> = {
           'gopalrock.naren@gmail.com': 'Super Admin',
           'amc.osce.2026@gmail.com': 'Admin',
-          'testuser123@zyntr.website': 'Admin',
         };
 
         const result = ADMIN_EMAILS.map(email => {
