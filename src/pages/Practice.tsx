@@ -1138,6 +1138,13 @@ function DrillSession({
               ordered.map(q => q.id),
             );
             v2SessionIdRef.current = v2Session.id;
+            await supabase.from('active_sessions').update({
+              config: {
+                ...config,
+                adaptivePoolIds: ordered.slice(config.questionCount).map(q => q.id),
+                v2SessionId: v2Session.id,
+              },
+            } as any).eq('session_id', sessionIdRef.current).eq('user_id', user.id);
           }
         }
       }
