@@ -27,7 +27,7 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { buildPracticeTopicResolver, normalizeTopicLabel, resolvePracticeQuestionPlacement } from '@/lib/practice-topic-mapping';
 import { emitBehaviorEvent } from '@/lib/telemetry';
 import { syncPieShadow } from '@/lib/pie/shadow-client';
-import { createV2PracticeSession, getV2PracticeQuestions, getV2PracticeQuestionPool, getV2PracticeResults, resumeV2PracticeSession, completeV2PracticeSession } from '@/lib/migration/v2-practice-session';
+import { createV2PracticeSession, getV2PracticeQuestions, getV2PracticeQuestionPool, getV2PracticeResults, resumeV2PracticeSession, completeV2PracticeSession, ensureV2AdminSession } from '@/lib/migration/v2-practice-session';
 import { saveAttemptToV2 } from '@/lib/migration/v2-practice-adapter';
 import { ADMIN_EMAILS } from '@/lib/admin-emails';
 
@@ -920,6 +920,7 @@ function DrillSession({
                 ? session.config as Record<string, unknown>
                 : {};
               if (sessionUsesV2 && typeof restoredSessionConfig.v2SessionId === 'string') {
+                await ensureV2AdminSession();
                 const v2Session = await resumeV2PracticeSession(restoredSessionConfig.v2SessionId);
                 v2SessionIdRef.current = v2Session.id;
                 const v2Questions = await getV2PracticeQuestions(v2Session.id);
@@ -1261,6 +1262,7 @@ function DrillSession({
             : ordered.slice(config.questionCount);
 
           if (v2PracticeEnabled && user) {
+            await ensureV2AdminSession();
             // Legacy and V2 question UUIDs are not assumed to be identical.
             // Zyntra ID is the stable cross-database identity during migration.
             const v2Pool = await getV2PracticeQuestionPool(1000);
