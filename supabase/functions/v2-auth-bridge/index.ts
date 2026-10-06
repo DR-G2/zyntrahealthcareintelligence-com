@@ -17,7 +17,8 @@ const corsFor = (origin: string | null) => ({
 });
 
 Deno.serve(async (req) => {
-  const cors = corsFor(req.headers.get("Origin"));\n  if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
+  const cors = corsFor(req.headers.get("Origin"));
+  if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
   try {
     if (req.method !== "POST") return Response.json({ error: "Method not allowed" }, { status: 405, headers: cors });
     if (!LEGACY_PUBLISHABLE_KEY) return Response.json({ error: "Legacy auth bridge is not configured." }, { status: 500, headers: cors });
