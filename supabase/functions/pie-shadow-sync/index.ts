@@ -155,7 +155,7 @@ Deno.serve(async (req) => {
     });
 
     if (!inference.ok) {
-      console.warn("[PIE shadow] inference refresh failed", inference.status);
+      console.warn("[PIE] inference refresh failed", inference.status);
       return new Response(JSON.stringify({ status: "inference_pending", normalized: fresh.length }), { status: 200, headers: { ...responseCors, "Content-Type": "application/json" } });
     }
 
@@ -171,7 +171,7 @@ Deno.serve(async (req) => {
       .maybeSingle();
 
     if (latestState.error) {
-      console.warn("[PIE shadow] latest state read failed", latestState.error.message);
+      console.warn("[PIE] latest state read failed", latestState.error.message);
       return new Response(JSON.stringify({
         status: fresh.length ? "completed" : "no_new_observations",
         normalized: fresh.length,
@@ -203,7 +203,7 @@ Deno.serve(async (req) => {
       pie,
     }), { status: 200, headers: { ...responseCors, "Content-Type": "application/json" } });
   } catch (error) {
-    console.error("[PIE shadow] unexpected runtime error", error);
+    console.error("[PIE] unexpected runtime error", error);
     return new Response(JSON.stringify({ error: "pie_shadow_runtime_error" }), {
       status: 500,
       headers: { "Content-Type": "application/json" },
