@@ -1559,6 +1559,7 @@ function DrillSession({
 
   const options = question.options as string[];
   const currentRuledOut = ruledOutOptions[currentIndex] || new Set<string>();
+  const isLocked = lockedAnswers[currentIndex];
 
   return (
     <AppLayout>
@@ -1592,7 +1593,6 @@ function DrillSession({
                 {options.map((opt, oi) => {
                   const letter = String.fromCharCode(65 + oi);
                   const isSelected = selectedAnswers[currentIndex] === letter;
-                  const isLocked = lockedAnswers[currentIndex];
                   const isRuledOut = currentRuledOut.has(letter);
                   return (
                     <motion.div
