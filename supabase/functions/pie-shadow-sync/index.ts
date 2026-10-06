@@ -8,27 +8,6 @@ const allowedOrigins = new Set([
 ]);
 
 Deno.serve(async (req) => {
-    const supabaseUrl = Deno.env.get("SUPABASE_URL");
-    const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
-    const anonKey = Deno.env.get("SUPABASE_ANON_KEY");
-    const json = (body: unknown, status = 200, headers: Record<string, string> = {}) =>
-      new Response(JSON.stringify(body), { status, headers: { "Content-Type": "application/json", ...headers } });
-
-    if (!supabaseUrl || !serviceKey || !anonKey) return json({ error: "server_configuration_error" }, 500);
-
-    const authHeader = req.headers.get("Authorization");
-    if (!authHeader) return json({ error: "unauthorized" }, 401);
-
-    const userClient = createClient(supabaseUrl, anonKey, {
-      global: { headers: { Authorization: authHeader } },
-    });
-    const { data: { user }, error: userError } = await userClient.auth.getUser();
-    if (userError || !user) return json({ error: "unauthorized" }, 401);
-
-    const ctx = {
-      supabaseAdmin: createClient(supabaseUrl, serviceKey),
-      userClaims: { sub: user.id },
-    };
     const requestOrigin = req.headers.get("Origin");
     const responseCors = {
       "Access-Control-Allow-Origin": requestOrigin && allowedOrigins.has(requestOrigin)
@@ -39,16 +18,39 @@ Deno.serve(async (req) => {
       "Vary": "Origin",
     };
 
+    // Handle browser preflight before authentication. Supabase invoke() may
+    // send this request before the authenticated POST.
     if (req.method === "OPTIONS") {
       return new Response(null, { status: 204, headers: responseCors });
     }
 
+    const supabaseUrl = Deno.env.get("SUPABASE_URL");
+    const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+    const anonKey = Deno.env.get("SUPABASE_ANON_KEY");
+    const json = (body: unknown, status = 200, headers: Record<string, string> = {}) =>
+      new Response(JSON.stringify(body), { status, headers: { "Content-Type": "application/json", ...headers } });
+
+    if (!supabaseUrl || !serviceKey || !anonKey) return new Response(JSON.stringify({ error: "server_configuration_error" }), { status: 500, headers: { ...responseCors, "Content-Type": "application/json" } });
+
+    const authHeader = req.headers.get("Authorization");
+    if (!authHeader) return new Response(JSON.stringify({ error: "unauthorized" }), { status: 401, headers: { ...responseCors, "Content-Type": "application/json" } });
+
+    const userClient = createClient(supabaseUrl, anonKey, {
+      global: { headers: { Authorization: authHeader } },
+    });
+    const { data: { user }, error: userError } = await userClient.auth.getUser();
+    if (userError || !user) return new Response(JSON.stringify({ error: "unauthorized" }), { status: 401, headers: { ...responseCors, "Content-Type": "application/json" } });
+
+    const ctx = {
+      supabaseAdmin: createClient(supabaseUrl, serviceKey),
+      userClaims: { sub: user.id },
+    };
     if (req.method !== "POST") {
       return new Response(JSON.stringify({ error: "method_not_allowed" }), { status: 405, headers: { ...responseCors, "Content-Type": "application/json" } });
     }
 
     const userId = ctx.userClaims?.sub;
-    if (!userId) return Response.json({ error: "unauthorized" }, { status: 401 });
+    if (!userId) return new Response(JSON.stringify({ error: "unauthorized" }), { status: 401, headers: { ...responseCors, "Content-Type": "application/json" } });
 
     // Confidence telemetry was introduced after the original PIE schema. Keep
     // this runtime backward-compatible so a partially migrated production
@@ -73,8 +75,8 @@ Deno.serve(async (req) => {
         .limit(500);
     }
 
-    if (attemptsResult.error) return Response.json({ error: "attempt_query_failed" }, { status: 500 });
-    if (!attemptsResult.data?.length) return Response.json({ status: "no_new_observations", normalized: 0 });
+    if (attemptsResult.error) return new Response(JSON.stringify({ error: "attempt_query_failed" }), { status: 500, headers: { ...responseCors, "Content-Type": "application/json" } });
+    if (!attemptsResult.data?.length) return new Response(JSON.stringify({ status: "no_new_observations", normalized: 0 }), { status: 200, headers: { ...responseCors, "Content-Type": "application/json" } });
 
     const ids = attemptsResult.data.map((a) => a.id);
     const existingResult = await ctx.supabaseAdmin
@@ -83,7 +85,7 @@ Deno.serve(async (req) => {
       .eq("user_id", userId)
       .in("source_attempt_id", ids);
 
-    if (existingResult.error) return Response.json({ error: "observation_query_failed" }, { status: 500 });
+    if (existingResult.error) return new Response(JSON.stringify({ error: "observation_query_failed" }), { status: 500, headers: { ...responseCors, "Content-Type": "application/json" } });
 
     const seen = new Set((existingResult.data ?? []).map((r) => r.source_attempt_id).filter(Boolean));
     const fresh = attemptsResult.data.filter((a) => !seen.has(a.id));
@@ -136,14 +138,14 @@ Deno.serve(async (req) => {
 
       const insertResult = await ctx.supabaseAdmin.from("pie_observation").insert(rows);
       if (insertResult.error && !/duplicate|unique/i.test(insertResult.error.message)) {
-        return Response.json({ error: "observation_insert_failed" }, { status: 500 });
+        return new Response(JSON.stringify({ error: "observation_insert_failed" }), { status: 500, headers: { ...responseCors, "Content-Type": "application/json" } });
       }
     }
 
     const auth = req.headers.get("Authorization");
     const url = Deno.env.get("SUPABASE_URL");
     const publishable = Deno.env.get("SUPABASE_ANON_KEY");
-    if (!auth || !url || !publishable) return Response.json({ error: "server_configuration_error" }, { status: 500 });
+    if (!auth || !url || !publishable) return new Response(JSON.stringify({ error: "server_configuration_error" }), { status: 500, headers: { ...responseCors, "Content-Type": "application/json" } });
 
     const inference = await fetch(url + "/functions/v1/pie-infer-state", {
       method: "POST",
@@ -153,7 +155,7 @@ Deno.serve(async (req) => {
 
     if (!inference.ok) {
       console.warn("[PIE shadow] inference refresh failed", inference.status);
-      return Response.json({ status: "normalized_inference_pending", normalized: fresh.length });
+      return new Response(JSON.stringify({ status: "normalized_inference_pending", normalized: fresh.length }), { status: 200, headers: { ...responseCors, "Content-Type": "application/json" } });
     }
 
     // Controlled candidate-facing bridge: expose only the bounded PIE state
@@ -169,11 +171,11 @@ Deno.serve(async (req) => {
 
     if (latestState.error) {
       console.warn("[PIE shadow] latest state read failed", latestState.error.message);
-      return Response.json({
+      return new Response(JSON.stringify({
         status: fresh.length ? "completed" : "no_new_observations",
         normalized: fresh.length,
         pie: null,
-      });
+      }), { status: 200, headers: { ...responseCors, "Content-Type": "application/json" } });
     }
 
     const pie = latestState.data
@@ -194,9 +196,9 @@ Deno.serve(async (req) => {
         }
       : null;
 
-    return Response.json({
+    return new Response(JSON.stringify({
       status: fresh.length ? "completed" : "no_new_observations",
       normalized: fresh.length,
       pie,
-    });
+    }), { status: 200, headers: { ...responseCors, "Content-Type": "application/json" } });
 });
