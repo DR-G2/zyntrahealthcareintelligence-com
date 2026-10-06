@@ -1219,68 +1219,8 @@ function DrillSession({
             ? []
             : ordered.slice(config.questionCount);
 
-          if (v2PracticeEnabled && user) {
-            await ensureV2Session();
-            // Legacy and V2 question UUIDs are not assumed to be identical.
-            // Zyntra ID is the stable cross-database identity during migration.
-            const v2Pool = await getV2PracticeQuestionPool(1000);
-            const v2IdByZyntraId = new Map(
-              v2Pool
-                .filter((q) => q.zyntra_id)
-                .map((q) => [q.zyntra_id as string, q.question_id])
-            );
-            const missingZyntraIds = ordered
-              .map((q) => q.zyntra_id || null)
-              .filter((id): id is string => Boolean(id))
-              .filter((id) => !v2IdByZyntraId.has(id));
-            if (missingZyntraIds.length > 0) {
-              throw new Error(
-                `V2 content is incomplete: ${missingZyntraIds.length} selected question(s) are not available in the V2 question bank.`
-              );
-            }
-            const v2VisibleIds = ordered.map((q) => {
-              const zyntraId = q.zyntra_id;
-              const v2Id = zyntraId ? v2IdByZyntraId.get(zyntraId) : undefined;
-              if (!v2Id) throw new Error('V2 question mapping failed. Please contact the administrator.');
-              return v2Id;
-            });
-            const v2AdaptiveIds = ordered.slice(config.questionCount).map((q) => {
-              const zyntraId = q.zyntra_id;
-              return zyntraId ? v2IdByZyntraId.get(zyntraId) : undefined;
-            }).filter((id): id is string => Boolean(id));
-            const v2Session = await createV2PracticeSession(
-              'mcq',
-              { ...config, adaptivePoolIds: v2AdaptiveIds, legacyQuestionIds: ordered.map(q => q.id) },
-              v2VisibleIds,
-            );
-            v2SessionIdRef.current = v2Session.id;
-            const v2Questions = await getV2PracticeQuestions(v2Session.id);
-            const legacyById = new Map(ordered.map(q => [q.id, q]));
-            const legacyByZyntraId = new Map(ordered.map(q => [q.zyntra_id, q]));
-            const safeQuestions = v2Questions.map((vq) => {
-              const legacy = legacyById.get(vq.question_id) || legacyByZyntraId.get(vq.zyntra_id);
-              return {
-                ...(legacy || {}),
-                id: vq.question_id,
-                question_text: vq.stem,
-                options: Array.isArray(vq.options) ? vq.options as string[] : [],
-                correct_answer: '',
-                explanation: vq.explanation,
-                category: legacy?.category || '',
-                subtopic: legacy?.subtopic ?? null,
-                difficulty: vq.difficulty_tier || legacy?.difficulty,
-              } as Question;
-            });
-            setQuestions(safeQuestions.slice(0, config.questionCount));
-            adaptivePoolRef.current = [];
-            await supabase.from('active_sessions').update({
-              config: {
-                ...config,
-                adaptivePoolIds: ordered.slice(config.questionCount).map(q => q.id),
-                v2SessionId: v2Session.id,
-              },
-            } as any).eq('session_id', sessionIdRef.current).eq('user_id', user.id);
-          }
+          // V2 sessions returned above. There is deliberately no separate V2 question-bank
+          // path here: the normal/legacy bank is the only Practice content source.
         }
       }
       setLoading(false);
