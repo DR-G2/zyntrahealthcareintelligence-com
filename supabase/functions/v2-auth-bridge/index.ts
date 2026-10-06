@@ -3,14 +3,21 @@ import { createClient } from "jsr:@supabase/supabase-js@2";
 
 const LEGACY_AUTH_URL = "https://yudkfmgilucyhukfggij.supabase.co/auth/v1/user";
 const LEGACY_PUBLISHABLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl1ZGtmbWdpbHVjeWh1a2ZnZ2lqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI1NTExNTksImV4cCI6MjA4ODEyNzE1OX0.ONt4wVkqJ8-9Jbp8k_P_o5BCSxChHGeXIdaNPH1--yg";
-const cors = {
-  "Access-Control-Allow-Origin": "*",
+const allowedOrigins = new Set([
+  "https://www.zyntrahealthcareintelligence.com",
+  "https://zyntrahealthcareintelligence.com",
+]);
+const corsFor = (origin: string | null) => ({
+  "Access-Control-Allow-Origin": origin && allowedOrigins.has(origin)
+    ? origin
+    : "https://www.zyntrahealthcareintelligence.com",
   "Access-Control-Allow-Headers": "authorization, apikey, content-type",
   "Access-Control-Allow-Methods": "POST, OPTIONS",
-};
+  "Vary": "Origin",
+});
 
 Deno.serve(async (req) => {
-  if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
+  const cors = corsFor(req.headers.get("Origin"));\n  if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
   try {
     if (req.method !== "POST") return Response.json({ error: "Method not allowed" }, { status: 405, headers: cors });
     if (!LEGACY_PUBLISHABLE_KEY) return Response.json({ error: "Legacy auth bridge is not configured." }, { status: 500, headers: cors });
