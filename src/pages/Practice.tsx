@@ -830,7 +830,7 @@ function DrillSession({
 
             const { data: qs } = await supabase
               .from('questions')
-              .select('id, question_text, options, correct_answer, explanation, category, subtopic, difficulty, diagnosis_explanation, first_line_investigation, gold_standard_investigation, best_treatment, differential_diagnoses, incorrect_answer_explanations, key_takeaways')
+               .select(v2PracticeEnabled ? 'id, question_text, options, explanation, category, subtopic, difficulty, diagnosis_explanation, first_line_investigation, gold_standard_investigation, best_treatment, differential_diagnoses, incorrect_answer_explanations, key_takeaways' : 'id, question_text, options, correct_answer, explanation, category, subtopic, difficulty, diagnosis_explanation, first_line_investigation, gold_standard_investigation, best_treatment, differential_diagnoses, incorrect_answer_explanations, key_takeaways')
               .in('id', allIds);
 
             if (qs && qs.length > 0) {
@@ -1144,7 +1144,7 @@ function DrillSession({
       if (matchingIds.length > 0) {
         const { data } = await supabase
           .from('questions')
-          .select('id, question_text, options, correct_answer, explanation, category, subtopic, difficulty, diagnosis_explanation, first_line_investigation, gold_standard_investigation, best_treatment, differential_diagnoses, incorrect_answer_explanations, key_takeaways')
+           .select(v2PracticeEnabled ? 'id, question_text, options, explanation, category, subtopic, difficulty, diagnosis_explanation, first_line_investigation, gold_standard_investigation, best_treatment, differential_diagnoses, incorrect_answer_explanations, key_takeaways' : 'id, question_text, options, correct_answer, explanation, category, subtopic, difficulty, diagnosis_explanation, first_line_investigation, gold_standard_investigation, best_treatment, differential_diagnoses, incorrect_answer_explanations, key_takeaways')
           .in('id', matchingIds);
 
         if (data) {
