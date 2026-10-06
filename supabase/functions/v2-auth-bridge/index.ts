@@ -2,7 +2,7 @@ import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "jsr:@supabase/supabase-js@2";
 
 const LEGACY_AUTH_URL = "https://yudkfmgilucyhukfggij.supabase.co/auth/v1/user";
-const LEGACY_PUBLISHABLE_KEY = Deno.env.get("LEGACY_PUBLISHABLE_KEY") ?? "";
+
 
 const allowedOrigins = new Set([
   "https://www.zyntrahealthcareintelligence.com",
@@ -24,13 +24,13 @@ Deno.serve(async (req) => {
 
   try {
     if (req.method !== "POST") return Response.json({ error: "Method not allowed" }, { status: 405, headers: cors });
-    if (!LEGACY_PUBLISHABLE_KEY) return Response.json({ error: "Legacy auth bridge is not configured." }, { status: 500, headers: cors });
-
     const authorization = req.headers.get("Authorization");
+    const legacyPublishableKey = req.headers.get("x-legacy-apikey") ?? req.headers.get("apikey") ?? "";
     if (!authorization?.startsWith("Bearer ")) return Response.json({ error: "Legacy authentication required." }, { status: 401, headers: cors });
+    if (!legacyPublishableKey) return Response.json({ error: "Legacy API key required." }, { status: 400, headers: cors });
 
     const legacyResponse = await fetch(LEGACY_AUTH_URL, {
-      headers: { apikey: LEGACY_PUBLISHABLE_KEY, Authorization: authorization },
+      headers: { apikey: legacyPublishableKey, Authorization: authorization },
     });
     if (!legacyResponse.ok) return Response.json({ error: "Legacy session could not be verified." }, { status: 401, headers: cors });
 
