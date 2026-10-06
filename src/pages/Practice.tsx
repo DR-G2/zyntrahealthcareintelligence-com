@@ -1501,7 +1501,7 @@ function DrillSession({
             answerChangesCount: answerChanges[i] || 0,
             timeToFirstClick: timeToFirstClick[i] || 0,
             changeSequence: changeSequences[i] || [],
-            pauseEvents: pauseEvents[i] || [],
+            pauseEvents: pauseEvents[i] != null ? [pauseEvents[i]] : [],
             timeOfDay: new Date().toISOString(),
             questionPosition: i,
             previousQuestionCorrect: i > 0 ? (selectedAnswers[i - 1] === questions[i - 1]?.correct_answer) : null,
@@ -1510,6 +1510,7 @@ function DrillSession({
         }
         await completeV2PracticeSession(v2SessionIdRef.current);
       }
+      if (!v2PracticeEnabled) {
       const inserts = sessionQuestions.map((q, i) => ({
         user_id: user.id,
         question_id: q.id,
@@ -1572,15 +1573,14 @@ function DrillSession({
         payload: { question_count: inserts.length, mode: config.mode },
       });
 
-      // Only successful attempt persistence reaches downstream intelligence.
+      }
+
+      // PIE shadow sync and legacy analysis remain outside the V2 critical path.
+      // V2 attempts are already persisted through the V2 RPCs above.
+      if (!v2PracticeEnabled) {
+        supabase.functions.invoke('analyze-behavior').catch(console.error);
+      }
       setFinished(true);
-
-      // PIE shadow sync is temporarily isolated from the Practice completion path.
-      // A failing Edge Function must never affect answer submission or results.
-      // It will be re-enabled after the PIE runtime failure is diagnosed.
-
-      // Trigger behavior analysis in background
-      supabase.functions.invoke('analyze-behavior').catch(console.error);
     } else {
       setFinished(true);
     }
