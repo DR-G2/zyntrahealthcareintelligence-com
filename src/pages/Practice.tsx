@@ -1482,7 +1482,10 @@ function DrillSession({
 
       // Only successful attempt persistence reaches downstream intelligence.
       setFinished(true);
-      void syncPieShadow();
+
+      // PIE shadow sync is temporarily isolated from the Practice completion path.
+      // A failing Edge Function must never affect answer submission or results.
+      // It will be re-enabled after the PIE runtime failure is diagnosed.
 
       // Trigger behavior analysis in background
       supabase.functions.invoke('analyze-behavior').catch(console.error);
