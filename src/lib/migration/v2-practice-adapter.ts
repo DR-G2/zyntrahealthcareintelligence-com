@@ -4,7 +4,6 @@ export interface V2AttemptInput {
   questionId: string;
   sessionId: string;
   selectedAnswer: string;
-  isCorrect: boolean;
   timeTakenSeconds?: number | null;
   confidenceLevel?: number | null;
   answerChangesCount?: number;
@@ -61,7 +60,7 @@ export async function saveAttemptToV2(input: V2AttemptInput): Promise<V2AttemptR
     p_question_id: input.questionId,
     p_session_id: input.sessionId,
     p_selected_answer: input.selectedAnswer,
-    p_is_correct: input.isCorrect,
+    // The V2 RPC derives correctness from the protected answer key. Never trust client-supplied correctness.\n    p_is_correct: false,
     p_time_taken_seconds: input.timeTakenSeconds ?? null,
     p_confidence_level: input.confidenceLevel ?? null,
     p_answer_changes_count: input.answerChangesCount ?? 0,
