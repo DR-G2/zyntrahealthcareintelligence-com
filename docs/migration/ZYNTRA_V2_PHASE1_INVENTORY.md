@@ -362,3 +362,165 @@ No production database was changed.
 No user data was changed.
 No migration was applied.
 No new Supabase project was created.
+
+
+## 21. Phase 1C — application dependency map
+
+Frontend Supabase configuration is concentrated around:
+- src/integrations/supabase/client.ts
+- src/lib/mcp/supabase.ts
+- .env / Vite public Supabase variables
+
+The frontend directly invokes many Edge Functions from Practice, Assess, OSCE, Admin, AI Lab, Notifications, Payments and intelligence pages.
+
+Therefore V2 cutover requires a single environment switch rather than editing every feature independently.
+
+## 22. Phase 1D — external service inventory
+
+Repository evidence shows payment integrations for:
+- Razorpay
+- PayPal
+
+Push notifications use VAPID-related configuration.
+
+PIE functions use PIE_ALLOWED_ORIGIN.
+
+Service-role credentials are referenced by many server-side Edge Functions. Their values must never be copied into GitHub or the browser. V2 will require a new secret inventory and deliberate re-keying.
+
+No secret values were extracted or copied during this audit.
+
+## 23. Phase 1E — canonical ownership model
+
+The intended V2 ownership model is:
+
+Core database
+  -> owns users, content, attempts, sessions and raw learning events
+
+Intelligence layer
+  -> consumes raw learning events
+  -> produces derived learner/question intelligence
+
+PIE
+  -> consumes canonical observations/state
+  -> produces inference, decision and provenance records
+
+AMC adapter
+  -> interprets exam-neutral state for AMC-specific decisions
+
+Intervention engine
+  -> consumes intelligence/PIE outputs
+  -> recommends training actions
+
+Admin Command
+  -> can inspect and control privileged records
+  -> every sensitive action is audited
+
+Edge Functions
+  -> are the server-side action boundary
+  -> service credentials never reach the browser
+
+## 24. Phase 1F — migration decision matrix
+
+### KEEP directly
+profiles
+questions
+subjects
+subtopics
+user_attempts
+active_sessions
+clinical_stations
+station_attempts
+user_progress
+user_program_progress
+study_plans
+bookmarks
+user_notes
+station_bookmarks
+station_notes
+payments
+user_legal_acceptance
+site_settings
+push_subscriptions
+data_export_history
+admin_activity_logs
+system_health_logs
+system_error_logs
+piracy_strikes
+watermark_settings
+flashcard_decks
+flashcards
+flashcard_reviews
+
+### REBUILD-CLEAN
+question_difficulty_tiers
+behavior_events
+ideal_candidate_profile
+question_dna
+behavior_dna
+readiness_dna
+subject_dna
+intervention_catalog
+candidate_interventions
+intervention_outcomes
+intervention_effectiveness
+next_best_actions
+all PIE tables
+all AMC plugin tables
+ai_lab_connections
+ai_lab_sessions
+ai_lab_interactions
+manual_overrides
+admin_roles
+ai_training_context
+user_usage_logs
+station_attempts telemetry extensions
+
+### VERIFY before inclusion
+chat_conversations
+study_groups
+study_group_members
+shared_tests
+shared_test_participants
+referrals
+feed_submissions
+manual/internal AI request logs
+admin messaging
+user_presence
+contact_submissions
+psychograph_history
+
+### RETIRE-CANDIDATE
+performance_profiles
+behavior_profiles
+legacy intelligence calculations
+obsolete PIE compatibility layers where no active caller remains
+
+Important: RETIRE-CANDIDATE does not mean delete. It means do not put it into V2 until actual usage/data dependency is proven.
+
+## 25. Phase 1G — migration gates
+
+Gate A: architecture inventory — PASS
+Gate B: table classification — PASS
+Gate C: application dependency inventory — PASS
+Gate D: external-service inventory — PASS
+Gate E: live database comparison — BLOCKED by Supabase MCP permission
+Gate F: row-level migration sizing — BLOCKED until live database access
+Gate G: production cutover plan — NOT YET, intentionally
+
+## 26. Phase 1 final conclusion
+
+The repository is sufficient to design Zyntra V2's architecture.
+
+It is NOT sufficient to safely migrate production data without live database access.
+
+The next technical operation requiring Supabase access is read-only discovery:
+- live tables/columns
+- live migrations
+- live functions/triggers
+- live RLS/policies
+- live Edge Functions
+- live extensions
+- row counts
+
+Only after those checks should a new Supabase project be populated.
+
