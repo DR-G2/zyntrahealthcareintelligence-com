@@ -1197,6 +1197,11 @@ function DrillSession({
       // V2 test independent from the legacy question UUIDs while the content
       // migration is still being completed.
       if (v2PracticeEnabled && user) {
+        // V2 RPCs require a V2 Auth session. The normal Zyntra login belongs
+        // to the legacy Supabase project, so establish the admin-only bridge
+        // before touching the V2 question pool.
+        await ensureV2AdminSession();
+
         const v2PoolSize = config.mode === 'full-mock'
           ? config.questionCount
           : Math.min(Math.max(config.questionCount * 3, config.questionCount + 10, 25), 1000);
@@ -1300,7 +1305,7 @@ function DrillSession({
             const legacyById = new Map(ordered.map(q => [q.id, q]));
             const legacyByZyntraId = new Map(ordered.map(q => [q.zyntra_id, q]));
             const safeQuestions = v2Questions.map((vq) => {
-              const legacy = legacyById.get(vq.question_id);
+              const legacy = legacyById.get(vq.question_id) || legacyByZyntraId.get(vq.zyntra_id);
               return {
                 ...(legacy || {}),
                 id: vq.question_id,
