@@ -1572,7 +1572,6 @@ function DrillSession({
                         isRuledOut && !isSelected && 'opacity-40'
                       )}
                     >
-                      {/* Rule-out circle */}
                       <button
                         type="button"
                         onClick={(e) => { e.stopPropagation(); toggleRuleOutOption(letter); }}
@@ -1589,7 +1588,6 @@ function DrillSession({
                           <Minus className="h-3.5 w-3.5 text-muted-foreground/50" />
                         )}
                       </button>
-                      {/* Main select area */}
                       <button
                         type="button"
                         onClick={() => selectAnswer(letter)}
@@ -1608,6 +1606,50 @@ function DrillSession({
                     </motion.div>
                   );
                 })}
+
+                <div className="mt-5 rounded-2xl border border-cyan-400/15 bg-cyan-400/[0.035] p-4">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <div>
+                      <p className="text-sm font-medium text-white">How confident are you?</p>
+                      <p className="mt-1 text-xs text-slate-500">Rate your confidence before moving on. This helps Zyntra measure calibration, not intelligence.</p>
+                    </div>
+                    <span className="text-[10px] font-mono uppercase tracking-wider text-slate-600">
+                      {confidenceByIndex[currentIndex] ? `Level ${confidenceByIndex[currentIndex]}/5` : 'Not rated'}
+                    </span>
+                  </div>
+                  <div className="mt-3 grid grid-cols-5 gap-2">
+                    {[
+                      ['1', 'Very low'],
+                      ['2', 'Low'],
+                      ['3', 'Moderate'],
+                      ['4', 'High'],
+                      ['5', 'Very high'],
+                    ].map(([level, label]) => {
+                      const value = Number(level);
+                      const active = confidenceByIndex[currentIndex] === value;
+                      return (
+                        <button
+                          key={level}
+                          type="button"
+                          onClick={() => setConfidence(value)}
+                          disabled={isLocked}
+                          aria-pressed={active}
+                          aria-label={`Confidence ${level} of 5: ${label}`}
+                          className={cn(
+                            'min-h-14 rounded-xl border px-2 py-2 text-center transition-all',
+                            active
+                              ? 'border-cyan-300/70 bg-cyan-400/10 text-white shadow-[0_0_24px_rgba(34,211,238,0.08)]'
+                              : 'border-white/10 bg-white/[0.02] text-slate-400 hover:border-cyan-400/30 hover:text-slate-200',
+                            isLocked && 'cursor-not-allowed opacity-50'
+                          )}
+                        >
+                          <span className="block text-base font-semibold">{level}</span>
+                          <span className="mt-0.5 block text-[9px] leading-3 text-slate-500">{label}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
               </CardContent>
             </Card>
           </motion.div>
