@@ -779,6 +779,7 @@ function DrillSession({
           ...config,
           adaptivePoolIds: adaptivePoolRef.current.map(q => q.id),
           confidenceByIndex: confidence,
+          ...(v2SessionIdRef.current ? { v2SessionId: v2SessionIdRef.current } : {}),
         } as any,
         // Persist the visible session separately from the hidden adaptive candidate pool.
         question_ids: qs.slice(0, config.questionCount).map(q => q.id),
@@ -883,6 +884,10 @@ function DrillSession({
                 });
                 setQuestions(safeQuestions.slice(0, restoredCount));
                 adaptivePoolRef.current = [];
+                const restoredConfidence = restoredSessionConfig.confidenceByIndex;
+                if (restoredConfidence && typeof restoredConfidence === 'object') {
+                  setConfidenceByIndex(restoredConfidence as Record<number, number>);
+                }
                 setCurrentIndex(session.current_index || 0);
                 setTimeRemaining(session.time_remaining || (restoredMode === 'full-mock' ? 210 * 60 : restoredCount * 60));
                 setLoading(false);
