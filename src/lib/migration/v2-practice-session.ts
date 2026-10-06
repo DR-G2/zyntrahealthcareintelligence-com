@@ -1,4 +1,5 @@
 import { getSupabaseV2 } from '@/integrations/supabase/v2-client';
+import { supabase } from '@/lib/supabase';
 
 export interface V2PracticeSession {
   id: string;
@@ -29,6 +30,41 @@ export interface V2PracticeQuestion {
   subtopic_id: string | null;
   difficulty_tier: string | null;
   version: number | null;
+}
+
+export async function ensureV2AdminSession(): Promise<void> {
+  const v2 = getSupabaseV2();
+  const { data: existing } = await v2.auth.getSession();
+  if (existing.session?.user?.email) return;
+
+  const { data: legacySession } = await supabase.auth.getSession();
+  const legacyAccessToken = legacySession.session?.access_token;
+  if (!legacyAccessToken) throw new Error('Your current Zyntra session has expired. Please sign in again.');
+
+  const response = await fetch(
+    `${import.meta.env.VITE_SUPABASE_V2_URL}/functions/v1/v2-admin-auth-bridge`,
+    {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${legacyAccessToken}`,
+        'Content-Type': 'application/json',
+      },
+    },
+  );
+
+  const payload = await response.json().catch(() => ({}));
+  if (!response.ok || !payload?.token_hash) {
+    throw new Error(payload?.error || 'V2 admin authentication could not be established.');
+  }
+
+  const { error } = await v2.auth.verifyOtp({
+    token_hash: payload.token_hash,
+    type: 'magiclink',
+  });
+  if (error) throw new Error(error.message || 'V2 admin authentication could not be established.');
+
+  const { data: verified } = await v2.auth.getSession();
+  if (!verified.session) throw new Error('V2 authentication completed without an active session.');
 }
 
 export async function getV2PracticeQuestionPool(limit = 100): Promise<V2PracticeQuestion[]> {
