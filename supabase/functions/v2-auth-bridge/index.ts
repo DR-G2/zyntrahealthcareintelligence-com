@@ -2,11 +2,13 @@ import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "jsr:@supabase/supabase-js@2";
 
 const LEGACY_AUTH_URL = "https://yudkfmgilucyhukfggij.supabase.co/auth/v1/user";
-const LEGACY_PUBLISHABLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl1ZGtmbWdpbHVjeWh1a2ZnZ2lqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI1NTExNTksImV4cCI6MjA4ODEyNzE1OX0.ONt4wVkqJ8-9Jbp8k_P_o5BCSxChHGeXIdaNPH1--yg";
+const LEGACY_PUBLISHABLE_KEY = Deno.env.get("LEGACY_PUBLISHABLE_KEY") ?? "";
+
 const allowedOrigins = new Set([
   "https://www.zyntrahealthcareintelligence.com",
   "https://zyntrahealthcareintelligence.com",
 ]);
+
 const corsFor = (origin: string | null) => ({
   "Access-Control-Allow-Origin": origin && allowedOrigins.has(origin)
     ? origin
@@ -19,6 +21,7 @@ const corsFor = (origin: string | null) => ({
 Deno.serve(async (req) => {
   const cors = corsFor(req.headers.get("Origin"));
   if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
+
   try {
     if (req.method !== "POST") return Response.json({ error: "Method not allowed" }, { status: 405, headers: cors });
     if (!LEGACY_PUBLISHABLE_KEY) return Response.json({ error: "Legacy auth bridge is not configured." }, { status: 500, headers: cors });
@@ -77,13 +80,7 @@ Deno.serve(async (req) => {
     const tokenHash = linkData?.properties?.hashed_token;
     if (!tokenHash) throw new Error("V2 magic-link token could not be generated.");
 
-    return Response.json({
-      ok: true,
-      email,
-      v2_user_id: v2User.id,
-      token_hash: tokenHash,
-      type: "magiclink",
-    }, { headers: cors });
+    return Response.json({ ok: true, email, v2_user_id: v2User.id, token_hash: tokenHash, type: "magiclink" }, { headers: cors });
   } catch (error) {
     console.error("v2-auth-bridge error", error);
     return Response.json({
