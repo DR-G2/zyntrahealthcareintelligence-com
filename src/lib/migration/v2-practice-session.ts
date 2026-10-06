@@ -31,6 +31,30 @@ export interface V2PracticeQuestion {
   version: number | null;
 }
 
+export async function getV2PracticeQuestionPool(limit = 100): Promise<V2PracticeQuestion[]> {
+  const { data, error } = await getSupabaseV2().rpc('get_practice_question_pool', {
+    p_limit: limit,
+  });
+
+  if (error) throw new Error(error.message || 'V2 Practice question pool could not be loaded.');
+  return (data || []).map((q: any, index: number) => ({
+    session_question_id: '',
+    session_id: '',
+    question_id: q.id,
+    question_position: index,
+    presented_at: null,
+    answered_at: null,
+    zyntra_id: q.zyntra_id,
+    stem: q.stem,
+    options: q.options,
+    explanation: q.explanation,
+    subject_id: q.subject_id,
+    subtopic_id: q.subtopic_id,
+    difficulty_tier: q.difficulty_tier,
+    version: q.version,
+  })) as V2PracticeQuestion[];
+}
+
 export async function createV2PracticeSession(
   sessionType: string,
   config: Record<string, unknown>,
