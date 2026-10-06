@@ -27,6 +27,8 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { buildPracticeTopicResolver, normalizeTopicLabel, resolvePracticeQuestionPlacement } from '@/lib/practice-topic-mapping';
 import { emitBehaviorEvent } from '@/lib/telemetry';
 import { syncPieShadow } from '@/lib/pie/shadow-client';
+import { createV2PracticeSession, resumeV2PracticeSession, completeV2PracticeSession } from '@/lib/migration/v2-practice-session';
+import { saveAttemptToV2 } from '@/lib/migration/v2-practice-adapter';
 
 interface Question {
   id: string;
@@ -55,6 +57,7 @@ interface SessionConfig {
   questionCount: number;
   statusFilter?: QuestionStatusFilter;
   adaptivePoolIds?: string[];
+  v2SessionId?: string;
 }
 
 // ─── Filter types ───────────────────────────────────────────────
@@ -752,6 +755,8 @@ function DrillSession({
   const [finished, setFinished] = useState(false);
   const [restoring, setRestoring] = useState(false);
   const sessionIdRef = useRef(resumeSessionId || crypto.randomUUID());
+  const v2PracticeEnabled = import.meta.env.VITE_SUPABASE_V2_PRACTICE_ENABLED === 'true';
+  const v2SessionIdRef = useRef<string | null>(null);
   const lastInteractionRef = useRef(Date.now());
   const pauseTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const autoSaveRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -856,6 +861,10 @@ function DrillSession({
               const restoredSessionConfig = session.config && typeof session.config === 'object'
                 ? session.config as Record<string, unknown>
                 : {};
+              if (v2PracticeEnabled && typeof restoredSessionConfig.v2SessionId === 'string') {
+                const v2Session = await resumeV2PracticeSession(restoredSessionConfig.v2SessionId);
+                v2SessionIdRef.current = v2Session.id;
+              }
               const restoredConfidence = restoredSessionConfig.confidenceByIndex;
               if (restoredConfidence && typeof restoredConfidence === 'object') {
                 setConfidenceByIndex(restoredConfidence as Record<number, number>);
@@ -1121,6 +1130,15 @@ function DrillSession({
           adaptivePoolRef.current = config.mode === 'full-mock'
             ? []
             : ordered.slice(config.questionCount);
+
+          if (v2PracticeEnabled && user) {
+            const v2Session = await createV2PracticeSession(
+              'mcq',
+              { ...config, adaptivePoolIds: ordered.slice(config.questionCount).map(q => q.id) },
+              ordered.map(q => q.id),
+            );
+            v2SessionIdRef.current = v2Session.id;
+          }
         }
       }
       setLoading(false);
@@ -1418,6 +1436,30 @@ function DrillSession({
 
     // Save attempts with enhanced tracking
     if (user && sessionQuestions.length > 0) {
+      if (v2PracticeEnabled && v2SessionIdRef.current) {
+        for (let i = 0; i < sessionQuestions.length; i += 1) {
+          const q = sessionQuestions[i];
+          const selectedAnswer = selectedAnswers[i] || '';
+          if (!selectedAnswer) continue;
+          await saveAttemptToV2({
+            questionId: q.id,
+            sessionId: v2SessionIdRef.current,
+            selectedAnswer,
+            isCorrect: selectedAnswer === q.correct_answer,
+            timeTakenSeconds: questionTimes[i] || 0,
+            confidenceLevel: confidenceByIndex[i] || null,
+            answerChangesCount: answerChanges[i] || 0,
+            timeToFirstClick: timeToFirstClick[i] || 0,
+            changeSequence: changeSequences[i] || [],
+            pauseEvents: pauseEvents[i] || [],
+            timeOfDay: new Date().toISOString(),
+            questionPosition: i,
+            previousQuestionCorrect: i > 0 ? (selectedAnswers[i - 1] === questions[i - 1]?.correct_answer) : null,
+            provenance: { source: 'legacy-practice-v2-bridge', mode: config.mode },
+          });
+        }
+        await completeV2PracticeSession(v2SessionIdRef.current);
+      }
       const inserts = sessionQuestions.map((q, i) => ({
         user_id: user.id,
         question_id: q.id,
