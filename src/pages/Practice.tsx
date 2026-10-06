@@ -27,7 +27,7 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { buildPracticeTopicResolver, normalizeTopicLabel, resolvePracticeQuestionPlacement } from '@/lib/practice-topic-mapping';
 import { emitBehaviorEvent } from '@/lib/telemetry';
 import { syncPieShadow } from '@/lib/pie/shadow-client';
-import { createV2PracticeSession, getV2PracticeQuestions, getV2PracticeResults, resumeV2PracticeSession, completeV2PracticeSession } from '@/lib/migration/v2-practice-session';
+import { createV2PracticeSession, getV2PracticeQuestions, getV2PracticeQuestionPool, getV2PracticeResults, resumeV2PracticeSession, completeV2PracticeSession } from '@/lib/migration/v2-practice-session';
 import { saveAttemptToV2 } from '@/lib/migration/v2-practice-adapter';
 import { ADMIN_EMAILS } from '@/lib/admin-emails';
 
@@ -1189,9 +1189,50 @@ function DrillSession({
         );
       }
 
-      // Preload a larger candidate pool for Recharge / No Change. The visible
-      // session remains exactly config.questionCount, but the next question can
-      // be selected from this pool after each completed response.
+      // V2 is intentionally sourced from the V2 content pool. This keeps the
+      // V2 test independent from the legacy question UUIDs while the content
+      // migration is still being completed.
+      if (v2PracticeEnabled && user) {
+        const v2PoolSize = config.mode === 'full-mock'
+          ? config.questionCount
+          : Math.min(Math.max(config.questionCount * 3, config.questionCount + 10, 25), 1000);
+        const v2Pool = await getV2PracticeQuestionPool(v2PoolSize);
+        const v2Visible = v2Pool.slice(0, config.questionCount);
+        if (!v2Visible.length) {
+          throw new Error('The V2 Practice question pool is empty.');
+        }
+        const v2Session = await createV2PracticeSession(
+          'mcq',
+          { ...config, v2PracticeEnabled: true, adaptivePoolIds: v2Pool.slice(config.questionCount).map(q => q.question_id) },
+          v2Visible.map(q => q.question_id),
+        );
+        v2SessionIdRef.current = v2Session.id;
+        const v2Questions = await getV2PracticeQuestions(v2Session.id);
+        const safeQuestions = v2Questions.map((vq) => ({
+          id: vq.question_id,
+          question_text: vq.stem,
+          options: Array.isArray(vq.options) ? vq.options as string[] : [],
+          correct_answer: '',
+          explanation: vq.explanation,
+          category: vq.subject_id || '',
+          subtopic: vq.subtopic_id ?? null,
+          difficulty: vq.difficulty_tier || undefined,
+        } as Question));
+        setQuestions(safeQuestions.slice(0, config.questionCount));
+        adaptivePoolRef.current = [];
+        await supabase.from('active_sessions').update({
+          config: {
+            ...config,
+            v2PracticeEnabled: true,
+            adaptivePoolIds: v2Pool.slice(config.questionCount).map(q => q.question_id),
+            v2SessionId: v2Session.id,
+          },
+        } as any).eq('session_id', sessionIdRef.current).eq('user_id', user.id);
+        setLoading(false);
+        return;
+      }
+
+      // Legacy mode continues to use the legacy content pool.
       const poolSize = config.mode === 'full-mock'
         ? config.questionCount
         : Math.min(
