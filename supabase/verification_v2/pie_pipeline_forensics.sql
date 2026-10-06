@@ -1,5 +1,5 @@
 -- READ-ONLY forensics for the V2 PIE pipeline (project hkowvjazuwebmibssdut).
--- Run in the Supabase SQL editor BEFORE and AFTER applying migrations_v2/0035.
+-- Run in the Supabase SQL editor BEFORE and AFTER applying migrations_v2/0044_pie_candidate_state_pipeline_repair.sql.
 -- Nothing here writes data.
 
 -- 1. Function definitions, SECURITY DEFINER, search_path and EXECUTE grants
