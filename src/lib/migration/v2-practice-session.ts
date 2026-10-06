@@ -47,6 +47,7 @@ export async function ensureV2Session(): Promise<void> {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${legacyAccessToken}`,
+        apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
         'Content-Type': 'application/json',
       },
     },
