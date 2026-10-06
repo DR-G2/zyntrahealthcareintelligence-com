@@ -153,7 +153,10 @@ export async function completeV2PracticeSession(sessionId: string): Promise<V2Pr
 
   // Intelligence is deliberately best-effort. A readiness rebuild must never block answer/session completion.
   try {
-    await getSupabaseV2().rpc('refresh_candidate_intelligence');
+    await Promise.allSettled([
+      getSupabaseV2().rpc('refresh_candidate_intelligence'),
+      getSupabaseV2().rpc('rebuild_candidate_state', { p_user_id: data?.user_id }),
+    ]);
   } catch (intelligenceError) {
     console.warn('[V2] Candidate intelligence refresh skipped:', intelligenceError);
   }
