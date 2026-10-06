@@ -42,7 +42,7 @@ export async function ensureV2AdminSession(): Promise<void> {
   if (!legacyAccessToken) throw new Error('Your current Zyntra session has expired. Please sign in again.');
 
   const response = await fetch(
-    `${import.meta.env.VITE_SUPABASE_V2_URL}/functions/v1/v2-admin-auth-bridge`,
+    `${import.meta.env.VITE_SUPABASE_V2_URL}/functions/v1/v2-auth-bridge`,
     {
       method: 'POST',
       headers: {
@@ -150,5 +150,13 @@ export async function completeV2PracticeSession(sessionId: string): Promise<V2Pr
   });
 
   if (error) throw new Error(error.message || 'V2 Practice session could not be completed.');
+
+  // Intelligence is deliberately best-effort. A readiness rebuild must never block answer/session completion.
+  try {
+    await getSupabaseV2().rpc('refresh_candidate_intelligence');
+  } catch (intelligenceError) {
+    console.warn('[V2] Candidate intelligence refresh skipped:', intelligenceError);
+  }
+
   return data as V2PracticeSession;
 }
