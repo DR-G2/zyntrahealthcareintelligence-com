@@ -281,6 +281,51 @@ function PerformanceView({
         )}
       </section>
 
+      {pie ? (
+        <section className="rounded-3xl border border-cyan-400/15 bg-gradient-to-br from-cyan-400/[0.06] via-[#081224]/80 to-[#081224]/70 p-5 backdrop-blur-xl">
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-cyan-300">PIE interpretation</p>
+              <h3 className="mt-2 font-display text-xl font-semibold text-white">
+                {pie.capability >= 0.75
+                  ? 'Capability is holding.'
+                  : pie.calibration < 0.45
+                    ? 'Your confidence needs calibration.'
+                    : pie.timing < 0.45
+                      ? 'Timing control is the current signal.'
+                      : 'PIE is still building your state.'}
+              </h3>
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-400">
+                {pie.evidence_level === 'INSUFFICIENT'
+                  ? 'PIE is collecting behavioural evidence. Treat early signals as directional, not final.'
+                  : pie.calibration < 0.45
+                    ? 'Your recent confidence signal is less aligned with outcomes than the other tracked dimensions.'
+                    : pie.timing < 0.45
+                      ? 'Response-time behaviour is currently weaker than the other dimensions in your PIE state.'
+                      : 'The current state is stable enough to guide the next practice decision.'}
+              </p>
+            </div>
+            <Link to="/practice" className="inline-flex items-center gap-1.5 rounded-xl border border-cyan-400/20 bg-cyan-400/10 px-3 py-2 text-xs font-semibold text-cyan-200 hover:bg-cyan-400/15">
+              Act on this signal <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
+          </div>
+          <div className="mt-4 grid gap-3 sm:grid-cols-3">
+            <div className="rounded-2xl border border-white/8 bg-white/[0.02] p-4">
+              <p className="text-[10px] uppercase tracking-[0.12em] text-slate-500">State sequence</p>
+              <p className="mt-2 font-mono text-lg text-white">#{pie.state_sequence}</p>
+            </div>
+            <div className="rounded-2xl border border-white/8 bg-white/[0.02] p-4">
+              <p className="text-[10px] uppercase tracking-[0.12em] text-slate-500">Evidence</p>
+              <p className="mt-2 text-sm font-semibold text-white">{pie.evidence_level.replace(/_/g, ' ')}</p>
+            </div>
+            <div className="rounded-2xl border border-white/8 bg-white/[0.02] p-4">
+              <p className="text-[10px] uppercase tracking-[0.12em] text-slate-500">Model</p>
+              <p className="mt-2 truncate font-mono text-sm text-white">{pie.model_version}</p>
+            </div>
+          </div>
+        </section>
+      ) : null}
+
       <section className="rounded-3xl border border-emerald-400/15 bg-[#081224]/75 p-5 backdrop-blur-xl">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
