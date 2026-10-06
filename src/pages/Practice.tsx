@@ -136,7 +136,6 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
   const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
   const [questionCount, setQuestionCount] = useState(25);
   const [v2PracticeEnabled, setV2PracticeEnabled] = useState(false);
-  const v2PracticeGloballyEnabled = import.meta.env.VITE_SUPABASE_V2_PRACTICE_ENABLED === 'true';
   const [searchQuery, setSearchQuery] = useState('');
   const [categoryCounts, setCategoryCounts] = useState<Record<string, number>>({});
   const [subtopicCounts, setSubtopicCounts] = useState<Record<string, number>>({});
@@ -377,30 +376,6 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
   const canStart = hasAnySelection;
 
   if (loading) {
-    if (v2PracticeEnabled && v2StartupStage) {
-      return (
-        <AppLayout>
-          <div className="mx-auto flex min-h-[60vh] max-w-2xl items-center justify-center px-4">
-            <Card className="w-full border-emerald-400/20 bg-emerald-400/[0.03]">
-              <CardContent className="p-8 text-center">
-                <div className="mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-full border border-emerald-400/30 bg-emerald-400/10">
-                  <RefreshCw className="h-5 w-5 animate-spin text-emerald-300" />
-                </div>
-                <Badge className="mb-3 border-emerald-400/30 bg-emerald-400/10 text-emerald-300">
-                  V2 TEST MODE
-                </Badge>
-                <h2 className="text-lg font-semibold text-foreground">Starting V2 Practice</h2>
-                <p className="mt-2 text-sm text-muted-foreground">{v2StartupStage}</p>
-                <p className="mt-4 text-[11px] text-muted-foreground/70">
-                  If a step takes longer than 15 seconds, Zyntra will show the exact failing stage instead of waiting indefinitely.
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-        </AppLayout>
-      );
-    }
-
     return (
       <AppLayout>
         <PracticeSkeleton />
@@ -785,9 +760,9 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
               subtopics: Array.from(selectedSubtopics),
               questionCount,
               statusFilter,
-              ...(isAdmin && (v2PracticeGloballyEnabled || v2PracticeEnabled)
-          ? { v2PracticeEnabled: true }
-          : {}),
+              ...(isAdmin && v2PracticeEnabled
+                ? { v2PracticeEnabled: true }
+                : {}),
             });
           }}
           className="w-full sm:w-auto gap-2"
