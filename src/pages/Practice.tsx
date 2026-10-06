@@ -1410,7 +1410,18 @@ function DrillSession({
         question_position: i,
         previous_question_correct: i > 0 ? (selectedAnswers[i - 1] === questions[i - 1]?.correct_answer) : null,
       }));
-      const { error: attemptInsertError } = await supabase.from('user_attempts').insert(inserts as any);
+      // Confidence telemetry is additive. If an older live database has not yet
+      // applied the confidence migration, preserve the authoritative answer write
+      // instead of blocking submission. The confidence UI remains available and
+      // will persist automatically once the column exists.
+      let attemptInsertError = (await supabase.from('user_attempts').insert(inserts as any)).error;
+
+      if (attemptInsertError && /confidence_level.*column|column.*confidence_level|schema cache/i.test(attemptInsertError.message || '')) {
+        console.warn('[Practice] confidence_level is unavailable in the live schema; retrying answer persistence without confidence telemetry.');
+        const legacyInserts = inserts.map(({ confidence_level: _confidence, ...attempt }) => attempt);
+        attemptInsertError = (await supabase.from('user_attempts').insert(legacyInserts as any)).error;
+      }
+
       if (attemptInsertError) {
         console.error('[Practice] user_attempts insert failed', attemptInsertError);
         throw new Error(attemptInsertError.message || 'Unable to save your answers.');
