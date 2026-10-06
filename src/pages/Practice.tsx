@@ -33,6 +33,7 @@ import { ADMIN_EMAILS } from '@/lib/admin-emails';
 
 interface Question {
   id: string;
+  zyntra_id?: string | null;
   question_text: string;
   options: string[];
   correct_answer: string;
@@ -84,6 +85,7 @@ interface QuestionTopicMeta {
   subtopic: string | null;
   question_text: string;
   difficulty?: string | null;
+  zyntra_id?: string | null;
 }
 
 const QUESTION_META_PAGE_SIZE = 1000;
@@ -99,7 +101,7 @@ async function fetchAllQuestionTopicMeta(): Promise<QuestionTopicMeta[]> {
   while (true) {
     const { data, error } = await supabase
       .from('questions')
-      .select('id, category, subtopic, question_text, difficulty')
+      .select('id, zyntra_id, category, subtopic, question_text, difficulty')
       .range(from, from + QUESTION_META_PAGE_SIZE - 1);
 
     if (error) throw error;
@@ -924,7 +926,7 @@ function DrillSession({
                 const legacyById = new Map<string, Question>();
                 (qs || []).forEach((q: any) => legacyById.set(q.id, q as Question));
                 const safeQuestions = v2Questions.map((vq) => {
-                  const legacy = legacyById.get(vq.question_id);
+                  const legacy = legacyById.get(vq.question_id) || legacyByZyntraId.get(vq.zyntra_id);
                   return {
                     ...(legacy || {}),
                     id: vq.question_id,
@@ -1258,14 +1260,42 @@ function DrillSession({
             : ordered.slice(config.questionCount);
 
           if (v2PracticeEnabled && user) {
+            // Legacy and V2 question UUIDs are not assumed to be identical.
+            // Zyntra ID is the stable cross-database identity during migration.
+            const v2Pool = await getV2PracticeQuestionPool(1000);
+            const v2IdByZyntraId = new Map(
+              v2Pool
+                .filter((q) => q.zyntra_id)
+                .map((q) => [q.zyntra_id as string, q.question_id])
+            );
+            const missingZyntraIds = ordered
+              .map((q) => q.zyntra_id || null)
+              .filter((id): id is string => Boolean(id))
+              .filter((id) => !v2IdByZyntraId.has(id));
+            if (missingZyntraIds.length > 0) {
+              throw new Error(
+                `V2 content is incomplete: ${missingZyntraIds.length} selected question(s) are not available in the V2 question bank.`
+              );
+            }
+            const v2VisibleIds = ordered.map((q) => {
+              const zyntraId = q.zyntra_id;
+              const v2Id = zyntraId ? v2IdByZyntraId.get(zyntraId) : undefined;
+              if (!v2Id) throw new Error('V2 question mapping failed. Please contact the administrator.');
+              return v2Id;
+            });
+            const v2AdaptiveIds = ordered.slice(config.questionCount).map((q) => {
+              const zyntraId = q.zyntra_id;
+              return zyntraId ? v2IdByZyntraId.get(zyntraId) : undefined;
+            }).filter((id): id is string => Boolean(id));
             const v2Session = await createV2PracticeSession(
               'mcq',
-              { ...config, adaptivePoolIds: ordered.slice(config.questionCount).map(q => q.id) },
-              ordered.map(q => q.id),
+              { ...config, adaptivePoolIds: v2AdaptiveIds, legacyQuestionIds: ordered.map(q => q.id) },
+              v2VisibleIds,
             );
             v2SessionIdRef.current = v2Session.id;
             const v2Questions = await getV2PracticeQuestions(v2Session.id);
             const legacyById = new Map(ordered.map(q => [q.id, q]));
+            const legacyByZyntraId = new Map(ordered.map(q => [q.zyntra_id, q]));
             const safeQuestions = v2Questions.map((vq) => {
               const legacy = legacyById.get(vq.question_id);
               return {
