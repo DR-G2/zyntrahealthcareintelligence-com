@@ -376,6 +376,30 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
   const canStart = hasAnySelection;
 
   if (loading) {
+    if (v2PracticeEnabled && v2StartupStage) {
+      return (
+        <AppLayout>
+          <div className="mx-auto flex min-h-[60vh] max-w-2xl items-center justify-center px-4">
+            <Card className="w-full border-emerald-400/20 bg-emerald-400/[0.03]">
+              <CardContent className="p-8 text-center">
+                <div className="mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-full border border-emerald-400/30 bg-emerald-400/10">
+                  <RefreshCw className="h-5 w-5 animate-spin text-emerald-300" />
+                </div>
+                <Badge className="mb-3 border-emerald-400/30 bg-emerald-400/10 text-emerald-300">
+                  V2 TEST MODE
+                </Badge>
+                <h2 className="text-lg font-semibold text-foreground">Starting V2 Practice</h2>
+                <p className="mt-2 text-sm text-muted-foreground">{v2StartupStage}</p>
+                <p className="mt-4 text-[11px] text-muted-foreground/70">
+                  If a step takes longer than 15 seconds, Zyntra will show the exact failing stage instead of waiting indefinitely.
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        </AppLayout>
+      );
+    }
+
     return (
       <AppLayout>
         <PracticeSkeleton />
@@ -808,6 +832,7 @@ function DrillSession({
   const [timeRemaining, setTimeRemaining] = useState(timeSeconds);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState<string | null>(null);
+  const [v2StartupStage, setV2StartupStage] = useState<string | null>(null);
   const [finished, setFinished] = useState(false);
   const [restoring, setRestoring] = useState(false);
   const sessionIdRef = useRef(resumeSessionId || crypto.randomUUID());
@@ -977,34 +1002,60 @@ function DrillSession({
       }
 
       // V2 test mode intentionally bypasses the legacy adaptive pipeline.
-      // This keeps the V2 test independent from legacy history/DNA queries.
       if (v2PracticeEnabled && user) {
-        await ensureV2AdminSession();
+        const withTimeout = async <T,>(promise: Promise<T>, label: string, ms = 15000): Promise<T> => {
+          let timer: ReturnType<typeof setTimeout> | undefined;
+          try {
+            return await Promise.race([
+              promise,
+              new Promise<T>((_, reject) => {
+                timer = setTimeout(() => reject(new Error(`V2 startup timed out while ${label}. Please try again.`)), ms);
+              }),
+            ]);
+          } finally {
+            if (timer) clearTimeout(timer);
+          }
+        };
 
+        setV2StartupStage('1/4 Authenticating V2 admin session…');
+        await withTimeout(ensureV2AdminSession(), 'authenticating the V2 admin session');
+
+        setV2StartupStage('2/4 Loading V2 question pool…');
         const v2PoolSize = config.mode === 'full-mock'
           ? config.questionCount
           : Math.min(Math.max(config.questionCount * 3, config.questionCount + 10, 25), 1000);
 
-        const v2Pool = await getV2PracticeQuestionPool(v2PoolSize);
-        const v2Visible = v2Pool.slice(0, config.questionCount);
+        const v2Pool = await withTimeout(
+          getV2PracticeQuestionPool(v2PoolSize),
+          'loading the V2 question pool'
+        );
 
+        const v2Visible = v2Pool.slice(0, config.questionCount);
         if (!v2Visible.length) {
           throw new Error('The V2 Practice question pool is empty.');
         }
 
-        const v2Session = await createV2PracticeSession(
-          'mcq',
-          {
-            ...config,
-            v2PracticeEnabled: true,
-            adaptivePoolIds: v2Pool.slice(config.questionCount).map(q => q.question_id),
-          },
-          v2Visible.map(q => q.question_id),
+        setV2StartupStage('3/4 Creating V2 practice session…');
+        const v2Session = await withTimeout(
+          createV2PracticeSession(
+            'mcq',
+            {
+              ...config,
+              v2PracticeEnabled: true,
+              adaptivePoolIds: v2Pool.slice(config.questionCount).map(q => q.question_id),
+            },
+            v2Visible.map(q => q.question_id),
+          ),
+          'creating the V2 practice session'
         );
 
         v2SessionIdRef.current = v2Session.id;
 
-        const v2Questions = await getV2PracticeQuestions(v2Session.id);
+        setV2StartupStage('4/4 Loading your V2 questions…');
+        const v2Questions = await withTimeout(
+          getV2PracticeQuestions(v2Session.id),
+          'loading the V2 session questions'
+        );
 
         if (!v2Questions.length) {
           throw new Error('V2 session was created, but no questions were returned.');
@@ -1034,6 +1085,7 @@ function DrillSession({
           },
         } as any).eq('session_id', sessionIdRef.current).eq('user_id', user.id);
 
+        setV2StartupStage(null);
         setLoading(false);
         return;
       }
@@ -1361,6 +1413,7 @@ function DrillSession({
     } catch (error: any) {
       console.error('[Practice] session initialization failed', error);
       setLoadError(error?.message || 'We could not load this Practice session.');
+      setV2StartupStage(null);
       setLoading(false);
     }
     };
