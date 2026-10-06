@@ -893,7 +893,8 @@ function DrillSession({
 
   useEffect(() => {
     const fetchQ = async () => {
-      // Check for resume
+      try {
+        // Check for resume
       if (resumeSessionId && user) {
         try {
           const { data: session } = await supabase
