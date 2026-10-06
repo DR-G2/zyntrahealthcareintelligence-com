@@ -29,6 +29,7 @@ import { emitBehaviorEvent } from '@/lib/telemetry';
 import { syncPieShadow } from '@/lib/pie/shadow-client';
 import { createV2PracticeSession, getV2PracticeQuestions, getV2PracticeResults, resumeV2PracticeSession, completeV2PracticeSession } from '@/lib/migration/v2-practice-session';
 import { saveAttemptToV2 } from '@/lib/migration/v2-practice-adapter';
+import { ADMIN_EMAILS } from '@/lib/admin-emails';
 
 interface Question {
   id: string;
@@ -58,6 +59,7 @@ interface SessionConfig {
   statusFilter?: QuestionStatusFilter;
   adaptivePoolIds?: string[];
   v2SessionId?: string;
+  v2PracticeEnabled?: boolean;
 }
 
 // ─── Filter types ───────────────────────────────────────────────
@@ -131,6 +133,7 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
   const [selectedBareSubjects, setSelectedBareSubjects] = useState<Set<string>>(new Set());
   const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
   const [questionCount, setQuestionCount] = useState(25);
+  const [v2PracticeEnabled, setV2PracticeEnabled] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [categoryCounts, setCategoryCounts] = useState<Record<string, number>>({});
   const [subtopicCounts, setSubtopicCounts] = useState<Record<string, number>>({});
@@ -138,6 +141,7 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
   const [dbSubtopics, setDbSubtopics] = useState<DBSubtopic[]>([]);
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
+  const isAdmin = Boolean(user?.email && ADMIN_EMAILS.includes(user.email));
 
   useEffect(() => {
     const fetchAll = async () => {
@@ -410,6 +414,54 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
           title="Welcome to Practice Drills"
           description="Choose Recharge mode to revisit questions you got wrong, or No Change mode for fresh questions. Use the topic filters below to focus on your weak areas."
         />
+
+        {isAdmin && (
+          <div className={cn(
+            "rounded-2xl border p-4 backdrop-blur-xl transition-all",
+            v2PracticeEnabled
+              ? "border-emerald-400/50 bg-emerald-400/[0.08] shadow-[0_0_30px_rgba(16,185,129,0.10)]"
+              : "border-amber-400/30 bg-amber-400/[0.04]"
+          )}>
+            <div className="flex items-center justify-between gap-4">
+              <div className="min-w-0">
+                <div className="flex items-center gap-2">
+                  <span className={cn(
+                    "rounded-md px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest",
+                    v2PracticeEnabled ? "bg-emerald-400/15 text-emerald-300" : "bg-amber-400/15 text-amber-300"
+                  )}>
+                    ADMIN ONLY
+                  </span>
+                  <span className="text-sm font-semibold text-foreground">V2 Practice Engine</span>
+                </div>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  {v2PracticeEnabled
+                    ? "V2 is ON. This drill will use the new V2 session, secure answer saving and V2 result delivery."
+                    : "V2 is OFF. Practice will use the current production flow."}
+                </p>
+              </div>
+              <button
+                type="button"
+                role="switch"
+                aria-checked={v2PracticeEnabled}
+                onClick={() => setV2PracticeEnabled(prev => !prev)}
+                className={cn(
+                  "relative h-7 w-14 shrink-0 rounded-full border transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-background",
+                  v2PracticeEnabled
+                    ? "border-emerald-300/70 bg-emerald-500/80 focus:ring-emerald-400/40"
+                    : "border-white/20 bg-slate-700/70 focus:ring-amber-400/30"
+                )}
+              >
+                <span className={cn(
+                  "absolute top-1 h-5 w-5 rounded-full bg-white shadow-md transition-transform",
+                  v2PracticeEnabled ? "translate-x-8" : "translate-x-1"
+                )} />
+              </button>
+            </div>
+            <div className={cn("mt-3 text-[11px] font-medium", v2PracticeEnabled ? "text-emerald-300" : "text-amber-300")}>
+              {v2PracticeEnabled ? "● V2 TEST MODE ACTIVE" : "● LEGACY MODE ACTIVE"}
+            </div>
+          </div>
+        )}
 
         {/* Mode Selection */}
         <div className="space-y-3 rounded-2xl border border-white/10 bg-white/[0.02] p-5 backdrop-blur-xl">
@@ -706,6 +758,7 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
               subtopics: Array.from(selectedSubtopics),
               questionCount,
               statusFilter,
+              ...(isAdmin ? { v2PracticeEnabled } : {}),
             });
           }}
           className="w-full sm:w-auto gap-2"
@@ -755,12 +808,7 @@ function DrillSession({
   const [finished, setFinished] = useState(false);
   const [restoring, setRestoring] = useState(false);
   const sessionIdRef = useRef(resumeSessionId || crypto.randomUUID());
-  const [searchParams] = useSearchParams();
-  // Temporary, opt-in V2 test switch. It only activates when the URL contains
-  // ?v2test=1, so production users remain on the legacy Practice flow unless
-  // the build-time V2 flag is explicitly enabled.
-  const v2TestEnabled = searchParams.get('v2test') === '1';
-  const v2PracticeEnabled = import.meta.env.VITE_SUPABASE_V2_PRACTICE_ENABLED === 'true' || v2TestEnabled;
+  const v2PracticeEnabled = config.v2PracticeEnabled === true;
   const v2SessionIdRef = useRef<string | null>(null);
   const lastInteractionRef = useRef(Date.now());
   const pauseTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -828,6 +876,7 @@ function DrillSession({
             const storedConfig = (session.config && typeof session.config === 'object')
               ? (session.config as unknown as SessionConfig)
               : config;
+            const sessionUsesV2 = storedConfig.v2PracticeEnabled === true || v2PracticeEnabled;
             onConfigRestore?.(storedConfig);
 
             const visibleIds = Array.isArray(session.question_ids) ? session.question_ids as string[] : [];
@@ -836,7 +885,7 @@ function DrillSession({
 
             const { data: qs } = await supabase
               .from('questions')
-               .select(v2PracticeEnabled ? 'id, question_text, options, explanation, category, subtopic, difficulty, diagnosis_explanation, first_line_investigation, gold_standard_investigation, best_treatment, differential_diagnoses, incorrect_answer_explanations, key_takeaways' : 'id, question_text, options, correct_answer, explanation, category, subtopic, difficulty, diagnosis_explanation, first_line_investigation, gold_standard_investigation, best_treatment, differential_diagnoses, incorrect_answer_explanations, key_takeaways')
+               .select(sessionUsesV2 ? 'id, question_text, options, explanation, category, subtopic, difficulty, diagnosis_explanation, first_line_investigation, gold_standard_investigation, best_treatment, differential_diagnoses, incorrect_answer_explanations, key_takeaways' : 'id, question_text, options, correct_answer, explanation, category, subtopic, difficulty, diagnosis_explanation, first_line_investigation, gold_standard_investigation, best_treatment, differential_diagnoses, incorrect_answer_explanations, key_takeaways')
               .in('id', allIds);
 
             if (qs && qs.length > 0) {
@@ -867,7 +916,7 @@ function DrillSession({
               const restoredSessionConfig = session.config && typeof session.config === 'object'
                 ? session.config as Record<string, unknown>
                 : {};
-              if (v2PracticeEnabled && typeof restoredSessionConfig.v2SessionId === 'string') {
+              if (sessionUsesV2 && typeof restoredSessionConfig.v2SessionId === 'string') {
                 const v2Session = await resumeV2PracticeSession(restoredSessionConfig.v2SessionId);
                 v2SessionIdRef.current = v2Session.id;
                 const v2Questions = await getV2PracticeQuestions(v2Session.id);
