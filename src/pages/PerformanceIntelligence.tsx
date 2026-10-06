@@ -233,9 +233,9 @@ function PerformanceView({
       <section className="rounded-3xl border border-cyan-400/15 bg-[#081224]/75 p-5 backdrop-blur-xl">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="font-display text-lg font-semibold text-white">PIE Live Inference</p>
+            <p className="font-display text-lg font-semibold text-white">PIE Performance Intelligence</p>
             <p className="mt-1 max-w-2xl text-xs leading-5 text-slate-500">
-              The Performance Intelligence Engine is now connected to this page through the controlled PIE runtime bridge.
+              PIE is the production intelligence engine for this page.
               These are inferred state signals, not a replacement for the validated readiness score.
             </p>
           </div>
