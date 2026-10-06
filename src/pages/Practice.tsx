@@ -1383,11 +1383,14 @@ function DrillSession({
 
   const doFinish = async () => {
     if (finished) return;
-    setFinished(true);
     recordTime();
 
-    // Delete active session
-    await deleteSession();
+    // Do not mark the session finished until the authoritative attempt write
+    // succeeds. A failed INSERT must remain retryable and must never be
+    // mistaken for a completed submission.
+    try {
+      // Delete active session
+      await deleteSession();
 
     // Save only the configured session, not the hidden adaptive candidate pool.
     const sessionQuestions = questions.slice(0, config.questionCount);
@@ -1435,13 +1438,19 @@ function DrillSession({
         payload: { question_count: inserts.length, mode: config.mode },
       });
       const { error: attemptInsertError } = await supabase.from('user_attempts').insert(inserts as any);
-      if (attemptInsertError) throw attemptInsertError;
+      if (attemptInsertError) {
+        console.error('[Practice] user_attempts insert failed', attemptInsertError);
+        throw new Error(attemptInsertError.message || 'Unable to save your answers.');
+      }
 
-      // Legacy intelligence remains authoritative. PIE runs in shadow mode only.
+      // Only successful attempt persistence reaches downstream intelligence.
+      setFinished(true);
       void syncPieShadow();
 
       // Trigger behavior analysis in background
       supabase.functions.invoke('analyze-behavior').catch(console.error);
+    } else {
+      setFinished(true);
     }
 
     // Convert ruled out sets to arrays for results
@@ -1451,6 +1460,15 @@ function DrillSession({
     });
 
     onFinish(sessionQuestions, selectedAnswers, answerChanges, questionTimes, ruledOutArrays);
+    } catch (error: any) {
+      console.error('[Practice] submission failed', error);
+      setFinished(false);
+      toast({
+        title: 'Answers not saved',
+        description: error?.message || 'We could not save this session. Please try again.',
+        variant: 'destructive',
+      });
+    }
   };
 
   const formatTime = (s: number) => `${Math.floor(s / 60)}:${(s % 60).toString().padStart(2, '0')}`;
