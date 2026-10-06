@@ -55,14 +55,14 @@ Deno.serve(async (req) => {
       .limit(1)
       .maybeSingle();
 
-    if (stateRes.error) {
-      return new Response(JSON.stringify({
-        error: "candidate_state_query_failed",
-        detail: stateRes.error.message,
-      }), { status: 500, headers: { ...headers, "Content-Type": "application/json" } });
+    // A missing PIE table (not yet migrated) must not produce a generic 500;
+    // report it as an inspection warning and return an empty state instead.
+    const stateError = stateRes.error;
+    if (stateError) {
+      console.warn("[PIE admin inspect] candidate_state query failed:", stateError.message);
     }
 
-    const stateId = stateRes.data?.id;
+    const stateId = stateError ? undefined : stateRes.data?.id;
 
     const [
       uncertaintyRes,
@@ -89,6 +89,7 @@ Deno.serve(async (req) => {
     ]);
 
     const optionalErrors = [
+      stateError,
       uncertaintyRes.error, dynamicRes.error, readinessRes.error,
       compatibilityRes.error, hypothesesRes.error, dwigRes.error,
       decisionRes.error, validationRes.error, inferenceRes.error,
@@ -101,7 +102,7 @@ Deno.serve(async (req) => {
 
     return new Response(JSON.stringify({
       inspected_user_id: user_id,
-      candidate_state: stateRes.data,
+      candidate_state: stateError ? null : stateRes.data,
       state_uncertainty: uncertaintyRes.data || [],
       dynamic_state: dynamicRes.data || null,
       exam_readiness: readinessRes.data || [],
