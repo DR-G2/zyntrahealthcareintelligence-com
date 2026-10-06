@@ -971,13 +971,19 @@ function DrillSession({
 
         if (historyResult.error) throw historyResult.error;
 
-        const { data: questionDna, error: questionDnaError } = await supabase
+        // Question DNA is an optional adaptive signal. It must never be a
+        // hard dependency for opening Practice, especially during staged PIE/
+        // confidence migrations.
+        const questionDnaResult = await supabase
           .from('question_dna')
           .select('question_id, confidence_error_rate, difficulty_score, attempt_count')
           .in('question_id', candidateIds)
           .limit(5000);
 
-        if (questionDnaError) throw questionDnaError;
+        const questionDna = questionDnaResult.error ? [] : (questionDnaResult.data || []);
+        if (questionDnaResult.error) {
+          console.warn('[Practice] question_dna unavailable; continuing without DNA ranking:', questionDnaResult.error.message);
+        }
 
         const history = historyResult.data;
 
