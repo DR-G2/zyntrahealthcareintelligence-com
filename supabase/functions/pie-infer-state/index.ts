@@ -122,8 +122,8 @@ Deno.serve(async (req) => {
   if (!observations.length) {
     return json({
       status: "no_observations",
-      candidate_facing: false,
-      legacy_authoritative: true,
+      candidate_facing: true,
+      legacy_authoritative: false,
     });
   }
 
@@ -247,8 +247,8 @@ Deno.serve(async (req) => {
 
   return json({
     status: "completed",
-    candidate_facing: false,
-    legacy_authoritative: true,
+    candidate_facing: true,
+    legacy_authoritative: false,
     model_version: next.modelVersion,
     observation_count: observations.length,
   });
