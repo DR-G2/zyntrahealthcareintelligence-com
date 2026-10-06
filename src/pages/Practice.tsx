@@ -785,7 +785,7 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
               subtopics: Array.from(selectedSubtopics),
               questionCount,
               statusFilter,
-              ...(v2PracticeGloballyEnabled || (isAdmin && v2PracticeEnabled)
+              ...(isAdmin && (v2PracticeGloballyEnabled || v2PracticeEnabled)
           ? { v2PracticeEnabled: true }
           : {}),
             });
@@ -1722,7 +1722,7 @@ function DrillSession({
             questionId: q.id,
             sessionId: v2SessionIdRef.current,
             selectedAnswer,
-            isCorrect: selectedAnswer === q.correct_answer,
+            // V2 derives correctness server-side; the learner-safe payload intentionally has no answer key.
             timeTakenSeconds: questionTimes[i] || 0,
             confidenceLevel: confidenceByIndex[i] || null,
             answerChangesCount: answerChanges[i] || 0,
@@ -1731,7 +1731,7 @@ function DrillSession({
             pauseEvents: pauseEvents[i] != null ? [pauseEvents[i]] : [],
             timeOfDay: new Date().toISOString(),
             questionPosition: i,
-            previousQuestionCorrect: i > 0 ? (selectedAnswers[i - 1] === questions[i - 1]?.correct_answer) : null,
+            previousQuestionCorrect: null,
             provenance: { source: 'legacy-practice-v2-bridge', mode: config.mode },
           });
         }
