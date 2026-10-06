@@ -26,7 +26,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/component
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { buildPracticeTopicResolver, normalizeTopicLabel, resolvePracticeQuestionPlacement } from '@/lib/practice-topic-mapping';
 import { emitBehaviorEvent } from '@/lib/telemetry';
-import { syncPieShadow } from '@/lib/pie/shadow-client';
+import { syncPieEngine } from '@/lib/pie/shadow-client';
 import { createV2PracticeSession, getV2PracticeResults, resumeV2PracticeSession, completeV2PracticeSession, ensureV2Session } from '@/lib/migration/v2-practice-session';
 import { saveAttemptToV2 } from '@/lib/migration/v2-practice-adapter';
 import { ADMIN_EMAILS } from '@/lib/admin-emails';
@@ -1673,8 +1673,9 @@ function DrillSession({
 
       }
 
-      // PIE shadow sync and legacy analysis remain outside the V2 critical path.
-      // V2 attempts are already persisted through the V2 RPCs above.
+      // Refresh PIE after authoritative attempts are persisted. PIE is downstream intelligence,
+      // so a PIE failure never blocks answer persistence or session completion.
+      void syncPieEngine();
       if (!v2PracticeEnabled) {
         supabase.functions.invoke('analyze-behavior').catch(console.error);
       }
