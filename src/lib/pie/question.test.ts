@@ -41,7 +41,7 @@ describe("PIE P4 question intelligence", () => {
       questionId: "q1",
       questionVersion: "v1",
       outcome: 0,
-      candidateCapabilityEstimate: 0.8,
+      candidateCapabilityEstimate: 0.8, candidateCapabilityVariance: 0.1,
       answerChanged: false,
     });
     expect(q.protected).toBe(true);
@@ -71,7 +71,7 @@ describe("PIE P4 question intelligence", () => {
         questionId: "q1",
         questionVersion: "v1",
         outcome: 0,
-        candidateCapabilityEstimate: 0.8,
+        candidateCapabilityEstimate: 0.8, candidateCapabilityVariance: 0.1,
         answerChanged: true,
       });
     }

@@ -241,10 +241,10 @@ function PerformanceView({
           </div>
           <div className="text-right">
             <p className="font-mono text-[10px] uppercase tracking-wider text-cyan-300">
-              {pie ? pie.identification_status.replaceAll('_', ' ') : 'AWAITING SIGNAL'}
+              {pie ? pie.identification_status.replace(/_/g, ' ') : 'AWAITING SIGNAL'}
             </p>
             <p className="mt-1 text-[10px] text-slate-600">
-              {pie ? `Evidence: ${pie.evidence_level.replaceAll('_', ' ')}` : 'Complete practice to initialise PIE'}
+              {pie ? `Evidence: ${pie.evidence_level.replace(/_/g, ' ')}` : 'Complete practice to initialise PIE'}
             </p>
           </div>
         </div>
