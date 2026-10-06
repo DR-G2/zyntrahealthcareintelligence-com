@@ -136,6 +136,7 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
   const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
   const [questionCount, setQuestionCount] = useState(25);
   const [v2PracticeEnabled, setV2PracticeEnabled] = useState(false);
+  const v2PracticeGloballyEnabled = import.meta.env.VITE_SUPABASE_V2_PRACTICE_ENABLED === 'true';
   const [searchQuery, setSearchQuery] = useState('');
   const [categoryCounts, setCategoryCounts] = useState<Record<string, number>>({});
   const [subtopicCounts, setSubtopicCounts] = useState<Record<string, number>>({});
@@ -784,7 +785,9 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
               subtopics: Array.from(selectedSubtopics),
               questionCount,
               statusFilter,
-              ...(isAdmin ? { v2PracticeEnabled } : {}),
+              ...(v2PracticeGloballyEnabled || (isAdmin && v2PracticeEnabled)
+          ? { v2PracticeEnabled: true }
+          : {}),
             });
           }}
           className="w-full sm:w-auto gap-2"
