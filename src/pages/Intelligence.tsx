@@ -1,1 +1,1 @@
-export { default } from './PerformanceIntelligence';
+export { default } from './PerformanceIntelligenceV2';
