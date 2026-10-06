@@ -27,7 +27,6 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { buildPracticeTopicResolver, normalizeTopicLabel, resolvePracticeQuestionPlacement } from '@/lib/practice-topic-mapping';
 import { emitBehaviorEvent } from '@/lib/telemetry';
 import { syncPieShadow } from '@/lib/pie/shadow-client';
-import { syncPieShadow } from '@/lib/pie/shadow-client';
 
 interface Question {
   id: string;

@@ -4,6 +4,8 @@ import {
   CandidateQuestionOption,
   DEFAULT_DWIG_CONFIG,
   DWIGConfig,
+  DecisionContext,
+  DWIGSelection,
   stateUncertainty,
 } from "./types";
 
