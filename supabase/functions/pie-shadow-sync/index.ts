@@ -8,6 +8,7 @@ const allowedOrigins = new Set([
 ]);
 
 Deno.serve(async (req) => {
+  try {
     const requestOrigin = req.headers.get("Origin");
     const responseCors = {
       "Access-Control-Allow-Origin": requestOrigin && allowedOrigins.has(requestOrigin)
@@ -201,4 +202,11 @@ Deno.serve(async (req) => {
       normalized: fresh.length,
       pie,
     }), { status: 200, headers: { ...responseCors, "Content-Type": "application/json" } });
+  } catch (error) {
+    console.error("[PIE shadow] unexpected runtime error", error);
+    return new Response(JSON.stringify({ error: "pie_shadow_runtime_error" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
 });
