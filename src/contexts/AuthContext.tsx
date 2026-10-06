@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState, useRef, ReactNode } fro
 import { Session, User } from '@supabase/supabase-js';
 import { supabase } from '@/lib/supabase';
 import { CURRENT_TERMS_VERSION } from '@/lib/legal';
+import { signOutV2Local } from '@/lib/migration/v2-practice-session';
 
 interface Profile {
   id: string;
@@ -249,6 +250,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const signOut = async () => {
     localStorage.removeItem('zyntra_remember_me');
     sessionStorage.removeItem('zyntra_session_active');
+    await signOutV2Local();
     await supabase.auth.signOut();
   };
 

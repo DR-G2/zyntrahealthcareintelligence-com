@@ -34,12 +34,23 @@ export interface V2PracticeQuestion {
 
 export async function ensureV2Session(): Promise<void> {
   const v2 = getSupabaseV2();
-  const { data: existing } = await v2.auth.getSession();
-  if (existing.session?.user?.email) return;
-
   const { data: legacySession } = await supabase.auth.getSession();
   const legacyAccessToken = legacySession.session?.access_token;
-  if (!legacyAccessToken) throw new Error('Your current Zyntra session has expired. Please sign in again.');
+  const legacyEmail = legacySession.session?.user?.email?.toLowerCase() ?? '';
+
+  const { data: existing } = await v2.auth.getSession();
+  const existingEmail = existing.session?.user?.email?.toLowerCase() ?? '';
+
+  if (!legacyAccessToken) {
+    // Never keep acting as a V2 identity once the Zyntra session is gone.
+    if (existing.session) await v2.auth.signOut({ scope: 'local' }).catch(() => undefined);
+    throw new Error('Your current Zyntra session has expired. Please sign in again.');
+  }
+
+  // The persisted V2 session must belong to the currently signed-in Zyntra user.
+  // A stale V2 session from another account on the same browser is discarded.
+  if (existingEmail && legacyEmail && existingEmail === legacyEmail) return;
+  if (existing.session) await v2.auth.signOut({ scope: 'local' }).catch(() => undefined);
 
   const response = await fetch(
     `${import.meta.env.VITE_SUPABASE_V2_URL}/functions/v1/v2-auth-bridge`,
@@ -66,6 +77,15 @@ export async function ensureV2Session(): Promise<void> {
 
   const { data: verified } = await v2.auth.getSession();
   if (!verified.session) throw new Error('V2 authentication completed without an active session.');
+}
+
+/** Best-effort local V2 sign-out, used when the Zyntra session ends. Never throws. */
+export async function signOutV2Local(): Promise<void> {
+  try {
+    await getSupabaseV2().auth.signOut({ scope: 'local' });
+  } catch {
+    // V2 may be unconfigured in this build; nothing to clear.
+  }
 }
 
 export async function createV2PracticeSession(
