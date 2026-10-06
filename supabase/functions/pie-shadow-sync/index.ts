@@ -30,12 +30,28 @@ export default {
     const userId = ctx.userClaims?.sub;
     if (!userId) return Response.json({ error: "unauthorized" }, { status: 401 });
 
-    const attemptsResult = await ctx.supabaseAdmin
+    // Confidence telemetry was introduced after the original PIE schema. Keep
+    // this runtime backward-compatible so a partially migrated production
+    // database cannot crash the Edge Function or blank the Intelligence page.
+    const baseAttemptSelect = "id,user_id,question_id,selected_answer,is_correct,session_id,created_at,time_taken_seconds,answer_changes_count,time_to_first_click,change_sequence,pause_events,question_position,question_difficulty_at_attempt,question_dna_version_at_attempt,questions(correct_answer)";
+    let attemptsResult = await ctx.supabaseAdmin
       .from("user_attempts")
-      .select("id,user_id,question_id,selected_answer,is_correct,session_id,created_at,time_taken_seconds,answer_changes_count,time_to_first_click,change_sequence,pause_events,question_position,question_difficulty_at_attempt,question_dna_version_at_attempt,confidence_level,questions(correct_answer)")
+      .select(baseAttemptSelect + ",confidence_level")
       .eq("user_id", userId)
       .order("created_at", { ascending: false })
       .limit(500);
+
+    let confidenceColumnAvailable = true;
+    if (attemptsResult.error && /confidence_level.*column|column.*confidence_level|schema cache/i.test(attemptsResult.error.message || "")) {
+      confidenceColumnAvailable = false;
+      console.warn("[PIE shadow] confidence_level is unavailable; using legacy attempt projection");
+      attemptsResult = await ctx.supabaseAdmin
+        .from("user_attempts")
+        .select(baseAttemptSelect)
+        .eq("user_id", userId)
+        .order("created_at", { ascending: false })
+        .limit(500);
+    }
 
     if (attemptsResult.error) return Response.json({ error: "attempt_query_failed" }, { status: 500 });
     if (!attemptsResult.data?.length) return Response.json({ status: "no_new_observations", normalized: 0 });
@@ -66,7 +82,9 @@ export default {
         const finalCorrect = Boolean(a.is_correct);
         const q = Array.isArray(a.questions) ? a.questions[0] : a.questions;
         const first = Array.isArray(a.change_sequence) && a.change_sequence.length ? String(a.change_sequence[0]) : null;
-        const confidence = typeof a.confidence_level === "number" ? Math.max(0, Math.min(1, (a.confidence_level - 1) / 4)) : null;
+        const confidence = confidenceColumnAvailable && typeof a.confidence_level === "number"
+          ? Math.max(0, Math.min(1, (a.confidence_level - 1) / 4))
+          : null;
 
         return {
           user_id: userId,
