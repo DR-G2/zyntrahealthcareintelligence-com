@@ -42,7 +42,7 @@ const Intelligence = lazy(() => import("./pages/Intelligence"));
 const InboxPage = lazy(() => import("./pages/Inbox"));
 const OAuthConsent = lazy(() => import("./pages/OAuthConsent"));
 const Blog = lazy(() => import("./pages/Blog"));
-const BlogArticle = lazy(() => import("./pages/BlogArticle"));
+const BlogArticle = lazy(() => import("./pages/BlogArticle"));\nconst V2AuthDiagnostic = lazy(() => import("./pages/V2AuthDiagnostic"));
 
 const queryClient = new QueryClient();
 
@@ -139,7 +139,7 @@ function AppRoutes() {
           <Route path="/history" element={<Navigate to="/practice" replace />} />
           <Route path="/inbox" element={<ProtectedRoute><ErrorBoundary><InboxPage /></ErrorBoundary></ProtectedRoute>} />
           <Route path="/notifications" element={<Navigate to="/inbox" replace />} />
-          <Route path="/admin" element={<ProtectedRoute><ErrorBoundary><AdminDashboard /></ErrorBoundary></ProtectedRoute>} />
+          <Route path="/admin" element={<ProtectedRoute><ErrorBoundary><AdminDashboard /></ErrorBoundary></ProtectedRoute>} />\n          <Route path="/v2-auth-diagnostic" element={<ProtectedRoute><ErrorBoundary><V2AuthDiagnostic /></ErrorBoundary></ProtectedRoute>} />
           <Route path="/settings" element={<ProtectedRoute><ErrorBoundary><Settings /></ErrorBoundary></ProtectedRoute>} />
           <Route path="*" element={<NotFound />} />
         </Routes>
