@@ -2,7 +2,7 @@ import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "jsr:@supabase/supabase-js@2";
 
 const LEGACY_AUTH_URL = "https://yudkfmgilucyhukfggij.supabase.co/auth/v1/user";
-const LEGACY_PUBLISHABLE_KEY = Deno.env.get("LEGACY_PUBLISHABLE_KEY") ?? "";
+const LEGACY_PUBLISHABLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl1ZGtmbWdpbHVjeWh1a2ZnZ2lqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI1NTExNTksImV4cCI6MjA4ODEyNzE1OX0.ONt4wVkqJ8-9Jbp8k_P_o5BCSxChHGeXIdaNPH1--yg";
 const cors = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, apikey, content-type",
