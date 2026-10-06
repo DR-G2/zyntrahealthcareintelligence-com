@@ -24,6 +24,7 @@ export interface V2PracticeQuestion {
   stem: string;
   options: unknown;
   explanation: string | null;
+  correct_answer?: string;
   subject_id: string | null;
   subtopic_id: string | null;
   difficulty_tier: string | null;
@@ -54,6 +55,24 @@ export async function getV2PracticeQuestions(sessionId: string): Promise<V2Pract
 
   if (error) throw new Error(error.message || 'V2 Practice questions could not be loaded.');
   return (data || []) as V2PracticeQuestion[];
+}
+
+export interface V2PracticeResult extends V2PracticeQuestion {
+  correct_answer: string;
+  selected_answer: string | null;
+  is_correct: boolean | null;
+  confidence_level: number | null;
+  time_taken_seconds: number | null;
+  answer_changes_count: number;
+}
+
+export async function getV2PracticeResults(sessionId: string): Promise<V2PracticeResult[]> {
+  const { data, error } = await getSupabaseV2().rpc('get_practice_session_results', {
+    p_session_id: sessionId,
+  });
+
+  if (error) throw new Error(error.message || 'V2 Practice results could not be loaded.');
+  return (data || []) as V2PracticeResult[];
 }
 
 export async function resumeV2PracticeSession(sessionId: string): Promise<V2PracticeSession> {
