@@ -1091,6 +1091,54 @@ export type Database = {
         }
         Relationships: []
       }
+      pie_model_version: {
+        Row: {
+          assumptions: Json
+          created_at: string
+          exam_adapter_version: string | null
+          id: string
+          model_family: string
+          model_version: string
+          observation_schema_version: string
+          policy_version: string | null
+          question_model_version: string | null
+          state_schema_version: string
+          status: string
+          training_dataset_version: string | null
+          validation_run_id: string | null
+        }
+        Insert: {
+          assumptions?: Json
+          created_at?: string
+          exam_adapter_version?: string | null
+          id?: string
+          model_family: string
+          model_version: string
+          observation_schema_version: string
+          policy_version?: string | null
+          question_model_version?: string | null
+          state_schema_version: string
+          status?: string
+          training_dataset_version?: string | null
+          validation_run_id?: string | null
+        }
+        Update: {
+          assumptions?: Json
+          created_at?: string
+          exam_adapter_version?: string | null
+          id?: string
+          model_family?: string
+          model_version?: string
+          observation_schema_version?: string
+          policy_version?: string | null
+          question_model_version?: string | null
+          state_schema_version?: string
+          status?: string
+          training_dataset_version?: string | null
+          validation_run_id?: string | null
+        }
+        Relationships: []
+      }
       piracy_strikes: {
         Row: {
           created_at: string
