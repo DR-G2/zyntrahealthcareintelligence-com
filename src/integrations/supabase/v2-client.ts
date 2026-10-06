@@ -1,22 +1,41 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 
 /**
  * V2 Supabase client.
- * This is intentionally separate from the legacy production client.
- * Do not import this into production routes until cutover is approved.
+ * Intentionally separate from the legacy production client.
+ *
+ * The client is created lazily so importing migration code never breaks the
+ * existing app when V2 environment variables are not configured.
  */
-const V2_URL = import.meta.env.VITE_SUPABASE_V2_URL;
-const V2_PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_V2_PUBLISHABLE_KEY;
+let client: SupabaseClient | null = null;
 
-if (!V2_URL || !V2_PUBLISHABLE_KEY) {
-  throw new Error(
-    'V2 Supabase is not configured. Set VITE_SUPABASE_V2_URL and VITE_SUPABASE_V2_PUBLISHABLE_KEY before using the V2 client.'
-  );
+export function getSupabaseV2(): SupabaseClient {
+  if (client) return client;
+
+  const url = import.meta.env.VITE_SUPABASE_V2_URL;
+  const publishableKey = import.meta.env.VITE_SUPABASE_V2_PUBLISHABLE_KEY;
+
+  if (!url || !publishableKey) {
+    throw new Error(
+      'V2 Supabase is not configured. Set VITE_SUPABASE_V2_URL and VITE_SUPABASE_V2_PUBLISHABLE_KEY before using the V2 client.'
+    );
+  }
+
+  client = createClient(url, publishableKey, {
+    auth: {
+      persistSession: true,
+      autoRefreshToken: true,
+    },
+  });
+
+  return client;
 }
 
-export const supabaseV2 = createClient(V2_URL, V2_PUBLISHABLE_KEY, {
-  auth: {
-    persistSession: true,
-    autoRefreshToken: true,
-  },
-});
+/**
+ * Legacy production routes should continue using the existing client until
+ * V2 cutover is explicitly approved.
+ */
+export const supabaseV2 = {
+  rpc: (...args: Parameters<SupabaseClient['rpc']>) => getSupabaseV2().rpc(...args),
+  from: (...args: Parameters<SupabaseClient['from']>) => getSupabaseV2().from(...args),
+};
