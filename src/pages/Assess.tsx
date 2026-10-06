@@ -370,7 +370,7 @@ export default function Assess() {
       if (attemptInsertError) throw attemptInsertError;
 
       // PIE is the production performance-intelligence layer; assessment scoring remains authoritative.
-      void syncPieShadow();
+      void syncPieEngine();
 
       // Performance Intelligence is rebuilt from inserted attempt telemetry by the database trigger.
       // Trigger behavior analysis in background

@@ -120,11 +120,24 @@ export async function completeV2PracticeSession(sessionId: string): Promise<V2Pr
   if (error) throw new Error(error.message || 'V2 Practice session could not be completed.');
 
   // Intelligence is deliberately best-effort. A readiness rebuild must never block answer/session completion.
+  // PIE is rebuilt through the authenticated public wrapper (auth.uid() must equal p_user_id);
+  // the internal pie schema is never called from the browser.
   try {
-    await Promise.allSettled([
-      getSupabaseV2().rpc('refresh_candidate_intelligence'),
-      getSupabaseV2().rpc('rebuild_candidate_state', { p_user_id: data?.user_id }),
+    const v2 = getSupabaseV2();
+    const [refresh, rebuild] = await Promise.allSettled([
+      v2.rpc('refresh_candidate_intelligence'),
+      data?.user_id
+        ? v2.rpc('rebuild_candidate_state', { p_user_id: data.user_id })
+        : Promise.resolve({ data: null, error: { message: 'Completed session returned no user_id' } }),
     ]);
+    if (refresh.status === 'rejected' || refresh.value.error) {
+      console.warn('[V2] Canonical intelligence refresh failed (non-blocking):',
+        refresh.status === 'rejected' ? refresh.reason : refresh.value.error);
+    }
+    if (rebuild.status === 'rejected' || rebuild.value.error) {
+      console.warn('[PIE] Candidate-state rebuild after session completion failed (non-blocking):',
+        rebuild.status === 'rejected' ? rebuild.reason : rebuild.value.error);
+    }
   } catch (intelligenceError) {
     console.warn('[V2] Candidate intelligence refresh skipped:', intelligenceError);
   }

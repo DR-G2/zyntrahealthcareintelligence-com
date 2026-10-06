@@ -14,8 +14,8 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { AppLayout } from '@/components/AppLayout';
 import { RoomHeader } from '@/components/RoomHeader';
 import { supabase } from '@/lib/supabase';
-import { ensureV2Session } from '@/lib/migration/v2-practice-session';
-import { getSupabaseV2 } from '@/integrations/supabase/v2-client';
+import { loadPieEngineView } from '@/lib/pie/shadow-client';
+import { describePieStatus, PIE_MIN_OBSERVATIONS, type PieState, type PieView } from '@/lib/pie/pie-state';
 import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils';
 
@@ -92,22 +92,6 @@ interface ConfidenceSubject {
   low_confidence_correct: number;
 }
 
-interface PieState {
-  state_timestamp: string | null;
-  state_sequence: number;
-  capability: number;
-  decision: number;
-  timing: number;
-  calibration: number;
-  sustained_performance: number;
-  learning: number;
-  identification_status: string;
-  evidence_level: string;
-  data_quality: number;
-  observation_count: number;
-  model_version: string;
-}
-
 interface ConfidenceIntelligence {
   confidence_attempts: number;
   calibration: number;
@@ -169,7 +153,7 @@ function PerformanceView({
   priorities,
   trend,
   confidence,
-  pie,
+  pieView,
   loading,
 }: {
   snapshot: Snapshot;
@@ -177,9 +161,12 @@ function PerformanceView({
   priorities: PriorityStat[];
   trend: number[];
   confidence: ConfidenceIntelligence;
-  pie: PieState | null;
+  pieView: PieView | null;
   loading: boolean;
 }) {
+  // Only a valid, sufficiently evidenced PIE state drives the PIE panels.
+  const pie: PieState | null = pieView?.status === 'ready' ? pieView.pie : null;
+  const pieStatus = describePieStatus(pieView, loading);
   const readiness = pie ? Math.max(0, Math.min(100, pie.capability * 100)) : Math.max(0, Math.min(100, snapshot.readiness));
   const readinessLabel = pie ? (pie.evidence_level === 'INSUFFICIENT' ? 'Building evidence' : readiness >= 80 ? 'Strong state' : readiness >= 60 ? 'Developing' : 'Early state') : (readiness >= 80 ? 'Calibrated' : readiness >= 50 ? 'Developing' : 'Baseline');
 
@@ -242,11 +229,17 @@ function PerformanceView({
             </p>
           </div>
           <div className="text-right">
-            <p className="font-mono text-[10px] uppercase tracking-wider text-cyan-300">
-              {pie ? pie.identification_status.replace(/_/g, ' ') : 'AWAITING SIGNAL'}
+            <p
+              className={cn(
+                'font-mono text-[10px] uppercase tracking-wider',
+                pieStatus.tone === 'unavailable' ? 'text-amber-300' : 'text-cyan-300',
+              )}
+              data-testid="pie-status"
+            >
+              {pieStatus.headline}
             </p>
             <p className="mt-1 text-[10px] text-slate-600">
-              {pie ? `Evidence: ${pie.evidence_level.replace(/_/g, ' ')}` : 'Complete practice to initialise the PIE engine'}
+              {pieStatus.detail}
             </p>
           </div>
         </div>
@@ -276,9 +269,23 @@ function PerformanceView({
               {pie.state_timestamp ? <span>Updated {new Date(pie.state_timestamp).toLocaleString()}</span> : null}
             </div>
           </>
-        ) : (
+        ) : loading || !pieView ? (
           <div className="mt-5 rounded-2xl border border-dashed border-white/10 py-8 text-center text-sm text-slate-500">
-            PIE has not produced a candidate state yet.
+            Loading your PIE state…
+          </div>
+        ) : pieView.status === 'unavailable' ? (
+          <div className="mt-5 rounded-2xl border border-dashed border-amber-400/20 py-8 text-center text-sm text-slate-400" role="status">
+            <p className="font-semibold text-amber-200">PIE temporarily unavailable</p>
+            <p className="mt-1 text-xs text-slate-500">Your answers are saved. PIE will refresh the next time this page loads.</p>
+          </div>
+        ) : (
+          <div className="mt-5 rounded-2xl border border-dashed border-white/10 py-8 text-center text-sm text-slate-500" role="status">
+            <p className="font-semibold text-slate-200">Building evidence</p>
+            <p className="mt-1 text-xs text-slate-500">
+              {pieView.status === 'building' && pieView.observations > 0
+                ? `PIE has ${pieView.observations} of the ${PIE_MIN_OBSERVATIONS} observations it needs. Keep practising to build your state.`
+                : `Complete at least ${PIE_MIN_OBSERVATIONS} practice questions so PIE can build your state.`}
+            </p>
           </div>
         )}
       </section>
@@ -531,7 +538,7 @@ export default function PerformanceIntelligence() {
   const [subjects, setSubjects] = useState<SubjectStat[]>([]);
   const [priorities, setPriorities] = useState<PriorityStat[]>([]);
   const [trend, setTrend] = useState<number[]>([]);
-  const [pie, setPie] = useState<PieState | null>(null);
+  const [pieView, setPieView] = useState<PieView | null>(null);
   const [confidence, setConfidence] = useState<ConfidenceIntelligence>({
     confidence_attempts: 0, calibration: 0, average_confidence: 0, accuracy: 0, bias: 0,
     overconfidence: 0, underconfidence: 0, high_confidence_wrong: 0, low_confidence_correct: 0,
@@ -550,48 +557,10 @@ export default function PerformanceIntelligence() {
       setLoading(true);
 
       // PIE is production-owned by the V2 Supabase project.
-      // V2 Practice persists authoritative observations inside save_attempt;
-      // this refresh only rebuilds intelligence and reads the protected learner view.
-      let v2Pie: PieState | null = null;
-      try {
-        await ensureV2Session();
-        const v2 = getSupabaseV2();
-        const { data: v2Session } = await v2.auth.getSession();
-        const v2UserId = v2Session.session?.user?.id;
-
-        if (v2UserId) {
-          await v2.rpc('refresh_candidate_intelligence');
-          await v2.schema('pie').rpc('rebuild_candidate_state', { p_user_id: v2UserId });
-
-          const { data: stateRow, error: stateError } = await v2
-            .from('my_pie_state')
-            .select('state_version, state, confidence, calculated_at, updated_at')
-            .maybeSingle();
-
-          if (!stateError && stateRow?.state) {
-            const state = stateRow.state as Record<string, any>;
-            const estimate = (dimension: string) => Number(state?.[dimension]?.estimate ?? 0);
-            const evidenceLevel = String(state?.evidence_level ?? 'INSUFFICIENT');
-            v2Pie = {
-              state_timestamp: stateRow.calculated_at ?? stateRow.updated_at ?? null,
-              state_sequence: Number(stateRow.state_version ?? 0),
-              capability: estimate('capability'),
-              decision: estimate('decision'),
-              timing: estimate('timing'),
-              calibration: estimate('calibration'),
-              sustained_performance: estimate('sustained_performance'),
-              learning: estimate('learning'),
-              identification_status: evidenceLevel === 'INSUFFICIENT' ? 'BUILDING_EVIDENCE' : 'IDENTIFIED',
-              evidence_level: evidenceLevel,
-              data_quality: Number(stateRow.confidence ?? 0),
-              observation_count: Number(state?.evidence_count ?? 0),
-              model_version: 'v2-candidate-state',
-            };
-          }
-        }
-      } catch (pieError) {
-        console.warn('[PIE] V2 learner state refresh failed', pieError);
-      }
+      // V2 Practice persists authoritative observations inside save_attempt; this only
+      // rebuilds the caller's own state via the public wrapper and reads my_pie_state.
+      // loadPieEngineView never throws and reports failures as "unavailable".
+      const v2PieView = await loadPieEngineView();
 
       const [profileRes, attemptsRes, confidenceRes] = await Promise.all([
         supabase
@@ -610,7 +579,7 @@ export default function PerformanceIntelligence() {
 
       if (cancelled) return;
 
-      setPie(v2Pie);
+      setPieView(v2PieView);
 
       const attempts = (attemptsRes.data || []) as unknown as Attempt[];
 
@@ -791,7 +760,7 @@ export default function PerformanceIntelligence() {
               priorities={priorities}
               trend={trend}
               confidence={confidence}
-              pie={pie}
+              pieView={pieView}
               loading={loading}
             />
           )}

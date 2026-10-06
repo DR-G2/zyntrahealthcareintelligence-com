@@ -1,40 +1,23 @@
 import { ensureV2Session } from "@/lib/migration/v2-practice-session";
 import { getSupabaseV2 } from "@/integrations/supabase/v2-client";
+import { loadPieView, syncPieState, type PieClient, type PieDeps, type PieSyncResult, type PieView } from "@/lib/pie/pie-state";
 
 /**
- * Production PIE refresh.
+ * Production PIE client (file name retained for import stability; this is not shadow mode).
  *
- * V2 Practice already records authoritative attempts into pie.pie_observation
- * inside the server-authoritative save_attempt RPC. This client function only
- * refreshes the V2 intelligence state; it never supplies or computes correctness.
+ * V2 Practice records authoritative attempts into pie.pie_observation inside the
+ * server-authoritative save_attempt RPC. These helpers only rebuild/read the caller's
+ * own V2 PIE state via the authenticated public wrapper; they never supply correctness.
  */
-export async function syncPieEngine(): Promise<void> {
-  try {
-    await ensureV2Session();
+const productionDeps: PieDeps = {
+  ensureSession: ensureV2Session,
+  getClient: () => getSupabaseV2() as unknown as PieClient,
+};
 
-    const v2 = getSupabaseV2();
-    const { data: session } = await v2.auth.getSession();
-    const v2UserId = session.session?.user?.id;
+export function syncPieEngine(): Promise<PieSyncResult> {
+  return syncPieState(productionDeps);
+}
 
-    if (!v2UserId) {
-      console.warn("[PIE] V2 session unavailable");
-      return;
-    }
-
-    const { error: refreshError } = await v2.rpc("refresh_candidate_intelligence");
-    if (refreshError) {
-      console.warn("[PIE] V2 intelligence refresh failed", refreshError);
-    }
-
-    const { error: pieError } = await v2
-      .schema("pie")
-      .rpc("rebuild_candidate_state", { p_user_id: v2UserId });
-
-    if (pieError) {
-      console.warn("[PIE] V2 candidate-state rebuild failed", pieError);
-    }
-  } catch (error) {
-    // PIE is downstream intelligence. It must never block Practice answer persistence.
-    console.warn("[PIE] V2 refresh failed", error);
-  }
+export function loadPieEngineView(): Promise<PieView> {
+  return loadPieView(productionDeps);
 }
