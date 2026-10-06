@@ -6,24 +6,32 @@
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://www.zyntrahealthcareintelligence.com/check</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.zyntrahealthcareintelligence.com/amc-part-1-mcq</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.zyntrahealthcareintelligence.com/amc-clinical-osce</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://www.zyntrahealthcareintelligence.com/about</loc>
-    <changefreq>monthly</changefreq>
+    <loc>https://www.zyntrahealthcareintelligence.com/blog</loc>
+    <lastmod>2026-10-06</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.zyntrahealthcareintelligence.com/pricing</loc>
+    <loc>https://www.zyntrahealthcareintelligence.com/blog/amc-part-1-mcq</loc>
+    <lastmod>2026-10-06</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.zyntrahealthcareintelligence.com/blog/amc-part-2-osce</loc>
+    <lastmod>2026-10-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://www.zyntrahealthcareintelligence.com/terms</loc>

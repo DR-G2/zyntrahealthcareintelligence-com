@@ -2,7 +2,26 @@ import React from "react";
 import { ArrowLeft, ArrowRight, BookOpen, Clock } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import { SEO } from "@/components/SEO";
-import { articles, articleBody } from "./Blog";
+import { articles, articleBody, articleReadTime, NOT_AFFILIATED } from "@/data/blogPosts";
+import { formatIsoDate, parseInlineLinks } from "@/lib/blogText";
+
+const SITE_URL = "https://www.zyntrahealthcareintelligence.com";
+const AUTHOR_NAME = "Zyntra Healthcare Intelligence";
+
+/** Renders body text, turning [label](url) into links (internal routes via the router). */
+function RichText({ text }: { text: string }) {
+  return (
+    <>
+      {parseInlineLinks(text).map((segment, i) => {
+        if (segment.type === "text") return <React.Fragment key={i}>{segment.text}</React.Fragment>;
+        if (segment.href.startsWith("/")) {
+          return <Link key={i} to={segment.href} className="text-cyan-300 underline underline-offset-2 hover:text-cyan-200">{segment.text}</Link>;
+        }
+        return <a key={i} href={segment.href} target="_blank" rel="noopener noreferrer" className="text-cyan-300 underline underline-offset-2 hover:text-cyan-200">{segment.text}</a>;
+      })}
+    </>
+  );
+}
 
 export default function BlogArticle() {
   const { slug } = useParams();
@@ -38,11 +57,11 @@ export default function BlogArticle() {
           "@type": "Article",
           headline: article.title,
           description: article.excerpt,
-          author: { "@type": "Person", name: "Mike Ehrmantraut" },
-          publisher: { "@type": "Organization", name: "Zyntra Healthcare Intelligence", url: "https://www.zyntrahealthcareintelligence.com" },
-          datePublished: "2026-10-03",
-          dateModified: "2026-10-03",
-          mainEntityOfPage: "https://www.zyntrahealthcareintelligence.com/blog/" + article.slug,
+          author: { "@type": "Organization", name: AUTHOR_NAME, url: SITE_URL },
+          publisher: { "@type": "Organization", name: AUTHOR_NAME, url: SITE_URL },
+          datePublished: article.published,
+          dateModified: article.lastChecked,
+          mainEntityOfPage: SITE_URL + "/blog/" + article.slug,
         }}
       />
       <div className="min-h-screen bg-[#040812] text-slate-100 overflow-x-hidden">
@@ -55,13 +74,14 @@ export default function BlogArticle() {
         <main className="max-w-4xl mx-auto px-6 py-14 sm:py-20">
           <div className="text-xs font-bold uppercase tracking-[.18em] text-cyan-400">{article.category}</div>
           <h1 className="mt-4 text-3xl sm:text-5xl font-extrabold leading-tight tracking-tight text-white">{article.title}</h1>
-          <div className="mt-5 flex items-center gap-3 text-xs text-slate-500"><span>By Mike Ehrmantraut</span><span>·</span><BookOpen className="w-4 h-4 text-cyan-400" /><span>Public article</span><span>·</span><Clock className="w-3.5 h-3.5" /><span>{article.readTime}</span></div>
+          <div className="mt-5 flex flex-wrap items-center gap-3 text-xs text-slate-500"><span>By {AUTHOR_NAME}</span><span>·</span><BookOpen className="w-4 h-4 text-cyan-400" /><span>Public article</span><span>·</span><Clock className="w-3.5 h-3.5" /><span>{articleReadTime(article.slug)}</span></div>
+          <p className="mt-2 text-xs text-slate-500">Published <time dateTime={article.published}>{formatIsoDate(article.published)}</time> · Last checked against amc.org.au <time dateTime={article.lastChecked}>{formatIsoDate(article.lastChecked)}</time></p>
           <p className="mt-8 text-lg leading-8 text-slate-300 border-l-2 border-cyan-500/40 pl-5">{content?.intro ?? article.excerpt}</p>
           <article className="mt-12 space-y-10">
             {sections.map((section) => (
               <section key={section.title}>
                 <h2 className="text-2xl font-bold text-white">{section.title}</h2>
-                <p className="mt-3 text-base leading-8 text-slate-400">{section.body}</p>
+                <p className="mt-3 text-base leading-8 text-slate-400"><RichText text={section.body} /></p>
               </section>
             ))}
           </article>
@@ -71,6 +91,12 @@ export default function BlogArticle() {
             <Link to="/check" className="mt-5 inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-teal-500 to-cyan-600 px-5 py-3 text-sm font-semibold text-white">Start diagnostic <ArrowRight className="w-4 h-4" /></Link>
           </div>
         </main>
+        <footer className="border-t border-white/5 bg-[#02050b] py-8">
+          <div className="max-w-4xl mx-auto px-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4 text-xs text-slate-500">
+            <span>{NOT_AFFILIATED}</span>
+            <div className="flex gap-5"><Link to="/terms" className="hover:text-cyan-300">Terms</Link><Link to="/privacy" className="hover:text-cyan-300">Privacy</Link><Link to="/blog" className="hover:text-cyan-300">Blog</Link></div>
+          </div>
+        </footer>
       </div>
     </>
   );
