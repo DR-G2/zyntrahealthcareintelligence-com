@@ -11,7 +11,7 @@ import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import { selectNextQuestion, shouldShowIntervention, type SequencingState, type QuestionWithTier } from '@/lib/sequencing';
 import { emitBehaviorEvent } from '@/lib/telemetry';
-import { syncPieShadow } from '@/lib/pie/shadow-client';
+import { syncPieEngine } from '@/lib/pie/shadow-client';
 
 interface Question {
   id: string;
@@ -369,7 +369,7 @@ export default function Assess() {
       const { error: attemptInsertError } = await supabase.from('user_attempts').insert(inserts);
       if (attemptInsertError) throw attemptInsertError;
 
-      // Legacy intelligence remains authoritative. PIE runs in shadow mode only.
+      // PIE is the production performance-intelligence layer; assessment scoring remains authoritative.
       void syncPieShadow();
 
       // Performance Intelligence is rebuilt from inserted attempt telemetry by the database trigger.
