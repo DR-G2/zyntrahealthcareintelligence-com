@@ -1,4 +1,4 @@
-import { Component, ReactNode } from 'react';
+import { Component, ReactNode, ErrorInfo } from 'react';
 import { AlertTriangle, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -23,14 +23,9 @@ export class ErrorBoundary extends Component<Props, State> {
     return { hasError: true, error, componentStack: null };
   }
 
-  componentDidCatch(error: Error, info: React.ErrorInfo) {
-    console.error('ErrorBoundary caught:', {
-      name: error.name,
-      message: error.message,
-      stack: error.stack,
-      componentStack: info.componentStack,
-    });
-    this.setState({ componentStack: info.componentStack ?? null });
+  componentDidCatch(error: Error, info: ErrorInfo) {
+    console.error('ErrorBoundary caught:', error, info);
+    this.setState({ componentStack: info.componentStack || null });
   }
 
   handleReset = () => {
@@ -39,12 +34,12 @@ export class ErrorBoundary extends Component<Props, State> {
 
   render() {
     if (this.state.hasError) {
-      const { error, componentStack } = this.state;
+      const isDev = import.meta.env.DEV;
 
       return (
         <div className="flex items-center justify-center min-h-[60vh] p-6">
-          <Card className="max-w-3xl w-full">
-            <CardContent className="flex flex-col items-center text-center py-12 space-y-4">
+          <Card className={isDev ? "max-w-3xl w-full" : "max-w-md w-full"}>
+            <CardContent className="flex flex-col items-center text-center py-8 space-y-4">
               <div className="h-14 w-14 rounded-full bg-destructive/10 flex items-center justify-center">
                 <AlertTriangle className="h-7 w-7 text-destructive" />
               </div>
@@ -52,55 +47,41 @@ export class ErrorBoundary extends Component<Props, State> {
               <p className="text-sm text-muted-foreground">
                 An unexpected error occurred. Try refreshing or go back.
               </p>
-
-              {import.meta.env.DEV && error && (
-                <details className="w-full text-left rounded-lg border border-destructive/30 bg-muted/30 p-4">
-                  <summary className="cursor-pointer text-sm font-semibold text-destructive">
-                    Developer diagnostic
-                  </summary>
-                  <div className="mt-4 space-y-4">
-                    <div>
-                      <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                        Error name
-                      </p>
-                      <pre className="select-text whitespace-pre-wrap break-words rounded bg-background p-3 text-xs">
-                        {error.name}
-                      </pre>
-                    </div>
-                    <div>
-                      <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                        Error message
-                      </p>
-                      <pre className="select-text whitespace-pre-wrap break-words rounded bg-background p-3 text-xs">
-                        {error.message}
-                      </pre>
-                    </div>
-                    <div>
-                      <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                        Stack trace
-                      </p>
-                      <pre className="max-h-72 overflow-auto select-text whitespace-pre-wrap break-words rounded bg-background p-3 text-xs">
-                        {error.stack || 'No stack trace available'}
-                      </pre>
-                    </div>
-                    <div>
-                      <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                        React component stack
-                      </p>
-                      <pre className="max-h-72 overflow-auto select-text whitespace-pre-wrap break-words rounded bg-background p-3 text-xs">
-                        {componentStack || 'No component stack available'}
-                      </pre>
-                    </div>
-                  </div>
-                </details>
-              )}
-
               <div className="flex gap-2 pt-2">
                 <Button variant="outline" onClick={() => window.location.reload()}>
                   <RefreshCw className="h-4 w-4 mr-2" /> Reload Page
                 </Button>
                 <Button onClick={this.handleReset}>Try Again</Button>
               </div>
+
+              {isDev && this.state.error && (
+                <div className="w-full mt-6 text-left border rounded-lg p-4 bg-muted/40 font-mono text-xs select-text overflow-x-auto space-y-3">
+                  <div>
+                    <span className="font-bold text-destructive">Error Name: </span>
+                    <span>{this.state.error.name}</span>
+                  </div>
+                  <div>
+                    <span className="font-bold text-destructive">Message: </span>
+                    <span>{this.state.error.message}</span>
+                  </div>
+                  {this.state.error.stack && (
+                    <div>
+                      <div className="font-bold text-muted-foreground mb-1">Stack Trace:</div>
+                      <pre className="p-2 bg-background/80 rounded border whitespace-pre-wrap max-h-48 overflow-y-auto">
+                        {this.state.error.stack}
+                      </pre>
+                    </div>
+                  )}
+                  {this.state.componentStack && (
+                    <div>
+                      <div className="font-bold text-muted-foreground mb-1">Component Stack:</div>
+                      <pre className="p-2 bg-background/80 rounded border whitespace-pre-wrap max-h-48 overflow-y-auto">
+                        {this.state.componentStack}
+                      </pre>
+                    </div>
+                  )}
+                </div>
+              )}
             </CardContent>
           </Card>
         </div>
