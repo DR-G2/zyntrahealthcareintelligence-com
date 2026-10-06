@@ -178,8 +178,8 @@ function PerformanceView({
   pie: PieState | null;
   loading: boolean;
 }) {
-  const readiness = Math.max(0, Math.min(100, snapshot.readiness));
-  const readinessLabel = readiness >= 80 ? 'Calibrated' : readiness >= 50 ? 'Developing' : 'Baseline';
+  const readiness = pie ? Math.max(0, Math.min(100, pie.capability * 100)) : Math.max(0, Math.min(100, snapshot.readiness));
+  const readinessLabel = pie ? (pie.evidence_level === 'INSUFFICIENT' ? 'Building evidence' : readiness >= 80 ? 'Strong state' : readiness >= 60 ? 'Developing' : 'Early state') : (readiness >= 80 ? 'Calibrated' : readiness >= 50 ? 'Developing' : 'Baseline');
 
   return (
     <motion.div
@@ -196,7 +196,7 @@ function PerformanceView({
           <div className="relative">
             <div className="flex items-center gap-2 text-sm font-medium text-slate-200">
               <Gauge className="h-4 w-4 text-cyan-300" />
-              Overall Readiness
+              PIE Capability State
             </div>
             <div className="mt-6 flex items-center gap-5">
               <div
@@ -236,7 +236,7 @@ function PerformanceView({
             <p className="font-display text-lg font-semibold text-white">PIE Performance Intelligence</p>
             <p className="mt-1 max-w-2xl text-xs leading-5 text-slate-500">
               PIE is the production intelligence engine for this page.
-              These are inferred state signals, not a replacement for the validated readiness score.
+              This state is produced by PIE from your persisted practice behaviour and explicit evidence.
             </p>
           </div>
           <div className="text-right">
@@ -244,7 +244,7 @@ function PerformanceView({
               {pie ? pie.identification_status.replace(/_/g, ' ') : 'AWAITING SIGNAL'}
             </p>
             <p className="mt-1 text-[10px] text-slate-600">
-              {pie ? `Evidence: ${pie.evidence_level.replace(/_/g, ' ')}` : 'Complete practice to initialise PIE'}
+              {pie ? `Evidence: ${pie.evidence_level.replace(/_/g, ' ')}` : 'Complete practice to initialise the PIE engine'}
             </p>
           </div>
         </div>
