@@ -32,7 +32,7 @@ export interface V2PracticeQuestion {
   version: number | null;
 }
 
-export async function ensureV2AdminSession(): Promise<void> {
+export async function ensureV2Session(): Promise<void> {
   const v2 = getSupabaseV2();
   const { data: existing } = await v2.auth.getSession();
   if (existing.session?.user?.email) return;
