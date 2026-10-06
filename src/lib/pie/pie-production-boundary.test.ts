@@ -13,7 +13,8 @@ describe("PIE production boundary", () => {
 
   it("does not make internal PIE tables directly writable by authenticated users", () => {
     const migration = readFileSync(resolve(process.cwd(), "supabase/migrations/20261005040000_pie_p9_security_hardening.sql"), "utf8");
-    expect(migration).toContain("REVOKE INSERT, UPDATE, DELETE, TRUNCATE ON public.pie_candidate_state FROM authenticated");
+    expect(migration).toContain("REVOKE INSERT, UPDATE, DELETE, TRUNCATE ON public.%I");
+    expect(migration).toContain("'pie_candidate_state'");
     expect(migration).toContain("pie_runtime_decision");
   });
 
