@@ -805,6 +805,7 @@ function DrillSession({
   const [confidenceByIndex, setConfidenceByIndex] = useState<Record<number, number>>({});
   const [timeRemaining, setTimeRemaining] = useState(timeSeconds);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const [finished, setFinished] = useState(false);
   const [restoring, setRestoring] = useState(false);
   const sessionIdRef = useRef(resumeSessionId || crypto.randomUUID());
@@ -1251,8 +1252,13 @@ function DrillSession({
         }
       }
       setLoading(false);
+    } catch (error: any) {
+      console.error('[Practice] session initialization failed', error);
+      setLoadError(error?.message || 'We could not load this Practice session.');
+      setLoading(false);
+    }
     };
-    fetchQ();
+    void fetchQ();
   }, []);
 
   useEffect(() => {
@@ -1700,6 +1706,54 @@ function DrillSession({
     return (
       <AppLayout>
         <PracticeSkeleton />
+      </AppLayout>
+    );
+  }
+
+  if (loadError) {
+    const isV2Error = v2PracticeEnabled;
+    return (
+      <AppLayout>
+        <div className="mx-auto max-w-2xl py-16">
+          <Card className={cn(
+            "border",
+            isV2Error
+              ? "border-amber-400/30 bg-amber-400/[0.04]"
+              : "border-destructive/30 bg-destructive/[0.04]"
+          )}>
+            <CardHeader>
+              <div className="flex items-center gap-2">
+                {isV2Error && (
+                  <Badge className="border border-amber-400/30 bg-amber-400/10 text-amber-300">
+                    V2 TEST MODE
+                  </Badge>
+                )}
+                <CardTitle>Practice could not start</CardTitle>
+              </div>
+              <CardDescription>
+                {isV2Error
+                  ? "The V2 Practice engine could not initialise this session. Your existing Practice data has not been changed."
+                  : "We could not initialise this Practice session. Your existing Practice data has not been changed."}
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="rounded-xl border border-white/10 bg-black/20 p-4 text-sm text-muted-foreground break-words">
+                {loadError}
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <Button onClick={() => window.location.reload()}>Try Again</Button>
+                {isV2Error && (
+                  <Button
+                    variant="outline"
+                    onClick={() => window.location.assign('/practice')}
+                  >
+                    Return to Practice
+                  </Button>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       </AppLayout>
     );
   }
