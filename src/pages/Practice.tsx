@@ -27,7 +27,7 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { buildPracticeTopicResolver, normalizeTopicLabel, resolvePracticeQuestionPlacement } from '@/lib/practice-topic-mapping';
 import { emitBehaviorEvent } from '@/lib/telemetry';
 import { syncPieShadow } from '@/lib/pie/shadow-client';
-import { createV2PracticeSession, resumeV2PracticeSession, completeV2PracticeSession } from '@/lib/migration/v2-practice-session';
+import { createV2PracticeSession, getV2PracticeQuestions, getV2PracticeResults, resumeV2PracticeSession, completeV2PracticeSession } from '@/lib/migration/v2-practice-session';
 import { saveAttemptToV2 } from '@/lib/migration/v2-practice-adapter';
 
 interface Question {
@@ -864,6 +864,31 @@ function DrillSession({
               if (v2PracticeEnabled && typeof restoredSessionConfig.v2SessionId === 'string') {
                 const v2Session = await resumeV2PracticeSession(restoredSessionConfig.v2SessionId);
                 v2SessionIdRef.current = v2Session.id;
+                const v2Questions = await getV2PracticeQuestions(v2Session.id);
+                const legacyById = new Map<string, Question>();
+                (qs || []).forEach((q: any) => legacyById.set(q.id, q as Question));
+                const safeQuestions = v2Questions.map((vq) => {
+                  const legacy = legacyById.get(vq.question_id);
+                  return {
+                    ...(legacy || {}),
+                    id: vq.question_id,
+                    question_text: vq.stem,
+                    options: Array.isArray(vq.options) ? vq.options as string[] : [],
+                    correct_answer: '',
+                    explanation: vq.explanation,
+                    category: legacy?.category || '',
+                    subtopic: legacy?.subtopic ?? null,
+                    difficulty: vq.difficulty_tier || legacy?.difficulty,
+                  } as Question;
+                });
+                setQuestions(safeQuestions.slice(0, restoredCount));
+                adaptivePoolRef.current = [];
+                setCurrentIndex(session.current_index || 0);
+                setTimeRemaining(session.time_remaining || (restoredMode === 'full-mock' ? 210 * 60 : restoredCount * 60));
+                setLoading(false);
+                setRestoring(true);
+                setTimeout(() => setRestoring(false), 1500);
+                return;
               }
               const restoredConfidence = restoredSessionConfig.confidenceByIndex;
               if (restoredConfidence && typeof restoredConfidence === 'object') {
@@ -1138,6 +1163,24 @@ function DrillSession({
               ordered.map(q => q.id),
             );
             v2SessionIdRef.current = v2Session.id;
+            const v2Questions = await getV2PracticeQuestions(v2Session.id);
+            const legacyById = new Map(ordered.map(q => [q.id, q]));
+            const safeQuestions = v2Questions.map((vq) => {
+              const legacy = legacyById.get(vq.question_id);
+              return {
+                ...(legacy || {}),
+                id: vq.question_id,
+                question_text: vq.stem,
+                options: Array.isArray(vq.options) ? vq.options as string[] : [],
+                correct_answer: '',
+                explanation: vq.explanation,
+                category: legacy?.category || '',
+                subtopic: legacy?.subtopic ?? null,
+                difficulty: vq.difficulty_tier || legacy?.difficulty,
+              } as Question;
+            });
+            setQuestions(safeQuestions.slice(0, config.questionCount));
+            adaptivePoolRef.current = [];
             await supabase.from('active_sessions').update({
               config: {
                 ...config,
@@ -1419,7 +1462,7 @@ function DrillSession({
   }, [config.mode, config.questionCount, currentIndex, questions, selectedAnswers, confidenceByIndex]);
 
   const goTo = (i: number) => {
-    if (i > currentIndex) {
+    if (i > currentIndex && !v2PracticeEnabled) {
       adaptNextQuestion();
       maxViewedIndexRef.current = Math.max(maxViewedIndexRef.current, i);
     }
@@ -1542,13 +1585,44 @@ function DrillSession({
       setFinished(true);
     }
 
+    let finalQuestions = sessionQuestions;
+    let finalAnswers = selectedAnswers;
+    let finalChanges = answerChanges;
+    let finalTimes = questionTimes;
+    if (v2PracticeEnabled && v2SessionIdRef.current) {
+      const v2Results = await getV2PracticeResults(v2SessionIdRef.current);
+      const legacyById = new Map(sessionQuestions.map(q => [q.id, q]));
+      finalQuestions = v2Results.map((r) => {
+        const legacy = legacyById.get(r.question_id);
+        return {
+          ...(legacy || {}),
+          id: r.question_id,
+          question_text: r.stem,
+          options: Array.isArray(r.options) ? r.options as string[] : [],
+          correct_answer: r.correct_answer,
+          explanation: r.explanation,
+          category: legacy?.category || '',
+          subtopic: legacy?.subtopic ?? null,
+          difficulty: r.difficulty_tier || legacy?.difficulty,
+        } as Question;
+      });
+      finalAnswers = {};
+      finalChanges = {};
+      finalTimes = {};
+      v2Results.forEach((r, i) => {
+        if (r.selected_answer) finalAnswers[i] = r.selected_answer;
+        finalChanges[i] = r.answer_changes_count || 0;
+        finalTimes[i] = r.time_taken_seconds || 0;
+      });
+    }
+
     // Convert ruled out sets to arrays for results
     const ruledOutArrays: Record<number, string[]> = {};
     Object.entries(ruledOutOptions).forEach(([key, set]) => {
       ruledOutArrays[parseInt(key)] = Array.from(set);
     });
 
-    onFinish(sessionQuestions, selectedAnswers, answerChanges, questionTimes, ruledOutArrays);
+    onFinish(finalQuestions, finalAnswers, finalChanges, finalTimes, ruledOutArrays);
     } catch (error: any) {
       console.error('[Practice] submission failed', error);
       setFinished(false);
