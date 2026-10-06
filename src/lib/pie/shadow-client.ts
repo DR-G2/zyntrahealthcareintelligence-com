@@ -11,7 +11,7 @@ export async function syncPieEngine(): Promise<void> {
       return;
     }
 
-    if (!["completed", "no_new_observations", "normalized_inference_pending"].includes(data?.status)) {
+    if (!["completed", "no_new_observations", "inference_pending"].includes(data?.status)) {
       console.warn("[PIE] unexpected response", data?.status);
     }
   } catch (error) {
