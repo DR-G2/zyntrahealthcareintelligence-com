@@ -755,7 +755,12 @@ function DrillSession({
   const [finished, setFinished] = useState(false);
   const [restoring, setRestoring] = useState(false);
   const sessionIdRef = useRef(resumeSessionId || crypto.randomUUID());
-  const v2PracticeEnabled = import.meta.env.VITE_SUPABASE_V2_PRACTICE_ENABLED === 'true';
+  const [searchParams] = useSearchParams();
+  // Temporary, opt-in V2 test switch. It only activates when the URL contains
+  // ?v2test=1, so production users remain on the legacy Practice flow unless
+  // the build-time V2 flag is explicitly enabled.
+  const v2TestEnabled = searchParams.get('v2test') === '1';
+  const v2PracticeEnabled = import.meta.env.VITE_SUPABASE_V2_PRACTICE_ENABLED === 'true' || v2TestEnabled;
   const v2SessionIdRef = useRef<string | null>(null);
   const lastInteractionRef = useRef(Date.now());
   const pauseTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
