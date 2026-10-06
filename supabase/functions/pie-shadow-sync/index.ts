@@ -67,7 +67,7 @@ Deno.serve(async (req) => {
     let confidenceColumnAvailable = true;
     if (attemptsResult.error && /confidence_level.*column|column.*confidence_level|schema cache/i.test(attemptsResult.error.message || "")) {
       confidenceColumnAvailable = false;
-      console.warn("[PIE shadow] confidence_level is unavailable; using legacy attempt projection");
+      console.warn("[PIE production] confidence_level is unavailable; using legacy attempt projection");
       attemptsResult = await ctx.supabaseAdmin
         .from("user_attempts")
         .select(baseAttemptSelect)
@@ -156,7 +156,7 @@ Deno.serve(async (req) => {
 
     if (!inference.ok) {
       console.warn("[PIE shadow] inference refresh failed", inference.status);
-      return new Response(JSON.stringify({ status: "normalized_inference_pending", normalized: fresh.length }), { status: 200, headers: { ...responseCors, "Content-Type": "application/json" } });
+      return new Response(JSON.stringify({ status: "inference_pending", normalized: fresh.length }), { status: 200, headers: { ...responseCors, "Content-Type": "application/json" } });
     }
 
     // Controlled candidate-facing bridge: expose only the bounded PIE state
