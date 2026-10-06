@@ -42,7 +42,8 @@ const Intelligence = lazy(() => import("./pages/Intelligence"));
 const InboxPage = lazy(() => import("./pages/Inbox"));
 const OAuthConsent = lazy(() => import("./pages/OAuthConsent"));
 const Blog = lazy(() => import("./pages/Blog"));
-const BlogArticle = lazy(() => import("./pages/BlogArticle"));\nconst V2AuthDiagnostic = lazy(() => import("./pages/V2AuthDiagnostic"));
+const BlogArticle = lazy(() => import("./pages/BlogArticle"));
+const V2AuthDiagnostic = lazy(() => import("./pages/V2AuthDiagnostic"));
 
 const queryClient = new QueryClient();
 
