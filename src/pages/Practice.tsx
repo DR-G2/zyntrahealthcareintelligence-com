@@ -1389,9 +1389,6 @@ function DrillSession({
     // succeeds. A failed INSERT must remain retryable and must never be
     // mistaken for a completed submission.
     try {
-      // Delete active session
-      await deleteSession();
-
     // Save only the configured session, not the hidden adaptive candidate pool.
     const sessionQuestions = questions.slice(0, config.questionCount);
 
@@ -1413,6 +1410,16 @@ function DrillSession({
         question_position: i,
         previous_question_correct: i > 0 ? (selectedAnswers[i - 1] === questions[i - 1]?.correct_answer) : null,
       }));
+      const { error: attemptInsertError } = await supabase.from('user_attempts').insert(inserts as any);
+      if (attemptInsertError) {
+        console.error('[Practice] user_attempts insert failed', attemptInsertError);
+        throw new Error(attemptInsertError.message || 'Unable to save your answers.');
+      }
+
+      // The attempt INSERT is the source of truth. Only after it succeeds do
+      // we retire the resumable session and emit downstream telemetry.
+      await deleteSession();
+
       for (let i = 0; i < inserts.length; i += 1) {
         const attempt = inserts[i];
         void emitBehaviorEvent({
@@ -1437,11 +1444,6 @@ function DrillSession({
         sessionId: sessionIdRef.current,
         payload: { question_count: inserts.length, mode: config.mode },
       });
-      const { error: attemptInsertError } = await supabase.from('user_attempts').insert(inserts as any);
-      if (attemptInsertError) {
-        console.error('[Practice] user_attempts insert failed', attemptInsertError);
-        throw new Error(attemptInsertError.message || 'Unable to save your answers.');
-      }
 
       // Only successful attempt persistence reaches downstream intelligence.
       setFinished(true);
