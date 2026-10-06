@@ -82,3 +82,6 @@ project_id = "yudkfmgilucyhukfggij"
 
   [functions.ai-lab]
     verify_jwt = false
+
+  [functions.admin-pie-inspect-user]
+    verify_jwt = false
