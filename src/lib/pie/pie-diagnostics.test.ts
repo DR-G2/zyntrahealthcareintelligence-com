@@ -22,10 +22,12 @@ describe("PIE hard-failure diagnostics (no silent legacy fallback)", () => {
   });
 
   it("Practice never discards the PIE sync result and never downgrades a V2 resume", () => {
-    const src = read("src/pages/Practice.tsx");
+    // P5: the drill lives in PieDrillSession; a resume without a V2 session id is a hard error.
+    const src = read("src/components/practice/PieDrillSession.tsx");
     expect(src).not.toMatch(/void syncPieEngine\(\);/);
-    expect(src).toContain("requireV2SessionId(restoredSessionConfig)");
-    expect(src).toContain("if (restoringV2) {");
+    expect(src).toContain("syncPieEngine().then((result)");
+    expect(src).toContain("This session cannot be resumed. Please start a new one.");
+    expect(src).not.toMatch(/startPieSession\([^)]*\)[^;]*catch/);
     expect(read("src/pages/Assess.tsx")).toContain("syncPieEngine().then(pieSyncFailure)");
   });
 });

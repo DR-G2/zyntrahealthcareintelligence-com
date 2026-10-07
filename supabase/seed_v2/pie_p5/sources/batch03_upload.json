@@ -1,0 +1,2052 @@
+[
+ {
+  "zyntra_id": "ZQ-0351",
+  "question_text": "A 74-year-old man is brought to an emergency department in Ballina, NSW, after feeling faint all morning. He is pale and sweaty. Pulse 36/min and regular, BP 82/50 mmHg. His ECG shows sinus bradycardia at 36/min with a normal QRS. He takes no rate-slowing medicines and has not had a cardiac transplant.\n\nWhich one of the following is the most appropriate initial drug treatment?",
+  "options": [
+   "Intravenous adrenaline infusion as the first drug",
+   "Intravenous adenosine 6 mg",
+   "Intravenous amiodarone 300 mg",
+   "Observation only because sinus rhythm is present",
+   "Intravenous atropine 500–600 micrograms, repeated every 3–5 minutes as needed"
+  ],
+  "correct_answer": "E",
+  "explanation": "CORRECT ANSWER\n\nE. Intravenous atropine 500–600 micrograms, repeated every 3–5 minutes as needed\n\n---\n\nHe has a bradyarrhythmia with adverse signs (systolic BP <90 mmHg, heart rate <40/min). ANZCOR Guideline 11.9 says atropine is the first treatment: 500–600 micrograms IV, repeated every 3–5 minutes up to 3 mg. If this fails, low-dose adrenaline is the second-line drug, with pacing for patients who do not respond or who are at high risk of asystole.\n\n---\n\nKEY LEARNING POINT\nBradycardia with adverse signs: give IV atropine 500–600 mcg (up to 3 mg), then adrenaline or pacing if that fails.\n\n---\n\nREFERENCES\n• {\"name\": \"ANZCOR Guideline 11.9 – Managing Acute Dysrhythmias\", \"url\": \"https://www.anzcor.org/home/adult-advanced-life-support/guideline-11-9-managing-acute-dysrhythmias\"}",
+  "category": "Adult Medicine",
+  "system_category": "Cardiology",
+  "subtopic": "Symptomatic bradycardia: IV atropine first",
+  "difficulty": "easy",
+  "difficulty_tier": 2,
+  "incorrect_answer_explanations": {
+   "A": "ANZCOR lists adrenaline as second-line, after atropine fails.",
+   "B": "Adenosine is for regular narrow-complex tachycardia, not bradycardia.",
+   "C": "Amiodarone is an antiarrhythmic for tachyarrhythmias and would worsen bradycardia.",
+   "D": "Bradycardia with hypotension and heart rate <40/min needs immediate treatment."
+  },
+  "key_takeaways": [
+   "Bradycardia with adverse signs: give IV atropine 500–600 mcg (up to 3 mg), then adrenaline or pacing if that fails."
+  ],
+  "guideline_reference": "{\"name\": \"ANZCOR Guideline 11.9 – Managing Acute Dysrhythmias\", \"url\": \"https://www.anzcor.org/home/adult-advanced-life-support/guideline-11-9-managing-acute-dysrhythmias\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0351",
+   "zyntra_bank",
+   "batch03",
+   "level_2",
+   "task_management",
+   "group_adult_medicine",
+   "sys_cardiovascular",
+   "irtb_-1.10",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0352",
+  "question_text": "A 66-year-old woman presents to an emergency department in Warrnambool, Vic, with palpitations for three hours. She is alert, BP 128/78 mmHg. ECG shows a regular narrow-complex tachycardia at 150/min. A modified Valsalva manoeuvre has no effect. During IV adenosine 6 mg, the rhythm strip shows the ventricular rate slow briefly, revealing regular saw-tooth atrial activity at about 300/min, before the tachycardia at 150/min returns.\n\nWhich one of the following is the most likely rhythm?",
+  "options": [
+   "Atrial flutter with 2:1 atrioventricular conduction",
+   "AV nodal re-entry tachycardia",
+   "AV re-entry tachycardia via an accessory pathway",
+   "Sinus tachycardia",
+   "Ventricular tachycardia"
+  ],
+  "correct_answer": "A",
+  "explanation": "CORRECT ANSWER\n\nA. Atrial flutter with 2:1 atrioventricular conduction\n\n---\n\nANZCOR Guideline 11.9 notes that if the ventricular rate slows briefly with adenosine but the arrhythmia continues, you should look for atrial flutter or another atrial tachycardia. Saw-tooth flutter waves at about 300/min with a ventricular rate of 150/min indicate atrial flutter with 2:1 conduction. Adenosine blocks the AV node but does not end a rhythm generated within the atria.\n\n---\n\nKEY LEARNING POINT\nIf adenosine only briefly slows a regular narrow-complex tachycardia and reveals saw-tooth waves, it is atrial flutter.\n\n---\n\nREFERENCES\n• {\"name\": \"ANZCOR Guideline 11.9 – Managing Acute Dysrhythmias\", \"url\": \"https://www.anzcor.org/home/adult-advanced-life-support/guideline-11-9-managing-acute-dysrhythmias\"}",
+  "category": "Adult Medicine",
+  "system_category": "Cardiology",
+  "subtopic": "Regular narrow-complex tachycardia: adenosine unmasks atrial flutter",
+  "difficulty": "moderate",
+  "difficulty_tier": 3,
+  "incorrect_answer_explanations": {
+   "B": "AVNRT depends on the AV node and usually terminates with adenosine rather than revealing flutter waves.",
+   "C": "AVRT also uses the AV node and usually terminates with adenosine.",
+   "D": "There are saw-tooth flutter waves rather than P waves, and the rate is fixed at 150/min.",
+   "E": "The QRS is narrow."
+  },
+  "key_takeaways": [
+   "If adenosine only briefly slows a regular narrow-complex tachycardia and reveals saw-tooth waves, it is atrial flutter."
+  ],
+  "guideline_reference": "{\"name\": \"ANZCOR Guideline 11.9 – Managing Acute Dysrhythmias\", \"url\": \"https://www.anzcor.org/home/adult-advanced-life-support/guideline-11-9-managing-acute-dysrhythmias\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0352",
+   "zyntra_bank",
+   "batch03",
+   "level_3",
+   "task_data_interpretation_synthesis",
+   "group_adult_medicine",
+   "sys_cardiovascular",
+   "irtb_+0.30",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0353",
+  "question_text": "A 24-year-old man with known Wolff–Parkinson–White pattern presents to an emergency department in Newcastle, NSW, with palpitations for one hour. He is alert, BP 112/70 mmHg. ECG shows an irregularly irregular broad-complex tachycardia at 210–250/min, with QRS complexes that vary in width from beat to beat.\n\nWhich one of the following is the most appropriate interpretation and plan?",
+  "options": [
+   "AF with bundle branch block; give IV verapamil for rate control",
+   "Monomorphic VT; give IV adenosine to clarify the rhythm",
+   "Pre-excited atrial fibrillation; avoid adenosine, digoxin, verapamil and diltiazem, and plan electrical cardioversion",
+   "AF with rapid ventricular response; give IV digoxin",
+   "Sinus tachycardia with aberrancy; give fluids"
+  ],
+  "correct_answer": "C",
+  "explanation": "CORRECT ANSWER\n\nC. Pre-excited atrial fibrillation; avoid adenosine, digoxin, verapamil and diltiazem, and plan electrical cardioversion\n\n---\n\nAn irregular broad-complex tachycardia with varying QRS width in a patient with WPW suggests atrial fibrillation conducting down the accessory pathway. ANZCOR Guideline 11.9 states that if pre-excited AF is suspected, adenosine, digoxin, verapamil and diltiazem should be avoided. These drugs block the AV node and cause a relative increase in pre-excitation, which can degenerate to VF. Electrical cardioversion is usually the safest treatment.\n\n---\n\nKEY LEARNING POINT\nPre-excited AF (WPW with irregular broad complexes): avoid AV nodal blockers. Electrical cardioversion is usually safest.\n\n---\n\nREFERENCES\n• {\"name\": \"ANZCOR Guideline 11.9 – Managing Acute Dysrhythmias\", \"url\": \"https://www.anzcor.org/home/adult-advanced-life-support/guideline-11-9-managing-acute-dysrhythmias\"}",
+  "category": "Adult Medicine",
+  "system_category": "Cardiology",
+  "subtopic": "Irregular broad-complex tachycardia in WPW: avoid AV nodal blockers",
+  "difficulty": "difficult",
+  "difficulty_tier": 5,
+  "incorrect_answer_explanations": {
+   "A": "In WPW, AV nodal blockers can accelerate conduction down the accessory pathway.",
+   "B": "The rhythm is irregular, and adenosine is contraindicated in pre-excited AF.",
+   "D": "Digoxin is specifically listed to avoid in pre-excited AF.",
+   "E": "The rhythm is irregularly irregular and at 250/min, so it is not sinus."
+  },
+  "key_takeaways": [
+   "Pre-excited AF (WPW with irregular broad complexes): avoid AV nodal blockers. Electrical cardioversion is usually safest."
+  ],
+  "guideline_reference": "{\"name\": \"ANZCOR Guideline 11.9 – Managing Acute Dysrhythmias\", \"url\": \"https://www.anzcor.org/home/adult-advanced-life-support/guideline-11-9-managing-acute-dysrhythmias\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0353",
+   "zyntra_bank",
+   "batch03",
+   "level_5",
+   "task_data_interpretation_synthesis",
+   "group_adult_medicine",
+   "sys_cardiovascular",
+   "irtb_+1.50",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0354",
+  "question_text": "A 59-year-old man in Bendigo, Vic, has had palpitations for about five days. ECG shows atrial fibrillation at 105/min. He is stable, with BP 134/82 mmHg. He is not taking an anticoagulant. The cardiology team would like to restore sinus rhythm during this admission rather than wait weeks.\n\nWhich one of the following investigations is required before early cardioversion?",
+  "options": [
+   "Transthoracic echocardiography",
+   "Serum troponin",
+   "Transoesophageal echocardiography to exclude left atrial thrombus",
+   "Thyroid function tests alone",
+   "24-hour Holter monitor"
+  ],
+  "correct_answer": "C",
+  "explanation": "CORRECT ANSWER\n\nC. Transoesophageal echocardiography to exclude left atrial thrombus\n\n---\n\nANZCOR Guideline 11.9 states that patients who have been in AF for more than 48 hours should not have electrical or chemical cardioversion until they are fully anticoagulated, unless transoesophageal echocardiography has shown there is no atrial clot. Transthoracic echo cannot reliably exclude left atrial appendage thrombus.\n\n---\n\nKEY LEARNING POINT\nAF for more than 48 hours: cardiovert only after full anticoagulation or after TOE excludes atrial clot.\n\n---\n\nREFERENCES\n• {\"name\": \"ANZCOR Guideline 11.9 – Managing Acute Dysrhythmias\", \"url\": \"https://www.anzcor.org/home/adult-advanced-life-support/guideline-11-9-managing-acute-dysrhythmias\"}",
+  "category": "Adult Medicine",
+  "system_category": "Cardiology",
+  "subtopic": "AF for more than 48 hours: TOE before early cardioversion",
+  "difficulty": "moderate",
+  "difficulty_tier": 3,
+  "incorrect_answer_explanations": {
+   "A": "TTE cannot reliably exclude left atrial appendage thrombus.",
+   "B": "Troponin does not assess the risk of thromboembolism from cardioversion.",
+   "D": "TFTs are useful for finding a cause, but they do not make cardioversion safe.",
+   "E": "Holter monitoring is not needed. AF is already documented."
+  },
+  "key_takeaways": [
+   "AF for more than 48 hours: cardiovert only after full anticoagulation or after TOE excludes atrial clot."
+  ],
+  "guideline_reference": "{\"name\": \"ANZCOR Guideline 11.9 – Managing Acute Dysrhythmias\", \"url\": \"https://www.anzcor.org/home/adult-advanced-life-support/guideline-11-9-managing-acute-dysrhythmias\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0354",
+   "zyntra_bank",
+   "batch03",
+   "level_3",
+   "task_data_gathering",
+   "group_adult_medicine",
+   "sys_cardiovascular",
+   "irtb_+0.40",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0355",
+  "question_text": "A 45-year-old woman in Launceston, Tas, has just finished 12 weeks of sofosbuvir/velpatasvir for chronic hepatitis C. She has no cirrhosis. She took every dose, and her ALT is now normal. She asks how she will know she is cured.\n\nWhich one of the following tests best confirms cure?",
+  "options": [
+   "HCV RNA by sensitive PCR at least 12 weeks after completing treatment",
+   "HCV antibody 12 weeks after treatment",
+   "HCV RNA on the last day of treatment",
+   "ALT 12 weeks after treatment",
+   "HCV genotype"
+  ],
+  "correct_answer": "A",
+  "explanation": "CORRECT ANSWER\n\nA. HCV RNA by sensitive PCR at least 12 weeks after completing treatment\n\n---\n\nThe Australian HCV guidelines define cure (sustained virological response, SVR12) as undetectable HCV RNA on a highly sensitive PCR assay at least 12 weeks after DAA therapy finishes. Late relapse after SVR is very uncommon. Anti-HCV antibodies are expected to stay positive and do not indicate active infection.\n\n---\n\nKEY LEARNING POINT\nHepatitis C cure is SVR12: undetectable HCV RNA at least 12 weeks after DAA treatment ends.\n\n---\n\nREFERENCES\n• {\"name\": \"Australian recommendations for the management of hepatitis C virus infection: Post-treatment follow-up (Confirm SVR)\", \"url\": \"https://hepcguidelines.org.au/post-treatment-follow-up/\"}",
+  "category": "Adult Medicine",
+  "system_category": "Gastroenterology",
+  "subtopic": "Hepatitis C cure: HCV RNA at least 12 weeks after treatment (SVR12)",
+  "difficulty": "moderate",
+  "difficulty_tier": 3,
+  "incorrect_answer_explanations": {
+   "B": "Antibodies stay positive after cure, so they cannot confirm it.",
+   "C": "An end-of-treatment result does not rule out relapse. Cure is defined by the result at 12 weeks.",
+   "D": "ALT is useful for follow-up but does not confirm viral cure.",
+   "E": "Genotype does not assess response to treatment."
+  },
+  "key_takeaways": [
+   "Hepatitis C cure is SVR12: undetectable HCV RNA at least 12 weeks after DAA treatment ends."
+  ],
+  "guideline_reference": "{\"name\": \"Australian recommendations for the management of hepatitis C virus infection: Post-treatment follow-up (Confirm SVR)\", \"url\": \"https://hepcguidelines.org.au/post-treatment-follow-up/\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0355",
+   "zyntra_bank",
+   "batch03",
+   "level_3",
+   "task_data_gathering",
+   "group_adult_medicine",
+   "sys_gastroenterology",
+   "irtb_-0.20",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0356",
+  "question_text": "A 52-year-old man in Wollongong, NSW, was treated for hepatitis C three years ago. HCV RNA was undetectable 12 weeks after treatment, and he has no cirrhosis. A recent insurance medical showed a positive HCV antibody. He has not injected drugs since treatment. Today his HCV RNA is undetectable and his ALT is 24 U/L.\n\nWhich one of the following is the most appropriate interpretation?",
+  "options": [
+   "Relapse of hepatitis C requiring retreatment",
+   "Reinfection requiring retreatment",
+   "Protective immunity against future HCV infection",
+   "Persistent antibody after cure; he does not have active infection and is not immune to reinfection",
+   "A false-positive antibody result that should be investigated with a liver biopsy"
+  ],
+  "correct_answer": "D",
+  "explanation": "CORRECT ANSWER\n\nD. Persistent antibody after cure; he does not have active infection and is not immune to reinfection\n\n---\n\nThe Australian HCV guidelines state that anti-HCV antibodies are expected to persist after SVR. They do not mean active infection, and they do not give immunity to reinfection. People without cirrhosis whose LFTs are normal after SVR do not need further specialist liver follow-up. Future testing for reinfection must use HCV RNA, not antibody.\n\n---\n\nKEY LEARNING POINT\nAfter HCV cure, antibodies stay positive. Use HCV RNA to test for reinfection.\n\n---\n\nREFERENCES\n• {\"name\": \"Australian recommendations for the management of hepatitis C virus infection: Post-treatment follow-up (Confirm SVR)\", \"url\": \"https://hepcguidelines.org.au/post-treatment-follow-up/\"}",
+  "category": "Adult Medicine",
+  "system_category": "Gastroenterology",
+  "subtopic": "Positive HCV antibody after documented cure",
+  "difficulty": "moderate",
+  "difficulty_tier": 3,
+  "incorrect_answer_explanations": {
+   "A": "His HCV RNA is undetectable.",
+   "B": "Reinfection would show detectable HCV RNA.",
+   "C": "Antibodies do not protect against reinfection.",
+   "E": "The antibody is expected after past infection, and a biopsy is not indicated."
+  },
+  "key_takeaways": [
+   "After HCV cure, antibodies stay positive. Use HCV RNA to test for reinfection."
+  ],
+  "guideline_reference": "{\"name\": \"Australian recommendations for the management of hepatitis C virus infection: Post-treatment follow-up (Confirm SVR)\", \"url\": \"https://hepcguidelines.org.au/post-treatment-follow-up/\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0356",
+   "zyntra_bank",
+   "batch03",
+   "level_3",
+   "task_data_interpretation_synthesis",
+   "group_adult_medicine",
+   "sys_gastroenterology",
+   "irtb_+0.50",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0357",
+  "question_text": "A 21-year-old woman in Townsville, Qld, was treated with doxycycline for 7 days for genital chlamydia found on screening. She is not pregnant, and her symptoms have gone. Her partner has also been treated. She asks whether she needs another test.\n\nWhich one of the following is the most appropriate follow-up testing?",
+  "options": [
+   "Test of cure NAAT one week after treatment",
+   "Repeat chlamydia NAAT at 3 months to detect reinfection",
+   "No further testing at any time",
+   "Chlamydia serology",
+   "Pelvic ultrasound"
+  ],
+  "correct_answer": "B",
+  "explanation": "CORRECT ANSWER\n\nB. Repeat chlamydia NAAT at 3 months to detect reinfection\n\n---\n\nThe Australian STI Management Guidelines say a test of cure is not routinely recommended for chlamydia, except in pregnancy and for anorectal infection treated with azithromycin. Reinfection is common, so retesting at 3 months is recommended.\n\n---\n\nKEY LEARNING POINT\nAfter treating uncomplicated chlamydia, retest at 3 months for reinfection. A routine test of cure is not needed.\n\n---\n\nREFERENCES\n• {\"name\": \"Australian STI Management Guidelines. Chlamydia\", \"url\": \"https://sti.guidelines.org.au/sexually-transmissible-infections/chlamydia/\"}",
+  "category": "Adult Medicine",
+  "system_category": "Infectious Diseases",
+  "subtopic": "Treated chlamydia: retest for reinfection at 3 months",
+  "difficulty": "easy",
+  "difficulty_tier": 2,
+  "incorrect_answer_explanations": {
+   "A": "Testing too early can give a false-positive result from persistent DNA, and a test of cure is not routinely needed.",
+   "C": "Retesting at 3 months is recommended because reinfection is common.",
+   "D": "Serology is not used for diagnosis or follow-up.",
+   "E": "Ultrasound is not indicated for uncomplicated infection."
+  },
+  "key_takeaways": [
+   "After treating uncomplicated chlamydia, retest at 3 months for reinfection. A routine test of cure is not needed."
+  ],
+  "guideline_reference": "{\"name\": \"Australian STI Management Guidelines. Chlamydia\", \"url\": \"https://sti.guidelines.org.au/sexually-transmissible-infections/chlamydia/\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0357",
+   "zyntra_bank",
+   "batch03",
+   "level_2",
+   "task_data_gathering",
+   "group_adult_medicine",
+   "sys_infectious_disease",
+   "irtb_-0.90",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0358",
+  "question_text": "A 58-year-old woman in Orange, NSW, has fatigue and tingling in her feet. She eats a mixed diet and takes no medicines. She has hypothyroidism and vitiligo.\n\nInvestigations:\n- Haemoglobin 104 g/L, MCV 108 fL\n- Serum B12 90 pmol/L (>150)\n- Folate and iron studies normal\n\nWhich one of the following investigations is most appropriate to establish the cause?",
+  "options": [
+   "Schilling test",
+   "Bone marrow biopsy",
+   "Coeliac serology as the only test",
+   "Serum homocysteine alone",
+   "Anti-intrinsic factor antibodies"
+  ],
+  "correct_answer": "E",
+  "explanation": "CORRECT ANSWER\n\nE. Anti-intrinsic factor antibodies\n\n---\n\nWith no dietary or drug cause and with other autoimmune disease, autoimmune gastritis (pernicious anaemia) is likely. Australian Prescriber recommends testing for anti-intrinsic factor antibodies when autoimmune gastritis is suspected. If these are negative, anti-parietal cell antibodies, gastrin and gastroscopy should be considered. The cause matters because B12 absorption is irreversibly impaired in pernicious anaemia, so oral B12 is unreliable and IM treatment is needed.\n\n---\n\nKEY LEARNING POINT\nIf B12 deficiency suggests autoimmune gastritis, test anti-intrinsic factor antibodies. Pernicious anaemia needs IM B12.\n\n---\n\nREFERENCES\n• {\"name\": \"Australian Prescriber. Vitamin B12 deficiency: testing and treatment\", \"url\": \"https://australianprescriber.tg.org.au/articles/vitamin-B12-deficiency-testing-and-treatment.html\"}",
+  "category": "Adult Medicine",
+  "system_category": "Haematology & Oncology",
+  "subtopic": "Vitamin B12 deficiency: anti-intrinsic factor antibodies for suspected autoimmune gastritis",
+  "difficulty": "moderate",
+  "difficulty_tier": 3,
+  "incorrect_answer_explanations": {
+   "A": "The Schilling test is no longer available.",
+   "B": "A biopsy is not needed for B12 deficiency.",
+   "C": "This could be considered, but the autoimmune history points to autoimmune gastritis first.",
+   "D": "Homocysteine supports the diagnosis of deficiency but does not identify the cause."
+  },
+  "key_takeaways": [
+   "If B12 deficiency suggests autoimmune gastritis, test anti-intrinsic factor antibodies. Pernicious anaemia needs IM B12."
+  ],
+  "guideline_reference": "{\"name\": \"Australian Prescriber. Vitamin B12 deficiency: testing and treatment\", \"url\": \"https://australianprescriber.tg.org.au/articles/vitamin-B12-deficiency-testing-and-treatment.html\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0358",
+   "zyntra_bank",
+   "batch03",
+   "level_3",
+   "task_data_gathering",
+   "group_adult_medicine",
+   "sys_haematology_oncology",
+   "irtb_+0.20",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0359",
+  "question_text": "A 70-year-old man is admitted to a hospital in Gosford, NSW, with pneumonia and sepsis. His baseline creatinine from two months ago is 90 µmol/L. On day 2 his creatinine is 200 µmol/L. Urine output has averaged 0.4 mL/kg/h over the last 8 hours. He is not on dialysis.\n\nWhich one of the following is the correct KDIGO stage of his acute kidney injury?",
+  "options": [
+   "Stage 1",
+   "Stage 3",
+   "Stage 2",
+   "Not AKI because urine output is above 0.3 mL/kg/h",
+   "AKI cannot be staged without a 24-hour urine collection"
+  ],
+  "correct_answer": "C",
+  "explanation": "CORRECT ANSWER\n\nC. Stage 2\n\n---\n\nKDIGO stages AKI by the worse of the creatinine and urine output criteria. Stage 1 is creatinine 1.5–1.9 times baseline (or a rise of ≥26.5 µmol/L), or urine output <0.5 mL/kg/h for 6–12 hours. Stage 2 is creatinine 2.0–2.9 times baseline, or <0.5 mL/kg/h for ≥12 hours. Stage 3 is creatinine ≥3.0 times baseline (or ≥353.6 µmol/L), urine output <0.3 mL/kg/h for ≥24 hours or anuria for ≥12 hours, or starting kidney replacement therapy. A creatinine of 200/90 is 2.2 times baseline, which is stage 2. The urine output of 0.4 mL/kg/h for 8 hours would only meet stage 1.\n\n---\n\nKEY LEARNING POINT\nKDIGO AKI stage is set by the worse of creatinine (1.5–1.9×, 2.0–2.9×, ≥3×) and urine output.\n\n---\n\nREFERENCES\n• {\"name\": \"KDIGO Clinical Practice Guideline for Acute Kidney Injury (2012)\", \"url\": \"https://kdigo.org/wp-content/uploads/2016/10/KDIGO-2012-AKI-Guideline-English.pdf\"}",
+  "category": "Adult Medicine",
+  "system_category": "Renal",
+  "subtopic": "Staging acute kidney injury by KDIGO criteria",
+  "difficulty": "moderate",
+  "difficulty_tier": 3,
+  "incorrect_answer_explanations": {
+   "A": "The urine output criterion alone would be stage 1, but the creatinine rise of 2.2 times baseline makes it stage 2.",
+   "B": "Creatinine is not ≥3 times baseline, he does not meet the stage 3 urine output criteria, and he is not on kidney replacement therapy.",
+   "D": "Creatinine criteria alone define AKI.",
+   "E": "Staging uses creatinine and hourly urine output."
+  },
+  "key_takeaways": [
+   "KDIGO AKI stage is set by the worse of creatinine (1.5–1.9×, 2.0–2.9×, ≥3×) and urine output."
+  ],
+  "guideline_reference": "{\"name\": \"KDIGO Clinical Practice Guideline for Acute Kidney Injury (2012)\", \"url\": \"https://kdigo.org/wp-content/uploads/2016/10/KDIGO-2012-AKI-Guideline-English.pdf\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0359",
+   "zyntra_bank",
+   "batch03",
+   "level_3",
+   "task_data_interpretation_synthesis",
+   "group_adult_medicine",
+   "sys_renal",
+   "irtb_+0.10",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0360",
+  "question_text": "A 34-year-old nurse in Brisbane, Qld, had a needlestick injury two hours ago from a patient known to be HBsAg-positive. She is documented as a persistent non-responder to hepatitis B vaccine: anti-HBs stayed <10 mIU/mL after a full course and three further doses, and she has tested negative for hepatitis B infection.\n\nWhich one of the following is the most appropriate hepatitis B prophylaxis?",
+  "options": [
+   "No prophylaxis because she has been vaccinated",
+   "A single booster dose of hepatitis B vaccine alone",
+   "Start tenofovir post-exposure prophylaxis",
+   "Hepatitis B immunoglobulin as soon as possible, within 72 hours",
+   "Wait for her anti-HBs result before deciding"
+  ],
+  "correct_answer": "D",
+  "explanation": "CORRECT ANSWER\n\nD. Hepatitis B immunoglobulin as soon as possible, within 72 hours\n\n---\n\nThe Australian Immunisation Handbook says persistent non-responders are probably not protected and should be told they need hepatitis B immunoglobulin within 72 hours of any parenteral or mucosal exposure to hepatitis B virus. Its post-exposure prophylaxis table covers exposure to an HBsAg-positive source. HBV and HIV/HCV baseline testing and follow-up also apply.\n\n---\n\nKEY LEARNING POINT\nPersistent HBV vaccine non-responders exposed to HBsAg need HBIG within 72 hours.\n\n---\n\nREFERENCES\n• {\"name\": \"Australian Immunisation Handbook. Non-responders to hepatitis B vaccine are recommended to receive further doses and serological testing\", \"url\": \"https://immunisationhandbook.health.gov.au/recommendations/non-responders-to-hepatitis-b-vaccine-are-recommended-to-receive-further-doses-and-serological-testing\"}",
+  "category": "Adult Medicine",
+  "system_category": "Infectious Diseases",
+  "subtopic": "Persistent hepatitis B vaccine non-responder after a needlestick: HBIG within 72 hours",
+  "difficulty": "difficult",
+  "difficulty_tier": 4,
+  "incorrect_answer_explanations": {
+   "A": "A persistent non-responder is not protected.",
+   "B": "A booster will not give immediate protection to a known non-responder.",
+   "C": "Antivirals are not the recommended hepatitis B post-exposure prophylaxis.",
+   "E": "Her non-response is already documented, and the 72-hour window must not be missed."
+  },
+  "key_takeaways": [
+   "Persistent HBV vaccine non-responders exposed to HBsAg need HBIG within 72 hours."
+  ],
+  "guideline_reference": "{\"name\": \"Australian Immunisation Handbook. Non-responders to hepatitis B vaccine are recommended to receive further doses and serological testing\", \"url\": \"https://immunisationhandbook.health.gov.au/recommendations/non-responders-to-hepatitis-b-vaccine-are-recommended-to-receive-further-doses-and-serological-testing\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0360",
+   "zyntra_bank",
+   "batch03",
+   "level_4",
+   "task_management",
+   "group_adult_medicine",
+   "sys_infectious_disease",
+   "irtb_+1.20",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0361",
+  "question_text": "An 86-year-old woman in Bundaberg, Qld, is brought in with three days of nausea, confusion and yellow-tinged vision. She takes digoxin 125 micrograms daily for atrial fibrillation. Her furosemide dose was recently increased, and she has had diarrhoea. Pulse 38/min with intermittent junctional rhythm, BP 86/50 mmHg.\n\nInvestigations:\n- Serum digoxin 3.4 nmol/L\n- Potassium 5.9 mmol/L\n- Creatinine 190 µmol/L (baseline 95)\n\nWhich one of the following is the most appropriate specific treatment?",
+  "options": [
+   "IV calcium gluconate for the hyperkalaemia",
+   "Haemodialysis to remove digoxin",
+   "Activated charcoal 50 g",
+   "Digoxin immune Fab, 1 vial (40 mg) IV over 30 minutes",
+   "Stop digoxin and observe without other treatment"
+  ],
+  "correct_answer": "D",
+  "explanation": "CORRECT ANSWER\n\nD. Digoxin immune Fab, 1 vial (40 mg) IV over 30 minutes\n\n---\n\nThis is chronic digoxin accumulation (worse kidney function, diuretics) with cardiovascular compromise (bradycardia and hypotension). Queensland Poisons Information Centre antidote guidance for chronic digoxin accumulation with compromise is digoxin immune Fab, 1 vial (40 mg) diluted in 100 mL saline over 30 minutes. Chronic accumulation is more common than acute overdose.\n\n---\n\nKEY LEARNING POINT\nChronic digoxin toxicity with compromise: digoxin Fab, 1 vial (40 mg) IV over 30 minutes (Qld PIC).\n\n---\n\nREFERENCES\n• {\"name\": \"Queensland Poisons Information Centre. Antidote stocking recommendations: Digoxin Immune Fab\", \"url\": \"https://www.poisonsinfo.health.qld.gov.au/for-health-professionals/antidote-stocking-recommendations/digoxin-immune-fab\"}",
+  "category": "Adult Medicine",
+  "system_category": "Cardiology",
+  "subtopic": "Chronic digoxin toxicity with compromise: digoxin immune Fab",
+  "difficulty": "difficult",
+  "difficulty_tier": 4,
+  "incorrect_answer_explanations": {
+   "A": "Calcium is not the specific treatment, and digoxin Fab treats the hyperkalaemia caused by digoxin.",
+   "B": "Digoxin has a large volume of distribution and is not removed effectively by dialysis.",
+   "C": "Charcoal is for recent acute ingestion, not chronic accumulation.",
+   "E": "She has bradycardia with hypotension, which needs antidote treatment."
+  },
+  "key_takeaways": [
+   "Chronic digoxin toxicity with compromise: digoxin Fab, 1 vial (40 mg) IV over 30 minutes (Qld PIC)."
+  ],
+  "guideline_reference": "{\"name\": \"Queensland Poisons Information Centre. Antidote stocking recommendations: Digoxin Immune Fab\", \"url\": \"https://www.poisonsinfo.health.qld.gov.au/for-health-professionals/antidote-stocking-recommendations/digoxin-immune-fab\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0361",
+   "zyntra_bank",
+   "batch03",
+   "level_4",
+   "task_management",
+   "group_adult_medicine",
+   "sys_cardiovascular",
+   "irtb_+1.40",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0362",
+  "question_text": "A 72-year-old woman with COPD sees her GP in Port Macquarie, NSW, with four days of increased breathlessness and more sputum, which has changed from white to green. She is not febrile. SpO2 93% on room air, respiratory rate 20/min. She is not drowsy. Her GP plans to increase her bronchodilators and start oral prednisolone.\n\nWhich one of the following is the most appropriate antibiotic plan?",
+  "options": [
+   "No antibiotics because she is afebrile",
+   "Oral amoxicillin/clavulanate for 14 days",
+   "IV ceftriaxone",
+   "Oral azithromycin for 3 days",
+   "Oral amoxycillin or doxycycline for 5 days"
+  ],
+  "correct_answer": "E",
+  "explanation": "CORRECT ANSWER\n\nE. Oral amoxycillin or doxycycline for 5 days\n\n---\n\nCOPD-X recommends antibiotics (amoxycillin or doxycycline for 5 days) for exacerbations with clinical features of infection, such as increased sputum volume with a change in colour, and/or fever. Treatment also includes bronchodilators and a short course of oral corticosteroids.\n\n---\n\nKEY LEARNING POINT\nCOPD exacerbation with purulent sputum: amoxycillin or doxycycline for 5 days.\n\n---\n\nREFERENCES\n• {\"name\": \"Lung Foundation Australia. COPD-X Plan: X – Manage exacerbations\", \"url\": \"https://copdx.org.au/copd-x-plan/x-manage-exacerbations/\"}",
+  "category": "Adult Medicine",
+  "system_category": "Respiratory",
+  "subtopic": "Infective COPD exacerbation: 5 days of amoxycillin or doxycycline",
+  "difficulty": "easy",
+  "difficulty_tier": 2,
+  "incorrect_answer_explanations": {
+   "A": "A change in sputum colour with increased volume is enough to indicate infection.",
+   "B": "This is broader and longer than recommended.",
+   "C": "She does not need IV therapy.",
+   "D": "Azithromycin is not the recommended first-line choice for an exacerbation."
+  },
+  "key_takeaways": [
+   "COPD exacerbation with purulent sputum: amoxycillin or doxycycline for 5 days."
+  ],
+  "guideline_reference": "{\"name\": \"Lung Foundation Australia. COPD-X Plan: X – Manage exacerbations\", \"url\": \"https://copdx.org.au/copd-x-plan/x-manage-exacerbations/\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0362",
+   "zyntra_bank",
+   "batch03",
+   "level_2",
+   "task_management",
+   "group_adult_medicine",
+   "sys_respiratory",
+   "irtb_-0.80",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0363",
+  "question_text": "A 68-year-old man with COPD is admitted to a hospital in Mildura, Vic, with five days of worsening breathlessness and new right-sided pleuritic chest pain. Sputum is unchanged and white, and he is afebrile. He had a total knee replacement four weeks ago. Pulse 112/min, SpO2 87% on room air. Chest X-ray shows hyperinflation only.\n\nWhich one of the following investigations is most important next?",
+  "options": [
+   "Sputum culture",
+   "Spirometry",
+   "CT pulmonary angiography",
+   "D-dimer alone to decide whether to image",
+   "Repeat chest X-ray in 24 hours"
+  ],
+  "correct_answer": "C",
+  "explanation": "CORRECT ANSWER\n\nC. CT pulmonary angiography\n\n---\n\nCOPD-X cites a systematic review in which 16% of patients hospitalised with a COPD exacerbation who had CT pulmonary angiography were found to have a pulmonary embolism. With no infective features, pleuritic pain, tachycardia, hypoxaemia and recent major orthopaedic surgery, PE must be actively excluded. Here the best test is CTPA.\n\n---\n\nKEY LEARNING POINT\nIn a COPD exacerbation without infective features, especially with pleuritic pain or VTE risk, look for PE (CTPA).\n\n---\n\nREFERENCES\n• {\"name\": \"Lung Foundation Australia. COPD-X Plan: X – Manage exacerbations\", \"url\": \"https://copdx.org.au/copd-x-plan/x-manage-exacerbations/\"}",
+  "category": "Adult Medicine",
+  "system_category": "Respiratory",
+  "subtopic": "COPD exacerbation without infective features: consider pulmonary embolism",
+  "difficulty": "difficult",
+  "difficulty_tier": 4,
+  "incorrect_answer_explanations": {
+   "A": "There are no infective features, and the result will not exclude PE.",
+   "B": "Spirometry is not done during an acute exacerbation.",
+   "D": "With a high pre-test probability, go straight to imaging.",
+   "E": "A repeat X-ray delays diagnosis."
+  },
+  "key_takeaways": [
+   "In a COPD exacerbation without infective features, especially with pleuritic pain or VTE risk, look for PE (CTPA)."
+  ],
+  "guideline_reference": "{\"name\": \"Lung Foundation Australia. COPD-X Plan: X – Manage exacerbations\", \"url\": \"https://copdx.org.au/copd-x-plan/x-manage-exacerbations/\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0363",
+   "zyntra_bank",
+   "batch03",
+   "level_4",
+   "task_data_gathering",
+   "group_adult_medicine",
+   "sys_respiratory",
+   "irtb_+1.00",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0364",
+  "question_text": "A 29-year-old medical student in Adelaide, SA, completed a 3-dose hepatitis B vaccine course as a child. Pre-placement anti-HBs was <10 mIU/mL, so she had a single booster dose. Four weeks after the booster, anti-HBs is still <10 mIU/mL.\n\nWhich one of the following is the most appropriate next step?",
+  "options": [
+   "Declare her immune because she completed a childhood course",
+   "Repeat a full 3-dose course straight away without checking for infection",
+   "Give hepatitis B immunoglobulin now",
+   "Test for hepatitis B infection (HBsAg and anti-HBc); if negative, give 2 more doses 1 month apart and recheck anti-HBs at least 4 weeks later",
+   "Recheck anti-HBs in 12 months"
+  ],
+  "correct_answer": "D",
+  "explanation": "CORRECT ANSWER\n\nD. Test for hepatitis B infection (HBsAg and anti-HBc); if negative, give 2 more doses 1 month apart and recheck anti-HBs at least 4 weeks later\n\n---\n\nThe Australian Immunisation Handbook advises that people who still have anti-HBs <10 mIU/mL after a booster should be tested for hepatitis B infection. If that is negative, they are recommended to have 2 more doses 1 month apart, with the booster counted as the first of the 3 repeat doses. Anti-HBs is rechecked at least 4 weeks after the last dose. Persistent non-responders need HBIG after any exposure.\n\n---\n\nKEY LEARNING POINT\nNo response after a hepatitis B booster: exclude infection, then give 2 more doses and recheck anti-HBs at 4 weeks or more.\n\n---\n\nREFERENCES\n• {\"name\": \"Australian Immunisation Handbook. Non-responders to hepatitis B vaccine are recommended to receive further doses and serological testing\", \"url\": \"https://immunisationhandbook.health.gov.au/recommendations/non-responders-to-hepatitis-b-vaccine-are-recommended-to-receive-further-doses-and-serological-testing\"}",
+  "category": "Adult Medicine",
+  "system_category": "Infectious Diseases",
+  "subtopic": "Hepatitis B vaccine: no response after a booster dose",
+  "difficulty": "difficult",
+  "difficulty_tier": 4,
+  "incorrect_answer_explanations": {
+   "A": "A level <10 mIU/mL after a booster means she is not protected.",
+   "B": "Chronic infection must be excluded first, and the booster counts as dose 1.",
+   "C": "HBIG is for post-exposure prophylaxis, not routine non-response.",
+   "E": "Waiting delays protection."
+  },
+  "key_takeaways": [
+   "No response after a hepatitis B booster: exclude infection, then give 2 more doses and recheck anti-HBs at 4 weeks or more."
+  ],
+  "guideline_reference": "{\"name\": \"Australian Immunisation Handbook. Non-responders to hepatitis B vaccine are recommended to receive further doses and serological testing\", \"url\": \"https://immunisationhandbook.health.gov.au/recommendations/non-responders-to-hepatitis-b-vaccine-are-recommended-to-receive-further-doses-and-serological-testing\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0364",
+   "zyntra_bank",
+   "batch03",
+   "level_4",
+   "task_data_gathering",
+   "group_adult_medicine",
+   "sys_infectious_disease",
+   "irtb_+1.10",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0365",
+  "question_text": "A 77-year-old woman in Lismore, NSW, has had prochlorperazine 5 mg three times daily for dizziness for the past 10 weeks. Her daughter has noticed repetitive lip-smacking, chewing movements and tongue protrusion over the last two weeks. Her gait and arm movements are otherwise normal.\n\nWhich one of the following is the most likely diagnosis?",
+  "options": [
+   "Acute dystonic reaction",
+   "Tardive dyskinesia",
+   "Drug-induced parkinsonism",
+   "Akathisia",
+   "Huntington disease"
+  ],
+  "correct_answer": "B",
+  "explanation": "CORRECT ANSWER\n\nB. Tardive dyskinesia\n\n---\n\nAustralian Prescriber notes that tardive movement disorders need a minimum drug exposure of three months, or one month in adults over 60. Antiemetics such as metoclopramide and prochlorperazine are among the drugs most often responsible. Tardive dyskinesias are typically orobuccolingual, as in this patient.\n\n---\n\nKEY LEARNING POINT\nOrobuccolingual dyskinesia after ≥1 month of a dopamine blocker in a person over 60 suggests tardive dyskinesia.\n\n---\n\nREFERENCES\n• {\"name\": \"Australian Prescriber. Drug-induced movement disorders\", \"url\": \"https://australianprescriber.tg.org.au/articles/drug-induced-movement-disorders.html\"}",
+  "category": "Adult Medicine",
+  "system_category": "Neurology",
+  "subtopic": "Tardive dyskinesia after antiemetic exposure in an older adult",
+  "difficulty": "moderate",
+  "difficulty_tier": 3,
+  "incorrect_answer_explanations": {
+   "A": "Acute dystonia usually occurs in younger patients soon after starting the drug.",
+   "C": "Parkinsonism causes bradykinesia and rigidity, not choreiform orobuccolingual movements.",
+   "D": "Akathisia is a subjective restlessness with an urge to move.",
+   "E": "Onset at 77 shortly after a dopamine blocker points to the drug."
+  },
+  "key_takeaways": [
+   "Orobuccolingual dyskinesia after ≥1 month of a dopamine blocker in a person over 60 suggests tardive dyskinesia."
+  ],
+  "guideline_reference": "{\"name\": \"Australian Prescriber. Drug-induced movement disorders\", \"url\": \"https://australianprescriber.tg.org.au/articles/drug-induced-movement-disorders.html\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0365",
+   "zyntra_bank",
+   "batch03",
+   "level_3",
+   "task_data_interpretation_synthesis",
+   "group_adult_medicine",
+   "sys_neurology",
+   "irtb_+0.60",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0366",
+  "question_text": "A 41-year-old woman in Hobart, Tas, with immune thrombocytopenia that has not responded to treatment is booked for elective laparoscopic splenectomy in five weeks. She is up to date with her routine adult vaccines but has never had additional pneumococcal, meningococcal or Hib vaccines.\n\nWhich one of the following is the most appropriate vaccination plan?",
+  "options": [
+   "Vaccinate on the day after surgery",
+   "Vaccinate 6 months after surgery",
+   "No vaccines are needed if she takes lifelong antibiotic prophylaxis",
+   "Give the recommended additional asplenia vaccines now so they are completed at least 2 weeks before surgery",
+   "Give only influenza vaccine"
+  ],
+  "correct_answer": "D",
+  "explanation": "CORRECT ANSWER\n\nD. Give the recommended additional asplenia vaccines now so they are completed at least 2 weeks before surgery\n\n---\n\nThe Australian Immunisation Handbook recommends that people having a planned splenectomy receive all scheduled vaccines at least 2 weeks before surgery, when possible. This includes extra doses of pneumococcal, meningococcal (MenACWY and MenB) and Hib vaccines and annual influenza vaccine, to optimise the immune response. After an emergency splenectomy, vaccination is ideally delayed until 2 weeks after surgery.\n\n---\n\nKEY LEARNING POINT\nPlanned splenectomy: complete asplenia vaccines at least 2 weeks before surgery.\n\n---\n\nREFERENCES\n• {\"name\": \"Australian Immunisation Handbook. People with asplenia and hyposplenia\", \"url\": \"https://immunisationhandbook.health.gov.au/contents/vaccination-for-special-risk-groups/vaccination-for-people-who-are-immunocompromised/people-with-asplenia-and-hyposplenia\"}",
+  "category": "Adult Surgery",
+  "system_category": "General Surgery",
+  "subtopic": "Planned splenectomy: complete vaccines at least 2 weeks before surgery",
+  "difficulty": "moderate",
+  "difficulty_tier": 3,
+  "incorrect_answer_explanations": {
+   "A": "The ideal timing for planned splenectomy is at least 2 weeks before surgery.",
+   "B": "This leaves her unprotected during the highest-risk period.",
+   "C": "Vaccination is still recommended. Prophylaxis is an additional measure.",
+   "E": "She also needs pneumococcal, meningococcal and Hib vaccines."
+  },
+  "key_takeaways": [
+   "Planned splenectomy: complete asplenia vaccines at least 2 weeks before surgery."
+  ],
+  "guideline_reference": "{\"name\": \"Australian Immunisation Handbook. People with asplenia and hyposplenia\", \"url\": \"https://immunisationhandbook.health.gov.au/contents/vaccination-for-special-risk-groups/vaccination-for-people-who-are-immunocompromised/people-with-asplenia-and-hyposplenia\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0366",
+   "zyntra_bank",
+   "batch03",
+   "level_3",
+   "task_management",
+   "group_adult_surgery",
+   "sys_general_surgery",
+   "irtb_+0.00",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0367",
+  "question_text": "A 30-year-old man from a remote station in western Queensland had an emergency splenectomy in Townsville five days ago after a motorbike crash. He is recovering well and wants to go home tomorrow. He lives 900 km away, and the team thinks he is unlikely to return for review.\n\nWhich one of the following is the most appropriate timing of his asplenia vaccines?",
+  "options": [
+   "Give the vaccines before discharge because follow-up is unlikely",
+   "Delay vaccination until a 2-week review regardless of circumstances",
+   "No vaccination because the spleen was removed after trauma, not disease",
+   "Give only antibiotic prophylaxis and no vaccines",
+   "Vaccinate after 6 months"
+  ],
+  "correct_answer": "A",
+  "explanation": "CORRECT ANSWER\n\nA. Give the vaccines before discharge because follow-up is unlikely\n\n---\n\nThe Handbook advises that after emergency splenectomy, vaccines are ideally given 2 weeks after surgery because antibody responses, especially to pneumococcal vaccines, are better then. If there is concern that the patient may not return or may be lost to follow-up, vaccines may be given once the person is stable and before discharge. The risk of infection is highest in the first 1–2 years.\n\n---\n\nKEY LEARNING POINT\nAfter emergency splenectomy, vaccinate at 2 weeks, or before discharge if he may be lost to follow-up.\n\n---\n\nREFERENCES\n• {\"name\": \"Australian Immunisation Handbook. People with asplenia and hyposplenia\", \"url\": \"https://immunisationhandbook.health.gov.au/contents/vaccination-for-special-risk-groups/vaccination-for-people-who-are-immunocompromised/people-with-asplenia-and-hyposplenia\"}",
+  "category": "Adult Surgery",
+  "system_category": "General Surgery",
+  "subtopic": "Emergency splenectomy: vaccinate before discharge if follow-up is unlikely",
+  "difficulty": "moderate",
+  "difficulty_tier": 3,
+  "incorrect_answer_explanations": {
+   "B": "If follow-up is unlikely, the Handbook allows vaccination before discharge.",
+   "C": "All asplenic people need the additional vaccines.",
+   "D": "Vaccines are still recommended.",
+   "E": "This misses the period of highest risk."
+  },
+  "key_takeaways": [
+   "After emergency splenectomy, vaccinate at 2 weeks, or before discharge if he may be lost to follow-up."
+  ],
+  "guideline_reference": "{\"name\": \"Australian Immunisation Handbook. People with asplenia and hyposplenia\", \"url\": \"https://immunisationhandbook.health.gov.au/contents/vaccination-for-special-risk-groups/vaccination-for-people-who-are-immunocompromised/people-with-asplenia-and-hyposplenia\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0367",
+   "zyntra_bank",
+   "batch03",
+   "level_3",
+   "task_management",
+   "group_adult_surgery",
+   "sys_general_surgery",
+   "irtb_+0.60",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0368",
+  "question_text": "A 36-year-old woman was a restrained driver in a crash near Toowoomba, Qld. CT on arrival showed an AAST grade IV splenic laceration without active extravasation. She has stayed haemodynamically stable and is being managed non-operatively in the high dependency unit. Today is day 3, and her haemoglobin is stable.\n\nWhich one of the following investigations is recommended now?",
+  "options": [
+   "Repeat CT angiography of the abdomen",
+   "No imaging if she remains stable",
+   "Abdominal ultrasound only",
+   "Diagnostic laparoscopy",
+   "Repeat CT only at 6 weeks before she returns to sport"
+  ],
+  "correct_answer": "A",
+  "explanation": "CORRECT ANSWER\n\nA. Repeat CT angiography of the abdomen\n\n---\n\nThe Queensland adult blunt splenic injury guideline recommends that high-grade injuries (AAST grade IV–V) be managed in HDU or ICU with repeat CT angiography 3 to 5 days after injury. This looks for delayed vascular injury such as pseudoaneurysm, which may need embolisation. Grade III injuries are managed on a specialised ward, with repeat CTA considered according to clinical need.\n\n---\n\nKEY LEARNING POINT\nGrade IV–V blunt splenic injury managed non-operatively: HDU or ICU care and repeat CTA at days 3–5.\n\n---\n\nREFERENCES\n• {\"name\": \"Queensland Health. Clinical practice guideline: Blunt splenic injury (adult)\", \"url\": \"https://www.health.qld.gov.au/__data/assets/pdf_file/0021/1430085/blunt-splenic-injury-clinical-guideline.pdf\"}",
+  "category": "Adult Surgery",
+  "system_category": "Trauma",
+  "subtopic": "High-grade blunt splenic injury managed non-operatively: repeat CT angiography at days 3–5",
+  "difficulty": "difficult",
+  "difficulty_tier": 4,
+  "incorrect_answer_explanations": {
+   "B": "Repeat CTA is recommended for grade IV–V injuries even when the patient is stable.",
+   "C": "Ultrasound cannot reliably detect a pseudoaneurysm.",
+   "D": "Surgery is not indicated while non-operative management is succeeding.",
+   "E": "Delayed vascular injury occurs earlier than this."
+  },
+  "key_takeaways": [
+   "Grade IV–V blunt splenic injury managed non-operatively: HDU or ICU care and repeat CTA at days 3–5."
+  ],
+  "guideline_reference": "{\"name\": \"Queensland Health. Clinical practice guideline: Blunt splenic injury (adult)\", \"url\": \"https://www.health.qld.gov.au/__data/assets/pdf_file/0021/1430085/blunt-splenic-injury-clinical-guideline.pdf\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0368",
+   "zyntra_bank",
+   "batch03",
+   "level_4",
+   "task_data_gathering",
+   "group_adult_surgery",
+   "sys_trauma",
+   "irtb_+1.30",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0369",
+  "question_text": "A 63-year-old man in Toowong, Qld, had a PSA of 4.6 µg/L, confirmed on repeat testing. Multiparametric MRI shows a prostate volume of 70 mL with a single PI-RADS 3 lesion, giving a PSA density of 0.07 µg/L/mL. Digital rectal examination is unremarkable. He has no family history of prostate cancer.\n\nWhich one of the following is the most appropriate interpretation?",
+  "options": [
+   "Biopsy is required for any PI-RADS 3 lesion",
+   "Proceed to radical prostatectomy",
+   "A PSMA PET scan is needed",
+   "Discharge from all follow-up because the MRI is normal",
+   "PI-RADS 3 with PSA density below 0.15; biopsy is not routinely needed and PSA monitoring can continue"
+  ],
+  "correct_answer": "E",
+  "explanation": "CORRECT ANSWER\n\nE. PI-RADS 3 with PSA density below 0.15; biopsy is not routinely needed and PSA monitoring can continue\n\n---\n\nThe 2026 Australian early detection guideline recommends biopsy for PI-RADS 4–5 lesions, or for PI-RADS 3 lesions when PSA density is 0.15 or more. With PI-RADS 3 and a PSA density of 0.07, the risk of clinically significant cancer is low, so the guideline says biopsy may not be required, subject to clinical assessment. Ongoing monitoring is appropriate. The higher PSA is explained by his large gland.\n\n---\n\nKEY LEARNING POINT\nPI-RADS 3 lesion: biopsy if PSA density is ≥0.15. Below that, monitor.\n\n---\n\nREFERENCES\n• {\"name\": \"Prostate Cancer Foundation of Australia. 2026 Guidelines for the Early Detection of Prostate Cancer – Summary of Recommendations\", \"url\": \"https://www.prostate.org.au/wp-content/uploads/2026/08/2026-Guidelines-for-the-Early-Detection-of-Prostate-Cancer-Summary-of-Recommendations.pdf\"}",
+  "category": "Adult Surgery",
+  "system_category": "Urology",
+  "subtopic": "Raised PSA with PI-RADS 3 lesion and low PSA density: biopsy not routinely indicated",
+  "difficulty": "difficult",
+  "difficulty_tier": 5,
+  "incorrect_answer_explanations": {
+   "A": "PSA density decides whether to biopsy a PI-RADS 3 lesion.",
+   "B": "Cancer has not been diagnosed.",
+   "C": "PSMA PET is a staging test, not a test to decide on biopsy.",
+   "D": "The MRI is not normal, and ongoing PSA surveillance is still needed."
+  },
+  "key_takeaways": [
+   "PI-RADS 3 lesion: biopsy if PSA density is ≥0.15. Below that, monitor."
+  ],
+  "guideline_reference": "{\"name\": \"Prostate Cancer Foundation of Australia. 2026 Guidelines for the Early Detection of Prostate Cancer – Summary of Recommendations\", \"url\": \"https://www.prostate.org.au/wp-content/uploads/2026/08/2026-Guidelines-for-the-Early-Detection-of-Prostate-Cancer-Summary-of-Recommendations.pdf\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0369",
+   "zyntra_bank",
+   "batch03",
+   "level_5",
+   "task_data_interpretation_synthesis",
+   "group_adult_surgery",
+   "sys_urology",
+   "irtb_+1.60",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0370",
+  "question_text": "A 45-year-old man sees his GP in Darwin, NT. His father was diagnosed with prostate cancer at 58. He has no urinary symptoms. After discussing the benefits and harms of testing, he decides he wants to be tested.\n\nWhich one of the following is the most appropriate testing approach?",
+  "options": [
+   "Wait until he is 50",
+   "PSA test now, repeated every 2 years",
+   "Annual PSA with digital rectal examination",
+   "mpMRI prostate as the first screening test",
+   "Germline BRCA testing before any PSA"
+  ],
+  "correct_answer": "B",
+  "explanation": "CORRECT ANSWER\n\nB. PSA test now, repeated every 2 years\n\n---\n\nThe 2026 Australian early detection guideline proposes offering PSA testing every 2 years from age 45 to men at higher risk who choose testing after discussing benefits and harms. Higher risk includes a family history of prostate cancer, men of Black sub-Saharan African ancestry, and confirmed BRCA2 carriers. Men aged 50–69 at average risk are offered PSA testing every 2 years.\n\n---\n\nKEY LEARNING POINT\nMen at higher risk (family history, BRCA2, Black African ancestry) can be offered PSA every 2 years from age 45.\n\n---\n\nREFERENCES\n• {\"name\": \"Prostate Cancer Foundation of Australia. 2026 Guidelines for the Early Detection of Prostate Cancer – Summary of Recommendations\", \"url\": \"https://www.prostate.org.au/wp-content/uploads/2026/08/2026-Guidelines-for-the-Early-Detection-of-Prostate-Cancer-Summary-of-Recommendations.pdf\"}",
+  "category": "Adult Surgery",
+  "system_category": "Urology",
+  "subtopic": "Higher-risk man: PSA testing every 2 years from age 45",
+  "difficulty": "moderate",
+  "difficulty_tier": 3,
+  "incorrect_answer_explanations": {
+   "A": "His family history puts him at higher risk, so testing is offered from 45.",
+   "C": "The guideline recommends a 2-yearly PSA interval.",
+   "D": "MRI follows a raised PSA. It is not the first screening test.",
+   "E": "This is not required before testing."
+  },
+  "key_takeaways": [
+   "Men at higher risk (family history, BRCA2, Black African ancestry) can be offered PSA every 2 years from age 45."
+  ],
+  "guideline_reference": "{\"name\": \"Prostate Cancer Foundation of Australia. 2026 Guidelines for the Early Detection of Prostate Cancer – Summary of Recommendations\", \"url\": \"https://www.prostate.org.au/wp-content/uploads/2026/08/2026-Guidelines-for-the-Early-Detection-of-Prostate-Cancer-Summary-of-Recommendations.pdf\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0370",
+   "zyntra_bank",
+   "batch03",
+   "level_3",
+   "task_data_gathering",
+   "group_adult_surgery",
+   "sys_urology",
+   "irtb_+0.30",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0371",
+  "question_text": "A 57-year-old man in Ballarat, Vic, chose PSA testing after discussing it with his GP. His result is 3.6 µg/L. He has no urinary symptoms, no recent urinary infection and no family history of prostate cancer. Urine dipstick is normal.\n\nWhich one of the following is the most appropriate next step?",
+  "options": [
+   "Refer immediately for systematic biopsy",
+   "Reassure him because the PSA is below 4.0 µg/L",
+   "Repeat the PSA in 2 years",
+   "Start a 5-alpha reductase inhibitor and recheck",
+   "Repeat the PSA within 1–3 months and refer for further investigation if it is still 3.0 µg/L or more"
+  ],
+  "correct_answer": "E",
+  "explanation": "CORRECT ANSWER\n\nE. Repeat the PSA within 1–3 months and refer for further investigation if it is still 3.0 µg/L or more\n\n---\n\nThe 2026 Australian early detection guideline says that if total PSA is 3.0 µg/L or more, the test should be repeated within 1–3 months. If the result is confirmed, offer referral and further investigation, with mpMRI before biopsy.\n\n---\n\nKEY LEARNING POINT\nPSA of 3.0 µg/L or more: repeat within 1–3 months and, if confirmed, refer for further investigation.\n\n---\n\nREFERENCES\n• {\"name\": \"Prostate Cancer Foundation of Australia. 2026 Guidelines for the Early Detection of Prostate Cancer – Summary of Recommendations\", \"url\": \"https://www.prostate.org.au/wp-content/uploads/2026/08/2026-Guidelines-for-the-Early-Detection-of-Prostate-Cancer-Summary-of-Recommendations.pdf\"}",
+  "category": "Adult Surgery",
+  "system_category": "Urology",
+  "subtopic": "First raised PSA: repeat within 1–3 months before referral",
+  "difficulty": "moderate",
+  "difficulty_tier": 3,
+  "incorrect_answer_explanations": {
+   "A": "The PSA should be confirmed first, and MRI comes before biopsy.",
+   "B": "The threshold for action in this guideline is 3.0 µg/L.",
+   "C": "A raised value needs repeating within 1–3 months.",
+   "D": "This is not a diagnostic strategy."
+  },
+  "key_takeaways": [
+   "PSA of 3.0 µg/L or more: repeat within 1–3 months and, if confirmed, refer for further investigation."
+  ],
+  "guideline_reference": "{\"name\": \"Prostate Cancer Foundation of Australia. 2026 Guidelines for the Early Detection of Prostate Cancer – Summary of Recommendations\", \"url\": \"https://www.prostate.org.au/wp-content/uploads/2026/08/2026-Guidelines-for-the-Early-Detection-of-Prostate-Cancer-Summary-of-Recommendations.pdf\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0371",
+   "zyntra_bank",
+   "batch03",
+   "level_3",
+   "task_data_gathering",
+   "group_adult_surgery",
+   "sys_urology",
+   "irtb_-0.30",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0372",
+  "question_text": "A 55-year-old woman is admitted to a hospital in Wagga Wagga, NSW, with gallstone pancreatitis. On admission her lipase was 4,800 U/L (<60). At 48 hours her lipase has fallen to 900 U/L and her CRP is 240 mg/L. A registrar suggests she is improving because her lipase has fallen.\n\nWhich one of the following is the most accurate interpretation?",
+  "options": [
+   "The CRP above 150 mg/L at 48 hours suggests severe pancreatitis; falling lipase does not indicate improvement",
+   "Falling lipase shows the pancreatitis is resolving",
+   "The very high initial lipase predicted severe disease",
+   "Repeat lipase daily to guide discharge",
+   "CRP is unhelpful in pancreatitis"
+  ],
+  "correct_answer": "A",
+  "explanation": "CORRECT ANSWER\n\nA. The CRP above 150 mg/L at 48 hours suggests severe pancreatitis; falling lipase does not indicate improvement\n\n---\n\nAustralian Prescriber notes that neither amylase nor lipase helps monitor or predict the severity of pancreatitis in adults, and the size of the rise does not predict severity. Daily measurements should not be used to judge disease activity. A CRP above 150 mg/L at 48 hours after symptom onset is the best single laboratory predictor of severity, alongside composite scores.\n\n---\n\nKEY LEARNING POINT\nIn adult pancreatitis, a CRP above 150 mg/L at 48 hours predicts severity. Lipase levels do not.\n\n---\n\nREFERENCES\n• {\"name\": \"Basnayake C, Ratnam D. Blood tests for acute pancreatitis. Australian Prescriber\", \"url\": \"https://australianprescriber.tg.org.au/articles/blood-tests-for-acute-pancreatitis.html\"}",
+  "category": "Adult Surgery",
+  "system_category": "General Surgery",
+  "subtopic": "Acute pancreatitis severity: CRP at 48 hours, not lipase level",
+  "difficulty": "difficult",
+  "difficulty_tier": 4,
+  "incorrect_answer_explanations": {
+   "B": "Lipase trends do not reflect severity or resolution.",
+   "C": "The magnitude of the rise does not predict severity in adults.",
+   "D": "Daily enzyme measurements are not recommended.",
+   "E": "CRP at 48 hours is the best single laboratory predictor."
+  },
+  "key_takeaways": [
+   "In adult pancreatitis, a CRP above 150 mg/L at 48 hours predicts severity. Lipase levels do not."
+  ],
+  "guideline_reference": "{\"name\": \"Basnayake C, Ratnam D. Blood tests for acute pancreatitis. Australian Prescriber\", \"url\": \"https://australianprescriber.tg.org.au/articles/blood-tests-for-acute-pancreatitis.html\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0372",
+   "zyntra_bank",
+   "batch03",
+   "level_4",
+   "task_data_interpretation_synthesis",
+   "group_adult_surgery",
+   "sys_general_surgery",
+   "irtb_+1.10",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0373",
+  "question_text": "A 38-year-old farm worker in Gympie, Qld, has a deep laceration to his right thigh from a chainsaw. Bright red blood is spurting from the wound despite firm direct pressure with a pad from a colleague. He is pale and sweaty, with a pulse of 130/min. An ambulance has been called, and a commercial windlass tourniquet is in the first aid kit. The colleague is trained in its use.\n\nWhich one of the following is the most appropriate immediate action?",
+  "options": [
+   "Elevate the leg and continue the same pressure",
+   "Apply an elastic venous tourniquet",
+   "Prioritise airway positioning before bleeding control",
+   "Apply an arterial tourniquet above the wound, tighten until bleeding stops, and note the time",
+   "Remove the pad to inspect the wound every few minutes"
+  ],
+  "correct_answer": "D",
+  "explanation": "CORRECT ANSWER\n\nD. Apply an arterial tourniquet above the wound, tighten until bleeding stops, and note the time\n\n---\n\nANZCOR Guideline 9.1.1 states that firm direct pressure is the most effective way to stop most bleeding. Where life-threatening limb bleeding is not controlled by direct pressure, an arterial tourniquet is suggested if one is available and the first aider is trained in its use. It is applied above the bleeding point (5 cm above if there are no manufacturer instructions), not over a joint, and tightened until the bleeding stops. The time is recorded and passed on, and the tourniquet is not removed until the person reaches specialist care.\n\n---\n\nKEY LEARNING POINT\nIf life-threatening limb bleeding continues despite pressure, apply an arterial tourniquet above the wound and record the time.\n\n---\n\nREFERENCES\n• {\"name\": \"ANZCOR Guideline 9.1.1 – First Aid for Management of Bleeding\", \"url\": \"https://www.anzcor.org/home/first-aid/guideline-9-1-1-first-aid-for-management-of-bleeding\"}",
+  "category": "Adult Surgery",
+  "system_category": "Trauma",
+  "subtopic": "Life-threatening limb bleeding not controlled by pressure: arterial tourniquet",
+  "difficulty": "easy",
+  "difficulty_tier": 2,
+  "incorrect_answer_explanations": {
+   "A": "ANZCOR notes there is no evidence that elevation helps, and pressure has already failed.",
+   "B": "Venous tourniquets are not suitable as arterial tourniquets.",
+   "C": "In life-threatening bleeding, controlling the bleeding comes before airway and breathing interventions.",
+   "E": "Repeatedly removing the pad lets the wound keep bleeding."
+  },
+  "key_takeaways": [
+   "If life-threatening limb bleeding continues despite pressure, apply an arterial tourniquet above the wound and record the time."
+  ],
+  "guideline_reference": "{\"name\": \"ANZCOR Guideline 9.1.1 – First Aid for Management of Bleeding\", \"url\": \"https://www.anzcor.org/home/first-aid/guideline-9-1-1-first-aid-for-management-of-bleeding\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0373",
+   "zyntra_bank",
+   "batch03",
+   "level_2",
+   "task_management",
+   "group_adult_surgery",
+   "sys_trauma",
+   "irtb_-1.20",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0374",
+  "question_text": "A 26-year-old chef in Fremantle, WA, spilt boiling water over his left forearm 40 minutes ago. He ran it under the tap for about two minutes and then wrapped it in a towel. He now attends the emergency department with a painful, blistered, red area about the size of his palm.\n\nWhich one of the following is the most appropriate immediate first aid?",
+  "options": [
+   "Apply ice packs for 10 minutes",
+   "Cool the burn under cool running water for 20 minutes",
+   "Apply a burn cream and dressing; it is too late for cooling",
+   "Pop the blisters and dress the wound",
+   "Cool for 5 minutes only, to avoid hypothermia"
+  ],
+  "correct_answer": "B",
+  "explanation": "CORRECT ANSWER\n\nB. Cool the burn under cool running water for 20 minutes\n\n---\n\nANZCOR Guideline 9.1.3 recommends cooling burns with cool running water for at least 20 minutes, as soon as possible. Cooling still helps when started up to 3 hours after the burn. Afterwards, cover loosely with a non-stick dressing such as cling film. Ice, creams and breaking blisters should be avoided.\n\n---\n\nKEY LEARNING POINT\nBurn first aid: at least 20 minutes of cool running water, effective up to 3 hours after the burn. No ice.\n\n---\n\nREFERENCES\n• {\"name\": \"ANZCOR Guideline 9.1.3 – First Aid for Burns\", \"url\": \"https://www.anzcor.org/home/first-aid/guideline-9-1-3-first-aid-for-burns\"}",
+  "category": "Adult Surgery",
+  "system_category": "Trauma",
+  "subtopic": "Thermal burn first aid: at least 20 minutes of cool running water",
+  "difficulty": "easy",
+  "difficulty_tier": 2,
+  "incorrect_answer_explanations": {
+   "A": "Ice can cause further tissue damage.",
+   "C": "Cooling helps up to 3 hours after the burn.",
+   "D": "Blisters should not be broken.",
+   "E": "The recommended duration is at least 20 minutes. Keep unburnt areas warm."
+  },
+  "key_takeaways": [
+   "Burn first aid: at least 20 minutes of cool running water, effective up to 3 hours after the burn. No ice."
+  ],
+  "guideline_reference": "{\"name\": \"ANZCOR Guideline 9.1.3 – First Aid for Burns\", \"url\": \"https://www.anzcor.org/home/first-aid/guideline-9-1-3-first-aid-for-burns\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0374",
+   "zyntra_bank",
+   "batch03",
+   "level_2",
+   "task_management",
+   "group_adult_surgery",
+   "sys_trauma",
+   "irtb_-1.00",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0375",
+  "question_text": "A 61-year-old man in Rockhampton, Qld, has had sudden severe upper abdominal pain for four hours. He takes naproxen for back pain. He has a rigid abdomen with generalised guarding. Pulse 108/min, BP 112/70 mmHg. An erect chest X-ray done in the department shows no free gas under the diaphragm.\n\nWhich one of the following is the most appropriate next investigation?",
+  "options": [
+   "Reassure: perforation is excluded by the chest X-ray",
+   "CT abdomen and pelvis",
+   "Left lateral decubitus X-ray first, then decide",
+   "Upper GI endoscopy",
+   "Abdominal ultrasound"
+  ],
+  "correct_answer": "B",
+  "explanation": "CORRECT ANSWER\n\nB. CT abdomen and pelvis\n\n---\n\nThe WSES perforated peptic ulcer guideline notes that a negative X-ray does not rule out perforation. When there are clear signs of peritonitis, abdominal CT should be the first imaging test. CT shows free extraluminal gas and fluid and can help locate the perforation, so a normal erect X-ray should not delay CT and surgical review.\n\n---\n\nKEY LEARNING POINT\nSuspected perforation with peritonitis: go to CT. A normal erect chest X-ray does not exclude it.\n\n---\n\nREFERENCES\n• {\"name\": \"Tarasconi A et al. Perforated and bleeding peptic ulcer: WSES guidelines. World J Emerg Surg 2020 (PMC)\", \"url\": \"https://pmc.ncbi.nlm.nih.gov/articles/PMC6947898/\"}",
+  "category": "Adult Surgery",
+  "system_category": "General Surgery",
+  "subtopic": "Peritonitis with suspected perforation: CT as the first imaging test",
+  "difficulty": "moderate",
+  "difficulty_tier": 3,
+  "incorrect_answer_explanations": {
+   "A": "A negative X-ray does not rule out perforation.",
+   "C": "This gives similar accuracy to an erect film. CT is preferred when there is peritonitis.",
+   "D": "Endoscopy is avoided when perforation is suspected.",
+   "E": "Ultrasound is less sensitive for free gas."
+  },
+  "key_takeaways": [
+   "Suspected perforation with peritonitis: go to CT. A normal erect chest X-ray does not exclude it."
+  ],
+  "guideline_reference": "{\"name\": \"Tarasconi A et al. Perforated and bleeding peptic ulcer: WSES guidelines. World J Emerg Surg 2020 (PMC)\", \"url\": \"https://pmc.ncbi.nlm.nih.gov/articles/PMC6947898/\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0375",
+   "zyntra_bank",
+   "batch03",
+   "level_3",
+   "task_data_gathering",
+   "group_adult_surgery",
+   "sys_general_surgery",
+   "irtb_+0.40",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0376",
+  "question_text": "A 31-year-old woman in her second pregnancy attends her GP in Toowoomba, Qld, at 21 weeks' gestation. She had a dTpa vaccine during her first pregnancy two years ago and asks whether she needs another.\n\nWhich one of the following is the most appropriate advice?",
+  "options": [
+   "No vaccine is needed because she had one 2 years ago",
+   "Delay until 36 weeks",
+   "Vaccinate the baby at birth instead",
+   "Give dTpa now; it is recommended in every pregnancy, ideally between 20 and 32 weeks",
+   "Give it after delivery"
+  ],
+  "correct_answer": "D",
+  "explanation": "CORRECT ANSWER\n\nD. Give dTpa now; it is recommended in every pregnancy, ideally between 20 and 32 weeks\n\n---\n\nThe Australian Immunisation Handbook recommends a single dose of pertussis-containing vaccine (dTpa) in each pregnancy, ideally between 20 and 32 weeks' gestation, whatever the time since a previous dose. This maximises the transfer of maternal antibodies to protect the newborn.\n\n---\n\nKEY LEARNING POINT\ndTpa in every pregnancy, ideally at 20–32 weeks.\n\n---\n\nREFERENCES\n• {\"name\": \"Australian Immunisation Handbook. Pertussis (whooping cough)\", \"url\": \"https://immunisationhandbook.health.gov.au/contents/vaccine-preventable-diseases/pertussis-whooping-cough\"}",
+  "category": "Women's Health",
+  "system_category": "Obstetrics",
+  "subtopic": "Pertussis vaccine in each pregnancy at 20–32 weeks",
+  "difficulty": "easy",
+  "difficulty_tier": 2,
+  "incorrect_answer_explanations": {
+   "A": "A dose is recommended in every pregnancy.",
+   "B": "If given within 2 weeks of delivery, the newborn may not be protected. The ideal window is 20–32 weeks.",
+   "C": "Infant vaccination cannot protect the baby in the first weeks of life; maternal vaccination does.",
+   "E": "Postpartum vaccination does not give the newborn the same protection."
+  },
+  "key_takeaways": [
+   "dTpa in every pregnancy, ideally at 20–32 weeks."
+  ],
+  "guideline_reference": "{\"name\": \"Australian Immunisation Handbook. Pertussis (whooping cough)\", \"url\": \"https://immunisationhandbook.health.gov.au/contents/vaccine-preventable-diseases/pertussis-whooping-cough\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0376",
+   "zyntra_bank",
+   "batch03",
+   "level_2",
+   "task_management",
+   "group_womens_health",
+   "sys_obstetrics",
+   "irtb_-1.30",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0377",
+  "question_text": "A 22-year-old woman at 14 weeks' gestation in Cairns, Qld, has a positive chlamydia NAAT on her first-pass urine at her antenatal booking visit. She has been given azithromycin 1 g orally as a single dose. Her partner has been contacted for treatment.\n\nWhich one of the following follow-up tests is most appropriate?",
+  "options": [
+   "No further testing is needed after single-dose azithromycin",
+   "Test of cure at 1 week",
+   "Chlamydia serology",
+   "Repeat chlamydia NAAT at least 4 weeks after treatment as a test of cure, plus retesting at 3 months",
+   "Endocervical culture only at delivery"
+  ],
+  "correct_answer": "D",
+  "explanation": "CORRECT ANSWER\n\nD. Repeat chlamydia NAAT at least 4 weeks after treatment as a test of cure, plus retesting at 3 months\n\n---\n\nThe Australian STI Management Guidelines recommend a test of cure for chlamydia in pregnancy, done at least 4 weeks after treatment so that residual non-viable DNA does not give a false-positive result. All people with chlamydia should also be retested at 3 months to detect reinfection.\n\n---\n\nKEY LEARNING POINT\nChlamydia in pregnancy: test of cure at 4 weeks or more after treatment, then retest at 3 months.\n\n---\n\nREFERENCES\n• {\"name\": \"Australian STI Management Guidelines: Chlamydia\", \"url\": \"https://sti.guidelines.org.au/sexually-transmissible-infections/chlamydia/\"}",
+  "category": "Women's Health",
+  "system_category": "Obstetrics",
+  "subtopic": "Chlamydia in pregnancy: test of cure at least 4 weeks after treatment",
+  "difficulty": "moderate",
+  "difficulty_tier": 3,
+  "incorrect_answer_explanations": {
+   "A": "A test of cure is recommended in pregnancy.",
+   "B": "Testing this early can detect DNA from non-viable organisms.",
+   "C": "Serology is not used to confirm cure.",
+   "E": "This is too late and is not the recommended test."
+  },
+  "key_takeaways": [
+   "Chlamydia in pregnancy: test of cure at 4 weeks or more after treatment, then retest at 3 months."
+  ],
+  "guideline_reference": "{\"name\": \"Australian STI Management Guidelines: Chlamydia\", \"url\": \"https://sti.guidelines.org.au/sexually-transmissible-infections/chlamydia/\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0377",
+   "zyntra_bank",
+   "batch03",
+   "level_3",
+   "task_data_gathering",
+   "group_womens_health",
+   "sys_obstetrics",
+   "irtb_+0.20",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0378",
+  "question_text": "A 34-year-old woman in Alice Springs, NT, has had a frothy yellow-green vaginal discharge and vulval itch for one week. Speculum examination shows a punctate erythematous cervix. She has a new partner.\n\nWhich one of the following is the most appropriate test to confirm the likely diagnosis?",
+  "options": [
+   "Wet-mount microscopy only",
+   "Trichomonas vaginalis NAAT on a vaginal swab",
+   "High vaginal swab culture for Candida",
+   "Serology for Trichomonas",
+   "Gram stain for clue cells"
+  ],
+  "correct_answer": "B",
+  "explanation": "CORRECT ANSWER\n\nB. Trichomonas vaginalis NAAT on a vaginal swab\n\n---\n\nThe Australian STI Management Guidelines recommend NAAT (PCR) for Trichomonas vaginalis because it is far more sensitive than wet-mount microscopy. A positive result is treated with metronidazole 400 mg twice daily for 7 days (or 2 g stat as an alternative), along with treatment of her partner and testing for other STIs.\n\n---\n\nKEY LEARNING POINT\nTrichomoniasis is diagnosed by NAAT.\n\n---\n\nREFERENCES\n• {\"name\": \"Australian STI Management Guidelines: Trichomoniasis\", \"url\": \"https://sti.guidelines.org.au/sexually-transmissible-infections/trichomoniasis/\"}",
+  "category": "Women's Health",
+  "system_category": "Gynaecology",
+  "subtopic": "Suspected trichomoniasis: NAAT is the diagnostic test",
+  "difficulty": "moderate",
+  "difficulty_tier": 3,
+  "incorrect_answer_explanations": {
+   "A": "Microscopy has much lower sensitivity.",
+   "C": "Candida is not suggested by this picture.",
+   "D": "Serology is not used for diagnosis.",
+   "E": "This is a test for bacterial vaginosis."
+  },
+  "key_takeaways": [
+   "Trichomoniasis is diagnosed by NAAT."
+  ],
+  "guideline_reference": "{\"name\": \"Australian STI Management Guidelines: Trichomoniasis\", \"url\": \"https://sti.guidelines.org.au/sexually-transmissible-infections/trichomoniasis/\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0378",
+   "zyntra_bank",
+   "batch03",
+   "level_3",
+   "task_data_gathering",
+   "group_womens_health",
+   "sys_gynaecology",
+   "irtb_+0.50",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0379",
+  "question_text": "A 32-year-old woman in Newcastle, NSW, has a pelvic ultrasound for an unrelated reason. It shows a 3.2 cm unilocular, thin-walled, anechoic left ovarian cyst with no solid components, septations or internal blood flow. She has no symptoms, and her periods are regular.\n\nWhich one of the following is the most appropriate interpretation?",
+  "options": [
+   "Measure CA-125 and refer to a gynaecological oncologist",
+   "Laparoscopic cystectomy",
+   "Repeat ultrasound every 3 months for 2 years",
+   "Almost certainly a benign functional cyst; no follow-up is needed",
+   "MRI pelvis"
+  ],
+  "correct_answer": "D",
+  "explanation": "CORRECT ANSWER\n\nD. Almost certainly a benign functional cyst; no follow-up is needed\n\n---\n\nAn Australian Family Physician review of ovarian masses states that a simple anechoic cyst smaller than 5 cm in a premenopausal woman is almost certainly benign (often functional) and needs no follow-up. CA-125 is not needed in premenopausal women unless the ultrasound features are suspicious.\n\n---\n\nKEY LEARNING POINT\nA simple cyst under 5 cm in a premenopausal woman is benign and needs no follow-up.\n\n---\n\nREFERENCES\n• {\"name\": \"Australian Family Physician 2015. Investigation and management of an ovarian mass\", \"url\": \"https://www.racgp.org.au/afp/2015/january-february/investigation-and-management-of-an-ovarian-mass\"}",
+  "category": "Women's Health",
+  "system_category": "Gynaecology",
+  "subtopic": "Incidental simple ovarian cyst under 5 cm in a premenopausal woman",
+  "difficulty": "moderate",
+  "difficulty_tier": 3,
+  "incorrect_answer_explanations": {
+   "A": "Neither is needed for a simple cyst.",
+   "B": "Surgery is not indicated.",
+   "C": "Follow-up is not required.",
+   "E": "MRI is not needed."
+  },
+  "key_takeaways": [
+   "A simple cyst under 5 cm in a premenopausal woman is benign and needs no follow-up."
+  ],
+  "guideline_reference": "{\"name\": \"Australian Family Physician 2015. Investigation and management of an ovarian mass\", \"url\": \"https://www.racgp.org.au/afp/2015/january-february/investigation-and-management-of-an-ovarian-mass\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0379",
+   "zyntra_bank",
+   "batch03",
+   "level_3",
+   "task_data_interpretation_synthesis",
+   "group_womens_health",
+   "sys_gynaecology",
+   "irtb_+0.00",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0380",
+  "question_text": "A 27-year-old woman in Geelong, Vic, has a thin, grey, malodorous vaginal discharge that is worse after intercourse. She has no itch or dysuria. The vulva and cervix look normal.\n\nBedside findings:\n- Vaginal pH 5.2\n- Adding potassium hydroxide gives a fishy odour\n- Gram stain: clue cells with loss of lactobacilli\n\nWhich one of the following is the most likely diagnosis?",
+  "options": [
+   "Vulvovaginal candidiasis",
+   "Trichomoniasis",
+   "Bacterial vaginosis",
+   "Physiological discharge",
+   "Chlamydial cervicitis"
+  ],
+  "correct_answer": "C",
+  "explanation": "CORRECT ANSWER\n\nC. Bacterial vaginosis\n\n---\n\nThe Australian STI Management Guidelines describe bacterial vaginosis as a thin grey or white discharge with a fishy odour, a vaginal pH above 4.5 and a positive whiff test. Microscopy or Gram stain shows clue cells and depletion of lactobacilli.\n\n---\n\nKEY LEARNING POINT\nBV: pH above 4.5, positive whiff test and clue cells.\n\n---\n\nREFERENCES\n• {\"name\": \"Australian STI Management Guidelines: Vaginal discharge\", \"url\": \"https://sti.guidelines.org.au/syndromes/vaginal-discharge/\"}",
+  "category": "Women's Health",
+  "system_category": "Gynaecology",
+  "subtopic": "Interpreting vaginal discharge findings: bacterial vaginosis",
+  "difficulty": "difficult",
+  "difficulty_tier": 4,
+  "incorrect_answer_explanations": {
+   "A": "Candidiasis usually causes itch, thick discharge and a normal pH.",
+   "B": "Trichomoniasis can raise pH but usually causes frothy discharge and inflammation, and the Gram stain here fits BV.",
+   "D": "A pH above 4.5, a positive whiff test and clue cells are abnormal.",
+   "E": "The cervix is normal, and the findings fit BV."
+  },
+  "key_takeaways": [
+   "BV: pH above 4.5, positive whiff test and clue cells."
+  ],
+  "guideline_reference": "{\"name\": \"Australian STI Management Guidelines: Vaginal discharge\", \"url\": \"https://sti.guidelines.org.au/syndromes/vaginal-discharge/\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0380",
+   "zyntra_bank",
+   "batch03",
+   "level_4",
+   "task_data_interpretation_synthesis",
+   "group_womens_health",
+   "sys_gynaecology",
+   "irtb_+0.90",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0381",
+  "question_text": "A 38-year-old woman in Launceston, Tas, has a 6 cm left adnexal mass found on transvaginal ultrasound for pelvic discomfort. The ultrasound describes a multilocular cyst with a solid papillary projection. She has no family history of ovarian cancer.\n\nWhich one of the following investigations is most appropriate next?",
+  "options": [
+   "No test; repeat the ultrasound in 6 months",
+   "CA-19-9",
+   "Serum CA-125, because the ultrasound features are suspicious",
+   "Serum hCG only",
+   "Laparoscopic aspiration of the cyst"
+  ],
+  "correct_answer": "C",
+  "explanation": "CORRECT ANSWER\n\nC. Serum CA-125, because the ultrasound features are suspicious\n\n---\n\nThe Australian Family Physician review advises that in premenopausal women, CA-125 should be measured only when ultrasound shows suspicious features, because it is raised by many benign conditions such as endometriosis and menstruation. Solid papillary projections in a multilocular cyst are suspicious. The result guides referral, including possible gynaecological oncology review.\n\n---\n\nKEY LEARNING POINT\nIn premenopausal women, measure CA-125 only if the ultrasound is suspicious.\n\n---\n\nREFERENCES\n• {\"name\": \"Australian Family Physician 2015. Investigation and management of an ovarian mass\", \"url\": \"https://www.racgp.org.au/afp/2015/january-february/investigation-and-management-of-an-ovarian-mass\"}",
+  "category": "Women's Health",
+  "system_category": "Gynaecology",
+  "subtopic": "When to measure CA-125 in a premenopausal woman with an adnexal mass",
+  "difficulty": "difficult",
+  "difficulty_tier": 4,
+  "incorrect_answer_explanations": {
+   "A": "Suspicious features need further assessment now.",
+   "B": "This is not the first-line marker here.",
+   "D": "hCG does not assess the mass for malignancy (although a pregnancy test may be sensible).",
+   "E": "Aspirating a suspicious mass is inappropriate."
+  },
+  "key_takeaways": [
+   "In premenopausal women, measure CA-125 only if the ultrasound is suspicious."
+  ],
+  "guideline_reference": "{\"name\": \"Australian Family Physician 2015. Investigation and management of an ovarian mass\", \"url\": \"https://www.racgp.org.au/afp/2015/january-february/investigation-and-management-of-an-ovarian-mass\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0381",
+   "zyntra_bank",
+   "batch03",
+   "level_4",
+   "task_data_gathering",
+   "group_womens_health",
+   "sys_gynaecology",
+   "irtb_+1.20",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0382",
+  "question_text": "A 2-year-old boy is brought to an emergency department in Bendigo, Vic, with 24 hours of diarrhoea and vomiting. He has moderate dehydration: dry mucous membranes, reduced urine output and slightly sunken eyes. He has refused or vomited small, frequent amounts of oral rehydration solution given over the last hour despite ondansetron. He is alert, with normal perfusion.\n\nWhich one of the following is the most appropriate next step?",
+  "options": [
+   "Nasogastric rehydration with oral rehydration solution",
+   "IV fluid bolus",
+   "Loperamide",
+   "Switch to diluted apple juice and keep trying orally",
+   "Admit and keep nil by mouth"
+  ],
+  "correct_answer": "A",
+  "explanation": "CORRECT ANSWER\n\nA. Nasogastric rehydration with oral rehydration solution\n\n---\n\nThe RCH Gastroenteritis guideline recommends oral rehydration solution first. If oral rehydration fails and there is an ongoing risk of dehydration, rapid or slow NG rehydration may be appropriate. If NG is not tolerated, the child should have IV rehydration if clinically dehydrated. Breastfeeding should continue.\n\n---\n\nKEY LEARNING POINT\nIn paediatric gastroenteritis, if ORS fails, use NG rehydration before IV fluids (and IV if NG is not tolerated).\n\n---\n\nREFERENCES\n• {\"name\": \"RCH Clinical Practice Guideline: Gastroenteritis\", \"url\": \"https://www.rch.org.au/clinicalguide/guideline_index/Gastroenteritis/\"}",
+  "category": "Child Health",
+  "system_category": "Paediatric Medicine",
+  "subtopic": "Gastroenteritis: nasogastric rehydration when oral fluids fail",
+  "difficulty": "easy",
+  "difficulty_tier": 2,
+  "incorrect_answer_explanations": {
+   "B": "He is not shocked and does not have severe dehydration.",
+   "C": "Antidiarrhoeals are not recommended in children.",
+   "D": "Diluted juice is an option for mildly dehydrated children refusing ORS, but oral intake has already failed here.",
+   "E": "This would make his dehydration worse."
+  },
+  "key_takeaways": [
+   "In paediatric gastroenteritis, if ORS fails, use NG rehydration before IV fluids (and IV if NG is not tolerated)."
+  ],
+  "guideline_reference": "{\"name\": \"RCH Clinical Practice Guideline: Gastroenteritis\", \"url\": \"https://www.rch.org.au/clinicalguide/guideline_index/Gastroenteritis/\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0382",
+   "zyntra_bank",
+   "batch03",
+   "level_2",
+   "task_management",
+   "group_child_health",
+   "sys_paediatric_medicine",
+   "irtb_-0.70",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0383",
+  "question_text": "A 4-year-old girl weighing 17 kg is seen in an emergency department in Albury, NSW, with gastroenteritis. She has mild dehydration and keeps vomiting with every attempt to drink oral rehydration solution.\n\nWhich one of the following is the most appropriate antiemetic plan?",
+  "options": [
+   "Ondansetron 8 mg",
+   "Metoclopramide",
+   "A single oral dose of ondansetron 4 mg, then retry oral rehydration solution",
+   "Prochlorperazine suppository",
+   "Antiemetics are contraindicated in children"
+  ],
+  "correct_answer": "C",
+  "explanation": "CORRECT ANSWER\n\nC. A single oral dose of ondansetron 4 mg, then retry oral rehydration solution\n\n---\n\nThe RCH Gastroenteritis guideline says a single dose of ondansetron can be given to support hydration in children over 6 months with persistent nausea or vomiting. The weight-based doses are 8–15 kg: 2 mg; 15–30 kg: 4 mg; over 30 kg: 8 mg. A 17 kg child gets 4 mg.\n\n---\n\nKEY LEARNING POINT\nOndansetron in children over 6 months: 2 mg (8–15 kg), 4 mg (15–30 kg), 8 mg (over 30 kg).\n\n---\n\nREFERENCES\n• {\"name\": \"RCH Clinical Practice Guideline: Gastroenteritis\", \"url\": \"https://www.rch.org.au/clinicalguide/guideline_index/Gastroenteritis/\"}",
+  "category": "Child Health",
+  "system_category": "Paediatric Medicine",
+  "subtopic": "Ondansetron dose by weight in paediatric gastroenteritis",
+  "difficulty": "moderate",
+  "difficulty_tier": 3,
+  "incorrect_answer_explanations": {
+   "A": "This dose is for children over 30 kg.",
+   "B": "RCH says other antiemetics are not routinely recommended because of side effects.",
+   "D": "Other antiemetics are not routinely recommended.",
+   "E": "Ondansetron is recommended for persistent vomiting."
+  },
+  "key_takeaways": [
+   "Ondansetron in children over 6 months: 2 mg (8–15 kg), 4 mg (15–30 kg), 8 mg (over 30 kg)."
+  ],
+  "guideline_reference": "{\"name\": \"RCH Clinical Practice Guideline: Gastroenteritis\", \"url\": \"https://www.rch.org.au/clinicalguide/guideline_index/Gastroenteritis/\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0383",
+   "zyntra_bank",
+   "batch03",
+   "level_3",
+   "task_management",
+   "group_child_health",
+   "sys_paediatric_medicine",
+   "irtb_-0.10",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0384",
+  "question_text": "A 3-year-old girl in Mackay, Qld, has had right ear pain and a fever of 38.4 °C since yesterday. Otoscopy shows a red, bulging right tympanic membrane with no discharge. She is well, eating and drinking, and has no other medical problems. She is not an Aboriginal or Torres Strait Islander child.\n\nWhich one of the following is the most appropriate management?",
+  "options": [
+   "Amoxicillin for 10 days",
+   "Regular simple analgesia such as paracetamol or ibuprofen; no antibiotics",
+   "Ear wick and topical antibiotic drops",
+   "Urgent ENT referral for myringotomy",
+   "Oral prednisolone and a decongestant"
+  ],
+  "correct_answer": "B",
+  "explanation": "CORRECT ANSWER\n\nB. Regular simple analgesia such as paracetamol or ibuprofen; no antibiotics\n\n---\n\nThe RCH Acute otitis media guideline states that most cases of AOM in children resolve without treatment and antibiotics are not recommended. Pain should be treated with adequate, regular simple analgesia. Watch for complications such as mastoiditis. Some higher-risk groups have different recommendations.\n\n---\n\nKEY LEARNING POINT\nUncomplicated AOM in a well child: regular simple analgesia, no antibiotics.\n\n---\n\nREFERENCES\n• {\"name\": \"RCH Clinical Practice Guideline: Acute otitis media\", \"url\": \"https://www.rch.org.au/clinicalguide/guideline_index/Acute_otitis_media/\"}",
+  "category": "Child Health",
+  "system_category": "Paediatric Medicine",
+  "subtopic": "Uncomplicated acute otitis media: analgesia without antibiotics",
+  "difficulty": "moderate",
+  "difficulty_tier": 3,
+  "incorrect_answer_explanations": {
+   "A": "RCH states that antibiotics are not recommended in most cases.",
+   "C": "These are not used for AOM with an intact tympanic membrane.",
+   "D": "This is not indicated.",
+   "E": "RCH states that decongestants, antihistamines and corticosteroids are not effective in AOM."
+  },
+  "key_takeaways": [
+   "Uncomplicated AOM in a well child: regular simple analgesia, no antibiotics."
+  ],
+  "guideline_reference": "{\"name\": \"RCH Clinical Practice Guideline: Acute otitis media\", \"url\": \"https://www.rch.org.au/clinicalguide/guideline_index/Acute_otitis_media/\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0384",
+   "zyntra_bank",
+   "batch03",
+   "level_3",
+   "task_management",
+   "group_child_health",
+   "sys_paediatric_medicine",
+   "irtb_-0.30",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0385",
+  "question_text": "A 6-year-old boy in Ipswich, Qld, has had infrequent hard stools for 8 months and recent soiling of his underwear. Abdominal examination shows a palpable faecal mass. He has no red flags: normal growth, normal neurological examination of the lower limbs, and meconium passed in the first day of life.\n\nWhich one of the following is the most appropriate initial management?",
+  "options": [
+   "Oral disimpaction with high-dose macrogol at home, then move straight to maintenance therapy",
+   "Phosphate enema in the clinic",
+   "Glycerol suppositories daily",
+   "Increase dietary fibre alone",
+   "Abdominal X-ray before any treatment"
+  ],
+  "correct_answer": "A",
+  "explanation": "CORRECT ANSWER\n\nA. Oral disimpaction with high-dose macrogol at home, then move straight to maintenance therapy\n\n---\n\nThe RCH Constipation guideline prefers oral outpatient disimpaction with macrogol for faecal impaction. Rectal treatment with suppositories or enemas should be avoided (at most a one-off dose may be considered). Once disimpaction is achieved, maintenance treatment should start immediately and continue, along with behavioural measures such as toilet routines.\n\n---\n\nKEY LEARNING POINT\nPaediatric faecal impaction: oral macrogol disimpaction, then maintenance immediately. Avoid enemas.\n\n---\n\nREFERENCES\n• {\"name\": \"RCH Clinical Practice Guideline: Constipation\", \"url\": \"https://www.rch.org.au/clinicalguide/guideline_index/Constipation/\"}",
+  "category": "Child Health",
+  "system_category": "Paediatric Medicine",
+  "subtopic": "Faecal impaction: oral macrogol disimpaction then maintenance",
+  "difficulty": "moderate",
+  "difficulty_tier": 3,
+  "incorrect_answer_explanations": {
+   "B": "Enemas should be avoided.",
+   "C": "Rectal treatment should be avoided.",
+   "D": "Fibre alone will not clear an impaction.",
+   "E": "Imaging is not needed for diagnosis."
+  },
+  "key_takeaways": [
+   "Paediatric faecal impaction: oral macrogol disimpaction, then maintenance immediately. Avoid enemas."
+  ],
+  "guideline_reference": "{\"name\": \"RCH Clinical Practice Guideline: Constipation\", \"url\": \"https://www.rch.org.au/clinicalguide/guideline_index/Constipation/\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0385",
+   "zyntra_bank",
+   "batch03",
+   "level_3",
+   "task_management",
+   "group_child_health",
+   "sys_paediatric_medicine",
+   "irtb_+0.30",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0386",
+  "question_text": "An 18-month-old girl is brought to a GP clinic in Broome, WA, with two days of diarrhoea. Her mother is worried about dehydration. The child's health record shows she was weighed at a clinic visit 5 days ago, before she became unwell.\n\nWhich one of the following is the most accurate way to assess her degree of dehydration?",
+  "options": [
+   "Weigh her now and compare with her recent pre-illness weight",
+   "Capillary refill time alone",
+   "Serum urea",
+   "Urine specific gravity",
+   "Presence of tears"
+  ],
+  "correct_answer": "A",
+  "explanation": "CORRECT ANSWER\n\nA. Weigh her now and compare with her recent pre-illness weight\n\n---\n\nThe RCH Dehydration guideline states that the difference between pre-morbid weight and current weight is the most accurate assessment of dehydration. If a recent weight (within 2 weeks) is not available, history and examination are used to estimate dehydration.\n\n---\n\nKEY LEARNING POINT\nThe change from pre-illness weight is the most accurate measure of dehydration.\n\n---\n\nREFERENCES\n• {\"name\": \"RCH Clinical Practice Guideline: Dehydration\", \"url\": \"https://www.rch.org.au/clinicalguide/guideline_index/Dehydration/\"}",
+  "category": "Child Health",
+  "system_category": "Paediatric Medicine",
+  "subtopic": "Most accurate assessment of dehydration: change in body weight",
+  "difficulty": "moderate",
+  "difficulty_tier": 3,
+  "incorrect_answer_explanations": {
+   "B": "This is a useful sign but less accurate.",
+   "C": "Bloods are not routinely needed and do not quantify dehydration.",
+   "D": "This is not the most accurate measure.",
+   "E": "This is a non-specific sign."
+  },
+  "key_takeaways": [
+   "The change from pre-illness weight is the most accurate measure of dehydration."
+  ],
+  "guideline_reference": "{\"name\": \"RCH Clinical Practice Guideline: Dehydration\", \"url\": \"https://www.rch.org.au/clinicalguide/guideline_index/Dehydration/\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0386",
+   "zyntra_bank",
+   "batch03",
+   "level_3",
+   "task_data_gathering",
+   "group_child_health",
+   "sys_paediatric_medicine",
+   "irtb_+0.10",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0387",
+  "question_text": "A 5-year-old boy falls from a 1-metre playground platform in Wollongong, NSW, and bumps his forehead. His father saw a brief loss of consciousness lasting a few seconds before he cried. He has not vomited and has no headache. He now has a GCS of 15 and is playing, with a small frontal haematoma. He has no bleeding disorder, takes no anticoagulants, has no VP shunt and has no neurodevelopmental disorder.\n\nWhich one of the following is the most appropriate approach?",
+  "options": [
+   "Immediate CT brain because of the loss of consciousness",
+   "Discharge immediately with no observation",
+   "A period of observation with regular neurological observations, with CT if he deteriorates or symptoms persist",
+   "Skull X-ray",
+   "MRI brain under general anaesthetic"
+  ],
+  "correct_answer": "C",
+  "explanation": "CORRECT ANSWER\n\nC. A period of observation with regular neurological observations, with CT if he deteriorates or symptoms persist\n\n---\n\nThe RCH Head injury guideline lists a history of loss of consciousness as a relative indication for imaging. If more than one relative indication is present, the child is observed and neuroimaging is considered. For a mild head injury with a risk factor, the child is observed for up to 4 hours after the injury, with 30-minutely neurological observations for the first 2 hours and then hourly. A persistent headache, ongoing vomiting, a GCS of 14 or persistent altered mental status means further observation and likely investigation. He can go home once he has been back to a normal conscious state for at least an hour, is acting normally and is tolerating fluids.\n\n---\n\nKEY LEARNING POINT\nMild head injury with a single risk factor: observe for up to 4 hours with neurological observations, and image if he deteriorates.\n\n---\n\nREFERENCES\n• {\"name\": \"RCH Clinical Practice Guideline: Head injury\", \"url\": \"https://www.rch.org.au/clinicalguide/guideline_index/Head_injury/\"}",
+  "category": "Child Health",
+  "system_category": "Paediatric Medicine",
+  "subtopic": "Minor head injury in a child: observation versus immediate CT",
+  "difficulty": "difficult",
+  "difficulty_tier": 4,
+  "incorrect_answer_explanations": {
+   "A": "A single relative indication in a GCS 15 child calls for observation, not immediate CT.",
+   "B": "He has a risk feature and should be observed.",
+   "D": "RCH advises that a plain skull X-ray should not be done instead of CT.",
+   "E": "MRI is not the first-line test."
+  },
+  "key_takeaways": [
+   "Mild head injury with a single risk factor: observe for up to 4 hours with neurological observations, and image if he deteriorates."
+  ],
+  "guideline_reference": "{\"name\": \"RCH Clinical Practice Guideline: Head injury\", \"url\": \"https://www.rch.org.au/clinicalguide/guideline_index/Head_injury/\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0387",
+   "zyntra_bank",
+   "batch03",
+   "level_4",
+   "task_data_gathering",
+   "group_child_health",
+   "sys_paediatric_medicine",
+   "irtb_+0.90",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0388",
+  "question_text": "A 3-year-old boy with atopic dermatitis is brought to a clinic in Toowoomba, Qld. For two days he has had rapidly spreading, painful clusters of monomorphic punched-out erosions on his face and neck, with some small vesicles. He has a fever of 38.6 °C and is irritable. His eczema had been flaring.\n\nWhich one of the following is the most likely diagnosis?",
+  "options": [
+   "Impetiginised eczema",
+   "Eczema herpeticum",
+   "Eczema flare only",
+   "Varicella",
+   "Contact dermatitis"
+  ],
+  "correct_answer": "B",
+  "explanation": "CORRECT ANSWER\n\nB. Eczema herpeticum\n\n---\n\nMonomorphic punched-out erosions and vesicles appearing in an area of active eczema, with fever and systemic upset, are typical of eczema herpeticum (disseminated HSV). The RCH Eczema guideline lists this as a complication needing prompt antiviral treatment (IV in severe cases), with consultation with the paediatric team. Periorbital involvement needs urgent ophthalmology review.\n\n---\n\nKEY LEARNING POINT\nPunched-out erosions in eczematous skin with fever suggest eczema herpeticum, which needs prompt antiviral treatment.\n\n---\n\nREFERENCES\n• {\"name\": \"RCH Clinical Practice Guideline: Eczema\", \"url\": \"https://www.rch.org.au/clinicalguide/guideline_index/Eczema/\"}",
+  "category": "Child Health",
+  "system_category": "Paediatric Medicine",
+  "subtopic": "Eczema herpeticum: an emergency needing prompt antiviral treatment",
+  "difficulty": "difficult",
+  "difficulty_tier": 4,
+  "incorrect_answer_explanations": {
+   "A": "Impetigo causes honey-crusted lesions rather than monomorphic punched-out erosions.",
+   "C": "Fever with punched-out erosions suggests infection.",
+   "D": "Varicella lesions are widespread and at different stages, not clustered in eczematous skin.",
+   "E": "This does not fit the picture."
+  },
+  "key_takeaways": [
+   "Punched-out erosions in eczematous skin with fever suggest eczema herpeticum, which needs prompt antiviral treatment."
+  ],
+  "guideline_reference": "{\"name\": \"RCH Clinical Practice Guideline: Eczema\", \"url\": \"https://www.rch.org.au/clinicalguide/guideline_index/Eczema/\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0388",
+   "zyntra_bank",
+   "batch03",
+   "level_4",
+   "task_data_interpretation_synthesis",
+   "group_child_health",
+   "sys_paediatric_medicine",
+   "irtb_+1.00",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0389",
+  "question_text": "A 39-year-old man with treatment-resistant schizophrenia has been stable on clozapine 400 mg daily for two years under shared care. He sees his GP in Logan, Qld, for a routine review. His blood monitoring is up to date and normal. He says he feels 'fine' and has no complaints.\n\nWhich one of the following is the most important additional history to take at this visit?",
+  "options": [
+   "Bowel habit, including stool frequency and any straining, pain or distension",
+   "Family history of schizophrenia",
+   "Childhood developmental history",
+   "Caffeine intake only",
+   "History of night sweats"
+  ],
+  "correct_answer": "A",
+  "explanation": "CORRECT ANSWER\n\nA. Bowel habit, including stool frequency and any straining, pain or distension\n\n---\n\nAustralian Prescriber notes that constipation affects 15–60% of people on clozapine at any time, is potentially life-threatening and should be treated and prevented aggressively. Clozapine-induced gastrointestinal hypomotility can progress to obstruction or ileus. Patients often do not volunteer symptoms, so bowel habit should be asked about at every review, and preventive aperients started at the first sign of constipation.\n\n---\n\nKEY LEARNING POINT\nAsk every patient on clozapine about bowel habit. Constipation is common and can be fatal.\n\n---\n\nREFERENCES\n• {\"name\": \"Australian Prescriber. Clozapine in primary care\", \"url\": \"https://australianprescriber.tg.org.au/articles/clozapine-in-primary-care.html\"}",
+  "category": "Mental Health",
+  "system_category": "Psychosis",
+  "subtopic": "Clozapine review in primary care: actively ask about bowel habit",
+  "difficulty": "moderate",
+  "difficulty_tier": 3,
+  "incorrect_answer_explanations": {
+   "B": "This does not change his monitoring.",
+   "C": "This is not relevant to his current safety.",
+   "D": "Caffeine can affect clozapine levels, but bowel habit matters more.",
+   "E": "This is not a key clozapine adverse effect to screen for."
+  },
+  "key_takeaways": [
+   "Ask every patient on clozapine about bowel habit. Constipation is common and can be fatal."
+  ],
+  "guideline_reference": "{\"name\": \"Australian Prescriber. Clozapine in primary care\", \"url\": \"https://australianprescriber.tg.org.au/articles/clozapine-in-primary-care.html\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0389",
+   "zyntra_bank",
+   "batch03",
+   "level_3",
+   "task_data_gathering",
+   "group_mental_health",
+   "sys_psychosis",
+   "irtb_+0.20",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0390",
+  "question_text": "A 45-year-old woman in Bunbury, WA, stopped venlafaxine 225 mg daily abruptly four days ago after 3 years of treatment because she felt well. She now has dizziness, 'electric shock' sensations in her head when she moves her eyes, vivid dreams, irritability and tearfulness. She has no suicidal thoughts. Her symptoms began within 48 hours of stopping.\n\nWhich one of the following is the most likely explanation?",
+  "options": [
+   "Relapse of major depression",
+   "Serotonin syndrome",
+   "Vestibular neuritis",
+   "Hypomania",
+   "Antidepressant withdrawal symptoms"
+  ],
+  "correct_answer": "E",
+  "explanation": "CORRECT ANSWER\n\nE. Antidepressant withdrawal symptoms\n\n---\n\nThe Australian Prescriber article on stopping antidepressants (2026) describes withdrawal symptoms that include physical symptoms (dizziness, sensitivity to light and sound, 'brain zaps' or electric shock sensations, vivid dreams, akathisia) and emotional symptoms (anxiety, irritability, low mood, tearfulness). Abrupt cessation, longer duration of therapy and certain drugs (venlafaxine, duloxetine, paroxetine) raise the risk. Her rapid onset after stopping, with brain zaps, points to withdrawal rather than relapse.\n\n---\n\nKEY LEARNING POINT\nBrain zaps, dizziness and mood symptoms soon after abruptly stopping venlafaxine suggest withdrawal.\n\n---\n\nREFERENCES\n• {\"name\": \"Wallis K. Stopping antidepressants: when and how. Australian Prescriber 2026\", \"url\": \"https://australianprescriber.tg.org.au/articles/stopping-antidepressants-when-and-how.html\"}",
+  "category": "Mental Health",
+  "system_category": "Mood Disorders",
+  "subtopic": "Recognising antidepressant withdrawal after abrupt cessation",
+  "difficulty": "moderate",
+  "difficulty_tier": 3,
+  "incorrect_answer_explanations": {
+   "A": "Relapse usually develops more gradually and does not cause brain zaps.",
+   "B": "This occurs with excess serotonergic drug, not withdrawal.",
+   "C": "This does not explain the emotional symptoms or the timing.",
+   "D": "Her features are not those of elevated mood."
+  },
+  "key_takeaways": [
+   "Brain zaps, dizziness and mood symptoms soon after abruptly stopping venlafaxine suggest withdrawal."
+  ],
+  "guideline_reference": "{\"name\": \"Wallis K. Stopping antidepressants: when and how. Australian Prescriber 2026\", \"url\": \"https://australianprescriber.tg.org.au/articles/stopping-antidepressants-when-and-how.html\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0390",
+   "zyntra_bank",
+   "batch03",
+   "level_3",
+   "task_data_interpretation_synthesis",
+   "group_mental_health",
+   "sys_mood",
+   "irtb_+0.40",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0391",
+  "question_text": "A 30-year-old man in Canberra, ACT, has taken sertraline 100 mg daily for 9 months for a first episode of depression, which is now in full remission. After discussing it with his GP, he wants to stop. He has never had difficulty stopping a medication before.\n\nWhich one of the following is the most appropriate plan?",
+  "options": [
+   "Stop today",
+   "Taper over 12 months using 1 mg reductions",
+   "Switch to fluoxetine and stop in 2 days",
+   "Halve the dose every day for 4 days",
+   "Taper by 25–50% dose reductions over about 2–6 weeks, for example 100 mg to 50 mg to 25 mg and then stop"
+  ],
+  "correct_answer": "E",
+  "explanation": "CORRECT ANSWER\n\nE. Taper by 25–50% dose reductions over about 2–6 weeks, for example 100 mg to 50 mg to 25 mg and then stop\n\n---\n\nAustralian Prescriber (2026) states that in patients at low risk of withdrawal symptoms, guidelines recommend 25 to 50% dose reductions over 2 to 6 weeks, for example sertraline tapered at 2-weekly intervals from 100 mg to 50 mg, then 25 mg, then stopped. Patients at higher risk may need smaller reductions over months.\n\n---\n\nKEY LEARNING POINT\nLow-risk antidepressant cessation: reduce by 25–50% over 2–6 weeks.\n\n---\n\nREFERENCES\n• {\"name\": \"Wallis K. Stopping antidepressants: when and how. Australian Prescriber 2026\", \"url\": \"https://australianprescriber.tg.org.au/articles/stopping-antidepressants-when-and-how.html\"}",
+  "category": "Mental Health",
+  "system_category": "Mood Disorders",
+  "subtopic": "Tapering an SSRI in a low-risk patient",
+  "difficulty": "easy",
+  "difficulty_tier": 2,
+  "incorrect_answer_explanations": {
+   "A": "Stopping abruptly can cause withdrawal symptoms.",
+   "B": "This is for higher-risk patients or those who have had difficulty stopping before.",
+   "C": "This is not the recommended approach for a low-risk patient.",
+   "D": "This is too fast."
+  },
+  "key_takeaways": [
+   "Low-risk antidepressant cessation: reduce by 25–50% over 2–6 weeks."
+  ],
+  "guideline_reference": "{\"name\": \"Wallis K. Stopping antidepressants: when and how. Australian Prescriber 2026\", \"url\": \"https://australianprescriber.tg.org.au/articles/stopping-antidepressants-when-and-how.html\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0391",
+   "zyntra_bank",
+   "batch03",
+   "level_2",
+   "task_management",
+   "group_mental_health",
+   "sys_mood",
+   "irtb_-0.90",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0392",
+  "question_text": "A 26-year-old woman in Darwin, NT, has a new diagnosis of bipolar I disorder after a manic episode, which has been treated as an inpatient. She is not pregnant, is sexually active and may want children in future. The psychiatry registrar is choosing a long-term mood stabiliser and suggests sodium valproate because it worked quickly for her uncle.\n\nWhich one of the following is the most appropriate response regarding valproate?",
+  "options": [
+   "Valproate is the preferred first-line option for women of reproductive age",
+   "Valproate is acceptable if she takes folic acid 5 mg",
+   "Valproate is safe if stopped once pregnancy is confirmed",
+   "Valproate is only a concern for epilepsy, not bipolar disorder",
+   "Valproate should not be used unless other treatments are ineffective or not tolerated, because of its high teratogenic risk"
+  ],
+  "correct_answer": "E",
+  "explanation": "CORRECT ANSWER\n\nE. Valproate should not be used unless other treatments are ineffective or not tolerated, because of its high teratogenic risk\n\n---\n\nThe Australian Epilim (sodium valproate) Product Information states that valproate should not be used in female children and women of childbearing potential unless other treatments are ineffective or not tolerated. This is because valproate has a high teratogenic potential, and children exposed in utero have a high risk of congenital malformations and neurodevelopmental disorders. Treatment must be started and supervised by a specialist. Other options should be used first.\n\n---\n\nKEY LEARNING POINT\nAvoid valproate in women of childbearing potential unless other treatments are ineffective or not tolerated.\n\n---\n\nREFERENCES\n• {\"name\": \"Australian Product Information: Epilim (sodium valproate)\", \"url\": \"https://medsinfo.com.au/api/documents/Epilim_PI?format=pdf\"}",
+  "category": "Mental Health",
+  "system_category": "Mood Disorders",
+  "subtopic": "Bipolar disorder in a woman of childbearing potential: avoid starting valproate",
+  "difficulty": "difficult",
+  "difficulty_tier": 4,
+  "incorrect_answer_explanations": {
+   "A": "The Product Information says the opposite.",
+   "B": "Folic acid does not remove the risk.",
+   "C": "Exposure in early pregnancy carries the risk.",
+   "D": "The restriction applies across indications."
+  },
+  "key_takeaways": [
+   "Avoid valproate in women of childbearing potential unless other treatments are ineffective or not tolerated."
+  ],
+  "guideline_reference": "{\"name\": \"Australian Product Information: Epilim (sodium valproate)\", \"url\": \"https://medsinfo.com.au/api/documents/Epilim_PI?format=pdf\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0392",
+   "zyntra_bank",
+   "batch03",
+   "level_4",
+   "task_management",
+   "group_mental_health",
+   "sys_mood",
+   "irtb_+1.30",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0393",
+  "question_text": "A 48-year-old woman on clozapine 500 mg daily is brought to an emergency department in Shepparton, Vic. She has had three days of abdominal distension, colicky pain and vomiting, and today passed watery stools. Temperature 38.0 °C, pulse 118/min. Her abdomen is distended and tender, with absent bowel sounds. She also takes oxybutynin.\n\nWhich one of the following is the most likely diagnosis?",
+  "options": [
+   "Viral gastroenteritis",
+   "Clozapine-induced agranulocytosis with neutropenic enterocolitis as the first diagnosis",
+   "Neuroleptic malignant syndrome",
+   "Irritable bowel syndrome",
+   "Clozapine-induced gastrointestinal hypomotility with obstruction or ileus and overflow diarrhoea"
+  ],
+  "correct_answer": "E",
+  "explanation": "CORRECT ANSWER\n\nE. Clozapine-induced gastrointestinal hypomotility with obstruction or ileus and overflow diarrhoea\n\n---\n\nAustralian Prescriber lists red flags of serious clozapine-induced constipation: abdominal pain, distension, vomiting, overflow diarrhoea, absent bowel sounds, and signs or symptoms of sepsis. Anticholinergic drugs such as oxybutynin add to the risk and should be avoided when possible. This needs urgent hospital assessment.\n\n---\n\nKEY LEARNING POINT\nClozapine plus pain, distension, vomiting, overflow diarrhoea and absent bowel sounds suggests hypomotility or ileus, which is an emergency.\n\n---\n\nREFERENCES\n• {\"name\": \"Australian Prescriber. Clozapine in primary care\", \"url\": \"https://australianprescriber.tg.org.au/articles/clozapine-in-primary-care.html\"}",
+  "category": "Mental Health",
+  "system_category": "Psychosis",
+  "subtopic": "Red flags of clozapine-induced gastrointestinal hypomotility",
+  "difficulty": "difficult",
+  "difficulty_tier": 5,
+  "incorrect_answer_explanations": {
+   "A": "Absent bowel sounds and distension in a patient on clozapine point to hypomotility. The 'diarrhoea' is likely overflow.",
+   "B": "Possible but less likely. The full blood count should still be checked.",
+   "C": "There is no rigidity or altered mental state.",
+   "D": "Fever and absent bowel sounds exclude this."
+  },
+  "key_takeaways": [
+   "Clozapine plus pain, distension, vomiting, overflow diarrhoea and absent bowel sounds suggests hypomotility or ileus, which is an emergency."
+  ],
+  "guideline_reference": "{\"name\": \"Australian Prescriber. Clozapine in primary care\", \"url\": \"https://australianprescriber.tg.org.au/articles/clozapine-in-primary-care.html\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0393",
+   "zyntra_bank",
+   "batch03",
+   "level_5",
+   "task_data_interpretation_synthesis",
+   "group_mental_health",
+   "sys_psychosis",
+   "irtb_+1.50",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0394",
+  "question_text": "A 22-year-old man with first-episode schizophrenia in Wollongong, NSW, is to start olanzapine after a shared decision with his psychiatrist. His BMI is 24 kg/m², and his fasting glucose and lipids are normal. He is worried about weight gain.\n\nWhich one of the following is the most appropriate additional measure at the time of starting olanzapine?",
+  "options": [
+   "Wait until he has gained 7% of body weight before acting",
+   "Start orlistat",
+   "Add topiramate routinely",
+   "Start metformin at the same time, alongside lifestyle advice",
+   "No measures because his BMI is normal"
+  ],
+  "correct_answer": "D",
+  "explanation": "CORRECT ANSWER\n\nD. Start metformin at the same time, alongside lifestyle advice\n\n---\n\nThe RANZCP-endorsed INTEGRATE guidelines recommend lifestyle interventions for everyone and co-initiating metformin when starting antipsychotics with high metabolic risk, such as olanzapine or clozapine, to limit weight gain.\n\n---\n\nKEY LEARNING POINT\nINTEGRATE: co-initiate metformin with olanzapine or clozapine.\n\n---\n\nREFERENCES\n• {\"name\": \"RANZCP. INTEGRATE: international guidelines for the algorithmic treatment of schizophrenia\", \"url\": \"https://www.ranzcp.org/clinical-guidelines-publications/clinical-guidelines-publications-library/integrate-international-guidelines-for-the-algorithmic-treatment-of-schizophrenia\"}",
+  "category": "Mental Health",
+  "system_category": "Psychosis",
+  "subtopic": "Starting olanzapine: co-initiate metformin to limit weight gain",
+  "difficulty": "moderate",
+  "difficulty_tier": 3,
+  "incorrect_answer_explanations": {
+   "A": "INTEGRATE recommends preventive co-initiation of metformin.",
+   "B": "This is not the recommended agent.",
+   "C": "This is not the first-line recommendation.",
+   "E": "Weight gain with olanzapine is predictable."
+  },
+  "key_takeaways": [
+   "INTEGRATE: co-initiate metformin with olanzapine or clozapine."
+  ],
+  "guideline_reference": "{\"name\": \"RANZCP. INTEGRATE: international guidelines for the algorithmic treatment of schizophrenia\", \"url\": \"https://www.ranzcp.org/clinical-guidelines-publications/clinical-guidelines-publications-library/integrate-international-guidelines-for-the-algorithmic-treatment-of-schizophrenia\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0394",
+   "zyntra_bank",
+   "batch03",
+   "level_3",
+   "task_management",
+   "group_mental_health",
+   "sys_psychosis",
+   "irtb_+0.50",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0395",
+  "question_text": "In a stable population in regional Victoria, the incidence of a chronic skin condition is 4 new cases per 1,000 person-years. The average duration of the condition is 5 years. Assume steady state and low prevalence.\n\nWhich one of the following is the best estimate of the prevalence?",
+  "options": [
+   "0.8 per 1,000",
+   "20 per 1,000",
+   "4 per 1,000",
+   "9 per 1,000",
+   "200 per 1,000"
+  ],
+  "correct_answer": "B",
+  "explanation": "CORRECT ANSWER\n\nB. 20 per 1,000\n\n---\n\nAt steady state with low prevalence, prevalence ≈ incidence × average duration = 4/1,000 per year × 5 years = 20 per 1,000 (2%).\n\n---\n\nKEY LEARNING POINT\nPrevalence ≈ incidence × duration (steady state, rare disease).\n\n---\n\nREFERENCES\n",
+  "category": "Population Health & Ethics",
+  "system_category": "Epidemiology",
+  "subtopic": "Prevalence from incidence and average duration (steady state)",
+  "difficulty": "easy",
+  "difficulty_tier": 2,
+  "incorrect_answer_explanations": {
+   "A": "This divides incidence by duration.",
+   "C": "This is the incidence.",
+   "D": "This adds the numbers.",
+   "E": "This is an arithmetic error."
+  },
+  "key_takeaways": [
+   "Prevalence ≈ incidence × duration (steady state, rare disease)."
+  ],
+  "guideline_reference": "",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0395",
+   "zyntra_bank",
+   "batch03",
+   "level_2",
+   "task_data_interpretation_synthesis",
+   "group_population_health_ethics",
+   "sys_epidemiology",
+   "irtb_-1.00",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0396",
+  "question_text": "A cohort study in Adelaide follows 200 disease-free workers. 100 workers are followed for 4 years each and 100 for 2 years each (losses to follow-up). Over the study, 12 develop occupational asthma.\n\nWhich one of the following is the incidence rate?",
+  "options": [
+   "60 per 1,000 people",
+   "15 per 1,000 person-years",
+   "20 per 1,000 person-years",
+   "30 per 1,000 person-years",
+   "12 per 1,000 person-years"
+  ],
+  "correct_answer": "C",
+  "explanation": "CORRECT ANSWER\n\nC. 20 per 1,000 person-years\n\n---\n\nPerson-time = 100 × 4 + 100 × 2 = 600 person-years. Incidence rate = 12/600 = 0.02 per person-year = 20 per 1,000 person-years.\n\n---\n\nKEY LEARNING POINT\nIncidence rate = new cases ÷ total person-time at risk.\n\n---\n\nREFERENCES\n",
+  "category": "Population Health & Ethics",
+  "system_category": "Epidemiology",
+  "subtopic": "Incidence rate using person-time",
+  "difficulty": "easy",
+  "difficulty_tier": 2,
+  "incorrect_answer_explanations": {
+   "A": "This is the cumulative proportion (12/200) and ignores person-time.",
+   "B": "This uses 800 person-years.",
+   "D": "This uses 400 person-years.",
+   "E": "This misplaces the denominator."
+  },
+  "key_takeaways": [
+   "Incidence rate = new cases ÷ total person-time at risk."
+  ],
+  "guideline_reference": "",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0396",
+   "zyntra_bank",
+   "batch03",
+   "level_2",
+   "task_data_interpretation_synthesis",
+   "group_population_health_ethics",
+   "sys_epidemiology",
+   "irtb_-0.70",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0397",
+  "question_text": "A public health unit in Queensland is modelling an outbreak of a vaccine-preventable infection with a basic reproduction number (R0) of 5. Assume homogeneous mixing and a vaccine that gives complete, lasting protection.\n\nWhich one of the following is the minimum proportion of the population that must be immune to prevent sustained transmission?",
+  "options": [
+   "80%",
+   "20%",
+   "50%",
+   "95%",
+   "100%"
+  ],
+  "correct_answer": "A",
+  "explanation": "CORRECT ANSWER\n\nA. 80%\n\n---\n\nHerd immunity threshold = 1 − 1/R0 = 1 − 1/5 = 0.8, or 80%. If vaccine effectiveness is below 100%, the coverage needed is higher (threshold ÷ effectiveness).\n\n---\n\nKEY LEARNING POINT\nHerd immunity threshold = 1 − 1/R0.\n\n---\n\nREFERENCES\n",
+  "category": "Population Health & Ethics",
+  "system_category": "Epidemiology",
+  "subtopic": "Herd immunity threshold from R0",
+  "difficulty": "moderate",
+  "difficulty_tier": 3,
+  "incorrect_answer_explanations": {
+   "B": "This is 1/R0.",
+   "C": "This is not derived from R0.",
+   "D": "This is the threshold for a much higher R0, as with measles.",
+   "E": "Herd immunity does not require full immunity."
+  },
+  "key_takeaways": [
+   "Herd immunity threshold = 1 − 1/R0."
+  ],
+  "guideline_reference": "",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0397",
+   "zyntra_bank",
+   "batch03",
+   "level_3",
+   "task_data_interpretation_synthesis",
+   "group_population_health_ethics",
+   "sys_epidemiology",
+   "irtb_+0.30",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0398",
+  "question_text": "An analysis of Australian local government areas shows that areas with higher average household fluoride filter sales have higher rates of dental caries in children. A councillor concludes that children in households that buy fluoride filters are more likely to develop caries.\n\nWhich one of the following best describes the main problem with this conclusion?",
+  "options": [
+   "Recall bias",
+   "Lead-time bias",
+   "Ecological fallacy",
+   "Berkson bias",
+   "Healthy worker effect"
+  ],
+  "correct_answer": "C",
+  "explanation": "CORRECT ANSWER\n\nC. Ecological fallacy\n\n---\n\nThe data are aggregated at area level. Applying an association seen between groups to individuals is the ecological fallacy, because the children with caries may not be in the households that bought filters. Individual-level data are needed to support this inference.\n\n---\n\nKEY LEARNING POINT\nGroup-level associations cannot be assumed to hold for individuals (ecological fallacy).\n\n---\n\nREFERENCES\n",
+  "category": "Population Health & Ethics",
+  "system_category": "Epidemiology",
+  "subtopic": "Ecological fallacy",
+  "difficulty": "moderate",
+  "difficulty_tier": 3,
+  "incorrect_answer_explanations": {
+   "A": "No recall of past exposure is involved.",
+   "B": "This applies to screening and survival.",
+   "D": "This is a hospital-based selection bias.",
+   "E": "This relates to occupational cohorts."
+  },
+  "key_takeaways": [
+   "Group-level associations cannot be assumed to hold for individuals (ecological fallacy)."
+  ],
+  "guideline_reference": "",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0398",
+   "zyntra_bank",
+   "batch03",
+   "level_3",
+   "task_data_interpretation_synthesis",
+   "group_population_health_ethics",
+   "sys_epidemiology",
+   "irtb_+0.60",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0399",
+  "question_text": "A 40-year-old man in Lismore, NSW, was scratched on the forearm this morning while removing a live microbat from his shed. He has never had rabies vaccine. He has captured the bat in a box, and the local public health unit says a lyssavirus result can be available within 24 hours. He has washed the wound well with soap and water.\n\nWhich one of the following is the most appropriate next step?",
+  "options": [
+   "Release the bat and start PEP",
+   "Arrange ABLV testing of the bat and withhold rabies vaccine and HRIG while the result is awaited",
+   "Start HRIG and vaccine immediately regardless of testing",
+   "No action because it was only a scratch",
+   "Check his rabies antibody titre"
+  ],
+  "correct_answer": "B",
+  "explanation": "CORRECT ANSWER\n\nB. Arrange ABLV testing of the bat and withhold rabies vaccine and HRIG while the result is awaited\n\n---\n\nThe Australian Immunisation Handbook advises that, if possible, the bat should be kept and tested for Australian bat lyssavirus. After wound management, HRIG and rabies vaccine are withheld if the bat's ABLV status will be available within 48 hours of the exposure. If not, PEP starts as soon as possible. Bites to the head and neck are an exception: PEP is given promptly, preferably within 48 hours, even if the animal is being tested. If the bat tests negative, no PEP is needed.\n\n---\n\nKEY LEARNING POINT\nAfter a bat exposure, test the bat. If the result will be available within 48 hours (and there is no head or neck bite), PEP can wait.\n\n---\n\nREFERENCES\n• {\"name\": \"Australian Immunisation Handbook. Rabies and other lyssaviruses\", \"url\": \"https://immunisationhandbook.health.gov.au/contents/vaccine-preventable-diseases/rabies-and-other-lyssaviruses\"}",
+  "category": "Population Health & Ethics",
+  "system_category": "Infectious Diseases",
+  "subtopic": "Bat exposure: test the bat and time PEP to the 48-hour result",
+  "difficulty": "moderate",
+  "difficulty_tier": 3,
+  "incorrect_answer_explanations": {
+   "A": "Testing the bat avoids unnecessary PEP.",
+   "C": "With a result due within 48 hours and a limb wound, PEP can be withheld.",
+   "D": "Bat scratches are category II or III exposures.",
+   "E": "Serology is not used to decide on PEP for an unvaccinated person."
+  },
+  "key_takeaways": [
+   "After a bat exposure, test the bat. If the result will be available within 48 hours (and there is no head or neck bite), PEP can wait."
+  ],
+  "guideline_reference": "{\"name\": \"Australian Immunisation Handbook. Rabies and other lyssaviruses\", \"url\": \"https://immunisationhandbook.health.gov.au/contents/vaccine-preventable-diseases/rabies-and-other-lyssaviruses\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0399",
+   "zyntra_bank",
+   "batch03",
+   "level_3",
+   "task_data_gathering",
+   "group_population_health_ethics",
+   "sys_infectious_disease",
+   "irtb_+0.40",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0400",
+  "question_text": "A 52-year-old wildlife carer in Townsville, Qld, was bitten through the skin on the hand by a flying fox two days ago. The bat escaped and cannot be tested. She has never had rabies vaccine and is immunocompetent. The wound has been washed.\n\nWhich one of the following is the most appropriate post-exposure prophylaxis?",
+  "options": [
+   "Rabies vaccine on days 0 and 3 only",
+   "No PEP because Australia is rabies-free",
+   "HRIG alone",
+   "Five vaccine doses with serology",
+   "HRIG infiltrated into and around the wound, plus rabies vaccine on days 0, 3, 7 and 14"
+  ],
+  "correct_answer": "E",
+  "explanation": "CORRECT ANSWER\n\nE. HRIG infiltrated into and around the wound, plus rabies vaccine on days 0, 3, 7 and 14\n\n---\n\nThe Australian Immunisation Handbook bat-exposure algorithm states that a non-immune, immunocompetent person with a category II or III bat exposure should receive HRIG (if 7 days or less since the first vaccine dose) and 4 vaccine doses intramuscularly on days 0, 3, 7 and 14. HRIG is infiltrated in and around the wound as much as possible, with any remainder given intramuscularly away from the vaccine site.\n\n---\n\nKEY LEARNING POINT\nNon-immune, immunocompetent person with a bat bite: HRIG plus 4 vaccine doses (days 0, 3, 7, 14).\n\n---\n\nREFERENCES\n• {\"name\": \"Australian Immunisation Handbook. Rabies and other lyssaviruses\", \"url\": \"https://immunisationhandbook.health.gov.au/contents/vaccine-preventable-diseases/rabies-and-other-lyssaviruses\"}",
+  "category": "Population Health & Ethics",
+  "system_category": "Infectious Diseases",
+  "subtopic": "ABLV post-exposure prophylaxis in a non-immune immunocompetent person",
+  "difficulty": "difficult",
+  "difficulty_tier": 4,
+  "incorrect_answer_explanations": {
+   "A": "This is the regimen for previously immunised people.",
+   "B": "Australian bats can carry ABLV.",
+   "C": "Vaccine is always needed.",
+   "D": "This is the regimen for immunocompromised people."
+  },
+  "key_takeaways": [
+   "Non-immune, immunocompetent person with a bat bite: HRIG plus 4 vaccine doses (days 0, 3, 7, 14)."
+  ],
+  "guideline_reference": "{\"name\": \"Australian Immunisation Handbook. Rabies and other lyssaviruses\", \"url\": \"https://immunisationhandbook.health.gov.au/contents/vaccine-preventable-diseases/rabies-and-other-lyssaviruses\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0400",
+   "zyntra_bank",
+   "batch03",
+   "level_4",
+   "task_management",
+   "group_population_health_ethics",
+   "sys_infectious_disease",
+   "irtb_+1.10",
+   "pending_owner_review"
+  ]
+ }
+]

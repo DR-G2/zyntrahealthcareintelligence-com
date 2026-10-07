@@ -1,0 +1,2053 @@
+[
+ {
+  "zyntra_id": "ZQ-0251",
+  "question_text": "A 71-year-old man with stage 4 chronic kidney disease is brought to the emergency department in Wollongong, NSW, with generalised weakness for one day. He recently started spironolactone for heart failure and also takes ramipril. He is alert. His pulse is 52/min and regular and his blood pressure is 118/70 mmHg.\n\nInvestigations:\n- Serum potassium 7.4 mmol/L (3.5–5.2)\n- Serum creatinine 310 µmol/L (60–110)\n- Venous pH 7.31\n\nA 12-lead ECG shows tall peaked T waves, flattened P waves and a QRS duration of 150 ms. Spironolactone and ramipril are withheld.\n\nWhich one of the following is the most appropriate immediate treatment?",
+  "options": [
+   "Intravenous calcium gluconate 10%",
+   "Intravenous insulin with glucose alone",
+   "Oral sodium zirconium cyclosilicate",
+   "Intravenous sodium bicarbonate 8.4%",
+   "Intravenous furosemide"
+  ],
+  "correct_answer": "A",
+  "explanation": "CORRECT ANSWER\n\nA. Intravenous calcium gluconate 10%\n\n---\n\nWith ECG changes (peaked T waves, loss of P waves, broad QRS), the first priority is to stabilise the myocardial membrane with IV calcium (calcium gluconate 10% or calcium chloride). It acts within minutes but does not lower potassium, so it is followed straight away by insulin with glucose (with or without nebulised salbutamol) to shift potassium into cells, then measures to remove potassium (binders, dialysis). Repeat the ECG after calcium; the dose can be repeated if changes persist.\n\n---\n\nKEY LEARNING POINT\nHyperkalaemia with ECG changes: IV calcium first to stabilise the myocardium, then insulin–glucose to shift potassium, then remove it.\n\n---\n\nREFERENCES\n• {\"name\": \"Therapeutic Guidelines (eTG complete)\", \"url\": \"https://www.tg.org.au\"}",
+  "category": "Adult Medicine",
+  "system_category": "Renal",
+  "subtopic": "Hyperkalaemia with ECG changes: membrane stabilisation first",
+  "difficulty": "easy",
+  "difficulty_tier": 2,
+  "incorrect_answer_explanations": {
+   "B": "Insulin–glucose shifts potassium into cells within 15–30 minutes and should be given next, but it does not protect the heart immediately. With a broad QRS, calcium comes first.",
+   "C": "A potassium binder lowers total body potassium over hours. Too slow for life-threatening ECG changes.",
+   "D": "Bicarbonate has a weak, unreliable effect on potassium and is not first-line, even with mild acidosis.",
+   "E": "A loop diuretic can increase potassium excretion when kidney function allows, but it is slow and unreliable in stage 4 CKD."
+  },
+  "key_takeaways": [
+   "Hyperkalaemia with ECG changes: IV calcium first to stabilise the myocardium, then insulin–glucose to shift potassium, then remove it."
+  ],
+  "guideline_reference": "{\"name\": \"Therapeutic Guidelines (eTG complete)\", \"url\": \"https://www.tg.org.au\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0251",
+   "zyntra_bank",
+   "batch01",
+   "level_2",
+   "task_management",
+   "group_adult_medicine",
+   "sys_renal",
+   "irtb_-1.30",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0252",
+  "question_text": "A 34-year-old woman is brought to a regional emergency department in Dubbo, NSW, with 3 days of vomiting, abdominal pain and dizziness. Over the past 4 months she has lost 6 kg and felt tired, and her partner says her skin has darkened even though it is winter. She has hypothyroidism treated with levothyroxine and takes no other medicines.\n\nHer pulse is 118/min and her blood pressure is 82/50 mmHg lying. She has hyperpigmented palmar creases and buccal mucosa.\n\nInvestigations:\n- Serum sodium 124 mmol/L (135–145)\n- Serum potassium 5.9 mmol/L (3.5–5.2)\n- Blood glucose 3.4 mmol/L\n- Urea 12.1 mmol/L (2.5–8.0)\n\nTwo litres of 0.9% sodium chloride have been started. Blood has been taken for cortisol and ACTH.\n\nWhich one of the following is the most appropriate next step?",
+  "options": [
+   "Perform a short Synacthen (250 µg tetracosactide) test before giving steroids",
+   "Give fludrocortisone 100 micrograms orally",
+   "Give dexamethasone 4 mg intravenously as the only steroid",
+   "Give hydrocortisone 100 mg intravenously now",
+   "Arrange an urgent CT scan of the adrenal glands"
+  ],
+  "correct_answer": "D",
+  "explanation": "CORRECT ANSWER\n\nD. Give hydrocortisone 100 mg intravenously now\n\n---\n\nThis is an adrenal crisis from probable primary adrenal insufficiency (autoimmune Addison disease, with another autoimmune condition): hypotension, hyponatraemia, hyperkalaemia, hypoglycaemia and hyperpigmentation. Treatment must not wait for confirmation. Once blood for cortisol and ACTH has been taken, give hydrocortisone 100 mg IV immediately, with IV 0.9% saline and glucose, then hydrocortisone 50 mg 6-hourly (or by infusion). At this dose hydrocortisone has enough mineralocorticoid effect, so fludrocortisone is not needed acutely. The diagnosis can be confirmed later.\n\n---\n\nKEY LEARNING POINT\nSuspected adrenal crisis: take blood for cortisol/ACTH, then give IV hydrocortisone 100 mg immediately. Never delay for a Synacthen test.\n\n---\n\nREFERENCES\n• {\"name\": \"Therapeutic Guidelines (eTG complete)\", \"url\": \"https://www.tg.org.au\"}\n• {\"name\": \"Endocrine Society. Diagnosis and treatment of primary adrenal insufficiency (Bornstein et al., J Clin Endocrinol Metab 2016)\", \"url\": \"https://doi.org/10.1210/jc.2015-1710\"}",
+  "category": "Adult Medicine",
+  "system_category": "Endocrinology",
+  "subtopic": "Suspected adrenal crisis: hydrocortisone before confirmatory testing",
+  "difficulty": "difficult",
+  "difficulty_tier": 4,
+  "incorrect_answer_explanations": {
+   "A": "The Synacthen test confirms adrenal insufficiency, but delaying treatment in a crisis can be fatal. Treat first; the random cortisol and ACTH are already taken and confirmation can follow.",
+   "B": "Fludrocortisone is long-term mineralocorticoid replacement. It is not needed acutely because high-dose hydrocortisone provides mineralocorticoid activity, and she is vomiting.",
+   "C": "Dexamethasone has no mineralocorticoid activity and is not the preferred treatment of adrenal crisis with hyperkalaemia and hyponatraemia.",
+   "E": "Imaging may be done later to look for a cause but has no role while she is in shock."
+  },
+  "key_takeaways": [
+   "Suspected adrenal crisis: take blood for cortisol/ACTH, then give IV hydrocortisone 100 mg immediately. Never delay for a Synacthen test."
+  ],
+  "guideline_reference": "{\"name\": \"Therapeutic Guidelines (eTG complete)\", \"url\": \"https://www.tg.org.au\"}; {\"name\": \"Endocrine Society. Diagnosis and treatment of primary adrenal insufficiency (Bornstein et al., J Clin Endocrinol Metab 2016)\", \"url\": \"https://doi.org/10.1210/jc.2015-1710\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0252",
+   "zyntra_bank",
+   "batch01",
+   "level_4",
+   "task_management",
+   "group_adult_medicine",
+   "sys_endocrine",
+   "irtb_+1.20",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0253",
+  "question_text": "A 29-year-old woman sees her general practitioner in Hobart, Tasmania, because she has gained 14 kg over 18 months. She has new purple abdominal striae up to 1.5 cm wide, easy bruising and difficulty climbing stairs. She has taken a combined oral contraceptive pill containing ethinylestradiol for 8 years. She uses no topical, inhaled or oral glucocorticoids.\n\nHer blood pressure is 154/96 mmHg and BMI 33 kg/m². She has facial plethora and proximal muscle weakness. Her HbA1c is 6.6%.\n\nThe GP suspects Cushing syndrome. She does not want to stop her pill.\n\nWhich one of the following is the most appropriate initial investigation?",
+  "options": [
+   "Overnight 1 mg dexamethasone suppression test",
+   "Random morning serum cortisol",
+   "Plasma ACTH",
+   "Late-night salivary cortisol measured on two separate nights",
+   "High-dose (8 mg) dexamethasone suppression test"
+  ],
+  "correct_answer": "D",
+  "explanation": "CORRECT ANSWER\n\nD. Late-night salivary cortisol measured on two separate nights\n\n---\n\nWide purple striae, easy bruising, proximal myopathy, plethora, new hypertension and dysglycaemia make Cushing syndrome a real possibility. First-line screening tests are the overnight 1 mg dexamethasone suppression test, late-night salivary cortisol (at least two) or 24-hour urinary free cortisol (at least two). Oral oestrogen raises cortisol-binding globulin, which raises total serum cortisol and causes false-positive dexamethasone suppression tests in a large proportion of women. Salivary cortisol measures free cortisol, is not affected by CBG, and is the best choice when she will not stop the pill (ideally the pill is stopped for about 6 weeks before a DST).\n\n---\n\nKEY LEARNING POINT\nScreen for Cushing syndrome with late-night salivary cortisol, 24-hour UFC or a 1 mg DST. Oral oestrogen causes false-positive DSTs by raising CBG.\n\n---\n\nREFERENCES\n• {\"name\": \"Endocrine Society. The diagnosis of Cushing's syndrome (Nieman et al., J Clin Endocrinol Metab 2008)\", \"url\": \"https://doi.org/10.1210/jc.2008-0125\"}\n• {\"name\": \"Therapeutic Guidelines (eTG complete)\", \"url\": \"https://www.tg.org.au\"}",
+  "category": "Adult Medicine",
+  "system_category": "Endocrinology",
+  "subtopic": "Screening for Cushing syndrome in a woman taking the combined oral contraceptive pill",
+  "difficulty": "difficult",
+  "difficulty_tier": 5,
+  "incorrect_answer_explanations": {
+   "A": "Valid in most people, but oral oestrogen raises CBG and total serum cortisol, so false positives are common in women on the combined pill.",
+   "B": "A single serum cortisol cannot separate Cushing syndrome from normal, because of diurnal variation and stress. It is not a screening test.",
+   "C": "ACTH is used after hypercortisolism is confirmed, to separate ACTH-dependent from ACTH-independent causes.",
+   "E": "This was used to localise the source in confirmed ACTH-dependent disease. It has no role in initial screening."
+  },
+  "key_takeaways": [
+   "Screen for Cushing syndrome with late-night salivary cortisol, 24-hour UFC or a 1 mg DST. Oral oestrogen causes false-positive DSTs by raising CBG."
+  ],
+  "guideline_reference": "{\"name\": \"Endocrine Society. The diagnosis of Cushing's syndrome (Nieman et al., J Clin Endocrinol Metab 2008)\", \"url\": \"https://doi.org/10.1210/jc.2008-0125\"}; {\"name\": \"Therapeutic Guidelines (eTG complete)\", \"url\": \"https://www.tg.org.au\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0253",
+   "zyntra_bank",
+   "batch01",
+   "level_5",
+   "task_data_gathering",
+   "group_adult_medicine",
+   "sys_endocrine",
+   "irtb_+1.50",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0254",
+  "question_text": "A 52-year-old woman sees her general practitioner in Toowoomba, Queensland, with 6 months of itch, worse at night, and tiredness. She has no rash, takes no medicines or supplements and rarely drinks alcohol. She has no inflammatory bowel disease. Examination shows excoriations but no jaundice or signs of chronic liver disease.\n\nInvestigations:\n- ALP 412 U/L (30–110)\n- GGT 380 U/L (<38)\n- ALT 58 U/L (<35)\n- Bilirubin 15 µmol/L (<20)\n- Albumin 39 g/L (35–50)\n\nAbdominal ultrasound shows normal liver texture, a normal gallbladder and no intrahepatic or extrahepatic bile duct dilatation.\n\nWhich one of the following tests is most likely to confirm the diagnosis?",
+  "options": [
+   "Serum anti-smooth muscle antibody",
+   "Magnetic resonance cholangiopancreatography",
+   "Serum ceruloplasmin",
+   "Liver biopsy",
+   "Serum antimitochondrial antibody"
+  ],
+  "correct_answer": "E",
+  "explanation": "CORRECT ANSWER\n\nE. Serum antimitochondrial antibody\n\n---\n\nPruritus and fatigue with a cholestatic pattern (ALP and GGT raised far more than ALT) and non-dilated ducts in a middle-aged woman suggests primary biliary cholangitis. A positive antimitochondrial antibody (M2) with a raised ALP is diagnostic in most cases without liver biopsy. Treatment is ursodeoxycholic acid.\n\n---\n\nKEY LEARNING POINT\nMiddle-aged woman, itch, cholestatic LFTs, normal ducts on ultrasound: test AMA for primary biliary cholangitis.\n\n---\n\nREFERENCES\n• {\"name\": \"EASL Clinical Practice Guidelines: the diagnosis and management of patients with primary biliary cholangitis (J Hepatol 2017)\", \"url\": \"https://doi.org/10.1016/j.jhep.2017.03.022\"}\n• {\"name\": \"Gastroenterological Society of Australia (GESA)\", \"url\": \"https://www.gesa.org.au/\"}",
+  "category": "Adult Medicine",
+  "system_category": "Gastroenterology",
+  "subtopic": "Cholestatic liver tests with normal ducts in a middle-aged woman: antimitochondrial antibody",
+  "difficulty": "moderate",
+  "difficulty_tier": 3,
+  "incorrect_answer_explanations": {
+   "A": "This supports autoimmune hepatitis, which gives a mainly hepatocellular (ALT-predominant) pattern.",
+   "B": "MRCP is the test for primary sclerosing cholangitis, typically in younger men with IBD. It is used if the AMA is negative.",
+   "C": "Ceruloplasmin is a test for Wilson disease, which usually presents before age 40 with hepatic or neuropsychiatric features.",
+   "D": "Biopsy is rarely needed for PBC. It is kept for AMA-negative cases or suspected overlap with autoimmune hepatitis."
+  },
+  "key_takeaways": [
+   "Middle-aged woman, itch, cholestatic LFTs, normal ducts on ultrasound: test AMA for primary biliary cholangitis."
+  ],
+  "guideline_reference": "{\"name\": \"EASL Clinical Practice Guidelines: the diagnosis and management of patients with primary biliary cholangitis (J Hepatol 2017)\", \"url\": \"https://doi.org/10.1016/j.jhep.2017.03.022\"}; {\"name\": \"Gastroenterological Society of Australia (GESA)\", \"url\": \"https://www.gesa.org.au/\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0254",
+   "zyntra_bank",
+   "batch01",
+   "level_3",
+   "task_data_gathering",
+   "group_adult_medicine",
+   "sys_gastroenterology",
+   "irtb_+0.10",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0255",
+  "question_text": "Two men see the same general practitioner in Bendigo, Victoria, about a raised ferritin found on routine blood tests. Neither has symptoms, and both drink fewer than 10 standard drinks a week.\n\nMan 1 is 46, with a BMI of 33 kg/m², type 2 diabetes and fatty liver on ultrasound.\nMan 2 is 44, with a BMI of 24 kg/m²; his father had 'liver trouble'.\n\nInvestigations (fasting):\n| | Man 1 | Man 2 |\n|---|---|---|\n| Ferritin (30–500 µg/L) | 780 | 760 |\n| Transferrin saturation (15–45%) | 28 | 71 |\n| ALT (<40 U/L) | 64 | 52 |\n| CRP (<5 mg/L) | 6 | 2 |\n\nWhich one of the following is the most appropriate interpretation?",
+  "options": [
+   "Both men most likely have haemochromatosis and should have HFE genotyping",
+   "Man 1 most likely has haemochromatosis because he has diabetes and a raised ALT",
+   "Man 2 most likely has HFE haemochromatosis and should have HFE genotyping",
+   "Neither man needs further testing because their ferritin is below 1000 µg/L",
+   "Both men should start venesection now and then be genotyped"
+  ],
+  "correct_answer": "C",
+  "explanation": "CORRECT ANSWER\n\nC. Man 2 most likely has HFE haemochromatosis and should have HFE genotyping\n\n---\n\nFerritin rises with iron overload but also with inflammation, alcohol, fatty liver and metabolic syndrome. Transferrin saturation separates these. A fasting transferrin saturation above 45% with a raised ferritin suggests iron overload, and HFE genotyping (C282Y, H63D) is the next step; Man 2 fits, with a possible family history. Man 1 has a normal transferrin saturation, so his ferritin most likely reflects metabolic dysfunction-associated fatty liver disease (dysmetabolic hyperferritinaemia). He does not need HFE testing or venesection; he needs management of weight and metabolic risk.\n\n---\n\nKEY LEARNING POINT\nRaised ferritin: check fasting transferrin saturation. TSAT >45% suggests iron overload (HFE genotyping); normal TSAT points to inflammation, alcohol or fatty liver.\n\n---\n\nREFERENCES\n• {\"name\": \"Gastroenterological Society of Australia. Haemochromatosis clinical update\", \"url\": \"https://www.gesa.org.au/\"}\n• {\"name\": \"Haemochromatosis Australia: information for health professionals\", \"url\": \"https://haemochromatosis.org.au/\"}",
+  "category": "Adult Medicine",
+  "system_category": "Haematology & Oncology",
+  "subtopic": "Raised ferritin: transferrin saturation separates iron overload from a metabolic cause",
+  "difficulty": "difficult",
+  "difficulty_tier": 4,
+  "incorrect_answer_explanations": {
+   "A": "A ferritin above 500 µg/L alone does not mean iron overload. Man 1's normal transferrin saturation points away from haemochromatosis.",
+   "B": "Diabetes and a raised ALT are better explained by fatty liver; his transferrin saturation is normal.",
+   "D": "Ferritin below 1000 µg/L lowers the risk of advanced fibrosis in haemochromatosis but does not exclude it. Man 2 still needs genotyping.",
+   "E": "Venesection follows a diagnosis of iron overload. Man 1 has no evidence of iron overload."
+  },
+  "key_takeaways": [
+   "Raised ferritin: check fasting transferrin saturation. TSAT >45% suggests iron overload (HFE genotyping); normal TSAT points to inflammation, alcohol or fatty liver."
+  ],
+  "guideline_reference": "{\"name\": \"Gastroenterological Society of Australia. Haemochromatosis clinical update\", \"url\": \"https://www.gesa.org.au/\"}; {\"name\": \"Haemochromatosis Australia: information for health professionals\", \"url\": \"https://haemochromatosis.org.au/\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0255",
+   "zyntra_bank",
+   "batch01",
+   "level_4",
+   "task_data_interpretation_synthesis",
+   "group_adult_medicine",
+   "sys_haematology_oncology",
+   "irtb_+1.00",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0256",
+  "question_text": "A 58-year-old man sees his general practitioner in Mandurah, Western Australia, with 2 days of spreading redness and pain over his left shin after a gardening scratch. He feels well. He has type 2 diabetes treated with metformin. As a child he developed a mild itchy rash 4 days into a course of amoxicillin; it settled without treatment, with no blistering, mucosal involvement or organ involvement. He has had no penicillins since.\n\nHis temperature is 37.8 °C, pulse 84/min and blood pressure 134/82 mmHg. There is a 10 × 8 cm area of warm, tender, non-fluctuant erythema on the shin, with no crepitus or bullae, and pain in proportion to the signs. He has interdigital tinea of the left foot.\n\nWhich one of the following is the most appropriate antibiotic?",
+  "options": [
+   "Oral clindamycin",
+   "Oral flucloxacillin",
+   "Oral amoxicillin–clavulanate",
+   "Intravenous cefazolin in hospital",
+   "Oral cefalexin"
+  ],
+  "correct_answer": "E",
+  "explanation": "CORRECT ANSWER\n\nE. Oral cefalexin\n\n---\n\nThis is non-purulent cellulitis without systemic toxicity, suitable for oral treatment. First-line therapy targets streptococci and Staphylococcus aureus (flucloxacillin or cefalexin). His past reaction was a mild, delayed, non-severe rash; eTG advises that patients with a non-severe delayed penicillin reaction can usually be given a cephalosporin such as cefalexin. Clindamycin (or trimethoprim–sulfamethoxazole) is kept for immediate (IgE-mediated) or severe delayed reactions. The tinea should be treated as a portal of entry, the leg elevated, and penicillin allergy delabelling considered later.\n\n---\n\nKEY LEARNING POINT\nCellulitis with a past mild delayed penicillin rash: oral cefalexin. Reserve clindamycin for immediate or severe reactions.\n\n---\n\nREFERENCES\n• {\"name\": \"Therapeutic Guidelines (eTG complete)\", \"url\": \"https://www.tg.org.au\"}\n• {\"name\": \"ASCIA. Penicillin allergy guide for health professionals\", \"url\": \"https://www.allergy.org.au/hp/papers/penicillin-allergy-guide\"}",
+  "category": "Adult Medicine",
+  "system_category": "Infectious Diseases",
+  "subtopic": "Cellulitis with a non-severe delayed penicillin rash: oral cefalexin",
+  "difficulty": "moderate",
+  "difficulty_tier": 3,
+  "incorrect_answer_explanations": {
+   "A": "Clindamycin is for immediate or severe penicillin hypersensitivity; it has more adverse effects, including C. difficile infection.",
+   "B": "First-line without allergy, but with a documented penicillin reaction a cephalosporin is used for a non-severe delayed reaction unless he has been formally delabelled.",
+   "C": "This is a penicillin and gives broader cover than cellulitis needs; it is used for bites and some diabetic foot infections.",
+   "D": "He has no systemic toxicity, rapid spread or high-risk features, so oral treatment in the community is appropriate."
+  },
+  "key_takeaways": [
+   "Cellulitis with a past mild delayed penicillin rash: oral cefalexin. Reserve clindamycin for immediate or severe reactions."
+  ],
+  "guideline_reference": "{\"name\": \"Therapeutic Guidelines (eTG complete)\", \"url\": \"https://www.tg.org.au\"}; {\"name\": \"ASCIA. Penicillin allergy guide for health professionals\", \"url\": \"https://www.allergy.org.au/hp/papers/penicillin-allergy-guide\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0256",
+   "zyntra_bank",
+   "batch01",
+   "level_3",
+   "task_management",
+   "group_adult_medicine",
+   "sys_infectious_disease",
+   "irtb_+0.00",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0257",
+  "question_text": "A 31-year-old woman who moved from Sweden to Perth 2 years ago sees her general practitioner with 10 days of fever, painful swollen ankles and tender red lumps on both shins. She has no cough, weight loss or night sweats, no recent travel and no known tuberculosis contacts. She takes no medicines.\n\nHer temperature is 37.9 °C. Both ankles are swollen with periarticular tenderness. There are several tender, raised, red-purple nodules 2–4 cm across on both anterior shins. Chest examination is normal, with no peripheral lymphadenopathy or hepatosplenomegaly.\n\nInvestigations:\n- CRP 48 mg/L (<5)\n- Corrected calcium 2.48 mmol/L (2.10–2.60)\n- Chest X-ray: bilateral symmetrical hilar lymphadenopathy; clear lung fields\n- Interferon-gamma release assay negative\n\nWhich one of the following is the most appropriate interpretation?",
+  "options": [
+   "Lymphoma; she needs an urgent biopsy of a mediastinal node",
+   "Primary tuberculosis; she should start four-drug treatment",
+   "Chronic pulmonary sarcoidosis needing high-dose oral prednisolone",
+   "Löfgren syndrome (acute sarcoidosis); a biopsy is not needed and the outlook is good",
+   "Reactive arthritis after a gastrointestinal infection"
+  ],
+  "correct_answer": "D",
+  "explanation": "CORRECT ANSWER\n\nD. Löfgren syndrome (acute sarcoidosis); a biopsy is not needed and the outlook is good\n\n---\n\nErythema nodosum, bilateral hilar lymphadenopathy, fever and ankle periarthritis is the classic picture of Löfgren syndrome, an acute form of sarcoidosis that is more common in women of Scandinavian descent. When the presentation is typical and there are no atypical features (weight loss, asymmetric or bulky nodes, a positive TB test), the combination is specific enough that biopsy is generally not needed. Most cases resolve spontaneously within 1–2 years. Treatment is supportive with NSAIDs; corticosteroids are rarely needed. A repeat chest X-ray confirms resolution.\n\n---\n\nKEY LEARNING POINT\nErythema nodosum + bilateral hilar nodes + fever + ankle periarthritis = Löfgren syndrome. A typical case needs no biopsy; NSAIDs and follow-up.\n\n---\n\nREFERENCES\n• {\"name\": \"ATS clinical practice guideline: diagnosis and detection of sarcoidosis (Crouser et al., Am J Respir Crit Care Med 2020)\", \"url\": \"https://doi.org/10.1164/rccm.202002-0251ST\"}\n• {\"name\": \"ERS clinical practice guidelines on treatment of sarcoidosis (Baughman et al., Eur Respir J 2021)\", \"url\": \"https://doi.org/10.1183/13993003.04079-2020\"}",
+  "category": "Adult Medicine",
+  "system_category": "Respiratory",
+  "subtopic": "Löfgren syndrome: clinical diagnosis without tissue biopsy",
+  "difficulty": "difficult",
+  "difficulty_tier": 4,
+  "incorrect_answer_explanations": {
+   "A": "Lymphoma rarely causes this acute triad and usually gives asymmetric or bulky nodes and B symptoms.",
+   "B": "She has no TB contacts, no respiratory symptoms and a negative IGRA. The full picture favours Löfgren syndrome.",
+   "C": "Löfgren syndrome is acute and self-limiting with clear lungs; steroids are not routinely needed.",
+   "E": "Reactive arthritis does not cause hilar lymphadenopathy, and there was no preceding diarrhoea or urethritis."
+  },
+  "key_takeaways": [
+   "Erythema nodosum + bilateral hilar nodes + fever + ankle periarthritis = Löfgren syndrome. A typical case needs no biopsy; NSAIDs and follow-up."
+  ],
+  "guideline_reference": "{\"name\": \"ATS clinical practice guideline: diagnosis and detection of sarcoidosis (Crouser et al., Am J Respir Crit Care Med 2020)\", \"url\": \"https://doi.org/10.1164/rccm.202002-0251ST\"}; {\"name\": \"ERS clinical practice guidelines on treatment of sarcoidosis (Baughman et al., Eur Respir J 2021)\", \"url\": \"https://doi.org/10.1183/13993003.04079-2020\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0257",
+   "zyntra_bank",
+   "batch01",
+   "level_4",
+   "task_data_interpretation_synthesis",
+   "group_adult_medicine",
+   "sys_respiratory",
+   "irtb_+1.30",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0258",
+  "question_text": "A 69-year-old retired carpenter sees his general practitioner in Launceston, Tasmania, with 9 months of gradually worsening exertional breathlessness and a dry cough. He smoked 20 cigarettes a day for 25 years and stopped 15 years ago. He has no joint symptoms, rash, pets or birds, and takes no regular medicines.\n\nHis SpO2 is 95% at rest on room air. He has digital clubbing and fine 'velcro-like' inspiratory crackles at both lung bases. There is no ankle oedema.\n\nInvestigations:\n- Spirometry: FEV1 78% predicted, FVC 70% predicted, FEV1/FVC 0.84\n- DLCO 52% predicted\n- Chest X-ray: reticular shadowing at both bases\n\nWhich one of the following is the most appropriate next investigation?",
+  "options": [
+   "Surgical lung biopsy",
+   "CT pulmonary angiogram",
+   "High-resolution CT scan of the chest",
+   "Bronchoscopy with bronchoalveolar lavage",
+   "Repeat spirometry after a bronchodilator"
+  ],
+  "correct_answer": "C",
+  "explanation": "CORRECT ANSWER\n\nC. High-resolution CT scan of the chest\n\n---\n\nProgressive exertional breathlessness, dry cough, clubbing, bibasal velcro crackles, a restrictive pattern (preserved FEV1/FVC with reduced FVC) and a low DLCO strongly suggest interstitial lung disease, most likely idiopathic pulmonary fibrosis in an older male ex-smoker. HRCT is the key investigation: a usual interstitial pneumonia pattern (subpleural basal reticulation, honeycombing, traction bronchiectasis) in the right clinical context, after excluding other causes, allows diagnosis without biopsy. He should be referred to a respiratory physician for multidisciplinary discussion and consideration of antifibrotic therapy.\n\n---\n\nKEY LEARNING POINT\nVelcro crackles, clubbing, restriction and low DLCO suggest pulmonary fibrosis: arrange HRCT chest. A typical UIP pattern may avoid biopsy.\n\n---\n\nREFERENCES\n• {\"name\": \"ATS/ERS/JRS/ALAT guideline: Idiopathic pulmonary fibrosis (an update) and progressive pulmonary fibrosis in adults (Raghu et al., 2022)\", \"url\": \"https://doi.org/10.1164/rccm.202202-0399ST\"}\n• {\"name\": \"Lung Foundation Australia: health professional resources\", \"url\": \"https://lungfoundation.com.au/health-professionals/\"}",
+  "category": "Adult Medicine",
+  "system_category": "Respiratory",
+  "subtopic": "Suspected idiopathic pulmonary fibrosis: high-resolution CT",
+  "difficulty": "moderate",
+  "difficulty_tier": 3,
+  "incorrect_answer_explanations": {
+   "A": "Biopsy is reserved for when HRCT and multidisciplinary review are not diagnostic; it carries real risk in IPF.",
+   "B": "CTPA looks for pulmonary embolism, which does not explain months of progressive symptoms, crackles, clubbing and restriction.",
+   "D": "BAL can help in some ILDs (such as hypersensitivity pneumonitis) but HRCT comes first.",
+   "E": "Bronchodilator testing looks for reversible obstruction; his pattern is restrictive."
+  },
+  "key_takeaways": [
+   "Velcro crackles, clubbing, restriction and low DLCO suggest pulmonary fibrosis: arrange HRCT chest. A typical UIP pattern may avoid biopsy."
+  ],
+  "guideline_reference": "{\"name\": \"ATS/ERS/JRS/ALAT guideline: Idiopathic pulmonary fibrosis (an update) and progressive pulmonary fibrosis in adults (Raghu et al., 2022)\", \"url\": \"https://doi.org/10.1164/rccm.202202-0399ST\"}; {\"name\": \"Lung Foundation Australia: health professional resources\", \"url\": \"https://lungfoundation.com.au/health-professionals/\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0258",
+   "zyntra_bank",
+   "batch01",
+   "level_3",
+   "task_data_gathering",
+   "group_adult_medicine",
+   "sys_respiratory",
+   "irtb_+0.30",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0259",
+  "question_text": "A 19-year-old university footballer sees a sports physician in Adelaide after feeling lightheaded during a sprint at training last week. He did not lose consciousness. His uncle died suddenly aged 32. He takes no medicines or supplements.\n\nHis pulse is 64/min and regular and blood pressure 122/74 mmHg. He has a grade 3/6 harsh ejection systolic murmur, loudest at the left lower sternal edge, that does not radiate to the carotids. His carotid pulse is brisk. An echocardiogram will be arranged, but the physician first examines the murmur further at the bedside.\n\nWhich one of the following findings would most support the likely diagnosis?",
+  "options": [
+   "The murmur becomes louder when he squats from standing",
+   "The murmur becomes louder during the strain phase of a Valsalva manoeuvre",
+   "The murmur becomes louder with sustained isometric handgrip",
+   "The murmur radiates to both carotids with a slow-rising pulse",
+   "The murmur becomes softer when he stands up from squatting"
+  ],
+  "correct_answer": "B",
+  "explanation": "CORRECT ANSWER\n\nB. The murmur becomes louder during the strain phase of a Valsalva manoeuvre\n\n---\n\nExertional presyncope, a family history of sudden death and a harsh systolic murmur at the left sternal edge with a brisk carotid pulse suggest hypertrophic cardiomyopathy with left ventricular outflow tract obstruction. The obstruction is dynamic: reducing preload (Valsalva strain, standing from squatting) makes the ventricle smaller and the murmur louder; increasing preload or afterload (squatting, passive leg raise, handgrip) makes it softer. This is the opposite of aortic stenosis. He should stop competitive sport until assessed and have an echocardiogram, ECG and cardiology review.\n\n---\n\nKEY LEARNING POINT\nHCM murmur: louder with less preload (Valsalva strain, standing), softer with more preload or afterload (squatting, handgrip). Opposite to aortic stenosis.\n\n---\n\nREFERENCES\n• {\"name\": \"2024 AHA/ACC/AMSSM/HRS/PACES/SCMR guideline for the management of hypertrophic cardiomyopathy (Circulation 2024)\", \"url\": \"https://doi.org/10.1161/CIR.0000000000001250\"}\n• {\"name\": \"Heart Foundation (Australia): health professional resources\", \"url\": \"https://www.heartfoundation.org.au/for-professionals\"}",
+  "category": "Adult Medicine",
+  "system_category": "Cardiology",
+  "subtopic": "Systolic murmur in a young athlete: dynamic manoeuvre for hypertrophic cardiomyopathy",
+  "difficulty": "moderate",
+  "difficulty_tier": 3,
+  "incorrect_answer_explanations": {
+   "A": "Squatting increases venous return and afterload, reducing obstruction, so the HCM murmur softens.",
+   "C": "Handgrip raises afterload, which reduces the outflow gradient; it makes mitral regurgitation louder, not HCM.",
+   "D": "A slow-rising pulse with carotid radiation suggests aortic stenosis. HCM gives a brisk, sometimes bifid, pulse.",
+   "E": "Standing suddenly reduces preload and worsens obstruction, so the HCM murmur gets louder."
+  },
+  "key_takeaways": [
+   "HCM murmur: louder with less preload (Valsalva strain, standing), softer with more preload or afterload (squatting, handgrip). Opposite to aortic stenosis."
+  ],
+  "guideline_reference": "{\"name\": \"2024 AHA/ACC/AMSSM/HRS/PACES/SCMR guideline for the management of hypertrophic cardiomyopathy (Circulation 2024)\", \"url\": \"https://doi.org/10.1161/CIR.0000000000001250\"}; {\"name\": \"Heart Foundation (Australia): health professional resources\", \"url\": \"https://www.heartfoundation.org.au/for-professionals\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0259",
+   "zyntra_bank",
+   "batch01",
+   "level_3",
+   "task_data_gathering",
+   "group_adult_medicine",
+   "sys_cardiovascular",
+   "irtb_+0.40",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0260",
+  "question_text": "A 26-year-old man presents to an emergency department in Canberra with 2 days of sharp central chest pain, worse lying flat and on deep breathing, and eased by sitting forward. He had a sore throat and runny nose a week ago. He has no past medical history.\n\nHis temperature is 37.6 °C, pulse 96/min and blood pressure 126/78 mmHg. A scratchy sound is heard at the left sternal edge with him leaning forward. His chest is clear.\n\nThe ECG shows concave ST elevation in I, II, aVL, aVF and V2–V6, with PR depression in the same leads and PR elevation in aVR, and no reciprocal ST depression. High-sensitivity troponin is normal on two samples.\n\nWhich one of the following is the most likely diagnosis?",
+  "options": [
+   "Acute anterior ST-elevation myocardial infarction",
+   "Acute pericarditis",
+   "Acute myocarditis",
+   "Pulmonary embolism",
+   "Benign early repolarisation"
+  ],
+  "correct_answer": "B",
+  "explanation": "CORRECT ANSWER\n\nB. Acute pericarditis\n\n---\n\nPleuritic, positional chest pain relieved by sitting forward, a friction rub, a preceding viral illness and widespread concave ST elevation with PR depression (PR elevation in aVR) without reciprocal change is typical of acute pericarditis. A normal troponin makes significant myocardial involvement unlikely. An echocardiogram looks for an effusion. First-line treatment is an NSAID (or aspirin) plus colchicine for 3 months, which reduces recurrence.\n\n---\n\nKEY LEARNING POINT\nPleuritic pain eased by sitting forward + rub + diffuse saddle ST elevation with PR depression = acute pericarditis. NSAID plus colchicine.\n\n---\n\nREFERENCES\n• {\"name\": \"2015 ESC Guidelines for the diagnosis and management of pericardial diseases (Eur Heart J 2015)\", \"url\": \"https://doi.org/10.1093/eurheartj/ehv318\"}\n• {\"name\": \"Therapeutic Guidelines (eTG complete)\", \"url\": \"https://www.tg.org.au\"}",
+  "category": "Adult Medicine",
+  "system_category": "Cardiology",
+  "subtopic": "Pleuritic chest pain with widespread ST elevation and PR depression: acute pericarditis",
+  "difficulty": "easy",
+  "difficulty_tier": 2,
+  "incorrect_answer_explanations": {
+   "A": "STEMI gives convex ST elevation in a coronary territory with reciprocal depression and rising troponin.",
+   "C": "Myocarditis would usually raise troponin and may impair ventricular function.",
+   "D": "PE can cause pleuritic pain and tachycardia but not a rub, positional relief or diffuse ST elevation with PR depression.",
+   "E": "Early repolarisation occurs without symptoms, rub or PR depression, and does not evolve."
+  },
+  "key_takeaways": [
+   "Pleuritic pain eased by sitting forward + rub + diffuse saddle ST elevation with PR depression = acute pericarditis. NSAID plus colchicine."
+  ],
+  "guideline_reference": "{\"name\": \"2015 ESC Guidelines for the diagnosis and management of pericardial diseases (Eur Heart J 2015)\", \"url\": \"https://doi.org/10.1093/eurheartj/ehv318\"}; {\"name\": \"Therapeutic Guidelines (eTG complete)\", \"url\": \"https://www.tg.org.au\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0260",
+   "zyntra_bank",
+   "batch01",
+   "level_2",
+   "task_data_interpretation_synthesis",
+   "group_adult_medicine",
+   "sys_cardiovascular",
+   "irtb_-1.00",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0261",
+  "question_text": "A 63-year-old man sees his general practitioner in Cairns, Queensland, because the right side of his face has drooped since he woke this morning. For 3 days he has had severe burning pain deep in his right ear. Food tastes strange and loud sounds are uncomfortable in his right ear. He has type 2 diabetes.\n\nHe cannot wrinkle his right forehead, close his right eye fully or raise the right corner of his mouth. There are small clustered vesicles on an erythematous base in the right external auditory canal and concha. The rest of the neurological examination is normal.\n\nWhich one of the following is the most likely diagnosis?",
+  "options": [
+   "Ramsay Hunt syndrome (herpes zoster oticus)",
+   "Bell palsy",
+   "Acute ischaemic stroke",
+   "Acute otitis media with facial nerve involvement",
+   "Parotid gland tumour"
+  ],
+  "correct_answer": "A",
+  "explanation": "CORRECT ANSWER\n\nA. Ramsay Hunt syndrome (herpes zoster oticus)\n\n---\n\nA lower motor neurone facial palsy (forehead involved) with ear pain and vesicles in the canal and concha is Ramsay Hunt syndrome, from varicella-zoster reactivation in the geniculate ganglion. Altered taste and hyperacusis reflect chorda tympani and stapedius nerve involvement. Compared with Bell palsy it is more painful, more often complete, and has a poorer chance of full recovery; it may also cause hearing loss or vertigo. Treatment is prednisolone plus an antiviral (such as valaciclovir) started early, with eye protection.\n\n---\n\nKEY LEARNING POINT\nFacial palsy (forehead involved) + ear pain + vesicles in the canal or concha = Ramsay Hunt syndrome. Prednisolone plus antiviral early.\n\n---\n\nREFERENCES\n• {\"name\": \"Therapeutic Guidelines (eTG complete)\", \"url\": \"https://www.tg.org.au\"}\n• {\"name\": \"Australian Immunisation Handbook. Zoster (herpes zoster)\", \"url\": \"https://immunisationhandbook.health.gov.au/contents/vaccine-preventable-diseases/zoster-herpes-zoster\"}",
+  "category": "Adult Medicine",
+  "system_category": "Neurology",
+  "subtopic": "Lower motor neurone facial palsy with ear vesicles: Ramsay Hunt syndrome",
+  "difficulty": "moderate",
+  "difficulty_tier": 3,
+  "incorrect_answer_explanations": {
+   "B": "Bell palsy is a diagnosis of exclusion; the vesicles indicate VZV, which changes treatment (antiviral) and prognosis.",
+   "C": "Stroke causes upper motor neurone facial weakness that spares the forehead, usually with other signs.",
+   "D": "Otitis media affects the middle ear (bulging drum) and does not cause canal or concha vesicles.",
+   "E": "A parotid malignancy causes gradual palsy with a parotid mass, not vesicles."
+  },
+  "key_takeaways": [
+   "Facial palsy (forehead involved) + ear pain + vesicles in the canal or concha = Ramsay Hunt syndrome. Prednisolone plus antiviral early."
+  ],
+  "guideline_reference": "{\"name\": \"Therapeutic Guidelines (eTG complete)\", \"url\": \"https://www.tg.org.au\"}; {\"name\": \"Australian Immunisation Handbook. Zoster (herpes zoster)\", \"url\": \"https://immunisationhandbook.health.gov.au/contents/vaccine-preventable-diseases/zoster-herpes-zoster\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0261",
+   "zyntra_bank",
+   "batch01",
+   "level_3",
+   "task_data_interpretation_synthesis",
+   "group_adult_medicine",
+   "sys_neurology",
+   "irtb_+0.20",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0262",
+  "question_text": "A 27-year-old woman presents to an emergency department in Newcastle, NSW, with 6 weeks of daily headache, worse lying down and on waking, and brief episodes of her vision 'greying out' when she stands. She hears a pulsing 'whooshing' sound in both ears. She started the combined oral contraceptive pill 4 months ago and has gained 8 kg in the past year. Her BMI is 36 kg/m².\n\nShe is afebrile and her blood pressure is 124/80 mmHg. Fundoscopy shows bilateral optic disc swelling. Visual acuity is 6/6 in both eyes. She has a mild right sixth nerve palsy; the rest of the neurological examination is normal. A non-contrast CT brain is normal.\n\nWhich one of the following is the most appropriate next investigation?",
+  "options": [
+   "Lumbar puncture with opening pressure",
+   "ESR and CRP",
+   "MRI brain with MR venography",
+   "Formal visual field testing alone with GP follow-up",
+   "Carotid duplex ultrasound"
+  ],
+  "correct_answer": "C",
+  "explanation": "CORRECT ANSWER\n\nC. MRI brain with MR venography\n\n---\n\nHeadache with papilloedema means raised intracranial pressure. Idiopathic intracranial hypertension is likely in an obese young woman (a sixth nerve palsy is a non-localising sign), but it is a diagnosis of exclusion. Cerebral venous sinus thrombosis can look identical, and she has a prothrombotic risk factor (the combined pill). A non-contrast CT can miss venous sinus thrombosis. MRI with MR venography (or CT venography) should come before lumbar puncture. If imaging is normal, LP with opening pressure (lateral decubitus) and CSF analysis confirms IIH. She also needs formal visual fields and ophthalmology review.\n\n---\n\nKEY LEARNING POINT\nPapilloedema with a normal CT: MRI with MR venography to exclude venous sinus thrombosis before LP. IIH is a diagnosis of exclusion.\n\n---\n\nREFERENCES\n• {\"name\": \"Idiopathic intracranial hypertension: consensus guidelines on management (Mollan et al., J Neurol Neurosurg Psychiatry 2018)\", \"url\": \"https://doi.org/10.1136/jnnp-2017-317440\"}\n• {\"name\": \"Therapeutic Guidelines (eTG complete)\", \"url\": \"https://www.tg.org.au\"}",
+  "category": "Adult Medicine",
+  "system_category": "Neurology",
+  "subtopic": "Headache with papilloedema in a young woman: MRI with MR venography before lumbar puncture",
+  "difficulty": "difficult",
+  "difficulty_tier": 5,
+  "incorrect_answer_explanations": {
+   "A": "LP confirms IIH only after imaging has excluded a mass and venous sinus thrombosis; a normal non-contrast CT is not enough.",
+   "B": "These look for giant cell arteritis in people over 50; they do not help here.",
+   "D": "Fields are essential for monitoring, but they do not exclude secondary causes; she needs urgent venous imaging.",
+   "E": "Carotid disease does not cause papilloedema or a raised-pressure headache."
+  },
+  "key_takeaways": [
+   "Papilloedema with a normal CT: MRI with MR venography to exclude venous sinus thrombosis before LP. IIH is a diagnosis of exclusion."
+  ],
+  "guideline_reference": "{\"name\": \"Idiopathic intracranial hypertension: consensus guidelines on management (Mollan et al., J Neurol Neurosurg Psychiatry 2018)\", \"url\": \"https://doi.org/10.1136/jnnp-2017-317440\"}; {\"name\": \"Therapeutic Guidelines (eTG complete)\", \"url\": \"https://www.tg.org.au\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0262",
+   "zyntra_bank",
+   "batch01",
+   "level_5",
+   "task_data_gathering",
+   "group_adult_medicine",
+   "sys_neurology",
+   "irtb_+1.60",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0263",
+  "question_text": "A 61-year-old man sees his general practitioner in Geelong, Victoria, with 3 months of headaches and intense itch after hot showers. He has never smoked, does not snore and takes no medicines, including testosterone. SpO2 is 98% on room air. He has a ruddy complexion and the spleen tip is palpable 2 cm below the costal margin.\n\nInvestigations:\n- Haemoglobin 198 g/L (130–180)\n- Haematocrit 0.59 (0.40–0.52)\n- White cell count 13.1 × 10^9/L (4.0–11.0)\n- Platelets 520 × 10^9/L (150–400)\n\nWhich one of the following results would most strongly confirm the likely diagnosis?",
+  "options": [
+   "Raised serum erythropoietin with a normal JAK2 result",
+   "JAK2 V617F mutation detected, with a low serum erythropoietin",
+   "BCR-ABL1 fusion gene detected",
+   "Raised ferritin with a raised transferrin saturation",
+   "Low saturation on overnight oximetry"
+  ],
+  "correct_answer": "B",
+  "explanation": "CORRECT ANSWER\n\nB. JAK2 V617F mutation detected, with a low serum erythropoietin\n\n---\n\nRaised haemoglobin and haematocrit with leucocytosis, thrombocytosis, splenomegaly and aquagenic pruritus, without hypoxia, smoking or testosterone, strongly suggests polycythaemia vera. A JAK2 mutation (V617F or exon 12) is present in about 95% of cases and is a major WHO criterion; a low serum EPO is the minor criterion and reflects EPO-independent erythropoiesis (secondary polycythaemia has normal or high EPO). Management is haematology referral, venesection to a haematocrit below 0.45 and low-dose aspirin, with cytoreduction for high-risk patients.\n\n---\n\nKEY LEARNING POINT\nRaised Hb + splenomegaly + aquagenic itch (± high WCC/platelets): JAK2 V617F with low EPO = polycythaemia vera.\n\n---\n\nREFERENCES\n• {\"name\": \"WHO Classification of Haematolymphoid Tumours, 5th edition: myeloproliferative neoplasms\", \"url\": \"https://tumourclassification.iarc.who.int/\"}\n• {\"name\": \"Therapeutic Guidelines (eTG complete)\", \"url\": \"https://www.tg.org.au\"}",
+  "category": "Adult Medicine",
+  "system_category": "Haematology & Oncology",
+  "subtopic": "Raised haemoglobin with aquagenic itch and splenomegaly: JAK2 V617F with low EPO confirms polycythaemia vera",
+  "difficulty": "moderate",
+  "difficulty_tier": 3,
+  "incorrect_answer_explanations": {
+   "A": "This suggests secondary polycythaemia (hypoxia, renal tumour), not PV.",
+   "C": "BCR-ABL1 defines chronic myeloid leukaemia, which does not raise haemoglobin.",
+   "D": "This suggests iron overload; PV patients are often iron deficient.",
+   "E": "Nocturnal hypoxia causes secondary polycythaemia, arguing against PV."
+  },
+  "key_takeaways": [
+   "Raised Hb + splenomegaly + aquagenic itch (± high WCC/platelets): JAK2 V617F with low EPO = polycythaemia vera."
+  ],
+  "guideline_reference": "{\"name\": \"WHO Classification of Haematolymphoid Tumours, 5th edition: myeloproliferative neoplasms\", \"url\": \"https://tumourclassification.iarc.who.int/\"}; {\"name\": \"Therapeutic Guidelines (eTG complete)\", \"url\": \"https://www.tg.org.au\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0263",
+   "zyntra_bank",
+   "batch01",
+   "level_3",
+   "task_data_interpretation_synthesis",
+   "group_adult_medicine",
+   "sys_haematology_oncology",
+   "irtb_+0.60",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0264",
+  "question_text": "A 72-year-old woman sees her general practitioner in Albury, NSW, with 5 weeks of aching and stiffness of both shoulders and hips. The stiffness lasts about 2 hours each morning and she struggles to get out of bed and comb her hair. She has no headache, scalp tenderness, jaw pain on chewing or visual symptoms, and no weight loss, joint swelling or rash.\n\nActive shoulder movement is limited by pain, but strength is normal. Her temporal arteries are non-tender with normal pulses. There is no synovitis.\n\nInvestigations:\n- ESR 64 mm/h (<30)\n- CRP 42 mg/L (<5)\n- Creatine kinase normal\n- Rheumatoid factor and anti-CCP negative\n- FBC, calcium, TSH, electrolytes and LFTs normal\n\nWhich one of the following is the most appropriate management?",
+  "options": [
+   "Oral prednisolone 15 mg daily, with review of the response in 1–2 weeks",
+   "Oral prednisolone 60 mg daily and urgent temporal artery biopsy",
+   "Regular oral NSAIDs and review in 4 weeks",
+   "Methotrexate as first-line monotherapy",
+   "Intramuscular methylprednisolone 120 mg weekly"
+  ],
+  "correct_answer": "A",
+  "explanation": "CORRECT ANSWER\n\nA. Oral prednisolone 15 mg daily, with review of the response in 1–2 weeks\n\n---\n\nBilateral shoulder and hip girdle aching with prolonged morning stiffness, raised inflammatory markers, a normal CK and no features of another rheumatic disease or giant cell arteritis fits polymyalgia rheumatica. Treatment is oral prednisolone 12.5–25 mg daily (commonly 15 mg). A rapid, marked response supports the diagnosis; a poor response should prompt a search for another cause. The dose is tapered slowly over 1–2 years. Consider bone protection, and tell her to report GCA symptoms urgently.\n\n---\n\nKEY LEARNING POINT\nPMR without GCA features: prednisolone 12.5–25 mg daily (often 15 mg). Expect a dramatic response; if not, reconsider the diagnosis.\n\n---\n\nREFERENCES\n• {\"name\": \"2015 EULAR/ACR recommendations for the management of polymyalgia rheumatica (Dejaco et al., Ann Rheum Dis 2015)\", \"url\": \"https://doi.org/10.1136/annrheumdis-2015-207492\"}\n• {\"name\": \"Therapeutic Guidelines (eTG complete)\", \"url\": \"https://www.tg.org.au\"}",
+  "category": "Adult Medicine",
+  "system_category": "Rheumatology",
+  "subtopic": "Polymyalgia rheumatica without features of giant cell arteritis: prednisolone 15 mg daily",
+  "difficulty": "moderate",
+  "difficulty_tier": 3,
+  "incorrect_answer_explanations": {
+   "B": "This dose is for suspected giant cell arteritis; she has no headache, jaw claudication, scalp tenderness or visual symptoms.",
+   "C": "NSAIDs give little benefit in PMR, carry more risk in older people and delay effective treatment.",
+   "D": "Methotrexate is a steroid-sparing add-on for relapsing disease or high steroid risk, not first-line monotherapy.",
+   "E": "IM methylprednisolone is an alternative in some guidelines, but not as a weekly regimen; oral prednisolone is standard."
+  },
+  "key_takeaways": [
+   "PMR without GCA features: prednisolone 12.5–25 mg daily (often 15 mg). Expect a dramatic response; if not, reconsider the diagnosis."
+  ],
+  "guideline_reference": "{\"name\": \"2015 EULAR/ACR recommendations for the management of polymyalgia rheumatica (Dejaco et al., Ann Rheum Dis 2015)\", \"url\": \"https://doi.org/10.1136/annrheumdis-2015-207492\"}; {\"name\": \"Therapeutic Guidelines (eTG complete)\", \"url\": \"https://www.tg.org.au\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0264",
+   "zyntra_bank",
+   "batch01",
+   "level_3",
+   "task_management",
+   "group_adult_medicine",
+   "sys_rheumatology",
+   "irtb_-0.20",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0265",
+  "question_text": "A 45-year-old man is brought to an emergency department in Ipswich, Queensland, by his housemate, who found him confused and vomiting in the garage near empty containers. He has alcohol use disorder. He is drowsy but rousable, with no focal neurological signs; pupils and fundi are normal. Pulse is 112/min, blood pressure 138/84 mmHg and respiratory rate 30/min.\n\nInvestigations:\n- Venous pH 7.08; bicarbonate 7 mmol/L\n- Sodium 140 mmol/L; chloride 101 mmol/L; potassium 5.0 mmol/L\n- Glucose 5.0 mmol/L; urea 6.0 mmol/L\n- Creatinine 190 µmol/L (60–110)\n- Lactate 2.6 mmol/L (<2.0)\n- Measured serum osmolality 335 mOsm/kg\n- Blood ethanol undetectable\n- Urine microscopy: many envelope-shaped and needle-shaped crystals\n\nWhich one of the following is the most likely cause of his presentation?",
+  "options": [
+   "Methanol poisoning",
+   "Alcoholic ketoacidosis",
+   "Isopropyl alcohol poisoning",
+   "Salicylate poisoning",
+   "Ethylene glycol poisoning"
+  ],
+  "correct_answer": "E",
+  "explanation": "CORRECT ANSWER\n\nE. Ethylene glycol poisoning\n\n---\n\nAnion gap = Na − (Cl + HCO3) = 140 − (101 + 7) = 32 mmol/L, very high and not explained by a lactate of 2.6. Calculated osmolality = 2 × Na + glucose + urea = 280 + 5 + 6 = 291, so the osmolar gap is 335 − 291 = 44 mOsm/kg (normal below about 10) with no ethanol to explain it. A high anion gap acidosis with a high osmolar gap means a toxic alcohol. Calcium oxalate crystals (envelope-shaped dihydrate, needle-shaped monohydrate) and acute kidney injury point to ethylene glycol (antifreeze, coolant). Treatment is fomepizole (or ethanol) to block alcohol dehydrogenase, haemodialysis and correction of acidosis, with advice from the Poisons Information Centre (13 11 26).\n\n---\n\nKEY LEARNING POINT\nHigh anion gap acidosis + high osmolar gap = toxic alcohol. Oxalate crystals + AKI = ethylene glycol; visual disturbance = methanol. Fomepizole and dialysis.\n\n---\n\nREFERENCES\n• {\"name\": \"Therapeutic Guidelines (eTG complete)\", \"url\": \"https://www.tg.org.au\"}\n• {\"name\": \"NSW Poisons Information Centre (13 11 26)\", \"url\": \"https://www.poisonsinfo.nsw.gov.au/\"}",
+  "category": "Adult Medicine",
+  "system_category": "Renal",
+  "subtopic": "High anion gap acidosis with a raised osmolar gap and oxalate crystals: ethylene glycol",
+  "difficulty": "difficult",
+  "difficulty_tier": 5,
+  "incorrect_answer_explanations": {
+   "A": "Methanol also raises both gaps, but typically causes visual symptoms and disc changes, not oxalate crystals and prominent AKI.",
+   "B": "AKA causes a high anion gap acidosis but not a large osmolar gap, oxalate crystals or this degree of AKI.",
+   "C": "Isopropyl alcohol raises the osmolar gap but is metabolised to acetone, causing ketosis without significant acidosis.",
+   "D": "Salicylates cause a high anion gap acidosis, often with respiratory alkalosis and tinnitus, but not a large osmolar gap or oxalate crystals."
+  },
+  "key_takeaways": [
+   "High anion gap acidosis + high osmolar gap = toxic alcohol. Oxalate crystals + AKI = ethylene glycol; visual disturbance = methanol. Fomepizole and dialysis."
+  ],
+  "guideline_reference": "{\"name\": \"Therapeutic Guidelines (eTG complete)\", \"url\": \"https://www.tg.org.au\"}; {\"name\": \"NSW Poisons Information Centre (13 11 26)\", \"url\": \"https://www.poisonsinfo.nsw.gov.au/\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0265",
+   "zyntra_bank",
+   "batch01",
+   "level_5",
+   "task_data_interpretation_synthesis",
+   "group_adult_medicine",
+   "sys_renal",
+   "irtb_+2.00",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0266",
+  "question_text": "A 76-year-old woman presents to an emergency department in Rockhampton, Queensland, 3 hours after the sudden onset of pain and numbness in her right leg while watching television. She has atrial fibrillation but stopped her apixaban 2 months ago because of bruising. She has no history of claudication.\n\nHer pulse is 104/min and irregularly irregular, blood pressure 150/88 mmHg. The right leg is pale and cool from mid-calf down. The right femoral pulse is present but the popliteal and foot pulses are absent. Light touch is mildly reduced over the toes; toe movement is normal. The left leg has normal pulses. Handheld Doppler signals are absent in the right foot arteries but present in the veins.\n\nWhich one of the following is the most appropriate immediate management?",
+  "options": [
+   "Restart apixaban and arrange an outpatient arterial duplex scan",
+   "Give aspirin 300 mg and arrange vascular review the next morning",
+   "Arrange an immediate below-knee amputation",
+   "Give an intravenous bolus of unfractionated heparin and arrange urgent vascular surgical review",
+   "Elevate the leg and apply a warm blanket"
+  ],
+  "correct_answer": "D",
+  "explanation": "CORRECT ANSWER\n\nD. Give an intravenous bolus of unfractionated heparin and arrange urgent vascular surgical review\n\n---\n\nSudden onset of a cold, painful, pulseless leg in a woman with AF off anticoagulation, normal contralateral pulses and no claudication history is acute embolic limb ischaemia (probably popliteal). Mild sensory loss with preserved movement and audible venous but not arterial Doppler signals is Rutherford IIa (marginally threatened). Immediate treatment is an IV unfractionated heparin bolus then infusion to stop clot propagation, analgesia, and urgent vascular surgery for revascularisation (embolectomy or catheter-directed therapy) within hours.\n\n---\n\nKEY LEARNING POINT\nAcute limb ischaemia with a salvageable limb: IV heparin bolus, analgesia and urgent vascular surgery for revascularisation.\n\n---\n\nREFERENCES\n• {\"name\": \"ESVS 2020 clinical practice guidelines on the management of acute limb ischaemia (Eur J Vasc Endovasc Surg 2020)\", \"url\": \"https://doi.org/10.1016/j.ejvs.2019.09.006\"}\n• {\"name\": \"Therapeutic Guidelines (eTG complete)\", \"url\": \"https://www.tg.org.au\"}",
+  "category": "Adult Surgery",
+  "system_category": "Vascular Surgery",
+  "subtopic": "Acute limb ischaemia with a salvageable limb in atrial fibrillation: heparin and urgent vascular review",
+  "difficulty": "moderate",
+  "difficulty_tier": 3,
+  "incorrect_answer_explanations": {
+   "A": "Acute limb ischaemia is a surgical emergency; delay risks limb loss.",
+   "B": "Aspirin does not stop clot propagation adequately, and waiting risks irreversible ischaemia.",
+   "C": "Amputation is for an irreversible (class III) limb with profound sensory loss, paralysis and no arterial or venous Doppler signals.",
+   "E": "Elevation reduces perfusion pressure and warming increases metabolic demand; keep the leg level or slightly dependent."
+  },
+  "key_takeaways": [
+   "Acute limb ischaemia with a salvageable limb: IV heparin bolus, analgesia and urgent vascular surgery for revascularisation."
+  ],
+  "guideline_reference": "{\"name\": \"ESVS 2020 clinical practice guidelines on the management of acute limb ischaemia (Eur J Vasc Endovasc Surg 2020)\", \"url\": \"https://doi.org/10.1016/j.ejvs.2019.09.006\"}; {\"name\": \"Therapeutic Guidelines (eTG complete)\", \"url\": \"https://www.tg.org.au\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0266",
+   "zyntra_bank",
+   "batch01",
+   "level_3",
+   "task_management",
+   "group_adult_surgery",
+   "sys_vascular",
+   "irtb_+0.10",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0267",
+  "question_text": "A 38-year-old man sees his general practitioner in Bunbury, Western Australia, with 4 days of worsening constant throbbing pain beside his anus; sitting is painful. He has had no change in bowel habit or rectal bleeding, and has no inflammatory bowel disease, diabetes or immune compromise.\n\nHis temperature is 37.9 °C. There is a 3 cm tender, red, fluctuant swelling 2 cm from the anal verge at the 4 o'clock position. Digital rectal examination is too painful to complete.\n\nWhich one of the following is the most appropriate management?",
+  "options": [
+   "Oral amoxicillin–clavulanate and review in 1 week",
+   "Sitz baths, stool softeners and topical glyceryl trinitrate",
+   "Rubber band ligation",
+   "Same-day referral for incision and drainage",
+   "Elective colonoscopy"
+  ],
+  "correct_answer": "D",
+  "explanation": "CORRECT ANSWER\n\nD. Same-day referral for incision and drainage\n\n---\n\nA tender fluctuant perianal swelling with fever is a perianal abscess. Definitive treatment is prompt surgical incision and drainage, usually under anaesthesia so that examination under anaesthesia can also look for a fistula. Antibiotics alone do not cure an established abscess; they are added for spreading cellulitis, systemic sepsis, diabetes or immune compromise. Delay risks spread to deeper spaces.\n\n---\n\nKEY LEARNING POINT\nPerianal abscess: urgent incision and drainage. Antibiotics alone are not enough.\n\n---\n\nREFERENCES\n• {\"name\": \"Therapeutic Guidelines (eTG complete)\", \"url\": \"https://www.tg.org.au\"}\n• {\"name\": \"ASCRS clinical practice guidelines for the management of anorectal abscess, fistula-in-ano and rectovaginal fistula (Dis Colon Rectum 2022)\", \"url\": \"https://doi.org/10.1097/DCR.0000000000002473\"}",
+  "category": "Adult Surgery",
+  "system_category": "General Surgery",
+  "subtopic": "Perianal abscess: incision and drainage",
+  "difficulty": "easy",
+  "difficulty_tier": 2,
+  "incorrect_answer_explanations": {
+   "A": "Antibiotics alone do not treat an established collection, and the abscess may spread.",
+   "B": "This treats an anal fissure (sharp pain on defecation, posterior midline tear), not a fluctuant mass.",
+   "C": "Banding is for internal haemorrhoids; it does not treat infection.",
+   "E": "Colonoscopy may be needed later if Crohn disease is suspected but does not treat the abscess."
+  },
+  "key_takeaways": [
+   "Perianal abscess: urgent incision and drainage. Antibiotics alone are not enough."
+  ],
+  "guideline_reference": "{\"name\": \"Therapeutic Guidelines (eTG complete)\", \"url\": \"https://www.tg.org.au\"}; {\"name\": \"ASCRS clinical practice guidelines for the management of anorectal abscess, fistula-in-ano and rectovaginal fistula (Dis Colon Rectum 2022)\", \"url\": \"https://doi.org/10.1097/DCR.0000000000002473\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0267",
+   "zyntra_bank",
+   "batch01",
+   "level_2",
+   "task_management",
+   "group_adult_surgery",
+   "sys_general_surgery",
+   "irtb_-0.90",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0268",
+  "question_text": "A 64-year-old man presents to an emergency department in Ballarat, Victoria, with 2 days of constant left iliac fossa pain and loose stools. He has never had a colonoscopy; his last screening iFOBT 4 years ago was negative.\n\nHis temperature is 38.1 °C, pulse 98/min and blood pressure 132/80 mmHg. There is localised left iliac fossa tenderness and guarding, without generalised peritonism. Bowel sounds are present.\n\nInvestigations:\n- White cell count 14.2 × 10^9/L (4.0–11.0)\n- CRP 128 mg/L (<5)\n- Creatinine and liver function normal\n\nWhich one of the following is the most appropriate investigation to confirm the diagnosis?",
+  "options": [
+   "Colonoscopy during this admission",
+   "Plain abdominal X-ray",
+   "CT scan of the abdomen and pelvis with intravenous contrast",
+   "Barium enema",
+   "Faecal calprotectin"
+  ],
+  "correct_answer": "C",
+  "explanation": "CORRECT ANSWER\n\nC. CT scan of the abdomen and pelvis with intravenous contrast\n\n---\n\nLeft iliac fossa pain, fever and raised inflammatory markers in an older adult suggest acute diverticulitis. With no previous episode, imaging is needed to confirm it, to separate uncomplicated from complicated disease (abscess, perforation, fistula, obstruction) and to exclude other causes; contrast CT is preferred. Uncomplicated disease in a well, immunocompetent patient may be managed without antibiotics; an abscess may need drainage. Colonoscopy is usually done 6–8 weeks after recovery to exclude cancer if the colon has not been recently assessed.\n\n---\n\nKEY LEARNING POINT\nSuspected first diverticulitis: CT abdomen/pelvis with IV contrast. Defer colonoscopy for 6–8 weeks.\n\n---\n\nREFERENCES\n• {\"name\": \"Therapeutic Guidelines (eTG complete)\", \"url\": \"https://www.tg.org.au\"}\n• {\"name\": \"ASCRS clinical practice guidelines for the management of left-sided colonic diverticulitis (Dis Colon Rectum 2020)\", \"url\": \"https://doi.org/10.1097/DCR.0000000000001679\"}",
+  "category": "Adult Surgery",
+  "system_category": "General Surgery",
+  "subtopic": "Suspected first episode of acute diverticulitis: contrast CT to confirm and stage",
+  "difficulty": "moderate",
+  "difficulty_tier": 3,
+  "incorrect_answer_explanations": {
+   "A": "Colonoscopy in acute diverticulitis risks perforation and is deferred for about 6–8 weeks.",
+   "B": "A plain film may show free gas or obstruction but cannot diagnose or stage diverticulitis.",
+   "D": "Contrast enema has no acute role, and barium can cause severe peritonitis if perforated.",
+   "E": "Calprotectin helps separate IBD from functional disorders; it does not confirm diverticulitis or its complications."
+  },
+  "key_takeaways": [
+   "Suspected first diverticulitis: CT abdomen/pelvis with IV contrast. Defer colonoscopy for 6–8 weeks."
+  ],
+  "guideline_reference": "{\"name\": \"Therapeutic Guidelines (eTG complete)\", \"url\": \"https://www.tg.org.au\"}; {\"name\": \"ASCRS clinical practice guidelines for the management of left-sided colonic diverticulitis (Dis Colon Rectum 2020)\", \"url\": \"https://doi.org/10.1097/DCR.0000000000001679\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0268",
+   "zyntra_bank",
+   "batch01",
+   "level_3",
+   "task_data_gathering",
+   "group_adult_surgery",
+   "sys_general_surgery",
+   "irtb_-0.10",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0269",
+  "question_text": "An 82-year-old man from a residential aged care facility in Mildura, Victoria, is brought to the emergency department with 2 days of increasing abdominal distension, colicky pain and no passage of stool or flatus. He has Parkinson disease and chronic constipation, and takes regular opioids for back pain.\n\nHe is afebrile, pulse 96/min, blood pressure 128/76 mmHg. His abdomen is grossly distended and tympanic, with mild generalised tenderness but no guarding. Bowel sounds are high-pitched. The rectum is empty.\n\nA supine abdominal X-ray shows a hugely dilated inverted-U loop of large bowel without haustra ('coffee bean'), arising from the left lower quadrant and pointing to the right upper quadrant. There is no free gas on the erect chest X-ray.\n\nWhich one of the following is the most likely diagnosis?",
+  "options": [
+   "Caecal volvulus",
+   "Sigmoid volvulus",
+   "Acute colonic pseudo-obstruction (Ogilvie syndrome)",
+   "Obstructing sigmoid carcinoma",
+   "Adhesive small bowel obstruction"
+  ],
+  "correct_answer": "B",
+  "explanation": "CORRECT ANSWER\n\nB. Sigmoid volvulus\n\n---\n\nAn older institutionalised man with neurological disease, chronic constipation and opioid use is the typical patient. The 'coffee bean' (bent inner tube) sign, a hugely dilated haustra-free loop arising from the pelvis and pointing towards the right upper quadrant, is characteristic; CT can confirm it (whirl sign). Without ischaemia or perforation, initial treatment is endoscopic decompression (flexible sigmoidoscopy) with a flatus tube. Recurrence is common, so elective sigmoid colectomy during the same admission is usually advised if he is fit.\n\n---\n\nKEY LEARNING POINT\n'Coffee bean' loop from pelvis to RUQ in an older constipated patient = sigmoid volvulus. Endoscopic decompression if no ischaemia, then consider colectomy.\n\n---\n\nREFERENCES\n• {\"name\": \"ASCRS clinical practice guidelines for the management of colonic volvulus and acute colonic pseudo-obstruction (Dis Colon Rectum 2021)\", \"url\": \"https://doi.org/10.1097/DCR.0000000000002165\"}",
+  "category": "Adult Surgery",
+  "system_category": "General Surgery",
+  "subtopic": "Large bowel obstruction in an older institutionalised man: sigmoid volvulus on plain X-ray",
+  "difficulty": "moderate",
+  "difficulty_tier": 3,
+  "incorrect_answer_explanations": {
+   "A": "Caecal volvulus gives a dilated loop in the left upper quadrant with small bowel dilatation, usually in younger patients.",
+   "C": "Pseudo-obstruction shows diffuse colonic dilatation (often caecal), not a single twisted loop.",
+   "D": "A tumour causes proximal colonic dilatation with preserved haustra, not a single haustra-free twisted loop.",
+   "E": "Small bowel loops are central with valvulae conniventes; this is a large bowel loop and he has no surgical history."
+  },
+  "key_takeaways": [
+   "'Coffee bean' loop from pelvis to RUQ in an older constipated patient = sigmoid volvulus. Endoscopic decompression if no ischaemia, then consider colectomy."
+  ],
+  "guideline_reference": "{\"name\": \"ASCRS clinical practice guidelines for the management of colonic volvulus and acute colonic pseudo-obstruction (Dis Colon Rectum 2021)\", \"url\": \"https://doi.org/10.1097/DCR.0000000000002165\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0269",
+   "zyntra_bank",
+   "batch01",
+   "level_3",
+   "task_data_interpretation_synthesis",
+   "group_adult_surgery",
+   "sys_general_surgery",
+   "irtb_+0.30",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0270",
+  "question_text": "A 22-year-old right-handed man sees his general practitioner in Mackay, Queensland, the day after falling onto his outstretched right hand while skateboarding. He has pain on the radial side of the wrist.\n\nThere is mild swelling and marked tenderness in the anatomical snuffbox, and pain on axial compression of the thumb. There is no deformity and the hand is neurovascularly intact.\n\nWrist X-rays, including dedicated scaphoid views, show no fracture.\n\nWhich one of the following is the most appropriate next step?",
+  "options": [
+   "Immobilise the wrist in a splint and arrange further scaphoid imaging",
+   "Reassure him that it is a sprain and apply a compression bandage",
+   "Refer for urgent open reduction and internal fixation",
+   "Arrange a wrist ultrasound",
+   "Start range-of-motion exercises and review if pain persists at 6 weeks"
+  ],
+  "correct_answer": "A",
+  "explanation": "CORRECT ANSWER\n\nA. Immobilise the wrist in a splint and arrange further scaphoid imaging\n\n---\n\nSnuffbox tenderness and pain on axial thumb loading after a fall on the outstretched hand mean a scaphoid fracture must be presumed even when first X-rays are normal; about 20% of clinically suspected fractures with normal initial films are true fractures. Because the proximal pole's blood supply is retrograde, a missed waist fracture risks non-union and avascular necrosis. Immobilise the wrist (a short-arm cast or splint is as effective as a thumb spica) and arrange early review with further imaging: repeat scaphoid X-rays at about 10–14 days in fracture clinic, with MRI if tenderness persists and the repeat film is normal, or early MRI/CT where available. A confirmed fracture is immobilised for about 6 weeks.\n\n---\n\nKEY LEARNING POINT\nSnuffbox tenderness with a normal X-ray: treat as a scaphoid fracture. Immobilise and re-image (MRI/CT, or repeat X-ray at 10–14 days).\n\n---\n\nREFERENCES\n• {\"name\": \"Royal Children's Hospital. Scaphoid fractures – emergency management (clinical practice guideline)\", \"url\": \"https://www.rch.org.au/clinicalguide/guideline_index/fractures/Scaphoid_Fractures_%E2%80%93_Emergency_Management/\"}",
+  "category": "Adult Surgery",
+  "system_category": "Orthopaedics",
+  "subtopic": "Suspected scaphoid fracture with a normal initial X-ray: immobilise and re-image",
+  "difficulty": "easy",
+  "difficulty_tier": 2,
+  "incorrect_answer_explanations": {
+   "B": "A normal first X-ray does not exclude a scaphoid fracture; missing one risks non-union and AVN.",
+   "C": "Surgery is for confirmed displaced or proximal pole fractures; none is confirmed yet.",
+   "D": "Ultrasound is not reliable for occult scaphoid fracture.",
+   "E": "Mobilising an unrecognised fracture increases the risk of non-union."
+  },
+  "key_takeaways": [
+   "Snuffbox tenderness with a normal X-ray: treat as a scaphoid fracture. Immobilise and re-image (MRI/CT, or repeat X-ray at 10–14 days)."
+  ],
+  "guideline_reference": "{\"name\": \"Royal Children's Hospital. Scaphoid fractures – emergency management (clinical practice guideline)\", \"url\": \"https://www.rch.org.au/clinicalguide/guideline_index/fractures/Scaphoid_Fractures_%E2%80%93_Emergency_Management/\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0270",
+   "zyntra_bank",
+   "batch01",
+   "level_2",
+   "task_data_gathering",
+   "group_adult_surgery",
+   "sys_orthopaedics",
+   "irtb_-1.10",
+   "pending_owner_review",
+   "flag_source_check"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0271",
+  "question_text": "A 34-year-old woman presents to an emergency department in Darwin, Northern Territory, 2 hours after rolling her right ankle inwards stepping off a kerb. She has pain over the outside of the ankle.\n\nThere is swelling and bruising below and in front of the lateral malleolus. The doctor applies the Ottawa ankle rules to decide whether she needs an X-ray.\n\nWhich one of the following findings would indicate that an ankle X-ray is needed?",
+  "options": [
+   "Swelling and bruising over the lateral ankle",
+   "Tenderness over the anterior talofibular ligament",
+   "Pain when walking, although she can take four steps",
+   "Age over 30 years",
+   "Bone tenderness at the posterior edge of the distal 6 cm of the lateral malleolus"
+  ],
+  "correct_answer": "E",
+  "explanation": "CORRECT ANSWER\n\nE. Bone tenderness at the posterior edge of the distal 6 cm of the lateral malleolus\n\n---\n\nThe Ottawa ankle rules say an ankle X-ray is needed if there is malleolar-zone pain and any of: bone tenderness along the posterior edge or tip of the distal 6 cm of the lateral malleolus; the same at the medial malleolus; or inability to bear weight for four steps both immediately and in the ED. A foot X-ray is needed for midfoot pain with tenderness at the base of the fifth metatarsal or the navicular, or inability to bear weight. The rules are close to 100% sensitive for clinically significant fractures and reduce unnecessary imaging.\n\n---\n\nKEY LEARNING POINT\nOttawa ankle rules: X-ray if bone tenderness at the posterior edge or tip of the distal 6 cm of either malleolus, or inability to take 4 steps at injury and in the ED.\n\n---\n\nREFERENCES\n• {\"name\": \"Stiell IG et al. Decision rules for the use of radiography in acute ankle injuries (JAMA 1993)\", \"url\": \"https://doi.org/10.1001/jama.1993.03500080039030\"}",
+  "category": "Adult Surgery",
+  "system_category": "Orthopaedics",
+  "subtopic": "Ottawa ankle rules: which finding mandates an ankle X-ray",
+  "difficulty": "easy",
+  "difficulty_tier": 2,
+  "incorrect_answer_explanations": {
+   "A": "Swelling and bruising are common in sprains and are not part of the rules.",
+   "B": "ATFL soft-tissue tenderness indicates a sprain; it is not an X-ray criterion.",
+   "C": "Taking four steps, even with a limp, does not meet the weight-bearing criterion.",
+   "D": "Age is not a criterion in the Ottawa ankle rules."
+  },
+  "key_takeaways": [
+   "Ottawa ankle rules: X-ray if bone tenderness at the posterior edge or tip of the distal 6 cm of either malleolus, or inability to take 4 steps at injury and in the ED."
+  ],
+  "guideline_reference": "{\"name\": \"Stiell IG et al. Decision rules for the use of radiography in acute ankle injuries (JAMA 1993)\", \"url\": \"https://doi.org/10.1001/jama.1993.03500080039030\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0271",
+   "zyntra_bank",
+   "batch01",
+   "level_2",
+   "task_data_gathering",
+   "group_adult_surgery",
+   "sys_orthopaedics",
+   "irtb_-1.40",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0272",
+  "question_text": "A 24-year-old man arrives by ambulance at a major trauma centre in Brisbane 25 minutes after being stabbed once in the left chest. He is anxious and pale.\n\nHis airway is patent and he is talking. Respiratory rate is 26/min and SpO2 97% on 15 L/min via non-rebreather. Breath sounds are equal, the trachea is central and percussion is resonant bilaterally. Pulse is 128/min and blood pressure 82/60 mmHg, falling by 15 mmHg systolic on inspiration. His neck veins are distended and heart sounds are quiet. There is a 2 cm wound just left of the sternum in the 4th intercostal space, and no other injury.\n\nTwo large-bore cannulas are in place and an eFAST is being performed.\n\nWhich one of the following is the most likely cause of his shock?",
+  "options": [
+   "Tension pneumothorax",
+   "Massive haemothorax",
+   "Cardiac tamponade",
+   "Hypovolaemic shock from an intercostal artery injury",
+   "Blunt cardiac injury with cardiogenic shock"
+  ],
+  "correct_answer": "C",
+  "explanation": "CORRECT ANSWER\n\nC. Cardiac tamponade\n\n---\n\nA stab wound in the 'cardiac box' with shock, distended neck veins and quiet heart sounds (Beck's triad) plus pulsus paradoxus (inspiratory systolic fall above 10 mmHg) indicates obstructive shock from cardiac tamponade. Equal breath sounds, a central trachea and resonant percussion make tension pneumothorax and massive haemothorax unlikely. eFAST will show pericardial fluid. Management is immediate surgical decompression (thoracotomy or sternotomy by the trauma team); pericardiocentesis is only a temporising measure when surgery is unavailable.\n\n---\n\nKEY LEARNING POINT\nPenetrating 'cardiac box' wound + shock + raised JVP + quiet heart sounds + pulsus paradoxus = tamponade. Urgent surgical decompression.\n\n---\n\nREFERENCES\n• {\"name\": \"RACS Early Management of Severe Trauma (EMST/ATLS) course manual\", \"url\": \"https://www.surgeons.org/en/education/skills-training-courses/emst\"}",
+  "category": "Adult Surgery",
+  "system_category": "Trauma",
+  "subtopic": "Penetrating chest wound with hypotension, raised JVP and quiet heart sounds: cardiac tamponade",
+  "difficulty": "difficult",
+  "difficulty_tier": 4,
+  "incorrect_answer_explanations": {
+   "A": "Also causes shock and distended neck veins, but with absent breath sounds and hyper-resonance on the affected side.",
+   "B": "Causes hypovolaemic shock with flat neck veins, reduced breath sounds and dullness on the injured side.",
+   "D": "Hypovolaemia gives collapsed neck veins and does not explain pulsus paradoxus or quiet heart sounds.",
+   "E": "This follows blunt trauma, with arrhythmia and raised troponin; he has a penetrating wound with signs of a pericardial collection."
+  },
+  "key_takeaways": [
+   "Penetrating 'cardiac box' wound + shock + raised JVP + quiet heart sounds + pulsus paradoxus = tamponade. Urgent surgical decompression."
+  ],
+  "guideline_reference": "{\"name\": \"RACS Early Management of Severe Trauma (EMST/ATLS) course manual\", \"url\": \"https://www.surgeons.org/en/education/skills-training-courses/emst\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0272",
+   "zyntra_bank",
+   "batch01",
+   "level_4",
+   "task_data_interpretation_synthesis",
+   "group_adult_surgery",
+   "sys_trauma",
+   "irtb_+1.10",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0273",
+  "question_text": "A 41-year-old man presents to an emergency department in Townsville, Queensland, with sudden severe colicky right loin-to-groin pain that began 6 hours ago. He has no fever or rigors. His pain is now controlled after an NSAID, and his observations are normal.\n\nInvestigations:\n- Urinalysis: blood 3+, nitrites and leucocytes negative\n- White cell count 8.2 × 10^9/L (4.0–11.0)\n- Creatinine 82 µmol/L (60–110)\n- Non-contrast CT KUB: a single 6 mm stone in the right distal ureter 2 cm above the vesicoureteric junction, with mild right hydronephrosis; normal left kidney\n\nWhich one of the following is the most appropriate management?",
+  "options": [
+   "Discharge with an NSAID, tamsulosin, and urology follow-up with repeat imaging",
+   "Urgent ureteric stent or nephrostomy",
+   "Admit for emergency ureteroscopy tonight",
+   "Oral potassium citrate and review in 3 months",
+   "Oral antibiotics for 7 days and discharge without follow-up"
+  ],
+  "correct_answer": "A",
+  "explanation": "CORRECT ANSWER\n\nA. Discharge with an NSAID, tamsulosin, and urology follow-up with repeat imaging\n\n---\n\nThis is an uncomplicated stone: no infection, normal renal function, two kidneys and controlled pain. Stones of 5–7 mm pass with conservative management in about 60% of cases, and the RACGP review advises NSAIDs as the most effective analgesia and routine tamsulosin 400 µg daily in conservatively managed renal colic (off-label, and not PBS-listed for urolithiasis). Tamsulosin's benefit is mainly for distal stones over 5 mm. He should strain his urine, have follow-up imaging at about 4 weeks (unless the stone is retrieved), and see a urologist if the stone has not passed by about 3 weeks or pain is not controlled. He should return immediately for fever or uncontrolled pain. Urgent drainage is for infection, a single kidney, bilateral obstruction, anuria or poor renal reserve.\n\n---\n\nKEY LEARNING POINT\nUncomplicated distal ureteric stone 5–10 mm: NSAID, tamsulosin and follow-up imaging. Drain urgently only if infected, AKI, solitary kidney or uncontrolled pain.\n\n---\n\nREFERENCES\n• {\"name\": \"Sewell J et al. Urolithiasis – ten things every general practitioner should know. Aust Fam Physician 2017;46(9) (RACGP)\", \"url\": \"https://www.racgp.org.au/afp/2017/september/urolithiasis\"}\n• {\"name\": \"EAU Guidelines on Urolithiasis: medical expulsive therapy\", \"url\": \"https://uroweb.org/guidelines/urolithiasis/chapter/guidelines\"}",
+  "category": "Adult Surgery",
+  "system_category": "Urology",
+  "subtopic": "Uncomplicated 6 mm distal ureteric stone: analgesia, tamsulosin and follow-up",
+  "difficulty": "moderate",
+  "difficulty_tier": 3,
+  "incorrect_answer_explanations": {
+   "B": "Urgent decompression is for an obstructed infected kidney, AKI, a solitary kidney or uncontrolled pain.",
+   "C": "Emergency intervention is not needed for an uncomplicated 6 mm distal stone.",
+   "D": "Citrate helps prevent some recurrences; it does not help an acute stone pass, and 3 months is too long.",
+   "E": "He has no infection and needs follow-up to confirm stone passage."
+  },
+  "key_takeaways": [
+   "Uncomplicated distal ureteric stone 5–10 mm: NSAID, tamsulosin and follow-up imaging. Drain urgently only if infected, AKI, solitary kidney or uncontrolled pain."
+  ],
+  "guideline_reference": "{\"name\": \"Sewell J et al. Urolithiasis – ten things every general practitioner should know. Aust Fam Physician 2017;46(9) (RACGP)\", \"url\": \"https://www.racgp.org.au/afp/2017/september/urolithiasis\"}; {\"name\": \"EAU Guidelines on Urolithiasis: medical expulsive therapy\", \"url\": \"https://uroweb.org/guidelines/urolithiasis/chapter/guidelines\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0273",
+   "zyntra_bank",
+   "batch01",
+   "level_3",
+   "task_management",
+   "group_adult_surgery",
+   "sys_urology",
+   "irtb_-0.30",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0274",
+  "question_text": "A 19-year-old man is brought to an emergency department in Orange, NSW, after being struck on the right side of the head by a cricket ball 2 hours ago. He was unconscious for about a minute, then talked normally and walked to the car. Over the last 30 minutes he has become increasingly drowsy and has vomited twice.\n\nHis GCS is now 11 (E3 V3 M5). The right pupil is 5 mm and sluggish; the left is 3 mm and brisk. There is a boggy right temporal swelling. Pulse is 58/min and blood pressure 168/92 mmHg.\n\nNon-contrast CT brain shows a right temporoparietal lens-shaped hyperdense collection that does not cross suture lines, with 6 mm midline shift and an overlying skull fracture.\n\nWhich one of the following is the most likely diagnosis?",
+  "options": [
+   "Acute subdural haematoma",
+   "Traumatic subarachnoid haemorrhage",
+   "Acute extradural haematoma",
+   "Diffuse axonal injury",
+   "Cerebral contusion"
+  ],
+  "correct_answer": "C",
+  "explanation": "CORRECT ANSWER\n\nC. Acute extradural haematoma\n\n---\n\nA temporal blow with skull fracture, brief loss of consciousness, a lucid interval and then rapid decline is the classic picture of an extradural haematoma, usually from middle meningeal artery injury. On CT it is biconvex because blood strips dura from bone, and it is limited by sutures where dura is firmly attached. An ipsilateral dilating pupil (uncal herniation) and Cushing's response (bradycardia, hypertension) mean emergency neurosurgical evacuation; in a rural hospital, immediate discussion with the neurosurgical centre and retrieval, with airway protection and measures to reduce ICP meanwhile.\n\n---\n\nKEY LEARNING POINT\nLucid interval + temporal fracture + biconvex collection limited by sutures = extradural haematoma. A blown pupil means emergency evacuation.\n\n---\n\nREFERENCES\n• {\"name\": \"RACS Early Management of Severe Trauma (EMST/ATLS) course manual\", \"url\": \"https://www.surgeons.org/en/education/skills-training-courses/emst\"}\n• {\"name\": \"NSW Agency for Clinical Innovation. Adult trauma clinical practice guidelines: initial management of closed head injury in adults\", \"url\": \"https://aci.health.nsw.gov.au/networks/institute-of-trauma-and-injury-management\"}",
+  "category": "Adult Surgery",
+  "system_category": "Trauma",
+  "subtopic": "Head injury with a lucid interval and a biconvex collection: extradural haematoma",
+  "difficulty": "moderate",
+  "difficulty_tier": 3,
+  "incorrect_answer_explanations": {
+   "A": "Subdural blood is crescentic, crosses sutures (not the falx), and usually comes from bridging veins in older people or high-energy injury.",
+   "B": "Subarachnoid blood fills sulci and cisterns, not a lens-shaped collection with mass effect.",
+   "D": "DAI causes immediate, persistent coma with little on CT, not a lucid interval.",
+   "E": "A contusion is intraparenchymal haemorrhage, not a collection between skull and dura."
+  },
+  "key_takeaways": [
+   "Lucid interval + temporal fracture + biconvex collection limited by sutures = extradural haematoma. A blown pupil means emergency evacuation."
+  ],
+  "guideline_reference": "{\"name\": \"RACS Early Management of Severe Trauma (EMST/ATLS) course manual\", \"url\": \"https://www.surgeons.org/en/education/skills-training-courses/emst\"}; {\"name\": \"NSW Agency for Clinical Innovation. Adult trauma clinical practice guidelines: initial management of closed head injury in adults\", \"url\": \"https://aci.health.nsw.gov.au/networks/institute-of-trauma-and-injury-management\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0274",
+   "zyntra_bank",
+   "batch01",
+   "level_3",
+   "task_data_interpretation_synthesis",
+   "group_adult_surgery",
+   "sys_trauma",
+   "irtb_+0.50",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0275",
+  "question_text": "A 48-year-old woman had a total thyroidectomy for multinodular goitre 5 hours ago at a private hospital in Adelaide. The nurse calls you, the surgical resident, because she has become anxious and breathless and says her neck feels tight.\n\nShe has audible inspiratory stridor, respiratory rate 30/min and SpO2 91% on 6 L/min via face mask. Pulse is 116/min and blood pressure 158/92 mmHg. The neck is visibly swollen and tense under the dressing, and the drain contains little blood. She can speak in short phrases.\n\nThe anaesthetist and surgeon have been called and are 10 minutes away.\n\nWhich one of the following is the most appropriate immediate action?",
+  "options": [
+   "Give nebulised adrenaline and IV dexamethasone and observe closely",
+   "Perform an emergency needle cricothyroidotomy",
+   "Attempt rapid sequence intubation on the ward",
+   "Arrange an urgent neck ultrasound",
+   "Remove the dressing, cut the skin sutures and open the wound, including the strap muscle layer, at the bedside"
+  ],
+  "correct_answer": "E",
+  "explanation": "CORRECT ANSWER\n\nE. Remove the dressing, cut the skin sutures and open the wound, including the strap muscle layer, at the bedside\n\n---\n\nIncreasing neck swelling with stridor and hypoxia after thyroidectomy is a compressive haematoma, which can obstruct the airway within minutes through venous and lymphatic congestion and laryngeal oedema. A blocked or poorly draining drain does not exclude it. The emergency treatment is immediate bedside wound opening (the 'SCOOP' approach: Skin exposure, Cut sutures, Open skin, Open muscles, Pack) to release the clot, with high-flow oxygen and help called. She then returns to theatre for haemostasis, with the airway managed by an experienced anaesthetist. Decompression comes before attempts at intubation, which are very difficult through a distorted, oedematous airway.\n\n---\n\nKEY LEARNING POINT\nPost-thyroidectomy haematoma with airway compromise: open the wound at the bedside (SCOOP) immediately, then return to theatre.\n\n---\n\nREFERENCES\n• {\"name\": \"Difficult Airway Society. Management of haematoma after thyroid surgery: systematic review and multidisciplinary consensus guidelines (Iliff et al., Anaesthesia 2022)\", \"url\": \"https://doi.org/10.1111/anae.15585\"}",
+  "category": "Adult Surgery",
+  "system_category": "ENT & Ophthalmology",
+  "subtopic": "Expanding neck haematoma with stridor after thyroidectomy: open the wound at the bedside",
+  "difficulty": "difficult",
+  "difficulty_tier": 4,
+  "incorrect_answer_explanations": {
+   "A": "These may reduce laryngeal oedema but do not relieve compression by the haematoma.",
+   "B": "A front-of-neck airway is a last resort; opening the wound is the first step and may relieve the obstruction.",
+   "C": "Intubation is likely to be very difficult and should not be attempted on the ward before decompression.",
+   "D": "Imaging delays treatment of a clinical emergency."
+  },
+  "key_takeaways": [
+   "Post-thyroidectomy haematoma with airway compromise: open the wound at the bedside (SCOOP) immediately, then return to theatre."
+  ],
+  "guideline_reference": "{\"name\": \"Difficult Airway Society. Management of haematoma after thyroid surgery: systematic review and multidisciplinary consensus guidelines (Iliff et al., Anaesthesia 2022)\", \"url\": \"https://doi.org/10.1111/anae.15585\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0275",
+   "zyntra_bank",
+   "batch01",
+   "level_4",
+   "task_management",
+   "group_adult_surgery",
+   "sys_ent_ophthalmology",
+   "irtb_+1.40",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0276",
+  "question_text": "A 30-year-old woman, gravida 2 para 1, at 39 weeks' gestation presents in spontaneous labour to a maternity unit in Wagga Wagga, NSW. Her rectovaginal swab at 36 weeks grew group B streptococcus. Her membranes are intact, she is afebrile and her cervix is 5 cm dilated.\n\nAs a child she developed a mild, itchy, non-blistering rash on day 5 of a course of amoxicillin, which resolved by itself. She has never had hives, swelling, breathing difficulty or a severe skin reaction with any medicine.\n\nWhich one of the following is the most appropriate intrapartum management?",
+  "options": [
+   "Intravenous benzylpenicillin until birth",
+   "Intravenous cefazolin until birth",
+   "Intravenous clindamycin until birth",
+   "No antibiotics, because her membranes are intact",
+   "Oral amoxicillin when she reaches full dilatation"
+  ],
+  "correct_answer": "B",
+  "explanation": "CORRECT ANSWER\n\nB. Intravenous cefazolin until birth\n\n---\n\nShe is GBS-colonised, so intrapartum antibiotic prophylaxis is recommended to reduce early-onset neonatal GBS disease, ideally starting at least 4 hours before birth. The usual drug is IV benzylpenicillin. For a non-severe, delayed (non-immediate) penicillin reaction, eTG and state maternity guidelines recommend IV cefazolin. Clindamycin is reserved for immediate or severe hypersensitivity and depends on susceptibility, as clindamycin resistance in GBS is increasing.\n\n---\n\nKEY LEARNING POINT\nGBS-positive in labour: IV benzylpenicillin; non-severe delayed penicillin reaction: IV cefazolin; immediate or severe reaction: clindamycin if susceptible.\n\n---\n\nREFERENCES\n• {\"name\": \"Therapeutic Guidelines (eTG complete)\", \"url\": \"https://www.tg.org.au\"}\n• {\"name\": \"Queensland Clinical Guidelines. Early onset Group B streptococcal disease\", \"url\": \"https://www.health.qld.gov.au/qcg\"}\n• {\"name\": \"RANZCOG Statements and Guidelines directory\", \"url\": \"https://ranzcog.edu.au/resources/statements-and-guidelines-directory/\"}",
+  "category": "Women's Health",
+  "system_category": "Obstetrics",
+  "subtopic": "GBS-positive woman in labour with a non-severe delayed penicillin reaction: intrapartum cefazolin",
+  "difficulty": "moderate",
+  "difficulty_tier": 3,
+  "incorrect_answer_explanations": {
+   "A": "First-line without allergy; with a documented non-severe delayed reaction, cefazolin is used.",
+   "C": "Reserved for immediate or severe penicillin hypersensitivity, and only if the isolate is susceptible.",
+   "D": "GBS colonisation is an indication for prophylaxis regardless of membrane status.",
+   "E": "Oral therapy does not reach adequate levels quickly, amoxicillin is a penicillin, and starting late gives too little time."
+  },
+  "key_takeaways": [
+   "GBS-positive in labour: IV benzylpenicillin; non-severe delayed penicillin reaction: IV cefazolin; immediate or severe reaction: clindamycin if susceptible."
+  ],
+  "guideline_reference": "{\"name\": \"Therapeutic Guidelines (eTG complete)\", \"url\": \"https://www.tg.org.au\"}; {\"name\": \"Queensland Clinical Guidelines. Early onset Group B streptococcal disease\", \"url\": \"https://www.health.qld.gov.au/qcg\"}; {\"name\": \"RANZCOG Statements and Guidelines directory\", \"url\": \"https://ranzcog.edu.au/resources/statements-and-guidelines-directory/\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0276",
+   "zyntra_bank",
+   "batch01",
+   "level_3",
+   "task_management",
+   "group_womens_health",
+   "sys_obstetrics",
+   "irtb_+0.20",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0277",
+  "question_text": "A 33-year-old primigravida with insulin-treated gestational diabetes is in the second stage of labour at 40 weeks in a regional hospital in Lismore, NSW. After the head is delivered it retracts against the perineum (the 'turtle sign') and does not restitute. Gentle axial traction fails to deliver the anterior shoulder.\n\nThe emergency bell has been pressed, the time of head delivery noted, and the obstetric registrar, a second midwife and the paediatric team are in the room. She is lying flat on the bed.\n\nWhich one of the following is the most appropriate next step?",
+  "options": [
+   "Apply fundal pressure",
+   "Apply strong downward traction to the head",
+   "Replace the head and perform a caesarean section (Zavanelli manoeuvre)",
+   "Perform an episiotomy as the first step",
+   "Hyperflex and abduct her hips onto her abdomen (McRoberts manoeuvre)"
+  ],
+  "correct_answer": "E",
+  "explanation": "CORRECT ANSWER\n\nE. Hyperflex and abduct her hips onto her abdomen (McRoberts manoeuvre)\n\n---\n\nThis is shoulder dystocia. After calling for help, the first manoeuvre is McRoberts: with the woman flat, her hips are hyperflexed and abducted onto her abdomen, which flattens the sacral promontory and rotates the symphysis upwards; it resolves a large proportion of cases. It is usually combined with suprapubic pressure from the side of the fetal back. If these fail, internal manoeuvres (posterior arm delivery, rotational manoeuvres) or the all-fours position follow. Fundal pressure and strong lateral traction must be avoided.\n\n---\n\nKEY LEARNING POINT\nShoulder dystocia: call for help, then McRoberts plus suprapubic pressure. Avoid fundal pressure and excessive traction.\n\n---\n\nREFERENCES\n• {\"name\": \"RCOG Green-top Guideline No. 42: Shoulder dystocia\", \"url\": \"https://www.rcog.org.uk/guidance/browse-all-guidance/green-top-guidelines/shoulder-dystocia-green-top-guideline-no-42/\"}\n• {\"name\": \"Queensland Clinical Guidelines. Shoulder dystocia\", \"url\": \"https://www.health.qld.gov.au/qcg\"}",
+  "category": "Women's Health",
+  "system_category": "Obstetrics",
+  "subtopic": "Shoulder dystocia: McRoberts manoeuvre first",
+  "difficulty": "easy",
+  "difficulty_tier": 2,
+  "incorrect_answer_explanations": {
+   "A": "Fundal pressure further impacts the shoulder and increases the risk of uterine rupture and brachial plexus injury.",
+   "B": "Excessive traction greatly increases brachial plexus injury; only gentle axial traction is used.",
+   "C": "This is a last resort after all other manoeuvres fail.",
+   "D": "Shoulder dystocia is a bony problem; episiotomy may help access for internal manoeuvres but does not release the shoulder."
+  },
+  "key_takeaways": [
+   "Shoulder dystocia: call for help, then McRoberts plus suprapubic pressure. Avoid fundal pressure and excessive traction."
+  ],
+  "guideline_reference": "{\"name\": \"RCOG Green-top Guideline No. 42: Shoulder dystocia\", \"url\": \"https://www.rcog.org.uk/guidance/browse-all-guidance/green-top-guidelines/shoulder-dystocia-green-top-guideline-no-42/\"}; {\"name\": \"Queensland Clinical Guidelines. Shoulder dystocia\", \"url\": \"https://www.health.qld.gov.au/qcg\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0277",
+   "zyntra_bank",
+   "batch01",
+   "level_2",
+   "task_management",
+   "group_womens_health",
+   "sys_obstetrics",
+   "irtb_-0.80",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0278",
+  "question_text": "A 32-year-old woman, gravida 1 para 0, at 33 weeks' gestation sees her general practitioner in Shepparton, Victoria, with 10 days of intense itch, worst on her palms and soles and at night. She has no rash apart from scratch marks, and no abdominal pain, headache or visual disturbance. She takes only a pregnancy multivitamin.\n\nHer blood pressure is 118/72 mmHg, urinalysis shows no protein and fetal movements are normal. The skin shows excoriations only.\n\nWhich one of the following is the most appropriate initial investigation?",
+  "options": [
+   "Skin biopsy with immunofluorescence",
+   "Serum IgE and skin-prick testing",
+   "Gallbladder ultrasound",
+   "Serum bile acids and liver function tests",
+   "Hepatitis A IgM"
+  ],
+  "correct_answer": "D",
+  "explanation": "CORRECT ANSWER\n\nD. Serum bile acids and liver function tests\n\n---\n\nItch without a primary rash, worst on the palms and soles and at night, in the third trimester suggests intrahepatic cholestasis of pregnancy. Diagnosis rests on raised serum (total) bile acids, often with raised transaminases. The bile acid level helps estimate stillbirth risk (highest at 100 µmol/L or more) and guides timing of birth. If tests are normal but the itch persists, repeat them every 1–2 weeks, as itch can precede biochemical change. Pre-eclampsia and HELLP should be considered, but her BP and urine are normal.\n\n---\n\nKEY LEARNING POINT\nThird-trimester itch of palms and soles without a rash: serum bile acids and LFTs for intrahepatic cholestasis of pregnancy; repeat if normal and itch persists.\n\n---\n\nREFERENCES\n• {\"name\": \"Queensland Clinical Guidelines. Intrahepatic cholestasis of pregnancy\", \"url\": \"https://www.health.qld.gov.au/qcg\"}\n• {\"name\": \"RANZCOG Statements and Guidelines directory\", \"url\": \"https://ranzcog.edu.au/resources/statements-and-guidelines-directory/\"}",
+  "category": "Women's Health",
+  "system_category": "Obstetrics",
+  "subtopic": "Itch of palms and soles in the third trimester: serum bile acids for intrahepatic cholestasis",
+  "difficulty": "moderate",
+  "difficulty_tier": 3,
+  "incorrect_answer_explanations": {
+   "A": "This is for pemphigoid gestationis, which causes a blistering rash often starting periumbilically.",
+   "B": "Allergy testing does not help pregnancy itch without a rash.",
+   "C": "Gallstones do not cause this pattern of itch without pain.",
+   "E": "Acute viral hepatitis usually causes malaise, nausea and jaundice; bile acids are the key test here."
+  },
+  "key_takeaways": [
+   "Third-trimester itch of palms and soles without a rash: serum bile acids and LFTs for intrahepatic cholestasis of pregnancy; repeat if normal and itch persists."
+  ],
+  "guideline_reference": "{\"name\": \"Queensland Clinical Guidelines. Intrahepatic cholestasis of pregnancy\", \"url\": \"https://www.health.qld.gov.au/qcg\"}; {\"name\": \"RANZCOG Statements and Guidelines directory\", \"url\": \"https://ranzcog.edu.au/resources/statements-and-guidelines-directory/\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0278",
+   "zyntra_bank",
+   "batch01",
+   "level_3",
+   "task_data_gathering",
+   "group_womens_health",
+   "sys_obstetrics",
+   "irtb_+0.00",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0279",
+  "question_text": "A 24-year-old woman, gravida 1, attends an early pregnancy service in Cairns, Queensland, at 10 weeks by dates with 2 weeks of intermittent vaginal bleeding and severe nausea and vomiting. She has lost 3 kg.\n\nHer blood pressure is 142/90 mmHg and pulse 104/min. The uterus is palpable just below the umbilicus. Urinalysis shows ketones 2+ and protein 1+.\n\nInvestigations:\n- Serum β-hCG 410 000 IU/L\n- TSH 0.02 mIU/L (0.4–4.0); free T4 26 pmol/L (9–19)\n- Transvaginal ultrasound: enlarged uterus filled with heterogeneous echogenic tissue containing many small cystic spaces; no fetus or gestational sac. Both ovaries contain large multiloculated cysts.\n\nWhich one of the following is the most likely diagnosis?",
+  "options": [
+   "Partial hydatidiform mole",
+   "Twin pregnancy with hyperemesis gravidarum",
+   "Incomplete miscarriage with retained products",
+   "Graves disease with a missed miscarriage",
+   "Complete hydatidiform mole"
+  ],
+  "correct_answer": "E",
+  "explanation": "CORRECT ANSWER\n\nE. Complete hydatidiform mole\n\n---\n\nBleeding, a uterus large for dates, hyperemesis, hypertension with proteinuria before 20 weeks, a very high β-hCG, biochemical hyperthyroidism (hCG stimulates the TSH receptor), bilateral theca lutein cysts and a 'snowstorm' appearance with no fetus are classic features of a complete hydatidiform mole, which is diploid and entirely paternal in origin. Treatment is suction curettage with histology, then serial hCG until normal (with reliable contraception) and registration with a trophoblastic disease service, as about 15–20% develop gestational trophoblastic neoplasia.\n\n---\n\nKEY LEARNING POINT\nVery high hCG + uterus large for dates + hyperemesis + early pre-eclampsia ± hyperthyroidism + 'snowstorm' with no fetus = complete mole. Suction curettage and serial hCG.\n\n---\n\nREFERENCES\n• {\"name\": \"Queensland Clinical Guidelines. Early pregnancy loss\", \"url\": \"https://www.health.qld.gov.au/qcg\"}\n• {\"name\": \"RANZCOG Statements and Guidelines directory\", \"url\": \"https://ranzcog.edu.au/resources/statements-and-guidelines-directory/\"}",
+  "category": "Women's Health",
+  "system_category": "Gynaecology",
+  "subtopic": "Early pregnancy bleeding, very high hCG and a 'snowstorm' uterus: complete hydatidiform mole",
+  "difficulty": "difficult",
+  "difficulty_tier": 4,
+  "incorrect_answer_explanations": {
+   "A": "Partial moles are triploid, usually have fetal parts or a sac, and have lower hCG and fewer systemic features.",
+   "B": "Twins can raise hCG and cause hyperemesis, but ultrasound would show two sacs or fetuses.",
+   "C": "Retained products do not cause a very high hCG, early pre-eclampsia, thyrotoxicosis or theca lutein cysts.",
+   "D": "The thyroid changes are explained by hCG, and the ultrasound does not fit a missed miscarriage."
+  },
+  "key_takeaways": [
+   "Very high hCG + uterus large for dates + hyperemesis + early pre-eclampsia ± hyperthyroidism + 'snowstorm' with no fetus = complete mole. Suction curettage and serial hCG."
+  ],
+  "guideline_reference": "{\"name\": \"Queensland Clinical Guidelines. Early pregnancy loss\", \"url\": \"https://www.health.qld.gov.au/qcg\"}; {\"name\": \"RANZCOG Statements and Guidelines directory\", \"url\": \"https://ranzcog.edu.au/resources/statements-and-guidelines-directory/\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0279",
+   "zyntra_bank",
+   "batch01",
+   "level_4",
+   "task_data_interpretation_synthesis",
+   "group_womens_health",
+   "sys_gynaecology",
+   "irtb_+1.00",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0280",
+  "question_text": "A 28-year-old woman at 18 weeks' gestation sees her general practitioner in Hervey Bay, Queensland, with 4 days of vulval itch, soreness and a thick white non-malodorous discharge. She has no abdominal pain or fever and no new sexual partner. She has no allergies.\n\nThe vulva is red and swollen, with a thick, curd-like white discharge on the vaginal walls. Vaginal pH is 4.2. High vaginal swab microscopy shows budding yeasts and pseudohyphae.\n\nWhich one of the following is the most appropriate treatment?",
+  "options": [
+   "Oral fluconazole 150 mg single dose",
+   "Clotrimazole 500 mg vaginal tablet single dose",
+   "Oral metronidazole 400 mg twice daily for 7 days",
+   "Clotrimazole 100 mg vaginal tablet at night for 7 nights",
+   "No treatment until after the birth"
+  ],
+  "correct_answer": "D",
+  "explanation": "CORRECT ANSWER\n\nD. Clotrimazole 100 mg vaginal tablet at night for 7 nights\n\n---\n\nShe has symptomatic vulvovaginal candidiasis confirmed on microscopy with a normal vaginal pH. In pregnancy, eTG recommends an intravaginal azole (clotrimazole or miconazole) for a longer 7-day course, because short courses are less effective in pregnancy. Oral fluconazole should be avoided in pregnancy because of concerns about miscarriage and congenital anomalies. Asymptomatic colonisation does not need treatment, and partners are not routinely treated.\n\n---\n\nKEY LEARNING POINT\nVulvovaginal candidiasis in pregnancy: intravaginal azole for 7 days. Avoid oral fluconazole.\n\n---\n\nREFERENCES\n• {\"name\": \"Therapeutic Guidelines (eTG complete)\", \"url\": \"https://www.tg.org.au\"}\n• {\"name\": \"Australian STI Management Guidelines for use in primary care (ASHM)\", \"url\": \"https://sti.guidelines.org.au/\"}",
+  "category": "Women's Health",
+  "system_category": "Gynaecology",
+  "subtopic": "Vulvovaginal candidiasis in pregnancy: topical azole for 7 days, not oral fluconazole",
+  "difficulty": "moderate",
+  "difficulty_tier": 3,
+  "incorrect_answer_explanations": {
+   "A": "First-line outside pregnancy but avoided in pregnancy because of miscarriage and anomaly concerns.",
+   "B": "Effective outside pregnancy, but 7-day courses are preferred in pregnancy.",
+   "C": "Metronidazole treats bacterial vaginosis or trichomoniasis, which raise vaginal pH.",
+   "E": "Symptomatic candidiasis should be treated; topical treatment is low risk."
+  },
+  "key_takeaways": [
+   "Vulvovaginal candidiasis in pregnancy: intravaginal azole for 7 days. Avoid oral fluconazole."
+  ],
+  "guideline_reference": "{\"name\": \"Therapeutic Guidelines (eTG complete)\", \"url\": \"https://www.tg.org.au\"}; {\"name\": \"Australian STI Management Guidelines for use in primary care (ASHM)\", \"url\": \"https://sti.guidelines.org.au/\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0280",
+   "zyntra_bank",
+   "batch01",
+   "level_3",
+   "task_management",
+   "group_womens_health",
+   "sys_gynaecology",
+   "irtb_-0.20",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0281",
+  "question_text": "A 29-year-old woman, gravida 2 para 1, at 34 weeks' gestation phones the birth suite of a hospital in Toowoomba, Queensland, because her baby has been moving much less than usual since yesterday. She is asked to come in and arrives 40 minutes later. Her pregnancy has been uncomplicated, with a normal 20-week ultrasound.\n\nHer blood pressure is 116/74 mmHg, and she has no pain, bleeding or fluid loss. Symphysis–fundal height is 33 cm. The fetal heart is heard on handheld Doppler at 140/min.\n\nWhich one of the following is the most appropriate next step?",
+  "options": [
+   "Cardiotocography (CTG)",
+   "Reassure her because a fetal heartbeat has been heard",
+   "Ask her to count kicks at home for 2 hours and call back",
+   "Induce labour today",
+   "Arrange an outpatient growth ultrasound in 2 weeks"
+  ],
+  "correct_answer": "A",
+  "explanation": "CORRECT ANSWER\n\nA. Cardiotocography (CTG)\n\n---\n\nDecreased fetal movements can signal fetal compromise and are associated with stillbirth. The Australian Stillbirth CRE guideline (part of the Safer Baby Bundle) recommends that, after confirming the fetal heart, a woman at 28 weeks or more has a CTG (computerised where available), together with assessment of risk factors for growth restriction and stillbirth. Ultrasound for growth, liquor and umbilical artery Doppler is arranged (ideally within 24 hours) when there are risk factors, growth concerns, an abnormal CTG or recurrent decreased movements. Women should never be told to count kicks at home instead of attending.\n\n---\n\nKEY LEARNING POINT\nDecreased fetal movements at 28 weeks or more: same-day assessment, confirm the fetal heart, then CTG; add ultrasound if there are risk factors or concerns.\n\n---\n\nREFERENCES\n• {\"name\": \"Stillbirth Centre of Research Excellence. Clinical practice guideline for the care of women with decreased fetal movements for women with a singleton pregnancy from 28 weeks' gestation; Safer Baby Bundle\", \"url\": \"https://stillbirthcre.org.au/\"}",
+  "category": "Women's Health",
+  "system_category": "Obstetrics",
+  "subtopic": "Decreased fetal movements at 34 weeks: same-day assessment with CTG",
+  "difficulty": "easy",
+  "difficulty_tier": 2,
+  "incorrect_answer_explanations": {
+   "B": "Hearing the fetal heart does not exclude compromise; a CTG is needed.",
+   "C": "Formal kick counting is not recommended; she needs prompt assessment in person.",
+   "D": "Birth may be needed if assessment shows compromise, but immediate induction at 34 weeks is not the first step.",
+   "E": "Waiting 2 weeks is inappropriate; if needed, ultrasound should be within 24 hours."
+  },
+  "key_takeaways": [
+   "Decreased fetal movements at 28 weeks or more: same-day assessment, confirm the fetal heart, then CTG; add ultrasound if there are risk factors or concerns."
+  ],
+  "guideline_reference": "{\"name\": \"Stillbirth Centre of Research Excellence. Clinical practice guideline for the care of women with decreased fetal movements for women with a singleton pregnancy from 28 weeks' gestation; Safer Baby Bundle\", \"url\": \"https://stillbirthcre.org.au/\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0281",
+   "zyntra_bank",
+   "batch01",
+   "level_2",
+   "task_data_gathering",
+   "group_womens_health",
+   "sys_obstetrics",
+   "irtb_-1.00",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0282",
+  "question_text": "A 9-month-old boy is brought to an emergency department in Ballarat, Victoria. Since this morning he has had episodes every 15–20 minutes of screaming, drawing up his legs and going pale, each lasting a few minutes. Between episodes he is unusually sleepy. He has vomited three times. He had a cold last week and passed a normal stool this morning.\n\nHis temperature is 37.4 °C, pulse 150/min and capillary refill 2 seconds. Between episodes his abdomen is soft, with a vague sausage-shaped mass in the right upper quadrant. There is no blood in the nappy.\n\nWhich one of the following is the most appropriate initial investigation?",
+  "options": [
+   "Plain abdominal X-ray",
+   "CT abdomen",
+   "Upper gastrointestinal contrast study",
+   "Stool culture and viral PCR",
+   "Abdominal ultrasound"
+  ],
+  "correct_answer": "E",
+  "explanation": "CORRECT ANSWER\n\nE. Abdominal ultrasound\n\n---\n\nEpisodic colicky pain with pallor and drawing up of the legs, lethargy between episodes, vomiting and a right upper quadrant mass in an infant aged 6–18 months suggests ileocolic intussusception, often with lymphoid hyperplasia after a viral illness as the lead point. Redcurrant jelly stool is a late sign; its absence does not exclude the diagnosis. Ultrasound is the investigation of choice ('target' or 'doughnut' sign): highly sensitive and radiation-free. If confirmed without peritonitis or perforation, treatment is air (pneumatic) enema reduction by an experienced paediatric radiology team with surgical backup, plus IV access and fluids.\n\n---\n\nKEY LEARNING POINT\nInfant with episodic screaming, pallor and lethargy ± a mass: ultrasound for intussusception. No redcurrant jelly stool does not exclude it.\n\n---\n\nREFERENCES\n• {\"name\": \"Royal Children's Hospital Melbourne Clinical Practice Guidelines\", \"url\": \"https://www.rch.org.au/clinicalguide/\"}\n• {\"name\": \"Royal Children's Hospital. Intussusception clinical practice guideline\", \"url\": \"https://www.rch.org.au/clinicalguide/guideline_index/Intussusception/\"}",
+  "category": "Child Health",
+  "system_category": "Paediatric Medicine",
+  "subtopic": "Episodic inconsolable crying with pallor and lethargy in an infant: ultrasound for intussusception",
+  "difficulty": "moderate",
+  "difficulty_tier": 3,
+  "incorrect_answer_explanations": {
+   "A": "An X-ray may show obstruction or free gas but is neither sensitive nor specific for intussusception.",
+   "B": "CT is unnecessary and involves radiation; ultrasound is accurate in children.",
+   "C": "This is for suspected malrotation with volvulus (bilious vomiting in a neonate).",
+   "D": "Gastroenteritis does not explain episodic pain, pallor, lethargy and a mass, and waiting delays diagnosis."
+  },
+  "key_takeaways": [
+   "Infant with episodic screaming, pallor and lethargy ± a mass: ultrasound for intussusception. No redcurrant jelly stool does not exclude it."
+  ],
+  "guideline_reference": "{\"name\": \"Royal Children's Hospital Melbourne Clinical Practice Guidelines\", \"url\": \"https://www.rch.org.au/clinicalguide/\"}; {\"name\": \"Royal Children's Hospital. Intussusception clinical practice guideline\", \"url\": \"https://www.rch.org.au/clinicalguide/guideline_index/Intussusception/\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0282",
+   "zyntra_bank",
+   "batch01",
+   "level_3",
+   "task_data_gathering",
+   "group_child_health",
+   "sys_paediatric_medicine",
+   "irtb_-0.20",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0283",
+  "question_text": "A 5-week-old boy is transferred to a paediatric surgical unit in Melbourne with 5 days of forceful non-bilious vomiting after every feed; he seems hungry straight afterwards. He was born at term weighing 3.6 kg and now weighs 3.7 kg.\n\nHe has a sunken fontanelle and dry mucous membranes; capillary refill is 2 seconds. An olive-shaped epigastric mass is felt during a test feed. Ultrasound shows pyloric muscle thickness 5 mm and channel length 19 mm.\n\nCapillary blood gas:\n- pH 7.53\n- Bicarbonate 36 mmol/L (22–28)\n- Chloride 86 mmol/L (95–110)\n- Potassium 2.9 mmol/L (3.5–5.5)\n- Sodium 132 mmol/L (135–145)\n- Glucose 4.2 mmol/L\n\nWhich one of the following is the most appropriate management?",
+  "options": [
+   "IV 0.9% sodium chloride with 5% glucose and added potassium, then pyloromyotomy once chloride and bicarbonate have normalised",
+   "Immediate laparoscopic pyloromyotomy",
+   "IV 5% glucose alone at maintenance rate",
+   "IV sodium bicarbonate to correct the low sodium",
+   "Thickened feeds and a proton pump inhibitor"
+  ],
+  "correct_answer": "A",
+  "explanation": "CORRECT ANSWER\n\nA. IV 0.9% sodium chloride with 5% glucose and added potassium, then pyloromyotomy once chloride and bicarbonate have normalised\n\n---\n\nHe has infantile hypertrophic pyloric stenosis, confirmed on ultrasound, with the typical hypochloraemic, hypokalaemic metabolic alkalosis caused by loss of gastric acid. RCH says correcting dehydration, electrolyte and acid–base abnormalities is the priority, and surgery is delayed until they are corrected. It is particularly important to wait for the serum bicarbonate to normalise, because a metabolic alkalosis risks postoperative hypoventilation and apnoea. Fluids: 0.9% sodium chloride boluses only if needed for resuscitation, then 0.9% sodium chloride + 5% glucose for deficit and maintenance, with potassium added once urine output is adequate (1–2 mL/kg/h). Stop oral feeds, and pass a nasogastric tube if vomiting continues. Pyloromyotomy follows once the biochemistry has normalised.\n\n---\n\nKEY LEARNING POINT\nPyloric stenosis: correct the hypochloraemic hypokalaemic alkalosis with 0.9% saline + 5% glucose + KCl before pyloromyotomy, to avoid postoperative apnoea.\n\n---\n\nREFERENCES\n• {\"name\": \"Royal Children's Hospital. Pyloric stenosis (clinical practice guideline, updated March 2024)\", \"url\": \"https://www.rch.org.au/clinicalguide/guideline_index/Pyloric_stenosis/\"}",
+  "category": "Child Health",
+  "system_category": "Neonatology",
+  "subtopic": "Pyloric stenosis with hypochloraemic alkalosis: correct fluids and electrolytes before pyloromyotomy",
+  "difficulty": "difficult",
+  "difficulty_tier": 4,
+  "incorrect_answer_explanations": {
+   "B": "Operating while alkalotic and hypokalaemic increases anaesthetic risk, particularly postoperative apnoea.",
+   "C": "RCH uses 0.9% sodium chloride + 5% glucose; glucose alone gives no sodium or chloride to correct the hypochloraemic alkalosis and risks hyponatraemia.",
+   "D": "Bicarbonate would worsen the metabolic alkalosis; the deficit is corrected with 0.9% saline.",
+   "E": "This treats reflux; pyloric stenosis is a mechanical obstruction needing surgery after resuscitation."
+  },
+  "key_takeaways": [
+   "Pyloric stenosis: correct the hypochloraemic hypokalaemic alkalosis with 0.9% saline + 5% glucose + KCl before pyloromyotomy, to avoid postoperative apnoea."
+  ],
+  "guideline_reference": "{\"name\": \"Royal Children's Hospital. Pyloric stenosis (clinical practice guideline, updated March 2024)\", \"url\": \"https://www.rch.org.au/clinicalguide/guideline_index/Pyloric_stenosis/\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0283",
+   "zyntra_bank",
+   "batch01",
+   "level_4",
+   "task_management",
+   "group_child_health",
+   "sys_neonatology",
+   "irtb_+1.30",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0284",
+  "question_text": "A 7-month-old girl is referred by her general practitioner in Bathurst, NSW, to the local emergency department with 2 days of fever up to 39.4 °C, poor feeding and irritability. She has no cough, coryza, rash, diarrhoea or vomiting and is fully immunised.\n\nHer temperature is 39.1 °C, pulse 158/min and capillary refill 2 seconds. She is irritable but consolable and well perfused. Ears, throat and chest are normal, with no rash or neck stiffness. She is assessed as not toxic. A urinary tract infection is suspected. She is not toilet-trained.\n\nWhich one of the following is the most appropriate way to collect urine for culture?",
+  "options": [
+   "Urine bag applied to the perineum",
+   "Urine squeezed from a wet disposable nappy",
+   "Clean-catch urine or a catheter specimen",
+   "Cotton-wool ball placed in the nappy",
+   "No sample; start empirical oral antibiotics"
+  ],
+  "correct_answer": "C",
+  "explanation": "CORRECT ANSWER\n\nC. Clean-catch urine or a catheter specimen\n\n---\n\nUTI is a common cause of fever without a focus in infants, and a urine sample suitable for culture is needed before antibiotics. For a child who is not toilet-trained, Australian paediatric guidelines (such as RCH) recommend a clean-catch specimen, which can be encouraged by suprapubic stimulation (the Quick-Wee method), or a catheter specimen; suprapubic aspiration is an alternative mainly in young infants. Bag specimens are frequently contaminated and should not be sent for culture; a negative bag dipstick may help exclude UTI in a well child, but a positive result must be confirmed on a proper sample.\n\n---\n\nKEY LEARNING POINT\nUrine culture in a child who is not toilet-trained: clean catch (Quick-Wee) or catheter (or SPA). Never culture a bag specimen.\n\n---\n\nREFERENCES\n• {\"name\": \"Royal Children's Hospital. Urinary tract infection clinical practice guideline\", \"url\": \"https://www.rch.org.au/clinicalguide/guideline_index/Urinary_tract_infection/\"}",
+  "category": "Child Health",
+  "system_category": "Paediatric Medicine",
+  "subtopic": "Fever without a source in a non-toilet-trained infant: urine collection method for culture",
+  "difficulty": "moderate",
+  "difficulty_tier": 3,
+  "incorrect_answer_explanations": {
+   "A": "Bag specimens have high contamination rates and many false positives; not suitable for culture.",
+   "B": "Nappy urine is heavily contaminated and unsuitable for culture.",
+   "D": "Pad samples have high contamination rates and are not recommended for diagnosis.",
+   "E": "Without culture, a UTI cannot be confirmed, treatment cannot be guided by sensitivities, and follow-up imaging decisions are compromised."
+  },
+  "key_takeaways": [
+   "Urine culture in a child who is not toilet-trained: clean catch (Quick-Wee) or catheter (or SPA). Never culture a bag specimen."
+  ],
+  "guideline_reference": "{\"name\": \"Royal Children's Hospital. Urinary tract infection clinical practice guideline\", \"url\": \"https://www.rch.org.au/clinicalguide/guideline_index/Urinary_tract_infection/\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0284",
+   "zyntra_bank",
+   "batch01",
+   "level_3",
+   "task_data_gathering",
+   "group_child_health",
+   "sys_paediatric_medicine",
+   "irtb_+0.20",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0285",
+  "question_text": "A 13-year-old boy is brought to his general practitioner in Gladstone, Queensland, with 4 weeks of aching left knee pain and a limp, without injury or fever. He is otherwise well. His BMI is above the 97th centile.\n\nHe walks with an antalgic, out-toeing gait on the left. The left knee is normal, with full range of movement and no effusion or tenderness. When the left hip is flexed it rolls into external rotation, and internal rotation is markedly reduced and painful. The right hip is normal.\n\nWhich one of the following is the most likely diagnosis?",
+  "options": [
+   "Osgood–Schlatter disease",
+   "Perthes disease",
+   "Transient synovitis of the hip",
+   "Slipped capital femoral epiphysis",
+   "Patellofemoral pain syndrome"
+  ],
+  "correct_answer": "D",
+  "explanation": "CORRECT ANSWER\n\nD. Slipped capital femoral epiphysis\n\n---\n\nAn overweight early adolescent with a limp, knee pain (referred from the hip via the obturator nerve), a normal knee, loss of hip internal rotation and obligatory external rotation on hip flexion has SCFE until proven otherwise. He needs urgent AP and frog-leg lateral X-rays of both hips (the lateral view shows mild slips missed on AP, and the other side is often involved), non-weight-bearing and urgent orthopaedic referral for in situ fixation. Delay increases the risk of slip progression and avascular necrosis.\n\n---\n\nKEY LEARNING POINT\nKnee pain + limp in an overweight adolescent with loss of hip internal rotation = SCFE until proven otherwise. AP and frog-leg lateral X-rays of both hips; non-weight-bearing; urgent orthopaedics.\n\n---\n\nREFERENCES\n• {\"name\": \"Royal Children's Hospital. The limping child clinical practice guideline\", \"url\": \"https://www.rch.org.au/clinicalguide/guideline_index/child_with_limp/\"}",
+  "category": "Child Health",
+  "system_category": "Orthopaedics",
+  "subtopic": "Knee pain and limp in an overweight adolescent with obligatory external rotation: slipped capital femoral epiphysis",
+  "difficulty": "moderate",
+  "difficulty_tier": 3,
+  "incorrect_answer_explanations": {
+   "A": "Causes pain and tenderness over the tibial tuberosity; his knee is normal and his hip is abnormal.",
+   "B": "Perthes usually affects boys aged 4–8, not overweight adolescents.",
+   "C": "Occurs at ages 3–8 after a viral illness and settles within about 2 weeks.",
+   "E": "Causes anterior knee pain on stairs or squatting with a normal hip examination."
+  },
+  "key_takeaways": [
+   "Knee pain + limp in an overweight adolescent with loss of hip internal rotation = SCFE until proven otherwise. AP and frog-leg lateral X-rays of both hips; non-weight-bearing; urgent orthopaedics."
+  ],
+  "guideline_reference": "{\"name\": \"Royal Children's Hospital. The limping child clinical practice guideline\", \"url\": \"https://www.rch.org.au/clinicalguide/guideline_index/child_with_limp/\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0285",
+   "zyntra_bank",
+   "batch01",
+   "level_3",
+   "task_data_interpretation_synthesis",
+   "group_child_health",
+   "sys_orthopaedics",
+   "irtb_+0.40",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0286",
+  "question_text": "A 2-year-old girl is brought to a community health clinic in Logan, Queensland, because her mother thinks she looks pale. She is a fussy eater who eats little meat and drinks about 1.2 litres of cow's milk a day, mostly from a bottle. She is active and developing normally. There is no family history of anaemia.\n\nShe is pale, with normal growth, and has no jaundice, bruising, lymphadenopathy or hepatosplenomegaly.\n\nInvestigations:\n- Haemoglobin 88 g/L (105–135)\n- MCV 61 fL (70–86)\n- Reticulocytes low\n- White cells and platelets normal\n- Blood film: microcytic hypochromic red cells with pencil cells\n\nWhich one of the following is the most likely cause of her anaemia?",
+  "options": [
+   "Iron deficiency from excessive cow's milk intake",
+   "Beta-thalassaemia trait",
+   "Lead poisoning",
+   "Anaemia of chronic disease",
+   "Transient erythroblastopenia of childhood"
+  ],
+  "correct_answer": "A",
+  "explanation": "CORRECT ANSWER\n\nA. Iron deficiency from excessive cow's milk intake\n\n---\n\nExcessive cow's milk is the commonest cause of iron deficiency anaemia in toddlers: it is low in iron, displaces iron-rich foods and can cause occult intestinal blood loss in young children. A microcytic hypochromic anaemia with pencil cells, low reticulocytes and normal white cells and platelets fits; a low ferritin confirms it. Management is oral iron, continued for about 3 months after haemoglobin normalises, limiting cow's milk to about 500 mL a day, weaning from the bottle and increasing iron-rich foods. A haemoglobin rise within about 4 weeks confirms the diagnosis.\n\n---\n\nKEY LEARNING POINT\nToddler drinking well over 500 mL of cow's milk a day with microcytic anaemia: iron deficiency. Oral iron and limit milk to about 500 mL a day.\n\n---\n\nREFERENCES\n• {\"name\": \"Royal Children's Hospital. Iron deficiency clinical practice guideline\", \"url\": \"https://www.rch.org.au/clinicalguide/guideline_index/Iron_deficiency/\"}",
+  "category": "Child Health",
+  "system_category": "Paediatric Medicine",
+  "subtopic": "Pale toddler drinking large volumes of cow's milk: iron deficiency anaemia",
+  "difficulty": "easy",
+  "difficulty_tier": 2,
+  "incorrect_answer_explanations": {
+   "B": "Causes microcytosis with mild or no anaemia, a normal or high red cell count and target cells.",
+   "C": "Can cause microcytic anaemia with basophilic stippling, but there is no exposure history or pica.",
+   "D": "She has no chronic illness, and it is usually normocytic or only mildly microcytic.",
+   "E": "TEC causes a normocytic anaemia, not marked microcytosis."
+  },
+  "key_takeaways": [
+   "Toddler drinking well over 500 mL of cow's milk a day with microcytic anaemia: iron deficiency. Oral iron and limit milk to about 500 mL a day."
+  ],
+  "guideline_reference": "{\"name\": \"Royal Children's Hospital. Iron deficiency clinical practice guideline\", \"url\": \"https://www.rch.org.au/clinicalguide/guideline_index/Iron_deficiency/\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0286",
+   "zyntra_bank",
+   "batch01",
+   "level_2",
+   "task_data_interpretation_synthesis",
+   "group_child_health",
+   "sys_paediatric_medicine",
+   "irtb_-1.20",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0287",
+  "question_text": "A 6-year-old boy is reviewed by his general practitioner in Coffs Harbour, NSW, 4 days after IgA vasculitis (Henoch–Schönlein purpura) was diagnosed in the emergency department. He has palpable purpura on his buttocks and legs, sore ankles and occasional colicky abdominal pain, controlled with paracetamol. He had a sore throat 2 weeks ago and is eating and drinking.\n\nHis blood pressure is 98/60 mmHg (normal for age). His ankles are mildly swollen and his abdomen is soft and non-tender.\n\nIn the ED his full blood count, coagulation and creatinine were normal and urinalysis was negative. His mother asks what follow-up he needs.\n\nWhich one of the following is the most appropriate follow-up to detect the most important long-term complication?",
+  "options": [
+   "Weekly full blood count for 1 month",
+   "Repeat urinalysis only if he develops swelling",
+   "Renal ultrasound at 3 months",
+   "Blood pressure and urinalysis weekly for the first month, fortnightly to week 12, then at 6 and 12 months",
+   "Oral prednisolone to prevent kidney disease"
+  ],
+  "correct_answer": "D",
+  "explanation": "CORRECT ANSWER\n\nD. Blood pressure and urinalysis weekly for the first month, fortnightly to week 12, then at 6 and 12 months\n\n---\n\nMost childhood IgA vasculitis (HSP) resolves within about 4 weeks, but renal involvement is the main long-term risk and is usually asymptomatic. According to RCH, 90% of children who develop renal complications do so within 2 months of onset and 97% within 6 months, so a normal first urinalysis does not exclude later nephritis. If the first urinalysis is normal (or shows only microscopic haematuria), RCH recommends a clinical review with BP and urinalysis weekly for the first month, fortnightly from weeks 5–12, and single reviews at 6 and 12 months, going back to weekly checks if the disease flares. If urinalysis is normal at 12 months, no further follow-up is needed. Hypertension, proteinuria or macroscopic haematuria at any stage needs paediatric review, and persistent proteinuria needs renal referral. Steroids do not change the rate of long-term renal complications.\n\n---\n\nKEY LEARNING POINT\nIgA vasculitis (HSP): BP + urinalysis weekly for month 1, fortnightly to week 12, then at 6 and 12 months (RCH). Renal involvement is usually silent; steroids do not prevent it.\n\n---\n\nREFERENCES\n• {\"name\": \"Royal Children's Hospital. IgA vasculitis (Henoch–Schönlein purpura) clinical practice guideline\", \"url\": \"https://www.rch.org.au/clinicalguide/guideline_index/henochschonlein_purpura/\"}",
+  "category": "Child Health",
+  "system_category": "Paediatric Medicine",
+  "subtopic": "IgA vasculitis (Henoch–Schönlein purpura): urinalysis and blood pressure monitoring for nephritis",
+  "difficulty": "difficult",
+  "difficulty_tier": 4,
+  "incorrect_answer_explanations": {
+   "A": "Platelets are normal in IgA vasculitis, and repeated blood counts do not detect nephritis.",
+   "B": "Nephritis is often silent and can follow a normal first urinalysis; scheduled testing is needed.",
+   "C": "Ultrasound does not detect glomerulonephritis.",
+   "E": "Steroids may help severe abdominal pain but do not prevent nephritis."
+  },
+  "key_takeaways": [
+   "IgA vasculitis (HSP): BP + urinalysis weekly for month 1, fortnightly to week 12, then at 6 and 12 months (RCH). Renal involvement is usually silent; steroids do not prevent it."
+  ],
+  "guideline_reference": "{\"name\": \"Royal Children's Hospital. IgA vasculitis (Henoch–Schönlein purpura) clinical practice guideline\", \"url\": \"https://www.rch.org.au/clinicalguide/guideline_index/henochschonlein_purpura/\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0287",
+   "zyntra_bank",
+   "batch01",
+   "level_4",
+   "task_data_gathering",
+   "group_child_health",
+   "sys_paediatric_medicine",
+   "irtb_+0.90",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0288",
+  "question_text": "A 33-year-old woman with bipolar I disorder sees her psychiatrist in Adelaide 3 months after a manic episode that needed admission. She has recovered on quetiapine but has gained 9 kg and wants to change. They agree to start lithium carbonate for maintenance. She uses a copper IUD and takes no other medicines.\n\nHer blood pressure is 118/76 mmHg and BMI 29 kg/m². There is no goitre.\n\nWhich one of the following sets of baseline tests is most important before starting lithium?",
+  "options": [
+   "Full blood count, liver function tests and an EEG",
+   "Fasting lipids, HbA1c and prolactin",
+   "Electrolytes, creatinine with eGFR, TSH and serum calcium",
+   "A baseline serum lithium level",
+   "Urine drug screen and HLA-B*15:02 testing"
+  ],
+  "correct_answer": "C",
+  "explanation": "CORRECT ANSWER\n\nC. Electrolytes, creatinine with eGFR, TSH and serum calcium\n\n---\n\nLithium is cleared almost entirely by the kidneys and has a narrow therapeutic range. Long-term use can cause chronic kidney disease and nephrogenic diabetes insipidus, hypothyroidism, and hyperparathyroidism with hypercalcaemia. Before starting, check electrolytes, creatinine/eGFR, thyroid function and calcium, plus weight, a pregnancy test where relevant, and an ECG if there is cardiac risk or older age. On treatment, 12-hour post-dose levels are monitored, and renal, thyroid and calcium tests are repeated regularly (typically 6-monthly).\n\n---\n\nKEY LEARNING POINT\nBefore lithium: electrolytes, creatinine/eGFR, TSH and calcium (plus weight, pregnancy test, ± ECG). Then 12-hour levels and 6-monthly renal, thyroid and calcium.\n\n---\n\nREFERENCES\n• {\"name\": \"Malhi GS et al. The 2020 RANZCP clinical practice guidelines for mood disorders (Aust N Z J Psychiatry 2021)\", \"url\": \"https://doi.org/10.1177/0004867420979353\"}\n• {\"name\": \"Therapeutic Guidelines (eTG complete)\", \"url\": \"https://www.tg.org.au\"}",
+  "category": "Mental Health",
+  "system_category": "Mood Disorders",
+  "subtopic": "Before starting lithium: baseline renal, thyroid and calcium tests",
+  "difficulty": "moderate",
+  "difficulty_tier": 3,
+  "incorrect_answer_explanations": {
+   "A": "LFTs matter more for valproate and carbamazepine, and an EEG is not needed; these miss lithium's key target organs.",
+   "B": "These are antipsychotic metabolic monitoring tests, not the key lithium baseline.",
+   "D": "There is no point measuring lithium before starting; levels are checked after about 5 days on a stable dose.",
+   "E": "HLA-B*15:02 testing is before carbamazepine in some Asian ancestries; it is irrelevant to lithium."
+  },
+  "key_takeaways": [
+   "Before lithium: electrolytes, creatinine/eGFR, TSH and calcium (plus weight, pregnancy test, ± ECG). Then 12-hour levels and 6-monthly renal, thyroid and calcium."
+  ],
+  "guideline_reference": "{\"name\": \"Malhi GS et al. The 2020 RANZCP clinical practice guidelines for mood disorders (Aust N Z J Psychiatry 2021)\", \"url\": \"https://doi.org/10.1177/0004867420979353\"}; {\"name\": \"Therapeutic Guidelines (eTG complete)\", \"url\": \"https://www.tg.org.au\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0288",
+   "zyntra_bank",
+   "batch01",
+   "level_3",
+   "task_data_gathering",
+   "group_mental_health",
+   "sys_mood",
+   "irtb_-0.10",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0289",
+  "question_text": "A 26-year-old accountant sees her general practitioner in Darwin for review of obsessive-compulsive disorder. She has intrusive fears of contamination and spent about 3 hours a day handwashing and cleaning. Six weeks ago she started sertraline 50 mg daily and has had four sessions of exposure and response prevention (ERP) with a psychologist under a Mental Health Treatment Plan. She now spends about 2 hours a day on rituals and has mild nausea only. She has no suicidal thoughts and no alcohol or drug use.\n\nHer Y-BOCS score has fallen from 28 to 24.\n\nWhich one of the following is the most appropriate next step?",
+  "options": [
+   "Switch to clomipramine",
+   "Increase sertraline gradually towards a higher dose (such as 150–200 mg daily) and continue ERP",
+   "Add low-dose risperidone",
+   "Stop ERP and continue sertraline 50 mg alone",
+   "Add diazepam 5 mg as needed for distress"
+  ],
+  "correct_answer": "B",
+  "explanation": "CORRECT ANSWER\n\nB. Increase sertraline gradually towards a higher dose (such as 150–200 mg daily) and continue ERP\n\n---\n\nShe has had a partial response after only 6 weeks on a low SSRI dose. Australian Prescriber (Therapeutic Guidelines) notes that OCD responds to SSRIs more slowly than depression and that most patients need doses in the higher therapeutic range (sertraline 50–200 mg/day in studies). The dose can go up every 2 weeks as tolerated, and an SSRI should be trialled at its maximum dose for at least 12 weeks before it is judged ineffective. Gains usually plateau at about 12 weeks. ERP has the strongest psychological evidence, and combining it with an SSRI works better than either alone, so ERP should continue. Clomipramine is usually kept for after two failed SSRI trials, OCD tends not to respond to benzodiazepines, and treatment-resistant patients should be referred to a psychiatrist.\n\n---\n\nKEY LEARNING POINT\nOCD: SSRIs often need higher doses and 8–12 weeks. Optimise the dose and continue ERP before switching or augmenting.\n\n---\n\nREFERENCES\n• {\"name\": \"Brakoulias V. Managing obsessive compulsive disorder. Aust Prescr 2015;38:121-3\", \"url\": \"https://australianprescriber.tg.org.au/articles/managing-obsessive-compulsive-disorder.html\"}\n• {\"name\": \"Therapeutic Guidelines (eTG complete)\", \"url\": \"https://www.tg.org.au\"}",
+  "category": "Mental Health",
+  "system_category": "Anxiety Disorders",
+  "subtopic": "OCD with a partial response to low-dose SSRI: increase the dose and continue exposure and response prevention",
+  "difficulty": "moderate",
+  "difficulty_tier": 3,
+  "incorrect_answer_explanations": {
+   "A": "Clomipramine is usually reserved until two SSRI trials have failed, because it is less well tolerated.",
+   "C": "Antipsychotic augmentation is for SSRI-resistant OCD after an adequate trial; premature here.",
+   "D": "ERP is the most effective psychological treatment and should continue.",
+   "E": "Benzodiazepines do not treat OCD, can undermine exposure work and risk dependence."
+  },
+  "key_takeaways": [
+   "OCD: SSRIs often need higher doses and 8–12 weeks. Optimise the dose and continue ERP before switching or augmenting."
+  ],
+  "guideline_reference": "{\"name\": \"Brakoulias V. Managing obsessive compulsive disorder. Aust Prescr 2015;38:121-3\", \"url\": \"https://australianprescriber.tg.org.au/articles/managing-obsessive-compulsive-disorder.html\"}; {\"name\": \"Therapeutic Guidelines (eTG complete)\", \"url\": \"https://www.tg.org.au\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0289",
+   "zyntra_bank",
+   "batch01",
+   "level_3",
+   "task_management",
+   "group_mental_health",
+   "sys_anxiety",
+   "irtb_+0.30",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0290",
+  "question_text": "A 74-year-old retired teacher is brought to her general practitioner in Wollongong, NSW, by her daughter, who is worried about her memory. Over 3 months since her husband's death she has stopped going to her book club, forgets appointments and cannot concentrate on the newspaper. She wakes at 4 am and has lost 5 kg. She complains that her memory is 'useless'.\n\nOn cognitive testing she often answers 'I don't know' and gives up quickly, but with encouragement gets several answers right. Her performance varies from item to item without a clear pattern. She is oriented to time and place, well groomed and has no focal neurological signs. FBC, electrolytes, calcium, TSH, B12 and folate are normal.\n\nWhich one of the following is the most likely explanation for her cognitive symptoms?",
+  "options": [
+   "Major depressive disorder with cognitive impairment",
+   "Early Alzheimer disease",
+   "Delirium",
+   "Normal grief",
+   "Frontotemporal dementia"
+  ],
+  "correct_answer": "A",
+  "explanation": "CORRECT ANSWER\n\nA. Major depressive disorder with cognitive impairment\n\n---\n\nSubacute onset over weeks to months after a clear trigger (bereavement), depressive features (withdrawal, early morning waking, weight loss), prominent self-reported memory complaints, 'I don't know' answers, poor effort and inconsistent performance that improves with encouragement all favour depression causing cognitive impairment (formerly 'pseudodementia'). In early Alzheimer disease onset is insidious, patients tend to minimise or lack awareness of deficits, try hard but give wrong answers or confabulate, and short-term memory loss is consistent. Treating the depression often improves cognition, but she needs follow-up because late-life depression can precede dementia.\n\n---\n\nKEY LEARNING POINT\nDepression vs dementia: subacute onset, memory complaints, 'don't know' answers and variable effort suggest depression; insidious onset, minimised deficits and wrong answers despite effort suggest dementia.\n\n---\n\nREFERENCES\n• {\"name\": \"Guideline Adaptation Committee. Clinical practice guidelines and principles of care for people with dementia (NHMRC-approved, 2016)\", \"url\": \"https://cdpc.sydney.edu.au/research/clinical-guidelines-for-dementia/\"}\n• {\"name\": \"RANZCP Clinical practice guidelines\", \"url\": \"https://www.ranzcp.org/clinical-guidelines-publications\"}",
+  "category": "Mental Health",
+  "system_category": "Mood Disorders",
+  "subtopic": "Cognitive impairment in an older person: features favouring depression over dementia",
+  "difficulty": "difficult",
+  "difficulty_tier": 5,
+  "incorrect_answer_explanations": {
+   "B": "Onset is insidious, patients often minimise problems and try hard but answer wrongly.",
+   "C": "Delirium is an acute, fluctuating disturbance of attention over hours to days; she is oriented with a 3-month history.",
+   "D": "Grief does not usually cause this degree of withdrawal, weight loss, early waking and cognitive impairment over 3 months.",
+   "E": "Causes early personality, behaviour or language change, usually before 65."
+  },
+  "key_takeaways": [
+   "Depression vs dementia: subacute onset, memory complaints, 'don't know' answers and variable effort suggest depression; insidious onset, minimised deficits and wrong answers despite effort suggest dementia."
+  ],
+  "guideline_reference": "{\"name\": \"Guideline Adaptation Committee. Clinical practice guidelines and principles of care for people with dementia (NHMRC-approved, 2016)\", \"url\": \"https://cdpc.sydney.edu.au/research/clinical-guidelines-for-dementia/\"}; {\"name\": \"RANZCP Clinical practice guidelines\", \"url\": \"https://www.ranzcp.org/clinical-guidelines-publications\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0290",
+   "zyntra_bank",
+   "batch01",
+   "level_5",
+   "task_data_interpretation_synthesis",
+   "group_mental_health",
+   "sys_mood",
+   "irtb_+1.50",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0291",
+  "question_text": "A 21-year-old man is seen by an early psychosis service in Geelong, Victoria, for a first episode of psychosis. He agrees to start olanzapine. He has no medical history. His father has type 2 diabetes. He smokes 15 cigarettes a day and does not use other drugs.\n\nThe registrar is planning his physical health monitoring.\n\nWhich one of the following is the most appropriate set of baseline measurements before olanzapine is started?",
+  "options": [
+   "Serum prolactin and an EEG",
+   "Weight, waist circumference, blood pressure, fasting glucose or HbA1c, and fasting lipids",
+   "Full blood count every week",
+   "A 12-lead ECG only",
+   "Troponin and CRP weekly for 4 weeks"
+  ],
+  "correct_answer": "B",
+  "explanation": "CORRECT ANSWER\n\nB. Weight, waist circumference, blood pressure, fasting glucose or HbA1c, and fasting lipids\n\n---\n\nSecond-generation antipsychotics, especially olanzapine and clozapine, cause weight gain and increase the risk of diabetes and dyslipidaemia, particularly in young people with a first episode. RANZCP guidance and the Australian 'Positive Cardiometabolic Health' algorithm recommend baseline weight/BMI, waist circumference, blood pressure, fasting glucose or HbA1c and fasting lipids, with smoking and family history, then close monitoring (weight at each visit in the first months; bloods at about 3 months then regularly). Early weight gain should prompt lifestyle intervention, a switch to a lower-risk agent or metformin. He should also be offered smoking cessation support.\n\n---\n\nKEY LEARNING POINT\nBefore an antipsychotic (especially olanzapine): weight/BMI, waist, BP, fasting glucose or HbA1c, lipids and smoking history; then monitor closely.\n\n---\n\nREFERENCES\n• {\"name\": \"Galletly C et al. RANZCP clinical practice guidelines for the management of schizophrenia and related disorders (Aust N Z J Psychiatry 2016)\", \"url\": \"https://doi.org/10.1177/0004867416641035\"}\n• {\"name\": \"Positive Cardiometabolic Health resource (Australian adaptation)\", \"url\": \"https://www.equallywell.org.au/\"}",
+  "category": "Mental Health",
+  "system_category": "Psychosis",
+  "subtopic": "Starting olanzapine in first-episode psychosis: baseline cardiometabolic monitoring",
+  "difficulty": "moderate",
+  "difficulty_tier": 3,
+  "incorrect_answer_explanations": {
+   "A": "Prolactin matters more for risperidone and amisulpride, and an EEG is not routine.",
+   "C": "Weekly FBC is for clozapine (neutropenia), not olanzapine.",
+   "D": "An ECG has a role in some patients but alone misses olanzapine's major metabolic risks.",
+   "E": "This is monitoring for clozapine-induced myocarditis."
+  },
+  "key_takeaways": [
+   "Before an antipsychotic (especially olanzapine): weight/BMI, waist, BP, fasting glucose or HbA1c, lipids and smoking history; then monitor closely."
+  ],
+  "guideline_reference": "{\"name\": \"Galletly C et al. RANZCP clinical practice guidelines for the management of schizophrenia and related disorders (Aust N Z J Psychiatry 2016)\", \"url\": \"https://doi.org/10.1177/0004867416641035\"}; {\"name\": \"Positive Cardiometabolic Health resource (Australian adaptation)\", \"url\": \"https://www.equallywell.org.au/\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0291",
+   "zyntra_bank",
+   "batch01",
+   "level_3",
+   "task_data_gathering",
+   "group_mental_health",
+   "sys_psychosis",
+   "irtb_+0.00",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0292",
+  "question_text": "A 29-year-old woman gave birth to her first baby by caesarean 8 days ago at a hospital in Hobart, Tasmania. Her partner brings her to the emergency department because for 2 days she has hardly slept, talks rapidly and paces the house at night. She says the baby has been 'swapped' and the nurses are poisoning her milk. At times she seems confused about where she is. Her mother had bipolar disorder.\n\nShe is afebrile with normal observations and a healing wound. FBC, electrolytes, calcium, glucose, TSH and urinalysis are normal. There is no drug or alcohol use.\n\nWhich one of the following is the most likely diagnosis?",
+  "options": [
+   "Postnatal ('baby') blues",
+   "Postpartum psychosis",
+   "Postnatal depression",
+   "Postpartum thyroiditis",
+   "Delirium due to puerperal sepsis"
+  ],
+  "correct_answer": "B",
+  "explanation": "CORRECT ANSWER\n\nB. Postpartum psychosis\n\n---\n\nRapid onset of insomnia, pressured speech, agitation, delusions involving the baby and fluctuating confusion within the first 2 weeks after birth, in a first-time mother with a family history of bipolar disorder, is typical of postpartum psychosis, which is often a presentation of bipolar disorder. It is a psychiatric emergency because of the risks of suicide and infanticide. She needs urgent psychiatric assessment and admission, ideally to a mother–baby unit, with the baby's safety ensured. Organic causes (infection, thyroid, electrolytes, drugs) should be excluded, as here.\n\n---\n\nKEY LEARNING POINT\nPsychotic and manic symptoms with confusion in the first 2 weeks postpartum (especially with a bipolar family history) = postpartum psychosis: emergency admission, ideally to a mother–baby unit.\n\n---\n\nREFERENCES\n• {\"name\": \"Centre of Perinatal Excellence (COPE). Mental health care in the perinatal period: Australian clinical practice guideline (2023)\", \"url\": \"https://www.cope.org.au/health-professionals/\"}\n• {\"name\": \"RANZCP Clinical practice guidelines\", \"url\": \"https://www.ranzcp.org/clinical-guidelines-publications\"}",
+  "category": "Mental Health",
+  "system_category": "Psychosis",
+  "subtopic": "Insomnia, agitation, delusions about the baby and confusion 8 days postpartum: postpartum psychosis",
+  "difficulty": "moderate",
+  "difficulty_tier": 3,
+  "incorrect_answer_explanations": {
+   "A": "Common in the first week with tearfulness and lability, but no psychosis or confusion; resolves within about 2 weeks.",
+   "C": "Low mood and anhedonia over weeks to months; rapid psychotic features and confusion suggest psychosis.",
+   "D": "Usually 1–6 months after birth; her TSH is normal.",
+   "E": "She is afebrile with normal observations, a healing wound and normal bloods."
+  },
+  "key_takeaways": [
+   "Psychotic and manic symptoms with confusion in the first 2 weeks postpartum (especially with a bipolar family history) = postpartum psychosis: emergency admission, ideally to a mother–baby unit."
+  ],
+  "guideline_reference": "{\"name\": \"Centre of Perinatal Excellence (COPE). Mental health care in the perinatal period: Australian clinical practice guideline (2023)\", \"url\": \"https://www.cope.org.au/health-professionals/\"}; {\"name\": \"RANZCP Clinical practice guidelines\", \"url\": \"https://www.ranzcp.org/clinical-guidelines-publications\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0292",
+   "zyntra_bank",
+   "batch01",
+   "level_3",
+   "task_data_interpretation_synthesis",
+   "group_mental_health",
+   "sys_psychosis",
+   "irtb_+0.10",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0293",
+  "question_text": "A 46-year-old man sees his general practitioner in Bunbury, Western Australia, with 8 months of difficulty getting to sleep and staying asleep on most nights. He lies awake worrying about not sleeping, checks the clock and naps on the couch in the evening. He feels tired and irritable at work. He drinks two coffees in the morning and 2 standard drinks most nights 'to help him sleep'. He does not snore and his partner has seen no breathing pauses. He has no low mood or anxiety apart from about sleep. His examination is normal and BMI 24 kg/m².\n\nHe asks for 'something to help me sleep'.\n\nWhich one of the following is the most appropriate initial management?",
+  "options": [
+   "Cognitive behavioural therapy for insomnia (CBT-I)",
+   "Temazepam 10 mg at night for 3 months",
+   "Zolpidem 10 mg at night long term",
+   "Low-dose quetiapine at night",
+   "Refer for diagnostic polysomnography"
+  ],
+  "correct_answer": "A",
+  "explanation": "CORRECT ANSWER\n\nA. Cognitive behavioural therapy for insomnia (CBT-I)\n\n---\n\nHe has chronic insomnia disorder (difficulty initiating or maintaining sleep at least 3 nights a week for 3 months or more with daytime impairment) with typical perpetuating factors: worry about sleep, clock-watching, evening naps and alcohol. CBT-I (stimulus control, sleep restriction, cognitive therapy, sleep hygiene education) is the recommended first-line treatment in Australian guidance (RACGP, Australasian Sleep Association), with durable benefit; it can be delivered by a psychologist, a trained GP or a digital program. He should reduce alcohol, which fragments later sleep. Hypnotics are only for short-term use in selected cases.\n\n---\n\nKEY LEARNING POINT\nChronic insomnia: CBT-I first line. Avoid long-term hypnotics and antipsychotics for sleep.\n\n---\n\nREFERENCES\n• {\"name\": \"RACGP / Australasian Sleep Association. Managing insomnia in primary care (AJGP and ASA resources)\", \"url\": \"https://www.sleep.org.au/\"}\n• {\"name\": \"Therapeutic Guidelines (eTG complete)\", \"url\": \"https://www.tg.org.au\"}",
+  "category": "Mental Health",
+  "system_category": "Anxiety Disorders",
+  "subtopic": "Chronic insomnia disorder in primary care: CBT for insomnia first line",
+  "difficulty": "easy",
+  "difficulty_tier": 2,
+  "incorrect_answer_explanations": {
+   "B": "Benzodiazepines are not recommended for chronic insomnia because of tolerance, dependence, falls and cognitive effects.",
+   "C": "Z-drugs share benzodiazepine risks and can cause complex sleep behaviours.",
+   "D": "Quetiapine has metabolic and other harms and is not recommended for insomnia.",
+   "E": "Nothing suggests sleep apnoea or another primary sleep disorder; insomnia is a clinical diagnosis."
+  },
+  "key_takeaways": [
+   "Chronic insomnia: CBT-I first line. Avoid long-term hypnotics and antipsychotics for sleep."
+  ],
+  "guideline_reference": "{\"name\": \"RACGP / Australasian Sleep Association. Managing insomnia in primary care (AJGP and ASA resources)\", \"url\": \"https://www.sleep.org.au/\"}; {\"name\": \"Therapeutic Guidelines (eTG complete)\", \"url\": \"https://www.tg.org.au\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0293",
+   "zyntra_bank",
+   "batch01",
+   "level_2",
+   "task_management",
+   "group_mental_health",
+   "sys_anxiety",
+   "irtb_-0.70",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0294",
+  "question_text": "A new point-of-care troponin test is evaluated in 1000 adults presenting with chest pain to rural emergency departments in Western Australia. The reference standard is a final diagnosis of acute myocardial infarction based on laboratory high-sensitivity troponin and specialist review.\n\n| | MI present | MI absent | Total |\n|---|---|---|---|\n| Test positive | 90 | 45 | 135 |\n| Test negative | 10 | 855 | 865 |\n| Total | 100 | 900 | 1000 |\n\nWhich one of the following correctly gives the sensitivity and specificity of the new test?",
+  "options": [
+   "Sensitivity 67%; specificity 99%",
+   "Sensitivity 95%; specificity 90%",
+   "Sensitivity 90%; specificity 99%",
+   "Sensitivity 10%; specificity 5%",
+   "Sensitivity 90%; specificity 95%"
+  ],
+  "correct_answer": "E",
+  "explanation": "CORRECT ANSWER\n\nE. Sensitivity 90%; specificity 95%\n\n---\n\nSensitivity = true positives ÷ all with disease = 90 ÷ 100 = 90%. Specificity = true negatives ÷ all without disease = 855 ÷ 900 = 95%. For comparison, PPV = 90 ÷ 135 = 67% and NPV = 855 ÷ 865 = 98.8%. Sensitivity and specificity are properties of the test and do not change with prevalence; predictive values do.\n\n---\n\nKEY LEARNING POINT\nSensitivity = TP/(TP+FN); specificity = TN/(TN+FP): calculate down the disease columns. Predictive values run across the test rows.\n\n---\n\nREFERENCES\n• {\"name\": \"Webb P, Bain C, Page A. Essential Epidemiology: An Introduction for Students and Health Professionals, 4th ed. Cambridge University Press\", \"url\": \"https://www.cambridge.org/\"}",
+  "category": "Population Health & Ethics",
+  "system_category": "Epidemiology",
+  "subtopic": "Calculating sensitivity and specificity from a 2 × 2 table",
+  "difficulty": "moderate",
+  "difficulty_tier": 3,
+  "incorrect_answer_explanations": {
+   "A": "These are the PPV (90/135) and NPV (855/865, about 99%).",
+   "B": "The values are swapped; sensitivity comes from people with MI (90/100).",
+   "C": "Specificity is from people without MI (855/900 = 95%), not from test-negatives (855/865).",
+   "D": "These are the false-negative rate (10/100) and false-positive rate (45/900)."
+  },
+  "key_takeaways": [
+   "Sensitivity = TP/(TP+FN); specificity = TN/(TN+FP): calculate down the disease columns. Predictive values run across the test rows."
+  ],
+  "guideline_reference": "{\"name\": \"Webb P, Bain C, Page A. Essential Epidemiology: An Introduction for Students and Health Professionals, 4th ed. Cambridge University Press\", \"url\": \"https://www.cambridge.org/\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0294",
+   "zyntra_bank",
+   "batch01",
+   "level_3",
+   "task_data_interpretation_synthesis",
+   "group_population_health_ethics",
+   "sys_epidemiology",
+   "irtb_+0.50",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0295",
+  "question_text": "A cohort study in an Australian regional city follows 10 000 adults for 10 years. Crude analysis shows that people who drink more than 4 cups of coffee a day have a higher risk of lung cancer than lighter drinkers (relative risk 2.4; 95% CI 1.8–3.2).\n\nThe analysis is then stratified by smoking status:\n- Never-smokers: relative risk 1.02 (95% CI 0.70–1.48)\n- Current smokers: relative risk 1.05 (95% CI 0.85–1.30)\n\nHeavy coffee drinkers were much more likely to smoke than light coffee drinkers.\n\nWhich one of the following best explains these findings?",
+  "options": [
+   "Smoking is an effect modifier of the association",
+   "The crude result is due to selection bias",
+   "Smoking is a confounder of the association between coffee and lung cancer",
+   "Smoking is on the causal pathway between coffee and lung cancer",
+   "The stratified results are due to chance and the crude result should be reported"
+  ],
+  "correct_answer": "C",
+  "explanation": "CORRECT ANSWER\n\nC. Smoking is a confounder of the association between coffee and lung cancer\n\n---\n\nA confounder is associated with the exposure (smokers drink more coffee), is an independent risk factor for the outcome (smoking causes lung cancer) and is not on the causal pathway. After stratification by smoking the association disappears in both strata (RRs about 1 and similar), so the crude association was produced by smoking: confounding. Effect modification would show different stratum-specific effects. Confounding is controlled by stratification, multivariable adjustment, matching, restriction or randomisation.\n\n---\n\nKEY LEARNING POINT\nAssociation disappears with similar results in each stratum = confounding; different results across strata = effect modification.\n\n---\n\nREFERENCES\n• {\"name\": \"Webb P, Bain C, Page A. Essential Epidemiology: An Introduction for Students and Health Professionals, 4th ed. Cambridge University Press\", \"url\": \"https://www.cambridge.org/\"}",
+  "category": "Population Health & Ethics",
+  "system_category": "Epidemiology",
+  "subtopic": "An association that disappears after stratification: confounding",
+  "difficulty": "difficult",
+  "difficulty_tier": 4,
+  "incorrect_answer_explanations": {
+   "A": "Effect modification means the association differs between strata; here both strata are similar and null.",
+   "B": "Selection bias arises from recruitment or retention and would not be removed by stratifying on smoking.",
+   "D": "Coffee does not cause smoking, so smoking is not a mediator.",
+   "E": "Consistent strata with reasonably narrow intervals make chance unlikely; the crude result is misleading."
+  },
+  "key_takeaways": [
+   "Association disappears with similar results in each stratum = confounding; different results across strata = effect modification."
+  ],
+  "guideline_reference": "{\"name\": \"Webb P, Bain C, Page A. Essential Epidemiology: An Introduction for Students and Health Professionals, 4th ed. Cambridge University Press\", \"url\": \"https://www.cambridge.org/\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0295",
+   "zyntra_bank",
+   "batch01",
+   "level_4",
+   "task_data_interpretation_synthesis",
+   "group_population_health_ethics",
+   "sys_epidemiology",
+   "irtb_+1.40",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0296",
+  "question_text": "A 52-year-old Aboriginal man has a health check at an Aboriginal Community Controlled Health Service in Alice Springs, Northern Territory. He has type 2 diabetes and hypertension and is not immunocompromised. He had chickenpox as a child and has never had herpes zoster. His other recommended vaccines are up to date.\n\nHe asks about the shingles vaccine because his uncle recently had shingles.\n\nWhich one of the following is the most appropriate advice?",
+  "options": [
+   "He must wait until age 65 for a funded vaccine",
+   "He is eligible for 2 doses of recombinant zoster vaccine (Shingrix) funded under the National Immunisation Program, given 2–6 months apart",
+   "He needs varicella serology before vaccination",
+   "He should have a single funded dose of live zoster vaccine (Zostavax)",
+   "He is eligible for only 1 funded dose of recombinant zoster vaccine"
+  ],
+  "correct_answer": "B",
+  "explanation": "CORRECT ANSWER\n\nB. He is eligible for 2 doses of recombinant zoster vaccine (Shingrix) funded under the National Immunisation Program, given 2–6 months apart\n\n---\n\nThe Australian Immunisation Handbook (updated 30 Sep 2026) recommends zoster vaccine for all immunocompetent people aged 50 and over, and says Shingrix is NIP-funded for non-Indigenous people aged 65 and over, Aboriginal and Torres Strait Islander people aged 50 and over, and people aged 18 and over with moderate or severe immunocompromise. He is a 52-year-old Aboriginal man, so he is eligible for funded vaccine. Immunocompetent people get 2 doses 2–6 months apart; immunocompromised people get 2 doses 1–2 months apart. Shingrix is non-live and is the only zoster vaccine available in Australia. Serology is not recommended before or after vaccination, and a history of chickenpox is not needed.\n\n---\n\nKEY LEARNING POINT\nFunded Shingrix (2 doses, 2–6 months apart): 65+, Aboriginal and Torres Strait Islander people 50+, and eligible immunocompromised people 18+.\n\n---\n\nREFERENCES\n• {\"name\": \"Australian Immunisation Handbook. Zoster (herpes zoster)\", \"url\": \"https://immunisationhandbook.health.gov.au/contents/vaccine-preventable-diseases/zoster-herpes-zoster\"}",
+  "category": "Population Health & Ethics",
+  "system_category": "Screening",
+  "subtopic": "Funded recombinant zoster vaccine for an Aboriginal adult aged 50 or over: eligibility and schedule",
+  "difficulty": "difficult",
+  "difficulty_tier": 4,
+  "incorrect_answer_explanations": {
+   "A": "Funded eligibility starts at 50 for Aboriginal and Torres Strait Islander people.",
+   "C": "The Handbook states serological testing is not recommended before or after zoster vaccination.",
+   "D": "Zostavax has been removed; Shingrix is now the only zoster vaccine available in Australia.",
+   "E": "Shingrix needs 2 doses, and both are funded for eligible people."
+  },
+  "key_takeaways": [
+   "Funded Shingrix (2 doses, 2–6 months apart): 65+, Aboriginal and Torres Strait Islander people 50+, and eligible immunocompromised people 18+."
+  ],
+  "guideline_reference": "{\"name\": \"Australian Immunisation Handbook. Zoster (herpes zoster)\", \"url\": \"https://immunisationhandbook.health.gov.au/contents/vaccine-preventable-diseases/zoster-herpes-zoster\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0296",
+   "zyntra_bank",
+   "batch01",
+   "level_4",
+   "task_management",
+   "group_population_health_ethics",
+   "sys_screening",
+   "irtb_+1.10",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0297",
+  "question_text": "A 15-year-old girl attends a general practice in Penrith, NSW, alone. She asks to start the contraceptive pill because she has been in a sexual relationship with her 16-year-old boyfriend for 3 months. She says the relationship is consensual and she does not feel pressured, and asks the GP not to tell her parents. She can explain what the pill does, its risks and side effects, and that it does not protect against sexually transmitted infections.\n\nThere are no concerns about abuse, coercion or exploitation, and she has no contraindications to the combined pill.\n\nWhich one of the following is the most appropriate management?",
+  "options": [
+   "Tell her parental consent is required under 16",
+   "Prescribe if she is assessed as a mature minor, maintain confidentiality, and offer STI testing and condom advice",
+   "Make a mandatory report to child protection because she is under 16",
+   "Refuse to prescribe but provide condoms",
+   "Prescribe and phone her parents to let them know"
+  ],
+  "correct_answer": "B",
+  "explanation": "CORRECT ANSWER\n\nB. Prescribe if she is assessed as a mature minor, maintain confidentiality, and offer STI testing and condom advice\n\n---\n\nUnder common law (Gillick competence, endorsed in Australia in Marion's case), a person under 18 can consent to their own treatment if they have sufficient understanding and maturity to understand fully what is proposed, including risks and alternatives. She appears to. The GP should document the competence assessment, prescribe, respect confidentiality, encourage (but not require) involvement of a trusted adult, and offer STI testing, condoms and information about long-acting reversible contraception. Her partner is of similar age and there are no concerns about coercion, so on these facts there is no mandatory report; a HEEADSSS psychosocial assessment should still screen for exploitation.\n\n---\n\nKEY LEARNING POINT\nUnder-16s can consent to contraception if Gillick-competent. Assess and document competence, keep confidentiality, and screen for abuse or coercion.\n\n---\n\nREFERENCES\n• {\"name\": \"Medical Board of Australia. Good medical practice: a code of conduct for doctors in Australia\", \"url\": \"https://www.medicalboard.gov.au/codes-guidelines-policies/code-of-conduct.aspx\"}\n• {\"name\": \"Secretary, Department of Health and Community Services v JWB and SMB (Marion's case) [1992] HCA 15\", \"url\": \"https://www.austlii.edu.au/cgi-bin/viewdoc/au/cases/cth/HCA/1992/15.html\"}",
+  "category": "Population Health & Ethics",
+  "system_category": "Ethics & Law",
+  "subtopic": "A 15-year-old requesting contraception without parental knowledge: mature minor assessment",
+  "difficulty": "moderate",
+  "difficulty_tier": 3,
+  "incorrect_answer_explanations": {
+   "A": "There is no fixed age requirement for parental consent to contraception when the young person is a mature minor.",
+   "C": "Consensual activity between similar-aged adolescents does not by itself trigger a report; reporting depends on risk of significant harm (abuse, coercion, a large age gap).",
+   "D": "Refusing effective contraception to a competent young person increases her risk of unintended pregnancy.",
+   "E": "Disclosure without consent breaches the confidentiality of a competent minor without serious risk of harm."
+  },
+  "key_takeaways": [
+   "Under-16s can consent to contraception if Gillick-competent. Assess and document competence, keep confidentiality, and screen for abuse or coercion."
+  ],
+  "guideline_reference": "{\"name\": \"Medical Board of Australia. Good medical practice: a code of conduct for doctors in Australia\", \"url\": \"https://www.medicalboard.gov.au/codes-guidelines-policies/code-of-conduct.aspx\"}; {\"name\": \"Secretary, Department of Health and Community Services v JWB and SMB (Marion's case) [1992] HCA 15\", \"url\": \"https://www.austlii.edu.au/cgi-bin/viewdoc/au/cases/cth/HCA/1992/15.html\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0297",
+   "zyntra_bank",
+   "batch01",
+   "level_3",
+   "task_management",
+   "group_population_health_ethics",
+   "sys_ethics_law",
+   "irtb_+0.30",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0298",
+  "question_text": "A 34-year-old man is told by his general practitioner in Brisbane that his HIV test is positive; his viral load is 85 000 copies/mL. He has a female partner of 2 years with whom he has condomless sex. He refuses to tell her because he fears she will leave him, and asks the GP not to say anything. She is not a patient of the practice. He agrees to see an HIV specialist.\n\nThe GP has explained the transmission risk to his partner and the benefits of starting antiretroviral therapy soon.\n\nWhich one of the following is the most appropriate next step for the GP?",
+  "options": [
+   "Phone his partner today and tell her the diagnosis",
+   "Respect his wishes completely and take no further action",
+   "Notify the police that he is putting his partner at risk",
+   "Refuse further care until he informs his partner",
+   "Continue counselling and support, offer provider-assisted partner notification, and seek advice from the Queensland HIV Public Health Team if he remains unwilling"
+  ],
+  "correct_answer": "E",
+  "explanation": "CORRECT ANSWER\n\nE. Continue counselling and support, offer provider-assisted partner notification, and seek advice from the Queensland HIV Public Health Team if he remains unwilling\n\n---\n\nAt diagnosis, every person with HIV should get treatment, psychosocial support, counselling about preventing transmission, and help to make sure at-risk partners are identified and tested. Contact tracing can be patient-led or provider-assisted (ASHM). Rapid ART aiming for an undetectable viral load (U=U), with condoms or PrEP for the partner meanwhile, greatly reduces the risk. The Queensland Health guideline, which follows the 2018 National Guidelines for Managing HIV Transmission Risk Behaviours, uses a stepped, least-restrictive framework under the Public Health Act 2005. At Level 1 the treating clinician provides case management (counselling, education and support). If the person is unwilling or unable to change risk behaviours, the clinician should seek help from the HIV Public Health Team and/or notify the chair of the HIV advisory panel. Only then can escalation follow (Level 2 department-supported management, then behavioural or detention orders). The GP should not disclose independently as a first step, and must handle any identifying information within confidentiality law.\n\n---\n\nKEY LEARNING POINT\nHIV partner notification: counsel, offer provider-assisted or anonymous notification, start ART (U=U), and escalate to the public health unit if refusal continues. Do not disclose unilaterally first.\n\n---\n\nREFERENCES\n• {\"name\": \"Queensland Health. Guideline for the management of people with HIV whose behaviours may place others at risk of HIV\", \"url\": \"https://www.health.qld.gov.au/system-governance/policies-standards/guidelines/place-others-at-risk-hiv\"}\n• {\"name\": \"ASHM. Australasian Contact Tracing Guidelines: HIV\", \"url\": \"https://contacttracing.ashm.org.au/\"}\n• {\"name\": \"Medical Board of Australia. Good medical practice: a code of conduct for doctors in Australia\", \"url\": \"https://www.medicalboard.gov.au/codes-guidelines-policies/code-of-conduct.aspx\"}",
+  "category": "Population Health & Ethics",
+  "system_category": "Ethics & Law",
+  "subtopic": "New HIV diagnosis with refusal to inform a regular partner: partner notification and public health escalation",
+  "difficulty": "difficult",
+  "difficulty_tier": 5,
+  "incorrect_answer_explanations": {
+   "A": "Unilateral disclosure as a first step breaches confidentiality; counselling and the formal public health pathway come first.",
+   "B": "Confidentiality is not absolute when a third party is at serious risk; the GP must keep working on notification and escalate if needed.",
+   "C": "Police are not the appropriate first contact; public health law and the health department manage this.",
+   "D": "Ending care harms him and increases transmission risk."
+  },
+  "key_takeaways": [
+   "HIV partner notification: counsel, offer provider-assisted or anonymous notification, start ART (U=U), and escalate to the public health unit if refusal continues. Do not disclose unilaterally first."
+  ],
+  "guideline_reference": "{\"name\": \"Queensland Health. Guideline for the management of people with HIV whose behaviours may place others at risk of HIV\", \"url\": \"https://www.health.qld.gov.au/system-governance/policies-standards/guidelines/place-others-at-risk-hiv\"}; {\"name\": \"ASHM. Australasian Contact Tracing Guidelines: HIV\", \"url\": \"https://contacttracing.ashm.org.au/\"}; {\"name\": \"Medical Board of Australia. Good medical practice: a code of conduct for doctors in Australia\", \"url\": \"https://www.medicalboard.gov.au/codes-guidelines-policies/code-of-conduct.aspx\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0298",
+   "zyntra_bank",
+   "batch01",
+   "level_5",
+   "task_management",
+   "group_population_health_ethics",
+   "sys_ethics_law",
+   "irtb_+1.80",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0299",
+  "question_text": "A 58-year-old woman who arrived from Afghanistan 6 months ago on a humanitarian visa attends a general practice in Dandenong, Victoria. She speaks Dari and very little English. Her 14-year-old son, who speaks fluent English, has come with her and offers to interpret. She has come about 'women's problems', and the GP needs to take a full gynaecological history and discuss a possible pelvic examination.\n\nWhich one of the following is the most appropriate way to take her history?",
+  "options": [
+   "Ask her son to interpret because he is fluent",
+   "Use a translation app on the GP's phone",
+   "Use a professional Dari interpreter, by phone through TIS National if one is not available in person",
+   "Take the history in simple English with gestures",
+   "Ask her to return with an adult relative to interpret"
+  ],
+  "correct_answer": "C",
+  "explanation": "CORRECT ANSWER\n\nC. Use a professional Dari interpreter, by phone through TIS National if one is not available in person\n\n---\n\nProfessional interpreters should be used when a patient has limited English, especially for sensitive histories and consent to examination. Family members, and particularly children, should not interpret: they may filter or change information, the topic may be embarrassing, it can harm the child, and confidentiality is lost. TIS National provides free phone and on-site interpreting for medical practitioners for Medicare-rebatable services. The GP should also ask whether she would prefer a female interpreter (and a female doctor).\n\n---\n\nKEY LEARNING POINT\nLimited English: use a professional interpreter (TIS National is free for GPs). Never use children, especially for sensitive topics.\n\n---\n\nREFERENCES\n• {\"name\": \"TIS National. Free Interpreting Service for medical practitioners\", \"url\": \"https://www.tisnational.gov.au/\"}\n• {\"name\": \"Medical Board of Australia. Good medical practice: a code of conduct for doctors in Australia\", \"url\": \"https://www.medicalboard.gov.au/codes-guidelines-policies/code-of-conduct.aspx\"}",
+  "category": "Population Health & Ethics",
+  "system_category": "Ethics & Law",
+  "subtopic": "Gynaecological history from a patient with limited English: professional interpreter, not a family member",
+  "difficulty": "easy",
+  "difficulty_tier": 2,
+  "incorrect_answer_explanations": {
+   "A": "Using a child for a gynaecological history risks inaccuracy and embarrassment, harms the child and breaches confidentiality.",
+   "B": "Machine translation is not reliable for medical histories or consent.",
+   "D": "With very little English, history and consent would be unreliable.",
+   "E": "Family interpreters still compromise accuracy and confidentiality, and delay is unnecessary when TIS is available."
+  },
+  "key_takeaways": [
+   "Limited English: use a professional interpreter (TIS National is free for GPs). Never use children, especially for sensitive topics."
+  ],
+  "guideline_reference": "{\"name\": \"TIS National. Free Interpreting Service for medical practitioners\", \"url\": \"https://www.tisnational.gov.au/\"}; {\"name\": \"Medical Board of Australia. Good medical practice: a code of conduct for doctors in Australia\", \"url\": \"https://www.medicalboard.gov.au/codes-guidelines-policies/code-of-conduct.aspx\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0299",
+   "zyntra_bank",
+   "batch01",
+   "level_2",
+   "task_data_gathering",
+   "group_population_health_ethics",
+   "sys_ethics_law",
+   "irtb_-1.20",
+   "pending_owner_review"
+  ]
+ },
+ {
+  "zyntra_id": "ZQ-0300",
+  "question_text": "A 62-year-old man sees his general practitioner in Mount Gambier, South Australia, after a letter from the National Bowel Cancer Screening Program said his immunochemical faecal occult blood test (iFOBT) was positive. He has no bowel symptoms, weight loss or family history of bowel cancer. Kits 2 and 4 years ago were negative. His abdominal and rectal examinations are normal and his haemoglobin is normal.\n\nHe asks whether he can simply repeat the test.\n\nWhich one of the following is the most appropriate next step?",
+  "options": [
+   "Repeat the iFOBT in 3 months",
+   "CT colonography as the first-line test",
+   "Reassure him and rescreen in 2 years",
+   "Refer for colonoscopy, ideally within 30 days",
+   "Check serum CEA"
+  ],
+  "correct_answer": "D",
+  "explanation": "CORRECT ANSWER\n\nD. Refer for colonoscopy, ideally within 30 days\n\n---\n\nA positive NBCSP iFOBT needs follow-up colonoscopy, which the program and the 2023 Australian colorectal cancer guidelines recommend should ideally occur within 30 days of the result. Repeating the iFOBT is not recommended, because bleeding from neoplasia is intermittent and a negative repeat does not cancel a positive result. A normal examination and haemoglobin do not change this.\n\n---\n\nKEY LEARNING POINT\nPositive NBCSP iFOBT: colonoscopy, ideally within 30 days. Never repeat the iFOBT to 'check' a positive.\n\n---\n\nREFERENCES\n• {\"name\": \"Cancer Council Australia. Clinical practice guidelines for the prevention, early detection and management of colorectal cancer (2023)\", \"url\": \"https://www.cancer.org.au/clinical-guidelines/bowel-cancer/colorectal-cancer\"}\n• {\"name\": \"Australian Government. National Bowel Cancer Screening Program\", \"url\": \"https://www.health.gov.au/our-work/national-bowel-cancer-screening-program\"}",
+  "category": "Population Health & Ethics",
+  "system_category": "Screening",
+  "subtopic": "Positive iFOBT in the National Bowel Cancer Screening Program: colonoscopy, not a repeat test",
+  "difficulty": "moderate",
+  "difficulty_tier": 3,
+  "incorrect_answer_explanations": {
+   "A": "A negative repeat does not exclude neoplasia; a positive screen needs colonoscopy.",
+   "B": "CT colonography is for when colonoscopy is unsuitable or incomplete; colonoscopy allows biopsy and polypectomy.",
+   "C": "A positive result needs investigation.",
+   "E": "CEA is not a screening or diagnostic test for bowel cancer; it is used for surveillance after treatment."
+  },
+  "key_takeaways": [
+   "Positive NBCSP iFOBT: colonoscopy, ideally within 30 days. Never repeat the iFOBT to 'check' a positive."
+  ],
+  "guideline_reference": "{\"name\": \"Cancer Council Australia. Clinical practice guidelines for the prevention, early detection and management of colorectal cancer (2023)\", \"url\": \"https://www.cancer.org.au/clinical-guidelines/bowel-cancer/colorectal-cancer\"}; {\"name\": \"Australian Government. National Bowel Cancer Screening Program\", \"url\": \"https://www.health.gov.au/our-work/national-bowel-cancer-screening-program\"}",
+  "clinical_vignette": true,
+  "question_type": "mcq",
+  "tags": [
+   "ZQ-0300",
+   "zyntra_bank",
+   "batch01",
+   "level_3",
+   "task_data_gathering",
+   "group_population_health_ethics",
+   "sys_screening",
+   "irtb_-0.40",
+   "pending_owner_review"
+  ]
+ }
+]
