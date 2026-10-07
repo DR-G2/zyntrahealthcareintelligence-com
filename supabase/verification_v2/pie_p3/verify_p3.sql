@@ -60,6 +60,7 @@ set local role authenticated;
 select (public.create_practice_session('mcq','{}'::jsonb, array['22222222-0000-0000-0000-000000000001','22222222-0000-0000-0000-000000000002','22222222-0000-0000-0000-000000000003','22222222-0000-0000-0000-000000000009','22222222-0000-0000-0000-000000000010']::uuid[])).id as asid \gset
 commit;
 \set QA '22222222-0000-0000-0000-000000000001'
+\set A_ID 'aaaaaaaa-0000-0000-0000-00000000000a'
 begin; select set_config('request.jwt.claims','{"sub":"aaaaaaaa-0000-0000-0000-00000000000a","role":"authenticated"}',true) \g /dev/null
 set local role authenticated; select public.save_attempt('22222222-0000-0000-0000-000000000001', :'asid', 'A', false, 30, 5::smallint, 0, 3, '["A"]'::jsonb) \g /dev/null
 commit;
@@ -74,8 +75,17 @@ set local role authenticated; select public.save_attempt('22222222-0000-0000-000
 commit;
 begin; select set_config('request.jwt.claims','{"sub":"aaaaaaaa-0000-0000-0000-00000000000a","role":"authenticated"}',true) \g /dev/null
 set local role authenticated; select (public.complete_practice_session(:'asid')).status \g /dev/null
-select public.refresh_my_lo_state() \g /dev/null
+select public.refresh_my_lo_state() as legacy_rows \gset
 commit;
+\echo '### E1 legacy create_practice_session (client-chosen ids) is not adaptive evidence'
+select public.t_assert(:legacy_rows = 0 and not exists (select 1 from pie.learner_lo_state where user_id = :'A_ID'), 'E1 legacy session produced LO state');
+select public.t_assert(not exists (select 1 from pie.adaptive_session where session_id = :'asid'), 'E1 legacy session not registered');
+select pie.rebuild_candidate_state(:'A_ID') \g /dev/null
+select public.t_assert((select (state->>'evidence_count')::int from pie.pie_candidate_state where user_id = :'A_ID') = 0, 'E1 legacy session fed candidate aggregate');
+-- Test-only (superuser): treat that session as if server-selected so S5+ have evidence.
+insert into pie.adaptive_session(session_id, user_id, policy_version, blueprint_key) values (:'asid', :'A_ID', 'pie-select/p3.0', 'AMC_CAT_MCQ');
+select pie.recompute_learner_lo_state(:'A_ID') \g /dev/null
+select public.t_assert((select count(*) from pie.learner_lo_state where user_id = :'A_ID') = 2, 'E1 adaptive evidence counted');
 select lo_id, mastery, exposure_count, misconception_state from pie.learner_lo_state where user_id='aaaaaaaa-0000-0000-0000-00000000000a' order by lo_id;
 begin;
 select set_config('request.jwt.claims','{"sub":"aaaaaaaa-0000-0000-0000-00000000000a","role":"authenticated"}',true) \g /dev/null
@@ -91,6 +101,7 @@ select public.t_assert((select nble_type from pie.decision_trace where session_i
 
 \echo '### S6 prerequisite_repair'
 insert into pie.lo_prerequisite(lo_id, prerequisite_lo_id) values ('10000000-0000-0000-0000-000000000003','10000000-0000-0000-0000-000000000002');
+delete from pie.session_create_throttle;  -- test-only: skip the 30 s wait
 begin;
 select set_config('request.jwt.claims','{"sub":"aaaaaaaa-0000-0000-0000-00000000000a","role":"authenticated"}',true) \g /dev/null
 set local role authenticated;
@@ -101,6 +112,7 @@ select public.t_assert(exists (select 1 from pie.decision_trace where session_id
 delete from pie.lo_prerequisite;
 
 \echo '### S7 anti-starvation'
+delete from pie.session_create_throttle;  -- test-only: skip the 30 s wait
 begin;
 select set_config('request.jwt.claims','{"sub":"aaaaaaaa-0000-0000-0000-00000000000a","role":"authenticated"}',true) \g /dev/null
 set local role authenticated;
@@ -112,6 +124,8 @@ alter table pie.decision_trace disable trigger decision_trace_append_only;
 update pie.decision_trace set created_at = created_at - interval '8 days' where learner_id='aaaaaaaa-0000-0000-0000-00000000000a';
 update pie.learner_lo_state set last_seen_at = last_seen_at - interval '8 days' where user_id='aaaaaaaa-0000-0000-0000-00000000000a';
 alter table pie.decision_trace enable trigger decision_trace_append_only;
+update public.practice_sessions set status = 'abandoned' where id in (:'a2', :'a3');
+delete from pie.session_create_throttle;  -- test-only: skip the 30 s wait
 begin;
 select set_config('request.jwt.claims','{"sub":"aaaaaaaa-0000-0000-0000-00000000000a","role":"authenticated"}',true) \g /dev/null
 set local role authenticated;
@@ -127,9 +141,28 @@ do $$ begin
     raise exception 'FAIL S8 foreign session';
   exception when insufficient_privilege then null; end;
 end $$;
+\echo '### E3c pie_next_question refuses while a served question is unanswered (no skipping)'
+do $$ begin
+  perform set_config('request.jwt.claims','{"sub":"bbbbbbbb-0000-0000-0000-00000000000b","role":"authenticated"}',true);
+  set local role authenticated;
+  begin perform public.pie_next_question((select id from public.practice_sessions where user_id='bbbbbbbb-0000-0000-0000-00000000000b' and session_type='pie_adaptive'));
+    raise exception 'FAIL E3c skip without answer';
+  exception when object_not_in_prerequisite_state then null; end;
+  -- legacy (non-adaptive) session cannot be driven by the PIE selector
+  begin perform public.pie_next_question((public.create_practice_session('mcq','{}'::jsonb, array['22222222-0000-0000-0000-000000000001'::uuid])).id);
+    raise exception 'FAIL E3c legacy session accepted';
+  exception when insufficient_privilege then null; end;
+end $$;
+create or replace function pg_temp.answer_all(s uuid) returns void language plpgsql as $$
+declare q uuid; begin
+  for q in select psq.question_id from public.practice_session_questions psq where psq.session_id = s and psq.answered_at is null loop
+    perform public.save_attempt(q, s, 'B', false);
+  end loop;
+end $$;
 begin;
 select set_config('request.jwt.claims','{"sub":"bbbbbbbb-0000-0000-0000-00000000000b","role":"authenticated"}',true) \g /dev/null
 set local role authenticated;
+select pg_temp.answer_all(:'bsid') \g /dev/null
 select question_id as nq, question_position as np from public.pie_next_question(:'bsid') \gset
 commit;
 select public.t_assert(:np = 5 and (select count(*) from public.practice_session_questions where session_id=:'bsid' and question_id=:'nq') = 1, 'S8 appended, not duplicated');
@@ -138,9 +171,62 @@ do $$ declare i int; s uuid; begin
   perform set_config('request.jwt.claims','{"sub":"bbbbbbbb-0000-0000-0000-00000000000b","role":"authenticated"}',true);
   set local role authenticated;
   select id into s from public.practice_sessions where user_id='bbbbbbbb-0000-0000-0000-00000000000b' and session_type='pie_adaptive';
-  for i in 1..4 loop perform public.pie_next_question(s); end loop;
+  for i in 1..4 loop perform pg_temp.answer_all(s); perform public.pie_next_question(s); end loop;
+  perform pg_temp.answer_all(s);
   begin perform public.pie_next_question(s); raise exception 'FAIL S8 exhaustion';
   exception when no_data_found then null; end;
+end $$;
+
+\echo '### E2 unknown / missing blueprint raises'
+delete from pie.session_create_throttle;
+do $$ begin
+  perform set_config('request.jwt.claims','{"sub":"bbbbbbbb-0000-0000-0000-00000000000b","role":"authenticated"}',true);
+  set local role authenticated;
+  begin perform public.pie_create_session(3, 'NO_SUCH_BLUEPRINT'); raise exception 'FAIL E2 unknown blueprint';
+  exception when invalid_parameter_value then null; end;
+  begin perform public.pie_create_session(3, null); raise exception 'FAIL E2 null blueprint';
+  exception when invalid_parameter_value then null; end;
+  begin perform public.pie_create_session(3, ''); raise exception 'FAIL E2 empty blueprint';
+  exception when invalid_parameter_value then null; end;
+end $$;
+select public.t_assert(not exists (select 1 from public.practice_sessions where config->>'blueprint_key' is distinct from 'AMC_CAT_MCQ' and session_type='pie_adaptive'), 'E2 no session created');
+
+\echo '### E3a throttle: 1 create per 30 s per learner'
+-- fresh learner C
+insert into auth.users(id,email) values ('cccccccc-0000-0000-0000-00000000000c','c@test.local') on conflict do nothing;
+insert into public.profiles(id,email,role,status) values ('cccccccc-0000-0000-0000-00000000000c','c@test.local','learner','active') on conflict do nothing;
+update public.questions set status='active' where id='22222222-0000-0000-0000-000000000004';
+do $$ begin
+  perform set_config('request.jwt.claims','{"sub":"cccccccc-0000-0000-0000-00000000000c","role":"authenticated"}',true);
+  set local role authenticated;
+  perform public.pie_create_session(1);
+  begin perform public.pie_create_session(1); raise exception 'FAIL E3a throttle';
+  exception when sqlstate '53400' then null; end;
+end $$;
+select public.t_assert((select count(*) from pie.adaptive_session where user_id='cccccccc-0000-0000-0000-00000000000c') = 1, 'E3a one session only');
+\echo '### E3b max 3 active adaptive sessions'
+delete from pie.session_create_throttle;
+do $$ begin
+  perform set_config('request.jwt.claims','{"sub":"cccccccc-0000-0000-0000-00000000000c","role":"authenticated"}',true);
+  set local role authenticated; perform public.pie_create_session(1);
+end $$;
+delete from pie.session_create_throttle;
+do $$ begin
+  perform set_config('request.jwt.claims','{"sub":"cccccccc-0000-0000-0000-00000000000c","role":"authenticated"}',true);
+  set local role authenticated; perform public.pie_create_session(1);
+end $$;
+delete from pie.session_create_throttle;
+do $$ begin
+  perform set_config('request.jwt.claims','{"sub":"cccccccc-0000-0000-0000-00000000000c","role":"authenticated"}',true);
+  set local role authenticated;
+  begin perform public.pie_create_session(1); raise exception 'FAIL E3b active cap';
+  exception when sqlstate '53400' then null; end;
+end $$;
+select public.t_assert((select count(*) from pie.adaptive_session a join public.practice_sessions ps on ps.id=a.session_id where a.user_id='cccccccc-0000-0000-0000-00000000000c' and ps.status='active') = 3, 'E3b exactly 3 active');
+update public.practice_sessions set status='abandoned' where id = (select session_id from pie.adaptive_session where user_id='cccccccc-0000-0000-0000-00000000000c' order by created_at limit 1);
+do $$ begin
+  perform set_config('request.jwt.claims','{"sub":"cccccccc-0000-0000-0000-00000000000c","role":"authenticated"}',true);
+  set local role authenticated; perform public.pie_create_session(1);
 end $$;
 
 \echo '### S9 no answer-key exposure / no internal access'
