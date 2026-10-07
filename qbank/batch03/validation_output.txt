@@ -1,0 +1,14 @@
+Items: 50 | ids ZQ-0351 - ZQ-0400
+By group: {'adult_medicine': 15, 'adult_surgery': 10, 'womens_health': 6, 'child_health': 7, 'mental_health': 6, 'population_health_ethics': 6}
+By task: {'management': 17, 'data_interpretation_synthesis': 16, 'data_gathering': 17}
+By app difficulty: {'easy': 10, 'moderate': 25, 'difficult': 15}
+By tier: {2: 10, 3: 25, 4: 12, 5: 3}
+Key spread: {'A': 10, 'B': 10, 'C': 10, 'D': 10, 'E': 10}
+By system_category: {'Cardiology': 5, 'Gastroenterology': 2, 'Infectious Diseases': 5, 'Haematology & Oncology': 1, 'Renal': 1, 'Respiratory': 2, 'Neurology': 1, 'General Surgery': 4, 'Trauma': 3, 'Urology': 3, 'Obstetrics': 2, 'Gynaecology': 4, 'Paediatric Medicine': 7, 'Psychosis': 3, 'Mood Disorders': 3, 'Epidemiology': 4}
+irt_b out of band: none
+irt_b range: -1.3 1.6
+Structural errors: none
+Exact duplicate stems in batch: 0
+Highest stem similarity (word-sequence ratio vs 170 bank + batch01 + batch02 + rest of batch; >0.6 would suggest a near-duplicate): [('ZQ-0371', 0.39), ('ZQ-0358', 0.39), ('ZQ-0369', 0.38)]
+Banned terms (docdoc/cannabis): none
+Flagged: []
