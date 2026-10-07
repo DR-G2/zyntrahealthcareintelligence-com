@@ -6,6 +6,11 @@ const LEGACY_AUTH_URL = "https://yudkfmgilucyhukfggij.supabase.co/auth/v1/user";
 const allowedOrigins = new Set([
   "https://www.zyntrahealthcareintelligence.com",
   "https://zyntrahealthcareintelligence.com",
+  "https://www.zyntrahealthcareintelligence.org",
+  "https://zyntrahealthcareintelligence.org",
+  "https://zyntrahealthcareintelligence-com.vercel.app",
+  "https://zyntrahealthcareintelligence-com-rite4hire-9533s-projects.vercel.app",
+  "https://zyntrahealthcareintelligence-6t1r6eofe-rite4hire-9533s-projects.vercel.app",
   "https://zyntrahealthcareintelligence.netlify.app",
   "https://deploy-preview-53--zyntrahealthcareintelligence.netlify.app",
 ]);
