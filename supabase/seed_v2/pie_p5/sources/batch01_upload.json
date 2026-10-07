@@ -37,7 +37,7 @@
    "group_adult_medicine",
    "sys_renal",
    "irtb_-1.30",
-   "pending_owner_review"
+   "clinical_review_kim_2026_10_07"
   ]
  },
  {
@@ -78,7 +78,7 @@
    "group_adult_medicine",
    "sys_endocrine",
    "irtb_+1.20",
-   "pending_owner_review"
+   "clinical_review_kim_2026_10_07"
   ]
  },
  {
@@ -119,7 +119,7 @@
    "group_adult_medicine",
    "sys_endocrine",
    "irtb_+1.50",
-   "pending_owner_review"
+   "clinical_review_kim_2026_10_07"
   ]
  },
  {
@@ -160,7 +160,7 @@
    "group_adult_medicine",
    "sys_gastroenterology",
    "irtb_+0.10",
-   "pending_owner_review"
+   "clinical_review_kim_2026_10_07"
   ]
  },
  {
@@ -201,7 +201,7 @@
    "group_adult_medicine",
    "sys_haematology_oncology",
    "irtb_+1.00",
-   "pending_owner_review"
+   "clinical_review_kim_2026_10_07"
   ]
  },
  {
@@ -242,7 +242,7 @@
    "group_adult_medicine",
    "sys_infectious_disease",
    "irtb_+0.00",
-   "pending_owner_review"
+   "clinical_review_kim_2026_10_07"
   ]
  },
  {
@@ -283,7 +283,7 @@
    "group_adult_medicine",
    "sys_respiratory",
    "irtb_+1.30",
-   "pending_owner_review"
+   "clinical_review_kim_2026_10_07"
   ]
  },
  {
@@ -324,7 +324,7 @@
    "group_adult_medicine",
    "sys_respiratory",
    "irtb_+0.30",
-   "pending_owner_review"
+   "clinical_review_kim_2026_10_07"
   ]
  },
  {
@@ -365,7 +365,7 @@
    "group_adult_medicine",
    "sys_cardiovascular",
    "irtb_+0.40",
-   "pending_owner_review"
+   "clinical_review_kim_2026_10_07"
   ]
  },
  {
@@ -406,7 +406,7 @@
    "group_adult_medicine",
    "sys_cardiovascular",
    "irtb_-1.00",
-   "pending_owner_review"
+   "clinical_review_kim_2026_10_07"
   ]
  },
  {
@@ -447,7 +447,7 @@
    "group_adult_medicine",
    "sys_neurology",
    "irtb_+0.20",
-   "pending_owner_review"
+   "clinical_review_kim_2026_10_07"
   ]
  },
  {
@@ -488,7 +488,7 @@
    "group_adult_medicine",
    "sys_neurology",
    "irtb_+1.60",
-   "pending_owner_review"
+   "clinical_review_kim_2026_10_07"
   ]
  },
  {
@@ -529,7 +529,7 @@
    "group_adult_medicine",
    "sys_haematology_oncology",
    "irtb_+0.60",
-   "pending_owner_review"
+   "clinical_review_kim_2026_10_07"
   ]
  },
  {
@@ -570,7 +570,7 @@
    "group_adult_medicine",
    "sys_rheumatology",
    "irtb_-0.20",
-   "pending_owner_review"
+   "clinical_review_kim_2026_10_07"
   ]
  },
  {
@@ -611,7 +611,7 @@
    "group_adult_medicine",
    "sys_renal",
    "irtb_+2.00",
-   "pending_owner_review"
+   "clinical_review_kim_2026_10_07"
   ]
  },
  {
@@ -652,7 +652,7 @@
    "group_adult_surgery",
    "sys_vascular",
    "irtb_+0.10",
-   "pending_owner_review"
+   "clinical_review_kim_2026_10_07"
   ]
  },
  {
@@ -693,7 +693,7 @@
    "group_adult_surgery",
    "sys_general_surgery",
    "irtb_-0.90",
-   "pending_owner_review"
+   "clinical_review_kim_2026_10_07"
   ]
  },
  {
@@ -701,10 +701,10 @@
   "question_text": "A 64-year-old man presents to an emergency department in Ballarat, Victoria, with 2 days of constant left iliac fossa pain and loose stools. He has never had a colonoscopy; his last screening iFOBT 4 years ago was negative.\n\nHis temperature is 38.1 °C, pulse 98/min and blood pressure 132/80 mmHg. There is localised left iliac fossa tenderness and guarding, without generalised peritonism. Bowel sounds are present.\n\nInvestigations:\n- White cell count 14.2 × 10^9/L (4.0–11.0)\n- CRP 128 mg/L (<5)\n- Creatinine and liver function normal\n\nWhich one of the following is the most appropriate investigation to confirm the diagnosis?",
   "options": [
    "Colonoscopy during this admission",
-   "Plain abdominal X-ray",
+   "Erect chest and supine abdominal X-ray",
    "CT scan of the abdomen and pelvis with intravenous contrast",
-   "Barium enema",
-   "Faecal calprotectin"
+   "Water-soluble contrast enema of the colon",
+   "Faecal calprotectin with stool culture"
   ],
   "correct_answer": "C",
   "explanation": "CORRECT ANSWER\n\nC. CT scan of the abdomen and pelvis with intravenous contrast\n\n---\n\nLeft iliac fossa pain, fever and raised inflammatory markers in an older adult suggest acute diverticulitis. With no previous episode, imaging is needed to confirm it, to separate uncomplicated from complicated disease (abscess, perforation, fistula, obstruction) and to exclude other causes; contrast CT is preferred. Uncomplicated disease in a well, immunocompetent patient may be managed without antibiotics; an abscess may need drainage. Colonoscopy is usually done 6–8 weeks after recovery to exclude cancer if the colon has not been recently assessed.\n\n---\n\nKEY LEARNING POINT\nSuspected first diverticulitis: CT abdomen/pelvis with IV contrast. Defer colonoscopy for 6–8 weeks.\n\n---\n\nREFERENCES\n• {\"name\": \"Therapeutic Guidelines (eTG complete)\", \"url\": \"https://www.tg.org.au\"}\n• {\"name\": \"ASCRS clinical practice guidelines for the management of left-sided colonic diverticulitis (Dis Colon Rectum 2020)\", \"url\": \"https://doi.org/10.1097/DCR.0000000000001679\"}",
@@ -716,7 +716,7 @@
   "incorrect_answer_explanations": {
    "A": "Colonoscopy in acute diverticulitis risks perforation and is deferred for about 6–8 weeks.",
    "B": "A plain film may show free gas or obstruction but cannot diagnose or stage diverticulitis.",
-   "D": "Contrast enema has no acute role, and barium can cause severe peritonitis if perforated.",
+   "D": "Contrast enema has no role in the acute phase: it cannot show pericolic abscess or extraluminal disease as CT does, and colonic distension risks perforation (barium would cause severe peritonitis).",
    "E": "Calprotectin helps separate IBD from functional disorders; it does not confirm diverticulitis or its complications."
   },
   "key_takeaways": [
@@ -734,7 +734,7 @@
    "group_adult_surgery",
    "sys_general_surgery",
    "irtb_-0.10",
-   "pending_owner_review"
+   "clinical_review_kim_2026_10_07"
   ]
  },
  {
@@ -775,7 +775,7 @@
    "group_adult_surgery",
    "sys_general_surgery",
    "irtb_+0.30",
-   "pending_owner_review"
+   "clinical_review_kim_2026_10_07"
   ]
  },
  {
@@ -789,7 +789,7 @@
    "Start range-of-motion exercises and review if pain persists at 6 weeks"
   ],
   "correct_answer": "A",
-  "explanation": "CORRECT ANSWER\n\nA. Immobilise the wrist in a splint and arrange further scaphoid imaging\n\n---\n\nSnuffbox tenderness and pain on axial thumb loading after a fall on the outstretched hand mean a scaphoid fracture must be presumed even when first X-rays are normal; about 20% of clinically suspected fractures with normal initial films are true fractures. Because the proximal pole's blood supply is retrograde, a missed waist fracture risks non-union and avascular necrosis. Immobilise the wrist (a short-arm cast or splint is as effective as a thumb spica) and arrange early review with further imaging: repeat scaphoid X-rays at about 10–14 days in fracture clinic, with MRI if tenderness persists and the repeat film is normal, or early MRI/CT where available. A confirmed fracture is immobilised for about 6 weeks.\n\n---\n\nKEY LEARNING POINT\nSnuffbox tenderness with a normal X-ray: treat as a scaphoid fracture. Immobilise and re-image (MRI/CT, or repeat X-ray at 10–14 days).\n\n---\n\nREFERENCES\n• {\"name\": \"Royal Children's Hospital. Scaphoid fractures – emergency management (clinical practice guideline)\", \"url\": \"https://www.rch.org.au/clinicalguide/guideline_index/fractures/Scaphoid_Fractures_%E2%80%93_Emergency_Management/\"}",
+  "explanation": "CORRECT ANSWER\n\nA. Immobilise the wrist in a splint and arrange further scaphoid imaging\n\n---\n\nSnuffbox tenderness and pain on axial thumb loading after a fall on the outstretched hand mean a scaphoid fracture must be presumed even when first X-rays are normal; about 20% of clinically suspected fractures with normal initial films are true fractures. Because the proximal pole's blood supply is retrograde, a missed waist fracture risks non-union and avascular necrosis. Immobilise the wrist (a short-arm cast or splint is as effective as a thumb spica) and arrange early review with further imaging: repeat scaphoid X-rays at about 10–14 days in fracture clinic, with MRI if tenderness persists and the repeat film is normal, or early MRI/CT where available. A confirmed fracture is immobilised for about 6 weeks.\n\n---\n\nKEY LEARNING POINT\nSnuffbox tenderness with a normal X-ray: treat as a scaphoid fracture. Immobilise and re-image (MRI/CT, or repeat X-ray at 10–14 days).\n\n---\n\nREFERENCES\n• {\"name\": \"Royal Children's Hospital. Scaphoid fractures – emergency management (clinical practice guideline)\", \"url\": \"https://www.rch.org.au/clinicalguide/guideline_index/fractures/Scaphoid_Fractures_%E2%80%93_Emergency_Management/\"}\n• {\"name\": \"Initial management of potential occult scaphoid fracture in Australasia. Int J Emerg Med 2010\", \"url\": \"https://intjem.biomedcentral.com/articles/10.1007/s12245-009-0138-3\"}\n• {\"name\": \"The current management of scaphoid fractures in the ED across an Australian metropolitan public health service. Medicine 2022\", \"url\": \"https://journals.lww.com/md-journal/fulltext/2022/07150/the_current_management_of_scaphoid_fractures_in.27.aspx\"}\n",
   "category": "Adult Surgery",
   "system_category": "Orthopaedics",
   "subtopic": "Suspected scaphoid fracture with a normal initial X-ray: immobilise and re-image",
@@ -798,13 +798,13 @@
   "incorrect_answer_explanations": {
    "B": "A normal first X-ray does not exclude a scaphoid fracture; missing one risks non-union and AVN.",
    "C": "Surgery is for confirmed displaced or proximal pole fractures; none is confirmed yet.",
-   "D": "Ultrasound is not reliable for occult scaphoid fracture.",
+   "D": "Ultrasound is operator-dependent and not reliable enough to exclude an occult scaphoid fracture; MRI is the preferred second-line test when the repeat X-ray is normal and tenderness persists.",
    "E": "Mobilising an unrecognised fracture increases the risk of non-union."
   },
   "key_takeaways": [
    "Snuffbox tenderness with a normal X-ray: treat as a scaphoid fracture. Immobilise and re-image (MRI/CT, or repeat X-ray at 10–14 days)."
   ],
-  "guideline_reference": "{\"name\": \"Royal Children's Hospital. Scaphoid fractures – emergency management (clinical practice guideline)\", \"url\": \"https://www.rch.org.au/clinicalguide/guideline_index/fractures/Scaphoid_Fractures_%E2%80%93_Emergency_Management/\"}",
+  "guideline_reference": "{\"name\": \"Royal Children's Hospital. Scaphoid fractures – emergency management (clinical practice guideline)\", \"url\": \"https://www.rch.org.au/clinicalguide/guideline_index/fractures/Scaphoid_Fractures_%E2%80%93_Emergency_Management/\"}; {\"name\": \"Initial management of potential occult scaphoid fracture in Australasia. Int J Emerg Med 2010\", \"url\": \"https://intjem.biomedcentral.com/articles/10.1007/s12245-009-0138-3\"}; {\"name\": \"The current management of scaphoid fractures in the ED across an Australian metropolitan public health service. Medicine 2022\", \"url\": \"https://journals.lww.com/md-journal/fulltext/2022/07150/the_current_management_of_scaphoid_fractures_in.27.aspx\"}",
   "clinical_vignette": true,
   "question_type": "mcq",
   "tags": [
@@ -816,8 +816,7 @@
    "group_adult_surgery",
    "sys_orthopaedics",
    "irtb_-1.10",
-   "pending_owner_review",
-   "flag_source_check"
+   "clinical_review_kim_2026_10_07"
   ]
  },
  {
@@ -858,7 +857,7 @@
    "group_adult_surgery",
    "sys_orthopaedics",
    "irtb_-1.40",
-   "pending_owner_review"
+   "clinical_review_kim_2026_10_07"
   ]
  },
  {
@@ -899,7 +898,7 @@
    "group_adult_surgery",
    "sys_trauma",
    "irtb_+1.10",
-   "pending_owner_review"
+   "clinical_review_kim_2026_10_07"
   ]
  },
  {
@@ -940,7 +939,7 @@
    "group_adult_surgery",
    "sys_urology",
    "irtb_-0.30",
-   "pending_owner_review"
+   "clinical_review_kim_2026_10_07"
   ]
  },
  {
@@ -981,7 +980,7 @@
    "group_adult_surgery",
    "sys_trauma",
    "irtb_+0.50",
-   "pending_owner_review"
+   "clinical_review_kim_2026_10_07"
   ]
  },
  {
@@ -992,10 +991,10 @@
    "Perform an emergency needle cricothyroidotomy",
    "Attempt rapid sequence intubation on the ward",
    "Arrange an urgent neck ultrasound",
-   "Remove the dressing, cut the skin sutures and open the wound, including the strap muscle layer, at the bedside"
+   "Open the wound at the bedside, including the strap muscles, to release the haematoma"
   ],
   "correct_answer": "E",
-  "explanation": "CORRECT ANSWER\n\nE. Remove the dressing, cut the skin sutures and open the wound, including the strap muscle layer, at the bedside\n\n---\n\nIncreasing neck swelling with stridor and hypoxia after thyroidectomy is a compressive haematoma, which can obstruct the airway within minutes through venous and lymphatic congestion and laryngeal oedema. A blocked or poorly draining drain does not exclude it. The emergency treatment is immediate bedside wound opening (the 'SCOOP' approach: Skin exposure, Cut sutures, Open skin, Open muscles, Pack) to release the clot, with high-flow oxygen and help called. She then returns to theatre for haemostasis, with the airway managed by an experienced anaesthetist. Decompression comes before attempts at intubation, which are very difficult through a distorted, oedematous airway.\n\n---\n\nKEY LEARNING POINT\nPost-thyroidectomy haematoma with airway compromise: open the wound at the bedside (SCOOP) immediately, then return to theatre.\n\n---\n\nREFERENCES\n• {\"name\": \"Difficult Airway Society. Management of haematoma after thyroid surgery: systematic review and multidisciplinary consensus guidelines (Iliff et al., Anaesthesia 2022)\", \"url\": \"https://doi.org/10.1111/anae.15585\"}",
+  "explanation": "CORRECT ANSWER\n\nE. Open the wound at the bedside, including the strap muscles, to release the haematoma\n\n---\n\nIncreasing neck swelling with stridor and hypoxia after thyroidectomy is a compressive haematoma, which can obstruct the airway within minutes through venous and lymphatic congestion and laryngeal oedema. A blocked or poorly draining drain does not exclude it. The emergency treatment is immediate bedside wound opening (the 'SCOOP' approach: Skin exposure, Cut sutures, Open skin, Open muscles, Pack) to release the clot, with high-flow oxygen and help called. She then returns to theatre for haemostasis, with the airway managed by an experienced anaesthetist. Decompression comes before attempts at intubation, which are very difficult through a distorted, oedematous airway.\n\n---\n\nKEY LEARNING POINT\nPost-thyroidectomy haematoma with airway compromise: open the wound at the bedside (SCOOP) immediately, then return to theatre.\n\n---\n\nREFERENCES\n• {\"name\": \"Difficult Airway Society. Management of haematoma after thyroid surgery: systematic review and multidisciplinary consensus guidelines (Iliff et al., Anaesthesia 2022)\", \"url\": \"https://doi.org/10.1111/anae.15585\"}",
   "category": "Adult Surgery",
   "system_category": "ENT & Ophthalmology",
   "subtopic": "Expanding neck haematoma with stridor after thyroidectomy: open the wound at the bedside",
@@ -1022,7 +1021,7 @@
    "group_adult_surgery",
    "sys_ent_ophthalmology",
    "irtb_+1.40",
-   "pending_owner_review"
+   "clinical_review_kim_2026_10_07"
   ]
  },
  {
@@ -1063,7 +1062,7 @@
    "group_womens_health",
    "sys_obstetrics",
    "irtb_+0.20",
-   "pending_owner_review"
+   "clinical_review_kim_2026_10_07"
   ]
  },
  {
@@ -1104,7 +1103,7 @@
    "group_womens_health",
    "sys_obstetrics",
    "irtb_-0.80",
-   "pending_owner_review"
+   "clinical_review_kim_2026_10_07"
   ]
  },
  {
@@ -1145,7 +1144,7 @@
    "group_womens_health",
    "sys_obstetrics",
    "irtb_+0.00",
-   "pending_owner_review"
+   "clinical_review_kim_2026_10_07"
   ]
  },
  {
@@ -1186,7 +1185,7 @@
    "group_womens_health",
    "sys_gynaecology",
    "irtb_+1.00",
-   "pending_owner_review"
+   "clinical_review_kim_2026_10_07"
   ]
  },
  {
@@ -1227,7 +1226,7 @@
    "group_womens_health",
    "sys_gynaecology",
    "irtb_-0.20",
-   "pending_owner_review"
+   "clinical_review_kim_2026_10_07"
   ]
  },
  {
@@ -1268,7 +1267,7 @@
    "group_womens_health",
    "sys_obstetrics",
    "irtb_-1.00",
-   "pending_owner_review"
+   "clinical_review_kim_2026_10_07"
   ]
  },
  {
@@ -1309,21 +1308,21 @@
    "group_child_health",
    "sys_paediatric_medicine",
    "irtb_-0.20",
-   "pending_owner_review"
+   "clinical_review_kim_2026_10_07"
   ]
  },
  {
   "zyntra_id": "ZQ-0283",
   "question_text": "A 5-week-old boy is transferred to a paediatric surgical unit in Melbourne with 5 days of forceful non-bilious vomiting after every feed; he seems hungry straight afterwards. He was born at term weighing 3.6 kg and now weighs 3.7 kg.\n\nHe has a sunken fontanelle and dry mucous membranes; capillary refill is 2 seconds. An olive-shaped epigastric mass is felt during a test feed. Ultrasound shows pyloric muscle thickness 5 mm and channel length 19 mm.\n\nCapillary blood gas:\n- pH 7.53\n- Bicarbonate 36 mmol/L (22–28)\n- Chloride 86 mmol/L (95–110)\n- Potassium 2.9 mmol/L (3.5–5.5)\n- Sodium 132 mmol/L (135–145)\n- Glucose 4.2 mmol/L\n\nWhich one of the following is the most appropriate management?",
   "options": [
-   "IV 0.9% sodium chloride with 5% glucose and added potassium, then pyloromyotomy once chloride and bicarbonate have normalised",
-   "Immediate laparoscopic pyloromyotomy",
-   "IV 5% glucose alone at maintenance rate",
-   "IV sodium bicarbonate to correct the low sodium",
-   "Thickened feeds and a proton pump inhibitor"
+   "IV 0.9% sodium chloride + 5% glucose with potassium; operate once electrolytes normalise",
+   "Laparoscopic pyloromyotomy on the next available list today, with fluids started in theatre",
+   "IV 5% glucose at maintenance rate, then pyloromyotomy once he is passing urine",
+   "IV sodium bicarbonate to correct the sodium, then pyloromyotomy tomorrow",
+   "Thickened feeds and a proton pump inhibitor, with review in 1 week"
   ],
   "correct_answer": "A",
-  "explanation": "CORRECT ANSWER\n\nA. IV 0.9% sodium chloride with 5% glucose and added potassium, then pyloromyotomy once chloride and bicarbonate have normalised\n\n---\n\nHe has infantile hypertrophic pyloric stenosis, confirmed on ultrasound, with the typical hypochloraemic, hypokalaemic metabolic alkalosis caused by loss of gastric acid. RCH says correcting dehydration, electrolyte and acid–base abnormalities is the priority, and surgery is delayed until they are corrected. It is particularly important to wait for the serum bicarbonate to normalise, because a metabolic alkalosis risks postoperative hypoventilation and apnoea. Fluids: 0.9% sodium chloride boluses only if needed for resuscitation, then 0.9% sodium chloride + 5% glucose for deficit and maintenance, with potassium added once urine output is adequate (1–2 mL/kg/h). Stop oral feeds, and pass a nasogastric tube if vomiting continues. Pyloromyotomy follows once the biochemistry has normalised.\n\n---\n\nKEY LEARNING POINT\nPyloric stenosis: correct the hypochloraemic hypokalaemic alkalosis with 0.9% saline + 5% glucose + KCl before pyloromyotomy, to avoid postoperative apnoea.\n\n---\n\nREFERENCES\n• {\"name\": \"Royal Children's Hospital. Pyloric stenosis (clinical practice guideline, updated March 2024)\", \"url\": \"https://www.rch.org.au/clinicalguide/guideline_index/Pyloric_stenosis/\"}",
+  "explanation": "CORRECT ANSWER\n\nA. IV 0.9% sodium chloride + 5% glucose with potassium; operate once electrolytes normalise\n\n---\n\nHe has infantile hypertrophic pyloric stenosis, confirmed on ultrasound, with the typical hypochloraemic, hypokalaemic metabolic alkalosis caused by loss of gastric acid. RCH says correcting dehydration, electrolyte and acid–base abnormalities is the priority, and surgery is delayed until they are corrected. It is particularly important to wait for the serum bicarbonate to normalise, because a metabolic alkalosis risks postoperative hypoventilation and apnoea. Fluids: 0.9% sodium chloride boluses only if needed for resuscitation, then 0.9% sodium chloride + 5% glucose for deficit and maintenance, with potassium added once urine output is adequate (1–2 mL/kg/h). Stop oral feeds, and pass a nasogastric tube if vomiting continues. Pyloromyotomy follows once the biochemistry has normalised.\n\n---\n\nKEY LEARNING POINT\nPyloric stenosis: correct the hypochloraemic hypokalaemic alkalosis with 0.9% saline + 5% glucose + KCl before pyloromyotomy, to avoid postoperative apnoea.\n\n---\n\nREFERENCES\n• {\"name\": \"Royal Children's Hospital. Pyloric stenosis (clinical practice guideline, updated March 2024)\", \"url\": \"https://www.rch.org.au/clinicalguide/guideline_index/Pyloric_stenosis/\"}",
   "category": "Child Health",
   "system_category": "Neonatology",
   "subtopic": "Pyloric stenosis with hypochloraemic alkalosis: correct fluids and electrolytes before pyloromyotomy",
@@ -1350,7 +1349,7 @@
    "group_child_health",
    "sys_neonatology",
    "irtb_+1.30",
-   "pending_owner_review"
+   "clinical_review_kim_2026_10_07"
   ]
  },
  {
@@ -1391,7 +1390,7 @@
    "group_child_health",
    "sys_paediatric_medicine",
    "irtb_+0.20",
-   "pending_owner_review"
+   "clinical_review_kim_2026_10_07"
   ]
  },
  {
@@ -1432,7 +1431,7 @@
    "group_child_health",
    "sys_orthopaedics",
    "irtb_+0.40",
-   "pending_owner_review"
+   "clinical_review_kim_2026_10_07"
   ]
  },
  {
@@ -1473,31 +1472,31 @@
    "group_child_health",
    "sys_paediatric_medicine",
    "irtb_-1.20",
-   "pending_owner_review"
+   "clinical_review_kim_2026_10_07"
   ]
  },
  {
   "zyntra_id": "ZQ-0287",
   "question_text": "A 6-year-old boy is reviewed by his general practitioner in Coffs Harbour, NSW, 4 days after IgA vasculitis (Henoch–Schönlein purpura) was diagnosed in the emergency department. He has palpable purpura on his buttocks and legs, sore ankles and occasional colicky abdominal pain, controlled with paracetamol. He had a sore throat 2 weeks ago and is eating and drinking.\n\nHis blood pressure is 98/60 mmHg (normal for age). His ankles are mildly swollen and his abdomen is soft and non-tender.\n\nIn the ED his full blood count, coagulation and creatinine were normal and urinalysis was negative. His mother asks what follow-up he needs.\n\nWhich one of the following is the most appropriate follow-up to detect the most important long-term complication?",
   "options": [
-   "Weekly full blood count for 1 month",
-   "Repeat urinalysis only if he develops swelling",
-   "Renal ultrasound at 3 months",
-   "Blood pressure and urinalysis weekly for the first month, fortnightly to week 12, then at 6 and 12 months",
-   "Oral prednisolone to prevent kidney disease"
+   "Full blood count and creatinine weekly for 1 month, then discharge if normal",
+   "Urinalysis only if he develops oedema, haematuria or reduced urine output",
+   "Renal ultrasound and creatinine at 3 months, then discharge if normal",
+   "BP and urinalysis weekly for 1 month, fortnightly to week 12, then at 6 and 12 months",
+   "Oral prednisolone for 2 weeks to prevent nephritis, with urinalysis at 1 month"
   ],
   "correct_answer": "D",
-  "explanation": "CORRECT ANSWER\n\nD. Blood pressure and urinalysis weekly for the first month, fortnightly to week 12, then at 6 and 12 months\n\n---\n\nMost childhood IgA vasculitis (HSP) resolves within about 4 weeks, but renal involvement is the main long-term risk and is usually asymptomatic. According to RCH, 90% of children who develop renal complications do so within 2 months of onset and 97% within 6 months, so a normal first urinalysis does not exclude later nephritis. If the first urinalysis is normal (or shows only microscopic haematuria), RCH recommends a clinical review with BP and urinalysis weekly for the first month, fortnightly from weeks 5–12, and single reviews at 6 and 12 months, going back to weekly checks if the disease flares. If urinalysis is normal at 12 months, no further follow-up is needed. Hypertension, proteinuria or macroscopic haematuria at any stage needs paediatric review, and persistent proteinuria needs renal referral. Steroids do not change the rate of long-term renal complications.\n\n---\n\nKEY LEARNING POINT\nIgA vasculitis (HSP): BP + urinalysis weekly for month 1, fortnightly to week 12, then at 6 and 12 months (RCH). Renal involvement is usually silent; steroids do not prevent it.\n\n---\n\nREFERENCES\n• {\"name\": \"Royal Children's Hospital. IgA vasculitis (Henoch–Schönlein purpura) clinical practice guideline\", \"url\": \"https://www.rch.org.au/clinicalguide/guideline_index/henochschonlein_purpura/\"}",
+  "explanation": "CORRECT ANSWER\n\nD. BP and urinalysis weekly for 1 month, fortnightly to week 12, then at 6 and 12 months\n\n---\n\nMost childhood IgA vasculitis (HSP) resolves within about 4 weeks, but renal involvement is the main long-term risk and is usually asymptomatic. According to RCH, 90% of children who develop renal complications do so within 2 months of onset and 97% within 6 months, so a normal first urinalysis does not exclude later nephritis. If the first urinalysis is normal (or shows only microscopic haematuria), RCH recommends a clinical review with BP and urinalysis weekly for the first month, fortnightly from weeks 5–12, and single reviews at 6 and 12 months, going back to weekly checks if the disease flares. If urinalysis is normal at 12 months, no further follow-up is needed. Hypertension, proteinuria or macroscopic haematuria at any stage needs paediatric review, and persistent proteinuria needs renal referral. Steroids do not change the rate of long-term renal complications.\n\n---\n\nKEY LEARNING POINT\nIgA vasculitis (HSP): BP + urinalysis weekly for month 1, fortnightly to week 12, then at 6 and 12 months (RCH). Renal involvement is usually silent; steroids do not prevent it.\n\n---\n\nREFERENCES\n• {\"name\": \"Royal Children's Hospital. IgA vasculitis (Henoch–Schönlein purpura) clinical practice guideline\", \"url\": \"https://www.rch.org.au/clinicalguide/guideline_index/henochschonlein_purpura/\"}",
   "category": "Child Health",
   "system_category": "Paediatric Medicine",
   "subtopic": "IgA vasculitis (Henoch–Schönlein purpura): urinalysis and blood pressure monitoring for nephritis",
   "difficulty": "difficult",
   "difficulty_tier": 4,
   "incorrect_answer_explanations": {
-   "A": "Platelets are normal in IgA vasculitis, and repeated blood counts do not detect nephritis.",
+   "A": "Platelets are normal in IgA vasculitis and creatinine is a late marker; nephritis is detected earlier by blood pressure and urinalysis, and a single month of follow-up misses the 2-6 month window when most renal involvement appears.",
    "B": "Nephritis is often silent and can follow a normal first urinalysis; scheduled testing is needed.",
-   "C": "Ultrasound does not detect glomerulonephritis.",
-   "E": "Steroids may help severe abdominal pain but do not prevent nephritis."
+   "C": "Ultrasound does not detect glomerulonephritis, and one check at 3 months misses most early nephritis and the later cases up to 6-12 months.",
+   "E": "Early prednisolone does not prevent IgA vasculitis nephritis (RCH); steroids are used for severe abdominal pain, not prophylaxis, and one urinalysis at 1 month is insufficient follow-up."
   },
   "key_takeaways": [
    "IgA vasculitis (HSP): BP + urinalysis weekly for month 1, fortnightly to week 12, then at 6 and 12 months (RCH). Renal involvement is usually silent; steroids do not prevent it."
@@ -1514,7 +1513,7 @@
    "group_child_health",
    "sys_paediatric_medicine",
    "irtb_+0.90",
-   "pending_owner_review"
+   "clinical_review_kim_2026_10_07"
   ]
  },
  {
@@ -1555,21 +1554,21 @@
    "group_mental_health",
    "sys_mood",
    "irtb_-0.10",
-   "pending_owner_review"
+   "clinical_review_kim_2026_10_07"
   ]
  },
  {
   "zyntra_id": "ZQ-0289",
   "question_text": "A 26-year-old accountant sees her general practitioner in Darwin for review of obsessive-compulsive disorder. She has intrusive fears of contamination and spent about 3 hours a day handwashing and cleaning. Six weeks ago she started sertraline 50 mg daily and has had four sessions of exposure and response prevention (ERP) with a psychologist under a Mental Health Treatment Plan. She now spends about 2 hours a day on rituals and has mild nausea only. She has no suicidal thoughts and no alcohol or drug use.\n\nHer Y-BOCS score has fallen from 28 to 24.\n\nWhich one of the following is the most appropriate next step?",
   "options": [
-   "Switch to clomipramine",
-   "Increase sertraline gradually towards a higher dose (such as 150–200 mg daily) and continue ERP",
-   "Add low-dose risperidone",
-   "Stop ERP and continue sertraline 50 mg alone",
-   "Add diazepam 5 mg as needed for distress"
+   "Switch to clomipramine and continue exposure and response prevention",
+   "Increase sertraline stepwise towards 150-200 mg daily and continue ERP",
+   "Add low-dose risperidone to sertraline 50 mg and continue ERP",
+   "Stop ERP and continue sertraline 50 mg alone for another 6 weeks",
+   "Add diazepam 5 mg as needed for distress during exposure sessions"
   ],
   "correct_answer": "B",
-  "explanation": "CORRECT ANSWER\n\nB. Increase sertraline gradually towards a higher dose (such as 150–200 mg daily) and continue ERP\n\n---\n\nShe has had a partial response after only 6 weeks on a low SSRI dose. Australian Prescriber (Therapeutic Guidelines) notes that OCD responds to SSRIs more slowly than depression and that most patients need doses in the higher therapeutic range (sertraline 50–200 mg/day in studies). The dose can go up every 2 weeks as tolerated, and an SSRI should be trialled at its maximum dose for at least 12 weeks before it is judged ineffective. Gains usually plateau at about 12 weeks. ERP has the strongest psychological evidence, and combining it with an SSRI works better than either alone, so ERP should continue. Clomipramine is usually kept for after two failed SSRI trials, OCD tends not to respond to benzodiazepines, and treatment-resistant patients should be referred to a psychiatrist.\n\n---\n\nKEY LEARNING POINT\nOCD: SSRIs often need higher doses and 8–12 weeks. Optimise the dose and continue ERP before switching or augmenting.\n\n---\n\nREFERENCES\n• {\"name\": \"Brakoulias V. Managing obsessive compulsive disorder. Aust Prescr 2015;38:121-3\", \"url\": \"https://australianprescriber.tg.org.au/articles/managing-obsessive-compulsive-disorder.html\"}\n• {\"name\": \"Therapeutic Guidelines (eTG complete)\", \"url\": \"https://www.tg.org.au\"}",
+  "explanation": "CORRECT ANSWER\n\nB. Increase sertraline stepwise towards 150-200 mg daily and continue ERP\n\n---\n\nShe has had a partial response after only 6 weeks on a low SSRI dose. Australian Prescriber (Therapeutic Guidelines) notes that OCD responds to SSRIs more slowly than depression and that most patients need doses in the higher therapeutic range (sertraline 50–200 mg/day in studies). The dose can go up every 2 weeks as tolerated, and an SSRI should be trialled at its maximum dose for at least 12 weeks before it is judged ineffective. Gains usually plateau at about 12 weeks. ERP has the strongest psychological evidence, and combining it with an SSRI works better than either alone, so ERP should continue. Clomipramine is usually kept for after two failed SSRI trials, OCD tends not to respond to benzodiazepines, and treatment-resistant patients should be referred to a psychiatrist.\n\n---\n\nKEY LEARNING POINT\nOCD: SSRIs often need higher doses and 8–12 weeks. Optimise the dose and continue ERP before switching or augmenting.\n\n---\n\nREFERENCES\n• {\"name\": \"Brakoulias V. Managing obsessive compulsive disorder. Aust Prescr 2015;38:121-3\", \"url\": \"https://australianprescriber.tg.org.au/articles/managing-obsessive-compulsive-disorder.html\"}\n• {\"name\": \"Therapeutic Guidelines (eTG complete)\", \"url\": \"https://www.tg.org.au\"}",
   "category": "Mental Health",
   "system_category": "Anxiety Disorders",
   "subtopic": "OCD with a partial response to low-dose SSRI: increase the dose and continue exposure and response prevention",
@@ -1596,7 +1595,7 @@
    "group_mental_health",
    "sys_anxiety",
    "irtb_+0.30",
-   "pending_owner_review"
+   "clinical_review_kim_2026_10_07"
   ]
  },
  {
@@ -1604,10 +1603,10 @@
   "question_text": "A 74-year-old retired teacher is brought to her general practitioner in Wollongong, NSW, by her daughter, who is worried about her memory. Over 3 months since her husband's death she has stopped going to her book club, forgets appointments and cannot concentrate on the newspaper. She wakes at 4 am and has lost 5 kg. She complains that her memory is 'useless'.\n\nOn cognitive testing she often answers 'I don't know' and gives up quickly, but with encouragement gets several answers right. Her performance varies from item to item without a clear pattern. She is oriented to time and place, well groomed and has no focal neurological signs. FBC, electrolytes, calcium, TSH, B12 and folate are normal.\n\nWhich one of the following is the most likely explanation for her cognitive symptoms?",
   "options": [
    "Major depressive disorder with cognitive impairment",
-   "Early Alzheimer disease",
-   "Delirium",
-   "Normal grief",
-   "Frontotemporal dementia"
+   "Early Alzheimer disease (amnestic presentation)",
+   "Hypoactive delirium",
+   "Normal (uncomplicated) bereavement",
+   "Behavioural-variant frontotemporal dementia"
   ],
   "correct_answer": "A",
   "explanation": "CORRECT ANSWER\n\nA. Major depressive disorder with cognitive impairment\n\n---\n\nSubacute onset over weeks to months after a clear trigger (bereavement), depressive features (withdrawal, early morning waking, weight loss), prominent self-reported memory complaints, 'I don't know' answers, poor effort and inconsistent performance that improves with encouragement all favour depression causing cognitive impairment (formerly 'pseudodementia'). In early Alzheimer disease onset is insidious, patients tend to minimise or lack awareness of deficits, try hard but give wrong answers or confabulate, and short-term memory loss is consistent. Treating the depression often improves cognition, but she needs follow-up because late-life depression can precede dementia.\n\n---\n\nKEY LEARNING POINT\nDepression vs dementia: subacute onset, memory complaints, 'don't know' answers and variable effort suggest depression; insidious onset, minimised deficits and wrong answers despite effort suggest dementia.\n\n---\n\nREFERENCES\n• {\"name\": \"Guideline Adaptation Committee. Clinical practice guidelines and principles of care for people with dementia (NHMRC-approved, 2016)\", \"url\": \"https://cdpc.sydney.edu.au/research/clinical-guidelines-for-dementia/\"}\n• {\"name\": \"RANZCP Clinical practice guidelines\", \"url\": \"https://www.ranzcp.org/clinical-guidelines-publications\"}",
@@ -1637,18 +1636,18 @@
    "group_mental_health",
    "sys_mood",
    "irtb_+1.50",
-   "pending_owner_review"
+   "clinical_review_kim_2026_10_07"
   ]
  },
  {
   "zyntra_id": "ZQ-0291",
   "question_text": "A 21-year-old man is seen by an early psychosis service in Geelong, Victoria, for a first episode of psychosis. He agrees to start olanzapine. He has no medical history. His father has type 2 diabetes. He smokes 15 cigarettes a day and does not use other drugs.\n\nThe registrar is planning his physical health monitoring.\n\nWhich one of the following is the most appropriate set of baseline measurements before olanzapine is started?",
   "options": [
-   "Serum prolactin and an EEG",
+   "Serum prolactin, EEG and thyroid function tests",
    "Weight, waist circumference, blood pressure, fasting glucose or HbA1c, and fasting lipids",
-   "Full blood count every week",
-   "A 12-lead ECG only",
-   "Troponin and CRP weekly for 4 weeks"
+   "Full blood count with neutrophils weekly for 18 weeks",
+   "A 12-lead ECG and serum electrolytes only",
+   "Troponin and CRP weekly for 4 weeks, with an echocardiogram"
   ],
   "correct_answer": "B",
   "explanation": "CORRECT ANSWER\n\nB. Weight, waist circumference, blood pressure, fasting glucose or HbA1c, and fasting lipids\n\n---\n\nSecond-generation antipsychotics, especially olanzapine and clozapine, cause weight gain and increase the risk of diabetes and dyslipidaemia, particularly in young people with a first episode. RANZCP guidance and the Australian 'Positive Cardiometabolic Health' algorithm recommend baseline weight/BMI, waist circumference, blood pressure, fasting glucose or HbA1c and fasting lipids, with smoking and family history, then close monitoring (weight at each visit in the first months; bloods at about 3 months then regularly). Early weight gain should prompt lifestyle intervention, a switch to a lower-risk agent or metformin. He should also be offered smoking cessation support.\n\n---\n\nKEY LEARNING POINT\nBefore an antipsychotic (especially olanzapine): weight/BMI, waist, BP, fasting glucose or HbA1c, lipids and smoking history; then monitor closely.\n\n---\n\nREFERENCES\n• {\"name\": \"Galletly C et al. RANZCP clinical practice guidelines for the management of schizophrenia and related disorders (Aust N Z J Psychiatry 2016)\", \"url\": \"https://doi.org/10.1177/0004867416641035\"}\n• {\"name\": \"Positive Cardiometabolic Health resource (Australian adaptation)\", \"url\": \"https://www.equallywell.org.au/\"}",
@@ -1678,7 +1677,7 @@
    "group_mental_health",
    "sys_psychosis",
    "irtb_+0.00",
-   "pending_owner_review"
+   "clinical_review_kim_2026_10_07"
   ]
  },
  {
@@ -1719,7 +1718,7 @@
    "group_mental_health",
    "sys_psychosis",
    "irtb_+0.10",
-   "pending_owner_review"
+   "clinical_review_kim_2026_10_07"
   ]
  },
  {
@@ -1760,7 +1759,7 @@
    "group_mental_health",
    "sys_anxiety",
    "irtb_-0.70",
-   "pending_owner_review"
+   "clinical_review_kim_2026_10_07"
   ]
  },
  {
@@ -1801,7 +1800,7 @@
    "group_population_health_ethics",
    "sys_epidemiology",
    "irtb_+0.50",
-   "pending_owner_review"
+   "clinical_review_kim_2026_10_07"
   ]
  },
  {
@@ -1842,21 +1841,21 @@
    "group_population_health_ethics",
    "sys_epidemiology",
    "irtb_+1.40",
-   "pending_owner_review"
+   "clinical_review_kim_2026_10_07"
   ]
  },
  {
   "zyntra_id": "ZQ-0296",
   "question_text": "A 52-year-old Aboriginal man has a health check at an Aboriginal Community Controlled Health Service in Alice Springs, Northern Territory. He has type 2 diabetes and hypertension and is not immunocompromised. He had chickenpox as a child and has never had herpes zoster. His other recommended vaccines are up to date.\n\nHe asks about the shingles vaccine because his uncle recently had shingles.\n\nWhich one of the following is the most appropriate advice?",
   "options": [
-   "He must wait until age 65 for a funded vaccine",
-   "He is eligible for 2 doses of recombinant zoster vaccine (Shingrix) funded under the National Immunisation Program, given 2–6 months apart",
-   "He needs varicella serology before vaccination",
+   "He must wait until age 65 to receive a funded zoster vaccine",
+   "He is eligible for 2 funded doses of Shingrix, given 2-6 months apart",
+   "He needs varicella serology to confirm past infection before vaccination",
    "He should have a single funded dose of live zoster vaccine (Zostavax)",
-   "He is eligible for only 1 funded dose of recombinant zoster vaccine"
+   "He is eligible for 1 funded Shingrix dose; the second dose is private"
   ],
   "correct_answer": "B",
-  "explanation": "CORRECT ANSWER\n\nB. He is eligible for 2 doses of recombinant zoster vaccine (Shingrix) funded under the National Immunisation Program, given 2–6 months apart\n\n---\n\nThe Australian Immunisation Handbook (updated 30 Sep 2026) recommends zoster vaccine for all immunocompetent people aged 50 and over, and says Shingrix is NIP-funded for non-Indigenous people aged 65 and over, Aboriginal and Torres Strait Islander people aged 50 and over, and people aged 18 and over with moderate or severe immunocompromise. He is a 52-year-old Aboriginal man, so he is eligible for funded vaccine. Immunocompetent people get 2 doses 2–6 months apart; immunocompromised people get 2 doses 1–2 months apart. Shingrix is non-live and is the only zoster vaccine available in Australia. Serology is not recommended before or after vaccination, and a history of chickenpox is not needed.\n\n---\n\nKEY LEARNING POINT\nFunded Shingrix (2 doses, 2–6 months apart): 65+, Aboriginal and Torres Strait Islander people 50+, and eligible immunocompromised people 18+.\n\n---\n\nREFERENCES\n• {\"name\": \"Australian Immunisation Handbook. Zoster (herpes zoster)\", \"url\": \"https://immunisationhandbook.health.gov.au/contents/vaccine-preventable-diseases/zoster-herpes-zoster\"}",
+  "explanation": "CORRECT ANSWER\n\nB. He is eligible for 2 funded doses of Shingrix, given 2-6 months apart\n\n---\n\nThe Australian Immunisation Handbook (updated 30 Sep 2026) recommends zoster vaccine for all immunocompetent people aged 50 and over, and says Shingrix is NIP-funded for non-Indigenous people aged 65 and over, Aboriginal and Torres Strait Islander people aged 50 and over, and people aged 18 and over with moderate or severe immunocompromise. He is a 52-year-old Aboriginal man, so he is eligible for funded vaccine. Immunocompetent people get 2 doses 2–6 months apart; immunocompromised people get 2 doses 1–2 months apart. Shingrix is non-live and is the only zoster vaccine available in Australia. Serology is not recommended before or after vaccination, and a history of chickenpox is not needed.\n\n---\n\nKEY LEARNING POINT\nFunded Shingrix (2 doses, 2–6 months apart): 65+, Aboriginal and Torres Strait Islander people 50+, and eligible immunocompromised people 18+.\n\n---\n\nREFERENCES\n• {\"name\": \"Australian Immunisation Handbook. Zoster (herpes zoster)\", \"url\": \"https://immunisationhandbook.health.gov.au/contents/vaccine-preventable-diseases/zoster-herpes-zoster\"}",
   "category": "Population Health & Ethics",
   "system_category": "Screening",
   "subtopic": "Funded recombinant zoster vaccine for an Aboriginal adult aged 50 or over: eligibility and schedule",
@@ -1883,21 +1882,21 @@
    "group_population_health_ethics",
    "sys_screening",
    "irtb_+1.10",
-   "pending_owner_review"
+   "clinical_review_kim_2026_10_07"
   ]
  },
  {
   "zyntra_id": "ZQ-0297",
   "question_text": "A 15-year-old girl attends a general practice in Penrith, NSW, alone. She asks to start the contraceptive pill because she has been in a sexual relationship with her 16-year-old boyfriend for 3 months. She says the relationship is consensual and she does not feel pressured, and asks the GP not to tell her parents. She can explain what the pill does, its risks and side effects, and that it does not protect against sexually transmitted infections.\n\nThere are no concerns about abuse, coercion or exploitation, and she has no contraindications to the combined pill.\n\nWhich one of the following is the most appropriate management?",
   "options": [
-   "Tell her parental consent is required under 16",
-   "Prescribe if she is assessed as a mature minor, maintain confidentiality, and offer STI testing and condom advice",
-   "Make a mandatory report to child protection because she is under 16",
-   "Refuse to prescribe but provide condoms",
-   "Prescribe and phone her parents to let them know"
+   "Explain that parental consent is required for contraception under 16",
+   "Prescribe if she is a mature minor, keep confidentiality and offer STI testing",
+   "Prescribe, but make a mandatory report to child protection because she is under 16",
+   "Decline to prescribe the pill but provide condoms and STI testing",
+   "Prescribe and phone her parents to let them know about the prescription"
   ],
   "correct_answer": "B",
-  "explanation": "CORRECT ANSWER\n\nB. Prescribe if she is assessed as a mature minor, maintain confidentiality, and offer STI testing and condom advice\n\n---\n\nUnder common law (Gillick competence, endorsed in Australia in Marion's case), a person under 18 can consent to their own treatment if they have sufficient understanding and maturity to understand fully what is proposed, including risks and alternatives. She appears to. The GP should document the competence assessment, prescribe, respect confidentiality, encourage (but not require) involvement of a trusted adult, and offer STI testing, condoms and information about long-acting reversible contraception. Her partner is of similar age and there are no concerns about coercion, so on these facts there is no mandatory report; a HEEADSSS psychosocial assessment should still screen for exploitation.\n\n---\n\nKEY LEARNING POINT\nUnder-16s can consent to contraception if Gillick-competent. Assess and document competence, keep confidentiality, and screen for abuse or coercion.\n\n---\n\nREFERENCES\n• {\"name\": \"Medical Board of Australia. Good medical practice: a code of conduct for doctors in Australia\", \"url\": \"https://www.medicalboard.gov.au/codes-guidelines-policies/code-of-conduct.aspx\"}\n• {\"name\": \"Secretary, Department of Health and Community Services v JWB and SMB (Marion's case) [1992] HCA 15\", \"url\": \"https://www.austlii.edu.au/cgi-bin/viewdoc/au/cases/cth/HCA/1992/15.html\"}",
+  "explanation": "CORRECT ANSWER\n\nB. Prescribe if she is a mature minor, keep confidentiality and offer STI testing\n\n---\n\nUnder common law (Gillick competence, endorsed in Australia in Marion's case), a person under 18 can consent to their own treatment if they have sufficient understanding and maturity to understand fully what is proposed, including risks and alternatives. She appears to. The GP should document the competence assessment, prescribe, respect confidentiality, encourage (but not require) involvement of a trusted adult, and offer STI testing, condoms and information about long-acting reversible contraception. Her partner is of similar age and there are no concerns about coercion, so on these facts there is no mandatory report; a HEEADSSS psychosocial assessment should still screen for exploitation.\n\n---\n\nKEY LEARNING POINT\nUnder-16s can consent to contraception if Gillick-competent. Assess and document competence, keep confidentiality, and screen for abuse or coercion.\n\n---\n\nREFERENCES\n• {\"name\": \"Medical Board of Australia. Good medical practice: a code of conduct for doctors in Australia\", \"url\": \"https://www.medicalboard.gov.au/codes-guidelines-policies/code-of-conduct.aspx\"}\n• {\"name\": \"Secretary, Department of Health and Community Services v JWB and SMB (Marion's case) [1992] HCA 15\", \"url\": \"https://www.austlii.edu.au/cgi-bin/viewdoc/au/cases/cth/HCA/1992/15.html\"}",
   "category": "Population Health & Ethics",
   "system_category": "Ethics & Law",
   "subtopic": "A 15-year-old requesting contraception without parental knowledge: mature minor assessment",
@@ -1924,21 +1923,21 @@
    "group_population_health_ethics",
    "sys_ethics_law",
    "irtb_+0.30",
-   "pending_owner_review"
+   "clinical_review_kim_2026_10_07"
   ]
  },
  {
   "zyntra_id": "ZQ-0298",
   "question_text": "A 34-year-old man is told by his general practitioner in Brisbane that his HIV test is positive; his viral load is 85 000 copies/mL. He has a female partner of 2 years with whom he has condomless sex. He refuses to tell her because he fears she will leave him, and asks the GP not to say anything. She is not a patient of the practice. He agrees to see an HIV specialist.\n\nThe GP has explained the transmission risk to his partner and the benefits of starting antiretroviral therapy soon.\n\nWhich one of the following is the most appropriate next step for the GP?",
   "options": [
-   "Phone his partner today and tell her the diagnosis",
-   "Respect his wishes completely and take no further action",
-   "Notify the police that he is putting his partner at risk",
-   "Refuse further care until he informs his partner",
-   "Continue counselling and support, offer provider-assisted partner notification, and seek advice from the Queensland HIV Public Health Team if he remains unwilling"
+   "Phone his partner today and disclose the diagnosis to her without his consent",
+   "Respect his wishes fully and take no further action beyond his routine HIV care",
+   "Notify the police that he is knowingly placing his partner at risk of HIV",
+   "Make his ongoing care conditional on him informing his partner this week",
+   "Keep counselling, offer assisted partner notification, and involve public health if he refuses"
   ],
   "correct_answer": "E",
-  "explanation": "CORRECT ANSWER\n\nE. Continue counselling and support, offer provider-assisted partner notification, and seek advice from the Queensland HIV Public Health Team if he remains unwilling\n\n---\n\nAt diagnosis, every person with HIV should get treatment, psychosocial support, counselling about preventing transmission, and help to make sure at-risk partners are identified and tested. Contact tracing can be patient-led or provider-assisted (ASHM). Rapid ART aiming for an undetectable viral load (U=U), with condoms or PrEP for the partner meanwhile, greatly reduces the risk. The Queensland Health guideline, which follows the 2018 National Guidelines for Managing HIV Transmission Risk Behaviours, uses a stepped, least-restrictive framework under the Public Health Act 2005. At Level 1 the treating clinician provides case management (counselling, education and support). If the person is unwilling or unable to change risk behaviours, the clinician should seek help from the HIV Public Health Team and/or notify the chair of the HIV advisory panel. Only then can escalation follow (Level 2 department-supported management, then behavioural or detention orders). The GP should not disclose independently as a first step, and must handle any identifying information within confidentiality law.\n\n---\n\nKEY LEARNING POINT\nHIV partner notification: counsel, offer provider-assisted or anonymous notification, start ART (U=U), and escalate to the public health unit if refusal continues. Do not disclose unilaterally first.\n\n---\n\nREFERENCES\n• {\"name\": \"Queensland Health. Guideline for the management of people with HIV whose behaviours may place others at risk of HIV\", \"url\": \"https://www.health.qld.gov.au/system-governance/policies-standards/guidelines/place-others-at-risk-hiv\"}\n• {\"name\": \"ASHM. Australasian Contact Tracing Guidelines: HIV\", \"url\": \"https://contacttracing.ashm.org.au/\"}\n• {\"name\": \"Medical Board of Australia. Good medical practice: a code of conduct for doctors in Australia\", \"url\": \"https://www.medicalboard.gov.au/codes-guidelines-policies/code-of-conduct.aspx\"}",
+  "explanation": "CORRECT ANSWER\n\nE. Keep counselling, offer assisted partner notification, and involve public health if he refuses\n\n---\n\nAt diagnosis, every person with HIV should get treatment, psychosocial support, counselling about preventing transmission, and help to make sure at-risk partners are identified and tested. Contact tracing can be patient-led or provider-assisted (ASHM). Rapid ART aiming for an undetectable viral load (U=U), with condoms or PrEP for the partner meanwhile, greatly reduces the risk. The Queensland Health guideline, which follows the 2018 National Guidelines for Managing HIV Transmission Risk Behaviours, uses a stepped, least-restrictive framework under the Public Health Act 2005. At Level 1 the treating clinician provides case management (counselling, education and support). If the person is unwilling or unable to change risk behaviours, the clinician should seek help from the HIV Public Health Team and/or notify the chair of the HIV advisory panel. Only then can escalation follow (Level 2 department-supported management, then behavioural or detention orders). The GP should not disclose independently as a first step, and must handle any identifying information within confidentiality law.\n\n---\n\nKEY LEARNING POINT\nHIV partner notification: counsel, offer provider-assisted or anonymous notification, start ART (U=U), and escalate to the public health unit if refusal continues. Do not disclose unilaterally first.\n\n---\n\nREFERENCES\n• {\"name\": \"Queensland Health. Guideline for the management of people with HIV whose behaviours may place others at risk of HIV\", \"url\": \"https://www.health.qld.gov.au/system-governance/policies-standards/guidelines/place-others-at-risk-hiv\"}\n• {\"name\": \"ASHM. Australasian Contact Tracing Guidelines: HIV\", \"url\": \"https://contacttracing.ashm.org.au/\"}\n• {\"name\": \"Medical Board of Australia. Good medical practice: a code of conduct for doctors in Australia\", \"url\": \"https://www.medicalboard.gov.au/codes-guidelines-policies/code-of-conduct.aspx\"}",
   "category": "Population Health & Ethics",
   "system_category": "Ethics & Law",
   "subtopic": "New HIV diagnosis with refusal to inform a regular partner: partner notification and public health escalation",
@@ -1965,21 +1964,21 @@
    "group_population_health_ethics",
    "sys_ethics_law",
    "irtb_+1.80",
-   "pending_owner_review"
+   "clinical_review_kim_2026_10_07"
   ]
  },
  {
   "zyntra_id": "ZQ-0299",
   "question_text": "A 58-year-old woman who arrived from Afghanistan 6 months ago on a humanitarian visa attends a general practice in Dandenong, Victoria. She speaks Dari and very little English. Her 14-year-old son, who speaks fluent English, has come with her and offers to interpret. She has come about 'women's problems', and the GP needs to take a full gynaecological history and discuss a possible pelvic examination.\n\nWhich one of the following is the most appropriate way to take her history?",
   "options": [
-   "Ask her son to interpret because he is fluent",
-   "Use a translation app on the GP's phone",
-   "Use a professional Dari interpreter, by phone through TIS National if one is not available in person",
-   "Take the history in simple English with gestures",
-   "Ask her to return with an adult relative to interpret"
+   "Ask her son to interpret because he is fluent in both languages",
+   "Use a translation app on the GP's phone for the history",
+   "Use a professional Dari interpreter (TIS National by phone if needed)",
+   "Take the history in simple English with gestures and diagrams",
+   "Ask her to return another day with an adult relative to interpret"
   ],
   "correct_answer": "C",
-  "explanation": "CORRECT ANSWER\n\nC. Use a professional Dari interpreter, by phone through TIS National if one is not available in person\n\n---\n\nProfessional interpreters should be used when a patient has limited English, especially for sensitive histories and consent to examination. Family members, and particularly children, should not interpret: they may filter or change information, the topic may be embarrassing, it can harm the child, and confidentiality is lost. TIS National provides free phone and on-site interpreting for medical practitioners for Medicare-rebatable services. The GP should also ask whether she would prefer a female interpreter (and a female doctor).\n\n---\n\nKEY LEARNING POINT\nLimited English: use a professional interpreter (TIS National is free for GPs). Never use children, especially for sensitive topics.\n\n---\n\nREFERENCES\n• {\"name\": \"TIS National. Free Interpreting Service for medical practitioners\", \"url\": \"https://www.tisnational.gov.au/\"}\n• {\"name\": \"Medical Board of Australia. Good medical practice: a code of conduct for doctors in Australia\", \"url\": \"https://www.medicalboard.gov.au/codes-guidelines-policies/code-of-conduct.aspx\"}",
+  "explanation": "CORRECT ANSWER\n\nC. Use a professional Dari interpreter (TIS National by phone if needed)\n\n---\n\nProfessional interpreters should be used when a patient has limited English, especially for sensitive histories and consent to examination. Family members, and particularly children, should not interpret: they may filter or change information, the topic may be embarrassing, it can harm the child, and confidentiality is lost. TIS National provides free phone and on-site interpreting for medical practitioners for Medicare-rebatable services. The GP should also ask whether she would prefer a female interpreter (and a female doctor).\n\n---\n\nKEY LEARNING POINT\nLimited English: use a professional interpreter (TIS National is free for GPs). Never use children, especially for sensitive topics.\n\n---\n\nREFERENCES\n• {\"name\": \"TIS National. Free Interpreting Service for medical practitioners\", \"url\": \"https://www.tisnational.gov.au/\"}\n• {\"name\": \"Medical Board of Australia. Good medical practice: a code of conduct for doctors in Australia\", \"url\": \"https://www.medicalboard.gov.au/codes-guidelines-policies/code-of-conduct.aspx\"}",
   "category": "Population Health & Ethics",
   "system_category": "Ethics & Law",
   "subtopic": "Gynaecological history from a patient with limited English: professional interpreter, not a family member",
@@ -2006,7 +2005,7 @@
    "group_population_health_ethics",
    "sys_ethics_law",
    "irtb_-1.20",
-   "pending_owner_review"
+   "clinical_review_kim_2026_10_07"
   ]
  },
  {
@@ -2029,7 +2028,7 @@
   "incorrect_answer_explanations": {
    "A": "A negative repeat does not exclude neoplasia; a positive screen needs colonoscopy.",
    "B": "CT colonography is for when colonoscopy is unsuitable or incomplete; colonoscopy allows biopsy and polypectomy.",
-   "C": "A positive result needs investigation.",
+   "C": "A positive iFOBT means a roughly 1 in 20-30 chance of cancer and a higher chance of advanced adenoma; it must be investigated, not discounted because earlier kits were negative.",
    "E": "CEA is not a screening or diagnostic test for bowel cancer; it is used for surveillance after treatment."
   },
   "key_takeaways": [
@@ -2047,7 +2046,7 @@
    "group_population_health_ethics",
    "sys_screening",
    "irtb_-0.40",
-   "pending_owner_review"
+   "clinical_review_kim_2026_10_07"
   ]
  }
 ]

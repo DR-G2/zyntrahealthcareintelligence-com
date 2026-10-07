@@ -1,13 +1,2 @@
 zyntra_id,source,reason,subtopic
-ZQ-0120,bank170,open flag_source_check,Heparin-induced thrombocytopenia with thrombosis: immediate anticoagulant choice
-ZQ-0149,bank170,open flag_source_check,Acute colonic pseudo-obstruction (Ogilvie syndrome) after failed conservative care
-ZQ-0178,bank170,open flag_source_check,Rh D immunoglobulin and threatened miscarriage before 12 weeks
-ZQ-0213,bank170,open flag_source_check,Breech-born infant with normal hip examination: ultrasound screening for DDH
-ZQ-0270,batch01,open flag_source_check,Suspected scaphoid fracture with a normal initial X-ray: immobilise and re-image
-ZQ-0345,batch02,no verification record (epidemiology calculation; no guideline dependency),Positive likelihood ratio from sensitivity and specificity
-ZQ-0346,batch02,no verification record (epidemiology concept; no guideline dependency),Recall bias in a case–control study
-ZQ-0347,batch02,no verification record (epidemiology calculation; no guideline dependency),Relative risk calculation from a cohort
-ZQ-0395,batch03,arithmetic author-checked only; no source verification,Prevalence from incidence and average duration (steady state)
-ZQ-0396,batch03,arithmetic author-checked only; no source verification,Incidence rate using person-time
-ZQ-0397,batch03,arithmetic author-checked only; no source verification,Herd immunity threshold from R0
-ZQ-0398,batch03,concept item; no source verification,Ecological fallacy
+ZQ-0375,batch03,"clinical review DROP: near-duplicate of ZQ-0323 (same perforated-ulcer archetype, source and teaching point)",Peritonitis with suspected perforation: CT as the first imaging test

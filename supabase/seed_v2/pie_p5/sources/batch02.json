@@ -35,8 +35,8 @@
    }
   ],
   "flag_source_check": false,
-  "reviewer_notes": "Rewritten as a data-interpretation item (Part A). Verified 2026-10-07 IST against the JBDS HHS PDF (Definition and Diagnosis section). UK source; no Australian HHS page was accessible.",
-  "status": "draft_pending_owner_review",
+  "reviewer_notes": "Rewritten as a data-interpretation item (Part A). Verified 2026-10-07 IST against the JBDS HHS PDF (Definition and Diagnosis section). UK source; no Australian HHS page was accessible. | Kim clinical review 7 Oct 2026 (IST): KEEP.",
+  "status": "clinical_review_keep_2026_10_07",
   "external_ref": "ZQ-0301",
   "author_tier": 4,
   "correct_option": "E",
@@ -88,8 +88,8 @@
    }
   ],
   "flag_source_check": false,
-  "reviewer_notes": "Key verified 2026-10-07 (IST) against the live source cited in references. Needs clinician sign-off.",
-  "status": "draft_pending_owner_review",
+  "reviewer_notes": "Key verified 2026-10-07 (IST) against the live source cited in references. Needs clinician sign-off. | Kim clinical review 7 Oct 2026 (IST): KEEP.",
+  "status": "clinical_review_keep_2026_10_07",
   "external_ref": "ZQ-0302",
   "author_tier": 3,
   "correct_option": "B",
@@ -119,11 +119,11 @@
   "stem": "A 38-year-old man sees his GP in Geelong, Vic. He injected drugs 10 years ago. HCV antibody is positive and HCV RNA is detectable. He has never been treated, and the GP plans to prescribe sofosbuvir/velpatasvir. His liver function tests are mildly raised and full blood count is normal. He takes no medicines. He has never had hepatitis B or HIV testing.",
   "lead_in": "Which one of the following tests is most important to request before starting treatment?",
   "options": {
-   "A": "Liver biopsy",
-   "B": "Serum alpha-fetoprotein",
-   "C": "Hepatitis C genotype",
+   "A": "Liver biopsy to stage fibrosis",
+   "B": "Serum alpha-fetoprotein and liver ultrasound",
+   "C": "Hepatitis C genotype and subtype",
    "D": "Hepatitis B serology (HBsAg, anti-HBc and anti-HBs)",
-   "E": "Hepatitis E serology"
+   "E": "Hepatitis E IgG and IgM serology"
   },
   "correct_answer": "D",
   "explanation_correct": "The Australian HCV guidelines' pre-treatment assessment includes testing for HBV coinfection (HBsAg, anti-HBc, anti-HBs), HIV and HAV serology, FBE, LFTs, eGFR, INR, a fibrosis assessment (such as APRI), and a review of drug interactions. The guidelines have a separate section on treating HCV with HBV coinfection, because coinfection changes how treatment is monitored and managed.",
@@ -141,8 +141,8 @@
    }
   ],
   "flag_source_check": false,
-  "reviewer_notes": "Key verified 2026-10-07 (IST) against the live source cited in references. Needs clinician sign-off.",
-  "status": "draft_pending_owner_review",
+  "reviewer_notes": "Key verified 2026-10-07 (IST) against the live source cited in references. Needs clinician sign-off. | Kim clinical review 7 Oct 2026 (IST): FIX. Cue: key was the only detailed option. Distractors made specific.",
+  "status": "clinical_review_fixed_2026_10_07",
   "external_ref": "ZQ-0303",
   "author_tier": 3,
   "correct_option": "D",
@@ -194,8 +194,8 @@
    }
   ],
   "flag_source_check": false,
-  "reviewer_notes": "Verified 2026-10-07 IST (Part B re-check) against the source cited in references. The source is a neurologist-authored Australian GP education article (AChR antibody most common; about half of ocular cases positive; CT chest if positive). The RCPA manual page was Cloudflare-blocked.",
-  "status": "draft_pending_owner_review",
+  "reviewer_notes": "Verified 2026-10-07 IST (Part B re-check) against the source cited in references. The source is a neurologist-authored Australian GP education article (AChR antibody most common; about half of ocular cases positive; CT chest if positive). The RCPA manual page was Cloudflare-blocked. | Kim clinical review 7 Oct 2026 (IST): KEEP.",
+  "status": "clinical_review_keep_2026_10_07",
   "external_ref": "ZQ-0304",
   "author_tier": 3,
   "correct_option": "D",
@@ -251,8 +251,8 @@
    }
   ],
   "flag_source_check": false,
-  "reviewer_notes": "Verified 2026-10-07 IST (Part B re-check) against the source cited in references. International criteria (no Australian guideline equivalent); a full-text copy hosted by the Lebanese MoPH was read.",
-  "status": "draft_pending_owner_review",
+  "reviewer_notes": "Verified 2026-10-07 IST (Part B re-check) against the source cited in references. International criteria (no Australian guideline equivalent); a full-text copy hosted by the Lebanese MoPH was read. | Kim clinical review 7 Oct 2026 (IST): KEEP.",
+  "status": "clinical_review_keep_2026_10_07",
   "external_ref": "ZQ-0305",
   "author_tier": 4,
   "correct_option": "B",
@@ -304,8 +304,8 @@
    }
   ],
   "flag_source_check": false,
-  "reviewer_notes": "Verified 2026-10-07 IST (Part B re-check) against the source cited in references.",
-  "status": "draft_pending_owner_review",
+  "reviewer_notes": "Verified 2026-10-07 IST (Part B re-check) against the source cited in references. | Kim clinical review 7 Oct 2026 (IST): KEEP.",
+  "status": "clinical_review_keep_2026_10_07",
   "external_ref": "ZQ-0306",
   "author_tier": 2,
   "correct_option": "D",
@@ -357,8 +357,8 @@
    }
   ],
   "flag_source_check": false,
-  "reviewer_notes": "Key verified 2026-10-07 (IST) against the live source cited in references. Needs clinician sign-off.",
-  "status": "draft_pending_owner_review",
+  "reviewer_notes": "Key verified 2026-10-07 (IST) against the live source cited in references. Needs clinician sign-off. | Kim clinical review 7 Oct 2026 (IST): KEEP.",
+  "status": "clinical_review_keep_2026_10_07",
   "external_ref": "ZQ-0307",
   "author_tier": 2,
   "correct_option": "E",
@@ -410,8 +410,8 @@
    }
   ],
   "flag_source_check": false,
-  "reviewer_notes": "Key verified 2026-10-07 (IST) against the live source cited in references. Needs clinician sign-off.",
-  "status": "draft_pending_owner_review",
+  "reviewer_notes": "Key verified 2026-10-07 (IST) against the live source cited in references. Needs clinician sign-off. | Kim clinical review 7 Oct 2026 (IST): KEEP.",
+  "status": "clinical_review_keep_2026_10_07",
   "external_ref": "ZQ-0308",
   "author_tier": 3,
   "correct_option": "C",
@@ -451,7 +451,7 @@
   "explanation_correct": "This is torsades de pointes from an acquired long QT (macrolide, SSRI, hypokalaemia, possibly hypomagnesaemia from diarrhoea). ANZCOR Guideline 11.9 says to treat immediately: stop all QT-prolonging drugs, correct electrolytes (especially potassium), and give IV magnesium 5 mmol over 10 minutes. This can be repeated once and followed by 20 mmol over 4 hours. Pacing or isoprenaline may be needed to prevent relapse. Amiodarone should be avoided because it can make things worse. Synchronised cardioversion is for adverse signs.",
   "option_explanations": {
    "B": "ANZCOR states amiodarone should be avoided in torsades because it can worsen the situation.",
-   "C": "Sotalol prolongs QT and is contraindicated.",
+   "C": "Sotalol is a class III drug that prolongs the QT interval further and can itself cause torsades; it is contraindicated here.",
    "D": "ANZCOR reserves cardioversion for adverse signs. She is alert and normotensive between self-terminating runs.",
    "E": "Beta-blockade is not the acute treatment for acquired torsades."
   },
@@ -463,8 +463,8 @@
    }
   ],
   "flag_source_check": false,
-  "reviewer_notes": "Verified 2026-10-07 IST (Part B re-check) against the source cited in references. Dose changed from 2 g to the ANZCOR 5 mmol bolus.",
-  "status": "draft_pending_owner_review",
+  "reviewer_notes": "Verified 2026-10-07 IST (Part B re-check) against the source cited in references. Dose changed from 2 g to the ANZCOR 5 mmol bolus. | Kim clinical review 7 Oct 2026 (IST): FIX. Terse explanation for C expanded.",
+  "status": "clinical_review_fixed_2026_10_07",
   "external_ref": "ZQ-0309",
   "author_tier": 3,
   "correct_option": "A",
@@ -516,8 +516,8 @@
    }
   ],
   "flag_source_check": false,
-  "reviewer_notes": "Verified 2026-10-07 IST (Part B re-check) against the source cited in references. International (KDIGO) source.",
-  "status": "draft_pending_owner_review",
+  "reviewer_notes": "Verified 2026-10-07 IST (Part B re-check) against the source cited in references. International (KDIGO) source. | Kim clinical review 7 Oct 2026 (IST): KEEP.",
+  "status": "clinical_review_keep_2026_10_07",
   "external_ref": "ZQ-0310",
   "author_tier": 4,
   "correct_option": "A",
@@ -547,11 +547,11 @@
   "stem": "A 34-year-old woman in Cairns, Qld, had a prolactin level included in tests for fatigue. Her periods are regular, she has no galactorrhoea or headaches, and a pregnancy test is negative. She takes no medicines.\n\nInvestigations:\n- Prolactin 1,150 mIU/L (<500), unchanged on repeat\n- TSH normal\n- eGFR normal",
   "lead_in": "Which one of the following is the most appropriate next investigation?",
   "options": {
-   "A": "MRI of the pituitary",
-   "B": "Formal visual field testing",
-   "C": "Macroprolactin screening of the serum (for example, polyethylene glycol precipitation)",
-   "D": "Start cabergoline",
-   "E": "Insulin tolerance test"
+   "A": "MRI of the pituitary with gadolinium",
+   "B": "Formal visual field testing (perimetry)",
+   "C": "Macroprolactin screening of the serum",
+   "D": "Start cabergoline and recheck prolactin",
+   "E": "Insulin tolerance test of pituitary reserve"
   },
   "correct_answer": "C",
   "explanation_correct": "Australian Prescriber notes that at least 10% of hyperprolactinaemia is due to macroprolactin, a complex that is cleared slowly from the circulation and is largely biologically inactive. That is why most people with macroprolactinaemia have no symptoms. In a woman with confirmed mild hyperprolactinaemia, no symptoms, and pregnancy, drugs, hypothyroidism and kidney disease excluded, macroprolactin screening comes before pituitary imaging.",
@@ -559,7 +559,7 @@
    "A": "Imaging is used for true (monomeric) hyperprolactinaemia. Doing it first risks finding an incidental lesion.",
    "B": "Visual fields are tested when a macroadenoma is suspected. She has no symptoms and her prolactin is only mildly raised.",
    "D": "Treatment is not indicated until true hyperprolactinaemia from a cause that needs treatment is confirmed.",
-   "E": "Dynamic pituitary testing is not indicated."
+   "E": "Dynamic tests of pituitary reserve are for suspected hypopituitarism; she has no features of it, and the first question is whether the prolactin is biologically active at all."
   },
   "key_learning_point": "Mild hyperprolactinaemia without symptoms: check for macroprolactin before pituitary MRI.",
   "references": [
@@ -569,8 +569,8 @@
    }
   ],
   "flag_source_check": false,
-  "reviewer_notes": "Rewritten (Part A/B): the original prolactinoma item could not be verified against a live Australian page. Verified 2026-10-07 IST against the Australian Prescriber 'Hyperprolactinaemia' article (PMC full text): macroprolactin is ≥10% of cases and largely inactive; dopamine agonist is first-line for prolactinoma.",
-  "status": "draft_pending_owner_review",
+  "reviewer_notes": "Rewritten (Part A/B): the original prolactinoma item could not be verified against a live Australian page. Verified 2026-10-07 IST against the Australian Prescriber 'Hyperprolactinaemia' article (PMC full text): macroprolactin is ≥10% of cases and largely inactive; dopamine agonist is first-line for prolactinoma. | Kim clinical review 7 Oct 2026 (IST): FIX. Cue: key 86 chars vs 27 (plus giveaway example in brackets). Options rebalanced; terse E expanded.",
+  "status": "clinical_review_fixed_2026_10_07",
   "external_ref": "ZQ-0311",
   "author_tier": 3,
   "correct_option": "C",
@@ -597,7 +597,7 @@
   "app_difficulty": "easy",
   "irt_b": -0.7,
   "irt_b_source": "author_estimate",
-  "stem": "A 72-year-old man in Orange, NSW, has had tingling in both feet for four months and feels more tired. He has had type 2 diabetes for 12 years treated with metformin 1 g twice daily. His HbA1c is 6.9%. He eats a mixed diet. There is reduced vibration sense at the toes.\n\nInvestigations:\n- Haemoglobin 118 g/L (130–180)\n- MCV 104 fL (80–100)\n- Serum B12 105 pmol/L (>150)\n- Folate normal\n- TSH normal",
+  "stem": "A 72-year-old man in Orange, NSW, has had tingling in both feet for four months and feels more tired. He has had type 2 diabetes for 12 years treated with metformin 1 g twice daily. His HbA1c is 6.9%. He eats a mixed diet. There is reduced vibration sense at the toes.\n\nInvestigations:\n- Haemoglobin 118 g/L (130–180)\n- MCV 104 fL (80–100)\n- Serum B12 105 pmol/L (>150)\n- Folate normal\n- TSH normal\n- Anti-intrinsic factor antibodies negative",
   "lead_in": "Which one of the following is the most likely cause of his macrocytosis?",
   "options": {
    "A": "Pernicious anaemia",
@@ -609,9 +609,9 @@
   "correct_answer": "D",
   "explanation_correct": "Long-term metformin reduces B12 absorption in the ileum. B12 deficiency can cause macrocytic anaemia and a neuropathy that can be mistaken for diabetic neuropathy. B12 should be checked periodically in long-term metformin users, especially those with anaemia or neuropathy. He needs B12 replacement, and metformin can usually continue.",
   "option_explanations": {
-   "A": "This is possible, and intrinsic factor antibodies could be checked, but long-term high-dose metformin is the most likely cause here.",
+   "A": "Pernicious anaemia is the commonest cause of severe B12 deficiency, but his intrinsic factor antibodies are negative and he has 12 years of high-dose metformin, the best explanation here.",
    "B": "He eats a mixed diet, so dietary deficiency is unlikely.",
-   "C": "TSH is normal.",
+   "C": "Hypothyroidism can cause a mild macrocytosis, but his TSH is normal and it would not explain a B12 of 105 pmol/L.",
    "E": "Neuropathy alone does not explain macrocytic anaemia with a low B12."
   },
   "key_learning_point": "Long-term metformin can cause B12 deficiency, with macrocytosis and neuropathy. Check B12 in these patients.",
@@ -622,8 +622,8 @@
    }
   ],
   "flag_source_check": false,
-  "reviewer_notes": "Verified 2026-10-07 IST (Part B re-check) against the source cited in references. The article lists long-term metformin as a drug cause of B12 deficiency.",
-  "status": "draft_pending_owner_review",
+  "reviewer_notes": "Verified 2026-10-07 IST (Part B re-check) against the source cited in references. The article lists long-term metformin as a drug cause of B12 deficiency. | Kim clinical review 7 Oct 2026 (IST): FIX. Ambiguity: pernicious anaemia was equally defensible. Stem now gives negative intrinsic factor antibodies; terse C expanded.",
+  "status": "clinical_review_fixed_2026_10_07",
   "external_ref": "ZQ-0312",
   "author_tier": 2,
   "correct_option": "D",
@@ -663,7 +663,7 @@
   "explanation_correct": "Hutchinson sign is vesicles on the tip, side or root of the nose. It means the nasociliary branch of V1 is involved, and that branch also supplies the cornea. It strongly predicts ocular herpes zoster (keratitis or uveitis). Any patient with HZO, and especially Hutchinson sign, red eye or reduced vision, needs prompt ophthalmology assessment with a slit lamp.",
   "option_explanations": {
    "A": "Eyelid involvement is common in HZO but predicts eye involvement less strongly than nasal tip lesions.",
-   "C": "Lymphadenopathy is non-specific.",
+   "C": "Preauricular nodes may enlarge with any eyelid or conjunctival inflammation; they are non-specific and do not predict corneal or uveal involvement.",
    "D": "The vertex lies in the V1 dermatome via the supraorbital and supratrochlear branches, which do not supply the globe.",
    "E": "Prodromal pain is typical of shingles and does not predict eye involvement."
   },
@@ -675,8 +675,8 @@
    }
   ],
   "flag_source_check": false,
-  "reviewer_notes": "Verified 2026-10-07 IST (Part B re-check) against the source cited in references. Canadian source; no Australian page stating Hutchinson sign was found.",
-  "status": "draft_pending_owner_review",
+  "reviewer_notes": "Verified 2026-10-07 IST (Part B re-check) against the source cited in references. Canadian source; no Australian page stating Hutchinson sign was found. | Kim clinical review 7 Oct 2026 (IST): FIX. Terse explanation for C expanded.",
+  "status": "clinical_review_fixed_2026_10_07",
   "external_ref": "ZQ-0313",
   "author_tier": 3,
   "correct_option": "B",
@@ -706,11 +706,11 @@
   "stem": "A 29-year-old man in Adelaide, SA, has had dysuria and a mild urethral discharge for three weeks. Urine NAATs for chlamydia and gonorrhoea are negative. His symptoms continued after 7 days of doxycycline. A first-pass urine NAAT is now positive for Mycoplasma genitalium.",
   "lead_in": "Which one of the following additional laboratory results will most directly determine his antibiotic regimen?",
   "options": {
-   "A": "Urethral swab culture for M. genitalium",
-   "B": "Gram stain of the urethral discharge",
-   "C": "Macrolide-resistance mutation testing on the M. genitalium-positive specimen",
-   "D": "Serum syphilis serology",
-   "E": "Repeat chlamydia NAAT"
+   "A": "Urethral swab culture for M. genitalium with antibiotic sensitivities",
+   "B": "Gram stain of the urethral discharge for polymorphs",
+   "C": "Macrolide-resistance mutation testing on the positive specimen",
+   "D": "Syphilis serology and HIV antigen/antibody testing",
+   "E": "Repeat chlamydia NAAT on a first-pass urine"
   },
   "correct_answer": "C",
   "explanation_correct": "The Australian STI Management Guidelines report that macrolide resistance in M. genitalium is above 60% in Australia and above 80% in men who have sex with men. They recommend resistance-guided therapy. After doxycycline, susceptible infection is treated with azithromycin (1 g, then 500 mg daily for 3 days), and macrolide-resistant infection with moxifloxacin 400 mg daily for 7 days. NAATs that detect macrolide-resistance mutations make this choice possible.",
@@ -728,8 +728,8 @@
    }
   ],
   "flag_source_check": false,
-  "reviewer_notes": "Rewritten (Part A/B): the variceal bleeding item could not be verified (NSW ACI page is JS-only; Baveno VII journal page blocked). Verified 2026-10-07 IST against STI Guidelines Australia M. genitalium page.",
-  "status": "draft_pending_owner_review",
+  "reviewer_notes": "Rewritten (Part A/B): the variceal bleeding item could not be verified (NSW ACI page is JS-only; Baveno VII journal page blocked). Verified 2026-10-07 IST against STI Guidelines Australia M. genitalium page. | Kim clinical review 7 Oct 2026 (IST): FIX. Cue: key 76 chars vs 39. Distractors lengthened.",
+  "status": "clinical_review_fixed_2026_10_07",
   "external_ref": "ZQ-0314",
   "author_tier": 4,
   "correct_option": "C",
@@ -768,7 +768,7 @@
   "correct_answer": "D",
   "explanation_correct": "Severe aortic stenosis is defined by a peak velocity of at least 4 m/s, a mean gradient of at least 40 mmHg or a valve area under 1.0 cm². When a patient with severe AS has symptoms (exertional syncope, angina or breathlessness), surgical or transcatheter valve replacement is indicated, because prognosis is poor without it.",
   "option_explanations": {
-   "A": "These values indicate mild aortic stenosis.",
+   "A": "A peak velocity below 3 m/s and mean gradient below 20 mmHg are mild aortic stenosis; they do not meet the severe threshold for valve intervention and would not explain exertional syncope.",
    "B": "Sclerosis is not stenosis and does not need intervention.",
    "C": "This does not explain his symptoms or carry the same indication.",
    "E": "A preserved ejection fraction does not by itself indicate the need for intervention."
@@ -781,8 +781,8 @@
    }
   ],
   "flag_source_check": false,
-  "reviewer_notes": "Verified 2026-10-07 IST (Part B re-check) against the source cited in references. International (ESC) source; high-gradient AS defined as mean gradient ≥40 mmHg and peak velocity ≥4 m/s.",
-  "status": "draft_pending_owner_review",
+  "reviewer_notes": "Verified 2026-10-07 IST (Part B re-check) against the source cited in references. International (ESC) source; high-gradient AS defined as mean gradient ≥40 mmHg and peak velocity ≥4 m/s. | Kim clinical review 7 Oct 2026 (IST): FIX. Terse explanation for A expanded.",
+  "status": "clinical_review_fixed_2026_10_07",
   "external_ref": "ZQ-0315",
   "author_tier": 5,
   "correct_option": "D",
@@ -834,8 +834,8 @@
    }
   ],
   "flag_source_check": false,
-  "reviewer_notes": "Rewritten (Part A/B): the incarcerated hernia item had no accessible Australian primary source. Verified 2026-10-07 IST against Australian Prescriber 'Blood tests for acute pancreatitis'.",
-  "status": "draft_pending_owner_review",
+  "reviewer_notes": "Rewritten (Part A/B): the incarcerated hernia item had no accessible Australian primary source. Verified 2026-10-07 IST against Australian Prescriber 'Blood tests for acute pancreatitis'. | Kim clinical review 7 Oct 2026 (IST): KEEP.",
+  "status": "clinical_review_keep_2026_10_07",
   "external_ref": "ZQ-0316",
   "author_tier": 2,
   "correct_option": "A",
@@ -887,8 +887,8 @@
    }
   ],
   "flag_source_check": false,
-  "reviewer_notes": "Key verified 2026-10-07 (IST) against the live source cited in references. Needs clinician sign-off.",
-  "status": "draft_pending_owner_review",
+  "reviewer_notes": "Key verified 2026-10-07 (IST) against the live source cited in references. Needs clinician sign-off. | Kim clinical review 7 Oct 2026 (IST): KEEP.",
+  "status": "clinical_review_keep_2026_10_07",
   "external_ref": "ZQ-0317",
   "author_tier": 3,
   "correct_option": "A",
@@ -918,11 +918,11 @@
   "stem": "A 24-year-old man was tackled during a rugby league match in Penrith, NSW, and now has left upper quadrant pain and left shoulder-tip pain. At a major trauma centre, after 1 L of crystalloid, his pulse is 88/min and BP 128/76 mmHg, stable over an hour. He has left upper quadrant tenderness without peritonism. FAST shows a small amount of free fluid in the left upper quadrant.",
   "lead_in": "Which one of the following is the most appropriate next investigation?",
   "options": {
-   "A": "CT abdomen with intravenous contrast in arterial and portal venous phases",
-   "B": "Emergency laparotomy",
-   "C": "Non-contrast CT abdomen",
-   "D": "Diagnostic peritoneal lavage",
-   "E": "Abdominal X-ray"
+   "A": "CT abdomen with IV contrast in arterial and portal venous phases",
+   "B": "Emergency laparotomy for splenic haemorrhage",
+   "C": "Non-contrast CT of the abdomen and pelvis",
+   "D": "Diagnostic peritoneal lavage at the bedside",
+   "E": "Supine abdominal X-ray and repeat FAST in 1 hour"
   },
   "correct_answer": "A",
   "explanation_correct": "The Queensland adult blunt splenic injury guideline states that patients with suspected intra-abdominal injury or bleeding should have a CT abdomen with both arterial and portal venous phases. This grades the injury and shows contrast extravasation (blush). Those findings decide between non-operative management, angioembolisation and surgery in a haemodynamically stable patient.",
@@ -930,7 +930,7 @@
    "B": "Surgery is for haemodynamic instability or peritonitis. He is stable.",
    "C": "Without contrast, CT cannot show active extravasation or vascular injury.",
    "D": "DPL is non-specific and largely replaced by FAST and CT in stable patients.",
-   "E": "X-ray cannot assess solid organ injury."
+   "E": "Plain films cannot assess solid-organ injury, and a repeat FAST adds little to the first one; it cannot grade the spleen or show a contrast blush."
   },
   "key_learning_point": "In stable blunt abdominal trauma, CT with arterial and portal venous phases grades splenic injury and detects a contrast blush.",
   "references": [
@@ -940,8 +940,8 @@
    }
   ],
   "flag_source_check": false,
-  "reviewer_notes": "Key verified 2026-10-07 (IST) against the live source cited in references. Needs clinician sign-off.",
-  "status": "draft_pending_owner_review",
+  "reviewer_notes": "Key verified 2026-10-07 (IST) against the live source cited in references. Needs clinician sign-off. | Kim clinical review 7 Oct 2026 (IST): FIX. Cue: key 73 chars vs 28. Distractors lengthened; terse E expanded.",
+  "status": "clinical_review_fixed_2026_10_07",
   "external_ref": "ZQ-0318",
   "author_tier": 3,
   "correct_option": "A",
@@ -993,8 +993,8 @@
    }
   ],
   "flag_source_check": false,
-  "reviewer_notes": "Verified 2026-10-07 IST (Part B re-check) against the source cited in references. Source is a paediatric trauma-service guideline. The principle (immediate decompression without imaging) is not age-specific; the adult needle-site detail was removed. The Victorian adult trauma pages were bot-blocked.",
-  "status": "draft_pending_owner_review",
+  "reviewer_notes": "Verified 2026-10-07 IST (Part B re-check) against the source cited in references. Source is a paediatric trauma-service guideline. The principle (immediate decompression without imaging) is not age-specific; the adult needle-site detail was removed. The Victorian adult trauma pages were bot-blocked. | Kim clinical review 7 Oct 2026 (IST): KEEP.",
+  "status": "clinical_review_keep_2026_10_07",
   "external_ref": "ZQ-0319",
   "author_tier": 2,
   "correct_option": "C",
@@ -1024,19 +1024,19 @@
   "stem": "A 22-year-old man fell onto his outstretched arm while skateboarding in Fremantle, WA. His right shoulder is squared off, he holds the arm slightly abducted and externally rotated, and there is a palpable fullness in front of the shoulder. Radial pulse is present.",
   "lead_in": "Before reduction, which one of the following is the most important neurological assessment to document?",
   "options": {
-   "A": "Sensation over the first dorsal web space",
-   "B": "Little finger sensation",
-   "C": "Sensation over the lateral aspect of the upper arm (regimental badge area)",
-   "D": "Biceps reflex",
-   "E": "Thumb abduction power"
+   "A": "Sensation over the first dorsal web space (radial nerve)",
+   "B": "Sensation over the little finger pulp (ulnar nerve)",
+   "C": "Sensation over the regimental badge area (axillary nerve)",
+   "D": "Biceps reflex (C5-6, musculocutaneous nerve)",
+   "E": "Thumb abduction power (median nerve)"
   },
   "correct_answer": "C",
   "explanation_correct": "Anterior dislocation can stretch the axillary nerve where it winds around the surgical neck of the humerus. Check and document sensation over the regimental badge area (lateral deltoid) before and after reduction. A review of axillary nerve injury in glenohumeral dislocation warns that preserved sensation there does not rule out motor palsy, so deltoid function must be reassessed after reduction.",
   "option_explanations": {
    "A": "This is the radial nerve sensory area, which is less often injured in shoulder dislocation.",
-   "B": "This tests the ulnar nerve.",
+   "B": "Little finger sensation tests the ulnar nerve, which is rarely injured in anterior shoulder dislocation compared with the axillary nerve.",
    "D": "This tests C5–6 and the musculocutaneous nerve. It is not the key check here.",
-   "E": "This tests the median nerve."
+   "E": "Thumb abduction (abductor pollicis brevis) tests the median nerve, which is not at particular risk in anterior dislocation."
   },
   "key_learning_point": "In anterior shoulder dislocation, document regimental badge sensation (axillary nerve) before and after reduction.",
   "references": [
@@ -1046,8 +1046,8 @@
    }
   ],
   "flag_source_check": false,
-  "reviewer_notes": "Verified 2026-10-07 IST (Part B re-check) against the source cited in references. International review article; no Australian page found.",
-  "status": "draft_pending_owner_review",
+  "reviewer_notes": "Verified 2026-10-07 IST (Part B re-check) against the source cited in references. International review article; no Australian page found. | Kim clinical review 7 Oct 2026 (IST): FIX. Cue: key 74 chars; terse B and E expanded.",
+  "status": "clinical_review_fixed_2026_10_07",
   "external_ref": "ZQ-0320",
   "author_tier": 3,
   "correct_option": "C",
@@ -1089,7 +1089,7 @@
    "A": "Aggressive fluid resuscitation increases bleeding and mortality.",
    "C": "Referral should not wait for CT. Contact the vascular team immediately.",
    "D": "Beta-blockers in a hypotensive bleeding patient are harmful. Labetalol is used for dissection, not rupture.",
-   "E": "This is a surgical emergency."
+   "E": "A symptomatic aneurysm with collapse and hypotension is a ruptured AAA until proven otherwise; admitting him medically for analgesia and serial ultrasound delays repair of a condition with very high mortality."
   },
   "key_learning_point": "For a ruptured AAA: permissive hypotension while he remains alert, and immediate vascular repair.",
   "references": [
@@ -1099,8 +1099,8 @@
    }
   ],
   "flag_source_check": false,
-  "reviewer_notes": "Verified 2026-10-07 IST (Part B re-check) against the source cited in references. The ESVS full-text PDF states 'For patients with ruptured abdominal aortic aneurysm, a policy of permissive hypotension is recommended'. International source.",
-  "status": "draft_pending_owner_review",
+  "reviewer_notes": "Verified 2026-10-07 IST (Part B re-check) against the source cited in references. The ESVS full-text PDF states 'For patients with ruptured abdominal aortic aneurysm, a policy of permissive hypotension is recommended'. International source. | Kim clinical review 7 Oct 2026 (IST): FIX. Terse explanation for E expanded.",
+  "status": "clinical_review_fixed_2026_10_07",
   "external_ref": "ZQ-0321",
   "author_tier": 5,
   "correct_option": "B",
@@ -1131,10 +1131,10 @@
   "lead_in": "Which one of the following specimens is most important to collect before starting antibiotics?",
   "options": {
    "A": "First-pass urine for chlamydia and gonorrhoea NAAT, plus a midstream urine",
-   "B": "Midstream urine for culture only",
-   "C": "Scrotal ultrasound before any other test",
-   "D": "Serum tumour markers (AFP, β-hCG)",
-   "E": "Blood cultures"
+   "B": "Midstream urine for microscopy and culture only",
+   "C": "Scrotal Doppler ultrasound before any other test",
+   "D": "Serum AFP, beta-hCG and LDH tumour markers",
+   "E": "Two sets of blood cultures and a full blood count"
   },
   "correct_answer": "A",
   "explanation_correct": "The Australian STI Management Guidelines recommend collecting first-pass urine (for chlamydia and gonorrhoea NAAT) and a midstream urine for epididymo-orchitis, plus a urethral swab for MC&S if there is a discharge. In men under 35, sexually transmitted organisms are the usual cause. Doppler ultrasound is only needed if the diagnosis is uncertain. If torsion is suspected, refer urgently without waiting for an ultrasound.",
@@ -1142,7 +1142,7 @@
    "B": "MSU alone misses chlamydia and gonorrhoea, the likely causes at his age.",
    "C": "Ultrasound is for diagnostic uncertainty. His presentation is typical.",
    "D": "Tumour markers are for a testicular mass, not acute inflammation.",
-   "E": "He is not septic."
+   "E": "He is febrile but not septic or systemically unwell, so blood cultures will not identify the usual sexually transmitted cause; first-pass urine NAAT will."
   },
   "key_learning_point": "In suspected epididymo-orchitis, collect first-pass urine for chlamydia and gonorrhoea NAAT and an MSU before treatment.",
   "references": [
@@ -1152,8 +1152,8 @@
    }
   ],
   "flag_source_check": false,
-  "reviewer_notes": "Key verified 2026-10-07 (IST) against the live source cited in references. Needs clinician sign-off.",
-  "status": "draft_pending_owner_review",
+  "reviewer_notes": "Key verified 2026-10-07 (IST) against the live source cited in references. Needs clinician sign-off. | Kim clinical review 7 Oct 2026 (IST): FIX. Cue: key 74 chars; terse E expanded.",
+  "status": "clinical_review_fixed_2026_10_07",
   "external_ref": "ZQ-0322",
   "author_tier": 3,
   "correct_option": "A",
@@ -1205,8 +1205,8 @@
    }
   ],
   "flag_source_check": false,
-  "reviewer_notes": "Verified 2026-10-07 IST (Part B re-check) against the source cited in references. International (WSES) source.",
-  "status": "draft_pending_owner_review",
+  "reviewer_notes": "Verified 2026-10-07 IST (Part B re-check) against the source cited in references. International (WSES) source. | Kim clinical review 7 Oct 2026 (IST): KEEP.",
+  "status": "clinical_review_keep_2026_10_07",
   "external_ref": "ZQ-0323",
   "author_tier": 3,
   "correct_option": "E",
@@ -1236,17 +1236,17 @@
   "stem": "A 28-year-old woman presents to an emergency department in Bundaberg, Qld, with five days of worsening sore throat, now worse on the left. She can barely open her mouth, has a muffled 'hot potato' voice and is drooling. Temperature 38.6°C. Her airway is patent and SpO2 is 98% on room air. The left soft palate is swollen and the uvula is pushed to the right.",
   "lead_in": "Which one of the following is the most appropriate management?",
   "options": {
-   "A": "Oral phenoxymethylpenicillin and discharge",
-   "B": "Emergency tracheostomy",
-   "C": "ENT referral for drainage (needle aspiration or incision) with intravenous antibiotics",
-   "D": "Immediate tonsillectomy",
-   "E": "IV dexamethasone alone"
+   "A": "Oral phenoxymethylpenicillin and discharge with review in 48 hours",
+   "B": "Emergency surgical tracheostomy to secure the airway",
+   "C": "ENT drainage (needle aspiration or incision) with IV antibiotics",
+   "D": "Immediate (quinsy) tonsillectomy tonight",
+   "E": "IV dexamethasone alone and observe overnight"
   },
   "correct_answer": "C",
   "explanation_correct": "Trismus, a hot potato voice and a uvula pushed away from the affected side indicate a peritonsillar abscess (quinsy). The PCH WA guideline lists trismus, a unilateral fluctuant swelling extending to the soft palate and uvular deviation as typical. Management is admission under ENT for IV antibiotics with abscess drainage, plus airway assessment and a dose of IV corticosteroid.",
   "option_explanations": {
    "A": "Oral antibiotics alone do not treat an established abscess, and she is systemically unwell.",
-   "B": "Her airway is currently safe.",
+   "B": "Her airway is patent with normal saturations; a surgical airway is only for impending obstruction and would be a disproportionate, risky first step.",
    "D": "Tonsillectomy in the acute phase is not routine.",
    "E": "Steroids may be used alongside other treatment, but they do not replace drainage."
   },
@@ -1258,8 +1258,8 @@
    }
   ],
   "flag_source_check": false,
-  "reviewer_notes": "Verified 2026-10-07 IST (Part B re-check) against the source cited in references. Source is a paediatric ED guideline. The principle (ENT drainage plus IV antibiotics) applies to adults; adult-specific antibiotic dosing was removed. eTG (adult) is paywalled.",
-  "status": "draft_pending_owner_review",
+  "reviewer_notes": "Verified 2026-10-07 IST (Part B re-check) against the source cited in references. Source is a paediatric ED guideline. The principle (ENT drainage plus IV antibiotics) applies to adults; adult-specific antibiotic dosing was removed. eTG (adult) is paywalled. | Kim clinical review 7 Oct 2026 (IST): FIX. Cue: key 86 chars; terse B expanded.",
+  "status": "clinical_review_fixed_2026_10_07",
   "external_ref": "ZQ-0324",
   "author_tier": 4,
   "correct_option": "C",
@@ -1299,9 +1299,9 @@
   "explanation_correct": "She is tachycardic with slow capillary refill, her fluids were cut back, the catheter is patent, and her urine sodium is low (<20 mmol/L) with an FENa below 1%. KDIGO notes that a high urine osmolality with low urine sodium in oliguria shows intact tubular function. In this setting that points to a volume-responsive (prerenal) cause. Give a fluid bolus and reassess, keeping in mind KDIGO's caution that such indices do not mean the AKI is benign.",
   "option_explanations": {
    "A": "ATN causes a urine sodium above 40 mmol/L and an FENa above 2%.",
-   "B": "The catheter flushes freely.",
+   "B": "A blocked catheter causes sudden anuria with a distended bladder; hers flushes freely and the low urine sodium shows the kidneys are conserving salt.",
    "C": "A ureteric injury would not fit these urine indices or the fluid history.",
-   "D": "She has a working catheter."
+   "D": "Post-renal obstruction from retention is excluded by a working catheter, and obstruction would not produce a FENa below 1% with a clear hypovolaemic history."
   },
   "key_learning_point": "Post-operative oliguria with low urine sodium and FENa below 1% is prerenal. Give fluid and reassess.",
   "references": [
@@ -1311,8 +1311,8 @@
    }
   ],
   "flag_source_check": false,
-  "reviewer_notes": "Verified 2026-10-07 IST (Part B re-check) against the source cited in references. International (KDIGO) source.",
-  "status": "draft_pending_owner_review",
+  "reviewer_notes": "Verified 2026-10-07 IST (Part B re-check) against the source cited in references. International (KDIGO) source. | Kim clinical review 7 Oct 2026 (IST): FIX. Terse explanations B and D expanded.",
+  "status": "clinical_review_fixed_2026_10_07",
   "external_ref": "ZQ-0325",
   "author_tier": 4,
   "correct_option": "E",
@@ -1354,7 +1354,7 @@
    "A": "Antiemetics are part of treatment but do not prevent Wernicke encephalopathy.",
    "B": "Pyridoxine is used for mild nausea and vomiting in pregnancy. It does not replace thiamine.",
    "C": "Steroids are reserved for refractory hyperemesis.",
-   "E": "Iron has no relevance to this risk."
+   "E": "Iron deficiency is common in pregnancy but is not caused or worsened by vomiting over days, and IV iron has no role in preventing Wernicke encephalopathy."
   },
   "key_learning_point": "In hyperemesis with poor intake, give IV thiamine before glucose to prevent Wernicke encephalopathy.",
   "references": [
@@ -1364,8 +1364,8 @@
    }
   ],
   "flag_source_check": false,
-  "reviewer_notes": "Key verified 2026-10-07 (IST) against the live source cited in references. Needs clinician sign-off.",
-  "status": "draft_pending_owner_review",
+  "reviewer_notes": "Key verified 2026-10-07 (IST) against the live source cited in references. Needs clinician sign-off. | Kim clinical review 7 Oct 2026 (IST): FIX. Terse explanation for E expanded.",
+  "status": "clinical_review_fixed_2026_10_07",
   "external_ref": "ZQ-0326",
   "author_tier": 3,
   "correct_option": "D",
@@ -1404,10 +1404,10 @@
   "correct_answer": "A",
   "explanation_correct": "An Australian Family Physician review describes ovarian torsion as a gynaecological emergency that needs urgent review. The main risk factor is an ovarian mass larger than 5 cm. Surgery is laparoscopic de-torsion, keeping the ovary where possible, with oophorectomy if it is not viable. Sudden pain with vomiting, a 7 cm cyst and an enlarged ovary make torsion likely, so she should not wait for further tests.",
   "option_explanations": {
-   "B": "Delay risks losing the ovary.",
+   "B": "Waiting 24 hours for a repeat scan risks irreversible ovarian infarction; torsion is a clinical diagnosis and a normal Doppler does not exclude it.",
    "C": "CT delays definitive treatment when torsion is clinically likely.",
-   "D": "Torsion is an emergency.",
-   "E": "CA-125 does not change urgent management."
+   "D": "Discharging a woman with probable torsion risks losing the ovary; this is a same-day surgical emergency.",
+   "E": "CA-125 is non-specific in premenopausal women and plays no part in the emergency management of suspected torsion."
   },
   "key_learning_point": "Suspected ovarian torsion (especially with a mass over 5 cm) is a gynaecological emergency. Get urgent gynaecology review for laparoscopy.",
   "references": [
@@ -1417,8 +1417,8 @@
    }
   ],
   "flag_source_check": false,
-  "reviewer_notes": "Verified 2026-10-07 IST against the RACGP AFP ovarian mass article. The Doppler-flow claim was removed because the source read does not state it.",
-  "status": "draft_pending_owner_review",
+  "reviewer_notes": "Verified 2026-10-07 IST against the RACGP AFP ovarian mass article. The Doppler-flow claim was removed because the source read does not state it. | Kim clinical review 7 Oct 2026 (IST): FIX. Terse explanations expanded.",
+  "status": "clinical_review_fixed_2026_10_07",
   "external_ref": "ZQ-0327",
   "author_tier": 2,
   "correct_option": "A",
@@ -1470,8 +1470,8 @@
    }
   ],
   "flag_source_check": false,
-  "reviewer_notes": "Rewritten (Part A/B) from 'empirical hormonal treatment' because the guideline PDFs would not download. Verified 2026-10-07 IST against the RANZCOG endometriosis guideline web page (WebFetch).",
-  "status": "draft_pending_owner_review",
+  "reviewer_notes": "Rewritten (Part A/B) from 'empirical hormonal treatment' because the guideline PDFs would not download. Verified 2026-10-07 IST against the RANZCOG endometriosis guideline web page (WebFetch). | Kim clinical review 7 Oct 2026 (IST): KEEP.",
+  "status": "clinical_review_keep_2026_10_07",
   "external_ref": "ZQ-0328",
   "author_tier": 3,
   "correct_option": "E",
@@ -1501,18 +1501,18 @@
   "stem": "A 19-year-old woman phones a clinic in Wollongong, NSW. She takes a combined oral contraceptive pill. She started her new pack three days ago, two days late after the hormone-free week, and has since missed the pills for day 2 and day 3. She had unprotected sex two nights ago. She feels well.",
   "lead_in": "Which one of the following is the most appropriate advice?",
   "options": {
-   "A": "Take a pill now; no other precautions needed",
-   "B": "Stop the pack and start a new one next week",
+   "A": "Take a pill now and continue the pack; no other precautions needed",
+   "B": "Stop this pack, use condoms and start a new pack next Sunday",
    "C": "Take a pill now, use condoms for 7 days, and take emergency contraception",
-   "D": "Take two pills now and use condoms for 2 days",
-   "E": "Do a pregnancy test now and decide afterwards"
+   "D": "Take two pills now and use condoms for the next 2 days only",
+   "E": "Do a pregnancy test now and decide about other measures afterwards"
   },
   "correct_answer": "C",
   "explanation_correct": "Family Planning NSW advice: a pill more than 24 hours late means taking the most recent missed pill, continuing the pack, and using condoms for 7 days. When more than one pill is missed in the first week of a pack (after the hormone-free interval) and there has been unprotected sex in the previous 5 days, emergency contraception is recommended.",
   "option_explanations": {
    "A": "With more than one pill missed, she is not protected.",
-   "B": "This leaves her unprotected.",
-   "D": "Seven days of condoms is the rule.",
+   "B": "Stopping the pack extends the hormone-free interval even further, so ovulation is more likely and she remains unprotected.",
+   "D": "Extra pills do not restore protection; after a pill is more than 24 hours late, 7 days of continuous active pills (with condoms meanwhile) are needed, and emergency contraception is needed for the recent sex.",
    "E": "It is too early for a pregnancy test to be positive, and EC is time-dependent."
   },
   "key_learning_point": "More than one pill missed in week 1 with unprotected sex in the past 5 days: take a pill, use condoms for 7 days, and take EC.",
@@ -1523,8 +1523,8 @@
    }
   ],
   "flag_source_check": false,
-  "reviewer_notes": "Key verified 2026-10-07 (IST) against the live source cited in references. Needs clinician sign-off.",
-  "status": "draft_pending_owner_review",
+  "reviewer_notes": "Key verified 2026-10-07 (IST) against the live source cited in references. Needs clinician sign-off. | Kim clinical review 7 Oct 2026 (IST): FIX. Cue: key 73 chars; terse B and D expanded.",
+  "status": "clinical_review_fixed_2026_10_07",
   "external_ref": "ZQ-0329",
   "author_tier": 3,
   "correct_option": "C",
@@ -1554,18 +1554,18 @@
   "stem": "A 29-year-old woman at 27+3 weeks' gestation presents to a tertiary hospital in Randwick, NSW, with regular painful contractions. Her cervix is 6 cm dilated, membranes are intact and fetal monitoring is normal. Birth is expected within hours. Betamethasone has been given.",
   "lead_in": "Which one of the following is the most appropriate additional treatment?",
   "options": {
-   "A": "Nifedipine to stop labour",
+   "A": "Oral nifedipine to delay birth by 48 hours",
    "B": "Intravenous magnesium sulfate for fetal neuroprotection",
-   "C": "Indomethacin",
-   "D": "A second course of corticosteroids",
-   "E": "Progesterone pessaries"
+   "C": "Indomethacin to inhibit contractions",
+   "D": "A repeat course of antenatal corticosteroids",
+   "E": "Vaginal progesterone pessaries nightly"
   },
   "correct_answer": "B",
   "explanation_correct": "When birth is planned or expected within 24 hours at 24 to under 30 weeks, magnesium sulfate is given for fetal neuroprotection. It reduces the risk of cerebral palsy. This is the indication in the SESLHD/RHW local guideline, which follows the Australian national guideline.",
   "option_explanations": {
    "A": "She is in advanced labour at 6 cm, so tocolysis is not appropriate.",
    "C": "Indomethacin is a tocolytic and is not indicated here.",
-   "D": "She has just had a course.",
+   "D": "She has just received betamethasone; a repeat course is only considered when at least 7 days have passed since the first course and preterm birth is still expected.",
    "E": "Progesterone is for preventing preterm birth in a short cervix, not for established labour."
   },
   "key_learning_point": "Give MgSO4 for fetal neuroprotection when birth is expected within 24 hours at 24 to under 30 weeks.",
@@ -1576,8 +1576,8 @@
    }
   ],
   "flag_source_check": false,
-  "reviewer_notes": "Key verified 2026-10-07 (IST) against the live source cited in references. Needs clinician sign-off.",
-  "status": "draft_pending_owner_review",
+  "reviewer_notes": "Key verified 2026-10-07 (IST) against the live source cited in references. Needs clinician sign-off. | Kim clinical review 7 Oct 2026 (IST): FIX. Cue: key 55 chars vs 34; terse D expanded.",
+  "status": "clinical_review_fixed_2026_10_07",
   "external_ref": "ZQ-0330",
   "author_tier": 4,
   "correct_option": "B",
@@ -1607,16 +1607,16 @@
   "stem": "A 44-year-old woman with three children sees her GP in Albany, WA, with urine leakage when she coughs, laughs or runs. It began after her last birth. She has no urgency or nocturia. Urinalysis is normal and her BMI is 31 kg/m². Pelvic examination shows no significant prolapse.",
   "lead_in": "Which one of the following is the most appropriate first-line management?",
   "options": {
-   "A": "Oxybutynin",
-   "B": "Mid-urethral mesh sling",
+   "A": "Oxybutynin 5 mg twice daily",
+   "B": "Referral for a mid-urethral mesh sling",
    "C": "Urodynamic studies before any treatment",
-   "D": "Vaginal oestrogen alone",
-   "E": "Supervised pelvic floor muscle training for at least three months"
+   "D": "Vaginal oestrogen cream as the only treatment",
+   "E": "Supervised pelvic floor muscle training for 3 months"
   },
   "correct_answer": "E",
   "explanation_correct": "Supervised pelvic floor muscle training, for example with a women's health physiotherapist, for at least three months is first-line for stress urinary incontinence. Weight loss and managing cough or constipation help too. Surgery (such as colposuspension or autologous sling) is considered only after conservative treatment fails.",
   "option_explanations": {
-   "A": "Anticholinergics treat urge incontinence.",
+   "A": "Antimuscarinics such as oxybutynin treat urgency (overactive bladder) incontinence; she has pure stress incontinence and they would add side effects without benefit.",
    "B": "Mesh slings are not first-line, and their use in Australia has been restricted.",
    "C": "Urodynamics are not needed before conservative treatment of uncomplicated stress incontinence.",
    "D": "Vaginal oestrogen is not first-line in a premenopausal woman."
@@ -1629,8 +1629,8 @@
    }
   ],
   "flag_source_check": false,
-  "reviewer_notes": "Verified 2026-10-07 IST (Part B re-check) against the source cited in references. UK source; no Australian guideline page was accessible (Continence Foundation pages are consumer-level).",
-  "status": "draft_pending_owner_review",
+  "reviewer_notes": "Verified 2026-10-07 IST (Part B re-check) against the source cited in references. UK source; no Australian guideline page was accessible (Continence Foundation pages are consumer-level). | Kim clinical review 7 Oct 2026 (IST): FIX. Cue: key 65 chars vs 39; terse A expanded.",
+  "status": "clinical_review_fixed_2026_10_07",
   "external_ref": "ZQ-0331",
   "author_tier": 3,
   "correct_option": "E",
@@ -1661,18 +1661,18 @@
   "lead_in": "Which one of the following investigations is most likely to identify a treatable cause?",
   "options": {
    "A": "Inherited thrombophilia screen (factor V Leiden, protein C and S)",
-   "B": "Lupus anticoagulant, anticardiolipin and anti-β2-glycoprotein I antibodies, repeated after 12 weeks if positive",
-   "C": "Serum progesterone in a non-pregnant cycle",
-   "D": "TORCH serology",
-   "E": "Natural killer cell testing"
+   "B": "Antiphospholipid antibodies, repeated at 12 weeks if positive",
+   "C": "Mid-luteal serum progesterone in a non-pregnant cycle",
+   "D": "TORCH serology for chronic maternal infection",
+   "E": "Peripheral blood natural killer cell testing"
   },
   "correct_answer": "B",
   "explanation_correct": "Antiphospholipid syndrome is the most common acquired thrombophilia and an important treatable cause of recurrent pregnancy loss. The 2024 Australasian RPL guideline lists APS testing as anticardiolipin antibody, lupus anticoagulant and β2-glycoprotein I antibody, using the updated Sydney criteria, which need persistence at least 12 weeks apart. It notes that trials have not shown an association between inherited thrombophilia and RPL, or benefit from LMWH, so inherited thrombophilia screening is not useful.",
   "option_explanations": {
    "A": "These tests are not recommended for recurrent miscarriage and do not lead to proven treatment.",
-   "C": "This is not useful.",
+   "C": "Luteal-phase progesterone does not reliably diagnose luteal insufficiency or predict future miscarriage, and the RPL guideline does not recommend it.",
    "D": "Infection is not a cause of recurrent miscarriage.",
-   "E": "This has no proven value."
+   "E": "Peripheral NK cell testing does not reflect uterine immunity and there is no proven treatment based on it; the guideline advises against it."
   },
   "key_learning_point": "Recurrent miscarriage: test for antiphospholipid syndrome, confirm at 12 weeks, and treat with aspirin plus heparin in the next pregnancy.",
   "references": [
@@ -1682,8 +1682,8 @@
    }
   ],
   "flag_source_check": false,
-  "reviewer_notes": "Verified 2026-10-07 IST (Part B re-check) against the source cited in references.",
-  "status": "draft_pending_owner_review",
+  "reviewer_notes": "Verified 2026-10-07 IST (Part B re-check) against the source cited in references. | Kim clinical review 7 Oct 2026 (IST): FIX. Cue: key 111 chars; terse C and E expanded.",
+  "status": "clinical_review_fixed_2026_10_07",
   "external_ref": "ZQ-0332",
   "author_tier": 4,
   "correct_option": "B",
@@ -1713,19 +1713,19 @@
   "stem": "A 2-year-old boy is brought to a GP in Warrnambool, Vic, at 9 pm with a barking cough and hoarse voice that started that evening, after two days of a runny nose. He has soft stridor only when he is upset. There is no stridor at rest, no chest wall recession, and he is alert and playing. SpO2 98%.",
   "lead_in": "Which one of the following is the most appropriate management?",
   "options": {
-   "A": "Nebulised adrenaline",
-   "B": "Oral amoxicillin",
-   "C": "A single dose of oral dexamethasone 0.15 mg/kg and discharge with safety-net advice",
-   "D": "Nebulised salbutamol",
-   "E": "Chest X-ray"
+   "A": "Nebulised adrenaline 5 mL of 1:1000, then observe for 4 hours",
+   "B": "Oral amoxicillin for 5 days and review if worse",
+   "C": "Oral dexamethasone 0.15 mg/kg once, then discharge with advice",
+   "D": "Nebulised salbutamol and review in 1 hour",
+   "E": "Lateral neck and chest X-ray before deciding"
   },
   "correct_answer": "C",
   "explanation_correct": "RCH guidance for mild croup (stridor only when upset) is a single dose of oral dexamethasone 0.15 mg/kg, or prednisolone 1 mg/kg. Steroids reduce reattendance and shorten symptoms. A barking cough with no stridor at all does not need steroids. Nebulised adrenaline is for severe croup.",
   "option_explanations": {
-   "A": "This is for severe croup.",
-   "B": "Croup is viral.",
-   "D": "Salbutamol is not effective for croup.",
-   "E": "An X-ray is not needed."
+   "A": "Nebulised adrenaline is for severe croup (stridor at rest, recession, agitation or lethargy); he only has stridor when upset.",
+   "B": "Croup is viral (usually parainfluenza); antibiotics have no benefit unless bacterial tracheitis is suspected, which would make him look toxic.",
+   "D": "Croup is upper airway oedema, not bronchospasm; salbutamol does not help and may increase agitation.",
+   "E": "Croup is a clinical diagnosis; imaging is only for atypical features (e.g. suspected foreign body) and distressing the child can worsen obstruction."
   },
   "key_learning_point": "Croup with stridor: oral dexamethasone 0.15 mg/kg. Nebulised adrenaline only for severe croup.",
   "references": [
@@ -1735,8 +1735,8 @@
    }
   ],
   "flag_source_check": false,
-  "reviewer_notes": "Key verified 2026-10-07 (IST) against the live source cited in references. Needs clinician sign-off.",
-  "status": "draft_pending_owner_review",
+  "reviewer_notes": "Key verified 2026-10-07 (IST) against the live source cited in references. Needs clinician sign-off. | Kim clinical review 7 Oct 2026 (IST): FIX. Cue: key 83 chars vs 20; all distractor explanations terse. Rewritten.",
+  "status": "clinical_review_fixed_2026_10_07",
   "external_ref": "ZQ-0333",
   "author_tier": 2,
   "correct_option": "C",
@@ -1766,19 +1766,19 @@
   "stem": "A 20-month-old girl is brought to an emergency department in Gosford, NSW, after a 2-minute generalised tonic–clonic seizure at home during a fever. She had a runny nose for two days. She is now alert, interactive and back to normal. Temperature 39.0°C. There is no neck stiffness, rash or focal neurological signs, and she is fully immunised.",
   "lead_in": "Which one of the following investigations is most appropriate?",
   "options": {
-   "A": "EEG",
-   "B": "CT brain",
-   "C": "Lumbar puncture",
-   "D": "Full blood count, electrolytes and blood culture",
+   "A": "EEG within 48 hours",
+   "B": "Non-contrast CT brain",
+   "C": "Lumbar puncture for CSF",
+   "D": "FBC, electrolytes, glucose and blood culture",
    "E": "No routine investigations; look for the source of the fever clinically"
   },
   "correct_answer": "E",
   "explanation_correct": "This is a simple febrile seizure. RCH guidelines state that investigations are low yield and not routinely needed. Assess for the focus of the fever clinically. Investigations are targeted only for atypical or complex seizures or a suspected serious infection.",
   "option_explanations": {
    "A": "An EEG does not predict recurrence or epilepsy after a simple febrile seizure.",
-   "B": "CT is not indicated.",
+   "B": "Neuroimaging is for focal seizures, focal signs, a persistently reduced conscious state or suspected trauma; she is back to normal.",
    "C": "She is alert with no meningism, so LP is not indicated.",
-   "D": "These are not routine."
+   "D": "Routine bloods do not change management in a well child after a simple febrile seizure; they are only targeted if the child looks unwell or the seizure was complex."
   },
   "key_learning_point": "Simple febrile seizure in a well child: no routine tests; find the fever source clinically.",
   "references": [
@@ -1788,8 +1788,8 @@
    }
   ],
   "flag_source_check": false,
-  "reviewer_notes": "Key verified 2026-10-07 (IST) against the live source cited in references. Needs clinician sign-off.",
-  "status": "draft_pending_owner_review",
+  "reviewer_notes": "Key verified 2026-10-07 (IST) against the live source cited in references. Needs clinician sign-off. | Kim clinical review 7 Oct 2026 (IST): FIX. Terse B and D expanded; options made parallel.",
+  "status": "clinical_review_fixed_2026_10_07",
   "external_ref": "ZQ-0334",
   "author_tier": 3,
   "correct_option": "E",
@@ -1819,19 +1819,19 @@
   "stem": "A 4-year-old boy in Hobart, Tas, has had puffy eyes for one week and now has swollen legs. BP is normal. Urinalysis shows 4+ protein with no blood. Serum albumin is 15 g/L, creatinine is normal and complement is normal. A diagnosis of likely steroid-sensitive nephrotic syndrome is made. He weighs 18 kg (body surface area 0.74 m²).",
   "lead_in": "Which one of the following is the most appropriate initial treatment?",
   "options": {
-   "A": "Renal biopsy before treatment",
-   "B": "IV albumin and furosemide only",
-   "C": "Cyclophosphamide",
-   "D": "Prednisolone 60 mg/m² daily for 4 weeks, then 40 mg/m² on alternate days for 4 weeks",
-   "E": "Prednisolone 1 mg/kg daily for 7 days"
+   "A": "Renal biopsy before starting any treatment",
+   "B": "IV 20% albumin with furosemide, without steroids",
+   "C": "Oral cyclophosphamide for 8 weeks",
+   "D": "Prednisolone 60 mg/m2 daily for 4 weeks, then 40 mg/m2 alternate days for 4 weeks",
+   "E": "Prednisolone 1 mg/kg daily for 7 days, then stop if urine is protein-free"
   },
   "correct_answer": "D",
   "explanation_correct": "RCH guidelines for a first presentation recommend prednisolone 60 mg/m² (or 2 mg/kg, maximum 60 mg) daily for 4 weeks, then 40 mg/m² (or 1.5 mg/kg, maximum 40 mg) on alternate days for 4 weeks. A renal biopsy is not routinely needed in typical cases at this age.",
   "option_explanations": {
    "A": "A typical presentation at this age does not need a biopsy.",
-   "B": "This is not treatment of the disease itself.",
+   "B": "Albumin with furosemide treats symptomatic oedema or hypovolaemia only; it does not induce remission, which needs corticosteroids.",
    "C": "Cyclophosphamide is for frequently relapsing or steroid-dependent disease.",
-   "E": "This dose and duration are wrong."
+   "E": "This dose and duration are too low and too short; short courses are associated with more relapses than the standard 8-week regimen."
   },
   "key_learning_point": "First-episode nephrotic syndrome: prednisolone 60 mg/m² daily for 4 weeks, then 40 mg/m² alternate days for 4 weeks.",
   "references": [
@@ -1841,8 +1841,8 @@
    }
   ],
   "flag_source_check": false,
-  "reviewer_notes": "Key verified 2026-10-07 (IST) against the live source cited in references. Needs clinician sign-off.",
-  "status": "draft_pending_owner_review",
+  "reviewer_notes": "Key verified 2026-10-07 (IST) against the live source cited in references. Needs clinician sign-off. | Kim clinical review 7 Oct 2026 (IST): FIX. Cue: key 84 chars; terse B and E expanded.",
+  "status": "clinical_review_fixed_2026_10_07",
   "external_ref": "ZQ-0335",
   "author_tier": 3,
   "correct_option": "D",
@@ -1872,19 +1872,19 @@
   "stem": "A 4-week-old breastfed boy is brought to a GP in Kalgoorlie, WA, because he is still jaundiced. He is feeding well and gaining weight. His mother thinks his stools have been pale for a week. His urine is dark yellow.\n\nInvestigations:\n- Total bilirubin 160 µmol/L\n- Conjugated bilirubin 70 µmol/L\n- Liver ultrasound: normal liver; gallbladder seen",
   "lead_in": "Which one of the following is the most appropriate next step?",
   "options": {
-   "A": "Reassure: breast milk jaundice",
-   "B": "Urgent same-day discussion and referral to paediatric gastroenterology",
-   "C": "Repeat bilirubin in 2 weeks",
-   "D": "Stop breastfeeding for 48 hours",
-   "E": "Phototherapy"
+   "A": "Reassure: this is breast milk jaundice; review at 8 weeks",
+   "B": "Same-day discussion and referral to paediatric gastroenterology",
+   "C": "Repeat split bilirubin in 2 weeks",
+   "D": "Stop breastfeeding for 48 hours, then recheck",
+   "E": "Home phototherapy"
   },
   "correct_answer": "B",
   "explanation_correct": "A conjugated bilirubin above 20 µmol/L (or more than 20% of the total) is abnormal, and with pale stools it suggests biliary atresia until proven otherwise. RCH guidelines state that a normal ultrasound does not exclude biliary atresia. Urgent referral matters because outcomes of Kasai surgery are better when it is done early.",
   "option_explanations": {
-   "A": "Breast milk jaundice is unconjugated.",
-   "C": "Delay worsens the outcome.",
-   "D": "Not indicated.",
-   "E": "Phototherapy does not treat conjugated hyperbilirubinaemia."
+   "A": "Breast milk jaundice is unconjugated; a conjugated bilirubin of 70 µmol/L (over 20% of total) with pale stools is pathological.",
+   "C": "Waiting 2 weeks delays the diagnosis of biliary atresia; Kasai outcomes are best before about 60 days of age.",
+   "D": "Interrupting breastfeeding is not indicated for conjugated jaundice and does not address the cholestasis.",
+   "E": "Phototherapy treats unconjugated bilirubin only and can cause bronze baby syndrome in cholestasis."
   },
   "key_learning_point": "Prolonged jaundice with conjugated bilirubin above 20 µmol/L or pale stools needs urgent gastroenterology referral. A normal US does not exclude biliary atresia.",
   "references": [
@@ -1894,8 +1894,8 @@
    }
   ],
   "flag_source_check": false,
-  "reviewer_notes": "Key verified 2026-10-07 (IST) against the live source cited in references. Needs clinician sign-off.",
-  "status": "draft_pending_owner_review",
+  "reviewer_notes": "Key verified 2026-10-07 (IST) against the live source cited in references. Needs clinician sign-off. | Kim clinical review 7 Oct 2026 (IST): FIX. Cue: key 70 chars; terse A, C, D expanded.",
+  "status": "clinical_review_fixed_2026_10_07",
   "external_ref": "ZQ-0336",
   "author_tier": 4,
   "correct_option": "B",
@@ -1925,19 +1925,19 @@
   "stem": "A 5-year-old girl is brought to an emergency department in Geraldton, WA, with one day of refusing to walk on her right leg. Temperature 38.9°C. She holds her hip flexed and externally rotated and resists all movement.\n\nInvestigations:\n- WCC 17.8 × 10⁹/L\n- CRP 96 mg/L\n- ESR 55 mm/h\n- Hip ultrasound: effusion",
   "lead_in": "Which one of the following is the most appropriate interpretation and plan?",
   "options": {
-   "A": "Transient synovitis: NSAIDs and discharge",
-   "B": "MRI next week",
-   "C": "SUFE",
-   "D": "Likely septic arthritis; urgent orthopaedic review for joint aspiration and washout",
-   "E": "Perthes disease"
+   "A": "Transient synovitis; oral NSAIDs and review in 48 hours",
+   "B": "Possible osteomyelitis; non-urgent MRI next week",
+   "C": "Slipped capital femoral epiphysis; urgent frog-leg X-rays",
+   "D": "Likely septic arthritis; urgent orthopaedic aspiration and washout",
+   "E": "Perthes disease; orthopaedic outpatient referral"
   },
   "correct_answer": "D",
   "explanation_correct": "RCH guidelines describe septic arthritis as an orthopaedic emergency. An effusion on ultrasound does not distinguish septic arthritis from transient synovitis, but fever, refusal to bear weight and raised WCC, CRP and ESR all point to infection. She needs urgent orthopaedic referral for aspiration and washout, with IV antibiotics given after cultures are taken.",
   "option_explanations": {
    "A": "Her fever and inflammatory markers argue strongly against transient synovitis.",
-   "B": "This is an emergency.",
+   "B": "Septic arthritis is an orthopaedic emergency; MRI may help if osteomyelitis is suspected, but it must not delay aspiration and washout.",
    "C": "Slipped epiphysis is unlikely at age 5 and does not cause fever.",
-   "E": "Perthes disease does not cause fever."
+   "E": "Perthes disease causes an insidious limp in an afebrile child with normal inflammatory markers; it does not cause fever or a CRP of 96."
   },
   "key_learning_point": "A febrile child who won't bear weight and has raised markers and an effusion has septic arthritis until proven otherwise; it is an orthopaedic emergency.",
   "references": [
@@ -1947,8 +1947,8 @@
    }
   ],
   "flag_source_check": false,
-  "reviewer_notes": "Key verified 2026-10-07 (IST) against the live source cited in references. Needs clinician sign-off.",
-  "status": "draft_pending_owner_review",
+  "reviewer_notes": "Key verified 2026-10-07 (IST) against the live source cited in references. Needs clinician sign-off. | Kim clinical review 7 Oct 2026 (IST): FIX. Cue: key 83 chars vs 15; options were implausible fragments. Rewritten.",
+  "status": "clinical_review_fixed_2026_10_07",
   "external_ref": "ZQ-0337",
   "author_tier": 3,
   "correct_option": "D",
@@ -1978,19 +1978,19 @@
   "stem": "A 9-year-old boy with asthma eats a muesli bar containing peanut at school camp near Kiama, NSW. Within 10 minutes he has hives, lip swelling, a hoarse voice, wheeze and difficulty breathing. A nurse is present with an adrenaline autoinjector, salbutamol and oral antihistamine.",
   "lead_in": "Which one of the following should be given first?",
   "options": {
-   "A": "Salbutamol via spacer",
-   "B": "Oral cetirizine",
-   "C": "Oral prednisolone",
-   "D": "Intramuscular adrenaline into the outer thigh",
-   "E": "Subcutaneous adrenaline"
+   "A": "Salbutamol 12 puffs via spacer",
+   "B": "Oral cetirizine 10 mg",
+   "C": "Oral prednisolone 1 mg/kg",
+   "D": "IM adrenaline into the outer thigh",
+   "E": "Subcutaneous adrenaline into the arm"
   },
   "correct_answer": "D",
   "explanation_correct": "He has anaphylaxis with respiratory involvement. RCH guidelines say IM adrenaline must be given first, and in a child with asthma, adrenaline comes before any asthma medicine. Antihistamines and steroids should not be given as treatment of anaphylaxis. Adrenaline should not be given subcutaneously.",
   "option_explanations": {
-   "A": "Adrenaline comes before asthma medicines.",
+   "A": "Salbutamol treats bronchospasm but not the airway oedema or circulatory effects of anaphylaxis; in a child with asthma, adrenaline is given first.",
    "B": "Antihistamines are not a treatment for anaphylaxis.",
    "C": "Steroids are not a treatment for anaphylaxis.",
-   "E": "The subcutaneous route is not recommended."
+   "E": "Subcutaneous absorption is slower and less reliable; IM into the anterolateral thigh gives faster peak levels."
   },
   "key_learning_point": "Anaphylaxis in a child with asthma: IM adrenaline first, before salbutamol.",
   "references": [
@@ -2000,8 +2000,8 @@
    }
   ],
   "flag_source_check": false,
-  "reviewer_notes": "Key verified 2026-10-07 (IST) against the live source cited in references. Needs clinician sign-off.",
-  "status": "draft_pending_owner_review",
+  "reviewer_notes": "Key verified 2026-10-07 (IST) against the live source cited in references. Needs clinician sign-off. | Kim clinical review 7 Oct 2026 (IST): FIX. Cue: key 45 chars; terse A and E expanded.",
+  "status": "clinical_review_fixed_2026_10_07",
   "external_ref": "ZQ-0338",
   "author_tier": 3,
   "correct_option": "D",
@@ -2031,19 +2031,19 @@
   "stem": "A 29-year-old man sees his GP in Perth, WA, after three emergency department visits in four months with sudden episodes of palpitations, chest tightness, tingling and fear of dying, each lasting about 15 minutes. ECG, troponin, TSH and full blood count were normal each time. He now avoids trains in case an attack happens. He drinks little alcohol and uses no drugs.",
   "lead_in": "Which one of the following is the most appropriate first-line treatment?",
   "options": {
-   "A": "Regular alprazolam",
-   "B": "Propranolol as needed",
-   "C": "Referral to cardiology for Holter monitoring",
-   "D": "Cognitive behavioural therapy including interoceptive and in-vivo exposure",
-   "E": "Quetiapine"
+   "A": "Regular alprazolam 0.5 mg three times daily",
+   "B": "Propranolol 10 mg as needed for attacks",
+   "C": "Cardiology referral for Holter monitoring",
+   "D": "CBT with interoceptive and in-vivo exposure",
+   "E": "Low-dose quetiapine at night"
   },
   "correct_answer": "D",
   "explanation_correct": "This is panic disorder with avoidance. The Australian comorbidity guidelines, citing the RANZCP guideline, recommend 8–12 sessions of face-to-face or guided digital CBT as first-line treatment for panic disorder. Medication can be used as an alternative or addition for moderate to severe illness or when CBT does not help enough. Benzodiazepines are not recommended for ongoing treatment.",
   "option_explanations": {
    "A": "Benzodiazepines carry a risk of dependence and are not recommended.",
    "B": "Propranolol is not effective for panic disorder.",
-   "C": "Cardiac causes have already been excluded.",
-   "E": "Antipsychotics are not indicated."
+   "C": "Three normal ED work-ups and a typical history make a cardiac arrhythmia unlikely; further cardiac testing reinforces illness beliefs and delays effective treatment.",
+   "E": "Antipsychotics are not recommended for panic disorder and carry metabolic and other harms."
   },
   "key_learning_point": "First-line treatment for panic disorder is CBT with exposure, with an SSRI as an alternative or addition. Avoid benzodiazepines.",
   "references": [
@@ -2053,8 +2053,8 @@
    }
   ],
   "flag_source_check": false,
-  "reviewer_notes": "Verified 2026-10-07 IST (Part B re-check) against the source cited in references.",
-  "status": "draft_pending_owner_review",
+  "reviewer_notes": "Verified 2026-10-07 IST (Part B re-check) against the source cited in references. | Kim clinical review 7 Oct 2026 (IST): FIX. Cue: key 74 chars; terse C and E expanded.",
+  "status": "clinical_review_fixed_2026_10_07",
   "external_ref": "ZQ-0339",
   "author_tier": 2,
   "correct_option": "D",
@@ -2093,8 +2093,8 @@
   "correct_answer": "C",
   "explanation_correct": "He has had two adequate antipsychotic trials, with confirmed adherence and adequate dose and duration, and still has significant symptoms. This meets the definition of treatment-resistant schizophrenia. The RANZCP-endorsed INTEGRATE guidelines say that if two adequate trials fail, a clozapine trial should be started promptly, aiming for plasma levels of 350–500 ng/mL.",
   "option_explanations": {
-   "A": "Adherence was confirmed for both trials.",
-   "B": "There are no prominent mood episodes.",
+   "A": "Pseudo-resistance means apparent non-response due to non-adherence or inadequate dose; his adherence was confirmed by LAI administration and plasma levels.",
+   "B": "Schizoaffective disorder needs mood episodes for a substantial part of the illness; he has no prominent mood symptoms.",
    "D": "That term applies only after clozapine has failed.",
    "E": "Both trials were adequate in dose and duration."
   },
@@ -2106,8 +2106,8 @@
    }
   ],
   "flag_source_check": false,
-  "reviewer_notes": "Rewritten as a data-interpretation item (Part A). Verified 2026-10-07 IST against the RANZCP INTEGRATE page.",
-  "status": "draft_pending_owner_review",
+  "reviewer_notes": "Rewritten as a data-interpretation item (Part A). Verified 2026-10-07 IST against the RANZCP INTEGRATE page. | Kim clinical review 7 Oct 2026 (IST): FIX. Terse A and B expanded.",
+  "status": "clinical_review_fixed_2026_10_07",
   "external_ref": "ZQ-0340",
   "author_tier": 4,
   "correct_option": "C",
@@ -2137,19 +2137,19 @@
   "stem": "A 32-year-old woman presents to a hospital in Logan, Qld, with sudden weakness of her right leg that began after a stressful week at work. She can barely lift her right leg off the bed. When she is asked to flex her left hip against resistance, strong involuntary extension of the right hip is felt. Reflexes are symmetrical, plantar responses are flexor and sensation is normal. MRI of the brain and spine is normal.",
   "lead_in": "Which one of the following is the most appropriate interpretation?",
   "options": {
-   "A": "Malingering",
-   "B": "Positive Hoover sign consistent with functional neurological disorder",
-   "C": "Early multiple sclerosis",
-   "D": "Lumbar radiculopathy",
-   "E": "Stroke"
+   "A": "Malingering for secondary gain",
+   "B": "Positive Hoover sign, consistent with functional weakness",
+   "C": "Early relapsing-remitting multiple sclerosis",
+   "D": "Acute L5 lumbar radiculopathy",
+   "E": "Lacunar stroke of the internal capsule"
   },
   "correct_answer": "B",
   "explanation_correct": "A positive Hoover sign means hip extension is weak when tested directly but returns to normal during contralateral hip flexion. It is a positive clinical sign of functional weakness. FND is diagnosed on positive features, not by exclusion alone. It is not feigning. Treatment involves explaining the diagnosis clearly, then physiotherapy and psychological therapy.",
   "option_explanations": {
-   "A": "FND is not intentional.",
+   "A": "Malingering is deliberate feigning for gain; functional neurological disorder is not intentional, and a positive Hoover sign does not distinguish intent.",
    "C": "MRI is normal and there are no upper motor neuron signs.",
-   "D": "The examination does not fit.",
-   "E": "Reflexes and MRI are normal."
+   "D": "Radiculopathy causes weakness in a myotomal pattern with dermatomal sensory change and reduced reflexes, and the weakness does not resolve with contralateral hip flexion.",
+   "E": "A lacunar stroke gives upper motor neurone signs (hyperreflexia, extensor plantar) and the MRI is normal; strength would not return during contralateral hip flexion."
   },
   "key_learning_point": "Hoover sign is a positive sign of functional weakness. FND is diagnosed on positive features, and it is not feigning.",
   "references": [
@@ -2159,8 +2159,8 @@
    }
   ],
   "flag_source_check": false,
-  "reviewer_notes": "Verified 2026-10-07 IST (Part B re-check) against the source cited in references.",
-  "status": "draft_pending_owner_review",
+  "reviewer_notes": "Verified 2026-10-07 IST (Part B re-check) against the source cited in references. | Kim clinical review 7 Oct 2026 (IST): FIX. Cue: key 69 chars vs 24; terse A, D, E expanded.",
+  "status": "clinical_review_fixed_2026_10_07",
   "external_ref": "ZQ-0341",
   "author_tier": 3,
   "correct_option": "B",
@@ -2190,19 +2190,19 @@
   "stem": "A 20-year-old university student in Newcastle, NSW, tells her GP she binge-eats several times a week and then makes herself vomit. Her BMI is 22 kg/m². She has bilateral parotid swelling and calluses on the backs of her fingers. She feels lightheaded at times.",
   "lead_in": "Which one of the following investigations is most important at this visit?",
   "options": {
-   "A": "Serum amylase",
-   "B": "DEXA scan",
-   "C": "Thyroid function",
-   "D": "CT brain",
-   "E": "Serum electrolytes including potassium"
+   "A": "Serum amylase and lipase",
+   "B": "DEXA bone density scan",
+   "C": "Thyroid function tests",
+   "D": "Non-contrast CT brain",
+   "E": "Serum electrolytes and an ECG"
   },
   "correct_answer": "E",
   "explanation_correct": "Self-induced vomiting causes hypokalaemic, hypochloraemic metabolic alkalosis, which can lead to arrhythmias. Australian Prescriber states that a physical examination, FBC, urea and electrolytes (including phosphate) and an ECG are mandatory to assess the physical complications of purging. Hypokalaemia may even be the first clue to an eating disorder. Psychological treatment is eating-disorder-focused CBT.",
   "option_explanations": {
    "A": "Amylase may be raised from the parotid glands but does not change management.",
-   "B": "DEXA is more relevant to anorexia.",
-   "C": "Not the priority.",
-   "D": "Not indicated."
+   "B": "Low bone density is a complication of prolonged low weight (anorexia nervosa); her BMI is normal and DEXA does not address the immediate danger.",
+   "C": "Thyroid disease does not explain self-induced vomiting and is not the urgent risk; hypokalaemia from purging is.",
+   "D": "She has no neurological features; lightheadedness is explained by dehydration and electrolyte disturbance."
   },
   "key_learning_point": "In bulimia with purging, check potassium (hypokalaemic alkalosis can cause arrhythmia).",
   "references": [
@@ -2212,8 +2212,8 @@
    }
   ],
   "flag_source_check": false,
-  "reviewer_notes": "Verified 2026-10-07 IST (Part B re-check) against the source cited in references.",
-  "status": "draft_pending_owner_review",
+  "reviewer_notes": "Verified 2026-10-07 IST (Part B re-check) against the source cited in references. | Kim clinical review 7 Oct 2026 (IST): FIX. Cue: key 38 chars vs 16; terse B, C, D expanded.",
+  "status": "clinical_review_fixed_2026_10_07",
   "external_ref": "ZQ-0342",
   "author_tier": 3,
   "correct_option": "E",
@@ -2243,11 +2243,11 @@
   "stem": "An 84-year-old woman with Alzheimer disease in a residential aged care facility in Launceston, Tas, has become agitated in the late afternoons over the past five days, calling out and pacing. She communicates little verbally. Staff ask the GP for 'something to settle her'. Her regular medicines have not changed.",
   "lead_in": "Which one of the following is the most appropriate first step in assessment?",
   "options": {
-   "A": "Start regular risperidone",
-   "B": "CT brain",
-   "C": "Assess for delirium, pain and other unmet physical needs such as constipation or urinary retention",
-   "D": "Repeat cognitive testing (MMSE)",
-   "E": "EEG"
+   "A": "Start regular low-dose risperidone 0.25 mg",
+   "B": "Arrange a non-contrast CT brain",
+   "C": "Assess for delirium, pain and unmet needs",
+   "D": "Repeat cognitive testing with the MMSE",
+   "E": "Arrange an EEG to exclude seizures"
   },
   "correct_answer": "C",
   "explanation_correct": "The NSW Health BPSD handbook asks first whether delirium is present and whether the person could be in pain, need the toilet, or have other unmet basic needs. Delirium causes and pain must be treated before behaviour is attributed to dementia. A structured pain tool (for example, the Abbey Pain Scale), examination, bowel and bladder review and a look for infection are first steps. Non-pharmacological strategies come before medication.",
@@ -2255,7 +2255,7 @@
    "A": "Medication is not the first step, and the behaviour has not yet been assessed for a cause.",
    "B": "CT is not routine for new agitation without focal signs or a fall.",
    "D": "Repeat testing does not identify the cause of the acute change.",
-   "E": "EEG is not a first-line test."
+   "E": "EEG is not a first-line test for new agitation in dementia; common causes such as pain, infection, constipation and retention must be looked for first."
   },
   "key_learning_point": "New BPSD: look for delirium, pain and unmet needs first.",
   "references": [
@@ -2265,8 +2265,8 @@
    }
   ],
   "flag_source_check": false,
-  "reviewer_notes": "Rewritten as a data-gathering item (Part A). Verified 2026-10-07 IST against the NSW Health BPSD handbook PDF.",
-  "status": "draft_pending_owner_review",
+  "reviewer_notes": "Rewritten as a data-gathering item (Part A). Verified 2026-10-07 IST against the NSW Health BPSD handbook PDF. | Kim clinical review 7 Oct 2026 (IST): FIX. Cue: key 98 chars vs 31; terse E expanded.",
+  "status": "clinical_review_fixed_2026_10_07",
   "external_ref": "ZQ-0343",
   "author_tier": 3,
   "correct_option": "C",
@@ -2296,19 +2296,19 @@
   "stem": "A 58-year-old man in Toowoomba, Qld, has taken oxazepam 30 mg three times daily for six years. It was first prescribed after a bereavement. He would now like to stop. He has no history of seizures and does not drink alcohol.",
   "lead_in": "Which one of the following is the most appropriate plan?",
   "options": {
-   "A": "Switch to an equivalent dose of diazepam and reduce gradually over weeks to months",
-   "B": "Stop immediately",
-   "C": "Reduce by 50% each week",
-   "D": "Swap to zolpidem",
-   "E": "Start flumazenil"
+   "A": "Switch to equivalent diazepam and taper over months",
+   "B": "Stop oxazepam today with a 2-week PRN supply",
+   "C": "Reduce oxazepam by 50% each week",
+   "D": "Switch to zolpidem at night, then stop oxazepam",
+   "E": "Admit for flumazenil-assisted withdrawal"
   },
   "correct_answer": "A",
   "explanation_correct": "Stopping benzodiazepines abruptly after long-term use risks withdrawal seizures. Australian Prescriber advises a gradual dose reduction over weeks to months, often after switching to diazepam because its long half-life gives a smoother taper.",
   "option_explanations": {
-   "B": "This risks seizures.",
-   "C": "This is too fast.",
+   "B": "Abrupt cessation after 6 years of high-dose use risks severe withdrawal including seizures and delirium.",
+   "C": "Halving the dose each week would stop the drug within a month, far faster than the weeks-to-months taper recommended for long-term use.",
    "D": "This just substitutes another dependence-causing drug.",
-   "E": "Flumazenil can precipitate withdrawal."
+   "E": "Flumazenil precipitates acute withdrawal and seizures in dependent patients; it has no role in planned withdrawal."
   },
   "key_learning_point": "Stop long-term benzodiazepines with a slow taper, often after switching to diazepam.",
   "references": [
@@ -2318,8 +2318,8 @@
    }
   ],
   "flag_source_check": false,
-  "reviewer_notes": "Key verified 2026-10-07 (IST) against the live source cited in references. Needs clinician sign-off.",
-  "status": "draft_pending_owner_review",
+  "reviewer_notes": "Key verified 2026-10-07 (IST) against the live source cited in references. Needs clinician sign-off. | Kim clinical review 7 Oct 2026 (IST): FIX. Cue: key 82 chars vs 23; terse B, C, E expanded.",
+  "status": "clinical_review_fixed_2026_10_07",
   "external_ref": "ZQ-0344",
   "author_tier": 4,
   "correct_option": "A",
@@ -2341,10 +2341,10 @@
   "clinician_task": "data_interpretation_synthesis",
   "system": "epidemiology",
   "subtopic": "Positive likelihood ratio from sensitivity and specificity",
-  "difficulty": 4,
-  "difficulty_tier": 4,
-  "app_difficulty": "difficult",
-  "irt_b": 1.4,
+  "difficulty": 3,
+  "difficulty_tier": 3,
+  "app_difficulty": "moderate",
+  "irt_b": 0.4,
   "irt_b_source": "author_estimate",
   "stem": "A new point-of-care test for deep vein thrombosis has a sensitivity of 90% and a specificity of 70% compared with compression ultrasound.",
   "lead_in": "Which one of the following is the positive likelihood ratio of this test?",
@@ -2358,8 +2358,8 @@
   "correct_answer": "B",
   "explanation_correct": "LR+ = sensitivity ÷ (1 − specificity) = 0.90 ÷ 0.30 = 3.0. A positive result triples the pre-test odds.",
   "option_explanations": {
-   "A": "This is 0.9 ÷ 0.7, which is wrong.",
-   "C": "This is the LR−, (1 − 0.9) ÷ 0.7.",
+   "A": "This is sensitivity divided by specificity (0.9 / 0.7), which is not a likelihood ratio; the denominator for LR+ is the false-positive rate (1 - specificity).",
+   "C": "This is the negative likelihood ratio, (1 - sensitivity) / specificity = 0.1 / 0.7.",
    "D": "This is 1 ÷ LR+, the reciprocal, which is not a likelihood ratio.",
    "E": "This is sensitivity × specificity, which has no diagnostic meaning."
   },
@@ -2368,13 +2368,17 @@
    {
     "name": "Webb P, Bain C, Page A. Essential Epidemiology, 4th ed. Cambridge University Press",
     "url": "https://www.cambridge.org/"
+   },
+   {
+    "name": "StatPearls. Diagnostic testing accuracy: sensitivity, specificity, predictive values and likelihood ratios",
+    "url": "https://www.ncbi.nlm.nih.gov/books/NBK557491/"
    }
   ],
   "flag_source_check": false,
-  "reviewer_notes": "Calculation item; no guideline dependency.",
-  "status": "draft_pending_owner_review",
+  "reviewer_notes": "Calculation item; no guideline dependency. | Kim clinical review 7 Oct 2026 (IST): FIX. Difficulty: a one-step LR+ calculation is not tier 4. Retiered to moderate/3, irt_b 0.4. Formula verified (NCBI StatPearls NBK557491). Terse A and C expanded.",
+  "status": "clinical_review_fixed_2026_10_07",
   "external_ref": "ZQ-0345",
-  "author_tier": 4,
+  "author_tier": 3,
   "correct_option": "B",
   "n_options": 5,
   "tags": [
@@ -2411,9 +2415,9 @@
   "correct_answer": "E",
   "explanation_correct": "Mothers of affected infants are more likely to search their memories and report exposures. This differential misclassification of exposure is recall bias, and it is typical of case–control studies that rely on self-report.",
   "option_explanations": {
-   "A": "Lead-time bias belongs to screening studies.",
-   "B": "This is an occupational cohort bias.",
-   "C": "This is a cohort study bias.",
+   "A": "Lead-time bias is an apparent survival gain from diagnosing disease earlier by screening; this is a case-control study of exposure, not survival.",
+   "B": "The healthy worker effect is lower morbidity in employed cohorts compared with the general population; no occupational cohort is involved.",
+   "C": "Loss to follow-up affects cohort studies and trials; a case-control study recruits on outcome and has no follow-up period.",
    "D": "Length-time bias belongs to screening studies."
   },
   "key_learning_point": "Self-reported past exposures in case–control studies are prone to recall bias.",
@@ -2421,11 +2425,15 @@
    {
     "name": "Webb P, Bain C, Page A. Essential Epidemiology, 4th ed.",
     "url": "https://www.cambridge.org/"
+   },
+   {
+    "name": "Catalog of Bias. Recall bias",
+    "url": "https://catalogofbias.org/biases/recall-bias/"
    }
   ],
   "flag_source_check": false,
-  "reviewer_notes": "Epidemiology concept item; no guideline dependency.",
-  "status": "draft_pending_owner_review",
+  "reviewer_notes": "Epidemiology concept item; no guideline dependency. | Kim clinical review 7 Oct 2026 (IST): FIX. Concept verified (Catalog of Bias, recall bias). Terse A-C expanded.",
+  "status": "clinical_review_fixed_2026_10_07",
   "external_ref": "ZQ-0346",
   "author_tier": 3,
   "correct_option": "E",
@@ -2464,9 +2472,9 @@
   "correct_answer": "E",
   "explanation_correct": "RR = (20/1000) ÷ (5/1000) = 0.02 ÷ 0.005 = 4.0.",
   "option_explanations": {
-   "A": "This is the risk difference (2% − 0.5%).",
-   "B": "This is the inverse.",
-   "C": "This is the difference in counts.",
+   "A": "This is the risk difference (2.0% - 0.5% = 1.5%), an absolute measure, not the relative risk.",
+   "B": "This is the inverse ratio (unexposed over exposed, 0.005 / 0.02).",
+   "C": "This is the difference in case counts (20 - 5), which ignores the denominators.",
    "D": "This is the risk in the exposed (20/1000), not the ratio."
   },
   "key_learning_point": "RR = risk in the exposed ÷ risk in the unexposed.",
@@ -2474,11 +2482,15 @@
    {
     "name": "Webb P, Bain C, Page A. Essential Epidemiology, 4th ed.",
     "url": "https://www.cambridge.org/"
+   },
+   {
+    "name": "CDC. Principles of Epidemiology in Public Health Practice, Lesson 3 section 2: morbidity frequency measures",
+    "url": "https://archive.cdc.gov/www_cdc_gov/csels/dsepd/ss1978/lesson3/section2.html"
    }
   ],
   "flag_source_check": false,
-  "reviewer_notes": "Calculation item; no guideline dependency.",
-  "status": "draft_pending_owner_review",
+  "reviewer_notes": "Calculation item; no guideline dependency. | Kim clinical review 7 Oct 2026 (IST): FIX. Arithmetic re-checked; definition verified (CDC Principles of Epidemiology, Lesson 3). Explanations clarified.",
+  "status": "clinical_review_fixed_2026_10_07",
   "external_ref": "ZQ-0347",
   "author_tier": 2,
   "correct_option": "E",
@@ -2508,11 +2520,11 @@
   "stem": "A 24-year-old unvaccinated man returned to Sydney from Southeast Asia nine days ago. He sees a GP with three days of fever, cough, conjunctivitis and coryza, and since this morning a maculopapular rash spreading from his face. The GP isolates him in a separate room. Serology and PCR swabs are collected.",
   "lead_in": "Which one of the following is the most appropriate next action regarding public health?",
   "options": {
-   "A": "Wait for PCR confirmation before notifying",
-   "B": "Notify the local public health unit promptly by telephone, without waiting for laboratory confirmation",
-   "C": "Notify only if the patient consents",
-   "D": "Contact his workplace directly to warn colleagues",
-   "E": "No notification needed because he is an adult"
+   "A": "Wait for PCR confirmation before notifying public health",
+   "B": "Notify the public health unit by phone now, before results",
+   "C": "Notify public health only if the patient consents to it",
+   "D": "Contact his workplace directly to warn his colleagues",
+   "E": "Notify by routine written form once the rash has resolved"
   },
   "correct_answer": "B",
   "explanation_correct": "The NSW Health measles control guideline asks emergency departments and medical practitioners to report suspected cases to the local public health unit promptly, and to seek laboratory confirmation in all suspected cases. Early notification of a suspected case allows contact tracing and post-exposure prophylaxis within the time when it works. Cases should stay home until 4 days after rash onset.",
@@ -2520,7 +2532,7 @@
    "A": "Notification should happen on clinical suspicion.",
    "C": "Notification of notifiable conditions does not need the patient's consent.",
    "D": "Contact tracing is coordinated by the public health unit.",
-   "E": "Notification does not depend on age."
+   "E": "Measles is notified urgently by telephone on clinical suspicion so contacts can receive MMR within 72 hours or immunoglobulin within 6 days; delayed written notification misses that window."
   },
   "key_learning_point": "Suspected measles: isolate, test and notify the public health unit promptly on clinical suspicion.",
   "references": [
@@ -2530,8 +2542,8 @@
    }
   ],
   "flag_source_check": false,
-  "reviewer_notes": "Rewritten (Part B): the Jehovah's Witness refusal item overlapped an existing advance-directive item and had no primary source read. Verified 2026-10-07 IST against the NSW Health measles control guideline. The 'consent not needed' explanation is general knowledge of notifiable-disease law, not quoted from this page.",
-  "status": "draft_pending_owner_review",
+  "reviewer_notes": "Rewritten (Part B): the Jehovah's Witness refusal item overlapped an existing advance-directive item and had no primary source read. Verified 2026-10-07 IST against the NSW Health measles control guideline. The 'consent not needed' explanation is general knowledge of notifiable-disease law, not quoted from this page. | Kim clinical review 7 Oct 2026 (IST): FIX. Cue: key 102 chars vs 49; terse E expanded.",
+  "status": "clinical_review_fixed_2026_10_07",
   "external_ref": "ZQ-0348",
   "author_tier": 3,
   "correct_option": "B",
@@ -2561,19 +2573,19 @@
   "stem": "A 46-year-old woman sees her GP in Darwin, NT, with a new 2 cm firm lump in her left breast that she noticed three weeks ago. She asks whether she should book a free BreastScreen mammogram.",
   "lead_in": "Which one of the following is the most appropriate advice?",
   "options": {
-   "A": "BreastScreen is for women without symptoms; she needs diagnostic assessment through her GP",
-   "B": "Book BreastScreen because she is over 40",
-   "C": "Wait until she is 50",
-   "D": "Self-examine for 3 months",
-   "E": "Genetic testing first"
+   "A": "Refer for diagnostic imaging and assessment via her GP, not BreastScreen",
+   "B": "Book BreastScreen, as women aged 40-49 may attend free",
+   "C": "Wait for her BreastScreen invitation at age 50",
+   "D": "Review the lump after her next period, then decide",
+   "E": "Refer for BRCA genetic testing before any imaging"
   },
   "correct_answer": "A",
   "explanation_correct": "BreastScreen Australia invites women aged 50–74 every 2 years, and women aged 40–49 or 75 and over may book if they have no symptoms. Women with symptoms should see their doctor for diagnostic imaging (the triple test).",
   "option_explanations": {
    "B": "She has symptoms, so screening is not the right pathway.",
-   "C": "Her lump needs assessment now.",
-   "D": "This delays diagnosis.",
-   "E": "Not indicated as the first step."
+   "C": "A new breast lump needs diagnostic assessment now, at any age; screening invitations are for women without symptoms.",
+   "D": "Re-examining after a period is reasonable only for a premenopausal woman with a vague, cyclical thickening; a discrete 2 cm lump present for 3 weeks needs the triple test now.",
+   "E": "Genetic testing is for women with a strong family history or a diagnosed cancer meeting criteria; it does not assess this lump."
   },
   "key_learning_point": "BreastScreen is for women without symptoms. A breast lump needs the diagnostic triple-test pathway.",
   "references": [
@@ -2583,8 +2595,8 @@
    }
   ],
   "flag_source_check": false,
-  "reviewer_notes": "Key verified 2026-10-07 (IST) against the live source cited in references. Needs clinician sign-off.",
-  "status": "draft_pending_owner_review",
+  "reviewer_notes": "Key verified 2026-10-07 (IST) against the live source cited in references. Needs clinician sign-off. | Kim clinical review 7 Oct 2026 (IST): FIX. Cue: key 90 chars; implausible distractors and terse C-E. Rewritten.",
+  "status": "clinical_review_fixed_2026_10_07",
   "external_ref": "ZQ-0349",
   "author_tier": 2,
   "correct_option": "A",
@@ -2624,9 +2636,9 @@
   "explanation_correct": "The Australian Immunisation Handbook states that a positive result on either serology or skin test means the person is sensitised and must not be vaccinated, because of the risk of severe local reactions. Vaccination goes ahead only if both tests are negative.",
   "option_explanations": {
    "B": "A positive skin test still means she is sensitised.",
-   "C": "This is not recommended.",
-   "D": "There is no half-dose regimen.",
-   "E": "Not indicated."
+   "C": "Repeating the skin test does not change the result; a positive test means prior sensitisation, and a repeat test itself risks a local reaction.",
+   "D": "There is no reduced-dose Q fever vaccine regimen; sensitised people must not be vaccinated at all.",
+   "E": "A positive skin test reflects past exposure (immunity), not active infection, so antibiotics are not indicated and vaccination remains contraindicated."
   },
   "key_learning_point": "Q fever: vaccinate only if both serology and skin test are negative.",
   "references": [
@@ -2636,8 +2648,8 @@
    }
   ],
   "flag_source_check": false,
-  "reviewer_notes": "Key verified 2026-10-07 (IST) against the live source cited in references. Needs clinician sign-off.",
-  "status": "draft_pending_owner_review",
+  "reviewer_notes": "Key verified 2026-10-07 (IST) against the live source cited in references. Needs clinician sign-off. | Kim clinical review 7 Oct 2026 (IST): FIX. Terse C-E expanded.",
+  "status": "clinical_review_fixed_2026_10_07",
   "external_ref": "ZQ-0350",
   "author_tier": 4,
   "correct_option": "A",

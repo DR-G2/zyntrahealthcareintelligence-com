@@ -1570,7 +1570,7 @@
    "Insert an inferior vena cava filter and withhold anticoagulation"
   ],
   "correct_answer": "C",
-  "explanation": "CORRECT ANSWER\n\nC. Start therapeutic-dose fondaparinux subcutaneously once daily\n\n---\n\nShe has a high 4Ts score: a platelet fall of more than 50% (2 points), onset between day 5 and 10 (2), new thrombosis (2) and no other cause (2), total 8. HIT is highly likely. Management should not wait for the immunoassay. All heparin (including LMWH and heparin flushes) must be stopped, and a therapeutic dose of a non-heparin anticoagulant started, because HIT is strongly prothrombotic. Suitable options include fondaparinux (weight-based: 7.5 mg daily for 50–100 kg, with normal renal function), argatroban or bivalirudin, or a DOAC in selected stable patients (ASH 2018). Warfarin should NOT be started until the platelet count has recovered (usually above 150 × 10^9/L), because early warfarin lowers protein C and can cause venous limb gangrene. Platelet transfusion is avoided unless there is bleeding or a high-risk procedure. HIT should be recorded as an adverse drug reaction.\n\n---\n\nKEY LEARNING POINT\nSuspected HIT with an intermediate or high 4Ts score: stop all heparin and start a therapeutic non-heparin anticoagulant (for example fondaparinux, argatroban or a DOAC) without waiting for results. No warfarin until platelets recover, and no platelet transfusion.\n\n---\n\nREFERENCES\n• {\"name\": \"Cuker A et al. American Society of Hematology 2018 guidelines for management of venous thromboembolism: heparin-induced thrombocytopenia (Blood Advances), PMC\", \"url\": \"https://pmc.ncbi.nlm.nih.gov/articles/PMC6258919/\"}\n• {\"name\": \"Fondaparinux (Arixtra) Australian Product Information \\u2013 TGA eBS search\", \"url\": \"https://www.ebs.tga.gov.au/\"}\n\n---\n\nEDITED BY HEISENBERG",
+  "explanation": "CORRECT ANSWER\n\nC. Start therapeutic-dose fondaparinux subcutaneously once daily\n\n---\n\nShe has a high 4Ts score: a platelet fall of more than 50% (2 points), onset between day 5 and 10 (2), new thrombosis (2) and no other cause (2), total 8. HIT is highly likely. Management should not wait for the immunoassay. All heparin (including LMWH and heparin flushes) must be stopped, and a therapeutic dose of a non-heparin anticoagulant started, because HIT is strongly prothrombotic. Suitable options include fondaparinux (weight-based: 7.5 mg daily for 50–100 kg, with normal renal function), argatroban or bivalirudin, or a DOAC in selected stable patients (ASH 2018). Warfarin should NOT be started until the platelet count has recovered (usually above 150 × 10^9/L), because early warfarin lowers protein C and can cause venous limb gangrene. Platelet transfusion is avoided unless there is bleeding or a high-risk procedure. HIT should be recorded as an adverse drug reaction. In Australia no anticoagulant is registered for HIT, so fondaparinux use is off-label; the THANZ consensus (MJA 2019) names fixed-dose fondaparinux as the simpler option for clinically stable patients with adequate renal function, with haematology input.\n\n---\n\nKEY LEARNING POINT\nSuspected HIT with an intermediate or high 4Ts score: stop all heparin and start a therapeutic non-heparin anticoagulant (for example fondaparinux, argatroban or a DOAC) without waiting for results. No warfarin until platelets recover, and no platelet transfusion.\n\n---\n\nREFERENCES\n• {\"name\": \"Cuker A et al. American Society of Hematology 2018 guidelines for management of venous thromboembolism: heparin-induced thrombocytopenia (Blood Advances), PMC\", \"url\": \"https://pmc.ncbi.nlm.nih.gov/articles/PMC6258919/\"}\n• {\"name\": \"Fondaparinux (Arixtra) Australian Product Information \\u2013 TGA eBS search\", \"url\": \"https://www.ebs.tga.gov.au/\"}\n• {\"name\": \"THANZ HIT Writing Group. Diagnosis and management of heparin-induced thrombocytopenia: consensus statement. Med J Aust 2019;210(11)\", \"url\": \"https://www.mja.com.au/journal/2019/210/11/diagnosis-and-management-heparin-induced-thrombocytopenia-consensus-statement\"}\n• {\"name\": \"SESLHD Medicine Guideline SESLHDMG/141: Fondaparinux for heparin-induced thrombocytopenia\", \"url\": \"https://www.seslhd.health.nsw.gov.au/sites/default/files/documents/SESLHDMG%20141%20-%20Medicine%20Guideline%20-%20Fondaparinux%20for%20Heparin%20induced%20Thrombocytopenia%20%28HIT%29.pdf\"}\n\n---\n\nEDITED BY HEISENBERG",
   "category": "Adult Medicine",
   "system_category": "Haematology & Oncology",
   "subtopic": "Heparin-induced thrombocytopenia with thrombosis: immediate anticoagulant choice",
@@ -1585,7 +1585,7 @@
   "key_takeaways": [
    "Suspected HIT with an intermediate or high 4Ts score: stop all heparin and start a therapeutic non-heparin anticoagulant (for example fondaparinux, argatroban or a DOAC) without waiting for results. No warfarin until platelets recover, and no platelet transfusion."
   ],
-  "guideline_reference": "{\"name\": \"Cuker A et al. American Society of Hematology 2018 guidelines for management of venous thromboembolism: heparin-induced thrombocytopenia (Blood Advances), PMC\", \"url\": \"https://pmc.ncbi.nlm.nih.gov/articles/PMC6258919/\"}; {\"name\": \"Fondaparinux (Arixtra) Australian Product Information \\u2013 TGA eBS search\", \"url\": \"https://www.ebs.tga.gov.au/\"}",
+  "guideline_reference": "{\"name\": \"Cuker A et al. American Society of Hematology 2018 guidelines for management of venous thromboembolism: heparin-induced thrombocytopenia (Blood Advances), PMC\", \"url\": \"https://pmc.ncbi.nlm.nih.gov/articles/PMC6258919/\"}; {\"name\": \"Fondaparinux (Arixtra) Australian Product Information \\u2013 TGA eBS search\", \"url\": \"https://www.ebs.tga.gov.au/\"}; {\"name\": \"THANZ HIT Writing Group. Diagnosis and management of heparin-induced thrombocytopenia: consensus statement. Med J Aust 2019;210(11)\", \"url\": \"https://www.mja.com.au/journal/2019/210/11/diagnosis-and-management-heparin-induced-thrombocytopenia-consensus-statement\"}; {\"name\": \"SESLHD Medicine Guideline SESLHDMG/141: Fondaparinux for heparin-induced thrombocytopenia\", \"url\": \"https://www.seslhd.health.nsw.gov.au/sites/default/files/documents/SESLHDMG%20141%20-%20Medicine%20Guideline%20-%20Fondaparinux%20for%20Heparin%20induced%20Thrombocytopenia%20%28HIT%29.pdf\"}",
   "clinical_vignette": true,
   "question_type": "mcq",
   "tags": [
@@ -1597,7 +1597,7 @@
    "group_adult_medicine",
    "sys_haematology_oncology",
    "approved_by_owner_2026_09_29",
-   "flag_source_check"
+   "clinical_review_kim_2026_10_07"
   ]
  },
  {
@@ -2758,7 +2758,7 @@
    "group_adult_surgery",
    "sys_general_surgery",
    "approved_by_owner_2026_09_29",
-   "flag_source_check"
+   "clinical_review_kim_2026_10_07"
   ]
  },
  {
@@ -3892,7 +3892,7 @@
    "Start routine antenatal prophylaxis now instead of waiting until 28 weeks"
   ],
   "correct_answer": "A",
-  "explanation": "CORRECT ANSWER\n\nA. No Rh D immunoglobulin is needed for this episode\n\n---\n\nThis is a threatened miscarriage before 12 weeks: a single episode of light, painless bleeding with a viable intrauterine pregnancy and a closed cervix. The National Blood Authority guideline on prophylactic Rh D immunoglobulin in pregnancy care (2021), which RANZCOG's C-Obs 6 statement refers Fellows to, states there is insufficient evidence that threatened miscarriage before 12 weeks needs Rh D immunoglobulin. It may be given at the clinician's discretion when bleeding is repeated or heavy, or associated with abdominal pain or significant pelvic trauma. None of these applies here. This differs from actual pregnancy loss or procedures in the first trimester: Australian guidance still recommends Rh D immunoglobulin (250 IU up to 12 weeks) for miscarriage, ectopic pregnancy, molar pregnancy, chorionic villus sampling, and abortion (RANZCOG: after 10 weeks). She should have routine antenatal prophylaxis at 28 and 34 weeks, and should return if bleeding recurs, becomes heavy or is accompanied by pain, when the decision can be revisited.\n\n---\n\nKEY LEARNING POINT\nThreatened miscarriage before 12 weeks with light, painless bleeding: Rh D immunoglobulin is not routinely needed (NBA 2021). Consider it if bleeding is heavy or repeated, with pain, or after trauma; give it for actual miscarriage, ectopic or procedures.\n\n---\n\nREFERENCES\n• {\"name\": \"RANZCOG. Guidelines for the use of Rh(D) Immunoglobulin (Anti-D) in obstetrics in Australia (C-Obs 6)\", \"url\": \"https://ranzcog.edu.au/wp-content/uploads/Anti-D-Guidelines.pdf\"}\n• {\"name\": \"Queensland Clinical Guidelines. Early pregnancy loss (Rh D immunoglobulin dosing, Table 4)\", \"url\": \"https://www.health.qld.gov.au/__data/assets/pdf_file/0033/139947/g-epl.pdf\"}\n\n---\n\nEDITED BY HEISENBERG",
+  "explanation": "CORRECT ANSWER\n\nA. No Rh D immunoglobulin is needed for this episode\n\n---\n\nThis is a threatened miscarriage before 12 weeks: a single episode of light, painless bleeding with a viable intrauterine pregnancy and a closed cervix. The National Blood Authority guideline on prophylactic Rh D immunoglobulin in pregnancy care (2021), which RANZCOG's C-Obs 6 statement refers Fellows to, states there is insufficient evidence that threatened miscarriage before 12 weeks needs Rh D immunoglobulin. It may be given at the clinician's discretion when bleeding is repeated or heavy, or associated with abdominal pain or significant pelvic trauma. None of these applies here. This differs from actual pregnancy loss or procedures in the first trimester: Australian guidance still recommends Rh D immunoglobulin (250 IU up to 12 weeks) for miscarriage, ectopic pregnancy, molar pregnancy, chorionic villus sampling, and abortion (RANZCOG: after 10 weeks). She should have routine antenatal prophylaxis at 28 and 34 weeks, and should return if bleeding recurs, becomes heavy or is accompanied by pain, when the decision can be revisited.\n\n---\n\nKEY LEARNING POINT\nThreatened miscarriage before 12 weeks with light, painless bleeding: Rh D immunoglobulin is not routinely needed (NBA 2021). Consider it if bleeding is heavy or repeated, with pain, or after trauma; give it for actual miscarriage, ectopic or procedures.\n\n---\n\nREFERENCES\n• {\"name\": \"RANZCOG. Guidelines for the use of Rh(D) Immunoglobulin (Anti-D) in obstetrics in Australia (C-Obs 6)\", \"url\": \"https://ranzcog.edu.au/wp-content/uploads/Anti-D-Guidelines.pdf\"}\n• {\"name\": \"Queensland Clinical Guidelines. Early pregnancy loss (Rh D immunoglobulin dosing, Table 4)\", \"url\": \"https://www.health.qld.gov.au/__data/assets/pdf_file/0033/139947/g-epl.pdf\"}\n• {\"name\": \"National Blood Authority. Guideline for the prophylactic use of Rh D immunoglobulin in pregnancy care (2021, updated Mar 2024)\", \"url\": \"https://www.blood.gov.au/guideline-prophylactic-use-rh-d-immunoglobulin-pregnancy-care\"}\n\n---\n\nEDITED BY HEISENBERG",
   "category": "Women's Health",
   "system_category": "Obstetrics",
   "subtopic": "Rh D immunoglobulin and threatened miscarriage before 12 weeks",
@@ -3907,7 +3907,7 @@
   "key_takeaways": [
    "Threatened miscarriage before 12 weeks with light, painless bleeding: Rh D immunoglobulin is not routinely needed (NBA 2021). Consider it if bleeding is heavy or repeated, with pain, or after trauma; give it for actual miscarriage, ectopic or procedures."
   ],
-  "guideline_reference": "{\"name\": \"RANZCOG. Guidelines for the use of Rh(D) Immunoglobulin (Anti-D) in obstetrics in Australia (C-Obs 6)\", \"url\": \"https://ranzcog.edu.au/wp-content/uploads/Anti-D-Guidelines.pdf\"}; {\"name\": \"Queensland Clinical Guidelines. Early pregnancy loss (Rh D immunoglobulin dosing, Table 4)\", \"url\": \"https://www.health.qld.gov.au/__data/assets/pdf_file/0033/139947/g-epl.pdf\"}",
+  "guideline_reference": "{\"name\": \"RANZCOG. Guidelines for the use of Rh(D) Immunoglobulin (Anti-D) in obstetrics in Australia (C-Obs 6)\", \"url\": \"https://ranzcog.edu.au/wp-content/uploads/Anti-D-Guidelines.pdf\"}; {\"name\": \"Queensland Clinical Guidelines. Early pregnancy loss (Rh D immunoglobulin dosing, Table 4)\", \"url\": \"https://www.health.qld.gov.au/__data/assets/pdf_file/0033/139947/g-epl.pdf\"}; {\"name\": \"National Blood Authority. Guideline for the prophylactic use of Rh D immunoglobulin in pregnancy care (2021, updated Mar 2024)\", \"url\": \"https://www.blood.gov.au/guideline-prophylactic-use-rh-d-immunoglobulin-pregnancy-care\"}",
   "clinical_vignette": true,
   "question_type": "mcq",
   "tags": [
@@ -3919,7 +3919,7 @@
    "group_womens_health",
    "sys_obstetrics",
    "approved_by_owner_2026_09_29",
-   "flag_source_check"
+   "clinical_review_kim_2026_10_07"
   ]
  },
  {
@@ -5320,7 +5320,7 @@
    "group_child_health",
    "sys_development",
    "approved_by_owner_2026_09_29",
-   "flag_source_check"
+   "clinical_review_kim_2026_10_07"
   ]
  },
  {
