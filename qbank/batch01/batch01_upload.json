@@ -789,7 +789,7 @@
    "Start range-of-motion exercises and review if pain persists at 6 weeks"
   ],
   "correct_answer": "A",
-  "explanation": "CORRECT ANSWER\n\nA. Immobilise the wrist in a splint and arrange further scaphoid imaging\n\n---\n\nSnuffbox tenderness and pain on axial thumb compression after a fall on the outstretched hand mean a scaphoid fracture must be presumed even when first X-rays are normal; a substantial minority are not visible initially. A missed fracture risks non-union and avascular necrosis of the proximal pole, whose blood supply enters distally. Immobilise the wrist (splint or cast per local protocol) and arrange further imaging: MRI (most sensitive) or CT where available, or repeat scaphoid X-rays at about 10–14 days.\n\n---\n\nKEY LEARNING POINT\nSnuffbox tenderness with a normal X-ray: treat as a scaphoid fracture. Immobilise and re-image (MRI/CT, or repeat X-ray at 10–14 days).\n\n---\n\nREFERENCES\n• {\"name\": \"Therapeutic Guidelines (eTG complete)\", \"url\": \"https://www.tg.org.au\"}\n• {\"name\": \"RACGP. Australian Journal of General Practice (AJGP): wrist and scaphoid injury articles\", \"url\": \"https://www1.racgp.org.au/ajgp\"}",
+  "explanation": "CORRECT ANSWER\n\nA. Immobilise the wrist in a splint and arrange further scaphoid imaging\n\n---\n\nSnuffbox tenderness and pain on axial thumb loading after a fall on the outstretched hand mean a scaphoid fracture must be presumed even when first X-rays are normal; about 20% of clinically suspected fractures with normal initial films are true fractures. Because the proximal pole's blood supply is retrograde, a missed waist fracture risks non-union and avascular necrosis. Immobilise the wrist (a short-arm cast or splint is as effective as a thumb spica) and arrange early review with further imaging: repeat scaphoid X-rays at about 10–14 days in fracture clinic, with MRI if tenderness persists and the repeat film is normal, or early MRI/CT where available. A confirmed fracture is immobilised for about 6 weeks.\n\n---\n\nKEY LEARNING POINT\nSnuffbox tenderness with a normal X-ray: treat as a scaphoid fracture. Immobilise and re-image (MRI/CT, or repeat X-ray at 10–14 days).\n\n---\n\nREFERENCES\n• {\"name\": \"Royal Children's Hospital. Scaphoid fractures – emergency management (clinical practice guideline)\", \"url\": \"https://www.rch.org.au/clinicalguide/guideline_index/fractures/Scaphoid_Fractures_%E2%80%93_Emergency_Management/\"}",
   "category": "Adult Surgery",
   "system_category": "Orthopaedics",
   "subtopic": "Suspected scaphoid fracture with a normal initial X-ray: immobilise and re-image",
@@ -804,7 +804,7 @@
   "key_takeaways": [
    "Snuffbox tenderness with a normal X-ray: treat as a scaphoid fracture. Immobilise and re-image (MRI/CT, or repeat X-ray at 10–14 days)."
   ],
-  "guideline_reference": "{\"name\": \"Therapeutic Guidelines (eTG complete)\", \"url\": \"https://www.tg.org.au\"}; {\"name\": \"RACGP. Australian Journal of General Practice (AJGP): wrist and scaphoid injury articles\", \"url\": \"https://www1.racgp.org.au/ajgp\"}",
+  "guideline_reference": "{\"name\": \"Royal Children's Hospital. Scaphoid fractures – emergency management (clinical practice guideline)\", \"url\": \"https://www.rch.org.au/clinicalguide/guideline_index/fractures/Scaphoid_Fractures_%E2%80%93_Emergency_Management/\"}",
   "clinical_vignette": true,
   "question_type": "mcq",
   "tags": [
@@ -913,7 +913,7 @@
    "Oral antibiotics for 7 days and discharge without follow-up"
   ],
   "correct_answer": "A",
-  "explanation": "CORRECT ANSWER\n\nA. Discharge with an NSAID, tamsulosin, and urology follow-up with repeat imaging\n\n---\n\nThis is an uncomplicated stone (no infection, normal renal function, two kidneys, controlled pain). A 5–10 mm distal ureteric stone can be given a trial of passage, and an alpha-blocker (tamsulosin, off-label for this use in Australia) improves passage of stones over 5 mm. NSAIDs are first-line analgesia. He needs repeat imaging and urology review in 2–4 weeks and advice to return for fever, uncontrolled pain or vomiting. Urgent drainage is only for infection, a solitary or failing kidney, or uncontrolled pain.\n\n---\n\nKEY LEARNING POINT\nUncomplicated distal ureteric stone 5–10 mm: NSAID, tamsulosin and follow-up imaging. Drain urgently only if infected, AKI, solitary kidney or uncontrolled pain.\n\n---\n\nREFERENCES\n• {\"name\": \"Therapeutic Guidelines (eTG complete)\", \"url\": \"https://www.tg.org.au\"}\n• {\"name\": \"EAU Guidelines on Urolithiasis\", \"url\": \"https://uroweb.org/guidelines/urolithiasis\"}",
+  "explanation": "CORRECT ANSWER\n\nA. Discharge with an NSAID, tamsulosin, and urology follow-up with repeat imaging\n\n---\n\nThis is an uncomplicated stone: no infection, normal renal function, two kidneys and controlled pain. Stones of 5–7 mm pass with conservative management in about 60% of cases, and the RACGP review advises NSAIDs as the most effective analgesia and routine tamsulosin 400 µg daily in conservatively managed renal colic (off-label, and not PBS-listed for urolithiasis). Tamsulosin's benefit is mainly for distal stones over 5 mm. He should strain his urine, have follow-up imaging at about 4 weeks (unless the stone is retrieved), and see a urologist if the stone has not passed by about 3 weeks or pain is not controlled. He should return immediately for fever or uncontrolled pain. Urgent drainage is for infection, a single kidney, bilateral obstruction, anuria or poor renal reserve.\n\n---\n\nKEY LEARNING POINT\nUncomplicated distal ureteric stone 5–10 mm: NSAID, tamsulosin and follow-up imaging. Drain urgently only if infected, AKI, solitary kidney or uncontrolled pain.\n\n---\n\nREFERENCES\n• {\"name\": \"Sewell J et al. Urolithiasis – ten things every general practitioner should know. Aust Fam Physician 2017;46(9) (RACGP)\", \"url\": \"https://www.racgp.org.au/afp/2017/september/urolithiasis\"}\n• {\"name\": \"EAU Guidelines on Urolithiasis: medical expulsive therapy\", \"url\": \"https://uroweb.org/guidelines/urolithiasis/chapter/guidelines\"}",
   "category": "Adult Surgery",
   "system_category": "Urology",
   "subtopic": "Uncomplicated 6 mm distal ureteric stone: analgesia, tamsulosin and follow-up",
@@ -928,7 +928,7 @@
   "key_takeaways": [
    "Uncomplicated distal ureteric stone 5–10 mm: NSAID, tamsulosin and follow-up imaging. Drain urgently only if infected, AKI, solitary kidney or uncontrolled pain."
   ],
-  "guideline_reference": "{\"name\": \"Therapeutic Guidelines (eTG complete)\", \"url\": \"https://www.tg.org.au\"}; {\"name\": \"EAU Guidelines on Urolithiasis\", \"url\": \"https://uroweb.org/guidelines/urolithiasis\"}",
+  "guideline_reference": "{\"name\": \"Sewell J et al. Urolithiasis – ten things every general practitioner should know. Aust Fam Physician 2017;46(9) (RACGP)\", \"url\": \"https://www.racgp.org.au/afp/2017/september/urolithiasis\"}; {\"name\": \"EAU Guidelines on Urolithiasis: medical expulsive therapy\", \"url\": \"https://uroweb.org/guidelines/urolithiasis/chapter/guidelines\"}",
   "clinical_vignette": true,
   "question_type": "mcq",
   "tags": [
@@ -940,8 +940,7 @@
    "group_adult_surgery",
    "sys_urology",
    "irtb_-0.30",
-   "pending_owner_review",
-   "flag_source_check"
+   "pending_owner_review"
   ]
  },
  {
@@ -1324,7 +1323,7 @@
    "Thickened feeds and a proton pump inhibitor"
   ],
   "correct_answer": "A",
-  "explanation": "CORRECT ANSWER\n\nA. IV 0.9% sodium chloride with 5% glucose and added potassium, then pyloromyotomy once chloride and bicarbonate have normalised\n\n---\n\nHe has infantile hypertrophic pyloric stenosis with the typical hypochloraemic, hypokalaemic metabolic alkalosis from loss of gastric acid. It is a medical, not surgical, emergency: the alkalosis must be corrected before anaesthesia because persisting alkalosis causes postoperative apnoea. He is dehydrated but not shocked. He needs IV 0.9% sodium chloride with 5% glucose, with potassium chloride added once he is passing urine, and feeds stopped with a nasogastric tube on free drainage. Pyloromyotomy follows when electrolytes normalise; commonly used targets are chloride above about 100 mmol/L and bicarbonate below about 28 mmol/L.\n\n---\n\nKEY LEARNING POINT\nPyloric stenosis: correct the hypochloraemic hypokalaemic alkalosis with 0.9% saline + 5% glucose + KCl before pyloromyotomy, to avoid postoperative apnoea.\n\n---\n\nREFERENCES\n• {\"name\": \"Royal Children's Hospital Melbourne Clinical Practice Guidelines\", \"url\": \"https://www.rch.org.au/clinicalguide/\"}",
+  "explanation": "CORRECT ANSWER\n\nA. IV 0.9% sodium chloride with 5% glucose and added potassium, then pyloromyotomy once chloride and bicarbonate have normalised\n\n---\n\nHe has infantile hypertrophic pyloric stenosis, confirmed on ultrasound, with the typical hypochloraemic, hypokalaemic metabolic alkalosis caused by loss of gastric acid. RCH says correcting dehydration, electrolyte and acid–base abnormalities is the priority, and surgery is delayed until they are corrected. It is particularly important to wait for the serum bicarbonate to normalise, because a metabolic alkalosis risks postoperative hypoventilation and apnoea. Fluids: 0.9% sodium chloride boluses only if needed for resuscitation, then 0.9% sodium chloride + 5% glucose for deficit and maintenance, with potassium added once urine output is adequate (1–2 mL/kg/h). Stop oral feeds, and pass a nasogastric tube if vomiting continues. Pyloromyotomy follows once the biochemistry has normalised.\n\n---\n\nKEY LEARNING POINT\nPyloric stenosis: correct the hypochloraemic hypokalaemic alkalosis with 0.9% saline + 5% glucose + KCl before pyloromyotomy, to avoid postoperative apnoea.\n\n---\n\nREFERENCES\n• {\"name\": \"Royal Children's Hospital. Pyloric stenosis (clinical practice guideline, updated March 2024)\", \"url\": \"https://www.rch.org.au/clinicalguide/guideline_index/Pyloric_stenosis/\"}",
   "category": "Child Health",
   "system_category": "Neonatology",
   "subtopic": "Pyloric stenosis with hypochloraemic alkalosis: correct fluids and electrolytes before pyloromyotomy",
@@ -1332,14 +1331,14 @@
   "difficulty_tier": 4,
   "incorrect_answer_explanations": {
    "B": "Operating while alkalotic and hypokalaemic increases anaesthetic risk, particularly postoperative apnoea.",
-   "C": "A hypotonic fluid without sodium and potassium will not correct the deficits and risks hyponatraemia.",
+   "C": "RCH uses 0.9% sodium chloride + 5% glucose; glucose alone gives no sodium or chloride to correct the hypochloraemic alkalosis and risks hyponatraemia.",
    "D": "Bicarbonate would worsen the metabolic alkalosis; the deficit is corrected with 0.9% saline.",
    "E": "This treats reflux; pyloric stenosis is a mechanical obstruction needing surgery after resuscitation."
   },
   "key_takeaways": [
    "Pyloric stenosis: correct the hypochloraemic hypokalaemic alkalosis with 0.9% saline + 5% glucose + KCl before pyloromyotomy, to avoid postoperative apnoea."
   ],
-  "guideline_reference": "{\"name\": \"Royal Children's Hospital Melbourne Clinical Practice Guidelines\", \"url\": \"https://www.rch.org.au/clinicalguide/\"}",
+  "guideline_reference": "{\"name\": \"Royal Children's Hospital. Pyloric stenosis (clinical practice guideline, updated March 2024)\", \"url\": \"https://www.rch.org.au/clinicalguide/guideline_index/Pyloric_stenosis/\"}",
   "clinical_vignette": true,
   "question_type": "mcq",
   "tags": [
@@ -1351,8 +1350,7 @@
    "group_child_health",
    "sys_neonatology",
    "irtb_+1.30",
-   "pending_owner_review",
-   "flag_source_check"
+   "pending_owner_review"
   ]
  },
  {
@@ -1485,11 +1483,11 @@
    "Weekly full blood count for 1 month",
    "Repeat urinalysis only if he develops swelling",
    "Renal ultrasound at 3 months",
-   "Regular urinalysis and blood pressure checks for at least 6 months",
+   "Blood pressure and urinalysis weekly for the first month, fortnightly to week 12, then at 6 and 12 months",
    "Oral prednisolone to prevent kidney disease"
   ],
   "correct_answer": "D",
-  "explanation": "CORRECT ANSWER\n\nD. Regular urinalysis and blood pressure checks for at least 6 months\n\n---\n\nMost childhood IgA vasculitis resolves within weeks, but renal involvement (IgA vasculitis nephritis) is the main cause of long-term morbidity. It may develop weeks to months after the rash even when the first urinalysis is normal: most within 4–6 weeks and nearly all within 6 months. Australian paediatric guidelines (such as RCH) recommend serial urinalysis and blood pressure checks for at least 6 months, more often at first. Persistent proteinuria, haematuria with proteinuria, hypertension or rising creatinine needs paediatric nephrology referral. The platelet count is normal because the purpura is vasculitic.\n\n---\n\nKEY LEARNING POINT\nIgA vasculitis (HSP): monitor urinalysis and BP for at least 6 months because nephritis can appear late. Steroids do not prevent it.\n\n---\n\nREFERENCES\n• {\"name\": \"Royal Children's Hospital. Henoch–Schönlein purpura clinical practice guideline\", \"url\": \"https://www.rch.org.au/clinicalguide/guideline_index/Henoch_Schonlein_Purpura/\"}",
+  "explanation": "CORRECT ANSWER\n\nD. Blood pressure and urinalysis weekly for the first month, fortnightly to week 12, then at 6 and 12 months\n\n---\n\nMost childhood IgA vasculitis (HSP) resolves within about 4 weeks, but renal involvement is the main long-term risk and is usually asymptomatic. According to RCH, 90% of children who develop renal complications do so within 2 months of onset and 97% within 6 months, so a normal first urinalysis does not exclude later nephritis. If the first urinalysis is normal (or shows only microscopic haematuria), RCH recommends a clinical review with BP and urinalysis weekly for the first month, fortnightly from weeks 5–12, and single reviews at 6 and 12 months, going back to weekly checks if the disease flares. If urinalysis is normal at 12 months, no further follow-up is needed. Hypertension, proteinuria or macroscopic haematuria at any stage needs paediatric review, and persistent proteinuria needs renal referral. Steroids do not change the rate of long-term renal complications.\n\n---\n\nKEY LEARNING POINT\nIgA vasculitis (HSP): BP + urinalysis weekly for month 1, fortnightly to week 12, then at 6 and 12 months (RCH). Renal involvement is usually silent; steroids do not prevent it.\n\n---\n\nREFERENCES\n• {\"name\": \"Royal Children's Hospital. IgA vasculitis (Henoch–Schönlein purpura) clinical practice guideline\", \"url\": \"https://www.rch.org.au/clinicalguide/guideline_index/henochschonlein_purpura/\"}",
   "category": "Child Health",
   "system_category": "Paediatric Medicine",
   "subtopic": "IgA vasculitis (Henoch–Schönlein purpura): urinalysis and blood pressure monitoring for nephritis",
@@ -1502,9 +1500,9 @@
    "E": "Steroids may help severe abdominal pain but do not prevent nephritis."
   },
   "key_takeaways": [
-   "IgA vasculitis (HSP): monitor urinalysis and BP for at least 6 months because nephritis can appear late. Steroids do not prevent it."
+   "IgA vasculitis (HSP): BP + urinalysis weekly for month 1, fortnightly to week 12, then at 6 and 12 months (RCH). Renal involvement is usually silent; steroids do not prevent it."
   ],
-  "guideline_reference": "{\"name\": \"Royal Children's Hospital. Henoch–Schönlein purpura clinical practice guideline\", \"url\": \"https://www.rch.org.au/clinicalguide/guideline_index/Henoch_Schonlein_Purpura/\"}",
+  "guideline_reference": "{\"name\": \"Royal Children's Hospital. IgA vasculitis (Henoch–Schönlein purpura) clinical practice guideline\", \"url\": \"https://www.rch.org.au/clinicalguide/guideline_index/henochschonlein_purpura/\"}",
   "clinical_vignette": true,
   "question_type": "mcq",
   "tags": [
@@ -1516,8 +1514,7 @@
    "group_child_health",
    "sys_paediatric_medicine",
    "irtb_+0.90",
-   "pending_owner_review",
-   "flag_source_check"
+   "pending_owner_review"
   ]
  },
  {
@@ -1572,14 +1569,14 @@
    "Add diazepam 5 mg as needed for distress"
   ],
   "correct_answer": "B",
-  "explanation": "CORRECT ANSWER\n\nB. Increase sertraline gradually towards a higher dose (such as 150–200 mg daily) and continue ERP\n\n---\n\nShe has a partial response after only 6 weeks of a low SSRI dose. In OCD, SSRI response is slower and higher doses are often needed than in depression; a trial should reach the maximum tolerated dose and last at least 8–12 weeks before it is judged to have failed. ERP (a form of CBT) is first-line and should continue. Augmentation with a low-dose antipsychotic (aripiprazole or risperidone) or a switch to clomipramine is considered only after adequate SSRI trials at full dose.\n\n---\n\nKEY LEARNING POINT\nOCD: SSRIs often need higher doses and 8–12 weeks. Optimise the dose and continue ERP before switching or augmenting.\n\n---\n\nREFERENCES\n• {\"name\": \"Therapeutic Guidelines (eTG complete)\", \"url\": \"https://www.tg.org.au\"}\n• {\"name\": \"RANZCP Clinical practice guidelines\", \"url\": \"https://www.ranzcp.org/clinical-guidelines-publications\"}",
+  "explanation": "CORRECT ANSWER\n\nB. Increase sertraline gradually towards a higher dose (such as 150–200 mg daily) and continue ERP\n\n---\n\nShe has had a partial response after only 6 weeks on a low SSRI dose. Australian Prescriber (Therapeutic Guidelines) notes that OCD responds to SSRIs more slowly than depression and that most patients need doses in the higher therapeutic range (sertraline 50–200 mg/day in studies). The dose can go up every 2 weeks as tolerated, and an SSRI should be trialled at its maximum dose for at least 12 weeks before it is judged ineffective. Gains usually plateau at about 12 weeks. ERP has the strongest psychological evidence, and combining it with an SSRI works better than either alone, so ERP should continue. Clomipramine is usually kept for after two failed SSRI trials, OCD tends not to respond to benzodiazepines, and treatment-resistant patients should be referred to a psychiatrist.\n\n---\n\nKEY LEARNING POINT\nOCD: SSRIs often need higher doses and 8–12 weeks. Optimise the dose and continue ERP before switching or augmenting.\n\n---\n\nREFERENCES\n• {\"name\": \"Brakoulias V. Managing obsessive compulsive disorder. Aust Prescr 2015;38:121-3\", \"url\": \"https://australianprescriber.tg.org.au/articles/managing-obsessive-compulsive-disorder.html\"}\n• {\"name\": \"Therapeutic Guidelines (eTG complete)\", \"url\": \"https://www.tg.org.au\"}",
   "category": "Mental Health",
   "system_category": "Anxiety Disorders",
   "subtopic": "OCD with a partial response to low-dose SSRI: increase the dose and continue exposure and response prevention",
   "difficulty": "moderate",
   "difficulty_tier": 3,
   "incorrect_answer_explanations": {
-   "A": "Effective but with more adverse effects; used after SSRIs fail at adequate dose and duration.",
+   "A": "Clomipramine is usually reserved until two SSRI trials have failed, because it is less well tolerated.",
    "C": "Antipsychotic augmentation is for SSRI-resistant OCD after an adequate trial; premature here.",
    "D": "ERP is the most effective psychological treatment and should continue.",
    "E": "Benzodiazepines do not treat OCD, can undermine exposure work and risk dependence."
@@ -1587,7 +1584,7 @@
   "key_takeaways": [
    "OCD: SSRIs often need higher doses and 8–12 weeks. Optimise the dose and continue ERP before switching or augmenting."
   ],
-  "guideline_reference": "{\"name\": \"Therapeutic Guidelines (eTG complete)\", \"url\": \"https://www.tg.org.au\"}; {\"name\": \"RANZCP Clinical practice guidelines\", \"url\": \"https://www.ranzcp.org/clinical-guidelines-publications\"}",
+  "guideline_reference": "{\"name\": \"Brakoulias V. Managing obsessive compulsive disorder. Aust Prescr 2015;38:121-3\", \"url\": \"https://australianprescriber.tg.org.au/articles/managing-obsessive-compulsive-disorder.html\"}; {\"name\": \"Therapeutic Guidelines (eTG complete)\", \"url\": \"https://www.tg.org.au\"}",
   "clinical_vignette": true,
   "question_type": "mcq",
   "tags": [
@@ -1599,8 +1596,7 @@
    "group_mental_health",
    "sys_anxiety",
    "irtb_+0.30",
-   "pending_owner_review",
-   "flag_source_check"
+   "pending_owner_review"
   ]
  },
  {
@@ -1860,7 +1856,7 @@
    "He is eligible for only 1 funded dose of recombinant zoster vaccine"
   ],
   "correct_answer": "B",
-  "explanation": "CORRECT ANSWER\n\nB. He is eligible for 2 doses of recombinant zoster vaccine (Shingrix) funded under the National Immunisation Program, given 2–6 months apart\n\n---\n\nSince 1 November 2023 the NIP has funded recombinant zoster vaccine (Shingrix) for people aged 65 and over, Aboriginal and Torres Strait Islander people aged 50 and over, and people aged 18 and over with certain immunocompromising conditions. As a 52-year-old Aboriginal man he is eligible. The schedule is 2 doses 2–6 months apart (for immunocompromised people the second dose may be given 1–2 months after the first). It is non-live. A history of chickenpox does not change the recommendation and serology is not needed.\n\n---\n\nKEY LEARNING POINT\nFunded Shingrix (2 doses, 2–6 months apart): 65+, Aboriginal and Torres Strait Islander people 50+, and eligible immunocompromised people 18+.\n\n---\n\nREFERENCES\n• {\"name\": \"Australian Immunisation Handbook. Zoster (herpes zoster)\", \"url\": \"https://immunisationhandbook.health.gov.au/contents/vaccine-preventable-diseases/zoster-herpes-zoster\"}\n• {\"name\": \"Australian Government Department of Health. Shingles (herpes zoster) vaccine\", \"url\": \"https://www.health.gov.au/topics/immunisation/vaccines/shingles-herpes-zoster-immunisation-service\"}",
+  "explanation": "CORRECT ANSWER\n\nB. He is eligible for 2 doses of recombinant zoster vaccine (Shingrix) funded under the National Immunisation Program, given 2–6 months apart\n\n---\n\nThe Australian Immunisation Handbook (updated 30 Sep 2026) recommends zoster vaccine for all immunocompetent people aged 50 and over, and says Shingrix is NIP-funded for non-Indigenous people aged 65 and over, Aboriginal and Torres Strait Islander people aged 50 and over, and people aged 18 and over with moderate or severe immunocompromise. He is a 52-year-old Aboriginal man, so he is eligible for funded vaccine. Immunocompetent people get 2 doses 2–6 months apart; immunocompromised people get 2 doses 1–2 months apart. Shingrix is non-live and is the only zoster vaccine available in Australia. Serology is not recommended before or after vaccination, and a history of chickenpox is not needed.\n\n---\n\nKEY LEARNING POINT\nFunded Shingrix (2 doses, 2–6 months apart): 65+, Aboriginal and Torres Strait Islander people 50+, and eligible immunocompromised people 18+.\n\n---\n\nREFERENCES\n• {\"name\": \"Australian Immunisation Handbook. Zoster (herpes zoster)\", \"url\": \"https://immunisationhandbook.health.gov.au/contents/vaccine-preventable-diseases/zoster-herpes-zoster\"}",
   "category": "Population Health & Ethics",
   "system_category": "Screening",
   "subtopic": "Funded recombinant zoster vaccine for an Aboriginal adult aged 50 or over: eligibility and schedule",
@@ -1868,14 +1864,14 @@
   "difficulty_tier": 4,
   "incorrect_answer_explanations": {
    "A": "Funded eligibility starts at 50 for Aboriginal and Torres Strait Islander people.",
-   "C": "Serology is not needed before zoster vaccination in someone with past chickenpox.",
-   "D": "Zostavax is no longer funded on the NIP; Shingrix is the recommended vaccine.",
+   "C": "The Handbook states serological testing is not recommended before or after zoster vaccination.",
+   "D": "Zostavax has been removed; Shingrix is now the only zoster vaccine available in Australia.",
    "E": "Shingrix needs 2 doses, and both are funded for eligible people."
   },
   "key_takeaways": [
    "Funded Shingrix (2 doses, 2–6 months apart): 65+, Aboriginal and Torres Strait Islander people 50+, and eligible immunocompromised people 18+."
   ],
-  "guideline_reference": "{\"name\": \"Australian Immunisation Handbook. Zoster (herpes zoster)\", \"url\": \"https://immunisationhandbook.health.gov.au/contents/vaccine-preventable-diseases/zoster-herpes-zoster\"}; {\"name\": \"Australian Government Department of Health. Shingles (herpes zoster) vaccine\", \"url\": \"https://www.health.gov.au/topics/immunisation/vaccines/shingles-herpes-zoster-immunisation-service\"}",
+  "guideline_reference": "{\"name\": \"Australian Immunisation Handbook. Zoster (herpes zoster)\", \"url\": \"https://immunisationhandbook.health.gov.au/contents/vaccine-preventable-diseases/zoster-herpes-zoster\"}",
   "clinical_vignette": true,
   "question_type": "mcq",
   "tags": [
@@ -1887,8 +1883,7 @@
    "group_population_health_ethics",
    "sys_screening",
    "irtb_+1.10",
-   "pending_owner_review",
-   "flag_source_check"
+   "pending_owner_review"
   ]
  },
  {
@@ -1940,10 +1935,10 @@
    "Respect his wishes completely and take no further action",
    "Notify the police that he is putting his partner at risk",
    "Refuse further care until he informs his partner",
-   "Continue counselling, offer provider-assisted or anonymous partner notification through the sexual health service, and seek advice from the public health unit if he still refuses"
+   "Continue counselling and support, offer provider-assisted partner notification, and seek advice from the Queensland HIV Public Health Team if he remains unwilling"
   ],
   "correct_answer": "E",
-  "explanation": "CORRECT ANSWER\n\nE. Continue counselling, offer provider-assisted or anonymous partner notification through the sexual health service, and seek advice from the public health unit if he still refuses\n\n---\n\nPartner notification is part of HIV care. The ASHM Australasian Contact Tracing Guidelines support patient-led or provider-assisted (including anonymous) notification with help from sexual health services, and most patients agree with counselling and support. Rapid ART aiming for an undetectable viral load (U=U), with condoms or PrEP for the partner meanwhile, greatly reduces risk. If a person continues to place others at risk despite counselling, each state and territory has a public health framework for escalation to the health department, which manages such cases and decides on further steps. The GP should not disclose independently as a first step, should document carefully, and may seek advice from their medical defence organisation.\n\n---\n\nKEY LEARNING POINT\nHIV partner notification: counsel, offer provider-assisted or anonymous notification, start ART (U=U), and escalate to the public health unit if refusal continues. Do not disclose unilaterally first.\n\n---\n\nREFERENCES\n• {\"name\": \"ASHM. Australasian Contact Tracing Guidelines: HIV\", \"url\": \"https://contacttracing.ashm.org.au/\"}\n• {\"name\": \"Medical Board of Australia. Good medical practice: a code of conduct for doctors in Australia\", \"url\": \"https://www.medicalboard.gov.au/codes-guidelines-policies/code-of-conduct.aspx\"}",
+  "explanation": "CORRECT ANSWER\n\nE. Continue counselling and support, offer provider-assisted partner notification, and seek advice from the Queensland HIV Public Health Team if he remains unwilling\n\n---\n\nAt diagnosis, every person with HIV should get treatment, psychosocial support, counselling about preventing transmission, and help to make sure at-risk partners are identified and tested. Contact tracing can be patient-led or provider-assisted (ASHM). Rapid ART aiming for an undetectable viral load (U=U), with condoms or PrEP for the partner meanwhile, greatly reduces the risk. The Queensland Health guideline, which follows the 2018 National Guidelines for Managing HIV Transmission Risk Behaviours, uses a stepped, least-restrictive framework under the Public Health Act 2005. At Level 1 the treating clinician provides case management (counselling, education and support). If the person is unwilling or unable to change risk behaviours, the clinician should seek help from the HIV Public Health Team and/or notify the chair of the HIV advisory panel. Only then can escalation follow (Level 2 department-supported management, then behavioural or detention orders). The GP should not disclose independently as a first step, and must handle any identifying information within confidentiality law.\n\n---\n\nKEY LEARNING POINT\nHIV partner notification: counsel, offer provider-assisted or anonymous notification, start ART (U=U), and escalate to the public health unit if refusal continues. Do not disclose unilaterally first.\n\n---\n\nREFERENCES\n• {\"name\": \"Queensland Health. Guideline for the management of people with HIV whose behaviours may place others at risk of HIV\", \"url\": \"https://www.health.qld.gov.au/system-governance/policies-standards/guidelines/place-others-at-risk-hiv\"}\n• {\"name\": \"ASHM. Australasian Contact Tracing Guidelines: HIV\", \"url\": \"https://contacttracing.ashm.org.au/\"}\n• {\"name\": \"Medical Board of Australia. Good medical practice: a code of conduct for doctors in Australia\", \"url\": \"https://www.medicalboard.gov.au/codes-guidelines-policies/code-of-conduct.aspx\"}",
   "category": "Population Health & Ethics",
   "system_category": "Ethics & Law",
   "subtopic": "New HIV diagnosis with refusal to inform a regular partner: partner notification and public health escalation",
@@ -1958,7 +1953,7 @@
   "key_takeaways": [
    "HIV partner notification: counsel, offer provider-assisted or anonymous notification, start ART (U=U), and escalate to the public health unit if refusal continues. Do not disclose unilaterally first."
   ],
-  "guideline_reference": "{\"name\": \"ASHM. Australasian Contact Tracing Guidelines: HIV\", \"url\": \"https://contacttracing.ashm.org.au/\"}; {\"name\": \"Medical Board of Australia. Good medical practice: a code of conduct for doctors in Australia\", \"url\": \"https://www.medicalboard.gov.au/codes-guidelines-policies/code-of-conduct.aspx\"}",
+  "guideline_reference": "{\"name\": \"Queensland Health. Guideline for the management of people with HIV whose behaviours may place others at risk of HIV\", \"url\": \"https://www.health.qld.gov.au/system-governance/policies-standards/guidelines/place-others-at-risk-hiv\"}; {\"name\": \"ASHM. Australasian Contact Tracing Guidelines: HIV\", \"url\": \"https://contacttracing.ashm.org.au/\"}; {\"name\": \"Medical Board of Australia. Good medical practice: a code of conduct for doctors in Australia\", \"url\": \"https://www.medicalboard.gov.au/codes-guidelines-policies/code-of-conduct.aspx\"}",
   "clinical_vignette": true,
   "question_type": "mcq",
   "tags": [
@@ -1970,8 +1965,7 @@
    "group_population_health_ethics",
    "sys_ethics_law",
    "irtb_+1.80",
-   "pending_owner_review",
-   "flag_source_check"
+   "pending_owner_review"
   ]
  },
  {
