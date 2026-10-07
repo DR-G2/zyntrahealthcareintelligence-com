@@ -81,28 +81,11 @@ export const BLOG_ARTICLES: BlogArticle[] = [
     date: "October 2026",
     body: [
       { heading: "Wrong is not one category", paragraphs: [
-        "A fast guess, a careful but incorrect decision, and a correct option changed to an incorrect one are different events.",
+        "A fast guess, a careful but incorrect decision, and a right first pick switched to a wrong one before submitting are different events.",
         "Treating them as identical can hide useful signals about what to practise next."
       ]},
       { heading: "The training signal", paragraphs: [
         "Timing, answer changes, confidence and consistency can add context to correctness. They should be treated as training signals, not as personality labels or diagnoses."
-      ]}
-    ]
-  },
-  {
-    slug: "hidden-cost-of-changing-a-correct-answer",
-    category: "Performance Intelligence",
-    title: "The Hidden Cost of Changing a Correct AMC Answer",
-    excerpt: "Changing an answer is sometimes exactly what good reasoning requires. The useful question is what happened between the first and final decision.",
-    readTime: "5 min read",
-    date: "October 2026",
-    body: [
-      { heading: "Changing is not automatically bad", paragraphs: [
-        "A changed answer can reflect a genuine correction after noticing a missed clue. It can also reflect uncertainty without new evidence.",
-        "The distinction is more useful than simply counting how often answers change."
-      ]},
-      { heading: "Review the transition", paragraphs: [
-        "When a first answer becomes a final answer, review what changed your mind. If the evidence changed, the revision may represent good reasoning. If nothing meaningful changed, the event may deserve closer review."
       ]}
     ]
   },
