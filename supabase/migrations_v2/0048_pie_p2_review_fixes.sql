@@ -13,6 +13,13 @@
 --  m1  behavior_events: revoke UPDATE/DELETE/TRUNCATE/REFERENCES/TRIGGER from learners.
 --  m2  refresh_my_lo_state: bounded recompute (5000 most recent completed attempts) and
 --      a per-learner rate limit (one refresh per 10 s).
+--  R2  (second review) save_attempt: one attempt per (session, question), enforced by a
+--      FOR UPDATE row lock on practice_session_questions + answered_at IS NULL and a unique
+--      index; resubmission raises (no key probing). search_path = ''. selected_answer is
+--      normalised (upper/trim) and must be A-E and within the question's options.
+--      Mastery evidence counts the FIRST exposure of a question only (re-served questions,
+--      e.g. client-chosen ids in create_practice_session, cannot farm mastery).
+--      refresh_my_lo_state rate-limit row is created with INSERT .. ON CONFLICT then locked.
 
 -- B3 ----------------------------------------------------------------------------------
 create or replace function public.save_attempt(
@@ -36,7 +43,7 @@ p_provenance jsonb default '{}'::jsonb
 returns public.user_attempts
 language plpgsql
 security definer
-set search_path = public, pg_temp
+set search_path = ''
 as $function$
 -- 0048 (based on 0044): session required; change_sequence validated; answer_changes server-derived
 declare
@@ -47,6 +54,8 @@ declare
  v_n_opts integer;
  v_seq jsonb;
  v_changes integer := 0;
+ v_sel text := upper(trim(coalesce(p_selected_answer,'')));
+ v_answered_at timestamptz;
 begin
  if v_user is null then raise exception 'authentication required'; end if;
  if p_confidence_level is not null and p_confidence_level not between 1 and 5 then raise exception 'confidence_level must be between 1 and 5'; end if;
@@ -60,8 +69,8 @@ begin
  if p_session_id is null then raise exception 'practice session required' using errcode = '22004'; end if;
 
  -- Selected answer must be an option letter of this question.
- if upper(trim(coalesce(p_selected_answer,''))) !~ '^[A-Z]$'
-    or ascii(upper(trim(p_selected_answer))) - 65 >= coalesce(v_n_opts,0) then
+ if v_sel !~ '^[A-E]$'
+    or ascii(v_sel) - 65 >= coalesce(v_n_opts,0) then
    raise exception 'selected_answer is not a valid option' using errcode = '22023';
  end if;
 
@@ -80,7 +89,7 @@ begin
    ) then
      raise exception 'invalid change_sequence element' using errcode = '22023';
    end if;
-   if upper(trim(p_change_sequence ->> -1)) <> upper(trim(p_selected_answer)) then
+   if upper(trim(p_change_sequence ->> -1)) <> v_sel then
      raise exception 'change_sequence must end with the selected answer' using errcode = '22023';
    end if;
    select jsonb_agg(upper(trim(e #>> '{}')) order by o) into v_seq
@@ -90,23 +99,27 @@ begin
          from jsonb_array_elements_text(v_seq) with ordinality t(x, o)) s
    where px is not null and x <> px;
  else
-   v_seq := jsonb_build_array(upper(trim(p_selected_answer)));
+   v_seq := jsonb_build_array(v_sel);
    v_changes := 0;
  end if;
 
- if not exists(
-   select 1
-   from public.practice_session_questions psq
-   join public.practice_sessions ps on ps.id=psq.session_id
-   where psq.session_id=p_session_id
-     and psq.question_id=p_question_id
-     and ps.user_id=v_user
-     and ps.status='active'
- ) then
+ -- Lock the session-question row: one attempt per (session, question), race-free.
+ select psq.answered_at into v_answered_at
+ from public.practice_session_questions psq
+ join public.practice_sessions ps on ps.id=psq.session_id
+ where psq.session_id=p_session_id
+   and psq.question_id=p_question_id
+   and ps.user_id=v_user
+   and ps.status='active'
+ for update of psq;
+ if not found then
    raise exception 'question is not part of an active authenticated practice session';
  end if;
+ if v_answered_at is not null then
+   raise exception 'question already answered in this session' using errcode = '23505';
+ end if;
 
- v_is_correct := upper(trim(coalesce(p_selected_answer,'')))=upper(trim(coalesce(v_correct_answer,'')));
+ v_is_correct := v_sel=upper(trim(coalesce(v_correct_answer,'')));
 
  insert into public.user_attempts(
    user_id,question_id,session_id,selected_answer,is_correct,time_taken_seconds,
@@ -115,16 +128,16 @@ begin
    question_version,app_version,provenance
  )
  values(
-   v_user,p_question_id,p_session_id,p_selected_answer,v_is_correct,p_time_taken_seconds,
+   v_user,p_question_id,p_session_id,v_sel,v_is_correct,p_time_taken_seconds,
    p_confidence_level,v_changes,p_time_to_first_click,v_seq,
    p_pause_events,p_time_of_day,p_question_position,p_previous_question_correct,
-   p_question_version,p_app_version,coalesce(p_provenance,'{}'::jsonb) || jsonb_build_object('change_sequence_source','client_reported_validated','client_answer_changes_count',p_answer_changes_count)
+   p_question_version,p_app_version,coalesce(p_provenance,'{}'::jsonb) operator(pg_catalog.||) jsonb_build_object('change_sequence_source','client_reported_validated','client_answer_changes_count',p_answer_changes_count)
  )
  returning * into v_attempt;
 
  update public.practice_session_questions
  set answered_at=now()
- where session_id=p_session_id and question_id=p_question_id;
+ where session_id=p_session_id and question_id=p_question_id and answered_at is null;
 
  update public.practice_sessions
  set last_activity_at=now(),updated_at=now()
@@ -176,6 +189,23 @@ $function$;
 revoke all on function public.save_attempt(uuid,uuid,text,boolean,integer,smallint,integer,integer,jsonb,jsonb,text,integer,boolean,integer,text,jsonb) from public, anon;
 grant execute on function public.save_attempt(uuid,uuid,text,boolean,integer,smallint,integer,integer,jsonb,jsonb,text,integer,boolean,integer,text,jsonb) to authenticated, service_role;
 
+-- R2: at most one attempt per (session, question). Fails loudly if legacy duplicates exist.
+create unique index if not exists user_attempts_session_question_uniq
+  on public.user_attempts(session_id, question_id) where session_id is not null;
+
+-- R2: first exposure of a question per learner = the only attempt that counts as mastery
+-- evidence. Later attempts of the same question (re-served via client-chosen ids, retakes
+-- after seeing the key) remain stored but are excluded from adaptive state.
+create or replace function pie.first_exposure_attempt_ids(p_user_id uuid)
+returns table(id uuid) language sql stable security definer set search_path = '' as $$
+  select distinct on (ua.question_id) ua.id
+  from public.user_attempts ua
+  where ua.user_id = p_user_id
+  order by ua.question_id, ua.created_at, ua.id
+$$;
+revoke all on function pie.first_exposure_attempt_ids(uuid) from public, anon, authenticated;
+grant execute on function pie.first_exposure_attempt_ids(uuid) to service_role;
+
 -- B2: candidate-state aggregate (0044 maths unchanged, evidence filter added) -----------
 create or replace function pie.rebuild_candidate_state(p_user_id uuid)
 returns uuid
@@ -226,6 +256,7 @@ begin
     select o.payload from pie.pie_observation o
     join public.user_attempts ua on ua.id = o.attempt_id
     join public.practice_sessions ps on ps.id = ua.session_id and ps.status = 'completed'
+    join pie.first_exposure_attempt_ids(p_user_id) fe on fe.id = ua.id
     where o.user_id = p_user_id
     order by o.observed_at desc
     limit 100
@@ -324,6 +355,7 @@ begin
   insert into pg_temp.pie_lo_evidence(id)
   select ua.id from public.user_attempts ua
   join public.practice_sessions ps on ps.id = ua.session_id and ps.status = 'completed'
+  join pie.first_exposure_attempt_ids(p_user_id) fe on fe.id = ua.id
   where ua.user_id = p_user_id
   order by ua.created_at desc, ua.id desc
   limit c_max_attempts;
@@ -465,14 +497,16 @@ begin
   if v_uid is null then
     raise exception 'Authentication required' using errcode = '28000';
   end if;
+  -- Ensure the row exists (race-free), then lock it; concurrent callers serialise here.
+  insert into pie.lo_state_refresh(user_id, last_refresh_at, refresh_count)
+  values (v_uid, '-infinity', 0)
+  on conflict (user_id) do nothing;
   select last_refresh_at into v_last from pie.lo_state_refresh where user_id = v_uid for update;
-  if v_last is not null and v_last > clock_timestamp() - interval '10 seconds' then
+  if v_last > clock_timestamp() - interval '10 seconds' then
     raise exception 'PIE_RATE_LIMITED: refresh allowed once per 10 seconds' using errcode = '53400';
   end if;
-  insert into pie.lo_state_refresh(user_id, last_refresh_at, refresh_count)
-  values (v_uid, clock_timestamp(), 1)
-  on conflict (user_id) do update set last_refresh_at = excluded.last_refresh_at,
-    refresh_count = pie.lo_state_refresh.refresh_count + 1;
+  update pie.lo_state_refresh set last_refresh_at = clock_timestamp(), refresh_count = refresh_count + 1
+  where user_id = v_uid;
   return pie.recompute_learner_lo_state(v_uid);
 end $$;
 revoke all on function public.refresh_my_lo_state() from public, anon;

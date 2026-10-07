@@ -56,8 +56,22 @@ commit;
 begin;
 select set_config('request.jwt.claims','{"sub":"aaaaaaaa-0000-0000-0000-00000000000a","role":"authenticated"}',true) \g /dev/null
 set local role authenticated;
-select (public.save_attempt('22222222-0000-0000-0000-000000000009', :'sid', 'C', true, 25, 3::smallint, 0, 3, '["C"]'::jsonb)).is_correct as q9b \gset
+-- R2: resubmitting the same question in the same active session is rejected (no key probing)
+do $$ begin
+  begin perform public.save_attempt('22222222-0000-0000-0000-000000000009', (select id from public.practice_sessions where user_id='aaaaaaaa-0000-0000-0000-00000000000a' and status='active' limit 1), 'A', true, 25, 3::smallint, 0, 3, '["A"]'::jsonb);
+    raise exception 'FAIL R2 resubmit accepted';
+  exception when unique_violation then null; end;
+  begin perform public.save_attempt('22222222-0000-0000-0000-000000000009', (select id from public.practice_sessions where user_id='aaaaaaaa-0000-0000-0000-00000000000a' and status='active' limit 1), ' c ', true);
+    raise exception 'FAIL R2 resubmit (normalised) accepted';
+  exception when unique_violation then null; end;
+  begin perform public.save_attempt('22222222-0000-0000-0000-000000000010', (select id from public.practice_sessions where user_id='aaaaaaaa-0000-0000-0000-00000000000a' and status='active' limit 1), 'F', true);
+    raise exception 'FAIL R2 option outside A-E accepted';
+  exception when sqlstate '22023' then null; end;
+end $$;
 commit;
+select public.t_assert((select count(*) from public.user_attempts where user_id = :A and question_id = '22222222-0000-0000-0000-000000000009') = 1, 'R2 exactly one Q9 attempt');
+select public.t_assert(exists (select 1 from pg_indexes where indexname = 'user_attempts_session_question_uniq' and indexdef like '%UNIQUE%(session_id, question_id)%'), 'R2 unique index');
+select public.t_assert((select proconfig from pg_proc where oid = 'public.save_attempt(uuid,uuid,text,boolean,integer,smallint,integer,integer,jsonb,jsonb,text,integer,boolean,integer,text,jsonb)'::regprocedure) = array['search_path=""'], 'R2 save_attempt search_path empty');
 begin;
 select set_config('request.jwt.claims','{"sub":"aaaaaaaa-0000-0000-0000-00000000000a","role":"authenticated"}',true) \g /dev/null
 set local role authenticated;
@@ -122,9 +136,9 @@ begin
   if d.mastery_confidence <= 0 or d.mastery_confidence >= 1 then raise exception 'FAIL T5 conf'; end if;
   if d.outcome_history::text ~* 'correct_answer|selected' then raise exception 'FAIL T5 answer key/selection in history'; end if;
   select * into r from public.get_my_lo_state() where lo_key = 'RENAL.AKI.DX';
-  -- Q9 twice wrong with option C + Q1 (secondary, weight .5) correct
-  if r.exposure_count <> 3 then raise exception 'FAIL T5 AKI exposure %', r.exposure_count; end if;
-  if not (r.misconception_state->'repeated_wrong_option') ? '22222222-0000-0000-0000-000000000009:C' then raise exception 'FAIL T5 repeated wrong option %', r.misconception_state; end if;
+  -- Q9 wrong once (resubmit rejected) + Q1 (secondary, weight .5) correct
+  if r.exposure_count <> 2 then raise exception 'FAIL T5 AKI exposure %', r.exposure_count; end if;
+  if (r.misconception_state->'repeated_wrong_option') <> '{}'::jsonb then raise exception 'FAIL T5 repeated wrong option %', r.misconception_state; end if;
 end $$;
 commit;
 
@@ -135,6 +149,25 @@ do $$ begin
   if exists (select lo_id, mastery, mastery_confidence, ability_theta, exposure_count, outcome_history, fragile_correct, confident_wrong, behaviour_state, confidence_state, misconception_state, difficulty_history from pie.learner_lo_state where user_id='aaaaaaaa-0000-0000-0000-00000000000a'
              except select * from snap) then raise exception 'FAIL T6 non-deterministic'; end if;
 end $$;
+
+\echo '### R2 mastery farming: re-serving already-seen questions (client ids) adds no evidence'
+delete from pie.lo_state_refresh;
+begin;
+select set_config('request.jwt.claims','{"sub":"aaaaaaaa-0000-0000-0000-00000000000a","role":"authenticated"}',true) \g /dev/null
+set local role authenticated;
+select (public.create_practice_session('mcq','{}'::jsonb, array['22222222-0000-0000-0000-000000000003'::uuid,'22222222-0000-0000-0000-000000000009'::uuid])).id as fsid \gset
+select public.save_attempt('22222222-0000-0000-0000-000000000003', :'fsid', 'A', false, 20, 5::smallint, 0, 3, '["A"]'::jsonb) \g /dev/null
+select public.save_attempt('22222222-0000-0000-0000-000000000009', :'fsid', 'A', false, 20, 5::smallint, 0, 3, '["A"]'::jsonb) \g /dev/null
+select public.complete_practice_session(:'fsid') \g /dev/null
+select public.refresh_my_lo_state() \g /dev/null
+commit;
+do $$ begin
+  if exists (select lo_id, mastery, mastery_confidence, ability_theta, exposure_count, outcome_history, fragile_correct, confident_wrong, behaviour_state, confidence_state, misconception_state, difficulty_history from pie.learner_lo_state where user_id='aaaaaaaa-0000-0000-0000-00000000000a'
+             except select * from snap) then raise exception 'FAIL R2 farmed attempts changed mastery'; end if;
+end $$;
+select public.t_assert((select count(*) from public.user_attempts where user_id = :A) = 6, 'R2 farmed attempts stored (not evidence)');
+select pie.rebuild_candidate_state(:A) \g /dev/null
+select public.t_assert((select (state->>'evidence_count')::int from pie.pie_candidate_state where user_id = :A) = 4, 'R2 candidate aggregate counts first exposures only');
 
 \echo '### T7 IRT weighting: correct on hard item raises mastery more than on easy item'
 do $$ declare hard numeric; easy numeric; begin
@@ -218,7 +251,7 @@ end $$;
 select public.erase_my_learning_data('ERASE_MY_LEARNING_DATA') as counts \gset
 commit;
 select public.t_assert((select count(*) from public.user_attempts where user_id = :B) = 0, 'B1 B attempts erased');
-select public.t_assert((select count(*) from public.user_attempts where user_id = :A) = 5, 'B1 A attempts untouched');
+select public.t_assert((select count(*) from public.user_attempts where user_id = :A) = 6, 'B1 A attempts untouched');
 select public.t_assert((select count(*) from pie.learner_lo_state where user_id = :A) = 2, 'B1 A state untouched');
 select public.t_assert((select count(*) from public.practice_sessions where user_id = :B) = 0, 'B1 B sessions erased');
 select public.t_assert((select count(*) from pie.learning_data_erasure_audit where user_id = :B and (counts->>'public.user_attempts')::int = 1) = 1, 'B1 audited');

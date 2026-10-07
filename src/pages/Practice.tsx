@@ -895,7 +895,8 @@ function DrillSession({
 
             const { data: qs } = await supabase
               .from('questions')
-               .select(sessionUsesV2 ? 'id, zyntra_id, question_text, options, explanation, category, subtopic, difficulty, diagnosis_explanation, first_line_investigation, gold_standard_investigation, best_treatment, differential_diagnoses, incorrect_answer_explanations, key_takeaways' : 'id, zyntra_id, question_text, options, correct_answer, explanation, category, subtopic, difficulty, diagnosis_explanation, first_line_investigation, gold_standard_investigation, best_treatment, differential_diagnoses, incorrect_answer_explanations, key_takeaways')
+               // Column list is chosen at runtime; typed as '*' to avoid TS2590 on the union.
+               .select((sessionUsesV2 ? 'id, zyntra_id, question_text, options, explanation, category, subtopic, difficulty, diagnosis_explanation, first_line_investigation, gold_standard_investigation, best_treatment, differential_diagnoses, incorrect_answer_explanations, key_takeaways' : 'id, zyntra_id, question_text, options, correct_answer, explanation, category, subtopic, difficulty, diagnosis_explanation, first_line_investigation, gold_standard_investigation, best_treatment, differential_diagnoses, incorrect_answer_explanations, key_takeaways') as '*')
               .in('id', allIds);
 
             if (qs && qs.length > 0) {
@@ -1074,7 +1075,7 @@ function DrillSession({
             .eq('user_id', user.id)
             .in('question_id', filteredCandidateIds)
             .order('created_at', { ascending: false })
-            .limit(2000);
+            .limit(2000) as unknown as typeof historyResult;
         }
 
         if (historyResult.error) throw historyResult.error;
