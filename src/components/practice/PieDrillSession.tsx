@@ -160,6 +160,8 @@ export function PieDrillSession({ config, resumeSessionId, onFinish }: {
       questionVersion: q.version ?? null, provenance: { source: 'practice-pie', mode: config.mode },
     });
     setSaved(s => ({ ...s, [index]: true }));
+    // One answer is evidence, but PIE stays "building" until 6 observations.
+    void syncPieEngine().catch((error) => console.warn('[PIE] sync after answer failed', error));
     return true;
   };
 
@@ -216,7 +218,7 @@ export function PieDrillSession({ config, resumeSessionId, onFinish }: {
           <Card className="border-destructive/30"><CardContent className="p-6">
             <p className="font-semibold">Practice could not start</p>
             <p className="mt-2 text-sm text-muted-foreground">{error}</p>
-            <Button className="mt-4" onClick={() => window.location.reload()}>Go Back</Button>
+            <Button className="mt-4" onClick={() => { window.location.href = '/practice'; }}>Go Back</Button>
           </CardContent></Card>
         </div>
       </AppLayout>
