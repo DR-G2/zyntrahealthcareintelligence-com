@@ -48,7 +48,7 @@ create temp table h2 as select * from public.get_my_attempt_history(1000);
 commit;
 select public.t_assert((select count(*) from h2) = 2 and (select bool_and(correct_answer is not null and explanation is not null) from h2), 'H1 completed session: answered rows carry key + explanation');
 select public.t_assert((select bool_and(h2.correct_answer = q.correct_answer) from h2 join public.questions q on q.id = h2.question_id), 'H1 key is the real key');
-select public.t_assert((select array_agg(confidence_level order by created_at) from h) = array[2,3]::smallint[] and (select min(time_taken_seconds) from h) = 12, 'H1 confidence + timing');
+select public.t_assert((select array_agg(confidence_level order by created_at, time_taken_seconds) from h) = array[2,3]::smallint[] and (select min(time_taken_seconds) from h) = 12, 'H1 confidence + timing');
 select public.t_assert((select bool_and(session_mode = 'adaptive' and lo_id is not null) from h), 'H1 mode + LO');
 select public.t_assert(not exists (select 1 from h join public.practice_session_questions psq on psq.session_id = h.session_id and psq.question_id = h.question_id where psq.answered_at is null), 'H1 no unanswered question');
 select public.t_assert(not exists (select 1 from h where question_id = (select question_id from public.practice_session_questions where session_id = :'us' and answered_at is null)), 'H1 presented-unanswered key not exposed');

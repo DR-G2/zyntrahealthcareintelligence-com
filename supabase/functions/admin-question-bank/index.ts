@@ -1,21 +1,20 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-import { normaliseEmail, isExactAdminRow, clampPage } from "./policy.ts";
+import { normaliseEmail, canReadQuestionBank, clampPage } from "./policy.ts";
+import { adminCorsHeaders, parseAllowedOrigins } from "../_shared/admin-gate.ts";
 
 /**
  * P5 (Hank B1): the ONLY data path for the /questions bank browser. The admin check is done
- * here, server-side: the caller's JWT is verified, the email is normalised to lower case and
- * matched EXACTLY (.eq, no LIKE wildcards) against admin_roles, and the returned row is
- * re-checked. Only then are questions (with keys/explanations) read with the service role.
+ * here, server-side: the caller's JWT is verified, the email is trimmed + lower-cased and matched
+ * EXACTLY (.eq, no LIKE wildcards) against admin_roles, the returned row's email is lower-cased and
+ * re-checked, and the role must be super_admin (follow-up: no broader access is needed, see
+ * policy.ts). Only then are questions (with keys/explanations) read with the service role.
  */
-const headers = {
-  "Access-Control-Allow-Origin": Deno.env.get("ADMIN_ALLOWED_ORIGIN") ?? "https://www.zyntrahealthcareintelligence.com",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-  "Content-Type": "application/json",
-};
-const reply = (body: unknown, status = 200) => new Response(JSON.stringify(body), { status, headers });
+const allowedOrigins = parseAllowedOrigins(Deno.env.get("ADMIN_ALLOWED_ORIGINS") ?? Deno.env.get("ADMIN_ALLOWED_ORIGIN"));
 
 serve(async (req) => {
+  const headers = { ...adminCorsHeaders(req.headers.get("Origin"), allowedOrigins), "Content-Type": "application/json" };
+  const reply = (body: unknown, status = 200) => new Response(JSON.stringify(body), { status, headers });
   if (req.method === "OPTIONS") return new Response("ok", { headers });
   try {
     const auth = req.headers.get("Authorization") ?? "";
@@ -25,7 +24,7 @@ serve(async (req) => {
     const email = normaliseEmail(u?.user?.email);
     if (uErr || !email) return reply({ error: "Unauthorized" }, 401);
     const { data: role } = await admin.from("admin_roles").select("role, email").eq("email", email).maybeSingle();
-    if (!isExactAdminRow(role, email)) return reply({ error: "Forbidden" }, 403);
+    if (!canReadQuestionBank(role, email)) return reply({ error: "Forbidden - Super Admin only" }, 403);
 
     const body = await req.json().catch(() => ({}));
     const { from, to } = clampPage(body?.offset, body?.limit);
