@@ -23,8 +23,10 @@ barrier_run() { # $1 = sql to run per worker
 }
 
 echo "### R1 $N parallel save_attempt on the same session question -> exactly one success"
-SID=$(q -c "$(as $E)" -c "select (public.create_practice_session('mcq','{}'::jsonb, array['22222222-0000-0000-0000-000000000006'::uuid])).id" | tail -1)
-ok=$(barrier_run "select (public.save_attempt('22222222-0000-0000-0000-000000000006','$SID','A',false)).is_correct" $E)
+# a PIE session (save_attempt accepts PIE-registered sessions only from 0059)
+SID=$(q -c "$(as $E)" -c "select session_id from public.pie_create_session(1)" | tail -1)
+QID=$(q -c "select question_id from public.practice_session_questions where session_id='$SID'")
+ok=$(barrier_run "select (public.save_attempt('$QID','$SID','A',false)).is_correct" $E)
 n=$(q -c "select count(*) from public.user_attempts where session_id='$SID'")
 dup=$(cat "$tmp"/err.* | grep -c "already answered" || true)
 echo "successes=$ok rows=$n rejected_already_answered=$dup"
@@ -49,4 +51,14 @@ ok=$(barrier_run "select session_id from public.pie_create_session(1)" $F)
 n=$(q -c "select count(*) from pie.adaptive_session a join public.practice_sessions ps on ps.id=a.session_id where a.user_id='$F' and ps.status='active'")
 echo "at cap: successes=$ok active=$n"
 [[ "$ok" == 0 && "$n" == 3 ]] || { echo "FAIL R3 cap"; cat "$tmp"/err.*; exit 1; }
+if [[ "$(q -c "select count(*) from pg_proc where proname='pie_create_session' and pronargs=3")" == 1 ]]; then
+  echo "### R4 $N parallel diagnostic creates (fresh learner) -> exactly one diagnostic"
+  G=99999999-0000-0000-0000-0000000000ee
+  q -c "insert into auth.users(id,email) values ('$G','g@t') on conflict do nothing" \
+    -c "insert into public.profiles(id,email,role,status) values ('$G','g@t','learner','active') on conflict do nothing"
+  ok=$(barrier_run "select session_id from public.pie_create_session(10,'AMC_CAT_MCQ','pie_diagnostic')" $G)
+  n=$(q -c "select count(*) from pie.adaptive_session where user_id='$G' and mode='diagnostic'")
+  echo "successes=$ok diagnostics=$n"
+  [[ "$ok" == 1 && "$n" == 1 ]] || { echo "FAIL R4"; cat "$tmp"/err.*; exit 1; }
+fi
 echo "ALL RACE TESTS PASSED"

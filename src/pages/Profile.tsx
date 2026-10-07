@@ -11,6 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Target, Clock, Shield, Brain, ArrowRight, TrendingUp, Stethoscope, Activity } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { ProfileSkeleton } from '@/components/skeletons/PageSkeleton';
+import { fetchLegacyShapedHistory } from '@/lib/pie/pie-history-client';
 
 interface PerformanceData {
   answer_stability: number | null;
@@ -86,9 +87,7 @@ export default function Profile() {
         supabase.from('station_attempts')
           .select('id, subject, scores, time_taken_seconds, mode, created_at')
           .eq('user_id', user.id).order('created_at', { ascending: false }).limit(100),
-        supabase.from('user_attempts')
-          .select('id, is_correct, answer_changes_count, change_sequence, selected_answer, questions(correct_answer)')
-          .eq('user_id', user.id).limit(500),
+        fetchLegacyShapedHistory(500).then((data) => ({ data, error: null })), // P5: PIE attempts only
       ]);
       if (profileRes.data) setData(profileRes.data as any);
       setStationAttempts(stationsRes.data || []);

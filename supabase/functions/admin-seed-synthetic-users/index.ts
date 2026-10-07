@@ -2,7 +2,7 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
 
 const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Origin": Deno.env.get("ADMIN_ALLOWED_ORIGIN") ?? "https://www.zyntrahealthcareintelligence.com",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
@@ -59,6 +59,13 @@ serve(async (req) => {
     const { data: adminRole } = await supabase.from("admin_roles").select("role").eq("email", userData.user.email).maybeSingle();
     if (!adminRole || adminRole.role !== "super_admin") {
       return new Response(JSON.stringify({ error: "Only Super Admin can seed synthetic users" }), { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+
+    // P5: synthetic seeding writes user_attempts directly (outside PIE sessions, client-side
+    // grading from keys), which would pollute PIE evidence. Disabled unless explicitly enabled
+    // for a non-production project.
+    if (Deno.env.get("ALLOW_SYNTHETIC_SEED") !== "1") {
+      return new Response(JSON.stringify({ error: "Synthetic seeding is disabled (PIE go-live). Set ALLOW_SYNTHETIC_SEED=1 on a non-production project." }), { status: 410, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
     const body = await req.json().catch(() => ({}));

@@ -19,7 +19,10 @@ Deno.serve(async (req) => {
   const { data: userData, error } = await admin.auth.getUser(token);
   if (error || !userData.user?.email) return new Response(JSON.stringify({ error: "unauthorized" }), { status: 401, headers });
 
-  const { data: role } = await admin.from("admin_roles").select("role").ilike("email", userData.user.email).maybeSingle();
+  // Exact, case-insensitive admin match (no LIKE wildcards): both sides normalised to lower case.
+  const callerEmail = userData.user.email.trim().toLowerCase();
+  const { data: role } = await admin.from("admin_roles").select("role, email").eq("email", callerEmail).maybeSingle();
+  if (role && String(role.email).trim().toLowerCase() !== callerEmail) return new Response(JSON.stringify({ error: "forbidden" }), { status: 403, headers });
   if (!role) return new Response(JSON.stringify({ error: "forbidden" }), { status: 403, headers });
 
   const body = await req.json().catch(() => ({}));

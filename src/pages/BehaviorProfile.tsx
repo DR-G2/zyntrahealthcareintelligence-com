@@ -19,6 +19,7 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
   ResponsiveContainer, Legend
 } from 'recharts';
+import { pieV2AuthHeaders } from '@/lib/pie/pie-history-client';
 
 const ARCHETYPE_META: Record<string, { label: string; icon: typeof Brain; color: string; description: string; risk?: string }> = {
   panic_changer: {
@@ -93,7 +94,7 @@ export default function BehaviorProfile() {
   const runAnalysis = async () => {
     setAnalyzing(true);
     try {
-      const { error } = await supabase.functions.invoke('analyze-behavior');
+      const { error } = await supabase.functions.invoke('analyze-behavior', { headers: await pieV2AuthHeaders() }); // P5: PIE attempts on V2
       if (error) throw error;
       // Refetch profile
       const { data: profile } = await supabase

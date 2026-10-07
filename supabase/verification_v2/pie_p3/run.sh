@@ -8,10 +8,14 @@ owner="${OWNER_ROLE:-zyntra_owner}"
 "$here/../live_replica/replay.sh" "$db" --with-0044
 for f in 0045_pie_p1_content_lo_model.sql 0046_pie_p2_learner_lo_state.sql 0047_pie_deprecate_shadow.sql \
          0048_pie_p2_review_fixes.sql 0049_pie_p3_readiness_to_amc.sql 0050_pie_p3_seed_lo_map_irt.sql \
-         0051_pie_p3_candidate_pool.sql 0052_pie_p3_review_fixes.sql 0053_pie_p3_peek_farm_fixes.sql 0054_pie_p3_resume_cap_selector_stats.sql; do
+         0051_pie_p3_candidate_pool.sql 0052_pie_p3_review_fixes.sql 0053_pie_p3_peek_farm_fixes.sql 0054_pie_p3_resume_cap_selector_stats.sql \
+         0055_pie_p5_f1_question_key_columns.sql 0056_pie_p5_review_scheduler_session_rules.sql 0058_pie_p5_confirmation_probe_learner_value.sql; do
   psql -X -q -v ON_ERROR_STOP=1 -U "$owner" -d "$db" -1 -f "$mig/$f"; echo "applied $f"
 done
 psql -X -q -v ON_ERROR_STOP=1 -d "$db" -f "$here/../pie_p1_p2/fixtures.sql"
+# P3/0053/0054/race assertions pin the P3 selector policy (test-only switch); P5 policy
+# behaviour is verified separately by ../pie_p5/run.sh.
+psql -X -q -v ON_ERROR_STOP=1 -d "$db" -c "update pie.selection_policy set status = case policy_version when 'pie-select/p3.0' then 'active' else 'retired' end"
 psql -X -v ON_ERROR_STOP=1 -d "$db" -f "$here/verify_p3.sql"
 psql -X -v ON_ERROR_STOP=1 -d "$db" -f "$here/verify_0053.sql"
 psql -X -v ON_ERROR_STOP=1 -d "$db" -f "$here/verify_0054.sql"

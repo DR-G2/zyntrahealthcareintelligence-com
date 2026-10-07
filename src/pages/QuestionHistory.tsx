@@ -17,6 +17,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { cn } from '@/lib/utils';
 import { useFeatureGate } from '@/hooks/useFeatureGate';
 import { UpgradePrompt } from '@/components/UpgradePrompt';
+import { fetchLegacyShapedHistory } from '@/lib/pie/pie-history-client';
 
 interface AttemptRow {
   id: string;
@@ -52,14 +53,8 @@ export default function QuestionHistory() {
     queryKey: ['question-history', user?.id],
     queryFn: async () => {
       if (!user) return [];
-      const { data, error } = await supabase
-        .from('user_attempts')
-        .select('id, question_id, selected_answer, is_correct, answer_changes_count, change_sequence, time_taken_seconds, time_to_first_click, created_at, questions(question_text, correct_answer, category, explanation, options)')
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: false })
-        .limit(1000);
-      if (error) throw error;
-      return (data || []) as AttemptRow[];
+      // P5: PIE attempts only; keys only for answered questions (get_my_attempt_history).
+      return (await fetchLegacyShapedHistory(1000)) as unknown as AttemptRow[];
     },
     enabled: !!user,
   });

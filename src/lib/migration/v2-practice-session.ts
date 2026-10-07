@@ -88,22 +88,8 @@ export async function signOutV2Local(): Promise<void> {
   }
 }
 
-export async function createV2PracticeSession(
-  sessionType: string,
-  config: Record<string, unknown>,
-  questionIds: string[],
-): Promise<V2PracticeSession> {
-  if (!questionIds.length) throw new Error('V2 Practice requires at least one question.');
-
-  const { data, error } = await getSupabaseV2().rpc('create_practice_session', {
-    p_session_type: sessionType,
-    p_config: config,
-    p_question_ids: questionIds,
-  });
-
-  if (error) throw new Error(error.message || 'V2 Practice session could not be created.');
-  return data as V2PracticeSession;
-}
+// P5: the client-chosen-ids session creator (create_practice_session) was
+// removed; sessions are created only by the PIE server RPC pie_create_session.
 
 export interface V2PracticeResult extends V2PracticeQuestion {
   correct_answer: string;
