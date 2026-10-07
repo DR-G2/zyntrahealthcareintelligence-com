@@ -15,6 +15,7 @@ import {
   Plus, Brain, ArrowLeft, RotateCcw, Sparkles, Loader2,
   BookOpen, Clock, Layers, ChevronRight,
 } from 'lucide-react';
+import { pieV2AuthHeaders } from '@/lib/pie/pie-history-client';
 
 type Phase = 'decks' | 'review' | 'create-deck' | 'add-card';
 
@@ -229,6 +230,7 @@ export default function Flashcards() {
     try {
       const resp = await supabase.functions.invoke('generate-flashcards', {
         body: { user_id: user.id },
+        headers: await pieV2AuthHeaders(), // P5: function reads this learner's PIE attempts on V2
       });
       if (resp.error) throw resp.error;
       const result = resp.data;

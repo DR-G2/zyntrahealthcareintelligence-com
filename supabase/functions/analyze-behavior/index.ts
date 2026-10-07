@@ -1,9 +1,11 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { fetchCallerPieHistory } from "../_shared/pie-v2.ts";
+import { toAnalyzeAttempts } from "../_shared/pie-v2-history.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version, x-pie-v2-authorization",
 };
 
 serve(async (req) => {
@@ -25,13 +27,12 @@ serve(async (req) => {
     const supabase = createClient(supabaseUrl, supabaseKey);
 
     // Fetch MCQ attempts, OSCE station attempts, and psychograph history in parallel
-    const [attRes, stationRes, psychRes, behaviorDnaRes] = await Promise.all([
-      supabase
-        .from("user_attempts")
-        .select("*, questions(category, difficulty, difficulty_tier, correct_answer)")
-        .eq("user_id", user.id)
-        .order("created_at", { ascending: true })
-        .limit(1000),
+    // P5: MCQ attempts come from V2 PIE (caller's own answered attempts only), not the legacy table.
+    const pie = await fetchCallerPieHistory(req, user.email, 1000);
+    if ("error" in pie) {
+      return new Response(JSON.stringify({ error: pie.error }), { status: pie.status, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+    const [stationRes, psychRes, behaviorDnaRes] = await Promise.all([
       supabase
         .from("station_attempts")
         .select("*")
@@ -51,8 +52,7 @@ serve(async (req) => {
         .maybeSingle(),
     ]);
 
-    if (attRes.error) throw attRes.error;
-    const attempts = attRes.data || [];
+    const attempts = toAnalyzeAttempts(pie.rows);
     const stationAttempts = stationRes.data || [];
     const psychographs = psychRes.data || [];
     const behaviorDna = behaviorDnaRes.data || null;

@@ -75,3 +75,13 @@ export async function fetchReviewDue(limit = 100, horizonDays = 0, deps: History
   if (error) throw new Error(error.message || 'Review items could not be loaded.');
   return (data as ReviewDueRow[]) || [];
 }
+
+/** Header that lets a learner-facing edge function read this learner's PIE history on V2 with their own JWT. */
+export const PIE_V2_AUTH_HEADER = 'x-pie-v2-authorization';
+export async function pieV2AuthHeaders(): Promise<Record<string, string>> {
+  await ensureV2Session();
+  const { data } = await getSupabaseV2().auth.getSession();
+  const token = data.session?.access_token;
+  if (!token) throw new Error('PIE session unavailable.');
+  return { [PIE_V2_AUTH_HEADER]: `Bearer ${token}` };
+}
