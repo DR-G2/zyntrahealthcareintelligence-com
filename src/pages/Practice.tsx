@@ -26,7 +26,8 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/component
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { buildPracticeTopicResolver, normalizeTopicLabel, resolvePracticeQuestionPlacement } from '@/lib/practice-topic-mapping';
 import { emitBehaviorEvent } from '@/lib/telemetry';
-import { syncPieEngine } from '@/lib/pie/shadow-client';
+import { syncPieEngine } from '@/lib/pie/pie-engine-client';
+import { PieDiagnosticError, describePieFailure, pieSyncFailure, reportPieFailure, requireV2SessionId } from '@/lib/pie/pie-diagnostics';
 import { createV2PracticeSession, getV2PracticeResults, resumeV2PracticeSession, completeV2PracticeSession, ensureV2Session } from '@/lib/migration/v2-practice-session';
 import { saveAttemptToV2 } from '@/lib/migration/v2-practice-adapter';
 import { ADMIN_EMAILS } from '@/lib/admin-emails';
@@ -871,6 +872,7 @@ function DrillSession({
       try {
         // Check for resume
       if (resumeSessionId && user) {
+        let restoringV2 = false;
         try {
           const { data: session } = await supabase
             .from('active_sessions')
@@ -923,9 +925,12 @@ function DrillSession({
               const restoredSessionConfig = session.config && typeof session.config === 'object'
                 ? session.config as Record<string, unknown>
                 : {};
-              if (sessionUsesV2 && typeof restoredSessionConfig.v2SessionId === 'string') {
+              if (sessionUsesV2) {
+                restoringV2 = true;
+                // A V2 session never silently downgrades to the legacy restore path.
+                const v2SessionId = requireV2SessionId(restoredSessionConfig);
                 await ensureV2Session();
-                const v2Session = await resumeV2PracticeSession(restoredSessionConfig.v2SessionId);
+                const v2Session = await resumeV2PracticeSession(v2SessionId);
                 v2SessionIdRef.current = v2Session.id;
                 // V2 uses the existing normal question bank for content delivery.
                 // The V2 session remains the secure telemetry/correctness boundary.
@@ -968,6 +973,16 @@ function DrillSession({
           }
         } catch (e) {
           console.error('Resume failed', e);
+          if (restoringV2) {
+            // Hard, observable failure: do not fall through to a fresh or legacy session.
+            const failure = e instanceof PieDiagnosticError
+              ? e.failure
+              : { code: 'PIE_V2_RESUME_FAILED' as const, stage: 'resume', message: (e as any)?.message || 'V2 session could not be resumed.', at: new Date().toISOString() };
+            reportPieFailure(failure);
+            setLoadError(`${describePieFailure(failure).title}: ${failure.message}`);
+            setLoading(false);
+            return;
+          }
         }
       }
 
@@ -1615,7 +1630,10 @@ function DrillSession({
 
       // Refresh PIE after authoritative attempts are persisted. PIE is downstream intelligence,
       // so a PIE failure never blocks answer persistence or session completion.
-      void syncPieEngine();
+      void syncPieEngine().then((result) => {
+        const failure = pieSyncFailure(result);
+        if (failure) toast({ ...describePieFailure(failure), variant: 'destructive' });
+      });
       if (!v2PracticeEnabled) {
         supabase.functions.invoke('analyze-behavior').catch(console.error);
       }

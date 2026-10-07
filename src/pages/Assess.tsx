@@ -11,7 +11,8 @@ import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import { selectNextQuestion, shouldShowIntervention, type SequencingState, type QuestionWithTier } from '@/lib/sequencing';
 import { emitBehaviorEvent } from '@/lib/telemetry';
-import { syncPieEngine } from '@/lib/pie/shadow-client';
+import { syncPieEngine } from '@/lib/pie/pie-engine-client';
+import { pieSyncFailure } from '@/lib/pie/pie-diagnostics';
 
 interface Question {
   id: string;
@@ -370,7 +371,8 @@ export default function Assess() {
       if (attemptInsertError) throw attemptInsertError;
 
       // PIE is the production performance-intelligence layer; assessment scoring remains authoritative.
-      void syncPieEngine();
+      // PIE failures are reported as explicit diagnostics (never silently ignored).
+      void syncPieEngine().then(pieSyncFailure);
 
       // Performance Intelligence is rebuilt from inserted attempt telemetry by the database trigger.
       // Trigger behavior analysis in background

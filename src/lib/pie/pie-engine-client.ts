@@ -3,7 +3,7 @@ import { getSupabaseV2 } from "@/integrations/supabase/v2-client";
 import { loadPieView, syncPieState, type PieClient, type PieDeps, type PieSyncResult, type PieView } from "@/lib/pie/pie-state";
 
 /**
- * Production PIE client (file name retained for import stability; this is not shadow mode).
+ * Production PIE client (renamed from shadow-client.ts in P1/P2; there is no shadow mode).
  *
  * V2 Practice records authoritative attempts into pie.pie_observation inside the
  * server-authoritative save_attempt RPC. These helpers only rebuild/read the caller's

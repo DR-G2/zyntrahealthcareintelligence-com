@@ -14,7 +14,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { AppLayout } from '@/components/AppLayout';
 import { RoomHeader } from '@/components/RoomHeader';
 import { supabase } from '@/lib/supabase';
-import { loadPieEngineView } from '@/lib/pie/shadow-client';
+import { loadPieEngineView } from '@/lib/pie/pie-engine-client';
 import { describePieStatus, PIE_MIN_OBSERVATIONS, type PieState, type PieView } from '@/lib/pie/pie-state';
 import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils';
