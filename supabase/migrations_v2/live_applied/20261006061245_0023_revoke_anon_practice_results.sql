@@ -1,0 +1,1 @@
+revoke execute on function public.get_practice_session_results(uuid) from anon;

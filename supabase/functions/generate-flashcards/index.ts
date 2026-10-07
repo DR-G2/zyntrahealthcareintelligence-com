@@ -1,9 +1,11 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { fetchCallerPieHistory } from "../_shared/pie-v2.ts";
+import { toFlashcardSources } from "../_shared/pie-v2-history.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-pie-v2-authorization",
 };
 
 serve(async (req) => {
@@ -23,30 +25,14 @@ serve(async (req) => {
     const { data: { user }, error: authError } = await anonClient.auth.getUser(token);
     if (authError || !user) throw new Error("Unauthorized");
 
-    // Get user's recent incorrect attempts (last 50)
-    const { data: attempts } = await supabase
-      .from("user_attempts")
-      .select("question_id, selected_answer")
-      .eq("user_id", user.id)
-      .eq("is_correct", false)
-      .order("created_at", { ascending: false })
-      .limit(50);
-
-    if (!attempts || attempts.length === 0) {
-      return new Response(JSON.stringify({ cards_created: 0, message: "No incorrect attempts found" }), {
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+    // P5: the learner's own wrong answers from V2 PIE (answered-only keys), not the legacy tables.
+    const pie = await fetchCallerPieHistory(req, user.email, 1000);
+    if ("error" in pie) {
+      return new Response(JSON.stringify({ error: pie.error }), { status: pie.status, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
-
-    // Get question details
-    const qIds = [...new Set(attempts.map((a: any) => a.question_id))].slice(0, 20);
-    const { data: questions } = await supabase
-      .from("questions")
-      .select("id, question_text, correct_answer, explanation, category, subtopic")
-      .in("id", qIds);
-
-    if (!questions || questions.length === 0) {
-      return new Response(JSON.stringify({ cards_created: 0 }), {
+    const questions = toFlashcardSources(pie.rows, 50, 20);
+    if (questions.length === 0) {
+      return new Response(JSON.stringify({ cards_created: 0, message: "No incorrect attempts found" }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }

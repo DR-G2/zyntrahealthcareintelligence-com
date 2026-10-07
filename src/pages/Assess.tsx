@@ -1,396 +1,178 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Clock, ChevronLeft, ChevronRight, Lock, AlertTriangle, CheckCircle2, Lightbulb } from 'lucide-react';
-import { supabase } from '@/lib/supabase';
+import { Clock, ChevronLeft, ChevronRight, Lock, AlertTriangle, CheckCircle2 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { AppLayout } from '@/components/AppLayout';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
-import { selectNextQuestion, shouldShowIntervention, type SequencingState, type QuestionWithTier } from '@/lib/sequencing';
 import { emitBehaviorEvent } from '@/lib/telemetry';
-import { syncPieShadow } from '@/lib/pie/shadow-client';
+import { syncPieEngine } from '@/lib/pie/pie-engine-client';
+import { pieSyncFailure } from '@/lib/pie/pie-diagnostics';
+import {
+  startPieDiagnostic,
+  resumePieSession,
+  submitPieAnswer,
+  finishPieSession,
+  pieSessionErrorMessage,
+  PIE_DIAGNOSTIC_DEFAULT_COUNT,
+  type PieSessionQuestion,
+} from '@/lib/pie/pie-practice-client';
 
-interface Question {
-  id: string;
-  question_text: string;
-  options: string[];
-  correct_answer: string;
-  explanation: string | null;
-  category: string;
-  difficulty: string;
-  difficulty_tier: number | null;
-  subtopic?: string | null;
-}
-
+/**
+ * P5 Assess: the PIE diagnostic. The server builds a blueprint-balanced fixed set
+ * (pie_create_session p_mode 'pie_diagnostic'); questions arrive without key or explanation;
+ * on Submit every answered item goes through save_attempt (server-graded) in that
+ * PIE-registered session and the session is completed, so the answers count as PIE
+ * evidence. There is no client-side question pool, sequencing or grading.
+ */
 const TOTAL_TIME_SECONDS = 20 * 60;
-const QUESTION_COUNT = 20;
+const QUESTION_COUNT = PIE_DIAGNOSTIC_DEFAULT_COUNT;
+const resumeKey = (uid: string) => `pie:diagnostic:${uid}`;
+
+function optionList(options: unknown): string[] {
+  if (Array.isArray(options)) return options.map(String);
+  if (options && typeof options === 'object') return Object.values(options as Record<string, unknown>).map(String);
+  return [];
+}
 
 export default function Assess() {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { user } = useAuth();
-  const sessionIdRef = useRef(crypto.randomUUID());
 
-  const [phase, setPhase] = useState<'intro' | 'test' | 'submitting'>('intro');
-  const [questions, setQuestions] = useState<Question[]>([]);
+  const [phase, setPhase] = useState<'intro' | 'starting' | 'test' | 'submitting'>('intro');
+  const [sessionId, setSessionId] = useState<string | null>(null);
+  const [questions, setQuestions] = useState<PieSessionQuestion[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState<Record<number, string>>({});
   const [changeSequences, setChangeSequences] = useState<Record<number, string[]>>({});
   const [questionStartTime, setQuestionStartTime] = useState<number>(Date.now());
-  const [questionLoadTime, setQuestionLoadTime] = useState<number>(Date.now());
-  const [firstClickRecorded, setFirstClickRecorded] = useState<Record<number, boolean>>({});
   const [timeToFirstClick, setTimeToFirstClick] = useState<Record<number, number>>({});
   const [questionTimes, setQuestionTimes] = useState<Record<number, number>>({});
-  const [pauseEvents, setPauseEvents] = useState<Record<number, number>>({});
   const [timeRemaining, setTimeRemaining] = useState(TOTAL_TIME_SECONDS);
-  const [loading, setLoading] = useState(true);
-  const [intervention, setIntervention] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const submittingRef = useRef(false);
 
-  // Sequencing state
-  const sequencingRef = useRef<SequencingState>({
-    position: 0,
-    consecutiveIncorrect: 0,
-    consecutiveSameSubject: 0,
-    lastSubject: null,
-    recentResults: [],
-    recentChanges: [],
-    avgTimePerQuestion: 0,
-    initialAvgTime: 0,
-  });
-  const usedQuestionIds = useRef<Set<string>>(new Set());
-  const questionPoolRef = useRef<QuestionWithTier[]>([]);
-  const lastInteractionRef = useRef(Date.now());
-  const pauseTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
-
-  // Fetch question pool with tiers
-  useEffect(() => {
-    const fetchPool = async () => {
-      // Fetch difficulty-balanced pool: 50% difficult, 30% moderate, 20% easy
-      const [hardRes, mediumRes, easyRes] = await Promise.all([
-        supabase.from('questions')
-          .select('id, question_text, options, correct_answer, explanation, category, subtopic, difficulty, difficulty_tier')
-          .eq('difficulty', 'difficult').limit(50),
-        supabase.from('questions')
-          .select('id, question_text, options, correct_answer, explanation, category, subtopic, difficulty, difficulty_tier')
-          .eq('difficulty', 'moderate').limit(30),
-        supabase.from('questions')
-          .select('id, question_text, options, correct_answer, explanation, category, subtopic, difficulty, difficulty_tier')
-          .eq('difficulty', 'easy').limit(20),
-      ]);
-
-      const pool = [
-        ...(hardRes.data || []),
-        ...(mediumRes.data || []),
-        ...(easyRes.data || []),
-      ];
-
-      if (pool.length === 0) {
-        toast({ title: 'Error', description: 'No questions available', variant: 'destructive' });
-        setLoading(false);
-        return;
+  const begin = async () => {
+    if (!user) return;
+    setPhase('starting');
+    setError(null);
+    try {
+      let sid: string; let qs: PieSessionQuestion[];
+      try {
+        ({ sessionId: sid, questions: qs } = await startPieDiagnostic(QUESTION_COUNT));
+      } catch (e: any) {
+        const stored = localStorage.getItem(resumeKey(user.id));
+        if (/PIE_DIAGNOSTIC_ACTIVE/.test(e?.message || '') && stored) {
+          sid = stored; qs = await resumePieSession(stored);
+        } else throw e;
       }
-
-      // Shuffle the combined pool
-      for (let i = pool.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [pool[i], pool[j]] = [pool[j], pool[i]];
-      }
-
-      questionPoolRef.current = pool as QuestionWithTier[];
-
-      const firstQ = selectNextQuestion(
-        questionPoolRef.current,
-        usedQuestionIds.current,
-        sequencingRef.current,
-        QUESTION_COUNT
-      );
-
-      if (firstQ) {
-        setQuestions([firstQ as unknown as Question]);
-        usedQuestionIds.current.add(firstQ.id);
-      }
-      setLoading(false);
-    };
-    fetchPool();
-  }, []);
-
-  useEffect(() => {
-    if (!user || phase !== 'test') return;
-    const question = questions[currentIndex];
-    if (!question) return;
-    void emitBehaviorEvent({
-      userId: user?.id ?? '',
-      eventType: 'QUESTION_OPENED',
-      sessionId: sessionIdRef.current,
-      questionId: question.id,
-      sequenceNo: currentIndex,
-      payload: { question_position: currentIndex, difficulty: question.difficulty, category: question.category, subtopic: question.subtopic ?? null },
-    });
-  }, [user, phase, currentIndex, questions[currentIndex]?.id]);
-
-  // Pause detection timer
-  useEffect(() => {
-    if (phase !== 'test') return;
-    pauseTimerRef.current = setInterval(() => {
-      const elapsed = (Date.now() - lastInteractionRef.current) / 1000;
-      if (elapsed > 10) {
-        const pauseCount = (pauseEvents[currentIndex] || 0) + 1;
-        setPauseEvents(prev => ({ ...prev, [currentIndex]: pauseCount }));
-        void emitBehaviorEvent({
-          userId: user?.id ?? '',
-          eventType: 'SESSION_PAUSED',
-          sessionId: sessionIdRef.current,
-          questionId: questions[currentIndex]?.id,
-          sequenceNo: currentIndex,
-          questionPosition: currentIndex,
-          payload: { idle_seconds: Math.round(elapsed), pause_count: pauseCount, mode: 'diagnostic' },
-        });
-        lastInteractionRef.current = Date.now();
-      }
-    }, 5000);
-    return () => { if (pauseTimerRef.current) clearInterval(pauseTimerRef.current); };
-  }, [phase, currentIndex, pauseEvents, user, questions]);
-
-  const getNextQuestion = useCallback((): Question | null => {
-    const next = selectNextQuestion(
-      questionPoolRef.current,
-      usedQuestionIds.current,
-      sequencingRef.current,
-      QUESTION_COUNT
-    );
-    if (next) {
-      usedQuestionIds.current.add(next.id);
-      return next as unknown as Question;
+      localStorage.setItem(resumeKey(user.id), sid);
+      setSessionId(sid);
+      setQuestions(qs);
+      setCurrentIndex(Math.max(0, qs.findIndex((q) => !q.answered_at)));
+      setQuestionStartTime(Date.now());
+      setPhase('test');
+      void emitBehaviorEvent({ userId: user.id, eventType: 'SESSION_STARTED', sessionId: sid, payload: { mode: 'pie_diagnostic', question_count: qs.length } });
+    } catch (e: any) {
+      setError(pieSessionErrorMessage(e?.message || 'The diagnostic could not start.'));
+      setPhase('intro');
     }
-    return null;
-  }, []);
+  };
+
+  const recordQuestionTime = useCallback(() => {
+    const elapsed = Math.round((Date.now() - questionStartTime) / 1000);
+    setQuestionTimes((prev) => ({ ...prev, [currentIndex]: (prev[currentIndex] || 0) + elapsed }));
+  }, [currentIndex, questionStartTime]);
+
+  const handleSubmit = useCallback(async () => {
+    if (submittingRef.current || !sessionId || !user) return;
+    submittingRef.current = true;
+    setPhase('submitting');
+    const elapsedNow = Math.round((Date.now() - questionStartTime) / 1000);
+    const times = { ...questionTimes, [currentIndex]: (questionTimes[currentIndex] || 0) + elapsedNow };
+    try {
+      for (let i = 0; i < questions.length; i += 1) {
+        const q = questions[i];
+        const answer = selectedAnswers[i];
+        if (!answer || q.answered_at) continue; // unanswered stay unanswered; already-saved stay final
+        await submitPieAnswer({
+          questionId: q.question_id,
+          sessionId,
+          selectedAnswer: answer,
+          timeTakenSeconds: times[i] ?? null,
+          timeToFirstClick: timeToFirstClick[i] ?? null,
+          changeSequence: changeSequences[i] ?? null,
+          questionPosition: q.question_position,
+          timeOfDay: new Date().toISOString(),
+          provenance: { source: 'assess', mode: 'pie_diagnostic' },
+        });
+      }
+      const results = await finishPieSession(sessionId);
+      localStorage.removeItem(resumeKey(user.id));
+      void emitBehaviorEvent({ userId: user.id, eventType: 'SESSION_COMPLETED', sessionId, payload: { question_count: questions.length, mode: 'pie_diagnostic' } });
+      void syncPieEngine().then(pieSyncFailure);
+      const answered = results.filter((r) => r.selected_answer);
+      const changes = answered.reduce((s, r) => s + (r.answer_changes_count || 0), 0);
+      navigate('/profile', { state: { performanceData: {
+        stability_score: answered.length ? Math.round(Math.max(0, 100 - (changes / answered.length) * 50)) : null,
+        diagnostic: { answered: answered.length, correct: answered.filter((r) => r.is_correct).length, total: questions.length },
+      } } });
+    } catch (e: any) {
+      console.error('[PIE_DIAGNOSTIC]', JSON.stringify({ code: 'PIE_ATTEMPT_WRITE_FAILED', message: e?.message }));
+      toast({ title: 'Answers not saved', description: e?.message || 'Please try again.', variant: 'destructive' });
+      submittingRef.current = false;
+      setPhase('test');
+    }
+  }, [sessionId, user, questions, selectedAnswers, questionTimes, currentIndex, questionStartTime, timeToFirstClick, changeSequences, navigate, toast]);
+
+  const submitRef = useRef(handleSubmit);
+  submitRef.current = handleSubmit;
 
   useEffect(() => {
     if (phase !== 'test') return;
     const interval = setInterval(() => {
       setTimeRemaining((prev) => {
-        if (prev <= 1) {
-          clearInterval(interval);
-          handleSubmit();
-          return 0;
-        }
+        if (prev <= 1) { clearInterval(interval); void submitRef.current(); return 0; }
         return prev - 1;
       });
     }, 1000);
     return () => clearInterval(interval);
   }, [phase]);
 
-  const timerPercent = (timeRemaining / TOTAL_TIME_SECONDS) * 100;
-  const timerColor = timerPercent > 50 ? 'bg-success' : timerPercent > 20 ? 'bg-warning' : 'bg-destructive';
-
-  const formatTime = (seconds: number) => {
-    const m = Math.floor(seconds / 60);
-    const s = seconds % 60;
-    return `${m}:${s.toString().padStart(2, '0')}`;
-  };
-
-  const recordQuestionTime = useCallback(() => {
-    const elapsed = Math.round((Date.now() - questionStartTime) / 1000);
-    setQuestionTimes((prev) => ({
-      ...prev,
-      [currentIndex]: (prev[currentIndex] || 0) + elapsed,
-    }));
-  }, [currentIndex, questionStartTime]);
+  useEffect(() => {
+    if (!user || phase !== 'test' || !sessionId) return;
+    const q = questions[currentIndex];
+    if (!q) return;
+    void emitBehaviorEvent({ userId: user.id, eventType: 'QUESTION_OPENED', sessionId, questionId: q.question_id, sequenceNo: currentIndex, payload: { question_position: currentIndex } });
+  }, [user, phase, sessionId, currentIndex, questions]);
 
   const selectAnswer = (answer: string) => {
-    lastInteractionRef.current = Date.now();
-
-    // Track first click time
-    if (!firstClickRecorded[currentIndex]) {
-      const delta = Math.round((Date.now() - questionLoadTime) / 1000);
-      setTimeToFirstClick(prev => ({ ...prev, [currentIndex]: delta }));
-      setFirstClickRecorded(prev => ({ ...prev, [currentIndex]: true }));
-      void emitBehaviorEvent({
-        userId: user?.id ?? '',
-        eventType: 'QUESTION_FIRST_INTERACTION',
-        sessionId: sessionIdRef.current,
-        questionId: questions[currentIndex]?.id,
-        sequenceNo: currentIndex,
-        payload: { time_to_first_click_seconds: delta },
-      });
+    const q = questions[currentIndex];
+    if (!q || q.answered_at) return;
+    if (timeToFirstClick[currentIndex] === undefined) {
+      setTimeToFirstClick((prev) => ({ ...prev, [currentIndex]: Math.round((Date.now() - questionStartTime) / 1000) }));
     }
-
-    // Track change sequence
-    setChangeSequences(prev => {
-      const seq = prev[currentIndex] || [];
-      return { ...prev, [currentIndex]: [...seq, answer] };
-    });
-
+    setChangeSequences((prev) => ({ ...prev, [currentIndex]: [...(prev[currentIndex] || []), answer] }));
     const prevAnswer = selectedAnswers[currentIndex];
-
-    // Update adaptive sequencing
-    if (!prevAnswer) {
-      const question = questions[currentIndex];
-      if (question) {
-        const isCorrect = answer === question.correct_answer;
-        const state = sequencingRef.current;
-        state.recentResults = [...state.recentResults.slice(-4), isCorrect];
-        state.consecutiveIncorrect = isCorrect ? 0 : state.consecutiveIncorrect + 1;
-        state.consecutiveSameSubject = question.category === state.lastSubject ? state.consecutiveSameSubject + 1 : 1;
-        state.lastSubject = question.category;
-      }
-    }
-
     setSelectedAnswers((prev) => ({ ...prev, [currentIndex]: answer }));
-    void emitBehaviorEvent({
-      userId: user?.id ?? '',
-      eventType: prevAnswer && prevAnswer !== answer ? 'ANSWER_CHANGED' : 'ANSWER_SELECTED',
-      sessionId: sessionIdRef.current,
-      questionId: questions[currentIndex]?.id,
-      sequenceNo: currentIndex,
-      payload: {
-        answer_changes_count: Math.max(0, (changeSequences[currentIndex]?.length || 0)),
-        has_previous_answer: Boolean(prevAnswer),
-      },
-    });
-
-    // Track changes for interventions
-    if (prevAnswer && prevAnswer !== answer) {
-      const changes = changeSequences[currentIndex]?.length || 0;
-      sequencingRef.current.recentChanges = [...sequencingRef.current.recentChanges.slice(-4), changes];
-    }
-
-    // Check for interventions
-    const interventionType = shouldShowIntervention(sequencingRef.current);
-    if (interventionType && !intervention) {
-      const interventionQuestionId = questions[currentIndex]?.id;
-      const interventionSequenceNo = currentIndex;
-      setIntervention(interventionType);
-      void emitBehaviorEvent({
-        userId: user?.id ?? '',
-        eventType: 'INTERVENTION_STARTED',
-        sessionId: sessionIdRef.current,
-        questionId: interventionQuestionId,
-        sequenceNo: interventionSequenceNo,
-        questionPosition: interventionSequenceNo,
-        payload: { intervention_type: interventionType, mode: 'diagnostic' },
-      });
-      setTimeout(() => {
-        setIntervention(null);
-        void emitBehaviorEvent({
-          userId: user?.id ?? '',
-          eventType: 'INTERVENTION_COMPLETED',
-          sessionId: sessionIdRef.current,
-          questionId: interventionQuestionId,
-          sequenceNo: interventionSequenceNo,
-          questionPosition: interventionSequenceNo,
-          payload: { intervention_type: interventionType, mode: 'diagnostic', displayed_seconds: 5 },
-        });
-      }, 5000);
-    }
+    void emitBehaviorEvent({ userId: user?.id ?? '', eventType: prevAnswer && prevAnswer !== answer ? 'ANSWER_CHANGED' : 'ANSWER_SELECTED', sessionId: sessionId ?? undefined, questionId: q.question_id, sequenceNo: currentIndex, payload: { has_previous_answer: Boolean(prevAnswer) } });
   };
 
   const goToQuestion = (index: number) => {
+    if (index < 0 || index >= questions.length) return;
     recordQuestionTime();
-    lastInteractionRef.current = Date.now();
-
-    if (index >= questions.length && questions.length < QUESTION_COUNT) {
-      sequencingRef.current.position = questions.length;
-      const next = getNextQuestion();
-      if (next) {
-        setQuestions(prev => [...prev, next]);
-      } else {
-        toast({ title: 'No more questions', description: 'Question pool exhausted' });
-        return;
-      }
-    }
-
-    if (index >= 0 && index < Math.min(questions.length, QUESTION_COUNT)) {
-      setCurrentIndex(index);
-      setQuestionStartTime(Date.now());
-      setQuestionLoadTime(Date.now());
-    }
+    setCurrentIndex(index);
+    setQuestionStartTime(Date.now());
   };
 
-  const handleNext = () => {
-    if (currentIndex < questions.length - 1) {
-      goToQuestion(currentIndex + 1);
-    } else if (questions.length < QUESTION_COUNT) {
-      goToQuestion(questions.length);
-    }
-  };
+  const formatTime = (seconds: number) => `${Math.floor(seconds / 60)}:${(seconds % 60).toString().padStart(2, '0')}`;
+  const timerPercent = (timeRemaining / TOTAL_TIME_SECONDS) * 100;
 
-  const handleSubmit = async () => {
-    if (phase === 'submitting') return;
-    setPhase('submitting');
-    recordQuestionTime();
-
-    const inserts = questions.map((q, i) => ({
-      user_id: user!.id,
-      question_id: q.id,
-      selected_answer: selectedAnswers[i] || '',
-      time_taken_seconds: questionTimes[i] || 0,
-      answer_changes_count: (changeSequences[i]?.length || 1) - 1,
-      is_correct: selectedAnswers[i] === q.correct_answer,
-      session_id: sessionIdRef.current,
-      time_to_first_click: timeToFirstClick[i] || 0,
-      change_sequence: changeSequences[i] || [],
-      pause_events: pauseEvents[i] || 0,
-      time_of_day: new Date().toISOString(),
-      question_position: i,
-      previous_question_correct: i > 0 ? (selectedAnswers[i - 1] === questions[i - 1]?.correct_answer) : null,
-    }));
-
-    if (user) {
-      for (let i = 0; i < inserts.length; i += 1) {
-        const attempt = inserts[i];
-        void emitBehaviorEvent({
-          userId: user?.id ?? '',
-          eventType: 'QUESTION_SUBMITTED',
-          sessionId: sessionIdRef.current,
-          questionId: attempt.question_id,
-          sequenceNo: i,
-          payload: {
-            is_correct: attempt.is_correct,
-            time_taken_seconds: attempt.time_taken_seconds,
-            answer_changes_count: attempt.answer_changes_count,
-            time_to_first_click: attempt.time_to_first_click,
-            pause_events: attempt.pause_events,
-            difficulty: questions[i]?.difficulty ?? null,
-            category: questions[i]?.category ?? null,
-            subtopic: questions[i]?.subtopic ?? null,
-          },
-        });
-      }
-      void emitBehaviorEvent({
-        userId: user?.id ?? '',
-        eventType: 'SESSION_COMPLETED',
-        sessionId: sessionIdRef.current,
-        payload: { question_count: inserts.length, mode: 'diagnostic' },
-      });
-      const { error: attemptInsertError } = await supabase.from('user_attempts').insert(inserts);
-      if (attemptInsertError) throw attemptInsertError;
-
-      // Legacy intelligence remains authoritative. PIE runs in shadow mode only.
-      void syncPieShadow();
-
-      // Performance Intelligence is rebuilt from inserted attempt telemetry by the database trigger.
-      // Trigger behavior analysis in background
-      supabase.functions.invoke('analyze-behavior').catch(console.error);
-    }
-
-    navigate('/profile', { state: { performanceData: { stability_score: Math.round(Math.max(0, 100 - (inserts.reduce((s, a) => s + a.answer_changes_count, 0) / inserts.length) * 50)) } } });
-  };
-
-  if (loading) {
-    return (
-      <AppLayout>
-        <div className="flex items-center justify-center py-24">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-        </div>
-      </AppLayout>
-    );
-  }
-
-  if (phase === 'intro') {
+  if (phase === 'intro' || phase === 'starting') {
     return (
       <AppLayout>
         <div className="mx-auto max-w-2xl py-12">
@@ -400,50 +182,23 @@ export default function Assess() {
                 <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary">
                   <AlertTriangle className="h-7 w-7" />
                 </div>
-                <CardTitle className="text-2xl font-display">APPE Diagnostic Assessment</CardTitle>
+                <CardTitle className="text-2xl font-display">AMC Diagnostic Assessment</CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="rounded-lg bg-muted p-4 space-y-3">
-                <p className="font-medium">What to expect:</p>
+                  <p className="font-medium">What to expect:</p>
                   <ul className="space-y-2 text-sm text-muted-foreground">
-                    <li className="flex items-start gap-2">
-                      <Clock className="h-4 w-4 mt-0.5 text-primary" />
-                      <span><strong>{QUESTION_COUNT} questions</strong> in {TOTAL_TIME_SECONDS / 60} minutes — <strong>adaptive difficulty</strong></span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <Lock className="h-4 w-4 mt-0.5 text-primary" />
-                      <span>We track <strong>answer changes, timing, and pauses</strong> — choose carefully</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle2 className="h-4 w-4 mt-0.5 text-primary" />
-                      <span>Your <strong>Behavior Profile</strong> will be generated after</span>
-                    </li>
+                    <li className="flex items-start gap-2"><Clock className="h-4 w-4 mt-0.5 text-primary" />
+                      <span><strong>Up to {QUESTION_COUNT} questions</strong> in {TOTAL_TIME_SECONDS / 60} minutes, balanced across the AMC blueprint</span></li>
+                    <li className="flex items-start gap-2"><Lock className="h-4 w-4 mt-0.5 text-primary" />
+                      <span>You can change answers until you submit; answers are graded securely on submit</span></li>
+                    <li className="flex items-start gap-2"><CheckCircle2 className="h-4 w-4 mt-0.5 text-primary" />
+                      <span>Your results seed adaptive Practice. One diagnostic per 24 hours.</span></li>
                   </ul>
-                  <div className="mt-3 rounded-md bg-primary/5 border border-primary/10 p-3 text-sm">
-                    <p className="text-muted-foreground">
-                      💡 For a complete diagnostic picture, also take the <Link to="/assess/osce" className="text-primary underline font-medium">OSCE Diagnostic</Link> to assess clinical station skills alongside MCQ performance.
-                    </p>
-                  </div>
                 </div>
-                <p className="text-sm text-muted-foreground text-center">
-                  Questions adapt using smart sequencing — difficulty escalates based on your performance.
-                </p>
-                <Button
-                  size="lg"
-                  className="w-full"
-                  onClick={() => {
-                    setPhase('test');
-                    setQuestionStartTime(Date.now());
-                    setQuestionLoadTime(Date.now());
-                    void emitBehaviorEvent({
-                      userId: user?.id ?? '',
-                      eventType: 'SESSION_STARTED',
-                      sessionId: sessionIdRef.current,
-                      payload: { mode: 'diagnostic', question_count: QUESTION_COUNT },
-                    });
-                  }}
-                >
-                  Begin Diagnostic
+                {error && <p role="alert" className="text-sm text-destructive text-center">{error}</p>}
+                <Button size="lg" className="w-full" disabled={phase === 'starting' || !user} onClick={() => void begin()}>
+                  {phase === 'starting' ? 'Building your diagnostic…' : 'Begin Diagnostic'}
                 </Button>
               </CardContent>
             </Card>
@@ -456,169 +211,64 @@ export default function Assess() {
   if (phase === 'submitting') {
     return (
       <AppLayout>
-        <div className="flex flex-col items-center justify-center py-24 gap-6">
-          <div className="relative">
-            <div className="h-20 w-20 rounded-full border-4 border-primary/20 flex items-center justify-center">
-              <motion.div
-                animate={{ scale: [1, 1.2, 1] }}
-                transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
-              >
-                <AlertTriangle className="h-8 w-8 text-primary" />
-              </motion.div>
-            </div>
-            <motion.div
-              className="absolute inset-0 h-20 w-20 rounded-full border-4 border-transparent border-t-primary"
-              animate={{ rotate: 360 }}
-              transition={{ duration: 1.2, repeat: Infinity, ease: 'linear' }}
-            />
-          </div>
-          <div className="text-center space-y-2">
-            <p className="text-lg font-semibold font-display">Analyzing your clinical reasoning...</p>
-            <p className="text-sm text-muted-foreground">Building your performance profile</p>
-          </div>
+        <div className="flex flex-col items-center justify-center py-24 gap-4">
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+          <p className="text-lg font-semibold font-display">Grading and analysing your answers…</p>
         </div>
       </AppLayout>
     );
   }
 
   const question = questions[currentIndex];
-  if (!question) {
-    return (
-      <AppLayout>
-        <div className="flex flex-col items-center justify-center py-24 gap-4">
-          <AlertTriangle className="h-8 w-8 text-destructive" />
-          <p className="text-muted-foreground">No questions available. Please try again later.</p>
-          <Button onClick={() => navigate('/dashboard')}>Back to Dashboard</Button>
-        </div>
-      </AppLayout>
-    );
-  }
-
-  const options = question.options as string[];
-  const answeredCount = Object.keys(selectedAnswers).length;
-  const isLastQuestion = questions.length >= QUESTION_COUNT && currentIndex === questions.length - 1;
-  const answerChanges = changeSequences[currentIndex] ? Math.max(0, changeSequences[currentIndex].length - 1) : 0;
+  if (!question) return null;
+  const options = optionList(question.options);
+  const answeredCount = questions.filter((q, i) => q.answered_at || selectedAnswers[i]).length;
+  const isLast = currentIndex === questions.length - 1;
+  const locked = Boolean(question.answered_at);
 
   return (
     <AppLayout>
       <div className="mx-auto max-w-4xl">
-        {/* Intervention toast */}
-        {intervention && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="mb-4 flex items-center gap-3 rounded-lg border border-warning/30 bg-warning/5 p-3 text-sm"
-          >
-            <Lightbulb className="h-4 w-4 text-warning shrink-0" />
-            {intervention === 'trust_your_gut' && (
-              <span>💡 <strong>Trust Your Gut</strong> — Data shows your first instinct is often correct. Try committing to your initial choice.</span>
-            )}
-            {intervention === 'review_mode' && (
-              <span>📚 <strong>Take a breath</strong> — You've had a few tough ones. The next questions will be more approachable.</span>
-            )}
-          </motion.div>
-        )}
-
-        {/* Timer bar */}
         <div className="mb-6 space-y-2">
           <div className="flex items-center justify-between text-sm">
-            <span className="text-muted-foreground">
-              Question {currentIndex + 1} of {QUESTION_COUNT}
-              {question.difficulty_tier && (
-                <span className="ml-2 text-xs opacity-60">(Tier {question.difficulty_tier})</span>
-              )}
-            </span>
-            <span className={cn(
-              'font-mono font-bold',
-              timerPercent > 50 ? 'text-success' : timerPercent > 20 ? 'text-warning' : 'text-destructive'
-            )}>
-              <Clock className="inline h-4 w-4 mr-1" />
-              {formatTime(timeRemaining)}
+            <span className="text-muted-foreground">Question {currentIndex + 1} of {questions.length}</span>
+            <span className={cn('font-mono font-bold', timerPercent > 50 ? 'text-success' : timerPercent > 20 ? 'text-warning' : 'text-destructive')}>
+              <Clock className="inline h-4 w-4 mr-1" />{formatTime(timeRemaining)}
             </span>
           </div>
           <div className="h-2 w-full rounded-full bg-muted overflow-hidden">
-            <div className={cn('h-full rounded-full transition-all duration-1000', timerColor)} style={{ width: `${timerPercent}%` }} />
+            <div className={cn('h-full rounded-full transition-all duration-1000', timerPercent > 50 ? 'bg-success' : timerPercent > 20 ? 'bg-warning' : 'bg-destructive')} style={{ width: `${timerPercent}%` }} />
           </div>
         </div>
 
-        {/* Question navigator dots */}
         <div className="mb-6 flex flex-wrap gap-1.5">
-          {Array.from({ length: Math.max(questions.length, QUESTION_COUNT) }, (_, i) => (
-            <button
-              key={i}
-              onClick={() => i < questions.length && goToQuestion(i)}
-              disabled={i >= questions.length}
-              className={cn(
-                'h-7 w-7 rounded-md text-xs font-medium transition-all',
-                i === currentIndex
-                  ? 'bg-primary text-primary-foreground'
-                  : i < questions.length && selectedAnswers[i]
-                  ? 'bg-success/20 text-success border border-success/30'
-                  : i < questions.length
-                  ? 'bg-muted text-muted-foreground hover:bg-muted/80'
-                  : 'bg-muted/40 text-muted-foreground/30'
-              )}
-            >
+          {questions.map((q, i) => (
+            <button key={q.question_id} onClick={() => goToQuestion(i)}
+              className={cn('h-7 w-7 rounded-md text-xs font-medium transition-all',
+                i === currentIndex ? 'bg-primary text-primary-foreground'
+                  : q.answered_at || selectedAnswers[i] ? 'bg-success/20 text-success border border-success/30'
+                  : 'bg-muted text-muted-foreground hover:bg-muted/80')}>
               {i + 1}
             </button>
           ))}
         </div>
 
-        {/* Question card */}
         <AnimatePresence mode="wait">
-          <motion.div
-            key={currentIndex}
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -30 }}
-            transition={{ duration: 0.2 }}
-          >
+          <motion.div key={currentIndex} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -30 }} transition={{ duration: 0.2 }}>
             <Card>
               <CardHeader>
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary">
-                    {question.category}
-                  </span>
-                  <span className={cn(
-                    'rounded-full px-2.5 py-0.5 text-xs font-medium',
-                    question.difficulty === 'easy' ? 'bg-success/10 text-success' :
-                    question.difficulty === 'hard' ? 'bg-destructive/10 text-destructive' :
-                    'bg-warning/10 text-warning'
-                  )}>
-                    {question.difficulty}
-                  </span>
-                  {answerChanges > 0 && (
-                    <span className="rounded-full bg-warning/10 px-2.5 py-0.5 text-xs font-medium text-warning">
-                      {answerChanges} change{answerChanges > 1 ? 's' : ''}
-                    </span>
-                  )}
-                </div>
-                <CardTitle className="text-lg font-normal leading-relaxed">
-                  {question.question_text}
-                </CardTitle>
+                <CardTitle className="text-lg font-normal leading-relaxed">{question.stem}</CardTitle>
+                {locked && <p className="text-xs text-muted-foreground">Already submitted.</p>}
               </CardHeader>
               <CardContent className="space-y-3">
                 {options.map((option, optIndex) => {
                   const letter = String.fromCharCode(65 + optIndex);
                   const isSelected = selectedAnswers[currentIndex] === letter;
                   return (
-                    <button
-                      key={optIndex}
-                      onClick={() => selectAnswer(letter)}
-                      className={cn(
-                        'w-full rounded-lg border p-4 text-left transition-all text-sm',
-                        isSelected
-                          ? 'border-primary bg-primary/5 ring-2 ring-primary/20'
-                          : 'border-border hover:border-primary/30 hover:bg-muted/50'
-                      )}
-                    >
-                      <span className={cn(
-                        'mr-3 inline-flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold',
-                        isSelected ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'
-                      )}>
-                        {letter}
-                      </span>
+                    <button key={optIndex} disabled={locked} onClick={() => selectAnswer(letter)}
+                      className={cn('w-full rounded-lg border p-4 text-left transition-all text-sm',
+                        isSelected ? 'border-primary bg-primary/5 ring-2 ring-primary/20' : 'border-border hover:border-primary/30 hover:bg-muted/50')}>
+                      <span className={cn('mr-3 inline-flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold', isSelected ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground')}>{letter}</span>
                       {option.replace(/^[A-E]\.\s*/, '')}
                     </button>
                   );
@@ -628,24 +278,16 @@ export default function Assess() {
           </motion.div>
         </AnimatePresence>
 
-        {/* Navigation */}
         <div className="mt-6 flex items-center justify-between">
           <Button variant="ghost" onClick={() => goToQuestion(currentIndex - 1)} disabled={currentIndex === 0} className="gap-1">
             <ChevronLeft className="h-4 w-4" /> Previous
           </Button>
-
-          <span className="text-sm text-muted-foreground">
-            {answeredCount}/{QUESTION_COUNT} answered
-          </span>
-
-          {!isLastQuestion ? (
-            <Button onClick={handleNext} className="gap-1">
-              Next <ChevronRight className="h-4 w-4" />
-            </Button>
+          <span className="text-sm text-muted-foreground">{answeredCount}/{questions.length} answered</span>
+          {!isLast ? (
+            <Button onClick={() => goToQuestion(currentIndex + 1)} className="gap-1">Next <ChevronRight className="h-4 w-4" /></Button>
           ) : (
-            <Button onClick={handleSubmit} className="gap-1" variant={answeredCount === QUESTION_COUNT ? 'default' : 'outline'}>
-              <Lock className="h-4 w-4" />
-              Submit ({answeredCount}/{QUESTION_COUNT})
+            <Button onClick={() => void handleSubmit()} className="gap-1" variant={answeredCount === questions.length ? 'default' : 'outline'}>
+              <Lock className="h-4 w-4" /> Submit ({answeredCount}/{questions.length})
             </Button>
           )}
         </div>

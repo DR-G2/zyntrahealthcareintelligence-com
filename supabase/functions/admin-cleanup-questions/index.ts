@@ -1,10 +1,10 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
+import { adminCorsHeaders, hasAdminRole, normaliseEmail, parseAllowedOrigins } from "../_shared/admin-gate.ts";
+import { attemptDeletionConfirmed, deleteQuestionsGuarded } from "../_shared/question-delete-guard.ts";
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
-};
+// CORS: app origins only (ADMIN_ALLOWED_ORIGINS, comma-separated; default www + apex app domain).
+const allowedOrigins = parseAllowedOrigins(Deno.env.get("ADMIN_ALLOWED_ORIGINS") ?? Deno.env.get("ADMIN_ALLOWED_ORIGIN"));
 
 // Placeholder patterns to detect template markers
 const PLACEHOLDER_REGEX = /\{(age|gender|symptom|diagnosis|treatment|condition|drug|finding|sign|test|result|location|duration|history|complaint|presentation|examination|investigation|lab|imaging)\}/gi;
@@ -30,6 +30,7 @@ const TEMPLATE_PATTERNS = [
 ];
 
 serve(async (req) => {
+  const corsHeaders = adminCorsHeaders(req.headers.get("Origin"), allowedOrigins);
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
@@ -49,10 +50,17 @@ serve(async (req) => {
       return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
-    const { data: adminRole } = await supabase.from("admin_roles").select("role").eq("email", userData.user.email).maybeSingle();
-    if (!adminRole || adminRole.role !== "super_admin") {
+    // Exact admin match, lower-case on both sides (no LIKE), super_admin only.
+    const callerEmail = normaliseEmail(userData.user.email);
+    const { data: adminRole } = await supabase.from("admin_roles").select("role, email").eq("email", callerEmail ?? "").maybeSingle();
+    if (!hasAdminRole(adminRole, callerEmail, ["super_admin"])) {
       return new Response(JSON.stringify({ error: "Forbidden - Super Admin only" }), { status: 403, headers: corsHeaders });
     }
+
+    // Questions that have learner attempts are RETAINED (user_attempts cascades from questions)
+    // unless the caller sends confirm_delete_user_attempts: "DELETE_LEARNER_ATTEMPTS".
+    const body = await req.json().catch(() => ({}));
+    const allowAttemptDeletion = attemptDeletionConfirmed(body);
 
     const summary = {
       total_before: 0,
@@ -66,6 +74,8 @@ serve(async (req) => {
       weak_stems_deleted: 0,
       invalid_json_deleted: 0,
       missing_explanation_deleted: 0,
+      retained_with_attempts: 0,
+      attempts_deleted: false,
     };
 
     // Fetch ALL questions
@@ -190,19 +200,10 @@ serve(async (req) => {
       }
     }
 
-    // EXECUTE DELETES in batches
-    if (idsToDelete.size > 0) {
-      const deleteIds = Array.from(idsToDelete);
-      for (let i = 0; i < deleteIds.length; i += 100) {
-        const batch = deleteIds.slice(i, i + 100);
-        await supabase.from("bookmarks").delete().in("question_id", batch);
-        await supabase.from("user_notes").delete().in("question_id", batch);
-        await supabase.from("user_attempts").delete().in("question_id", batch);
-        await supabase.from("question_difficulty_tiers").delete().in("question_id", batch);
-        await supabase.from("question_dna").delete().in("question_id", batch);
-        await supabase.from("questions").delete().in("id", batch);
-      }
-    }
+    // EXECUTE DELETES (guarded: never deletes user_attempts unless explicitly confirmed)
+    const guarded = await deleteQuestionsGuarded(supabase, Array.from(idsToDelete), allowAttemptDeletion);
+    summary.retained_with_attempts = guarded.retained_with_attempts.length;
+    summary.attempts_deleted = guarded.attempts_deleted;
 
     // EXECUTE FIXES in batches
     for (let i = 0; i < idsToFix.length; i += 50) {
@@ -212,7 +213,7 @@ serve(async (req) => {
       ));
     }
 
-    summary.deleted = idsToDelete.size;
+    summary.deleted = guarded.deleted.length;
 
     // Get final count
     const { count: finalCount } = await supabase.from("questions").select("id", { count: "exact", head: true });
@@ -226,7 +227,7 @@ serve(async (req) => {
     await supabase.from("admin_activity_logs").insert({
       admin_email: userData.user.email,
       action_type: "full_data_cleanup",
-      details: { summary },
+      details: { summary, retained_question_ids: guarded.retained_with_attempts.slice(0, 500) },
     });
 
     return new Response(JSON.stringify({
@@ -236,8 +237,8 @@ serve(async (req) => {
     }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
-  } catch (e: any) {
-    return new Response(JSON.stringify({ error: e.message }), {
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e instanceof Error ? e.message : String(e) }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });

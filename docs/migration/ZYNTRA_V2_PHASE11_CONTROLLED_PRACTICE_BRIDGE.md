@@ -40,6 +40,17 @@ The V2 RPCs are authenticated-only and do not expose correct_answer.
 
 No Supabase service-role key belongs in the browser or repository.
 
-## Next phase
+## Current architecture
 
-The final cutover should move question delivery itself from the legacy questions table to get_practice_session_questions(), remove client-side correct-answer dependency from the active drill, and then retire the legacy Practice write path after validation.
+The V2 Practice engine uses the existing normal/legacy question bank as its single content source. V2 does not select from or load a separate V2 question pool in the browser.
+
+When V2 mode is enabled:
+
+1. Existing Practice selects the normal question bank using the same topic/status/adaptive pipeline.
+2. The learner-facing V2 state is populated from that normal bank with `correct_answer` removed.
+3. A V2 practice session is created for the selected question IDs.
+4. Answers and confidence are sent through the V2 attempt boundary.
+5. V2 remains responsible for authenticated session ownership and server-authoritative correctness.
+6. Legacy remains the rollback path.
+
+The V2 content tables are no longer a question-selection source for Practice. They should be treated as migration-era backing data until the V2 database schema is fully decoupled from question-content storage.

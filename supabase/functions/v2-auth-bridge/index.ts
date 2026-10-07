@@ -6,15 +6,34 @@ const LEGACY_AUTH_URL = "https://yudkfmgilucyhukfggij.supabase.co/auth/v1/user";
 const allowedOrigins = new Set([
   "https://www.zyntrahealthcareintelligence.com",
   "https://zyntrahealthcareintelligence.com",
+  "https://www.zyntrahealthcareintelligence.org",
+  "https://zyntrahealthcareintelligence.org",
+  "https://zyntrahealthcareintelligence-com.vercel.app",
+  "https://zyntrahealthcareintelligence-com-rite4hire-9533s-projects.vercel.app",
   "https://zyntrahealthcareintelligence.netlify.app",
   "https://deploy-preview-53--zyntrahealthcareintelligence.netlify.app",
 ]);
 
+function isAllowedOrigin(origin: string | null): boolean {
+  if (!origin || !allowedOrigins.has(origin)) {
+    if (!origin) return false;
+    try {
+      const url = new URL(origin);
+      return url.protocol === "https:"
+        && url.hostname.includes("zyntrahealthcareintelligence")
+        && url.hostname.endsWith("-rite4hire-9533s-projects.vercel.app");
+    } catch {
+      return false;
+    }
+  }
+  return true;
+}
+
 const corsFor = (origin: string | null) => ({
-  "Access-Control-Allow-Origin": origin && allowedOrigins.has(origin)
-    ? origin
+  "Access-Control-Allow-Origin": isAllowedOrigin(origin)
+    ? origin!
     : "https://www.zyntrahealthcareintelligence.com",
-  "Access-Control-Allow-Headers": "authorization, apikey, content-type",
+  "Access-Control-Allow-Headers": "authorization, apikey, content-type, x-legacy-apikey",
   "Access-Control-Allow-Methods": "POST, OPTIONS",
   "Vary": "Origin",
 });

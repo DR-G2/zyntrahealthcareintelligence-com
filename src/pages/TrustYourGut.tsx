@@ -23,8 +23,10 @@ import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/
 import { XAxis, YAxis, AreaChart, Area } from 'recharts';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
+import { Link } from 'react-router-dom';
 import { useFeatureGate } from '@/hooks/useFeatureGate';
 import { UpgradePrompt } from '@/components/UpgradePrompt';
+import { fetchLegacyShapedHistory } from '@/lib/pie/pie-history-client';
 
 interface AttemptWithQuestion {
   id: string;
@@ -58,27 +60,13 @@ interface CategoryBreakdown {
 export default function TrustYourGut() {
   const { user } = useAuth();
   const gate = useFeatureGate();
-  const [trainingMode, setTrainingMode] = useState(false);
-  const [trainingQuestions, setTrainingQuestions] = useState<any[]>([]);
-  const [currentTrainingIndex, setCurrentTrainingIndex] = useState(0);
-  const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
-  const [confirmed, setConfirmed] = useState(false);
-  const [decisionTimer, setDecisionTimer] = useState(3);
-  const [showFeedback, setShowFeedback] = useState(false);
-  const [trainingResults, setTrainingResults] = useState<{ correct: number; total: number }>({ correct: 0, total: 0 });
-
   // Fetch user attempts with questions
   const { data: attempts = [], isLoading } = useQuery({
     queryKey: ['trust-gut-attempts', user?.id],
     queryFn: async () => {
       if (!user) return [];
-      const { data, error } = await supabase
-        .from('user_attempts')
-        .select('id, question_id, selected_answer, is_correct, answer_changes_count, change_sequence, created_at, session_id, questions(correct_answer, category)')
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: true });
-      
-      if (error) throw error;
+      // P5: PIE attempts only; keys only for answered questions (get_my_attempt_history).
+      const data = await fetchLegacyShapedHistory(5000, 'asc');
       return (data || []).map(a => ({
         ...a,
         change_sequence: Array.isArray(a.change_sequence) ? a.change_sequence : [],
@@ -86,19 +74,6 @@ export default function TrustYourGut() {
       })) as AttemptWithQuestion[];
     },
     enabled: !!user
-  });
-
-  // Fetch questions for training mode
-  const { data: allQuestions = [] } = useQuery({
-    queryKey: ['training-questions'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('questions')
-        .select('id, question_text, options, correct_answer, category')
-        .limit(100);
-      if (error) throw error;
-      return data || [];
-    }
   });
 
   // Compute stats
@@ -219,53 +194,6 @@ export default function TrustYourGut() {
       }));
   }, [attempts]);
 
-  // Training mode logic
-  const startTraining = () => {
-    const shuffled = [...allQuestions].sort(() => Math.random() - 0.5).slice(0, 10);
-    setTrainingQuestions(shuffled);
-    setCurrentTrainingIndex(0);
-    setSelectedAnswer(null);
-    setConfirmed(false);
-    setShowFeedback(false);
-    setTrainingResults({ correct: 0, total: 0 });
-    setTrainingMode(true);
-    setDecisionTimer(3);
-  };
-
-  const confirmAnswer = () => {
-    if (!selectedAnswer) return;
-    setConfirmed(true);
-    const currentQ = trainingQuestions[currentTrainingIndex];
-    const isCorrect = selectedAnswer === currentQ.correct_answer;
-    setShowFeedback(true);
-    setTrainingResults(prev => ({
-      correct: prev.correct + (isCorrect ? 1 : 0),
-      total: prev.total + 1
-    }));
-  };
-
-  const nextQuestion = () => {
-    if (currentTrainingIndex < trainingQuestions.length - 1) {
-      setCurrentTrainingIndex(prev => prev + 1);
-      setSelectedAnswer(null);
-      setConfirmed(false);
-      setShowFeedback(false);
-      setDecisionTimer(3);
-    } else {
-      setTrainingMode(false);
-    }
-  };
-
-  // Decision timer countdown
-  useEffect(() => {
-    if (trainingMode && !confirmed && selectedAnswer && decisionTimer > 0) {
-      const timer = setTimeout(() => setDecisionTimer(prev => prev - 1), 1000);
-      return () => clearTimeout(timer);
-    }
-  }, [trainingMode, confirmed, selectedAnswer, decisionTimer]);
-
-  const currentQuestion = trainingQuestions[currentTrainingIndex];
-
   const chartConfig = {
     firstInstinct: { label: 'First Instinct', color: 'hsl(var(--primary))' },
     final: { label: 'Final Answer', color: 'hsl(var(--muted-foreground))' }
@@ -289,163 +217,12 @@ export default function TrustYourGut() {
 
   return (
     <div className="space-y-6">
-        <div className="flex justify-end"><Button onClick={startTraining} className="w-full shrink-0 gap-2 sm:w-auto">
-            <Play className="h-4 w-4" />
-            Start Training
+        {/* P5: the old client-graded "training" retake was removed (it read answer keys in the
+            browser and recorded nothing). First-instinct training now happens in PIE Practice,
+            where every answer is server-graded and counts as evidence. */}
+        <div className="flex justify-end"><Button asChild className="w-full shrink-0 gap-2 sm:w-auto">
+            <Link to="/practice"><Play className="h-4 w-4" />Train in Practice</Link>
           </Button></div>
-
-        {/* Training Mode Overlay */}
-        <AnimatePresence>
-          {trainingMode && currentQuestion && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 z-50 bg-background/95 backdrop-blur-sm flex items-center justify-center p-6"
-            >
-              <Card className="w-full max-w-3xl">
-                <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <Badge variant="outline">
-                      Question {currentTrainingIndex + 1} of {trainingQuestions.length}
-                    </Badge>
-                    <Button variant="ghost" size="sm" onClick={() => setTrainingMode(false)}>
-                      Exit Training
-                    </Button>
-                  </div>
-                  <CardTitle className="text-lg mt-4">{currentQuestion.question_text}</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  {/* Decision timer indicator */}
-                  {!confirmed && selectedAnswer && (
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <Clock className="h-4 w-4" />
-                      <span>Decide in {decisionTimer}s — trust your gut!</span>
-                      <Progress value={(decisionTimer / 3) * 100} className="h-2 flex-1 max-w-32" />
-                    </div>
-                  )}
-
-                  {/* Options */}
-                  <div className="space-y-2">
-                    {Object.entries(currentQuestion.options as Record<string, string>).map(([key, value]) => {
-                      const isSelected = selectedAnswer === key;
-                      const isCorrect = key === currentQuestion.correct_answer;
-                      
-                      let optionClass = 'border-border hover:border-primary/50';
-                      if (showFeedback) {
-                        if (isCorrect) optionClass = 'border-green-500 bg-green-500/10';
-                        else if (isSelected && !isCorrect) optionClass = 'border-red-500 bg-red-500/10';
-                      } else if (isSelected) {
-                        optionClass = 'border-primary bg-primary/10';
-                      }
-
-                      return (
-                        <button
-                          key={key}
-                          disabled={confirmed}
-                          onClick={() => {
-                            if (!confirmed) {
-                              setSelectedAnswer(key);
-                              setDecisionTimer(3);
-                            }
-                          }}
-                          className={`w-full text-left p-4 rounded-lg border-2 transition-all ${optionClass} ${confirmed ? 'cursor-default' : 'cursor-pointer'}`}
-                        >
-                          <span className="font-medium">{key}.</span> {value}
-                        </button>
-                      );
-                    })}
-                  </div>
-
-                  {/* Feedback */}
-                  {showFeedback && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className={`p-4 rounded-lg ${selectedAnswer === currentQuestion.correct_answer ? 'bg-green-500/10 border border-green-500/30' : 'bg-red-500/10 border border-red-500/30'}`}
-                    >
-                      <div className="flex items-center gap-2 font-medium">
-                        {selectedAnswer === currentQuestion.correct_answer ? (
-                          <>
-                            <CheckCircle2 className="h-5 w-5 text-green-500" />
-                            <span className="text-green-700 dark:text-green-400">Your first instinct was correct!</span>
-                          </>
-                        ) : (
-                          <>
-                            <XCircle className="h-5 w-5 text-red-500" />
-                            <span className="text-red-700 dark:text-red-400">Your first instinct was incorrect</span>
-                          </>
-                        )}
-                      </div>
-                    </motion.div>
-                  )}
-
-                  {/* Actions */}
-                  <div className="flex justify-end gap-2 pt-4">
-                    {!confirmed ? (
-                      <Button onClick={confirmAnswer} disabled={!selectedAnswer}>
-                        Lock In Answer
-                      </Button>
-                    ) : (
-                      <Button onClick={nextQuestion}>
-                        {currentTrainingIndex < trainingQuestions.length - 1 ? (
-                          <>Next Question <ArrowRight className="h-4 w-4 ml-2" /></>
-                        ) : (
-                          'Finish Training'
-                        )}
-                      </Button>
-                    )}
-                  </div>
-
-                  {/* Progress */}
-                  {confirmed && (
-                    <div className="text-center text-sm text-muted-foreground">
-                      Score: {trainingResults.correct}/{trainingResults.total}
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Training Complete Modal */}
-        <AnimatePresence>
-          {!trainingMode && trainingResults.total > 0 && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            >
-              <Card className="border-primary/30 bg-primary/5">
-                <CardContent className="py-6">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                      <div className="h-12 w-12 rounded-full bg-primary/20 flex items-center justify-center">
-                        <Award className="h-6 w-6 text-primary" />
-                      </div>
-                      <div>
-                        <h3 className="font-semibold">Training Complete!</h3>
-                        <p className="text-muted-foreground">
-                          You got {trainingResults.correct} out of {trainingResults.total} correct using your first instinct
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex gap-2">
-                      <Button variant="outline" onClick={() => setTrainingResults({ correct: 0, total: 0 })}>
-                        Dismiss
-                      </Button>
-                      <Button onClick={startTraining}>
-                        <RotateCcw className="h-4 w-4 mr-2" />
-                        Train Again
-                      </Button>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          )}
-        </AnimatePresence>
 
         {/* Stats Overview */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">

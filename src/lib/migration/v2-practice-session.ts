@@ -34,12 +34,23 @@ export interface V2PracticeQuestion {
 
 export async function ensureV2Session(): Promise<void> {
   const v2 = getSupabaseV2();
-  const { data: existing } = await v2.auth.getSession();
-  if (existing.session?.user?.email) return;
-
   const { data: legacySession } = await supabase.auth.getSession();
   const legacyAccessToken = legacySession.session?.access_token;
-  if (!legacyAccessToken) throw new Error('Your current Zyntra session has expired. Please sign in again.');
+  const legacyEmail = legacySession.session?.user?.email?.toLowerCase() ?? '';
+
+  const { data: existing } = await v2.auth.getSession();
+  const existingEmail = existing.session?.user?.email?.toLowerCase() ?? '';
+
+  if (!legacyAccessToken) {
+    // Never keep acting as a V2 identity once the Zyntra session is gone.
+    if (existing.session) await v2.auth.signOut({ scope: 'local' }).catch(() => undefined);
+    throw new Error('Your current Zyntra session has expired. Please sign in again.');
+  }
+
+  // The persisted V2 session must belong to the currently signed-in Zyntra user.
+  // A stale V2 session from another account on the same browser is discarded.
+  if (existingEmail && legacyEmail && existingEmail === legacyEmail) return;
+  if (existing.session) await v2.auth.signOut({ scope: 'local' }).catch(() => undefined);
 
   const response = await fetch(
     `${import.meta.env.VITE_SUPABASE_V2_URL}/functions/v1/v2-auth-bridge`,
@@ -60,7 +71,7 @@ export async function ensureV2Session(): Promise<void> {
 
   const { error } = await v2.auth.verifyOtp({
     token_hash: payload.token_hash,
-    type: 'magiclink',
+    type: 'email',
   });
   if (error) throw new Error(error.message || 'V2 admin authentication could not be established.');
 
@@ -68,55 +79,17 @@ export async function ensureV2Session(): Promise<void> {
   if (!verified.session) throw new Error('V2 authentication completed without an active session.');
 }
 
-export async function getV2PracticeQuestionPool(limit = 100): Promise<V2PracticeQuestion[]> {
-  const { data, error } = await getSupabaseV2().rpc('get_practice_question_pool', {
-    p_limit: limit,
-  });
-
-  if (error) throw new Error(error.message || 'V2 Practice question pool could not be loaded.');
-  return (data || []).map((q: any, index: number) => ({
-    session_question_id: '',
-    session_id: '',
-    question_id: q.id,
-    question_position: index,
-    presented_at: null,
-    answered_at: null,
-    zyntra_id: q.zyntra_id,
-    stem: q.stem,
-    options: q.options,
-    explanation: q.explanation,
-    subject_id: q.subject_id,
-    subtopic_id: q.subtopic_id,
-    difficulty_tier: q.difficulty_tier,
-    version: q.version,
-  })) as V2PracticeQuestion[];
+/** Best-effort local V2 sign-out, used when the Zyntra session ends. Never throws. */
+export async function signOutV2Local(): Promise<void> {
+  try {
+    await getSupabaseV2().auth.signOut({ scope: 'local' });
+  } catch {
+    // V2 may be unconfigured in this build; nothing to clear.
+  }
 }
 
-export async function createV2PracticeSession(
-  sessionType: string,
-  config: Record<string, unknown>,
-  questionIds: string[],
-): Promise<V2PracticeSession> {
-  if (!questionIds.length) throw new Error('V2 Practice requires at least one question.');
-
-  const { data, error } = await getSupabaseV2().rpc('create_practice_session', {
-    p_session_type: sessionType,
-    p_config: config,
-    p_question_ids: questionIds,
-  });
-
-  if (error) throw new Error(error.message || 'V2 Practice session could not be created.');
-  return data as V2PracticeSession;
-}
-
-export async function getV2PracticeQuestions(sessionId: string): Promise<V2PracticeQuestion[]> {
-  const { data, error } = await getSupabaseV2().rpc('get_practice_session_questions', {
-    p_session_id: sessionId,
-  });
-
-  if (error) throw new Error(error.message || 'V2 Practice questions could not be loaded.');
-  return (data || []) as V2PracticeQuestion[];
-}
+// P5: the client-chosen-ids session creator (create_practice_session) was
+// removed; sessions are created only by the PIE server RPC pie_create_session.
 
 export interface V2PracticeResult extends V2PracticeQuestion {
   correct_answer: string;
@@ -153,14 +126,35 @@ export async function completeV2PracticeSession(sessionId: string): Promise<V2Pr
   if (error) throw new Error(error.message || 'V2 Practice session could not be completed.');
 
   // Intelligence is deliberately best-effort. A readiness rebuild must never block answer/session completion.
+  // PIE is rebuilt through the authenticated public wrapper (auth.uid() must equal p_user_id);
+  // the internal pie schema is never called from the browser.
   try {
-    await Promise.allSettled([
-      getSupabaseV2().rpc('refresh_candidate_intelligence'),
-      getSupabaseV2().rpc('rebuild_candidate_state', { p_user_id: data?.user_id }),
+    const v2 = getSupabaseV2();
+    const [refresh, rebuild] = await Promise.allSettled([
+      v2.rpc('refresh_candidate_intelligence'),
+      data?.user_id
+        ? v2.rpc('rebuild_candidate_state', { p_user_id: data.user_id })
+        : Promise.resolve({ data: null, error: { message: 'Completed session returned no user_id' } }),
     ]);
+    if (refresh.status === 'rejected' || refresh.value.error) {
+      console.warn('[V2] Canonical intelligence refresh failed (non-blocking):',
+        refresh.status === 'rejected' ? refresh.reason : refresh.value.error);
+    }
+    if (rebuild.status === 'rejected' || rebuild.value.error) {
+      console.warn('[PIE] Candidate-state rebuild after session completion failed (non-blocking):',
+        rebuild.status === 'rejected' ? rebuild.reason : rebuild.value.error);
+    }
   } catch (intelligenceError) {
     console.warn('[V2] Candidate intelligence refresh skipped:', intelligenceError);
   }
 
   return data as V2PracticeSession;
+}
+
+/** B1 (PR #56): audited server-side erase of the caller's own learning data. */
+export async function eraseMyLearningDataV2(): Promise<Record<string, number>> {
+  await ensureV2Session();
+  const { data, error } = await getSupabaseV2().rpc('erase_my_learning_data', { p_confirm: 'ERASE_MY_LEARNING_DATA' });
+  if (error) throw new Error(error.message || 'Learning data erase failed.');
+  return (data ?? {}) as Record<string, number>;
 }
