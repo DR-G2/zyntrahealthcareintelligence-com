@@ -11,6 +11,10 @@ Status: draft, pending owner review. All items are original. None are copied fro
 - Difficulty: 10 easy, 25 moderate, 15 difficult.
 - Answer key spread: A, B, C, D and E each appear 10 times (shuffled with seed 301).
 
+## Revision 2 (7 Oct 2026 IST)
+- Task mix rebalanced to 17 management, 17 data gathering and 16 data interpretation. Changed: ZQ-0303, 0308, 0311, 0314, 0316, 0318, 0322, 0328 and 0343 to data gathering; ZQ-0301 and 0340 to data interpretation.
+- All 26 flags re-checked. ZQ-0311, 0314, 0316, 0328 and 0348 were rewritten to verifiable topics. The rest were verified against the URLs cited. No flags remain. Each item's `reviewer_notes` records any non-Australian or paediatric source.
+
 ## Sources
 Guideline-dependent keys were checked against live pages on 7 Oct 2026 (IST), and the URL actually read is cited in `guideline_reference`. Items marked `flag_source_check` are ones where no primary source could be read while writing. In those items, `reviewer_notes` explains why. These need clinician source checking before activation.
 
