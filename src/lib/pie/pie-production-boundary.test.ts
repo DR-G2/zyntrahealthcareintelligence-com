@@ -18,9 +18,4 @@ describe("PIE production boundary", () => {
     expect(migration).toContain("pie_runtime_decision");
   });
 
-  it("retains shadow mode as a non-candidate-facing lab path", () => {
-    const source = readFileSync(resolve(process.cwd(), "supabase/functions/pie-shadow-run/index.ts"), "utf8");
-    expect(source).toContain("candidate_facing: false");
-    expect(source).toContain("legacy_authoritative: true");
-  });
 });

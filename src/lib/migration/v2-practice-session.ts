@@ -164,3 +164,11 @@ export async function completeV2PracticeSession(sessionId: string): Promise<V2Pr
 
   return data as V2PracticeSession;
 }
+
+/** B1 (PR #56): audited server-side erase of the caller's own learning data. */
+export async function eraseMyLearningDataV2(): Promise<Record<string, number>> {
+  await ensureV2Session();
+  const { data, error } = await getSupabaseV2().rpc('erase_my_learning_data', { p_confirm: 'ERASE_MY_LEARNING_DATA' });
+  if (error) throw new Error(error.message || 'Learning data erase failed.');
+  return (data ?? {}) as Record<string, number>;
+}

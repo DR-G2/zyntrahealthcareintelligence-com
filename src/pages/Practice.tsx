@@ -26,9 +26,11 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/component
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { buildPracticeTopicResolver, normalizeTopicLabel, resolvePracticeQuestionPlacement } from '@/lib/practice-topic-mapping';
 import { emitBehaviorEvent } from '@/lib/telemetry';
-import { syncPieEngine } from '@/lib/pie/shadow-client';
+import { syncPieEngine } from '@/lib/pie/pie-engine-client';
+import { PieDiagnosticError, describePieFailure, pieSyncFailure, reportPieFailure, requireV2SessionId } from '@/lib/pie/pie-diagnostics';
 import { createV2PracticeSession, getV2PracticeResults, resumeV2PracticeSession, completeV2PracticeSession, ensureV2Session } from '@/lib/migration/v2-practice-session';
 import { saveAttemptToV2 } from '@/lib/migration/v2-practice-adapter';
+import { persistAttemptsViaV2 } from '@/lib/migration/v2-attempt-writer';
 import { ADMIN_EMAILS } from '@/lib/admin-emails';
 
 interface Question {
@@ -871,6 +873,7 @@ function DrillSession({
       try {
         // Check for resume
       if (resumeSessionId && user) {
+        let restoringV2 = false;
         try {
           const { data: session } = await supabase
             .from('active_sessions')
@@ -892,7 +895,8 @@ function DrillSession({
 
             const { data: qs } = await supabase
               .from('questions')
-               .select(sessionUsesV2 ? 'id, zyntra_id, question_text, options, explanation, category, subtopic, difficulty, diagnosis_explanation, first_line_investigation, gold_standard_investigation, best_treatment, differential_diagnoses, incorrect_answer_explanations, key_takeaways' : 'id, zyntra_id, question_text, options, correct_answer, explanation, category, subtopic, difficulty, diagnosis_explanation, first_line_investigation, gold_standard_investigation, best_treatment, differential_diagnoses, incorrect_answer_explanations, key_takeaways')
+               // Column list is chosen at runtime; typed as '*' to avoid TS2590 on the union.
+               .select((sessionUsesV2 ? 'id, zyntra_id, question_text, options, explanation, category, subtopic, difficulty, diagnosis_explanation, first_line_investigation, gold_standard_investigation, best_treatment, differential_diagnoses, incorrect_answer_explanations, key_takeaways' : 'id, zyntra_id, question_text, options, correct_answer, explanation, category, subtopic, difficulty, diagnosis_explanation, first_line_investigation, gold_standard_investigation, best_treatment, differential_diagnoses, incorrect_answer_explanations, key_takeaways') as '*')
               .in('id', allIds);
 
             if (qs && qs.length > 0) {
@@ -923,9 +927,12 @@ function DrillSession({
               const restoredSessionConfig = session.config && typeof session.config === 'object'
                 ? session.config as Record<string, unknown>
                 : {};
-              if (sessionUsesV2 && typeof restoredSessionConfig.v2SessionId === 'string') {
+              if (sessionUsesV2) {
+                restoringV2 = true;
+                // A V2 session never silently downgrades to the legacy restore path.
+                const v2SessionId = requireV2SessionId(restoredSessionConfig);
                 await ensureV2Session();
-                const v2Session = await resumeV2PracticeSession(restoredSessionConfig.v2SessionId);
+                const v2Session = await resumeV2PracticeSession(v2SessionId);
                 v2SessionIdRef.current = v2Session.id;
                 // V2 uses the existing normal question bank for content delivery.
                 // The V2 session remains the secure telemetry/correctness boundary.
@@ -968,6 +975,16 @@ function DrillSession({
           }
         } catch (e) {
           console.error('Resume failed', e);
+          if (restoringV2) {
+            // Hard, observable failure: do not fall through to a fresh or legacy session.
+            const failure = e instanceof PieDiagnosticError
+              ? e.failure
+              : { code: 'PIE_V2_RESUME_FAILED' as const, stage: 'resume', message: (e as any)?.message || 'V2 session could not be resumed.', at: new Date().toISOString() };
+            reportPieFailure(failure);
+            setLoadError(`${describePieFailure(failure).title}: ${failure.message}`);
+            setLoading(false);
+            return;
+          }
         }
       }
 
@@ -1058,7 +1075,7 @@ function DrillSession({
             .eq('user_id', user.id)
             .in('question_id', filteredCandidateIds)
             .order('created_at', { ascending: false })
-            .limit(2000);
+            .limit(2000) as unknown as typeof historyResult;
         }
 
         if (historyResult.error) throw historyResult.error;
@@ -1565,24 +1582,22 @@ function DrillSession({
         question_position: i,
         previous_question_correct: i > 0 ? (selectedAnswers[i - 1] === questions[i - 1]?.correct_answer) : null,
       }));
-      // Confidence telemetry is additive. If an older live database has not yet
-      // applied the confidence migration, preserve the authoritative answer write
-      // instead of blocking submission. The confidence UI remains available and
-      // will persist automatically once the column exists.
-      let attemptInsertError = (await supabase.from('user_attempts').insert(inserts as any)).error;
+      // B1 (PR #56): attempts are persisted only through the V2 server-graded RPCs.
+      // No direct user_attempts write and no fallback: a failure throws and the
+      // submission stays retryable (catch below).
+      await persistAttemptsViaV2('mcq', { mode: config.mode, selection: 'legacy-client-ranker' }, inserts.map((a) => ({
+        questionId: a.question_id,
+        selectedAnswer: a.selected_answer,
+        timeTakenSeconds: a.time_taken_seconds,
+        confidenceLevel: a.confidence_level,
+        answerChangesCount: a.answer_changes_count,
+        timeToFirstClick: a.time_to_first_click,
+        changeSequence: a.change_sequence,
+        pauseEvents: a.pause_events ? [a.pause_events] : [],
+        questionPosition: a.question_position,
+      })));
 
-      if (attemptInsertError && /confidence_level.*column|column.*confidence_level|schema cache/i.test(attemptInsertError.message || '')) {
-        console.warn('[Practice] confidence_level is unavailable in the live schema; retrying answer persistence without confidence telemetry.');
-        const legacyInserts = inserts.map(({ confidence_level: _confidence, ...attempt }) => attempt);
-        attemptInsertError = (await supabase.from('user_attempts').insert(legacyInserts as any)).error;
-      }
-
-      if (attemptInsertError) {
-        console.error('[Practice] user_attempts insert failed', attemptInsertError);
-        throw new Error(attemptInsertError.message || 'Unable to save your answers.');
-      }
-
-      // The attempt INSERT is the source of truth. Only after it succeeds do
+      // The server-graded V2 write is the source of truth. Only after it succeeds do
       // we retire the resumable session and emit downstream telemetry.
       await deleteSession();
 
@@ -1615,7 +1630,10 @@ function DrillSession({
 
       // Refresh PIE after authoritative attempts are persisted. PIE is downstream intelligence,
       // so a PIE failure never blocks answer persistence or session completion.
-      void syncPieEngine();
+      void syncPieEngine().then((result) => {
+        const failure = pieSyncFailure(result);
+        if (failure) toast({ ...describePieFailure(failure), variant: 'destructive' });
+      });
       if (!v2PracticeEnabled) {
         supabase.functions.invoke('analyze-behavior').catch(console.error);
       }

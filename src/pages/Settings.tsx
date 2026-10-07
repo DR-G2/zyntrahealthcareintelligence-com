@@ -31,6 +31,7 @@ import { ReferralCard } from '@/components/settings/ReferralCard';
 import { StrikeWarning } from '@/components/settings/StrikeWarning';
 import { LEGAL_EMAIL } from '@/lib/legal';
 import { SubscriptionTimer } from '@/components/SubscriptionTimer';
+import { eraseMyLearningDataV2 } from '@/lib/migration/v2-practice-session';
 
 export default function Settings() {
   const { user, profile, signOut, refreshProfile } = useAuth();
@@ -87,9 +88,19 @@ export default function Settings() {
     if (!user) return;
     setDeleting(true);
 
-    // Delete user attempts and performance profile
+    // B1 (PR #56): learning data (attempts, sessions, PIE + intelligence state) is erased
+    // server-side by the audited SECURITY DEFINER RPC. No direct user_attempts delete.
+    try {
+      await eraseMyLearningDataV2();
+    } catch (e: any) {
+      console.error('[PIE_DIAGNOSTIC]', JSON.stringify({ code: 'PIE_ERASE_FAILED', message: e?.message }));
+      toast.error(`Could not clear learning data: ${e?.message || 'unknown error'}`);
+      setDeleting(false);
+      return;
+    }
+
+    // Non-learning profile data held in the legacy project.
     await Promise.all([
-      supabase.from('user_attempts').delete().eq('user_id', user.id),
       supabase.from('performance_profiles').delete().eq('user_id', user.id),
       supabase.from('bookmarks').delete().eq('user_id', user.id),
       supabase.from('user_notes').delete().eq('user_id', user.id),
