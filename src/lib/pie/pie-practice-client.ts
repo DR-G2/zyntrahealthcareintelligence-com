@@ -64,6 +64,34 @@ export async function startPieSession(count: number, deps: PieDeps = defaultPieD
   return { sessionId, questions: await loadSessionQuestions(sessionId, deps) };
 }
 
+export const PIE_DIAGNOSTIC_DEFAULT_COUNT = 20;
+
+/**
+ * P5 diagnostic: a server-built, blueprint-balanced fixed set (pie_create_session with
+ * p_mode 'pie_diagnostic'), registered in pie.adaptive_session, so every answer is graded by
+ * save_attempt and counts as PIE evidence. The server enforces 10..50 items, one active
+ * diagnostic and one new diagnostic per 24 h; those errors are surfaced as-is.
+ */
+export async function startPieDiagnostic(count: number = PIE_DIAGNOSTIC_DEFAULT_COUNT, deps: PieDeps = defaultPieDeps): Promise<{ sessionId: string; questions: PieSessionQuestion[] }> {
+  await deps.ensureSession();
+  const n = Math.max(10, Math.min(50, Math.floor(count)));
+  const rows = await call<{ session_id: string; question_count: number }[]>(deps, 'pie_create_session',
+    { p_count: n, p_blueprint_key: 'AMC_CAT_MCQ', p_mode: 'pie_diagnostic' }, 'Starting the diagnostic');
+  const sessionId = rows?.[0]?.session_id;
+  if (!sessionId) throw new Error('Diagnostic session was not created.');
+  return { sessionId, questions: await loadSessionQuestions(sessionId, deps) };
+}
+
+/** Human-readable messages for the server's session-creation refusals. */
+export function pieSessionErrorMessage(message: string): string {
+  if (/PIE_DIAGNOSTIC_ACTIVE/.test(message)) return 'You already have a diagnostic in progress. Resume it to continue.';
+  if (/PIE_DIAGNOSTIC_RATE_LIMITED/.test(message)) return 'You can take one diagnostic every 24 hours. Use adaptive Practice meanwhile.';
+  if (/PIE_RATE_LIMITED/.test(message)) return 'Please wait a few seconds before starting another session.';
+  if (/PIE_TOO_MANY_ACTIVE_SESSIONS/.test(message)) return 'You have too many sessions open. Finish one first.';
+  if (/PIE_NO_ELIGIBLE_CANDIDATE/.test(message)) return 'No questions are available right now.';
+  return message;
+}
+
 export async function resumePieSession(sessionId: string, deps: PieDeps = defaultPieDeps): Promise<PieSessionQuestion[]> {
   await deps.ensureSession();
   await deps.resume(sessionId);

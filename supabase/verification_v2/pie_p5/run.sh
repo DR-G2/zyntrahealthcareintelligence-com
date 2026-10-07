@@ -10,7 +10,7 @@ MIGS="0045_pie_p1_content_lo_model.sql 0046_pie_p2_learner_lo_state.sql 0047_pie
  0051_pie_p3_candidate_pool.sql 0052_pie_p3_review_fixes.sql 0053_pie_p3_peek_farm_fixes.sql
  0054_pie_p3_resume_cap_selector_stats.sql 0055_pie_p5_f1_question_key_columns.sql
  0056_pie_p5_review_scheduler_session_rules.sql"
-P51="0058_pie_p5_confirmation_probe_learner_value.sql"
+P51="0058_pie_p5_confirmation_probe_learner_value.sql 0059_pie_p5_diagnostic_mode_pie_only_attempts.sql"
 apply() { for f in $2; do psql -X -q -v ON_ERROR_STOP=1 -U "$owner" -d "$1" -1 -f "$mig/$f"; echo "applied $f"; done; }
 
 db=v2_p5
@@ -19,6 +19,7 @@ apply "$db" "$MIGS $P51"
 psql -X -q -v ON_ERROR_STOP=1 -d "$db" -f "$here/../pie_p1_p2/fixtures.sql"
 psql -X -q -v ON_ERROR_STOP=1 -d "$db" -f "$here/fixtures_p5.sql"
 psql -X -v ON_ERROR_STOP=1 -d "$db" -f "$here/verify_p5.sql"
+psql -X -v ON_ERROR_STOP=1 -d "$db" -f "$here/verify_0059.sql"
 
 [[ "${SKIP_BANK:-}" == 1 ]] && exit 0
 db=v2_p5_bank
@@ -30,4 +31,5 @@ psql -X -q -v ON_ERROR_STOP=1 -d "$db" -c "update public.questions set status='r
 apply "$db" "0057_pie_p5_qbank_swap.sql $P51"
 psql -X -q -v ON_ERROR_STOP=1 -d "$db" -f "$here/../pie_p1_p2/fixtures.sql" 2>/dev/null || psql -X -q -v ON_ERROR_STOP=1 -d "$db" -c "create or replace function public.t_assert(ok boolean, msg text) returns void language plpgsql as \$\$ begin if ok is not true then raise exception 'ASSERTION FAILED: %', msg; end if; end \$\$; grant execute on function public.t_assert(boolean,text) to public;"
 psql -X -v ON_ERROR_STOP=1 -d "$db" -f "$here/verify_bank.sql"
+psql -X -v ON_ERROR_STOP=1 -d "$db" -f "$here/verify_bank_diag.sql"
 "$here/../pie_p3/race.sh" v2_p5  # race tests under the P5 policy too
