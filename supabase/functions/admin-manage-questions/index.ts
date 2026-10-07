@@ -1,15 +1,16 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
+import { adminCorsHeaders, hasAdminRole, normaliseEmail, parseAllowedOrigins } from "../_shared/admin-gate.ts";
+import { attemptDeletionConfirmed, deleteQuestionsGuarded } from "../_shared/question-delete-guard.ts";
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
-};
+// CORS: app origins only (ADMIN_ALLOWED_ORIGINS, comma-separated; default www + apex app domain).
+const allowedOrigins = parseAllowedOrigins(Deno.env.get("ADMIN_ALLOWED_ORIGINS") ?? Deno.env.get("ADMIN_ALLOWED_ORIGIN"));
 
 const QUESTION_FIELDS = ["question_text","options","correct_answer","explanation","category","difficulty","tags","avg_time_seconds","diagnosis_explanation","first_line_investigation","gold_standard_investigation","best_treatment","differential_diagnoses","incorrect_answer_explanations","key_takeaways","clinical_vignette","difficulty_tier","zyntra_id","subtopic","system_category","guideline_reference","question_type"];
 const pickQuestion = (d: Record<string, unknown>) => Object.fromEntries(Object.entries(d ?? {}).filter(([k]) => QUESTION_FIELDS.includes(k)));
 
 serve(async (req) => {
+  const corsHeaders = adminCorsHeaders(req.headers.get("Origin"), allowedOrigins);
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
@@ -29,13 +30,20 @@ serve(async (req) => {
       return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
-    const { data: adminRole } = await supabase.from("admin_roles").select("role").eq("email", userData.user.email).maybeSingle();
-    if (!adminRole) {
+    // Exact admin match, lower-case on both sides (no LIKE); admin or super_admin (unchanged scope).
+    const callerEmail = normaliseEmail(userData.user.email);
+    const { data: adminRole } = await supabase.from("admin_roles").select("role, email").eq("email", callerEmail ?? "").maybeSingle();
+    if (!hasAdminRole(adminRole, callerEmail, ["super_admin", "admin"])) {
       return new Response(JSON.stringify({ error: "Forbidden" }), { status: 403, headers: corsHeaders });
     }
 
     const body = await req.json();
     const { action } = body;
+    // Deleting a question cascades to user_attempts. Questions with learner attempts are REFUSED
+    // (single delete -> 409) or RETAINED (bulk deletes) unless the request carries
+    // confirm_delete_user_attempts: "DELETE_LEARNER_ATTEMPTS". user_attempts is never deleted otherwise.
+    const allowAttemptDeletion = attemptDeletionConfirmed(body);
+    const json = (b: unknown, status = 200) => new Response(JSON.stringify(b), { status, headers: { ...corsHeaders, "Content-Type": "application/json" } });
 
     if (action === "list") {
       const { question_type } = body;
@@ -87,20 +95,16 @@ serve(async (req) => {
     if (action === "delete") {
       const { question_id } = body;
       if (!question_id) throw new Error("Missing question_id");
-      await supabase.from("bookmarks").delete().eq("question_id", question_id);
-      await supabase.from("user_notes").delete().eq("question_id", question_id);
-      await supabase.from("user_attempts").delete().eq("question_id", question_id);
-      await supabase.from("question_difficulty_tiers").delete().eq("question_id", question_id);
-      const { error } = await supabase.from("questions").delete().eq("id", question_id);
-      if (error) throw error;
+      const guarded = await deleteQuestionsGuarded(supabase, [String(question_id)], allowAttemptDeletion);
+      if (guarded.retained_with_attempts.length) {
+        return json({ error: "Question has learner attempts; refusing to delete (attempts would be lost).", retained_with_attempts: guarded.retained_with_attempts }, 409);
+      }
       await supabase.from("admin_activity_logs").insert({
         admin_email: userData.user.email,
         action_type: "delete_question",
-        details: { question_id },
+        details: { question_id, attempts_deleted: guarded.attempts_deleted },
       });
-      return new Response(JSON.stringify({ success: true }), {
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      return json({ success: true, attempts_deleted: guarded.attempts_deleted });
     }
 
     // ─── Subject management ───
@@ -189,26 +193,16 @@ serve(async (req) => {
         from += 1000;
       }
 
-      // Delete related records then questions in batches
-      for (let i = 0; i < allIds.length; i += 100) {
-        const batch = allIds.slice(i, i + 100);
-        await supabase.from("bookmarks").delete().in("question_id", batch);
-        await supabase.from("user_notes").delete().in("question_id", batch);
-        await supabase.from("user_attempts").delete().in("question_id", batch);
-        await supabase.from("question_difficulty_tiers").delete().in("question_id", batch);
-        await supabase.from("question_dna").delete().in("question_id", batch);
-        await supabase.from("questions").delete().in("id", batch);
-      }
+      // Guarded: questions with learner attempts are retained unless explicitly confirmed.
+      const guarded = await deleteQuestionsGuarded(supabase, allIds, allowAttemptDeletion);
 
       await supabase.from("admin_activity_logs").insert({
         admin_email: userData.user.email,
         action_type: "delete_by_subject",
-        details: { subject_name, deleted_count: allIds.length },
+        details: { subject_name, deleted_count: guarded.deleted.length, retained_with_attempts: guarded.retained_with_attempts.length, attempts_deleted: guarded.attempts_deleted },
       });
 
-      return new Response(JSON.stringify({ success: true, deleted_count: allIds.length }), {
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      return json({ success: true, deleted_count: guarded.deleted.length, retained_with_attempts: guarded.retained_with_attempts.length, attempts_deleted: guarded.attempts_deleted });
     }
 
     // ─── Delete all questions by subtopic ───
@@ -226,25 +220,16 @@ serve(async (req) => {
         from += 1000;
       }
 
-      for (let i = 0; i < allIds.length; i += 100) {
-        const batch = allIds.slice(i, i + 100);
-        await supabase.from("bookmarks").delete().in("question_id", batch);
-        await supabase.from("user_notes").delete().in("question_id", batch);
-        await supabase.from("user_attempts").delete().in("question_id", batch);
-        await supabase.from("question_difficulty_tiers").delete().in("question_id", batch);
-        await supabase.from("question_dna").delete().in("question_id", batch);
-        await supabase.from("questions").delete().in("id", batch);
-      }
+      // Guarded: questions with learner attempts are retained unless explicitly confirmed.
+      const guarded = await deleteQuestionsGuarded(supabase, allIds, allowAttemptDeletion);
 
       await supabase.from("admin_activity_logs").insert({
         admin_email: userData.user.email,
         action_type: "delete_by_subtopic",
-        details: { subtopic_name, deleted_count: allIds.length },
+        details: { subtopic_name, deleted_count: guarded.deleted.length, retained_with_attempts: guarded.retained_with_attempts.length, attempts_deleted: guarded.attempts_deleted },
       });
 
-      return new Response(JSON.stringify({ success: true, deleted_count: allIds.length }), {
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      return json({ success: true, deleted_count: guarded.deleted.length, retained_with_attempts: guarded.retained_with_attempts.length, attempts_deleted: guarded.attempts_deleted });
     }
 
     // ─── Delete ALL questions by type (mcq / mcq_temp / osce) ───
@@ -262,30 +247,21 @@ serve(async (req) => {
         from += 1000;
       }
 
-      for (let i = 0; i < allIds.length; i += 100) {
-        const batch = allIds.slice(i, i + 100);
-        await supabase.from("bookmarks").delete().in("question_id", batch);
-        await supabase.from("user_notes").delete().in("question_id", batch);
-        await supabase.from("user_attempts").delete().in("question_id", batch);
-        await supabase.from("question_difficulty_tiers").delete().in("question_id", batch);
-        await supabase.from("question_dna").delete().in("question_id", batch);
-        await supabase.from("questions").delete().in("id", batch);
-      }
+      // Guarded: questions with learner attempts are retained unless explicitly confirmed.
+      const guarded = await deleteQuestionsGuarded(supabase, allIds, allowAttemptDeletion);
 
       await supabase.from("admin_activity_logs").insert({
         admin_email: userData.user.email,
         action_type: "delete_all_by_type",
-        details: { question_type, deleted_count: allIds.length },
+        details: { question_type, deleted_count: guarded.deleted.length, retained_with_attempts: guarded.retained_with_attempts.length, attempts_deleted: guarded.attempts_deleted },
       });
 
-      return new Response(JSON.stringify({ success: true, deleted_count: allIds.length }), {
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      return json({ success: true, deleted_count: guarded.deleted.length, retained_with_attempts: guarded.retained_with_attempts.length, attempts_deleted: guarded.attempts_deleted });
     }
 
     throw new Error("Invalid action");
-  } catch (e: any) {
-    return new Response(JSON.stringify({ error: e.message }), {
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e instanceof Error ? e.message : String(e) }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });

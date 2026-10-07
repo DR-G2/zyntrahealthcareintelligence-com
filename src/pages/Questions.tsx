@@ -3,7 +3,7 @@ import { Search, Filter, Bookmark, BookmarkCheck, StickyNote, ChevronDown, Chevr
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/contexts/AuthContext';
 import { fetchLegacyShapedHistory } from '@/lib/pie/pie-history-client';
-import { ADMIN_EMAILS } from '@/lib/admin-emails';
+import { SUPER_ADMIN_EMAIL } from '@/lib/admin-emails';
 import { Link as RouterLink } from 'react-router-dom';
 import { AppLayout } from '@/components/AppLayout';
 import { Input } from '@/components/ui/input';
@@ -739,13 +739,14 @@ function QuestionBankBrowser() {
 
 /**
  * P5: the bank browser shows every question's correct answer and explanation, so it is
- * ADMIN-ONLY, enforced SERVER-SIDE by the admin-question-bank edge function (exact admin_roles
- * email match); this browser check is only UX. (Admin-only is the safer option: a stems-only learner view would still let learners
+ * SUPER-ADMIN-ONLY, enforced SERVER-SIDE by the admin-question-bank edge function (exact,
+ * lower-cased admin_roles email match + role super_admin); this browser check is only UX and
+ * mirrors it so plain admins see this notice instead of a 403. (Admin-only is the safer option: a stems-only learner view would still let learners
  * pre-read the live bank and break first-exposure evidence). Learners are sent to PIE
  * Practice; the browser component (and its question fetch) never mounts for them.
  */
 export function canBrowseQuestionBank(email: string | null | undefined): boolean {
-  return Boolean(email && ADMIN_EMAILS.includes(email));
+  return Boolean(email && email.trim().toLowerCase() === SUPER_ADMIN_EMAIL.toLowerCase());
 }
 
 export default function Questions() {

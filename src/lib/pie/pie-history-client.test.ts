@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { fetchLegacyShapedHistory, fetchPieAttemptHistory, fetchReviewDue, toLegacyAttempt, type HistoryDeps, type PieHistoryRow } from "./pie-history-client";
 import { canBrowseQuestionBank } from "@/pages/Questions";
-import { ADMIN_EMAILS } from "@/lib/admin-emails";
+import { ADMIN_EMAILS, SUPER_ADMIN_EMAIL } from "@/lib/admin-emails";
 
 const read = (p: string) => readFileSync(resolve(process.cwd(), p), "utf8");
 const row = (i: number, extra: Partial<PieHistoryRow> = {}): PieHistoryRow => ({
@@ -55,10 +55,12 @@ describe("P5 learner history (PIE attempts only)", () => {
     }
   });
 
-  it("/questions bank browser is admin-only", () => {
+  it("/questions bank browser is super-admin-only (mirrors admin-question-bank)", () => {
     expect(canBrowseQuestionBank(null)).toBe(false);
     expect(canBrowseQuestionBank("learner@example.com")).toBe(false);
-    if (ADMIN_EMAILS.length) expect(canBrowseQuestionBank(ADMIN_EMAILS[0])).toBe(true);
+    expect(canBrowseQuestionBank(SUPER_ADMIN_EMAIL)).toBe(true);
+    expect(canBrowseQuestionBank(` ${SUPER_ADMIN_EMAIL.toUpperCase()} `)).toBe(true);
+    for (const e of ADMIN_EMAILS.filter((a) => a !== SUPER_ADMIN_EMAIL)) expect(canBrowseQuestionBank(e)).toBe(false);
   });
 
   it("0060 RPCs are PIE-only, auth-scoped and not callable by anon", () => {
