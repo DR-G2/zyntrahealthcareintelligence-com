@@ -1,7 +1,9 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
+const allowedOrigin = Deno.env.get("PIE_ALLOWED_ORIGIN") ?? "https://www.zyntrahealthcareintelligence.com";
+
 const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Origin": allowedOrigin,
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
   "Access-Control-Allow-Methods": "POST, OPTIONS",
 };
@@ -29,13 +31,15 @@ Deno.serve(async (req) => {
       return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401, headers: { ...headers, "Content-Type": "application/json" } });
     }
 
+    // Exact, case-insensitive admin match (no LIKE wildcards): both sides normalised to lower case.
+    const callerEmail = userData.user.email.trim().toLowerCase();
     const { data: adminRole } = await admin
       .from("admin_roles")
-      .select("role")
-      .ilike("email", userData.user.email)
+      .select("role, email")
+      .eq("email", callerEmail)
       .maybeSingle();
 
-    if (!adminRole) {
+    if (!adminRole || String(adminRole.email).trim().toLowerCase() !== callerEmail) {
       return new Response(JSON.stringify({ error: "Forbidden" }), { status: 403, headers: { ...headers, "Content-Type": "application/json" } });
     }
 

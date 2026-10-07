@@ -1,3 +1,5 @@
+> **DEPRECATED (P1/P2, 7 Oct 2026):** shadow pipelines are retired by ruling. `pie-shadow-run` / `pie-shadow-sync` were removed and `pie.pie_shadow_run` is sealed by `migrations_v2/0047_pie_deprecate_shadow.sql`. Historical record only.
+
 # PIE P10 Shadow Deployment
 
 ## Runtime contract

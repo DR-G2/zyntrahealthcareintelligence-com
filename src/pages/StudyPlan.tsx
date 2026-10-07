@@ -10,6 +10,7 @@ import { cn } from '@/lib/utils';
 import { differenceInDays } from 'date-fns';
 import { toast } from 'sonner';
 import { Calendar, CheckCircle2, Clock, Lightbulb, Loader2, Sparkles, Target, TrendingUp, ArrowRight } from 'lucide-react';
+import { fetchLegacyShapedHistory } from '@/lib/pie/pie-history-client';
 
 interface PerformanceProfile { readiness_score: number | null; clinical_accuracy: number | null; stability_score: number | null; time_sensitivity: number | null; confidence_gap: number | null; }
 interface CategoryStat { category: string; correct: number; total: number; accuracy: number; priority: 'high' | 'medium' | 'maintain'; }
@@ -40,7 +41,7 @@ export default function StudyPlan() {
     const fetchData = async () => {
       const [perfRes, attemptsRes, planRes] = await Promise.all([
         supabase.from('performance_profiles').select('readiness_score, clinical_accuracy, stability_score, time_sensitivity, confidence_gap').eq('user_id', user.id).maybeSingle(),
-        supabase.from('user_attempts').select('is_correct, questions(category)').eq('user_id', user.id),
+        fetchLegacyShapedHistory(5000).then((data) => ({ data, error: null })), // P5: PIE attempts only
         supabase.from('study_plans').select('tasks, generated_at').eq('user_id', user.id).order('generated_at', { ascending: false }).limit(1).maybeSingle(),
       ]);
       if (perfRes.data) setPerfProfile(perfRes.data);

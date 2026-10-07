@@ -16,12 +16,13 @@ describe("PIE P9 production safety contracts", () => {
     }
   });
 
-  it("uses case-insensitive admin authorization", () => {
-    const source = readFileSync(
-      resolve(root, "supabase/functions/admin-pie-inspect-user/index.ts"),
-      "utf8",
-    );
-    expect(source).toContain('.ilike("email", userData.user.email)');
+  it("uses exact, case-insensitive admin authorization (no LIKE wildcards)", () => {
+    for (const f of ["supabase/functions/admin-pie-inspect-user/index.ts", "supabase/functions/admin-pie-certification/index.ts"]) {
+      const source = readFileSync(resolve(root, f), "utf8");
+      expect(source, f).not.toContain(".ilike(");
+      expect(source, f).toContain("userData.user.email.trim().toLowerCase()");
+      expect(source, f).toContain('.eq("email", callerEmail)');
+    }
   });
 
   it("does not expose candidate-facing PIE decisions", () => {

@@ -20,7 +20,7 @@ export const geminiAdapter: ProviderAdapter = {
     const payload = await res.json().catch(() => ({}));
     return (Array.isArray(payload?.models) ? payload.models : [])
       .filter((m: any) => Array.isArray(m?.supportedGenerationMethods) && m.supportedGenerationMethods.includes("generateContent"))
-      .map((m: any) => typeof m?.name === "string" ? m.name.replace(/^models\\//, "") : "")
+      .map((m: any) => typeof m?.name === "string" ? m.name.replace(/^models\//, "") : "")
       .filter((id: string) => /^gemini-/i.test(id) && !/(embedding|tts|audio|image|veo)/i.test(id))
       .sort();
   },

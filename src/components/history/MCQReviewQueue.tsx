@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
+import { fetchLegacyShapedHistory } from '@/lib/pie/pie-history-client';
 
 interface Attempt {
   id: string;
@@ -53,46 +54,8 @@ export function MCQReviewQueue() {
       // Fetch attempts independently from question metadata. This avoids relying on
       // PostgREST's nested `questions(...)` relationship, which can fail when the
       // relationship metadata is stale or ambiguous after schema changes.
-      const { data: attemptRows, error: attemptsError } = await supabase
-        .from('user_attempts')
-        .select('id, question_id, selected_answer, is_correct, answer_changes_count, time_taken_seconds, created_at')
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: false })
-        .limit(2000);
-
-      if (attemptsError) throw attemptsError;
-      if (!attemptRows?.length) return [];
-
-      const questionIds = [...new Set(attemptRows.map(row => row.question_id).filter(Boolean))];
-      const questionMap = new Map<string, Attempt['questions']>();
-
-      // Keep the request small enough for Supabase/PostgREST URL limits.
-      for (let i = 0; i < questionIds.length; i += 500) {
-        const ids = questionIds.slice(i, i + 500);
-        const { data: questionRows, error: questionsError } = await supabase
-          .from('questions')
-          .select('id, question_text, correct_answer, category, subtopic, difficulty, explanation, options')
-          .in('id', ids);
-
-        if (questionsError) throw questionsError;
-
-        (questionRows || []).forEach(question => {
-          questionMap.set(question.id, question as Attempt['questions']);
-        });
-      }
-
-      return attemptRows.map(row => ({
-        ...row,
-        questions: questionMap.get(row.question_id) || {
-          question_text: '',
-          correct_answer: '',
-          category: '',
-          subtopic: null,
-          difficulty: null,
-          explanation: null,
-          options: [],
-        },
-      })) as Attempt[];
+      // P5: PIE attempts only; keys only for answered questions (get_my_attempt_history).
+      return (await fetchLegacyShapedHistory(2000)) as unknown as Attempt[];
     },
     enabled: !!user,
   });
