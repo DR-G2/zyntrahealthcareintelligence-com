@@ -1,0 +1,1937 @@
+[
+ {
+  "subject": "Anatomy",
+  "subtopic": "Peripheral nerve anatomy",
+  "template": "A patient develops isolated loss of thumb opposition after a wrist injury. Which nerve is most likely affected?",
+  "n": 5,
+  "items": [
+   {
+    "id": "5f51931a-5eb1-48b1-9927-f0541fcc3570",
+    "zid": "ZYNTRA-BS-001",
+    "opts": 5,
+    "tier": "very easy",
+    "status": "active"
+   },
+   {
+    "id": "9bb0b248-54c2-48b4-a15a-46647bf485c4",
+    "zid": "ZYNTRA-BS-006",
+    "opts": 5,
+    "tier": "very easy",
+    "status": "active"
+   },
+   {
+    "id": "f068e235-b840-4456-86a4-9ce63659c4db",
+    "zid": "ZYNTRA-BS-011",
+    "opts": 5,
+    "tier": "very easy",
+    "status": "active"
+   },
+   {
+    "id": "e4af90ce-dca1-416d-adc6-0ff7d1fc5b0c",
+    "zid": "ZYNTRA-BS-016",
+    "opts": 5,
+    "tier": "moderate",
+    "status": "active"
+   },
+   {
+    "id": "172d5ef1-5d90-45ee-b911-95ec6ff1e88b",
+    "zid": "ZYNTRA-BS-021",
+    "opts": 5,
+    "tier": "very hard",
+    "status": "active"
+   }
+  ]
+ },
+ {
+  "subject": "Anatomy",
+  "subtopic": "Lower-limb anatomy",
+  "template": "Following a posterior hip dislocation, a patient develops foot drop. Which nerve is most vulnerable?",
+  "n": 5,
+  "items": [
+   {
+    "id": "42e105c5-4648-4f8d-a6c2-77f45cc697fc",
+    "zid": "ZYNTRA-BS-002",
+    "opts": 5,
+    "tier": "very easy",
+    "status": "active"
+   },
+   {
+    "id": "de630362-6638-40ba-acfe-15ec55c75fec",
+    "zid": "ZYNTRA-BS-007",
+    "opts": 5,
+    "tier": "moderate",
+    "status": "active"
+   },
+   {
+    "id": "e8faeca2-586c-449a-ae5e-cd00c64011f8",
+    "zid": "ZYNTRA-BS-012",
+    "opts": 5,
+    "tier": "hard",
+    "status": "active"
+   },
+   {
+    "id": "5b6e8c3c-bb96-428c-8c7e-0418f56bdfc4",
+    "zid": "ZYNTRA-BS-017",
+    "opts": 5,
+    "tier": "very easy",
+    "status": "active"
+   },
+   {
+    "id": "cacdb882-996a-43d0-98a1-b749c78cad3a",
+    "zid": "ZYNTRA-BS-022",
+    "opts": 5,
+    "tier": "very hard",
+    "status": "active"
+   }
+  ]
+ },
+ {
+  "subject": "Anatomy",
+  "subtopic": "Neck anatomy",
+  "template": "A patient has hoarseness after thyroid surgery. Which nerve injury best explains the finding?",
+  "n": 5,
+  "items": [
+   {
+    "id": "cac25596-be88-438b-9fcd-8bf0b7ff1be0",
+    "zid": "ZYNTRA-BS-003",
+    "opts": 5,
+    "tier": "very easy",
+    "status": "active"
+   },
+   {
+    "id": "1bf2e1a5-ec47-4f23-9ee4-e0ca3577b212",
+    "zid": "ZYNTRA-BS-008",
+    "opts": 5,
+    "tier": "very easy",
+    "status": "active"
+   },
+   {
+    "id": "55e867a2-fbc3-42da-aff8-d27b4e45583c",
+    "zid": "ZYNTRA-BS-013",
+    "opts": 5,
+    "tier": "very hard",
+    "status": "active"
+   },
+   {
+    "id": "7c79b8bb-dbed-46d2-9ac9-55cf689ef2a8",
+    "zid": "ZYNTRA-BS-018",
+    "opts": 5,
+    "tier": "hard",
+    "status": "active"
+   },
+   {
+    "id": "f248140e-92dd-4066-ac8d-35175a4d67ff",
+    "zid": "ZYNTRA-BS-023",
+    "opts": 5,
+    "tier": "easy",
+    "status": "active"
+   }
+  ]
+ },
+ {
+  "subject": "Anatomy",
+  "subtopic": "Upper-limb anatomy",
+  "template": "A patient cannot abduct the arm beyond the initial 15 degrees after shoulder trauma. Which nerve is most likely injured?",
+  "n": 5,
+  "items": [
+   {
+    "id": "978cbe18-a268-4773-99d5-0358b9172db2",
+    "zid": "ZYNTRA-BS-004",
+    "opts": 5,
+    "tier": "hard",
+    "status": "active"
+   },
+   {
+    "id": "7234cd12-3c3a-44d2-946d-96a8c6eda80e",
+    "zid": "ZYNTRA-BS-009",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   },
+   {
+    "id": "cae34ee5-72e6-4374-b5bb-9270844f8f77",
+    "zid": "ZYNTRA-BS-014",
+    "opts": 5,
+    "tier": "moderate",
+    "status": "active"
+   },
+   {
+    "id": "ca7a3747-5ffd-420c-9fd4-47eb7193910c",
+    "zid": "ZYNTRA-BS-019",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   },
+   {
+    "id": "59126045-509e-4b18-8310-ab5c4a952d5f",
+    "zid": "ZYNTRA-BS-024",
+    "opts": 5,
+    "tier": "very easy",
+    "status": "active"
+   }
+  ]
+ },
+ {
+  "subject": "Anatomy",
+  "subtopic": "Neuroanatomy",
+  "template": "A lesion causes ipsilateral loss of vibration and contralateral loss of pain below the lesion. Which spinal tract pattern is most consistent?",
+  "n": 5,
+  "items": [
+   {
+    "id": "8f3e7840-5de0-427d-8aae-129b59c799bd",
+    "zid": "ZYNTRA-BS-005",
+    "opts": 5,
+    "tier": "very hard",
+    "status": "active"
+   },
+   {
+    "id": "2e25e4b9-bd0e-46a0-97c1-90dfd4086b28",
+    "zid": "ZYNTRA-BS-010",
+    "opts": 5,
+    "tier": "easy",
+    "status": "active"
+   },
+   {
+    "id": "2420da1d-8283-498a-9941-547ad3e97201",
+    "zid": "ZYNTRA-BS-015",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   },
+   {
+    "id": "a64b3edb-1e1f-4bd4-bb4e-c96b8abe17c8",
+    "zid": "ZYNTRA-BS-020",
+    "opts": 5,
+    "tier": "very hard",
+    "status": "active"
+   },
+   {
+    "id": "cfb90a84-1c77-444b-aaed-7821a7cddc6f",
+    "zid": "ZYNTRA-BS-025",
+    "opts": 5,
+    "tier": "easy",
+    "status": "active"
+   }
+  ]
+ },
+ {
+  "subject": "Physiology",
+  "subtopic": "Cardiovascular physiology",
+  "template": "A patient becomes hypotensive after acute blood loss. Which immediate physiological response most directly helps restore arterial pressure?",
+  "n": 5,
+  "items": [
+   {
+    "id": "4825304c-d893-4908-8e70-542d4d68961a",
+    "zid": "ZYNTRA-BS-026",
+    "opts": 5,
+    "tier": "very easy",
+    "status": "active"
+   },
+   {
+    "id": "2ed9ce6e-b193-4720-8260-822a776055ac",
+    "zid": "ZYNTRA-BS-031",
+    "opts": 5,
+    "tier": "very easy",
+    "status": "active"
+   },
+   {
+    "id": "03296cad-dc25-4b22-8284-4ea429071beb",
+    "zid": "ZYNTRA-BS-036",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   },
+   {
+    "id": "330d6f72-51a3-4c4b-841e-7fa55ba519fe",
+    "zid": "ZYNTRA-BS-041",
+    "opts": 5,
+    "tier": "moderate",
+    "status": "active"
+   },
+   {
+    "id": "b9b4245e-c7f9-495a-a505-ee127cc957c3",
+    "zid": "ZYNTRA-BS-046",
+    "opts": 5,
+    "tier": "very hard",
+    "status": "active"
+   }
+  ]
+ },
+ {
+  "subject": "Physiology",
+  "subtopic": "Respiratory physiology",
+  "template": "During intense exercise, which change most directly facilitates oxygen unloading from haemoglobin in active muscle?",
+  "n": 5,
+  "items": [
+   {
+    "id": "fa0e0bcc-7c2c-4dfa-b726-93f3f3a8013f",
+    "zid": "ZYNTRA-BS-027",
+    "opts": 5,
+    "tier": "very hard",
+    "status": "active"
+   },
+   {
+    "id": "5a4260bf-e69b-4de4-b5db-72eee3ab716b",
+    "zid": "ZYNTRA-BS-032",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   },
+   {
+    "id": "481fc2fb-2daf-4926-95df-9a5384aa87af",
+    "zid": "ZYNTRA-BS-037",
+    "opts": 5,
+    "tier": "hard",
+    "status": "active"
+   },
+   {
+    "id": "dc84e4aa-bb25-485d-9d31-264deea24231",
+    "zid": "ZYNTRA-BS-042",
+    "opts": 5,
+    "tier": "hard",
+    "status": "active"
+   },
+   {
+    "id": "001b9b8c-f62e-497f-9319-d4da44e3df9d",
+    "zid": "ZYNTRA-BS-047",
+    "opts": 5,
+    "tier": "very easy",
+    "status": "active"
+   }
+  ]
+ },
+ {
+  "subject": "Physiology",
+  "subtopic": "Renal physiology",
+  "template": "A patient with severe dehydration develops concentrated urine. Which renal mechanism is essential for this response?",
+  "n": 5,
+  "items": [
+   {
+    "id": "e36063bd-9011-44c6-9b47-185dc48dee82",
+    "zid": "ZYNTRA-BS-028",
+    "opts": 5,
+    "tier": "hard",
+    "status": "active"
+   },
+   {
+    "id": "66673273-7103-4bb3-bbc4-c52f43bc3330",
+    "zid": "ZYNTRA-BS-033",
+    "opts": 5,
+    "tier": "very easy",
+    "status": "active"
+   },
+   {
+    "id": "7b7e9274-0153-43f5-ac58-0661be24c2d9",
+    "zid": "ZYNTRA-BS-038",
+    "opts": 5,
+    "tier": "very hard",
+    "status": "active"
+   },
+   {
+    "id": "a18ebdb7-0888-4ce7-9631-9bd81b387d2b",
+    "zid": "ZYNTRA-BS-043",
+    "opts": 5,
+    "tier": "easy",
+    "status": "active"
+   },
+   {
+    "id": "93a3d893-9583-401c-b3e2-edcabf5501b0",
+    "zid": "ZYNTRA-BS-048",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   }
+  ]
+ },
+ {
+  "subject": "Physiology",
+  "subtopic": "Acid-base physiology",
+  "template": "A patient develops metabolic acidosis. Which respiratory response occurs first?",
+  "n": 5,
+  "items": [
+   {
+    "id": "0184069e-61cc-4765-b640-3fb5b8c19b0b",
+    "zid": "ZYNTRA-BS-029",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   },
+   {
+    "id": "4efa97d8-74df-4624-881f-c2fa28a6a466",
+    "zid": "ZYNTRA-BS-034",
+    "opts": 5,
+    "tier": "moderate",
+    "status": "active"
+   },
+   {
+    "id": "1d66c58d-92ad-4c2b-9dc6-6a90bd177196",
+    "zid": "ZYNTRA-BS-039",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   },
+   {
+    "id": "d2892270-8ac7-4296-add0-1c8a37839de6",
+    "zid": "ZYNTRA-BS-044",
+    "opts": 5,
+    "tier": "easy",
+    "status": "active"
+   },
+   {
+    "id": "2ce6e163-a919-4974-9218-3767f5b3aebe",
+    "zid": "ZYNTRA-BS-049",
+    "opts": 5,
+    "tier": "very hard",
+    "status": "active"
+   }
+  ]
+ },
+ {
+  "subject": "Physiology",
+  "subtopic": "Endocrine physiology",
+  "template": "After a carbohydrate-rich meal, which hormonal change promotes glucose uptake and storage?",
+  "n": 5,
+  "items": [
+   {
+    "id": "83753d1d-7e54-4368-ac20-5b053f0051a6",
+    "zid": "ZYNTRA-BS-030",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   },
+   {
+    "id": "5f889740-f01d-4964-994b-8f7fe50c4fec",
+    "zid": "ZYNTRA-BS-035",
+    "opts": 5,
+    "tier": "moderate",
+    "status": "active"
+   },
+   {
+    "id": "891217ee-9c8e-4f25-a2ed-637624ae653c",
+    "zid": "ZYNTRA-BS-040",
+    "opts": 5,
+    "tier": "very hard",
+    "status": "active"
+   },
+   {
+    "id": "b8784c5a-75a5-49c5-95dc-0c748461eb82",
+    "zid": "ZYNTRA-BS-045",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   },
+   {
+    "id": "ae93d69c-9924-46b9-966c-ab418a234913",
+    "zid": "ZYNTRA-BS-050",
+    "opts": 5,
+    "tier": "moderate",
+    "status": "active"
+   }
+  ]
+ },
+ {
+  "subject": "Biochemistry",
+  "subtopic": "Hepatic biochemistry",
+  "template": "A patient has jaundice with predominantly unconjugated bilirubin and no evidence of haemolysis. Which biochemical process is most likely impaired?",
+  "n": 5,
+  "items": [
+   {
+    "id": "d260521c-06b5-42e0-a8ad-e00c96eea5ef",
+    "zid": "ZYNTRA-BS-051",
+    "opts": 5,
+    "tier": "easy",
+    "status": "active"
+   },
+   {
+    "id": "0a7f1c19-7742-4ba2-96cd-084ba1f1a1ac",
+    "zid": "ZYNTRA-BS-056",
+    "opts": 5,
+    "tier": "very hard",
+    "status": "active"
+   },
+   {
+    "id": "dc87733f-30f3-4860-ac00-5408997f83e0",
+    "zid": "ZYNTRA-BS-061",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   },
+   {
+    "id": "59497420-e6a7-4e65-945d-da2ae3bad88c",
+    "zid": "ZYNTRA-BS-066",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   },
+   {
+    "id": "b3a6df7a-215e-4cb6-800c-3e00eeb59d8c",
+    "zid": "ZYNTRA-BS-071",
+    "opts": 5,
+    "tier": "very hard",
+    "status": "active"
+   }
+  ]
+ },
+ {
+  "subject": "Biochemistry",
+  "subtopic": "Metabolic biochemistry",
+  "template": "A child develops hypoglycaemia after prolonged fasting with low ketone production. Which metabolic process is most likely impaired?",
+  "n": 5,
+  "items": [
+   {
+    "id": "ac4f0c1b-5372-4a3f-96f2-895eb12f946b",
+    "zid": "ZYNTRA-BS-052",
+    "opts": 5,
+    "tier": "moderate",
+    "status": "active"
+   },
+   {
+    "id": "f91194dc-3705-47c5-a168-1a2232f80b3d",
+    "zid": "ZYNTRA-BS-057",
+    "opts": 5,
+    "tier": "very hard",
+    "status": "active"
+   },
+   {
+    "id": "ec3ee3dd-99d9-4c46-9444-c90506f985e2",
+    "zid": "ZYNTRA-BS-062",
+    "opts": 5,
+    "tier": "easy",
+    "status": "active"
+   },
+   {
+    "id": "d8f7f208-f31f-49fa-9cd9-b92b77e8743b",
+    "zid": "ZYNTRA-BS-067",
+    "opts": 5,
+    "tier": "very hard",
+    "status": "active"
+   },
+   {
+    "id": "a11cfafe-3131-48f0-9c00-691a34c34bb2",
+    "zid": "ZYNTRA-BS-072",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   }
+  ]
+ },
+ {
+  "subject": "Biochemistry",
+  "subtopic": "Mitochondrial metabolism",
+  "template": "A patient with severe lactic acidosis has impaired mitochondrial oxidative metabolism. Which cellular process is directly affected?",
+  "n": 5,
+  "items": [
+   {
+    "id": "215728b4-5f9f-454e-bb78-0067b4a6c7bb",
+    "zid": "ZYNTRA-BS-053",
+    "opts": 5,
+    "tier": "very hard",
+    "status": "active"
+   },
+   {
+    "id": "e520486a-8f3d-4f04-9649-6582b74f77be",
+    "zid": "ZYNTRA-BS-058",
+    "opts": 5,
+    "tier": "very easy",
+    "status": "active"
+   },
+   {
+    "id": "89eb4bdf-5c0f-4e72-a0ee-5dea84cae526",
+    "zid": "ZYNTRA-BS-063",
+    "opts": 5,
+    "tier": "very easy",
+    "status": "active"
+   },
+   {
+    "id": "4cb7992f-cecd-4581-9e1c-8ea019694aa8",
+    "zid": "ZYNTRA-BS-068",
+    "opts": 5,
+    "tier": "easy",
+    "status": "active"
+   },
+   {
+    "id": "33153a13-d093-4bf6-bae2-bb880fad08e7",
+    "zid": "ZYNTRA-BS-073",
+    "opts": 5,
+    "tier": "very hard",
+    "status": "active"
+   }
+  ]
+ },
+ {
+  "subject": "Biochemistry",
+  "subtopic": "Energy metabolism",
+  "template": "A patient develops muscle cramps and weakness after strenuous exercise with markedly elevated CK. Which metabolic pathway supplies rapid ATP during short, intense activity?",
+  "n": 5,
+  "items": [
+   {
+    "id": "78562733-51e5-4fdd-9df4-6c425a13f2d2",
+    "zid": "ZYNTRA-BS-054",
+    "opts": 5,
+    "tier": "moderate",
+    "status": "active"
+   },
+   {
+    "id": "41e4d002-b2c0-4eb1-b78c-7becbd687a83",
+    "zid": "ZYNTRA-BS-059",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   },
+   {
+    "id": "8431e73e-0a0a-4435-82f8-5702ec70b8be",
+    "zid": "ZYNTRA-BS-064",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   },
+   {
+    "id": "0da5c9f0-aeb6-47d2-9396-22063783159d",
+    "zid": "ZYNTRA-BS-069",
+    "opts": 5,
+    "tier": "moderate",
+    "status": "active"
+   },
+   {
+    "id": "02efe69b-6b9a-46ac-877f-f8325fe03cdb",
+    "zid": "ZYNTRA-BS-074",
+    "opts": 5,
+    "tier": "very easy",
+    "status": "active"
+   }
+  ]
+ },
+ {
+  "subject": "Biochemistry",
+  "subtopic": "Vitamin biochemistry",
+  "template": "A patient with chronic alcohol use develops neurological symptoms and lactic acidosis. Deficiency of which cofactor most directly impairs pyruvate metabolism?",
+  "n": 5,
+  "items": [
+   {
+    "id": "1a29c6d4-b2f2-412b-a9f9-d20de5dd509d",
+    "zid": "ZYNTRA-BS-055",
+    "opts": 5,
+    "tier": "hard",
+    "status": "active"
+   },
+   {
+    "id": "b21e9453-3f06-474d-a32a-8b1986e5e709",
+    "zid": "ZYNTRA-BS-060",
+    "opts": 5,
+    "tier": "moderate",
+    "status": "active"
+   },
+   {
+    "id": "fa3df557-f5e1-4f47-ae20-92118b37b409",
+    "zid": "ZYNTRA-BS-065",
+    "opts": 5,
+    "tier": "hard",
+    "status": "active"
+   },
+   {
+    "id": "d526e970-4937-4b19-8d39-434e48913c35",
+    "zid": "ZYNTRA-BS-070",
+    "opts": 5,
+    "tier": "hard",
+    "status": "active"
+   },
+   {
+    "id": "816c8463-ab5b-48ea-8243-37b9863e235e",
+    "zid": "ZYNTRA-BS-075",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   }
+  ]
+ },
+ {
+  "subject": "Pharmacology",
+  "subtopic": "Autonomic pharmacology",
+  "template": "A patient taking a beta-blocker develops symptomatic bradycardia. Which receptor blockade most directly explains the effect?",
+  "n": 5,
+  "items": [
+   {
+    "id": "e57383ef-c6ce-4101-9153-7366d7954398",
+    "zid": "ZYNTRA-BS-076",
+    "opts": 5,
+    "tier": "moderate",
+    "status": "active"
+   },
+   {
+    "id": "2c8d5aca-5cd3-4b4f-83dc-05b6c88aaefe",
+    "zid": "ZYNTRA-BS-081",
+    "opts": 5,
+    "tier": "very hard",
+    "status": "active"
+   },
+   {
+    "id": "23bddd22-b09a-42f8-96c0-71902a70eb32",
+    "zid": "ZYNTRA-BS-086",
+    "opts": 5,
+    "tier": "hard",
+    "status": "active"
+   },
+   {
+    "id": "9c2b16cf-21e6-4f75-b99b-75dec090e6d9",
+    "zid": "ZYNTRA-BS-091",
+    "opts": 5,
+    "tier": "moderate",
+    "status": "active"
+   },
+   {
+    "id": "565616c5-172f-4e25-a093-d13af491baef",
+    "zid": "ZYNTRA-BS-096",
+    "opts": 5,
+    "tier": "moderate",
+    "status": "active"
+   }
+  ]
+ },
+ {
+  "subject": "Pharmacology",
+  "subtopic": "Renin-angiotensin pharmacology",
+  "template": "A patient receiving an ACE inhibitor develops a persistent dry cough. Which mediator is implicated?",
+  "n": 5,
+  "items": [
+   {
+    "id": "5cdf7679-180a-49eb-8efb-27fef2df5105",
+    "zid": "ZYNTRA-BS-077",
+    "opts": 5,
+    "tier": "hard",
+    "status": "active"
+   },
+   {
+    "id": "cede02bf-35e9-41c9-b57e-7625c1f3653a",
+    "zid": "ZYNTRA-BS-082",
+    "opts": 5,
+    "tier": "easy",
+    "status": "active"
+   },
+   {
+    "id": "548dd7d6-ca97-43dd-866e-e5ea8eeac414",
+    "zid": "ZYNTRA-BS-087",
+    "opts": 5,
+    "tier": "easy",
+    "status": "active"
+   },
+   {
+    "id": "26ec2cd7-02c5-4e8e-88c0-335d75620bcb",
+    "zid": "ZYNTRA-BS-092",
+    "opts": 5,
+    "tier": "very easy",
+    "status": "active"
+   },
+   {
+    "id": "e0dc33bb-24c2-4f86-838a-05f4af6afedb",
+    "zid": "ZYNTRA-BS-097",
+    "opts": 5,
+    "tier": "moderate",
+    "status": "active"
+   }
+  ]
+ },
+ {
+  "subject": "Pharmacology",
+  "subtopic": "Opioid pharmacology",
+  "template": "A patient develops pinpoint pupils and respiratory depression after an opioid overdose. Which receptor is primarily responsible?",
+  "n": 5,
+  "items": [
+   {
+    "id": "21f28205-bbea-415f-a699-e8579262c9fe",
+    "zid": "ZYNTRA-BS-078",
+    "opts": 5,
+    "tier": "very hard",
+    "status": "active"
+   },
+   {
+    "id": "aa3ec79b-f209-492a-9895-977001cea854",
+    "zid": "ZYNTRA-BS-083",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   },
+   {
+    "id": "52253c99-b43d-467b-9b74-8c3184dc9f01",
+    "zid": "ZYNTRA-BS-088",
+    "opts": 5,
+    "tier": "very hard",
+    "status": "active"
+   },
+   {
+    "id": "aba6d357-9185-43a9-9959-7bbcd532b84f",
+    "zid": "ZYNTRA-BS-093",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   },
+   {
+    "id": "761ea0a6-aba1-44e6-aa84-c7a5a4a3e0c7",
+    "zid": "ZYNTRA-BS-098",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   }
+  ]
+ },
+ {
+  "subject": "Pharmacology",
+  "subtopic": "Anticoagulant pharmacology",
+  "template": "A patient on warfarin develops major bleeding. Which laboratory test is most useful for monitoring its anticoagulant effect?",
+  "n": 5,
+  "items": [
+   {
+    "id": "730d41da-ebda-43b0-90f3-51b74b25158f",
+    "zid": "ZYNTRA-BS-079",
+    "opts": 5,
+    "tier": "very hard",
+    "status": "active"
+   },
+   {
+    "id": "42d1815c-c796-4811-bc9c-b4526e6807fa",
+    "zid": "ZYNTRA-BS-084",
+    "opts": 5,
+    "tier": "very easy",
+    "status": "active"
+   },
+   {
+    "id": "379108d9-804c-41f1-b5cd-ac5d5d77e4dd",
+    "zid": "ZYNTRA-BS-089",
+    "opts": 5,
+    "tier": "very easy",
+    "status": "active"
+   },
+   {
+    "id": "ebf5dc74-44a6-4753-9f6e-28bcb542a3c1",
+    "zid": "ZYNTRA-BS-094",
+    "opts": 5,
+    "tier": "hard",
+    "status": "active"
+   },
+   {
+    "id": "20e5e9f9-07a0-4edd-af87-d4d9cf822df6",
+    "zid": "ZYNTRA-BS-099",
+    "opts": 5,
+    "tier": "easy",
+    "status": "active"
+   }
+  ]
+ },
+ {
+  "subject": "Pharmacology",
+  "subtopic": "Renal pharmacology",
+  "template": "A patient taking a medication develops hyperkalaemia because aldosterone-mediated potassium secretion is reduced. Which drug class is most likely responsible?",
+  "n": 5,
+  "items": [
+   {
+    "id": "8a0a943c-fe97-4db2-b2fe-d9377d110b1a",
+    "zid": "ZYNTRA-BS-080",
+    "opts": 5,
+    "tier": "hard",
+    "status": "active"
+   },
+   {
+    "id": "61621e08-411b-48e6-9482-8732f868a173",
+    "zid": "ZYNTRA-BS-085",
+    "opts": 5,
+    "tier": "hard",
+    "status": "active"
+   },
+   {
+    "id": "85f3d497-8338-423b-84ef-2768ebe62039",
+    "zid": "ZYNTRA-BS-090",
+    "opts": 5,
+    "tier": "very easy",
+    "status": "active"
+   },
+   {
+    "id": "dc0c1859-ff00-4e11-afa4-7443e3ca028d",
+    "zid": "ZYNTRA-BS-095",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   },
+   {
+    "id": "6cce3816-5241-41d8-ba65-1e4b4cfa6e0b",
+    "zid": "ZYNTRA-BS-100",
+    "opts": 5,
+    "tier": "moderate",
+    "status": "active"
+   }
+  ]
+ },
+ {
+  "subject": "Pathology",
+  "subtopic": "Inflammatory pathology",
+  "template": "A patient has fever, a raised CRP and a neutrophil-rich inflammatory response. Which process best describes the acute tissue response?",
+  "n": 5,
+  "items": [
+   {
+    "id": "bad08d25-54fa-4e4c-9806-c33ef6966915",
+    "zid": "ZYNTRA-BS-101",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   },
+   {
+    "id": "23f3bd40-2f0a-4035-bdcd-00428b28236c",
+    "zid": "ZYNTRA-BS-106",
+    "opts": 5,
+    "tier": "hard",
+    "status": "active"
+   },
+   {
+    "id": "cb60ca65-31b7-4949-bfa9-6580b4d93f11",
+    "zid": "ZYNTRA-BS-111",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   },
+   {
+    "id": "6bc184e2-5a48-421e-8799-8895488177a9",
+    "zid": "ZYNTRA-BS-116",
+    "opts": 5,
+    "tier": "hard",
+    "status": "active"
+   },
+   {
+    "id": "d29b9266-2d66-4375-8c8e-4106d9cbc4b3",
+    "zid": "ZYNTRA-BS-121",
+    "opts": 5,
+    "tier": "moderate",
+    "status": "active"
+   }
+  ]
+ },
+ {
+  "subject": "Pathology",
+  "subtopic": "Pulmonary pathology",
+  "template": "A long-term smoker develops progressive airflow limitation with destruction of alveolar walls. Which pathological process is characteristic?",
+  "n": 5,
+  "items": [
+   {
+    "id": "2e4d8f0e-ad8f-427b-89bc-7f7e7a0d7670",
+    "zid": "ZYNTRA-BS-102",
+    "opts": 5,
+    "tier": "hard",
+    "status": "active"
+   },
+   {
+    "id": "be0a262e-ac36-46b2-a9b1-dd09c56e4bb2",
+    "zid": "ZYNTRA-BS-107",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   },
+   {
+    "id": "2fffc1bc-b38e-4efe-bbff-69f0b86aa3a6",
+    "zid": "ZYNTRA-BS-112",
+    "opts": 5,
+    "tier": "very hard",
+    "status": "active"
+   },
+   {
+    "id": "afb21f8a-36c4-40c2-9e08-7441475b1bdc",
+    "zid": "ZYNTRA-BS-117",
+    "opts": 5,
+    "tier": "hard",
+    "status": "active"
+   },
+   {
+    "id": "cf48539a-64b2-4419-9624-d6601356999a",
+    "zid": "ZYNTRA-BS-122",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   }
+  ]
+ },
+ {
+  "subject": "Pathology",
+  "subtopic": "Neoplastic pathology",
+  "template": "A patient develops a painless enlarging breast mass with malignant cells invading surrounding tissue. Which feature establishes malignancy?",
+  "n": 5,
+  "items": [
+   {
+    "id": "f0d19534-cfe7-4bd2-8364-68f1ad1d2708",
+    "zid": "ZYNTRA-BS-103",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   },
+   {
+    "id": "1add5b59-f2f7-4a33-9175-9681d122b807",
+    "zid": "ZYNTRA-BS-108",
+    "opts": 5,
+    "tier": "moderate",
+    "status": "active"
+   },
+   {
+    "id": "6153f96d-5174-4d7a-b27f-f82fa7b13dce",
+    "zid": "ZYNTRA-BS-113",
+    "opts": 5,
+    "tier": "very hard",
+    "status": "active"
+   },
+   {
+    "id": "d39494ec-082c-481f-a94a-88d4563c02fc",
+    "zid": "ZYNTRA-BS-118",
+    "opts": 5,
+    "tier": "hard",
+    "status": "active"
+   },
+   {
+    "id": "393991db-4480-4e8e-987d-332b42177d0d",
+    "zid": "ZYNTRA-BS-123",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   }
+  ]
+ },
+ {
+  "subject": "Pathology",
+  "subtopic": "Cellular adaptation",
+  "template": "A patient with prolonged hypertension develops left ventricular wall thickening. Which cellular adaptation explains the change?",
+  "n": 5,
+  "items": [
+   {
+    "id": "b6578739-9425-4de5-83b0-063ff5654065",
+    "zid": "ZYNTRA-BS-104",
+    "opts": 5,
+    "tier": "very easy",
+    "status": "active"
+   },
+   {
+    "id": "ee7c115f-779e-4a6f-a2af-9395655bb9c8",
+    "zid": "ZYNTRA-BS-109",
+    "opts": 5,
+    "tier": "very easy",
+    "status": "active"
+   },
+   {
+    "id": "a0451d61-12ac-4152-8adb-e795c1c8dd85",
+    "zid": "ZYNTRA-BS-114",
+    "opts": 5,
+    "tier": "moderate",
+    "status": "active"
+   },
+   {
+    "id": "1cb6eadd-3fb4-4186-9be3-f341e11e26b8",
+    "zid": "ZYNTRA-BS-119",
+    "opts": 5,
+    "tier": "very easy",
+    "status": "active"
+   },
+   {
+    "id": "b45fee59-2018-4a75-859f-c73e022f77ad",
+    "zid": "ZYNTRA-BS-124",
+    "opts": 5,
+    "tier": "easy",
+    "status": "active"
+   }
+  ]
+ },
+ {
+  "subject": "Pathology",
+  "subtopic": "Cell injury",
+  "template": "A patient develops renal tubular injury after severe hypotension. Which mechanism is most directly responsible for the cellular damage?",
+  "n": 5,
+  "items": [
+   {
+    "id": "2aa920f4-6053-45c5-8be8-a6b8e99aa7d1",
+    "zid": "ZYNTRA-BS-105",
+    "opts": 5,
+    "tier": "easy",
+    "status": "active"
+   },
+   {
+    "id": "01b8e40d-6084-4f44-a45b-efa998fedafe",
+    "zid": "ZYNTRA-BS-110",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   },
+   {
+    "id": "e568c144-da62-4812-b711-1ab4833444ca",
+    "zid": "ZYNTRA-BS-115",
+    "opts": 5,
+    "tier": "easy",
+    "status": "active"
+   },
+   {
+    "id": "6fb95c09-5ab8-4bd2-abdd-40ef7bd6fe70",
+    "zid": "ZYNTRA-BS-120",
+    "opts": 5,
+    "tier": "hard",
+    "status": "active"
+   },
+   {
+    "id": "91b9f57b-c1fc-4944-8fc8-abd482c8adff",
+    "zid": "ZYNTRA-BS-125",
+    "opts": 5,
+    "tier": "hard",
+    "status": "active"
+   }
+  ]
+ },
+ {
+  "subject": "Microbiology",
+  "subtopic": "Urinary microbiology",
+  "template": "A patient develops dysuria and frequency with a urine culture growing a common Gram-negative enteric bacillus. Which organism is most likely?",
+  "n": 5,
+  "items": [
+   {
+    "id": "0c41fecf-77e4-4370-9a79-4a2129289b19",
+    "zid": "ZYNTRA-BS-126",
+    "opts": 5,
+    "tier": "very easy",
+    "status": "active"
+   },
+   {
+    "id": "ed1b9172-7353-4328-8ba7-31f971c40cb5",
+    "zid": "ZYNTRA-BS-131",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   },
+   {
+    "id": "a7611625-0bbf-472a-bff1-d8d9212e55d7",
+    "zid": "ZYNTRA-BS-136",
+    "opts": 5,
+    "tier": "moderate",
+    "status": "active"
+   },
+   {
+    "id": "e5a31ae9-b6ad-4fd6-917e-02eb78a27ff2",
+    "zid": "ZYNTRA-BS-141",
+    "opts": 5,
+    "tier": "very hard",
+    "status": "active"
+   },
+   {
+    "id": "7e4de79a-db44-424a-acf5-b4da7410c673",
+    "zid": "ZYNTRA-BS-146",
+    "opts": 5,
+    "tier": "moderate",
+    "status": "active"
+   }
+  ]
+ },
+ {
+  "subject": "Microbiology",
+  "subtopic": "Respiratory microbiology",
+  "template": "A patient with lobar pneumonia has rust-coloured sputum and Gram-positive lancet-shaped diplococci. Which organism is most likely?",
+  "n": 5,
+  "items": [
+   {
+    "id": "af6c590c-2f3e-405d-89e8-0ff4c25f0b2c",
+    "zid": "ZYNTRA-BS-127",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   },
+   {
+    "id": "9eebc7aa-8820-404a-8e34-22b663999500",
+    "zid": "ZYNTRA-BS-132",
+    "opts": 5,
+    "tier": "easy",
+    "status": "active"
+   },
+   {
+    "id": "ffaba619-56fa-40e2-b40d-59959e5bcd51",
+    "zid": "ZYNTRA-BS-137",
+    "opts": 5,
+    "tier": "very hard",
+    "status": "active"
+   },
+   {
+    "id": "1050a3ea-3ad6-4e63-83cb-947c52e2639d",
+    "zid": "ZYNTRA-BS-142",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   },
+   {
+    "id": "b115a76a-07ea-4520-978e-c58b71d7f080",
+    "zid": "ZYNTRA-BS-147",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   }
+  ]
+ },
+ {
+  "subject": "Microbiology",
+  "subtopic": "Gastrointestinal microbiology",
+  "template": "A patient develops watery diarrhoea after recent broad-spectrum antibiotic exposure. Which organism is most likely responsible?",
+  "n": 5,
+  "items": [
+   {
+    "id": "01d771e4-a389-4930-bb17-1bd7cfcdb87e",
+    "zid": "ZYNTRA-BS-128",
+    "opts": 5,
+    "tier": "easy",
+    "status": "active"
+   },
+   {
+    "id": "442edd9d-9c75-4ea3-a7a2-defc836f67e4",
+    "zid": "ZYNTRA-BS-133",
+    "opts": 5,
+    "tier": "moderate",
+    "status": "active"
+   },
+   {
+    "id": "4a463aae-34a9-42e0-ba47-fd1f6ef3920d",
+    "zid": "ZYNTRA-BS-138",
+    "opts": 5,
+    "tier": "easy",
+    "status": "active"
+   },
+   {
+    "id": "2d5d506e-d2e5-4fe2-ba5c-314e9df1c2cd",
+    "zid": "ZYNTRA-BS-143",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   },
+   {
+    "id": "3eff4207-de4f-4a35-9bcc-a6a51e5ddf57",
+    "zid": "ZYNTRA-BS-148",
+    "opts": 5,
+    "tier": "easy",
+    "status": "active"
+   }
+  ]
+ },
+ {
+  "subject": "Microbiology",
+  "subtopic": "CNS microbiology",
+  "template": "A patient with fever, neck stiffness and a purpuric rash has meningococcal disease. Which organism is most likely?",
+  "n": 5,
+  "items": [
+   {
+    "id": "dbee2f56-3ef7-4a08-98f2-f70b26191c85",
+    "zid": "ZYNTRA-BS-129",
+    "opts": 5,
+    "tier": "very easy",
+    "status": "active"
+   },
+   {
+    "id": "076ffa70-ec6d-4d67-8629-8d326e269f67",
+    "zid": "ZYNTRA-BS-134",
+    "opts": 5,
+    "tier": "very easy",
+    "status": "active"
+   },
+   {
+    "id": "4500a664-ebb2-4a59-bde3-2ffb5795a954",
+    "zid": "ZYNTRA-BS-139",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   },
+   {
+    "id": "5a57e881-5b6d-4361-a035-2fb0ecc9ed70",
+    "zid": "ZYNTRA-BS-144",
+    "opts": 5,
+    "tier": "hard",
+    "status": "active"
+   },
+   {
+    "id": "47f452a2-8bec-4795-832e-319928b0f5d9",
+    "zid": "ZYNTRA-BS-149",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   }
+  ]
+ },
+ {
+  "subject": "Microbiology",
+  "subtopic": "Fungal host defence",
+  "template": "A patient with recurrent mucosal candidiasis has impaired cell-mediated immunity. Which type of host defence is particularly important against Candida?",
+  "n": 5,
+  "items": [
+   {
+    "id": "9b23b222-1b05-4f63-a292-71d2d1cd09d4",
+    "zid": "ZYNTRA-BS-130",
+    "opts": 5,
+    "tier": "easy",
+    "status": "active"
+   },
+   {
+    "id": "1dfa059b-1bd1-4ae0-a85c-580055cd393e",
+    "zid": "ZYNTRA-BS-135",
+    "opts": 5,
+    "tier": "very hard",
+    "status": "active"
+   },
+   {
+    "id": "52ae0f11-f5fe-4a75-817a-e9b3c447b3de",
+    "zid": "ZYNTRA-BS-140",
+    "opts": 5,
+    "tier": "easy",
+    "status": "active"
+   },
+   {
+    "id": "5f8de5e2-7e13-4fb4-beb8-d274530e07b6",
+    "zid": "ZYNTRA-BS-145",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   },
+   {
+    "id": "b7d44310-fd52-4b49-b1b5-2c92f4d79f89",
+    "zid": "ZYNTRA-BS-150",
+    "opts": 5,
+    "tier": "hard",
+    "status": "active"
+   }
+  ]
+ },
+ {
+  "subject": "Immunology",
+  "subtopic": "Hypersensitivity",
+  "template": "A patient develops urticaria and wheeze within minutes of exposure to an allergen. Which immunological mechanism is most likely?",
+  "n": 5,
+  "items": [
+   {
+    "id": "3f3cf4cb-7824-4de5-98c0-4a74a8ca2022",
+    "zid": "ZYNTRA-BS-151",
+    "opts": 5,
+    "tier": "very hard",
+    "status": "active"
+   },
+   {
+    "id": "3d82df77-7c02-4bc9-89ae-29dced0db72a",
+    "zid": "ZYNTRA-BS-156",
+    "opts": 5,
+    "tier": "hard",
+    "status": "active"
+   },
+   {
+    "id": "a5fa2b15-ba83-4539-a211-768eebc716d4",
+    "zid": "ZYNTRA-BS-161",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   },
+   {
+    "id": "d6180049-6d07-490f-9c45-c8c262d57885",
+    "zid": "ZYNTRA-BS-166",
+    "opts": 5,
+    "tier": "easy",
+    "status": "active"
+   },
+   {
+    "id": "366c5035-0733-47b7-b95a-b0c0827ac526",
+    "zid": "ZYNTRA-BS-171",
+    "opts": 5,
+    "tier": "very easy",
+    "status": "active"
+   }
+  ]
+ },
+ {
+  "subject": "Immunology",
+  "subtopic": "Humoral immunity",
+  "template": "A patient has recurrent bacterial infections with absent mature B cells. Which immune function is primarily impaired?",
+  "n": 5,
+  "items": [
+   {
+    "id": "752f1c7c-e2d5-4862-a1e4-f883c6a61eb6",
+    "zid": "ZYNTRA-BS-152",
+    "opts": 5,
+    "tier": "very hard",
+    "status": "active"
+   },
+   {
+    "id": "8bdd6dc0-ba61-4684-ab83-ee165ab0a2c8",
+    "zid": "ZYNTRA-BS-157",
+    "opts": 5,
+    "tier": "very easy",
+    "status": "active"
+   },
+   {
+    "id": "ab65ae37-25fb-40ed-a5d5-854c370a4bd6",
+    "zid": "ZYNTRA-BS-162",
+    "opts": 5,
+    "tier": "easy",
+    "status": "active"
+   },
+   {
+    "id": "2ef031e5-516c-495e-b3d7-d68e76c6628a",
+    "zid": "ZYNTRA-BS-167",
+    "opts": 5,
+    "tier": "very hard",
+    "status": "active"
+   },
+   {
+    "id": "36f71bf6-f117-438d-b6c9-598f72247cdb",
+    "zid": "ZYNTRA-BS-172",
+    "opts": 5,
+    "tier": "moderate",
+    "status": "active"
+   }
+  ]
+ },
+ {
+  "subject": "Immunology",
+  "subtopic": "Transplant immunology",
+  "template": "A transplanted organ is rejected rapidly because pre-existing antibodies recognise donor antigens. Which process is involved?",
+  "n": 5,
+  "items": [
+   {
+    "id": "3b6c9f0d-b0b8-49ad-ba2e-268c6cc505f5",
+    "zid": "ZYNTRA-BS-153",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   },
+   {
+    "id": "84a5a407-ee53-4242-95d8-a1be8e5e58f1",
+    "zid": "ZYNTRA-BS-158",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   },
+   {
+    "id": "0a6355f2-bb8a-4de5-b006-01faf416c160",
+    "zid": "ZYNTRA-BS-163",
+    "opts": 5,
+    "tier": "very hard",
+    "status": "active"
+   },
+   {
+    "id": "42d314c2-13cf-4a7c-b0d1-61850c162034",
+    "zid": "ZYNTRA-BS-168",
+    "opts": 5,
+    "tier": "moderate",
+    "status": "active"
+   },
+   {
+    "id": "4140d2c5-7ec3-46f5-924a-5de600e3410f",
+    "zid": "ZYNTRA-BS-173",
+    "opts": 5,
+    "tier": "hard",
+    "status": "active"
+   }
+  ]
+ },
+ {
+  "subject": "Immunology",
+  "subtopic": "Immune-complex disease",
+  "template": "A patient develops arthritis and nephritis due to circulating antigen-antibody complexes. Which hypersensitivity type is involved?",
+  "n": 5,
+  "items": [
+   {
+    "id": "a98ec4ae-995b-42cc-98a7-9add80fb701b",
+    "zid": "ZYNTRA-BS-154",
+    "opts": 5,
+    "tier": "moderate",
+    "status": "active"
+   },
+   {
+    "id": "70ce6550-00a2-4db7-993b-67875fcc45eb",
+    "zid": "ZYNTRA-BS-159",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   },
+   {
+    "id": "e97ca23e-6a91-40b3-b72e-7adcc8cb4dbf",
+    "zid": "ZYNTRA-BS-164",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   },
+   {
+    "id": "49734498-760f-4673-9073-19123218cafd",
+    "zid": "ZYNTRA-BS-169",
+    "opts": 5,
+    "tier": "very easy",
+    "status": "active"
+   },
+   {
+    "id": "de70881e-5f18-4469-8e00-eb53f5efaaa0",
+    "zid": "ZYNTRA-BS-174",
+    "opts": 5,
+    "tier": "hard",
+    "status": "active"
+   }
+  ]
+ },
+ {
+  "subject": "Immunology",
+  "subtopic": "Cell-mediated immunity",
+  "template": "A patient develops contact dermatitis after exposure to a sensitising chemical. Which immune mechanism is responsible?",
+  "n": 5,
+  "items": [
+   {
+    "id": "629ad257-7217-4863-bcab-11eb6d1d0617",
+    "zid": "ZYNTRA-BS-155",
+    "opts": 5,
+    "tier": "easy",
+    "status": "active"
+   },
+   {
+    "id": "c5afd1c5-6659-48a2-8e18-64a3e15febe7",
+    "zid": "ZYNTRA-BS-160",
+    "opts": 5,
+    "tier": "moderate",
+    "status": "active"
+   },
+   {
+    "id": "38ff1b82-310f-49dc-9b8a-399cac77e6b6",
+    "zid": "ZYNTRA-BS-165",
+    "opts": 5,
+    "tier": "very easy",
+    "status": "active"
+   },
+   {
+    "id": "d9e67c89-27a9-42b0-a96f-4ccd4f8ee895",
+    "zid": "ZYNTRA-BS-170",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   },
+   {
+    "id": "959340a3-3022-4e85-b89e-c4a0fae06ec3",
+    "zid": "ZYNTRA-BS-175",
+    "opts": 5,
+    "tier": "moderate",
+    "status": "active"
+   }
+  ]
+ },
+ {
+  "subject": "Genetics",
+  "subtopic": "Chromosomal genetics",
+  "template": "A child has developmental delay, characteristic facial features and three copies of chromosome 21. What chromosomal abnormality is present?",
+  "n": 5,
+  "items": [
+   {
+    "id": "6867c5b0-c81a-421b-b4ff-475b780b5fbb",
+    "zid": "ZYNTRA-BS-176",
+    "opts": 5,
+    "tier": "easy",
+    "status": "active"
+   },
+   {
+    "id": "69931bee-ca11-449b-8b66-56df941f693e",
+    "zid": "ZYNTRA-BS-181",
+    "opts": 5,
+    "tier": "easy",
+    "status": "active"
+   },
+   {
+    "id": "d3d360f5-41b0-4106-bd09-d256c9b51de0",
+    "zid": "ZYNTRA-BS-186",
+    "opts": 5,
+    "tier": "hard",
+    "status": "active"
+   },
+   {
+    "id": "99ff3453-27fb-4e04-be69-9340204f7838",
+    "zid": "ZYNTRA-BS-191",
+    "opts": 5,
+    "tier": "very hard",
+    "status": "active"
+   },
+   {
+    "id": "8725f9ca-86fa-473a-ba01-7636b8fc51e2",
+    "zid": "ZYNTRA-BS-196",
+    "opts": 5,
+    "tier": "hard",
+    "status": "active"
+   }
+  ]
+ },
+ {
+  "subject": "Genetics",
+  "subtopic": "Inheritance",
+  "template": "A pedigree shows affected males linked through carrier mothers with no father-to-son transmission. Which inheritance pattern is most likely?",
+  "n": 5,
+  "items": [
+   {
+    "id": "51b78333-daf4-40c3-8524-a17fe6978bda",
+    "zid": "ZYNTRA-BS-177",
+    "opts": 5,
+    "tier": "moderate",
+    "status": "active"
+   },
+   {
+    "id": "61c2e945-c465-4abd-a296-0168a1fe7936",
+    "zid": "ZYNTRA-BS-182",
+    "opts": 5,
+    "tier": "easy",
+    "status": "active"
+   },
+   {
+    "id": "10539508-8602-4364-8551-eb2cb174cff9",
+    "zid": "ZYNTRA-BS-187",
+    "opts": 5,
+    "tier": "easy",
+    "status": "active"
+   },
+   {
+    "id": "6291669a-35b5-44b8-b139-9524d3f9a7bc",
+    "zid": "ZYNTRA-BS-192",
+    "opts": 5,
+    "tier": "moderate",
+    "status": "active"
+   },
+   {
+    "id": "2f5c312a-54a4-44e1-8a44-41873e7b8c51",
+    "zid": "ZYNTRA-BS-197",
+    "opts": 5,
+    "tier": "easy",
+    "status": "active"
+   }
+  ]
+ },
+ {
+  "subject": "Genetics",
+  "subtopic": "Molecular genetics",
+  "template": "A patient has a disease caused by a single nucleotide substitution that changes one amino acid in a protein. What type of mutation is this?",
+  "n": 5,
+  "items": [
+   {
+    "id": "92fb8f6c-e5bd-4809-918c-3e32397020ed",
+    "zid": "ZYNTRA-BS-178",
+    "opts": 5,
+    "tier": "very easy",
+    "status": "active"
+   },
+   {
+    "id": "1e3a9431-12c2-46a5-85d7-f8535cff6f5e",
+    "zid": "ZYNTRA-BS-183",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   },
+   {
+    "id": "c88b1f63-5601-428b-9395-a224749fa669",
+    "zid": "ZYNTRA-BS-188",
+    "opts": 5,
+    "tier": "very hard",
+    "status": "active"
+   },
+   {
+    "id": "d7456294-1bb9-4578-bb06-6da5c9db845a",
+    "zid": "ZYNTRA-BS-193",
+    "opts": 5,
+    "tier": "very easy",
+    "status": "active"
+   },
+   {
+    "id": "23082d3c-b40c-4e07-a824-39237ec46f4f",
+    "zid": "ZYNTRA-BS-198",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   }
+  ]
+ },
+ {
+  "subject": "Genetics",
+  "subtopic": "Developmental genetics",
+  "template": "A patient with a suspected inherited disorder has a pathogenic variant present in every nucleated cell. At what stage did the mutation most likely arise?",
+  "n": 5,
+  "items": [
+   {
+    "id": "423ab2e8-c1d4-4af1-a876-62f95e959ca1",
+    "zid": "ZYNTRA-BS-179",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   },
+   {
+    "id": "9f633158-37df-446c-8e26-c14ae1f6a78b",
+    "zid": "ZYNTRA-BS-184",
+    "opts": 5,
+    "tier": "easy",
+    "status": "active"
+   },
+   {
+    "id": "26bb7cc7-7c2c-4c03-a21b-19743c42b385",
+    "zid": "ZYNTRA-BS-189",
+    "opts": 5,
+    "tier": "very easy",
+    "status": "active"
+   },
+   {
+    "id": "fa494903-a82d-4c8e-acf1-ffba303eb8f3",
+    "zid": "ZYNTRA-BS-194",
+    "opts": 5,
+    "tier": "hard",
+    "status": "active"
+   },
+   {
+    "id": "afb7873e-f27d-4f72-b26d-9f38550425c0",
+    "zid": "ZYNTRA-BS-199",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   }
+  ]
+ },
+ {
+  "subject": "Genetics",
+  "subtopic": "Mitochondrial genetics",
+  "template": "A mother with a mitochondrial disorder transmits the condition to all her children, while an affected father transmits it to none. What inheritance pattern is demonstrated?",
+  "n": 5,
+  "items": [
+   {
+    "id": "e79c29b5-4bb5-43be-a9e9-c663c1a6d0d7",
+    "zid": "ZYNTRA-BS-180",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   },
+   {
+    "id": "d65b2ab2-de81-4323-8f5f-aac42ecd9a34",
+    "zid": "ZYNTRA-BS-185",
+    "opts": 5,
+    "tier": "hard",
+    "status": "active"
+   },
+   {
+    "id": "96d7ce5b-a17c-4e6e-9954-4e9a48cf2054",
+    "zid": "ZYNTRA-BS-190",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   },
+   {
+    "id": "9b6db5e7-5502-4bda-97c6-36d145ba126e",
+    "zid": "ZYNTRA-BS-195",
+    "opts": 5,
+    "tier": "hard",
+    "status": "active"
+   },
+   {
+    "id": "496a1e17-42bf-4ffe-be52-6303f4149e05",
+    "zid": "ZYNTRA-BS-200",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   }
+  ]
+ },
+ {
+  "subject": "Embryology",
+  "subtopic": "Neurulation",
+  "template": "A newborn has a neural tube defect. Which developmental process failed?",
+  "n": 5,
+  "items": [
+   {
+    "id": "0aae05c7-746b-4d7c-b098-26d389f834c5",
+    "zid": "ZYNTRA-BS-201",
+    "opts": 5,
+    "tier": "very hard",
+    "status": "active"
+   },
+   {
+    "id": "0036f750-ae4d-4c0d-9a4c-231a3b94239c",
+    "zid": "ZYNTRA-BS-206",
+    "opts": 5,
+    "tier": "very hard",
+    "status": "active"
+   },
+   {
+    "id": "1fcbe853-c81e-4508-8793-c8afbfcb6f22",
+    "zid": "ZYNTRA-BS-211",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   },
+   {
+    "id": "e301dd02-5bdb-4858-81e6-32cc765a6719",
+    "zid": "ZYNTRA-BS-216",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   },
+   {
+    "id": "4c211e9f-14a5-48a2-87cc-733cfaef65dd",
+    "zid": "ZYNTRA-BS-221",
+    "opts": 5,
+    "tier": "very easy",
+    "status": "active"
+   }
+  ]
+ },
+ {
+  "subject": "Embryology",
+  "subtopic": "Cardiac embryology",
+  "template": "A newborn has a congenital heart defect involving abnormal partitioning of the primitive heart. Which developmental process is implicated?",
+  "n": 5,
+  "items": [
+   {
+    "id": "272fa333-99b9-4672-b197-f30685c8f808",
+    "zid": "ZYNTRA-BS-202",
+    "opts": 5,
+    "tier": "hard",
+    "status": "active"
+   },
+   {
+    "id": "4136fefb-71ad-465a-8c88-35e1f9b93fb7",
+    "zid": "ZYNTRA-BS-207",
+    "opts": 5,
+    "tier": "very easy",
+    "status": "active"
+   },
+   {
+    "id": "76944cd6-dca5-49a8-bfc4-b6c132b7e13f",
+    "zid": "ZYNTRA-BS-212",
+    "opts": 5,
+    "tier": "hard",
+    "status": "active"
+   },
+   {
+    "id": "ff2639b8-87f5-417b-a8d3-73377ea283b4",
+    "zid": "ZYNTRA-BS-217",
+    "opts": 5,
+    "tier": "easy",
+    "status": "active"
+   },
+   {
+    "id": "f3427967-bef1-41eb-a7c0-cdb6662e2405",
+    "zid": "ZYNTRA-BS-222",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   }
+  ]
+ },
+ {
+  "subject": "Embryology",
+  "subtopic": "Gastrointestinal embryology",
+  "template": "A newborn has intestinal obstruction caused by failure of recanalisation. Which developmental event was abnormal?",
+  "n": 5,
+  "items": [
+   {
+    "id": "a2f40bbd-a98e-4363-849c-cc12d2c08318",
+    "zid": "ZYNTRA-BS-203",
+    "opts": 5,
+    "tier": "moderate",
+    "status": "active"
+   },
+   {
+    "id": "e354860d-9daf-4555-b667-6d1844119068",
+    "zid": "ZYNTRA-BS-208",
+    "opts": 5,
+    "tier": "easy",
+    "status": "active"
+   },
+   {
+    "id": "33376176-3852-481d-a7e7-525829b40f4f",
+    "zid": "ZYNTRA-BS-213",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   },
+   {
+    "id": "00ac288e-5160-484d-b9df-d3d20bb85837",
+    "zid": "ZYNTRA-BS-218",
+    "opts": 5,
+    "tier": "moderate",
+    "status": "active"
+   },
+   {
+    "id": "49d254e0-6cf7-46c0-86c0-5ef1c4c763d4",
+    "zid": "ZYNTRA-BS-223",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   }
+  ]
+ },
+ {
+  "subject": "Embryology",
+  "subtopic": "Renal embryology",
+  "template": "A newborn has unilateral renal agenesis. Which embryological structure is essential for normal kidney development?",
+  "n": 5,
+  "items": [
+   {
+    "id": "a4da50c5-6464-4a9b-ad68-236548104fd0",
+    "zid": "ZYNTRA-BS-204",
+    "opts": 5,
+    "tier": "easy",
+    "status": "active"
+   },
+   {
+    "id": "fd65733a-6acc-4c6a-a5ca-117a71082d32",
+    "zid": "ZYNTRA-BS-209",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   },
+   {
+    "id": "b8771c70-813e-4af0-9355-4fbc206b782e",
+    "zid": "ZYNTRA-BS-214",
+    "opts": 5,
+    "tier": "easy",
+    "status": "active"
+   },
+   {
+    "id": "4177529b-0768-4682-99ff-235f02c5c91e",
+    "zid": "ZYNTRA-BS-219",
+    "opts": 5,
+    "tier": "moderate",
+    "status": "active"
+   },
+   {
+    "id": "e8397a34-fdd0-496e-831d-fca557a96b58",
+    "zid": "ZYNTRA-BS-224",
+    "opts": 5,
+    "tier": "moderate",
+    "status": "active"
+   }
+  ]
+ },
+ {
+  "subject": "Embryology",
+  "subtopic": "Head and neck embryology",
+  "template": "A newborn has an abnormal external ear. Which embryological structures normally contribute to formation of the auricle?",
+  "n": 5,
+  "items": [
+   {
+    "id": "93993263-9269-4729-8e0f-1f7a1695b86c",
+    "zid": "ZYNTRA-BS-205",
+    "opts": 5,
+    "tier": "easy",
+    "status": "active"
+   },
+   {
+    "id": "843c5a71-7459-415f-b0da-534fa798145b",
+    "zid": "ZYNTRA-BS-210",
+    "opts": 5,
+    "tier": "moderate",
+    "status": "active"
+   },
+   {
+    "id": "75ada96f-c6dd-402f-8a75-0815945f9e3b",
+    "zid": "ZYNTRA-BS-215",
+    "opts": 5,
+    "tier": "hard",
+    "status": "active"
+   },
+   {
+    "id": "a393ea17-f4b0-49f7-93f7-152338028e27",
+    "zid": "ZYNTRA-BS-220",
+    "opts": 5,
+    "tier": "impossible",
+    "status": "active"
+   },
+   {
+    "id": "a4965412-f51d-4a5d-9bad-12769c5222d8",
+    "zid": "ZYNTRA-BS-225",
+    "opts": 5,
+    "tier": "very hard",
+    "status": "active"
+   }
+  ]
+ }
+]
