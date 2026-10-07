@@ -2,6 +2,8 @@ import { useState, useEffect, useMemo } from 'react';
 import { Search, Filter, Bookmark, BookmarkCheck, StickyNote, ChevronDown, ChevronUp, X } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/contexts/AuthContext';
+import { ADMIN_EMAILS } from '@/lib/admin-emails';
+import { Link as RouterLink } from 'react-router-dom';
 import { AppLayout } from '@/components/AppLayout';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -47,7 +49,7 @@ const difficulties = ['All', 'easy', 'moderate', 'difficult'];
 
 type FilterTab = 'all' | 'attempted' | 'unattempted' | 'correct' | 'incorrect' | 'bookmarked';
 
-export default function Questions() {
+function QuestionBankBrowser() {
   const { user } = useAuth();
   const { toast } = useToast();
   const gate = useFeatureGate();
@@ -719,4 +721,33 @@ export default function Questions() {
       )}
     </AppLayout>
   );
+}
+
+/**
+ * P5: the bank browser shows every question's correct answer and explanation, so it is
+ * ADMIN-ONLY (the safer option: a stems-only learner view would still let learners
+ * pre-read the live bank and break first-exposure evidence). Learners are sent to PIE
+ * Practice; the browser component (and its question fetch) never mounts for them.
+ */
+export function canBrowseQuestionBank(email: string | null | undefined): boolean {
+  return Boolean(email && ADMIN_EMAILS.includes(email));
+}
+
+export default function Questions() {
+  const { user } = useAuth();
+  if (!canBrowseQuestionBank(user?.email)) {
+    return (
+      <AppLayout>
+        <div className="mx-auto max-w-xl py-16 text-center space-y-4">
+          <h1 className="text-2xl font-display font-semibold">The question bank is not browsable</h1>
+          <p className="text-sm text-muted-foreground">
+            Questions are chosen for you by adaptive Practice, and answers are shown only after you answer.
+            Your answered questions, with explanations, are in your history.
+          </p>
+          <RouterLink to="/practice" className="inline-block rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground">Go to Practice</RouterLink>
+        </div>
+      </AppLayout>
+    );
+  }
+  return <QuestionBankBrowser />;
 }

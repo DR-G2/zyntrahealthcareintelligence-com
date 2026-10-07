@@ -26,6 +26,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Link } from 'react-router-dom';
 import { useFeatureGate } from '@/hooks/useFeatureGate';
 import { UpgradePrompt } from '@/components/UpgradePrompt';
+import { fetchLegacyShapedHistory } from '@/lib/pie/pie-history-client';
 
 interface AttemptWithQuestion {
   id: string;
@@ -64,13 +65,8 @@ export default function TrustYourGut() {
     queryKey: ['trust-gut-attempts', user?.id],
     queryFn: async () => {
       if (!user) return [];
-      const { data, error } = await supabase
-        .from('user_attempts')
-        .select('id, question_id, selected_answer, is_correct, answer_changes_count, change_sequence, created_at, session_id, questions(correct_answer, category)')
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: true });
-      
-      if (error) throw error;
+      // P5: PIE attempts only; keys only for answered questions (get_my_attempt_history).
+      const data = await fetchLegacyShapedHistory(5000, 'asc');
       return (data || []).map(a => ({
         ...a,
         change_sequence: Array.isArray(a.change_sequence) ? a.change_sequence : [],

@@ -61,6 +61,13 @@ serve(async (req) => {
       return new Response(JSON.stringify({ error: "Only Super Admin can seed synthetic users" }), { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
+    // P5: synthetic seeding writes user_attempts directly (outside PIE sessions, client-side
+    // grading from keys), which would pollute PIE evidence. Disabled unless explicitly enabled
+    // for a non-production project.
+    if (Deno.env.get("ALLOW_SYNTHETIC_SEED") !== "1") {
+      return new Response(JSON.stringify({ error: "Synthetic seeding is disabled (PIE go-live). Set ALLOW_SYNTHETIC_SEED=1 on a non-production project." }), { status: 410, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+
     const body = await req.json().catch(() => ({}));
     const count = Math.min(body.count || 100, 200);
 
