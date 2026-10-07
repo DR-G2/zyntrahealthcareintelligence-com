@@ -13,6 +13,7 @@ import { selectNextQuestion, shouldShowIntervention, type SequencingState, type 
 import { emitBehaviorEvent } from '@/lib/telemetry';
 import { syncPieEngine } from '@/lib/pie/pie-engine-client';
 import { pieSyncFailure } from '@/lib/pie/pie-diagnostics';
+import { persistAttemptsViaV2 } from '@/lib/migration/v2-attempt-writer';
 
 interface Question {
   id: string;
@@ -367,8 +368,24 @@ export default function Assess() {
         sessionId: sessionIdRef.current,
         payload: { question_count: inserts.length, mode: 'diagnostic' },
       });
-      const { error: attemptInsertError } = await supabase.from('user_attempts').insert(inserts);
-      if (attemptInsertError) throw attemptInsertError;
+      // B1 (PR #56): server-graded V2 write only; failures throw (no direct table write).
+      try {
+      await persistAttemptsViaV2('diagnostic', { mode: 'diagnostic' }, inserts.map((a) => ({
+          questionId: a.question_id,
+          selectedAnswer: a.selected_answer,
+          timeTakenSeconds: a.time_taken_seconds,
+          answerChangesCount: a.answer_changes_count,
+          timeToFirstClick: a.time_to_first_click,
+          changeSequence: a.change_sequence,
+          pauseEvents: a.pause_events ? [a.pause_events] : [],
+          questionPosition: a.question_position,
+        })));
+      } catch (e: any) {
+        console.error('[PIE_DIAGNOSTIC]', JSON.stringify({ code: 'PIE_ATTEMPT_WRITE_FAILED', message: e?.message }));
+        toast({ title: 'Answers not saved', description: e?.message || 'Please try again.', variant: 'destructive' });
+        setPhase('test');
+        return;
+      }
 
       // PIE is the production performance-intelligence layer; assessment scoring remains authoritative.
       // PIE failures are reported as explicit diagnostics (never silently ignored).

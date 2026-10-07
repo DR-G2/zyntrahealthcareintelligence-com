@@ -30,6 +30,7 @@ import { syncPieEngine } from '@/lib/pie/pie-engine-client';
 import { PieDiagnosticError, describePieFailure, pieSyncFailure, reportPieFailure, requireV2SessionId } from '@/lib/pie/pie-diagnostics';
 import { createV2PracticeSession, getV2PracticeResults, resumeV2PracticeSession, completeV2PracticeSession, ensureV2Session } from '@/lib/migration/v2-practice-session';
 import { saveAttemptToV2 } from '@/lib/migration/v2-practice-adapter';
+import { persistAttemptsViaV2 } from '@/lib/migration/v2-attempt-writer';
 import { ADMIN_EMAILS } from '@/lib/admin-emails';
 
 interface Question {
@@ -1580,24 +1581,22 @@ function DrillSession({
         question_position: i,
         previous_question_correct: i > 0 ? (selectedAnswers[i - 1] === questions[i - 1]?.correct_answer) : null,
       }));
-      // Confidence telemetry is additive. If an older live database has not yet
-      // applied the confidence migration, preserve the authoritative answer write
-      // instead of blocking submission. The confidence UI remains available and
-      // will persist automatically once the column exists.
-      let attemptInsertError = (await supabase.from('user_attempts').insert(inserts as any)).error;
+      // B1 (PR #56): attempts are persisted only through the V2 server-graded RPCs.
+      // No direct user_attempts write and no fallback: a failure throws and the
+      // submission stays retryable (catch below).
+      await persistAttemptsViaV2('mcq', { mode: config.mode, selection: 'legacy-client-ranker' }, inserts.map((a) => ({
+        questionId: a.question_id,
+        selectedAnswer: a.selected_answer,
+        timeTakenSeconds: a.time_taken_seconds,
+        confidenceLevel: a.confidence_level,
+        answerChangesCount: a.answer_changes_count,
+        timeToFirstClick: a.time_to_first_click,
+        changeSequence: a.change_sequence,
+        pauseEvents: a.pause_events ? [a.pause_events] : [],
+        questionPosition: a.question_position,
+      })));
 
-      if (attemptInsertError && /confidence_level.*column|column.*confidence_level|schema cache/i.test(attemptInsertError.message || '')) {
-        console.warn('[Practice] confidence_level is unavailable in the live schema; retrying answer persistence without confidence telemetry.');
-        const legacyInserts = inserts.map(({ confidence_level: _confidence, ...attempt }) => attempt);
-        attemptInsertError = (await supabase.from('user_attempts').insert(legacyInserts as any)).error;
-      }
-
-      if (attemptInsertError) {
-        console.error('[Practice] user_attempts insert failed', attemptInsertError);
-        throw new Error(attemptInsertError.message || 'Unable to save your answers.');
-      }
-
-      // The attempt INSERT is the source of truth. Only after it succeeds do
+      // The server-graded V2 write is the source of truth. Only after it succeeds do
       // we retire the resumable session and emit downstream telemetry.
       await deleteSession();
 

@@ -62,9 +62,48 @@ begin;
 select set_config('request.jwt.claims','{"sub":"aaaaaaaa-0000-0000-0000-00000000000a","role":"authenticated"}',true) \g /dev/null
 set local role authenticated;
 select public.t_assert(:'q1'::boolean and :'q2'::boolean and not :'q3'::boolean and not :'q9'::boolean, 'T4 server grading');
-select public.refresh_my_lo_state() as nrows \gset
-select public.t_assert(:'nrows'::int = 2, 'T4 expected 2 LO rows, got ' || :'nrows');
+-- B2: mid-drill refresh must expose nothing (no state, no candidate aggregate evidence)
+select public.refresh_my_lo_state() as midrows \gset
+select public.t_assert(:'midrows'::int = 0, 'B2 mid-session LO state leaked: ' || :'midrows');
+select public.t_assert((select count(*) from public.get_my_lo_state()) = 0, 'B2 mid-session get_my_lo_state leaked');
+select public.rebuild_candidate_state('aaaaaaaa-0000-0000-0000-00000000000a') \g /dev/null
+select public.t_assert(coalesce((select (state->>'evidence_count')::int from public.get_my_pie_state()),0) = 0, 'B2 mid-session candidate aggregate leaked');
+-- m2: rate limit
+do $$ begin
+  begin perform public.refresh_my_lo_state(); raise exception 'FAIL m2 rate limit not enforced';
+  exception when sqlstate '53400' then null; end;
+end $$;
+select (public.complete_practice_session(:'sid')).status as st \gset
 commit;
+-- reset the rate-limit clock (test only, superuser)
+delete from pie.lo_state_refresh;
+begin;
+select set_config('request.jwt.claims','{"sub":"aaaaaaaa-0000-0000-0000-00000000000a","role":"authenticated"}',true) \g /dev/null
+set local role authenticated;
+select public.refresh_my_lo_state() as nrows \gset
+select public.t_assert(:'nrows'::int = 2, 'T4 expected 2 LO rows after completion, got ' || :'nrows');
+commit;
+
+\echo '### B3 save_attempt: session required, change_sequence validated, changes derived'
+begin;
+select set_config('request.jwt.claims','{"sub":"bbbbbbbb-0000-0000-0000-00000000000b","role":"authenticated"}',true) \g /dev/null
+set local role authenticated;
+select (public.create_practice_session('mcq','{}'::jsonb, array['22222222-0000-0000-0000-000000000005'::uuid,'22222222-0000-0000-0000-000000000006'::uuid])).id as bsid \gset
+do $$ begin
+  begin perform public.save_attempt('22222222-0000-0000-0000-000000000005', null, 'A', true); raise exception 'FAIL B3 null session accepted';
+  exception when sqlstate '22004' then null; end;
+  begin perform public.save_attempt('22222222-0000-0000-0000-000000000005', (select id from public.practice_sessions where user_id='bbbbbbbb-0000-0000-0000-00000000000b' and status='active' limit 1), 'A', false, 10, 3::smallint, 0, 1, '["Z","A"]'::jsonb); raise exception 'FAIL B3 bad option accepted';
+  exception when sqlstate '22023' then null; end;
+  begin perform public.save_attempt('22222222-0000-0000-0000-000000000005', (select id from public.practice_sessions where user_id='bbbbbbbb-0000-0000-0000-00000000000b' and status='active' limit 1), 'A', false, 10, 3::smallint, 0, 1, '["A","B"]'::jsonb); raise exception 'FAIL B3 sequence not ending in answer accepted';
+  exception when sqlstate '22023' then null; end;
+  begin perform public.save_attempt('22222222-0000-0000-0000-000000000005', (select id from public.practice_sessions where user_id='bbbbbbbb-0000-0000-0000-00000000000b' and status='active' limit 1), 'A', false, 10, 3::smallint, 0, 1, '{"x":1}'::jsonb); raise exception 'FAIL B3 non-array accepted';
+  exception when sqlstate '22023' then null; end;
+end $$;
+select (public.save_attempt('22222222-0000-0000-0000-000000000005', :'bsid', 'a', false, 10, 3::smallint, 99, 1, '["b","b","c","a"]'::jsonb)).answer_changes_count as ch \gset
+select public.t_assert(:'ch'::int = 2, 'B3 answer_changes must be server-derived (2), got ' || :'ch');
+commit;
+select public.t_assert((select change_sequence = '["B","B","C","A"]'::jsonb and provenance->>'change_sequence_source' = 'client_reported_validated' and (provenance->>'client_answer_changes_count')::int = 99
+  from public.user_attempts where user_id = :B), 'B3 normalised sequence/provenance');
 
 \echo '### T5 derived state values (as learner A via get_my_lo_state)'
 begin;
@@ -163,6 +202,39 @@ begin;
 delete from public.practice_sessions where user_id = :A;  -- ON DELETE SET NULL path
 do $$ begin if exists (select 1 from public.user_attempts where session_id is not null and user_id='aaaaaaaa-0000-0000-0000-00000000000a') then raise exception 'FAIL T11 set null'; end if; end $$;
 rollback;
+
+\echo '### B1 erase: own data only, audited, derived state cleared, trigger bypass not usable directly'
+begin;
+select set_config('request.jwt.claims','{"sub":"bbbbbbbb-0000-0000-0000-00000000000b","role":"authenticated"}',true) \g /dev/null
+set local role authenticated;
+do $$ begin
+  -- the bypass setting is ignored for a learner role
+  perform set_config('pie.erase_user','bbbbbbbb-0000-0000-0000-00000000000b', true);
+  begin delete from public.user_attempts; raise exception 'FAIL B1 direct delete';
+  exception when insufficient_privilege then null; end;
+  begin perform public.erase_my_learning_data('yes'); raise exception 'FAIL B1 confirm phrase';
+  exception when sqlstate '22023' then null; end;
+end $$;
+select public.erase_my_learning_data('ERASE_MY_LEARNING_DATA') as counts \gset
+commit;
+select public.t_assert((select count(*) from public.user_attempts where user_id = :B) = 0, 'B1 B attempts erased');
+select public.t_assert((select count(*) from public.user_attempts where user_id = :A) = 5, 'B1 A attempts untouched');
+select public.t_assert((select count(*) from pie.learner_lo_state where user_id = :A) = 2, 'B1 A state untouched');
+select public.t_assert((select count(*) from public.practice_sessions where user_id = :B) = 0, 'B1 B sessions erased');
+select public.t_assert((select count(*) from pie.learning_data_erasure_audit where user_id = :B and (counts->>'public.user_attempts')::int = 1) = 1, 'B1 audited');
+-- the bypass is scoped to the erased learner: setting it to B does not let a definer path delete A
+do $$ begin
+  perform set_config('pie.erase_user','bbbbbbbb-0000-0000-0000-00000000000b', true);
+  perform set_config('request.jwt.claims','{"role":"authenticated","sub":"bbbbbbbb-0000-0000-0000-00000000000b"}', true);
+  begin delete from public.user_attempts where user_id='aaaaaaaa-0000-0000-0000-00000000000a'; raise exception 'FAIL B1 bypass not owner-scoped';
+  exception when insufficient_privilege then null; end;
+end $$;
+
+\echo '### m1 behavior_events learner write privileges'
+select public.t_assert(not exists (select 1 from information_schema.role_table_grants where grantee in ('anon','authenticated') and table_schema='intelligence' and table_name='behavior_events' and privilege_type in ('INSERT','UPDATE','DELETE','TRUNCATE')), 'm1 behavior_events grants');
+
+\echo '### m2 bound present'
+select public.t_assert(pg_get_functiondef('pie.recompute_learner_lo_state(uuid)'::regprocedure) like '%limit c_max_attempts%', 'm2 bound');
 
 \echo '### T12 shadow table sealed'
 do $$ begin
