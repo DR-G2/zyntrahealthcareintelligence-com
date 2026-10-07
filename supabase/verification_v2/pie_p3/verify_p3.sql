@@ -2,6 +2,12 @@
 \set ON_ERROR_STOP 1
 \pset pager off
 \pset tuples_only on
+create or replace function pg_temp.answer_all(s uuid) returns void language plpgsql as $$
+declare q uuid; begin
+  for q in select psq.question_id from public.practice_session_questions psq where psq.session_id = s and psq.answered_at is null loop
+    perform public.save_attempt(q, s, 'B', false);
+  end loop;
+end $$;
 \echo '### S0 readiness tables moved to amc.*, no learner access; 0050 constraints'
 select public.t_assert(to_regclass('amc.amc_learner_readiness') is not null and to_regclass('pie.pie_exam_readiness') is null, 'readiness moved');
 select public.t_assert(to_regclass('amc.amc_learner_exam_environment') is not null and to_regclass('amc.amc_learner_adapter_snapshot') is not null, 'env/snapshot moved');
@@ -99,6 +105,12 @@ select public.t_assert((select lo_id from pie.decision_trace where session_id=:'
 select public.t_assert((select lo_id from pie.decision_trace where session_id=:'a2' order by created_at offset 1 limit 1)='10000000-0000-0000-0000-000000000003', 'S5 weakest seen LO next (global, cross-concept)');
 select public.t_assert((select nble_type from pie.decision_trace where session_id=:'a2' order by created_at offset 1 limit 1)='misconception_repair', 'S5 NBLE misconception_repair');
 
+-- 0053: answer served questions (presented-unanswered items become ineligible)
+begin;
+select set_config('request.jwt.claims','{"sub":"aaaaaaaa-0000-0000-0000-00000000000a","role":"authenticated"}',true) \g /dev/null
+set local role authenticated;
+select pg_temp.answer_all(:'a2') \g /dev/null
+commit;
 \echo '### S6 prerequisite_repair'
 insert into pie.lo_prerequisite(lo_id, prerequisite_lo_id) values ('10000000-0000-0000-0000-000000000003','10000000-0000-0000-0000-000000000002');
 delete from pie.session_create_throttle;  -- test-only: skip the 30 s wait
@@ -109,6 +121,12 @@ select session_id as a3 from public.pie_create_session(5) \gset
 commit;
 select lo_id, nble_type, primary_reasons->>'hierarchy' h from pie.decision_trace where session_id=:'a3' order by created_at;
 select public.t_assert(exists (select 1 from pie.decision_trace where session_id=:'a3' and nble_type='prerequisite_repair' and lo_id='10000000-0000-0000-0000-000000000002'), 'S6 prerequisite_repair assigned');
+-- 0053: answer served questions (presented-unanswered items become ineligible)
+begin;
+select set_config('request.jwt.claims','{"sub":"aaaaaaaa-0000-0000-0000-00000000000a","role":"authenticated"}',true) \g /dev/null
+set local role authenticated;
+select pg_temp.answer_all(:'a3') \g /dev/null
+commit;
 delete from pie.lo_prerequisite;
 
 \echo '### S7 anti-starvation'
@@ -119,6 +137,12 @@ set local role authenticated;
 select session_id as a4 from public.pie_create_session(1) \gset
 commit;
 select (secondary_reasons->'anti_starvation'->>'value')::numeric as starv_before from pie.decision_trace where session_id=:'a4' \gset
+-- 0053: answer served questions (presented-unanswered items become ineligible)
+begin;
+select set_config('request.jwt.claims','{"sub":"aaaaaaaa-0000-0000-0000-00000000000a","role":"authenticated"}',true) \g /dev/null
+set local role authenticated;
+select pg_temp.answer_all(:'a4') \g /dev/null
+commit;
 -- age every trace of A by 8 days (superuser test-only: disable trigger)
 alter table pie.decision_trace disable trigger decision_trace_append_only;
 update pie.decision_trace set created_at = created_at - interval '8 days' where learner_id='aaaaaaaa-0000-0000-0000-00000000000a';
@@ -152,12 +176,6 @@ do $$ begin
   begin perform public.pie_next_question((public.create_practice_session('mcq','{}'::jsonb, array['22222222-0000-0000-0000-000000000001'::uuid])).id);
     raise exception 'FAIL E3c legacy session accepted';
   exception when insufficient_privilege then null; end;
-end $$;
-create or replace function pg_temp.answer_all(s uuid) returns void language plpgsql as $$
-declare q uuid; begin
-  for q in select psq.question_id from public.practice_session_questions psq where psq.session_id = s and psq.answered_at is null loop
-    perform public.save_attempt(q, s, 'B', false);
-  end loop;
 end $$;
 begin;
 select set_config('request.jwt.claims','{"sub":"bbbbbbbb-0000-0000-0000-00000000000b","role":"authenticated"}',true) \g /dev/null
