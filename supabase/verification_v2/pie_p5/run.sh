@@ -10,7 +10,7 @@ MIGS="0045_pie_p1_content_lo_model.sql 0046_pie_p2_learner_lo_state.sql 0047_pie
  0051_pie_p3_candidate_pool.sql 0052_pie_p3_review_fixes.sql 0053_pie_p3_peek_farm_fixes.sql
  0054_pie_p3_resume_cap_selector_stats.sql 0055_pie_p5_f1_question_key_columns.sql
  0056_pie_p5_review_scheduler_session_rules.sql"
-P51="0058_pie_p5_confirmation_probe_learner_value.sql 0059_pie_p5_diagnostic_mode_pie_only_attempts.sql 0060_pie_p5_learner_history_rpcs.sql"
+P51="0058_pie_p5_confirmation_probe_learner_value.sql 0059_pie_p5_diagnostic_mode_pie_only_attempts.sql 0060_pie_p5_learner_history_rpcs.sql 0061_pie_p5_selector_log_redaction.sql"
 apply() { for f in $2; do psql -X -q -v ON_ERROR_STOP=1 -U "$owner" -d "$1" -1 -f "$mig/$f"; echo "applied $f"; done; }
 
 db=v2_p5
@@ -21,6 +21,7 @@ psql -X -q -v ON_ERROR_STOP=1 -d "$db" -f "$here/fixtures_p5.sql"
 psql -X -v ON_ERROR_STOP=1 -d "$db" -f "$here/verify_p5.sql"
 psql -X -v ON_ERROR_STOP=1 -d "$db" -f "$here/verify_0059.sql"
 psql -X -v ON_ERROR_STOP=1 -d "$db" -f "$here/verify_0060.sql"
+psql -X -v ON_ERROR_STOP=1 -d "$db" -f "$here/verify_0061.sql"
 
 [[ "${SKIP_BANK:-}" == 1 ]] && exit 0
 db=v2_p5_bank

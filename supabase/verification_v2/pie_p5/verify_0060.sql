@@ -39,8 +39,15 @@ create temp table h as select * from public.get_my_attempt_history(1000);
 commit;
 select public.t_assert((select count(*) from h) = 2, 'H1 two PIE attempts: ' || (select count(*) from h));
 select public.t_assert(not exists (select 1 from h where session_id = '99999999-6060-0000-0000-000000000001'), 'H1 legacy attempt excluded');
-select public.t_assert((select bool_and(correct_answer is not null and explanation is not null and is_correct is not null) from h), 'H1 answered rows carry key + explanation');
-select public.t_assert((select bool_and(h.correct_answer = q.correct_answer) from h join public.questions q on q.id = h.question_id), 'H1 key is the real key');
+-- session still ACTIVE: correctness is shown, key + explanation are withheld
+select public.t_assert((select bool_and(correct_answer is null and explanation is null and is_correct is not null) from h), 'H1 active session withholds key + explanation');
+begin; select pg_temp.as_user(:U) \g /dev/null
+set local role authenticated;
+select public.complete_practice_session(:'us') \g /dev/null
+create temp table h2 as select * from public.get_my_attempt_history(1000);
+commit;
+select public.t_assert((select count(*) from h2) = 2 and (select bool_and(correct_answer is not null and explanation is not null) from h2), 'H1 completed session: answered rows carry key + explanation');
+select public.t_assert((select bool_and(h2.correct_answer = q.correct_answer) from h2 join public.questions q on q.id = h2.question_id), 'H1 key is the real key');
 select public.t_assert((select array_agg(confidence_level order by created_at) from h) = array[2,3]::smallint[] and (select min(time_taken_seconds) from h) = 12, 'H1 confidence + timing');
 select public.t_assert((select bool_and(session_mode = 'adaptive' and lo_id is not null) from h), 'H1 mode + LO');
 select public.t_assert(not exists (select 1 from h join public.practice_session_questions psq on psq.session_id = h.session_id and psq.question_id = h.question_id where psq.answered_at is null), 'H1 no unanswered question');

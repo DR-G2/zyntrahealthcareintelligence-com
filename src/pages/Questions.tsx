@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { Search, Filter, Bookmark, BookmarkCheck, StickyNote, ChevronDown, ChevronUp, X } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/contexts/AuthContext';
+import { fetchLegacyShapedHistory } from '@/lib/pie/pie-history-client';
 import { ADMIN_EMAILS } from '@/lib/admin-emails';
 import { Link as RouterLink } from 'react-router-dom';
 import { AppLayout } from '@/components/AppLayout';
@@ -97,13 +98,26 @@ function QuestionBankBrowser() {
     return allRows;
   };
 
+  /** B1: questions (with keys) come ONLY from the server-checked admin-question-bank function. */
+  const fetchQuestionBankViaAdminFunction = async () => {
+    const rows: any[] = [];
+    for (let offset = 0; offset < 100000; offset += 1000) {
+      const { data, error } = await supabase.functions.invoke('admin-question-bank', { body: { offset, limit: 1000 } });
+      if (error) throw error;
+      rows.push(...(data?.questions ?? []));
+      if (data?.done !== false) break;
+    }
+    return rows;
+  };
+
   const loadData = async () => {
     setLoading(true);
 
     const [allQuestions, bData, aData, nData] = await Promise.all([
-      fetchAllRows('questions', '*'),
+      fetchQuestionBankViaAdminFunction(),
       user ? fetchAllRows('bookmarks', 'question_id', { column: 'user_id', value: user.id }) : Promise.resolve([]),
-      user ? fetchAllRows('user_attempts', 'question_id, selected_answer, is_correct, time_taken_seconds, created_at', { column: 'user_id', value: user.id }) : Promise.resolve([]),
+      // P5: the admin's own attempts come from PIE history, never the legacy table.
+      user ? fetchLegacyShapedHistory(5000).then((rows) => rows.map((r) => ({ question_id: r.question_id, selected_answer: r.selected_answer, is_correct: r.is_correct, time_taken_seconds: r.time_taken_seconds, created_at: r.created_at }))).catch(() => []) : Promise.resolve([]),
       user ? fetchAllRows('user_notes', 'question_id, note_text', { column: 'user_id', value: user.id }) : Promise.resolve([]),
     ]);
 
@@ -725,7 +739,8 @@ function QuestionBankBrowser() {
 
 /**
  * P5: the bank browser shows every question's correct answer and explanation, so it is
- * ADMIN-ONLY (the safer option: a stems-only learner view would still let learners
+ * ADMIN-ONLY, enforced SERVER-SIDE by the admin-question-bank edge function (exact admin_roles
+ * email match); this browser check is only UX. (Admin-only is the safer option: a stems-only learner view would still let learners
  * pre-read the live bank and break first-exposure evidence). Learners are sent to PIE
  * Practice; the browser component (and its question fetch) never mounts for them.
  */

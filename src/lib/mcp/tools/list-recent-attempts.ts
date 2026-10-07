@@ -19,7 +19,7 @@ export default defineTool({
     let query = supabase
       .from("user_attempts")
       .select(
-        "id, created_at, is_correct, selected_answer, time_taken_seconds, answer_changes_count, questions(zyntra_id, question_text, category, subtopic, difficulty, correct_answer)",
+        "id, created_at, is_correct, selected_answer, time_taken_seconds, answer_changes_count, questions(zyntra_id, question_text, category, subtopic, difficulty)",
       )
       .eq("user_id", ctx.getUserId() ?? "")
       .order("created_at", { ascending: false })
@@ -38,7 +38,6 @@ export default defineTool({
             category: string;
             subtopic: string | null;
             difficulty: string;
-            correct_answer: string;
           }
         | null;
       return {
@@ -46,7 +45,6 @@ export default defineTool({
         answeredAt: row.created_at,
         isCorrect: row.is_correct,
         selectedAnswer: row.selected_answer,
-        correctAnswer: question?.correct_answer ?? null,
         timeTakenSeconds: row.time_taken_seconds,
         answerChanges: row.answer_changes_count,
         questionId: question?.zyntra_id ?? null,

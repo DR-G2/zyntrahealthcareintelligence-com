@@ -2,9 +2,10 @@
 --  H1 get_my_attempt_history(p_limit, p_before): the caller's own attempts made in PIE
 --     sessions (pie.adaptive_session: adaptive or diagnostic), newest first, with stem,
 --     options, the learner's answer, server-graded correctness, confidence, timing and
---     change telemetry. correct_answer / explanation are returned ONLY because the row is an
---     attempt by this learner on that question (answered-only by construction); there is no
---     way to ask for a question the learner has not answered.
+--     change telemetry. correct_answer / explanation are returned ONLY for the learner's own
+--     answered attempts (answered-only by construction) AND only once that attempt's session
+--     is COMPLETED (null while the session is active/paused/abandoned, matching the UI copy
+--     "answers are shown after the session"); there is no way to ask for an unanswered question.
 --  H2 get_my_review_due(p_limit): the caller's LOs whose spaced review is due (or due within
 --     p_horizon_days), from pie.learner_lo_state. No question content, no keys.
 --  Both: authenticated only, SECURITY DEFINER, auth.uid() scoped, read-only.
@@ -26,11 +27,14 @@ begin
   select ua.id, ua.session_id, a.mode, q.id, q.zyntra_id,
          q.stem, q.options, q.subject_id, s.name, q.subtopic_id, st.name,
          q.difficulty_tier, lo.id, lo.title, c.title,
-         ua.selected_answer, ua.is_correct, q.correct_answer, q.explanation,
+         ua.selected_answer, ua.is_correct,
+         case when ps.status = 'completed' then q.correct_answer end,
+         case when ps.status = 'completed' then q.explanation end,
          ua.confidence_level, ua.time_taken_seconds, ua.time_to_first_click,
          ua.answer_changes_count, ua.change_sequence, ua.question_position, ua.created_at
   from public.user_attempts ua
   join pie.adaptive_session a on a.session_id = ua.session_id and a.user_id = v_uid
+  join public.practice_sessions ps on ps.id = ua.session_id
   join public.questions q on q.id = ua.question_id
   left join public.subjects s on s.id = q.subject_id
   left join public.subtopics st on st.id = q.subtopic_id

@@ -30,6 +30,7 @@ import { syncPieEngine } from '@/lib/pie/pie-engine-client';
 import { PieDiagnosticError, describePieFailure, pieSyncFailure, reportPieFailure, requireV2SessionId } from '@/lib/pie/pie-diagnostics';
 import { PieDrillSession } from '@/components/practice/PieDrillSession';
 import { ADMIN_EMAILS } from '@/lib/admin-emails';
+import { fetchLegacyShapedHistory } from '@/lib/pie/pie-history-client';
 
 interface Question {
   id: string;
@@ -183,19 +184,12 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
         // This is intentionally independent of the nested questions relationship.
         if (user && questionMeta.length) {
           const questionIds = questionMeta.map(q => q.id);
-          const attempts: Array<{ question_id: string; is_correct: boolean; created_at: string }> = [];
-          for (let from = 0; from < questionIds.length; from += 500) {
-            const ids = questionIds.slice(from, from + 500);
-            const { data: rows, error: attemptsError } = await supabase
-              .from('user_attempts')
-              .select('question_id, is_correct, created_at')
-              .eq('user_id', user.id)
-              .in('question_id', ids)
-              .order('created_at', { ascending: false })
-              .limit(1000);
-            if (attemptsError) throw attemptsError;
-            attempts.push(...(rows || []));
-          }
+          // P5: status counts come from the learner's PIE history (no legacy user_attempts read).
+          const idSet = new Set(questionIds);
+          const attempts: Array<{ question_id: string; is_correct: boolean; created_at: string }> =
+            (await fetchLegacyShapedHistory(5000).catch(() => []))
+              .filter((a) => idSet.has(a.question_id))
+              .map((a) => ({ question_id: a.question_id, is_correct: a.is_correct, created_at: a.created_at }));
 
           const latest = new Map<string, { is_correct: boolean; created_at: string }>();
           attempts
