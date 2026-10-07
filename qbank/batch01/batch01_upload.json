@@ -1405,7 +1405,7 @@
    "Patellofemoral pain syndrome"
   ],
   "correct_answer": "D",
-  "explanation": "CORRECT ANSWER\n\nD. Slipped capital femoral epiphysis\n\n---\n\nAn overweight early adolescent with a limp, knee pain (referred from the hip via the obturator nerve), a normal knee, loss of hip internal rotation and obligatory external rotation on hip flexion has SCFE until proven otherwise. He needs urgent AP and frog-leg lateral X-rays of both hips (the lateral view shows mild slips missed on AP, and the other side is often involved), non-weight-bearing and urgent orthopaedic referral for in situ fixation. Delay increases the risk of slip progression and avascular necrosis.\n\n---\n\nKEY LEARNING POINT\nKnee pain + limp in an overweight adolescent with loss of hip internal rotation = SCFE until proven otherwise. AP and frog-leg lateral X-rays of both hips; non-weight-bearing; urgent orthopaedics.\n\n---\n\nREFERENCES\n• {\"name\": \"Royal Children's Hospital. The limping child clinical practice guideline\", \"url\": \"https://www.rch.org.au/clinicalguide/guideline_index/The_limping_child/\"}",
+  "explanation": "CORRECT ANSWER\n\nD. Slipped capital femoral epiphysis\n\n---\n\nAn overweight early adolescent with a limp, knee pain (referred from the hip via the obturator nerve), a normal knee, loss of hip internal rotation and obligatory external rotation on hip flexion has SCFE until proven otherwise. He needs urgent AP and frog-leg lateral X-rays of both hips (the lateral view shows mild slips missed on AP, and the other side is often involved), non-weight-bearing and urgent orthopaedic referral for in situ fixation. Delay increases the risk of slip progression and avascular necrosis.\n\n---\n\nKEY LEARNING POINT\nKnee pain + limp in an overweight adolescent with loss of hip internal rotation = SCFE until proven otherwise. AP and frog-leg lateral X-rays of both hips; non-weight-bearing; urgent orthopaedics.\n\n---\n\nREFERENCES\n• {\"name\": \"Royal Children's Hospital. The limping child clinical practice guideline\", \"url\": \"https://www.rch.org.au/clinicalguide/guideline_index/child_with_limp/\"}",
   "category": "Child Health",
   "system_category": "Orthopaedics",
   "subtopic": "Knee pain and limp in an overweight adolescent with obligatory external rotation: slipped capital femoral epiphysis",
@@ -1420,7 +1420,7 @@
   "key_takeaways": [
    "Knee pain + limp in an overweight adolescent with loss of hip internal rotation = SCFE until proven otherwise. AP and frog-leg lateral X-rays of both hips; non-weight-bearing; urgent orthopaedics."
   ],
-  "guideline_reference": "{\"name\": \"Royal Children's Hospital. The limping child clinical practice guideline\", \"url\": \"https://www.rch.org.au/clinicalguide/guideline_index/The_limping_child/\"}",
+  "guideline_reference": "{\"name\": \"Royal Children's Hospital. The limping child clinical practice guideline\", \"url\": \"https://www.rch.org.au/clinicalguide/guideline_index/child_with_limp/\"}",
   "clinical_vignette": true,
   "question_type": "mcq",
   "tags": [

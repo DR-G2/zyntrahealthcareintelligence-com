@@ -1,0 +1,14 @@
+Items: 50 | ids ZQ-0251 - ZQ-0300
+By group: {'adult_medicine': 15, 'adult_surgery': 10, 'womens_health': 6, 'child_health': 6, 'mental_health': 6, 'population_health_ethics': 7}
+By task: {'management': 17, 'data_gathering': 17, 'data_interpretation_synthesis': 16}
+By app difficulty: {'easy': 10, 'difficult': 15, 'moderate': 25}
+By tier: {2: 10, 3: 25, 4: 10, 5: 5}
+Key spread: {'A': 10, 'B': 10, 'C': 10, 'D': 10, 'E': 10}
+By system_category: {'Renal': 2, 'Endocrinology': 2, 'Gastroenterology': 1, 'Haematology & Oncology': 2, 'Infectious Diseases': 1, 'Respiratory': 2, 'Cardiology': 2, 'Neurology': 2, 'Rheumatology': 1, 'Vascular Surgery': 1, 'General Surgery': 3, 'Orthopaedics': 3, 'Trauma': 2, 'Urology': 1, 'ENT & Ophthalmology': 1, 'Obstetrics': 4, 'Gynaecology': 2, 'Paediatric Medicine': 4, 'Neonatology': 1, 'Mood Disorders': 2, 'Anxiety Disorders': 2, 'Psychosis': 2, 'Epidemiology': 2, 'Screening': 2, 'Ethics & Law': 3}
+irt_b out of band: none
+irt_b range: -1.4 2.0
+Structural errors: none
+Exact duplicate stems in batch: 0
+Highest stem similarity (word-sequence ratio vs 170 bank + rest of batch; >0.6 would suggest a near-duplicate): [('ZQ-0273', 0.38), ('ZQ-0278', 0.35), ('ZQ-0268', 0.34)]
+Banned terms (docdoc/cannabis): none
+Flagged: [('ZQ-0270', 'Suspected scaphoid fracture with a normal initial X-ray: imm')]
