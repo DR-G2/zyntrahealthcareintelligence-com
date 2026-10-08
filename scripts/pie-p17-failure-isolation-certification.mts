@@ -57,7 +57,7 @@ if (questions?.[0]?.id) {
     body: "{}",
   });
   const afterPayload = await after.json().catch(() => ({}));
-  check("P17-03 PIE observation is produced on healthy path", after.response.ok && Number(afterPayload.observation_count ?? 0) >= beforeCount + 1);
+  check("P17-03 PIE observation is produced on healthy path", after.ok && Number(afterPayload.observation_count ?? 0) >= beforeCount + 1);
   check("P17-04 healthy PIE read remains projection-backed", afterPayload.read_source === "projection");
 }
 
