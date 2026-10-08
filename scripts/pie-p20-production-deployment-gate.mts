@@ -43,7 +43,7 @@ const A = await login(emailA);
 const B = await login(emailB);
 check("P20-11 two production test identities authenticate and are distinct", A.id !== B.id);
 
-const s = await A.db.rpc("pie_create_session", { p_count: 1, p_blueprint_key: "AMC_CAT_MCQ", p_mode: "adaptive" });
+const s = await A.db.rpc("pie_create_session", { p_count: 1, p_blueprint_key: "AMC_CAT_MCQ", p_mode: "pie_adaptive" });
 const sessionId = s.data?.[0]?.session_id as string | undefined;
 check("P20-12 authoritative adaptive session can be created in production", !s.error && !!sessionId, s.error?.message ?? "");
 
