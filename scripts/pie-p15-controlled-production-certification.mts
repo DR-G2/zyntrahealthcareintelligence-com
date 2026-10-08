@@ -66,7 +66,7 @@ check("P15-06 P12 provenance remains intact",
 );
 
 const bRead = await invoke(B);
-check("P15-07 candidate B receives authenticated P14 response", bRead.response.ok && bRead.payload.status === "ready");
+check("P15-07 candidate B receives authenticated P14 response", bRead.response.ok && bRead.payload.status === "ready", JSON.stringify({ http: bRead.response.status, status: bRead.payload.status, error: bRead.payload.error, read_source: bRead.payload.read_source }));
 check("P15-08 cross-user inference isolation holds",
   a.user.id !== b.user.id && aRead.payload.inference_hash !== bRead.payload.inference_hash
 );
@@ -81,7 +81,8 @@ const forged = await (async () => {
 })();
 const forgedPayload = await forged.json().catch(() => ({}));
 check("P15-09 caller-supplied foreign user_id cannot change scope",
-  forged.ok && forgedPayload.inference_hash === aRead.payload.inference_hash
+  forged.ok && forgedPayload.inference_hash === aRead.payload.inference_hash,
+  JSON.stringify({ http: forged.status, status: forgedPayload.status, error: forgedPayload.error, read_source: forgedPayload.read_source })
 );
 
 const directProjection = await A.schema("pie").from("inference_projection").select("user_id").limit(1);
@@ -91,10 +92,12 @@ check("P15-11 browser cannot directly read protected shadow", !!directShadow.err
 
 const secondRead = await invoke(A);
 check("P15-12 subsequent authenticated read remains projection-backed",
-  secondRead.response.ok && secondRead.payload.read_source === "projection"
+  secondRead.response.ok && secondRead.payload.read_source === "projection",
+  JSON.stringify({ http: secondRead.response.status, status: secondRead.payload.status, error: secondRead.payload.error, read_source: secondRead.payload.read_source, observation_count: secondRead.payload.observation_count })
 );
 check("P15-13 P14 projection remains stable",
-  secondRead.payload.inference_hash === aRead.payload.inference_hash
+  secondRead.payload.inference_hash === aRead.payload.inference_hash,
+  JSON.stringify({ first_hash: aRead.payload.inference_hash, second_hash: secondRead.payload.inference_hash })
 );
 
 await A.auth.signOut();
