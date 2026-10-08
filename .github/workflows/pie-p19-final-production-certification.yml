@@ -71,7 +71,7 @@ jobs:
           V2_URL: ${{ secrets.ZYNTRA_V2_URL }}
           V2_PUBLISHABLE_KEY: ${{ secrets.ZYNTRA_V2_PUBLISHABLE_KEY }}
           PIE_TEST_USER_A_EMAIL: ${{ secrets.PIE_TEST_USER_A_EMAIL }}
-          PIE_TEST_USER_B_EMAIL: ${{ secrets.PIE_TEST_PASSWORD }}
+          PIE_TEST_USER_B_EMAIL: ${{ secrets.PIE_TEST_USER_B_EMAIL }}
           PIE_TEST_PASSWORD: ${{ secrets.PIE_TEST_PASSWORD }}
         run: npx vite-node scripts/pie-p14-read-path-certification.mts
       - name: P13 regression certification
