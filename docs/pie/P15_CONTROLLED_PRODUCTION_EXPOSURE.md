@@ -35,4 +35,6 @@ P15 is accepted only when:
 10. P13 passes 10/10.
 11. P12 passes 13/13.
 
+This gate does not depend on Vercel, Netlify, or any frontend hosting provider. It certifies the Supabase PIE production boundary only.
+
 This gate does not merge or deploy the frontend automatically.
