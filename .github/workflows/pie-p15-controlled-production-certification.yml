@@ -18,11 +18,13 @@ jobs:
         with:
           node-version: 22
           cache: npm
-      - name: Protect certified P12/P13/P14/P15 sources
+      - name: Protect certified P12-P17 sources
         run: |
           git diff --exit-code b4fb703e28fd644ee1eaf0499485d5faf0c5a4e7 -- \
             supabase/functions/pie-infer-state/index.ts \
             scripts/pie-p15-controlled-production-certification.mts \
+            scripts/pie-p16-production-contract-audit.mts \
+            scripts/pie-p17-failure-isolation-certification.mts \
             supabase/functions/pie-shadow-read/index.ts \
             supabase/functions/pie-p14-shadow-read/index.ts \
             src/lib/pie/p13-shadow-client.ts \
