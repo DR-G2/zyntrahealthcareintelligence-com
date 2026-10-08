@@ -87,7 +87,15 @@ export function SecurityConsoleTab() {
     void load();
     const timer = window.setInterval(() => void load(), 15000);
     const channel = supabase.channel('admin-security-alerts')
-      .on('postgres_changes', { event: '*', schema: 'pie', table: 'security_alert' }, () => void load())
+      .on('postgres_changes', { event: 'INSERT', schema: 'pie', table: 'security_alert' }, (payload) => {
+        const alert = payload.new as Record<string, unknown>;
+        toast({
+          title: String(alert.title || 'Security alert'),
+          description: String(alert.summary || 'New security incident requires review.'),
+          variant: String(alert.severity) === 'critical' ? 'destructive' : 'default',
+        });
+        void load();
+      })
       .subscribe();
     return () => { window.clearInterval(timer); void supabase.removeChannel(channel); };
   }, [load]);
