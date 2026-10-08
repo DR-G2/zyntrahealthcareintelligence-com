@@ -180,15 +180,18 @@ Deno.serve(async (req) => {
 
   const inferenceHash = await sha256(JSON.stringify(canonical));
 
-  const { data: sourceState } = await serviceClient
+  const { data: sourceState, error: sourceStateError } = await serviceClient
+    .schema("pie")
     .from("pie_candidate_state")
-    .select("state_sequence")
+    .select("state_version")
     .eq("user_id", user.id)
-    .order("state_sequence", { ascending: false })
+    .order("state_version", { ascending: false })
     .limit(1)
     .maybeSingle();
 
-  if (sourceStateError) return json({ error: "source_state_query_failed", detail: sourceStateError.message }, 500);\n\n  const averageQuality = canonical.reduce((n, x) => n + x.evidence_quality, 0) / canonical.length;
+  if (sourceStateError) return json({ error: "source_state_query_failed", detail: sourceStateError.message }, 500);
+
+  const averageQuality = canonical.reduce((n, x) => n + x.evidence_quality, 0) / canonical.length;
   const evidenceCount = canonical.reduce((n, x) => n + x.evidence_count, 0) / canonical.length;
   const maturity = evidenceCount < 6 ? "INSUFFICIENT" : evidenceCount < 20 ? "PRELIMINARY" : evidenceCount < 40 ? "DEVELOPING" : "ESTABLISHED_INDIVIDUAL_EVIDENCE";
   const signalQuality = averageQuality >= 0.75 ? "HIGH" : averageQuality >= 0.5 ? "MEDIUM" : "LOW";
@@ -231,7 +234,7 @@ Deno.serve(async (req) => {
     dimension_count: 6,
     dimensions: canonical,
     inference_hash: inferenceHash,
-    source_state_version: sourceState?.state_sequence ?? null,
+    source_state_version: sourceState?.state_version ?? null,
     evidence_maturity: maturity,
   });
 });
