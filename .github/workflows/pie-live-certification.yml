@@ -2,6 +2,9 @@ name: PIE Live Certification
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - feat/pie-live-certification
 
 permissions:
   contents: read
