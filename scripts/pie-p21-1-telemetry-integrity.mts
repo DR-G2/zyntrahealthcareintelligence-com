@@ -79,18 +79,11 @@ if (sessionId) {
   questionPosition = typeof q?.question_position === "number" ? q.question_position : null;
   check("P21.1-11 server-selected question is available", !qs.error && !!questionId);
 
-  const pre = await fetch(URL + "/functions/v1/pie-p14-shadow-read", {
-    method: "POST",
-    headers: {
-      Authorization: "Bearer " + (await A.db.auth.getSession()).data.session?.access_token,
-      apikey: KEY!,
-      "Content-Type": "application/json",
-    },
-    body: "{}",
-  });
-  const prePayload = await pre.json().catch(() => ({}));
-  const beforeCount = Number(prePayload.observation_count ?? 0);
-  check("P21.1-12 pre-attempt PIE observation count is readable", pre.ok && Number.isFinite(beforeCount), prePayload.error ?? "");
+  const pre = await A.db.functions.invoke("pie-telemetry-audit", { body: {} });
+  const prePayload = (pre.data ?? {}) as Record<string, unknown>;
+  const beforeCount = Number(prePayload.observation_count_for_attempts ?? 0);
+  const beforeAttempts = Number(prePayload.attempt_count ?? 0);
+  check("P21.1-12 pre-attempt telemetry audit is readable", !pre.error && prePayload.status === "ready");
 
   const saved = await A.db.rpc("save_attempt", {
     p_question_id: questionId,
@@ -113,36 +106,37 @@ if (sessionId) {
   const attemptId = saved.data?.id as string | undefined;
   check("P21.1-13 authoritative attempt persists", !saved.error && !!attemptId, saved.error?.message ?? "");
 
-  const after = await fetch(URL + "/functions/v1/pie-p14-shadow-read", {
-    method: "POST",
-    headers: {
-      Authorization: "Bearer " + (await A.db.auth.getSession()).data.session?.access_token,
-      apikey: KEY!,
-      "Content-Type": "application/json",
-    },
-    body: "{}",
-  });
-  const afterPayload = await after.json().catch(() => ({}));
-  const afterCount = Number(afterPayload.observation_count ?? 0);
-  check("P21.1-14 exactly one PIE observation is produced for the new attempt", after.ok && afterCount === beforeCount + 1, "before=" + beforeCount + " after=" + afterCount);
+  const after = await A.db.functions.invoke("pie-telemetry-audit", { body: {} });
+  const afterPayload = (after.data ?? {}) as Record<string, unknown>;
+  const afterCount = Number(afterPayload.observation_count_for_attempts ?? 0);
+  const afterAttempts = Number(afterPayload.attempt_count ?? 0);
+  check("P21.1-14 exactly one PIE observation is produced for the new attempt",
+    !after.error &&
+    afterCount === beforeCount + 1 &&
+    afterAttempts === beforeAttempts + 1 &&
+    afterPayload.latest_attempt_id === attemptId &&
+    afterPayload.latest_attempt_has_observation === true &&
+    afterPayload.latest_attempt_observation_identity_match === true &&
+    Number(afterPayload.attempts_missing_observation ?? -1) === 0 &&
+    Number(afterPayload.identity_mismatches ?? -1) === 0 &&
+    Number(afterPayload.duplicate_attempt_observation_rows ?? -1) === 0);
 
-  const repeat = await fetch(URL + "/functions/v1/pie-p14-shadow-read", {
-    method: "POST",
-    headers: {
-      Authorization: "Bearer " + (await A.db.auth.getSession()).data.session?.access_token,
-      apikey: KEY!,
-      "Content-Type": "application/json",
-    },
-    body: "{}",
-  });
-  const repeatPayload = await repeat.json().catch(() => ({}));
-  const repeatCount = Number(repeatPayload.observation_count ?? 0);
-  check("P21.1-15 repeated telemetry read does not create a duplicate observation", repeat.ok && repeatCount === afterCount);
+  const repeat = await A.db.functions.invoke("pie-telemetry-audit", { body: {} });
+  const repeatPayload = (repeat.data ?? {}) as Record<string, unknown>;
+  check("P21.1-15 repeated telemetry audit does not create a duplicate observation",
+    !repeat.error &&
+    Number(repeatPayload.observation_count_for_attempts ?? -1) === afterCount &&
+    repeatPayload.latest_observation_id === afterPayload.latest_observation_id);
 
-  check("P21.1-16 healthy telemetry path remains projection-backed or refresh-backed", ["projection", "p12_refresh"].includes(String(afterPayload.read_source ?? "")));
-  check("P21.1-17 telemetry response does not expose privileged credentials", !JSON.stringify(afterPayload).includes("service_role") && !JSON.stringify(afterPayload).includes("access_token"));
+  check("P21.1-16 telemetry audit is user-scoped and reports a healthy state",
+    !after.error &&
+    afterPayload.user_scoped === true &&
+    afterPayload.status === "ready");
 
-  const foreign = await B.db.rpc("get_practice_session_questions", { p_session_id: sessionId });
+  check("P21.1-17 telemetry response does not expose privileged credentials",
+    !JSON.stringify(afterPayload).includes("service_role") &&
+    !JSON.stringify(afterPayload).includes("access_token"));
+
   check("P21.1-18 telemetry certification session remains candidate-isolated", !!foreign.error || !Array.isArray(foreign.data) || foreign.data.length === 0);
 }
 
