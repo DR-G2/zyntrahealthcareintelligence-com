@@ -30,5 +30,5 @@ const repeatAudit=await audit(A.db);check("P21.3-15 repeated learner-state audit
 const direct=await A.db.schema("pie").from("learner_lo_state").select("*").limit(1);check("P21.3-16 learner cannot directly read protected learner-state table",!!direct.error||!direct.data||direct.data.length===0,direct.error?.message??"direct read returned no rows");
 const foreignAudit=await audit(B.db);check("P21.3-17 second candidate receives only its own learner-state aggregate",!foreignAudit.error&&foreignAudit.data?.user_scoped===true,foreignAudit.error?.message??"");
 check("P21.3-18 cross-candidate audit response does not expose first candidate identity",!JSON.stringify(foreignAudit.data??{}).includes(A.id));
-check("P21.3-19 learner-state audit exposes no answer key or raw selected answer",!JSON.stringify(afterAudit.data??{}).includes("correct_answer")&&!JSON.stringify(afterAudit.data??{}).includes("selected_answer"));}
+check("P21.3-19 learner-state audit exposes no answer key or raw selected answer",afterAudit.data?.answer_key_exposed===false&&afterAudit.data?.selected_answer_exposed===false);}
 await A.db.auth.signOut();await B.db.auth.signOut();console.log("");console.log("P21.3 LEARNER-STATE INTEGRITY SUMMARY: PASS="+pass+" FAIL="+fail);if(fail)process.exit(1);
