@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 const plans = [
   {
     name: 'Free',
-    price: '$0',
+    price: 'A$0',
     note: 'APPE diagnostic only',
     points: [
       'One diagnostic. It records timing, answer changes and confidence.',
@@ -16,12 +16,12 @@ const plans = [
   },
   {
     name: 'Clinical Starter',
-    price: '$39/month',
-    note: 'or $100 for 3 months',
+    price: 'A$39/month',
+    note: 'or A$100 for 3 months',
     points: [
       'MCQ practice, Performance Intelligence and Study Plan.',
-      'Three months at the monthly rate is $117. You pay $100.',
-      'That is $17 off, 15% off the monthly price.',
+      'Three months at the monthly rate is A$117. You pay A$100.',
+      'That is A$17 off, 15% off the monthly price.',
     ],
     cta: 'Log in to subscribe',
     to: '/login',

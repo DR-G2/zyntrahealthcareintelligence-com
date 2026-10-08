@@ -32,7 +32,7 @@ const faqGroups = [
     title: 'Pricing & Money',
     questions: [
       {
-        q: '$39 is still hard. I\'m working extra shifts just to pay rent.',
+        q: 'A$39 is still hard. I\'m working extra shifts just to pay rent.',
         a: 'Use the contact form. Subject: "Hardship." Tell me your situation. I\'ll work something out. I spent 2 years in the system because I couldn\'t afford fees. I won\'t let money stop you.',
       },
       {
@@ -40,8 +40,8 @@ const faqGroups = [
         a: "Server costs ($400/month). And people don't value free tools. I've seen free groups with 10,000 members and zero engagement. Paying means you actually use it. That said—genuinely broke? I'll give you access. Just ask.",
       },
       {
-        q: 'Why is Lifetime $349?',
-        a: 'My MCQ-to-PGY1 journey: 2 years. $59 x 12 months = $708. $349 is less than half. Also: Lifetime users get direct access to me for quick questions. Lifetime is limited to the first 100 users so I can respond.',
+        q: 'Why is Lifetime A$349?',
+        a: 'My MCQ-to-PGY1 journey: 2 years. A$59 x 12 months = A$708. A$349 is less than half. Also: Lifetime users get direct access to me for quick questions.',
       },
     ],
   },
@@ -283,7 +283,7 @@ export default function Pricing() {
     <div className="min-h-screen bg-background">
       <SEO
         title="Zyntra Pricing — Free, Clinical Starter, Exam Master & Lifetime"
-        description="Zyntra plans in USD: Free $0, Clinical Starter $39/month or $100 for 3 months, Exam Master $59/month or $159 for 6 months, Lifetime $349 one-time for the first 100 users."
+        description="Zyntra plans in AUD: Free A$0, Clinical Starter A$39/month or A$100 for 3 months, Exam Master A$59/month or A$159 for 6 months, Lifetime A$349 one-time."
         path="/pricing"
       />
       {/* Nav */}
@@ -329,7 +329,7 @@ export default function Pricing() {
             <h1 className="mb-4 text-4xl font-bold font-display leading-tight tracking-tight lg:text-5xl">
               Choose Your <span className="gradient-text">Plan</span>
             </h1>
-            <p className="text-lg text-muted-foreground">Simple pricing designed for IMGs. Prices shown in USD unless stated otherwise.</p>
+            <p className="text-lg text-muted-foreground">Simple pricing designed for IMGs. Prices shown in AUD (A$).</p>
           </motion.div>
         </div>
       </section>
@@ -350,7 +350,7 @@ export default function Pricing() {
                 <CardHeader className="pb-3">
                   <CardTitle className="text-lg">Free</CardTitle>
                   <p className="text-xs text-muted-foreground">Explore the platform</p>
-                  <p className="mt-3 text-3xl font-bold font-display">$0</p>
+                  <p className="mt-3 text-3xl font-bold font-display">A$0</p>
                 </CardHeader>
                 <CardContent className="flex-1 flex flex-col">
                   <ul className="mb-6 space-y-2 flex-1">
@@ -369,8 +369,8 @@ export default function Pricing() {
                 <CardHeader className="pb-3">
                   <CardTitle className="text-lg">Clinical Starter</CardTitle>
                   <p className="text-xs text-muted-foreground">Core AMC preparation</p>
-                  <div className="mt-3"><span className="text-3xl font-bold font-display">$39</span><span className="text-muted-foreground text-sm">/mo</span></div>
-                  <p className="text-xs text-muted-foreground">or $100/3mo</p>
+                  <div className="mt-3"><span className="text-3xl font-bold font-display">A$39</span><span className="text-muted-foreground text-sm">/mo</span></div>
+                  <p className="text-xs text-muted-foreground">or A$100/3mo</p>
                 </CardHeader>
                 <CardContent className="flex-1 flex flex-col">
                   <ul className="mb-6 space-y-2 flex-1">
@@ -381,10 +381,10 @@ export default function Pricing() {
                   <p className="mb-4 text-xs text-muted-foreground italic">Best for candidates focusing on AMC MCQ.</p>
                   <div className="space-y-2">
                     <Button size="sm" className="w-full" onClick={() => choosePayment('mcq_only')} disabled={loadingTier === 'mcq_only' || isCurrentTier('mcq_only')}>
-                      {isCurrentTier('mcq_only') ? 'Current' : loadingTier === 'mcq_only' ? <Loader2 className="h-4 w-4 animate-spin" /> : '$39/mo'}
+                      {isCurrentTier('mcq_only') ? 'Current' : loadingTier === 'mcq_only' ? <Loader2 className="h-4 w-4 animate-spin" /> : 'A$39/mo'}
                     </Button>
                     <Button variant="outline" size="sm" className="w-full" onClick={() => choosePayment('mcq_only_3m')} disabled={loadingTier === 'mcq_only_3m'}>
-                      {loadingTier === 'mcq_only_3m' ? <Loader2 className="h-4 w-4 animate-spin" /> : '$100/3mo'}
+                      {loadingTier === 'mcq_only_3m' ? <Loader2 className="h-4 w-4 animate-spin" /> : 'A$100/3mo'}
                     </Button>
                   </div>
                 </CardContent>
@@ -400,8 +400,8 @@ export default function Pricing() {
                 <CardHeader className="pb-3">
                   <CardTitle className="text-lg">Exam Master</CardTitle>
                   <p className="text-xs text-muted-foreground">Full exam preparation</p>
-                  <div className="mt-3"><span className="text-3xl font-bold font-display">$59</span><span className="text-muted-foreground text-sm">/mo</span></div>
-                  <p className="text-xs text-muted-foreground">6-month access · $159</p>
+                  <div className="mt-3"><span className="text-3xl font-bold font-display">A$59</span><span className="text-muted-foreground text-sm">/mo</span></div>
+                  <p className="text-xs text-muted-foreground">6-month access · A$159</p>
                 </CardHeader>
                 <CardContent className="flex-1 flex flex-col">
                   <ul className="mb-4 space-y-2 flex-1">
@@ -415,10 +415,10 @@ export default function Pricing() {
                   </div>
                   <div className="space-y-2">
                     <Button size="sm" className="w-full" onClick={() => choosePayment('full_access')} disabled={loadingTier === 'full_access' || isCurrentTier('full_access')}>
-                      {isCurrentTier('full_access') ? 'Current' : loadingTier === 'full_access' ? <Loader2 className="h-4 w-4 animate-spin" /> : '$59/mo'}
+                      {isCurrentTier('full_access') ? 'Current' : loadingTier === 'full_access' ? <Loader2 className="h-4 w-4 animate-spin" /> : 'A$59/mo'}
                     </Button>
                     <Button variant="outline" size="sm" className="w-full" onClick={() => choosePayment('full_access_3m')} disabled={loadingTier === 'full_access_3m'}>
-                      {loadingTier === 'full_access_3m' ? <Loader2 className="h-4 w-4 animate-spin" /> : '$159/6mo'}
+                      {loadingTier === 'full_access_3m' ? <Loader2 className="h-4 w-4 animate-spin" /> : 'A$159/6mo'}
                     </Button>
                   </div>
                 </CardContent>
@@ -433,8 +433,8 @@ export default function Pricing() {
                 </div>
                 <CardHeader className="pb-3">
                   <CardTitle className="text-lg">Lifetime</CardTitle>
-                  <p className="text-xs text-muted-foreground">One payment · first 100 users</p>
-                  <div className="mt-3"><span className="text-3xl font-bold font-display">$349</span><span className="text-muted-foreground text-sm"> once</span></div>
+                  <p className="text-xs text-muted-foreground">One payment</p>
+                  <div className="mt-3"><span className="text-3xl font-bold font-display">A$349</span><span className="text-muted-foreground text-sm"> once</span></div>
                 </CardHeader>
                 <CardContent className="flex-1 flex flex-col">
                   <ul className="mb-6 space-y-2 flex-1">
