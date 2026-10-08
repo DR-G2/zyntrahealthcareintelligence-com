@@ -57,6 +57,10 @@ async function main() {
     check(`${u.label}: state is own-user scoped`, !r.data || r.data.user_id === u.id, r.data ? `owner=${t(r.data.user_id)}` : "no prior state");
   }
 
+  // 1b. P7 beta gate: only the designated beta learner may enter pie_beta.
+  const betaB = await rpc(B, "pie_create_session", { p_count: 3, p_blueprint_key: "AMC_CAT_MCQ", p_mode: "pie_beta" });
+  check("P7 unauthorized beta request is rejected", !!betaB.error, betaB.error?.message ?? "UNEXPECTED BETA ACCESS");
+
   // 2. Real P5 adaptive session. No question IDs are supplied by the client.
   const created = await rpc(A, "pie_create_session", { p_count: 7, p_blueprint_key: "AMC_CAT_MCQ", p_mode: "pie_adaptive" });
   check("P5 server-created adaptive session", !created.error && created.data?.[0]?.session_id, created.error?.message ?? "");
