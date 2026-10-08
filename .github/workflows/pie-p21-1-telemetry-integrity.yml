@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - pie-p21-1-telemetry-integrity
+  pull_request:
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
