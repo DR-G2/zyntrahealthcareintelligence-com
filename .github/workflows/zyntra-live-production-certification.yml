@@ -1,0 +1,68 @@
+name: Zyntra Live Production Certification
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm_live_target:
+        description: "Type LIVE to confirm this run targets the live V2 Supabase project"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: zyntra-live-production-certification
+  cancel-in-progress: false
+
+jobs:
+  live-certification:
+    if: ${{ inputs.confirm_live_target == 'LIVE' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: pie-p11-rebuild
+
+      - name: Setup Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Validate required live-certification secrets exist
+        env:
+          V2_URL: ${{ secrets.ZYNTRA_V2_URL }}
+          V2_PUBLISHABLE_KEY: ${{ secrets.ZYNTRA_V2_PUBLISHABLE_KEY }}
+          PIE_TEST_USER_A_EMAIL: ${{ secrets.PIE_TEST_USER_A_EMAIL }}
+          PIE_TEST_USER_B_EMAIL: ${{ secrets.PIE_TEST_USER_B_EMAIL }}
+          PIE_TEST_PASSWORD: ${{ secrets.PIE_TEST_PASSWORD }}
+        run: |
+          test -n "$V2_URL"
+          test -n "$V2_PUBLISHABLE_KEY"
+          test -n "$PIE_TEST_USER_A_EMAIL"
+          test -n "$PIE_TEST_USER_B_EMAIL"
+          test -n "$PIE_TEST_PASSWORD"
+          echo "Required live-certification secrets are present."
+
+      - name: Run P0-P11 live certification against V2
+        env:
+          V2_URL: ${{ secrets.ZYNTRA_V2_URL }}
+          V2_PUBLISHABLE_KEY: ${{ secrets.ZYNTRA_V2_PUBLISHABLE_KEY }}
+          PIE_TEST_USER_A_EMAIL: ${{ secrets.PIE_TEST_USER_A_EMAIL }}
+          PIE_TEST_USER_B_EMAIL: ${{ secrets.PIE_TEST_USER_B_EMAIL }}
+          PIE_TEST_PASSWORD: ${{ secrets.PIE_TEST_PASSWORD }}
+        run: npx vite-node scripts/pie-live-certification.mts
+
+      - name: Report certification result
+        if: always()
+        run: |
+          echo "Live production certification workflow completed."
+          echo "This workflow certifies the live V2 engineering contracts only."
+          echo "It does NOT promote AMC pass probability or enable global PIE beta access."
