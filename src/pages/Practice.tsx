@@ -372,7 +372,7 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
   if (loading) {
     return (
       <AppLayout>
-        <PracticeSecurityEnforcement />
+        <PracticeSecurityEnforcement active={phase === 'drill'} />
         <PracticeSkeleton />
       </AppLayout>
     );
@@ -380,7 +380,7 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
 
   return (
     <AppLayout>
-        <PracticeSecurityEnforcement />
+        <PracticeSecurityEnforcement active={phase === 'drill'} />
       <div className="mx-auto max-w-6xl space-y-6">
         <RoomHeader kind="practice" className="mb-1" />
         <div className="flex flex-wrap justify-end gap-2">
@@ -878,7 +878,7 @@ function ResultsScreen({
 
   return (
     <AppLayout>
-        <PracticeSecurityEnforcement />
+        <PracticeSecurityEnforcement active={phase === 'drill'} />
       <div className="mx-auto max-w-3xl py-6 space-y-6">
         {/* ── SECTION 1: Summary Header ── */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
@@ -1249,7 +1249,7 @@ export default function Practice() {
   if (!gate.canAccessQBank) {
     return (
       <AppLayout>
-        <PracticeSecurityEnforcement />
+        <PracticeSecurityEnforcement active={phase === 'drill'} />
         <div className="space-y-6">
           <div>
             <h1 className="text-2xl font-bold font-display">Practice Drills</h1>
@@ -1264,7 +1264,7 @@ export default function Practice() {
   if (phase === 'history') {
     return (
       <AppLayout>
-        <PracticeSecurityEnforcement />
+        <PracticeSecurityEnforcement active={phase === 'drill'} />
         <div className="mx-auto max-w-5xl space-y-6">
           <div className="flex items-center justify-between gap-4">
             <div>
@@ -1288,7 +1288,7 @@ export default function Practice() {
   if (phase === 'review') {
     return (
       <AppLayout>
-        <PracticeSecurityEnforcement />
+        <PracticeSecurityEnforcement active={phase === 'drill'} />
         <div className="mx-auto max-w-5xl space-y-6">
           <div className="flex items-center justify-between gap-4">
             <div>
