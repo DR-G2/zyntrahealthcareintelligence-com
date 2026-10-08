@@ -80,8 +80,7 @@ begin
   v_category,
   format('%s security incident with %s high/critical event(s) and %s screenshot(s).',
     upper(v_incident.severity),v_incident.event_count,v_incident.screenshot_count),
-  case when v_incident.severity='critical'
-       then array['admin_realtime','admin_email'] else array['admin_realtime'] end,
+  array['admin_realtime'],
   v_incident.id::text||':'||v_incident.severity)
  on conflict(dedupe_key) do update set severity=excluded.severity,title=excluded.title,summary=excluded.summary
  returning id into v_alert;
