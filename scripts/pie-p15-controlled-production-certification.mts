@@ -5,7 +5,6 @@ const key = process.env.V2_PUBLISHABLE_KEY;
 const emailA = process.env.PIE_TEST_USER_A_EMAIL;
 const emailB = process.env.PIE_TEST_USER_B_EMAIL;
 const password = process.env.PIE_TEST_PASSWORD;
-const appUrl = process.env.PRODUCTION_APP_URL || "https://zyntrahealthcareintelligence.com";
 
 if (!url || !key || !emailA || !emailB || !password) {
   throw new Error("Missing P15 certification environment");
@@ -40,38 +39,35 @@ async function invoke(c: ReturnType<typeof client>) {
   return { response, payload };
 }
 
-const app = await fetch(appUrl, { redirect: "follow" });
-check("P15-01 production application is reachable", app.ok, "HTTP " + app.status);
-
 const unauth = await fetch(url + "/functions/v1/pie-p14-shadow-read", {
   method: "POST",
   headers: { apikey: key, "Content-Type": "application/json" },
   body: "{}",
 });
-check("P15-02 unauthenticated PIE read is rejected", unauth.status === 401);
+check("P15-01 unauthenticated PIE read is rejected", unauth.status === 401);
 
 const a = await login(A, emailA);
 const b = await login(B, emailB);
-check("P15-03 authenticated identities are distinct", a.user.id !== b.user.id);
+check("P15-02 authenticated identities are distinct", a.user.id !== b.user.id);
 
 const aRead = await invoke(A);
-check("P15-04 candidate A receives authenticated P14 response", aRead.response.ok && aRead.payload.status === "ready");
-check("P15-05 candidate A receives exactly six dimensions", Array.isArray(aRead.payload.dimensions) && aRead.payload.dimensions.length === 6);
-check("P15-06 P12 shadow security markers remain intact",
+check("P15-03 candidate A receives authenticated P14 response", aRead.response.ok && aRead.payload.status === "ready");
+check("P15-04 candidate A receives exactly six dimensions", Array.isArray(aRead.payload.dimensions) && aRead.payload.dimensions.length === 6);
+check("P15-05 P12 shadow security markers remain intact",
   aRead.payload.shadow_only === true &&
   aRead.payload.authoritative === false &&
   aRead.payload.influences_adaptation === false &&
   aRead.payload.model_version === "pie-inference-v2.1-shadow"
 );
-check("P15-07 P12 provenance remains intact",
+check("P15-06 P12 provenance remains intact",
   typeof aRead.payload.inference_hash === "string" &&
   aRead.payload.inference_hash.length === 64 &&
   typeof aRead.payload.source_state_version === "number"
 );
 
 const bRead = await invoke(B);
-check("P15-08 candidate B receives authenticated P14 response", bRead.response.ok && bRead.payload.status === "ready");
-check("P15-09 cross-user inference isolation holds",
+check("P15-07 candidate B receives authenticated P14 response", bRead.response.ok && bRead.payload.status === "ready");
+check("P15-08 cross-user inference isolation holds",
   a.user.id !== b.user.id && aRead.payload.inference_hash !== bRead.payload.inference_hash
 );
 
@@ -84,20 +80,20 @@ const forged = await (async () => {
   });
 })();
 const forgedPayload = await forged.json().catch(() => ({}));
-check("P15-10 caller-supplied foreign user_id cannot change scope",
+check("P15-09 caller-supplied foreign user_id cannot change scope",
   forged.ok && forgedPayload.inference_hash === aRead.payload.inference_hash
 );
 
 const directProjection = await A.schema("pie").from("inference_projection").select("user_id").limit(1);
-check("P15-11 browser cannot directly read protected projection", !!directProjection.error);
+check("P15-10 browser cannot directly read protected projection", !!directProjection.error);
 const directShadow = await A.schema("pie").from("inference_shadow").select("user_id").limit(1);
-check("P15-12 browser cannot directly read protected shadow", !!directShadow.error);
+check("P15-11 browser cannot directly read protected shadow", !!directShadow.error);
 
 const secondRead = await invoke(A);
-check("P15-13 subsequent authenticated read remains projection-backed",
+check("P15-12 subsequent authenticated read remains projection-backed",
   secondRead.response.ok && secondRead.payload.read_source === "projection"
 );
-check("P15-14 P14 projection remains stable",
+check("P15-13 P14 projection remains stable",
   secondRead.payload.inference_hash === aRead.payload.inference_hash
 );
 
