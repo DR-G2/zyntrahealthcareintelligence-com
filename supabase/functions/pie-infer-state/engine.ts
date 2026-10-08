@@ -1,4 +1,5 @@
-import { CandidateState, DEFAULT_INFERENCE_CONFIG, InferenceConfig, PieObservation, StatePosterior, initialCandidateState } from "./types.ts";
+import { DEFAULT_INFERENCE_CONFIG, initialCandidateState } from "./types.ts";
+import type { CandidateState, InferenceConfig, PieObservation, StatePosterior } from "./types.ts";
 
 function clamp01(x: number): number {
   return Math.max(0, Math.min(1, x));
