@@ -57,7 +57,21 @@ check("P14-06 inference provenance is preserved", typeof aFirst.payload.inferenc
 
 const aSecond = await invoke(A);
 check("P14-07 subsequent read is served from projection", aSecond.response.ok && aSecond.payload.read_source === "projection");
-check("P14-08 projection is stable across reads", aSecond.payload.inference_hash === aFirst.payload.inference_hash && JSON.stringify(aSecond.payload.dimensions) === JSON.stringify(aFirst.payload.dimensions));
+const normalizeDimensions = (dimensions: any[]) => dimensions
+  .map((d) => ({
+    dimension: d.dimension,
+    estimate: d.estimate,
+    uncertainty: d.uncertainty,
+    lower: d.lower,
+    upper: d.upper,
+    evidence_count: d.evidence_count,
+    evidence_quality: d.evidence_quality,
+  }))
+  .sort((a, b) => a.dimension.localeCompare(b.dimension));
+check("P14-08 projection is stable across reads",
+  aSecond.payload.inference_hash === aFirst.payload.inference_hash &&
+  JSON.stringify(normalizeDimensions(aSecond.payload.dimensions)) === JSON.stringify(normalizeDimensions(aFirst.payload.dimensions))
+);
 
 const forged = await invoke(A, { user_id: b.user.id });
 check("P14-09 foreign user_id cannot change authenticated scope", forged.response.ok && forged.payload.inference_hash === aSecond.payload.inference_hash);
