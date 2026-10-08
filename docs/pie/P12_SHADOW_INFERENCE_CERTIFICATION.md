@@ -54,3 +54,8 @@ Promotion requires a later gate demonstrating:
 Current model: `pie-inference-v2.1-shadow`.
 
 This is an engineering shadow model, not a validated psychometric model and not an AMC pass-probability model.
+
+
+## CI note
+
+P12 certification requires the repository typecheck gate to remain green; unrelated security RPC declarations are preserved in the generated application type surface.
