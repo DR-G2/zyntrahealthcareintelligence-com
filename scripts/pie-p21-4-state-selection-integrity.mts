@@ -35,9 +35,9 @@ const selected=nextTrace?.selected_action as Record<string,unknown>|undefined;
 check("P21.4-16 next trace contains a server-selected LO action",!!selected&&typeof selected.lo_id==="string"&&selected.lo_id.length>0);
 const snap=nextTrace?.state_snapshot as Record<string,unknown>|undefined;
 check("P21.4-17 next trace contains server-side learner-state decision snapshot",!!snap&&Object.keys(snap).length>0);
-const qs2=await A.db.rpc("get_practice_session_questions",{p_session_id:sid});const rows2=Array.isArray(qs2.data)?qs2.data as Record<string,unknown>[]):[];
+const qs2=await A.db.rpc("get_practice_session_questions",{p_session_id:sid});const rows2=Array.isArray(qs2.data)?qs2.data as Record<string,unknown>[]:[];
 check("P21.4-18 session contains both server-selected questions",!qs2.error&&rows2.some(q=>q.question_id===q1)&&rows2.some(q=>q.question_id===q2));
-const foreign=await B.db.rpc("get_my_pie_decision_traces");const fb=Array.isArray(foreign.data)?foreign.data as Record<string,unknown>[]):[];
+const foreign=await B.db.rpc("get_my_pie_decision_traces");const fb=Array.isArray(foreign.data)?foreign.data as Record<string,unknown>[]:[];
 check("P21.4-19 second candidate cannot observe first candidate's adaptation traces",!foreign.error&&!fb.some(t=>t.session_id===sid));
 check("P21.4-20 no privileged credential material in adaptation trace response",!JSON.stringify(t1.data??{}).includes("service_role")&&!JSON.stringify(t1.data??{}).includes("access_token"));
 }
