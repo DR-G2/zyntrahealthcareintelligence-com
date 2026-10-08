@@ -34,7 +34,7 @@ check("P20-03 frontend uses publishable key path only", !v2ClientSource.includes
 check("P20-04 V2 auth bridge uses caller session, not privileged client credentials", practiceSource.includes("legacyAccessToken") && practiceSource.includes("v2-auth-bridge") && !practiceSource.includes("service_role"));
 check("P20-05 client practice path creates sessions only through authoritative RPC", practiceSource.includes("pie_create_session") || practiceSource.includes("only by the PIE server RPC"));
 check("P20-06 V2 practice remains an explicit migration gate", adapterSource.includes("VITE_SUPABASE_V2_PRACTICE_ENABLED === 'true'"));
-check("P20-07 deployment target is Netlify-compatible", netlify.includes("npm run build") && netlify.includes("publish = \"dist\"") && netlify.includes("to = "/index.html""));
+check("P20-07 deployment target is Netlify-compatible", netlify.includes("npm run build") && netlify.includes("publish = \"dist\"") && netlify.includes("to = \"/index.html\""));
 check("P20-08 selector policy remains versioned", selectorSource.includes("pie-select/p3.0"));
 check("P20-09 selector remains deterministic", selectorSource.includes("order by c.total desc, c.tie_rank asc, c.tie_hash asc"));
 check("P20-10 shadow inference remains outside authoritative selector", !selectorSource.includes("inference_shadow") && !selectorSource.includes("pie-infer-state"));
