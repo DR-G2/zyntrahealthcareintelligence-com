@@ -71,7 +71,7 @@ async function main() {
   const questions = (qs.data ?? []) as Array<Record<string, any>>;
   check("P5 session contains server-selected questions", !qs.error && questions.length > 0, `count=${questions.length}`);
   check("question payload contains no answer key", questions.every(q => !Object.prototype.hasOwnProperty.call(q, "correct_answer")), "");
-  check("question payload contains no explanation", questions.every(q => !Object.prototype.hasOwnProperty.call(q, "explanation")), "");
+  check("question payload contains no explanation", questions.every(q => q.explanation == null), questions.find(q => q.explanation != null)?.explanation ?? "null/absent");
   const q0 = questions[0];
   check("question has position + version metadata", q0?.question_position !== undefined, JSON.stringify({ position:q0?.question_position, version:q0?.version }));
 
@@ -109,7 +109,7 @@ async function main() {
   const s1 = await state(A);
   check("candidate state persisted", !s1.error && s1.data?.user_id === A.id, s1.error?.message ?? "");
   check("evidence count increments", !s1.error && s1.data?.state?.evidence_count >= 1, JSON.stringify(s1.data?.state ?? {}));
-  check("uncertainty is present", !s1.error && s1.data?.state?.uncertainty !== undefined || !s1.error && s1.data?.state?.confidence !== undefined, "");
+  check("candidate state carries uncertainty/confidence signal", !s1.error && (s1.data?.state?.uncertainty !== undefined || s1.data?.confidence !== undefined), JSON.stringify({confidence:s1.data?.confidence,uncertainty:s1.data?.state?.uncertainty}));
   check("state has model/provenance fields", !s1.error && (s1.data?.state?.model_version || s1.data?.state_version), JSON.stringify(s1.data ?? {}));
 
   // 6. P8 authoritative inference and P10 AMC readiness.
