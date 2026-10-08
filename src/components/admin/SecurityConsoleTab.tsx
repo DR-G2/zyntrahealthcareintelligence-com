@@ -70,7 +70,13 @@ export function SecurityConsoleTab() {
     const urls: Record<string, string> = {};
     for (const evidence of detail.evidence || []) {
       if (evidence.evidence_type !== 'screenshot' || !evidence.storage_ref) continue;
-      const signed = await supabase.storage.from('security-evidence').createSignedUrl(String(evidence.storage_ref), 300);
+      const authorized = await supabase.rpc('admin_authorize_security_evidence_access', {
+        p_evidence_id: String(evidence.id),
+        p_action: 'view',
+        p_reason: 'Security incident screenshot review',
+      });
+      if (authorized.error || !authorized.data) continue;
+      const signed = await supabase.storage.from('security-evidence').createSignedUrl(String(authorized.data), 300);
       if (!signed.error && signed.data?.signedUrl) urls[String(evidence.id)] = signed.data.signedUrl;
     }
     setEvidenceUrls(urls);
