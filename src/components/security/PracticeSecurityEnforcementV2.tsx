@@ -4,7 +4,7 @@ import { AlertTriangle, Camera, Clock3, Lock, Scale, ShieldAlert } from 'lucide-
 import { supabase } from '@/integrations/supabase/client';
 
 type Severity = 'high' | 'critical';
-type Enforcement = { severity: Severity; action: string; starts_at: string; ends_at: string; reason: string };
+type Enforcement = { severity: Severity; action: string; starts_at: string; ends_at: string; reason: string; event_count?: number; screenshot_count?: number; forwarded_to_admin?: Record<string, boolean>; not_forwarded?: string[] };
 type Notice = { title: string; message: string; tracked_summary?: Record<string, unknown> };
 
 async function hashBlob(blob: Blob) {
