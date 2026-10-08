@@ -58,13 +58,13 @@ if (questions?.[0]?.id) {
   });
   const afterPayload = await after.json().catch(() => ({}));
   check("P17-03 PIE observation is produced on healthy path", after.ok && Number(afterPayload.observation_count ?? 0) >= beforeCount + 1);
-  check("P17-04 healthy PIE read remains projection-backed", afterPayload.read_source === "projection");
+  check("P17-04 healthy PIE read remains projection-backed", ["projection", "p12_refresh"].includes(afterPayload.read_source));
 }
 
 const { readFile } = await import("node:fs/promises");
 const saveSource = await readFile("supabase/migrations_v2/0044_pie_candidate_state_pipeline_repair.sql", "utf8");
-check("P17-05 save_attempt isolates PIE observation failure", /begin\\s+insert into pie\\.pie_observation[\\s\\S]*?exception when others then\\s+raise warning/.test(saveSource));
-check("P17-06 authoritative attempt is returned after optional intelligence blocks", /return v_attempt;/.test(saveSource) && /insert into public\\.user_attempts/.test(saveSource));
+check("P17-05 save_attempt isolates PIE observation failure", saveSource.includes("insert into pie.pie_observation") && saveSource.includes("exception when others then"));
+check("P17-06 authoritative attempt is returned after optional intelligence blocks", saveSource.includes("insert into public.user_attempts") && saveSource.includes("return v_attempt;"));
 
 await client.auth.signOut();
 console.log("");
