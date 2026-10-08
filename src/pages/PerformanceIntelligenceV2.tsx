@@ -19,7 +19,8 @@ import { describePieStatus, PIE_MIN_OBSERVATIONS, type PieState, type PieView } 
 import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils';
 import { fetchLegacyShapedHistory } from '@/lib/pie/pie-history-client';
-import { loadP13ShadowInference, type P13ShadowView } from '@/lib/pie/p13-shadow-client';
+import { type P13ShadowView } from '@/lib/pie/p13-shadow-client';
+import { loadP14ShadowInference } from '@/lib/pie/p14-shadow-client';
 import { P13ShadowInferencePanel } from '@/components/pie/P13ShadowInferencePanel';
 
 type TabId = 'performance' | 'behavior' | 'trust-your-gut';
