@@ -55,3 +55,5 @@ jobs:
           PIE_TEST_USER_B_EMAIL: ${{ secrets.PIE_TEST_USER_B_EMAIL }}
           PIE_TEST_PASSWORD: ${{ secrets.PIE_TEST_PASSWORD }}
         run: npx vite-node scripts/pie-p20-production-deployment-gate.mts
+
+# P21.2 trigger synchronization
