@@ -10,6 +10,9 @@ import { useToast } from '@/hooks/use-toast';
 type Incident = {
   incident_id: string;
   user_id: string;
+  user_email?: string | null;
+  latest_ip?: string | null;
+  latest_user_agent?: string | null;
   severity: 'high' | 'critical';
   status: string;
   event_count: number;
@@ -160,7 +163,8 @@ export function SecurityConsoleTab() {
                     <span className="text-xs text-muted-foreground">{new Date(incident.last_event_at).toLocaleString()}</span>
                   </div>
                   <div className="mt-3 grid gap-2 text-xs text-muted-foreground sm:grid-cols-4">
-                    <span>User: {incident.user_id}</span>
+                    <span>User: {incident.user_email || incident.user_id}</span>
+                    <span>IP: {incident.latest_ip || 'not captured'}</span>
                     <span>Events: {incident.event_count}</span>
                     <span>SS: {incident.screenshot_count}</span>
                     <span>Alert: {incident.alert_state}</span>
@@ -182,7 +186,8 @@ export function SecurityConsoleTab() {
           </CardHeader>
           <CardContent className="space-y-5">
             <div className="grid gap-3 sm:grid-cols-4">
-              <div><div className="text-xs text-muted-foreground">User</div><div className="mt-1 break-all text-xs">{String(selected.incident?.user_id || '')}</div></div>
+              <div><div className="text-xs text-muted-foreground">User</div><div className="mt-1 break-all text-xs">{String(selected.incident?.user_email || selected.incident?.user_id || '')}</div></div>
+              <div><div className="text-xs text-muted-foreground">IP</div><div className="mt-1 break-all text-xs">{String(selected.incident?.latest_ip || 'not captured')}</div></div>
               <div><div className="text-xs text-muted-foreground">Events</div><div className="mt-1 font-semibold">{selected.events.length}</div></div>
               <div><div className="text-xs text-muted-foreground">Evidence</div><div className="mt-1 font-semibold">{selected.evidence.length}</div></div>
               <div><div className="text-xs text-muted-foreground">Alerts</div><div className="mt-1 font-semibold">{selected.alerts.length}</div></div>
