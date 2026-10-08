@@ -1,4 +1,5 @@
 name: PIE P20 Production Deployment Gate
+# P20 gate runs against the certified P19 baseline.
 
 on:
   push:
