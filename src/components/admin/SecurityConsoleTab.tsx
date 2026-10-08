@@ -34,6 +34,7 @@ export function SecurityConsoleTab() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [note, setNote] = useState('');
   const [loading, setLoading] = useState(true);
+  const [evidenceUrls, setEvidenceUrls] = useState<Record<string, string>>({});
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -53,7 +54,15 @@ export function SecurityConsoleTab() {
       toast({ title: 'Incident error', description: error.message, variant: 'destructive' });
       return;
     }
-    setSelected(data as Detail);
+    const detail = data as Detail;
+    setSelected(detail);
+    const urls: Record<string, string> = {};
+    for (const evidence of detail.evidence || []) {
+      if (evidence.evidence_type !== 'screenshot' || !evidence.storage_ref) continue;
+      const signed = await supabase.storage.from('security-evidence').createSignedUrl(String(evidence.storage_ref), 300);
+      if (!signed.error && signed.data?.signedUrl) urls[String(evidence.id)] = signed.data.signedUrl;
+    }
+    setEvidenceUrls(urls);
   };
 
   const resolve = async (status: 'resolved' | 'false_positive') => {
@@ -77,7 +86,10 @@ export function SecurityConsoleTab() {
   useEffect(() => {
     void load();
     const timer = window.setInterval(() => void load(), 15000);
-    return () => window.clearInterval(timer);
+    const channel = supabase.channel('admin-security-alerts')
+      .on('postgres_changes', { event: '*', schema: 'pie', table: 'security_alert' }, () => void load())
+      .subscribe();
+    return () => { window.clearInterval(timer); void supabase.removeChannel(channel); };
   }, [load]);
 
   const critical = incidents.filter(i => i.severity === 'critical').length;
@@ -195,6 +207,7 @@ export function SecurityConsoleTab() {
                     <div key={String(e.id || index)} className="rounded-lg border border-border/50 p-3 text-xs">
                       <div className="font-medium">{String(e.evidence_type || 'evidence')}</div>
                       <div className="mt-1 text-muted-foreground">Redaction: {String(e.redaction_state || 'unknown')} · Hash: {String(e.content_hash || 'none')}</div>
+                      {evidenceUrls[String(e.id)] && <img src={evidenceUrls[String(e.id)]} alt="Security evidence screenshot" className="mt-3 max-h-96 w-full rounded-lg border border-border/50 object-contain" />}
                     </div>
                   ))}
                 </div>
