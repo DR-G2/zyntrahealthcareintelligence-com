@@ -49,32 +49,33 @@ function infer(rows: any[]) {
   };
 
   for (const r of rows) {
+    const p = r.payload ?? {};
     const quality =
-      r.observation_quality === "UNUSABLE" ? 0 :
+      p.observation_quality === "UNUSABLE" ? 0 :
       r.observation_quality === "CONTRADICTORY" ? 0.15 :
       r.observation_quality === "SUSPICIOUS" ? 0.5 :
-      r.interaction_state === "INTERRUPTED" ? 0.25 : 1;
+      p.interaction_state === "INTERRUPTED" ? 0.25 : 1;
 
-    const outcome = r.outcome === "CORRECT" ? 1 : r.outcome === "INCORRECT" ? 0 : null;
+    const outcome = p.outcome === "CORRECT" ? 1 : r.outcome === "INCORRECT" ? 0 : null;
 
-    const timing = r.time_total_ms > 0
+    const timing = p.time_total_ms > 0
       ? clamp01(1 / (1 + Math.log1p(r.time_total_ms / 1000) / 10))
       : null;
 
     const decision =
-      r.first_answer_correct == null || r.final_answer_correct == null
+      p.first_answer_correct == null || p.final_answer_correct == null
         ? null
         : r.first_answer_correct === r.final_answer_correct
           ? 0.5
           : r.final_answer_correct ? 0.75 : 0.25;
 
     const calibration =
-      r.confidence_normalized == null || outcome == null
+      p.confidence_normalized == null || outcome == null
         ? null
         : clamp01(1 - Math.abs(r.confidence_normalized - outcome));
 
     const learning =
-      r.learning_context && outcome != null ? outcome : null;
+      p.learning_context && outcome != null ? outcome : null;
 
     s.capability = update(s.capability, outcome, 0.08, quality);
     s.decision = update(s.decision, decision, 0.12, quality);
@@ -119,7 +120,7 @@ Deno.serve(async (req) => {
     .schema("pie").from("pie_observation")
     .select("*")
     .eq("user_id", user.id)
-    .order("occurred_at", { ascending: true });
+    .order("observed_at", { ascending: true });
 
   if (error) return json({ error: "observation_query_failed", detail: error.message }, 500);
 
