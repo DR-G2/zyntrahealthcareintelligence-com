@@ -142,3 +142,12 @@ if (sessionId) {
 
   const foreign = await B.db.rpc("get_practice_session_questions", { p_session_id: sessionId });
   check("P21.1-18 telemetry certification session remains candidate-isolated", !!foreign.error || !Array.isArray(foreign.data) || foreign.data.length === 0);
+
+}
+
+await A.db.auth.signOut();
+await B.db.auth.signOut();
+
+console.log("");
+console.log("P21.1 PRODUCTION TELEMETRY INTEGRITY SUMMARY: PASS=" + pass + " FAIL=" + fail);
+if (fail) process.exit(1);
