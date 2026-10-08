@@ -48,7 +48,23 @@ const first = await invoke(A, { user_id: a.user.id });
 check("P12 Edge Function invocation succeeds", first.response.ok, JSON.stringify(first.payload));
 check("P12 is explicitly shadow-only", first.payload.shadow_only === true && first.payload.authoritative === false && first.payload.influences_adaptation === false);
 check("P12 model provenance", first.payload.model_version === "pie-inference-v2.1-shadow", String(first.payload.model_version));
-check("P12 returns six-dimensional inference contract", first.payload.dimension_count === 6, `dimensions=${first.payload.dimension_count}`);
+const dimensions = Array.isArray(first.payload.dimensions) ? first.payload.dimensions : [];
+const expectedDimensions = ["capability", "decision", "timing", "calibration", "sustained_performance", "learning"];
+const dimensionContractOk =
+  first.payload.dimension_count === 6 &&
+  dimensions.length === 6 &&
+  expectedDimensions.every((name) =>
+    dimensions.some((d: any) =>
+      d?.dimension === name &&
+      typeof d?.estimate === "number" &&
+      typeof d?.uncertainty === "number" &&
+      typeof d?.lower === "number" &&
+      typeof d?.upper === "number" &&
+      typeof d?.evidence_count === "number" &&
+      typeof d?.evidence_quality === "number"
+    )
+  );
+check("P12 returns six-dimensional inference contract", dimensionContractOk, `dimensions=${first.payload.dimension_count}, rows=${dimensions.length}`);
 check("P12 produces deterministic inference hash", typeof first.payload.inference_hash === "string" && first.payload.inference_hash.length === 64);
 
 const second = await invoke(A, { user_id: a.user.id });
