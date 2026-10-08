@@ -61,7 +61,7 @@ if (sessionId) {
 
   const next = await A.db.rpc("pie_next_question", { p_session_id: sessionId });
   check("P18-08 next question is selected server-side", !next.error && !!next.data?.[0]?.question_id, next.error?.message ?? "");
-  check("P18-09 adaptation returns a decision identifier", !next.error && !!next.data?.[0]?.decision_id);
+  check("P18-09 adaptation returns a decision identifier", !next.error && !!next.data?.[0]?.decision_id, JSON.stringify(next.data ?? []));
   check("P18-10 adaptation returns an NBLE decision type", !next.error && typeof next.data?.[0]?.nble_type === "string");
 
   const forged = await B.db.rpc("pie_next_question", { p_session_id: sessionId });
