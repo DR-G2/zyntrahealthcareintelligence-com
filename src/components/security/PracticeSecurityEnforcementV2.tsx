@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import html2canvas from 'html2canvas';
 import { AlertTriangle, Camera, Clock3, Lock, Scale, ShieldAlert } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
@@ -33,6 +33,9 @@ export function PracticeSecurityEnforcementV2({ active = false }: { active?: boo
   const [notice, setNotice] = useState<Notice | null>(null);
   const [signals, setSignals] = useState(0);
   const [remaining, setRemaining] = useState('');
+  const lastSignalAt = useRef(0);
+  const lastSignalType = useRef<string | null>(null);
+  const [captureEnabled, setCaptureEnabled] = useState(true);
 
   const refresh = useCallback(async () => {
     const [b, n] = await Promise.all([
@@ -45,9 +48,19 @@ export function PracticeSecurityEnforcementV2({ active = false }: { active?: boo
 
   useEffect(() => {
     void refresh();
-    const t = window.setInterval(() => void refresh(), 15000);
+    void (async () => {
+      const { data } = await supabase.rpc('get_my_security_capture_policy');
+      if (data && typeof data.enabled === 'boolean') setCaptureEnabled(data.enabled);
+    })();
+    const t = window.setInterval(() => {
+      void refresh();
+      void (async () => {
+        const { data } = await supabase.rpc('get_my_security_capture_policy');
+        if (data && typeof data.enabled === 'boolean') setCaptureEnabled(data.enabled);
+      })();
+    }, 15000);
     return () => window.clearInterval(t);
-  }, [refresh]);
+  }, [captureEnabled, refresh]);
 
   useEffect(() => {
     if (!ban) return;
@@ -61,6 +74,11 @@ export function PracticeSecurityEnforcementV2({ active = false }: { active?: boo
   }, [ban]);
 
   const sendSignal = useCallback(async (type: string) => {
+    const now = Date.now();
+    if (now - lastSignalAt.current < 5000) return;
+    if (lastSignalType.current === type && now - lastSignalAt.current < 15000) return;
+    lastSignalAt.current = now;
+    lastSignalType.current = type;
     setSignals(prev => {
       const next = prev + 1;
       const severity = next >= 2 ? 'high' : 'medium';
@@ -75,6 +93,10 @@ export function PracticeSecurityEnforcementV2({ active = false }: { active?: boo
           return;
         }
 
+        if (!captureEnabled) {
+          await refresh();
+          return;
+        }
         try {
           const blob = await captureViewport();
           const hash = await hashBlob(blob);
