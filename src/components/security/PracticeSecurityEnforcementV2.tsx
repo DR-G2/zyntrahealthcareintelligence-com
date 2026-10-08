@@ -60,7 +60,7 @@ export function PracticeSecurityEnforcementV2({ active = false }: { active?: boo
       })();
     }, 15000);
     return () => window.clearInterval(t);
-  }, [captureEnabled, refresh]);
+  }, [refresh]);
 
   useEffect(() => {
     if (!ban) return;
@@ -118,7 +118,7 @@ export function PracticeSecurityEnforcementV2({ active = false }: { active?: boo
       })();
       return next;
     });
-  }, [refresh]);
+  }, [captureEnabled, refresh]);
 
   useEffect(() => {
     if (!active) { setSignals(0); return; }
