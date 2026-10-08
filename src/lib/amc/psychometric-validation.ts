@@ -164,14 +164,32 @@ function ece(labels:boolean[],probs:number[],bins=10):number{
   return total;
 }
 
+function estimateTheta(attempts:ValidationAttempt[], difficulty:Record<string,number>):Record<string,number>{
+  const byCandidate=new Map<string,ValidationAttempt[]>();
+  for(const a of attempts){const rows=byCandidate.get(a.candidateId)??[];rows.push(a);byCandidate.set(a.candidateId,rows);}
+  const out:Record<string,number>={};
+  for(const [cid,rows] of byCandidate){
+    let t=0;
+    for(let k=0;k<12;k++){
+      let score=0,pSum=0,info=0;
+      for(const a of rows){const b=difficulty[a.questionId]??0;const p=sigmoid(t-b);score+=a.response;pSum+=p;info+=p*(1-p);}
+      t=clamp(t+(score-pSum)/Math.max(info,.05),-4,4);
+    }
+    out[cid]=t;
+  }
+  return out;
+}
+
 export function evaluateHoldout(
   calibration:CalibrationResult,
   truth:Record<string,{theta:number;passed:boolean}>,
   holdoutIds:string[],
+  holdoutAttempts:ValidationAttempt[]=[],
 ):HoldoutMetrics{
-  const rows=holdoutIds.filter(id=>truth[id]&&calibration.theta[id]!==undefined);
+  const estimatedHoldout=estimateTheta(holdoutAttempts,calibration.difficulty);
+  const rows=holdoutIds.filter(id=>truth[id]&&estimatedHoldout[id]!==undefined);
   const trueTheta=rows.map(id=>truth[id].theta);
-  const estimated=rows.map(id=>calibration.theta[id]);
+  const estimated=rows.map(id=>estimatedHoldout[id]);
   const labels=rows.map(id=>truth[id].passed);
   const probs=estimated.map(sigmoid);
   const brier=probs.reduce((s,p,i)=>s+(p-(labels[i]?1:0))**2,0)/Math.max(rows.length,1);
