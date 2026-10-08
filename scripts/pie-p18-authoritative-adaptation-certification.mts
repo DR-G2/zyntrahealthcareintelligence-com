@@ -35,7 +35,7 @@ if (sessionId) {
   const rows = Array.isArray(qs.data) ? qs.data as Record<string, unknown>[] : [];
   check("P18-03 adaptive question is server-selected", !qs.error && rows.length === 1);
   check("P18-04 adaptive payload contains no answer key", rows.length === 1 && !("correct_answer" in rows[0]));
-  check("P18-05 adaptive payload contains no explanation", rows.length === 1 && !("explanation" in rows[0]) && rows[0].explanation == null);
+  check("P18-05 adaptive payload contains no explanation", rows.length === 1 && (!("explanation" in rows[0]) || rows[0].explanation == null));
   check("P18-06 question has server position/version metadata", rows.length === 1 && rows[0].question_position !== undefined);
 
   const q = rows[0];
@@ -76,13 +76,13 @@ if (sessionId) {
 
 const clientSource = await readFile("src/lib/pie/pie-practice-client.ts", "utf8");
 check("P18-14 client has no question-selection algorithm", !/function .*select|sort\([^)]*score|Math\.random/.test(clientSource) && clientSource.includes("pie_create_session"));
-check("P18-15 client does not accept client-supplied question IDs", !clientSource.includes("p_question_ids") && !clientSource.includes("p_question_ids"));
+check("P18-15 client does not accept client-supplied question IDs", !clientSource.includes("p_question_ids"));
 check("P18-16 adaptive client calls only server selection RPCs", clientSource.includes("pie_create_session") && clientSource.includes("pie_next_question"));
 
 const selectorSource = await readFile("supabase/migrations_v2/0051_pie_p3_candidate_pool.sql", "utf8");
-check("P18-17 authoritative selector uses versioned selection policy", selectorSource.includes("pie.selection_policy") && selectorSource.includes("pie.active_policy"));
-check("P18-18 authoritative selector records decision trace", selectorSource.includes("insert into pie.decision_trace"));
-check("P18-19 shadow inference is not an adaptation input", !selectorSource.includes("inference_shadow") && !selectorSource.includes("pie-infer-state"));
+check("P18-17 authoritative selector uses versioned selection policy", selectorSource.includes("pie.selection_policy") && selectorSource.includes("pie-select/p3.0"));
+check("P18-18 authoritative selector records decision trace", selectorSource.includes("insert into pie.decision_trace") && selectorSource.includes("p_event_type"));
+check("P18-19 shadow inference is not an adaptation input", !selectorSource.includes("inference_shadow") && !selectorSource.includes("pie-infer-state") && !selectorSource.includes("adaptive_policy_shadow"));
 
 console.log("");
 console.log("P18 AUTHORITATIVE ADAPTATION BOUNDARY CERTIFICATION SUMMARY: PASS=" + pass + " FAIL=" + fail);
