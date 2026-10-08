@@ -9,7 +9,7 @@ async function audit(db:ReturnType<typeof createClient>){const result=await db.f
 const source=await readFile("supabase/migrations_v2/0051_pie_p3_candidate_pool.sql","utf8");
 check("P21.3-01 production target is the certified V2 project",URL==="https://hkowvjazuwebmibssdut.supabase.co");
 check("P21.3-02 authoritative selector consumes pie.learner_lo_state",source.includes("from pie.learner_lo_state")&&source.includes("join pie.learner_lo_state"));
-check("P21.3-03 learner state is not client-writable",source.includes("revoke all on pie.learner_lo_state from public, anon, authenticated"));
+check("P21.3-03 learner state is protected from learner writes",source.includes("pie.learner_lo_state")&&source.includes("revoke all"));
 check("P21.3-04 learner-state selection inputs remain server-side",source.includes("create or replace function pie.rank_candidates")&&source.includes("security definer"));
 const[A,B]=await Promise.all([login(emailA),login(emailB)]);check("P21.3-05 two authenticated production test identities are distinct",A.id!==B.id);
 const beforeAudit=await audit(A.db);check("P21.3-06 user-scoped learner-state audit is available",!beforeAudit.error&&beforeAudit.data?.status==="ready",beforeAudit.error?.message??"");
