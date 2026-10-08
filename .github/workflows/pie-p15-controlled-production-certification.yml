@@ -1,9 +1,9 @@
-name: PIE P16 Production Contract Audit Certification
+name: PIE P17 Failure Isolation Certification
 
 on:
   push:
     branches:
-      - pie-p16-production-contract-audit
+      - pie-p17-failure-isolation
   workflow_dispatch:
 
 jobs:
@@ -20,7 +20,7 @@ jobs:
           cache: npm
       - name: Protect certified P12/P13/P14/P15 sources
         run: |
-          git diff --exit-code 4dee4bf7bd99ae16292e395af160143adf2d6802 -- \
+          git diff --exit-code 30316d7604353fe7c7622fd6518bb5f15b4ed570 -- \
             supabase/functions/pie-infer-state/index.ts \
             scripts/pie-p15-controlled-production-certification.mts \
             supabase/functions/pie-shadow-read/index.ts \
@@ -35,14 +35,14 @@ jobs:
         run: npm run typecheck
       - name: Production build
         run: npm run build
-      - name: P16 production contract audit
+      - name: P17 failure isolation
         env:
           V2_URL: ${{ secrets.ZYNTRA_V2_URL }}
           V2_PUBLISHABLE_KEY: ${{ secrets.ZYNTRA_V2_PUBLISHABLE_KEY }}
           PIE_TEST_USER_A_EMAIL: ${{ secrets.PIE_TEST_USER_A_EMAIL }}
           PIE_TEST_USER_B_EMAIL: ${{ secrets.PIE_TEST_USER_B_EMAIL }}
           PIE_TEST_PASSWORD: ${{ secrets.PIE_TEST_PASSWORD }}
-        run: npx vite-node scripts/pie-p16-production-contract-audit.mts
+        run: npx vite-node scripts/pie-p17-failure-isolation.mts
       - name: P15 regression certification
         env:
           V2_URL: ${{ secrets.ZYNTRA_V2_URL }}
