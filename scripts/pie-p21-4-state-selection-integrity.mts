@@ -6,7 +6,7 @@ const opts={auth:{persistSession:false,autoRefreshToken:false}};let pass=0,fail=
 const check=(n:string,o:unknown,d="")=>{if(o)pass++;else fail++;console.log((o?"PASS":"FAIL")+"  "+n+(d?"  — "+d:""));};
 async function login(email:string){const db=createClient(URL!,KEY!,opts);const {data,error}=await db.auth.signInWithPassword({email,password:PASSWORD});if(error||!data.user||!data.session)throw new Error("login failed");return{db,id:data.user.id};}
 async function audit(db:ReturnType<typeof createClient>){const r=await db.functions.invoke("pie-learner-state-audit",{body:{}});return{data:r.data as Record<string,unknown>|null,error:r.error};}
-const selector=await readFile("supabase/migrations_v2/0051_pie_p3_candidate_pool.sql","utf8");
+const selector=await readFile("supabase/migrations_v2/0051_pie_p3_candidate_pool.sql","utf8");\nconst traceApi=await A?.db?.rpc?.("get_my_pie_decision_traces").catch(()=>null);
 check("P21.4-01 certified production target",URL==="https://hkowvjazuwebmibssdut.supabase.co");
 check("P21.4-02 authoritative selector consumes learner state",selector.includes("pie.learner_lo_state")&&selector.includes("pie-select/p3.0"));
 check("P21.4-03 selector does not consume P12 shadow inference",!selector.includes("inference_shadow"));
