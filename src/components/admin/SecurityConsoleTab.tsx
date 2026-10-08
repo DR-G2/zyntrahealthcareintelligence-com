@@ -38,6 +38,7 @@ export function SecurityConsoleTab() {
   const [note, setNote] = useState('');
   const [loading, setLoading] = useState(true);
   const [evidenceUrls, setEvidenceUrls] = useState<Record<string, string>>({});
+  const [browserAlerts, setBrowserAlerts] = useState(typeof Notification !== 'undefined' && Notification.permission === 'granted');
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -49,6 +50,13 @@ export function SecurityConsoleTab() {
     }
     setLoading(false);
   }, [toast]);
+
+  const enableBrowserAlerts = async () => {
+    if (typeof Notification === 'undefined') return;
+    const permission = await Notification.requestPermission();
+    setBrowserAlerts(permission === 'granted');
+    toast({ title: permission === 'granted' ? 'Browser security alerts enabled' : 'Browser alerts not enabled' });
+  };
 
   const openIncident = async (id: string) => {
     setSelectedId(id);
@@ -97,6 +105,9 @@ export function SecurityConsoleTab() {
           description: String(alert.summary || 'New security incident requires review.'),
           variant: String(alert.severity) === 'critical' ? 'destructive' : 'default',
         });
+        if (typeof Notification !== 'undefined' && Notification.permission === 'granted') {
+          new Notification(String(alert.title || 'Zyntra security alert'), { body: String(alert.summary || 'New security incident requires review.') });
+        }
         void load();
       })
       .subscribe();
@@ -136,9 +147,9 @@ export function SecurityConsoleTab() {
 
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <ShieldAlert className="h-5 w-5 text-red-400" />
-            Security Incidents
+          <CardTitle className="flex items-center justify-between gap-3">
+            <span className="flex items-center gap-2"><ShieldAlert className="h-5 w-5 text-red-400" /> Security Incidents</span>
+            {!browserAlerts && <Button variant="outline" size="sm" onClick={() => void enableBrowserAlerts()}>Enable browser alerts</Button>}
           </CardTitle>
         </CardHeader>
         <CardContent>
