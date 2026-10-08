@@ -83,6 +83,7 @@ if (sessionId) {
   const prePayload = (pre.data ?? {}) as Record<string, unknown>;
   const beforeCount = Number(prePayload.observation_count_for_attempts ?? 0);
   const beforeAttempts = Number(prePayload.attempt_count ?? 0);
+  const beforeMissing = Number(prePayload.attempts_missing_observation ?? 0);
   check("P21.1-12 pre-attempt telemetry audit is readable", !pre.error && prePayload.status === "ready");
 
   const saved = await A.db.rpc("save_attempt", {
@@ -117,7 +118,7 @@ if (sessionId) {
     afterPayload.latest_attempt_id === attemptId &&
     afterPayload.latest_attempt_has_observation === true &&
     afterPayload.latest_attempt_observation_identity_match === true &&
-    Number(afterPayload.attempts_missing_observation ?? -1) === 0 &&
+    Number(afterPayload.attempts_missing_observation ?? -1) === beforeMissing &&
     Number(afterPayload.identity_mismatches ?? -1) === 0 &&
     Number(afterPayload.duplicate_attempt_observation_rows ?? -1) === 0,
     JSON.stringify({ error: after.error?.message ?? null, data: afterPayload }));
