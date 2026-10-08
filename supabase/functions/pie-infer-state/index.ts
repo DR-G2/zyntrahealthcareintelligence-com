@@ -4,7 +4,8 @@ import {
   updateCandidateState,
   type CandidateState,
   type PieObservation,
-} from "../../../src/lib/pie/inference/index.ts";
+} from "../../../src/lib/pie/inference/engine.ts";
+import type { CandidateState, PieObservation } from "../../../src/lib/pie/inference/types.ts";
 
 const MODEL_VERSION = "pie-inference-v2.1-shadow";
 
