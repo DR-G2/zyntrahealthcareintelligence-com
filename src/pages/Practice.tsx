@@ -31,6 +31,7 @@ import { PieDiagnosticError, describePieFailure, pieSyncFailure, reportPieFailur
 import { PieDrillSession } from '@/components/practice/PieDrillSession';
 import { ADMIN_EMAILS } from '@/lib/admin-emails';
 import { fetchLegacyShapedHistory } from '@/lib/pie/pie-history-client';
+import { PracticeSecurityEnforcement } from '@/components/security/PracticeSecurityEnforcement';
 
 interface Question {
   id: string;
@@ -1227,6 +1228,7 @@ function ResultsScreen({
 // ─── Main Practice Component ────────────────────────────────────
 
 export default function Practice() {
+  <PracticeSecurityEnforcement />
   const gate = useFeatureGate();
   const [searchParams] = useSearchParams();
   const resumeSessionId = searchParams.get('resume');
