@@ -1,4 +1,5 @@
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import "jsr:@supabase/functions-js/edge-runtime.d.ts";
+import { createClient } from "jsr:@supabase/supabase-js@2";
 import { DEFAULT_INFERENCE_CONFIG, updateCandidateState } from "./engine.ts";
 import type { CandidateState, PieObservation } from "./types.ts";
 
