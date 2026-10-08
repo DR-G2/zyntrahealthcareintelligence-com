@@ -41,7 +41,8 @@ Deno.serve(async (req) => {
   if (userError || !user) return json({ error: "unauthorized" }, 401);
 
   const body = await req.json().catch(() => ({}));
-  if (body?.user_id && body.user_id !== user.id) return json({ error: "user_scope_violation" }, 403);
+  const requestedUserId = body?.user_id;
+  if (requestedUserId && requestedUserId !== user.id) return json({ error: "user_scope_violation" }, 403);
 
   const { data: rows, error: observationError } = await serviceClient
     .from("pie_observation").select("*").eq("user_id", user.id).order("occurred_at", { ascending: true });
