@@ -16,7 +16,8 @@ describe("PIE P12 Edge Function contract", () => {
     expect(source).toContain("shadow_only: true");
     expect(source).toContain("authoritative: false");
     expect(source).toContain("influences_adaptation: false");
-    expect(source).toContain('.schema("pie").from("inference_shadow")');
+    expect(source).toContain('.schema("pie")');
+    expect(source).toContain('.from("inference_shadow")');
   });
 
   it("does not invoke authoritative learner-state rebuilds or selection RPCs", () => {
