@@ -1,9 +1,9 @@
-name: PIE P17 Failure Isolation Certification
+name: PIE P18 Authoritative Adaptation Boundary Certification
 
 on:
   push:
     branches:
-      - pie-p17-failure-isolation
+      - pie-p18-authoritative-adaptation-boundary
   workflow_dispatch:
 
 jobs:
@@ -18,11 +18,13 @@ jobs:
         with:
           node-version: 22
           cache: npm
-      - name: Protect certified P12/P13/P14/P15 sources
+      - name: Protect certified P12-P17 sources
         run: |
-          git diff --exit-code 30316d7604353fe7c7622fd6518bb5f15b4ed570 -- \
+          git diff --exit-code b4fb703e28fd644ee1eaf0499485d5faf0c5a4e7 -- \
             supabase/functions/pie-infer-state/index.ts \
             scripts/pie-p15-controlled-production-certification.mts \
+            scripts/pie-p16-production-contract-audit.mts \
+            scripts/pie-p17-failure-isolation-certification.mts \
             supabase/functions/pie-shadow-read/index.ts \
             supabase/functions/pie-p14-shadow-read/index.ts \
             src/lib/pie/p13-shadow-client.ts \
@@ -35,12 +37,19 @@ jobs:
         run: npm run typecheck
       - name: Production build
         run: npm run build
-      - name: P17 failure isolation
+      - name: P18 authoritative adaptation
         env:
           V2_URL: ${{ secrets.ZYNTRA_V2_URL }}
           V2_PUBLISHABLE_KEY: ${{ secrets.ZYNTRA_V2_PUBLISHABLE_KEY }}
           PIE_TEST_USER_A_EMAIL: ${{ secrets.PIE_TEST_USER_A_EMAIL }}
           PIE_TEST_USER_B_EMAIL: ${{ secrets.PIE_TEST_USER_B_EMAIL }}
+          PIE_TEST_PASSWORD: ${{ secrets.PIE_TEST_PASSWORD }}
+        run: npx vite-node scripts/pie-p18-authoritative-adaptation-certification.mts
+      - name: P17 regression certification
+        env:
+          V2_URL: ${{ secrets.ZYNTRA_V2_URL }}
+          V2_PUBLISHABLE_KEY: ${{ secrets.ZYNTRA_V2_PUBLISHABLE_KEY }}
+          PIE_TEST_USER_A_EMAIL: ${{ secrets.PIE_TEST_USER_A_EMAIL }}
           PIE_TEST_PASSWORD: ${{ secrets.PIE_TEST_PASSWORD }}
         run: npx vite-node scripts/pie-p17-failure-isolation-certification.mts
       - name: P16 regression certification
