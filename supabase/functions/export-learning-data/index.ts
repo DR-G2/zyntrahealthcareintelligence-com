@@ -176,7 +176,6 @@ Deno.serve(async (req) => {
         fatigue_index: behavior?.fatigue_index ?? 0,
         archetype_signals: behavior?.archetype_signals ?? {},
         trap_flags: behavior?.trap_flags ?? [],
-        predicted_score: { low: behavior?.predicted_score_low ?? null, high: behavior?.predicted_score_high ?? null, potential: behavior?.predicted_score_potential ?? null },
       },
       timing_patterns: { avg_time_seconds: readiness?.time_management ?? 0, time_sensitivity: performance?.time_sensitivity ?? 0 },
       difficulty_mapping: (subjectDna || []).map(s => ({ subject: s.subject, accuracy: s.accuracy ?? 0, attempt_count: s.attempt_count ?? 0, avg_time: s.avg_time ?? 0, stability: s.stability ?? 0, gap_score: s.gap_score ?? 0 })),
