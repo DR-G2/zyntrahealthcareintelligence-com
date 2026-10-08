@@ -9,7 +9,7 @@ describe("AMC independent psychometric validation", () => {
     const train = new Set(sim.candidates.slice(0, 96).map(c => c.id));
     const calibration = calibrateRasch(sim.attempts.filter(a => train.has(a.candidateId)), { maxIterations: 80 });
     const truth = Object.fromEntries(sim.candidates.map(c => [c.id, { theta: c.trueTheta, passed: c.trueTheta >= 0 }]));
-    const metrics = evaluateHoldout(calibration, truth, holdout);
+    const metrics = evaluateHoldout(calibration, truth, holdout, sim.attempts.filter(a => holdout.includes(a.candidateId)));
     expect(calibration.iterations).toBeGreaterThan(0);
     expect(Object.keys(calibration.theta).length).toBe(96);
     expect(Object.keys(calibration.difficulty).length).toBeGreaterThan(100);
