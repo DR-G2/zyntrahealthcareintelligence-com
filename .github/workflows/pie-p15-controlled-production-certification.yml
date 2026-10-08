@@ -1,9 +1,9 @@
-name: PIE P15 Controlled Production Exposure Certification
+name: PIE P16 Production Contract Audit Certification
 
 on:
   push:
     branches:
-      - pie-p15-controlled-production-exposure
+      - pie-p16-production-contract-audit
   workflow_dispatch:
 
 jobs:
@@ -18,10 +18,11 @@ jobs:
         with:
           node-version: 22
           cache: npm
-      - name: Protect certified P12/P13/P14 sources
+      - name: Protect certified P12/P13/P14/P15 sources
         run: |
-          git diff --exit-code 4a30524126cd9031cd29d2cbecfd5f2e7e34ebe2 -- \
+          git diff --exit-code 4dee4bf7bd99ae16292e395af160143adf2d6802 -- \
             supabase/functions/pie-infer-state/index.ts \
+            scripts/pie-p16-production-contract-audit.mts \
             supabase/functions/pie-shadow-read/index.ts \
             supabase/functions/pie-p14-shadow-read/index.ts \
             src/lib/pie/p13-shadow-client.ts \
@@ -34,7 +35,7 @@ jobs:
         run: npm run typecheck
       - name: Production build
         run: npm run build
-      - name: P15 controlled production exposure certification
+      - name: P16 production contract audit
         env:
           V2_URL: ${{ secrets.ZYNTRA_V2_URL }}
           V2_PUBLISHABLE_KEY: ${{ secrets.ZYNTRA_V2_PUBLISHABLE_KEY }}
