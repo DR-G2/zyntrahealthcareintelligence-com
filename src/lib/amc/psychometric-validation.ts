@@ -99,12 +99,18 @@ export function calibrateRasch(
   const items=[...new Set(attempts.map(a=>a.questionId))];
   const theta=Object.fromEntries(candidates.map(id=>[id,0])) as Record<string,number>;
   const difficulty=Object.fromEntries(items.map(id=>[id,0])) as Record<string,number>;
+  const byCandidate=new Map<string,ValidationAttempt[]>();
+  const byItem=new Map<string,ValidationAttempt[]>();
+  for(const a of attempts){
+    const c=byCandidate.get(a.candidateId)??[]; c.push(a); byCandidate.set(a.candidateId,c);
+    const q=byItem.get(a.questionId)??[]; q.push(a); byItem.set(a.questionId,q);
+  }
   let converged=false,iterations=0;
 
   for(iterations=1;iterations<=maxIterations;iterations++){
     let maxDelta=0;
     for(const cid of candidates){
-      const rows=attempts.filter(a=>a.candidateId===cid);
+      const rows=byCandidate.get(cid)??[];
       if(rows.length<3)continue;
       let score=rows.reduce((s,a)=>s+a.response,0);
       let t=theta[cid];
@@ -117,7 +123,7 @@ export function calibrateRasch(
       maxDelta=Math.max(maxDelta,Math.abs(t-theta[cid]));theta[cid]=t;
     }
     for(const qid of items){
-      const rows=attempts.filter(a=>a.questionId===qid);
+      const rows=byItem.get(qid)??[];
       if(rows.length<10)continue;
       const score=rows.reduce((s,a)=>s+a.response,0);
       let b=difficulty[qid];
