@@ -41,7 +41,6 @@ jobs:
           PIE_TEST_USER_A_EMAIL: ${{ secrets.PIE_TEST_USER_A_EMAIL }}
           PIE_TEST_USER_B_EMAIL: ${{ secrets.PIE_TEST_USER_B_EMAIL }}
           PIE_TEST_PASSWORD: ${{ secrets.PIE_TEST_PASSWORD }}
-          PRODUCTION_APP_URL: ${{ secrets.PRODUCTION_APP_URL }}
         run: npx vite-node scripts/pie-p15-controlled-production-certification.mts
       - name: P14 regression certification
         env:
