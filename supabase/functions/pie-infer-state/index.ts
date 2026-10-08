@@ -141,7 +141,7 @@ Deno.serve(async (req) => {
 
   const { data: rows, error } = await serviceClient
     .schema("pie").from("pie_observation")
-    .select("user_id,observation_type,observed_at,payload,provenance")
+    .select("id,user_id,observation_type,observed_at,payload,provenance")
     .eq("user_id", user.id)
     .order("observed_at", { ascending: true })\n    .order("id", { ascending: true });
 
