@@ -2,6 +2,9 @@ name: PIE P12 Shadow Inference Certification
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - pie-p12-inference-canary
 
 jobs:
   certify:
