@@ -7,7 +7,7 @@ describe("PIE P12 Edge Function contract", () => {
 
   it("is authenticated, user-scoped and non-wildcard CORS", () => {
     expect(source).toContain("Authorization");
-    expect(source).toContain("requestedUserId !== user.id");
+    expect(source).toContain("body?.user_id !== user.id");
     expect(source).not.toContain("Access-Control-Allow-Origin: *");
   });
 
@@ -24,6 +24,19 @@ describe("PIE P12 Edge Function contract", () => {
     expect(source).not.toContain("rebuild_my_pie_inference");
     expect(source).not.toContain("pie_next_question");
     expect(source).not.toContain("save_attempt");
+  });
+
+  it("matches the live PIE observation and state schemas", () => {
+    expect(source).toContain('.schema("pie")');
+    expect(source).toContain('.from("pie_observation")');
+    expect(source).toContain('.order("observed_at"');
+    expect(source).toContain("payload.outcome");
+    expect(source).toContain("payload.time_total_ms");
+    expect(source).toContain("payload.confidence_normalized");
+    expect(source).toContain('.from("pie_candidate_state")');
+    expect(source).toContain('select("state_version")');
+    expect(source).not.toContain('select("state_sequence")');
+    expect(source).not.toContain('.order("state_sequence"');
   });
 
   it("requires six dimensions", () => {
