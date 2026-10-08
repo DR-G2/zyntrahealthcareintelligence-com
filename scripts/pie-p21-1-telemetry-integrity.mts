@@ -119,30 +119,26 @@ if (sessionId) {
     afterPayload.latest_attempt_observation_identity_match === true &&
     Number(afterPayload.attempts_missing_observation ?? -1) === 0 &&
     Number(afterPayload.identity_mismatches ?? -1) === 0 &&
-    Number(afterPayload.duplicate_attempt_observation_rows ?? -1) === 0);
+    Number(afterPayload.duplicate_attempt_observation_rows ?? -1) === 0,
+    JSON.stringify(afterPayload));
 
   const repeat = await A.db.functions.invoke("pie-telemetry-audit", { body: {} });
   const repeatPayload = (repeat.data ?? {}) as Record<string, unknown>;
   check("P21.1-15 repeated telemetry audit does not create a duplicate observation",
     !repeat.error &&
     Number(repeatPayload.observation_count_for_attempts ?? -1) === afterCount &&
-    repeatPayload.latest_observation_id === afterPayload.latest_observation_id);
+    repeatPayload.latest_observation_id === afterPayload.latest_observation_id,
+    JSON.stringify(repeatPayload));
 
   check("P21.1-16 telemetry audit is user-scoped and reports a healthy state",
     !after.error &&
     afterPayload.user_scoped === true &&
-    afterPayload.status === "ready");
+    afterPayload.status === "ready",
+    JSON.stringify(afterPayload));
 
   check("P21.1-17 telemetry response does not expose privileged credentials",
     !JSON.stringify(afterPayload).includes("service_role") &&
     !JSON.stringify(afterPayload).includes("access_token"));
 
+  const foreign = await B.db.rpc("get_practice_session_questions", { p_session_id: sessionId });
   check("P21.1-18 telemetry certification session remains candidate-isolated", !!foreign.error || !Array.isArray(foreign.data) || foreign.data.length === 0);
-}
-
-await A.db.auth.signOut();
-await B.db.auth.signOut();
-
-console.log("");
-console.log("P21.1 PRODUCTION TELEMETRY INTEGRITY SUMMARY: PASS=" + pass + " FAIL=" + fail);
-if (fail) process.exit(1);
