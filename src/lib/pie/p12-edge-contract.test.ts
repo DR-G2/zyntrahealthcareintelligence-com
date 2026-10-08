@@ -7,7 +7,7 @@ describe("PIE P12 Edge Function contract", () => {
 
   it("is authenticated, user-scoped and non-wildcard CORS", () => {
     expect(source).toContain("Authorization");
-    expect(source).toContain("body?.user_id !== user.id");
+    expect(source).toContain("body?.user_id && body.user_id !== user.id");
     expect(source).not.toContain("Access-Control-Allow-Origin: *");
   });
 
@@ -16,7 +16,7 @@ describe("PIE P12 Edge Function contract", () => {
     expect(source).toContain("shadow_only: true");
     expect(source).toContain("authoritative: false");
     expect(source).toContain("influences_adaptation: false");
-    expect(source).toContain('schema("pie").from("inference_shadow")');
+    expect(source).toContain('.schema("pie").from("inference_shadow")');
   });
 
   it("does not invoke authoritative learner-state rebuilds or selection RPCs", () => {
