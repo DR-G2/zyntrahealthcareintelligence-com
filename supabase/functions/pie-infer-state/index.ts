@@ -143,7 +143,8 @@ Deno.serve(async (req) => {
     .schema("pie").from("pie_observation")
     .select("id,user_id,observation_type,observed_at,payload,provenance")
     .eq("user_id", user.id)
-    .order("observed_at", { ascending: true })\n    .order("id", { ascending: true });
+    .order("observed_at", { ascending: true })
+    .order("id", { ascending: true });
 
   if (error) return json({ error: "observation_query_failed", detail: error.message }, 500);
 
