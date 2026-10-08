@@ -1,0 +1,68 @@
+name: PIE P15 Controlled Production Exposure Certification
+
+on:
+  push:
+    branches:
+      - pie-p15-controlled-production-exposure
+  workflow_dispatch:
+
+jobs:
+  certify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Protect certified P12/P13/P14 sources
+        run: |
+          git diff --exit-code 4a30524126cd9031cd29d2cbecfd5f2e7e34ebe2 -- \
+            supabase/functions/pie-infer-state/index.ts \
+            supabase/functions/pie-shadow-read/index.ts \
+            supabase/functions/pie-p14-shadow-read/index.ts \
+            src/lib/pie/p13-shadow-client.ts \
+            src/lib/pie/p14-shadow-client.ts \
+            src/components/pie/P13ShadowInferencePanel.tsx
+      - run: npm install --no-audit --no-fund
+      - name: Unit tests
+        run: npm test -- --passWithNoTests
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Production build
+        run: npm run build
+      - name: P15 controlled production exposure certification
+        env:
+          V2_URL: ${{ secrets.ZYNTRA_V2_URL }}
+          V2_PUBLISHABLE_KEY: ${{ secrets.ZYNTRA_V2_PUBLISHABLE_KEY }}
+          PIE_TEST_USER_A_EMAIL: ${{ secrets.PIE_TEST_USER_A_EMAIL }}
+          PIE_TEST_USER_B_EMAIL: ${{ secrets.PIE_TEST_USER_B_EMAIL }}
+          PIE_TEST_PASSWORD: ${{ secrets.PIE_TEST_PASSWORD }}
+        run: npx vite-node scripts/pie-p15-controlled-production-certification.mts
+      - name: P14 regression certification
+        env:
+          V2_URL: ${{ secrets.ZYNTRA_V2_URL }}
+          V2_PUBLISHABLE_KEY: ${{ secrets.ZYNTRA_V2_PUBLISHABLE_KEY }}
+          PIE_TEST_USER_A_EMAIL: ${{ secrets.PIE_TEST_USER_A_EMAIL }}
+          PIE_TEST_USER_B_EMAIL: ${{ secrets.PIE_TEST_USER_B_EMAIL }}
+          PIE_TEST_PASSWORD: ${{ secrets.PIE_TEST_PASSWORD }}
+        run: npx vite-node scripts/pie-p14-read-path-certification.mts
+      - name: P13 regression certification
+        env:
+          V2_URL: ${{ secrets.ZYNTRA_V2_URL }}
+          V2_PUBLISHABLE_KEY: ${{ secrets.ZYNTRA_V2_PUBLISHABLE_KEY }}
+          PIE_TEST_USER_A_EMAIL: ${{ secrets.PIE_TEST_USER_A_EMAIL }}
+          PIE_TEST_USER_B_EMAIL: ${{ secrets.PIE_TEST_USER_B_EMAIL }}
+          PIE_TEST_PASSWORD: ${{ secrets.PIE_TEST_PASSWORD }}
+        run: npx vite-node scripts/pie-p13-shadow-certification.mts
+      - name: P12 regression certification
+        env:
+          V2_URL: ${{ secrets.ZYNTRA_V2_URL }}
+          V2_PUBLISHABLE_KEY: ${{ secrets.ZYNTRA_V2_PUBLISHABLE_KEY }}
+          PIE_TEST_USER_A_EMAIL: ${{ secrets.PIE_TEST_USER_A_EMAIL }}
+          PIE_TEST_USER_B_EMAIL: ${{ secrets.PIE_TEST_USER_B_EMAIL }}
+          PIE_TEST_PASSWORD: ${{ secrets.PIE_TEST_PASSWORD }}
+        run: npx vite-node scripts/pie-p12-shadow-certification.mts
