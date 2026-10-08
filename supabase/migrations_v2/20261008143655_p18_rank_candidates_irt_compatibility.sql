@@ -8,7 +8,8 @@ do $$
 declare src text; new_src text;
 begin
   select pg_get_functiondef(to_regprocedure('pie.rank_candidates(uuid,uuid,text,text,uuid[],uuid[])')) into src;
-  new_src := replace(src, 'q.irt_b',
+  new_src := replace(src, 'select dt.lo_id, max(dt.created_at) at from pie.decision_trace dt where dt.learner_id = p_user group by dt.lo_id', 'select (dt.selected_action->>''lo_id'')::uuid as lo_id, max(dt.created_at) at from pie.decision_trace dt where dt.user_id = p_user and (dt.selected_action->>''lo_id'') is not null group by (dt.selected_action->>''lo_id'')');
+  new_src := replace(new_src, 'q.irt_b',
     'case lower(trim(q.difficulty_tier))
       when ''very easy'' then -2.0
       when ''easy'' then -1.0
