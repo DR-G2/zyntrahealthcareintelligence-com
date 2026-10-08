@@ -2,8 +2,6 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import {
   DEFAULT_INFERENCE_CONFIG,
   updateCandidateState,
-  type CandidateState,
-  type PieObservation,
 } from "../../../src/lib/pie/inference/engine.ts";
 import type { CandidateState, PieObservation } from "../../../src/lib/pie/inference/types.ts";
 
