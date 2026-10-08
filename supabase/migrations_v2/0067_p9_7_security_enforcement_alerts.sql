@@ -1,4 +1,16 @@
 -- P9.7 security alerts, enforcement, learner notices, and practice-window signals
+
+create table if not exists pie.security_admin_allowlist(
+ user_id uuid primary key references auth.users(id) on delete cascade,
+ email text not null,
+ enabled boolean not null default true,
+ created_at timestamptz not null default now()
+);
+insert into pie.security_admin_allowlist(user_id,email,enabled)
+values('4344236e-8086-4bde-9c5a-c23d6a697b06','gopalrock.naren@gmail.com',true)
+on conflict(user_id) do update set email=excluded.email,enabled=true;
+revoke all on pie.security_admin_allowlist from anon,authenticated;
+
 -- Safe to apply after P9.6 security evidence foundation.
 
 create table if not exists pie.security_alert(
