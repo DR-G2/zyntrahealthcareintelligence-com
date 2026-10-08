@@ -42,40 +42,61 @@ function update(
 }
 
 function infer(rows: any[]) {
-  const make = () => ({ estimate: 0.5, variance: 0.25, evidence_count: 0, evidence_quality: 0 });
+  const make = () => ({
+    estimate: 0.5,
+    variance: 0.25,
+    evidence_count: 0,
+    evidence_quality: 0,
+  });
+
   const s = {
-    capability: make(), decision: make(), timing: make(),
-    calibration: make(), sustained_performance: make(), learning: make(),
+    capability: make(),
+    decision: make(),
+    timing: make(),
+    calibration: make(),
+    sustained_performance: make(),
+    learning: make(),
   };
 
-  for (const r of rows) {
-    const p = r.payload ?? {};
+  let previousOutcome: number | null = null;
+
+  for (const row of rows) {
+    const payload = row.payload ?? {};
+
     const quality =
-      p.observation_quality === "UNUSABLE" ? 0 :
-      r.observation_quality === "CONTRADICTORY" ? 0.15 :
-      r.observation_quality === "SUSPICIOUS" ? 0.5 :
-      p.interaction_state === "INTERRUPTED" ? 0.25 : 1;
+      payload.observation_quality === "UNUSABLE" ? 0 :
+      payload.observation_quality === "CONTRADICTORY" ? 0.15 :
+      payload.observation_quality === "SUSPICIOUS" ? 0.5 :
+      payload.interaction_state === "INTERRUPTED" ? 0.25 :
+      1;
 
-    const outcome = p.outcome === "CORRECT" ? 1 : r.outcome === "INCORRECT" ? 0 : null;
+    const outcome =
+      payload.outcome === "CORRECT" ? 1 :
+      payload.outcome === "INCORRECT" ? 0 :
+      null;
 
-    const timing = p.time_total_ms > 0
-      ? clamp01(1 / (1 + Math.log1p(r.time_total_ms / 1000) / 10))
-      : null;
+    const timing =
+      typeof payload.time_total_ms === "number" && payload.time_total_ms > 0
+        ? clamp01(1 / (1 + Math.log1p(payload.time_total_ms / 1000) / 10))
+        : null;
 
     const decision =
-      p.first_answer_correct == null || p.final_answer_correct == null
-        ? null
-        : r.first_answer_correct === r.final_answer_correct
+      typeof payload.first_answer_correct === "boolean" &&
+      typeof payload.final_answer_correct === "boolean"
+        ? payload.first_answer_correct === payload.final_answer_correct
           ? 0.5
-          : r.final_answer_correct ? 0.75 : 0.25;
+          : payload.final_answer_correct ? 0.75 : 0.25
+        : null;
 
     const calibration =
-      p.confidence_normalized == null || outcome == null
-        ? null
-        : clamp01(1 - Math.abs(r.confidence_normalized - outcome));
+      typeof payload.confidence_normalized === "number" && outcome != null
+        ? clamp01(1 - Math.abs(payload.confidence_normalized - outcome))
+        : null;
 
     const learning =
-      p.learning_context && outcome != null ? outcome : null;
+      outcome == null || previousOutcome == null
+        ? null
+        : clamp01(0.5 + 0.5 * (outcome - previousOutcome));
 
     s.capability = update(s.capability, outcome, 0.08, quality);
     s.decision = update(s.decision, decision, 0.12, quality);
@@ -83,6 +104,8 @@ function infer(rows: any[]) {
     s.calibration = update(s.calibration, calibration, 0.12, quality);
     s.sustained_performance = update(s.sustained_performance, outcome, 0.15, quality);
     s.learning = update(s.learning, learning, 0.18, quality);
+
+    if (outcome != null) previousOutcome = outcome;
   }
 
   return s;
@@ -118,9 +141,9 @@ Deno.serve(async (req) => {
 
   const { data: rows, error } = await serviceClient
     .schema("pie").from("pie_observation")
-    .select("*")
+    .select("user_id,observation_type,observed_at,payload,provenance")
     .eq("user_id", user.id)
-    .order("observed_at", { ascending: true });
+    .order("observed_at", { ascending: true })\n    .order("id", { ascending: true });
 
   if (error) return json({ error: "observation_query_failed", detail: error.message }, 500);
 
@@ -165,7 +188,7 @@ Deno.serve(async (req) => {
     .limit(1)
     .maybeSingle();
 
-  const averageQuality = canonical.reduce((n, x) => n + x.evidence_quality, 0) / canonical.length;
+  if (sourceStateError) return json({ error: "source_state_query_failed", detail: sourceStateError.message }, 500);\n\n  const averageQuality = canonical.reduce((n, x) => n + x.evidence_quality, 0) / canonical.length;
   const evidenceCount = canonical.reduce((n, x) => n + x.evidence_count, 0) / canonical.length;
   const maturity = evidenceCount < 6 ? "INSUFFICIENT" : evidenceCount < 20 ? "PRELIMINARY" : evidenceCount < 40 ? "DEVELOPING" : "ESTABLISHED_INDIVIDUAL_EVIDENCE";
   const signalQuality = averageQuality >= 0.75 ? "HIGH" : averageQuality >= 0.5 ? "MEDIUM" : "LOW";
@@ -185,7 +208,7 @@ Deno.serve(async (req) => {
       inference_hash: inferenceHash,
     },
     model_version: MODEL_VERSION,
-    source_state_version: sourceState?.state_sequence ?? null,
+    source_state_version: sourceState?.state_version ?? null,
   }));
 
   const { error: shadowError } = await serviceClient
