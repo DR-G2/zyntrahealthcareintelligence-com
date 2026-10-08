@@ -1,0 +1,49 @@
+name: PIE P12 apply shadow grants
+
+on:
+  workflow_dispatch:
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply P12 service-role grants on V2
+        env:
+          SERVICE_ROLE: ${{ secrets.ZYNTRA_V2_SERVICE_ROLE_KEY }}
+          V2_URL: ${{ secrets.ZYNTRA_V2_URL }}
+          SQL_FILE: supabase/migrations_v2/0080_p12_shadow_inference_service_grants.sql
+        run: |
+          set -euo pipefail
+          test -n "$SERVICE_ROLE"
+          test -n "$V2_URL"
+          SQL=$(cat "$SQL_FILE")
+          python3 - << 'PY'
+          import json, os, urllib.request
+          sql = open(os.environ["SQL_FILE"]).read()
+          key = os.environ["SERVICE_ROLE"]
+          base = os.environ["V2_URL"].rstrip("/")
+          ref = base.split("//",1)[1].split(".",1)[0]
+          attempts = [
+            (f"https://api.supabase.com/v1/projects/{ref}/database/query", {"query": sql}, {"Authorization": f"Bearer {key}", "Content-Type": "application/json"}),
+            (f"{base}/pg/query", {"query": sql}, {"Authorization": f"Bearer {key}", "apikey": key, "Content-Type": "application/json"}),
+            (f"{base}/pg-meta/default/query", {"query": sql}, {"Authorization": f"Bearer {key}", "apikey": key, "Content-Type": "application/json"}),
+          ]
+          ok = False
+          for url, body, headers in attempts:
+            req = urllib.request.Request(url, data=json.dumps(body).encode(), headers=headers, method="POST")
+            try:
+              with urllib.request.urlopen(req, timeout=60) as resp:
+                status = resp.status
+                text = resp.read().decode()[:300]
+            except Exception as exc:
+              status = getattr(getattr(exc, "code", None), "__int__", lambda: None)() or getattr(exc, "code", "err")
+              text = str(exc)[:300]
+            print(f"ATTEMPT {url} status={status} body={text}")
+            if isinstance(status, int) and 200 <= status < 300:
+              ok = True
+              break
+          if not ok:
+            raise SystemExit(1)
+          PY
