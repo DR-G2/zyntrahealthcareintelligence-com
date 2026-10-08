@@ -120,7 +120,7 @@ if (sessionId) {
     Number(afterPayload.attempts_missing_observation ?? -1) === 0 &&
     Number(afterPayload.identity_mismatches ?? -1) === 0 &&
     Number(afterPayload.duplicate_attempt_observation_rows ?? -1) === 0,
-    JSON.stringify(afterPayload));
+    JSON.stringify({ error: after.error?.message ?? null, data: afterPayload }));
 
   const repeat = await A.db.functions.invoke("pie-telemetry-audit", { body: {} });
   const repeatPayload = (repeat.data ?? {}) as Record<string, unknown>;
@@ -128,7 +128,7 @@ if (sessionId) {
     !repeat.error &&
     Number(repeatPayload.observation_count_for_attempts ?? -1) === afterCount &&
     repeatPayload.latest_observation_id === afterPayload.latest_observation_id,
-    JSON.stringify(repeatPayload));
+    JSON.stringify({ error: repeat.error?.message ?? null, data: repeatPayload }));
 
   check("P21.1-16 telemetry audit is user-scoped and reports a healthy state",
     !after.error &&
