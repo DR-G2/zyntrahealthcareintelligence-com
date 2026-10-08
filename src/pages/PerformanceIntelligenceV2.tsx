@@ -19,6 +19,8 @@ import { describePieStatus, PIE_MIN_OBSERVATIONS, type PieState, type PieView } 
 import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils';
 import { fetchLegacyShapedHistory } from '@/lib/pie/pie-history-client';
+import { loadP13ShadowInference, type P13ShadowView } from '@/lib/pie/p13-shadow-client';
+import { P13ShadowInferencePanel } from '@/components/pie/P13ShadowInferencePanel';
 
 type TabId = 'performance' | 'behavior' | 'trust-your-gut';
 
@@ -155,6 +157,7 @@ function PerformanceView({
   trend,
   confidence,
   pieView,
+  p13ShadowView,
   loading,
 }: {
   snapshot: Snapshot;
@@ -163,6 +166,7 @@ function PerformanceView({
   trend: number[];
   confidence: ConfidenceIntelligence;
   pieView: PieView | null;
+  p13ShadowView: P13ShadowView;
   loading: boolean;
 }) {
   // Only a valid, sufficiently evidenced PIE state drives the PIE panels.
@@ -180,6 +184,8 @@ function PerformanceView({
       transition={{ duration: 0.2 }}
       className="space-y-5"
     >
+      <P13ShadowInferencePanel view={p13ShadowView} />
+
       <section className="grid gap-5 lg:grid-cols-[1.05fr_1.95fr]">
         <div className="relative overflow-hidden rounded-3xl border border-cyan-400/15 bg-gradient-to-br from-cyan-400/[0.07] via-[#081224]/90 to-[#081224]/75 p-6">
           <div className="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-cyan-400/10 blur-3xl" />
@@ -540,6 +546,7 @@ export default function PerformanceIntelligence() {
   const [priorities, setPriorities] = useState<PriorityStat[]>([]);
   const [trend, setTrend] = useState<number[]>([]);
   const [pieView, setPieView] = useState<PieView | null>(null);
+  const [p13ShadowView, setP13ShadowView] = useState<P13ShadowView>({ status: "loading" });
   const [confidence, setConfidence] = useState<ConfidenceIntelligence>({
     confidence_attempts: 0, calibration: 0, average_confidence: 0, accuracy: 0, bias: 0,
     overconfidence: 0, underconfidence: 0, high_confidence_wrong: 0, low_confidence_correct: 0,
@@ -561,7 +568,10 @@ export default function PerformanceIntelligence() {
       // V2 Practice persists authoritative observations inside save_attempt; this only
       // rebuilds the caller's own state via the public wrapper and reads my_pie_state.
       // loadPieEngineView never throws and reports failures as "unavailable".
-      const v2PieView = await loadPieEngineView();
+      const [v2PieView, nextP13ShadowView] = await Promise.all([
+        loadPieEngineView(),
+        loadP13ShadowInference(),
+      ]);
 
       const [profileRes, attemptsRes, confidenceRes] = await Promise.all([
         supabase
@@ -576,6 +586,7 @@ export default function PerformanceIntelligence() {
       if (cancelled) return;
 
       setPieView(v2PieView);
+      setP13ShadowView(nextP13ShadowView);
 
       const attempts = (attemptsRes.data || []) as unknown as Attempt[];
 
@@ -757,6 +768,7 @@ export default function PerformanceIntelligence() {
               trend={trend}
               confidence={confidence}
               pieView={pieView}
+              p13ShadowView={p13ShadowView}
               loading={loading}
             />
           )}
