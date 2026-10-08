@@ -17,11 +17,16 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm install --no-audit --no-fund
-      - name: Apply P12 service-role grants on V2
+      - name: Apply P12 service-role grants on V2 if a service role secret is present
         env:
           SERVICE_ROLE: ${{ secrets.ZYNTRA_V2_SERVICE_ROLE_KEY }}
           V2_URL: ${{ secrets.ZYNTRA_V2_URL }}
-        run: node scripts/pie-p12-apply-shadow-grants.mjs
+        run: |
+          if [ -z "$SERVICE_ROLE" ]; then
+            echo "ZYNTRA_V2_SERVICE_ROLE_KEY is empty; grant migration is committed but not applied from CI"
+            exit 0
+          fi
+          node scripts/pie-p12-apply-shadow-grants.mjs
       - name: Run P12 live shadow certification
         env:
           V2_URL: ${{ secrets.ZYNTRA_V2_URL }}
