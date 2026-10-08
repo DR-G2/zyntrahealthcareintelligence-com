@@ -7,7 +7,7 @@ describe("PIE production boundary", () => {
     const source = readFileSync(resolve(process.cwd(), "supabase/functions/pie-infer-state/index.ts"), "utf8");
     expect(source).toContain("Authorization");
     expect(source).toContain("user.id");
-    expect(source).toContain("requestedUserId !== user.id");
+    expect(source).toContain("body?.user_id && body.user_id !== user.id");
     expect(source).not.toContain("Access-Control-Allow-Origin: *");
   });
 
