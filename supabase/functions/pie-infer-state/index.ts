@@ -12,7 +12,6 @@ const json = (body: unknown, status = 200) =>
   new Response(JSON.stringify(body), { status, headers: { ...corsHeaders, "Content-Type": "application/json" } });
 
 const clamp01 = (x: number) => Math.max(0, Math.min(1, x));
-const sigmoid = (x: number) => 1 / (1 + Math.exp(-x));
 
 async function sha256(value: string): Promise<string> {
   const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(value));
