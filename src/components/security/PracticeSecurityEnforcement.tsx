@@ -43,10 +43,49 @@ function formatRemaining(endsAt: string) {
   return hours ? `${hours}h ${minutes}m` : `${minutes}m`;
 }
 
-export function PracticeSecurityEnforcement() {
+export function PracticeSecurityEnforcement({ active = false }: { active?: boolean }) {
   const [enforcement, setEnforcement] = useState<Enforcement | null>(null);
   const [notices, setNotices] = useState<Notice[]>([]);
   const [remaining, setRemaining] = useState('');
+  const [signalCount, setSignalCount] = useState(0);
+
+  useEffect(() => {
+    if (!active) {
+      setSignalCount(0);
+      return;
+    }
+
+    const signal = async (signalType: string) => {
+      setSignalCount((count) => {
+        const next = count + 1;
+        void supabase.rpc('record_my_security_session_signal', {
+          p_signal_type: signalType,
+          p_severity: next >= 2 ? 'high' : 'medium',
+          p_value: {
+            page: window.location.pathname,
+            practice_window: true,
+            client_time: new Date().toISOString(),
+          },
+        });
+        return next;
+      });
+    };
+
+    const onBlur = () => void signal('window_blur');
+    const onVisibility = () => {
+      if (document.visibilityState === 'hidden') void signal('visibility_hidden');
+    };
+
+    window.addEventListener('blur', onBlur);
+    document.addEventListener('visibilitychange', onVisibility);
+
+    return () => {
+      window.removeEventListener('blur', onBlur);
+      document.removeEventListener('visibilitychange', onVisibility);
+    };
+  }, [active]);
+
+
 
   const load = useCallback(async () => {
     const [banRes, noticeRes] = await Promise.all([
