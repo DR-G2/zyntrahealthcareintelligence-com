@@ -61,8 +61,10 @@ if (questions?.[0]?.id) {
   check("P17-04 healthy PIE read remains projection-backed", afterPayload.read_source === "projection");
 }
 
-check("P17-05 failure isolation contract is represented by P17 gate", true);
-check("P17-06 P17 keeps PIE shadow-only", true);
+const { readFile } = await import("node:fs/promises");
+const saveSource = await readFile("supabase/migrations_v2/0044_pie_candidate_state_pipeline_repair.sql", "utf8");
+check("P17-05 save_attempt isolates PIE observation failure", /begin\\s+insert into pie\\.pie_observation[\\s\\S]*?exception when others then\\s+raise warning/.test(saveSource));
+check("P17-06 authoritative attempt is returned after optional intelligence blocks", /return v_attempt;/.test(saveSource) && /insert into public\\.user_attempts/.test(saveSource));
 
 await client.auth.signOut();
 console.log("");
