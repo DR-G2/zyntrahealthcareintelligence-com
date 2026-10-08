@@ -570,7 +570,7 @@ export default function PerformanceIntelligence() {
       // loadPieEngineView never throws and reports failures as "unavailable".
       const [v2PieView, nextP13ShadowView] = await Promise.all([
         loadPieEngineView(),
-        loadP13ShadowInference(),
+        loadP14ShadowInference(),
       ]);
 
       const [profileRes, attemptsRes, confidenceRes] = await Promise.all([
