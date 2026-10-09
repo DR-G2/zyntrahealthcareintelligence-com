@@ -131,7 +131,13 @@ Deno.serve(async (req) => {
       .select("id", { count: "exact", head: true })
       .eq("plugin_version_id", plugin.id)
       .eq("exam_mode", examMode)
-      .eq("metadata->>review_status", "APPROVED");
+      .eq("metadata->>review_status", "APPROVED")
+      .not("metadata->>reviewed_by", "is", null)
+      .not("metadata->>reviewed_at", "is", null)
+      .not("patient_group", "is", null)
+      .not("clinical_domain", "is", null)
+      .not("amc_relevance", "is", null)
+      .not("source_evidence_level", "is", null);
     if (approvedError) return errorResponse(500, "amc_question_context_query_failed", responseOrigin);
 
     return json({
