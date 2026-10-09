@@ -146,14 +146,23 @@ export function parseAMCPracticeStatus(value: unknown): AMCPracticeStatus {
   }
   const count = (candidate: unknown) =>
     Number.isInteger(candidate) && (candidate as number) >= 0 ? candidate as number : 0;
+  const mappedQuestionCount = count(value.mappedQuestionCount);
+  const approvedQuestionCount = count(value.approvedQuestionCount);
+  const eligibleLearningObjectiveCount = count(value.eligibleLearningObjectiveCount);
+  const mappingStatus = value.mappingStatus === "REVIEWED_METADATA_PRESENT" ? "REVIEWED_METADATA_PRESENT" : "MAPPING_REQUIRED";
+  if (value.selectorStatus === "READY" &&
+      (mappedQuestionCount < 1 || approvedQuestionCount < 1 || eligibleLearningObjectiveCount < 1 ||
+       mappingStatus !== "REVIEWED_METADATA_PRESENT")) {
+    throw new Error("AMC plugin claimed readiness without complete question and blueprint mappings.");
+  }
   return {
     plugin: "AMC",
     pluginVersion: value.pluginVersion,
     examMode: value.examMode,
-    mappedQuestionCount: count(value.mappedQuestionCount),
-    approvedQuestionCount: count(value.approvedQuestionCount),
-    mappingStatus: value.mappingStatus === "REVIEWED_METADATA_PRESENT" ? "REVIEWED_METADATA_PRESENT" : "MAPPING_REQUIRED",
-    eligibleLearningObjectiveCount: count(value.eligibleLearningObjectiveCount),
+    mappedQuestionCount,
+    approvedQuestionCount,
+    mappingStatus,
+    eligibleLearningObjectiveCount,
     selectorStatus: value.selectorStatus,
     canStartAMCPractice: value.canStartAMCPractice,
     reason: typeof value.reason === "string" ? value.reason : "AMC question selection is not certified.",
