@@ -12,9 +12,10 @@ describe("AMC live runtime response contracts", () => {
   it("does not represent an uncalibrated summary as a pass probability", () => {
     const summary = parseAMCPluginSummary({
       plugin: "AMC", pluginVersion: "1.0.0", status: "VALIDATING",
-      environmentCode: "AMC_CAT_MCQ", environmentVersion: "2026.1", examMode: "MCQ",
+      environmentCode: "AMC_CAT_MCQ", environmentVersion: "2026.1", environmentStatus: "VALIDATING", examMode: "MCQ",
       readiness: { probability: null, index: null, uncertainty: null, status: "INSUFFICIENT_EVIDENCE", probabilityStatus: "NOT_CALIBRATED" },
     });
+    expect(summary.environmentStatus).toBe("VALIDATING");
     expect(summary.readiness.probability).toBeNull();
     expect(summary.readiness.probabilityStatus).toBe("NOT_CALIBRATED");
   });
