@@ -130,22 +130,22 @@ export default function Home() {
         </section>
 
         <section id="pricing" className="mt-14 scroll-mt-24 border-t border-white/10 pt-10">
-          <div className="max-w-2xl"><p className="text-[10px] tracking-[0.22em] text-cyan-300">PRICING</p><h2 className="mt-3 text-3xl font-semibold sm:text-4xl">Start for A$1. Choose your plan.</h2><p className="mt-3 text-sm leading-6 text-slate-400">A$1 for a seven-calendar-day introductory period. The subscription date counts as Day 1. Unless cancelled, your selected plan starts at 12:01 AM India Standard Time on Day 7.</p></div>
+          <div className="max-w-2xl"><p className="text-[10px] tracking-[0.22em] text-cyan-300">PRICING</p><h2 className="mt-3 text-3xl font-semibold sm:text-4xl">Start for A$1. Choose your plan.</h2><p className="mt-3 text-sm leading-6 text-slate-400">No free tier. Start with a A$1 introductory offer under the calendar-day rule: the subscription date is Day 1, and the selected plan renews at 12:01 AM India Standard Time when Day 7 begins.</p></div>
           <div className="mt-7 grid gap-4 lg:grid-cols-2">
             <article className="rounded-2xl border border-cyan-300/30 bg-[#071b2a] p-6">
               <p className="text-xs font-semibold tracking-wide text-cyan-200">CLINICAL STARTER</p><h3 className="mt-2 text-xl font-semibold">Monthly</h3>
               <p className="mt-5"><span className="text-4xl font-semibold">A$39</span><span className="text-sm text-slate-400"> / month</span></p>
-              <p className="mt-2 text-sm text-slate-400">A$1 for the introductory trial, then A$39 per month.</p>
+              <p className="mt-2 text-sm text-slate-400">A$1 introductory offer, then A$39 per month at the Day 7 renewal time.</p>
               <Link to="/login" className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-cyan-300 px-5 py-3 text-sm font-bold text-[#04101d] transition hover:bg-cyan-200">Choose monthly <ChevronRight className="h-4 w-4" /></Link>
             </article>
             <article className="rounded-2xl border border-white/15 bg-white/[0.025] p-6">
               <p className="text-xs font-semibold tracking-wide text-cyan-200">CLINICAL STARTER</p><h3 className="mt-2 text-xl font-semibold">Three months</h3>
               <p className="mt-5"><span className="text-4xl font-semibold">A$99</span><span className="text-sm text-slate-400"> / 3 months</span></p>
-              <p className="mt-2 text-sm text-slate-400">A$1 for the introductory trial, then A$99 per three-month billing period.</p>
+              <p className="mt-2 text-sm text-slate-400">A$1 introductory offer, then A$99 per three-month billing period at the Day 7 renewal time.</p>
               <Link to="/login" className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-cyan-200/40 px-5 py-3 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-300/10">Choose three months <ChevronRight className="h-4 w-4" /></Link>
             </article>
           </div>
-          <p className="mt-4 text-xs leading-5 text-slate-500">Trial timing uses Asia/Kolkata (IST) for every subscriber, regardless of physical location. Example: a start on 9 October at 11:00 PM IST counts 9 October as Day 1; Day 7 begins on 15 October at 12:01 AM IST. Cancel before the stated renewal time to avoid the plan charge. Exam Master is not open yet. Subscription buttons continue to sign-in; payment processing is not implemented by this homepage change.</p>
+          <p className="mt-4 text-xs leading-5 text-slate-500">Calendar-day timing uses Asia/Kolkata (IST) for every subscriber, regardless of physical location. Example: a start on 9 October at 11:00 PM IST counts 9 October as Day 1; 10 October at 12:01 AM is Day 2; renewal occurs on 15 October at 12:01 AM IST as Day 7 begins. Cancel before the displayed renewal time to avoid the plan charge. There is no free tier. Exam Master is not open yet. Subscription buttons continue to sign-in; payment processing and cancellation controls are not implemented by this homepage change.</p>
         </section>
 
         <footer className="mt-14 flex flex-col gap-3 border-t border-white/10 pt-6 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
