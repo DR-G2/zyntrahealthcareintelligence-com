@@ -1,7 +1,8 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { motion, useMotionValue, useReducedMotion, useSpring, useTransform } from "framer-motion";
+import { useReducedMotion } from "framer-motion";
 import { Activity, BookOpen, Brain, Eye, Gauge, RotateCcw, Shield, Stethoscope, Target, Users } from "lucide-react";
+import { NeuralScene } from "@/components/home/NeuralScene";
 
 const stages = [
   { n: "01", title: "Observe", body: "Captures your answers, timing, confidence and decision patterns.", icon: Eye },
@@ -12,35 +13,22 @@ const stages = [
 ] as const;
 
 const signals = [
-  { label: "Clinical accuracy", value: "72%", place: "left-2 top-6" },
-  { label: "Time management", value: "↑ 28%", place: "left-0 top-40" },
-  { label: "Answer stability", value: "84%", place: "right-2 top-8" },
-  { label: "Confidence calibration", value: "68%", place: "right-0 top-44" },
+  { label: "Clinical accuracy", value: "72%", className: "left-0 top-8" },
+  { label: "Time management", value: "↑ 28%", className: "left-2 top-44" },
+  { label: "Answer stability", value: "84%", className: "right-0 top-10" },
+  { label: "Confidence calibration", value: "68%", className: "right-2 top-48" },
 ] as const;
 
 export default function Home() {
-  const reduce = useReducedMotion();
-  const scene = useRef<HTMLDivElement>(null);
+  const reduce = useReducedMotion() ?? false;
   const [stage, setStage] = useState(0);
-  const px = useMotionValue(0);
-  const py = useMotionValue(0);
-  const rx = useSpring(useTransform(py, [-0.5, 0.5], [10, -10]), { stiffness: 80, damping: 18, mass: 0.6 });
-  const ry = useSpring(useTransform(px, [-0.5, 0.5], [-14, 14]), { stiffness: 80, damping: 18, mass: 0.6 });
-  const lift = useSpring(useTransform(py, [-0.5, 0.5], [-12, 12]), { stiffness: 70, damping: 16 });
-
-  const leftX = useTransform(px, [-0.5, 0.5], [-16, 16]);
-  const rightX = useTransform(px, [-0.5, 0.5], [16, -16]);
-  const upY = useTransform(py, [-0.5, 0.5], [-10, 10]);
-  const downY = useTransform(py, [-0.5, 0.5], [10, -10]);
-    const box = scene.current?.getBoundingClientRect();
-    if (!box) return;
-    px.set((event.clientX - box.left) / box.width - 0.5);
-    py.set((event.clientY - box.top) / box.height - 0.5);
-  };
 
   return (
     <div data-zyntra-home="canonical" className="min-h-screen overflow-x-hidden bg-[#04101d] text-slate-100">
-      <header className="sticky top-0 z-30 border-b border-white/5 bg-[#04101d]/75 backdrop-blur-md">
+      <div className="pointer-events-none fixed inset-0">
+        <div className="absolute left-1/3 top-0 h-[420px] w-[420px] rounded-full bg-cyan-500/10 blur-[120px]" />
+      </div>
+      <header className="sticky top-0 z-30 border-b border-white/5 bg-[#04101d]/80 backdrop-blur-md">
         <div className="mx-auto flex h-[74px] max-w-[1280px] items-center justify-between px-5">
           <a href="#top" className="flex items-center gap-2">
             <span className="grid h-9 w-9 place-items-center rounded-full bg-cyan-400 text-[#04101d]"><Brain className="h-5 w-5" /></span>
@@ -61,41 +49,29 @@ export default function Home() {
         </div>
       </header>
 
-      <main id="top" className="mx-auto max-w-[1280px] px-5 pb-16 pt-8">
-        <section ref={scene} onPointerMove={onMove} onPointerLeave={() => { px.set(0); py.set(0); }} className="grid items-center gap-6 lg:grid-cols-[0.82fr_1.15fr_0.9fr]">
+      <main id="top" className="relative z-10 mx-auto max-w-[1280px] px-5 pb-16 pt-8">
+        <section className="grid items-center gap-6 lg:grid-cols-[0.82fr_1.2fr_0.88fr]">
           <div>
             <p className="text-[11px] tracking-[0.22em] text-slate-400">INTELLIGENCE FOR THE AMC JOURNEY</p>
             <h1 className="mt-4 text-5xl font-semibold leading-[0.98] tracking-tight sm:text-6xl">From Questions<br />to <span className="text-cyan-300">Readiness.</span></h1>
-            <p className="mt-5 max-w-md text-slate-300">Zyntra doesn’t just test what you know. It understands <span className="font-semibold text-white">how you think</span>, trains your weaknesses and builds your clinical readiness.</p>
+            <p className="mt-5 max-w-md leading-7 text-slate-300">Zyntra doesn’t just test what you know. It understands <span className="font-semibold text-white">how you think</span>, trains your weaknesses and builds your clinical readiness.</p>
             <div className="mt-6 flex flex-wrap gap-3">
               <Link to="/login" className="rounded-xl bg-cyan-400 px-5 py-3 text-sm font-semibold text-slate-950">Get Started →</Link>
               <a href="#system" className="rounded-xl border border-white/15 px-5 py-3 text-sm">Explore the System</a>
             </div>
           </div>
 
-          <div className="relative h-[620px] [perspective:1200px]">
-            <motion.div style={{ rotateX: rx, rotateY: ry, y: lift }} className="absolute inset-0 flex flex-col items-center justify-center">
-              <motion.div animate={reduce ? undefined : { y: [0, -10, 0] }} transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut" }} className="relative z-10">
-                <div className="absolute inset-6 rounded-full bg-cyan-400/30 blur-3xl" />
-                <Brain className="relative h-52 w-52 text-cyan-300 drop-shadow-[0_0_28px_rgba(34,211,238,0.85)]" strokeWidth={0.6} />
-              </motion.div>
-              <div className="relative -mt-4 h-64 w-56">
-                {[0, 1, 2, 3, 4].map((ring) => (
-                  <motion.div animate={reduce ? undefined : { rotateZ: ring % 2 ? -360 : 360 }} transition={{ duration: 18 + ring * 4, repeat: Infinity, ease: "linear" }} className="absolute left-1/2 border border-cyan-300/50 bg-cyan-400/10 shadow-[0_0_24px_rgba(34,211,238,0.25)]" style={{ width: 220 - ring * 34, height: 28, borderRadius: 999, top: 18 + ring * 46, translateX: "-50%" }} />
-                ))}
-                <motion.div animate={reduce ? undefined : { y: [0, 180, 0], opacity: [0, 1, 0] }} transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }} className="absolute left-1/2 top-0 h-3 w-3 -translate-x-1/2 rounded-full bg-cyan-200 shadow-[0_0_16px_#67e8f9]" />
-                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 rounded-full border border-cyan-300/60 bg-cyan-400/15 px-4 py-2 text-[11px] font-semibold tracking-[0.16em] text-cyan-100">NEXT BEST ACTION →</div>
-              </div>
-            </motion.div>
-            {signals.map((signal, index) => (
-              <motion.div key={signal.label} style={{ x: index % 2 ? rightX : leftX, y: index < 2 ? upY : downY }} className={`absolute ${signal.place} hidden w-36 rounded-xl border border-cyan-300/30 bg-[#071525]/80 p-3 backdrop-blur md:block`}>
+          <div className="relative h-[640px]">
+            <div className="absolute inset-0">
+              <NeuralScene active={stage} reduce={reduce} />
+            </div>
+            {signals.map((signal) => (
+              <div key={signal.label} className={`pointer-events-none absolute hidden w-40 rounded-2xl border border-cyan-300/30 bg-[#071525]/75 p-3 backdrop-blur md:block ${signal.className}`}>
                 <p className="text-[10px] tracking-[0.14em] text-cyan-200">{signal.label.toUpperCase()}</p>
                 <p className="mt-1 text-2xl font-semibold text-cyan-300">{signal.value}</p>
-              </motion.div>
+              </div>
             ))}
-            <div className="pointer-events-none absolute inset-y-24 left-1/2 hidden -translate-x-1/2 flex-col justify-between text-[10px] tracking-[0.16em] text-cyan-200/80 lg:flex">
-              {stages.map((item) => <span key={item.title}>{item.title.toUpperCase()}</span>)}
-            </div>
+            <div className="pointer-events-none absolute bottom-6 left-1/2 -translate-x-1/2 rounded-full border border-cyan-300/50 bg-cyan-400/10 px-4 py-2 text-[11px] font-semibold tracking-[0.16em] text-cyan-100">NEXT BEST ACTION →</div>
           </div>
 
           <div className="space-y-3">
@@ -114,8 +90,8 @@ export default function Home() {
 
         <section id="system" className="mt-4 grid gap-4 md:grid-cols-4">
           <article id="pie" className="rounded-2xl border border-white/10 bg-white/[0.03] p-5"><BookOpen className="h-5 w-5 text-cyan-300" /><h2 className="mt-3 font-semibold">PIE Intelligence</h2><p className="mt-2 text-sm text-slate-400">Performance. Behaviour. Confidence. Evidence.</p><Link to="/intelligence" className="mt-4 inline-block text-sm text-cyan-300">Explore →</Link></article>
-          <article id="practice" className="rounded-2xl border border-white/10 bg-white/[0.03] p-5"><Stethoscope className="h-5 w-5 text-cyan-300" /><h2 className="mt-3 font-semibold">AMC MCQ Practice</h2><p className="mt-2 text-sm text-slate-400">High quality, exam-focused questions with adaptive training.</p><Link to="/amc-part-1-mcq" className="mt-4 inline-block text-sm text-cyan-300">Start Practicing →</Link></article>
-          <article id="lab" className="rounded-2xl border border-white/10 bg-white/[0.03] p-5"><Brain className="h-5 w-5 text-cyan-300" /><h2 className="mt-3 font-semibold">AI Simulation Lab</h2><p className="mt-2 text-sm text-slate-400">Practice clinical reasoning with supported AI workflows.</p><Link to="/practice/ai-lab" className="mt-4 inline-block text-sm text-cyan-300">Try AI Lab →</Link></article>
+          <article id="practice" className="rounded-2xl border border-white/10 bg-white/[0.03] p-5"><Stethoscope className="h-5 w-5 text-cyan-300" /><h2 className="mt-3 font-semibold">AMC MCQ Practice</h2><p className="mt-2 text-sm text-slate-400">Exam-focused questions with adaptive training.</p><Link to="/amc-part-1-mcq" className="mt-4 inline-block text-sm text-cyan-300">Start Practicing →</Link></article>
+          <article id="lab" className="rounded-2xl border border-white/10 bg-white/[0.03] p-5"><Brain className="h-5 w-5 text-cyan-300" /><h2 className="mt-3 font-semibold">AI Simulation Lab</h2><p className="mt-2 text-sm text-slate-400">Supported AI learning workflows.</p><Link to="/practice/ai-lab" className="mt-4 inline-block text-sm text-cyan-300">Try AI Lab →</Link></article>
           <article className="rounded-2xl border border-white/10 bg-white/[0.03] p-5"><Gauge className="h-5 w-5 text-cyan-300" /><h2 className="mt-3 font-semibold">Personalised Learning</h2><p className="mt-2 text-sm text-slate-400">Targeted. Adaptive. Measurable.</p><a href="#why" className="mt-4 inline-block text-sm text-cyan-300">See How It Works →</a></article>
         </section>
 
