@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   parseAMCBlueprintResponse,
   parseAMCPluginSummary,
+  parseAMCPracticeStatus,
   parseAMCReadinessResponse,
 } from "./amc-runtime-client";
 
@@ -54,4 +55,21 @@ describe("AMC live runtime response contracts", () => {
       readiness: { probability: 0.75, status: "DECISION_STABLE" }, dimensionCount: 6, probabilityStatus: "CALIBRATED",
     })).toThrow();
   });
+  it("keeps AMC question delivery disabled until mapping and selector gates pass", () => {
+    const status = parseAMCPracticeStatus({
+      plugin: "AMC", pluginVersion: "1.0.0", examMode: "MCQ",
+      mappedQuestionCount: 0, approvedQuestionCount: 0,
+      mappingStatus: "MAPPING_REQUIRED", selectorStatus: "NOT_CERTIFIED",
+      canStartAMCPractice: false, reason: "mapping required",
+    });
+    expect(status.canStartAMCPractice).toBe(false);
+    expect(status.selectorStatus).toBe("NOT_CERTIFIED");
+    expect(() => parseAMCPracticeStatus({
+      plugin: "AMC", pluginVersion: "1.0.0", examMode: "MCQ",
+      mappedQuestionCount: 10, approvedQuestionCount: 10,
+      mappingStatus: "REVIEWED_METADATA_PRESENT", selectorStatus: "CERTIFIED",
+      canStartAMCPractice: true, reason: "not valid",
+    })).toThrow();
+  });
+
 });
