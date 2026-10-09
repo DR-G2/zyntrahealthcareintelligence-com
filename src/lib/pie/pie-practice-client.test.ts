@@ -29,7 +29,7 @@ describe("P5 Practice data path (PIE, server-selected, no client key)", () => {
       ? { data: [{ session_id: "s1", question_count: 2 }], error: null }
       : { data: [row(1), row(0)], error: null });
     const r = await startPieSession(500, d);
-    expect(d.rpc).toHaveBeenCalledWith("pie_create_session", { p_count: 50 });
+    expect(d.rpc).toHaveBeenCalledWith("pie_create_session", { p_count: 50, p_blueprint_key: "ZYNTRA_GENERAL" });
     expect(JSON.stringify((d.rpc as ReturnType<typeof vi.fn>).mock.calls)).not.toContain("p_question_ids");
     expect(r.sessionId).toBe("s1");
     expect(r.questions.map((q) => q.question_position)).toEqual([0, 1]);
