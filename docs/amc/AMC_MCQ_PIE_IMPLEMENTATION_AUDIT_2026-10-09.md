@@ -136,3 +136,24 @@ The design also defines a structured explanation contract, publish lifecycle, se
 Step 3 is complete as a design decision only. It does not assert that the proposed tables exist or that production conforms. No DDL, backfill, import, quarantine, content edits, Edge Function deployment, merge, or traffic cutover occurred.
 
 Next: complete M0 source-to-live reconciliation (migration history and every content/selector/session/submit/results/AMC/PIE consumer), then build and test the additive schema in a disposable database before proposing any production migration.
+
+## Step 4 — Answer-key and option identity audit (2026-10-09)
+
+Status: READ-ONLY AUDIT; no content or production data changed.
+
+### Answer-key findings
+
+- All 225 live question rows have a nonblank `correct_answer` and a nonblank `explanation`.
+- Current legacy answer-key labels are all within A-E: A = 58, B = 28, C = 47, D = 47, E = 45 (225 total).
+- These counts prove key-field presence and label shape only. They do **not** prove that the keyed option is clinically correct, that the option order matches the label convention for every item, or that the explanation supports the key. Those require deterministic option-position checks plus independent clinical/editorial review.
+- Current options are primitive JSON array values without stable option IDs. Therefore the current key is a display label, not a referentially safe key. During versioned migration, map A-E to option UUIDs only after verifying each item's exact array order and resolving ambiguous or malformed items. Never silently infer or change a clinical answer.
+- New canonical rule: `answer_option_id` must reference one of the five option UUIDs belonging to that same immutable question version. The A-E label is presentation metadata only. Key changes require a new version and fresh review.
+
+### Importer compatibility finding
+
+The repository's `supabase/functions/import-questions/index.ts` writes legacy fields including `question_text`, `category`, and `difficulty`, and upserts rows in place by `zyntra_id`. The inspected live V2 `public.questions` schema instead exposes `stem`, `difficulty_tier`, `status`, `version`, and `provenance`, and does not expose `question_text`, `category`, or `difficulty`. This is a source-to-live schema mismatch. Confirm whether that importer is deployed or still called before treating it as the active V2 import path. Do not use it for a canonical-bank import until it is reconciled and tested against a disposable database.
+
+### Step 4 disposition
+
+**PARTIAL PASS for key-field completeness; NOT PASS for clinical key correctness or version-safe answer mapping.** Preserve the 225 current keys as legacy evidence; do not rewrite them automatically. Next, inventory the deployed selector, session, submission, result, importer, and PIE call paths, then create a read-only key/option validation export for independent review. Production writes remain out of scope.
+
