@@ -7,7 +7,7 @@ import { ADMIN_EMAILS, SUPER_ADMIN_EMAIL } from "@/lib/admin-emails";
 
 const read = (p: string) => readFileSync(resolve(process.cwd(), p), "utf8");
 const row = (i: number, extra: Partial<PieHistoryRow> = {}): PieHistoryRow => ({
-  attempt_id: `a${i}`, session_id: "s1", session_mode: "adaptive", question_id: `q${i}`, zyntra_id: `ZQ-${i}`,
+  attempt_id: `a${i}`, session_id: "s1", session_mode: "pie_adaptive", question_id: `q${i}`, zyntra_id: `ZQ-${i}`,
   stem: `stem ${i}`, options: ["x", "y"], subject_id: "sub", subject_name: "Adult Medicine", subtopic_id: null, subtopic_name: null,
   difficulty_tier: "3", lo_id: "lo", lo_title: "LO title", concept_title: "C", selected_answer: "A", is_correct: i % 2 === 0,
   correct_answer: "A", explanation: "why", confidence_level: 2, time_taken_seconds: 30, time_to_first_click: 4,
@@ -32,9 +32,10 @@ describe("P5 learner history (PIE attempts only)", () => {
     expect(l.confidence_level).toBe(2);
   });
 
-  it("orders asc on request and surfaces errors", async () => {
+  it("supports deployed V2 session_type values and surfaces RPC errors", async () => {
     const rows = await fetchLegacyShapedHistory(10, "asc", deps([row(1), row(0)]));
     expect(rows.map((r) => r.id)).toEqual(["a0", "a1"]);
+    expect(row(0, { session_mode: "pie_adaptive" }).session_mode).toBe("pie_adaptive");
     await expect(fetchPieAttemptHistory(10, deps(null, { message: "boom" }))).rejects.toThrow("boom");
   });
 
@@ -63,10 +64,15 @@ describe("P5 learner history (PIE attempts only)", () => {
     for (const e of ADMIN_EMAILS.filter((a) => a !== SUPER_ADMIN_EMAIL)) expect(canBrowseQuestionBank(e)).toBe(false);
   });
 
-  it("0060 RPCs are PIE-only, auth-scoped and not callable by anon", () => {
-    const m = read("supabase/migrations_v2/0060_pie_p5_learner_history_rpcs.sql");
-    expect(m).toContain("join pie.adaptive_session a on a.session_id = ua.session_id and a.user_id = v_uid");
+  it("0081 history RPC aligns to deployed V2 schema and preserves learner isolation", () => {
+    const m = read("supabase/migrations_v2/0081_v2_p5_history_rpc_schema_alignment.sql");
+    expect(m).toContain("join public.practice_sessions ps");
+    expect(m).toContain("ps.user_id = v_uid");
     expect(m).toContain("where ua.user_id = v_uid");
-    expect(m).toContain("revoke all on function public.get_my_attempt_history(integer, timestamptz) from public, anon");
+    expect(m).toContain("case when ps.status = 'completed' then q.correct_answer else null end");
+    expect(m).toContain("case when ps.status = 'completed' then q.explanation else null end");
+    expect(m).toContain("revoke all on function public.get_my_attempt_history(integer, timestamptz)");
+    expect(m).toContain("to authenticated, service_role");
+    expect(m).not.toContain("pie.adaptive_session");
   });
 });
