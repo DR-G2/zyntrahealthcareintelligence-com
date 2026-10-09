@@ -124,7 +124,7 @@ $$;
 
 revoke all on function public.get_my_attempt_history(integer, timestamptz, uuid)
   from public, anon;
-grant execute on function public.get_my_attempt_history(integer, timestamptz)
+grant execute on function public.get_my_attempt_history(integer, timestamptz, uuid)
   to authenticated, service_role;
 
 notify pgrst, 'reload schema';
