@@ -61,6 +61,11 @@ begin
     raise exception 'p_limit must be 1..5000' using errcode = '22023';
   end if;
 
+  if (p_before is null) <> (p_before_attempt_id is null) then
+    raise exception 'Both history cursor fields must be provided together'
+      using errcode = '22023';
+  end if;
+
   return query
   select
     ua.id,
