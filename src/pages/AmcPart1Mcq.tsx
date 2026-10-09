@@ -113,9 +113,10 @@ export default function AmcPart1Mcq() {
         </h1>
         <p className="mt-6 max-w-2xl text-lg leading-8 text-muted-foreground">
           The AMC computer-adaptive MCQ rewards applied clinical reasoning under time pressure.
-          Zyntra is an independent study platform that pairs original practice items with behavioural signals. AMC-specific question selection is currently disabled while reviewed mappings are completed. It does not provide a pass probability.
-          such as hesitation, option-switching and self-rated confidence. It is not affiliated with
-          or endorsed by the Australian Medical Council.
+          Zyntra is an independent study platform that records behavioural signals such as timing,
+          option changes and self-rated confidence. AMC-specific question selection is disabled while
+          reviewed question mappings are completed. Zyntra does not provide an AMC pass probability
+          and is not affiliated with or endorsed by the Australian Medical Council.
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
           <Button asChild size="lg">
