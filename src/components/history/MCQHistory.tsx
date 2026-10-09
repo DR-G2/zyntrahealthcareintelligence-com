@@ -60,7 +60,7 @@ export function MCQHistory() {
   const [searchQuery, setSearchQuery] = useState('');
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
-  const { data: attempts = [], isLoading } = useQuery({
+  const { data: attempts = [], isLoading, isError, error, refetch } = useQuery({
     queryKey: ['mcq-history', user?.id],
     queryFn: async () => {
       if (!user) return [];
@@ -165,6 +165,21 @@ export function MCQHistory() {
 
   if (isLoading) {
     return <div className="space-y-3">{[1, 2, 3].map(i => <div key={i} className="h-24 rounded-lg bg-muted animate-pulse" />)}</div>;
+  }
+
+  if (isError) {
+    return (
+      <Card>
+        <CardContent className="py-12 text-center space-y-4">
+          <BookOpen className="h-12 w-12 text-destructive/70 mx-auto" />
+          <h2 className="text-xl font-display font-bold">History Could Not Load</h2>
+          <p role="alert" className="text-sm text-muted-foreground">
+            {error instanceof Error ? error.message : 'The history service returned an unexpected error.'}
+          </p>
+          <Button variant="outline" onClick={() => { void refetch(); }}>Retry</Button>
+        </CardContent>
+      </Card>
+    );
   }
 
   if (attempts.length === 0) {
