@@ -79,7 +79,13 @@ describe("P5 learner history (PIE attempts only)", () => {
     expect(m).toContain("where ua.user_id = v_uid");
     expect(m).toContain("case when ps.status = 'completed' then q.correct_answer else null end");
     expect(m).toContain("case when ps.status = 'completed' then q.explanation else null end");
-    expect(m).toContain("revoke all on function public.get_my_attempt_history(integer, timestamptz)");
+    expect(m).toContain("drop function if exists public.get_my_attempt_history(integer, timestamptz)");
+    expect(m).toContain("p_before_attempt_id uuid default null");
+    expect(m).toContain("ua.created_at = p_before");
+    expect(m).toContain("ua.id < p_before_attempt_id");
+    expect(m).toContain("order by ua.created_at desc, ua.id desc");
+    expect(m).toContain("revoke all on function public.get_my_attempt_history(integer, timestamptz, uuid)");
+    expect(m).toContain("grant execute on function public.get_my_attempt_history(integer, timestamptz, uuid)");
     expect(m).toContain("to authenticated, service_role");
     expect(m).toContain("left join public.practice_sessions ps");
     expect(m).toContain("(ua.session_id is null or ps.id is not null)");
