@@ -44,6 +44,11 @@ BEGIN
     RAISE EXCEPTION 'unknown or inactive blueprint: %', p_blueprint_key USING ERRCODE = '22023';
   END IF;
 
+  IF p_blueprint_key = 'AMC_CLINICAL' THEN
+    RAISE EXCEPTION 'AMC_CLINICAL_SELECTOR_NOT_INTEGRATED'
+      USING ERRCODE = 'P0001';
+  END IF;
+
   IF p_blueprint_key LIKE 'AMC\_%' ESCAPE '\' THEN
     SELECT EXISTS (
       SELECT 1 FROM amc.amc_blueprint_lo bl
@@ -154,6 +159,7 @@ BEGIN
     );
 
   v_selector_status := CASE
+    WHEN p_exam_mode = 'CLINICAL' THEN 'NOT_CERTIFIED'
     WHEN NOT v_plugin_active OR v_environment_status IS DISTINCT FROM 'ACTIVE' OR NOT v_selector_verified THEN 'NOT_CERTIFIED'
     WHEN v_eligible_lo_count = 0 OR v_mapped_count = 0 THEN 'MAPPING_REQUIRED'
     ELSE 'READY'
@@ -172,6 +178,7 @@ BEGIN
     'mappingStatus', CASE WHEN v_approved_count > 0 THEN 'REVIEWED_METADATA_PRESENT' ELSE 'MAPPING_REQUIRED' END,
     'canStartAMCPractice', v_selector_status = 'READY',
     'reason', CASE
+      WHEN p_exam_mode = 'CLINICAL' THEN 'Clinical stations require a dedicated OSCE selector; they cannot use the MCQ PIE selector.'
       WHEN NOT v_plugin_active OR v_environment_status IS DISTINCT FROM 'ACTIVE' THEN 'AMC plugin and exam environment must be ACTIVE before question delivery.'
       WHEN NOT v_selector_verified THEN 'PIE AMC selector certification is not recorded.'
       WHEN v_eligible_lo_count = 0 THEN 'No eligible AMC blueprint-to-learning-objective mappings exist.'
