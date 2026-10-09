@@ -39,18 +39,19 @@ describe("AMC live runtime response contracts", () => {
     const result = parseAMCReadinessResponse({
       plugin: "AMC", pluginVersion: "1.0.0", examMode: "CLINICAL",
       environmentCode: "AMC_CLINICAL",
-      readiness: { probability: null, index: 0.62, uncertainty: 0.2, lower: 0.42, upper: 0.82, status: "ESTIMATE_AVAILABLE" },
-      evidence_count: 8, probabilityStatus: "NOT_CALIBRATED", modelVersion: "amc-readiness-v1.0",
+      readiness: { probability: null, status: "INSUFFICIENT_EVIDENCE" },
+      dimensionCount: 6, probabilityStatus: "NOT_CALIBRATED", modelVersion: "amc-readiness-v1.0",
     });
     expect(result.readiness.probability).toBeNull();
-    expect(result.evidenceCount).toBe(8);
+    expect(result.readiness.status).toBe("INSUFFICIENT_EVIDENCE");
+    expect(result.dimensionCount).toBe(6);
     expect(result.probabilityStatus).toBe("NOT_CALIBRATED");
   });
 
   it("rejects readiness payloads that claim a calibrated probability", () => {
     expect(() => parseAMCReadinessResponse({
       plugin: "AMC", pluginVersion: "1.0.0", examMode: "MCQ",
-      readiness: { probability: 0.75 }, evidence_count: 8, probabilityStatus: "CALIBRATED",
+      readiness: { probability: 0.75, status: "DECISION_STABLE" }, dimensionCount: 6, probabilityStatus: "CALIBRATED",
     })).toThrow();
   });
 });
