@@ -22,6 +22,21 @@ describe("P5 learner history (PIE attempts only)", () => {
     expect(d.rpc).toHaveBeenCalledWith("get_my_attempt_history", { p_limit: 5000 });
   });
 
+  it("passes both fields of the composite cursor for stable pagination", async () => {
+    const d = deps([row(0)]);
+    await fetchPieAttemptHistory(25, d, { createdAt: "2026-10-01T00:00:00Z", attemptId: "00000000-0000-0000-0000-000000000001" });
+    expect(d.rpc).toHaveBeenCalledWith("get_my_attempt_history", {
+      p_limit: 25,
+      p_before: "2026-10-01T00:00:00Z",
+      p_before_attempt_id: "00000000-0000-0000-0000-000000000001",
+    });
+  });
+
+  it("rejects incomplete history cursors", async () => {
+    await expect(fetchPieAttemptHistory(25, deps([]), { createdAt: "", attemptId: "attempt-id" }))
+      .rejects.toThrow("Both history cursor fields are required.");
+  });
+
   it("maps to the legacy page shape, keeping answered-only key and telemetry", () => {
     const l = toLegacyAttempt(row(0));
     expect(l.questions.correct_answer).toBe("A");
