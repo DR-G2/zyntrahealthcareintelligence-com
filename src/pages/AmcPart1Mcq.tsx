@@ -10,7 +10,7 @@ import { useShowAboutPricing } from '@/hooks/useSiteSettings';
 import { AMCPluginConnectionStatus } from '@/components/amc/AMCPluginConnectionStatus';
 
 const OBJECTIVES = [
-  'Practise AMC-style single-best-answer questions across core clinical domains.',
+  'Build applied medical knowledge with original single-best-answer practice items.',
   'Notice timing, answer changes and confidence — not only whether an item was correct.',
   'Use a short diagnostic to see an early performance signal before creating an account.',
   'Build a study loop: diagnose, drill weak patterns, review explanations, then re-test.',
@@ -23,15 +23,15 @@ const FAQS = [
   },
   {
     q: 'How does Zyntra help with MCQ preparation?',
-    a: 'Zyntra is an educational practice platform. Its APPE engine records how you answer (time spent, whether you change options, and how sure you were) and uses those signals to choose what to show next. You can start with a free 6-question diagnostic on the homepage without logging in.',
+    a: 'Zyntra is an educational practice platform. Its PIE engine records timing, answer changes and confidence to support general adaptive practice. AMC-specific question selection remains disabled until question-level review and blueprint mappings are verified. The free 6-question diagnostic is a general orientation tool, not an AMC readiness test.',
   },
   {
     q: 'Are these recalled AMC questions?',
-    a: 'No. Zyntra content is original practice material written for training. It is not copied from, recalled from, or endorsed by the Australian Medical Council.',
+    a: 'No. Zyntra content is original practice material written for training. It is not copied from, recalled from, or endorsed by the Australian Medical Council. Current drills do not claim official AMC blueprint coverage.',
   },
   {
     q: 'Do I need an account to try MCQ practice?',
-    a: 'The 6-question diagnostic on the home page does not require an account. Full adaptive drills, explanations, study plans and analytics require signing in.',
+    a: 'The 6-question general diagnostic on the home page does not require an account. General adaptive drills, explanations, study plans and analytics require signing in. AMC-specific blueprint-driven delivery is not enabled yet.',
   },
 ];
 
@@ -44,7 +44,7 @@ export default function AmcPart1Mcq() {
     <div className="min-h-screen bg-background">
       <SEO
         title="AMC Part 1 MCQ Preparation | Zyntra"
-        description="Prepare for the AMC CAT MCQ exam with adaptive practice that tracks timing, answer changes and confidence. Free 6-question diagnostic. Independent of the AMC."
+        description="Prepare for the AMC CAT MCQ with original study resources and transparent behaviour-aware practice. AMC-specific question delivery is still being validated. Free 6-question general diagnostic. Independent of the AMC."
         path="/amc-part-1-mcq"
         jsonLd={[
           {
@@ -52,13 +52,13 @@ export default function AmcPart1Mcq() {
             '@type': 'WebPage',
             name: 'AMC Part 1 MCQ Preparation',
             url: pageUrl,
-            description: 'Independent AMC Part 1 MCQ practice on Zyntra, including a free diagnostic and behavioural analytics.',
+            description: 'Independent medical MCQ study tools on Zyntra, including a free general diagnostic and behavioural analytics. AMC-specific blueprint mapping is still being validated.',
           },
           {
             '@context': 'https://schema.org',
             '@type': 'Course',
             name: 'AMC Part 1 MCQ preparation',
-            description: 'Self-paced online MCQ practice for AMC-style clinical reasoning. Not an official AMC course.',
+            description: 'Self-paced general medical MCQ practice for clinical reasoning. AMC-specific blueprint mapping is still being validated; this is not an official AMC course.',
             url: pageUrl,
             provider: {
               '@type': 'Organization',
@@ -109,11 +109,11 @@ export default function AmcPart1Mcq() {
       <main className="container pb-20 pt-28">
         <p className="mb-4 text-xs font-bold uppercase tracking-[.16em] text-primary">AMC Part 1 · MCQ</p>
         <h1 className="max-w-3xl font-display text-4xl font-bold tracking-tight lg:text-5xl">
-          Prepare for the AMC CAT MCQ with practice that watches how you decide
+          Prepare for the AMC CAT MCQ with transparent, behaviour-aware study tools
         </h1>
         <p className="mt-6 max-w-2xl text-lg leading-8 text-muted-foreground">
           The AMC computer-adaptive MCQ rewards applied clinical reasoning under time pressure.
-          Zyntra is an independent study platform that pairs original practice items with signals
+          Zyntra is an independent study platform that pairs original practice items with behavioural signals. AMC-specific question selection is currently disabled while reviewed mappings are completed. It does not provide a pass probability.
           such as hesitation, option-switching and self-rated confidence. It is not affiliated with
           or endorsed by the Australian Medical Council.
         </p>
@@ -141,11 +141,11 @@ export default function AmcPart1Mcq() {
         </section>
 
         <section className="mt-16" aria-labelledby="mcq-how">
-          <h2 id="mcq-how" className="font-display text-2xl font-bold tracking-tight">What MCQ practice looks like on Zyntra</h2>
+          <h2 id="mcq-how" className="font-display text-2xl font-bold tracking-tight">What adaptive practice looks like on Zyntra</h2>
           <div className="mt-6 grid gap-4 md:grid-cols-3">
             {[
               { icon: Target, title: 'Diagnose first', body: 'A short public diagnostic measures accuracy plus timing and certainty so you see a pattern, not a vanity score.' },
-              { icon: Brain, title: 'Drill the pattern', body: 'Signed-in MCQ practice can emphasise domains and behaviours that looked unstable, not only topics you got wrong.' },
+              { icon: Brain, title: 'Drill the pattern', body: 'Signed-in general practice can emphasise learning objectives and behaviours that looked unstable. It does not yet apply AMC-specific blueprint weighting.' },
               { icon: Clock, title: 'Train the clock', body: 'Timed items exist so pace is part of preparation. The platform records how long you take; it does not claim to reproduce official AMC timing rules.' },
             ].map((card) => (
               <article key={card.title} className="rounded-2xl border border-border bg-card p-6">
