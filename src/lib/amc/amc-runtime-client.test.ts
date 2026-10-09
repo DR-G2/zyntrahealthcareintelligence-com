@@ -1,4 +1,6 @@
 import { describe, expect, it } from "vitest";
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import {
   parseAMCBlueprintResponse,
   parseAMCPluginSummary,
@@ -70,6 +72,15 @@ describe("AMC live runtime response contracts", () => {
       mappingStatus: "REVIEWED_METADATA_PRESENT", selectorStatus: "CERTIFIED",
       canStartAMCPractice: true, reason: "not valid",
     })).toThrow();
+  });
+
+  it("readiness SQL does not create a fixed-weight composite or candidate-visible probability", () => {
+    const readinessMigration = readFileSync(resolve(__dirname, "../../../supabase/migrations_v2/0064_amc_readiness_no_unvalidated_composite.sql"), "utf8");
+    const promotionMigration = readFileSync(resolve(__dirname, "../../../supabase/migrations_v2/0065_amc_promotion_runtime_guard.sql"), "utf8");
+    expect(readinessMigration).not.toMatch(/avg\s*\(\s*s\.estimate\s*\)/i);
+    expect(readinessMigration).toContain("'composite_index_claim', false");
+    expect(readinessMigration).toContain("'probability', NULL");
+    expect(promotionMigration).toContain("AMC_READINESS_RUNTIME_NOT_VERIFIED");
   });
 
 });
