@@ -63,7 +63,7 @@ export default function Home() {
 
           <div className="relative order-1 mx-auto h-[min(76vh,680px)] min-h-[460px] w-full max-w-[760px] sm:h-[560px] lg:order-2 lg:h-[650px]">
             <div className="pointer-events-none absolute inset-8 rounded-full bg-cyan-500/[0.07] blur-3xl" />
-            <NeuralScene active={stage} reduce={reduce} />
+            <NeuralScene active={stage} reduce={reduce} activeSignal={activeSignal} onSignalSelect={setActiveSignal} />
           </div>
         </section>
 
