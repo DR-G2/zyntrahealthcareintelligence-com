@@ -3,12 +3,12 @@ import { ensureV2Session } from '@/lib/migration/v2-practice-session';
 
 /**
  * P5 learner history: the ONLY source of attempt history and answer keys for learner pages.
- * get_my_attempt_history returns the caller's own PIE attempts (adaptive or diagnostic) and
- * carries correct_answer / explanation only because each row is an answered attempt.
+ * get_my_attempt_history returns the caller's own answered attempts and carries
+ * correct_answer / explanation only after the associated session is completed.
  * No page may read keys from the questions table.
  */
 export interface PieHistoryRow {
-  attempt_id: string; session_id: string; session_mode: 'adaptive' | 'diagnostic'; question_id: string; zyntra_id: string | null;
+  attempt_id: string; session_id: string; session_mode: string; question_id: string; zyntra_id: string | null;
   stem: string; options: unknown; subject_id: string | null; subject_name: string | null; subtopic_id: string | null; subtopic_name: string | null;
   difficulty_tier: string | null; lo_id: string | null; lo_title: string | null; concept_title: string | null;
   selected_answer: string; is_correct: boolean; correct_answer: string | null; explanation: string | null;
@@ -72,7 +72,7 @@ export async function fetchLegacyShapedHistory(limit = 1000, order: 'desc' | 'as
 export async function fetchReviewDue(limit = 100, horizonDays = 0, deps: HistoryDeps = defaultHistoryDeps): Promise<ReviewDueRow[]> {
   await deps.ensureSession();
   const { data, error } = await deps.rpc('get_my_review_due', { p_limit: limit, p_horizon_days: horizonDays });
-  if (error) throw new Error(error.message || 'Review items could not be loaded.');
+  if (error) throw new Error(error.message || 'History could not be loaded.');
   return (data as ReviewDueRow[]) || [];
 }
 
