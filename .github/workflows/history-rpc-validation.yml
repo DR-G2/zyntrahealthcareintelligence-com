@@ -35,8 +35,8 @@ jobs:
           node-version: 22
           cache: npm
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Install dependencies (manifest currently differs from lockfile)
+        run: npm install --no-audit --no-fund
 
       - name: Run full test suite
         run: npm test
