@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - pie-p22-final-production-readiness
+  pull_request:
+    branches: [main]
   workflow_dispatch:
     inputs:
       production_url:
