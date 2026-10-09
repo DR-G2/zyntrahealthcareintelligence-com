@@ -55,10 +55,22 @@ export function toLegacyAttempt(r: PieHistoryRow): LegacyAttemptShape {
   };
 }
 
-export async function fetchPieAttemptHistory(limit = 1000, deps: HistoryDeps = defaultHistoryDeps): Promise<PieHistoryRow[]> {
+export interface HistoryCursor { createdAt: string; attemptId: string; }
+
+export async function fetchPieAttemptHistory(
+  limit = 1000,
+  deps: HistoryDeps = defaultHistoryDeps,
+  before?: HistoryCursor,
+): Promise<PieHistoryRow[]> {
   await deps.ensureSession();
   const n = Math.max(1, Math.min(5000, Math.floor(limit)));
-  const { data, error } = await deps.rpc('get_my_attempt_history', { p_limit: n });
+  const args: Record<string, unknown> = { p_limit: n };
+  if (before) {
+    if (!before.createdAt || !before.attemptId) throw new Error('Both history cursor fields are required.');
+    args.p_before = before.createdAt;
+    args.p_before_attempt_id = before.attemptId;
+  }
+  const { data, error } = await deps.rpc('get_my_attempt_history', args);
   if (error) throw new Error(error.message || 'History could not be loaded.');
   return (data as PieHistoryRow[]) || [];
 }
