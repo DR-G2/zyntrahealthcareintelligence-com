@@ -73,6 +73,12 @@ describe("AMC live runtime response contracts", () => {
       mappingStatus: "REVIEWED_METADATA_PRESENT", selectorStatus: "CERTIFIED",
       canStartAMCPractice: true, reason: "not valid",
     })).toThrow();
+    expect(() => parseAMCPracticeStatus({
+      plugin: "AMC", pluginVersion: "1.0.0", examMode: "MCQ",
+      mappedQuestionCount: 0, approvedQuestionCount: 0, eligibleLearningObjectiveCount: 0,
+      mappingStatus: "MAPPING_REQUIRED", selectorStatus: "READY",
+      canStartAMCPractice: true, reason: "inconsistent",
+    })).toThrow();
   });
 
   it("readiness SQL does not create a fixed-weight composite or candidate-visible probability", () => {
