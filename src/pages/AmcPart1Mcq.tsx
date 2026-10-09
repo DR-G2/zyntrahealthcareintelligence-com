@@ -12,7 +12,7 @@ import { AMCPluginConnectionStatus } from '@/components/amc/AMCPluginConnectionS
 const OBJECTIVES = [
   'Build applied medical knowledge with original single-best-answer practice items.',
   'Notice timing, answer changes and confidence — not only whether an item was correct.',
-  'Use a short diagnostic to see an early performance signal before creating an account.',
+  'Try the general diagnostic to explore the practice workflow without an account.',
   'Build a study loop: diagnose, drill weak patterns, review explanations, then re-test.',
 ];
 
@@ -120,7 +120,7 @@ export default function AmcPart1Mcq() {
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
           <Button asChild size="lg">
-            <Link to="/check">Try the 6-question diagnostic <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" /></Link>
+            <Link to="/check">Try the 6-question general diagnostic <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" /></Link>
           </Button>
           <Button asChild size="lg" variant="outline">
             <Link to="/amc-clinical-osce">AMC Clinical / OSCE track</Link>
@@ -145,7 +145,7 @@ export default function AmcPart1Mcq() {
           <h2 id="mcq-how" className="font-display text-2xl font-bold tracking-tight">What adaptive practice looks like on Zyntra</h2>
           <div className="mt-6 grid gap-4 md:grid-cols-3">
             {[
-              { icon: Target, title: 'Diagnose first', body: 'A short public diagnostic measures accuracy plus timing and certainty so you see a pattern, not a vanity score.' },
+              { icon: Target, title: 'Diagnose first', body: 'A short public general diagnostic explores accuracy, timing and certainty. It is not an AMC readiness assessment.' },
               { icon: Brain, title: 'Drill the pattern', body: 'Signed-in general practice can emphasise learning objectives and behaviours that looked unstable. It does not yet apply AMC-specific blueprint weighting.' },
               { icon: Clock, title: 'Train the clock', body: 'Timed items exist so pace is part of preparation. The platform records how long you take; it does not claim to reproduce official AMC timing rules.' },
             ].map((card) => (
