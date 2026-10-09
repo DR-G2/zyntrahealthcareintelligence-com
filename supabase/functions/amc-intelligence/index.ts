@@ -28,7 +28,7 @@ function parseExamMode(value: unknown): "MCQ" | "CLINICAL" | null {
 
 function readinessDTO(value: unknown) {
   if (!isRecord(value)) return null;
-  const dimensionCount = value.evidence_count;
+  const dimensionCount = value.dimensionCount;
   return {
     plugin: "AMC",
     pluginVersion: typeof value.pluginVersion === "string" ? value.pluginVersion : "1.0.0",
