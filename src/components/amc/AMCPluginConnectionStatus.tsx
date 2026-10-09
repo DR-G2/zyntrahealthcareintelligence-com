@@ -71,8 +71,8 @@ export function AMCPluginConnectionStatus() {
               <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-3">
                 <p className="text-sm font-semibold">AMC question delivery: not enabled</p>
                 <p className="mt-1 text-sm text-muted-foreground">
-                  {practiceStatus.approvedQuestionCount} approved mappings of {practiceStatus.mappedQuestionCount} mapped questions.
-                  The PIE AMC selector is not certified, so this track will not silently fall back to generic questions.
+                  {practiceStatus.approvedQuestionCount} approved metadata rows, {practiceStatus.mappedQuestionCount} eligible mapped questions and {practiceStatus.eligibleLearningObjectiveCount} eligible blueprint objectives.
+                  Selector status: {practiceStatus.selectorStatus}. This track will not silently fall back to generic questions.
                 </p>
               </div>
               <p className="text-xs text-muted-foreground">
