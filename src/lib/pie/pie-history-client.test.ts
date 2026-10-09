@@ -81,6 +81,8 @@ describe("P5 learner history (PIE attempts only)", () => {
     expect(m).toContain("case when ps.status = 'completed' then q.explanation else null end");
     expect(m).toContain("revoke all on function public.get_my_attempt_history(integer, timestamptz)");
     expect(m).toContain("to authenticated, service_role");
-    expect(m).not.toContain("pie.adaptive_session");
+    expect(m).toContain("left join public.practice_sessions ps");
+    expect(m).toContain("(ua.session_id is null or ps.id is not null)");
+    expect(m).not.toMatch(/(?:from|join)\\s+pie\\.adaptive_session/i);
   });
 });
