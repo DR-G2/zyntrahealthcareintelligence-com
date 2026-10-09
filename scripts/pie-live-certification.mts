@@ -126,7 +126,37 @@ async function main() {
   const rawAmc = await A.db.from("amc_adapter_evaluation").select("user_id").eq("user_id", A.id).limit(1);
   check("raw AMC evaluation table is protected", !!rawAmc.error, rawAmc.error?.message ?? "UNEXPECTED RAW ACCESS");
 
-  // 7. Next question must be server selected only after current answer.
+  // 7. Adaptive next is refused while any served question is unanswered.
+  // pie_create_session preloads the requested count, so one save is not enough.
+  const refused = await rpc(A, "pie_next_question", { p_session_id: sessionId });
+  check("next question is refused while a served question is unanswered", !!refused.error && /PIE_UNANSWERED/.test(refused.error?.message ?? ""), refused.error?.message ?? "UNEXPECTED SUCCESS");
+  let remainingOk = true;
+  for (const q of questions.slice(1)) {
+    const extra = await rpc(A, "save_attempt", {
+      p_question_id: q.question_id,
+      p_session_id: sessionId,
+      p_selected_answer: "A",
+      p_is_correct: false,
+      p_time_taken_seconds: 20,
+      p_confidence_level: 3,
+      p_answer_changes_count: 0,
+      p_time_to_first_click: 4,
+      p_change_sequence: ["A"],
+      p_pause_events: [],
+      p_time_of_day: "certification",
+      p_question_position: q.question_position,
+      p_previous_question_correct: null,
+      p_question_version: q.version ?? null,
+      p_app_version: "pie-live-certification",
+      p_provenance: { source: "pie-live-certification" },
+    });
+    if (extra.error) {
+      remainingOk = false;
+      check("remaining served questions can be answered", false, extra.error.message);
+      break;
+    }
+  }
+  if (remainingOk) check("remaining served questions can be answered", true);
   const next = await rpc(A, "pie_next_question", { p_session_id: sessionId });
   check("server-selected next question", !next.error && next.data?.[0]?.question_id, next.error?.message ?? "");
   check("next-question RPC does not require client question ID", true);
