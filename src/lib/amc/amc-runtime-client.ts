@@ -60,6 +60,15 @@ export interface AMCReadinessResponse {
   modelVersion: string;
 }
 
+let sessionPromise: Promise<void> | null = null;
+
+function ensureAMCV2Session(): Promise<void> {
+  if (!sessionPromise) {
+    sessionPromise = ensureV2Session().finally(() => { sessionPromise = null; });
+  }
+  return sessionPromise;
+}
+
 function isRecord(value: unknown): value is Record<string, unknown> {
   return Boolean(value) && typeof value === "object" && !Array.isArray(value);
 }
