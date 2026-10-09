@@ -7,10 +7,15 @@
 --
 -- This migration intentionally does not create pie.adaptive_session or change
 -- the separate PIE observation pipeline.
+-- Pagination uses a composite (created_at, attempt_id) cursor so rows sharing
+-- the same timestamp cannot be skipped between pages.
 
-create or replace function public.get_my_attempt_history(
+drop function if exists public.get_my_attempt_history(integer, timestamptz);
+
+create function public.get_my_attempt_history(
   p_limit integer default 1000,
-  p_before timestamptz default null
+  p_before timestamptz default null,
+  p_before_attempt_id uuid default null
 )
 returns table (
   attempt_id uuid,
@@ -103,13 +108,21 @@ begin
     on c.id = lo.concept_id
   where ua.user_id = v_uid
     and (ua.session_id is null or ps.id is not null)
-    and (p_before is null or ua.created_at < p_before)
-  order by ua.created_at desc, ua.id
+    and (
+      p_before is null
+      or ua.created_at < p_before
+      or (
+        ua.created_at = p_before
+        and p_before_attempt_id is not null
+        and ua.id < p_before_attempt_id
+      )
+    )
+  order by ua.created_at desc, ua.id desc
   limit p_limit;
 end;
 $$;
 
-revoke all on function public.get_my_attempt_history(integer, timestamptz)
+revoke all on function public.get_my_attempt_history(integer, timestamptz, uuid)
   from public, anon;
 grant execute on function public.get_my_attempt_history(integer, timestamptz)
   to authenticated, service_role;
