@@ -119,39 +119,19 @@ Deno.serve(async (req) => {
   if (!plugin) return errorResponse(404, "amc_plugin_unavailable", responseOrigin);
 
   if (action === "get_practice_status") {
-    const { count: mappedCount, error: mappedError } = await serviceClient
-      .from("amc_question_context")
-      .select("id", { count: "exact", head: true })
-      .eq("plugin_version_id", plugin.id)
-      .eq("exam_mode", examMode);
-    if (mappedError) return errorResponse(500, "amc_question_context_query_failed", responseOrigin);
-
-    const { count: approvedCount, error: approvedError } = await serviceClient
-      .from("amc_question_context")
-      .select("id", { count: "exact", head: true })
-      .eq("plugin_version_id", plugin.id)
-      .eq("exam_mode", examMode)
-      .eq("metadata->>review_status", "APPROVED")
-      .not("metadata->>reviewed_by", "is", null)
-      .not("metadata->>reviewed_at", "is", null)
-      .not("patient_group", "is", null)
-      .or("clinical_domain.not.is.null,task_type.not.is.null")
-      .not("amc_relevance", "is", null)
-      .not("source_evidence_level", "is", null);
-    if (approvedError) return errorResponse(500, "amc_question_context_query_failed", responseOrigin);
-
-    return json({
-      plugin: "AMC",
-      pluginVersion: plugin.plugin_version,
-      examMode,
-      mappedQuestionCount: mappedCount ?? 0,
-      approvedQuestionCount: approvedCount ?? 0,
-      mappingStatus: (approvedCount ?? 0) > 0 ? "REVIEWED_METADATA_PRESENT" : "MAPPING_REQUIRED",
-      selectorStatus: "NOT_CERTIFIED",
-      canStartAMCPractice: false,
-      reason: "AMC question delivery remains disabled until approved question metadata and PIE blueprint-LO eligibility are both present and verified.",
-    }, 200, responseOrigin);
+    const { data, error } = await serviceClient.rpc("amc_p5_practice_status", {
+      p_exam_mode: examMode,
+    });
+    if (error) return errorResponse(500, "amc_practice_status_failed", responseOrigin);
+    if (!isRecord(data) || data.plugin !== "AMC" ||
+        data.selectorStatus !== "NOT_CERTIFIED" && data.selectorStatus !== "MAPPING_REQUIRED" && data.selectorStatus !== "READY" ||
+        typeof data.canStartAMCPractice !== "boolean" ||
+        data.canStartAMCPractice !== (data.selectorStatus === "READY")) {
+      return errorResponse(500, "amc_practice_status_invalid", responseOrigin);
+    }
+    return json(data, 200, responseOrigin);
   }
+
 
   if (action === "get_readiness") {
     const { data, error } = await userClient.rpc("rebuild_my_amc_readiness", {
