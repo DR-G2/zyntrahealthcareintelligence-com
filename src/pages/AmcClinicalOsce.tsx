@@ -7,6 +7,7 @@ import { SEO } from '@/components/SEO';
 import { PublicFooter } from '@/components/PublicFooter';
 import { useAuth } from '@/contexts/AuthContext';
 import { useShowAboutPricing } from '@/hooks/useSiteSettings';
+import { AMCPluginConnectionStatus } from '@/components/amc/AMCPluginConnectionStatus';
 
 const OBJECTIVES = [
   'Understand the structure of a timed clinical station: task, time box, and closing.',
@@ -124,6 +125,8 @@ export default function AmcClinicalOsce() {
             <Link to="/amc-part-1-mcq">AMC Part 1 MCQ track <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" /></Link>
           </Button>
         </div>
+
+        {user && <AMCPluginConnectionStatus examMode="CLINICAL" />}
 
         <section className="mt-16" aria-labelledby="osce-objectives">
           <h2 id="osce-objectives" className="font-display text-2xl font-bold tracking-tight">Learning objectives</h2>

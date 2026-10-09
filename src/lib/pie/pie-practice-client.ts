@@ -58,7 +58,7 @@ export async function loadSessionQuestions(sessionId: string, deps: PieDeps = de
 export async function startPieSession(count: number, deps: PieDeps = defaultPieDeps): Promise<{ sessionId: string; questions: PieSessionQuestion[] }> {
   await deps.ensureSession();
   const n = Math.max(1, Math.min(50, Math.floor(count)));
-  const rows = await call<{ session_id: string; question_count: number }[]>(deps, 'pie_create_session', { p_count: n }, 'Starting an adaptive session');
+  const rows = await call<{ session_id: string; question_count: number }[]>(deps, 'pie_create_session', { p_count: n, p_blueprint_key: 'ZYNTRA_GENERAL' }, 'Starting an adaptive session');
   const sessionId = rows?.[0]?.session_id;
   if (!sessionId) throw new Error('Adaptive session was not created.');
   return { sessionId, questions: await loadSessionQuestions(sessionId, deps) };
@@ -67,16 +67,15 @@ export async function startPieSession(count: number, deps: PieDeps = defaultPieD
 export const PIE_DIAGNOSTIC_DEFAULT_COUNT = 20;
 
 /**
- * P5 diagnostic: a server-built, blueprint-balanced fixed set (pie_create_session with
- * p_mode 'pie_diagnostic'), registered in pie.adaptive_session, so every answer is graded by
- * save_attempt and counts as PIE evidence. The server enforces 10..50 items, one active
- * diagnostic and one new diagnostic per 24 h; those errors are surfaced as-is.
+ * General diagnostic: a server-built subject-balanced fixed set using the exam-neutral
+ * ZYNTRA_GENERAL key. It is not an AMC blueprint simulation. The server enforces 10..50 items,
+ * one active diagnostic and one new diagnostic per 24 h; those errors are surfaced as-is.
  */
 export async function startPieDiagnostic(count: number = PIE_DIAGNOSTIC_DEFAULT_COUNT, deps: PieDeps = defaultPieDeps): Promise<{ sessionId: string; questions: PieSessionQuestion[] }> {
   await deps.ensureSession();
   const n = Math.max(10, Math.min(50, Math.floor(count)));
   const rows = await call<{ session_id: string; question_count: number }[]>(deps, 'pie_create_session',
-    { p_count: n, p_blueprint_key: 'AMC_CAT_MCQ', p_mode: 'pie_diagnostic' }, 'Starting the diagnostic');
+    { p_count: n, p_blueprint_key: 'ZYNTRA_GENERAL', p_mode: 'pie_diagnostic' }, 'Starting the diagnostic');
   const sessionId = rows?.[0]?.session_id;
   if (!sessionId) throw new Error('Diagnostic session was not created.');
   return { sessionId, questions: await loadSessionQuestions(sessionId, deps) };

@@ -4,6 +4,7 @@ import { AMC_P7_REQUIRED_CHECKS, canProposeP8 } from "./p7-validation";
 import { makeDataset } from "../pie/validation/synthetic";
 import { brierScore, spearman } from "../pie/validation/metrics";
 import { estimateCandidateState } from "../pie/validation/candidate-model";
+import { allocateBlueprint } from "./response-matrix-simulator";
 
 describe("AMC P7 executable validation", () => {
   it("validates AMC plugin identity and model-family contract", () => {
@@ -12,14 +13,17 @@ describe("AMC P7 executable validation", () => {
     expect(AMC_PLUGIN_V1.modelFamily).toBe("hierarchical_dynamic_state_space");
   });
 
-  it("validates the six AMC MCQ blueprint proportions", () => {
-    const proportions = [0.30, 0.20, 0.125, 0.125, 0.125, 0.125];
-    expect(proportions.reduce((a, b) => a + b, 0)).toBeCloseTo(1, 10);
-    expect(proportions.map(p => Math.round(p * 150))).toEqual([45, 30, 19, 19, 19, 19]);
-    expect(proportions.reduce((a, b) => a + Math.round(b * 150), 0)).toBe(151);
-    // The 150-question allocation cannot be represented by naive independent
-    // rounding. Production blueprint validation must use the AMC blueprint
-    // proportions, not pretend that six rounded targets sum to 150.
+  it("allocates the six AMC MCQ blueprint proportions to exactly 150 items", () => {
+    const allocation = allocateBlueprint(150);
+    expect(Object.values(allocation).reduce((a, b) => a + b, 0)).toBe(150);
+    expect(allocation.ADULT_MEDICINE).toBe(45);
+    expect(allocation.ADULT_SURGERY).toBe(30);
+    expect([
+      allocation.WOMENS_HEALTH,
+      allocation.CHILD_HEALTH,
+      allocation.MENTAL_HEALTH,
+      allocation.POPULATION_HEALTH,
+    ].reduce((a, b) => a + b, 0)).toBe(75);
   });
 
   it("recovers capability signal from an independent synthetic truth", () => {

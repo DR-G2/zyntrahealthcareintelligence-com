@@ -27,7 +27,7 @@ describe("P5: every attempt/selection path is PIE", () => {
       ? { data: [{ session_id: "d1", question_count: 10 }], error: null }
       : { data: [{ question_id: "q0", question_position: 0, stem: "s", options: [], correct_answer: "A", explanation: "x" }], error: null });
     const r = await startPieDiagnostic(3, d);
-    expect(d.rpc).toHaveBeenCalledWith("pie_create_session", { p_count: 10, p_blueprint_key: "AMC_CAT_MCQ", p_mode: "pie_diagnostic" });
+    expect(d.rpc).toHaveBeenCalledWith("pie_create_session", { p_count: 10, p_blueprint_key: "ZYNTRA_GENERAL", p_mode: "pie_diagnostic" });
     expect(JSON.stringify((d.rpc as ReturnType<typeof vi.fn>).mock.calls)).not.toContain("p_question_ids");
     expect(r.questions[0]).not.toHaveProperty("correct_answer");
     expect(r.questions[0]).not.toHaveProperty("explanation");

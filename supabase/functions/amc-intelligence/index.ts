@@ -1,60 +1,112 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-const ALLOWED_ORIGIN =
-  Deno.env.get("AMC_ALLOWED_ORIGIN") ??
-  "https://www.zyntrahealthcareintelligence.com";
-
-const corsHeaders = {
-  "Access-Control-Allow-Origin": ALLOWED_ORIGIN,
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-  "Access-Control-Allow-Methods": "POST, OPTIONS",
-  "Vary": "Origin",
-};
-
-const json = (body: unknown, status = 200) =>
+const DEFAULT_ORIGIN = "https://www.zyntrahealthcareintelligence.com";
+const json = (body: unknown, status = 200, origin = DEFAULT_ORIGIN) =>
   new Response(JSON.stringify(body), {
     status,
-    headers: { ...corsHeaders, "Content-Type": "application/json" },
+    headers: {
+      "Access-Control-Allow-Origin": origin,
+      "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+      "Access-Control-Allow-Methods": "POST, OPTIONS",
+      "Vary": "Origin",
+      "Content-Type": "application/json",
+      "Cache-Control": "no-store",
+    },
   });
+const errorResponse = (status: number, error: string, origin: string) =>
+  json({ error }, status, origin);
 
-const errorResponse = (status: number, error: string) => json({ error }, status);
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return Boolean(value) && typeof value === "object" && !Array.isArray(value);
+}
+
+function parseExamMode(value: unknown): "MCQ" | "CLINICAL" | null {
+  if (value === undefined || value === "MCQ") return "MCQ";
+  if (value === "CLINICAL") return "CLINICAL";
+  return null;
+}
+
+function readinessDTO(value: unknown) {
+  if (!isRecord(value) || (value.examMode !== "MCQ" && value.examMode !== "CLINICAL")) return null;
+  const dimensionCount = value.dimensionCount;
+  return {
+    plugin: "AMC",
+    pluginVersion: typeof value.pluginVersion === "string" ? value.pluginVersion : "1.0.0",
+    examMode: value.examMode,
+    environmentCode: typeof value.environmentCode === "string" ? value.environmentCode : null,
+    // No calibrated AMC pass-probability model is active. Do not expose the
+    // engineering-only composite index or PIE uncertainty as candidate readiness.
+    readiness: {
+      probability: null,
+      status: "INSUFFICIENT_EVIDENCE",
+    },
+    dimensionCount: Number.isInteger(dimensionCount) && (dimensionCount as number) >= 0
+      ? dimensionCount : 0,
+    probabilityStatus: "NOT_CALIBRATED",
+    modelVersion: typeof value.modelVersion === "string" ? value.modelVersion : "amc-readiness-v1.0",
+  };
+}
 
 Deno.serve(async (req) => {
-  if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
-  if (req.method !== "POST") return errorResponse(405, "method_not_allowed");
+  const configuredOrigins = (
+    Deno.env.get("AMC_ALLOWED_ORIGINS") ??
+    Deno.env.get("AMC_ALLOWED_ORIGIN") ??
+    DEFAULT_ORIGIN
+  ).split(",").map((value) => value.trim()).filter(Boolean);
+  const requestOrigin = req.headers.get("Origin") ?? "";
+  const originAllowed = !requestOrigin || configuredOrigins.includes(requestOrigin);
+  const responseOrigin = requestOrigin && originAllowed ? requestOrigin : DEFAULT_ORIGIN;
+
+  if (req.method === "OPTIONS") {
+    if (!originAllowed) return new Response(null, { status: 403 });
+    return new Response("ok", {
+      headers: {
+        "Access-Control-Allow-Origin": responseOrigin,
+        "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+        "Access-Control-Allow-Methods": "POST, OPTIONS",
+        "Vary": "Origin",
+      },
+    });
+  }
+  if (!originAllowed) return errorResponse(403, "origin_not_allowed", DEFAULT_ORIGIN);
+  if (req.method !== "POST") return errorResponse(405, "method_not_allowed", responseOrigin);
 
   const supabaseUrl = Deno.env.get("SUPABASE_URL");
   const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
   const anonKey = Deno.env.get("SUPABASE_ANON_KEY");
-
   if (!supabaseUrl || !serviceKey || !anonKey) {
-    return errorResponse(500, "server_configuration_error");
+    return errorResponse(500, "server_configuration_error", responseOrigin);
   }
 
   const authorization = req.headers.get("Authorization");
-  if (!authorization) return errorResponse(401, "missing_authorization");
+  if (!authorization) return errorResponse(401, "missing_authorization", responseOrigin);
 
   const userClient = createClient(supabaseUrl, anonKey, {
     global: { headers: { Authorization: authorization } },
+    auth: { persistSession: false, autoRefreshToken: false },
   });
-  const serviceClient = createClient(supabaseUrl, serviceKey);
+  const serviceClient = createClient(supabaseUrl, serviceKey, {
+    auth: { persistSession: false, autoRefreshToken: false },
+  });
 
-  const {
-    data: { user },
-    error: authError,
-  } = await userClient.auth.getUser();
-
-  if (authError || !user) return errorResponse(401, "unauthorized");
+  const { data: { user }, error: authError } = await userClient.auth.getUser();
+  if (authError || !user) return errorResponse(401, "unauthorized", responseOrigin);
 
   const body = await req.json().catch(() => null);
-  if (!body || typeof body !== "object") return errorResponse(400, "invalid_request");
-
-  const request = body as Record<string, unknown>;
-  if (request.user_id && request.user_id !== user.id) {
-    return errorResponse(403, "user_scope_violation");
+  if (!isRecord(body)) return errorResponse(400, "invalid_request", responseOrigin);
+  if (body.user_id !== undefined && body.user_id !== user.id) {
+    return errorResponse(403, "user_scope_violation", responseOrigin);
   }
 
-  const action = request.action;
+  const action = body.action;
+  if (!["get_summary", "get_blueprint", "get_readiness", "get_practice_status"].includes(String(action))) {
+    return errorResponse(400, "unsupported_action", responseOrigin);
+  }
+  const mode = parseExamMode(body.exam_mode);
+  if (body.exam_mode !== undefined && mode === null) {
+    return errorResponse(400, "invalid_exam_mode", responseOrigin);
+  }
+  const examMode = mode ?? "MCQ";
 
   const { data: plugin, error: pluginError } = await serviceClient
     .from("amc_plugin_version")
@@ -63,53 +115,74 @@ Deno.serve(async (req) => {
     .eq("plugin_version", "1.0.0")
     .maybeSingle();
 
-  if (pluginError || !plugin) return errorResponse(404, "amc_plugin_unavailable");
+  if (pluginError) return errorResponse(500, "amc_plugin_query_failed", responseOrigin);
+  if (!plugin) return errorResponse(404, "amc_plugin_unavailable", responseOrigin);
+
+  if (action === "get_practice_status") {
+    const { data, error } = await serviceClient.rpc("amc_p5_practice_status", {
+      p_exam_mode: examMode,
+    });
+    if (error) return errorResponse(500, "amc_practice_status_failed", responseOrigin);
+    if (!isRecord(data) || data.plugin !== "AMC" ||
+        data.selectorStatus !== "NOT_CERTIFIED" && data.selectorStatus !== "MAPPING_REQUIRED" && data.selectorStatus !== "READY" ||
+        typeof data.canStartAMCPractice !== "boolean" ||
+        data.canStartAMCPractice !== (data.selectorStatus === "READY")) {
+      return errorResponse(500, "amc_practice_status_invalid", responseOrigin);
+    }
+    return json(data, 200, responseOrigin);
+  }
+
+
+  if (action === "get_readiness") {
+    const { data, error } = await userClient.rpc("rebuild_my_amc_readiness", {
+      p_exam_mode: examMode,
+    });
+    if (error) return errorResponse(500, "readiness_evaluation_failed", responseOrigin);
+    const safeDTO = readinessDTO(data);
+    if (!safeDTO) return errorResponse(500, "readiness_response_invalid", responseOrigin);
+    return json(safeDTO, 200, responseOrigin);
+  }
 
   if (action === "get_summary") {
-    const { data: activeEnvironment } = await serviceClient
+    const { data: environment, error } = await serviceClient
       .from("amc_exam_environment_v1")
-      .select("environment_code,environment_version,exam_mode")
+      .select("environment_code,environment_version,exam_mode,status")
       .eq("plugin_version_id", plugin.id)
-      .eq("status", "ACTIVE")
+      .eq("exam_mode", examMode)
       .order("created_at", { ascending: false })
       .limit(1)
       .maybeSingle();
+    if (error) return errorResponse(500, "amc_environment_query_failed", responseOrigin);
 
     return json({
       plugin: "AMC",
       pluginVersion: plugin.plugin_version,
       status: plugin.status,
-      environmentCode: activeEnvironment?.environment_code ?? null,
-      examMode: activeEnvironment?.exam_mode ?? null,
-      readiness: null,
-      nextAction: null,
-    });
+      environmentCode: environment?.environment_code ?? null,
+      environmentVersion: environment?.environment_version ?? null,
+      environmentStatus: environment?.status ?? null,
+      examMode,
+      readiness: {
+        probability: null,
+        index: null,
+        uncertainty: null,
+        status: "INSUFFICIENT_EVIDENCE",
+        probabilityStatus: "NOT_CALIBRATED",
+      },
+    }, 200, responseOrigin);
   }
 
-  if (action === "get_blueprint") {
-    const mode = request.exam_mode;
-    if (mode !== "MCQ" && mode !== "CLINICAL") {
-      return errorResponse(400, "invalid_exam_mode");
-    }
+  const { data, error } = await serviceClient
+    .from("amc_blueprint")
+    .select("exam_mode,patient_group,task_domain,proportion,item_target")
+    .eq("plugin_version_id", plugin.id)
+    .eq("exam_mode", examMode);
 
-    const { data, error } = await serviceClient
-      .from("amc_blueprint")
-      .select("exam_mode,patient_group,task_domain,proportion,item_target")
-      .eq("plugin_version_id", plugin.id)
-      .eq("exam_mode", mode);
-
-    if (error) return errorResponse(500, "blueprint_query_failed");
-
-    return json({
-      plugin: "AMC",
-      pluginVersion: plugin.plugin_version,
-      examMode: mode,
-      blueprint: data ?? [],
-    });
-  }
-
-  // v1 intentionally exposes no raw intelligence endpoint.
-  // Candidate clients cannot request PIE state, question posteriors,
-  // DWIG candidates, hidden hypotheses, causal evidence, or intervention effects.
-  return errorResponse(400, "unsupported_action");
+  if (error) return errorResponse(500, "blueprint_query_failed", responseOrigin);
+  return json({
+    plugin: "AMC",
+    pluginVersion: plugin.plugin_version,
+    examMode,
+    blueprint: data ?? [],
+  }, 200, responseOrigin);
 });
