@@ -108,6 +108,8 @@ SET search_path = ''
 AS $$
 DECLARE
   v_blueprint_key text;
+  v_exam_mode text;
+  v_plugin_version_id uuid;
   v_is_mapped boolean;
 BEGIN
   SELECT ps.config ->> 'blueprint_key'
@@ -119,11 +121,38 @@ BEGIN
     RETURN NEW;
   END IF;
 
+  v_exam_mode := CASE v_blueprint_key
+    WHEN 'AMC_CAT_MCQ' THEN 'MCQ'
+    WHEN 'AMC_CLINICAL' THEN 'CLINICAL'
+    ELSE NULL
+  END;
+  IF v_exam_mode IS NULL THEN
+    RAISE EXCEPTION 'AMC_BLUEPRINT_MODE_UNSUPPORTED' USING ERRCODE = 'P0001';
+  END IF;
+
+  SELECT p.id INTO v_plugin_version_id
+  FROM public.amc_plugin_version p
+  WHERE p.plugin_code = 'AMC' AND p.plugin_version = '1.0.0'
+  LIMIT 1;
+
   SELECT EXISTS (
     SELECT 1
     FROM pie.question_lo ql
+    JOIN public.questions q ON q.id = ql.question_id
     JOIN amc.amc_blueprint_lo bl ON bl.lo_id = ql.lo_id AND bl.eligible
     JOIN amc.amc_blueprint b ON b.id = bl.blueprint_id
+    JOIN public.amc_question_context qc
+      ON qc.plugin_version_id = v_plugin_version_id
+     AND qc.question_id = q.id
+     AND qc.question_version = q.version::text
+     AND qc.exam_mode = v_exam_mode
+     AND qc.metadata ->> 'review_status' = 'APPROVED'
+     AND nullif(qc.metadata ->> 'reviewed_by', '') IS NOT NULL
+     AND nullif(qc.metadata ->> 'reviewed_at', '') IS NOT NULL
+     AND qc.patient_group IS NOT NULL
+     AND coalesce(qc.clinical_domain, qc.task_type) IS NOT NULL
+     AND qc.amc_relevance IS NOT NULL
+     AND qc.source_evidence_level IS NOT NULL
     WHERE ql.question_id = NEW.question_id
       AND ql.is_primary
       AND b.blueprint_key = v_blueprint_key
@@ -132,7 +161,7 @@ BEGIN
   ) INTO v_is_mapped;
 
   IF NOT v_is_mapped THEN
-    RAISE EXCEPTION 'AMC_QUESTION_NOT_MAPPED_TO_ACTIVE_BLUEPRINT'
+    RAISE EXCEPTION 'AMC_QUESTION_NOT_REVIEWED_AND_MAPPED_TO_ACTIVE_BLUEPRINT'
       USING ERRCODE = 'P0001';
   END IF;
 
@@ -150,4 +179,4 @@ FOR EACH ROW EXECUTE FUNCTION public.guard_amc_practice_question_mapping();
 COMMENT ON FUNCTION public.guard_amc_practice_session_blueprint() IS
 'Fails closed for AMC session creation until the selected exam blueprint has reviewed eligible LO mappings.';
 COMMENT ON FUNCTION public.guard_amc_practice_question_mapping() IS
-'Prevents untagged or blueprint-ineligible questions from entering an AMC session.';
+'Prevents unreviewed, version-mismatched, untagged, or blueprint-ineligible questions from entering an AMC session.';
