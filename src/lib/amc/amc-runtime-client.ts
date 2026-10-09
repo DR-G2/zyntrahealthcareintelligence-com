@@ -42,8 +42,9 @@ export interface AMCPracticeStatus {
   mappedQuestionCount: number;
   approvedQuestionCount: number;
   mappingStatus: "MAPPING_REQUIRED" | "REVIEWED_METADATA_PRESENT";
-  selectorStatus: "NOT_CERTIFIED";
-  canStartAMCPractice: false;
+  eligibleLearningObjectiveCount: number;
+  selectorStatus: "NOT_CERTIFIED" | "MAPPING_REQUIRED" | "READY";
+  canStartAMCPractice: boolean;
   reason: string;
 }
 
@@ -137,9 +138,10 @@ export function parseAMCBlueprintResponse(value: unknown): AMCBlueprintResponse 
 
 export function parseAMCPracticeStatus(value: unknown): AMCPracticeStatus {
   if (!isRecord(value) || value.plugin !== "AMC" || typeof value.pluginVersion !== "string" ||
-      !validMode(value.examMode) || value.selectorStatus !== "NOT_CERTIFIED" ||
-      value.canStartAMCPractice !== false ||
-      (value.mappingStatus !== "MAPPING_REQUIRED" && value.mappingStatus !== "REVIEWED_METADATA_PRESENT")) {
+      !validMode(value.examMode) ||
+      (value.selectorStatus !== "NOT_CERTIFIED" && value.selectorStatus !== "MAPPING_REQUIRED" && value.selectorStatus !== "READY") ||
+      typeof value.canStartAMCPractice !== "boolean" ||
+      value.canStartAMCPractice !== (value.selectorStatus === "READY")) {
     throw new Error("AMC plugin returned an invalid practice-status contract.");
   }
   const count = (candidate: unknown) =>
@@ -150,9 +152,10 @@ export function parseAMCPracticeStatus(value: unknown): AMCPracticeStatus {
     examMode: value.examMode,
     mappedQuestionCount: count(value.mappedQuestionCount),
     approvedQuestionCount: count(value.approvedQuestionCount),
-    mappingStatus: value.mappingStatus,
-    selectorStatus: "NOT_CERTIFIED",
-    canStartAMCPractice: false,
+    mappingStatus: value.mappingStatus === "REVIEWED_METADATA_PRESENT" ? "REVIEWED_METADATA_PRESENT" : "MAPPING_REQUIRED",
+    eligibleLearningObjectiveCount: count(value.eligibleLearningObjectiveCount),
+    selectorStatus: value.selectorStatus,
+    canStartAMCPractice: value.canStartAMCPractice,
     reason: typeof value.reason === "string" ? value.reason : "AMC question selection is not certified.",
   };
 }
