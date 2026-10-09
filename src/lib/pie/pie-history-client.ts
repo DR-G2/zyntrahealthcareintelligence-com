@@ -8,7 +8,7 @@ import { ensureV2Session } from '@/lib/migration/v2-practice-session';
  * No page may read keys from the questions table.
  */
 export interface PieHistoryRow {
-  attempt_id: string; session_id: string; session_mode: string; question_id: string; zyntra_id: string | null;
+  attempt_id: string; session_id: string | null; session_mode: string; question_id: string; zyntra_id: string | null;
   stem: string; options: unknown; subject_id: string | null; subject_name: string | null; subtopic_id: string | null; subtopic_name: string | null;
   difficulty_tier: string | null; lo_id: string | null; lo_title: string | null; concept_title: string | null;
   selected_answer: string; is_correct: boolean; correct_answer: string | null; explanation: string | null;
@@ -43,7 +43,7 @@ function optionList(options: unknown): string[] {
 
 export function toLegacyAttempt(r: PieHistoryRow): LegacyAttemptShape {
   return {
-    id: r.attempt_id, question_id: r.question_id, session_id: r.session_id, selected_answer: r.selected_answer,
+    id: r.attempt_id, question_id: r.question_id, session_id: r.session_id ?? null, selected_answer: r.selected_answer,
     is_correct: r.is_correct, answer_changes_count: r.answer_changes_count ?? 0,
     change_sequence: Array.isArray(r.change_sequence) ? (r.change_sequence as unknown[]).map(String) : [],
     time_taken_seconds: r.time_taken_seconds, time_to_first_click: r.time_to_first_click,
