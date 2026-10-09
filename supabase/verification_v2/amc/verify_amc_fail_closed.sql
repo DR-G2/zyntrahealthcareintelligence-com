@@ -30,6 +30,22 @@ begin
 end $$;
 rollback;
 
+-- Clinical stations must never be routed through the MCQ PIE selector.
+begin;
+select pg_temp.amc_as_user(:U) \g /dev/null
+set local role authenticated;
+do $
+begin
+  begin
+    perform * from public.pie_create_session(1, 'AMC_CLINICAL', 'pie_adaptive');
+    raise exception 'FAIL: clinical station must not enter the MCQ PIE selector';
+  exception
+    when sqlstate 'P0001' then
+      if sqlerrm <> 'AMC_CLINICAL_SELECTOR_NOT_INTEGRATED' then raise; end if;
+  end;
+end $;
+rollback;
+
 -- Generic PIE practice must still work with its explicit exam-neutral blueprint.
 begin;
 select pg_temp.amc_as_user(:U) \g /dev/null
