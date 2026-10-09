@@ -7,6 +7,7 @@ import { SEO } from '@/components/SEO';
 import { PublicFooter } from '@/components/PublicFooter';
 import { useAuth } from '@/contexts/AuthContext';
 import { useShowAboutPricing } from '@/hooks/useSiteSettings';
+import { AMCPluginConnectionStatus } from '@/components/amc/AMCPluginConnectionStatus';
 
 const OBJECTIVES = [
   'Practise AMC-style single-best-answer questions across core clinical domains.',
@@ -124,6 +125,8 @@ export default function AmcPart1Mcq() {
             <Link to="/amc-clinical-osce">AMC Clinical / OSCE track</Link>
           </Button>
         </div>
+
+        {user && <AMCPluginConnectionStatus />}
 
         <section className="mt-16" aria-labelledby="mcq-objectives">
           <h2 id="mcq-objectives" className="font-display text-2xl font-bold tracking-tight">Learning objectives</h2>
