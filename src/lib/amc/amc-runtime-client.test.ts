@@ -88,7 +88,7 @@ describe("AMC live runtime response contracts", () => {
     expect(edge).toContain('"get_practice_status"');
     expect(edge).toContain('probability: null');
     expect(edge).toContain('status: "INSUFFICIENT_EVIDENCE"');
-    expect(edge).not.toMatch(/readinessDTO[\\s\\S]{0,900}readiness\\.index/);
+    expect(edge).not.toMatch(/readinessDTO[\s\S]{0,900}readiness\.index/);
     expect(edge).toContain("invalid_exam_mode");
     expect(edge).toContain("user_scope_violation");
   });
