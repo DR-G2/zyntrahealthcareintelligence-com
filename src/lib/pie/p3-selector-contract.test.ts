@@ -50,6 +50,7 @@ describe("P3 candidate pool contract (static)", () => {
     expect(amcBoundary).toContain("AMC_QUESTION_NOT_REVIEWED_AND_MAPPED_TO_ACTIVE_BLUEPRINT");
     expect(amcBoundary).toContain("metadata ->> 'review_status' = 'APPROVED'");
     expect(amcBoundary).toContain("qc.question_version = q.version::text");
+    expect(amcBoundary).toContain("ORDER BY b2.effective_from DESC NULLS LAST");
   });
   it("uses an exam-neutral blueprint for generic practice and diagnostic sessions", () => {
     expect(pieClient).toContain("p_blueprint_key: 'ZYNTRA_GENERAL'");
