@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useReducedMotion } from "framer-motion";
-import { Activity, Brain, ChevronRight, Eye, Target, Timer, Waves } from "lucide-react";
+import { Brain, ChevronRight, Eye } from "lucide-react";
 import { NeuralScene } from "@/components/home/NeuralScene";
 
 const stages = [
@@ -12,16 +12,20 @@ const stages = [
   { n: "05", title: "Adapt", body: "Use supported signals to guide the next training action." },
 ] as const;
 
-const signals = [
-  { title: "Clinical accuracy", body: "Whether your selected answer matches the keyed answer.", icon: Target },
-  { title: "Answer stability", body: "How your choices change as you reason.", icon: Waves },
-  { title: "Time management", body: "How long decisions take during practice.", icon: Timer },
-  { title: "Confidence calibration", body: "How confidence aligns with results.", icon: Activity },
-] as const;
-
 export default function Home() {
   const reduce = useReducedMotion() ?? false;
   const [stage, setStage] = useState(0);
+  const [activeSignal, setActiveSignal] = useState<"accuracy" | "timing" | "confidence" | "changes">("accuracy");
+  const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
+  const [answerSubmitted, setAnswerSubmitted] = useState(false);
+  const [answerChanges, setAnswerChanges] = useState(0);
+
+  const chooseAnswer = (answer: string) => {
+    if (answerSubmitted) return;
+    if (selectedAnswer && selectedAnswer !== answer) setAnswerChanges((count) => count + 1);
+    setSelectedAnswer(answer);
+    setActiveSignal("changes");
+  };
 
   return (
     <div data-zyntra-home="canonical" className="min-h-screen overflow-x-hidden bg-[#04101d] text-slate-100">
@@ -47,9 +51,9 @@ export default function Home() {
       <main id="top" className="mx-auto max-w-[1440px] px-5 pb-16 pt-7 lg:px-8 lg:pt-10">
         <section className="relative grid items-center gap-3 lg:min-h-[640px] lg:grid-cols-[0.82fr_1.18fr]">
           <div className="relative z-10 order-2 py-6 lg:order-1 lg:py-0">
-            <p className="text-[10px] font-medium tracking-[0.24em] text-cyan-100/75 sm:text-xs">INTELLIGENCE FOR THE AMC JOURNEY</p>
-            <h1 className="mt-5 max-w-xl text-[clamp(2.8rem,5vw,5rem)] font-semibold leading-[0.98] tracking-[-0.045em]">From Questions<br />to <span className="text-cyan-300">Readiness.</span></h1>
-            <p className="mt-5 max-w-lg text-base leading-7 text-slate-300 sm:text-lg">Zyntra records your answers and how you reach them, using timing, confidence and answer changes during practice to help guide your learning.</p>
+            <p className="text-[10px] font-medium tracking-[0.24em] text-cyan-100/75 sm:text-xs">NOT JUST A QUESTION BANK</p>
+            <h1 className="mt-5 max-w-xl text-[clamp(2.8rem,5vw,5rem)] font-semibold leading-[0.98] tracking-[-0.045em]">Practise the answer.<br /><span className="text-cyan-300">Understand the thinker.</span></h1>
+            <p className="mt-5 max-w-lg text-base leading-7 text-slate-300 sm:text-lg">Zyntra helps AMC candidates practise clinical questions, understand patterns in their decisions, and focus on what to improve next.</p>
             <div className="mt-7 flex flex-wrap gap-3">
               <Link to="/login" className="inline-flex items-center gap-2 rounded-xl bg-cyan-300 px-6 py-3.5 text-sm font-bold text-[#04101d] shadow-lg shadow-cyan-500/20 transition hover:-translate-y-0.5 hover:bg-cyan-200">Get Started <span aria-hidden="true">→</span></Link>
               <Link to="/check" className="inline-flex items-center gap-2 rounded-xl border border-cyan-200/40 bg-white/[0.025] px-6 py-3.5 text-sm font-semibold text-cyan-50 transition hover:border-cyan-200/80 hover:bg-cyan-400/10"><Eye className="h-4 w-4" /> Live Demo</Link>
@@ -61,15 +65,6 @@ export default function Home() {
             <div className="pointer-events-none absolute inset-8 rounded-full bg-cyan-500/[0.07] blur-3xl" />
             <NeuralScene active={stage} reduce={reduce} />
           </div>
-        </section>
-
-        <section aria-label="Signals Zyntra can analyse" className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          {signals.map(({ title, body, icon: Icon }) => (
-            <article key={title} className="rounded-2xl border border-white/10 bg-[#071725]/75 p-4 backdrop-blur transition hover:border-cyan-300/30 hover:bg-[#092033]">
-              <div className="flex items-center gap-3"><span className="grid h-9 w-9 place-items-center rounded-lg border border-cyan-300/20 bg-cyan-300/[0.07]"><Icon className="h-4 w-4 text-cyan-200" /></span><h2 className="text-sm font-semibold">{title}</h2></div>
-              <p className="mt-3 text-sm leading-6 text-slate-400">{body}</p>
-            </article>
-          ))}
         </section>
 
         <section aria-labelledby="pie-loop-heading" className="mt-12">
@@ -98,14 +93,49 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="mt-12 grid gap-5 rounded-3xl border border-cyan-300/15 bg-gradient-to-br from-[#082034] to-[#06111e] p-5 sm:p-7 lg:grid-cols-[1fr_0.85fr] lg:items-center">
-          <div><p className="text-[10px] tracking-[0.22em] text-cyan-300">AMC PART 1</p><h2 className="mt-3 text-2xl font-semibold">Practice the question. Learn from the process.</h2><p className="mt-3 max-w-xl text-sm leading-6 text-slate-400">Open the MCQ practice area to work through exam-style questions in the training environment.</p><Link to="/practice" className="mt-5 inline-flex items-center gap-2 rounded-xl bg-cyan-300 px-5 py-3 text-sm font-bold text-[#04101d] transition hover:bg-cyan-200">Open MCQ practice <ChevronRight className="h-4 w-4" /></Link></div>
-          <div className="rounded-2xl border border-white/10 bg-[#04101d]/70 p-5">
-            <div className="flex items-center justify-between gap-3"><span className="text-xs font-semibold text-cyan-200">ILLUSTRATIVE MCQ PREVIEW</span><span className="rounded-full border border-white/10 px-2 py-1 text-[10px] text-slate-400">Preview only</span></div>
-            <p className="mt-4 text-sm leading-6 text-slate-200">A patient presents with a clinical problem. Which is the most appropriate next step?</p>
-            <div className="mt-4 space-y-2">{["A · Reassess the clinical findings", "B · Choose an investigation based on the presentation", "C · Review the patient's immediate stability"].map((option) => <div key={option} className="rounded-lg border border-white/10 px-3 py-2 text-xs text-slate-400">{option}</div>)}</div>
-            <p className="mt-3 text-[10px] leading-5 text-slate-500">Generic illustrative layout, not a scored or clinically validated question.</p>
+        <section id="try-zyntra" className="mt-12 scroll-mt-24 rounded-3xl border border-cyan-300/15 bg-gradient-to-br from-[#082034] to-[#06111e] p-5 sm:p-7 lg:grid lg:grid-cols-[1.05fr_0.95fr] lg:gap-8">
+          <div>
+            <p className="text-[10px] tracking-[0.22em] text-cyan-300">TRY A SAMPLE QUESTION</p>
+            <h2 className="mt-3 text-2xl font-semibold">See the difference for yourself.</h2>
+            <p className="mt-3 text-sm leading-6 text-slate-400">Answer a short clinical vignette. Then see how correctness and decision behaviour add context to practice.</p>
+            <p className="mt-5 text-sm leading-6 text-slate-200">A 68-year-old man presents with severe central chest pain. His ECG shows ST-segment elevation in leads II, III and aVF. His blood pressure is 82/54 mmHg, heart rate is 48/min, and his lungs are clear. What is the most appropriate immediate priority?</p>
+            <div className="mt-4 space-y-2">
+              {[
+                { key: "A", label: "Give sublingual glyceryl trinitrate immediately." },
+                { key: "B", label: "Activate emergency reperfusion pathways and urgently assess haemodynamic instability." },
+                { key: "C", label: "Arrange an outpatient exercise stress test." },
+                { key: "D", label: "Give a beta-blocker immediately." },
+              ].map((option) => (
+                <button key={option.key} type="button" disabled={answerSubmitted} onClick={() => chooseAnswer(option.key)} aria-pressed={selectedAnswer === option.key} className={`flex w-full items-start gap-3 rounded-xl border px-3 py-3 text-left text-sm leading-5 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-200 disabled:cursor-default ${selectedAnswer === option.key ? "border-cyan-200 bg-cyan-300/10" : "border-white/10 bg-[#04101d]/50 hover:border-cyan-300/40"}`}>
+                  <span className="grid h-6 w-6 shrink-0 place-items-center rounded-md bg-white/5 text-xs font-semibold text-cyan-200">{option.key}</span><span>{option.label}</span>
+                </button>
+              ))}
+            </div>
+            <div className="mt-4 flex flex-wrap items-center gap-3">
+              <button type="button" disabled={!selectedAnswer || answerSubmitted} onClick={() => { setAnswerSubmitted(true); setActiveSignal("accuracy"); }} className="rounded-xl bg-cyan-300 px-5 py-3 text-sm font-bold text-[#04101d] transition hover:bg-cyan-200 disabled:cursor-not-allowed disabled:opacity-40">Check answer <ChevronRight className="ml-1 inline h-4 w-4" /></button>
+              <button type="button" onClick={() => { setSelectedAnswer(null); setAnswerSubmitted(false); setAnswerChanges(0); setActiveSignal("accuracy"); }} className="rounded-xl border border-white/15 px-4 py-3 text-sm text-slate-300 transition hover:border-cyan-300/40">Reset</button>
+            </div>
+            {answerSubmitted && <div aria-live="polite" className="mt-4 rounded-xl border border-cyan-300/25 bg-cyan-300/[0.06] p-4 text-sm leading-6"><p className={selectedAnswer === "B" ? "font-semibold text-emerald-300" : "font-semibold text-amber-200"}>{selectedAnswer === "B" ? "Correct. The best answer is B." : "Review the rationale. The best answer is B."}</p><p className="mt-2 text-slate-300">This suggests an acute inferior STEMI with haemodynamic instability and possible right ventricular involvement. Prioritise emergency reperfusion pathways and urgent assessment/resuscitation. Nitrates can worsen hypotension; beta-blockers may be inappropriate with significant bradycardia and hypotension. Follow current local emergency protocols and senior clinical direction.</p><p className="mt-2 text-xs text-slate-500">Educational sample only. Validate against current Australian guidance before production use.</p></div>}
           </div>
+          <aside className="mt-6 rounded-2xl border border-white/10 bg-[#04101d]/70 p-5 lg:mt-0">
+            <p className="text-[10px] tracking-[0.2em] text-cyan-300">WHAT ZYNTRA CAN LEARN</p>
+            <h3 className="mt-2 text-lg font-semibold">One answer. More context.</h3>
+            <p className="mt-2 text-sm leading-6 text-slate-400">Tap a signal to see why it matters. These are explanations, not personal scores.</p>
+            <div className="mt-4 space-y-2">
+              {[
+                { key: "accuracy" as const, title: "Accuracy", copy: "Was the answer correct?", detail: "Correctness is the starting point. Repeated attempts help reveal which topics need more work." },
+                { key: "timing" as const, title: "Timing", copy: "How long did you take?", detail: "Decision time can help reveal rushed or hesitant responses when interpreted with difficulty and correctness." },
+                { key: "confidence" as const, title: "Confidence", copy: "How sure were you?", detail: "Confidence must be collected explicitly and compared with correctness across repeated attempts." },
+                { key: "changes" as const, title: "Answer changes", copy: "Did you switch options?", detail: "Answer changes add context to reasoning. They are not automatically mistakes." },
+              ].map((signal) => (
+                <button key={signal.key} type="button" onMouseEnter={() => setActiveSignal(signal.key)} onFocus={() => setActiveSignal(signal.key)} onClick={() => setActiveSignal(signal.key)} aria-pressed={activeSignal === signal.key} className={`w-full rounded-xl border p-3 text-left transition ${activeSignal === signal.key ? "border-cyan-200/60 bg-cyan-300/[0.08]" : "border-white/10 hover:border-cyan-300/30"}`}>
+                  <span className="flex items-center justify-between gap-2 text-sm font-medium">{signal.title}<span className="text-cyan-200">{activeSignal === signal.key ? "⌁" : "＋"}</span></span><span className="mt-1 block text-xs text-slate-400">{signal.copy}</span>
+                  {activeSignal === signal.key && <span className="mt-2 block text-xs leading-5 text-slate-300">{signal.detail}</span>}
+                </button>
+              ))}
+            </div>
+            <p className="mt-4 text-xs leading-5 text-slate-500">{answerSubmitted ? `Demo result: ${selectedAnswer === "B" ? "correct" : "incorrect"} · answer changes: ${answerChanges}. Confidence was not collected.` : "No answer data is saved. This interactive preview runs only in your browser session."}</p>
+          </aside>
         </section>
 
         <section id="pricing" className="mt-14 scroll-mt-24 border-t border-white/10 pt-10">
