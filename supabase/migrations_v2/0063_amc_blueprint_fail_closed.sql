@@ -32,6 +32,11 @@ BEGIN
     RAISE EXCEPTION 'blueprint key is required' USING ERRCODE = '22023';
   END IF;
 
+  IF p_blueprint_key = 'AMC_CLINICAL' THEN
+    RAISE EXCEPTION 'AMC_CLINICAL_SELECTOR_NOT_INTEGRATED'
+      USING ERRCODE = 'P0001';
+  END IF;
+
   SELECT b.id INTO v_blueprint_id
   FROM amc.amc_blueprint b
   WHERE b.blueprint_key = p_blueprint_key
@@ -42,11 +47,6 @@ BEGIN
 
   IF v_blueprint_id IS NULL THEN
     RAISE EXCEPTION 'unknown or inactive blueprint: %', p_blueprint_key USING ERRCODE = '22023';
-  END IF;
-
-  IF p_blueprint_key = 'AMC_CLINICAL' THEN
-    RAISE EXCEPTION 'AMC_CLINICAL_SELECTOR_NOT_INTEGRATED'
-      USING ERRCODE = 'P0001';
   END IF;
 
   IF p_blueprint_key LIKE 'AMC\_%' ESCAPE '\' THEN
