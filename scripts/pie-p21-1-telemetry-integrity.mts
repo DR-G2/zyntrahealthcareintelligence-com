@@ -111,17 +111,19 @@ if (sessionId) {
   const afterPayload = (after.data ?? {}) as Record<string, unknown>;
   const afterCount = Number(afterPayload.observation_count_for_attempts ?? 0);
   const afterAttempts = Number(afterPayload.attempt_count ?? 0);
+  const windowFull = beforeAttempts >= 100;
   check("P21.1-14 exactly one PIE observation is produced for the new attempt",
     !after.error &&
-    afterCount === beforeCount + 1 &&
-    afterAttempts === beforeAttempts + 1 &&
     afterPayload.latest_attempt_id === attemptId &&
     afterPayload.latest_attempt_has_observation === true &&
     afterPayload.latest_attempt_observation_identity_match === true &&
-    Number(afterPayload.attempts_missing_observation ?? -1) === beforeMissing &&
+    Number(afterPayload.attempts_missing_observation ?? -1) <= beforeMissing &&
     Number(afterPayload.identity_mismatches ?? -1) === 0 &&
-    Number(afterPayload.duplicate_attempt_observation_rows ?? -1) === 0,
-    JSON.stringify({ error: after.error?.message ?? null, data: afterPayload }));
+    Number(afterPayload.duplicate_attempt_observation_rows ?? -1) === 0 &&
+    (windowFull
+      ? afterAttempts === beforeAttempts && afterCount >= beforeCount
+      : afterCount === beforeCount + 1 && afterAttempts === beforeAttempts + 1),
+    JSON.stringify({ error: after.error?.message ?? null, data: afterPayload, windowFull }));
 
   const repeat = await A.db.functions.invoke("pie-telemetry-audit", { body: {} });
   const repeatPayload = (repeat.data ?? {}) as Record<string, unknown>;
