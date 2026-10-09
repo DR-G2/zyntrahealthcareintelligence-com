@@ -20,6 +20,22 @@ CREATE TABLE IF NOT EXISTS public.amc_question_context (
   UNIQUE(plugin_version_id, question_id, question_version)
 );
 
+
+DO $
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint
+    WHERE conname = 'amc_question_context_question_id_fkey'
+      AND conrelid = 'public.amc_question_context'::regclass
+  ) THEN
+    ALTER TABLE public.amc_question_context
+      ADD CONSTRAINT amc_question_context_question_id_fkey
+      FOREIGN KEY (question_id) REFERENCES public.questions(id)
+      ON DELETE CASCADE NOT VALID;
+  END IF;
+END;
+$;
+
 CREATE INDEX IF NOT EXISTS amc_question_context_lookup_idx
   ON public.amc_question_context(plugin_version_id, exam_mode, patient_group);
 
