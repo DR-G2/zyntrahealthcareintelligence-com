@@ -188,7 +188,7 @@ function Assembly({ active, reduce }: AssemblyProps) {
 export function NeuralScene({ active, reduce }: AssemblyProps) {
   return (
     <Canvas
-      camera={{ position: [0, 0.28, 5.15], fov: 38 }}
+      camera={{ position: [0, 0.32, 6.35], fov: 42 }}
       dpr={[1, 1.5]}
       gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
       fallback={<div className="h-full w-full rounded-3xl border border-cyan-400/20 bg-cyan-950/20" aria-label="Static neural intelligence illustration" />}
