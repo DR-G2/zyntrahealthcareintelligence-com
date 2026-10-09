@@ -1,4 +1,4 @@
--- LOCAL / staging verification only. Run after 0062_amc_blueprint_fail_closed.sql.
+-- LOCAL / staging verification only. Run after 0063_amc_blueprint_fail_closed.sql.
 -- Never apply this script to production: it creates a disposable test session.
 \set ON_ERROR_STOP 1
 \pset tuples_only on
