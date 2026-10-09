@@ -6,6 +6,8 @@ const mig = (f: string) => readFileSync(resolve(__dirname, "../../../supabase/mi
 const pool = mig("0051_pie_p3_candidate_pool.sql");
 const seed = mig("0050_pie_p3_seed_lo_map_irt.sql");
 const amc = mig("0049_pie_p3_readiness_to_amc.sql");
+const amcBoundary = mig("0062_amc_blueprint_fail_closed.sql");
+const pieClient = readFileSync(resolve(__dirname, "pie-practice-client.ts"), "utf8");
 
 describe("P3 candidate pool contract (static)", () => {
   it("learner RPCs return no answer key or explanation", () => {
@@ -40,4 +42,15 @@ describe("P3 candidate pool contract (static)", () => {
     expect(amc).toMatch(/pie\.pie_exam_readiness set schema amc/);
     expect(amc).toMatch(/in \('intelligence','amc'\)/);
   });
+  it("fails closed for AMC sessions until question-to-blueprint mappings are reviewed", () => {
+    expect(amcBoundary).toContain("AMC_BLUEPRINT_MAPPING_REQUIRED");
+    expect(amcBoundary).toContain("AMC_QUESTION_NOT_MAPPED_TO_ACTIVE_BLUEPRINT");
+    expect(amcBoundary).toContain("amc_blueprint_lo");
+    expect(amcBoundary).toContain("ZYNTRA_GENERAL");
+  });
+  it("uses an exam-neutral blueprint for generic practice and diagnostic sessions", () => {
+    expect(pieClient).toContain("p_blueprint_key: 'ZYNTRA_GENERAL'");
+    expect(pieClient).not.toContain("p_blueprint_key: 'AMC_CAT_MCQ', p_mode: 'pie_diagnostic'");
+  });
+
 });
