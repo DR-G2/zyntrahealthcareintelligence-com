@@ -180,6 +180,7 @@ Deno.serve(async (req) => {
       status: plugin.status,
       environmentCode: environment?.environment_code ?? null,
       environmentVersion: environment?.environment_version ?? null,
+      environmentStatus: environment?.status ?? null,
       examMode,
       readiness: {
         probability: null,
