@@ -122,6 +122,13 @@ begin
     null;
   end;
 
+  begin
+    perform * from public.get_my_attempt_history(100, '2026-10-01T10:00:00Z', null);
+    raise exception 'Incomplete cursor unexpectedly accepted';
+  exception when sqlstate '22023' then
+    null;
+  end;
+
   select count(*) into orphan
   from public.get_my_attempt_history(100, null, null)
   where attempt_id = '80000000-0000-0000-0000-000000000003'
