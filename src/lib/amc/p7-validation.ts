@@ -64,6 +64,7 @@ export function canProposeP8(runs: AMCValidationRun[]): boolean {
   return [...required].every(type => runs.some(run =>
     run.validationType === type &&
     run.status === "PASSED" &&
+    run.metrics.length > 0 &&
     run.metrics.every(m => m.status === "PASS" || m.status === "NOT_APPLICABLE"),
   ));
 }
