@@ -76,7 +76,7 @@ describe("AMC live runtime response contracts", () => {
 
   it("readiness SQL does not create a fixed-weight composite or candidate-visible probability", () => {
     const readinessMigration = readFileSync(resolve(__dirname, "../../../supabase/migrations_v2/0065_amc_readiness_no_unvalidated_composite.sql"), "utf8");
-    const promotionMigration = readFileSync(resolve(__dirname, "../../../supabase/migrations_v2/0066_amc_promotion_runtime_guard.sql"), "utf8");
+    const promotionMigration = readFileSync(resolve(__dirname, "../../../supabase/migrations_v2/0067_amc_promotion_runtime_guard.sql"), "utf8");
     expect(readinessMigration).not.toMatch(/avg\s*\(\s*s\.estimate\s*\)/i);
     expect(readinessMigration).toContain("'composite_index_claim', false");
     expect(readinessMigration).toContain("'probability', NULL");
