@@ -72,7 +72,7 @@ export function AMCPluginConnectionStatus() {
                 <p className="text-sm font-semibold">AMC question delivery: not enabled</p>
                 <p className="mt-1 text-sm text-muted-foreground">
                   {practiceStatus.approvedQuestionCount} approved metadata rows, {practiceStatus.mappedQuestionCount} eligible mapped questions and {practiceStatus.eligibleLearningObjectiveCount} eligible blueprint objectives.
-                  Selector status: {practiceStatus.selectorStatus}. This track will not silently fall back to generic questions.
+                  Selector status: {practiceStatus.selectorStatus}. {practiceStatus.reason} This track will not silently fall back to generic questions.
                 </p>
               </div>
               <p className="text-xs text-muted-foreground">
