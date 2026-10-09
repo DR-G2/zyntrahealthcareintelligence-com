@@ -1,7 +1,15 @@
 import { Helmet } from 'react-helmet-async';
 
-const SITE_URL = 'https://www.zyntrahealthcareintelligence.com';
-const OG_IMAGE = `${SITE_URL}/og.png`;
+function getSiteUrl() {
+  if (typeof window === 'undefined') return 'https://www.zyntrahealthcareintelligence.org';
+  const hostname = window.location.hostname.toLowerCase();
+  if (hostname === 'zyntrahealthcareintelligence.com' || hostname === 'www.zyntrahealthcareintelligence.com') {
+    return 'https://www.zyntrahealthcareintelligence.com';
+  }
+  // The .org domain is the production launch target. Preview deployments should
+  // advertise the production URL rather than their temporary vercel.app hostname.
+  return 'https://www.zyntrahealthcareintelligence.org';
+}
 
 interface SEOProps {
   title: string;
@@ -12,7 +20,9 @@ interface SEOProps {
 }
 
 export function SEO({ title, description, path, jsonLd, noindex }: SEOProps) {
-  const url = `${SITE_URL}${path === '/' ? '/' : path}`;
+  const siteUrl = getSiteUrl();
+  const url = `${siteUrl}${path === '/' ? '/' : path}`;
+  const ogImage = `${siteUrl}/og.png`;
   return (
     <Helmet>
       <title>{title}</title>
@@ -23,13 +33,13 @@ export function SEO({ title, description, path, jsonLd, noindex }: SEOProps) {
       <meta property="og:description" content={description} />
       <meta property="og:url" content={url} />
       <meta property="og:type" content="website" />
-      <meta property="og:image" content={OG_IMAGE} />
+      <meta property="og:image" content={ogImage} />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={OG_IMAGE} />
+      <meta name="twitter:image" content={ogImage} />
       {noindex && <meta name="robots" content="noindex, nofollow" />}
       {jsonLd && (
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
