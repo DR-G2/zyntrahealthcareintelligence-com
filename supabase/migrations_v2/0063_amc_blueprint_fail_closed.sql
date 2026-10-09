@@ -205,9 +205,14 @@ BEGIN
     SELECT 1
     FROM amc.amc_blueprint b
     JOIN amc.amc_blueprint_lo bl ON bl.blueprint_id = b.id AND bl.eligible
-    WHERE b.blueprint_key = v_blueprint_key
-      AND (b.effective_from IS NULL OR b.effective_from <= now())
-      AND (b.effective_to IS NULL OR b.effective_to > now())
+    WHERE b.id = (
+      SELECT b2.id FROM amc.amc_blueprint b2
+      WHERE b2.blueprint_key = v_blueprint_key
+        AND (b2.effective_from IS NULL OR b2.effective_from <= now())
+        AND (b2.effective_to IS NULL OR b2.effective_to > now())
+      ORDER BY b2.effective_from DESC NULLS LAST
+      LIMIT 1
+    )
   ) INTO v_has_eligible_mapping;
 
   IF NOT v_has_eligible_mapping THEN
@@ -281,9 +286,14 @@ BEGIN
      AND qc.source_evidence_level IS NOT NULL
     WHERE ql.question_id = NEW.question_id
       AND ql.is_primary
-      AND b.blueprint_key = v_blueprint_key
-      AND (b.effective_from IS NULL OR b.effective_from <= now())
-      AND (b.effective_to IS NULL OR b.effective_to > now())
+      AND b.id = (
+        SELECT b2.id FROM amc.amc_blueprint b2
+        WHERE b2.blueprint_key = v_blueprint_key
+          AND (b2.effective_from IS NULL OR b2.effective_from <= now())
+          AND (b2.effective_to IS NULL OR b2.effective_to > now())
+        ORDER BY b2.effective_from DESC NULLS LAST
+        LIMIT 1
+      )
   ) INTO v_is_mapped;
 
   IF NOT v_is_mapped THEN
