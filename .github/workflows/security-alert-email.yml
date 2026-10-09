@@ -1,0 +1,25 @@
+name: Security Admin Email Alerts
+
+on:
+  schedule:
+    - cron: '* * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Dispatch pending security emails
+        env:
+          SUPABASE_URL: ${{ secrets.ZYNTRA_V2_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.ZYNTRA_V2_PUBLISHABLE_KEY }}
+          SECURITY_WORKER_SECRET: ${{ secrets.ZYNTRA_SECURITY_EMAIL_WORKER_SECRET }}
+        run: |
+          test -n "$SUPABASE_URL"
+          test -n "$SUPABASE_ANON_KEY"
+          test -n "$SECURITY_WORKER_SECRET"
+          curl --fail-with-body -X POST             "$SUPABASE_URL/functions/v1/security-alert-email"             -H "Authorization: Bearer $SUPABASE_ANON_KEY"             -H "apikey: $SUPABASE_ANON_KEY"             -H "X-Zyntra-Security-Worker: $SECURITY_WORKER_SECRET"             -H "Content-Type: application/json"             --data '{}'

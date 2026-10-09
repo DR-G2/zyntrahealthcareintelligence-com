@@ -2387,6 +2387,16 @@ export type Database = {
         }
         Returns: Json
       }
+      admin_security_feed: { Args: any; Returns: any }
+      admin_security_incident_detail: { Args: any; Returns: any }
+      admin_authorize_security_evidence_access: { Args: any; Returns: any }
+      admin_resolve_security_incident: { Args: any; Returns: any }
+      record_my_security_session_signal: { Args: any; Returns: any }
+      get_my_security_enforcement: { Args: any; Returns: any }
+      get_my_security_notices: { Args: any; Returns: any }
+      get_my_security_capture_policy: { Args: any; Returns: any }
+      finalize_my_security_screenshot: { Args: any; Returns: any }
+      enforce_my_security_event: { Args: any; Returns: any }
     }
     Enums: {
       [_ in never]: never

@@ -1,0 +1,16 @@
+import "jsr:@supabase/functions-js/edge-runtime.d.ts";
+import { createClient } from "jsr:@supabase/supabase-js@2";
+const MODEL="p21.3-learner-state-audit-v2";
+const corsHeaders={"Access-Control-Allow-Origin":Deno.env.get("PIE_ALLOWED_ORIGIN")??"https://www.zyntrahealthcareintelligence.com","Access-Control-Allow-Headers":"authorization, x-client-info, apikey, content-type","Access-Control-Allow-Methods":"POST, OPTIONS"};
+const json=(body:unknown,status=200)=>new Response(JSON.stringify(body),{status,headers:{...corsHeaders,"Content-Type":"application/json"}});
+Deno.serve(async(req)=>{try{
+if(req.method==="OPTIONS")return new Response(null,{status:204,headers:corsHeaders});if(req.method!=="POST")return json({error:"method_not_allowed"},405);
+const authorization=req.headers.get("Authorization");if(!authorization?.startsWith("Bearer "))return json({error:"missing_authorization"},401);
+const supabaseUrl=Deno.env.get("SUPABASE_URL"),anonKey=Deno.env.get("SUPABASE_ANON_KEY"),serviceKey=Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");if(!supabaseUrl||!anonKey||!serviceKey)return json({error:"server_configuration_error"},500);
+const userClient=createClient(supabaseUrl,anonKey,{global:{headers:{Authorization:authorization}}});const serviceClient=createClient(supabaseUrl,serviceKey);
+const {data:{user},error:authError}=await userClient.auth.getUser();if(authError||!user)return json({error:"unauthorized"},401);
+const {data:rows,error}=await serviceClient.schema("pie").from("learner_lo_state").select("lo_id,exposure_count,correct_count,mastery_mean,mastery_sd,mastery_lcb,uncertainty,miss_count,miss_streak,last_seen_at,confidence_mean,confidence_count,answer_changes,confident_wrong,fragile_correct,status,evidence_maturity,model_version,state_version,updated_at").eq("user_id",user.id);
+if(error){console.error("P21.3 learner-state query",error);return json({error:"learner_state_query_failed",code:error.code??null,message:error.message??"unknown"},500);}
+const stateRows=rows??[];const modelVersions=[...new Set(stateRows.map((r:Record<string,unknown>)=>String(r.model_version??"")))];const stateVersions=stateRows.map((r:Record<string,unknown>)=>Number(r.state_version??0));const totalExposure=stateRows.reduce((n:number,r:Record<string,unknown>)=>n+Number(r.exposure_count??0),0);const totalCorrect=stateRows.reduce((n:number,r:Record<string,unknown>)=>n+Number(r.correct_count??0),0);const latestUpdatedAt=stateRows.reduce<string|null>((latest,r)=>{const at=String(r.updated_at??"");return !latest||at>latest?at:latest},null);
+return json({status:"ready",model_version:MODEL,user_scoped:true,lo_state_row_count:stateRows.length,total_exposure_count:totalExposure,total_correct_count:totalCorrect,state_versions:stateVersions,model_versions:modelVersions,latest_updated_at:latestUpdatedAt,learner_id_exposed:false,answer_key_exposed:false,selected_answer_exposed:false,privileged_credentials_exposed:false});
+}catch(error){console.error("P21.3 learner-state audit unhandled",error);return json({error:"internal_error"},500);}});

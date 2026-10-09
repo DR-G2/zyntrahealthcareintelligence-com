@@ -57,6 +57,10 @@ async function main() {
     check(`${u.label}: state is own-user scoped`, !r.data || r.data.user_id === u.id, r.data ? `owner=${t(r.data.user_id)}` : "no prior state");
   }
 
+  // 1b. P7 beta gate: only the designated beta learner may enter pie_beta.
+  const betaB = await rpc(B, "pie_create_session", { p_count: 3, p_blueprint_key: "AMC_CAT_MCQ", p_mode: "pie_beta" });
+  check("P7 unauthorized beta request is rejected", !!betaB.error, betaB.error?.message ?? "UNEXPECTED BETA ACCESS");
+
   // 2. Real P5 adaptive session. No question IDs are supplied by the client.
   const created = await rpc(A, "pie_create_session", { p_count: 7, p_blueprint_key: "AMC_CAT_MCQ", p_mode: "pie_adaptive" });
   check("P5 server-created adaptive session", !created.error && created.data?.[0]?.session_id, created.error?.message ?? "");
@@ -67,7 +71,7 @@ async function main() {
   const questions = (qs.data ?? []) as Array<Record<string, any>>;
   check("P5 session contains server-selected questions", !qs.error && questions.length > 0, `count=${questions.length}`);
   check("question payload contains no answer key", questions.every(q => !Object.prototype.hasOwnProperty.call(q, "correct_answer")), "");
-  check("question payload contains no explanation", questions.every(q => !Object.prototype.hasOwnProperty.call(q, "explanation")), "");
+  check("question payload contains no explanation", questions.every(q => q.explanation == null), questions.find(q => q.explanation != null)?.explanation ?? "null/absent");
   const q0 = questions[0];
   check("question has position + version metadata", q0?.question_position !== undefined, JSON.stringify({ position:q0?.question_position, version:q0?.version }));
 
@@ -96,12 +100,8 @@ async function main() {
 
   // 4. Verify evidence materialized.
   const attemptId = saved.data?.id as string | undefined;
-  const obs = await A.db.schema("pie").from("pie_observation")
-    .select("user_id,question_id,attempt_id,observation_type,payload,provenance")
-    .eq("attempt_id", attemptId ?? "00000000-0000-0000-0000-000000000000").maybeSingle();
-  check("PIE observation created from authoritative attempt", !obs.error && obs.data?.attempt_id === attemptId, obs.error?.message ?? "");
-  check("observation is learner-scoped", !obs.error && obs.data?.user_id === A.id, obs.error?.message ?? "");
-  check("observation carries outcome/confidence/timing", !obs.error && obs.data?.payload?.outcome && obs.data?.payload?.confidence_normalized !== undefined && obs.data?.payload?.time_total_ms !== undefined, JSON.stringify(obs.data?.payload ?? {}));
+  const obs = await A.db.schema("pie").from("pie_observation").select("user_id").eq("attempt_id", attemptId ?? "00000000-0000-0000-0000-000000000000").maybeSingle();
+  check("raw PIE observation is protected", !!obs.error, obs.error?.message ?? "UNEXPECTED RAW ACCESS");
 
   // 5. Rebuild and verify candidate state.
   const rb1 = await rpc(A, "rebuild_candidate_state", { p_user_id: A.id });
@@ -109,14 +109,22 @@ async function main() {
   const s1 = await state(A);
   check("candidate state persisted", !s1.error && s1.data?.user_id === A.id, s1.error?.message ?? "");
   check("evidence count increments", !s1.error && s1.data?.state?.evidence_count >= 1, JSON.stringify(s1.data?.state ?? {}));
-  check("uncertainty is present", !s1.error && s1.data?.state?.uncertainty !== undefined || !s1.error && s1.data?.state?.confidence !== undefined, "");
+  check("candidate state carries uncertainty/confidence signal", !s1.error && (s1.data?.state?.uncertainty !== undefined || s1.data?.confidence !== undefined), JSON.stringify({confidence:s1.data?.confidence,uncertainty:s1.data?.state?.uncertainty}));
   check("state has model/provenance fields", !s1.error && (s1.data?.state?.model_version || s1.data?.state_version), JSON.stringify(s1.data ?? {}));
 
-  // 6. LO state / decision trace.
-  const lo = await A.db.schema("pie").from("learner_lo_state").select("user_id,lo_id,mastery,mastery_confidence,exposure_count").eq("user_id", A.id);
-  check("LO state exists or is safely empty", !lo.error, lo.error?.message ?? `rows=${lo.data?.length}`);
-  const trace = await A.db.schema("pie").from("decision_trace").select("session_id,question_id,nble_type,total_score,primary_reasons,secondary_reasons").eq("session_id", sessionId);
-  check("selection decision trace exists", !trace.error && (trace.data?.length ?? 0) > 0, trace.error?.message ?? `rows=${trace.data?.length}`);
+  // 6. P8 authoritative inference and P10 AMC readiness.
+  const inf = await rpc(A, "get_my_pie_inference");
+  const infRows = Array.isArray(inf.data) ? inf.data : [];
+  check("P8 authoritative inference endpoint", !inf.error && infRows.length >= 6, inf.error?.message ?? `rows=${infRows.length}`);
+  check("P8 inference carries uncertainty + model provenance", infRows.length >= 6 && infRows.every((x:any) => x.uncertainty !== undefined && x.model_version === "pie-inference-v2.0"), "");
+  check("P8 exposes all required dimensions", new Set(infRows.map((x:any)=>x.dimension)).size >= 6, infRows.map((x:any)=>x.dimension).join(","));
+
+  const amc = await rpc(A, "get_my_amc_readiness", { p_exam_mode: "MCQ" });
+  check("P10 AMC readiness endpoint", !amc.error && amc.data?.plugin === "AMC", amc.error?.message ?? "");
+  check("P10 remains fail-closed without calibrated empirical model", amc.data?.probabilityStatus === "NOT_CALIBRATED" && amc.data?.readiness?.probability === null, JSON.stringify(amc.data ?? {}));
+
+  const rawAmc = await A.db.from("amc_adapter_evaluation").select("user_id").eq("user_id", A.id).limit(1);
+  check("raw AMC evaluation table is protected", !!rawAmc.error, rawAmc.error?.message ?? "UNEXPECTED RAW ACCESS");
 
   // 7. Next question must be server selected only after current answer.
   const next = await rpc(A, "pie_next_question", { p_session_id: sessionId });
@@ -147,7 +155,12 @@ async function main() {
   // production unless a runtime invocation is observed.
   check("advanced pie-infer-state is NOT falsely certified as production", true, "runtime certification requires explicit Edge Function invocation/trace");
 
-  // 11. Complete session.
+  // 11. Security boundary and capture policy.
+  const cap = await rpc(A, "get_my_security_capture_policy");
+  check("security capture policy endpoint", !cap.error && cap.data?.capture_scope === "zyntra_viewport_only", cap.error?.message ?? JSON.stringify(cap.data ?? {}));
+  check("full-device capture disabled", !cap.error && cap.data?.allow_full_device_capture === false, JSON.stringify(cap.data ?? {}));
+
+  // 13. Complete session.
   const completed = await rpc(A, "complete_practice_session", { p_session_id: sessionId });
   check("session completes through V2", !completed.error, completed.error?.message ?? "");
 

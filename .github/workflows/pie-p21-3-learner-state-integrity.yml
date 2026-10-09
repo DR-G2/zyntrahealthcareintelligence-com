@@ -1,0 +1,67 @@
+name: PIE P21.3 Learner-State Integrity
+
+on:
+  push:
+    branches:
+      - pie-p21-3-learner-state-integrity
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  certify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Protect certified P12-P21.2 sources
+        run: |
+          git diff --exit-code 41d7704c9991ad6a101617c1d380f1c48a430043 --             supabase/functions/pie-infer-state/index.ts             supabase/functions/pie-shadow-read/index.ts             supabase/functions/pie-p14-shadow-read/index.ts             supabase/functions/pie-telemetry-audit/index.ts             scripts/pie-p12-shadow-certification.mts             scripts/pie-p13-shadow-certification.mts             scripts/pie-p14-read-path-certification.mts             scripts/pie-p15-controlled-production-certification.mts             scripts/pie-p16-production-contract-audit.mts             scripts/pie-p17-failure-isolation-certification.mts             scripts/pie-p18-authoritative-adaptation-certification.mts             scripts/pie-p19-final-production-certification.mts             scripts/pie-p20-production-deployment-gate.mts             scripts/pie-p21-1-telemetry-integrity.mts             scripts/pie-p21-2-decision-trace-integrity.mts             src/lib/pie/p13-shadow-client.ts             src/lib/pie/p14-shadow-client.ts             src/components/pie/P13ShadowInferencePanel.tsx             supabase/migrations_v2/0051_pie_p3_candidate_pool.sql
+
+      - name: npm install
+        run: npm install --no-audit --no-fund
+
+      - name: Unit tests
+        run: npm test -- --passWithNoTests
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Production build
+        run: npm run build
+
+      - name: P21.3 learner-state integrity
+        env:
+          V2_URL: ${{ secrets.ZYNTRA_V2_URL }}
+          V2_PUBLISHABLE_KEY: ${{ secrets.ZYNTRA_V2_PUBLISHABLE_KEY }}
+          PIE_TEST_USER_A_EMAIL: ${{ secrets.PIE_TEST_USER_A_EMAIL }}
+          PIE_TEST_USER_B_EMAIL: ${{ secrets.PIE_TEST_USER_B_EMAIL }}
+          PIE_TEST_PASSWORD: ${{ secrets.PIE_TEST_PASSWORD }}
+        run: npx vite-node scripts/pie-p21-3-learner-state-integrity.mts
+
+      - name: P21.2 regression certification
+        env:
+          V2_URL: ${{ secrets.ZYNTRA_V2_URL }}
+          V2_PUBLISHABLE_KEY: ${{ secrets.ZYNTRA_V2_PUBLISHABLE_KEY }}
+          PIE_TEST_USER_A_EMAIL: ${{ secrets.PIE_TEST_USER_A_EMAIL }}
+          PIE_TEST_USER_B_EMAIL: ${{ secrets.PIE_TEST_USER_B_EMAIL }}
+          PIE_TEST_PASSWORD: ${{ secrets.PIE_TEST_PASSWORD }}
+        run: npx vite-node scripts/pie-p21-2-decision-trace-integrity.mts
+
+      - name: P21.1 regression certification
+        env:
+          V2_URL: ${{ secrets.ZYNTRA_V2_URL }}
+          V2_PUBLISHABLE_KEY: ${{ secrets.ZYNTRA_V2_PUBLISHABLE_KEY }}
+          PIE_TEST_USER_A_EMAIL: ${{ secrets.PIE_TEST_USER_A_EMAIL }}
+          PIE_TEST_USER_B_EMAIL: ${{ secrets.PIE_TEST_USER_B_EMAIL }}
+          PIE_TEST_PASSWORD: ${{ secrets.PIE_TEST_PASSWORD }}
+        run: npx vite-node scripts/pie-p21-1-telemetry-integrity.mts

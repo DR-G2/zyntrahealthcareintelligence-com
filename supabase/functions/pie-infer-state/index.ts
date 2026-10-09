@@ -1,12 +1,7 @@
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-import {
-  DEFAULT_INFERENCE_CONFIG,
-  initialCandidateState,
-  updateCandidateState,
-  type CandidateState,
-  type PieObservation,
-  deriveDynamics,
-} from "../../../src/lib/pie/inference/index.ts";
+import "jsr:@supabase/functions-js/edge-runtime.d.ts";
+import { createClient } from "jsr:@supabase/supabase-js@2";
+
+const MODEL_VERSION = "pie-inference-v2.1-shadow";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": Deno.env.get("PIE_ALLOWED_ORIGIN") ?? "https://www.zyntrahealthcareintelligence.com",
@@ -14,22 +9,123 @@ const corsHeaders = {
 };
 
 const json = (body: unknown, status = 200) =>
-  new Response(JSON.stringify(body), {
-    status,
-    headers: { ...corsHeaders, "Content-Type": "application/json" },
+  new Response(JSON.stringify(body), { status, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+
+const clamp01 = (x: number) => Math.max(0, Math.min(1, x));
+
+async function sha256(value: string): Promise<string> {
+  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(value));
+  return Array.from(new Uint8Array(digest)).map((b) => b.toString(16).padStart(2, "0")).join("");
+}
+
+function update(
+  prior: { estimate: number; variance: number; evidence_count: number; evidence_quality: number },
+  signal: number | null,
+  measurementVariance: number,
+  quality: number,
+) {
+  const predicted = prior.variance + 0.0025;
+  if (signal == null || quality <= 0) {
+    return { ...prior, variance: predicted };
+  }
+  const effective = measurementVariance / Math.max(quality, 0.05);
+  const gain = predicted / (predicted + effective);
+  const estimate = clamp01(prior.estimate + gain * (signal - prior.estimate));
+  const variance = Math.max(1e-8, (1 - gain) * predicted);
+  return {
+    estimate,
+    variance,
+    evidence_count: prior.evidence_count + 1,
+    evidence_quality: clamp01((prior.evidence_quality * prior.evidence_count + quality) / (prior.evidence_count + 1)),
+  };
+}
+
+function infer(rows: any[]) {
+  const make = () => ({
+    estimate: 0.5,
+    variance: 0.25,
+    evidence_count: 0,
+    evidence_quality: 0,
   });
+
+  const s = {
+    capability: make(),
+    decision: make(),
+    timing: make(),
+    calibration: make(),
+    sustained_performance: make(),
+    learning: make(),
+  };
+
+  let previousOutcome: number | null = null;
+
+  for (const row of rows) {
+    const payload = row.payload ?? {};
+
+    const quality =
+      payload.observation_quality === "UNUSABLE" ? 0 :
+      payload.observation_quality === "CONTRADICTORY" ? 0.15 :
+      payload.observation_quality === "SUSPICIOUS" ? 0.5 :
+      payload.interaction_state === "INTERRUPTED" ? 0.25 :
+      1;
+
+    const outcome =
+      payload.outcome === "CORRECT" ? 1 :
+      payload.outcome === "INCORRECT" ? 0 :
+      null;
+
+    const timing =
+      typeof payload.time_total_ms === "number" && payload.time_total_ms > 0
+        ? clamp01(1 / (1 + Math.log1p(payload.time_total_ms / 1000) / 10))
+        : null;
+
+    const decision =
+      typeof payload.first_answer_correct === "boolean" &&
+      typeof payload.final_answer_correct === "boolean"
+        ? payload.first_answer_correct === payload.final_answer_correct
+          ? 0.5
+          : payload.final_answer_correct ? 0.75 : 0.25
+        : null;
+
+    const calibration =
+      typeof payload.confidence_normalized === "number" && outcome != null
+        ? clamp01(1 - Math.abs(payload.confidence_normalized - outcome))
+        : null;
+
+    const learning =
+      outcome == null || previousOutcome == null
+        ? null
+        : clamp01(0.5 + 0.5 * (outcome - previousOutcome));
+
+    s.capability = update(s.capability, outcome, 0.08, quality);
+    s.decision = update(s.decision, decision, 0.12, quality);
+    s.timing = update(s.timing, timing, 0.12, quality);
+    s.calibration = update(s.calibration, calibration, 0.12, quality);
+    s.sustained_performance = update(s.sustained_performance, outcome, 0.15, quality);
+    s.learning = update(s.learning, learning, 0.18, quality);
+
+    if (outcome != null) previousOutcome = outcome;
+  }
+
+  return s;
+}
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
-
-  const supabaseUrl = Deno.env.get("SUPABASE_URL");
-  const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
-  if (!supabaseUrl || !serviceKey) return json({ error: "server_configuration_error" }, 500);
+  if (req.method !== "POST") return json({ error: "method_not_allowed" }, 405);
 
   const authHeader = req.headers.get("Authorization");
   if (!authHeader) return json({ error: "missing_authorization" }, 401);
 
-  const userClient = createClient(supabaseUrl, Deno.env.get("SUPABASE_ANON_KEY") ?? serviceKey, {
+  const supabaseUrl = Deno.env.get("SUPABASE_URL");
+  const anonKey = Deno.env.get("SUPABASE_ANON_KEY");
+  const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+
+  if (!supabaseUrl || !anonKey || !serviceKey) {
+    return json({ error: "server_configuration_error" }, 500);
+  }
+
+  const userClient = createClient(supabaseUrl, anonKey, {
     global: { headers: { Authorization: authHeader } },
   });
   const serviceClient = createClient(supabaseUrl, serviceKey);
@@ -38,218 +134,107 @@ Deno.serve(async (req) => {
   if (userError || !user) return json({ error: "unauthorized" }, 401);
 
   const body = await req.json().catch(() => ({}));
-  const requestedUserId = body?.user_id;
-  if (requestedUserId && requestedUserId !== user.id) {
+  if (body?.user_id && body.user_id !== user.id) {
     return json({ error: "user_scope_violation" }, 403);
   }
 
-  const userId = user.id;
-  const modelVersion = DEFAULT_INFERENCE_CONFIG.modelVersion;
+  const { data: rows, error } = await serviceClient
+    .schema("pie").from("pie_observation")
+    .select("id,user_id,observation_type,observed_at,payload,provenance")
+    .eq("user_id", user.id)
+    .order("observed_at", { ascending: true })
+    .order("id", { ascending: true });
 
-  const { data: priorRow } = await serviceClient
-    .from("pie_candidate_state")
-    .select("*")
-    .eq("user_id", userId)
-    .order("state_sequence", { ascending: false })
-    .limit(1)
-    .maybeSingle();
+  if (error) return json({ error: "observation_query_failed", detail: error.message }, 500);
 
-  let state: CandidateState | undefined;
-  if (priorRow) {
-    const { data: uncertainty } = await serviceClient
-      .from("pie_state_uncertainty")
-      .select("*")
-      .eq("candidate_state_id", priorRow.id);
-
-    const byDimension = new Map((uncertainty ?? []).map((u) => [u.state_dimension, u]));
-    const makePosterior = (dimension: string, estimate: number | null) => {
-      const u = byDimension.get(dimension);
-      return {
-        estimate: estimate ?? 0.5,
-        variance: Number(u?.variance ?? 0.25),
-        lower: Number(u?.lower_bound ?? 0),
-        upper: Number(u?.upper_bound ?? 1),
-        confidenceLevel: Number(u?.confidence_level ?? 0.95),
-        evidenceCount: Number(u?.evidence_count ?? 0),
-        evidenceQuality: Number(u?.evidence_quality ?? 0),
-      };
-    };
-
-    state = {
-      timestamp: priorRow.state_timestamp,
-      sequence: Number(priorRow.state_sequence),
-      capability: makePosterior("CAPABILITY", Number(priorRow.capability_estimate)),
-      decision: makePosterior("DECISION", Number(priorRow.decision_estimate)),
-      timing: makePosterior("TIMING", Number(priorRow.timing_estimate)),
-      calibration: makePosterior("CALIBRATION", Number(priorRow.calibration_estimate)),
-      sustainedPerformance: makePosterior("SUSTAINED_PERFORMANCE", Number(priorRow.sustained_performance_estimate)),
-      learning: makePosterior("LEARNING", Number(priorRow.learning_estimate)),
-      identificationStatus: priorRow.identification_status,
-      evidenceLevel: priorRow.evidence_level,
-      dataQuality: Number(priorRow.data_quality ?? 0),
-      modelVersion: priorRow.model_version,
-    };
-  }
-
-  const observationQuery = serviceClient
-    .from("pie_observation")
-    .select("*")
-    .eq("user_id", userId)
-    .order("occurred_at", { ascending: true });
-
-  const { data: rows, error: observationError } = priorRow
-    ? await observationQuery.gt("occurred_at", priorRow.state_timestamp)
-    : await observationQuery;
-
-  if (observationError) return json({ error: "observation_query_failed", detail: observationError.message }, 500);
-
-  const observations: PieObservation[] = (rows ?? []).map((row) => ({
-    occurredAt: row.occurred_at,
-    outcome: row.outcome,
-    confidenceNormalized: row.confidence_normalized,
-    timeTotalMs: row.time_total_ms,
-    timeToFirstInteractionMs: row.time_to_first_interaction_ms,
-    timeToAnswerMs: row.time_to_answer_ms,
-    timePostDecisionMs: row.time_post_decision_ms,
-    firstAnswerCorrect: row.first_answer_correct,
-    finalAnswerCorrect: row.final_answer_correct,
-    answerChanges: row.answer_changes,
-    changeDirection: row.change_direction,
-    observationQuality: row.observation_quality,
-    interruptionActive: row.interaction_state === "INTERRUPTED",
-  }));
-
-  if (!observations.length) {
+  if (!rows?.length) {
     return json({
       status: "no_observations",
-      candidate_facing: true,
-      legacy_authoritative: false,
+      shadow_only: true,
+      authoritative: false,
+      influences_adaptation: false,
+      model_version: MODEL_VERSION,
+      observation_count: 0,
     });
   }
 
-  let next = state;
-  for (const observation of observations) {
-    next = updateCandidateState(next, observation, DEFAULT_INFERENCE_CONFIG);
-  }
+  const state = infer(rows);
+  const dimensions = [
+    ["capability", state.capability],
+    ["decision", state.decision],
+    ["timing", state.timing],
+    ["calibration", state.calibration],
+    ["sustained_performance", state.sustained_performance],
+    ["learning", state.learning],
+  ] as const;
 
-  const uncertainty = {
-    capability: next.capability,
-    decision: next.decision,
-    timing: next.timing,
-    calibration: next.calibration,
-    sustained_performance: next.sustainedPerformance,
-    learning: next.learning,
-  };
+  const canonical = dimensions.map(([dimension, p]) => ({
+    dimension,
+    estimate: Number(p.estimate.toFixed(10)),
+    uncertainty: Number(Math.sqrt(p.variance).toFixed(10)),
+    lower: Number(clamp01(p.estimate - 1.96 * Math.sqrt(p.variance)).toFixed(10)),
+    upper: Number(clamp01(p.estimate + 1.96 * Math.sqrt(p.variance)).toFixed(10)),
+    evidence_count: p.evidence_count,
+    evidence_quality: Number(p.evidence_quality.toFixed(10)),
+  }));
 
-  const { data: persisted, error: persistError } = await serviceClient.rpc(
-    "pie_persist_state_snapshot",
-    {
-      p_user_id: userId,
-      p_model_version: next.modelVersion,
-      p_state: next,
-      p_uncertainty: uncertainty,
-      p_observation_count: observations.length,
-    },
-  );
+  const inferenceHash = await sha256(JSON.stringify(canonical));
 
-  if (persistError) return json({ error: "state_persist_failed", detail: persistError.message }, 500);
-
-  const persistedState = persisted?.[0];
-  const { data: recentStates } = await serviceClient
+  const { data: sourceState, error: sourceStateError } = await serviceClient
+    .schema("pie")
     .from("pie_candidate_state")
-    .select("*")
-    .eq("user_id", userId)
-    .order("state_sequence", { ascending: false })
-    .limit(60);
+    .select("state_version")
+    .eq("user_id", user.id)
+    .order("state_version", { ascending: false })
+    .limit(1)
+    .maybeSingle();
 
-  let dynamic = null;
-  if (recentStates?.length) {
-    const history: CandidateState[] = recentStates
-      .reverse()
-      .map((row) => ({
-        timestamp: row.state_timestamp,
-        sequence: Number(row.state_sequence),
-        capability: {
-          estimate: Number(row.capability_estimate ?? 0.5),
-          variance: 0.1,
-          lower: 0,
-          upper: 1,
-          confidenceLevel: 0.95,
-          evidenceCount: Number(row.observation_count ?? 0),
-          evidenceQuality: Number(row.data_quality ?? 0),
-        },
-        decision: {
-          estimate: Number(row.decision_estimate ?? 0.5),
-          variance: 0.1,
-          lower: 0,
-          upper: 1,
-          confidenceLevel: 0.95,
-          evidenceCount: Number(row.observation_count ?? 0),
-          evidenceQuality: Number(row.data_quality ?? 0),
-        },
-        timing: {
-          estimate: Number(row.timing_estimate ?? 0.5),
-          variance: 0.1,
-          lower: 0,
-          upper: 1,
-          confidenceLevel: 0.95,
-          evidenceCount: Number(row.observation_count ?? 0),
-          evidenceQuality: Number(row.data_quality ?? 0),
-        },
-        calibration: {
-          estimate: Number(row.calibration_estimate ?? 0.5),
-          variance: 0.1,
-          lower: 0,
-          upper: 1,
-          confidenceLevel: 0.95,
-          evidenceCount: Number(row.observation_count ?? 0),
-          evidenceQuality: Number(row.data_quality ?? 0),
-        },
-        sustainedPerformance: {
-          estimate: Number(row.sustained_performance_estimate ?? 0.5),
-          variance: 0.1,
-          lower: 0,
-          upper: 1,
-          confidenceLevel: 0.95,
-          evidenceCount: Number(row.observation_count ?? 0),
-          evidenceQuality: Number(row.data_quality ?? 0),
-        },
-        learning: {
-          estimate: Number(row.learning_estimate ?? 0.5),
-          variance: 0.1,
-          lower: 0,
-          upper: 1,
-          confidenceLevel: 0.95,
-          evidenceCount: Number(row.observation_count ?? 0),
-          evidenceQuality: Number(row.data_quality ?? 0),
-        },
-        identificationStatus: row.identification_status,
-        evidenceLevel: row.evidence_level,
-        dataQuality: Number(row.data_quality ?? 0),
-        modelVersion: row.model_version,
-      }));
+  if (sourceStateError) return json({ error: "source_state_query_failed", detail: sourceStateError.message }, 500);
 
-    const derived = deriveDynamics(history);
-    dynamic = {
-      ...derived,
-      user_id: userId,
-      candidate_state_id: persistedState?.state_id ?? null,
-      state_timestamp: next.timestamp,
-      state_sequence: persistedState?.state_sequence ?? next.sequence,
-      model_version: next.modelVersion,
-      identification_status: next.identificationStatus,
-      evidence_quality: next.dataQuality,
-      evidence_count: observations.length,
-    };
+  const averageQuality = canonical.reduce((n, x) => n + x.evidence_quality, 0) / canonical.length;
+  const evidenceCount = canonical.reduce((n, x) => n + x.evidence_count, 0) / canonical.length;
+  const maturity = evidenceCount < 6 ? "INSUFFICIENT" : evidenceCount < 20 ? "PRELIMINARY" : evidenceCount < 40 ? "DEVELOPING" : "ESTABLISHED_INDIVIDUAL_EVIDENCE";
+  const signalQuality = averageQuality >= 0.75 ? "HIGH" : averageQuality >= 0.5 ? "MEDIUM" : "LOW";
 
-    await serviceClient.from("pie_dynamic_state").insert(dynamic);
+  const shadowRows = canonical.map((p) => ({
+    user_id: user.id,
+    dimension: p.dimension,
+    estimate: p.estimate,
+    uncertainty: p.uncertainty,
+    interval: { lower: p.lower, upper: p.upper, confidence_level: 0.95 },
+    evidence_count: p.evidence_count,
+    evidence_maturity: maturity,
+    signal_quality: signalQuality,
+    explanation: {
+      shadow_only: true,
+      model_version: MODEL_VERSION,
+      inference_hash: inferenceHash,
+    },
+    model_version: MODEL_VERSION,
+    source_state_version: sourceState?.state_version ?? null,
+  }));
+
+  const { error: shadowError } = await serviceClient
+    .schema("pie")
+    .from("inference_shadow")
+    .insert(shadowRows);
+
+  if (shadowError) {
+    return json({ error: "shadow_persist_failed", detail: shadowError.message }, 500);
   }
 
   return json({
     status: "completed",
-    candidate_facing: true,
-    legacy_authoritative: false,
-    model_version: next.modelVersion,
-    observation_count: observations.length,
+    shadow_only: true,
+    authoritative: false,
+    influences_adaptation: false,
+    model_version: MODEL_VERSION,
+    user_id: user.id,
+    observation_count: rows.length,
+    dimension_count: 6,
+    dimensions: canonical,
+    inference_hash: inferenceHash,
+    source_state_version: sourceState?.state_version ?? null,
+    evidence_maturity: maturity,
   });
 });

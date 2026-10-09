@@ -1,0 +1,27 @@
+name: Security Live Certification
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  certify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm install --no-audit --no-fund
+      - name: Run security live certification
+        env:
+          V2_URL: ${{ secrets.ZYNTRA_V2_URL }}
+          V2_PUBLISHABLE_KEY: ${{ secrets.ZYNTRA_V2_PUBLISHABLE_KEY }}
+          SECURITY_TEST_USER_A_EMAIL: ${{ secrets.SECURITY_TEST_USER_A_EMAIL }}
+          SECURITY_TEST_USER_B_EMAIL: ${{ secrets.SECURITY_TEST_USER_B_EMAIL }}
+          SECURITY_TEST_PASSWORD: ${{ secrets.SECURITY_TEST_PASSWORD }}
+        run: npx vite-node scripts/security-live-certification.mts

@@ -1,0 +1,152 @@
+name: PIE P22 Final Production Readiness Gate
+
+on:
+  push:
+    branches:
+      - pie-p22-final-production-readiness
+  pull_request:
+    branches: [pie-p21-4-state-selection-integrity]
+  workflow_dispatch:
+    inputs:
+      production_url:
+        description: "Public production URL to smoke-test"
+        required: true
+        default: "https://www.zyntrahealthcareintelligence.org"
+
+permissions:
+  contents: read
+
+jobs:
+  final-readiness:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      PRODUCTION_URL: ${{ inputs.production_url || 'https://www.zyntrahealthcareintelligence.org' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Protect certified P12-P21.4 core
+        run: |
+          git diff --exit-code e935f97cde42afacea6ab82865d4a4ac6edb313e -- \
+            supabase/functions/pie-infer-state/index.ts \
+            supabase/functions/pie-shadow-read/index.ts \
+            supabase/functions/pie-p14-shadow-read/index.ts \
+            supabase/functions/pie-telemetry-audit/index.ts \
+            supabase/functions/pie-learner-state-audit/index.ts \
+            scripts/pie-p12-shadow-certification.mts \
+            scripts/pie-p13-shadow-certification.mts \
+            scripts/pie-p14-read-path-certification.mts \
+            scripts/pie-p15-controlled-production-certification.mts \
+            scripts/pie-p16-production-contract-audit.mts \
+            scripts/pie-p17-failure-isolation-certification.mts \
+            scripts/pie-p18-authoritative-adaptation-certification.mts \
+            scripts/pie-p19-final-production-certification.mts \
+            scripts/pie-p20-production-deployment-gate.mts \
+            scripts/pie-p21-1-telemetry-integrity.mts \
+            scripts/pie-p21-2-decision-trace-integrity.mts \
+            scripts/pie-p21-3-learner-state-integrity.mts \
+            scripts/pie-p21-4-state-selection-integrity.mts \
+            supabase/migrations_v2/0051_pie_p3_candidate_pool.sql
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Unit tests
+        run: npm test -- --passWithNoTests
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Production build
+        run: npm run build
+
+      - name: P21.4 live state-to-selection certification
+        env:
+          V2_URL: ${{ secrets.ZYNTRA_V2_URL }}
+          V2_PUBLISHABLE_KEY: ${{ secrets.ZYNTRA_V2_PUBLISHABLE_KEY }}
+          PIE_TEST_USER_A_EMAIL: ${{ secrets.PIE_TEST_USER_A_EMAIL }}
+          PIE_TEST_USER_B_EMAIL: ${{ secrets.PIE_TEST_USER_B_EMAIL }}
+          PIE_TEST_PASSWORD: ${{ secrets.PIE_TEST_PASSWORD }}
+        run: npx vite-node scripts/pie-p21-4-state-selection-integrity.mts
+
+      - name: P21.3 learner-state regression
+        env:
+          V2_URL: ${{ secrets.ZYNTRA_V2_URL }}
+          V2_PUBLISHABLE_KEY: ${{ secrets.ZYNTRA_V2_PUBLISHABLE_KEY }}
+          PIE_TEST_USER_A_EMAIL: ${{ secrets.PIE_TEST_USER_A_EMAIL }}
+          PIE_TEST_USER_B_EMAIL: ${{ secrets.PIE_TEST_USER_B_EMAIL }}
+          PIE_TEST_PASSWORD: ${{ secrets.PIE_TEST_PASSWORD }}
+        run: npx vite-node scripts/pie-p21-3-learner-state-integrity.mts
+
+      - name: P21.2 decision-trace regression
+        env:
+          V2_URL: ${{ secrets.ZYNTRA_V2_URL }}
+          V2_PUBLISHABLE_KEY: ${{ secrets.ZYNTRA_V2_PUBLISHABLE_KEY }}
+          PIE_TEST_USER_A_EMAIL: ${{ secrets.PIE_TEST_USER_A_EMAIL }}
+          PIE_TEST_USER_B_EMAIL: ${{ secrets.PIE_TEST_USER_B_EMAIL }}
+          PIE_TEST_PASSWORD: ${{ secrets.PIE_TEST_PASSWORD }}
+        run: npx vite-node scripts/pie-p21-2-decision-trace-integrity.mts
+
+      - name: Public Vercel production smoke test
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "Checking public production URL: $PRODUCTION_URL"
+          case "$PRODUCTION_URL" in
+            https://*) ;;
+            *) echo "FAIL smoke URL must be HTTPS: $PRODUCTION_URL"; exit 1 ;;
+          esac
+          html="$(mktemp)"
+          headers="$(mktemp)"
+          meta="$(curl --silent --show-error --location --retry 3 --retry-all-errors --max-time 30 --dump-header "$headers" --output "$html" --write-out '%{http_code} %{url_effective}' "$PRODUCTION_URL")"
+          status="${meta%% *}"
+          final_url="${meta#* }"
+          echo "Final URL: $final_url"
+          echo "HTTP status: $status"
+          case "$final_url" in
+            https://*) ;;
+            *) echo "FAIL final URL is not HTTPS: $final_url"; exit 1 ;;
+          esac
+          if [ "$status" != "200" ]; then
+            echo "FAIL expected HTTP 200 from $final_url, got $status"
+            echo "Response headers:"
+            sed -n '1,20p' "$headers"
+            exit 1
+          fi
+          if ! grep -Fq '<div id="root">' "$html"; then
+            echo "FAIL application mount <div id=\"root\"> missing in $final_url"
+            exit 1
+          fi
+          if ! grep -Eiq '<title>[^<]*Zyntra' "$html"; then
+            echo "FAIL expected Zyntra title missing in $final_url"
+            exit 1
+          fi
+          js_asset="$(grep -Eo 'src="[^"]+\.js(\?[^"]*)?"' "$html" | head -n 1 | cut -d '"' -f 2 || true)"
+          css_asset="$(grep -Eo 'href="[^"]+\.css(\?[^"]*)?"' "$html" | head -n 1 | cut -d '"' -f 2 || true)"
+          if [ -z "$js_asset" ] || [ -z "$css_asset" ]; then
+            echo "FAIL missing JS or CSS asset reference in $final_url (js=${js_asset:-none} css=${css_asset:-none})"
+            exit 1
+          fi
+          for asset in "$js_asset" "$css_asset"; do
+            case "$asset" in
+              http*) asset_url="$asset" ;;
+              /*) asset_url="${final_url%/}$asset" ;;
+              *) asset_url="${final_url%/}/$asset" ;;
+            esac
+            asset_status="$(curl --silent --show-error --location --retry 2 --max-time 30 --output /dev/null --write-out '%{http_code}' "$asset_url")"
+            if [ "$asset_status" != "200" ]; then
+              echo "FAIL asset $asset_url returned $asset_status"
+              exit 1
+            fi
+            echo "PASS asset $asset_status $asset_url"
+          done
+          echo "PASS production HTTPS status 200 at $final_url"
+          echo "PASS root mount, Zyntra title, JS asset, and CSS asset"
+          echo "NOTE: HTTP 200 plus assets is a public smoke test only. It does not certify deployment identity or an authenticated browser journey."

@@ -6,6 +6,7 @@ import { SecurityOverlay } from '@/components/SecurityOverlay';
 import { useIsMobile, useIsTablet } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
 import { LegalFooter } from '@/components/LegalFooter';
+import { PracticeSecurityEnforcementV2 } from '@/components/security/PracticeSecurityEnforcementV2';
 
 export interface AppLayoutProps {
   children: ReactNode;
@@ -73,15 +74,18 @@ function TopHeader() {
 function LayoutInner({ children }: AppLayoutProps) {
   const { collapsed, mobileOpen, setMobileOpen } = useSidebarCollapsed();
   const isMobile = useIsMobile();
+  const { pathname } = useLocation();
+  const securityPractice = ['/practice', '/questions', '/assess', '/flashcards'].some(p => pathname === p || pathname.startsWith(p + '/')) || pathname.startsWith('/practice/ai-lab');
 
   return (
-    <div className="relative min-h-screen overflow-x-hidden bg-[#040812] text-slate-100">
+    <div data-zyntra-security-viewport className="relative min-h-screen overflow-x-hidden bg-[#040812] text-slate-100">
       <div className="pointer-events-none fixed inset-0 overflow-hidden">
         <div className="absolute -left-32 top-0 h-[32rem] w-[32rem] rounded-full bg-cyan-500/10 blur-[120px]" />
         <div className="absolute right-[-10rem] top-[20%] h-[34rem] w-[34rem] rounded-full bg-indigo-500/10 blur-[120px]" />
       </div>
 
       <AppSidebar isMobile={isMobile} />
+      <PracticeSecurityEnforcementV2 active={securityPractice} />
 
       {isMobile && (
         <header className="fixed inset-x-0 top-0 z-30 flex h-14 items-center justify-between border-b border-white/10 bg-[#040812]/85 px-4 backdrop-blur-xl">
