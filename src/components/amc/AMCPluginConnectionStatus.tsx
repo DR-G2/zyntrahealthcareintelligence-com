@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { AlertCircle, CheckCircle2, LoaderCircle, ShieldCheck } from "lucide-react";
-import { getAMCBlueprint, getAMCPluginSummary, getAMCPracticeStatus, type AMCBlueprintResponse, type AMCPluginSummary, type AMCPracticeStatus } from "@/lib/amc/amc-runtime-client";
+import { getAMCBlueprint, getAMCPluginSummary, getAMCPracticeStatus, type AMCBlueprintResponse, type AMCExamMode, type AMCPluginSummary, type AMCPracticeStatus } from "@/lib/amc/amc-runtime-client";
 
-export function AMCPluginConnectionStatus() {
+export function AMCPluginConnectionStatus({ examMode = "MCQ" }: { examMode?: AMCExamMode }) {
   const [summary, setSummary] = useState<AMCPluginSummary | null>(null);
   const [blueprint, setBlueprint] = useState<AMCBlueprintResponse | null>(null);
   const [practiceStatus, setPracticeStatus] = useState<AMCPracticeStatus | null>(null);
@@ -11,7 +11,7 @@ export function AMCPluginConnectionStatus() {
 
   useEffect(() => {
     let cancelled = false;
-    Promise.all([getAMCPluginSummary("MCQ"), getAMCBlueprint("MCQ"), getAMCPracticeStatus("MCQ")])
+    Promise.all([getAMCPluginSummary(examMode), getAMCBlueprint(examMode), getAMCPracticeStatus(examMode)])
       .then(([nextSummary, nextBlueprint, nextPracticeStatus]) => {
         if (cancelled) return;
         setSummary(nextSummary);
@@ -27,7 +27,7 @@ export function AMCPluginConnectionStatus() {
         if (!cancelled) setLoading(false);
       });
     return () => { cancelled = true; };
-  }, []);
+  }, [examMode]);
 
   return (
     <section aria-labelledby="amc-plugin-status" className="mt-8 rounded-2xl border border-border bg-card p-5">
@@ -63,16 +63,18 @@ export function AMCPluginConnectionStatus() {
                   <p className="text-xs text-muted-foreground">{summary.environmentVersion ?? "No version returned"} · {summary.environmentStatus ?? "status unreported"}</p>
                 </div>
                 <div className="rounded-xl border border-border/70 p-3">
-                  <p className="text-xs text-muted-foreground">MCQ blueprint</p>
+                  <p className="text-xs text-muted-foreground">{examMode === "MCQ" ? "MCQ blueprint" : "Clinical blueprint"}</p>
                   <p className="mt-1 font-medium">{blueprint.blueprint.length} rows returned</p>
                   <p className="text-xs text-muted-foreground">Versioned source proportions</p>
                 </div>
               </div>
               <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-3">
-                <p className="text-sm font-semibold">AMC question delivery: not enabled</p>
+                <p className="text-sm font-semibold">{examMode === "MCQ" ? "AMC MCQ delivery: not enabled" : "AMC clinical station delivery: not enabled"}</p>
                 <p className="mt-1 text-sm text-muted-foreground">
-                  {practiceStatus.approvedQuestionCount} approved metadata rows, {practiceStatus.mappedQuestionCount} eligible mapped questions and {practiceStatus.eligibleLearningObjectiveCount} eligible blueprint objectives.
-                  Selector status: {practiceStatus.selectorStatus}. {practiceStatus.reason} This track will not silently fall back to generic questions.
+                  {examMode === "MCQ"
+                    ? `${practiceStatus.approvedQuestionCount} approved metadata rows, ${practiceStatus.mappedQuestionCount} eligible mapped questions and ${practiceStatus.eligibleLearningObjectiveCount} eligible blueprint objectives.`
+                    : `${practiceStatus.approvedQuestionCount} approved station metadata rows. A dedicated OSCE selector is required; these stations cannot use the MCQ selector.`}
+                  {" "}Selector status: {practiceStatus.selectorStatus}. {practiceStatus.reason} This track will not silently fall back to generic content.
                 </p>
               </div>
               <p className="text-xs text-muted-foreground">
