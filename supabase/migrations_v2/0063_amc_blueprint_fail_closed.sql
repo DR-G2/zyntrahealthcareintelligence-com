@@ -108,9 +108,14 @@ BEGIN
   SELECT count(*) INTO v_eligible_lo_count
   FROM amc.amc_blueprint b
   JOIN amc.amc_blueprint_lo bl ON bl.blueprint_id = b.id AND bl.eligible
-  WHERE b.blueprint_key = v_blueprint_key
-    AND (b.effective_from IS NULL OR b.effective_from <= now())
-    AND (b.effective_to IS NULL OR b.effective_to > now());
+  WHERE b.id = (
+    SELECT b2.id FROM amc.amc_blueprint b2
+    WHERE b2.blueprint_key = v_blueprint_key
+      AND (b2.effective_from IS NULL OR b2.effective_from <= now())
+      AND (b2.effective_to IS NULL OR b2.effective_to > now())
+    ORDER BY b2.effective_from DESC NULLS LAST
+    LIMIT 1
+  );
 
   SELECT count(*) INTO v_approved_count
   FROM public.amc_question_context qc
@@ -139,9 +144,14 @@ BEGIN
     AND coalesce(qc.clinical_domain, qc.task_type) IS NOT NULL
     AND qc.amc_relevance IS NOT NULL
     AND qc.source_evidence_level IS NOT NULL
-    AND b.blueprint_key = v_blueprint_key
-    AND (b.effective_from IS NULL OR b.effective_from <= now())
-    AND (b.effective_to IS NULL OR b.effective_to > now());
+    AND b.id = (
+      SELECT b2.id FROM amc.amc_blueprint b2
+      WHERE b2.blueprint_key = v_blueprint_key
+        AND (b2.effective_from IS NULL OR b2.effective_from <= now())
+        AND (b2.effective_to IS NULL OR b2.effective_to > now())
+      ORDER BY b2.effective_from DESC NULLS LAST
+      LIMIT 1
+    );
 
   v_selector_status := CASE
     WHEN NOT v_plugin_active OR v_environment_status IS DISTINCT FROM 'ACTIVE' OR NOT v_selector_verified THEN 'NOT_CERTIFIED'
