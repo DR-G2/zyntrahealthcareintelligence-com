@@ -64,9 +64,17 @@ describe("P5 learner history (PIE attempts only)", () => {
     for (const e of ADMIN_EMAILS.filter((a) => a !== SUPER_ADMIN_EMAIL)) expect(canBrowseQuestionBank(e)).toBe(false);
   });
 
+  it("maps legacy attempts without a session and withholds answer keys", () => {
+    const legacy = toLegacyAttempt(row(0, { session_id: null, correct_answer: null, explanation: null }));
+    expect(legacy.session_id).toBeNull();
+    expect(legacy.questions.correct_answer).toBe("");
+    expect(legacy.questions.explanation).toBeNull();
+  });
+
   it("0081 history RPC aligns to deployed V2 schema and preserves learner isolation", () => {
     const m = read("supabase/migrations_v2/0081_v2_p5_history_rpc_schema_alignment.sql");
-    expect(m).toContain("join public.practice_sessions ps");
+    expect(m).toContain("left join public.practice_sessions ps");
+    expect(m).toContain("(ua.session_id is null or ps.id is not null)");
     expect(m).toContain("ps.user_id = v_uid");
     expect(m).toContain("where ua.user_id = v_uid");
     expect(m).toContain("case when ps.status = 'completed' then q.correct_answer else null end");
