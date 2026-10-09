@@ -699,7 +699,7 @@ export default function PerformanceIntelligence() {
 
       setSnapshot({
         readiness: Number(profileRes.data?.readiness_score || 0),
-        accuracy: Number(profileRes.data?.clinical_accuracy || 0),
+        accuracy: attempts.length ? (attempts.filter((row) => row.is_correct).length / attempts.length) * 100 : 0,
         stability: Number(profileRes.data?.answer_stability || 0),
         timing: Number(profileRes.data?.time_management || 0),
         calibration: canonicalConfidence.calibration,
