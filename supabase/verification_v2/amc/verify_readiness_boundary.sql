@@ -47,4 +47,15 @@ SELECT public.t_assert(
   NOT has_function_privilege('anon','public.get_my_amc_readiness(text)','execute'),
   'anonymous role cannot execute AMC readiness RPC'
 );
+SELECT public.t_assert(
+  NOT has_function_privilege('authenticated','public.amc_promote_calibrated_model(uuid,text)','execute')
+  AND NOT has_function_privilege('anon','public.amc_promote_calibrated_model(uuid,text)','execute')
+  AND has_function_privilege('service_role','public.amc_promote_calibrated_model(uuid,text)','execute'),
+  'only service_role can invoke calibrated-model promotion'
+);
+SELECT public.t_assert(
+  NOT has_function_privilege('authenticated','public.amc_evaluate_promotion_gate(uuid)','execute')
+  AND has_function_privilege('service_role','public.amc_evaluate_promotion_gate(uuid)','execute'),
+  'only service_role can evaluate promotion gate'
+);
 \echo 'AMC readiness boundary assertions passed'
