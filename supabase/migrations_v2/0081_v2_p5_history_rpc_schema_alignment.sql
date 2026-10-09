@@ -1,9 +1,9 @@
 -- 0081: V2 MCQ history RPC aligned to the deployed schema.
 --
 -- The old P5 history RPC joined pie.adaptive_session, which is not part of the
--- V2 schema. Attempts are owned by public.user_attempts and associated with
--- public.practice_sessions. Keep history read-only and scoped to auth.uid().
--- Answer keys and explanations are withheld until the owning session is completed.
+-- V2 schema. Attempts are owned by public.user_attempts; session metadata is available from
+-- public.practice_sessions when a valid owned session exists. Include legacy
+-- answered attempts with no session ID, but never expose keys for those rows.
 --
 -- This migration intentionally does not create pie.adaptive_session or change
 -- the separate PIE observation pipeline.
@@ -60,7 +60,7 @@ begin
   select
     ua.id,
     ua.session_id,
-    coalesce(ps.config ->> 'mode', ps.session_type),
+    coalesce(ps.config ->> 'mode', ps.session_type, 'legacy_orphan'),
     q.id,
     q.zyntra_id,
     q.stem,
@@ -85,7 +85,7 @@ begin
     ua.question_position,
     ua.created_at
   from public.user_attempts ua
-  join public.practice_sessions ps
+  left join public.practice_sessions ps
     on ps.id = ua.session_id
    and ps.user_id = v_uid
   join public.questions q
@@ -102,7 +102,7 @@ begin
   left join pie.concept c
     on c.id = lo.concept_id
   where ua.user_id = v_uid
-    and ua.session_id is not null
+    and (ua.session_id is null or ps.id is not null)
     and (p_before is null or ua.created_at < p_before)
   order by ua.created_at desc, ua.id
   limit p_limit;
