@@ -1,0 +1,48 @@
+name: History RPC validation
+
+on:
+  pull_request:
+    branches:
+      - pie-p22-final-production-readiness
+    paths:
+      - "src/lib/pie/pie-history-client.ts"
+      - "src/lib/pie/pie-history-client.test.ts"
+      - "supabase/migrations_v2/0081_v2_p5_history_rpc_schema_alignment.sql"
+      - ".github/workflows/history-rpc-validation.yml"
+      - "package.json"
+      - "package-lock.json"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: history-rpc-validation-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Test, typecheck, and build (no production writes)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout PR commit
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies (manifest currently differs from lockfile)
+        run: npm install --no-audit --no-fund
+
+      - name: Run full test suite
+        run: npm test
+
+      - name: TypeScript checks
+        run: npm run typecheck
+
+      - name: Production build
+        run: npm run build

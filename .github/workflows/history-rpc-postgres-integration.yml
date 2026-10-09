@@ -1,0 +1,57 @@
+name: History RPC PostgreSQL integration
+
+on:
+  push:
+    branches:
+      - fix/p22-v2-mcq-history-rpc
+    paths:
+      - "scripts/sql-tests/0081_history_rpc.integration.sql"
+      - "supabase/migrations_v2/0081_v2_p5_history_rpc_schema_alignment.sql"
+      - ".github/workflows/history-rpc-postgres-integration.yml"
+  pull_request:
+    branches:
+      - pie-p22-final-production-readiness
+    paths:
+      - "scripts/sql-tests/0081_history_rpc.integration.sql"
+      - "supabase/migrations_v2/0081_v2_p5_history_rpc_schema_alignment.sql"
+      - ".github/workflows/history-rpc-postgres-integration.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: history-rpc-postgres-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  postgres-integration:
+    name: Apply 0081 and verify history isolation on disposable PostgreSQL
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - name: Checkout PR commit
+        uses: actions/checkout@v4
+
+      - name: Install PostgreSQL client
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes postgresql-client
+
+      - name: Apply migration to disposable database and assert isolation
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres
+        run: psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f scripts/sql-tests/0081_history_rpc.integration.sql
