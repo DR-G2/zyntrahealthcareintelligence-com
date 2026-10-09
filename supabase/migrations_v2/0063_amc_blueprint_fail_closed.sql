@@ -124,8 +124,15 @@ BEGIN
 
   SELECT count(*) INTO v_approved_count
   FROM public.amc_question_context qc
+  LEFT JOIN public.questions q ON q.id = qc.question_id
+  LEFT JOIN public.clinical_stations st ON st.id = qc.station_id
   WHERE qc.plugin_version_id = v_plugin.id
     AND qc.exam_mode = p_exam_mode
+    AND (
+      (p_exam_mode = 'MCQ' AND qc.question_id IS NOT NULL AND qc.question_version = q.version::text)
+      OR
+      (p_exam_mode = 'CLINICAL' AND qc.station_id IS NOT NULL AND qc.station_version = st.version::text)
+    )
     AND qc.metadata ->> 'review_status' = 'APPROVED'
     AND nullif(qc.metadata ->> 'reviewed_by', '') IS NOT NULL
     AND nullif(qc.metadata ->> 'reviewed_at', '') IS NOT NULL
