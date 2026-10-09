@@ -1,14 +1,12 @@
-import { useState } from "react";
+import { useState, type PointerEvent } from "react";
 
 type NeuralSceneProps = { active: number; reduce: boolean };
-
-const stageNames = ["Observe", "Diagnose", "Intervene", "Measure", "Adapt"];
 
 export function NeuralScene({ active, reduce }: NeuralSceneProps) {
   const [pointer, setPointer] = useState({ x: 0, y: 0 });
   const [hovered, setHovered] = useState(false);
 
-  function handlePointerMove(event: React.PointerEvent<HTMLDivElement>) {
+  function handlePointerMove(event: PointerEvent<HTMLDivElement>) {
     if (reduce || event.pointerType === "touch") return;
     const rect = event.currentTarget.getBoundingClientRect();
     setPointer({
@@ -48,14 +46,13 @@ export function NeuralScene({ active, reduce }: NeuralSceneProps) {
           decoding="async"
         />
         {!reduce && (
-          <div className="pointer-events-none absolute inset-0 z-[2]">
-            <span className="absolute left-1/2 top-[41%] h-2 w-2 -translate-x-1/2 rounded-full bg-cyan-100 shadow-[0_0_16px_5px_rgba(103,232,249,0.85)] animate-pulse" />
-            <span className="absolute left-1/2 top-[61%] h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-white shadow-[0_0_12px_4px_rgba(34,211,238,0.9)] animate-pulse" />
+          <div className="pointer-events-none absolute inset-0 z-[2]" aria-hidden="true">
+            <span
+              className="absolute left-1/2 h-3 w-3 -translate-x-1/2 rounded-full bg-cyan-100 shadow-[0_0_18px_6px_rgba(103,232,249,0.9)] transition-[top] duration-500"
+              style={{ top: ["41%", "48%", "58%", "68%", "78%"][active] }}
+            />
           </div>
         )}
-        <div className="absolute bottom-3 left-1/2 z-[3] -translate-x-1/2 rounded-full border border-cyan-200/35 bg-[#04101d]/85 px-3 py-1.5 text-[10px] font-semibold tracking-[0.14em] text-cyan-100 backdrop-blur-sm sm:text-xs">
-          {stageNames[active]} <span aria-hidden="true">→</span> NEXT BEST ACTION
-        </div>
       </div>
     </div>
   );
