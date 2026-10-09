@@ -9,6 +9,7 @@ export interface AMCPluginSummary {
   status: string;
   environmentCode: string | null;
   environmentVersion: string | null;
+  environmentStatus: string | null;
   examMode: AMCExamMode;
   readiness: {
     probability: null;
@@ -92,6 +93,7 @@ export function parseAMCPluginSummary(value: unknown): AMCPluginSummary {
     status: typeof value.status === "string" ? value.status : "unknown",
     environmentCode: typeof value.environmentCode === "string" ? value.environmentCode : null,
     environmentVersion: typeof value.environmentVersion === "string" ? value.environmentVersion : null,
+    environmentStatus: typeof value.environmentStatus === "string" ? value.environmentStatus : null,
     examMode: value.examMode,
     readiness: {
       probability: null,
