@@ -3,12 +3,12 @@ import { ensureV2Session } from '@/lib/migration/v2-practice-session';
 
 /**
  * P5 learner history: the ONLY source of attempt history and answer keys for learner pages.
- * get_my_attempt_history returns the caller's own PIE attempts (adaptive or diagnostic) and
- * carries correct_answer / explanation only because each row is an answered attempt.
+ * get_my_attempt_history returns the caller's own answered attempts and carries
+ * correct_answer / explanation only after the associated session is completed; legacy attempts without a session have no answer key.
  * No page may read keys from the questions table.
  */
 export interface PieHistoryRow {
-  attempt_id: string; session_id: string; session_mode: 'adaptive' | 'diagnostic'; question_id: string; zyntra_id: string | null;
+  attempt_id: string; session_id: string | null; session_mode: string; question_id: string; zyntra_id: string | null;
   stem: string; options: unknown; subject_id: string | null; subject_name: string | null; subtopic_id: string | null; subtopic_name: string | null;
   difficulty_tier: string | null; lo_id: string | null; lo_title: string | null; concept_title: string | null;
   selected_answer: string; is_correct: boolean; correct_answer: string | null; explanation: string | null;
@@ -18,7 +18,7 @@ export interface PieHistoryRow {
 
 /** Legacy page shape (user_attempts joined to questions), produced from PIE history. */
 export interface LegacyAttemptShape {
-  id: string; question_id: string; session_id: string; selected_answer: string; is_correct: boolean;
+  id: string; question_id: string; session_id: string | null; selected_answer: string; is_correct: boolean;
   answer_changes_count: number; change_sequence: string[]; time_taken_seconds: number | null; time_to_first_click: number | null;
   confidence_level: number | null; created_at: string;
   questions: { question_text: string; correct_answer: string; category: string; subtopic: string | null; difficulty: string; explanation: string | null; options: string[] };
@@ -43,7 +43,7 @@ function optionList(options: unknown): string[] {
 
 export function toLegacyAttempt(r: PieHistoryRow): LegacyAttemptShape {
   return {
-    id: r.attempt_id, question_id: r.question_id, session_id: r.session_id, selected_answer: r.selected_answer,
+    id: r.attempt_id, question_id: r.question_id, session_id: r.session_id ?? null, selected_answer: r.selected_answer,
     is_correct: r.is_correct, answer_changes_count: r.answer_changes_count ?? 0,
     change_sequence: Array.isArray(r.change_sequence) ? (r.change_sequence as unknown[]).map(String) : [],
     time_taken_seconds: r.time_taken_seconds, time_to_first_click: r.time_to_first_click,
@@ -55,10 +55,22 @@ export function toLegacyAttempt(r: PieHistoryRow): LegacyAttemptShape {
   };
 }
 
-export async function fetchPieAttemptHistory(limit = 1000, deps: HistoryDeps = defaultHistoryDeps): Promise<PieHistoryRow[]> {
+export interface HistoryCursor { createdAt: string; attemptId: string; }
+
+export async function fetchPieAttemptHistory(
+  limit = 1000,
+  deps: HistoryDeps = defaultHistoryDeps,
+  before?: HistoryCursor,
+): Promise<PieHistoryRow[]> {
   await deps.ensureSession();
   const n = Math.max(1, Math.min(5000, Math.floor(limit)));
-  const { data, error } = await deps.rpc('get_my_attempt_history', { p_limit: n });
+  const args: Record<string, unknown> = { p_limit: n };
+  if (before) {
+    if (!before.createdAt || !before.attemptId) throw new Error('Both history cursor fields are required.');
+    args.p_before = before.createdAt;
+    args.p_before_attempt_id = before.attemptId;
+  }
+  const { data, error } = await deps.rpc('get_my_attempt_history', args);
   if (error) throw new Error(error.message || 'History could not be loaded.');
   return (data as PieHistoryRow[]) || [];
 }
