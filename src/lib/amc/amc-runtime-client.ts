@@ -41,24 +41,11 @@ export interface AMCReadinessResponse {
   environmentCode: string | null;
   readiness: {
     probability: null;
-    index: number | null;
-    uncertainty: number | null;
-    lower: number | null;
-    upper: number | null;
-    status: string;
+    status: "INSUFFICIENT_EVIDENCE";
   };
-  evidenceCount: number;
+  dimensionCount: number;
   probabilityStatus: "NOT_CALIBRATED";
   modelVersion: string;
-}
-
-let sessionPromise: Promise<void> | null = null;
-
-function ensureAMCV2Session(): Promise<void> {
-  if (!sessionPromise) {
-    sessionPromise = ensureV2Session().finally(() => { sessionPromise = null; });
-  }
-  return sessionPromise;
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -128,27 +115,19 @@ export function parseAMCBlueprintResponse(value: unknown): AMCBlueprintResponse 
 export function parseAMCReadinessResponse(value: unknown): AMCReadinessResponse {
   if (!isRecord(value) || value.plugin !== "AMC" || typeof value.pluginVersion !== "string" ||
       !validMode(value.examMode) || !isRecord(value.readiness) ||
-      value.readiness.probability !== null || value.probabilityStatus !== "NOT_CALIBRATED") {
+      value.readiness.probability !== null ||
+      value.readiness.status !== "INSUFFICIENT_EVIDENCE" ||
+      value.probabilityStatus !== "NOT_CALIBRATED") {
     throw new Error("AMC plugin returned an invalid readiness contract.");
   }
-  const readiness = value.readiness;
-  const finiteOrNull = (candidate: unknown) =>
-    typeof candidate === "number" && Number.isFinite(candidate) ? candidate : null;
   return {
     plugin: "AMC",
     pluginVersion: value.pluginVersion,
     examMode: value.examMode,
     environmentCode: typeof value.environmentCode === "string" ? value.environmentCode : null,
-    readiness: {
-      probability: null,
-      index: finiteOrNull(readiness.index),
-      uncertainty: finiteOrNull(readiness.uncertainty),
-      lower: finiteOrNull(readiness.lower),
-      upper: finiteOrNull(readiness.upper),
-      status: typeof readiness.status === "string" ? readiness.status : "INSUFFICIENT_EVIDENCE",
-    },
-    evidenceCount: Number.isInteger(value.evidence_count) && (value.evidence_count as number) >= 0
-      ? value.evidence_count as number : 0,
+    readiness: { probability: null, status: "INSUFFICIENT_EVIDENCE" },
+    dimensionCount: Number.isInteger(value.dimensionCount) && (value.dimensionCount as number) >= 0
+      ? value.dimensionCount as number : 0,
     probabilityStatus: "NOT_CALIBRATED",
     modelVersion: typeof value.modelVersion === "string" ? value.modelVersion : "amc-readiness-v1.0",
   };
