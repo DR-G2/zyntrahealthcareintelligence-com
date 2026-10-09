@@ -60,7 +60,7 @@ export function AMCPluginConnectionStatus() {
                 <div className="rounded-xl border border-border/70 p-3">
                   <p className="text-xs text-muted-foreground">Exam environment</p>
                   <p className="mt-1 font-medium">{summary.environmentCode ?? "Not configured"}</p>
-                  <p className="text-xs text-muted-foreground">{summary.environmentVersion ?? "No version returned"}</p>
+                  <p className="text-xs text-muted-foreground">{summary.environmentVersion ?? "No version returned"} · {summary.environmentStatus ?? "status unreported"}</p>
                 </div>
                 <div className="rounded-xl border border-border/70 p-3">
                   <p className="text-xs text-muted-foreground">MCQ blueprint</p>
