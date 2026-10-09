@@ -51,6 +51,8 @@ describe("P3 candidate pool contract (static)", () => {
     expect(amcBoundary).toContain("metadata ->> 'review_status' = 'APPROVED'");
     expect(amcBoundary).toContain("qc.question_version = q.version::text");
     expect(amcBoundary).toContain("ORDER BY b2.effective_from DESC NULLS LAST");
+    expect(amcBoundary).toContain("AMC_CLINICAL_SELECTOR_NOT_INTEGRATED");
+    expect(amcBoundary).toContain("Clinical stations require a dedicated OSCE selector");
   });
   it("uses an exam-neutral blueprint for generic practice and diagnostic sessions", () => {
     expect(pieClient).toContain("p_blueprint_key: 'ZYNTRA_GENERAL'");
