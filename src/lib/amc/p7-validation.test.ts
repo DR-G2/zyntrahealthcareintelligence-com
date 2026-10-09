@@ -27,4 +27,19 @@ describe("AMC P7 validation contract", () => {
       metrics: [{ code: "truth_recovery", direction: "HIGHER_IS_BETTER", status: "FAIL" }],
     }])).toBe(false);
   });
+  it("rejects an otherwise complete set of validation families when any family has no metrics", () => {
+    const types = [
+      "AMC_SPEC", "BLUEPRINT", "PSYCHOMETRIC_EXTERNAL",
+      "SYNTHETIC", "SECURITY", "INTEGRATION",
+    ] as const;
+    const runs = types.map(validationType => ({
+      validationType,
+      status: "PASSED" as const,
+      datasetManifest: { fixture: true },
+      methodology: { fixture: true },
+      metrics: [],
+    }));
+    expect(canProposeP8(runs)).toBe(false);
+  });
+
 });
