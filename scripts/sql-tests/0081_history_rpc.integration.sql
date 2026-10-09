@@ -143,3 +143,24 @@ begin
   raise notice 'PASS 0081 isolated PostgreSQL integration: ownership, answer-key gating, legacy orphan, deterministic ordering, composite cursor';
 end
 $test$;
+
+reset role;
+set request.jwt.claim.sub = '70000000-0000-0000-0000-000000000002';
+set role authenticated;
+
+do $test_user_b$
+declare
+  n integer;
+  correct_key text;
+begin
+  select count(*) into n from public.get_my_attempt_history(100, null, null);
+  if n <> 1 then raise exception 'User B expected exactly their own attempt, got %', n; end if;
+
+  select correct_answer into correct_key
+  from public.get_my_attempt_history(100, null, null)
+  where attempt_id = '80000000-0000-0000-0000-000000000004';
+  if correct_key <> 'A' then raise exception 'User B completed-session answer key missing or wrong'; end if;
+
+  raise notice 'PASS user B authenticated identity sees only own attempt and completed answer key';
+end
+$test_user_b$;
