@@ -27,12 +27,12 @@ function parseExamMode(value: unknown): "MCQ" | "CLINICAL" | null {
 }
 
 function readinessDTO(value: unknown) {
-  if (!isRecord(value)) return null;
+  if (!isRecord(value) || (value.examMode !== "MCQ" && value.examMode !== "CLINICAL")) return null;
   const dimensionCount = value.dimensionCount;
   return {
     plugin: "AMC",
     pluginVersion: typeof value.pluginVersion === "string" ? value.pluginVersion : "1.0.0",
-    examMode: value.examMode === "CLINICAL" ? "CLINICAL" : "MCQ",
+    examMode: value.examMode,
     environmentCode: typeof value.environmentCode === "string" ? value.environmentCode : null,
     // No calibrated AMC pass-probability model is active. Do not expose the
     // engineering-only composite index or PIE uncertainty as candidate readiness.
