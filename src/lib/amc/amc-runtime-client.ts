@@ -52,6 +52,15 @@ export interface AMCReadinessResponse {
   modelVersion: string;
 }
 
+let sessionPromise: Promise<void> | null = null;
+
+function ensureAMCV2Session(): Promise<void> {
+  if (!sessionPromise) {
+    sessionPromise = ensureV2Session().finally(() => { sessionPromise = null; });
+  }
+  return sessionPromise;
+}
+
 function isRecord(value: unknown): value is Record<string, unknown> {
   return Boolean(value) && typeof value === "object" && !Array.isArray(value);
 }
@@ -146,7 +155,7 @@ export function parseAMCReadinessResponse(value: unknown): AMCReadinessResponse 
 }
 
 async function invokeAMC<T>(body: Record<string, unknown>, parse: (value: unknown) => T): Promise<T> {
-  await ensureV2Session();
+  await ensureAMCV2Session();
   const { data, error } = await getSupabaseV2().functions.invoke("amc-intelligence", { body });
   if (error) throw new Error(error.message || "AMC plugin request failed.");
   return parse(data);
