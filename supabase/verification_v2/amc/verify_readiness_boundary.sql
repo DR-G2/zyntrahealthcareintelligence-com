@@ -22,7 +22,7 @@ DECLARE
   v_read jsonb;
 BEGIN
   v_rebuilt := public.rebuild_my_amc_readiness('MCQ');
-  IF v_rebuilt #> '{readiness,probability}' <> 'null'::jsonb THEN
+  IF v_rebuilt #> '{readiness,probability}' IS DISTINCT FROM 'null'::jsonb THEN
     RAISE EXCEPTION 'FAIL: rebuild returned a pass probability';
   END IF;
   IF v_rebuilt #>> '{readiness,status}' <> 'INSUFFICIENT_EVIDENCE' THEN
@@ -33,7 +33,7 @@ BEGIN
   END IF;
 
   v_read := public.get_my_amc_readiness('MCQ');
-  IF v_read #> '{readiness,probability}' <> 'null'::jsonb THEN
+  IF v_read #> '{readiness,probability}' IS DISTINCT FROM 'null'::jsonb THEN
     RAISE EXCEPTION 'FAIL: read RPC returned a pass probability';
   END IF;
   IF v_read ? 'index' OR v_read ? 'uncertainty' OR v_read ? 'evidence' THEN
