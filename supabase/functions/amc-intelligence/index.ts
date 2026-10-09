@@ -135,7 +135,7 @@ Deno.serve(async (req) => {
       .not("metadata->>reviewed_by", "is", null)
       .not("metadata->>reviewed_at", "is", null)
       .not("patient_group", "is", null)
-      .not("clinical_domain", "is", null)
+      .or("clinical_domain.not.is.null,task_type.not.is.null")
       .not("amc_relevance", "is", null)
       .not("source_evidence_level", "is", null);
     if (approvedError) return errorResponse(500, "amc_question_context_query_failed", responseOrigin);
