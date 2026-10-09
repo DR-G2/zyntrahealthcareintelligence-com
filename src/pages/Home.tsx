@@ -44,6 +44,7 @@ export default function Home() {
           </nav>
           <div className="flex gap-2">
             <Link to="/login" className="rounded-xl border border-white/15 px-4 py-2 text-sm">Sign In</Link>
+            <Link to="/check" className="hidden rounded-xl border border-cyan-300/40 px-4 py-2 text-sm text-cyan-200 sm:inline-flex">Live Demo</Link>
             <Link to="/login" className="rounded-xl bg-cyan-400 px-4 py-2 text-sm font-semibold text-slate-950">Get Started →</Link>
           </div>
         </div>
@@ -57,6 +58,7 @@ export default function Home() {
             <p className="mt-5 max-w-md leading-7 text-slate-300">Zyntra doesn’t just test what you know. It understands <span className="font-semibold text-white">how you think</span>, trains your weaknesses and builds your clinical readiness.</p>
             <div className="mt-6 flex flex-wrap gap-3">
               <Link to="/login" className="rounded-xl bg-cyan-400 px-5 py-3 text-sm font-semibold text-slate-950">Get Started →</Link>
+              <Link to="/check" className="rounded-xl border border-cyan-300/50 bg-cyan-400/10 px-5 py-3 text-sm font-semibold text-cyan-100">Live Demo</Link>
               <a href="#system" className="rounded-xl border border-white/15 px-5 py-3 text-sm">Explore the System</a>
             </div>
           </div>
