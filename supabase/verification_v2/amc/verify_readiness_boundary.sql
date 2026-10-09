@@ -1,4 +1,4 @@
--- LOCAL / staging verification only. Run after 0064_amc_readiness_no_unvalidated_composite.sql.
+-- LOCAL / staging verification only. Run after 0065_amc_readiness_no_unvalidated_composite.sql.
 -- The candidate RPC contract must never expose an unvalidated scalar index or pass probability.
 \set ON_ERROR_STOP 1
 \pset tuples_only on
