@@ -6,7 +6,7 @@ const mig = (f: string) => readFileSync(resolve(__dirname, "../../../supabase/mi
 const pool = mig("0051_pie_p3_candidate_pool.sql");
 const seed = mig("0050_pie_p3_seed_lo_map_irt.sql");
 const amc = mig("0049_pie_p3_readiness_to_amc.sql");
-const amcBoundary = mig("0062_amc_blueprint_fail_closed.sql");
+const amcBoundary = mig("0063_amc_blueprint_fail_closed.sql");
 const pieClient = readFileSync(resolve(__dirname, "pie-practice-client.ts"), "utf8");
 
 describe("P3 candidate pool contract (static)", () => {
