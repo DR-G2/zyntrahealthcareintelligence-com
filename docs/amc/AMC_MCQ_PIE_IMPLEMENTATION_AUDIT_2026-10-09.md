@@ -94,3 +94,31 @@ Caveat: confirm the deployed function signature/body and execute live adversaria
 - No merge or deployment was performed.
 - No claims are made here about live production state beyond previously documented source-level evidence.
 - AMC Clinical/OSCE remains outside this AMC MCQ v1 audit.
+
+## Step 2 — Live V2 schema audit (2026-10-09)
+
+Status: READ-ONLY INSPECTION COMPLETED against the active Supabase project `zyntra-production` (project ref `hkowvjazuwebmibssdut`). This is live schema evidence, not a security penetration test or end-to-end learner-session certification. No production writes, migrations, merge, or deployment were performed.
+
+### Runtime path confirmed
+
+- Canonical MCQ rows served by practice RPCs are in `public.questions` (225 active rows).
+- `public.get_practice_question_pool` and `public.get_practice_session_questions` return `NULL::text` for explanation. `public.get_practice_session_results` only returns answer key/explanation when the owning session has status `completed`.
+- `public.save_attempt` computes correctness server-side from `public.questions.correct_answer`; client `p_is_correct` does not determine stored correctness.
+- `amc-intelligence` is deployed and active (JWT verification enabled). Its current implementation reads `public.amc_plugin_version`, `public.amc_exam_environment_v1`, and `public.amc_blueprint`, not the corresponding `amc.*` tables.
+- `pie-infer-state` is deployed and active (JWT verification enabled); it reads the authenticated user's PIE observations using the service role and writes shadow inference rows. It reports the shadow model as non-authoritative and non-adaptive.
+
+### Live findings
+
+- 225 active questions; no active rows were missing a key, explanation, or exactly five options in the aggregate checks.
+- The 225 active option arrays use primitive values rather than option objects with stable `id` fields. All 225 were missing option IDs.
+- 396 attempts; 123 attempts have `question_version IS NULL`.
+- 781 session-question rows; all 781 currently join to a question row, with zero orphaned references. Session-question rows have no content-version FK/reference.
+- 396 PIE observations, equal to the current 396 attempt count. This count match does not prove each observation is semantically valid or that inference quality is certified.
+- `pie.question_lo` has 225 rows, but `amc.amc_lo_taxonomy` has 0, `amc.amc_blueprint_lo` has 0, and `amc.amc_question_context` has 0. AMC-specific LO eligibility/context mapping is therefore not populated in the new schema.
+- Parallel AMC metadata structures exist: `public.amc_blueprint` has 6 rows, while `amc.amc_blueprint` has 1. The live Edge Function currently reads the former. Canonical ownership and the migration/import target must be decided before changing data paths.
+- RLS is enabled on inspected question, attempt, session, PIE, and AMC tables. The `public.questions` policy allows SELECT only for active rows, while column grants inspected do not give `authenticated` direct access to `correct_answer` or `explanation`. Practice RPC execute grants were present for `authenticated` and absent for `anon`.
+- Supabase migration history reports repeated entries for several initial migration names, followed by later migrations through `0081_v2_p5_history_rpc_schema_alignment`. Reconcile this history against repository migration files before preparing or applying another migration.
+
+### Step 2 disposition
+
+**PARTIAL PASS for the read-only inspection; NOT READY for canonical-bank remediation or launch certification.** The deployed learner-facing key/explanation boundary has supportive live evidence, but immutable question-version linkage, stable option IDs, and AMC-specific LO/blueprint mappings remain unresolved. The next step should be a source-to-live migration/runtime reconciliation and a canonical-bank decision, still without data writes.
