@@ -44,7 +44,7 @@ describe("P3 candidate pool contract (static)", () => {
   });
   it("fails closed for AMC sessions until question-to-blueprint mappings are reviewed", () => {
     expect(amcBoundary).toContain("AMC_BLUEPRINT_MAPPING_REQUIRED");
-    expect(amcBoundary).toContain("AMC_QUESTION_NOT_MAPPED_TO_ACTIVE_BLUEPRINT");
+    expect(amcBoundary).toContain("AMC_QUESTION_NOT_REVIEWED_AND_MAPPED_TO_ACTIVE_BLUEPRINT");
     expect(amcBoundary).toContain("amc_blueprint_lo");
     expect(amcBoundary).toContain("ZYNTRA_GENERAL");
     expect(amcBoundary).toContain("AMC_QUESTION_NOT_REVIEWED_AND_MAPPED_TO_ACTIVE_BLUEPRINT");
