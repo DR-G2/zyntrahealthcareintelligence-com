@@ -11,7 +11,7 @@ Scope: engineering contract, blueprint, question/task metadata, environment, rea
 - Source-controlled `amc-intelligence` now includes the live `get_readiness` action.
 - Invalid exam modes are rejected instead of silently coerced to MCQ.
 - Candidate readiness responses are allow-listed. Raw RPC error detail and unvalidated PIE composite values are not returned.
-- A versioned question-context registry is defined in both migration tracks because the live V2 database has the public AMC runtime schema alongside the separate `amc.*` adapter schema.
+- A versioned content-context registry is defined for both MCQs and clinical stations in both migration tracks because the live V2 database has the public AMC runtime schema alongside the separate `amc.*` adapter schema.
 
 **Observed live state**
 - The deployed `amc-intelligence` function was ahead of the source version: it had `get_readiness`, while source did not.
@@ -61,7 +61,8 @@ Scope: engineering contract, blueprint, question/task metadata, environment, rea
 
 - PIE already accepts a blueprint key, but the live AMC blueprint-to-LO map is empty. Without a guard, an unmapped AMC key can behave like generic selection.
 - The draft migration seeds an explicit `ZYNTRA_GENERAL` key for ordinary practice and rejects AMC sessions until eligible blueprint-to-LO mappings exist.
-- A second database guard rejects any AMC-session question that is not mapped to an eligible LO for that blueprint.
+- A second database guard rejects any AMC-session question that is not mapped to an eligible LO for the latest active blueprint and has approved, version-matched content metadata.
+- Clinical stations are explicitly blocked from the MCQ PIE selector; the dedicated OSCE selector remains a separate integration requirement.
 - Generic adaptive practice and generic diagnostics now pass the exam-neutral key explicitly.
 - A local/staging SQL verification script covers both the AMC refusal and generic-practice continuity.
 
