@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useReducedMotion } from "framer-motion";
-import { Activity, Brain, ChevronRight, CircleHelp, Eye, FlaskConical, Target, Timer, Waves } from "lucide-react";
+import { Activity, Brain, ChevronRight, Eye, Target, Timer, Waves } from "lucide-react";
 import { NeuralScene } from "@/components/home/NeuralScene";
 
 const stages = [
@@ -46,7 +46,7 @@ export default function Home() {
 
       <main id="top" className="mx-auto max-w-[1440px] px-5 pb-16 pt-7 lg:px-8 lg:pt-10">
         <section className="relative grid items-center gap-3 lg:min-h-[640px] lg:grid-cols-[0.82fr_1.18fr]">
-          <div className="relative z-10 py-6 lg:py-0">
+          <div className="relative z-10 order-2 py-6 lg:order-1 lg:py-0">
             <p className="text-[10px] font-medium tracking-[0.24em] text-cyan-100/75 sm:text-xs">INTELLIGENCE FOR THE AMC JOURNEY</p>
             <h1 className="mt-5 max-w-xl text-[clamp(2.8rem,5vw,5rem)] font-semibold leading-[0.98] tracking-[-0.045em]">From Questions<br />to <span className="text-cyan-300">Readiness.</span></h1>
             <p className="mt-5 max-w-lg text-base leading-7 text-slate-300 sm:text-lg">Zyntra records your answers and how you reach them, using timing, confidence and answer changes during practice to help guide your learning.</p>
@@ -57,30 +57,9 @@ export default function Home() {
             <p className="mt-4 text-xs text-slate-500">Practice is the input. Evidence guides what comes next.</p>
           </div>
 
-          <div className="relative mx-auto h-[470px] w-full max-w-[760px] sm:h-[560px] lg:h-[650px]">
+          <div className="relative order-1 mx-auto h-[min(76vh,680px)] min-h-[460px] w-full max-w-[760px] sm:h-[560px] lg:order-2 lg:h-[650px]">
             <div className="pointer-events-none absolute inset-8 rounded-full bg-cyan-500/[0.07] blur-3xl" />
-            <div className="absolute left-0 top-[13%] z-10 hidden w-36 rounded-xl border border-cyan-300/25 bg-[#061827]/85 p-3 shadow-lg shadow-cyan-950/30 backdrop-blur-md sm:block lg:left-2">
-              <p className="text-[10px] uppercase tracking-wide text-cyan-100/75">Clinical accuracy</p>
-              <Activity className="mt-2 h-5 w-5 text-cyan-300" />
-              <p className="mt-1 text-xs text-slate-400">Answer correctness</p>
-            </div>
-            <div className="absolute right-0 top-[13%] z-10 hidden w-36 rounded-xl border border-cyan-300/25 bg-[#061827]/85 p-3 shadow-lg shadow-cyan-950/30 backdrop-blur-md sm:block lg:right-2">
-              <p className="text-[10px] uppercase tracking-wide text-cyan-100/75">Answer stability</p>
-              <Waves className="mt-2 h-5 w-5 text-cyan-300" />
-              <p className="mt-1 text-xs text-slate-400">Choice changes</p>
-            </div>
-            <div className="absolute bottom-[28%] left-0 z-10 hidden w-36 rounded-xl border border-cyan-300/25 bg-[#061827]/85 p-3 shadow-lg shadow-cyan-950/30 backdrop-blur-md sm:block lg:left-1">
-              <p className="text-[10px] uppercase tracking-wide text-cyan-100/75">Time management</p>
-              <Timer className="mt-2 h-5 w-5 text-cyan-300" />
-              <p className="mt-1 text-xs text-slate-400">Decision timing</p>
-            </div>
-            <div className="absolute bottom-[28%] right-0 z-10 hidden w-40 rounded-xl border border-cyan-300/25 bg-[#061827]/85 p-3 shadow-lg shadow-cyan-950/30 backdrop-blur-md sm:block lg:right-1">
-              <p className="text-[10px] uppercase tracking-wide text-cyan-100/75">Confidence</p>
-              <CircleHelp className="mt-2 h-5 w-5 text-cyan-300" />
-              <p className="mt-1 text-xs text-slate-400">Confidence calibration</p>
-            </div>
             <NeuralScene active={stage} reduce={reduce} />
-            <div className="pointer-events-none absolute bottom-3 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-full border border-cyan-300/40 bg-[#04101d]/90 px-5 py-2.5 text-xs font-semibold tracking-[0.12em] text-cyan-200 shadow-lg shadow-cyan-500/10 sm:bottom-2">NEXT BEST ACTION <span aria-hidden="true">→</span></div>
           </div>
         </section>
 
