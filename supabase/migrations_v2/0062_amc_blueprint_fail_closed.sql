@@ -18,6 +18,47 @@ WHERE NOT EXISTS (
   WHERE blueprint_key = 'ZYNTRA_GENERAL' AND version = 'GENERAL_V1'
 );
 
+CREATE OR REPLACE FUNCTION pie.assert_blueprint(p_blueprint_key text)
+RETURNS void
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = ''
+AS $
+DECLARE
+  v_blueprint_id uuid;
+  v_has_eligible_mapping boolean;
+BEGIN
+  IF p_blueprint_key IS NULL OR btrim(p_blueprint_key) = '' THEN
+    RAISE EXCEPTION 'blueprint key is required' USING ERRCODE = '22023';
+  END IF;
+
+  SELECT b.id INTO v_blueprint_id
+  FROM amc.amc_blueprint b
+  WHERE b.blueprint_key = p_blueprint_key
+    AND (b.effective_from IS NULL OR b.effective_from <= now())
+    AND (b.effective_to IS NULL OR b.effective_to > now())
+  ORDER BY b.effective_from DESC NULLS LAST
+  LIMIT 1;
+
+  IF v_blueprint_id IS NULL THEN
+    RAISE EXCEPTION 'unknown or inactive blueprint: %', p_blueprint_key USING ERRCODE = '22023';
+  END IF;
+
+  IF p_blueprint_key LIKE 'AMC\_%' ESCAPE '\' THEN
+    SELECT EXISTS (
+      SELECT 1 FROM amc.amc_blueprint_lo bl
+      WHERE bl.blueprint_id = v_blueprint_id AND bl.eligible
+    ) INTO v_has_eligible_mapping;
+    IF NOT v_has_eligible_mapping THEN
+      RAISE EXCEPTION 'AMC_BLUEPRINT_MAPPING_REQUIRED' USING ERRCODE = 'P0001';
+    END IF;
+  END IF;
+END;
+$;
+
+REVOKE ALL ON FUNCTION pie.assert_blueprint(text) FROM PUBLIC, anon, authenticated;
+GRANT EXECUTE ON FUNCTION pie.assert_blueprint(text) TO service_role;
+
 CREATE OR REPLACE FUNCTION public.guard_amc_practice_session_blueprint()
 RETURNS trigger
 LANGUAGE plpgsql
