@@ -28,26 +28,20 @@ function parseExamMode(value: unknown): "MCQ" | "CLINICAL" | null {
 
 function readinessDTO(value: unknown) {
   if (!isRecord(value)) return null;
-  const readiness = isRecord(value.readiness) ? value.readiness : {};
-  const index = readiness.index;
-  const uncertainty = readiness.uncertainty;
-  const lower = readiness.lower;
-  const upper = readiness.upper;
-  const evidenceCount = value.evidence_count;
+  const dimensionCount = value.evidence_count;
   return {
     plugin: "AMC",
     pluginVersion: typeof value.pluginVersion === "string" ? value.pluginVersion : "1.0.0",
     examMode: value.examMode === "CLINICAL" ? "CLINICAL" : "MCQ",
     environmentCode: typeof value.environmentCode === "string" ? value.environmentCode : null,
+    // No calibrated AMC pass-probability model is active. Do not expose the
+    // engineering-only composite index or PIE uncertainty as candidate readiness.
     readiness: {
       probability: null,
-      index: typeof index === "number" && Number.isFinite(index) ? index : null,
-      uncertainty: typeof uncertainty === "number" && Number.isFinite(uncertainty) ? uncertainty : null,
-      lower: typeof lower === "number" && Number.isFinite(lower) ? lower : null,
-      upper: typeof upper === "number" && Number.isFinite(upper) ? upper : null,
-      status: typeof readiness.status === "string" ? readiness.status : "INSUFFICIENT_EVIDENCE",
+      status: "INSUFFICIENT_EVIDENCE",
     },
-    evidenceCount: Number.isInteger(evidenceCount) && (evidenceCount as number) >= 0 ? evidenceCount : 0,
+    dimensionCount: Number.isInteger(dimensionCount) && (dimensionCount as number) >= 0
+      ? dimensionCount : 0,
     probabilityStatus: "NOT_CALIBRATED",
     modelVersion: typeof value.modelVersion === "string" ? value.modelVersion : "amc-readiness-v1.0",
   };
