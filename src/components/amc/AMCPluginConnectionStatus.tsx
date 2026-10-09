@@ -1,20 +1,22 @@
 import { useEffect, useState } from "react";
 import { AlertCircle, CheckCircle2, LoaderCircle, ShieldCheck } from "lucide-react";
-import { getAMCBlueprint, getAMCPluginSummary, type AMCBlueprintResponse, type AMCPluginSummary } from "@/lib/amc/amc-runtime-client";
+import { getAMCBlueprint, getAMCPluginSummary, getAMCPracticeStatus, type AMCBlueprintResponse, type AMCPluginSummary, type AMCPracticeStatus } from "@/lib/amc/amc-runtime-client";
 
 export function AMCPluginConnectionStatus() {
   const [summary, setSummary] = useState<AMCPluginSummary | null>(null);
   const [blueprint, setBlueprint] = useState<AMCBlueprintResponse | null>(null);
+  const [practiceStatus, setPracticeStatus] = useState<AMCPracticeStatus | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let cancelled = false;
-    Promise.all([getAMCPluginSummary("MCQ"), getAMCBlueprint("MCQ")])
-      .then(([nextSummary, nextBlueprint]) => {
+    Promise.all([getAMCPluginSummary("MCQ"), getAMCBlueprint("MCQ"), getAMCPracticeStatus("MCQ")])
+      .then(([nextSummary, nextBlueprint, nextPracticeStatus]) => {
         if (cancelled) return;
         setSummary(nextSummary);
         setBlueprint(nextBlueprint);
+        setPracticeStatus(nextPracticeStatus);
         setError(null);
       })
       .catch((reason: unknown) => {
@@ -48,7 +50,7 @@ export function AMCPluginConnectionStatus() {
               <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" /> {error}
             </p>
           )}
-          {!loading && !error && summary && blueprint && (
+          {!loading && !error && summary && blueprint && practiceStatus && (
             <div className="mt-4 space-y-3">
               <p className="flex items-center gap-2 text-sm">
                 <CheckCircle2 className="h-4 w-4 text-primary" aria-hidden="true" />
@@ -65,6 +67,13 @@ export function AMCPluginConnectionStatus() {
                   <p className="mt-1 font-medium">{blueprint.blueprint.length} rows returned</p>
                   <p className="text-xs text-muted-foreground">Versioned source proportions</p>
                 </div>
+              </div>
+              <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-3">
+                <p className="text-sm font-semibold">AMC question delivery: not enabled</p>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  {practiceStatus.approvedQuestionCount} approved mappings of {practiceStatus.mappedQuestionCount} mapped questions.
+                  The PIE AMC selector is not certified, so this track will not silently fall back to generic questions.
+                </p>
               </div>
               <p className="text-xs text-muted-foreground">
                 Readiness probability remains uncalibrated. No pass-probability claim is displayed.
