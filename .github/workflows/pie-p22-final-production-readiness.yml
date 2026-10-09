@@ -1,0 +1,122 @@
+name: PIE P22 Final Production Readiness Gate
+
+on:
+  push:
+    branches:
+      - pie-p22-final-production-readiness
+  workflow_dispatch:
+    inputs:
+      production_url:
+        description: "Public production URL to smoke-test"
+        required: true
+        default: "https://www.zyntrahealthcareintelligence.com"
+
+permissions:
+  contents: read
+
+jobs:
+  final-readiness:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      PRODUCTION_URL: ${{ inputs.production_url || 'https://www.zyntrahealthcareintelligence.com' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Protect certified P12-P21.4 core
+        run: |
+          git diff --exit-code e935f97cde42afacea6ab82865d4a4ac6edb313e -- \
+            supabase/functions/pie-infer-state/index.ts \
+            supabase/functions/pie-shadow-read/index.ts \
+            supabase/functions/pie-p14-shadow-read/index.ts \
+            supabase/functions/pie-telemetry-audit/index.ts \
+            supabase/functions/pie-learner-state-audit/index.ts \
+            scripts/pie-p12-shadow-certification.mts \
+            scripts/pie-p13-shadow-certification.mts \
+            scripts/pie-p14-read-path-certification.mts \
+            scripts/pie-p15-controlled-production-certification.mts \
+            scripts/pie-p16-production-contract-audit.mts \
+            scripts/pie-p17-failure-isolation-certification.mts \
+            scripts/pie-p18-authoritative-adaptation-certification.mts \
+            scripts/pie-p19-final-production-certification.mts \
+            scripts/pie-p20-production-deployment-gate.mts \
+            scripts/pie-p21-1-telemetry-integrity.mts \
+            scripts/pie-p21-2-decision-trace-integrity.mts \
+            scripts/pie-p21-3-learner-state-integrity.mts \
+            scripts/pie-p21-4-state-selection-integrity.mts \
+            supabase/migrations_v2/0051_pie_p3_candidate_pool.sql
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Unit tests
+        run: npm test -- --passWithNoTests
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Production build
+        run: npm run build
+
+      - name: P21.4 live state-to-selection certification
+        env:
+          V2_URL: ${{ secrets.ZYNTRA_V2_URL }}
+          V2_PUBLISHABLE_KEY: ${{ secrets.ZYNTRA_V2_PUBLISHABLE_KEY }}
+          PIE_TEST_USER_A_EMAIL: ${{ secrets.PIE_TEST_USER_A_EMAIL }}
+          PIE_TEST_USER_B_EMAIL: ${{ secrets.PIE_TEST_USER_B_EMAIL }}
+          PIE_TEST_PASSWORD: ${{ secrets.PIE_TEST_PASSWORD }}
+        run: npx vite-node scripts/pie-p21-4-state-selection-integrity.mts
+
+      - name: P21.3 learner-state regression
+        env:
+          V2_URL: ${{ secrets.ZYNTRA_V2_URL }}
+          V2_PUBLISHABLE_KEY: ${{ secrets.ZYNTRA_V2_PUBLISHABLE_KEY }}
+          PIE_TEST_USER_A_EMAIL: ${{ secrets.PIE_TEST_USER_A_EMAIL }}
+          PIE_TEST_USER_B_EMAIL: ${{ secrets.PIE_TEST_USER_B_EMAIL }}
+          PIE_TEST_PASSWORD: ${{ secrets.PIE_TEST_PASSWORD }}
+        run: npx vite-node scripts/pie-p21-3-learner-state-integrity.mts
+
+      - name: P21.2 decision-trace regression
+        env:
+          V2_URL: ${{ secrets.ZYNTRA_V2_URL }}
+          V2_PUBLISHABLE_KEY: ${{ secrets.ZYNTRA_V2_PUBLISHABLE_KEY }}
+          PIE_TEST_USER_A_EMAIL: ${{ secrets.PIE_TEST_USER_A_EMAIL }}
+          PIE_TEST_USER_B_EMAIL: ${{ secrets.PIE_TEST_USER_B_EMAIL }}
+          PIE_TEST_PASSWORD: ${{ secrets.PIE_TEST_PASSWORD }}
+        run: npx vite-node scripts/pie-p21-2-decision-trace-integrity.mts
+
+      - name: Public Vercel production smoke test
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "Checking public production URL: $PRODUCTION_URL"
+          html="$(mktemp)"
+          headers="$(mktemp)"
+          status="$(curl --silent --show-error --location --retry 3 --retry-all-errors --max-time 30 --dump-header "$headers" --output "$html" --write-out '%{http_code}' "$PRODUCTION_URL")"
+          test "$status" = "200"
+          grep -Fq '<div id="root">' "$html"
+          grep -Fq 'Zyntra' "$html"
+          grep -Eiq '<title>[^<]*Zyntra' "$html"
+          asset="$(grep -Eo '(src|href)="[^"]+\.(js|css)(\?[^"]*)?"' "$html" | head -n 1 | cut -d '"' -f 2 || true)"
+          if [ -n "$asset" ]; then
+            case "$asset" in
+              http*) asset_url="$asset" ;;
+              /*) asset_url="${PRODUCTION_URL%/}$asset" ;;
+              *) asset_url="${PRODUCTION_URL%/}/$asset" ;;
+            esac
+            curl --silent --show-error --location --retry 2 --max-time 30 --fail "$asset_url" --output /dev/null
+            echo "PASS production asset reachable: $asset"
+          else
+            echo "FAIL no JS/CSS asset reference found in production HTML"
+            exit 1
+          fi
+          echo "PASS production HTTP status: $status"
+          echo "PASS root mount, Zyntra title, and app asset availability"
+          echo "NOTE: This public smoke test does not replace an authenticated browser journey."
