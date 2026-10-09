@@ -59,7 +59,6 @@ grant execute on function auth.uid() to authenticated, service_role;
 
 insert into public.subjects values ('10000000-0000-0000-0000-000000000001', 'Adult Medicine');
 insert into public.subtopics values ('20000000-0000-0000-0000-000000000001', 'Cardiology');
-insert into public.concept values ('30000000-0000-0000-0000-000000000001', 'Clinical reasoning');
 insert into pie.concept values ('30000000-0000-0000-0000-000000000001', 'Clinical reasoning');
 insert into pie.learning_objective values ('40000000-0000-0000-0000-000000000001', 'Assess chest pain', '30000000-0000-0000-0000-000000000001');
 
@@ -85,6 +84,9 @@ insert into public.user_attempts values
 -- Apply the exact migration under test. psql resolves this path from repo root.
 \i supabase/migrations_v2/0081_v2_p5_history_rpc_schema_alignment.sql
 
+set request.jwt.claim.sub = '70000000-0000-0000-0000-000000000001';
+set role authenticated;
+
 do $test$
 declare
   n integer;
@@ -93,9 +95,6 @@ declare
   orphan integer;
   tied_order text[];
 begin
-  perform set_config('request.jwt.claim.sub', '70000000-0000-0000-0000-000000000001', true);
-  execute 'set local role authenticated';
-
   select count(*) into n from public.get_my_attempt_history(100, null, null);
   if n <> 3 then raise exception 'Expected 3 own attempts (including orphan, excluding other user), got %', n; end if;
 
