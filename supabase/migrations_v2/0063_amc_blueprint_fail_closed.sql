@@ -59,6 +59,110 @@ $$;
 REVOKE ALL ON FUNCTION pie.assert_blueprint(text) FROM PUBLIC, anon, authenticated;
 GRANT EXECUTE ON FUNCTION pie.assert_blueprint(text) TO service_role;
 
+CREATE OR REPLACE FUNCTION public.amc_p5_practice_status(p_exam_mode text)
+RETURNS jsonb
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = ''
+AS $
+DECLARE
+  v_plugin record;
+  v_blueprint_key text;
+  v_selector_verified boolean := false;
+  v_eligible_lo_count integer := 0;
+  v_mapped_count integer := 0;
+  v_approved_count integer := 0;
+  v_selector_status text;
+BEGIN
+  IF coalesce(auth.role(), '') <> 'service_role' THEN
+    RAISE EXCEPTION 'service role required' USING ERRCODE = '42501';
+  END IF;
+  IF p_exam_mode NOT IN ('MCQ','CLINICAL') THEN
+    RAISE EXCEPTION 'invalid exam mode' USING ERRCODE = '22023';
+  END IF;
+
+  v_blueprint_key := CASE p_exam_mode
+    WHEN 'MCQ' THEN 'AMC_CAT_MCQ'
+    WHEN 'CLINICAL' THEN 'AMC_CLINICAL'
+  END;
+
+  SELECT * INTO v_plugin
+  FROM public.amc_plugin_version
+  WHERE plugin_code = 'AMC' AND plugin_version = '1.0.0'
+  LIMIT 1;
+  IF NOT FOUND THEN
+    RAISE EXCEPTION 'AMC plugin version unavailable' USING ERRCODE = 'P0002';
+  END IF;
+
+  v_selector_verified := coalesce((v_plugin.assumptions ->> 'pie_selector_verified')::boolean, false);
+
+  SELECT count(*) INTO v_eligible_lo_count
+  FROM amc.amc_blueprint b
+  JOIN amc.amc_blueprint_lo bl ON bl.blueprint_id = b.id AND bl.eligible
+  WHERE b.blueprint_key = v_blueprint_key
+    AND (b.effective_from IS NULL OR b.effective_from <= now())
+    AND (b.effective_to IS NULL OR b.effective_to > now());
+
+  SELECT count(*) INTO v_approved_count
+  FROM public.amc_question_context qc
+  WHERE qc.plugin_version_id = v_plugin.id
+    AND qc.exam_mode = p_exam_mode
+    AND qc.metadata ->> 'review_status' = 'APPROVED'
+    AND nullif(qc.metadata ->> 'reviewed_by', '') IS NOT NULL
+    AND nullif(qc.metadata ->> 'reviewed_at', '') IS NOT NULL
+    AND qc.patient_group IS NOT NULL
+    AND coalesce(qc.clinical_domain, qc.task_type) IS NOT NULL
+    AND qc.amc_relevance IS NOT NULL
+    AND qc.source_evidence_level IS NOT NULL;
+
+  SELECT count(DISTINCT qc.question_id) INTO v_mapped_count
+  FROM public.amc_question_context qc
+  JOIN public.questions q ON q.id = qc.question_id AND qc.question_version = q.version::text
+  JOIN pie.question_lo ql ON ql.question_id = q.id AND ql.is_primary
+  JOIN amc.amc_blueprint_lo bl ON bl.lo_id = ql.lo_id AND bl.eligible
+  JOIN amc.amc_blueprint b ON b.id = bl.blueprint_id
+  WHERE qc.plugin_version_id = v_plugin.id
+    AND qc.exam_mode = p_exam_mode
+    AND qc.metadata ->> 'review_status' = 'APPROVED'
+    AND nullif(qc.metadata ->> 'reviewed_by', '') IS NOT NULL
+    AND nullif(qc.metadata ->> 'reviewed_at', '') IS NOT NULL
+    AND qc.patient_group IS NOT NULL
+    AND coalesce(qc.clinical_domain, qc.task_type) IS NOT NULL
+    AND qc.amc_relevance IS NOT NULL
+    AND qc.source_evidence_level IS NOT NULL
+    AND b.blueprint_key = v_blueprint_key
+    AND (b.effective_from IS NULL OR b.effective_from <= now())
+    AND (b.effective_to IS NULL OR b.effective_to > now());
+
+  v_selector_status := CASE
+    WHEN NOT v_selector_verified THEN 'NOT_CERTIFIED'
+    WHEN v_eligible_lo_count = 0 OR v_mapped_count = 0 THEN 'MAPPING_REQUIRED'
+    ELSE 'READY'
+  END;
+
+  RETURN jsonb_build_object(
+    'plugin', 'AMC',
+    'pluginVersion', v_plugin.plugin_version,
+    'examMode', p_exam_mode,
+    'mappedQuestionCount', v_approved_count,
+    'approvedQuestionCount', v_mapped_count,
+    'eligibleLearningObjectiveCount', v_eligible_lo_count,
+    'selectorStatus', v_selector_status,
+    'mappingStatus', CASE WHEN v_approved_count > 0 THEN 'REVIEWED_METADATA_PRESENT' ELSE 'MAPPING_REQUIRED' END,
+    'canStartAMCPractice', v_selector_status = 'READY',
+    'reason', CASE
+      WHEN NOT v_selector_verified THEN 'PIE AMC selector certification is not recorded.'
+      WHEN v_eligible_lo_count = 0 THEN 'No eligible AMC blueprint-to-learning-objective mappings exist.'
+      WHEN v_mapped_count = 0 THEN 'No reviewed, version-matched AMC questions are eligible for this blueprint.'
+      ELSE 'Reviewed questions and eligible blueprint mappings are present.'
+    END
+  );
+END;
+$;
+
+REVOKE ALL ON FUNCTION public.amc_p5_practice_status(text) FROM PUBLIC, anon, authenticated;
+GRANT EXECUTE ON FUNCTION public.amc_p5_practice_status(text) TO service_role;
+
 CREATE OR REPLACE FUNCTION public.guard_amc_practice_session_blueprint()
 RETURNS trigger
 LANGUAGE plpgsql
