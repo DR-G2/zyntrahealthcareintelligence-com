@@ -71,62 +71,19 @@ Deno.serve(async (req) => {
   if (action !== "get_summary" && action !== "get_blueprint") {
     return errorResponse(400, "unsupported_action", responseOrigin);
   }
-
-  // V2 uses the dedicated amc schema and its V2 adapter tables.
-  // Do not query the legacy public.amc_* schema from this endpoint.
-  const amc = serviceClient.schema("amc");
-  const { data: plugin, error: pluginError } = await amc
-    .from("amc_plugin_version")
-    .select("id,version,status,config")
-    .eq("version", "1.0.0")
-    .maybeSingle();
-
-  if (pluginError) return errorResponse(500, "amc_plugin_query_failed", responseOrigin);
-  if (!plugin) return errorResponse(404, "amc_plugin_unavailable", responseOrigin);
-
-  if (action === "get_summary") {
-    const { data: environment, error } = await amc
-      .from("amc_exam_environment")
-      .select("exam_key,version,environment,effective_from,effective_to")
-      .eq("exam_key", "AMC_CAT_MCQ")
-      .eq("version", "V8")
-      .order("effective_from", { ascending: false })
-      .limit(1)
-      .maybeSingle();
-    if (error) return errorResponse(500, "amc_environment_query_failed", responseOrigin);
-
-    return json({
-      plugin: "AMC",
-      pluginVersion: plugin.version,
-      status: plugin.status,
-      environmentCode: environment?.exam_key ?? null,
-      environmentVersion: environment?.version ?? null,
-      environment: environment?.environment ?? null,
-      readiness: null,
-      nextAction: null,
-    }, 200, responseOrigin);
-  }
-
-  const mode = request.exam_mode;
-  if (mode !== "MCQ" && mode !== "CLINICAL") {
+  if (action === "get_blueprint" && request.exam_mode !== "MCQ" && request.exam_mode !== "CLINICAL") {
     return errorResponse(400, "invalid_exam_mode", responseOrigin);
   }
-  const blueprintKey = mode === "MCQ" ? "AMC_CAT_MCQ" : "AMC_CLINICAL";
-  const blueprintVersion = mode === "MCQ" ? "V8" : "2026.1";
-  const { data: blueprint, error: blueprintError } = await amc
-    .from("amc_blueprint")
-    .select("blueprint_key,version,content")
-    .eq("plugin_version_id", plugin.id)
-    .eq("blueprint_key", blueprintKey)
-    .eq("version", blueprintVersion)
-    .maybeSingle();
 
-  if (blueprintError) return errorResponse(500, "amc_blueprint_query_failed", responseOrigin);
-  return json({
-    plugin: "AMC",
-    pluginVersion: plugin.version,
-    examMode: mode,
-    blueprint: blueprint?.content ?? null,
-    blueprintVersion: blueprint?.version ?? null,
-  }, 200, responseOrigin);
+  // The public RPC is a narrow server-only bridge into V2's non-exposed amc schema.
+  // The browser never receives direct access to internal AMC tables.
+  const { data, error } = await serviceClient.rpc("amc_plugin_v1_runtime_read", {
+    p_action: action,
+    p_exam_mode: action === "get_blueprint" ? request.exam_mode : null,
+  });
+  if (error) return errorResponse(500, "amc_runtime_read_failed", responseOrigin);
+  if (!data || typeof data !== "object" || Array.isArray(data)) {
+    return errorResponse(500, "amc_runtime_invalid_response", responseOrigin);
+  }
+  return json(data, 200, responseOrigin);
 });
