@@ -35,6 +35,33 @@ BEGIN
 END;
 $$;
 
+ALTER TABLE public.amc_question_context
+  ALTER COLUMN question_id DROP NOT NULL,
+  ALTER COLUMN question_version DROP NOT NULL,
+  ADD COLUMN IF NOT EXISTS station_id UUID REFERENCES public.clinical_stations(id) ON DELETE CASCADE,
+  ADD COLUMN IF NOT EXISTS station_version TEXT;
+
+DO $
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint
+    WHERE conname = 'amc_question_context_one_content_target'
+      AND conrelid = 'public.amc_question_context'::regclass
+  ) THEN
+    ALTER TABLE public.amc_question_context
+      ADD CONSTRAINT amc_question_context_one_content_target CHECK (
+        (question_id IS NOT NULL AND question_version IS NOT NULL AND station_id IS NULL AND station_version IS NULL)
+        OR
+        (station_id IS NOT NULL AND station_version IS NOT NULL AND question_id IS NULL AND question_version IS NULL)
+      ) NOT VALID;
+  END IF;
+END;
+$;
+
+CREATE UNIQUE INDEX IF NOT EXISTS amc_question_context_station_version_uq
+  ON public.amc_question_context(plugin_version_id, station_id, station_version)
+  WHERE station_id IS NOT NULL;
+
 CREATE INDEX IF NOT EXISTS amc_question_context_lookup_idx
   ON public.amc_question_context(plugin_version_id, exam_mode, patient_group);
 
