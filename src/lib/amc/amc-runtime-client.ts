@@ -34,6 +34,18 @@ export interface AMCBlueprintResponse {
   blueprint: AMCBlueprintRow[];
 }
 
+export interface AMCPracticeStatus {
+  plugin: "AMC";
+  pluginVersion: string;
+  examMode: AMCExamMode;
+  mappedQuestionCount: number;
+  approvedQuestionCount: number;
+  mappingStatus: "MAPPING_REQUIRED" | "REVIEWED_METADATA_PRESENT";
+  selectorStatus: "NOT_CERTIFIED";
+  canStartAMCPractice: false;
+  reason: string;
+}
+
 export interface AMCReadinessResponse {
   plugin: "AMC";
   pluginVersion: string;
@@ -112,6 +124,28 @@ export function parseAMCBlueprintResponse(value: unknown): AMCBlueprintResponse 
   return { plugin: "AMC", pluginVersion: value.pluginVersion, examMode: value.examMode, blueprint };
 }
 
+export function parseAMCPracticeStatus(value: unknown): AMCPracticeStatus {
+  if (!isRecord(value) || value.plugin !== "AMC" || typeof value.pluginVersion !== "string" ||
+      !validMode(value.examMode) || value.selectorStatus !== "NOT_CERTIFIED" ||
+      value.canStartAMCPractice !== false ||
+      (value.mappingStatus !== "MAPPING_REQUIRED" && value.mappingStatus !== "REVIEWED_METADATA_PRESENT")) {
+    throw new Error("AMC plugin returned an invalid practice-status contract.");
+  }
+  const count = (candidate: unknown) =>
+    Number.isInteger(candidate) && (candidate as number) >= 0 ? candidate as number : 0;
+  return {
+    plugin: "AMC",
+    pluginVersion: value.pluginVersion,
+    examMode: value.examMode,
+    mappedQuestionCount: count(value.mappedQuestionCount),
+    approvedQuestionCount: count(value.approvedQuestionCount),
+    mappingStatus: value.mappingStatus,
+    selectorStatus: "NOT_CERTIFIED",
+    canStartAMCPractice: false,
+    reason: typeof value.reason === "string" ? value.reason : "AMC question selection is not certified.",
+  };
+}
+
 export function parseAMCReadinessResponse(value: unknown): AMCReadinessResponse {
   if (!isRecord(value) || value.plugin !== "AMC" || typeof value.pluginVersion !== "string" ||
       !validMode(value.examMode) || !isRecord(value.readiness) ||
@@ -146,6 +180,10 @@ export function getAMCPluginSummary(examMode: AMCExamMode): Promise<AMCPluginSum
 
 export function getAMCBlueprint(examMode: AMCExamMode): Promise<AMCBlueprintResponse> {
   return invokeAMC({ action: "get_blueprint", exam_mode: examMode }, parseAMCBlueprintResponse);
+}
+
+export function getAMCPracticeStatus(examMode: AMCExamMode): Promise<AMCPracticeStatus> {
+  return invokeAMC({ action: "get_practice_status", exam_mode: examMode }, parseAMCPracticeStatus);
 }
 
 export function getAMCReadiness(examMode: AMCExamMode): Promise<AMCReadinessResponse> {
