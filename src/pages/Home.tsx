@@ -45,7 +45,7 @@ export default function Home() {
       </header>
 
       <main id="top" className="mx-auto max-w-[1440px] px-5 pb-16 pt-7 lg:px-8 lg:pt-10">
-        <section className="relative grid items-center gap-3 lg:min-h-[560px] lg:grid-cols-[0.82fr_1.18fr]">
+        <section className="relative grid items-center gap-3 lg:min-h-[640px] lg:grid-cols-[0.82fr_1.18fr]">
           <div className="relative z-10 py-6 lg:py-0">
             <p className="text-[10px] font-medium tracking-[0.24em] text-cyan-100/75 sm:text-xs">INTELLIGENCE FOR THE AMC JOURNEY</p>
             <h1 className="mt-5 max-w-xl text-[clamp(2.8rem,5vw,5rem)] font-semibold leading-[0.98] tracking-[-0.045em]">From Questions<br />to <span className="text-cyan-300">Readiness.</span></h1>
@@ -57,7 +57,7 @@ export default function Home() {
             <p className="mt-4 text-xs text-slate-500">Practice is the input. Evidence guides what comes next.</p>
           </div>
 
-          <div className="relative mx-auto h-[400px] w-full max-w-[760px] sm:h-[500px] lg:h-[590px]">
+          <div className="relative mx-auto h-[470px] w-full max-w-[760px] sm:h-[560px] lg:h-[650px]">
             <div className="pointer-events-none absolute inset-8 rounded-full bg-cyan-500/[0.07] blur-3xl" />
             <div className="absolute left-0 top-[13%] z-10 hidden w-36 rounded-xl border border-cyan-300/25 bg-[#061827]/85 p-3 shadow-lg shadow-cyan-950/30 backdrop-blur-md sm:block lg:left-2">
               <p className="text-[10px] uppercase tracking-wide text-cyan-100/75">Clinical accuracy</p>
