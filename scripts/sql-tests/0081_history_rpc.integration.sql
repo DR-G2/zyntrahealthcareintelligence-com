@@ -109,6 +109,19 @@ begin
     and (correct_answer is not null or explanation is not null);
   if unlocked <> 0 then raise exception 'Answer key leaked for incomplete session'; end if;
 
+  select count(*) into n
+  from public.get_my_attempt_history(100, null, null)
+  where attempt_id = '80000000-0000-0000-0000-000000000001'
+    and correct_answer = 'A' and explanation = 'Explanation A';
+  if n <> 1 then raise exception 'Completed session answer key was not returned'; end if;
+
+  begin
+    perform * from public.get_my_attempt_history(0, null, null);
+    raise exception 'Invalid limit unexpectedly accepted';
+  exception when sqlstate '22023' then
+    null;
+  end;
+
   select count(*) into orphan
   from public.get_my_attempt_history(100, null, null)
   where attempt_id = '80000000-0000-0000-0000-000000000003'
