@@ -99,7 +99,7 @@ Deno.serve(async (req) => {
   }
 
   const action = body.action;
-  if (!["get_summary", "get_blueprint", "get_readiness"].includes(String(action))) {
+  if (!["get_summary", "get_blueprint", "get_readiness", "get_practice_status"].includes(String(action))) {
     return errorResponse(400, "unsupported_action", responseOrigin);
   }
   const mode = parseExamMode(body.exam_mode);
@@ -117,6 +117,35 @@ Deno.serve(async (req) => {
 
   if (pluginError) return errorResponse(500, "amc_plugin_query_failed", responseOrigin);
   if (!plugin) return errorResponse(404, "amc_plugin_unavailable", responseOrigin);
+
+  if (action === "get_practice_status") {
+    const { count: mappedCount, error: mappedError } = await serviceClient
+      .from("amc_question_context")
+      .select("id", { count: "exact", head: true })
+      .eq("plugin_version_id", plugin.id)
+      .eq("exam_mode", examMode);
+    if (mappedError) return errorResponse(500, "amc_question_context_query_failed", responseOrigin);
+
+    const { count: approvedCount, error: approvedError } = await serviceClient
+      .from("amc_question_context")
+      .select("id", { count: "exact", head: true })
+      .eq("plugin_version_id", plugin.id)
+      .eq("exam_mode", examMode)
+      .eq("metadata->>review_status", "APPROVED");
+    if (approvedError) return errorResponse(500, "amc_question_context_query_failed", responseOrigin);
+
+    return json({
+      plugin: "AMC",
+      pluginVersion: plugin.plugin_version,
+      examMode,
+      mappedQuestionCount: mappedCount ?? 0,
+      approvedQuestionCount: approvedCount ?? 0,
+      mappingStatus: (approvedCount ?? 0) > 0 ? "REVIEWED_METADATA_PRESENT" : "MAPPING_REQUIRED",
+      selectorStatus: "NOT_CERTIFIED",
+      canStartAMCPractice: false,
+      reason: "AMC question delivery remains disabled until approved question metadata and PIE blueprint-LO eligibility are both present and verified.",
+    }, 200, responseOrigin);
+  }
 
   if (action === "get_readiness") {
     const { data, error } = await userClient.rpc("rebuild_my_amc_readiness", {
