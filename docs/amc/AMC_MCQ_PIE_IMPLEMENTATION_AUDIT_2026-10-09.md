@@ -122,3 +122,17 @@ Status: READ-ONLY INSPECTION COMPLETED against the active Supabase project `zynt
 ### Step 2 disposition
 
 **PARTIAL PASS for the read-only inspection; NOT READY for canonical-bank remediation or launch certification.** The deployed learner-facing key/explanation boundary has supportive live evidence, but immutable question-version linkage, stable option IDs, and AMC-specific LO/blueprint mappings remain unresolved. The next step should be a source-to-live migration/runtime reconciliation and a canonical-bank decision, still without data writes.
+
+## Step 3 — Canonical question-bank design (2026-10-09)
+
+Status: DESIGN DOCUMENT COMMITTED; no schema migration implemented.
+
+Design: `docs/amc/AMC_MCQ_CANONICAL_BANK_SCHEMA_DESIGN_2026-10-09.md`
+
+Decision: stable question identity in `public.questions` during compatibility migration; immutable `public.question_content_versions`; normalized `public.question_content_version_options` with stable option UUIDs and A-E display keys; exact version IDs on session delivery, attempts, PIE observations, and question DNA; version-specific AMC context; exam-neutral PIE learning state. The design preserves the legacy table as a compatibility boundary until all readers/writers are reconciled and a separately approved cutover passes.
+
+The design also defines a structured explanation contract, publish lifecycle, service-controlled import/publish boundary, strict learner-safe delivery/results contract, and staged M0-M5 migration sequence.
+
+Step 3 is complete as a design decision only. It does not assert that the proposed tables exist or that production conforms. No DDL, backfill, import, quarantine, content edits, Edge Function deployment, merge, or traffic cutover occurred.
+
+Next: complete M0 source-to-live reconciliation (migration history and every content/selector/session/submit/results/AMC/PIE consumer), then build and test the additive schema in a disposable database before proposing any production migration.
