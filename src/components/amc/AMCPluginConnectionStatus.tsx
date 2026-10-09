@@ -63,7 +63,7 @@ export function AMCPluginConnectionStatus() {
                 <div className="rounded-xl border border-border/70 p-3">
                   <p className="text-xs text-muted-foreground">MCQ blueprint</p>
                   <p className="mt-1 font-medium">{blueprint.blueprint.length} rows returned</p>
-                  <p className="text-xs text-muted-foreground">Blueprint v{summary.environmentVersion ?? "unreported"}</p>
+                  <p className="text-xs text-muted-foreground">Versioned source proportions</p>
                 </div>
               </div>
               <p className="text-xs text-muted-foreground">
