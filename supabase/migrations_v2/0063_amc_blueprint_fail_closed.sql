@@ -69,6 +69,8 @@ DECLARE
   v_plugin record;
   v_blueprint_key text;
   v_selector_verified boolean := false;
+  v_plugin_active boolean := false;
+  v_environment_status text;
   v_eligible_lo_count integer := 0;
   v_mapped_count integer := 0;
   v_approved_count integer := 0;
@@ -95,6 +97,13 @@ BEGIN
   END IF;
 
   v_selector_verified := coalesce((v_plugin.assumptions ->> 'pie_selector_verified')::boolean, false);
+  v_plugin_active := v_plugin.status = 'ACTIVE';
+
+  SELECT e.status INTO v_environment_status
+  FROM public.amc_exam_environment_v1 e
+  WHERE e.plugin_version_id = v_plugin.id AND e.exam_mode = p_exam_mode
+  ORDER BY e.created_at DESC
+  LIMIT 1;
 
   SELECT count(*) INTO v_eligible_lo_count
   FROM amc.amc_blueprint b
@@ -135,7 +144,7 @@ BEGIN
     AND (b.effective_to IS NULL OR b.effective_to > now());
 
   v_selector_status := CASE
-    WHEN NOT v_selector_verified THEN 'NOT_CERTIFIED'
+    WHEN NOT v_plugin_active OR v_environment_status IS DISTINCT FROM 'ACTIVE' OR NOT v_selector_verified THEN 'NOT_CERTIFIED'
     WHEN v_eligible_lo_count = 0 OR v_mapped_count = 0 THEN 'MAPPING_REQUIRED'
     ELSE 'READY'
   END;
@@ -147,10 +156,13 @@ BEGIN
     'mappedQuestionCount', v_mapped_count,
     'approvedQuestionCount', v_approved_count,
     'eligibleLearningObjectiveCount', v_eligible_lo_count,
+    'pluginStatus', v_plugin.status,
+    'environmentStatus', v_environment_status,
     'selectorStatus', v_selector_status,
     'mappingStatus', CASE WHEN v_approved_count > 0 THEN 'REVIEWED_METADATA_PRESENT' ELSE 'MAPPING_REQUIRED' END,
     'canStartAMCPractice', v_selector_status = 'READY',
     'reason', CASE
+      WHEN NOT v_plugin_active OR v_environment_status IS DISTINCT FROM 'ACTIVE' THEN 'AMC plugin and exam environment must be ACTIVE before question delivery.'
       WHEN NOT v_selector_verified THEN 'PIE AMC selector certification is not recorded.'
       WHEN v_eligible_lo_count = 0 THEN 'No eligible AMC blueprint-to-learning-objective mappings exist.'
       WHEN v_mapped_count = 0 THEN 'No reviewed, version-matched AMC questions are eligible for this blueprint.'
