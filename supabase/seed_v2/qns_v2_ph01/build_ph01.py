@@ -109,7 +109,7 @@ lines = [
     ),
     "insert into public.subtopics(id, subject_id, name, slug)",
     "select v.id, s.id, v.name, v.slug from (values",
-    ",\\n".join(
+    ",\n".join(
         f"({q(U('subtopic:' + GROUP_SLUG + ':' + topic))}::uuid,{q(GROUP_SLUG)},"
         f"{q(topic)},{q(slug(topic).lower().replace('_', '-'))})"
         for topic in topics
@@ -117,13 +117,13 @@ lines = [
     ") v(id, subject_slug, name, slug) join public.subjects s on s.slug=v.subject_slug",
     "where not exists (select 1 from public.subtopics t where t.subject_id=s.id and t.slug=v.slug);",
     "insert into pie.concept(id, concept_key, title, description) values",
-    ",\\n".join(
+    ",\n".join(
         f"({q(U('concept:' + key))}::uuid,{q(key)},{q(title)},{q('Patient group: ' + group)})"
         for key, (title, group) in sorted(concepts.items())
     ),
     "on conflict (concept_key) do nothing;",
     "insert into pie.learning_objective(id, lo_key, concept_id, title, description) values",
-    ",\\n".join(
+    ",\n".join(
         f"({q(U('lo:' + key))}::uuid,{q(key)},{q(U('concept:' + value['concept']))}::uuid,"
         f"{q(value['title'])},{q('QNS V2 PH-01 learning objective')})"
         for key, value in sorted(learning_objectives.items())
@@ -139,14 +139,14 @@ lines = [
         "v.prov,v.b,v.se,'tier_prior',v.note"
     ),
     "from (values",
-    ",\\n".join(question_row(item) for item in items),
+    ",\n".join(question_row(item) for item in items),
     ") v(id,zid,subject_slug,subtopic_slug,stem,opts,ckey,expl,tier,prov,b,se,note)",
     "join public.subjects s on s.slug=v.subject_slug",
     "left join public.subtopics t on t.subject_id=s.id and t.slug=v.subtopic_slug",
     "on conflict (zyntra_id) do nothing;",
     "insert into pie.question_lo(question_id, lo_id, is_primary, weight, mapping_source)",
     "select m.qid,m.lid,true,1,'qns_v2_ph01' from (values",
-    ",\\n".join(
+    ",\n".join(
         f"({q(U('q:' + item['zyntra_id']))}::uuid,{q(U('lo:' + item['_lo_key']))}::uuid)"
         for item in items
     ),
@@ -159,14 +159,14 @@ lines = [
         "join pie.concept c on c.id=l.concept_id where c.concept_key like 'POPULATION_HEALTH.%'),0),null"
     ),
     "from (values",
-    ",\\n".join(f"({q(U('lo:' + key))}::uuid)" for key in sorted(learning_objectives)),
+    ",\n".join(f"({q(U('lo:' + key))}::uuid)" for key in sorted(learning_objectives)),
     ") v(lid) cross join lateral (select id from amc.amc_blueprint "
     "where blueprint_key='AMC_CAT_MCQ' order by effective_from desc nulls last limit 1) b",
     "on conflict (blueprint_id,lo_id) do nothing;",
     "commit;",
     "-- Verify after applying: all 28 ZQ-0401..ZQ-0428 rows must have status='draft'.",
 ]
-OUT.write_text("\\n".join(lines) + "\\n", encoding="utf-8")
+OUT.write_text("\n".join(lines) + "\n", encoding="utf-8")
 print(
     f"Wrote {OUT}; questions={len(items)}; concepts={len(concepts)}; "
     f"learning_objectives={len(learning_objectives)}; "
