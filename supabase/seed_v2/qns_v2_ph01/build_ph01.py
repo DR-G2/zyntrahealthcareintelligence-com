@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
-"""Build the PH-01 QNS V2 draft-only incremental PIE migration from its canonical source JSON."""
-import collections, json, re, uuid
+"""Build the PH-01 QNS V2 draft-only incremental PIE migration from canonical JSON."""
+import collections
+import json
+import re
+import uuid
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -9,75 +12,163 @@ SOURCE = HERE / "ph01_screening_upload.json"
 OUT = ROOT / "supabase" / "migrations_v2" / "0081_qns_v2_ph01_draft_import.sql"
 NS = uuid.UUID("5a6b1c2d-0000-4000-8000-00000000c0de")
 U = lambda key: str(uuid.uuid5(NS, key))
+GROUP_KEY = "POPULATION_HEALTH"
+GROUP_NAME = "Population Health & Ethics"
+GROUP_SLUG = "population-health-ethics"
+TARGET_SHARE = 0.125
+
+
 def q(value):
     return "null" if value is None else "'" + str(value).replace("'", "''") + "'"
+
+
 def slug(value, n=48):
     return re.sub(r"_+", "_", re.sub(r"[^A-Z0-9]+", "_", value.upper())).strip("_")[:n].strip("_")
-def J(value):
+
+
+def json_sql(value):
     return q(json.dumps(value, ensure_ascii=False)) + "::jsonb"
+
+
+def question_row(item):
+    option_ids = {letter: U("option:" + item["zyntra_id"] + ":" + letter) for letter in "ABCDE"}
+    provenance = {
+        "source": "qns_v2_ph01",
+        "source_batch": "ph01",
+        "review_status": item["review_status"],
+        "tags": item["tags"],
+        "clinician_task": "management",
+        "guideline_reference": item["guideline_reference"],
+        "incorrect_answer_explanations": item["incorrect_answer_explanations"],
+        "key_takeaways": item["key_takeaways"],
+        "evidence_sources": item["evidence_sources"],
+        "option_ids": option_ids,
+        "correct_option_id": option_ids[item["correct_answer"]],
+        "question_version": 1,
+        "phase_id": item["phase_id"],
+        "source_question_id": item["source_question_id"],
+        "reviewer_attribution_requested": "Dr. GopalaKrishnan SankaraNarayanan",
+        "review_date": "2026-10-10",
+        "lifecycle_status": "draft",
+        "imported_by": "0081",
+    }
+    irt_b = {2: -1.0, 3: 0.0, 4: 1.0}[item["difficulty_tier"]]
+    values = [
+        q(U("q:" + item["zyntra_id"])) + "::uuid",
+        q(item["zyntra_id"]),
+        q(GROUP_SLUG),
+        q(slug(item["system_category"]).lower().replace("_", "-")),
+        q(item["question_text"]),
+        json_sql(item["options"]),
+        q(item["correct_answer"]),
+        q(item["explanation"]),
+        q(item["difficulty"]),
+        json_sql(provenance),
+        str(irt_b),
+        "1.0",
+        q("tier=" + str(item["difficulty_tier"]) + " (ph01)"),
+    ]
+    return "(" + ",".join(values) + ")"
+
 
 items = json.loads(SOURCE.read_text(encoding="utf-8"))
 assert len(items) == 28, f"expected 28 questions, got {len(items)}"
-assert len({x["zyntra_id"] for x in items}) == 28, "duplicate zyntra_id"
-assert collections.Counter(x["correct_answer"] for x in items) == {"A": 6, "B": 6, "C": 6, "D": 5, "E": 5}
+assert len({item["zyntra_id"] for item in items}) == 28, "duplicate canonical question ID"
+assert len({item["source_question_id"] for item in items}) == 28, "duplicate source question ID"
+assert collections.Counter(item["correct_answer"] for item in items) == {
+    "A": 6, "B": 6, "C": 6, "D": 5, "E": 5
+}
 for item in items:
     assert item["lifecycle_status"] == "draft", item["zyntra_id"]
-    assert len(item["options"]) == 5 and set(item["incorrect_answer_explanations"]) == set("ABCDE"), item["zyntra_id"]
-    assert item["correct_answer"] in "ABCDE" and item["evidence_sources"], item["zyntra_id"]
+    assert len(item["options"]) == 5, item["zyntra_id"]
+    assert set(item["incorrect_answer_explanations"]) == set("ABCDE"), item["zyntra_id"]
+    assert item["correct_answer"] in "ABCDE", item["zyntra_id"]
+    assert item["evidence_sources"], item["zyntra_id"]
+    assert all(source["url"].startswith("https://") for source in item["evidence_sources"])
 
-group_key, group_name, group_slug = "POPULATION_HEALTH", "Population Health & Ethics", "population-health-ethics"
-concepts, los = {}, {}
+
+concepts, learning_objectives = {}, {}
 for item in items:
-    ck = f"{group_key}.{slug(item['system_category'])}"
-    lk = f"{ck}.{slug(item['subtopic'])}"
-    concepts.setdefault(ck, (item["system_category"], group_name))
-    los.setdefault(lk, {"concept": ck, "title": item["subtopic"], "group": group_key})
-    item["_ck"], item["_lk"] = ck, lk
+    concept_key = f"{GROUP_KEY}.{slug(item['system_category'])}"
+    lo_key = f"{concept_key}.{slug(item['subtopic'])}"
+    concepts.setdefault(concept_key, (item["system_category"], GROUP_NAME))
+    learning_objectives.setdefault(lo_key, {"concept": concept_key, "title": item["subtopic"]})
+    item["_lo_key"] = lo_key
 
-L = [
-"-- 0081: QNS V2 PH-01 incremental import. Draft-only: no question is activated by this migration.",
-"-- Source of truth: supabase/seed_v2/qns_v2_ph01/ph01_screening_upload.json",
-"-- Generated by build_ph01.py. Stable UUID5 IDs use the shared PIE namespace.",
-"-- Clinical release gate: independent clinical sign-off is still required; status remains 'draft'.",
-"begin;",
-"insert into public.subjects(id, name, slug, description) values",
-",\n".join(f"({q(U('subject:'+group_slug))}::uuid,{q(group_name)},{q(group_slug)},{q('AMC patient group '+group_key)})"),
-"on conflict (slug) do nothing;",
-"insert into public.subtopics(id, subject_id, name, slug)",
-"select v.id, s.id, v.name, v.slug from (values",
-",\n".join(f"({q(U('subtopic:'+group_slug+':'+x))}::uuid,{q(group_slug)},{q(x)},{q(slug(x).lower().replace('_','-'))})" for x in sorted({i['system_category'] for i in items})),
-") v(id, subject_slug, name, slug) join public.subjects s on s.slug = v.subject_slug",
-"where not exists (select 1 from public.subtopics t where t.subject_id=s.id and t.slug=v.slug);",
-"insert into pie.concept(id, concept_key, title, description) values",
-",\n".join(f"({q(U('concept:'+k))}::uuid,{q(k)},{q(title)},{q('Patient group: '+g)})" for k,(title,g) in sorted(concepts.items())),
-"on conflict (concept_key) do nothing;",
-"insert into pie.learning_objective(id, lo_key, concept_id, title, description) values",
-",\n".join(f"({q(U('lo:'+k))}::uuid,{q(k)},{q(U('concept:'+v['concept']))}::uuid,{q(v['title'])},{q('QNS V2 PH-01 learning objective')})" for k,v in sorted(los.items())),
-"on conflict (lo_key) do nothing;",
-"insert into public.questions(id, zyntra_id, subject_id, subtopic_id, stem, options, correct_answer, explanation, difficulty_tier, status, version, provenance, irt_b, irt_b_se, irt_b_source, irt_b_note)",
-"select v.id, v.zid, s.id, t.id, v.stem, v.opts, v.ckey, v.expl, v.tier, 'draft', 1, v.prov, v.b, v.se, 'tier_prior', v.note",
-"from (values",
-",\n".join(
-    f"({q(U('q:'+x['zyntra_id']))}::uuid,{q(x['zyntra_id'])},{q(group_slug)},{q(slug(x['system_category']).lower().replace('_','-'))},{q(x['question_text'])},{J(x['options'])},{q(x['correct_answer'])},{q(x['explanation'])},{q(x['difficulty'])},{J({'source':'qns_v2_ph01','source_batch':'ph01','review_status':x['review_status'],'tags':x['tags'],'clinician_task':'management','guideline_reference':x['guideline_reference'],'incorrect_answer_explanations':x['incorrect_answer_explanations'],'key_takeaways':x['key_takeaways'],'evidence_sources':x['evidence_sources'],'option_ids':{letter:U('option:'+x['zyntra_id']+':'+letter) for letter in 'ABCDE'},'correct_option_id':U('option:'+x['zyntra_id']+':'+x['correct_answer']),'question_version':1,'phase_id':'PH-01','source_question_id':x['source_question_id'],'reviewer_attribution_requested':'Dr. GopalaKrishnan SankaraNarayanan','review_date':'2026-10-10','lifecycle_status':'draft','imported_by':'0081'})},{ {2:-1.0,3:0.0,4:1.0}[x['difficulty_tier']] },1.0,{q('tier='+str(x['difficulty_tier'])+' (ph01)')})"
-    for x in items
-),
-") v(id, zid, subject_slug, subtopic_slug, stem, opts, ckey, expl, tier, prov, b, se, note)",
-"join public.subjects s on s.slug=v.subject_slug",
-"left join public.subtopics t on t.subject_id=s.id and t.slug=v.subtopic_slug",
-"on conflict (zyntra_id) do nothing;",
-"insert into pie.question_lo(question_id, lo_id, is_primary, weight, mapping_source)",
-"select m.qid, m.lid, true, 1, 'qns_v2_ph01' from (values",
-",\n".join(f"({q(U('q:'+x['zyntra_id']))}::uuid,{q(U('lo:'+x['_lk']))}::uuid)" for x in items),
-") m(qid,lid) join public.questions qq on qq.id=m.qid",
-"on conflict (question_id,lo_id) do nothing;",
-"insert into amc.amc_blueprint_lo(blueprint_id, lo_id, eligible, coverage_target, tie_break_rank)",
-"select b.id, v.lid, true, 0.125 / nullif((select count(*) from pie.learning_objective l join pie.concept c on c.id=l.concept_id where c.concept_key like 'POPULATION_HEALTH.%'),0), null",
-"from (values",
-",\n".join(f"({q(U('lo:'+k))}::uuid)" for k in sorted(los)),
-") v(lid) cross join lateral (select id from amc.amc_blueprint where blueprint_key='AMC_CAT_MCQ' order by effective_from desc nulls last limit 1) b",
-"on conflict (blueprint_id,lo_id) do nothing;",
-"commit;",
-"-- Verify after applying: all 28 ZQ-0401..ZQ-0428 rows must have status='draft'.",
+topics = sorted({item["system_category"] for item in items})
+lines = [
+    "-- 0081: QNS V2 PH-01 incremental import. Draft-only: no question is activated by this migration.",
+    "-- Source of truth: supabase/seed_v2/qns_v2_ph01/ph01_screening_upload.json",
+    "-- Generated by build_ph01.py. Stable UUID5 IDs use the shared PIE namespace.",
+    "-- Independent clinical sign-off is required; all inserted questions remain status='draft'.",
+    "begin;",
+    (
+        "insert into public.subjects(id, name, slug, description) values "
+        f"({q(U('subject:' + GROUP_SLUG))}::uuid,{q(GROUP_NAME)},{q(GROUP_SLUG)},"
+        f"{q('AMC patient group ' + GROUP_KEY)}) on conflict (slug) do nothing;"
+    ),
+    "insert into public.subtopics(id, subject_id, name, slug)",
+    "select v.id, s.id, v.name, v.slug from (values",
+    ",\\n".join(
+        f"({q(U('subtopic:' + GROUP_SLUG + ':' + topic))}::uuid,{q(GROUP_SLUG)},"
+        f"{q(topic)},{q(slug(topic).lower().replace('_', '-'))})"
+        for topic in topics
+    ),
+    ") v(id, subject_slug, name, slug) join public.subjects s on s.slug=v.subject_slug",
+    "where not exists (select 1 from public.subtopics t where t.subject_id=s.id and t.slug=v.slug);",
+    "insert into pie.concept(id, concept_key, title, description) values",
+    ",\\n".join(
+        f"({q(U('concept:' + key))}::uuid,{q(key)},{q(title)},{q('Patient group: ' + group)})"
+        for key, (title, group) in sorted(concepts.items())
+    ),
+    "on conflict (concept_key) do nothing;",
+    "insert into pie.learning_objective(id, lo_key, concept_id, title, description) values",
+    ",\\n".join(
+        f"({q(U('lo:' + key))}::uuid,{q(key)},{q(U('concept:' + value['concept']))}::uuid,"
+        f"{q(value['title'])},{q('QNS V2 PH-01 learning objective')})"
+        for key, value in sorted(learning_objectives.items())
+    ),
+    "on conflict (lo_key) do nothing;",
+    (
+        "insert into public.questions(id, zyntra_id, subject_id, subtopic_id, stem, options, "
+        "correct_answer, explanation, difficulty_tier, status, version, provenance, irt_b, "
+        "irt_b_se, irt_b_source, irt_b_note)"
+    ),
+    (
+        "select v.id,v.zid,s.id,t.id,v.stem,v.opts,v.ckey,v.expl,v.tier,'draft',1,"
+        "v.prov,v.b,v.se,'tier_prior',v.note"
+    ),
+    "from (values",
+    ",\\n".join(question_row(item) for item in items),
+    ") v(id,zid,subject_slug,subtopic_slug,stem,opts,ckey,expl,tier,prov,b,se,note)",
+    "join public.subjects s on s.slug=v.subject_slug",
+    "left join public.subtopics t on t.subject_id=s.id and t.slug=v.subtopic_slug",
+    "on conflict (zyntra_id) do nothing;",
+    "insert into pie.question_lo(question_id, lo_id, is_primary, weight, mapping_source)",
+    "select m.qid,m.lid,true,1,'qns_v2_ph01' from (values",
+    ",\\n".join(
+        f"({q(U('q:' + item['zyntra_id']))}::uuid,{q(U('lo:' + item['_lo_key']))}::uuid)"
+        for item in items
+    ),
+    ") m(qid,lid) join public.questions qq on qq.id=m.qid",
+    "on conflict (question_id,lo_id) do nothing;",
+    "insert into amc.amc_blueprint_lo(blueprint_id, lo_id, eligible, coverage_target, tie_break_rank)",
+    (
+        "select b.id,v.lid,true,"
+        f"{TARGET_SHARE} / nullif((select count(*) from pie.learning_objective l "
+        "join pie.concept c on c.id=l.concept_id where c.concept_key like 'POPULATION_HEALTH.%'),0),null"
+    ),
+    "from (values",
+    ",\\n".join(f"({q(U('lo:' + key))}::uuid)" for key in sorted(learning_objectives)),
+    ") v(lid) cross join lateral (select id from amc.amc_blueprint "
+    "where blueprint_key='AMC_CAT_MCQ' order by effective_from desc nulls last limit 1) b",
+    "on conflict (blueprint_id,lo_id) do nothing;",
+    "commit;",
+    "-- Verify after applying: all 28 ZQ-0401..ZQ-0428 rows must have status='draft'.",
 ]
-OUT.write_text("\n".join(L)+"\n", encoding="utf-8")
-print(f"Wrote {OUT}; questions={len(items)}; concepts={len(concepts)}; learning_objectives={len(los)}; key_distribution={dict(collections.Counter(x['correct_answer'] for x in items))}")
+OUT.write_text("\\n".join(lines) + "\\n", encoding="utf-8")
+print(
+    f"Wrote {OUT}; questions={len(items)}; concepts={len(concepts)}; "
+    f"learning_objectives={len(learning_objectives)}; "
+    f"key_distribution={dict(collections.Counter(item['correct_answer'] for item in items))}"
+)
