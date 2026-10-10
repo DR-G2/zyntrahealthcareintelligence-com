@@ -9,9 +9,9 @@
 
 ## QA status
 
-**AI-assisted QA: reviewed; production approval pending independent clinical sign-off.**
+**AI-assisted content preparation complete; independent clinical sign-off pending.**
 
-Document-rendering QA identified and corrected literal HTML-tag rendering in the revised PDF. Targeted content wording was reviewed for:
+The canonical source has been normalized into the V2 QBank shape. Structural validation covers 28 items, five options, A–E rationale, balanced answer keys, unique IDs, evidence URLs, and draft-only lifecycle. Targeted wording was tightened for:
 
 - PH-S-18: persistent postcoital bleeding requires diagnostic assessment, co-testing and appropriate specialist follow-up, not routine screening alone.
 - PH-S-22: distinguish initial entry into the National Lung Cancer Screening Program from continued screening for people already enrolled.
@@ -28,9 +28,17 @@ Document-rendering QA identified and corrected literal HTML-tag rendering in the
 - [Cancer Council Australia: prostate cancer policy context](https://www.cancer.org.au/about-us/policy-and-advocacy/early-detection/prostate-cancer/policy-context)
 - [Australian Government: skin cancer screening position statement](https://www.health.gov.au/resources/publications/skin-cancer-screening-position-statement)
 
+## QBank integration artifacts
+
+- Canonical source: `supabase/seed_v2/qns_v2_ph01/ph01_screening_upload.json`
+- Validator: `supabase/seed_v2/qns_v2_ph01/validate_ph01.py`
+- Deterministic PIE migration generator: `supabase/seed_v2/qns_v2_ph01/build_ph01.py`
+- Incremental draft-only migration: `supabase/migrations_v2/0081_qns_v2_ph01_draft_import.sql`
+- Canonical QBank IDs: `ZQ-0401` through `ZQ-0428`; original source IDs `PH-S-01` through `PH-S-28` are retained in metadata.
+
 ## Release gate
 
-This file records the content-pack QA metadata and references. It is **not** an independent medical-board certificate. A qualified clinical reviewer must approve the final question text and explanations before production use. No production import is represented by this commit.
+This file records content-pack QA metadata and references. It is **not** an independent medical-board certificate. The migration inserts questions as `draft`; the questions are not eligible for learner delivery until an authorised clinical approval and a separately reviewed activation step. This branch does not represent a live database import.
 
 ## Question inventory
 
