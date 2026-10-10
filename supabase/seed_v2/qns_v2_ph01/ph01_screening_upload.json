@@ -1,0 +1,1628 @@
+[
+  {
+    "zyntra_id": "ZQ-0401",
+    "phase_id": "PH-01",
+    "source_question_id": "PH-S-01",
+    "question_text": "A 58-year-old woman attends a Melbourne general practice for a repeat prescription of transdermal oestradiol. She has no breast symptoms. Her mother is alive at 84, and an aunt developed breast cancer at 71. Her last BreastScreen mammogram, 26 months ago, was normal but reported heterogeneously dense breast tissue. She asks whether she should have MRI or ultrasound instead of another mammogram. Examination is normal.\n\nWhat is the most appropriate advice?",
+    "options": [
+      "Arrange her next BreastScreen mammogram now.",
+      "Replace mammography with annual screening MRI.",
+      "Replace mammography with screening ultrasound because of breast density.",
+      "Wait until age 65 before further screening.",
+      "Order CA 15-3 and image only if it is elevated."
+    ],
+    "correct_answer": "A",
+    "explanation": "CORRECT ANSWER\nA. Arrange her next BreastScreen mammogram now.\n\nCLINICAL EXPLANATION\nBreastScreen Australia offers biennial mammography to women aged 50–74, with access also available to eligible women aged 40–49 and those over 74. At 58, she is overdue for routine screening. Breast density can reduce mammographic sensitivity, but density alone does not make MRI or ultrasound the routine population screening replacement.\n\nOPTION-BY-OPTION ANALYSIS\nA. Correct. Her two-year screening interval has elapsed.\nB. MRI is not the routine population screening test for an average-risk woman with this history.\nC. Ultrasound is not a routine substitute for mammography based on density alone.\nD. There is no reason to defer screening until 65.\nE. CA 15-3 is not a population screening test for breast cancer.\n\nLEARNING OBJECTIVE\nApply Australian breast screening eligibility and distinguish breast density from a high-risk surveillance indication.\n\nKEY TAKEAWAY\nApply Australian breast screening eligibility and distinguish breast density from a high-risk surveillance indication.\n\nEVIDENCE\nBreastScreen Australia: https://www.health.gov.au/our-work/breastscreen-australia",
+    "incorrect_answer_explanations": {
+      "A": "Correct. Her two-year screening interval has elapsed.",
+      "B": "MRI is not the routine population screening test for an average-risk woman with this history.",
+      "C": "Ultrasound is not a routine substitute for mammography based on density alone.",
+      "D": "There is no reason to defer screening until 65.",
+      "E": "CA 15-3 is not a population screening test for breast cancer."
+    },
+    "key_takeaways": [
+      "Apply Australian breast screening eligibility and distinguish breast density from a high-risk surveillance indication."
+    ],
+    "guideline_reference": "{\"name\":\"BreastScreen Australia\",\"url\":\"https://www.health.gov.au/our-work/breastscreen-australia\"}",
+    "evidence_sources": [
+      {
+        "name": "BreastScreen Australia",
+        "url": "https://www.health.gov.au/our-work/breastscreen-australia",
+        "checked_on": "2026-10-10"
+      }
+    ],
+    "category": "Population Health & Ethics",
+    "system_category": "Breast screening",
+    "subtopic": "Apply Australian breast screening eligibility and distinguish breast density from a high-risk surveillance indication.",
+    "difficulty": "moderate",
+    "difficulty_tier": 3,
+    "clinical_vignette": true,
+    "question_type": "mcq",
+    "lifecycle_status": "draft",
+    "review_status": "draft_pending_independent_clinical_signoff",
+    "tags": [
+      "ZQ-0401",
+      "zyntra_bank",
+      "qns_v2",
+      "ph01_screening",
+      "PH-S-01",
+      "group_population_health_ethics",
+      "sys_breast_screening",
+      "task_management",
+      "level_3",
+      "clinical_review_pending_2026_10_10",
+      "screening_eligibility",
+      "interval_adherence",
+      "overinvestigation",
+      "breast_density",
+      "risk_stratification"
+    ]
+  },
+  {
+    "zyntra_id": "ZQ-0402",
+    "phase_id": "PH-01",
+    "source_question_id": "PH-S-02",
+    "question_text": "A 46-year-old woman in Adelaide asks her GP for a BreastScreen referral after a friend says free mammograms are only available from age 50. She has no breast symptoms. Her sister had a fibroadenoma removed at 29, with no family history of breast or ovarian cancer. Examination is normal.\n\nWhat is the most appropriate advice?",
+    "options": [
+      "She must wait until age 50 before she can access BreastScreen.",
+      "She can access BreastScreen now, although routine invitations generally begin at 50.",
+      "She requires annual mammography because she requested screening before 50.",
+      "She should have annual screening ultrasound instead.",
+      "A normal examination means no imaging is needed until 50."
+    ],
+    "correct_answer": "B",
+    "explanation": "CORRECT ANSWER\nB. She can access BreastScreen now, although routine invitations generally begin at 50.\n\nCLINICAL EXPLANATION\nWomen aged 40–49 can access BreastScreen Australia, although the program routinely invites women aged 50–74. A fibroadenoma in a relative is not equivalent to a family history of breast cancer.\n\nOPTION-BY-OPTION ANALYSIS\nA. Incorrect. Access is not restricted to women aged 50 or older.\nB. Correct. She can discuss and arrange screening now.\nC. Requesting screening early does not automatically establish a need for annual imaging.\nD. Ultrasound is not the standard population screening alternative.\nE. Clinical examination cannot replace appropriate screening mammography.\n\nLEARNING OBJECTIVE\nExplain the difference between routine invitation age and program access.\n\nKEY TAKEAWAY\nExplain the difference between routine invitation age and program access.\n\nEVIDENCE\nBreastScreen Australia: https://www.health.gov.au/our-work/breastscreen-australia",
+    "incorrect_answer_explanations": {
+      "A": "Incorrect. Access is not restricted to women aged 50 or older.",
+      "B": "Correct. She can discuss and arrange screening now.",
+      "C": "Requesting screening early does not automatically establish a need for annual imaging.",
+      "D": "Ultrasound is not the standard population screening alternative.",
+      "E": "Clinical examination cannot replace appropriate screening mammography."
+    },
+    "key_takeaways": [
+      "Explain the difference between routine invitation age and program access."
+    ],
+    "guideline_reference": "{\"name\":\"BreastScreen Australia\",\"url\":\"https://www.health.gov.au/our-work/breastscreen-australia\"}",
+    "evidence_sources": [
+      {
+        "name": "BreastScreen Australia",
+        "url": "https://www.health.gov.au/our-work/breastscreen-australia",
+        "checked_on": "2026-10-10"
+      }
+    ],
+    "category": "Population Health & Ethics",
+    "system_category": "Breast screening",
+    "subtopic": "Explain the difference between routine invitation age and program access.",
+    "difficulty": "moderate",
+    "difficulty_tier": 3,
+    "clinical_vignette": true,
+    "question_type": "mcq",
+    "lifecycle_status": "draft",
+    "review_status": "draft_pending_independent_clinical_signoff",
+    "tags": [
+      "ZQ-0402",
+      "zyntra_bank",
+      "qns_v2",
+      "ph01_screening",
+      "PH-S-02",
+      "group_population_health_ethics",
+      "sys_breast_screening",
+      "task_management",
+      "level_3",
+      "clinical_review_pending_2026_10_10",
+      "screening_eligibility",
+      "risk_interpretation",
+      "patient_education",
+      "unnecessary_testing"
+    ]
+  },
+  {
+    "zyntra_id": "ZQ-0403",
+    "phase_id": "PH-01",
+    "source_question_id": "PH-S-03",
+    "question_text": "A 44-year-old woman in Brisbane reports a firm lump in her left breast that has persisted for three weeks. She planned to wait until she reached screening age. Examination confirms a 2 cm firm, mobile mass without palpable axillary nodes. A BreastScreen appointment is available in 10 days, and the nurse suggests using it to avoid delay.\n\nWhat is the most appropriate next step?",
+    "options": [
+      "Use the screening appointment and act only if the report is abnormal.",
+      "Reassure her that a mobile lump can be reviewed in six months.",
+      "Arrange prompt diagnostic assessment of the breast lump.",
+      "Start tamoxifen and repeat examination in three months.",
+      "Order CA 15-3 and a chest X-ray before deciding about imaging."
+    ],
+    "correct_answer": "C",
+    "explanation": "CORRECT ANSWER\nC. Arrange prompt diagnostic assessment of the breast lump.\n\nCLINICAL EXPLANATION\nA palpable breast mass requires diagnostic assessment, commonly involving clinical examination, age-appropriate diagnostic imaging and tissue sampling when indicated. A population screening appointment is not a substitute for investigating a symptom.\n\nOPTION-BY-OPTION ANALYSIS\nA. Screening pathways are designed for asymptomatic people and may not provide the necessary diagnostic work-up.\nB. Mobility does not reliably exclude malignancy; delay is inappropriate.\nC. Correct. Arrange prompt diagnostic assessment.\nD. Tamoxifen should not be started empirically for an undiagnosed breast mass.\nE. Tumour markers and chest X-ray are not the initial diagnostic pathway for an isolated breast lump.\n\nLEARNING OBJECTIVE\nRecognise when symptoms override routine screening eligibility.\n\nKEY TAKEAWAY\nRecognise when symptoms override routine screening eligibility.\n\nEVIDENCE\nCancer Australia: https://www.canceraustralia.gov.au/",
+    "incorrect_answer_explanations": {
+      "A": "Screening pathways are designed for asymptomatic people and may not provide the necessary diagnostic work-up.",
+      "B": "Mobility does not reliably exclude malignancy; delay is inappropriate.",
+      "C": "Correct. Arrange prompt diagnostic assessment.",
+      "D": "Tamoxifen should not be started empirically for an undiagnosed breast mass.",
+      "E": "Tumour markers and chest X-ray are not the initial diagnostic pathway for an isolated breast lump."
+    },
+    "key_takeaways": [
+      "Recognise when symptoms override routine screening eligibility."
+    ],
+    "guideline_reference": "{\"name\":\"Cancer Australia\",\"url\":\"https://www.canceraustralia.gov.au/\"}",
+    "evidence_sources": [
+      {
+        "name": "Cancer Australia",
+        "url": "https://www.canceraustralia.gov.au/",
+        "checked_on": "2026-10-10"
+      }
+    ],
+    "category": "Population Health & Ethics",
+    "system_category": "Breast screening",
+    "subtopic": "Recognise when symptoms override routine screening eligibility.",
+    "difficulty": "difficult",
+    "difficulty_tier": 4,
+    "clinical_vignette": true,
+    "question_type": "mcq",
+    "lifecycle_status": "draft",
+    "review_status": "draft_pending_independent_clinical_signoff",
+    "tags": [
+      "ZQ-0403",
+      "zyntra_bank",
+      "qns_v2",
+      "ph01_screening",
+      "PH-S-03",
+      "group_population_health_ethics",
+      "sys_breast_screening",
+      "task_management",
+      "level_4",
+      "clinical_review_pending_2026_10_10",
+      "screening_vs_diagnosis",
+      "red_flag_recognition",
+      "diagnostic_delay",
+      "appropriate_referral"
+    ]
+  },
+  {
+    "zyntra_id": "ZQ-0404",
+    "phase_id": "PH-01",
+    "source_question_id": "PH-S-04",
+    "question_text": "A 76-year-old woman in Perth remains independent, drives and has well-controlled hypertension and osteoarthritis. She has attended BreastScreen every two years since age 52. Her last mammogram was normal 18 months ago. A friend tells her that breast screening is prohibited after age 74. She has no symptoms.\n\nWhat is the most appropriate advice?",
+    "options": [
+      "Arrange annual MRI because routine invitations have stopped.",
+      "Continue mandatory annual mammography until age 80.",
+      "Replace mammography with annual clinical examination.",
+      "Explain that routine invitations stop after 74, but she may discuss and choose further screening.",
+      "Explain that mammography is contraindicated after age 74."
+    ],
+    "correct_answer": "D",
+    "explanation": "CORRECT ANSWER\nD. Explain that routine invitations stop after 74, but she may discuss and choose further screening.\n\nCLINICAL EXPLANATION\nRoutine BreastScreen invitations target women aged 50–74. Women older than 74 may still access screening, but the potential benefits, harms, life expectancy, health status and preferences should inform the decision.\n\nOPTION-BY-OPTION ANALYSIS\nA. MRI is not the automatic replacement for routine mammography.\nB. Annual mammography is not mandatory.\nC. Clinical examination alone is not an equivalent screening substitute.\nD. Correct. Use shared decision-making about further screening.\nE. Screening is not categorically contraindicated solely because of age.\n\nLEARNING OBJECTIVE\nApply individualised decision-making when a patient is outside the routine screening invitation age.\n\nKEY TAKEAWAY\nApply individualised decision-making when a patient is outside the routine screening invitation age.\n\nEVIDENCE\nBreastScreen Australia: https://www.health.gov.au/our-work/breastscreen-australia",
+    "incorrect_answer_explanations": {
+      "A": "MRI is not the automatic replacement for routine mammography.",
+      "B": "Annual mammography is not mandatory.",
+      "C": "Clinical examination alone is not an equivalent screening substitute.",
+      "D": "Correct. Use shared decision-making about further screening.",
+      "E": "Screening is not categorically contraindicated solely because of age."
+    },
+    "key_takeaways": [
+      "Apply individualised decision-making when a patient is outside the routine screening invitation age."
+    ],
+    "guideline_reference": "{\"name\":\"BreastScreen Australia\",\"url\":\"https://www.health.gov.au/our-work/breastscreen-australia\"}",
+    "evidence_sources": [
+      {
+        "name": "BreastScreen Australia",
+        "url": "https://www.health.gov.au/our-work/breastscreen-australia",
+        "checked_on": "2026-10-10"
+      }
+    ],
+    "category": "Population Health & Ethics",
+    "system_category": "Breast screening",
+    "subtopic": "Apply individualised decision-making when a patient is outside the routine screening invitation age.",
+    "difficulty": "moderate",
+    "difficulty_tier": 3,
+    "clinical_vignette": true,
+    "question_type": "mcq",
+    "lifecycle_status": "draft",
+    "review_status": "draft_pending_independent_clinical_signoff",
+    "tags": [
+      "ZQ-0404",
+      "zyntra_bank",
+      "qns_v2",
+      "ph01_screening",
+      "PH-S-04",
+      "group_population_health_ethics",
+      "sys_breast_screening",
+      "task_management",
+      "level_3",
+      "clinical_review_pending_2026_10_10",
+      "age_based_eligibility",
+      "shared_decision_making",
+      "screening_benefit_harm",
+      "over_screening"
+    ]
+  },
+  {
+    "zyntra_id": "ZQ-0405",
+    "phase_id": "PH-01",
+    "source_question_id": "PH-S-05",
+    "question_text": "A 36-year-old woman in Sydney is eight weeks pregnant. Genetic testing has identified a pathogenic BRCA1 variant, and her mother developed breast cancer at 38. She has no breast symptoms. A midwife tells her that breast screening is unnecessary until population screening age and can be reconsidered after childbearing.\n\nWhat is the most appropriate advice?",
+    "options": [
+      "Wait until age 50 for routine BreastScreen invitations.",
+      "Use annual ultrasound as the sole long-term surveillance plan.",
+      "Arrange prophylactic bilateral mastectomy immediately, without further assessment.",
+      "Defer all risk management until she has completed childbearing.",
+      "Refer for specialist familial cancer and high-risk breast surveillance advice, taking pregnancy into account."
+    ],
+    "correct_answer": "E",
+    "explanation": "CORRECT ANSWER\nE. Refer for specialist familial cancer and high-risk breast surveillance advice, taking pregnancy into account.\n\nCLINICAL EXPLANATION\nA pathogenic BRCA1 variant and a strong early-onset family history warrant specialist risk management. The surveillance plan must be individualised and account for pregnancy, imaging choices, risk-reducing options and reproductive preferences.\n\nOPTION-BY-OPTION ANALYSIS\nA. Average-risk screening ages are not sufficient for this high-risk patient.\nB. Ultrasound alone is not automatically an adequate lifelong surveillance plan.\nC. Risk-reducing surgery requires specialist counselling and shared decision-making; it is not an automatic immediate intervention.\nD. Risk assessment should not be postponed until childbearing is complete.\nE. Correct. Refer to an appropriate familial cancer/high-risk service.\n\nLEARNING OBJECTIVE\nDistinguish population screening from surveillance for inherited cancer susceptibility.\n\nKEY TAKEAWAY\nDistinguish population screening from surveillance for inherited cancer susceptibility.\n\nEVIDENCE\nCancer Australia: https://www.canceraustralia.gov.au/",
+    "incorrect_answer_explanations": {
+      "A": "Average-risk screening ages are not sufficient for this high-risk patient.",
+      "B": "Ultrasound alone is not automatically an adequate lifelong surveillance plan.",
+      "C": "Risk-reducing surgery requires specialist counselling and shared decision-making; it is not an automatic immediate intervention.",
+      "D": "Risk assessment should not be postponed until childbearing is complete.",
+      "E": "Correct. Refer to an appropriate familial cancer/high-risk service."
+    },
+    "key_takeaways": [
+      "Distinguish population screening from surveillance for inherited cancer susceptibility."
+    ],
+    "guideline_reference": "{\"name\":\"Cancer Australia\",\"url\":\"https://www.canceraustralia.gov.au/\"}",
+    "evidence_sources": [
+      {
+        "name": "Cancer Australia",
+        "url": "https://www.canceraustralia.gov.au/",
+        "checked_on": "2026-10-10"
+      }
+    ],
+    "category": "Population Health & Ethics",
+    "system_category": "Breast screening",
+    "subtopic": "Distinguish population screening from surveillance for inherited cancer susceptibility.",
+    "difficulty": "difficult",
+    "difficulty_tier": 4,
+    "clinical_vignette": true,
+    "question_type": "mcq",
+    "lifecycle_status": "draft",
+    "review_status": "draft_pending_independent_clinical_signoff",
+    "tags": [
+      "ZQ-0405",
+      "zyntra_bank",
+      "qns_v2",
+      "ph01_screening",
+      "PH-S-05",
+      "group_population_health_ethics",
+      "sys_breast_screening",
+      "task_management",
+      "level_4",
+      "clinical_review_pending_2026_10_10",
+      "high_risk_pathway",
+      "genetic_risk",
+      "specialist_referral",
+      "shared_decision_making",
+      "pregnancy_context"
+    ]
+  },
+  {
+    "zyntra_id": "ZQ-0406",
+    "phase_id": "PH-01",
+    "source_question_id": "PH-S-06",
+    "question_text": "A 62-year-old asymptomatic man in Hobart asks to join the same BreastScreen program as his wife. He has no breast symptoms or family history and is willing to pay privately if necessary. Examination is normal.\n\nWhat is the most appropriate advice?",
+    "options": [
+      "Routine population breast screening is not offered to asymptomatic men; assess any future symptoms promptly.",
+      "Enrol him in biennial mammography because he is older than 50.",
+      "Arrange annual breast ultrasound as the male equivalent of BreastScreen.",
+      "Measure CA 15-3 every two years.",
+      "Prescribe tamoxifen as a standard male breast cancer prevention program."
+    ],
+    "correct_answer": "A",
+    "explanation": "CORRECT ANSWER\nA. Routine population breast screening is not offered to asymptomatic men; assess any future symptoms promptly.\n\nCLINICAL EXPLANATION\nBreastScreen Australia is a population screening program for women. An asymptomatic man without a specific high-risk indication is not enrolled in an equivalent routine population program.\n\nOPTION-BY-OPTION ANALYSIS\nA. Correct. Explain the program scope and safety-net new symptoms.\nB. Male sex and age alone do not create eligibility for routine BreastScreen.\nC. Ultrasound is not a standard population screening substitute.\nD. CA 15-3 is not a screening test.\nE. Tamoxifen is not a routine prevention prescription for asymptomatic men.\n\nLEARNING OBJECTIVE\nIdentify the intended population of a national screening program.\n\nKEY TAKEAWAY\nIdentify the intended population of a national screening program.\n\nEVIDENCE\nBreastScreen Australia: https://www.health.gov.au/our-work/breastscreen-australia",
+    "incorrect_answer_explanations": {
+      "A": "Correct. Explain the program scope and safety-net new symptoms.",
+      "B": "Male sex and age alone do not create eligibility for routine BreastScreen.",
+      "C": "Ultrasound is not a standard population screening substitute.",
+      "D": "CA 15-3 is not a screening test.",
+      "E": "Tamoxifen is not a routine prevention prescription for asymptomatic men."
+    },
+    "key_takeaways": [
+      "Identify the intended population of a national screening program."
+    ],
+    "guideline_reference": "{\"name\":\"BreastScreen Australia\",\"url\":\"https://www.health.gov.au/our-work/breastscreen-australia\"}",
+    "evidence_sources": [
+      {
+        "name": "BreastScreen Australia",
+        "url": "https://www.health.gov.au/our-work/breastscreen-australia",
+        "checked_on": "2026-10-10"
+      }
+    ],
+    "category": "Population Health & Ethics",
+    "system_category": "Breast screening",
+    "subtopic": "Identify the intended population of a national screening program.",
+    "difficulty": "moderate",
+    "difficulty_tier": 3,
+    "clinical_vignette": true,
+    "question_type": "mcq",
+    "lifecycle_status": "draft",
+    "review_status": "draft_pending_independent_clinical_signoff",
+    "tags": [
+      "ZQ-0406",
+      "zyntra_bank",
+      "qns_v2",
+      "ph01_screening",
+      "PH-S-06",
+      "group_population_health_ethics",
+      "sys_breast_screening",
+      "task_management",
+      "level_3",
+      "clinical_review_pending_2026_10_10",
+      "program_scope",
+      "inappropriate_screening",
+      "tumour_marker_misuse",
+      "safety_netting"
+    ]
+  },
+  {
+    "zyntra_id": "ZQ-0407",
+    "phase_id": "PH-01",
+    "source_question_id": "PH-S-07",
+    "question_text": "A 47-year-old man in Canberra has no bowel symptoms and no relevant family history. His wife, aged 52, has received a National Bowel Cancer Screening Program kit. He has never screened and asks whether he is too young because he remembers the program starting at 50.\n\nWhat is the most appropriate advice?",
+    "options": [
+      "He must wait until age 50 before any program screening is possible.",
+      "He can request a free bowel screening kit now; routine automatic mail-outs begin at age 50.",
+      "He should undergo colonoscopy because his wife received a kit.",
+      "He should request a kit only if he develops rectal bleeding.",
+      "He should have annual CEA testing until age 50."
+    ],
+    "correct_answer": "B",
+    "explanation": "CORRECT ANSWER\nB. He can request a free bowel screening kit now; routine automatic mail-outs begin at age 50.\n\nCLINICAL EXPLANATION\nEligible Australians aged 45–49 can request their first free kit. People aged 50–74 are routinely mailed a kit every two years. Screening is intended for people without symptoms.\n\nOPTION-BY-OPTION ANALYSIS\nA. Incorrect. Eligibility begins at 45.\nB. Correct. He can request his first kit.\nC. His wife's invitation does not indicate that he needs colonoscopy.\nD. Screening should occur before symptoms arise; symptoms require diagnostic assessment instead.\nE. CEA is not a population screening test.\n\nLEARNING OBJECTIVE\nApply the current National Bowel Cancer Screening Program age rules.\n\nKEY TAKEAWAY\nApply the current National Bowel Cancer Screening Program age rules.\n\nEVIDENCE\nAustralian Government: https://www.health.gov.au/our-work/national-bowel-cancer-screening-program/doing-a-bowel-screening-test/who-should-do-the-bowel-screening-test-and-who-should-not",
+    "incorrect_answer_explanations": {
+      "A": "Incorrect. Eligibility begins at 45.",
+      "B": "Correct. He can request his first kit.",
+      "C": "His wife's invitation does not indicate that he needs colonoscopy.",
+      "D": "Screening should occur before symptoms arise; symptoms require diagnostic assessment instead.",
+      "E": "CEA is not a population screening test."
+    },
+    "key_takeaways": [
+      "Apply the current National Bowel Cancer Screening Program age rules."
+    ],
+    "guideline_reference": "{\"name\":\"Australian Government\",\"url\":\"https://www.health.gov.au/our-work/national-bowel-cancer-screening-program/doing-a-bowel-screening-test/who-should-do-the-bowel-screening-test-and-who-should-not\"}",
+    "evidence_sources": [
+      {
+        "name": "Australian Government",
+        "url": "https://www.health.gov.au/our-work/national-bowel-cancer-screening-program/doing-a-bowel-screening-test/who-should-do-the-bowel-screening-test-and-who-should-not",
+        "checked_on": "2026-10-10"
+      }
+    ],
+    "category": "Population Health & Ethics",
+    "system_category": "Bowel screening",
+    "subtopic": "Apply the current National Bowel Cancer Screening Program age rules.",
+    "difficulty": "easy",
+    "difficulty_tier": 2,
+    "clinical_vignette": true,
+    "question_type": "mcq",
+    "lifecycle_status": "draft",
+    "review_status": "draft_pending_independent_clinical_signoff",
+    "tags": [
+      "ZQ-0407",
+      "zyntra_bank",
+      "qns_v2",
+      "ph01_screening",
+      "PH-S-07",
+      "group_population_health_ethics",
+      "sys_bowel_screening",
+      "task_management",
+      "level_2",
+      "clinical_review_pending_2026_10_10",
+      "bowel_screening_eligibility",
+      "age_threshold",
+      "program_access",
+      "screening_vs_diagnosis"
+    ]
+  },
+  {
+    "zyntra_id": "ZQ-0408",
+    "phase_id": "PH-01",
+    "source_question_id": "PH-S-08",
+    "question_text": "A 63-year-old woman in Darwin receives a bowel screening kit. She had haemorrhoids banded six years ago and has had no bleeding since. She has no weight loss, change in bowel habit or known anaemia. She asks whether she should discard the kit and arrange colonoscopy because a friend of similar age had one.\n\nWhat is the most appropriate advice?",
+    "options": [
+      "Arrange colonoscopy because everyone over 60 requires it instead of a kit.",
+      "Keep the kit until she notices bleeding.",
+      "Complete and return the kit if she remains asymptomatic and otherwise eligible.",
+      "Request CEA before deciding whether to screen.",
+      "Use the kit only if a blood test demonstrates anaemia."
+    ],
+    "correct_answer": "C",
+    "explanation": "CORRECT ANSWER\nC. Complete and return the kit if she remains asymptomatic and otherwise eligible.\n\nCLINICAL EXPLANATION\nAn eligible, asymptomatic person aged 45–74 should participate in biennial screening. Remote, successfully treated haemorrhoids do not by themselves require colonoscopy instead of screening. New symptoms or a relevant personal or family history would warrant individual assessment.\n\nOPTION-BY-OPTION ANALYSIS\nA. Colonoscopy is not automatically required solely because of age.\nB. Screening is intended before symptoms develop.\nC. Correct. Complete the kit if no exclusion or alternative pathway applies.\nD. CEA is not a screening test.\nE. Screening does not require anaemia.\n\nLEARNING OBJECTIVE\nDistinguish routine screening from investigation prompted by symptoms or increased risk.\n\nKEY TAKEAWAY\nDistinguish routine screening from investigation prompted by symptoms or increased risk.\n\nEVIDENCE\nAustralian Government: https://www.health.gov.au/our-work/national-bowel-cancer-screening-program/doing-a-bowel-screening-test/who-should-do-the-bowel-screening-test-and-who-should-not",
+    "incorrect_answer_explanations": {
+      "A": "Colonoscopy is not automatically required solely because of age.",
+      "B": "Screening is intended before symptoms develop.",
+      "C": "Correct. Complete the kit if no exclusion or alternative pathway applies.",
+      "D": "CEA is not a screening test.",
+      "E": "Screening does not require anaemia."
+    },
+    "key_takeaways": [
+      "Distinguish routine screening from investigation prompted by symptoms or increased risk."
+    ],
+    "guideline_reference": "{\"name\":\"Australian Government\",\"url\":\"https://www.health.gov.au/our-work/national-bowel-cancer-screening-program/doing-a-bowel-screening-test/who-should-do-the-bowel-screening-test-and-who-should-not\"}",
+    "evidence_sources": [
+      {
+        "name": "Australian Government",
+        "url": "https://www.health.gov.au/our-work/national-bowel-cancer-screening-program/doing-a-bowel-screening-test/who-should-do-the-bowel-screening-test-and-who-should-not",
+        "checked_on": "2026-10-10"
+      }
+    ],
+    "category": "Population Health & Ethics",
+    "system_category": "Bowel screening",
+    "subtopic": "Distinguish routine screening from investigation prompted by symptoms or increased risk.",
+    "difficulty": "moderate",
+    "difficulty_tier": 3,
+    "clinical_vignette": true,
+    "question_type": "mcq",
+    "lifecycle_status": "draft",
+    "review_status": "draft_pending_independent_clinical_signoff",
+    "tags": [
+      "ZQ-0408",
+      "zyntra_bank",
+      "qns_v2",
+      "ph01_screening",
+      "PH-S-08",
+      "group_population_health_ethics",
+      "sys_bowel_screening",
+      "task_management",
+      "level_3",
+      "clinical_review_pending_2026_10_10",
+      "bowel_screening",
+      "risk_assessment",
+      "unnecessary_colonoscopy",
+      "preventive_care"
+    ]
+  },
+  {
+    "zyntra_id": "ZQ-0409",
+    "phase_id": "PH-01",
+    "source_question_id": "PH-S-09",
+    "question_text": "A 55-year-old man in Newcastle has a positive faecal immunochemical screening test. He feels well, has no rectal bleeding and has a haemoglobin concentration of 148 g/L. He ate rare steak before collecting the sample and wants to repeat the test after dietary restriction, as he remembers being advised with an older stool test.\n\nWhat is the most appropriate next step?",
+    "options": [
+      "Repeat the kit after six weeks of dietary restriction.",
+      "Wait until the next routine two-year screening invitation.",
+      "Order CEA and investigate only if it is elevated.",
+      "Arrange appropriate diagnostic follow-up, usually colonoscopy.",
+      "Start oral iron and repeat the kit if haemoglobin falls."
+    ],
+    "correct_answer": "D",
+    "explanation": "CORRECT ANSWER\nD. Arrange appropriate diagnostic follow-up, usually colonoscopy.\n\nCLINICAL EXPLANATION\nA positive immunochemical faecal occult blood test requires follow-up to investigate the source of blood. A normal haemoglobin concentration and absence of symptoms do not exclude colorectal neoplasia. Dietary restrictions associated with older guaiac-based tests do not justify repeating a positive FIT instead of investigating it.\n\nOPTION-BY-OPTION ANALYSIS\nA. Repeating the test can delay definitive investigation.\nB. A positive result requires follow-up now, not at the next routine interval.\nC. CEA cannot exclude colorectal cancer or replace colonoscopy.\nD. Correct. Arrange diagnostic follow-up and assess the patient clinically.\nE. Iron is not indicated solely to manage a positive screening test.\n\nLEARNING OBJECTIVE\nManage a positive bowel screening result without using repeat screening to avoid diagnostic investigation.\n\nKEY TAKEAWAY\nManage a positive bowel screening result without using repeat screening to avoid diagnostic investigation.\n\nEVIDENCE\nNational Bowel Cancer Screening Program: https://www.health.gov.au/our-work/national-bowel-cancer-screening-program",
+    "incorrect_answer_explanations": {
+      "A": "Repeating the test can delay definitive investigation.",
+      "B": "A positive result requires follow-up now, not at the next routine interval.",
+      "C": "CEA cannot exclude colorectal cancer or replace colonoscopy.",
+      "D": "Correct. Arrange diagnostic follow-up and assess the patient clinically.",
+      "E": "Iron is not indicated solely to manage a positive screening test."
+    },
+    "key_takeaways": [
+      "Manage a positive bowel screening result without using repeat screening to avoid diagnostic investigation."
+    ],
+    "guideline_reference": "{\"name\":\"National Bowel Cancer Screening Program\",\"url\":\"https://www.health.gov.au/our-work/national-bowel-cancer-screening-program\"}",
+    "evidence_sources": [
+      {
+        "name": "National Bowel Cancer Screening Program",
+        "url": "https://www.health.gov.au/our-work/national-bowel-cancer-screening-program",
+        "checked_on": "2026-10-10"
+      }
+    ],
+    "category": "Population Health & Ethics",
+    "system_category": "Bowel screening",
+    "subtopic": "Manage a positive bowel screening result without using repeat screening to avoid diagnostic investigation.",
+    "difficulty": "moderate",
+    "difficulty_tier": 3,
+    "clinical_vignette": true,
+    "question_type": "mcq",
+    "lifecycle_status": "draft",
+    "review_status": "draft_pending_independent_clinical_signoff",
+    "tags": [
+      "ZQ-0409",
+      "zyntra_bank",
+      "qns_v2",
+      "ph01_screening",
+      "PH-S-09",
+      "group_population_health_ethics",
+      "sys_bowel_screening",
+      "task_management",
+      "level_3",
+      "clinical_review_pending_2026_10_10",
+      "positive_screen_followup",
+      "diagnostic_escalation",
+      "false_reassurance",
+      "inappropriate_repeat_testing"
+    ]
+  },
+  {
+    "zyntra_id": "ZQ-0410",
+    "phase_id": "PH-01",
+    "source_question_id": "PH-S-10",
+    "question_text": "A 60-year-old man in Geelong reports bright-red rectal bleeding on most days for three weeks. His haemoglobin is 132 g/L. Rectal examination shows no fissure or prolapsed haemorrhoid. He has a bowel screening kit due this month and asks to complete it before deciding whether to seek further care.\n\nWhat is the most appropriate next step?",
+    "options": [
+      "Give him the kit and discharge him if the result is negative.",
+      "Repeat the kit after the bleeding has stopped for six weeks.",
+      "Order CEA and arrange colonoscopy only if it is elevated.",
+      "Reassure him that bright-red bleeding is usually haemorrhoidal.",
+      "Arrange prompt diagnostic assessment for the rectal bleeding rather than relying on screening."
+    ],
+    "correct_answer": "E",
+    "explanation": "CORRECT ANSWER\nE. Arrange prompt diagnostic assessment for the rectal bleeding rather than relying on screening.\n\nCLINICAL EXPLANATION\nRectal bleeding is a symptom requiring clinical assessment. The clinician should determine the urgency and appropriate investigation based on age, persistence, examination, blood results and other risk factors. A screening kit is not an adequate substitute.\n\nOPTION-BY-OPTION ANALYSIS\nA. A negative screening test does not exclude significant disease in a symptomatic patient.\nB. Waiting for symptoms to resolve may delay diagnosis.\nC. CEA is not a diagnostic gatekeeper for colonoscopy.\nD. Bright-red blood does not establish a benign cause.\nE. Correct. Investigate the symptom through the appropriate diagnostic pathway.\n\nLEARNING OBJECTIVE\nRecognise that symptomatic patients should not be managed solely through population screening.\n\nKEY TAKEAWAY\nRecognise that symptomatic patients should not be managed solely through population screening.\n\nEVIDENCE\nAustralian Government: https://www.health.gov.au/our-work/national-bowel-cancer-screening-program/doing-a-bowel-screening-test/who-should-do-the-bowel-screening-test-and-who-should-not",
+    "incorrect_answer_explanations": {
+      "A": "A negative screening test does not exclude significant disease in a symptomatic patient.",
+      "B": "Waiting for symptoms to resolve may delay diagnosis.",
+      "C": "CEA is not a diagnostic gatekeeper for colonoscopy.",
+      "D": "Bright-red blood does not establish a benign cause.",
+      "E": "Correct. Investigate the symptom through the appropriate diagnostic pathway."
+    },
+    "key_takeaways": [
+      "Recognise that symptomatic patients should not be managed solely through population screening."
+    ],
+    "guideline_reference": "{\"name\":\"Australian Government\",\"url\":\"https://www.health.gov.au/our-work/national-bowel-cancer-screening-program/doing-a-bowel-screening-test/who-should-do-the-bowel-screening-test-and-who-should-not\"}",
+    "evidence_sources": [
+      {
+        "name": "Australian Government",
+        "url": "https://www.health.gov.au/our-work/national-bowel-cancer-screening-program/doing-a-bowel-screening-test/who-should-do-the-bowel-screening-test-and-who-should-not",
+        "checked_on": "2026-10-10"
+      }
+    ],
+    "category": "Population Health & Ethics",
+    "system_category": "Bowel screening",
+    "subtopic": "Recognise that symptomatic patients should not be managed solely through population screening.",
+    "difficulty": "difficult",
+    "difficulty_tier": 4,
+    "clinical_vignette": true,
+    "question_type": "mcq",
+    "lifecycle_status": "draft",
+    "review_status": "draft_pending_independent_clinical_signoff",
+    "tags": [
+      "ZQ-0410",
+      "zyntra_bank",
+      "qns_v2",
+      "ph01_screening",
+      "PH-S-10",
+      "group_population_health_ethics",
+      "sys_bowel_screening",
+      "task_management",
+      "level_4",
+      "clinical_review_pending_2026_10_10",
+      "red_flag_recognition",
+      "symptom_based_investigation",
+      "diagnostic_delay",
+      "screening_misuse"
+    ]
+  },
+  {
+    "zyntra_id": "ZQ-0411",
+    "phase_id": "PH-01",
+    "source_question_id": "PH-S-11",
+    "question_text": "A 58-year-old woman in Wollongong had a complete colonoscopy 14 months ago, during which a 6 mm tubular adenoma was removed. Her specialist documented a five-year surveillance interval. She has no bowel symptoms. A program screening kit arrives, and she asks whether she should complete it as well.\n\nWhat is the most appropriate advice?",
+    "options": [
+      "Do not complete the program kit now; follow the individualised colonoscopy surveillance plan.",
+      "Complete the kit because a government invitation overrides the specialist plan.",
+      "Replace the planned surveillance colonoscopy with biennial kits.",
+      "Order CEA and cancel all further bowel surveillance if it is normal.",
+      "Start annual kits because an adenoma was previously found."
+    ],
+    "correct_answer": "A",
+    "explanation": "CORRECT ANSWER\nA. Do not complete the program kit now; follow the individualised colonoscopy surveillance plan.\n\nCLINICAL EXPLANATION\nA recent colonoscopy and personal history of adenoma may make routine population screening inappropriate at that time. The patient should follow the documented surveillance plan and clarify any uncertainty with the treating clinician.\n\nOPTION-BY-OPTION ANALYSIS\nA. Correct. A recent colonoscopy and planned surveillance take precedence over automatically repeating population screening.\nB. Invitations do not override individual clinical circumstances.\nC. A screening kit does not replace indicated colonoscopic surveillance.\nD. A normal CEA cannot exclude colorectal cancer.\nE. A previous adenoma does not automatically mandate annual FIT.\n\nLEARNING OBJECTIVE\nReconcile population screening invitations with an existing individual surveillance plan.\n\nKEY TAKEAWAY\nReconcile population screening invitations with an existing individual surveillance plan.\n\nEVIDENCE\nAustralian Government: https://www.health.gov.au/our-work/national-bowel-cancer-screening-program/doing-a-bowel-screening-test/who-should-do-the-bowel-screening-test-and-who-should-not",
+    "incorrect_answer_explanations": {
+      "A": "Correct. A recent colonoscopy and planned surveillance take precedence over automatically repeating population screening.",
+      "B": "Invitations do not override individual clinical circumstances.",
+      "C": "A screening kit does not replace indicated colonoscopic surveillance.",
+      "D": "A normal CEA cannot exclude colorectal cancer.",
+      "E": "A previous adenoma does not automatically mandate annual FIT."
+    },
+    "key_takeaways": [
+      "Reconcile population screening invitations with an existing individual surveillance plan."
+    ],
+    "guideline_reference": "{\"name\":\"Australian Government\",\"url\":\"https://www.health.gov.au/our-work/national-bowel-cancer-screening-program/doing-a-bowel-screening-test/who-should-do-the-bowel-screening-test-and-who-should-not\"}",
+    "evidence_sources": [
+      {
+        "name": "Australian Government",
+        "url": "https://www.health.gov.au/our-work/national-bowel-cancer-screening-program/doing-a-bowel-screening-test/who-should-do-the-bowel-screening-test-and-who-should-not",
+        "checked_on": "2026-10-10"
+      }
+    ],
+    "category": "Population Health & Ethics",
+    "system_category": "Bowel screening",
+    "subtopic": "Reconcile population screening invitations with an existing individual surveillance plan.",
+    "difficulty": "easy",
+    "difficulty_tier": 2,
+    "clinical_vignette": true,
+    "question_type": "mcq",
+    "lifecycle_status": "draft",
+    "review_status": "draft_pending_independent_clinical_signoff",
+    "tags": [
+      "ZQ-0411",
+      "zyntra_bank",
+      "qns_v2",
+      "ph01_screening",
+      "PH-S-11",
+      "group_population_health_ethics",
+      "sys_bowel_screening",
+      "task_management",
+      "level_2",
+      "clinical_review_pending_2026_10_10",
+      "screening_history",
+      "surveillance",
+      "duplicate_testing",
+      "care_coordination"
+    ]
+  },
+  {
+    "zyntra_id": "ZQ-0412",
+    "phase_id": "PH-01",
+    "source_question_id": "PH-S-12",
+    "question_text": "A 78-year-old man in Launceston is independent and has no bowel symptoms. His younger brother has just completed a mailed screening kit. His son reads that the national program covers people up to age 80 and asks the GP to order another kit for his father.\n\nWhat is the most appropriate advice?",
+    "options": [
+      "Request an automatic program kit because he is fit and well.",
+      "Explain that he is outside the program's routine age range; discuss individual options if appropriate.",
+      "Arrange urgent colonoscopy because no kit has arrived.",
+      "Tell him that no bowel investigation is appropriate after age 74, even if symptoms arise.",
+      "Order annual CEA instead of a screening kit."
+    ],
+    "correct_answer": "B",
+    "explanation": "CORRECT ANSWER\nB. Explain that he is outside the program's routine age range; discuss individual options if appropriate.\n\nCLINICAL EXPLANATION\nThe National Bowel Cancer Screening Program covers eligible people aged 45–74. Above 74, there is no routine program invitation; any further screening decision should consider benefits, harms, health status and preferences. New symptoms still require assessment.\n\nOPTION-BY-OPTION ANALYSIS\nA. Fitness alone does not extend routine program eligibility.\nB. Correct. Discuss individual options rather than assuming automatic eligibility.\nC. Absence of a kit is not itself an indication for colonoscopy.\nD. Age does not remove the need to investigate future symptoms.\nE. CEA is not an alternative screening program.\n\nLEARNING OBJECTIVE\nApply the upper age limit while avoiding the error of withholding symptom-based care.\n\nKEY TAKEAWAY\nApply the upper age limit while avoiding the error of withholding symptom-based care.\n\nEVIDENCE\nAustralian Government: https://www.health.gov.au/our-work/national-bowel-cancer-screening-program/doing-a-bowel-screening-test/who-should-do-the-bowel-screening-test-and-who-should-not",
+    "incorrect_answer_explanations": {
+      "A": "Fitness alone does not extend routine program eligibility.",
+      "B": "Correct. Discuss individual options rather than assuming automatic eligibility.",
+      "C": "Absence of a kit is not itself an indication for colonoscopy.",
+      "D": "Age does not remove the need to investigate future symptoms.",
+      "E": "CEA is not an alternative screening program."
+    },
+    "key_takeaways": [
+      "Apply the upper age limit while avoiding the error of withholding symptom-based care."
+    ],
+    "guideline_reference": "{\"name\":\"Australian Government\",\"url\":\"https://www.health.gov.au/our-work/national-bowel-cancer-screening-program/doing-a-bowel-screening-test/who-should-do-the-bowel-screening-test-and-who-should-not\"}",
+    "evidence_sources": [
+      {
+        "name": "Australian Government",
+        "url": "https://www.health.gov.au/our-work/national-bowel-cancer-screening-program/doing-a-bowel-screening-test/who-should-do-the-bowel-screening-test-and-who-should-not",
+        "checked_on": "2026-10-10"
+      }
+    ],
+    "category": "Population Health & Ethics",
+    "system_category": "Bowel screening",
+    "subtopic": "Apply the upper age limit while avoiding the error of withholding symptom-based care.",
+    "difficulty": "moderate",
+    "difficulty_tier": 3,
+    "clinical_vignette": true,
+    "question_type": "mcq",
+    "lifecycle_status": "draft",
+    "review_status": "draft_pending_independent_clinical_signoff",
+    "tags": [
+      "ZQ-0412",
+      "zyntra_bank",
+      "qns_v2",
+      "ph01_screening",
+      "PH-S-12",
+      "group_population_health_ethics",
+      "sys_bowel_screening",
+      "task_management",
+      "level_3",
+      "clinical_review_pending_2026_10_10",
+      "upper_age_limit",
+      "shared_decision_making",
+      "screening_benefit_harm",
+      "safety_netting"
+    ]
+  },
+  {
+    "zyntra_id": "ZQ-0413",
+    "phase_id": "PH-01",
+    "source_question_id": "PH-S-13",
+    "question_text": "A 22-year-old woman in Melbourne attends with her mother, who began Pap smears at age 18. The daughter has never had sexual contact, has no vaginal bleeding or pelvic symptoms, and received HPV vaccination at school. Her mother requests a Cervical Screening Test.\n\nWhat is the most appropriate advice?",
+    "options": [
+      "Begin two-yearly Pap smears because that was the previous recommendation.",
+      "Arrange colposcopy before she becomes sexually active.",
+      "Explain that routine cervical screening is not due at age 22.",
+      "Take a self-collected HPV sample and repeat it in 12 months.",
+      "Explain that HPV vaccination means she will never need screening."
+    ],
+    "correct_answer": "C",
+    "explanation": "CORRECT ANSWER\nC. Explain that routine cervical screening is not due at age 22.\n\nCLINICAL EXPLANATION\nAustralia's National Cervical Screening Program routinely invites eligible people with a cervix aged 25–74 who have ever been sexually active. A 22-year-old without symptoms is not due for routine screening. Vaccination does not eliminate the need for screening once eligible.\n\nOPTION-BY-OPTION ANALYSIS\nA. The program no longer uses routine two-yearly Pap smears.\nB. Colposcopy is not indicated in an asymptomatic, unscreened person solely because of age.\nC. Correct. Explain the current starting age and provide future recall advice.\nD. Self-collection is not a reason to screen below the routine age in this asymptomatic scenario.\nE. HPV vaccination reduces risk but does not replace screening.\n\nLEARNING OBJECTIVE\nApply the current cervical screening starting age and distinguish vaccination from screening.\n\nKEY TAKEAWAY\nApply the current cervical screening starting age and distinguish vaccination from screening.\n\nEVIDENCE\nNational Cervical Screening Program: https://www.health.gov.au/our-work/national-cervical-screening-program",
+    "incorrect_answer_explanations": {
+      "A": "The program no longer uses routine two-yearly Pap smears.",
+      "B": "Colposcopy is not indicated in an asymptomatic, unscreened person solely because of age.",
+      "C": "Correct. Explain the current starting age and provide future recall advice.",
+      "D": "Self-collection is not a reason to screen below the routine age in this asymptomatic scenario.",
+      "E": "HPV vaccination reduces risk but does not replace screening."
+    },
+    "key_takeaways": [
+      "Apply the current cervical screening starting age and distinguish vaccination from screening."
+    ],
+    "guideline_reference": "{\"name\":\"National Cervical Screening Program\",\"url\":\"https://www.health.gov.au/our-work/national-cervical-screening-program\"}",
+    "evidence_sources": [
+      {
+        "name": "National Cervical Screening Program",
+        "url": "https://www.health.gov.au/our-work/national-cervical-screening-program",
+        "checked_on": "2026-10-10"
+      }
+    ],
+    "category": "Population Health & Ethics",
+    "system_category": "Cervical screening",
+    "subtopic": "Apply the current cervical screening starting age and distinguish vaccination from screening.",
+    "difficulty": "easy",
+    "difficulty_tier": 2,
+    "clinical_vignette": true,
+    "question_type": "mcq",
+    "lifecycle_status": "draft",
+    "review_status": "draft_pending_independent_clinical_signoff",
+    "tags": [
+      "ZQ-0413",
+      "zyntra_bank",
+      "qns_v2",
+      "ph01_screening",
+      "PH-S-13",
+      "group_population_health_ethics",
+      "sys_cervical_screening",
+      "task_management",
+      "level_2",
+      "clinical_review_pending_2026_10_10",
+      "cervical_screening_age",
+      "outdated_guidance",
+      "vaccination_misconception",
+      "over_screening"
+    ]
+  },
+  {
+    "zyntra_id": "ZQ-0414",
+    "phase_id": "PH-01",
+    "source_question_id": "PH-S-14",
+    "question_text": "A 28-year-old woman in Brisbane completed HPV vaccination at school. She has had sexual contact, has no symptoms and has never had a Cervical Screening Test. A pharmacy clinic tells her that vaccination protects her for life and she can ignore screening invitations.\n\nWhat is the most appropriate advice?",
+    "options": [
+      "Arrange annual Pap smears because vaccination changes the interval.",
+      "Defer screening until age 30 because she was vaccinated.",
+      "Arrange colposcopy as the first screening test.",
+      "She should have a Cervical Screening Test now.",
+      "Cancel all future screening because vaccination is sufficient."
+    ],
+    "correct_answer": "D",
+    "explanation": "CORRECT ANSWER\nD. She should have a Cervical Screening Test now.\n\nCLINICAL EXPLANATION\nAn eligible 28-year-old who has ever been sexually active should participate in the National Cervical Screening Program. HPV vaccination reduces the risk of infection from covered types but does not eliminate all oncogenic HPV risk.\n\nOPTION-BY-OPTION ANALYSIS\nA. Annual Pap smears are not the routine current pathway.\nB. There is no need to delay until age 30.\nC. Colposcopy is not the routine first-line screening test for an asymptomatic person.\nD. Correct. Arrange screening under the current program.\nE. Vaccination does not replace screening.\n\nLEARNING OBJECTIVE\nExplain the continuing role of HPV-based screening after vaccination.\n\nKEY TAKEAWAY\nExplain the continuing role of HPV-based screening after vaccination.\n\nEVIDENCE\nNational Cervical Screening Program: https://www.health.gov.au/our-work/national-cervical-screening-program",
+    "incorrect_answer_explanations": {
+      "A": "Annual Pap smears are not the routine current pathway.",
+      "B": "There is no need to delay until age 30.",
+      "C": "Colposcopy is not the routine first-line screening test for an asymptomatic person.",
+      "D": "Correct. Arrange screening under the current program.",
+      "E": "Vaccination does not replace screening."
+    },
+    "key_takeaways": [
+      "Explain the continuing role of HPV-based screening after vaccination."
+    ],
+    "guideline_reference": "{\"name\":\"National Cervical Screening Program\",\"url\":\"https://www.health.gov.au/our-work/national-cervical-screening-program\"}",
+    "evidence_sources": [
+      {
+        "name": "National Cervical Screening Program",
+        "url": "https://www.health.gov.au/our-work/national-cervical-screening-program",
+        "checked_on": "2026-10-10"
+      }
+    ],
+    "category": "Population Health & Ethics",
+    "system_category": "Cervical screening",
+    "subtopic": "Explain the continuing role of HPV-based screening after vaccination.",
+    "difficulty": "moderate",
+    "difficulty_tier": 3,
+    "clinical_vignette": true,
+    "question_type": "mcq",
+    "lifecycle_status": "draft",
+    "review_status": "draft_pending_independent_clinical_signoff",
+    "tags": [
+      "ZQ-0414",
+      "zyntra_bank",
+      "qns_v2",
+      "ph01_screening",
+      "PH-S-14",
+      "group_population_health_ethics",
+      "sys_cervical_screening",
+      "task_management",
+      "level_3",
+      "clinical_review_pending_2026_10_10",
+      "cervical_screening",
+      "vaccination_misconception",
+      "preventive_care",
+      "outdated_practice"
+    ]
+  },
+  {
+    "zyntra_id": "ZQ-0415",
+    "phase_id": "PH-01",
+    "source_question_id": "PH-S-15",
+    "question_text": "A 36-year-old woman in Adelaide had a Cervical Screening Test four years ago. The oncogenic HPV test was negative. She has no symptoms. Her practice recall system, still configured for two-yearly Pap smears, labels her overdue.\n\nWhat is the most appropriate advice?",
+    "options": [
+      "Repeat the test today because every cervical screen is due after two years.",
+      "Arrange annual cytology until she catches up with the old schedule.",
+      "Refer for colposcopy because four years have passed.",
+      "Discharge her permanently because she has one negative result.",
+      "Explain that routine screening is generally five-yearly after a negative HPV test, so she is not yet due."
+    ],
+    "correct_answer": "E",
+    "explanation": "CORRECT ANSWER\nE. Explain that routine screening is generally five-yearly after a negative HPV test, so she is not yet due.\n\nCLINICAL EXPLANATION\nThe Australian program uses HPV-based testing at five-year intervals for eligible participants with a negative result. A legacy recall based on the former two-year Pap schedule should not override current guidance.\n\nOPTION-BY-OPTION ANALYSIS\nA. This applies an outdated interval.\nB. Annual cytology is not the standard routine pathway.\nC. A prior negative HPV result alone does not warrant colposcopy.\nD. A negative result does not mean screening can stop permanently.\nE. Correct. The next routine test is due at five years, assuming no new symptoms or other indication.\n\nLEARNING OBJECTIVE\nApply the five-year interval after a negative HPV-based screening result.\n\nKEY TAKEAWAY\nApply the five-year interval after a negative HPV-based screening result.\n\nEVIDENCE\nNational Cervical Screening Program: https://www.health.gov.au/our-work/national-cervical-screening-program",
+    "incorrect_answer_explanations": {
+      "A": "This applies an outdated interval.",
+      "B": "Annual cytology is not the standard routine pathway.",
+      "C": "A prior negative HPV result alone does not warrant colposcopy.",
+      "D": "A negative result does not mean screening can stop permanently.",
+      "E": "Correct. The next routine test is due at five years, assuming no new symptoms or other indication."
+    },
+    "key_takeaways": [
+      "Apply the five-year interval after a negative HPV-based screening result."
+    ],
+    "guideline_reference": "{\"name\":\"National Cervical Screening Program\",\"url\":\"https://www.health.gov.au/our-work/national-cervical-screening-program\"}",
+    "evidence_sources": [
+      {
+        "name": "National Cervical Screening Program",
+        "url": "https://www.health.gov.au/our-work/national-cervical-screening-program",
+        "checked_on": "2026-10-10"
+      }
+    ],
+    "category": "Population Health & Ethics",
+    "system_category": "Cervical screening",
+    "subtopic": "Apply the five-year interval after a negative HPV-based screening result.",
+    "difficulty": "moderate",
+    "difficulty_tier": 3,
+    "clinical_vignette": true,
+    "question_type": "mcq",
+    "lifecycle_status": "draft",
+    "review_status": "draft_pending_independent_clinical_signoff",
+    "tags": [
+      "ZQ-0415",
+      "zyntra_bank",
+      "qns_v2",
+      "ph01_screening",
+      "PH-S-15",
+      "group_population_health_ethics",
+      "sys_cervical_screening",
+      "task_management",
+      "level_3",
+      "clinical_review_pending_2026_10_10",
+      "screening_interval",
+      "legacy_system_error",
+      "recall_accuracy",
+      "preventive_care"
+    ]
+  },
+  {
+    "zyntra_id": "ZQ-0416",
+    "phase_id": "PH-01",
+    "source_question_id": "PH-S-16",
+    "question_text": "A 41-year-old woman in Perth has a positive cervical screening test for HPV 16. Reflex liquid-based cytology shows no intraepithelial lesion. She has no bleeding or other symptoms. A colleague suggests repeating the test in 12 months because the cytology is normal.\n\nWhat is the most appropriate next step?",
+    "options": [
+      "Refer for colposcopic assessment.",
+      "Repeat HPV testing in five years.",
+      "Repeat HPV testing in 12 months without referral.",
+      "Repeat cytology alone in six weeks.",
+      "Discharge her from the program because cytology is negative."
+    ],
+    "correct_answer": "A",
+    "explanation": "CORRECT ANSWER\nA. Refer for colposcopic assessment.\n\nCLINICAL EXPLANATION\nUnder the Australian cervical screening pathway, detection of HPV 16 or 18 warrants referral for colposcopic assessment regardless of the reflex cytology result. Normal cytology does not negate the significance of high-risk HPV 16.\n\nOPTION-BY-OPTION ANALYSIS\nA. Correct. Arrange colposcopy.\nB. Five-year routine recall is inappropriate after HPV 16 detection.\nC. The 12-month repeat pathway for some non-16/18 HPV results does not apply here.\nD. Cytology alone does not adequately manage the result.\nE. A normal cytology result does not cancel the high-risk HPV finding.\n\nLEARNING OBJECTIVE\nInterpret HPV 16/18 results within the Australian cervical screening pathway.\n\nKEY TAKEAWAY\nInterpret HPV 16/18 results within the Australian cervical screening pathway.\n\nEVIDENCE\nNational Cervical Screening Program: https://www.health.gov.au/our-work/national-cervical-screening-program",
+    "incorrect_answer_explanations": {
+      "A": "Correct. Arrange colposcopy.",
+      "B": "Five-year routine recall is inappropriate after HPV 16 detection.",
+      "C": "The 12-month repeat pathway for some non-16/18 HPV results does not apply here.",
+      "D": "Cytology alone does not adequately manage the result.",
+      "E": "A normal cytology result does not cancel the high-risk HPV finding."
+    },
+    "key_takeaways": [
+      "Interpret HPV 16/18 results within the Australian cervical screening pathway."
+    ],
+    "guideline_reference": "{\"name\":\"National Cervical Screening Program\",\"url\":\"https://www.health.gov.au/our-work/national-cervical-screening-program\"}",
+    "evidence_sources": [
+      {
+        "name": "National Cervical Screening Program",
+        "url": "https://www.health.gov.au/our-work/national-cervical-screening-program",
+        "checked_on": "2026-10-10"
+      }
+    ],
+    "category": "Population Health & Ethics",
+    "system_category": "Cervical screening",
+    "subtopic": "Interpret HPV 16/18 results within the Australian cervical screening pathway.",
+    "difficulty": "difficult",
+    "difficulty_tier": 4,
+    "clinical_vignette": true,
+    "question_type": "mcq",
+    "lifecycle_status": "draft",
+    "review_status": "draft_pending_independent_clinical_signoff",
+    "tags": [
+      "ZQ-0416",
+      "zyntra_bank",
+      "qns_v2",
+      "ph01_screening",
+      "PH-S-16",
+      "group_population_health_ethics",
+      "sys_cervical_screening",
+      "task_management",
+      "level_4",
+      "clinical_review_pending_2026_10_10",
+      "abnormal_screen_followup",
+      "HPV16",
+      "risk_stratification",
+      "inappropriate_reassurance"
+    ]
+  },
+  {
+    "zyntra_id": "ZQ-0417",
+    "phase_id": "PH-01",
+    "source_question_id": "PH-S-17",
+    "question_text": "A 33-year-old woman in Hobart has non-16/18 oncogenic HPV detected on cervical screening, with low-grade squamous intraepithelial lesion (LSIL) on reflex cytology. She has no symptoms. A registrar proposes cone biopsy so the issue is resolved in one procedure.\n\nWhat is the most appropriate next step?",
+    "options": [
+      "Refer directly for cone biopsy as the routine next step.",
+      "Repeat the Cervical Screening Test in 12 months, following the recommended pathway.",
+      "Discharge her because the HPV type is not 16 or 18.",
+      "Repeat cytology alone in five years.",
+      "Arrange routine five-year screening without follow-up."
+    ],
+    "correct_answer": "B",
+    "explanation": "CORRECT ANSWER\nB. Repeat the Cervical Screening Test in 12 months, following the recommended pathway.\n\nCLINICAL EXPLANATION\nFor non-16/18 oncogenic HPV with negative or low-grade cytology, the Australian pathway generally recommends repeat HPV-based testing in 12 months. Persistent HPV or a higher-risk result can trigger further assessment.\n\nOPTION-BY-OPTION ANALYSIS\nA. Cone biopsy is not the routine immediate step for this result.\nB. Correct. Arrange the recommended 12-month follow-up.\nC. Non-16/18 oncogenic HPV still requires appropriate follow-up.\nD. Cytology alone is not the recommended surveillance approach.\nE. Five-year routine recall is inappropriate before the recommended follow-up.\n\nLEARNING OBJECTIVE\nManage non-16/18 HPV with low-grade cytology without over-treating or losing follow-up.\n\nKEY TAKEAWAY\nManage non-16/18 HPV with low-grade cytology without over-treating or losing follow-up.\n\nEVIDENCE\nNational Cervical Screening Program: https://www.health.gov.au/our-work/national-cervical-screening-program",
+    "incorrect_answer_explanations": {
+      "A": "Cone biopsy is not the routine immediate step for this result.",
+      "B": "Correct. Arrange the recommended 12-month follow-up.",
+      "C": "Non-16/18 oncogenic HPV still requires appropriate follow-up.",
+      "D": "Cytology alone is not the recommended surveillance approach.",
+      "E": "Five-year routine recall is inappropriate before the recommended follow-up."
+    },
+    "key_takeaways": [
+      "Manage non-16/18 HPV with low-grade cytology without over-treating or losing follow-up."
+    ],
+    "guideline_reference": "{\"name\":\"National Cervical Screening Program\",\"url\":\"https://www.health.gov.au/our-work/national-cervical-screening-program\"}",
+    "evidence_sources": [
+      {
+        "name": "National Cervical Screening Program",
+        "url": "https://www.health.gov.au/our-work/national-cervical-screening-program",
+        "checked_on": "2026-10-10"
+      }
+    ],
+    "category": "Population Health & Ethics",
+    "system_category": "Cervical screening",
+    "subtopic": "Manage non-16/18 HPV with low-grade cytology without over-treating or losing follow-up.",
+    "difficulty": "moderate",
+    "difficulty_tier": 3,
+    "clinical_vignette": true,
+    "question_type": "mcq",
+    "lifecycle_status": "draft",
+    "review_status": "draft_pending_independent_clinical_signoff",
+    "tags": [
+      "ZQ-0417",
+      "zyntra_bank",
+      "qns_v2",
+      "ph01_screening",
+      "PH-S-17",
+      "group_population_health_ethics",
+      "sys_cervical_screening",
+      "task_management",
+      "level_3",
+      "clinical_review_pending_2026_10_10",
+      "HPV_non16_18",
+      "low_grade_abnormality",
+      "follow_up_interval",
+      "overtreatment"
+    ]
+  },
+  {
+    "zyntra_id": "ZQ-0418",
+    "phase_id": "PH-01",
+    "source_question_id": "PH-S-18",
+    "question_text": "A 29-year-old woman in Cairns reports six weeks of postcoital bleeding. She has had sexual contact, has never been screened and received HPV vaccination at school. Speculum examination is incomplete. Her GP suggests taking a routine screening sample and offering five-year recall if HPV is not detected.\n\nWhat is the most appropriate next step?",
+    "options": [
+      "Reassure her because cervical cancer is uncommon under 30.",
+      "Offer an HPV vaccine dose instead of investigation.",
+      "Arrange diagnostic assessment with appropriate cervical examination and clinician-collected co-testing; refer for specialist assessment and colposcopy if bleeding persists or recurs.",
+      "Take a routine screening test and provide five-year recall if negative.",
+      "Arrange a self-collected sample in 12 months without further assessment."
+    ],
+    "correct_answer": "C",
+    "explanation": "CORRECT ANSWER\nC. Assess the bleeding diagnostically, including appropriate cervical examination and testing, with referral if indicated.\n\nCLINICAL EXPLANATION\nPostcoital bleeding is a symptom, not a screening indication. Arrange appropriate diagnostic assessment, including a clinician-collected cervical co-test where indicated and completion of the speculum examination or referral if it cannot be completed. Persistent or recurrent bleeding requires specialist gynaecological assessment, with colposcopy as indicated. A negative screening result must not close the diagnostic work-up.\n\nOPTION-BY-OPTION ANALYSIS\nA. Age and vaccination do not justify dismissing persistent bleeding.\nB. Vaccination is preventive, not a diagnostic intervention.\nC. Correct. Complete or arrange appropriate diagnostic examination and clinician-collected co-testing; persistent or recurrent bleeding warrants specialist gynaecological assessment and colposcopy as indicated.\nD. A routine negative screen does not exclude all causes of symptomatic bleeding.\nE. Delaying assessment for 12 months is inappropriate.\n\nLEARNING OBJECTIVE\nDistinguish symptomatic cervical assessment from routine population screening.\n\nKEY TAKEAWAY\nDistinguish symptomatic cervical assessment from routine population screening.\n\nEVIDENCE\nNational Cervical Screening Program: https://www.health.gov.au/our-work/national-cervical-screening-program",
+    "incorrect_answer_explanations": {
+      "A": "Age and vaccination do not justify dismissing persistent bleeding.",
+      "B": "Vaccination is preventive, not a diagnostic intervention.",
+      "C": "Correct. Investigate the symptom and refer where the findings warrant it.",
+      "D": "A routine negative screen does not exclude all causes of symptomatic bleeding.",
+      "E": "Delaying assessment for 12 months is inappropriate."
+    },
+    "key_takeaways": [
+      "Distinguish symptomatic cervical assessment from routine population screening."
+    ],
+    "guideline_reference": "{\"name\":\"National Cervical Screening Program\",\"url\":\"https://www.health.gov.au/our-work/national-cervical-screening-program\"}",
+    "evidence_sources": [
+      {
+        "name": "National Cervical Screening Program",
+        "url": "https://www.health.gov.au/our-work/national-cervical-screening-program",
+        "checked_on": "2026-10-10"
+      }
+    ],
+    "category": "Population Health & Ethics",
+    "system_category": "Cervical screening",
+    "subtopic": "Distinguish symptomatic cervical assessment from routine population screening.",
+    "difficulty": "difficult",
+    "difficulty_tier": 4,
+    "clinical_vignette": true,
+    "question_type": "mcq",
+    "lifecycle_status": "draft",
+    "review_status": "draft_pending_independent_clinical_signoff",
+    "tags": [
+      "ZQ-0418",
+      "zyntra_bank",
+      "qns_v2",
+      "ph01_screening",
+      "PH-S-18",
+      "group_population_health_ethics",
+      "sys_cervical_screening",
+      "task_management",
+      "level_4",
+      "clinical_review_pending_2026_10_10",
+      "symptom_based_investigation",
+      "cervical_red_flags",
+      "screening_vs_diagnosis",
+      "diagnostic_delay"
+    ]
+  },
+  {
+    "zyntra_id": "ZQ-0419",
+    "phase_id": "PH-01",
+    "source_question_id": "PH-S-19",
+    "question_text": "A 48-year-old woman in Alice Springs is due for cervical screening. Her previous HPV test was negative five years ago. She has no symptoms but declines a speculum examination after a difficult previous experience. The receptionist says self-collection is only available to women who are years overdue.\n\nWhat is the most appropriate advice?",
+    "options": [
+      "Explain that she must have a clinician-collected sample or no screening.",
+      "Refer for colposcopy instead of screening.",
+      "Tell her to return only if symptoms develop.",
+      "Explain that eligible participants can choose a self-collected vaginal HPV sample.",
+      "Repeat a Pap smear every two years until she accepts self-collection."
+    ],
+    "correct_answer": "D",
+    "explanation": "CORRECT ANSWER\nD. Explain that eligible participants can choose a self-collected vaginal HPV sample.\n\nCLINICAL EXPLANATION\nThe Australian National Cervical Screening Program permits eligible participants to choose self-collection or clinician collection for HPV testing. Self-collection is not restricted solely to people who are overdue. A positive result may require additional clinician-collected testing or further assessment depending on the result and pathway.\n\nOPTION-BY-OPTION ANALYSIS\nA. Incorrect. Self-collection is an available option for eligible participants.\nB. Colposcopy is not the routine alternative to a screening sample.\nC. Screening is still recommended even when the patient has no symptoms.\nD. Correct. Discuss self-collection and explain the follow-up pathway.\nE. This relies on an outdated Pap-smear interval.\n\nLEARNING OBJECTIVE\nUse self-collection to improve access to cervical screening.\n\nKEY TAKEAWAY\nUse self-collection to improve access to cervical screening.\n\nEVIDENCE\nNational Cervical Screening Program: https://www.health.gov.au/our-work/national-cervical-screening-program",
+    "incorrect_answer_explanations": {
+      "A": "Incorrect. Self-collection is an available option for eligible participants.",
+      "B": "Colposcopy is not the routine alternative to a screening sample.",
+      "C": "Screening is still recommended even when the patient has no symptoms.",
+      "D": "Correct. Discuss self-collection and explain the follow-up pathway.",
+      "E": "This relies on an outdated Pap-smear interval."
+    },
+    "key_takeaways": [
+      "Use self-collection to improve access to cervical screening."
+    ],
+    "guideline_reference": "{\"name\":\"National Cervical Screening Program\",\"url\":\"https://www.health.gov.au/our-work/national-cervical-screening-program\"}",
+    "evidence_sources": [
+      {
+        "name": "National Cervical Screening Program",
+        "url": "https://www.health.gov.au/our-work/national-cervical-screening-program",
+        "checked_on": "2026-10-10"
+      }
+    ],
+    "category": "Population Health & Ethics",
+    "system_category": "Cervical screening",
+    "subtopic": "Use self-collection to improve access to cervical screening.",
+    "difficulty": "moderate",
+    "difficulty_tier": 3,
+    "clinical_vignette": true,
+    "question_type": "mcq",
+    "lifecycle_status": "draft",
+    "review_status": "draft_pending_independent_clinical_signoff",
+    "tags": [
+      "ZQ-0419",
+      "zyntra_bank",
+      "qns_v2",
+      "ph01_screening",
+      "PH-S-19",
+      "group_population_health_ethics",
+      "sys_cervical_screening",
+      "task_management",
+      "level_3",
+      "clinical_review_pending_2026_10_10",
+      "self_collection",
+      "screening_access",
+      "patient_preference",
+      "barrier_reduction"
+    ]
+  },
+  {
+    "zyntra_id": "ZQ-0420",
+    "phase_id": "PH-01",
+    "source_question_id": "PH-S-20",
+    "question_text": "A 60-year-old woman in Bendigo had a total hysterectomy six years ago for fibroids. The cervix was removed, and histology showed no cervical intraepithelial neoplasia. She has no vaginal bleeding. A screening reminder arrives, and she asks whether she needs vaginal vault smears until age 74.\n\nWhat is the most appropriate advice?",
+    "options": [
+      "Arrange five-yearly vault screening because every woman remains eligible until 74.",
+      "Arrange annual vaginal cytology because her cervix has been removed.",
+      "Refer for colposcopy because a reminder indicates high risk.",
+      "Arrange self-collected HPV testing every two years.",
+      "She can cease routine cervical screening because she has no cervix and no relevant history of cervical precancer."
+    ],
+    "correct_answer": "E",
+    "explanation": "CORRECT ANSWER\nE. She can cease routine cervical screening because she has no cervix and no relevant history of cervical precancer.\n\nCLINICAL EXPLANATION\nA person who has had a total hysterectomy with removal of the cervix for benign disease, with no history of high-grade cervical precancer or cervical cancer, generally does not need routine cervical screening. Symptoms such as vaginal bleeding still require clinical assessment.\n\nOPTION-BY-OPTION ANALYSIS\nA. The usual screening age range does not override the absence of a cervix and lack of relevant prior disease.\nB. Routine vault cytology is not indicated in this scenario.\nC. An automated reminder is not evidence of high risk.\nD. Self-collection is not a substitute for unnecessary vault screening.\nE. Correct. Confirm the operative and histology records and update the recall system.\n\nLEARNING OBJECTIVE\nApply screening exit criteria after total hysterectomy.\n\nKEY TAKEAWAY\nApply screening exit criteria after total hysterectomy.\n\nEVIDENCE\nNational Cervical Screening Program: https://www.health.gov.au/our-work/national-cervical-screening-program",
+    "incorrect_answer_explanations": {
+      "A": "The usual screening age range does not override the absence of a cervix and lack of relevant prior disease.",
+      "B": "Routine vault cytology is not indicated in this scenario.",
+      "C": "An automated reminder is not evidence of high risk.",
+      "D": "Self-collection is not a substitute for unnecessary vault screening.",
+      "E": "Correct. Confirm the operative and histology records and update the recall system."
+    },
+    "key_takeaways": [
+      "Apply screening exit criteria after total hysterectomy."
+    ],
+    "guideline_reference": "{\"name\":\"National Cervical Screening Program\",\"url\":\"https://www.health.gov.au/our-work/national-cervical-screening-program\"}",
+    "evidence_sources": [
+      {
+        "name": "National Cervical Screening Program",
+        "url": "https://www.health.gov.au/our-work/national-cervical-screening-program",
+        "checked_on": "2026-10-10"
+      }
+    ],
+    "category": "Population Health & Ethics",
+    "system_category": "Cervical screening",
+    "subtopic": "Apply screening exit criteria after total hysterectomy.",
+    "difficulty": "difficult",
+    "difficulty_tier": 4,
+    "clinical_vignette": true,
+    "question_type": "mcq",
+    "lifecycle_status": "draft",
+    "review_status": "draft_pending_independent_clinical_signoff",
+    "tags": [
+      "ZQ-0420",
+      "zyntra_bank",
+      "qns_v2",
+      "ph01_screening",
+      "PH-S-20",
+      "group_population_health_ethics",
+      "sys_cervical_screening",
+      "task_management",
+      "level_4",
+      "clinical_review_pending_2026_10_10",
+      "screening_exit",
+      "hysterectomy",
+      "recall_system_error",
+      "unnecessary_testing"
+    ]
+  },
+  {
+    "zyntra_id": "ZQ-0421",
+    "phase_id": "PH-01",
+    "source_question_id": "PH-S-21",
+    "question_text": "A 61-year-old man in Melbourne has smoked 20 cigarettes daily since age 21 and continues to smoke. He has no persistent change in cough, haemoptysis, weight loss or unexplained breathlessness. His brother had annual chest X-rays decades ago. He is willing to quit but has not set a date.\n\nWhat is the most appropriate screening advice?",
+    "options": [
+      "Assess eligibility for the National Lung Cancer Screening Program and offer low-dose CT if he meets the criteria.",
+      "Arrange annual chest X-rays.",
+      "Collect yearly sputum cytology.",
+      "Delay screening until he has stopped smoking for four weeks.",
+      "Wait until age 65 before assessing eligibility."
+    ],
+    "correct_answer": "A",
+    "explanation": "CORRECT ANSWER\nA. Assess eligibility for the National Lung Cancer Screening Program and offer low-dose CT if he meets the criteria.\n\nCLINICAL EXPLANATION\nAustralia's National Lung Cancer Screening Program launched on 1 July 2025. Eligibility includes age 50–70, no symptoms suggesting lung cancer, current smoking or cessation within the past 10 years, and at least 30 pack-years of cigarette smoking. This patient has approximately 40 pack-years and appears to meet the core criteria. A healthcare provider must assess and confirm eligibility.\n\nOPTION-BY-OPTION ANALYSIS\nA. Correct. Assess the criteria and arrange program entry if eligible.\nB. Chest X-ray is not the program screening test.\nC. Sputum cytology is not the entry screening test.\nD. Smoking cessation is strongly encouraged, but quitting is not a prerequisite for participation.\nE. He is already within the program's age range.\n\nLEARNING OBJECTIVE\nApply the current Australian lung screening eligibility criteria.\n\nKEY TAKEAWAY\nApply the current Australian lung screening eligibility criteria.\n\nEVIDENCE\nAustralian Government: https://www.health.gov.au/our-work/nlcsp/how-it-works",
+    "incorrect_answer_explanations": {
+      "A": "Correct. Assess the criteria and arrange program entry if eligible.",
+      "B": "Chest X-ray is not the program screening test.",
+      "C": "Sputum cytology is not the entry screening test.",
+      "D": "Smoking cessation is strongly encouraged, but quitting is not a prerequisite for participation.",
+      "E": "He is already within the program's age range."
+    },
+    "key_takeaways": [
+      "Apply the current Australian lung screening eligibility criteria."
+    ],
+    "guideline_reference": "{\"name\":\"Australian Government\",\"url\":\"https://www.health.gov.au/our-work/nlcsp/how-it-works\"}",
+    "evidence_sources": [
+      {
+        "name": "Australian Government",
+        "url": "https://www.health.gov.au/our-work/nlcsp/how-it-works",
+        "checked_on": "2026-10-10"
+      }
+    ],
+    "category": "Population Health & Ethics",
+    "system_category": "Lung screening",
+    "subtopic": "Apply the current Australian lung screening eligibility criteria.",
+    "difficulty": "moderate",
+    "difficulty_tier": 3,
+    "clinical_vignette": true,
+    "question_type": "mcq",
+    "lifecycle_status": "draft",
+    "review_status": "draft_pending_independent_clinical_signoff",
+    "tags": [
+      "ZQ-0421",
+      "zyntra_bank",
+      "qns_v2",
+      "ph01_screening",
+      "PH-S-21",
+      "group_population_health_ethics",
+      "sys_lung_screening",
+      "task_management",
+      "level_3",
+      "clinical_review_pending_2026_10_10",
+      "lung_screening_eligibility",
+      "pack_year_calculation",
+      "current_guidelines",
+      "smoking_cessation"
+    ]
+  },
+  {
+    "zyntra_id": "ZQ-0422",
+    "phase_id": "PH-01",
+    "source_question_id": "PH-S-22",
+    "question_text": "A 55-year-old woman in Townsville quit smoking 12 years ago after smoking one pack daily for 35 years. She has no symptoms and has never enrolled in the National Lung Cancer Screening Program. Her GP calculates 35 pack-years and prepares to refer her for free low-dose CT screening.\n\nWhat is the most appropriate advice?",
+    "options": [
+      "Refer her because the pack-year threshold is sufficient on its own.",
+      "Explain that she does not meet initial-entry criteria because she quit 12 years ago; any continuation rule is relevant only to people already enrolled.",
+      "Arrange annual chest X-rays as an alternative screening program.",
+      "Use sputum cytology instead of low-dose CT.",
+      "Refer her for screening PET-CT because she is outside the program criteria."
+    ],
+    "correct_answer": "B",
+    "explanation": "CORRECT ANSWER\nB. Explain that she does not meet the program's current smoking-cessation time criterion for entry.\n\nCLINICAL EXPLANATION\nFor initial entry, the current program requires eligible participants to be aged 50–70, asymptomatic, have at least 30 pack-years and currently smoke or have quit within the previous 10 years. She has 35 pack-years but quit 12 years ago and has never enrolled, so she does not meet the initial-entry criterion. Any separate continuation rule must not be applied to a person who is seeking initial entry.\n\nOPTION-BY-OPTION ANALYSIS\nA. Pack-years alone are insufficient.\nB. Correct. She is seeking initial entry and quit 12 years ago. Do not apply a continuation rule for people already enrolled to a new entrant.\nC. Annual chest X-ray is not an equivalent recommended screening substitute.\nD. Sputum cytology is not an alternative population screening pathway.\nE. PET-CT is not a routine population screening substitute.\n\nLEARNING OBJECTIVE\nApply all eligibility criteria rather than making decisions from smoking exposure alone.\n\nKEY TAKEAWAY\nApply all eligibility criteria rather than making decisions from smoking exposure alone.\n\nEVIDENCE\nAustralian Government: https://www.health.gov.au/our-work/nlcsp/how-it-works",
+    "incorrect_answer_explanations": {
+      "A": "Pack-years alone are insufficient.",
+      "B": "Correct. Explain the eligibility criteria and offer appropriate preventive care.",
+      "C": "Annual chest X-ray is not an equivalent recommended screening substitute.",
+      "D": "Sputum cytology is not an alternative population screening pathway.",
+      "E": "PET-CT is not a routine population screening substitute."
+    },
+    "key_takeaways": [
+      "Apply all eligibility criteria rather than making decisions from smoking exposure alone."
+    ],
+    "guideline_reference": "{\"name\":\"Australian Government\",\"url\":\"https://www.health.gov.au/our-work/nlcsp/how-it-works\"}",
+    "evidence_sources": [
+      {
+        "name": "Australian Government",
+        "url": "https://www.health.gov.au/our-work/nlcsp/how-it-works",
+        "checked_on": "2026-10-10"
+      }
+    ],
+    "category": "Population Health & Ethics",
+    "system_category": "Lung screening",
+    "subtopic": "Apply all eligibility criteria rather than making decisions from smoking exposure alone.",
+    "difficulty": "difficult",
+    "difficulty_tier": 4,
+    "clinical_vignette": true,
+    "question_type": "mcq",
+    "lifecycle_status": "draft",
+    "review_status": "draft_pending_independent_clinical_signoff",
+    "tags": [
+      "ZQ-0422",
+      "zyntra_bank",
+      "qns_v2",
+      "ph01_screening",
+      "PH-S-22",
+      "group_population_health_ethics",
+      "sys_lung_screening",
+      "task_management",
+      "level_4",
+      "clinical_review_pending_2026_10_10",
+      "eligibility_boundary",
+      "pack_years",
+      "quit_date",
+      "inappropriate_imaging"
+    ]
+  },
+  {
+    "zyntra_id": "ZQ-0423",
+    "phase_id": "PH-01",
+    "source_question_id": "PH-S-23",
+    "question_text": "A 64-year-old man in Newcastle has a 40 pack-year smoking history and continues to smoke. For 10 days, he has noticed small streaks of blood when coughing. He has no weight loss and brings a lung screening form to request a free low-dose CT.\n\nWhat is the most appropriate next step?",
+    "options": [
+      "Complete the routine screening request and review the CT in two years.",
+      "Arrange a screening chest X-ray before considering CT.",
+      "Investigate the haemoptysis through an appropriate diagnostic pathway rather than enrolling him as an asymptomatic screening participant.",
+      "Ask him to stop smoking for four weeks before arranging imaging.",
+      "Order sputum cytology and proceed with screening only if it is abnormal."
+    ],
+    "correct_answer": "C",
+    "explanation": "CORRECT ANSWER\nC. Investigate the haemoptysis through an appropriate diagnostic pathway rather than enrolling him as an asymptomatic screening participant.\n\nCLINICAL EXPLANATION\nThe National Lung Cancer Screening Program is intended for asymptomatic people. Haemoptysis is a potentially significant symptom requiring prompt clinical assessment and appropriate diagnostic investigation. Screening eligibility does not override a symptomatic presentation.\n\nOPTION-BY-OPTION ANALYSIS\nA. The screening pathway is inappropriate while a potentially concerning symptom is present.\nB. A screening chest X-ray does not adequately address the diagnostic question.\nC. Correct. Investigate the symptom, with urgency determined by clinical assessment.\nD. Imaging should not be delayed for smoking cessation.\nE. Sputum cytology is not an appropriate substitute for diagnostic assessment.\n\nLEARNING OBJECTIVE\nSeparate screening eligibility from investigation of suspected disease.\n\nKEY TAKEAWAY\nSeparate screening eligibility from investigation of suspected disease.\n\nEVIDENCE\nAustralian Government: https://www.health.gov.au/our-work/nlcsp/how-it-works",
+    "incorrect_answer_explanations": {
+      "A": "The screening pathway is inappropriate while a potentially concerning symptom is present.",
+      "B": "A screening chest X-ray does not adequately address the diagnostic question.",
+      "C": "Correct. Investigate the symptom, with urgency determined by clinical assessment.",
+      "D": "Imaging should not be delayed for smoking cessation.",
+      "E": "Sputum cytology is not an appropriate substitute for diagnostic assessment."
+    },
+    "key_takeaways": [
+      "Separate screening eligibility from investigation of suspected disease."
+    ],
+    "guideline_reference": "{\"name\":\"Australian Government\",\"url\":\"https://www.health.gov.au/our-work/nlcsp/how-it-works\"}",
+    "evidence_sources": [
+      {
+        "name": "Australian Government",
+        "url": "https://www.health.gov.au/our-work/nlcsp/how-it-works",
+        "checked_on": "2026-10-10"
+      }
+    ],
+    "category": "Population Health & Ethics",
+    "system_category": "Lung screening",
+    "subtopic": "Separate screening eligibility from investigation of suspected disease.",
+    "difficulty": "difficult",
+    "difficulty_tier": 4,
+    "clinical_vignette": true,
+    "question_type": "mcq",
+    "lifecycle_status": "draft",
+    "review_status": "draft_pending_independent_clinical_signoff",
+    "tags": [
+      "ZQ-0423",
+      "zyntra_bank",
+      "qns_v2",
+      "ph01_screening",
+      "PH-S-23",
+      "group_population_health_ethics",
+      "sys_lung_screening",
+      "task_management",
+      "level_4",
+      "clinical_review_pending_2026_10_10",
+      "symptomatic_exclusion",
+      "haemoptysis",
+      "diagnostic_pathway",
+      "safety_critical_decision"
+    ]
+  },
+  {
+    "zyntra_id": "ZQ-0424",
+    "phase_id": "PH-01",
+    "source_question_id": "PH-S-24",
+    "question_text": "A 52-year-old woman in Fremantle smokes 10 cigarettes daily and has done so since age 32. She has no respiratory symptoms. A poster says the national lung screening program is available for people aged 50–70 who smoke. She asks her GP to arrange the free scan.\n\nWhat is the most appropriate advice?",
+    "options": [
+      "She qualifies because she is within the age range and currently smokes.",
+      "She should have annual chest X-rays until her smoking exposure increases.",
+      "She can request a screening PET scan instead.",
+      "She does not meet the minimum 30 pack-year threshold for program entry.",
+      "She must stop smoking before any screening assessment can occur."
+    ],
+    "correct_answer": "D",
+    "explanation": "CORRECT ANSWER\nD. She does not meet the minimum 30 pack-year threshold for program entry.\n\nCLINICAL EXPLANATION\nTen cigarettes daily is half a pack per day. Over 20 years, this gives approximately 10 pack-years, below the program's 30 pack-year minimum.\n\nOPTION-BY-OPTION ANALYSIS\nA. Age and current smoking are necessary but not sufficient criteria.\nB. Annual chest X-ray is not the recommended population screening alternative.\nC. PET scanning is not a screening substitute.\nD. Correct. Explain the pack-year calculation and support smoking cessation.\nE. She does not need to quit before discussing eligibility, although quitting should be encouraged.\n\nLEARNING OBJECTIVE\nCalculate pack-years and apply the complete eligibility criteria.\n\nKEY TAKEAWAY\nCalculate pack-years and apply the complete eligibility criteria.\n\nEVIDENCE\nAustralian Government: https://www.health.gov.au/our-work/nlcsp/how-it-works",
+    "incorrect_answer_explanations": {
+      "A": "Age and current smoking are necessary but not sufficient criteria.",
+      "B": "Annual chest X-ray is not the recommended population screening alternative.",
+      "C": "PET scanning is not a screening substitute.",
+      "D": "Correct. Explain the pack-year calculation and support smoking cessation.",
+      "E": "She does not need to quit before discussing eligibility, although quitting should be encouraged."
+    },
+    "key_takeaways": [
+      "Calculate pack-years and apply the complete eligibility criteria."
+    ],
+    "guideline_reference": "{\"name\":\"Australian Government\",\"url\":\"https://www.health.gov.au/our-work/nlcsp/how-it-works\"}",
+    "evidence_sources": [
+      {
+        "name": "Australian Government",
+        "url": "https://www.health.gov.au/our-work/nlcsp/how-it-works",
+        "checked_on": "2026-10-10"
+      }
+    ],
+    "category": "Population Health & Ethics",
+    "system_category": "Lung screening",
+    "subtopic": "Calculate pack-years and apply the complete eligibility criteria.",
+    "difficulty": "moderate",
+    "difficulty_tier": 3,
+    "clinical_vignette": true,
+    "question_type": "mcq",
+    "lifecycle_status": "draft",
+    "review_status": "draft_pending_independent_clinical_signoff",
+    "tags": [
+      "ZQ-0424",
+      "zyntra_bank",
+      "qns_v2",
+      "ph01_screening",
+      "PH-S-24",
+      "group_population_health_ethics",
+      "sys_lung_screening",
+      "task_management",
+      "level_3",
+      "clinical_review_pending_2026_10_10",
+      "pack_year_calculation",
+      "threshold_application",
+      "lung_screening",
+      "smoking_cessation"
+    ]
+  },
+  {
+    "zyntra_id": "ZQ-0425",
+    "phase_id": "PH-01",
+    "source_question_id": "PH-S-25",
+    "question_text": "A 58-year-old man in Sydney has no urinary symptoms and no family history of prostate cancer. His employer offers an annual health panel including PSA. He asks to join a national prostate screening program with automatic recalls similar to the bowel screening program.\n\nWhat is the most appropriate advice?",
+    "options": [
+      "Enrol him in a national biennial PSA program.",
+      "Arrange annual PSA testing because all men over 50 require it.",
+      "Arrange prostate MRI every two years as the standard screening test.",
+      "Explain that a normal PSA result would eliminate the need for future discussion.",
+      "Explain that Australia has no organised population-based prostate cancer screening program and discuss PSA testing individually if he is interested."
+    ],
+    "correct_answer": "E",
+    "explanation": "CORRECT ANSWER\nE. Explain that Australia has no organised population-based prostate cancer screening program and discuss PSA testing individually if he is interested.\n\nCLINICAL EXPLANATION\nAustralia does not have an organised population-based prostate cancer screening program. PSA testing in asymptomatic men involves weighing potential benefits against false positives, overdiagnosis and treatment-related harms. An informed individual decision is appropriate.\n\nOPTION-BY-OPTION ANALYSIS\nA. No national program provides automatic biennial PSA screening.\nB. PSA testing is not universally mandatory for all men over 50.\nC. MRI is not an organised population screening test.\nD. A normal PSA does not eliminate future risk or future clinical decisions.\nE. Correct. Explain the absence of a population program and discuss individual testing preferences.\n\nLEARNING OBJECTIVE\nDistinguish individual early-detection testing from an organised population screening program.\n\nKEY TAKEAWAY\nDistinguish individual early-detection testing from an organised population screening program.\n\nEVIDENCE\nCancer Council Australia: https://www.cancer.org.au/cancer-information/screening-tests-and-treatments/early-detection-and-screening/early-detection-of-prostate-cancer",
+    "incorrect_answer_explanations": {
+      "A": "No national program provides automatic biennial PSA screening.",
+      "B": "PSA testing is not universally mandatory for all men over 50.",
+      "C": "MRI is not an organised population screening test.",
+      "D": "A normal PSA does not eliminate future risk or future clinical decisions.",
+      "E": "Correct. Explain the absence of a population program and discuss individual testing preferences."
+    },
+    "key_takeaways": [
+      "Distinguish individual early-detection testing from an organised population screening program."
+    ],
+    "guideline_reference": "{\"name\":\"Cancer Council Australia\",\"url\":\"https://www.cancer.org.au/cancer-information/screening-tests-and-treatments/early-detection-and-screening/early-detection-of-prostate-cancer\"}",
+    "evidence_sources": [
+      {
+        "name": "Cancer Council Australia",
+        "url": "https://www.cancer.org.au/cancer-information/screening-tests-and-treatments/early-detection-and-screening/early-detection-of-prostate-cancer",
+        "checked_on": "2026-10-10"
+      }
+    ],
+    "category": "Population Health & Ethics",
+    "system_category": "Other cancer screening",
+    "subtopic": "Distinguish individual early-detection testing from an organised population screening program.",
+    "difficulty": "easy",
+    "difficulty_tier": 2,
+    "clinical_vignette": true,
+    "question_type": "mcq",
+    "lifecycle_status": "draft",
+    "review_status": "draft_pending_independent_clinical_signoff",
+    "tags": [
+      "ZQ-0425",
+      "zyntra_bank",
+      "qns_v2",
+      "ph01_screening",
+      "PH-S-25",
+      "group_population_health_ethics",
+      "sys_other_cancer_screening",
+      "task_management",
+      "level_2",
+      "clinical_review_pending_2026_10_10",
+      "screening_program_scope",
+      "PSA",
+      "informed_decision",
+      "overdiagnosis"
+    ]
+  },
+  {
+    "zyntra_id": "ZQ-0426",
+    "phase_id": "PH-01",
+    "source_question_id": "PH-S-26",
+    "question_text": "A 45-year-old woman in Brisbane has no changing mole or other skin symptoms. A private skin-check clinic offers her enrolment in a supposed national melanoma recall program, with whole-body photography every two years. She asks whether this is a standard Australian screening service.\n\nWhat is the most appropriate advice?",
+    "options": [
+      "Explain that Australia has no national population-based skin cancer screening program; discuss individual risk and skin assessment.",
+      "Enrol her in a national two-yearly whole-body photography program.",
+      "Arrange annual biopsies of two normal moles.",
+      "Explain that one normal skin examination eliminates future risk.",
+      "Arrange a screening PET scan."
+    ],
+    "correct_answer": "A",
+    "explanation": "CORRECT ANSWER\nA. Explain that Australia has no national population-based skin cancer screening program; discuss individual risk and skin assessment.\n\nCLINICAL EXPLANATION\nAustralia does not have a national population-based skin cancer screening program. Individual skin assessment may be appropriate according to personal risk, lesion characteristics and clinical advice. New or changing lesions should be assessed diagnostically.\n\nOPTION-BY-OPTION ANALYSIS\nA. Correct. Clarify the difference between individual assessment and a national program.\nB. There is no national recall program of this kind.\nC. Routine biopsy of normal moles is not appropriate.\nD. A normal examination does not eliminate future risk.\nE. PET is not a population screening test for melanoma.\n\nLEARNING OBJECTIVE\nRecognise the limits of national screening programs while promoting appropriate skin awareness and assessment.\n\nKEY TAKEAWAY\nRecognise the limits of national screening programs while promoting appropriate skin awareness and assessment.\n\nEVIDENCE\nAustralian Government: https://www.health.gov.au/topics/cancer/screening-for-cancer",
+    "incorrect_answer_explanations": {
+      "A": "Correct. Clarify the difference between individual assessment and a national program.",
+      "B": "There is no national recall program of this kind.",
+      "C": "Routine biopsy of normal moles is not appropriate.",
+      "D": "A normal examination does not eliminate future risk.",
+      "E": "PET is not a population screening test for melanoma."
+    },
+    "key_takeaways": [
+      "Recognise the limits of national screening programs while promoting appropriate skin awareness and assessment."
+    ],
+    "guideline_reference": "{\"name\":\"Australian Government\",\"url\":\"https://www.health.gov.au/topics/cancer/screening-for-cancer\"}",
+    "evidence_sources": [
+      {
+        "name": "Australian Government",
+        "url": "https://www.health.gov.au/topics/cancer/screening-for-cancer",
+        "checked_on": "2026-10-10"
+      }
+    ],
+    "category": "Population Health & Ethics",
+    "system_category": "Other cancer screening",
+    "subtopic": "Recognise the limits of national screening programs while promoting appropriate skin awareness and assessment.",
+    "difficulty": "easy",
+    "difficulty_tier": 2,
+    "clinical_vignette": true,
+    "question_type": "mcq",
+    "lifecycle_status": "draft",
+    "review_status": "draft_pending_independent_clinical_signoff",
+    "tags": [
+      "ZQ-0426",
+      "zyntra_bank",
+      "qns_v2",
+      "ph01_screening",
+      "PH-S-26",
+      "group_population_health_ethics",
+      "sys_other_cancer_screening",
+      "task_management",
+      "level_2",
+      "clinical_review_pending_2026_10_10",
+      "screening_program_scope",
+      "melanoma",
+      "overinvestigation",
+      "patient_education"
+    ]
+  },
+  {
+    "zyntra_id": "ZQ-0427",
+    "phase_id": "PH-01",
+    "source_question_id": "PH-S-27",
+    "question_text": "A 54-year-old woman in Canberra has no pelvic symptoms. Her mother developed ovarian cancer at 72, and there are no other known affected relatives. A wellness clinic offers annual CA-125 blood tests and pelvic ultrasound as an ovarian equivalent of BreastScreen. Examination is normal.\n\nWhat is the most appropriate advice?",
+    "options": [
+      "Enrol her in annual CA-125 testing and pelvic ultrasound.",
+      "Explain that routine population ovarian screening is not recommended; take a full family pedigree and assess whether familial cancer risk referral is warranted.",
+      "Use CA-125 every six months instead of ultrasound.",
+      "Explain that a normal CA-125 result eliminates her familial risk.",
+      "Prescribe a combined oral contraceptive as the screening test."
+    ],
+    "correct_answer": "B",
+    "explanation": "CORRECT ANSWER\nB. Explain that routine population ovarian screening is not recommended, while assessing whether her family history warrants hereditary cancer risk assessment.\n\nCLINICAL EXPLANATION\nCA-125 and transvaginal ultrasound have not established an effective routine population screening strategy for asymptomatic women. A single first-degree relative diagnosed at age 72 does not automatically establish a high-risk familial category. Take a complete pedigree, including cancer types and ages at diagnosis, and use the full history to determine whether specialist familial cancer assessment is warranted.\n\nOPTION-BY-OPTION ANALYSIS\nA. Routine annual CA-125 and ultrasound are not recommended population screening.\nB. Correct. Avoid ineffective routine screening, obtain a full pedigree, and refer for familial risk assessment only if the overall history meets the relevant criteria.\nC. Increasing the frequency of CA-125 does not solve the limitations of screening.\nD. A normal CA-125 cannot exclude ovarian cancer or hereditary susceptibility.\nE. Oral contraception is not a screening test.\n\nLEARNING OBJECTIVE\nDistinguish the absence of an effective population screening program from the need to assess inherited cancer risk.\n\nKEY TAKEAWAY\nDistinguish the absence of an effective population screening program from the need to assess inherited cancer risk.\n\nEVIDENCE\nAustralian Government: https://www.health.gov.au/topics/cancer/screening-for-cancer",
+    "incorrect_answer_explanations": {
+      "A": "Routine annual CA-125 and ultrasound are not recommended population screening.",
+      "B": "Correct. Avoid ineffective routine screening and assess inherited risk appropriately.",
+      "C": "Increasing the frequency of CA-125 does not solve the limitations of screening.",
+      "D": "A normal CA-125 cannot exclude ovarian cancer or hereditary susceptibility.",
+      "E": "Oral contraception is not a screening test."
+    },
+    "key_takeaways": [
+      "Distinguish the absence of an effective population screening program from the need to assess inherited cancer risk."
+    ],
+    "guideline_reference": "{\"name\":\"Australian Government\",\"url\":\"https://www.health.gov.au/topics/cancer/screening-for-cancer\"}",
+    "evidence_sources": [
+      {
+        "name": "Australian Government",
+        "url": "https://www.health.gov.au/topics/cancer/screening-for-cancer",
+        "checked_on": "2026-10-10"
+      }
+    ],
+    "category": "Population Health & Ethics",
+    "system_category": "Other cancer screening",
+    "subtopic": "Distinguish the absence of an effective population screening program from the need to assess inherited cancer risk.",
+    "difficulty": "difficult",
+    "difficulty_tier": 4,
+    "clinical_vignette": true,
+    "question_type": "mcq",
+    "lifecycle_status": "draft",
+    "review_status": "draft_pending_independent_clinical_signoff",
+    "tags": [
+      "ZQ-0427",
+      "zyntra_bank",
+      "qns_v2",
+      "ph01_screening",
+      "PH-S-27",
+      "group_population_health_ethics",
+      "sys_other_cancer_screening",
+      "task_management",
+      "level_4",
+      "clinical_review_pending_2026_10_10",
+      "ovarian_screening",
+      "familial_risk",
+      "tumour_marker_limitations",
+      "genetic_referral"
+    ]
+  },
+  {
+    "zyntra_id": "ZQ-0428",
+    "phase_id": "PH-01",
+    "source_question_id": "PH-S-28",
+    "question_text": "A 49-year-old woman in Mildura has no bowel symptoms and no known family history of colorectal cancer. She has never participated in screening. Her 51-year-old neighbour received a National Bowel Cancer Screening Program kit automatically last month. She asks whether she should wait for her own kit to arrive.\n\nWhat is the most appropriate advice?",
+    "options": [
+      "Explain that automatic invitations begin at 45 and she should wait for the mail-out.",
+      "Explain that she cannot participate until age 50.",
+      "Explain that she can request her first free kit now; automatic mail-outs generally begin at age 50.",
+      "Arrange colonoscopy as the first test for every person aged 49.",
+      "Advise her to wait until symptoms develop before screening."
+    ],
+    "correct_answer": "C",
+    "explanation": "CORRECT ANSWER\nC. Explain that she can request her first free kit now; automatic mail-outs generally begin at age 50.\n\nCLINICAL EXPLANATION\nEligible Australians aged 45–49 can request their first free bowel screening kit. Automatic mail-outs are generally provided every two years to eligible people aged 50–74. A 49-year-old does not need to wait until age 50 to begin participating.\n\nOPTION-BY-OPTION ANALYSIS\nA. Automatic mail-outs do not routinely start at 45.\nB. Eligibility begins at 45, not 50.\nC. Correct. Explain how she can request her first kit.\nD. Colonoscopy is not the default first test for every asymptomatic 49-year-old.\nE. Screening is intended to detect disease before symptoms develop.\n\nLEARNING OBJECTIVE\nApply the current age-based access and invitation rules of the National Bowel Cancer Screening Program.\n\nKEY TAKEAWAY\nApply the current age-based access and invitation rules of the National Bowel Cancer Screening Program.\n\nEVIDENCE\nAustralian Government: https://www.health.gov.au/our-work/national-bowel-cancer-screening-program/doing-a-bowel-screening-test/who-should-do-the-bowel-screening-test-and-who-should-not",
+    "incorrect_answer_explanations": {
+      "A": "Automatic mail-outs do not routinely start at 45.",
+      "B": "Eligibility begins at 45, not 50.",
+      "C": "Correct. Explain how she can request her first kit.",
+      "D": "Colonoscopy is not the default first test for every asymptomatic 49-year-old.",
+      "E": "Screening is intended to detect disease before symptoms develop."
+    },
+    "key_takeaways": [
+      "Apply the current age-based access and invitation rules of the National Bowel Cancer Screening Program."
+    ],
+    "guideline_reference": "{\"name\":\"Australian Government\",\"url\":\"https://www.health.gov.au/our-work/national-bowel-cancer-screening-program/doing-a-bowel-screening-test/who-should-do-the-bowel-screening-test-and-who-should-not\"}",
+    "evidence_sources": [
+      {
+        "name": "Australian Government",
+        "url": "https://www.health.gov.au/our-work/national-bowel-cancer-screening-program/doing-a-bowel-screening-test/who-should-do-the-bowel-screening-test-and-who-should-not",
+        "checked_on": "2026-10-10"
+      }
+    ],
+    "category": "Population Health & Ethics",
+    "system_category": "Bowel screening",
+    "subtopic": "Apply the current age-based access and invitation rules of the National Bowel Cancer Screening Program.",
+    "difficulty": "moderate",
+    "difficulty_tier": 3,
+    "clinical_vignette": true,
+    "question_type": "mcq",
+    "lifecycle_status": "draft",
+    "review_status": "draft_pending_independent_clinical_signoff",
+    "tags": [
+      "ZQ-0428",
+      "zyntra_bank",
+      "qns_v2",
+      "ph01_screening",
+      "PH-S-28",
+      "group_population_health_ethics",
+      "sys_bowel_screening",
+      "task_management",
+      "level_3",
+      "clinical_review_pending_2026_10_10",
+      "bowel_screening_eligibility",
+      "program_access",
+      "age_threshold",
+      "preventive_care"
+    ]
+  }
+]
