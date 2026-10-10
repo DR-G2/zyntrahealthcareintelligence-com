@@ -4,7 +4,7 @@ import collections, json, re, uuid
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-ROOT = HERE.parents[3]
+ROOT = HERE.parents[2]
 SOURCE = HERE / "ph01_screening_upload.json"
 OUT = ROOT / "supabase" / "migrations_v2" / "0081_qns_v2_ph01_draft_import.sql"
 NS = uuid.UUID("5a6b1c2d-0000-4000-8000-00000000c0de")
@@ -45,7 +45,7 @@ L = [
 "on conflict (slug) do nothing;",
 "insert into public.subtopics(id, subject_id, name, slug)",
 "select v.id, s.id, v.name, v.slug from (values",
-",\n".join(f"({q(U('subtopic:'+group_slug+':'+x['system_category']))}::uuid,{q(group_slug)},{q(x['system_category'])},{q(slug(x['system_category']).lower().replace('_','-'))})" for x in sorted({(i['system_category']) for i in items})),
+",\n".join(f"({q(U('subtopic:'+group_slug+':'+x))}::uuid,{q(group_slug)},{q(x)},{q(slug(x).lower().replace('_','-'))})" for x in sorted({i['system_category'] for i in items})),
 ") v(id, subject_slug, name, slug) join public.subjects s on s.slug = v.subject_slug",
 "where not exists (select 1 from public.subtopics t where t.subject_id=s.id and t.slug=v.slug);",
 "insert into pie.concept(id, concept_key, title, description) values",
