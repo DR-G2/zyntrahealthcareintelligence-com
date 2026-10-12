@@ -11,7 +11,7 @@ import { useShowAboutPricing } from '@/hooks/useSiteSettings';
 const OBJECTIVES = [
   'Practise AMC-style single-best-answer questions across core clinical domains.',
   'Notice timing, answer changes and confidence — not only whether an item was correct.',
-  'Review explanations and use performance signals to target weak areas.'
+  'Review explanations and use performance signals to target weak areas.',
   'Build a study loop: diagnose, drill weak patterns, review explanations, then re-test.',
 ];
 
