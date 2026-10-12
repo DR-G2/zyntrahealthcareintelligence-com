@@ -197,7 +197,7 @@ const Index: React.FC = () => {
 
         <section id="pricing" className="py-20 bg-[#07101c] border-t border-white/5">
           <div className="max-w-7xl mx-auto px-6"><p className="text-xs font-bold tracking-[.2em] text-cyan-400 uppercase">Pricing</p><h2 className="mt-3 text-3xl font-extrabold text-white">Pricing</h2><div className="mt-10 divide-y divide-white/5 border-y border-white/5">
-            <div className="grid md:grid-cols-[280px_1fr] gap-8 py-8"><div><h3 className="font-bold">Free</h3><div className="text-4xl font-extrabold mt-2">$0</div><p className="text-xs text-slate-500 mt-2">APPE diagnostic only</p></div><div><p className="text-slate-400 text-sm leading-7">One diagnostic. It records timing, answer changes and confidence. You see the pattern from that sitting.</p><Link to="/check" className="inline-flex mt-4 px-4 py-2 border border-cyan-500/30 rounded text-sm text-cyan-300 hover:bg-cyan-500/10">Start the diagnostic</Link></div></div>
+            <div className="grid md:grid-cols-[280px_1fr] gap-8 py-8"><div><h3 className="font-bold">Free account</h3><div className="text-4xl font-extrabold mt-2">$0</div><p className="text-xs text-slate-500 mt-2">Create an account</p></div><div><p className="text-slate-400 text-sm leading-7">Create an account to access available Zyntra features and practice tools.</p><Link to="/login" className="inline-flex mt-4 px-4 py-2 border border-cyan-500/30 rounded text-sm text-cyan-300 hover:bg-cyan-500/10">Create account / Log in</Link></div></div>
             <div className="grid md:grid-cols-[280px_1fr] gap-8 py-8"><div><h3 className="font-bold">Practice</h3><div className="text-4xl font-extrabold mt-2">$39</div><p className="text-xs text-slate-500 mt-2">AUD / month</p></div><div><p className="text-slate-400 text-sm leading-7">MCQ practice, Performance Intelligence and Study Plan.</p><Link to="/login" className="inline-flex mt-4 px-4 py-2 border border-cyan-500/30 rounded text-sm text-cyan-300 hover:bg-cyan-500/10">Log in to subscribe</Link></div></div>
           </div></div>
         </section>
@@ -216,8 +216,8 @@ const Index: React.FC = () => {
       {modalOpen && <div className="fixed inset-0 z-[100] flex items-center justify-center p-5 bg-black/70 backdrop-blur-sm" onMouseDown={(e)=>{if(e.target===e.currentTarget)setModalOpen(false)}}>
         <div className="w-full max-w-md rounded-2xl border border-cyan-500/30 bg-[#07101e] shadow-2xl shadow-cyan-500/10 p-7">
           <div className="flex items-center justify-between"><div><p className="text-xs uppercase tracking-[.2em] text-cyan-400">ZYNTRA</p><h2 className="mt-2 text-2xl font-bold text-white">Get started</h2></div><button onClick={()=>setModalOpen(false)} className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/5"><X className="w-5 h-5"/></button></div>
-          <p className="mt-4 text-sm leading-6 text-slate-400">Start with the Zyntra diagnostic or continue to your account.</p>
-          <div className="mt-6 grid gap-3"><Link to="/check" onClick={()=>setModalOpen(false)} className="flex items-center justify-between rounded-xl bg-gradient-to-r from-teal-500 to-cyan-600 px-5 py-3 font-semibold text-white">Start diagnostic <ChevronRight className="w-4 h-4"/></Link><Link to="/login" onClick={()=>setModalOpen(false)} className="flex items-center justify-between rounded-xl border border-white/10 px-5 py-3 font-semibold text-slate-200 hover:border-cyan-500/30">Log in <ChevronRight className="w-4 h-4"/></Link></div>
+          <p className="mt-4 text-sm leading-6 text-slate-400">Sign in or create an account to continue to Zyntra.</p>
+          <div className="mt-6 grid gap-3"><Link to="/login" onClick={()=>setModalOpen(false)} className="flex items-center justify-between rounded-xl bg-gradient-to-r from-teal-500 to-cyan-600 px-5 py-3 font-semibold text-white">Log in / Create account <ChevronRight className="w-4 h-4"/></Link></div>
         </div>
       </div>}
     </div>
