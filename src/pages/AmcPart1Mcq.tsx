@@ -11,7 +11,7 @@ import { useShowAboutPricing } from '@/hooks/useSiteSettings';
 const OBJECTIVES = [
   'Practise AMC-style single-best-answer questions across core clinical domains.',
   'Notice timing, answer changes and confidence — not only whether an item was correct.',
-  'Use a short diagnostic to see an early performance signal before creating an account.',
+  'Review explanations and use performance signals to target weak areas.'
   'Build a study loop: diagnose, drill weak patterns, review explanations, then re-test.',
 ];
 
@@ -22,7 +22,7 @@ const FAQS = [
   },
   {
     q: 'How does Zyntra help with MCQ preparation?',
-    a: 'Zyntra is an educational practice platform. Its APPE engine records how you answer (time spent, whether you change options, and how sure you were) and uses those signals to choose what to show next. You can start with a free 6-question diagnostic on the homepage without logging in.',
+    a: 'Zyntra is an educational practice platform. Its APPE engine records how you answer (time spent, whether you change options, and how sure you were) and uses those signals to choose what to show next. You can create an account to access available MCQ practice and performance features.',
   },
   {
     q: 'Are these recalled AMC questions?',
@@ -30,7 +30,7 @@ const FAQS = [
   },
   {
     q: 'Do I need an account to try MCQ practice?',
-    a: 'The 6-question diagnostic on the home page does not require an account. Full adaptive drills, explanations, study plans and analytics require signing in.',
+    a: 'An account is required to access MCQ practice, explanations, study plans and analytics.',
   },
 ];
 

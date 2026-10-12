@@ -25,8 +25,8 @@ export function ProtectedRoute({ children }: { children: React.ReactNode }) {
 
   const path = location.pathname;
   const allowAfterDiagnostic = path.startsWith('/intelligence') || path.startsWith('/practice') || path.startsWith('/plan') || path.startsWith('/settings') || path.startsWith('/inbox');
-  if (profile && !profile.onboarding_complete && !allowAfterDiagnostic && path !== '/assess' && path !== '/onboarding') {
-    return <Navigate to="/assess" replace />;
+  if (profile && !profile.onboarding_complete && !allowAfterDiagnostic && path !== '/onboarding') {
+    return <Navigate to="/practice" replace />;
   }
 
   if (!termsAccepted) {
