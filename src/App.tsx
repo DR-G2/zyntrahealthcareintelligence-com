@@ -15,14 +15,12 @@ import { usePresence } from "@/hooks/usePresence";
 import { VisitorTracker } from "@/components/VisitorTracker";
 import { useMaintenanceMode } from "@/hooks/useSiteSettings";
 
-import Landing from "./pages/Landing";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 
 const ResetPassword = lazy(() => import("./pages/ResetPassword"));
 const Onboarding = lazy(() => import("./pages/Onboarding"));
-const Assess = lazy(() => import("./pages/Assess"));
 const Practice = lazy(() => import("./pages/Practice"));
 const PracticeOsce = lazy(() => import("./pages/PracticeOsce"));
 const AILab = lazy(() => import("./pages/AILab"));
@@ -101,7 +99,7 @@ function AppRoutes() {
       <Suspense fallback={<LazyFallback />}>
         <Routes>
           <Route path="/" element={<ErrorBoundary><SEO title="Zyntra | AMC Exam Preparation That Learns How You Think" description="Adaptive AMC MCQ and Clinical exam preparation for IMGs: clinical reasoning practice, performance analytics and personalised next steps." path="/" /><Home /></ErrorBoundary>} />
-          <Route path="/check" element={<ErrorBoundary><SEO title="Free AMC Readiness Check | Adaptive Diagnostic | Zyntra" description="Take a free adaptive AMC-style diagnostic. Questions adjust to your answers and show where your clinical reasoning needs work." path="/check" /><Landing /></ErrorBoundary>} />
+          <Route path="/check" element={<Navigate to="/login" replace />} />
           <Route path="/about" element={<Navigate to="/#about" replace />} />
           <Route path="/pricing" element={<Navigate to="/#pricing" replace />} />
           <Route path="/login" element={<ErrorBoundary><SEO title="Sign In or Create Account | Zyntra" description="Sign in to Zyntra to continue your AMC exam preparation, or create a free account to start practising." path="/login" /><Login /></ErrorBoundary>} />
@@ -116,7 +114,7 @@ function AppRoutes() {
           <Route path="/amc-clinical-osce" element={<Navigate to="/practice/osce" replace />} />
           <Route path="/onboarding" element={<ErrorBoundary><Onboarding /></ErrorBoundary>} />
           <Route path="/dashboard" element={<Navigate to="/practice" replace />} />
-          <Route path="/assess" element={<ProtectedRoute><ErrorBoundary><Assess /></ErrorBoundary></ProtectedRoute>} />
+          <Route path="/assess" element={<Navigate to="/practice" replace />} />
           <Route path="/intelligence" element={<ProtectedRoute><ErrorBoundary><Intelligence /></ErrorBoundary></ProtectedRoute>} />
           <Route path="/profile" element={<Navigate to="/intelligence?tab=performance" replace />} />
           <Route path="/behavior" element={<Navigate to="/intelligence?tab=behavior" replace />} />
