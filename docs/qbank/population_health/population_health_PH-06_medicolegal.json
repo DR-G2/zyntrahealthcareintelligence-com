@@ -1,33 +1,33 @@
 {
   "phase": "PH-06",
   "phase_name": "Medicolegal reporting",
-  "count": 44,
+  "count": 45,
   "reviewed_by": "Dr Heisenberg",
   "status": "draft",
   "items": [
     {
-      "question_text": "An 84-year-old woman with metastatic lung cancer dies at home after a week of progressive breathlessness. She has not seen a doctor in the last three months. Her daughter asks the locum to write cardiac arrest as the cause of death so the funeral can proceed today. Cardiac arrest is a mode of death, not a cause. A doctor who has not attended her recently should not invent a certificate. What is the most appropriate action?",
+      "question_text": "In Sydney, an 84-year-old woman with metastatic lung cancer dies at home after a week of increasing breathlessness. She declined follow-up and has not been seen by any doctor for 8 months. Her daughter asks the locum, who has never treated her, to write cardiac arrest as the cause of death so the funeral can proceed today. What is the most appropriate action?",
       "options": [
         "Decline the certificate. The death should be referred to the coroner because she was not attended recently",
-        "Write cardiac arrest. It is true of every death",
-        "Write metastatic lung cancer and sign, even though you never treated her",
         "Ask the daughter to complete the cause-of-death section",
-        "Write 'old age' so the family is not distressed"
+        "Write 'old age' so the family is not distressed",
+        "Write cardiac arrest. It is true of every death",
+        "Write metastatic lung cancer and sign, even though you never treated her"
       ],
       "correct_answer": "A",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. Decline the certificate. The death should be referred to the coroner because she was not attended recently\n\n---\n\n1. CLINICAL SITUATION\nAn 84-year-old woman with metastatic lung cancer dies at home after a week of progressive breathlessness. She has not seen a doctor in the last three months. Her daughter asks the locum to write cardiac arrest as the cause of death so the funeral can proceed today.\n\n2. THE RULE\nA doctor certifies death only when able to state the disease causing death; a mode such as cardiac arrest is not a cause, and uncertain or unattended deaths go to the coroner.\n\n3. WHY A IS CORRECT\nCardiac arrest is a mode of death, not a cause. A doctor who has not attended the patient in the recent period, and who is not satisfied about the cause, should not invent a certificate. An unattended death of this kind is a coroner referral.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Write cardiac arrest. It is true of every death: Mode of death is not a cause.\nC. Write metastatic lung cancer and sign, even though you never treated her: You cannot certify a death you are not in a position to know.\nD. Ask the daughter to complete the cause-of-death section: The certificate is a medical document.\nE. Write 'old age' so the family is not distressed: Old age is not a cause here, and convenience is not a reason.\n\n5. KEY TAKEAWAY\nA doctor certifies death only when able to state the disease causing death; a mode such as cardiac arrest is not a cause, and uncertain or unattended deaths go to the coroner.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "An 84-year-old woman with metastatic lung cancer dies at home after a week of progressive breathlessness. She has not seen a doctor in the last three months. Her daughter asks the locum to write cardiac arrest as the cause of death so the funeral can proceed today.",
+      "explanation": "CORRECT ANSWER\n\nA. Decline the certificate. The death should be referred to the coroner because she was not attended recently\n\n---\n\n1. CLINICAL SITUATION\nAn NSW death at home, with no medical attendance for 8 months. The family is asking for a mode of death to be written as the cause.\n\n2. THE RULE\nA doctor certifies death only when able to state the disease causing it (a mode such as cardiac arrest is not a cause); deaths reportable in that jurisdiction, including no medical attendance in the 6 months before death in NSW and the ACT, go to the coroner.\n\n3. WHY A IS CORRECT\nIn NSW a death is reportable if the person had not been attended by a medical practitioner in the 6 months before death (Coroners Act 2009 (NSW) s 6(1)(d)), and a doctor must not certify a reportable death (s 38). Cardiac arrest is also a mode of death, not a cause. Attendance rules differ between jurisdictions: only NSW and the ACT have a 6-month trigger. Elsewhere the test is whether a doctor can form an opinion of a natural cause.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Ask the daughter to complete the cause-of-death section: The certificate is a medical document.\nC. Write 'old age' so the family is not distressed: Old age is not a cause here, and convenience is not a reason.\nD. Write cardiac arrest. It is true of every death: Mode of death is not a cause.\nE. Write metastatic lung cancer and sign, even though you never treated her: In NSW, no medical attendance in the 6 months before death makes the death reportable, so no doctor may certify it, however likely the cancer is the cause.\n\n5. KEY TAKEAWAY\nKnow your jurisdiction's reportable-death triggers: NSW and the ACT add no medical attendance in the 6 months before death; cardiac arrest is never a cause.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "An NSW death at home, with no medical attendance for 8 months. The family is asking for a mode of death to be written as the cause.",
       "best_treatment": "Decline the certificate. The death should be referred to the coroner because she was not attended recently",
       "incorrect_answer_explanations": {
-        "B": "Mode of death is not a cause.",
-        "C": "You cannot certify a death you are not in a position to know.",
-        "D": "The certificate is a medical document.",
-        "E": "Old age is not a cause here, and convenience is not a reason."
+        "B": "The certificate is a medical document.",
+        "C": "Old age is not a cause here, and convenience is not a reason.",
+        "D": "Mode of death is not a cause.",
+        "E": "In NSW, no medical attendance in the 6 months before death makes the death reportable, so no doctor may certify it, however likely the cancer is the cause."
       },
       "key_takeaways": [
-        "A doctor certifies death only when able to state the disease causing death; a mode such as cardiac arrest is not a cause, and uncertain or unattended deaths go to the coroner.",
+        "A doctor certifies death only when able to state the disease causing it (a mode such as cardiac arrest is not a cause); deaths reportable in that jurisdiction, including no medical attendance in the 6 months before death in NSW and the ACT, go to the coroner.",
         "Cardiac arrest is a mode of death, not a cause."
       ],
       "subtopic": "A death certificate records the disease that caused death. It is not a place for speculation or a mechanism.",
@@ -39,7 +39,7 @@
       "lo_id": "2c2702ab-a992-5be2-acaa-4d2a8b9d7174",
       "lo_code": "DEATH_CERTIFICATE",
       "lo_key": "DEATH_CERTIFICATE",
-      "lo_title": "A doctor certifies death only when able to state the disease causing death; a mode such as cardiac arrest is not a cause, and uncertain or unattended deaths go to the coroner.",
+      "lo_title": "A doctor certifies death only when able to state the disease causing it (a mode such as cardiac arrest is not a cause); deaths reportable in that jurisdiction, including no medical attendance in the 6 months before death in NSW and the ACT, go to the coroner.",
       "lo_role": "core",
       "shared_lo": true,
       "irt_b": -0.1,
@@ -51,23 +51,23 @@
     {
       "question_text": "A 70-year-old dies of a myocardial infarct 18 hours after an elective hip replacement. The infarct looks unrelated to the operation. The orthopaedic registrar asks you to certify ischaemic heart disease and avoid the coroner so the family is not delayed. What is the most appropriate course?",
       "options": [
-        "Certify ischaemic heart disease. The operation was successful",
-        "Report the death. A death soon after a procedure is reportable",
         "Certify it if the anaesthetist agrees",
         "Wait 30 days and then certify, so it is no longer perioperative",
-        "Ask the family whether they would prefer to avoid the coroner"
+        "Certify ischaemic heart disease. The operation was successful",
+        "Ask the family whether they would prefer to avoid the coroner",
+        "Report the death. A death soon after a procedure is reportable"
       ],
-      "correct_answer": "B",
+      "correct_answer": "E",
       "category": "Population Health & Ethics",
       "difficulty": "difficult",
-      "explanation": "CORRECT ANSWER\n\nB. Report the death. A death soon after a procedure is reportable\n\n---\n\n1. CLINICAL SITUATION\nReport it. A death the day after a hip replacement is not certified away.\n\n2. THE RULE\nUnexpected, unnatural, violent, procedure-related, in-custody or unexplained deaths, including sudden child deaths, are reported to the coroner.\n\n3. WHY B IS CORRECT\nA death during, or as a result of, an operation or procedure, or in the perioperative period where the procedure may be relevant, is reportable. Apparent unrelatedness is not a reason to certify around the coroner.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Certify ischaemic heart disease. The operation was successful: Success of the operation does not remove the reporting duty.\nC. Certify it if the anaesthetist agrees: Agreement between clinicians is not a substitute for reporting.\nD. Wait 30 days and then certify, so it is no longer perioperative: Delay does not change a reportable death.\nE. Ask the family whether they would prefer to avoid the coroner: Reporting is not the family's choice.\n\n5. KEY TAKEAWAY\nPerioperative death is reportable.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nE. Report the death. A death soon after a procedure is reportable\n\n---\n\n1. CLINICAL SITUATION\nReport it. A death the day after a hip replacement is not certified away.\n\n2. THE RULE\nUnexpected, unnatural, violent, procedure-related, in-custody or unexplained deaths, including sudden child deaths, are reported to the coroner.\n\n3. WHY E IS CORRECT\nA death during, or as a result of, an operation or procedure, or in the perioperative period where the procedure may be relevant, is reportable. Apparent unrelatedness is not a reason to certify around the coroner.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Certify it if the anaesthetist agrees: Agreement between clinicians is not a substitute for reporting.\nB. Wait 30 days and then certify, so it is no longer perioperative: Delay does not change a reportable death.\nC. Certify ischaemic heart disease. The operation was successful: Success of the operation does not remove the reporting duty.\nD. Ask the family whether they would prefer to avoid the coroner: Reporting is not the family's choice.\n\n5. KEY TAKEAWAY\nPerioperative death is reportable.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Report it. A death the day after a hip replacement is not certified away.",
       "best_treatment": "Report the death. A death soon after a procedure is reportable",
       "incorrect_answer_explanations": {
-        "A": "Success of the operation does not remove the reporting duty.",
-        "C": "Agreement between clinicians is not a substitute for reporting.",
-        "D": "Delay does not change a reportable death.",
-        "E": "Reporting is not the family's choice."
+        "A": "Agreement between clinicians is not a substitute for reporting.",
+        "B": "Delay does not change a reportable death.",
+        "C": "Success of the operation does not remove the reporting duty.",
+        "D": "Reporting is not the family's choice."
       },
       "key_takeaways": [
         "Perioperative death is reportable.",
@@ -94,23 +94,23 @@
     {
       "question_text": "A 46-year-old man on remand collapses in a prison van and dies in the emergency department. He had seemed well that morning. What is the most appropriate action?",
       "options": [
-        "Certify the hospital diagnosis. Custody ended at the van door",
-        "Ask the prison governor to certify it",
         "Report the death. A death in custody, including in transit, is reportable",
+        "Ask the prison governor to certify it",
+        "Report only if there are signs of assault",
         "Certify it if the toxicology is normal",
-        "Report only if there are signs of assault"
+        "Certify the hospital diagnosis. Custody ended at the van door"
       ],
-      "correct_answer": "C",
+      "correct_answer": "A",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nC. Report the death. A death in custody, including in transit, is reportable\n\n---\n\n1. CLINICAL SITUATION\nHe died in custody. Report it, even though the last place was ED.\n\n2. THE RULE\nUnexpected, unnatural, violent, procedure-related, in-custody or unexplained deaths, including sudden child deaths, are reported to the coroner.\n\n3. WHY C IS CORRECT\nDeath in custody includes police or prison custody and transport. Dying in a hospital after collapse in a van does not convert it into an ordinary death.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Certify the hospital diagnosis. Custody ended at the van door: Custody includes the van.\nB. Ask the prison governor to certify it: A governor does not complete a medical certificate of cause of death.\nD. Certify it if the toxicology is normal: Normal toxicology does not remove the duty.\nE. Report only if there are signs of assault: The duty does not wait for signs of violence.\n\n5. KEY TAKEAWAY\nDeath in custody includes transit.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nA. Report the death. A death in custody, including in transit, is reportable\n\n---\n\n1. CLINICAL SITUATION\nHe died in custody. Report it, even though the last place was ED.\n\n2. THE RULE\nUnexpected, unnatural, violent, procedure-related, in-custody or unexplained deaths, including sudden child deaths, are reported to the coroner.\n\n3. WHY A IS CORRECT\nDeath in custody includes police or prison custody and transport. Dying in a hospital after collapse in a van does not convert it into an ordinary death.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Ask the prison governor to certify it: A governor does not complete a medical certificate of cause of death.\nC. Report only if there are signs of assault: The duty does not wait for signs of violence.\nD. Certify it if the toxicology is normal: Normal toxicology does not remove the duty.\nE. Certify the hospital diagnosis. Custody ended at the van door: Custody includes the van.\n\n5. KEY TAKEAWAY\nDeath in custody includes transit.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "He died in custody. Report it, even though the last place was ED.",
       "best_treatment": "Report the death. A death in custody, including in transit, is reportable",
       "incorrect_answer_explanations": {
-        "A": "Custody includes the van.",
         "B": "A governor does not complete a medical certificate of cause of death.",
+        "C": "The duty does not wait for signs of violence.",
         "D": "Normal toxicology does not remove the duty.",
-        "E": "The duty does not wait for signs of violence."
+        "E": "Custody includes the van."
       },
       "key_takeaways": [
         "Death in custody includes transit.",
@@ -137,23 +137,23 @@
     {
       "question_text": "An 88-year-old woman who lives alone is found at the bottom of her stairs. She dies in ED from an acute subdural haematoma. Her GP knows her well and offers to write a certificate of old age and frailty. What is the most appropriate course?",
       "options": [
-        "Accept the GP certificate. Frailty explains the fall",
+        "Ask the funeral director which option is faster",
         "Certify subdural haematoma without mentioning the fall",
-        "Report only if the family allege assault",
         "Report the death. Trauma from a fall is an unnatural death",
-        "Ask the funeral director which option is faster"
+        "Accept the GP certificate. Frailty explains the fall",
+        "Report only if the family allege assault"
       ],
-      "correct_answer": "D",
+      "correct_answer": "C",
       "category": "Population Health & Ethics",
       "difficulty": "easy",
-      "explanation": "CORRECT ANSWER\n\nD. Report the death. Trauma from a fall is an unnatural death\n\n---\n\n1. CLINICAL SITUATION\nReport the fall. Do not certify it as frailty.\n\n2. THE RULE\nUnexpected, unnatural, violent, procedure-related, in-custody or unexplained deaths, including sudden child deaths, are reported to the coroner.\n\n3. WHY D IS CORRECT\nDeath from trauma is unnatural, even in a frail older person, and even if no one alleges assault. It is reportable. Omitting the fall from the certificate would conceal the reason for reporting.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Accept the GP certificate. Frailty explains the fall: Frailty does not turn trauma into a natural death.\nB. Certify subdural haematoma without mentioning the fall: That conceals the injury.\nC. Report only if the family allege assault: Allegation is not required.\nE. Ask the funeral director which option is faster: Speed of the funeral is irrelevant.\n\n5. KEY TAKEAWAY\nTraumatic death is reportable.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nC. Report the death. Trauma from a fall is an unnatural death\n\n---\n\n1. CLINICAL SITUATION\nReport the fall. Do not certify it as frailty.\n\n2. THE RULE\nUnexpected, unnatural, violent, procedure-related, in-custody or unexplained deaths, including sudden child deaths, are reported to the coroner.\n\n3. WHY C IS CORRECT\nDeath from trauma is unnatural, even in a frail older person, and even if no one alleges assault. It is reportable. Omitting the fall from the certificate would conceal the reason for reporting.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Ask the funeral director which option is faster: Speed of the funeral is irrelevant.\nB. Certify subdural haematoma without mentioning the fall: That conceals the injury.\nD. Accept the GP certificate. Frailty explains the fall: Frailty does not turn trauma into a natural death.\nE. Report only if the family allege assault: Allegation is not required.\n\n5. KEY TAKEAWAY\nTraumatic death is reportable.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Report the fall. Do not certify it as frailty.",
       "best_treatment": "Report the death. Trauma from a fall is an unnatural death",
       "incorrect_answer_explanations": {
-        "A": "Frailty does not turn trauma into a natural death.",
+        "A": "Speed of the funeral is irrelevant.",
         "B": "That conceals the injury.",
-        "C": "Allegation is not required.",
-        "E": "Speed of the funeral is irrelevant."
+        "D": "Frailty does not turn trauma into a natural death.",
+        "E": "Allegation is not required."
       },
       "key_takeaways": [
         "Traumatic death is reportable.",
@@ -180,23 +180,23 @@
     {
       "question_text": "A 60-year-old man dies of confirmed invasive meningococcal disease 12 hours after admission. The public-health unit was notified on arrival. What is the most appropriate advice?",
       "options": [
-        "No coroner. Notification to public health covers the death",
-        "The coroner is involved only if the family ask",
         "Cancel the public-health notification now that he has died",
-        "Write the certificate to the organism and nothing else is required in any state",
-        "Consider reporting. A death from a notifiable disease can still be reportable to the coroner"
+        "No coroner. Notification to public health covers the death",
+        "Consider reporting. A death from a notifiable disease can still be reportable to the coroner",
+        "The coroner is involved only if the family ask",
+        "Write the certificate to the organism and nothing else is required in any state"
       ],
-      "correct_answer": "E",
+      "correct_answer": "C",
       "category": "Population Health & Ethics",
       "difficulty": "difficult",
-      "explanation": "CORRECT ANSWER\n\nE. Consider reporting. A death from a notifiable disease can still be reportable to the coroner\n\n---\n\n1. CLINICAL SITUATION\nPublic health and the coroner are separate. Do not assume one replaces the other.\n\n2. THE RULE\nPublic health notification of a disease and referral to the coroner are separate duties, and one does not discharge the other.\n\n3. WHY E IS CORRECT\nPublic-health notification and coronial reporting are separate duties. Meningococcal disease is urgently notifiable. Death from it may also be reportable to the coroner, depending on the jurisdiction and whether the death is unexpected or the cause needs investigation. One notification does not cancel the other.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. No coroner. Notification to public health covers the death: They are different pathways.\nB. The coroner is involved only if the family ask: Family request is not the test.\nC. Cancel the public-health notification now that he has died: Death does not cancel the public-health duty.\nD. Write the certificate to the organism and nothing else is required in any state: Jurisdictions differ, and a certificate is not a substitute for a reportable-death duty.\n\n5. KEY TAKEAWAY\nNotification and coronial reporting are different duties.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nC. Consider reporting. A death from a notifiable disease can still be reportable to the coroner\n\n---\n\n1. CLINICAL SITUATION\nPublic health and the coroner are separate. Do not assume one replaces the other.\n\n2. THE RULE\nPublic health notification of a disease and referral to the coroner are separate duties, and one does not discharge the other.\n\n3. WHY C IS CORRECT\nPublic-health notification and coronial reporting are separate duties. Meningococcal disease is urgently notifiable. Death from it may also be reportable to the coroner, depending on the jurisdiction and whether the death is unexpected or the cause needs investigation. One notification does not cancel the other.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Cancel the public-health notification now that he has died: Death does not cancel the public-health duty.\nB. No coroner. Notification to public health covers the death: They are different pathways.\nD. The coroner is involved only if the family ask: Family request is not the test.\nE. Write the certificate to the organism and nothing else is required in any state: Jurisdictions differ, and a certificate is not a substitute for a reportable-death duty.\n\n5. KEY TAKEAWAY\nNotification and coronial reporting are different duties.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Public health and the coroner are separate. Do not assume one replaces the other.",
       "best_treatment": "Consider reporting. A death from a notifiable disease can still be reportable to the coroner",
       "incorrect_answer_explanations": {
-        "A": "They are different pathways.",
-        "B": "Family request is not the test.",
-        "C": "Death does not cancel the public-health duty.",
-        "D": "Jurisdictions differ, and a certificate is not a substitute for a reportable-death duty."
+        "A": "Death does not cancel the public-health duty.",
+        "B": "They are different pathways.",
+        "D": "Family request is not the test.",
+        "E": "Jurisdictions differ, and a certificate is not a substitute for a reportable-death duty."
       },
       "key_takeaways": [
         "Notification and coronial reporting are different duties.",
@@ -223,23 +223,23 @@
     {
       "question_text": "A 45-year-old with acute lumbar pain after lifting at work asks you to write that the injury is permanent and that his employer was negligent, so his claim is stronger. Examination shows a simple mechanical strain. What is the most appropriate certificate?",
       "options": [
-        "Record the history, findings, and current capacity. Do not assert negligence or permanence",
         "State negligence and permanent impairment, because he asked",
+        "Write that he can do full duties, to avoid a dispute",
         "Refuse any certificate about a work injury",
         "Copy his words onto the form and sign",
-        "Write that he can do full duties, to avoid a dispute"
+        "Record the history, findings, and current capacity. Do not assert negligence or permanence"
       ],
-      "correct_answer": "A",
+      "correct_answer": "E",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. Record the history, findings, and current capacity. Do not assert negligence or permanence\n\n---\n\n1. CLINICAL SITUATION\nWrite findings and capacity. Do not write negligence.\n\n2. THE RULE\nMedicolegal certificates and reports must state factual findings and functional capacity answering the question asked, without advocacy, exaggeration or irrelevant disclosures.\n\n3. WHY A IS CORRECT\nA work certificate reports what you find and what he can do now. Negligence is a legal conclusion. Permanence is not established on day one of a strain. Signing his words as yours is not a medical opinion.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. State negligence and permanent impairment, because he asked: His request does not make it your finding.\nC. Refuse any certificate about a work injury: A factual capacity certificate is appropriate.\nD. Copy his words onto the form and sign: That is not your opinion.\nE. Write that he can do full duties, to avoid a dispute: Minimising is as wrong as exaggerating.\n\n5. KEY TAKEAWAY\nA work certificate is factual.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nE. Record the history, findings, and current capacity. Do not assert negligence or permanence\n\n---\n\n1. CLINICAL SITUATION\nWrite findings and capacity. Do not write negligence.\n\n2. THE RULE\nMedicolegal certificates and reports must state factual findings and functional capacity answering the question asked, without advocacy, exaggeration or irrelevant disclosures.\n\n3. WHY E IS CORRECT\nA work certificate reports what you find and what he can do now. Negligence is a legal conclusion. Permanence is not established on day one of a strain. Signing his words as yours is not a medical opinion.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. State negligence and permanent impairment, because he asked: His request does not make it your finding.\nB. Write that he can do full duties, to avoid a dispute: Minimising is as wrong as exaggerating.\nC. Refuse any certificate about a work injury: A factual capacity certificate is appropriate.\nD. Copy his words onto the form and sign: That is not your opinion.\n\n5. KEY TAKEAWAY\nA work certificate is factual.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Write findings and capacity. Do not write negligence.",
       "best_treatment": "Record the history, findings, and current capacity. Do not assert negligence or permanence",
       "incorrect_answer_explanations": {
-        "B": "His request does not make it your finding.",
+        "A": "His request does not make it your finding.",
+        "B": "Minimising is as wrong as exaggerating.",
         "C": "A factual capacity certificate is appropriate.",
-        "D": "That is not your opinion.",
-        "E": "Minimising is as wrong as exaggerating."
+        "D": "That is not your opinion."
       },
       "key_takeaways": [
         "A work certificate is factual.",
@@ -266,23 +266,23 @@
     {
       "question_text": "A solicitor phones and asks for a full report on your patient for a personal-injury claim. The patient has not mentioned a claim and has not signed an authority. What is the most appropriate response?",
       "options": [
-        "Send the report. A solicitor's request is authority enough",
-        "Decline until you have the patient's written authority, unless a lawful compulsion exists",
+        "Give a verbal summary and follow with the file",
         "Send the report but omit the mental-health history",
-        "Ask the solicitor to confirm the request by email, then send it",
-        "Give a verbal summary and follow with the file"
+        "Decline until you have the patient's written authority, unless a lawful compulsion exists",
+        "Send the report. A solicitor's request is authority enough",
+        "Ask the solicitor to confirm the request by email, then send it"
       ],
-      "correct_answer": "B",
+      "correct_answer": "C",
       "category": "Population Health & Ethics",
       "difficulty": "easy",
-      "explanation": "CORRECT ANSWER\n\nB. Decline until you have the patient's written authority, unless a lawful compulsion exists\n\n---\n\n1. CLINICAL SITUATION\nDo not send it. Get the patient's authority first.\n\n2. THE RULE\nMedical information goes to third parties such as solicitors only with the patient's written authority or a lawful demand, and records are never altered.\n\n3. WHY B IS CORRECT\nA report to a third party needs the patient's consent, or a subpoena, court order, or other lawful power. A phone call from a solicitor is none of these.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Send the report. A solicitor's request is authority enough: It is not.\nC. Send the report but omit the mental-health history: Partial release is still release.\nD. Ask the solicitor to confirm the request by email, then send it: Email does not create authority.\nE. Give a verbal summary and follow with the file: Verbal disclosure is still disclosure.\n\n5. KEY TAKEAWAY\nA solicitor is a third party.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nC. Decline until you have the patient's written authority, unless a lawful compulsion exists\n\n---\n\n1. CLINICAL SITUATION\nDo not send it. Get the patient's authority first.\n\n2. THE RULE\nMedical information goes to third parties such as solicitors or insurers only with the patient's written authority or a lawful demand, and only within the scope of that authority.\n\n3. WHY C IS CORRECT\nA report to a third party needs the patient's consent, or a subpoena, court order, or other lawful power. A phone call from a solicitor is none of these.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Give a verbal summary and follow with the file: Verbal disclosure is still disclosure.\nB. Send the report but omit the mental-health history: Partial release is still release.\nD. Send the report. A solicitor's request is authority enough: It is not.\nE. Ask the solicitor to confirm the request by email, then send it: Email does not create authority.\n\n5. KEY TAKEAWAY\nA solicitor is a third party.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Do not send it. Get the patient's authority first.",
       "best_treatment": "Decline until you have the patient's written authority, unless a lawful compulsion exists",
       "incorrect_answer_explanations": {
-        "A": "It is not.",
-        "C": "Partial release is still release.",
-        "D": "Email does not create authority.",
-        "E": "Verbal disclosure is still disclosure."
+        "A": "Verbal disclosure is still disclosure.",
+        "B": "Partial release is still release.",
+        "D": "It is not.",
+        "E": "Email does not create authority."
       },
       "key_takeaways": [
         "A solicitor is a third party.",
@@ -297,7 +297,7 @@
       "lo_id": "e7c8ed8b-4e4f-5841-bc69-1e29b3217425",
       "lo_code": "RELEASE_AUTHORITY",
       "lo_key": "RELEASE_AUTHORITY",
-      "lo_title": "Medical information goes to third parties such as solicitors only with the patient's written authority or a lawful demand, and records are never altered.",
+      "lo_title": "Medical information goes to third parties such as solicitors or insurers only with the patient's written authority or a lawful demand, and only within the scope of that authority.",
       "lo_role": "core",
       "shared_lo": true,
       "irt_b": -0.9,
@@ -309,23 +309,23 @@
     {
       "question_text": "You receive a subpoena for the original notes of a patient in a civil claim. The solicitor for the other side phones and asks you to add a sentence stating that the patient never mentioned back pain. What is the most appropriate action?",
       "options": [
-        "Add the sentence, then produce the notes",
-        "Refuse the subpoena because you prefer not to be involved",
-        "Produce the notes as they are. Do not alter them",
+        "Ask the patient which version they would like produced",
         "Rewrite the notes neatly and send the rewrite as the original",
-        "Ask the patient which version they would like produced"
+        "Refuse the subpoena because you prefer not to be involved",
+        "Add the sentence, then produce the notes",
+        "Produce the notes as they are. Do not alter them"
       ],
-      "correct_answer": "C",
+      "correct_answer": "E",
       "category": "Population Health & Ethics",
       "difficulty": "difficult",
-      "explanation": "CORRECT ANSWER\n\nC. Produce the notes as they are. Do not alter them\n\n---\n\n1. CLINICAL SITUATION\nSend the notes unchanged. Do not add the sentence.\n\n2. THE RULE\nMedical information goes to third parties such as solicitors only with the patient's written authority or a lawful demand, and records are never altered.\n\n3. WHY C IS CORRECT\nA subpoena requires production of the existing record. Altering the record after the event, even to 'clarify', is a false entry. Objection to a subpoena is a legal step, not a personal preference, and is not the issue here.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Add the sentence, then produce the notes: That alters the record.\nB. Refuse the subpoena because you prefer not to be involved: Preference is not a ground.\nD. Rewrite the notes neatly and send the rewrite as the original: A rewrite is not the original.\nE. Ask the patient which version they would like produced: The patient does not edit the legal production.\n\n5. KEY TAKEAWAY\nA subpoena produces the record that exists.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nE. Produce the notes as they are. Do not alter them\n\n---\n\n1. CLINICAL SITUATION\nSend the notes unchanged. Do not add the sentence.\n\n2. THE RULE\nClinical records are never altered after the fact, including when a party to litigation asks for changes; corrections are dated, identified additions, and errors causing harm are disclosed.\n\n3. WHY E IS CORRECT\nA subpoena requires production of the existing record. Altering the record after the event, even to 'clarify', is a false entry. Objection to a subpoena is a legal step, not a personal preference, and is not the issue here.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Ask the patient which version they would like produced: The patient does not edit the legal production.\nB. Rewrite the notes neatly and send the rewrite as the original: A rewrite is not the original.\nC. Refuse the subpoena because you prefer not to be involved: Preference is not a ground.\nD. Add the sentence, then produce the notes: That alters the record.\n\n5. KEY TAKEAWAY\nA subpoena produces the record that exists.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Send the notes unchanged. Do not add the sentence.",
       "best_treatment": "Produce the notes as they are. Do not alter them",
       "incorrect_answer_explanations": {
-        "A": "That alters the record.",
-        "B": "Preference is not a ground.",
-        "D": "A rewrite is not the original.",
-        "E": "The patient does not edit the legal production."
+        "A": "The patient does not edit the legal production.",
+        "B": "A rewrite is not the original.",
+        "C": "Preference is not a ground.",
+        "D": "That alters the record."
       },
       "key_takeaways": [
         "A subpoena produces the record that exists.",
@@ -337,10 +337,10 @@
       "zyntra_id": "ZQ-0533",
       "phase": "PH-06",
       "phase_item_id": "PH-M-08",
-      "lo_id": "e7c8ed8b-4e4f-5841-bc69-1e29b3217425",
-      "lo_code": "RELEASE_AUTHORITY",
-      "lo_key": "RELEASE_AUTHORITY",
-      "lo_title": "Medical information goes to third parties such as solicitors only with the patient's written authority or a lawful demand, and records are never altered.",
+      "lo_id": "8ed0af72-098a-501d-aa0e-dfbebceca28a",
+      "lo_code": "RECORD_INTEGRITY",
+      "lo_key": "RECORD_INTEGRITY",
+      "lo_title": "Clinical records are never altered after the fact, including when a party to litigation asks for changes; corrections are dated, identified additions, and errors causing harm are disclosed.",
       "lo_role": "edge",
       "shared_lo": true,
       "irt_b": 1.0,
@@ -352,23 +352,23 @@
     {
       "question_text": "A man with new seizures asks you to write to his employer that he is fit to keep his truck licence, and to leave out the seizures. He has had two unprovoked seizures this month. What is the most appropriate action?",
       "options": [
-        "Write the letter he wants. Employment is his main concern",
+        "Wait for the neurologist in three months before any advice",
+        "Advise him of the stand-down, and report fitness to the licensing authority rather than reassure the employer",
         "Tell the employer the full history, including unrelated depression",
         "Confiscate the licence yourself",
-        "Advise him of the stand-down, and report fitness to the licensing authority rather than reassure the employer",
-        "Wait for the neurologist in three months before any advice"
+        "Write the letter he wants. Employment is his main concern"
       ],
-      "correct_answer": "D",
+      "correct_answer": "B",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nD. Advise him of the stand-down, and report fitness to the licensing authority rather than reassure the employer\n\n---\n\n1. CLINICAL SITUATION\nHe is unfit now. Do not write a reassuring letter to his employer.\n\n2. THE RULE\nFitness-to-drive concerns are reported to the licensing authority about fitness only, with the patient informed, rather than reassuring an employer.\n\n3. WHY D IS CORRECT\nTwo unprovoked seizures make him unfit to drive a truck now. The report, if needed, goes to the licensing authority and is limited to fitness. A reassuring letter to the employer would be false. You do not seize the licence.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Write the letter he wants. Employment is his main concern: A false fitness letter is not justified by his job.\nB. Tell the employer the full history, including unrelated depression: The employer is not the licensing body, and the disclosure would be excessive.\nC. Confiscate the licence yourself: A clinician does not seize a licence.\nE. Wait for the neurologist in three months before any advice: The stand-down starts with the seizures, not with the clinic date.\n\n5. KEY TAKEAWAY\nFitness advice follows the seizure standard.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nB. Advise him of the stand-down, and report fitness to the licensing authority rather than reassure the employer\n\n---\n\n1. CLINICAL SITUATION\nHe is unfit now. Do not write a reassuring letter to his employer.\n\n2. THE RULE\nA patient medically unfit to drive is told so, including any stand-down period; the doctor may notify the licensing authority about fitness when they keep driving unsafely, and gives employers no false reassurance.\n\n3. WHY B IS CORRECT\nTwo unprovoked seizures make him unfit to drive a truck now. The report, if needed, goes to the licensing authority and is limited to fitness. A reassuring letter to the employer would be false. You do not seize the licence.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Wait for the neurologist in three months before any advice: The stand-down starts with the seizures, not with the clinic date.\nC. Tell the employer the full history, including unrelated depression: The employer is not the licensing body, and the disclosure would be excessive.\nD. Confiscate the licence yourself: A clinician does not seize a licence.\nE. Write the letter he wants. Employment is his main concern: A false fitness letter is not justified by his job.\n\n5. KEY TAKEAWAY\nFitness advice follows the seizure standard.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "He is unfit now. Do not write a reassuring letter to his employer.",
       "best_treatment": "Advise him of the stand-down, and report fitness to the licensing authority rather than reassure the employer",
       "incorrect_answer_explanations": {
-        "A": "A false fitness letter is not justified by his job.",
-        "B": "The employer is not the licensing body, and the disclosure would be excessive.",
-        "C": "A clinician does not seize a licence.",
-        "E": "The stand-down starts with the seizures, not with the clinic date."
+        "A": "The stand-down starts with the seizures, not with the clinic date.",
+        "C": "The employer is not the licensing body, and the disclosure would be excessive.",
+        "D": "A clinician does not seize a licence.",
+        "E": "A false fitness letter is not justified by his job."
       },
       "key_takeaways": [
         "Fitness advice follows the seizure standard.",
@@ -380,11 +380,11 @@
       "zyntra_id": "ZQ-0534",
       "phase": "PH-06",
       "phase_item_id": "PH-M-09",
-      "lo_id": "f3c1d3e2-5e86-5ef5-8fdd-dfe63c04a9fa",
-      "lo_code": "FITNESS_TO_DRIVE",
-      "lo_key": "FITNESS_TO_DRIVE",
-      "lo_title": "Fitness-to-drive concerns are reported to the licensing authority about fitness only, with the patient informed, rather than reassuring an employer.",
-      "lo_role": "core",
+      "lo_id": "8788b94b-e588-592a-87d3-e79e3a986ace",
+      "lo_code": "IMPAIRED_DRIVER",
+      "lo_key": "IMPAIRED_DRIVER",
+      "lo_title": "A patient medically unfit to drive is told so, including any stand-down period; the doctor may notify the licensing authority about fitness when they keep driving unsafely, and gives employers no false reassurance.",
+      "lo_role": "variant",
       "shared_lo": true,
       "irt_b": 0.0,
       "difficulty_tier": "medium",
@@ -395,23 +395,23 @@
     {
       "question_text": "Police bring a conscious man from a crash and ask you to take blood for alcohol because we always do. He refuses. There is no statute invoked and no warrant. What is the most appropriate response?",
       "options": [
-        "Take the blood. A crash creates automatic authority",
         "Take it but label it 'clinical' so it can still be used in court",
+        "Do not take the sample. Refusal stands unless a lawful power is engaged",
         "Ask a nurse to take it so the request is not yours",
         "Take it if the passenger consents",
-        "Do not take the sample. Refusal stands unless a lawful power is engaged"
+        "Take the blood. A crash creates automatic authority"
       ],
-      "correct_answer": "E",
+      "correct_answer": "B",
       "category": "Population Health & Ethics",
       "difficulty": "easy",
-      "explanation": "CORRECT ANSWER\n\nE. Do not take the sample. Refusal stands unless a lawful power is engaged\n\n---\n\n1. CLINICAL SITUATION\nHe has refused and no power has been engaged. Do not take the blood.\n\n2. THE RULE\nBlood samples for police require the patient's consent or a specific lawful power; a verbal police request is not enough.\n\n3. WHY E IS CORRECT\nForensic sampling needs a lawful basis. A routine police request is not one. Relabelling a non-consented sample as clinical does not repair the lack of authority. A passenger cannot consent for him.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Take the blood. A crash creates automatic authority: It does not.\nB. Take it but label it 'clinical' so it can still be used in court: Mislabeling is a further wrong.\nC. Ask a nurse to take it so the request is not yours: Delegating does not create authority.\nD. Take it if the passenger consents: A passenger cannot consent to his blood.\n\n5. KEY TAKEAWAY\nForensic blood needs lawful authority.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nB. Do not take the sample. Refusal stands unless a lawful power is engaged\n\n---\n\n1. CLINICAL SITUATION\nHe has refused and no power has been engaged. Do not take the blood.\n\n2. THE RULE\nBlood samples for police require the patient's consent or a specific lawful power; a verbal police request is not enough.\n\n3. WHY B IS CORRECT\nForensic sampling needs a lawful basis. A routine police request is not one. Relabelling a non-consented sample as clinical does not repair the lack of authority. A passenger cannot consent for him.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Take it but label it 'clinical' so it can still be used in court: Mislabeling is a further wrong.\nC. Ask a nurse to take it so the request is not yours: Delegating does not create authority.\nD. Take it if the passenger consents: A passenger cannot consent to his blood.\nE. Take the blood. A crash creates automatic authority: It does not.\n\n5. KEY TAKEAWAY\nForensic blood needs lawful authority.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "He has refused and no power has been engaged. Do not take the blood.",
       "best_treatment": "Do not take the sample. Refusal stands unless a lawful power is engaged",
       "incorrect_answer_explanations": {
-        "A": "It does not.",
-        "B": "Mislabeling is a further wrong.",
+        "A": "Mislabeling is a further wrong.",
         "C": "Delegating does not create authority.",
-        "D": "A passenger cannot consent to his blood."
+        "D": "A passenger cannot consent to his blood.",
+        "E": "It does not."
       },
       "key_takeaways": [
         "Forensic blood needs lawful authority.",
@@ -438,23 +438,23 @@
     {
       "question_text": "A 6-year-old has a spiral fracture of the humerus. The history changes twice. You are concerned about inflicted injury. The mother says she will sue if you report. What is the most appropriate action?",
       "options": [
-        "Make the report. A good-faith mandatory report is protected",
-        "Do not report. A threat of suit is a reason to wait",
         "Report only after the orthopaedic surgeon agrees in writing",
         "Ask the mother to sign a waiver before you report",
-        "Document the concern and leave reporting to the school"
+        "Document the concern and leave reporting to the school",
+        "Do not report. A threat of suit is a reason to wait",
+        "Make the report. A good-faith mandatory report is protected"
       ],
-      "correct_answer": "A",
+      "correct_answer": "E",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. Make the report. A good-faith mandatory report is protected\n\n---\n\n1. CLINICAL SITUATION\nReport. Her threat of a lawsuit does not stop the duty.\n\n2. THE RULE\nChild-protection reporting is a statutory duty made promptly in good faith, unaffected by threats of legal action or family objection.\n\n3. WHY A IS CORRECT\nSuspected inflicted injury is reported. A threat of litigation does not delay a mandatory report. Good-faith reports to the proper authority are protected from suit.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Do not report. A threat of suit is a reason to wait: The threat is not a reason.\nC. Report only after the orthopaedic surgeon agrees in writing: The duty is yours and is not conditional on a colleague's signature.\nD. Ask the mother to sign a waiver before you report: There is no waiver of a mandatory duty.\nE. Document the concern and leave reporting to the school: Documentation without a report leaves the child unprotected.\n\n5. KEY TAKEAWAY\nMandatory reporting is not delayed by a threat of suit.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nE. Make the report. A good-faith mandatory report is protected\n\n---\n\n1. CLINICAL SITUATION\nReport. Her threat of a lawsuit does not stop the duty.\n\n2. THE RULE\nSuspected child abuse is reported promptly as a statutory duty; a child's request for secrecy, family objection or a threat of legal action does not stop it, and good-faith reports are protected.\n\n3. WHY E IS CORRECT\nSuspected inflicted injury is reported. A threat of litigation does not delay a mandatory report. Good-faith reports to the proper authority are protected from suit.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Report only after the orthopaedic surgeon agrees in writing: The duty is yours and is not conditional on a colleague's signature.\nB. Ask the mother to sign a waiver before you report: There is no waiver of a mandatory duty.\nC. Document the concern and leave reporting to the school: Documentation without a report leaves the child unprotected.\nD. Do not report. A threat of suit is a reason to wait: The threat is not a reason.\n\n5. KEY TAKEAWAY\nMandatory reporting is not delayed by a threat of suit.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Report. Her threat of a lawsuit does not stop the duty.",
       "best_treatment": "Make the report. A good-faith mandatory report is protected",
       "incorrect_answer_explanations": {
-        "B": "The threat is not a reason.",
-        "C": "The duty is yours and is not conditional on a colleague's signature.",
-        "D": "There is no waiver of a mandatory duty.",
-        "E": "Documentation without a report leaves the child unprotected."
+        "A": "The duty is yours and is not conditional on a colleague's signature.",
+        "B": "There is no waiver of a mandatory duty.",
+        "C": "Documentation without a report leaves the child unprotected.",
+        "D": "The threat is not a reason."
       },
       "key_takeaways": [
         "Mandatory reporting is not delayed by a threat of suit.",
@@ -466,11 +466,11 @@
       "zyntra_id": "ZQ-0536",
       "phase": "PH-06",
       "phase_item_id": "PH-M-11",
-      "lo_id": "48d269de-7193-5768-95ae-648c45065906",
-      "lo_code": "CHILD_PROTECTION_REPORT",
-      "lo_key": "CHILD_PROTECTION_REPORT",
-      "lo_title": "Child-protection reporting is a statutory duty made promptly in good faith, unaffected by threats of legal action or family objection.",
-      "lo_role": "core",
+      "lo_id": "a480702b-c8b3-5985-ac19-9961ebb72512",
+      "lo_code": "MANDATORY_CHILD_REPORT",
+      "lo_key": "MANDATORY_CHILD_REPORT",
+      "lo_title": "Suspected child abuse is reported promptly as a statutory duty; a child's request for secrecy, family objection or a threat of legal action does not stop it, and good-faith reports are protected.",
+      "lo_role": "variant",
       "shared_lo": true,
       "irt_b": -0.1,
       "difficulty_tier": "medium",
@@ -481,23 +481,23 @@
     {
       "question_text": "You are doing a pre-employment medical for a warehouse job. The worker discloses well-controlled HIV, unrelated to the lifting task. The employer form asks only about musculoskeletal capacity. What is the most appropriate report?",
       "options": [
+        "Phone the worker's partner to check adherence before you report",
+        "Write 'medically unfit' without a reason",
         "Tell the employer the HIV diagnosis. They have a right to know",
         "Report on the questions asked. Do not disclose HIV",
-        "Refuse to complete any pre-employment form",
-        "Write 'medically unfit' without a reason",
-        "Phone the worker's partner to check adherence before you report"
+        "Refuse to complete any pre-employment form"
       ],
-      "correct_answer": "B",
+      "correct_answer": "D",
       "category": "Population Health & Ethics",
       "difficulty": "difficult",
-      "explanation": "CORRECT ANSWER\n\nB. Report on the questions asked. Do not disclose HIV\n\n---\n\n1. CLINICAL SITUATION\nAnswer the lifting questions. Leave HIV off the form.\n\n2. THE RULE\nMedicolegal certificates and reports must state factual findings and functional capacity answering the question asked, without advocacy, exaggeration or irrelevant disclosures.\n\n3. WHY B IS CORRECT\nA third-party report answers the questions that were asked and consented to. Unrelated HIV is not relevant to a lifting assessment and is not volunteered.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Tell the employer the HIV diagnosis. They have a right to know: They do not, on this form.\nC. Refuse to complete any pre-employment form: The relevant assessment can be completed.\nD. Write 'medically unfit' without a reason: That is neither factual nor fair.\nE. Phone the worker's partner to check adherence before you report: The partner is not part of this assessment.\n\n5. KEY TAKEAWAY\nA third-party report answers what was asked.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nD. Report on the questions asked. Do not disclose HIV\n\n---\n\n1. CLINICAL SITUATION\nAnswer the lifting questions. Leave HIV off the form.\n\n2. THE RULE\nMedicolegal certificates and reports must state factual findings and functional capacity answering the question asked, without advocacy, exaggeration or irrelevant disclosures.\n\n3. WHY D IS CORRECT\nA third-party report answers the questions that were asked and consented to. Unrelated HIV is not relevant to a lifting assessment and is not volunteered.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Phone the worker's partner to check adherence before you report: The partner is not part of this assessment.\nB. Write 'medically unfit' without a reason: That is neither factual nor fair.\nC. Tell the employer the HIV diagnosis. They have a right to know: They do not, on this form.\nE. Refuse to complete any pre-employment form: The relevant assessment can be completed.\n\n5. KEY TAKEAWAY\nA third-party report answers what was asked.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Answer the lifting questions. Leave HIV off the form.",
       "best_treatment": "Report on the questions asked. Do not disclose HIV",
       "incorrect_answer_explanations": {
-        "A": "They do not, on this form.",
-        "C": "The relevant assessment can be completed.",
-        "D": "That is neither factual nor fair.",
-        "E": "The partner is not part of this assessment."
+        "A": "The partner is not part of this assessment.",
+        "B": "That is neither factual nor fair.",
+        "C": "They do not, on this form.",
+        "E": "The relevant assessment can be completed."
       },
       "key_takeaways": [
         "A third-party report answers what was asked.",
@@ -525,22 +525,22 @@
       "question_text": "A colleague asks you to sign a cremation form for a patient you never met, who died the day after a cholecystectomy. He says the surgeon is away and the family are waiting. What is the most appropriate response?",
       "options": [
         "Sign. Cremation forms are administrative",
-        "Sign if the nurse confirms the identity",
+        "Ask the funeral director to witness that the death was natural",
         "Do not sign. You have no basis, and the perioperative death may be reportable",
         "Sign and add 'not known to me'",
-        "Ask the funeral director to witness that the death was natural"
+        "Sign if the nurse confirms the identity"
       ],
       "correct_answer": "C",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nC. Do not sign. You have no basis, and the perioperative death may be reportable\n\n---\n\n1. CLINICAL SITUATION\nDo not sign. You do not know this death, and it may be reportable.\n\n2. THE RULE\nA cremation certificate is signed only when the doctor has a basis to exclude an unnatural or reportable death, never as a rubber stamp.\n\n3. WHY C IS CORRECT\nA cremation certificate requires you to be satisfied there is no reason to suspect an unnatural or reportable death. A patient you never met, dead after an operation, is the opposite of that. Signing to help the family is not a basis.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Sign. Cremation forms are administrative: They are a safeguard, not a stamp.\nB. Sign if the nurse confirms the identity: Identity is not cause.\nD. Sign and add 'not known to me': That sentence is a reason not to sign, not a repair.\nE. Ask the funeral director to witness that the death was natural: A funeral director does not certify the cause.\n\n5. KEY TAKEAWAY\nA cremation form is a clinical judgment.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nC. Do not sign. You have no basis, and the perioperative death may be reportable\n\n---\n\n1. CLINICAL SITUATION\nDo not sign. You do not know this death, and it may be reportable.\n\n2. THE RULE\nA cremation certificate is signed only when the doctor has a basis to exclude an unnatural or reportable death, never as a rubber stamp.\n\n3. WHY C IS CORRECT\nA cremation certificate requires you to be satisfied there is no reason to suspect an unnatural or reportable death. A patient you never met, dead after an operation, is the opposite of that. Signing to help the family is not a basis.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Sign. Cremation forms are administrative: They are a safeguard, not a stamp.\nB. Ask the funeral director to witness that the death was natural: A funeral director does not certify the cause.\nD. Sign and add 'not known to me': That sentence is a reason not to sign, not a repair.\nE. Sign if the nurse confirms the identity: Identity is not cause.\n\n5. KEY TAKEAWAY\nA cremation form is a clinical judgment.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Do not sign. You do not know this death, and it may be reportable.",
       "best_treatment": "Do not sign. You have no basis, and the perioperative death may be reportable",
       "incorrect_answer_explanations": {
         "A": "They are a safeguard, not a stamp.",
-        "B": "Identity is not cause.",
+        "B": "A funeral director does not certify the cause.",
         "D": "That sentence is a reason not to sign, not a repair.",
-        "E": "A funeral director does not certify the cause."
+        "E": "Identity is not cause."
       },
       "key_takeaways": [
         "A cremation form is a clinical judgment.",
@@ -568,22 +568,22 @@
       "question_text": "Police ask you for a statement about a man you treated for a scalp laceration. They want you to write that he was the aggressor. You saw a laceration and smell of alcohol. You did not see the fight. What is the most appropriate statement?",
       "options": [
         "Write that he was the aggressor, because police say so",
+        "State that alcohol proves he started the fight",
         "Refuse any statement, even with his consent or a lawful request",
         "Send his whole record, including an old psychiatric admission",
-        "Describe the wound, the alcohol smell, and what he told you. Do not assign guilt",
-        "State that alcohol proves he started the fight"
+        "Describe the wound, the alcohol smell, and what he told you. Do not assign guilt"
       ],
-      "correct_answer": "D",
+      "correct_answer": "E",
       "category": "Population Health & Ethics",
       "difficulty": "easy",
-      "explanation": "CORRECT ANSWER\n\nD. Describe the wound, the alcohol smell, and what he told you. Do not assign guilt\n\n---\n\n1. CLINICAL SITUATION\nDescribe what you found. Do not call him the aggressor.\n\n2. THE RULE\nA police statement records only what the doctor observed, did and was told, without opinions on guilt.\n\n3. WHY D IS CORRECT\nA statement is factual. You report findings and quoted history. You do not adopt the police theory, and you do not send unrelated records.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Write that he was the aggressor, because police say so: Their theory is not your observation.\nB. Refuse any statement, even with his consent or a lawful request: A proper request can be answered factually.\nC. Send his whole record, including an old psychiatric admission: Unrelated history is not part of this statement.\nE. State that alcohol proves he started the fight: Intoxication is not proof of guilt.\n\n5. KEY TAKEAWAY\nA statement is what you observed.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nE. Describe the wound, the alcohol smell, and what he told you. Do not assign guilt\n\n---\n\n1. CLINICAL SITUATION\nDescribe what you found. Do not call him the aggressor.\n\n2. THE RULE\nA police statement records only what the doctor observed, did and was told, without opinions on guilt.\n\n3. WHY E IS CORRECT\nA statement is factual. You report findings and quoted history. You do not adopt the police theory, and you do not send unrelated records.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Write that he was the aggressor, because police say so: Their theory is not your observation.\nB. State that alcohol proves he started the fight: Intoxication is not proof of guilt.\nC. Refuse any statement, even with his consent or a lawful request: A proper request can be answered factually.\nD. Send his whole record, including an old psychiatric admission: Unrelated history is not part of this statement.\n\n5. KEY TAKEAWAY\nA statement is what you observed.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Describe what you found. Do not call him the aggressor.",
       "best_treatment": "Describe the wound, the alcohol smell, and what he told you. Do not assign guilt",
       "incorrect_answer_explanations": {
         "A": "Their theory is not your observation.",
-        "B": "A proper request can be answered factually.",
-        "C": "Unrelated history is not part of this statement.",
-        "E": "Intoxication is not proof of guilt."
+        "B": "Intoxication is not proof of guilt.",
+        "C": "A proper request can be answered factually.",
+        "D": "Unrelated history is not part of this statement."
       },
       "key_takeaways": [
         "A statement is what you observed.",
@@ -610,23 +610,23 @@
     {
       "question_text": "A 4-year-old with known epilepsy is found dead in bed. The parents say it must be the epilepsy and ask their GP to certify sudden unexpected death in epilepsy so the funeral can be arranged. What is the most appropriate course?",
       "options": [
-        "Certify SUDEP. The history is enough",
         "Certify if the parents sign a statement that there was no foul play",
-        "Ask the school to confirm he seemed well, then certify",
+        "Report the death. Unexpected death of a child is reportable",
         "Certify epilepsy and mention the death was expected",
-        "Report the death. Unexpected death of a child is reportable"
+        "Certify SUDEP. The history is enough",
+        "Ask the school to confirm he seemed well, then certify"
       ],
-      "correct_answer": "E",
+      "correct_answer": "B",
       "category": "Population Health & Ethics",
       "difficulty": "difficult",
-      "explanation": "CORRECT ANSWER\n\nE. Report the death. Unexpected death of a child is reportable\n\n---\n\n1. CLINICAL SITUATION\nReport the child's unexpected death. Do not certify it for the funeral.\n\n2. THE RULE\nUnexpected, unnatural, violent, procedure-related, in-custody or unexplained deaths, including sudden child deaths, are reported to the coroner.\n\n3. WHY E IS CORRECT\nUnexpected death of a child is reportable even when a chronic illness could explain it. SUDEP is a conclusion for the coroner, not a certificate written to speed a funeral.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Certify SUDEP. The history is enough: The history does not let you bypass reporting.\nB. Certify if the parents sign a statement that there was no foul play: A family statement is not a medical basis.\nC. Ask the school to confirm he seemed well, then certify: School reassurance does not replace reporting.\nD. Certify epilepsy and mention the death was expected: An unexpected death in bed is not an expected death.\n\n5. KEY TAKEAWAY\nUnexpected child death is reportable.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nB. Report the death. Unexpected death of a child is reportable\n\n---\n\n1. CLINICAL SITUATION\nReport the child's unexpected death. Do not certify it for the funeral.\n\n2. THE RULE\nUnexpected, unnatural, violent, procedure-related, in-custody or unexplained deaths, including sudden child deaths, are reported to the coroner.\n\n3. WHY B IS CORRECT\nUnexpected death of a child is reportable even when a chronic illness could explain it. SUDEP is a conclusion for the coroner, not a certificate written to speed a funeral.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Certify if the parents sign a statement that there was no foul play: A family statement is not a medical basis.\nC. Certify epilepsy and mention the death was expected: An unexpected death in bed is not an expected death.\nD. Certify SUDEP. The history is enough: The history does not let you bypass reporting.\nE. Ask the school to confirm he seemed well, then certify: School reassurance does not replace reporting.\n\n5. KEY TAKEAWAY\nUnexpected child death is reportable.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Report the child's unexpected death. Do not certify it for the funeral.",
       "best_treatment": "Report the death. Unexpected death of a child is reportable",
       "incorrect_answer_explanations": {
-        "A": "The history does not let you bypass reporting.",
-        "B": "A family statement is not a medical basis.",
-        "C": "School reassurance does not replace reporting.",
-        "D": "An unexpected death in bed is not an expected death."
+        "A": "A family statement is not a medical basis.",
+        "C": "An unexpected death in bed is not an expected death.",
+        "D": "The history does not let you bypass reporting.",
+        "E": "School reassurance does not replace reporting."
       },
       "key_takeaways": [
         "Unexpected child death is reportable.",
@@ -653,23 +653,23 @@
     {
       "question_text": "A woman with mild intermittent asthma asks you to write that she cannot walk 50 metres and cannot work, so her payment is approved. She walked from the car park without distress. What is the most appropriate form?",
       "options": [
-        "Record her actual function. Do not overstate limitation",
-        "Use her wording. Advocacy includes exaggeration",
-        "Refuse all disability forms on principle",
         "Write total incapacity and review in a year",
-        "Leave the function section blank and sign the back"
+        "Record her actual function. Do not overstate limitation",
+        "Leave the function section blank and sign the back",
+        "Refuse all disability forms on principle",
+        "Use her wording. Advocacy includes exaggeration"
       ],
-      "correct_answer": "A",
+      "correct_answer": "B",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. Record her actual function. Do not overstate limitation\n\n---\n\n1. CLINICAL SITUATION\nWrite what she can do. Do not inflate the form.\n\n2. THE RULE\nMedicolegal certificates and reports must state factual findings and functional capacity answering the question asked, without advocacy, exaggeration or irrelevant disclosures.\n\n3. WHY A IS CORRECT\nA disability form is a medical opinion on function. Writing a limitation she does not have is a false report. Refusing all such forms is not required. A blank function section is incomplete, not neutral.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Use her wording. Advocacy includes exaggeration: Advocacy does not include a false opinion.\nC. Refuse all disability forms on principle: A true report is appropriate.\nD. Write total incapacity and review in a year: That is the overstatement.\nE. Leave the function section blank and sign the back: Signing an incomplete form is not a solution.\n\n5. KEY TAKEAWAY\nA disability report is factual.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nB. Record her actual function. Do not overstate limitation\n\n---\n\n1. CLINICAL SITUATION\nWrite what she can do. Do not inflate the form.\n\n2. THE RULE\nMedicolegal certificates and reports must state factual findings and functional capacity answering the question asked, without advocacy, exaggeration or irrelevant disclosures.\n\n3. WHY B IS CORRECT\nA disability form is a medical opinion on function. Writing a limitation she does not have is a false report. Refusing all such forms is not required. A blank function section is incomplete, not neutral.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Write total incapacity and review in a year: That is the overstatement.\nC. Leave the function section blank and sign the back: Signing an incomplete form is not a solution.\nD. Refuse all disability forms on principle: A true report is appropriate.\nE. Use her wording. Advocacy includes exaggeration: Advocacy does not include a false opinion.\n\n5. KEY TAKEAWAY\nA disability report is factual.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Write what she can do. Do not inflate the form.",
       "best_treatment": "Record her actual function. Do not overstate limitation",
       "incorrect_answer_explanations": {
-        "B": "Advocacy does not include a false opinion.",
-        "C": "A true report is appropriate.",
-        "D": "That is the overstatement.",
-        "E": "Signing an incomplete form is not a solution."
+        "A": "That is the overstatement.",
+        "C": "Signing an incomplete form is not a solution.",
+        "D": "A true report is appropriate.",
+        "E": "Advocacy does not include a false opinion."
       },
       "key_takeaways": [
         "A disability report is factual.",
@@ -696,23 +696,23 @@
     {
       "question_text": "A stonemason has progressive silicosis. He is worried you will tell his boss before he is ready. What is the most appropriate reporting step?",
       "options": [
-        "Phone the employer with the diagnosis today",
-        "Notify the statutory health or safety authority as required, and discuss with him what is shared with the employer",
         "Do not notify anyone, because he is worried",
+        "Post the case, with his workplace named, in a teaching group",
+        "Notify the statutory health or safety authority as required, and discuss with him what is shared with the employer",
         "Wait until he leaves the job, then notify",
-        "Post the case, with his workplace named, in a teaching group"
+        "Phone the employer with the diagnosis today"
       ],
-      "correct_answer": "B",
+      "correct_answer": "C",
       "category": "Population Health & Ethics",
       "difficulty": "easy",
-      "explanation": "CORRECT ANSWER\n\nB. Notify the statutory health or safety authority as required, and discuss with him what is shared with the employer\n\n---\n\n1. CLINICAL SITUATION\nNotify the authority. Do not start by phoning his boss.\n\n2. THE RULE\nA notifiable occupational disease or exposure is reported to the relevant statutory authority, and what is shared with the employer is discussed with the patient.\n\n3. WHY B IS CORRECT\nSilicosis is a notifiable occupational disease. The notification goes to the proper authority. Disclosure to the employer is a separate, limited step and is discussed with him. Worry does not cancel the statutory notification.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Phone the employer with the diagnosis today: The employer is not the notification authority.\nC. Do not notify anyone, because he is worried: Worry does not cancel the duty.\nD. Wait until he leaves the job, then notify: Delay leaves other workers unrecognised.\nE. Post the case, with his workplace named, in a teaching group: That identifies him and is not the pathway.\n\n5. KEY TAKEAWAY\nOccupational disease is notified to the statutory authority.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nC. Notify the statutory health or safety authority as required, and discuss with him what is shared with the employer\n\n---\n\n1. CLINICAL SITUATION\nNotify the authority. Do not start by phoning his boss.\n\n2. THE RULE\nA notifiable occupational disease or exposure is reported to the relevant statutory authority, and what is shared with the employer is discussed with the patient.\n\n3. WHY C IS CORRECT\nSilicosis is a notifiable occupational disease. The notification goes to the proper authority. Disclosure to the employer is a separate, limited step and is discussed with him. Worry does not cancel the statutory notification.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Do not notify anyone, because he is worried: Worry does not cancel the duty.\nB. Post the case, with his workplace named, in a teaching group: That identifies him and is not the pathway.\nD. Wait until he leaves the job, then notify: Delay leaves other workers unrecognised.\nE. Phone the employer with the diagnosis today: The employer is not the notification authority.\n\n5. KEY TAKEAWAY\nOccupational disease is notified to the statutory authority.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Notify the authority. Do not start by phoning his boss.",
       "best_treatment": "Notify the statutory health or safety authority as required, and discuss with him what is shared with the employer",
       "incorrect_answer_explanations": {
-        "A": "The employer is not the notification authority.",
-        "C": "Worry does not cancel the duty.",
+        "A": "Worry does not cancel the duty.",
+        "B": "That identifies him and is not the pathway.",
         "D": "Delay leaves other workers unrecognised.",
-        "E": "That identifies him and is not the pathway."
+        "E": "The employer is not the notification authority."
       },
       "key_takeaways": [
         "Occupational disease is notified to the statutory authority.",
@@ -739,23 +739,23 @@
     {
       "question_text": "A 58-year-old is found dead at home. There is no suspicious circumstance, no doctor has seen him for a year, and no clear terminal illness is known. The family ask you, the after-hours GP, to write heart attack so a coroner is avoided. What is the most appropriate action?",
       "options": [
-        "Write myocardial infarct. It is the most common cause",
         "Write 'found dead' as the cause and sign",
-        "Report the death. The cause is unknown and he was unattended",
         "Ask a neighbour to confirm he had chest pain, then certify",
-        "Certify if the family accept the cause"
+        "Report the death. The cause is unknown and he was unattended",
+        "Certify if the family accept the cause",
+        "Write myocardial infarct. It is the most common cause"
       ],
       "correct_answer": "C",
       "category": "Population Health & Ethics",
       "difficulty": "difficult",
-      "explanation": "CORRECT ANSWER\n\nC. Report the death. The cause is unknown and he was unattended\n\n---\n\n1. CLINICAL SITUATION\nDo not guess a heart attack. Report the unknown, unattended death.\n\n2. THE RULE\nUnexpected, unnatural, violent, procedure-related, in-custody or unexplained deaths, including sudden child deaths, are reported to the coroner.\n\n3. WHY C IS CORRECT\nYou do not know why he died. Guessing a myocardial infarct to avoid the coroner is a false certificate. An unknown cause in an unattended death is reportable.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Write myocardial infarct. It is the most common cause: Common is not known.\nB. Write 'found dead' as the cause and sign: Found dead is the circumstance, not the cause.\nD. Ask a neighbour to confirm he had chest pain, then certify: Second-hand history does not let you certify.\nE. Certify if the family accept the cause: Family acceptance is not medical knowledge.\n\n5. KEY TAKEAWAY\nUnknown cause is reportable.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nC. Report the death. The cause is unknown and he was unattended\n\n---\n\n1. CLINICAL SITUATION\nDo not guess a heart attack. Report the unknown, unattended death.\n\n2. THE RULE\nUnexpected, unnatural, violent, procedure-related, in-custody or unexplained deaths, including sudden child deaths, are reported to the coroner.\n\n3. WHY C IS CORRECT\nYou do not know why he died. Guessing a myocardial infarct to avoid the coroner is a false certificate. An unknown cause in an unattended death is reportable.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Write 'found dead' as the cause and sign: Found dead is the circumstance, not the cause.\nB. Ask a neighbour to confirm he had chest pain, then certify: Second-hand history does not let you certify.\nD. Certify if the family accept the cause: Family acceptance is not medical knowledge.\nE. Write myocardial infarct. It is the most common cause: Common is not known.\n\n5. KEY TAKEAWAY\nUnknown cause is reportable.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Do not guess a heart attack. Report the unknown, unattended death.",
       "best_treatment": "Report the death. The cause is unknown and he was unattended",
       "incorrect_answer_explanations": {
-        "A": "Common is not known.",
-        "B": "Found dead is the circumstance, not the cause.",
-        "D": "Second-hand history does not let you certify.",
-        "E": "Family acceptance is not medical knowledge."
+        "A": "Found dead is the circumstance, not the cause.",
+        "B": "Second-hand history does not let you certify.",
+        "D": "Family acceptance is not medical knowledge.",
+        "E": "Common is not known."
       },
       "key_takeaways": [
         "Unknown cause is reportable.",
@@ -780,28 +780,28 @@
       "status": "draft"
     },
     {
-      "question_text": "An 84-year-old with metastatic cancer dies at home. She has not seen a doctor for three months. The daughter asks for cardiac arrest on the certificate. You did not attend her recently. What is the most appropriate next step?",
+      "question_text": "In Canberra, an 84-year-old woman with metastatic breast cancer dies at home. She has not been seen by a doctor or nurse practitioner for 7 months. Her daughter asks the locum called to the house to write cardiac arrest on the death certificate. What is the most appropriate next step?",
       "options": [
+        "Sign because the daughter asked",
         "Decline the certificate. Cardiac arrest is a mode, not a cause, and she was not attended recently",
         "Write cardiac arrest so the funeral can proceed",
         "Write old age",
-        "Invent ischaemic heart disease",
-        "Sign because the daughter asked"
+        "Invent ischaemic heart disease"
       ],
-      "correct_answer": "A",
+      "correct_answer": "B",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. Decline the certificate. Cardiac arrest is a mode, not a cause, and she was not attended recently\n\n---\n\n1. CLINICAL SITUATION\nAn 84-year-old with metastatic cancer dies at home. She has not seen a doctor for three months. The daughter asks for cardiac arrest on the certificate.\n\n2. THE RULE\nA doctor certifies death only when able to state the disease causing death; a mode such as cardiac arrest is not a cause, and uncertain or unattended deaths go to the coroner.\n\n3. WHY A IS CORRECT\nDo not invent a cause. Refer a death you cannot certify.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Write cardiac arrest so the funeral can proceed: Cardiac arrest is a mode of death, not a cause.\nC. Write old age: Old age alone is discouraged when a specific cause is known.\nD. Invent ischaemic heart disease: Inventing a cause is falsifying a legal document.\nE. Sign because the daughter asked: Family requests do not determine the cause.\n\n5. KEY TAKEAWAY\nA doctor certifies death only when able to state the disease causing death; a mode such as cardiac arrest is not a cause, and uncertain or unattended deaths go to the coroner.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "An 84-year-old with metastatic cancer dies at home. She has not seen a doctor for three months. The daughter asks for cardiac arrest on the certificate.",
+      "explanation": "CORRECT ANSWER\n\nB. Decline the certificate. Cardiac arrest is a mode, not a cause, and she was not attended recently\n\n---\n\n1. CLINICAL SITUATION\nAn ACT death at home, with no doctor or nurse practitioner attendance for 7 months, and a request to certify a mode of death.\n\n2. THE RULE\nA doctor certifies death only when able to state the disease causing it (a mode such as cardiac arrest is not a cause); deaths reportable in that jurisdiction, including no medical attendance in the 6 months before death in NSW and the ACT, go to the coroner.\n\n3. WHY B IS CORRECT\nIn the ACT a coroner must hold an inquest when a person dies without having been attended by a doctor or nurse practitioner in the 6 months before death (Coroners Act 1997 (ACT) s 13(1)(f)), so the death goes to the coroner rather than being certified. Cardiac arrest is a mode of death, not a cause, and is never an acceptable cause on a certificate.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Sign because the daughter asked: Family requests do not determine the cause.\nC. Write cardiac arrest so the funeral can proceed: Cardiac arrest is a mode of death, not a cause.\nD. Write old age: Old age alone is discouraged when a specific cause is known.\nE. Invent ischaemic heart disease: Inventing a cause is falsifying a legal document.\n\n5. KEY TAKEAWAY\nKnow your jurisdiction's reportable-death triggers: NSW and the ACT add no medical attendance in the 6 months before death; cardiac arrest is never a cause.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "An ACT death at home, with no doctor or nurse practitioner attendance for 7 months, and a request to certify a mode of death.",
       "best_treatment": "Decline the certificate. Cardiac arrest is a mode, not a cause, and she was not attended recently",
       "incorrect_answer_explanations": {
-        "B": "Cardiac arrest is a mode of death, not a cause.",
-        "C": "Old age alone is discouraged when a specific cause is known.",
-        "D": "Inventing a cause is falsifying a legal document.",
-        "E": "Family requests do not determine the cause."
+        "A": "Family requests do not determine the cause.",
+        "C": "Cardiac arrest is a mode of death, not a cause.",
+        "D": "Old age alone is discouraged when a specific cause is known.",
+        "E": "Inventing a cause is falsifying a legal document."
       },
       "key_takeaways": [
-        "A doctor certifies death only when able to state the disease causing death; a mode such as cardiac arrest is not a cause, and uncertain or unattended deaths go to the coroner.",
+        "A doctor certifies death only when able to state the disease causing it (a mode such as cardiac arrest is not a cause); deaths reportable in that jurisdiction, including no medical attendance in the 6 months before death in NSW and the ACT, go to the coroner.",
         "Do not invent a cause."
       ],
       "subtopic": "A death certificate records the disease that caused death. It is not a place for speculation or a mechanism.",
@@ -813,7 +813,7 @@
       "lo_id": "2c2702ab-a992-5be2-acaa-4d2a8b9d7174",
       "lo_code": "DEATH_CERTIFICATE",
       "lo_key": "DEATH_CERTIFICATE",
-      "lo_title": "A doctor certifies death only when able to state the disease causing death; a mode such as cardiac arrest is not a cause, and uncertain or unattended deaths go to the coroner.",
+      "lo_title": "A doctor certifies death only when able to state the disease causing it (a mode such as cardiac arrest is not a cause); deaths reportable in that jurisdiction, including no medical attendance in the 6 months before death in NSW and the ACT, go to the coroner.",
       "lo_role": "edge",
       "shared_lo": true,
       "irt_b": 0.1,
@@ -825,26 +825,26 @@
     {
       "question_text": "A locum GP is called to a home death of a 90-year-old woman he has never treated and whose notes he cannot access. The family ask for a death certificate today, saying it was old age. What is the most appropriate next step?",
       "options": [
-        "Old age is an acceptable cause here",
-        "Refer. You have no basis to certify",
         "A locum can always certify a home death",
+        "Old age is an acceptable cause here",
+        "Family preference decides the cause",
         "Write frailty without seeing the notes",
-        "Family preference decides the cause"
+        "Refer. You have no basis to certify"
       ],
-      "correct_answer": "B",
+      "correct_answer": "E",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. Refer. You have no basis to certify\n\n---\n\n1. CLINICAL SITUATION\nA locum GP is called to a home death of a 90-year-old woman he has never treated and whose notes he cannot access. The family ask for a death certificate today, saying it was old age.\n\n2. THE RULE\nA doctor certifies death only when able to state the disease causing death; a mode such as cardiac arrest is not a cause, and uncertain or unattended deaths go to the coroner.\n\n3. WHY B IS CORRECT\nNo attendance and no known cause. Refer.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Old age is an acceptable cause here: Without knowledge of her, you cannot certify any cause.\nC. A locum can always certify a home death: No doctor can certify without a basis.\nD. Write frailty without seeing the notes: Certifying without reviewing the history has no basis.\nE. Family preference decides the cause: The doctor, not the family, determines the cause.\n\n5. KEY TAKEAWAY\nA doctor certifies death only when able to state the disease causing death; a mode such as cardiac arrest is not a cause, and uncertain or unattended deaths go to the coroner.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nE. Refer. You have no basis to certify\n\n---\n\n1. CLINICAL SITUATION\nA locum GP is called to a home death of a 90-year-old woman he has never treated and whose notes he cannot access. The family ask for a death certificate today, saying it was old age.\n\n2. THE RULE\nA doctor certifies death only when able to state the disease causing it (a mode such as cardiac arrest is not a cause); deaths reportable in that jurisdiction, including no medical attendance in the 6 months before death in NSW and the ACT, go to the coroner.\n\n3. WHY E IS CORRECT\nNo attendance and no known cause. Refer.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. A locum can always certify a home death: No doctor can certify without a basis.\nB. Old age is an acceptable cause here: Without knowledge of her, you cannot certify any cause.\nC. Family preference decides the cause: The doctor, not the family, determines the cause.\nD. Write frailty without seeing the notes: Certifying without reviewing the history has no basis.\n\n5. KEY TAKEAWAY\nA doctor certifies death only when able to state the disease causing it (a mode such as cardiac arrest is not a cause); deaths reportable in that jurisdiction, including no medical attendance in the 6 months before death in NSW and the ACT, go to the coroner.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A locum GP is called to a home death of a 90-year-old woman he has never treated and whose notes he cannot access. The family ask for a death certificate today, saying it was old age.",
       "best_treatment": "Refer. You have no basis to certify",
       "incorrect_answer_explanations": {
-        "A": "Without knowledge of her, you cannot certify any cause.",
-        "C": "No doctor can certify without a basis.",
-        "D": "Certifying without reviewing the history has no basis.",
-        "E": "The doctor, not the family, determines the cause."
+        "A": "No doctor can certify without a basis.",
+        "B": "Without knowledge of her, you cannot certify any cause.",
+        "C": "The doctor, not the family, determines the cause.",
+        "D": "Certifying without reviewing the history has no basis."
       },
       "key_takeaways": [
-        "A doctor certifies death only when able to state the disease causing death; a mode such as cardiac arrest is not a cause, and uncertain or unattended deaths go to the coroner.",
+        "A doctor certifies death only when able to state the disease causing it (a mode such as cardiac arrest is not a cause); deaths reportable in that jurisdiction, including no medical attendance in the 6 months before death in NSW and the ACT, go to the coroner.",
         "No attendance and no known cause."
       ],
       "subtopic": "A death certificate records the disease that caused death. It is not a place for speculation or a mechanism.",
@@ -856,7 +856,7 @@
       "lo_id": "2c2702ab-a992-5be2-acaa-4d2a8b9d7174",
       "lo_code": "DEATH_CERTIFICATE",
       "lo_key": "DEATH_CERTIFICATE",
-      "lo_title": "A doctor certifies death only when able to state the disease causing death; a mode such as cardiac arrest is not a cause, and uncertain or unattended deaths go to the coroner.",
+      "lo_title": "A doctor certifies death only when able to state the disease causing it (a mode such as cardiac arrest is not a cause); deaths reportable in that jurisdiction, including no medical attendance in the 6 months before death in NSW and the ACT, go to the coroner.",
       "lo_role": "variant",
       "shared_lo": true,
       "irt_b": 0.0,
@@ -868,26 +868,26 @@
     {
       "question_text": "The family want a mode of death written as the cause. A certificate records the disease. Which of the following is most accurate?",
       "options": [
-        "Write the mode of death as the cause",
         "A certificate records the disease that caused death, not the mode",
         "Cardiac arrest is a disease",
-        "Respiratory arrest is a cause",
-        "Any word the family prefer is acceptable"
+        "Any word the family prefer is acceptable",
+        "Write the mode of death as the cause",
+        "Respiratory arrest is a cause"
       ],
-      "correct_answer": "B",
+      "correct_answer": "A",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. A certificate records the disease that caused death, not the mode\n\n---\n\n1. CLINICAL SITUATION\nThe family want a mode of death written as the cause. A certificate records the disease.\n\n2. THE RULE\nA doctor certifies death only when able to state the disease causing death; a mode such as cardiac arrest is not a cause, and uncertain or unattended deaths go to the coroner.\n\n3. WHY B IS CORRECT\nMode is not cause. Do not certify it.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Write the mode of death as the cause: A mode is not a cause.\nC. Cardiac arrest is a disease: Cardiac arrest is a mode of dying.\nD. Respiratory arrest is a cause: Respiratory arrest is a mode.\nE. Any word the family prefer is acceptable: The certificate records the medical cause.\n\n5. KEY TAKEAWAY\nA doctor certifies death only when able to state the disease causing death; a mode such as cardiac arrest is not a cause, and uncertain or unattended deaths go to the coroner.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nA. A certificate records the disease that caused death, not the mode\n\n---\n\n1. CLINICAL SITUATION\nThe family want a mode of death written as the cause. A certificate records the disease.\n\n2. THE RULE\nA doctor certifies death only when able to state the disease causing it (a mode such as cardiac arrest is not a cause); deaths reportable in that jurisdiction, including no medical attendance in the 6 months before death in NSW and the ACT, go to the coroner.\n\n3. WHY A IS CORRECT\nMode is not cause. Do not certify it.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Cardiac arrest is a disease: Cardiac arrest is a mode of dying.\nC. Any word the family prefer is acceptable: The certificate records the medical cause.\nD. Write the mode of death as the cause: A mode is not a cause.\nE. Respiratory arrest is a cause: Respiratory arrest is a mode.\n\n5. KEY TAKEAWAY\nA doctor certifies death only when able to state the disease causing it (a mode such as cardiac arrest is not a cause); deaths reportable in that jurisdiction, including no medical attendance in the 6 months before death in NSW and the ACT, go to the coroner.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "The family want a mode of death written as the cause. A certificate records the disease.",
       "best_treatment": "A certificate records the disease that caused death, not the mode",
       "incorrect_answer_explanations": {
-        "A": "A mode is not a cause.",
-        "C": "Cardiac arrest is a mode of dying.",
-        "D": "Respiratory arrest is a mode.",
-        "E": "The certificate records the medical cause."
+        "B": "Cardiac arrest is a mode of dying.",
+        "C": "The certificate records the medical cause.",
+        "D": "A mode is not a cause.",
+        "E": "Respiratory arrest is a mode."
       },
       "key_takeaways": [
-        "A doctor certifies death only when able to state the disease causing death; a mode such as cardiac arrest is not a cause, and uncertain or unattended deaths go to the coroner.",
+        "A doctor certifies death only when able to state the disease causing it (a mode such as cardiac arrest is not a cause); deaths reportable in that jurisdiction, including no medical attendance in the 6 months before death in NSW and the ACT, go to the coroner.",
         "Mode is not cause."
       ],
       "subtopic": "A death certificate records the disease that caused death. It is not a place for speculation or a mechanism.",
@@ -899,7 +899,7 @@
       "lo_id": "2c2702ab-a992-5be2-acaa-4d2a8b9d7174",
       "lo_code": "DEATH_CERTIFICATE",
       "lo_key": "DEATH_CERTIFICATE",
-      "lo_title": "A doctor certifies death only when able to state the disease causing death; a mode such as cardiac arrest is not a cause, and uncertain or unattended deaths go to the coroner.",
+      "lo_title": "A doctor certifies death only when able to state the disease causing it (a mode such as cardiac arrest is not a cause); deaths reportable in that jurisdiction, including no medical attendance in the 6 months before death in NSW and the ACT, go to the coroner.",
       "lo_role": "trap",
       "shared_lo": true,
       "irt_b": -0.1,
@@ -911,23 +911,23 @@
     {
       "question_text": "A man dies of confirmed invasive meningococcal disease. Public health was notified on arrival. Which of the following is most accurate?",
       "options": [
-        "Public-health notification and a coroner referral are separate duties",
         "One notification cancels the other",
+        "Public-health notification and a coroner referral are separate duties",
+        "Only the coroner is told",
         "A known organism means no coroner",
-        "Death cancels the public-health duty",
-        "Only the coroner is told"
+        "Death cancels the public-health duty"
       ],
-      "correct_answer": "A",
+      "correct_answer": "B",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. Public-health notification and a coroner referral are separate duties\n\n---\n\n1. CLINICAL SITUATION\nA man dies of confirmed invasive meningococcal disease. Public health was notified on arrival.\n\n2. THE RULE\nPublic health notification of a disease and referral to the coroner are separate duties, and one does not discharge the other.\n\n3. WHY A IS CORRECT\nDo not assume one notification replaces the other.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. One notification cancels the other: The two duties are independent.\nC. A known organism means no coroner: A known organism does not decide whether the death is reportable.\nD. Death cancels the public-health duty: Notification duties continue after death, including for contact tracing.\nE. Only the coroner is told: Public health still needs notification.\n\n5. KEY TAKEAWAY\nPublic health notification of a disease and referral to the coroner are separate duties, and one does not discharge the other.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nB. Public-health notification and a coroner referral are separate duties\n\n---\n\n1. CLINICAL SITUATION\nA man dies of confirmed invasive meningococcal disease. Public health was notified on arrival.\n\n2. THE RULE\nPublic health notification of a disease and referral to the coroner are separate duties, and one does not discharge the other.\n\n3. WHY B IS CORRECT\nDo not assume one notification replaces the other.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. One notification cancels the other: The two duties are independent.\nC. Only the coroner is told: Public health still needs notification.\nD. A known organism means no coroner: A known organism does not decide whether the death is reportable.\nE. Death cancels the public-health duty: Notification duties continue after death, including for contact tracing.\n\n5. KEY TAKEAWAY\nPublic health notification of a disease and referral to the coroner are separate duties, and one does not discharge the other.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A man dies of confirmed invasive meningococcal disease. Public health was notified on arrival.",
       "best_treatment": "Public-health notification and a coroner referral are separate duties",
       "incorrect_answer_explanations": {
-        "B": "The two duties are independent.",
-        "C": "A known organism does not decide whether the death is reportable.",
-        "D": "Notification duties continue after death, including for contact tracing.",
-        "E": "Public health still needs notification."
+        "A": "The two duties are independent.",
+        "C": "Public health still needs notification.",
+        "D": "A known organism does not decide whether the death is reportable.",
+        "E": "Notification duties continue after death, including for contact tracing."
       },
       "key_takeaways": [
         "Public health notification of a disease and referral to the coroner are separate duties, and one does not discharge the other.",
@@ -955,22 +955,22 @@
       "question_text": "A man dies in hospital of a confirmed notifiable infectious disease. The public-health notification had not been completed before he died. The team asks what happens now. Which of the following is most accurate?",
       "options": [
         "Stop the public-health process because he died",
+        "Wait a week",
         "Complete the public-health notification and consider the coroner separately",
-        "Only tell the family",
         "A death certificate replaces both",
-        "Wait a week"
+        "Only tell the family"
       ],
-      "correct_answer": "B",
+      "correct_answer": "C",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. Complete the public-health notification and consider the coroner separately\n\n---\n\n1. CLINICAL SITUATION\nA man dies in hospital of a confirmed notifiable infectious disease. The public-health notification had not been completed before he died. The team asks what happens now.\n\n2. THE RULE\nPublic health notification of a disease and referral to the coroner are separate duties, and one does not discharge the other.\n\n3. WHY B IS CORRECT\nSeparate duties. Do both considerations.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Stop the public-health process because he died: Contact management still matters after death.\nC. Only tell the family: Statutory duties go beyond telling the family.\nD. A death certificate replaces both: The certificate does not discharge either duty.\nE. Wait a week: Notification is prompt.\n\n5. KEY TAKEAWAY\nPublic health notification of a disease and referral to the coroner are separate duties, and one does not discharge the other.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nC. Complete the public-health notification and consider the coroner separately\n\n---\n\n1. CLINICAL SITUATION\nA man dies in hospital of a confirmed notifiable infectious disease. The public-health notification had not been completed before he died. The team asks what happens now.\n\n2. THE RULE\nPublic health notification of a disease and referral to the coroner are separate duties, and one does not discharge the other.\n\n3. WHY C IS CORRECT\nSeparate duties. Do both considerations.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Stop the public-health process because he died: Contact management still matters after death.\nB. Wait a week: Notification is prompt.\nD. A death certificate replaces both: The certificate does not discharge either duty.\nE. Only tell the family: Statutory duties go beyond telling the family.\n\n5. KEY TAKEAWAY\nPublic health notification of a disease and referral to the coroner are separate duties, and one does not discharge the other.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A man dies in hospital of a confirmed notifiable infectious disease. The public-health notification had not been completed before he died. The team asks what happens now.",
       "best_treatment": "Complete the public-health notification and consider the coroner separately",
       "incorrect_answer_explanations": {
         "A": "Contact management still matters after death.",
-        "C": "Statutory duties go beyond telling the family.",
+        "B": "Notification is prompt.",
         "D": "The certificate does not discharge either duty.",
-        "E": "Notification is prompt."
+        "E": "Statutory duties go beyond telling the family."
       },
       "key_takeaways": [
         "Public health notification of a disease and referral to the coroner are separate duties, and one does not discharge the other.",
@@ -997,22 +997,22 @@
     {
       "question_text": "A patient dies of a notifiable infection in unexpected circumstances. The registrar wants to choose either public-health notification or a coroner referral, but not both. What is the most appropriate next step?",
       "options": [
-        "A coroner referral cancels disease notification",
         "Notify public health and consider the coroner. One does not cancel the other",
-        "Only laboratory staff notify",
         "Death is never notifiable",
+        "A coroner referral cancels disease notification",
+        "Only laboratory staff notify",
         "Ignore both"
       ],
-      "correct_answer": "B",
+      "correct_answer": "A",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. Notify public health and consider the coroner. One does not cancel the other\n\n---\n\n1. CLINICAL SITUATION\nA patient dies of a notifiable infection in unexpected circumstances. The registrar wants to choose either public-health notification or a coroner referral, but not both.\n\n2. THE RULE\nPublic health notification of a disease and referral to the coroner are separate duties, and one does not discharge the other.\n\n3. WHY B IS CORRECT\nNotifiable disease and coroner are different. Apply each.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. A coroner referral cancels disease notification: The duties are separate.\nC. Only laboratory staff notify: Clinicians also notify.\nD. Death is never notifiable: Notifiable diseases remain notifiable in death.\nE. Ignore both: Both duties apply.\n\n5. KEY TAKEAWAY\nPublic health notification of a disease and referral to the coroner are separate duties, and one does not discharge the other.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nA. Notify public health and consider the coroner. One does not cancel the other\n\n---\n\n1. CLINICAL SITUATION\nA patient dies of a notifiable infection in unexpected circumstances. The registrar wants to choose either public-health notification or a coroner referral, but not both.\n\n2. THE RULE\nPublic health notification of a disease and referral to the coroner are separate duties, and one does not discharge the other.\n\n3. WHY A IS CORRECT\nNotifiable disease and coroner are different. Apply each.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Death is never notifiable: Notifiable diseases remain notifiable in death.\nC. A coroner referral cancels disease notification: The duties are separate.\nD. Only laboratory staff notify: Clinicians also notify.\nE. Ignore both: Both duties apply.\n\n5. KEY TAKEAWAY\nPublic health notification of a disease and referral to the coroner are separate duties, and one does not discharge the other.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A patient dies of a notifiable infection in unexpected circumstances. The registrar wants to choose either public-health notification or a coroner referral, but not both.",
       "best_treatment": "Notify public health and consider the coroner. One does not cancel the other",
       "incorrect_answer_explanations": {
-        "A": "The duties are separate.",
-        "C": "Clinicians also notify.",
-        "D": "Notifiable diseases remain notifiable in death.",
+        "B": "Notifiable diseases remain notifiable in death.",
+        "C": "The duties are separate.",
+        "D": "Clinicians also notify.",
         "E": "Both duties apply."
       },
       "key_takeaways": [
@@ -1040,23 +1040,23 @@
     {
       "question_text": "A man with a simple strain wants a certificate saying the injury is permanent and the employer was negligent. A workers' certificate states facts and capacity. What is the most appropriate next step?",
       "options": [
-        "Record the history, findings, and current capacity. Do not assert negligence",
+        "Advocate for the largest payment",
         "Write that the employer was negligent",
+        "Record the history, findings, and current capacity. Do not assert negligence",
         "State the injury is permanent on day one",
-        "Omit the examination",
-        "Advocate for the largest payment"
+        "Omit the examination"
       ],
-      "correct_answer": "A",
+      "correct_answer": "C",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. Record the history, findings, and current capacity. Do not assert negligence\n\n---\n\n1. CLINICAL SITUATION\nA man with a simple strain wants a certificate saying the injury is permanent and the employer was negligent. A workers' certificate states facts and capacity.\n\n2. THE RULE\nMedicolegal certificates and reports must state factual findings and functional capacity answering the question asked, without advocacy, exaggeration or irrelevant disclosures.\n\n3. WHY A IS CORRECT\nWrite what you find. Do not assert negligence or permanence.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Write that the employer was negligent: Negligence is a legal finding, not a clinical one.\nC. State the injury is permanent on day one: Permanence cannot be stated on day one of a simple strain.\nD. Omit the examination: The examination is the basis of the certificate.\nE. Advocate for the largest payment: Certificates are factual, not advocacy.\n\n5. KEY TAKEAWAY\nMedicolegal certificates and reports must state factual findings and functional capacity answering the question asked, without advocacy, exaggeration or irrelevant disclosures.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nC. Record the history, findings, and current capacity. Do not assert negligence\n\n---\n\n1. CLINICAL SITUATION\nA man with a simple strain wants a certificate saying the injury is permanent and the employer was negligent. A workers' certificate states facts and capacity.\n\n2. THE RULE\nMedicolegal certificates and reports must state factual findings and functional capacity answering the question asked, without advocacy, exaggeration or irrelevant disclosures.\n\n3. WHY C IS CORRECT\nWrite what you find. Do not assert negligence or permanence.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Advocate for the largest payment: Certificates are factual, not advocacy.\nB. Write that the employer was negligent: Negligence is a legal finding, not a clinical one.\nD. State the injury is permanent on day one: Permanence cannot be stated on day one of a simple strain.\nE. Omit the examination: The examination is the basis of the certificate.\n\n5. KEY TAKEAWAY\nMedicolegal certificates and reports must state factual findings and functional capacity answering the question asked, without advocacy, exaggeration or irrelevant disclosures.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A man with a simple strain wants a certificate saying the injury is permanent and the employer was negligent. A workers' certificate states facts and capacity.",
       "best_treatment": "Record the history, findings, and current capacity. Do not assert negligence",
       "incorrect_answer_explanations": {
+        "A": "Certificates are factual, not advocacy.",
         "B": "Negligence is a legal finding, not a clinical one.",
-        "C": "Permanence cannot be stated on day one of a simple strain.",
-        "D": "The examination is the basis of the certificate.",
-        "E": "Certificates are factual, not advocacy."
+        "D": "Permanence cannot be stated on day one of a simple strain.",
+        "E": "The examination is the basis of the certificate."
       },
       "key_takeaways": [
         "Medicolegal certificates and reports must state factual findings and functional capacity answering the question asked, without advocacy, exaggeration or irrelevant disclosures.",
@@ -1083,26 +1083,26 @@
     {
       "question_text": "A solicitor asks for a full report. The patient has not signed an authority. What is the most appropriate next step?",
       "options": [
-        "Decline until you have the patient's written authority, unless a lawful demand exists",
-        "Send the full report because the solicitor asked",
         "A phone call is authority",
-        "Email is authority",
-        "Partial release needs no authority"
+        "Decline until you have the patient's written authority, unless a lawful demand exists",
+        "Partial release needs no authority",
+        "Send the full report because the solicitor asked",
+        "Email is authority"
       ],
-      "correct_answer": "A",
+      "correct_answer": "B",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. Decline until you have the patient's written authority, unless a lawful demand exists\n\n---\n\n1. CLINICAL SITUATION\nA solicitor asks for a full report. The patient has not signed an authority.\n\n2. THE RULE\nMedical information goes to third parties such as solicitors only with the patient's written authority or a lawful demand, and records are never altered.\n\n3. WHY A IS CORRECT\nA phone call is not authority.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Send the full report because the solicitor asked: A request does not authorise release.\nC. A phone call is authority: Written authority is needed.\nD. Email is authority: An email request is not patient authority.\nE. Partial release needs no authority: Partial release still needs authority.\n\n5. KEY TAKEAWAY\nMedical information goes to third parties such as solicitors only with the patient's written authority or a lawful demand, and records are never altered.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nB. Decline until you have the patient's written authority, unless a lawful demand exists\n\n---\n\n1. CLINICAL SITUATION\nA solicitor asks for a full report. The patient has not signed an authority.\n\n2. THE RULE\nMedical information goes to third parties such as solicitors or insurers only with the patient's written authority or a lawful demand, and only within the scope of that authority.\n\n3. WHY B IS CORRECT\nA phone call is not authority.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. A phone call is authority: Written authority is needed.\nC. Partial release needs no authority: Partial release still needs authority.\nD. Send the full report because the solicitor asked: A request does not authorise release.\nE. Email is authority: An email request is not patient authority.\n\n5. KEY TAKEAWAY\nMedical information goes to third parties such as solicitors or insurers only with the patient's written authority or a lawful demand, and only within the scope of that authority.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A solicitor asks for a full report. The patient has not signed an authority.",
       "best_treatment": "Decline until you have the patient's written authority, unless a lawful demand exists",
       "incorrect_answer_explanations": {
-        "B": "A request does not authorise release.",
-        "C": "Written authority is needed.",
-        "D": "An email request is not patient authority.",
-        "E": "Partial release still needs authority."
+        "A": "Written authority is needed.",
+        "C": "Partial release still needs authority.",
+        "D": "A request does not authorise release.",
+        "E": "An email request is not patient authority."
       },
       "key_takeaways": [
-        "Medical information goes to third parties such as solicitors only with the patient's written authority or a lawful demand, and records are never altered.",
+        "Medical information goes to third parties such as solicitors or insurers only with the patient's written authority or a lawful demand, and only within the scope of that authority.",
         "A phone call is not authority."
       ],
       "subtopic": "A death certificate records the disease that caused death. It is not a place for speculation or a mechanism.",
@@ -1114,7 +1114,7 @@
       "lo_id": "e7c8ed8b-4e4f-5841-bc69-1e29b3217425",
       "lo_code": "RELEASE_AUTHORITY",
       "lo_key": "RELEASE_AUTHORITY",
-      "lo_title": "Medical information goes to third parties such as solicitors only with the patient's written authority or a lawful demand, and records are never altered.",
+      "lo_title": "Medical information goes to third parties such as solicitors or insurers only with the patient's written authority or a lawful demand, and only within the scope of that authority.",
       "lo_role": "edge",
       "shared_lo": true,
       "irt_b": 0.0,
@@ -1127,25 +1127,25 @@
       "question_text": "A subpoena arrives. The other side asks you to add a sentence. A subpoena compels production. Which of the following is most accurate?",
       "options": [
         "Add a clarifying sentence and then produce the notes",
-        "Produce the notes as they are. Do not alter them",
-        "Rewrite the record for the case",
         "Omit pages that weaken the claim",
-        "A subpoena lets you edit"
+        "Produce the notes as they are. Do not alter them",
+        "A subpoena lets you edit",
+        "Rewrite the record for the case"
       ],
-      "correct_answer": "B",
+      "correct_answer": "C",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. Produce the notes as they are. Do not alter them\n\n---\n\n1. CLINICAL SITUATION\nA subpoena arrives. The other side asks you to add a sentence. A subpoena compels production.\n\n2. THE RULE\nMedical information goes to third parties such as solicitors only with the patient's written authority or a lawful demand, and records are never altered.\n\n3. WHY B IS CORRECT\nProduce the original. Do not alter it.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Add a clarifying sentence and then produce the notes: Adding to records after a subpoena is improper alteration.\nC. Rewrite the record for the case: Rewriting is falsification.\nD. Omit pages that weaken the claim: Omitting pages breaches the subpoena.\nE. A subpoena lets you edit: A subpoena compels production of the record as it stands.\n\n5. KEY TAKEAWAY\nMedical information goes to third parties such as solicitors only with the patient's written authority or a lawful demand, and records are never altered.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nC. Produce the notes as they are. Do not alter them\n\n---\n\n1. CLINICAL SITUATION\nA subpoena arrives. The other side asks you to add a sentence. A subpoena compels production.\n\n2. THE RULE\nClinical records are never altered after the fact, including when a party to litigation asks for changes; corrections are dated, identified additions, and errors causing harm are disclosed.\n\n3. WHY C IS CORRECT\nProduce the original. Do not alter it.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Add a clarifying sentence and then produce the notes: Adding to records after a subpoena is improper alteration.\nB. Omit pages that weaken the claim: Omitting pages breaches the subpoena.\nD. A subpoena lets you edit: A subpoena compels production of the record as it stands.\nE. Rewrite the record for the case: Rewriting is falsification.\n\n5. KEY TAKEAWAY\nClinical records are never altered after the fact, including when a party to litigation asks for changes; corrections are dated, identified additions, and errors causing harm are disclosed.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A subpoena arrives. The other side asks you to add a sentence. A subpoena compels production.",
       "best_treatment": "Produce the notes as they are. Do not alter them",
       "incorrect_answer_explanations": {
         "A": "Adding to records after a subpoena is improper alteration.",
-        "C": "Rewriting is falsification.",
-        "D": "Omitting pages breaches the subpoena.",
-        "E": "A subpoena compels production of the record as it stands."
+        "B": "Omitting pages breaches the subpoena.",
+        "D": "A subpoena compels production of the record as it stands.",
+        "E": "Rewriting is falsification."
       },
       "key_takeaways": [
-        "Medical information goes to third parties such as solicitors only with the patient's written authority or a lawful demand, and records are never altered.",
+        "Clinical records are never altered after the fact, including when a party to litigation asks for changes; corrections are dated, identified additions, and errors causing harm are disclosed.",
         "Produce the original."
       ],
       "subtopic": "A death certificate records the disease that caused death. It is not a place for speculation or a mechanism.",
@@ -1154,10 +1154,10 @@
       "zyntra_id": "ZQ-0716",
       "phase": "PH-06",
       "phase_item_id": "PH-M-27",
-      "lo_id": "e7c8ed8b-4e4f-5841-bc69-1e29b3217425",
-      "lo_code": "RELEASE_AUTHORITY",
-      "lo_key": "RELEASE_AUTHORITY",
-      "lo_title": "Medical information goes to third parties such as solicitors only with the patient's written authority or a lawful demand, and records are never altered.",
+      "lo_id": "8ed0af72-098a-501d-aa0e-dfbebceca28a",
+      "lo_code": "RECORD_INTEGRITY",
+      "lo_key": "RECORD_INTEGRITY",
+      "lo_title": "Clinical records are never altered after the fact, including when a party to litigation asks for changes; corrections are dated, identified additions, and errors causing harm are disclosed.",
       "lo_role": "edge",
       "shared_lo": true,
       "irt_b": 0.05,
@@ -1169,26 +1169,26 @@
     {
       "question_text": "A truck driver has had two unprovoked seizures. He asks for a letter clearing him to keep his licence. Which of the following is most accurate?",
       "options": [
-        "Advise the stand-down and report fitness to the licensing authority",
         "Write to the employer that he is fit",
-        "Leave out the seizures",
         "The employer is the licensing authority",
-        "A promise to drive carefully is enough"
+        "A promise to drive carefully is enough",
+        "Advise the stand-down and report fitness to the licensing authority",
+        "Leave out the seizures"
       ],
-      "correct_answer": "A",
+      "correct_answer": "D",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. Advise the stand-down and report fitness to the licensing authority\n\n---\n\n1. CLINICAL SITUATION\nA truck driver has had two unprovoked seizures. He asks for a letter clearing him to keep his licence.\n\n2. THE RULE\nFitness-to-drive concerns are reported to the licensing authority about fitness only, with the patient informed, rather than reassuring an employer.\n\n3. WHY A IS CORRECT\nLicensing authority, not the employer. Do not clear him.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Write to the employer that he is fit: The employer is not the right recipient, and he is not fit.\nC. Leave out the seizures: Omitting seizures is dishonest.\nD. The employer is the licensing authority: The licensing authority is a government body, not the employer.\nE. A promise to drive carefully is enough: A promise does not meet the medical standard.\n\n5. KEY TAKEAWAY\nFitness-to-drive concerns are reported to the licensing authority about fitness only, with the patient informed, rather than reassuring an employer.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nD. Advise the stand-down and report fitness to the licensing authority\n\n---\n\n1. CLINICAL SITUATION\nA truck driver has had two unprovoked seizures. He asks for a letter clearing him to keep his licence.\n\n2. THE RULE\nA patient medically unfit to drive is told so, including any stand-down period; the doctor may notify the licensing authority about fitness when they keep driving unsafely, and gives employers no false reassurance.\n\n3. WHY D IS CORRECT\nLicensing authority, not the employer. Do not clear him.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Write to the employer that he is fit: The employer is not the right recipient, and he is not fit.\nB. The employer is the licensing authority: The licensing authority is a government body, not the employer.\nC. A promise to drive carefully is enough: A promise does not meet the medical standard.\nE. Leave out the seizures: Omitting seizures is dishonest.\n\n5. KEY TAKEAWAY\nA patient medically unfit to drive is told so, including any stand-down period; the doctor may notify the licensing authority about fitness when they keep driving unsafely, and gives employers no false reassurance.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A truck driver has had two unprovoked seizures. He asks for a letter clearing him to keep his licence.",
       "best_treatment": "Advise the stand-down and report fitness to the licensing authority",
       "incorrect_answer_explanations": {
-        "B": "The employer is not the right recipient, and he is not fit.",
-        "C": "Omitting seizures is dishonest.",
-        "D": "The licensing authority is a government body, not the employer.",
-        "E": "A promise does not meet the medical standard."
+        "A": "The employer is not the right recipient, and he is not fit.",
+        "B": "The licensing authority is a government body, not the employer.",
+        "C": "A promise does not meet the medical standard.",
+        "E": "Omitting seizures is dishonest."
       },
       "key_takeaways": [
-        "Fitness-to-drive concerns are reported to the licensing authority about fitness only, with the patient informed, rather than reassuring an employer.",
+        "A patient medically unfit to drive is told so, including any stand-down period; the doctor may notify the licensing authority about fitness when they keep driving unsafely, and gives employers no false reassurance.",
         "Licensing authority, not the employer."
       ],
       "subtopic": "A death certificate records the disease that caused death. It is not a place for speculation or a mechanism.",
@@ -1197,10 +1197,10 @@
       "zyntra_id": "ZQ-0717",
       "phase": "PH-06",
       "phase_item_id": "PH-M-28",
-      "lo_id": "f3c1d3e2-5e86-5ef5-8fdd-dfe63c04a9fa",
-      "lo_code": "FITNESS_TO_DRIVE",
-      "lo_key": "FITNESS_TO_DRIVE",
-      "lo_title": "Fitness-to-drive concerns are reported to the licensing authority about fitness only, with the patient informed, rather than reassuring an employer.",
+      "lo_id": "8788b94b-e588-592a-87d3-e79e3a986ace",
+      "lo_code": "IMPAIRED_DRIVER",
+      "lo_key": "IMPAIRED_DRIVER",
+      "lo_title": "A patient medically unfit to drive is told so, including any stand-down period; the doctor may notify the licensing authority about fitness when they keep driving unsafely, and gives employers no false reassurance.",
       "lo_role": "variant",
       "shared_lo": true,
       "irt_b": 0.05,
@@ -1212,26 +1212,26 @@
     {
       "question_text": "A school-bus driver with recurrent seizures has been advised not to drive. He says he will not stop driving. What is the most appropriate next step?",
       "options": [
-        "Private advice replaces notification",
-        "Tell him, then notify the licensing authority",
-        "Seize the licence",
         "Wait for a crash",
-        "Omit the diagnosis"
+        "Omit the diagnosis",
+        "Private advice replaces notification",
+        "Seize the licence",
+        "Tell him, then notify the licensing authority"
       ],
-      "correct_answer": "B",
+      "correct_answer": "E",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. Tell him, then notify the licensing authority\n\n---\n\n1. CLINICAL SITUATION\nA school-bus driver with recurrent seizures has been advised not to drive. He says he will not stop driving.\n\n2. THE RULE\nFitness-to-drive concerns are reported to the licensing authority about fitness only, with the patient informed, rather than reassuring an employer.\n\n3. WHY B IS CORRECT\nTell, then notify. Do not delay.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Private advice replaces notification: He refuses to stop, so private advice has failed.\nC. Seize the licence: The licensing authority acts; doctors do not seize licences.\nD. Wait for a crash: Waiting endangers the public.\nE. Omit the diagnosis: Omitting the diagnosis is dishonest.\n\n5. KEY TAKEAWAY\nFitness-to-drive concerns are reported to the licensing authority about fitness only, with the patient informed, rather than reassuring an employer.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nE. Tell him, then notify the licensing authority\n\n---\n\n1. CLINICAL SITUATION\nA school-bus driver with recurrent seizures has been advised not to drive. He says he will not stop driving.\n\n2. THE RULE\nA patient medically unfit to drive is told so, including any stand-down period; the doctor may notify the licensing authority about fitness when they keep driving unsafely, and gives employers no false reassurance.\n\n3. WHY E IS CORRECT\nTell, then notify. Do not delay.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Wait for a crash: Waiting endangers the public.\nB. Omit the diagnosis: Omitting the diagnosis is dishonest.\nC. Private advice replaces notification: He refuses to stop, so private advice has failed.\nD. Seize the licence: The licensing authority acts; doctors do not seize licences.\n\n5. KEY TAKEAWAY\nA patient medically unfit to drive is told so, including any stand-down period; the doctor may notify the licensing authority about fitness when they keep driving unsafely, and gives employers no false reassurance.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A school-bus driver with recurrent seizures has been advised not to drive. He says he will not stop driving.",
       "best_treatment": "Tell him, then notify the licensing authority",
       "incorrect_answer_explanations": {
-        "A": "He refuses to stop, so private advice has failed.",
-        "C": "The licensing authority acts; doctors do not seize licences.",
-        "D": "Waiting endangers the public.",
-        "E": "Omitting the diagnosis is dishonest."
+        "A": "Waiting endangers the public.",
+        "B": "Omitting the diagnosis is dishonest.",
+        "C": "He refuses to stop, so private advice has failed.",
+        "D": "The licensing authority acts; doctors do not seize licences."
       },
       "key_takeaways": [
-        "Fitness-to-drive concerns are reported to the licensing authority about fitness only, with the patient informed, rather than reassuring an employer.",
+        "A patient medically unfit to drive is told so, including any stand-down period; the doctor may notify the licensing authority about fitness when they keep driving unsafely, and gives employers no false reassurance.",
         "Tell, then notify."
       ],
       "subtopic": "A death certificate records the disease that caused death. It is not a place for speculation or a mechanism.",
@@ -1240,10 +1240,10 @@
       "zyntra_id": "ZQ-0718",
       "phase": "PH-06",
       "phase_item_id": "PH-M-29",
-      "lo_id": "f3c1d3e2-5e86-5ef5-8fdd-dfe63c04a9fa",
-      "lo_code": "FITNESS_TO_DRIVE",
-      "lo_key": "FITNESS_TO_DRIVE",
-      "lo_title": "Fitness-to-drive concerns are reported to the licensing authority about fitness only, with the patient informed, rather than reassuring an employer.",
+      "lo_id": "8788b94b-e588-592a-87d3-e79e3a986ace",
+      "lo_code": "IMPAIRED_DRIVER",
+      "lo_key": "IMPAIRED_DRIVER",
+      "lo_title": "A patient medically unfit to drive is told so, including any stand-down period; the doctor may notify the licensing authority about fitness when they keep driving unsafely, and gives employers no false reassurance.",
       "lo_role": "variant",
       "shared_lo": true,
       "irt_b": 0.0,
@@ -1255,26 +1255,26 @@
     {
       "question_text": "A school-bus driver has recurrent syncope and refuses to stand down from driving. His employer asks you to confirm he is fit. What is the most appropriate next step?",
       "options": [
-        "A school bus and refused stand-down can be ignored",
-        "Notify the licensing authority about fitness",
         "Only the employer is told",
         "A family promise is enough",
+        "A school bus and refused stand-down can be ignored",
+        "Notify the licensing authority about fitness",
         "He can keep the route"
       ],
-      "correct_answer": "B",
+      "correct_answer": "D",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. Notify the licensing authority about fitness\n\n---\n\n1. CLINICAL SITUATION\nA school-bus driver has recurrent syncope and refuses to stand down from driving. His employer asks you to confirm he is fit.\n\n2. THE RULE\nFitness-to-drive concerns are reported to the licensing authority about fitness only, with the patient informed, rather than reassuring an employer.\n\n3. WHY B IS CORRECT\nPublic risk. Notify the right body.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. A school bus and refused stand-down can be ignored: Public risk cannot be ignored.\nC. Only the employer is told: Only the licensing authority decides fitness.\nD. A family promise is enough: A promise is not a safeguard.\nE. He can keep the route: He should not drive while unfit.\n\n5. KEY TAKEAWAY\nFitness-to-drive concerns are reported to the licensing authority about fitness only, with the patient informed, rather than reassuring an employer.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nD. Notify the licensing authority about fitness\n\n---\n\n1. CLINICAL SITUATION\nA school-bus driver has recurrent syncope and refuses to stand down from driving. His employer asks you to confirm he is fit.\n\n2. THE RULE\nA patient medically unfit to drive is told so, including any stand-down period; the doctor may notify the licensing authority about fitness when they keep driving unsafely, and gives employers no false reassurance.\n\n3. WHY D IS CORRECT\nPublic risk. Notify the right body.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Only the employer is told: Only the licensing authority decides fitness.\nB. A family promise is enough: A promise is not a safeguard.\nC. A school bus and refused stand-down can be ignored: Public risk cannot be ignored.\nE. He can keep the route: He should not drive while unfit.\n\n5. KEY TAKEAWAY\nA patient medically unfit to drive is told so, including any stand-down period; the doctor may notify the licensing authority about fitness when they keep driving unsafely, and gives employers no false reassurance.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A school-bus driver has recurrent syncope and refuses to stand down from driving. His employer asks you to confirm he is fit.",
       "best_treatment": "Notify the licensing authority about fitness",
       "incorrect_answer_explanations": {
-        "A": "Public risk cannot be ignored.",
-        "C": "Only the licensing authority decides fitness.",
-        "D": "A promise is not a safeguard.",
+        "A": "Only the licensing authority decides fitness.",
+        "B": "A promise is not a safeguard.",
+        "C": "Public risk cannot be ignored.",
         "E": "He should not drive while unfit."
       },
       "key_takeaways": [
-        "Fitness-to-drive concerns are reported to the licensing authority about fitness only, with the patient informed, rather than reassuring an employer.",
+        "A patient medically unfit to drive is told so, including any stand-down period; the doctor may notify the licensing authority about fitness when they keep driving unsafely, and gives employers no false reassurance.",
         "Public risk."
       ],
       "subtopic": "A death certificate records the disease that caused death. It is not a place for speculation or a mechanism.",
@@ -1283,10 +1283,10 @@
       "zyntra_id": "ZQ-0719",
       "phase": "PH-06",
       "phase_item_id": "PH-M-30",
-      "lo_id": "f3c1d3e2-5e86-5ef5-8fdd-dfe63c04a9fa",
-      "lo_code": "FITNESS_TO_DRIVE",
-      "lo_key": "FITNESS_TO_DRIVE",
-      "lo_title": "Fitness-to-drive concerns are reported to the licensing authority about fitness only, with the patient informed, rather than reassuring an employer.",
+      "lo_id": "8788b94b-e588-592a-87d3-e79e3a986ace",
+      "lo_code": "IMPAIRED_DRIVER",
+      "lo_key": "IMPAIRED_DRIVER",
+      "lo_title": "A patient medically unfit to drive is told so, including any stand-down period; the doctor may notify the licensing authority about fitness when they keep driving unsafely, and gives employers no false reassurance.",
       "lo_role": "variant",
       "shared_lo": true,
       "irt_b": -0.1,
@@ -1298,23 +1298,23 @@
     {
       "question_text": "Police ask for blood alcohol after a crash. He refuses. What is the most appropriate next step?",
       "options": [
-        "Do not take the sample. Refusal stands unless a lawful power is engaged",
         "Take blood because police asked",
-        "A crash is automatic authority",
+        "A verbal ask is enough",
+        "Do not take the sample. Refusal stands unless a lawful power is engaged",
         "Relabel a clinical sample",
-        "A verbal ask is enough"
+        "A crash is automatic authority"
       ],
-      "correct_answer": "A",
+      "correct_answer": "C",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. Do not take the sample. Refusal stands unless a lawful power is engaged\n\n---\n\n1. CLINICAL SITUATION\nPolice ask for blood alcohol after a crash. He refuses.\n\n2. THE RULE\nBlood samples for police require the patient's consent or a specific lawful power; a verbal police request is not enough.\n\n3. WHY A IS CORRECT\nRefusal stands without a lawful power.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Take blood because police asked: A police request alone is not authority.\nC. A crash is automatic authority: A crash does not create authority; a specific statutory power is needed.\nD. Relabel a clinical sample: Relabelling a sample is deception.\nE. A verbal ask is enough: A verbal ask is insufficient.\n\n5. KEY TAKEAWAY\nBlood samples for police require the patient's consent or a specific lawful power; a verbal police request is not enough.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nC. Do not take the sample. Refusal stands unless a lawful power is engaged\n\n---\n\n1. CLINICAL SITUATION\nPolice ask for blood alcohol after a crash. He refuses.\n\n2. THE RULE\nBlood samples for police require the patient's consent or a specific lawful power; a verbal police request is not enough.\n\n3. WHY C IS CORRECT\nRefusal stands without a lawful power.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Take blood because police asked: A police request alone is not authority.\nB. A verbal ask is enough: A verbal ask is insufficient.\nD. Relabel a clinical sample: Relabelling a sample is deception.\nE. A crash is automatic authority: A crash does not create authority; a specific statutory power is needed.\n\n5. KEY TAKEAWAY\nBlood samples for police require the patient's consent or a specific lawful power; a verbal police request is not enough.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Police ask for blood alcohol after a crash. He refuses.",
       "best_treatment": "Do not take the sample. Refusal stands unless a lawful power is engaged",
       "incorrect_answer_explanations": {
-        "B": "A police request alone is not authority.",
-        "C": "A crash does not create authority; a specific statutory power is needed.",
+        "A": "A police request alone is not authority.",
+        "B": "A verbal ask is insufficient.",
         "D": "Relabelling a sample is deception.",
-        "E": "A verbal ask is insufficient."
+        "E": "A crash does not create authority; a specific statutory power is needed."
       },
       "key_takeaways": [
         "Blood samples for police require the patient's consent or a specific lawful power; a verbal police request is not enough.",
@@ -1341,21 +1341,21 @@
     {
       "question_text": "After a car crash, police ask the emergency doctor to take a blood alcohol sample from a conscious driver who refuses. The nurse says the department always does this when police ask. Which of the following is most accurate?",
       "options": [
+        "Any doctor can take forensic blood on request",
         "Clinical care lets you take forensic blood without authority",
         "A police request needs lawful authority",
-        "Any doctor can take forensic blood on request",
         "Refusal is irrelevant",
         "Document and take it anyway"
       ],
-      "correct_answer": "B",
+      "correct_answer": "C",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. A police request needs lawful authority\n\n---\n\n1. CLINICAL SITUATION\nAfter a car crash, police ask the emergency doctor to take a blood alcohol sample from a conscious driver who refuses. The nurse says the department always does this when police ask.\n\n2. THE RULE\nBlood samples for police require the patient's consent or a specific lawful power; a verbal police request is not enough.\n\n3. WHY B IS CORRECT\nLawful authority or no forensic sample.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Clinical care lets you take forensic blood without authority: Forensic sampling needs consent or lawful authority.\nC. Any doctor can take forensic blood on request: A request does not authorise a doctor to take a forensic sample.\nD. Refusal is irrelevant: A capacious refusal is central.\nE. Document and take it anyway: Taking blood against a refusal is assault.\n\n5. KEY TAKEAWAY\nBlood samples for police require the patient's consent or a specific lawful power; a verbal police request is not enough.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nC. A police request needs lawful authority\n\n---\n\n1. CLINICAL SITUATION\nAfter a car crash, police ask the emergency doctor to take a blood alcohol sample from a conscious driver who refuses. The nurse says the department always does this when police ask.\n\n2. THE RULE\nBlood samples for police require the patient's consent or a specific lawful power; a verbal police request is not enough.\n\n3. WHY C IS CORRECT\nLawful authority or no forensic sample.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Any doctor can take forensic blood on request: A request does not authorise a doctor to take a forensic sample.\nB. Clinical care lets you take forensic blood without authority: Forensic sampling needs consent or lawful authority.\nD. Refusal is irrelevant: A capacious refusal is central.\nE. Document and take it anyway: Taking blood against a refusal is assault.\n\n5. KEY TAKEAWAY\nBlood samples for police require the patient's consent or a specific lawful power; a verbal police request is not enough.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "After a car crash, police ask the emergency doctor to take a blood alcohol sample from a conscious driver who refuses. The nurse says the department always does this when police ask.",
       "best_treatment": "A police request needs lawful authority",
       "incorrect_answer_explanations": {
-        "A": "Forensic sampling needs consent or lawful authority.",
-        "C": "A request does not authorise a doctor to take a forensic sample.",
+        "A": "A request does not authorise a doctor to take a forensic sample.",
+        "B": "Forensic sampling needs consent or lawful authority.",
         "D": "A capacious refusal is central.",
         "E": "Taking blood against a refusal is assault."
       },
@@ -1384,23 +1384,23 @@
     {
       "question_text": "Police ask you to take a blood alcohol sample from a crash patient. He is conscious, has capacity, and refuses. What is the most appropriate next step?",
       "options": [
-        "Take it and call it a clinical test",
-        "Do not disguise a forensic sample as clinical care",
         "The crash injures him so consent is irrelevant for alcohol",
+        "Take it and call it a clinical test",
+        "Police consent for him",
         "A colleague can take it if you refuse",
-        "Police consent for him"
+        "Do not disguise a forensic sample as clinical care"
       ],
-      "correct_answer": "B",
+      "correct_answer": "E",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. Do not disguise a forensic sample as clinical care\n\n---\n\n1. CLINICAL SITUATION\nPolice ask you to take a blood alcohol sample from a crash patient. He is conscious, has capacity, and refuses.\n\n2. THE RULE\nBlood samples for police require the patient's consent or a specific lawful power; a verbal police request is not enough.\n\n3. WHY B IS CORRECT\nDo not disguise the purpose.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Take it and call it a clinical test: Disguising a forensic sample as clinical is deceptive.\nC. The crash injures him so consent is irrelevant for alcohol: Injury does not remove consent.\nD. A colleague can take it if you refuse: Another doctor is equally bound.\nE. Police consent for him: Police cannot consent for him.\n\n5. KEY TAKEAWAY\nBlood samples for police require the patient's consent or a specific lawful power; a verbal police request is not enough.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nE. Do not disguise a forensic sample as clinical care\n\n---\n\n1. CLINICAL SITUATION\nPolice ask you to take a blood alcohol sample from a crash patient. He is conscious, has capacity, and refuses.\n\n2. THE RULE\nBlood samples for police require the patient's consent or a specific lawful power; a verbal police request is not enough.\n\n3. WHY E IS CORRECT\nDo not disguise the purpose.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. The crash injures him so consent is irrelevant for alcohol: Injury does not remove consent.\nB. Take it and call it a clinical test: Disguising a forensic sample as clinical is deceptive.\nC. Police consent for him: Police cannot consent for him.\nD. A colleague can take it if you refuse: Another doctor is equally bound.\n\n5. KEY TAKEAWAY\nBlood samples for police require the patient's consent or a specific lawful power; a verbal police request is not enough.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Police ask you to take a blood alcohol sample from a crash patient. He is conscious, has capacity, and refuses.",
       "best_treatment": "Do not disguise a forensic sample as clinical care",
       "incorrect_answer_explanations": {
-        "A": "Disguising a forensic sample as clinical is deceptive.",
-        "C": "Injury does not remove consent.",
-        "D": "Another doctor is equally bound.",
-        "E": "Police cannot consent for him."
+        "A": "Injury does not remove consent.",
+        "B": "Disguising a forensic sample as clinical is deceptive.",
+        "C": "Police cannot consent for him.",
+        "D": "Another doctor is equally bound."
       },
       "key_takeaways": [
         "Blood samples for police require the patient's consent or a specific lawful power; a verbal police request is not enough.",
@@ -1427,26 +1427,26 @@
     {
       "question_text": "A 2-year-old has bruises and a fracture that you suspect are inflicted. When you mention reporting, the mother threatens to sue you. What is the most appropriate next step?",
       "options": [
+        "A lawyer must approve first",
+        "Only report with the mother's consent",
         "Make the report. A threat of suit does not delay it",
         "Wait because she will sue",
-        "Only report with the mother's consent",
-        "A lawyer must approve first",
         "Document and do nothing"
       ],
-      "correct_answer": "A",
+      "correct_answer": "C",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. Make the report. A threat of suit does not delay it\n\n---\n\n1. CLINICAL SITUATION\nA 2-year-old has bruises and a fracture that you suspect are inflicted. When you mention reporting, the mother threatens to sue you.\n\n2. THE RULE\nChild-protection reporting is a statutory duty made promptly in good faith, unaffected by threats of legal action or family objection.\n\n3. WHY A IS CORRECT\nReport. Do not delay for a threat.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Wait because she will sue: A threat of suit does not delay a report.\nC. Only report with the mother's consent: Consent is not required.\nD. A lawyer must approve first: No lawyer approval is needed.\nE. Document and do nothing: Documentation without a report fails the duty.\n\n5. KEY TAKEAWAY\nChild-protection reporting is a statutory duty made promptly in good faith, unaffected by threats of legal action or family objection.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nC. Make the report. A threat of suit does not delay it\n\n---\n\n1. CLINICAL SITUATION\nA 2-year-old has bruises and a fracture that you suspect are inflicted. When you mention reporting, the mother threatens to sue you.\n\n2. THE RULE\nSuspected child abuse is reported promptly as a statutory duty; a child's request for secrecy, family objection or a threat of legal action does not stop it, and good-faith reports are protected.\n\n3. WHY C IS CORRECT\nReport. Do not delay for a threat.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. A lawyer must approve first: No lawyer approval is needed.\nB. Only report with the mother's consent: Consent is not required.\nD. Wait because she will sue: A threat of suit does not delay a report.\nE. Document and do nothing: Documentation without a report fails the duty.\n\n5. KEY TAKEAWAY\nSuspected child abuse is reported promptly as a statutory duty; a child's request for secrecy, family objection or a threat of legal action does not stop it, and good-faith reports are protected.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A 2-year-old has bruises and a fracture that you suspect are inflicted. When you mention reporting, the mother threatens to sue you.",
       "best_treatment": "Make the report. A threat of suit does not delay it",
       "incorrect_answer_explanations": {
-        "B": "A threat of suit does not delay a report.",
-        "C": "Consent is not required.",
-        "D": "No lawyer approval is needed.",
+        "A": "No lawyer approval is needed.",
+        "B": "Consent is not required.",
+        "D": "A threat of suit does not delay a report.",
         "E": "Documentation without a report fails the duty."
       },
       "key_takeaways": [
-        "Child-protection reporting is a statutory duty made promptly in good faith, unaffected by threats of legal action or family objection.",
+        "Suspected child abuse is reported promptly as a statutory duty; a child's request for secrecy, family objection or a threat of legal action does not stop it, and good-faith reports are protected.",
         "Report."
       ],
       "subtopic": "A death certificate records the disease that caused death. It is not a place for speculation or a mechanism.",
@@ -1455,10 +1455,10 @@
       "zyntra_id": "ZQ-0723",
       "phase": "PH-06",
       "phase_item_id": "PH-M-34",
-      "lo_id": "48d269de-7193-5768-95ae-648c45065906",
-      "lo_code": "CHILD_PROTECTION_REPORT",
-      "lo_key": "CHILD_PROTECTION_REPORT",
-      "lo_title": "Child-protection reporting is a statutory duty made promptly in good faith, unaffected by threats of legal action or family objection.",
+      "lo_id": "a480702b-c8b3-5985-ac19-9961ebb72512",
+      "lo_code": "MANDATORY_CHILD_REPORT",
+      "lo_key": "MANDATORY_CHILD_REPORT",
+      "lo_title": "Suspected child abuse is reported promptly as a statutory duty; a child's request for secrecy, family objection or a threat of legal action does not stop it, and good-faith reports are protected.",
       "lo_role": "edge",
       "shared_lo": true,
       "irt_b": 0.0,
@@ -1470,26 +1470,26 @@
     {
       "question_text": "A child has a spiral fracture, and the history of how it happened changes twice during the consultation. What is the most appropriate next step?",
       "options": [
-        "A changing history is a reason to wait",
-        "Report the concern now",
         "Only fractures of the skull are reported",
+        "Report the concern now",
         "School will report",
+        "A changing history is a reason to wait",
         "Observe for a month"
       ],
       "correct_answer": "B",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. Report the concern now\n\n---\n\n1. CLINICAL SITUATION\nA child has a spiral fracture, and the history of how it happened changes twice during the consultation.\n\n2. THE RULE\nChild-protection reporting is a statutory duty made promptly in good faith, unaffected by threats of legal action or family objection.\n\n3. WHY B IS CORRECT\nSuspicious injury. Report.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. A changing history is a reason to wait: Inconsistency raises suspicion and calls for a report.\nC. Only fractures of the skull are reported: Any suspicious injury can be reported.\nD. School will report: The doctor has the duty.\nE. Observe for a month: Waiting risks further harm.\n\n5. KEY TAKEAWAY\nChild-protection reporting is a statutory duty made promptly in good faith, unaffected by threats of legal action or family objection.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nB. Report the concern now\n\n---\n\n1. CLINICAL SITUATION\nA child has a spiral fracture, and the history of how it happened changes twice during the consultation.\n\n2. THE RULE\nSuspected child abuse is reported promptly as a statutory duty; a child's request for secrecy, family objection or a threat of legal action does not stop it, and good-faith reports are protected.\n\n3. WHY B IS CORRECT\nSuspicious injury. Report.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Only fractures of the skull are reported: Any suspicious injury can be reported.\nC. School will report: The doctor has the duty.\nD. A changing history is a reason to wait: Inconsistency raises suspicion and calls for a report.\nE. Observe for a month: Waiting risks further harm.\n\n5. KEY TAKEAWAY\nSuspected child abuse is reported promptly as a statutory duty; a child's request for secrecy, family objection or a threat of legal action does not stop it, and good-faith reports are protected.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A child has a spiral fracture, and the history of how it happened changes twice during the consultation.",
       "best_treatment": "Report the concern now",
       "incorrect_answer_explanations": {
-        "A": "Inconsistency raises suspicion and calls for a report.",
-        "C": "Any suspicious injury can be reported.",
-        "D": "The doctor has the duty.",
+        "A": "Any suspicious injury can be reported.",
+        "C": "The doctor has the duty.",
+        "D": "Inconsistency raises suspicion and calls for a report.",
         "E": "Waiting risks further harm."
       },
       "key_takeaways": [
-        "Child-protection reporting is a statutory duty made promptly in good faith, unaffected by threats of legal action or family objection.",
+        "Suspected child abuse is reported promptly as a statutory duty; a child's request for secrecy, family objection or a threat of legal action does not stop it, and good-faith reports are protected.",
         "Suspicious injury."
       ],
       "subtopic": "A death certificate records the disease that caused death. It is not a place for speculation or a mechanism.",
@@ -1498,10 +1498,10 @@
       "zyntra_id": "ZQ-0724",
       "phase": "PH-06",
       "phase_item_id": "PH-M-35",
-      "lo_id": "48d269de-7193-5768-95ae-648c45065906",
-      "lo_code": "CHILD_PROTECTION_REPORT",
-      "lo_key": "CHILD_PROTECTION_REPORT",
-      "lo_title": "Child-protection reporting is a statutory duty made promptly in good faith, unaffected by threats of legal action or family objection.",
+      "lo_id": "a480702b-c8b3-5985-ac19-9961ebb72512",
+      "lo_code": "MANDATORY_CHILD_REPORT",
+      "lo_key": "MANDATORY_CHILD_REPORT",
+      "lo_title": "Suspected child abuse is reported promptly as a statutory duty; a child's request for secrecy, family objection or a threat of legal action does not stop it, and good-faith reports are protected.",
       "lo_role": "variant",
       "shared_lo": true,
       "irt_b": 0.05,
@@ -1513,26 +1513,26 @@
     {
       "question_text": "He asks you to promise silence. There are bruises of different ages. What is the most appropriate next step?",
       "options": [
-        "Promise the child secrecy",
         "Explain you cannot keep the secret, protect him, and report",
-        "Tell the alleged abuser first",
+        "Wait for a second beating",
         "A promise overrides the duty",
-        "Wait for a second beating"
+        "Promise the child secrecy",
+        "Tell the alleged abuser first"
       ],
-      "correct_answer": "B",
+      "correct_answer": "A",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. Explain you cannot keep the secret, protect him, and report\n\n---\n\n1. CLINICAL SITUATION\nHe asks you to promise silence. There are bruises of different ages.\n\n2. THE RULE\nChild-protection reporting is a statutory duty made promptly in good faith, unaffected by threats of legal action or family objection.\n\n3. WHY B IS CORRECT\nMandatory reporting overrides a promise of secrecy.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Promise the child secrecy: Secrecy cannot be promised.\nC. Tell the alleged abuser first: Telling the abuser risks the child.\nD. A promise overrides the duty: No promise overrides the statutory duty.\nE. Wait for a second beating: Waiting endangers the child.\n\n5. KEY TAKEAWAY\nChild-protection reporting is a statutory duty made promptly in good faith, unaffected by threats of legal action or family objection.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nA. Explain you cannot keep the secret, protect him, and report\n\n---\n\n1. CLINICAL SITUATION\nHe asks you to promise silence. There are bruises of different ages.\n\n2. THE RULE\nSuspected child abuse is reported promptly as a statutory duty; a child's request for secrecy, family objection or a threat of legal action does not stop it, and good-faith reports are protected.\n\n3. WHY A IS CORRECT\nMandatory reporting overrides a promise of secrecy.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Wait for a second beating: Waiting endangers the child.\nC. A promise overrides the duty: No promise overrides the statutory duty.\nD. Promise the child secrecy: Secrecy cannot be promised.\nE. Tell the alleged abuser first: Telling the abuser risks the child.\n\n5. KEY TAKEAWAY\nSuspected child abuse is reported promptly as a statutory duty; a child's request for secrecy, family objection or a threat of legal action does not stop it, and good-faith reports are protected.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "He asks you to promise silence. There are bruises of different ages.",
       "best_treatment": "Explain you cannot keep the secret, protect him, and report",
       "incorrect_answer_explanations": {
-        "A": "Secrecy cannot be promised.",
-        "C": "Telling the abuser risks the child.",
-        "D": "No promise overrides the statutory duty.",
-        "E": "Waiting endangers the child."
+        "B": "Waiting endangers the child.",
+        "C": "No promise overrides the statutory duty.",
+        "D": "Secrecy cannot be promised.",
+        "E": "Telling the abuser risks the child."
       },
       "key_takeaways": [
-        "Child-protection reporting is a statutory duty made promptly in good faith, unaffected by threats of legal action or family objection.",
+        "Suspected child abuse is reported promptly as a statutory duty; a child's request for secrecy, family objection or a threat of legal action does not stop it, and good-faith reports are protected.",
         "Mandatory reporting overrides a promise of secrecy."
       ],
       "subtopic": "A death certificate records the disease that caused death. It is not a place for speculation or a mechanism.",
@@ -1541,10 +1541,10 @@
       "zyntra_id": "ZQ-0725",
       "phase": "PH-06",
       "phase_item_id": "PH-M-36",
-      "lo_id": "48d269de-7193-5768-95ae-648c45065906",
-      "lo_code": "CHILD_PROTECTION_REPORT",
-      "lo_key": "CHILD_PROTECTION_REPORT",
-      "lo_title": "Child-protection reporting is a statutory duty made promptly in good faith, unaffected by threats of legal action or family objection.",
+      "lo_id": "a480702b-c8b3-5985-ac19-9961ebb72512",
+      "lo_code": "MANDATORY_CHILD_REPORT",
+      "lo_key": "MANDATORY_CHILD_REPORT",
+      "lo_title": "Suspected child abuse is reported promptly as a statutory duty; a child's request for secrecy, family objection or a threat of legal action does not stop it, and good-faith reports are protected.",
       "lo_role": "trap",
       "shared_lo": true,
       "irt_b": 0.0,
@@ -1556,23 +1556,23 @@
     {
       "question_text": "You are asked to sign a cremation form for a patient you never met, who died the day after a cholecystectomy. What is the most appropriate next step?",
       "options": [
-        "Do not sign. You have no basis, and the perioperative death may be reportable",
         "Sign because the family are waiting",
+        "Any doctor can sign",
         "Write not known to me and sign",
-        "The surgeon being away is a reason to sign",
-        "Any doctor can sign"
+        "Do not sign. You have no basis, and the perioperative death may be reportable",
+        "The surgeon being away is a reason to sign"
       ],
-      "correct_answer": "A",
+      "correct_answer": "D",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. Do not sign. You have no basis, and the perioperative death may be reportable\n\n---\n\n1. CLINICAL SITUATION\nYou are asked to sign a cremation form for a patient you never met, who died the day after a cholecystectomy.\n\n2. THE RULE\nA cremation certificate is signed only when the doctor has a basis to exclude an unnatural or reportable death, never as a rubber stamp.\n\n3. WHY A IS CORRECT\nNo basis. Possible reportable death. Decline.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Sign because the family are waiting: Family waiting does not create a basis to sign.\nC. Write not known to me and sign: Writing \"not known to me\" does not supply a basis.\nD. The surgeon being away is a reason to sign: The surgeon's absence is not a reason to sign.\nE. Any doctor can sign: The signer must have knowledge.\n\n5. KEY TAKEAWAY\nA cremation certificate is signed only when the doctor has a basis to exclude an unnatural or reportable death, never as a rubber stamp.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nD. Do not sign. You have no basis, and the perioperative death may be reportable\n\n---\n\n1. CLINICAL SITUATION\nYou are asked to sign a cremation form for a patient you never met, who died the day after a cholecystectomy.\n\n2. THE RULE\nA cremation certificate is signed only when the doctor has a basis to exclude an unnatural or reportable death, never as a rubber stamp.\n\n3. WHY D IS CORRECT\nNo basis. Possible reportable death. Decline.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Sign because the family are waiting: Family waiting does not create a basis to sign.\nB. Any doctor can sign: The signer must have knowledge.\nC. Write not known to me and sign: Writing \"not known to me\" does not supply a basis.\nE. The surgeon being away is a reason to sign: The surgeon's absence is not a reason to sign.\n\n5. KEY TAKEAWAY\nA cremation certificate is signed only when the doctor has a basis to exclude an unnatural or reportable death, never as a rubber stamp.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "You are asked to sign a cremation form for a patient you never met, who died the day after a cholecystectomy.",
       "best_treatment": "Do not sign. You have no basis, and the perioperative death may be reportable",
       "incorrect_answer_explanations": {
-        "B": "Family waiting does not create a basis to sign.",
+        "A": "Family waiting does not create a basis to sign.",
+        "B": "The signer must have knowledge.",
         "C": "Writing \"not known to me\" does not supply a basis.",
-        "D": "The surgeon's absence is not a reason to sign.",
-        "E": "The signer must have knowledge."
+        "E": "The surgeon's absence is not a reason to sign."
       },
       "key_takeaways": [
         "A cremation certificate is signed only when the doctor has a basis to exclude an unnatural or reportable death, never as a rubber stamp.",
@@ -1599,23 +1599,23 @@
     {
       "question_text": "A family asks you to sign a cremation certificate for a patient who died after an operation. The surgeon is away, and you never met the patient. What is the most appropriate next step?",
       "options": [
-        "Sign to help the family",
-        "Decline. A cremation form is not a rubber stamp",
+        "Speed matters more than basis",
         "Not known to me is enough",
-        "Perioperative death is always natural",
-        "Speed matters more than basis"
+        "Decline. A cremation form is not a rubber stamp",
+        "Sign to help the family",
+        "Perioperative death is always natural"
       ],
-      "correct_answer": "B",
+      "correct_answer": "C",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. Decline. A cremation form is not a rubber stamp\n\n---\n\n1. CLINICAL SITUATION\nA family asks you to sign a cremation certificate for a patient who died after an operation. The surgeon is away, and you never met the patient.\n\n2. THE RULE\nA cremation certificate is signed only when the doctor has a basis to exclude an unnatural or reportable death, never as a rubber stamp.\n\n3. WHY B IS CORRECT\nDo not rubber-stamp a cremation form.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Sign to help the family: Help to the family does not justify signing without basis.\nC. Not known to me is enough: That is no basis.\nD. Perioperative death is always natural: Perioperative deaths may be reportable.\nE. Speed matters more than basis: Basis matters more than speed.\n\n5. KEY TAKEAWAY\nA cremation certificate is signed only when the doctor has a basis to exclude an unnatural or reportable death, never as a rubber stamp.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nC. Decline. A cremation form is not a rubber stamp\n\n---\n\n1. CLINICAL SITUATION\nA family asks you to sign a cremation certificate for a patient who died after an operation. The surgeon is away, and you never met the patient.\n\n2. THE RULE\nA cremation certificate is signed only when the doctor has a basis to exclude an unnatural or reportable death, never as a rubber stamp.\n\n3. WHY C IS CORRECT\nDo not rubber-stamp a cremation form.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Speed matters more than basis: Basis matters more than speed.\nB. Not known to me is enough: That is no basis.\nD. Sign to help the family: Help to the family does not justify signing without basis.\nE. Perioperative death is always natural: Perioperative deaths may be reportable.\n\n5. KEY TAKEAWAY\nA cremation certificate is signed only when the doctor has a basis to exclude an unnatural or reportable death, never as a rubber stamp.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A family asks you to sign a cremation certificate for a patient who died after an operation. The surgeon is away, and you never met the patient.",
       "best_treatment": "Decline. A cremation form is not a rubber stamp",
       "incorrect_answer_explanations": {
-        "A": "Help to the family does not justify signing without basis.",
-        "C": "That is no basis.",
-        "D": "Perioperative deaths may be reportable.",
-        "E": "Basis matters more than speed."
+        "A": "Basis matters more than speed.",
+        "B": "That is no basis.",
+        "D": "Help to the family does not justify signing without basis.",
+        "E": "Perioperative deaths may be reportable."
       },
       "key_takeaways": [
         "A cremation certificate is signed only when the doctor has a basis to exclude an unnatural or reportable death, never as a rubber stamp.",
@@ -1642,23 +1642,23 @@
     {
       "question_text": "A family pushes you to sign a cremation certificate quickly. The patient died after an operation and was unknown to you. Which of the following is most accurate?",
       "options": [
-        "Add a sentence and sign",
+        "Ignore the recent operation",
         "You have not seen him and cannot certify the absence of a reason to report",
-        "Family pressure is a reason",
+        "Add a sentence and sign",
         "Any hospital doctor signs",
-        "Ignore the recent operation"
+        "Family pressure is a reason"
       ],
       "correct_answer": "B",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. You have not seen him and cannot certify the absence of a reason to report\n\n---\n\n1. CLINICAL SITUATION\nA family pushes you to sign a cremation certificate quickly. The patient died after an operation and was unknown to you.\n\n2. THE RULE\nA cremation certificate is signed only when the doctor has a basis to exclude an unnatural or reportable death, never as a rubber stamp.\n\n3. WHY B IS CORRECT\nUnknown patient, recent procedure. Do not sign.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Add a sentence and sign: Adding text does not create a basis.\nC. Family pressure is a reason: Family pressure is no reason to sign.\nD. Any hospital doctor signs: Only a doctor with a basis may sign.\nE. Ignore the recent operation: A recent operation raises a possible reportable death.\n\n5. KEY TAKEAWAY\nA cremation certificate is signed only when the doctor has a basis to exclude an unnatural or reportable death, never as a rubber stamp.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nB. You have not seen him and cannot certify the absence of a reason to report\n\n---\n\n1. CLINICAL SITUATION\nA family pushes you to sign a cremation certificate quickly. The patient died after an operation and was unknown to you.\n\n2. THE RULE\nA cremation certificate is signed only when the doctor has a basis to exclude an unnatural or reportable death, never as a rubber stamp.\n\n3. WHY B IS CORRECT\nUnknown patient, recent procedure. Do not sign.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Ignore the recent operation: A recent operation raises a possible reportable death.\nC. Add a sentence and sign: Adding text does not create a basis.\nD. Any hospital doctor signs: Only a doctor with a basis may sign.\nE. Family pressure is a reason: Family pressure is no reason to sign.\n\n5. KEY TAKEAWAY\nA cremation certificate is signed only when the doctor has a basis to exclude an unnatural or reportable death, never as a rubber stamp.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A family pushes you to sign a cremation certificate quickly. The patient died after an operation and was unknown to you.",
       "best_treatment": "You have not seen him and cannot certify the absence of a reason to report",
       "incorrect_answer_explanations": {
-        "A": "Adding text does not create a basis.",
-        "C": "Family pressure is no reason to sign.",
+        "A": "A recent operation raises a possible reportable death.",
+        "C": "Adding text does not create a basis.",
         "D": "Only a doctor with a basis may sign.",
-        "E": "A recent operation raises a possible reportable death."
+        "E": "Family pressure is no reason to sign."
       },
       "key_takeaways": [
         "A cremation certificate is signed only when the doctor has a basis to exclude an unnatural or reportable death, never as a rubber stamp.",
@@ -1685,23 +1685,23 @@
     {
       "question_text": "Police want you to say he was the aggressor. You saw a laceration and smelled alcohol. You did not see the fight. What is the most appropriate next step?",
       "options": [
-        "Describe the wound, the alcohol smell, and what he told you. Do not assign guilt",
-        "Write that he was the aggressor",
-        "Adopt the police theory",
         "Omit what you saw",
-        "Speculate on the fight you did not see"
+        "Speculate on the fight you did not see",
+        "Write that he was the aggressor",
+        "Describe the wound, the alcohol smell, and what he told you. Do not assign guilt",
+        "Adopt the police theory"
       ],
-      "correct_answer": "A",
+      "correct_answer": "D",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. Describe the wound, the alcohol smell, and what he told you. Do not assign guilt\n\n---\n\n1. CLINICAL SITUATION\nPolice want you to say he was the aggressor. You saw a laceration and smelled alcohol. You did not see the fight.\n\n2. THE RULE\nA police statement records only what the doctor observed, did and was told, without opinions on guilt.\n\n3. WHY A IS CORRECT\nReport what you saw. Do not speculate on guilt.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Write that he was the aggressor: You did not see the fight.\nC. Adopt the police theory: Adopting a theory is not your role.\nD. Omit what you saw: Findings belong in the statement.\nE. Speculate on the fight you did not see: Speculation is not evidence.\n\n5. KEY TAKEAWAY\nA police statement records only what the doctor observed, did and was told, without opinions on guilt.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nD. Describe the wound, the alcohol smell, and what he told you. Do not assign guilt\n\n---\n\n1. CLINICAL SITUATION\nPolice want you to say he was the aggressor. You saw a laceration and smelled alcohol. You did not see the fight.\n\n2. THE RULE\nA police statement records only what the doctor observed, did and was told, without opinions on guilt.\n\n3. WHY D IS CORRECT\nReport what you saw. Do not speculate on guilt.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Omit what you saw: Findings belong in the statement.\nB. Speculate on the fight you did not see: Speculation is not evidence.\nC. Write that he was the aggressor: You did not see the fight.\nE. Adopt the police theory: Adopting a theory is not your role.\n\n5. KEY TAKEAWAY\nA police statement records only what the doctor observed, did and was told, without opinions on guilt.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Police want you to say he was the aggressor. You saw a laceration and smelled alcohol. You did not see the fight.",
       "best_treatment": "Describe the wound, the alcohol smell, and what he told you. Do not assign guilt",
       "incorrect_answer_explanations": {
-        "B": "You did not see the fight.",
-        "C": "Adopting a theory is not your role.",
-        "D": "Findings belong in the statement.",
-        "E": "Speculation is not evidence."
+        "A": "Findings belong in the statement.",
+        "B": "Speculation is not evidence.",
+        "C": "You did not see the fight.",
+        "E": "Adopting a theory is not your role."
       },
       "key_takeaways": [
         "A police statement records only what the doctor observed, did and was told, without opinions on guilt.",
@@ -1729,22 +1729,22 @@
       "question_text": "You treated a man after a pub fight. Police ask for a statement and want you to say he started the fight. You noted a smell of alcohol and a scalp laceration. Which of the following is most accurate?",
       "options": [
         "Alcohol proves guilt",
+        "You must pick a side",
         "Alcohol is a finding, not proof of who started the fight",
-        "Write the conclusion they want",
         "A statement can include guesses",
-        "You must pick a side"
+        "Write the conclusion they want"
       ],
-      "correct_answer": "B",
+      "correct_answer": "C",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. Alcohol is a finding, not proof of who started the fight\n\n---\n\n1. CLINICAL SITUATION\nYou treated a man after a pub fight. Police ask for a statement and want you to say he started the fight. You noted a smell of alcohol and a scalp laceration.\n\n2. THE RULE\nA police statement records only what the doctor observed, did and was told, without opinions on guilt.\n\n3. WHY B IS CORRECT\nFindings, not a verdict.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Alcohol proves guilt: Alcohol does not prove guilt.\nC. Write the conclusion they want: Statements record facts, not conclusions.\nD. A statement can include guesses: Guesses do not belong in a statement.\nE. You must pick a side: Doctors are neutral witnesses.\n\n5. KEY TAKEAWAY\nA police statement records only what the doctor observed, did and was told, without opinions on guilt.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nC. Alcohol is a finding, not proof of who started the fight\n\n---\n\n1. CLINICAL SITUATION\nYou treated a man after a pub fight. Police ask for a statement and want you to say he started the fight. You noted a smell of alcohol and a scalp laceration.\n\n2. THE RULE\nA police statement records only what the doctor observed, did and was told, without opinions on guilt.\n\n3. WHY C IS CORRECT\nFindings, not a verdict.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Alcohol proves guilt: Alcohol does not prove guilt.\nB. You must pick a side: Doctors are neutral witnesses.\nD. A statement can include guesses: Guesses do not belong in a statement.\nE. Write the conclusion they want: Statements record facts, not conclusions.\n\n5. KEY TAKEAWAY\nA police statement records only what the doctor observed, did and was told, without opinions on guilt.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "You treated a man after a pub fight. Police ask for a statement and want you to say he started the fight. You noted a smell of alcohol and a scalp laceration.",
       "best_treatment": "Alcohol is a finding, not proof of who started the fight",
       "incorrect_answer_explanations": {
         "A": "Alcohol does not prove guilt.",
-        "C": "Statements record facts, not conclusions.",
+        "B": "Doctors are neutral witnesses.",
         "D": "Guesses do not belong in a statement.",
-        "E": "Doctors are neutral witnesses."
+        "E": "Statements record facts, not conclusions."
       },
       "key_takeaways": [
         "A police statement records only what the doctor observed, did and was told, without opinions on guilt.",
@@ -1771,23 +1771,23 @@
     {
       "question_text": "Police ask for a statement about a man you treated after an assault. You did not see the assault, and their draft fills in what probably happened. What is the most appropriate next step?",
       "options": [
-        "Fill the gaps with what probably happened",
         "Limit the statement to examination and quoted history",
-        "The police narrative is your narrative",
+        "Fill the gaps with what probably happened",
+        "Sign their draft unchanged",
         "Omit uncertainty",
-        "Sign their draft unchanged"
+        "The police narrative is your narrative"
       ],
-      "correct_answer": "B",
+      "correct_answer": "A",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. Limit the statement to examination and quoted history\n\n---\n\n1. CLINICAL SITUATION\nPolice ask for a statement about a man you treated after an assault. You did not see the assault, and their draft fills in what probably happened.\n\n2. THE RULE\nA police statement records only what the doctor observed, did and was told, without opinions on guilt.\n\n3. WHY B IS CORRECT\nNo speculation.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Fill the gaps with what probably happened: Filling gaps is speculation.\nC. The police narrative is your narrative: Your statement is your own observations.\nD. Omit uncertainty: Uncertainty must be stated.\nE. Sign their draft unchanged: Do not sign a draft that misstates your evidence.\n\n5. KEY TAKEAWAY\nA police statement records only what the doctor observed, did and was told, without opinions on guilt.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nA. Limit the statement to examination and quoted history\n\n---\n\n1. CLINICAL SITUATION\nPolice ask for a statement about a man you treated after an assault. You did not see the assault, and their draft fills in what probably happened.\n\n2. THE RULE\nA police statement records only what the doctor observed, did and was told, without opinions on guilt.\n\n3. WHY A IS CORRECT\nNo speculation.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Fill the gaps with what probably happened: Filling gaps is speculation.\nC. Sign their draft unchanged: Do not sign a draft that misstates your evidence.\nD. Omit uncertainty: Uncertainty must be stated.\nE. The police narrative is your narrative: Your statement is your own observations.\n\n5. KEY TAKEAWAY\nA police statement records only what the doctor observed, did and was told, without opinions on guilt.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Police ask for a statement about a man you treated after an assault. You did not see the assault, and their draft fills in what probably happened.",
       "best_treatment": "Limit the statement to examination and quoted history",
       "incorrect_answer_explanations": {
-        "A": "Filling gaps is speculation.",
-        "C": "Your statement is your own observations.",
+        "B": "Filling gaps is speculation.",
+        "C": "Do not sign a draft that misstates your evidence.",
         "D": "Uncertainty must be stated.",
-        "E": "Do not sign a draft that misstates your evidence."
+        "E": "Your statement is your own observations."
       },
       "key_takeaways": [
         "A police statement records only what the doctor observed, did and was told, without opinions on guilt.",
@@ -1814,21 +1814,21 @@
     {
       "question_text": "A stonemason has silicosis. He is worried that you will tell his boss before anyone else. What is the most appropriate next step?",
       "options": [
+        "Post the case on a forum",
         "Notify the statutory authority. Discuss what is shared with the employer",
         "Phone his boss first",
-        "Post the case on a forum",
         "Telling the employer is the notification",
         "Do not notify because he is worried"
       ],
-      "correct_answer": "A",
+      "correct_answer": "B",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. Notify the statutory authority. Discuss what is shared with the employer\n\n---\n\n1. CLINICAL SITUATION\nA stonemason has silicosis. He is worried that you will tell his boss before anyone else.\n\n2. THE RULE\nA notifiable occupational disease or exposure is reported to the relevant statutory authority, and what is shared with the employer is discussed with the patient.\n\n3. WHY A IS CORRECT\nNotify the authority. Do not start with the employer.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Phone his boss first: The employer is not the statutory authority, and he has not agreed.\nC. Post the case on a forum: Posting the case breaches privacy.\nD. Telling the employer is the notification: Telling the employer is not notification.\nE. Do not notify because he is worried: His worry does not cancel a statutory duty.\n\n5. KEY TAKEAWAY\nA notifiable occupational disease or exposure is reported to the relevant statutory authority, and what is shared with the employer is discussed with the patient.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nB. Notify the statutory authority. Discuss what is shared with the employer\n\n---\n\n1. CLINICAL SITUATION\nA stonemason has silicosis. He is worried that you will tell his boss before anyone else.\n\n2. THE RULE\nA notifiable occupational disease or exposure is reported to the relevant statutory authority, and what is shared with the employer is discussed with the patient.\n\n3. WHY B IS CORRECT\nNotify the authority. Do not start with the employer.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Post the case on a forum: Posting the case breaches privacy.\nC. Phone his boss first: The employer is not the statutory authority, and he has not agreed.\nD. Telling the employer is the notification: Telling the employer is not notification.\nE. Do not notify because he is worried: His worry does not cancel a statutory duty.\n\n5. KEY TAKEAWAY\nA notifiable occupational disease or exposure is reported to the relevant statutory authority, and what is shared with the employer is discussed with the patient.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A stonemason has silicosis. He is worried that you will tell his boss before anyone else.",
       "best_treatment": "Notify the statutory authority. Discuss what is shared with the employer",
       "incorrect_answer_explanations": {
-        "B": "The employer is not the statutory authority, and he has not agreed.",
-        "C": "Posting the case breaches privacy.",
+        "A": "Posting the case breaches privacy.",
+        "C": "The employer is not the statutory authority, and he has not agreed.",
         "D": "Telling the employer is not notification.",
         "E": "His worry does not cancel a statutory duty."
       },
@@ -1858,22 +1858,22 @@
       "question_text": "A stonemason is diagnosed with silicosis, a notifiable occupational disease in his state. He is not ready for his employer to know. What is the most appropriate next step?",
       "options": [
         "A notifiable occupational disease is optional",
-        "Notify as required. His concern about the employer does not cancel the duty",
-        "Only the employer is told",
+        "Ignore silicosis",
         "Wait until he resigns",
-        "Ignore silicosis"
+        "Notify as required. His concern about the employer does not cancel the duty",
+        "Only the employer is told"
       ],
-      "correct_answer": "B",
+      "correct_answer": "D",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. Notify as required. His concern about the employer does not cancel the duty\n\n---\n\n1. CLINICAL SITUATION\nA stonemason is diagnosed with silicosis, a notifiable occupational disease in his state. He is not ready for his employer to know.\n\n2. THE RULE\nA notifiable occupational disease or exposure is reported to the relevant statutory authority, and what is shared with the employer is discussed with the patient.\n\n3. WHY B IS CORRECT\nStatutory notification stands. Handle the employer disclosure separately.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. A notifiable occupational disease is optional: Notifiable occupational disease must be notified.\nC. Only the employer is told: The employer is not the notification body.\nD. Wait until he resigns: Notification is not delayed.\nE. Ignore silicosis: Silicosis is notifiable in Australian jurisdictions.\n\n5. KEY TAKEAWAY\nA notifiable occupational disease or exposure is reported to the relevant statutory authority, and what is shared with the employer is discussed with the patient.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nD. Notify as required. His concern about the employer does not cancel the duty\n\n---\n\n1. CLINICAL SITUATION\nA stonemason is diagnosed with silicosis, a notifiable occupational disease in his state. He is not ready for his employer to know.\n\n2. THE RULE\nA notifiable occupational disease or exposure is reported to the relevant statutory authority, and what is shared with the employer is discussed with the patient.\n\n3. WHY D IS CORRECT\nStatutory notification stands. Handle the employer disclosure separately.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. A notifiable occupational disease is optional: Notifiable occupational disease must be notified.\nB. Ignore silicosis: Silicosis is notifiable in Australian jurisdictions.\nC. Wait until he resigns: Notification is not delayed.\nE. Only the employer is told: The employer is not the notification body.\n\n5. KEY TAKEAWAY\nA notifiable occupational disease or exposure is reported to the relevant statutory authority, and what is shared with the employer is discussed with the patient.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A stonemason is diagnosed with silicosis, a notifiable occupational disease in his state. He is not ready for his employer to know.",
       "best_treatment": "Notify as required. His concern about the employer does not cancel the duty",
       "incorrect_answer_explanations": {
         "A": "Notifiable occupational disease must be notified.",
-        "C": "The employer is not the notification body.",
-        "D": "Notification is not delayed.",
-        "E": "Silicosis is notifiable in Australian jurisdictions."
+        "B": "Silicosis is notifiable in Australian jurisdictions.",
+        "C": "Notification is not delayed.",
+        "E": "The employer is not the notification body."
       },
       "key_takeaways": [
         "A notifiable occupational disease or exposure is reported to the relevant statutory authority, and what is shared with the employer is discussed with the patient.",
@@ -1894,6 +1894,49 @@
       "irt_b": 0.05,
       "difficulty_tier": "medium",
       "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
+    },
+    {
+      "question_text": "A life insurer asks a GP for a patient's complete medical record. It attaches an authority signed by the patient last month that covers only 'records relating to back pain, 2020 to 2024'. The file also contains notes about a termination of pregnancy and treatment for depression. What is the most appropriate action?",
+      "options": [
+        "Send the complete record with the sensitive notes blacked out but not mention it",
+        "Send the complete record, because a signed authority has been provided",
+        "Refuse to release anything, because insurers can never receive records",
+        "Ask the insurer to decide which records are relevant",
+        "Release only the records covered by the authority, and contact the patient if the insurer wants more"
+      ],
+      "correct_answer": "E",
+      "category": "Population Health & Ethics",
+      "difficulty": "difficult",
+      "explanation": "CORRECT ANSWER\n\nE. Release only the records covered by the authority, and contact the patient if the insurer wants more\n\n---\n\n1. CLINICAL SITUATION\nA third party holds a signed authority from the patient, but the authority is narrower than the request.\n\n2. THE RULE\nMedical information goes to third parties such as solicitors or insurers only with the patient's written authority or a lawful demand, and only within the scope of that authority.\n\n3. WHY E IS CORRECT\nA patient's authority sets the limits of disclosure. Under the Privacy Act's Australian Privacy Principles, health information is used or disclosed only for the purpose the patient consented to, or where another lawful exception applies. Records outside the authorised scope, such as reproductive and mental health notes, are not disclosed. If the insurer wants more, it needs the patient's further, informed consent.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Send the complete record with the sensitive notes blacked out but not mention it: Secretly sending a redacted full record still discloses information outside the scope of the authority, and hides what was done.\nB. Send the complete record, because a signed authority has been provided: The authority covers back pain records from 2020 to 2024 only, not the whole file.\nC. Refuse to release anything, because insurers can never receive records: Disclosure to an insurer is lawful when it is within the patient's authority.\nD. Ask the insurer to decide which records are relevant: The doctor holding the records decides scope according to the authority. The requesting party does not.\n\n5. KEY TAKEAWAY\nDisclose only what the patient's authority covers; anything more needs fresh consent.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "A third party holds a signed authority from the patient, but the authority is narrower than the request.",
+      "best_treatment": "Release only the records covered by the authority, and contact the patient if the insurer wants more",
+      "incorrect_answer_explanations": {
+        "A": "Secretly sending a redacted full record still discloses information outside the scope of the authority, and hides what was done.",
+        "B": "The authority covers back pain records from 2020 to 2024 only, not the whole file.",
+        "C": "Disclosure to an insurer is lawful when it is within the patient's authority.",
+        "D": "The doctor holding the records decides scope according to the authority. The requesting party does not."
+      },
+      "key_takeaways": [
+        "Medical information goes to third parties such as solicitors or insurers only with the patient's written authority or a lawful demand, and only within the scope of that authority.",
+        "Disclose only what the patient's authority covers; anything more needs fresh consent."
+      ],
+      "subtopic": "Third-party disclosure is limited to the scope of the patient's written authority.",
+      "clinical_vignette": true,
+      "id": "13d003c1-4bfb-549a-bf92-506fa1c56e0b",
+      "zyntra_id": "ZQ-0815",
+      "phase": "PH-06",
+      "phase_item_id": "PH-M-45",
+      "lo_id": "e7c8ed8b-4e4f-5841-bc69-1e29b3217425",
+      "lo_code": "RELEASE_AUTHORITY",
+      "lo_key": "RELEASE_AUTHORITY",
+      "lo_title": "Medical information goes to third parties such as solicitors or insurers only with the patient's written authority or a lawful demand, and only within the scope of that authority.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.9,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice",
       "blueprint_eligible": true,
       "status": "draft"
     }

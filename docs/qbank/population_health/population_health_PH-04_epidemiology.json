@@ -1,7 +1,7 @@
 {
   "phase": "PH-04",
   "phase_name": "Epidemiology and statistics",
-  "count": 40,
+  "count": 41,
   "reviewed_by": "Dr Heisenberg",
   "status": "draft",
   "items": [
@@ -10,21 +10,21 @@
       "options": [
         "His chance of cancer cannot be stated from sensitivity and specificity alone",
         "His chance of cancer is 95%",
-        "His chance of cancer is 90%",
+        "Specificity of 90% means 90% of positive tests are true",
         "A positive test in a sensitive assay means the disease is present",
-        "Specificity of 90% means 90% of positive tests are true"
+        "His chance of cancer is 90%"
       ],
       "correct_answer": "A",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. His chance of cancer cannot be stated from sensitivity and specificity alone\n\n---\n\n1. CLINICAL SITUATION\nA 58-year-old man has a positive faecal immunochemical test. He has read that the test is 70% sensitive and asks what his chance of cancer is. You cannot quote his personal chance from sensitivity alone.\n\n2. THE RULE\nSensitivity and specificity are test properties; a negative highly sensitive test helps rule disease out, and the post-test probability also needs prevalence or likelihood ratios.\n\n3. WHY A IS CORRECT\nSensitivity is the proportion of people with disease who test positive. Specificity is the proportion without disease who test negative. Neither is the positive predictive value. PPV needs prevalence as well.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. His chance of cancer is 95%: That is the sensitivity, not his post-test probability.\nC. His chance of cancer is 90%: That is the specificity.\nD. A positive test in a sensitive assay means the disease is present: A sensitive test still has false positives.\nE. Specificity of 90% means 90% of positive tests are true: That confuses specificity with PPV.\n\n5. KEY TAKEAWAY\nSensitivity and specificity are test properties; a negative highly sensitive test helps rule disease out, and the post-test probability also needs prevalence or likelihood ratios.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nA. His chance of cancer cannot be stated from sensitivity and specificity alone\n\n---\n\n1. CLINICAL SITUATION\nA 58-year-old man has a positive faecal immunochemical test. He has read that the test is 70% sensitive and asks what his chance of cancer is. You cannot quote his personal chance from sensitivity alone.\n\n2. THE RULE\nSensitivity and specificity are test properties; a negative highly sensitive test helps rule disease out, and the post-test probability also needs prevalence or likelihood ratios.\n\n3. WHY A IS CORRECT\nSensitivity is the proportion of people with disease who test positive. Specificity is the proportion without disease who test negative. Neither is the positive predictive value. PPV needs prevalence as well.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. His chance of cancer is 95%: That is the sensitivity, not his post-test probability.\nC. Specificity of 90% means 90% of positive tests are true: That confuses specificity with PPV.\nD. A positive test in a sensitive assay means the disease is present: A sensitive test still has false positives.\nE. His chance of cancer is 90%: That is the specificity.\n\n5. KEY TAKEAWAY\nSensitivity and specificity are test properties; a negative highly sensitive test helps rule disease out, and the post-test probability also needs prevalence or likelihood ratios.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A 58-year-old man has a positive faecal immunochemical test. He has read that the test is 70% sensitive and asks what his chance of cancer is. You cannot quote his personal chance from sensitivity alone.",
       "best_treatment": "His chance of cancer cannot be stated from sensitivity and specificity alone",
       "incorrect_answer_explanations": {
         "B": "That is the sensitivity, not his post-test probability.",
-        "C": "That is the specificity.",
+        "C": "That confuses specificity with PPV.",
         "D": "A sensitive test still has false positives.",
-        "E": "That confuses specificity with PPV."
+        "E": "That is the specificity."
       },
       "key_takeaways": [
         "Sensitivity and specificity are test properties; a negative highly sensitive test helps rule disease out, and the post-test probability also needs prevalence or likelihood ratios.",
@@ -51,23 +51,23 @@
     {
       "question_text": "A screening test is used in two towns. The test is identical. A student says the positive predictive value must be the same because the test has not changed. What is the most appropriate statement?",
       "options": [
+        "PPV equals specificity in both clinics",
         "PPV is the same. The test characteristics are unchanged",
         "PPV is higher where prevalence is higher",
-        "PPV is higher in the university clinic because the students are healthier",
-        "PPV equals specificity in both clinics",
-        "Sensitivity falls when prevalence falls"
+        "Sensitivity falls when prevalence falls",
+        "PPV is higher in the university clinic because the students are healthier"
       ],
-      "correct_answer": "B",
+      "correct_answer": "C",
       "category": "Population Health & Ethics",
       "difficulty": "difficult",
-      "explanation": "CORRECT ANSWER\n\nB. PPV is higher where prevalence is higher\n\n---\n\n1. CLINICAL SITUATION\nThe same test has a lower positive predictive value in the low-prevalence clinic.\n\n2. THE RULE\nPositive predictive value rises and falls with prevalence even when sensitivity and specificity are fixed, and a positive screening test still needs diagnostic confirmation.\n\n3. WHY B IS CORRECT\nPPV is true positives divided by all positives. At low prevalence most positives are false positives, so PPV falls. Sensitivity and specificity are properties of the test. PPV is a property of the test in a population.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. PPV is the same. The test characteristics are unchanged: Sensitivity and specificity are unchanged. PPV is not.\nC. PPV is higher in the university clinic because the students are healthier: Lower prevalence lowers PPV.\nD. PPV equals specificity in both clinics: They are different quantities.\nE. Sensitivity falls when prevalence falls: Sensitivity does not.\n\n5. KEY TAKEAWAY\nPPV rises with prevalence.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nC. PPV is higher where prevalence is higher\n\n---\n\n1. CLINICAL SITUATION\nThe same test has a lower positive predictive value in the low-prevalence clinic.\n\n2. THE RULE\nPositive predictive value depends on prevalence: with fixed sensitivity and specificity it falls as prevalence falls, so most positives may be false in a low-prevalence population.\n\n3. WHY C IS CORRECT\nPPV is true positives divided by all positives. At low prevalence most positives are false positives, so PPV falls. Sensitivity and specificity are properties of the test. PPV is a property of the test in a population.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. PPV equals specificity in both clinics: They are different quantities.\nB. PPV is the same. The test characteristics are unchanged: Sensitivity and specificity are unchanged. PPV is not.\nD. Sensitivity falls when prevalence falls: Sensitivity does not.\nE. PPV is higher in the university clinic because the students are healthier: Lower prevalence lowers PPV.\n\n5. KEY TAKEAWAY\nPPV rises with prevalence.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "The same test has a lower positive predictive value in the low-prevalence clinic.",
       "best_treatment": "PPV is higher where prevalence is higher",
       "incorrect_answer_explanations": {
-        "A": "Sensitivity and specificity are unchanged. PPV is not.",
-        "C": "Lower prevalence lowers PPV.",
-        "D": "They are different quantities.",
-        "E": "Sensitivity does not."
+        "A": "They are different quantities.",
+        "B": "Sensitivity and specificity are unchanged. PPV is not.",
+        "D": "Sensitivity does not.",
+        "E": "Lower prevalence lowers PPV."
       },
       "key_takeaways": [
         "PPV rises with prevalence.",
@@ -82,8 +82,8 @@
       "lo_id": "333485d2-5192-5695-a7ed-d13eb65aed63",
       "lo_code": "PREDICTIVE_VALUE",
       "lo_key": "PREDICTIVE_VALUE",
-      "lo_title": "Positive predictive value rises and falls with prevalence even when sensitivity and specificity are fixed, and a positive screening test still needs diagnostic confirmation.",
-      "lo_role": "edge",
+      "lo_title": "Positive predictive value depends on prevalence: with fixed sensitivity and specificity it falls as prevalence falls, so most positives may be false in a low-prevalence population.",
+      "lo_role": "core",
       "shared_lo": true,
       "irt_b": 1.0,
       "difficulty_tier": "hard",
@@ -94,23 +94,23 @@
     {
       "question_text": "A highly sensitive test for a rare serious infection is negative. A colleague says a sensitive test is used to confirm disease, so the negative result is unhelpful. SnNOut. What is the most appropriate interpretation?",
       "options": [
-        "A negative specific test rules disease in",
-        "Specificity is the chance the patient has the disease",
+        "D-dimer sensitivity is irrelevant to a rule-out pathway",
         "A negative result on a sensitive test helps rule disease out",
         "A positive D-dimer in low-risk patients confirms embolism",
-        "D-dimer sensitivity is irrelevant to a rule-out pathway"
+        "Specificity is the chance the patient has the disease",
+        "A negative specific test rules disease in"
       ],
-      "correct_answer": "C",
+      "correct_answer": "B",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nC. A negative result on a sensitive test helps rule disease out\n\n---\n\n1. CLINICAL SITUATION\nA negative sensitive test helps rule disease out. Specificity is not the property that does that job.\n\n2. THE RULE\nSensitivity and specificity are test properties; a negative highly sensitive test helps rule disease out, and the post-test probability also needs prevalence or likelihood ratios.\n\n3. WHY C IS CORRECT\nA highly sensitive test, when negative, makes the disease unlikely. That is the rule-out use. A highly specific test, when positive, helps rule in. D-dimer is used as a sensitive rule-out test in low-risk patients, not as a rule-in test.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. A negative specific test rules disease in: A negative result does not rule in.\nB. Specificity is the chance the patient has the disease: Specificity is a test property, not a post-test probability.\nD. A positive D-dimer in low-risk patients confirms embolism: D-dimer has many false positives.\nE. D-dimer sensitivity is irrelevant to a rule-out pathway: Sensitivity is why the pathway works.\n\n5. KEY TAKEAWAY\nSnNOut: a sensitive test, if negative, helps rule out.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nB. A negative result on a sensitive test helps rule disease out\n\n---\n\n1. CLINICAL SITUATION\nA negative sensitive test helps rule disease out. Specificity is not the property that does that job.\n\n2. THE RULE\nSensitivity and specificity are test properties; a negative highly sensitive test helps rule disease out, and the post-test probability also needs prevalence or likelihood ratios.\n\n3. WHY B IS CORRECT\nA highly sensitive test, when negative, makes the disease unlikely. That is the rule-out use. A highly specific test, when positive, helps rule in. D-dimer is used as a sensitive rule-out test in low-risk patients, not as a rule-in test.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. D-dimer sensitivity is irrelevant to a rule-out pathway: Sensitivity is why the pathway works.\nC. A positive D-dimer in low-risk patients confirms embolism: D-dimer has many false positives.\nD. Specificity is the chance the patient has the disease: Specificity is a test property, not a post-test probability.\nE. A negative specific test rules disease in: A negative result does not rule in.\n\n5. KEY TAKEAWAY\nSnNOut: a sensitive test, if negative, helps rule out.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A negative sensitive test helps rule disease out. Specificity is not the property that does that job.",
       "best_treatment": "A negative result on a sensitive test helps rule disease out",
       "incorrect_answer_explanations": {
-        "A": "A negative result does not rule in.",
-        "B": "Specificity is a test property, not a post-test probability.",
-        "D": "D-dimer has many false positives.",
-        "E": "Sensitivity is why the pathway works."
+        "A": "Sensitivity is why the pathway works.",
+        "C": "D-dimer has many false positives.",
+        "D": "Specificity is a test property, not a post-test probability.",
+        "E": "A negative result does not rule in."
       },
       "key_takeaways": [
         "SnNOut: a sensitive test, if negative, helps rule out.",
@@ -137,23 +137,23 @@
     {
       "question_text": "A registrar confuses two figures in a report. One is the number of new cases of a disease in a year. The other is the number of people who currently have it. What is the most appropriate distinction?",
       "options": [
+        "Incidence includes deaths. Prevalence does not",
         "Incidence counts existing cases. Prevalence counts new cases",
         "Prevalence always falls when incidence is stable",
-        "Incidence includes deaths. Prevalence does not",
-        "Incidence is new cases in a period. Prevalence is existing cases at a time",
-        "They are interchangeable in chronic disease"
+        "They are interchangeable in chronic disease",
+        "Incidence is new cases in a period. Prevalence is existing cases at a time"
       ],
-      "correct_answer": "D",
+      "correct_answer": "E",
       "category": "Population Health & Ethics",
       "difficulty": "easy",
-      "explanation": "CORRECT ANSWER\n\nD. Incidence is new cases in a period. Prevalence is existing cases at a time\n\n---\n\n1. CLINICAL SITUATION\nIncidence is new cases. Prevalence is existing cases. A stable incidence can still raise prevalence.\n\n2. THE RULE\nIncidence is new cases in a population over a period of time, while prevalence is all existing cases at a point in time.\n\n3. WHY D IS CORRECT\nIncidence is the rate of new cases. Prevalence is the proportion who have the disease at a point. Prevalence can rise if people live longer with the disease, even when incidence is flat.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Incidence counts existing cases. Prevalence counts new cases: That reverses the definitions.\nB. Prevalence always falls when incidence is stable: Longer survival raises prevalence.\nC. Incidence includes deaths. Prevalence does not: Deaths remove people from the prevalent pool.\nE. They are interchangeable in chronic disease: The distinction matters more in chronic disease, not less.\n\n5. KEY TAKEAWAY\nIncidence is new cases over time.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nE. Incidence is new cases in a period. Prevalence is existing cases at a time\n\n---\n\n1. CLINICAL SITUATION\nIncidence is new cases. Prevalence is existing cases. A stable incidence can still raise prevalence.\n\n2. THE RULE\nIncidence is new cases in a population over a period of time, while prevalence is all existing cases at a point in time.\n\n3. WHY E IS CORRECT\nIncidence is the rate of new cases. Prevalence is the proportion who have the disease at a point. Prevalence can rise if people live longer with the disease, even when incidence is flat.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Incidence includes deaths. Prevalence does not: Deaths remove people from the prevalent pool.\nB. Incidence counts existing cases. Prevalence counts new cases: That reverses the definitions.\nC. Prevalence always falls when incidence is stable: Longer survival raises prevalence.\nD. They are interchangeable in chronic disease: The distinction matters more in chronic disease, not less.\n\n5. KEY TAKEAWAY\nIncidence is new cases over time.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Incidence is new cases. Prevalence is existing cases. A stable incidence can still raise prevalence.",
       "best_treatment": "Incidence is new cases in a period. Prevalence is existing cases at a time",
       "incorrect_answer_explanations": {
-        "A": "That reverses the definitions.",
-        "B": "Longer survival raises prevalence.",
-        "C": "Deaths remove people from the prevalent pool.",
-        "E": "The distinction matters more in chronic disease, not less."
+        "A": "Deaths remove people from the prevalent pool.",
+        "B": "That reverses the definitions.",
+        "C": "Longer survival raises prevalence.",
+        "D": "The distinction matters more in chronic disease, not less."
       },
       "key_takeaways": [
         "Incidence is new cases over time.",
@@ -180,23 +180,23 @@
     {
       "question_text": "A trial reports that a treatment reduces the absolute risk of an outcome from 8% to 4%. A student asks for the number needed to treat. What is the number needed to treat?",
       "options": [
-        "NNT is 4",
-        "NNT is 40",
         "NNT is 10",
+        "NNT is 4",
+        "NNT is 25",
         "NNT cannot be calculated without the p-value",
-        "NNT is 25"
+        "NNT is 40"
       ],
-      "correct_answer": "E",
+      "correct_answer": "C",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nE. NNT is 25\n\n---\n\n1. CLINICAL SITUATION\nAbsolute reduction is 4 percentage points. NNT is 25, not 4.\n\n2. THE RULE\nThe number needed to treat is 1 divided by the absolute risk reduction, and relative risk reductions overstate small absolute benefits.\n\n3. WHY E IS CORRECT\nAbsolute risk reduction is 10% minus 6%, which is 4 percentage points, or 0.04. NNT is 1 / 0.04 = 25. The 40% figure is the relative risk reduction and is not the NNT.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. NNT is 4: That treats the relative reduction as if it were the absolute one.\nB. NNT is 40: That is the relative reduction written as a whole number.\nC. NNT is 10: That is the placebo event rate, not the difference.\nD. NNT cannot be calculated without the p-value: NNT is an effect size. The p-value is a separate question.\n\n5. KEY TAKEAWAY\nNNT = 1 / absolute risk reduction.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nC. NNT is 25\n\n---\n\n1. CLINICAL SITUATION\nAbsolute reduction is 4 percentage points. NNT is 25, not 4.\n\n2. THE RULE\nThe number needed to treat is 1 divided by the absolute risk reduction, and relative risk reductions overstate small absolute benefits.\n\n3. WHY C IS CORRECT\nAbsolute risk reduction is 10% minus 6%, which is 4 percentage points, or 0.04. NNT is 1 / 0.04 = 25. The 40% figure is the relative risk reduction and is not the NNT.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. NNT is 10: That is the placebo event rate, not the difference.\nB. NNT is 4: That treats the relative reduction as if it were the absolute one.\nD. NNT cannot be calculated without the p-value: NNT is an effect size. The p-value is a separate question.\nE. NNT is 40: That is the relative reduction written as a whole number.\n\n5. KEY TAKEAWAY\nNNT = 1 / absolute risk reduction.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Absolute reduction is 4 percentage points. NNT is 25, not 4.",
       "best_treatment": "NNT is 25",
       "incorrect_answer_explanations": {
-        "A": "That treats the relative reduction as if it were the absolute one.",
-        "B": "That is the relative reduction written as a whole number.",
-        "C": "That is the placebo event rate, not the difference.",
-        "D": "NNT is an effect size. The p-value is a separate question."
+        "A": "That is the placebo event rate, not the difference.",
+        "B": "That treats the relative reduction as if it were the absolute one.",
+        "D": "NNT is an effect size. The p-value is a separate question.",
+        "E": "That is the relative reduction written as a whole number."
       },
       "key_takeaways": [
         "NNT = 1 / absolute risk reduction.",
@@ -223,22 +223,22 @@
     {
       "question_text": "A newspaper says a drug halves the risk of a rare event. The event fell from 2 per 1000 to 1 per 1000. A patient asks if that means half of people are saved. What is the most appropriate explanation?",
       "options": [
-        "The absolute reduction is 1 per 1000. The 50% figure is relative",
-        "Half of vaccinated people avoid the outcome",
         "The absolute reduction is 50%",
+        "Half of vaccinated people avoid the outcome",
         "Relative risk reduction cannot exceed absolute risk reduction",
+        "The absolute reduction is 1 per 1000. The 50% figure is relative",
         "The trial shows no effect because the rates are both small"
       ],
-      "correct_answer": "A",
+      "correct_answer": "D",
       "category": "Population Health & Ethics",
       "difficulty": "difficult",
-      "explanation": "CORRECT ANSWER\n\nA. The absolute reduction is 1 per 1000. The 50% figure is relative\n\n---\n\n1. CLINICAL SITUATION\nThe 50% is relative. The absolute reduction is 1 event per 1000 people.\n\n2. THE RULE\nThe number needed to treat is 1 divided by the absolute risk reduction, and relative risk reductions overstate small absolute benefits.\n\n3. WHY A IS CORRECT\nRelative risk reduction is (2 \u2212 1) / 2 = 50%. Absolute risk reduction is 1 per 1000. The advertisement uses the relative figure. The absolute figure is what tells the patient how many events are prevented.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Half of vaccinated people avoid the outcome: That misreads a relative reduction as a personal probability.\nC. The absolute reduction is 50%: 50% is the relative figure.\nD. Relative risk reduction cannot exceed absolute risk reduction: Relative often exceeds absolute when the baseline is small.\nE. The trial shows no effect because the rates are both small: Small rates can still have a real relative effect.\n\n5. KEY TAKEAWAY\nAlways pair a relative reduction with the absolute one.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nD. The absolute reduction is 1 per 1000. The 50% figure is relative\n\n---\n\n1. CLINICAL SITUATION\nThe 50% is relative. The absolute reduction is 1 event per 1000 people.\n\n2. THE RULE\nThe number needed to treat is 1 divided by the absolute risk reduction, and relative risk reductions overstate small absolute benefits.\n\n3. WHY D IS CORRECT\nRelative risk reduction is (2 \u2212 1) / 2 = 50%. Absolute risk reduction is 1 per 1000. The advertisement uses the relative figure. The absolute figure is what tells the patient how many events are prevented.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. The absolute reduction is 50%: 50% is the relative figure.\nB. Half of vaccinated people avoid the outcome: That misreads a relative reduction as a personal probability.\nC. Relative risk reduction cannot exceed absolute risk reduction: Relative often exceeds absolute when the baseline is small.\nE. The trial shows no effect because the rates are both small: Small rates can still have a real relative effect.\n\n5. KEY TAKEAWAY\nAlways pair a relative reduction with the absolute one.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "The 50% is relative. The absolute reduction is 1 event per 1000 people.",
       "best_treatment": "The absolute reduction is 1 per 1000. The 50% figure is relative",
       "incorrect_answer_explanations": {
+        "A": "50% is the relative figure.",
         "B": "That misreads a relative reduction as a personal probability.",
-        "C": "50% is the relative figure.",
-        "D": "Relative often exceeds absolute when the baseline is small.",
+        "C": "Relative often exceeds absolute when the baseline is small.",
         "E": "Small rates can still have a real relative effect."
       },
       "key_takeaways": [
@@ -266,23 +266,23 @@
     {
       "question_text": "A trial reports a relative risk of 0.8 with a 95% confidence interval of 0.5 to 1.3. A colleague says the treatment works because the point estimate is under 1. Statistical significance is not shown. What is the most appropriate interpretation?",
       "options": [
-        "The result is statistically significant because 0.80 is below 1",
-        "The interval includes 1, so a null effect is not excluded",
         "The treatment is proven harmful",
+        "The interval includes 1, so a null effect is not excluded",
+        "A confidence interval is the range of individual patient results",
         "The p-value must be below 0.05 because the point estimate moved",
-        "A confidence interval is the range of individual patient results"
+        "The result is statistically significant because 0.80 is below 1"
       ],
       "correct_answer": "B",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. The interval includes 1, so a null effect is not excluded\n\n---\n\n1. CLINICAL SITUATION\nThe interval crosses 1. The point estimate of 0.80 does not prove an effect.\n\n2. THE RULE\nA 95% confidence interval that includes the null value is compatible with no effect, and a non-significant result in a small study may be a type II error.\n\n3. WHY B IS CORRECT\nA 95% confidence interval that includes the null value, here a relative risk of 1, does not exclude no effect. The point estimate of 0.80 is the best single guess. It is not proof.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. The result is statistically significant because 0.80 is below 1: Significance is about the interval or the p-value, not the direction of the point estimate alone.\nC. The treatment is proven harmful: The interval also includes benefit.\nD. The p-value must be below 0.05 because the point estimate moved: An interval crossing 1 corresponds to a p-value above 0.05.\nE. A confidence interval is the range of individual patient results: It is an interval for the estimated effect, not for individual outcomes.\n\n5. KEY TAKEAWAY\nAn interval that includes the null does not exclude no effect.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nB. The interval includes 1, so a null effect is not excluded\n\n---\n\n1. CLINICAL SITUATION\nThe interval crosses 1. The point estimate of 0.80 does not prove an effect.\n\n2. THE RULE\nA 95% confidence interval that includes the null value is compatible with no effect, and a non-significant result in a small study may be a type II error.\n\n3. WHY B IS CORRECT\nA 95% confidence interval that includes the null value, here a relative risk of 1, does not exclude no effect. The point estimate of 0.80 is the best single guess. It is not proof.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. The treatment is proven harmful: The interval also includes benefit.\nC. A confidence interval is the range of individual patient results: It is an interval for the estimated effect, not for individual outcomes.\nD. The p-value must be below 0.05 because the point estimate moved: An interval crossing 1 corresponds to a p-value above 0.05.\nE. The result is statistically significant because 0.80 is below 1: Significance is about the interval or the p-value, not the direction of the point estimate alone.\n\n5. KEY TAKEAWAY\nAn interval that includes the null does not exclude no effect.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "The interval crosses 1. The point estimate of 0.80 does not prove an effect.",
       "best_treatment": "The interval includes 1, so a null effect is not excluded",
       "incorrect_answer_explanations": {
-        "A": "Significance is about the interval or the p-value, not the direction of the point estimate alone.",
-        "C": "The interval also includes benefit.",
+        "A": "The interval also includes benefit.",
+        "C": "It is an interval for the estimated effect, not for individual outcomes.",
         "D": "An interval crossing 1 corresponds to a p-value above 0.05.",
-        "E": "It is an interval for the estimated effect, not for individual outcomes."
+        "E": "Significance is about the interval or the p-value, not the direction of the point estimate alone."
       },
       "key_takeaways": [
         "An interval that includes the null does not exclude no effect.",
@@ -309,22 +309,22 @@
     {
       "question_text": "A paper reports p = 0.03 for a difference. A student says this means there is a 3% chance the result is due to chance, or a 97% chance the treatment works. What is the most appropriate explanation?",
       "options": [
-        "p = 0.03 is the probability the null is true",
         "p = 0.03 proves the effect is clinically important",
-        "p = 0.03 is the probability of a result at least this extreme if the null were true",
         "p = 0.03 means the drug works in 97% of patients",
+        "p = 0.03 is the probability of a result at least this extreme if the null were true",
+        "p = 0.03 is the probability the null is true",
         "A p-value below 0.05 means the study was adequately powered"
       ],
       "correct_answer": "C",
       "category": "Population Health & Ethics",
       "difficulty": "easy",
-      "explanation": "CORRECT ANSWER\n\nC. p = 0.03 is the probability of a result at least this extreme if the null were true\n\n---\n\n1. CLINICAL SITUATION\np = 0.03 is not a 3% chance that the drug does not work.\n\n2. THE RULE\nA 95% confidence interval that includes the null value is compatible with no effect, and a non-significant result in a small study may be a type II error.\n\n3. WHY C IS CORRECT\nThe p-value is the probability of data at least as extreme as those observed, assuming the null is true. It is not the probability that the null is true, and it is not a measure of clinical importance.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. p = 0.03 is the probability the null is true: That is the common misreading.\nB. p = 0.03 proves the effect is clinically important: Statistical significance is not clinical importance.\nD. p = 0.03 means the drug works in 97% of patients: That confuses a p-value with a response rate.\nE. A p-value below 0.05 means the study was adequately powered: Power is set before the study. A small p-value does not prove it.\n\n5. KEY TAKEAWAY\nA p-value assumes the null and describes the data.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nC. p = 0.03 is the probability of a result at least this extreme if the null were true\n\n---\n\n1. CLINICAL SITUATION\np = 0.03 is not a 3% chance that the drug does not work.\n\n2. THE RULE\nA 95% confidence interval that includes the null value is compatible with no effect, and a non-significant result in a small study may be a type II error.\n\n3. WHY C IS CORRECT\nThe p-value is the probability of data at least as extreme as those observed, assuming the null is true. It is not the probability that the null is true, and it is not a measure of clinical importance.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. p = 0.03 proves the effect is clinically important: Statistical significance is not clinical importance.\nB. p = 0.03 means the drug works in 97% of patients: That confuses a p-value with a response rate.\nD. p = 0.03 is the probability the null is true: That is the common misreading.\nE. A p-value below 0.05 means the study was adequately powered: Power is set before the study. A small p-value does not prove it.\n\n5. KEY TAKEAWAY\nA p-value assumes the null and describes the data.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "p = 0.03 is not a 3% chance that the drug does not work.",
       "best_treatment": "p = 0.03 is the probability of a result at least this extreme if the null were true",
       "incorrect_answer_explanations": {
-        "A": "That is the common misreading.",
-        "B": "Statistical significance is not clinical importance.",
-        "D": "That confuses a p-value with a response rate.",
+        "A": "Statistical significance is not clinical importance.",
+        "B": "That confuses a p-value with a response rate.",
+        "D": "That is the common misreading.",
         "E": "Power is set before the study. A small p-value does not prove it."
       },
       "key_takeaways": [
@@ -352,23 +352,23 @@
     {
       "question_text": "A screening program reports longer survival from diagnosis in screened patients than in unscreened patients. A colleague says this proves the program reduces deaths. What is the most appropriate caution?",
       "options": [
-        "Longer survival from diagnosis proves a mortality benefit",
+        "Earlier diagnosis can lengthen survival time without delaying death",
         "This is length-time bias",
         "Screening always reduces mortality if survival from diagnosis rises",
-        "Earlier diagnosis can lengthen survival time without delaying death",
-        "Lead time applies only to infectious disease"
+        "Lead time applies only to infectious disease",
+        "Longer survival from diagnosis proves a mortality benefit"
       ],
-      "correct_answer": "D",
+      "correct_answer": "A",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nD. Earlier diagnosis can lengthen survival time without delaying death\n\n---\n\n1. CLINICAL SITUATION\nLonger survival from diagnosis is not proof of benefit. The diagnosis may simply have been made earlier.\n\n2. THE RULE\nLead-time and length-time biases can make screening look beneficial for survival without delaying death.\n\n3. WHY D IS CORRECT\nLead time is the interval between screen detection and the time the disease would have presented clinically. Survival measured from diagnosis lengthens by that interval even if the date of death is unchanged.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Longer survival from diagnosis proves a mortality benefit: The clock started earlier.\nB. This is length-time bias: Length-time bias is the tendency of screening to find slower-growing disease.\nC. Screening always reduces mortality if survival from diagnosis rises: That is the biased reading.\nE. Lead time applies only to infectious disease: It is a screening concept.\n\n5. KEY TAKEAWAY\nLead-time bias shifts the start of the survival clock.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nA. Earlier diagnosis can lengthen survival time without delaying death\n\n---\n\n1. CLINICAL SITUATION\nLonger survival from diagnosis is not proof of benefit. The diagnosis may simply have been made earlier.\n\n2. THE RULE\nLead-time and length-time biases can make screening look beneficial for survival without delaying death.\n\n3. WHY A IS CORRECT\nLead time is the interval between screen detection and the time the disease would have presented clinically. Survival measured from diagnosis lengthens by that interval even if the date of death is unchanged.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. This is length-time bias: Length-time bias is the tendency of screening to find slower-growing disease.\nC. Screening always reduces mortality if survival from diagnosis rises: That is the biased reading.\nD. Lead time applies only to infectious disease: It is a screening concept.\nE. Longer survival from diagnosis proves a mortality benefit: The clock started earlier.\n\n5. KEY TAKEAWAY\nLead-time bias shifts the start of the survival clock.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Longer survival from diagnosis is not proof of benefit. The diagnosis may simply have been made earlier.",
       "best_treatment": "Earlier diagnosis can lengthen survival time without delaying death",
       "incorrect_answer_explanations": {
-        "A": "The clock started earlier.",
         "B": "Length-time bias is the tendency of screening to find slower-growing disease.",
         "C": "That is the biased reading.",
-        "E": "It is a screening concept."
+        "D": "It is a screening concept.",
+        "E": "The clock started earlier."
       },
       "key_takeaways": [
         "Lead-time bias shifts the start of the survival clock.",
@@ -395,23 +395,23 @@
     {
       "question_text": "A screening program finds many slow-growing cancers and few aggressive ones, and reports excellent outcomes in the screened group. Screening preferentially detects slower diseases that would have been found anyway. It can make screening look better than it is. What is the bias described?",
       "options": [
+        "Intention-to-treat inflation",
+        "Contamination of the control arm",
         "Recall bias",
         "Allocation concealment failure",
-        "Contamination of the control arm",
-        "Intention-to-treat inflation",
         "Length-time bias. Screening preferentially finds slower-growing tumours"
       ],
       "correct_answer": "E",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nE. Length-time bias. Screening preferentially finds slower-growing tumours\n\n---\n\n1. CLINICAL SITUATION\nBetter prognosis in screen-detected cancers can be length-time bias, not only lead time.\n\n2. THE RULE\nLead-time and length-time biases can make screening look beneficial for survival without delaying death.\n\n3. WHY E IS CORRECT\nLength-time bias occurs because slow-growing tumours spend longer in a detectable pre-clinical phase, so screening is more likely to find them. They have a better prognosis anyway. Lead time is a different bias.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Recall bias: Recall bias is about remembered exposures, not screen detection.\nB. Allocation concealment failure: That is a trial-design problem.\nC. Contamination of the control arm: Not the mechanism here.\nD. Intention-to-treat inflation: Not a recognised bias by that name.\n\n5. KEY TAKEAWAY\nLength-time bias favours slow tumours.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nE. Length-time bias. Screening preferentially finds slower-growing tumours\n\n---\n\n1. CLINICAL SITUATION\nBetter prognosis in screen-detected cancers can be length-time bias, not only lead time.\n\n2. THE RULE\nLead-time and length-time biases can make screening look beneficial for survival without delaying death.\n\n3. WHY E IS CORRECT\nLength-time bias occurs because slow-growing tumours spend longer in a detectable pre-clinical phase, so screening is more likely to find them. They have a better prognosis anyway. Lead time is a different bias.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Intention-to-treat inflation: Not a recognised bias by that name.\nB. Contamination of the control arm: Not the mechanism here.\nC. Recall bias: Recall bias is about remembered exposures, not screen detection.\nD. Allocation concealment failure: That is a trial-design problem.\n\n5. KEY TAKEAWAY\nLength-time bias favours slow tumours.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Better prognosis in screen-detected cancers can be length-time bias, not only lead time.",
       "best_treatment": "Length-time bias. Screening preferentially finds slower-growing tumours",
       "incorrect_answer_explanations": {
-        "A": "Recall bias is about remembered exposures, not screen detection.",
-        "B": "That is a trial-design problem.",
-        "C": "Not the mechanism here.",
-        "D": "Not a recognised bias by that name."
+        "A": "Not a recognised bias by that name.",
+        "B": "Not the mechanism here.",
+        "C": "Recall bias is about remembered exposures, not screen detection.",
+        "D": "That is a trial-design problem."
       },
       "key_takeaways": [
         "Length-time bias favours slow tumours.",
@@ -438,23 +438,23 @@
     {
       "question_text": "In a randomised trial, some patients allocated to treatment did not take it, and some allocated to control obtained it elsewhere. A student wants to analyse only those who took the treatment. It preserves the randomisation. What is the most appropriate analysis?",
       "options": [
-        "Analyse by allocated group. That is the intention-to-treat estimate",
         "Analyse only those who received the allocated treatment. That measures efficacy",
+        "Intention to treat applies only to drug trials",
+        "Analyse by allocated group. That is the intention-to-treat estimate",
         "Move the crossovers into the arm they ended up in",
-        "Exclude anyone who missed a visit",
-        "Intention to treat applies only to drug trials"
+        "Exclude anyone who missed a visit"
       ],
-      "correct_answer": "A",
+      "correct_answer": "C",
       "category": "Population Health & Ethics",
       "difficulty": "difficult",
-      "explanation": "CORRECT ANSWER\n\nA. Analyse by allocated group. That is the intention-to-treat estimate\n\n---\n\n1. CLINICAL SITUATION\nKeep people in the arm they were randomised to. Dropping crossovers breaks the protection of randomisation.\n\n2. THE RULE\nIntention-to-treat analysis keeps participants in their allocated group, and allocation concealment differs from blinding.\n\n3. WHY A IS CORRECT\nIntention to treat keeps every randomised participant in the allocated arm. It estimates the effect of offering the treatment, preserves randomisation, and avoids bias from drop-out and crossover. A per-protocol analysis answers a different question and can mislead.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Analyse only those who received the allocated treatment. That measures efficacy: That is per-protocol. It is not the primary unbiased estimate.\nC. Move the crossovers into the arm they ended up in: That is as-treated analysis and breaks randomisation.\nD. Exclude anyone who missed a visit: Missingness is handled. It is not a reason to drop the principle.\nE. Intention to treat applies only to drug trials: It applies to any randomised comparison.\n\n5. KEY TAKEAWAY\nIntention to treat follows allocation, not receipt.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nC. Analyse by allocated group. That is the intention-to-treat estimate\n\n---\n\n1. CLINICAL SITUATION\nKeep people in the arm they were randomised to. Dropping crossovers breaks the protection of randomisation.\n\n2. THE RULE\nIntention-to-treat analysis keeps participants in their allocated group, and allocation concealment differs from blinding.\n\n3. WHY C IS CORRECT\nIntention to treat keeps every randomised participant in the allocated arm. It estimates the effect of offering the treatment, preserves randomisation, and avoids bias from drop-out and crossover. A per-protocol analysis answers a different question and can mislead.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Analyse only those who received the allocated treatment. That measures efficacy: That is per-protocol. It is not the primary unbiased estimate.\nB. Intention to treat applies only to drug trials: It applies to any randomised comparison.\nD. Move the crossovers into the arm they ended up in: That is as-treated analysis and breaks randomisation.\nE. Exclude anyone who missed a visit: Missingness is handled. It is not a reason to drop the principle.\n\n5. KEY TAKEAWAY\nIntention to treat follows allocation, not receipt.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Keep people in the arm they were randomised to. Dropping crossovers breaks the protection of randomisation.",
       "best_treatment": "Analyse by allocated group. That is the intention-to-treat estimate",
       "incorrect_answer_explanations": {
-        "B": "That is per-protocol. It is not the primary unbiased estimate.",
-        "C": "That is as-treated analysis and breaks randomisation.",
-        "D": "Missingness is handled. It is not a reason to drop the principle.",
-        "E": "It applies to any randomised comparison."
+        "A": "That is per-protocol. It is not the primary unbiased estimate.",
+        "B": "It applies to any randomised comparison.",
+        "D": "That is as-treated analysis and breaks randomisation.",
+        "E": "Missingness is handled. It is not a reason to drop the principle."
       },
       "key_takeaways": [
         "Intention to treat follows allocation, not receipt.",
@@ -481,23 +481,23 @@
     {
       "question_text": "A trial report says allocation was concealed, and separately that outcome assessors were blinded. A student treats the two words as the same thing. What is the most appropriate distinction?",
       "options": [
-        "Concealment and blinding are the same safeguard",
         "Concealment protects the allocation. Blinding protects the outcome assessment",
-        "Surgery trials cannot conceal allocation",
+        "Concealment and blinding are the same safeguard",
+        "Envelopes are a form of blinding",
         "Open outcome assessment repairs a failed concealment",
-        "Envelopes are a form of blinding"
+        "Surgery trials cannot conceal allocation"
       ],
-      "correct_answer": "B",
+      "correct_answer": "A",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. Concealment protects the allocation. Blinding protects the outcome assessment\n\n---\n\n1. CLINICAL SITUATION\nSealed envelopes are about concealment. Knowing the arm afterwards is a blinding issue. They are not the same failure.\n\n2. THE RULE\nIntention-to-treat analysis keeps participants in their allocated group, and allocation concealment differs from blinding.\n\n3. WHY B IS CORRECT\nAllocation concealment stops the recruiter knowing the next assignment. Blinding stops participants or assessors knowing which arm a person is in after assignment. A surgical trial can conceal allocation and still be unblinded.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Concealment and blinding are the same safeguard: They act at different times.\nC. Surgery trials cannot conceal allocation: They can. They often cannot blind the patient.\nD. Open outcome assessment repairs a failed concealment: It does not.\nE. Envelopes are a form of blinding: Envelopes, if truly opaque and sequenced, are concealment.\n\n5. KEY TAKEAWAY\nConcealment is before assignment.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nA. Concealment protects the allocation. Blinding protects the outcome assessment\n\n---\n\n1. CLINICAL SITUATION\nSealed envelopes are about concealment. Knowing the arm afterwards is a blinding issue. They are not the same failure.\n\n2. THE RULE\nIntention-to-treat analysis keeps participants in their allocated group, and allocation concealment differs from blinding.\n\n3. WHY A IS CORRECT\nAllocation concealment stops the recruiter knowing the next assignment. Blinding stops participants or assessors knowing which arm a person is in after assignment. A surgical trial can conceal allocation and still be unblinded.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Concealment and blinding are the same safeguard: They act at different times.\nC. Envelopes are a form of blinding: Envelopes, if truly opaque and sequenced, are concealment.\nD. Open outcome assessment repairs a failed concealment: It does not.\nE. Surgery trials cannot conceal allocation: They can. They often cannot blind the patient.\n\n5. KEY TAKEAWAY\nConcealment is before assignment.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Sealed envelopes are about concealment. Knowing the arm afterwards is a blinding issue. They are not the same failure.",
       "best_treatment": "Concealment protects the allocation. Blinding protects the outcome assessment",
       "incorrect_answer_explanations": {
-        "A": "They act at different times.",
-        "C": "They can. They often cannot blind the patient.",
+        "B": "They act at different times.",
+        "C": "Envelopes, if truly opaque and sequenced, are concealment.",
         "D": "It does not.",
-        "E": "Envelopes, if truly opaque and sequenced, are concealment."
+        "E": "They can. They often cannot blind the patient."
       },
       "key_takeaways": [
         "Concealment is before assignment.",
@@ -524,23 +524,23 @@
     {
       "question_text": "People with a rare cancer are asked about a past exposure, and compared with people without the cancer. A student calls it a cohort study and expects a relative risk. What is the most appropriate description?",
       "options": [
-        "It is a cohort study and estimates incidence",
         "It is a randomised trial",
         "It is a case-control study and estimates an odds ratio, not an incidence",
         "It is a cross-sectional prevalence survey of solariums",
-        "It can calculate a 1-year risk directly"
+        "It can calculate a 1-year risk directly",
+        "It is a cohort study and estimates incidence"
       ],
-      "correct_answer": "C",
+      "correct_answer": "B",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nC. It is a case-control study and estimates an odds ratio, not an incidence\n\n---\n\n1. CLINICAL SITUATION\nThis is a case-control study. It does not measure how many solarium users developed melanoma that year.\n\n2. THE RULE\nStudy design determines what can be estimated: case-control studies give odds ratios, cohorts give incidence, and cross-sectional studies cannot show temporal direction.\n\n3. WHY C IS CORRECT\nCases and controls are sampled on disease status, then exposures are compared. The usual estimate is an odds ratio. Incidence cannot be read off unless the study is nested in a defined cohort.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. It is a cohort study and estimates incidence: A cohort starts with exposure, not with disease.\nB. It is a randomised trial: Nothing was assigned.\nD. It is a cross-sectional prevalence survey of solariums: Cross-sectional samples a population at one time, not cases and controls.\nE. It can calculate a 1-year risk directly: The sampling was on disease, so the risk in users is not observed.\n\n5. KEY TAKEAWAY\nCase-control samples on disease.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nB. It is a case-control study and estimates an odds ratio, not an incidence\n\n---\n\n1. CLINICAL SITUATION\nThis is a case-control study. It does not measure how many solarium users developed melanoma that year.\n\n2. THE RULE\nStudy design determines what can be estimated: case-control studies give odds ratios, cohorts give incidence, and cross-sectional studies cannot show temporal direction.\n\n3. WHY B IS CORRECT\nCases and controls are sampled on disease status, then exposures are compared. The usual estimate is an odds ratio. Incidence cannot be read off unless the study is nested in a defined cohort.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. It is a randomised trial: Nothing was assigned.\nC. It is a cross-sectional prevalence survey of solariums: Cross-sectional samples a population at one time, not cases and controls.\nD. It can calculate a 1-year risk directly: The sampling was on disease, so the risk in users is not observed.\nE. It is a cohort study and estimates incidence: A cohort starts with exposure, not with disease.\n\n5. KEY TAKEAWAY\nCase-control samples on disease.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "This is a case-control study. It does not measure how many solarium users developed melanoma that year.",
       "best_treatment": "It is a case-control study and estimates an odds ratio, not an incidence",
       "incorrect_answer_explanations": {
-        "A": "A cohort starts with exposure, not with disease.",
-        "B": "Nothing was assigned.",
-        "D": "Cross-sectional samples a population at one time, not cases and controls.",
-        "E": "The sampling was on disease, so the risk in users is not observed."
+        "A": "Nothing was assigned.",
+        "C": "Cross-sectional samples a population at one time, not cases and controls.",
+        "D": "The sampling was on disease, so the risk in users is not observed.",
+        "E": "A cohort starts with exposure, not with disease."
       },
       "key_takeaways": [
         "Case-control samples on disease.",
@@ -569,21 +569,21 @@
       "options": [
         "Case-control",
         "Randomised trial",
-        "Cross-sectional",
         "Prospective cohort",
-        "Case series"
+        "Case series",
+        "Cross-sectional"
       ],
-      "correct_answer": "D",
+      "correct_answer": "C",
       "category": "Population Health & Ethics",
       "difficulty": "easy",
-      "explanation": "CORRECT ANSWER\n\nD. Prospective cohort\n\n---\n\n1. CLINICAL SITUATION\nSmokers and non-smokers followed forward is a prospective cohort, not a trial.\n\n2. THE RULE\nStudy design determines what can be estimated: case-control studies give odds ratios, cohorts give incidence, and cross-sectional studies cannot show temporal direction.\n\n3. WHY D IS CORRECT\nPeople are enrolled on exposure status, free of the outcome, and followed. That is a prospective cohort. No treatment was assigned, so it is not a trial.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Case-control: Case-control starts with the outcome.\nB. Randomised trial: Exposure was not assigned by the investigators.\nC. Cross-sectional: There is follow-up over 10 years.\nE. Case series: A case series has no comparison group of unaffected people.\n\n5. KEY TAKEAWAY\nCohort starts with exposure and follows for outcome.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nC. Prospective cohort\n\n---\n\n1. CLINICAL SITUATION\nSmokers and non-smokers followed forward is a prospective cohort, not a trial.\n\n2. THE RULE\nStudy design determines what can be estimated: case-control studies give odds ratios, cohorts give incidence, and cross-sectional studies cannot show temporal direction.\n\n3. WHY C IS CORRECT\nPeople are enrolled on exposure status, free of the outcome, and followed. That is a prospective cohort. No treatment was assigned, so it is not a trial.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Case-control: Case-control starts with the outcome.\nB. Randomised trial: Exposure was not assigned by the investigators.\nD. Case series: A case series has no comparison group of unaffected people.\nE. Cross-sectional: There is follow-up over 10 years.\n\n5. KEY TAKEAWAY\nCohort starts with exposure and follows for outcome.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Smokers and non-smokers followed forward is a prospective cohort, not a trial.",
       "best_treatment": "Prospective cohort",
       "incorrect_answer_explanations": {
         "A": "Case-control starts with the outcome.",
         "B": "Exposure was not assigned by the investigators.",
-        "C": "There is follow-up over 10 years.",
-        "E": "A case series has no comparison group of unaffected people."
+        "D": "A case series has no comparison group of unaffected people.",
+        "E": "There is follow-up over 10 years."
       },
       "key_takeaways": [
         "Cohort starts with exposure and follows for outcome.",
@@ -610,23 +610,23 @@
     {
       "question_text": "A study finds coffee drinkers have more heart disease. Coffee drinkers also smoke more. A student says the coffee association is therefore causal. The smoking difference could explain the heart disease finding. What is the most appropriate caution?",
       "options": [
-        "Coffee is causal because the association was statistically significant",
-        "This is lead-time bias",
         "Randomisation has removed the problem",
-        "A confounder must be on the causal pathway",
-        "Smoking may confound the coffee association"
+        "Coffee is causal because the association was statistically significant",
+        "Smoking may confound the coffee association",
+        "This is lead-time bias",
+        "A confounder must be on the causal pathway"
       ],
-      "correct_answer": "E",
+      "correct_answer": "C",
       "category": "Population Health & Ethics",
       "difficulty": "difficult",
-      "explanation": "CORRECT ANSWER\n\nE. Smoking may confound the coffee association\n\n---\n\n1. CLINICAL SITUATION\nSmoking is a plausible confounder. The coffee association is not clean.\n\n2. THE RULE\nA confounder is linked to both exposure and outcome and distorts the association, and unmeasured confounders can persist after adjustment.\n\n3. WHY E IS CORRECT\nA confounder is associated with the exposure, associated with the outcome, and not on the causal pathway between them. Smoking fits. The coffee association may be partly or wholly smoking.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Coffee is causal because the association was statistically significant: Significance does not settle confounding.\nB. This is lead-time bias: Lead time is about screening.\nC. Randomisation has removed the problem: This was not a randomised comparison.\nD. A confounder must be on the causal pathway: A factor on the pathway is a mediator, not a confounder.\n\n5. KEY TAKEAWAY\nA confounder links to both exposure and outcome, and is not a mediator.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nC. Smoking may confound the coffee association\n\n---\n\n1. CLINICAL SITUATION\nSmoking is a plausible confounder. The coffee association is not clean.\n\n2. THE RULE\nA confounder is linked to both exposure and outcome and distorts the association, and unmeasured confounders can persist after adjustment.\n\n3. WHY C IS CORRECT\nA confounder is associated with the exposure, associated with the outcome, and not on the causal pathway between them. Smoking fits. The coffee association may be partly or wholly smoking.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Randomisation has removed the problem: This was not a randomised comparison.\nB. Coffee is causal because the association was statistically significant: Significance does not settle confounding.\nD. This is lead-time bias: Lead time is about screening.\nE. A confounder must be on the causal pathway: A factor on the pathway is a mediator, not a confounder.\n\n5. KEY TAKEAWAY\nA confounder links to both exposure and outcome, and is not a mediator.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Smoking is a plausible confounder. The coffee association is not clean.",
       "best_treatment": "Smoking may confound the coffee association",
       "incorrect_answer_explanations": {
-        "A": "Significance does not settle confounding.",
-        "B": "Lead time is about screening.",
-        "C": "This was not a randomised comparison.",
-        "D": "A factor on the pathway is a mediator, not a confounder."
+        "A": "This was not a randomised comparison.",
+        "B": "Significance does not settle confounding.",
+        "D": "Lead time is about screening.",
+        "E": "A factor on the pathway is a mediator, not a confounder."
       },
       "key_takeaways": [
         "A confounder links to both exposure and outcome, and is not a mediator.",
@@ -653,23 +653,23 @@
     {
       "question_text": "A cohort study adjusts for age, sex, and smoking, and still finds an association. A student says confounding is now impossible. Adjustment can only deal with confounders that were measured. What is the most appropriate limitation?",
       "options": [
+        "Adjustment creates allocation concealment",
         "Unknown and unmeasured confounders can remain",
         "Adjustment for age and sex equals randomisation",
         "Observational studies cannot have confounding",
-        "Randomised trials are more confounded than cohorts",
-        "Adjustment creates allocation concealment"
+        "Randomised trials are more confounded than cohorts"
       ],
-      "correct_answer": "A",
+      "correct_answer": "B",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. Unknown and unmeasured confounders can remain\n\n---\n\n1. CLINICAL SITUATION\nAdjusting for age and sex is not randomisation. Unmeasured confounding can remain.\n\n2. THE RULE\nA confounder is linked to both exposure and outcome and distorts the association, and unmeasured confounders can persist after adjustment.\n\n3. WHY A IS CORRECT\nAdjustment can reduce confounding by measured factors. It cannot guarantee balance on unmeasured ones. Randomisation balances both known and unknown factors in expectation, which is why it is stronger for causality.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Adjustment for age and sex equals randomisation: It does not.\nC. Observational studies cannot have confounding: They are where confounding is the central problem.\nD. Randomised trials are more confounded than cohorts: The reverse is the usual concern.\nE. Adjustment creates allocation concealment: Concealment is a trial procedure.\n\n5. KEY TAKEAWAY\nRandomisation balances unknown factors in expectation.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nB. Unknown and unmeasured confounders can remain\n\n---\n\n1. CLINICAL SITUATION\nAdjusting for age and sex is not randomisation. Unmeasured confounding can remain.\n\n2. THE RULE\nA confounder is linked to both exposure and outcome and distorts the association, and unmeasured confounders can persist after adjustment.\n\n3. WHY B IS CORRECT\nAdjustment can reduce confounding by measured factors. It cannot guarantee balance on unmeasured ones. Randomisation balances both known and unknown factors in expectation, which is why it is stronger for causality.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Adjustment creates allocation concealment: Concealment is a trial procedure.\nC. Adjustment for age and sex equals randomisation: It does not.\nD. Observational studies cannot have confounding: They are where confounding is the central problem.\nE. Randomised trials are more confounded than cohorts: The reverse is the usual concern.\n\n5. KEY TAKEAWAY\nRandomisation balances unknown factors in expectation.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Adjusting for age and sex is not randomisation. Unmeasured confounding can remain.",
       "best_treatment": "Unknown and unmeasured confounders can remain",
       "incorrect_answer_explanations": {
-        "B": "It does not.",
-        "C": "They are where confounding is the central problem.",
-        "D": "The reverse is the usual concern.",
-        "E": "Concealment is a trial procedure."
+        "A": "Concealment is a trial procedure.",
+        "C": "It does not.",
+        "D": "They are where confounding is the central problem.",
+        "E": "The reverse is the usual concern."
       },
       "key_takeaways": [
         "Randomisation balances unknown factors in expectation.",
@@ -696,23 +696,23 @@
     {
       "question_text": "A test has a sensitivity of 90% and a specificity of 80%. A student asks for the positive likelihood ratio. What is the positive likelihood ratio?",
       "options": [
-        "0.9",
+        "Prevalence is required before a likelihood ratio can be calculated",
         "4.5",
-        "1.125",
         "0.125",
-        "Prevalence is required before a likelihood ratio can be calculated"
+        "1.125",
+        "0.9"
       ],
       "correct_answer": "B",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. 4.5\n\n---\n\n1. CLINICAL SITUATION\nPositive likelihood ratio is 4.5, not 0.9.\n\n2. THE RULE\nSensitivity and specificity are test properties; a negative highly sensitive test helps rule disease out, and the post-test probability also needs prevalence or likelihood ratios.\n\n3. WHY B IS CORRECT\nPositive likelihood ratio is sensitivity / (1 \u2212 specificity) = 0.90 / 0.20 = 4.5. It does not use prevalence. A value of 0.9 would be a weak or useless positive ratio.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. 0.9: That is the sensitivity, not the ratio.\nC. 1.125: That is sensitivity / specificity.\nD. 0.125: That is not the positive ratio.\nE. Prevalence is required before a likelihood ratio can be calculated: Likelihood ratios are independent of prevalence. Predictive values are not.\n\n5. KEY TAKEAWAY\nLR+ = sensitivity / (1 \u2212 specificity).\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nB. 4.5\n\n---\n\n1. CLINICAL SITUATION\nPositive likelihood ratio is 4.5, not 0.9.\n\n2. THE RULE\nSensitivity and specificity are test properties; a negative highly sensitive test helps rule disease out, and the post-test probability also needs prevalence or likelihood ratios.\n\n3. WHY B IS CORRECT\nPositive likelihood ratio is sensitivity / (1 \u2212 specificity) = 0.90 / 0.20 = 4.5. It does not use prevalence. A value of 0.9 would be a weak or useless positive ratio.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Prevalence is required before a likelihood ratio can be calculated: Likelihood ratios are independent of prevalence. Predictive values are not.\nC. 0.125: That is not the positive ratio.\nD. 1.125: That is sensitivity / specificity.\nE. 0.9: That is the sensitivity, not the ratio.\n\n5. KEY TAKEAWAY\nLR+ = sensitivity / (1 \u2212 specificity).\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Positive likelihood ratio is 4.5, not 0.9.",
       "best_treatment": "4.5",
       "incorrect_answer_explanations": {
-        "A": "That is the sensitivity, not the ratio.",
-        "C": "That is sensitivity / specificity.",
-        "D": "That is not the positive ratio.",
-        "E": "Likelihood ratios are independent of prevalence. Predictive values are not."
+        "A": "Likelihood ratios are independent of prevalence. Predictive values are not.",
+        "C": "That is not the positive ratio.",
+        "D": "That is sensitivity / specificity.",
+        "E": "That is the sensitivity, not the ratio."
       },
       "key_takeaways": [
         "LR+ = sensitivity / (1 \u2212 specificity).",
@@ -739,23 +739,23 @@
     {
       "question_text": "A survey measures a dietary exposure and a symptom at the same visit and reports an association. A student says the exposure caused the symptom. What is the most appropriate limitation?",
       "options": [
-        "The design can show which came first",
         "This is a randomised trial",
+        "Same-day measurement removes confounding",
+        "The design can show which came first",
         "Exposure and outcome were measured together, so direction cannot be established",
-        "Cross-sectional studies estimate incidence directly",
-        "Same-day measurement removes confounding"
+        "Cross-sectional studies estimate incidence directly"
       ],
-      "correct_answer": "C",
+      "correct_answer": "D",
       "category": "Population Health & Ethics",
       "difficulty": "easy",
-      "explanation": "CORRECT ANSWER\n\nC. Exposure and outcome were measured together, so direction cannot be established\n\n---\n\n1. CLINICAL SITUATION\nSame-day measurement cannot show that poor satisfaction caused the pain.\n\n2. THE RULE\nStudy design determines what can be estimated: case-control studies give odds ratios, cohorts give incidence, and cross-sectional studies cannot show temporal direction.\n\n3. WHY C IS CORRECT\nA cross-sectional study is a snapshot. It can show association. It cannot show whether poor satisfaction preceded the pain or followed it.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. The design can show which came first: It cannot.\nB. This is a randomised trial: Nothing was assigned.\nD. Cross-sectional studies estimate incidence directly: They estimate prevalence.\nE. Same-day measurement removes confounding: It does not.\n\n5. KEY TAKEAWAY\nCross-sectional studies are snapshots.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nD. Exposure and outcome were measured together, so direction cannot be established\n\n---\n\n1. CLINICAL SITUATION\nSame-day measurement cannot show that poor satisfaction caused the pain.\n\n2. THE RULE\nStudy design determines what can be estimated: case-control studies give odds ratios, cohorts give incidence, and cross-sectional studies cannot show temporal direction.\n\n3. WHY D IS CORRECT\nA cross-sectional study is a snapshot. It can show association. It cannot show whether poor satisfaction preceded the pain or followed it.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. This is a randomised trial: Nothing was assigned.\nB. Same-day measurement removes confounding: It does not.\nC. The design can show which came first: It cannot.\nE. Cross-sectional studies estimate incidence directly: They estimate prevalence.\n\n5. KEY TAKEAWAY\nCross-sectional studies are snapshots.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Same-day measurement cannot show that poor satisfaction caused the pain.",
       "best_treatment": "Exposure and outcome were measured together, so direction cannot be established",
       "incorrect_answer_explanations": {
-        "A": "It cannot.",
-        "B": "Nothing was assigned.",
-        "D": "They estimate prevalence.",
-        "E": "It does not."
+        "A": "Nothing was assigned.",
+        "B": "It does not.",
+        "C": "It cannot.",
+        "E": "They estimate prevalence."
       },
       "key_takeaways": [
         "Cross-sectional studies are snapshots.",
@@ -783,22 +783,22 @@
       "question_text": "In a cohort, the risk of the outcome is 20% in the exposed and 10% in the unexposed. A student reports an odds ratio of 2.25 and calls it the relative risk. What is the most appropriate statement?",
       "options": [
         "Odds ratio and relative risk are always equal",
-        "The relative risk is 2.7",
         "A common outcome makes the odds ratio smaller than the relative risk",
-        "The relative risk is 2. The odds ratio overstates it",
-        "Relative risk cannot be calculated in a cohort"
+        "The relative risk is 2.7",
+        "Relative risk cannot be calculated in a cohort",
+        "The relative risk is 2. The odds ratio overstates it"
       ],
-      "correct_answer": "D",
+      "correct_answer": "E",
       "category": "Population Health & Ethics",
       "difficulty": "difficult",
-      "explanation": "CORRECT ANSWER\n\nD. The relative risk is 2. The odds ratio overstates it\n\n---\n\n1. CLINICAL SITUATION\nRisk doubled. The odds ratio of 2.7 overstates that because the outcome is common.\n\n2. THE RULE\nWhen the outcome is common, the odds ratio overstates the relative risk, so cohort data should report the relative risk.\n\n3. WHY D IS CORRECT\nRelative risk is 0.40 / 0.20 = 2. The odds are 0.40/0.60 versus 0.20/0.80, so the odds ratio is (0.667) / (0.25) = 2.67. When the outcome is common, the odds ratio pulls away from the relative risk.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Odds ratio and relative risk are always equal: They converge only when the outcome is rare.\nB. The relative risk is 2.7: That is the odds ratio.\nC. A common outcome makes the odds ratio smaller than the relative risk: It makes it larger.\nE. Relative risk cannot be calculated in a cohort: A cohort is where relative risk is natural.\n\n5. KEY TAKEAWAY\nRelative risk is the risk ratio.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nE. The relative risk is 2. The odds ratio overstates it\n\n---\n\n1. CLINICAL SITUATION\nRisk doubled. The odds ratio of 2.7 overstates that because the outcome is common.\n\n2. THE RULE\nWhen the outcome is common, the odds ratio overstates the relative risk, so cohort data should report the relative risk.\n\n3. WHY E IS CORRECT\nRelative risk is 0.40 / 0.20 = 2. The odds are 0.40/0.60 versus 0.20/0.80, so the odds ratio is (0.667) / (0.25) = 2.67. When the outcome is common, the odds ratio pulls away from the relative risk.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Odds ratio and relative risk are always equal: They converge only when the outcome is rare.\nB. A common outcome makes the odds ratio smaller than the relative risk: It makes it larger.\nC. The relative risk is 2.7: That is the odds ratio.\nD. Relative risk cannot be calculated in a cohort: A cohort is where relative risk is natural.\n\n5. KEY TAKEAWAY\nRelative risk is the risk ratio.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Risk doubled. The odds ratio of 2.7 overstates that because the outcome is common.",
       "best_treatment": "The relative risk is 2. The odds ratio overstates it",
       "incorrect_answer_explanations": {
         "A": "They converge only when the outcome is rare.",
-        "B": "That is the odds ratio.",
-        "C": "It makes it larger.",
-        "E": "A cohort is where relative risk is natural."
+        "B": "It makes it larger.",
+        "C": "That is the odds ratio.",
+        "D": "A cohort is where relative risk is natural."
       },
       "key_takeaways": [
         "Relative risk is the risk ratio.",
@@ -826,22 +826,22 @@
       "question_text": "A small trial finds no significant difference between two treatments. A colleague says this proves they are equivalent. What is the most appropriate caution?",
       "options": [
         "They have proved equivalence",
+        "A type II error is likely. Absence of a significant difference is not evidence of no difference",
         "The p-value must be 0.40",
         "Power of 40% means the result is significant",
-        "Type I error is the failure to detect a real effect",
-        "A type II error is likely. Absence of a significant difference is not evidence of no difference"
+        "Type I error is the failure to detect a real effect"
       ],
-      "correct_answer": "E",
+      "correct_answer": "B",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nE. A type II error is likely. Absence of a significant difference is not evidence of no difference\n\n---\n\n1. CLINICAL SITUATION\nNot significant in an underpowered trial is not proof of equivalence.\n\n2. THE RULE\nA 95% confidence interval that includes the null value is compatible with no effect, and a non-significant result in a small study may be a type II error.\n\n3. WHY E IS CORRECT\nPower is 1 minus the type II error rate. At 40% power, a real difference of the hoped-for size will be missed often. 'Not significant' is not the same as 'no difference'.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. They have proved equivalence: Equivalence needs a pre-set margin and adequate precision.\nB. The p-value must be 0.40: Power is not a p-value.\nC. Power of 40% means the result is significant: Power is the chance of detecting an effect, not a result.\nD. Type I error is the failure to detect a real effect: That is type II.\n\n5. KEY TAKEAWAY\nType II error is missing a real effect.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nB. A type II error is likely. Absence of a significant difference is not evidence of no difference\n\n---\n\n1. CLINICAL SITUATION\nNot significant in an underpowered trial is not proof of equivalence.\n\n2. THE RULE\nA 95% confidence interval that includes the null value is compatible with no effect, and a non-significant result in a small study may be a type II error.\n\n3. WHY B IS CORRECT\nPower is 1 minus the type II error rate. At 40% power, a real difference of the hoped-for size will be missed often. 'Not significant' is not the same as 'no difference'.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. They have proved equivalence: Equivalence needs a pre-set margin and adequate precision.\nC. The p-value must be 0.40: Power is not a p-value.\nD. Power of 40% means the result is significant: Power is the chance of detecting an effect, not a result.\nE. Type I error is the failure to detect a real effect: That is type II.\n\n5. KEY TAKEAWAY\nType II error is missing a real effect.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Not significant in an underpowered trial is not proof of equivalence.",
       "best_treatment": "A type II error is likely. Absence of a significant difference is not evidence of no difference",
       "incorrect_answer_explanations": {
         "A": "Equivalence needs a pre-set margin and adequate precision.",
-        "B": "Power is not a p-value.",
-        "C": "Power is the chance of detecting an effect, not a result.",
-        "D": "That is type II."
+        "C": "Power is not a p-value.",
+        "D": "Power is the chance of detecting an effect, not a result.",
+        "E": "That is type II."
       },
       "key_takeaways": [
         "Type II error is missing a real effect.",
@@ -868,23 +868,23 @@
     {
       "question_text": "A man has a positive bowel screening kit and asks for a repeat kit to confirm it before any procedure. A colleague agrees, to be sure. What is the most appropriate next step?",
       "options": [
+        "A positive screen in an average-risk man has a positive predictive value near 100%",
         "Refer for colonoscopy. The screening test is not diagnostic",
-        "Tell him the positive screening test is the diagnosis",
         "Repeat the faecal test in 2 years and do nothing now",
-        "Start chemotherapy while waiting",
-        "A positive screen in an average-risk man has a positive predictive value near 100%"
+        "Tell him the positive screening test is the diagnosis",
+        "Start chemotherapy while waiting"
       ],
-      "correct_answer": "A",
+      "correct_answer": "B",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. Refer for colonoscopy. The screening test is not diagnostic\n\n---\n\n1. CLINICAL SITUATION\nA positive FIT is a reason for colonoscopy, not a cancer diagnosis.\n\n2. THE RULE\nPositive predictive value rises and falls with prevalence even when sensitivity and specificity are fixed, and a positive screening test still needs diagnostic confirmation.\n\n3. WHY A IS CORRECT\nA screening test sorts people who need a diagnostic test. A positive FIT leads to colonoscopy. It does not diagnose cancer, and the positive predictive value in average-risk screening is far below 100%.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Tell him the positive screening test is the diagnosis: Screening is not diagnosis.\nC. Repeat the faecal test in 2 years and do nothing now: A positive screen is not deferred for two years.\nD. Start chemotherapy while waiting: There is no confirmed cancer.\nE. A positive screen in an average-risk man has a positive predictive value near 100%: Most positive FITs are not cancer.\n\n5. KEY TAKEAWAY\nScreening sorts. It does not diagnose.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nB. Refer for colonoscopy. The screening test is not diagnostic\n\n---\n\n1. CLINICAL SITUATION\nA positive FIT is a reason for colonoscopy, not a cancer diagnosis.\n\n2. THE RULE\nA positive bowel screening iFOBT, or bowel symptoms, requires diagnostic colonoscopy, never a repeat kit.\n\n3. WHY B IS CORRECT\nA screening test sorts people who need a diagnostic test. A positive FIT leads to colonoscopy. It does not diagnose cancer, and the positive predictive value in average-risk screening is far below 100%.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. A positive screen in an average-risk man has a positive predictive value near 100%: Most positive FITs are not cancer.\nC. Repeat the faecal test in 2 years and do nothing now: A positive screen is not deferred for two years.\nD. Tell him the positive screening test is the diagnosis: Screening is not diagnosis.\nE. Start chemotherapy while waiting: There is no confirmed cancer.\n\n5. KEY TAKEAWAY\nScreening sorts. It does not diagnose.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A positive FIT is a reason for colonoscopy, not a cancer diagnosis.",
       "best_treatment": "Refer for colonoscopy. The screening test is not diagnostic",
       "incorrect_answer_explanations": {
-        "B": "Screening is not diagnosis.",
+        "A": "Most positive FITs are not cancer.",
         "C": "A positive screen is not deferred for two years.",
-        "D": "There is no confirmed cancer.",
-        "E": "Most positive FITs are not cancer."
+        "D": "Screening is not diagnosis.",
+        "E": "There is no confirmed cancer."
       },
       "key_takeaways": [
         "Screening sorts. It does not diagnose.",
@@ -896,11 +896,11 @@
       "zyntra_id": "ZQ-0502",
       "phase": "PH-04",
       "phase_item_id": "PH-E-21",
-      "lo_id": "333485d2-5192-5695-a7ed-d13eb65aed63",
-      "lo_code": "PREDICTIVE_VALUE",
-      "lo_key": "PREDICTIVE_VALUE",
-      "lo_title": "Positive predictive value rises and falls with prevalence even when sensitivity and specificity are fixed, and a positive screening test still needs diagnostic confirmation.",
-      "lo_role": "core",
+      "lo_id": "fe130935-33eb-5ba2-a042-fe471cc453ed",
+      "lo_code": "BOWEL_NOT_A_REPEAT_KIT",
+      "lo_key": "BOWEL_NOT_A_REPEAT_KIT",
+      "lo_title": "A positive bowel screening iFOBT, or bowel symptoms, requires diagnostic colonoscopy, never a repeat kit.",
+      "lo_role": "variant",
       "shared_lo": true,
       "irt_b": 0.1,
       "difficulty_tier": "medium",
@@ -911,22 +911,22 @@
     {
       "question_text": "In a town of 10,000, 200 people have a chronic disease on a given day. In that year, 20 new cases occur. A student swaps the two rates. What are the two figures?",
       "options": [
+        "Prevalence is 20 per 10,000 per year",
+        "Both figures are incidence",
         "Prevalence 20 per 10,000. Incidence 200 per 10,000",
         "Prevalence 200 per 10,000. Incidence 20 per 10,000 per year",
-        "Both figures are incidence",
-        "Prevalence is 20 per 10,000 per year",
         "Incidence cannot be calculated without a control group"
       ],
-      "correct_answer": "B",
+      "correct_answer": "D",
       "category": "Population Health & Ethics",
       "difficulty": "easy",
-      "explanation": "CORRECT ANSWER\n\nB. Prevalence 200 per 10,000. Incidence 20 per 10,000 per year\n\n---\n\n1. CLINICAL SITUATION\nPrevalence is 200 per 10,000. Incidence is 20 per 10,000 per year.\n\n2. THE RULE\nIncidence is new cases in a population over a period of time, while prevalence is all existing cases at a point in time.\n\n3. WHY B IS CORRECT\nPoint prevalence is existing cases over the population, 200/10,000. Incidence is new cases over the period, 20/10,000 per year.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Prevalence 20 per 10,000. Incidence 200 per 10,000: The numbers are swapped.\nC. Both figures are incidence: The 200 is a stock.\nD. Prevalence is 20 per 10,000 per year: Prevalence is not a rate in this sense, and 20 is the new-case count.\nE. Incidence cannot be calculated without a control group: Incidence needs a population and a time, not a control group.\n\n5. KEY TAKEAWAY\nPrevalence uses existing cases.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nD. Prevalence 200 per 10,000. Incidence 20 per 10,000 per year\n\n---\n\n1. CLINICAL SITUATION\nPrevalence is 200 per 10,000. Incidence is 20 per 10,000 per year.\n\n2. THE RULE\nIncidence is new cases in a population over a period of time, while prevalence is all existing cases at a point in time.\n\n3. WHY D IS CORRECT\nPoint prevalence is existing cases over the population, 200/10,000. Incidence is new cases over the period, 20/10,000 per year.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Prevalence is 20 per 10,000 per year: Prevalence is not a rate in this sense, and 20 is the new-case count.\nB. Both figures are incidence: The 200 is a stock.\nC. Prevalence 20 per 10,000. Incidence 200 per 10,000: The numbers are swapped.\nE. Incidence cannot be calculated without a control group: Incidence needs a population and a time, not a control group.\n\n5. KEY TAKEAWAY\nPrevalence uses existing cases.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Prevalence is 200 per 10,000. Incidence is 20 per 10,000 per year.",
       "best_treatment": "Prevalence 200 per 10,000. Incidence 20 per 10,000 per year",
       "incorrect_answer_explanations": {
-        "A": "The numbers are swapped.",
-        "C": "The 200 is a stock.",
-        "D": "Prevalence is not a rate in this sense, and 20 is the new-case count.",
+        "A": "Prevalence is not a rate in this sense, and 20 is the new-case count.",
+        "B": "The 200 is a stock.",
+        "C": "The numbers are swapped.",
         "E": "Incidence needs a population and a time, not a control group."
       },
       "key_takeaways": [
@@ -954,23 +954,23 @@
     {
       "question_text": "A highly sensitive test for a rare infection is negative. A colleague says a sensitive test confirms disease, so a negative result is unhelpful. The colleague has the uses reversed. Which of the following is most accurate?",
       "options": [
-        "A negative result on a sensitive test helps rule disease out",
-        "A sensitive test confirms disease when positive",
         "Specificity is used to rule disease out",
+        "A negative result on a sensitive test helps rule disease out",
+        "A sensitive test is useless when negative",
         "Sensitivity equals positive predictive value",
-        "A sensitive test is useless when negative"
+        "A sensitive test confirms disease when positive"
       ],
-      "correct_answer": "A",
+      "correct_answer": "B",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. A negative result on a sensitive test helps rule disease out\n\n---\n\n1. CLINICAL SITUATION\nA highly sensitive test for a rare infection is negative. A colleague says a sensitive test confirms disease, so a negative result is unhelpful. The colleague has the uses reversed.\n\n2. THE RULE\nSensitivity and specificity are test properties; a negative highly sensitive test helps rule disease out, and the post-test probability also needs prevalence or likelihood ratios.\n\n3. WHY A IS CORRECT\nSnNOut: a sensitive test that is negative helps rule disease out.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. A sensitive test confirms disease when positive: A positive result on a highly specific test rules disease in, not a sensitive one.\nC. Specificity is used to rule disease out: Specificity helps rule in (SpPIn); sensitivity rules out (SnNOut).\nD. Sensitivity equals positive predictive value: Sensitivity is a test property; PPV depends on prevalence.\nE. A sensitive test is useless when negative: A negative on a sensitive test is very useful to rule out disease.\n\n5. KEY TAKEAWAY\nSensitivity and specificity are test properties; a negative highly sensitive test helps rule disease out, and the post-test probability also needs prevalence or likelihood ratios.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nB. A negative result on a sensitive test helps rule disease out\n\n---\n\n1. CLINICAL SITUATION\nA highly sensitive test for a rare infection is negative. A colleague says a sensitive test confirms disease, so a negative result is unhelpful. The colleague has the uses reversed.\n\n2. THE RULE\nSensitivity and specificity are test properties; a negative highly sensitive test helps rule disease out, and the post-test probability also needs prevalence or likelihood ratios.\n\n3. WHY B IS CORRECT\nSnNOut: a sensitive test that is negative helps rule disease out.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Specificity is used to rule disease out: Specificity helps rule in (SpPIn); sensitivity rules out (SnNOut).\nC. A sensitive test is useless when negative: A negative on a sensitive test is very useful to rule out disease.\nD. Sensitivity equals positive predictive value: Sensitivity is a test property; PPV depends on prevalence.\nE. A sensitive test confirms disease when positive: A positive result on a highly specific test rules disease in, not a sensitive one.\n\n5. KEY TAKEAWAY\nSensitivity and specificity are test properties; a negative highly sensitive test helps rule disease out, and the post-test probability also needs prevalence or likelihood ratios.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A highly sensitive test for a rare infection is negative. A colleague says a sensitive test confirms disease, so a negative result is unhelpful. The colleague has the uses reversed.",
       "best_treatment": "A negative result on a sensitive test helps rule disease out",
       "incorrect_answer_explanations": {
-        "B": "A positive result on a highly specific test rules disease in, not a sensitive one.",
-        "C": "Specificity helps rule in (SpPIn); sensitivity rules out (SnNOut).",
+        "A": "Specificity helps rule in (SpPIn); sensitivity rules out (SnNOut).",
+        "C": "A negative on a sensitive test is very useful to rule out disease.",
         "D": "Sensitivity is a test property; PPV depends on prevalence.",
-        "E": "A negative on a sensitive test is very useful to rule out disease."
+        "E": "A positive result on a highly specific test rules disease in, not a sensitive one."
       },
       "key_takeaways": [
         "Sensitivity and specificity are test properties; a negative highly sensitive test helps rule disease out, and the post-test probability also needs prevalence or likelihood ratios.",
@@ -998,25 +998,25 @@
       "question_text": "The same screening test is used in two towns. Town A has higher prevalence. A student says PPV must be identical because the test has not changed. PPV rises as prevalence rises, even when sensitivity and specificity are fixed. Which of the following is most accurate?",
       "options": [
         "PPV is the same in both towns because the test is identical",
-        "PPV is higher where prevalence is higher",
         "Specificity changes with prevalence",
         "Sensitivity falls as prevalence rises",
+        "PPV is higher where prevalence is higher",
         "NPV rises as prevalence rises"
       ],
-      "correct_answer": "B",
+      "correct_answer": "D",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. PPV is higher where prevalence is higher\n\n---\n\n1. CLINICAL SITUATION\nThe same screening test is used in two towns. Town A has higher prevalence. A student says PPV must be identical because the test has not changed.\n\n2. THE RULE\nPositive predictive value rises and falls with prevalence even when sensitivity and specificity are fixed, and a positive screening test still needs diagnostic confirmation.\n\n3. WHY B IS CORRECT\nSame test, higher prevalence, higher PPV. Specificity has not changed.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. PPV is the same in both towns because the test is identical: PPV depends on prevalence as well as the test.\nC. Specificity changes with prevalence: Specificity is a property of the test and does not change with prevalence.\nD. Sensitivity falls as prevalence rises: Sensitivity does not change with prevalence.\nE. NPV rises as prevalence rises: NPV falls as prevalence rises.\n\n5. KEY TAKEAWAY\nPositive predictive value rises and falls with prevalence even when sensitivity and specificity are fixed, and a positive screening test still needs diagnostic confirmation.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nD. PPV is higher where prevalence is higher\n\n---\n\n1. CLINICAL SITUATION\nThe same screening test is used in two towns. Town A has higher prevalence. A student says PPV must be identical because the test has not changed.\n\n2. THE RULE\nPositive predictive value depends on prevalence: with fixed sensitivity and specificity it falls as prevalence falls, so most positives may be false in a low-prevalence population.\n\n3. WHY D IS CORRECT\nSame test, higher prevalence, higher PPV. Specificity has not changed.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. PPV is the same in both towns because the test is identical: PPV depends on prevalence as well as the test.\nB. Specificity changes with prevalence: Specificity is a property of the test and does not change with prevalence.\nC. Sensitivity falls as prevalence rises: Sensitivity does not change with prevalence.\nE. NPV rises as prevalence rises: NPV falls as prevalence rises.\n\n5. KEY TAKEAWAY\nPositive predictive value depends on prevalence: with fixed sensitivity and specificity it falls as prevalence falls, so most positives may be false in a low-prevalence population.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "The same screening test is used in two towns. Town A has higher prevalence. A student says PPV must be identical because the test has not changed.",
       "best_treatment": "PPV is higher where prevalence is higher",
       "incorrect_answer_explanations": {
         "A": "PPV depends on prevalence as well as the test.",
-        "C": "Specificity is a property of the test and does not change with prevalence.",
-        "D": "Sensitivity does not change with prevalence.",
+        "B": "Specificity is a property of the test and does not change with prevalence.",
+        "C": "Sensitivity does not change with prevalence.",
         "E": "NPV falls as prevalence rises."
       },
       "key_takeaways": [
-        "Positive predictive value rises and falls with prevalence even when sensitivity and specificity are fixed, and a positive screening test still needs diagnostic confirmation.",
+        "Positive predictive value depends on prevalence: with fixed sensitivity and specificity it falls as prevalence falls, so most positives may be false in a low-prevalence population.",
         "Same test, higher prevalence, higher PPV."
       ],
       "subtopic": "Sensitivity is true positives among those with disease. It does not tell you the chance you have the disease if the test is positive.",
@@ -1028,7 +1028,7 @@
       "lo_id": "333485d2-5192-5695-a7ed-d13eb65aed63",
       "lo_code": "PREDICTIVE_VALUE",
       "lo_key": "PREDICTIVE_VALUE",
-      "lo_title": "Positive predictive value rises and falls with prevalence even when sensitivity and specificity are fixed, and a positive screening test still needs diagnostic confirmation.",
+      "lo_title": "Positive predictive value depends on prevalence: with fixed sensitivity and specificity it falls as prevalence falls, so most positives may be false in a low-prevalence population.",
       "lo_role": "variant",
       "shared_lo": true,
       "irt_b": -0.05,
@@ -1040,26 +1040,26 @@
     {
       "question_text": "A man has a positive bowel screening kit and asks for a repeat kit before any procedure. A second kit can be falsely negative. Which of the following is most accurate?",
       "options": [
-        "A positive screening test is a diagnosis",
         "A positive screening test is not a diagnosis and is not confirmed by repeating the same test",
+        "No further test is needed",
         "Repeat the kit to be sure",
         "A second negative kit clears a positive one",
-        "No further test is needed"
+        "A positive screening test is a diagnosis"
       ],
-      "correct_answer": "B",
+      "correct_answer": "A",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. A positive screening test is not a diagnosis and is not confirmed by repeating the same test\n\n---\n\n1. CLINICAL SITUATION\nA man has a positive bowel screening kit and asks for a repeat kit before any procedure. A second kit can be falsely negative.\n\n2. THE RULE\nPositive predictive value rises and falls with prevalence even when sensitivity and specificity are fixed, and a positive screening test still needs diagnostic confirmation.\n\n3. WHY B IS CORRECT\nPositive screen goes to the diagnostic test, not a repeat of the same screen.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. A positive screening test is a diagnosis: A screen is not a diagnosis; diagnostic testing follows.\nC. Repeat the kit to be sure: Repeating the screen does not confirm or exclude disease.\nD. A second negative kit clears a positive one: A second negative does not cancel a positive result.\nE. No further test is needed: A positive screen needs diagnostic follow-up (colonoscopy).\n\n5. KEY TAKEAWAY\nPositive predictive value rises and falls with prevalence even when sensitivity and specificity are fixed, and a positive screening test still needs diagnostic confirmation.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nA. A positive screening test is not a diagnosis and is not confirmed by repeating the same test\n\n---\n\n1. CLINICAL SITUATION\nA man has a positive bowel screening kit and asks for a repeat kit before any procedure. A second kit can be falsely negative.\n\n2. THE RULE\nA positive bowel screening iFOBT, or bowel symptoms, requires diagnostic colonoscopy, never a repeat kit.\n\n3. WHY A IS CORRECT\nPositive screen goes to the diagnostic test, not a repeat of the same screen.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. No further test is needed: A positive screen needs diagnostic follow-up (colonoscopy).\nC. Repeat the kit to be sure: Repeating the screen does not confirm or exclude disease.\nD. A second negative kit clears a positive one: A second negative does not cancel a positive result.\nE. A positive screening test is a diagnosis: A screen is not a diagnosis; diagnostic testing follows.\n\n5. KEY TAKEAWAY\nA positive bowel screening iFOBT, or bowel symptoms, requires diagnostic colonoscopy, never a repeat kit.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A man has a positive bowel screening kit and asks for a repeat kit before any procedure. A second kit can be falsely negative.",
       "best_treatment": "A positive screening test is not a diagnosis and is not confirmed by repeating the same test",
       "incorrect_answer_explanations": {
-        "A": "A screen is not a diagnosis; diagnostic testing follows.",
+        "B": "A positive screen needs diagnostic follow-up (colonoscopy).",
         "C": "Repeating the screen does not confirm or exclude disease.",
         "D": "A second negative does not cancel a positive result.",
-        "E": "A positive screen needs diagnostic follow-up (colonoscopy)."
+        "E": "A screen is not a diagnosis; diagnostic testing follows."
       },
       "key_takeaways": [
-        "Positive predictive value rises and falls with prevalence even when sensitivity and specificity are fixed, and a positive screening test still needs diagnostic confirmation.",
+        "A positive bowel screening iFOBT, or bowel symptoms, requires diagnostic colonoscopy, never a repeat kit.",
         "Positive screen goes to the diagnostic test, not a repeat of the same screen."
       ],
       "subtopic": "Sensitivity is true positives among those with disease. It does not tell you the chance you have the disease if the test is positive.",
@@ -1068,10 +1068,10 @@
       "zyntra_id": "ZQ-0658",
       "phase": "PH-04",
       "phase_item_id": "PH-E-25",
-      "lo_id": "333485d2-5192-5695-a7ed-d13eb65aed63",
-      "lo_code": "PREDICTIVE_VALUE",
-      "lo_key": "PREDICTIVE_VALUE",
-      "lo_title": "Positive predictive value rises and falls with prevalence even when sensitivity and specificity are fixed, and a positive screening test still needs diagnostic confirmation.",
+      "lo_id": "fe130935-33eb-5ba2-a042-fe471cc453ed",
+      "lo_code": "BOWEL_NOT_A_REPEAT_KIT",
+      "lo_key": "BOWEL_NOT_A_REPEAT_KIT",
+      "lo_title": "A positive bowel screening iFOBT, or bowel symptoms, requires diagnostic colonoscopy, never a repeat kit.",
       "lo_role": "trap",
       "shared_lo": true,
       "irt_b": 0.05,
@@ -1083,23 +1083,23 @@
     {
       "question_text": "A registrar swaps two figures. One is new cases in a year. The other is people who currently have the disease. Which of the following is most accurate?",
       "options": [
-        "Incidence is new cases in a period. Prevalence is existing cases",
-        "They are the same figure",
-        "Prevalence is always higher than incidence",
+        "A cure that shortens disease raises prevalence",
         "Incidence is a stock and prevalence is a flow",
-        "A cure that shortens disease raises prevalence"
+        "Incidence is new cases in a period. Prevalence is existing cases",
+        "Prevalence is always higher than incidence",
+        "They are the same figure"
       ],
-      "correct_answer": "A",
+      "correct_answer": "C",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. Incidence is new cases in a period. Prevalence is existing cases\n\n---\n\n1. CLINICAL SITUATION\nA registrar swaps two figures. One is new cases in a year. The other is people who currently have the disease.\n\n2. THE RULE\nIncidence is new cases in a population over a period of time, while prevalence is all existing cases at a point in time.\n\n3. WHY A IS CORRECT\nIncidence is new events. Prevalence is existing cases. Do not swap them.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. They are the same figure: Incidence and prevalence measure different things.\nC. Prevalence is always higher than incidence: Prevalence can be lower than annual incidence for short illnesses.\nD. Incidence is a stock and prevalence is a flow: Incidence is the flow of new cases; prevalence is the stock.\nE. A cure that shortens disease raises prevalence: A cure that shortens disease lowers prevalence.\n\n5. KEY TAKEAWAY\nIncidence is new cases in a population over a period of time, while prevalence is all existing cases at a point in time.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nC. Incidence is new cases in a period. Prevalence is existing cases\n\n---\n\n1. CLINICAL SITUATION\nA registrar swaps two figures. One is new cases in a year. The other is people who currently have the disease.\n\n2. THE RULE\nIncidence is new cases in a population over a period of time, while prevalence is all existing cases at a point in time.\n\n3. WHY C IS CORRECT\nIncidence is new events. Prevalence is existing cases. Do not swap them.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. A cure that shortens disease raises prevalence: A cure that shortens disease lowers prevalence.\nB. Incidence is a stock and prevalence is a flow: Incidence is the flow of new cases; prevalence is the stock.\nD. Prevalence is always higher than incidence: Prevalence can be lower than annual incidence for short illnesses.\nE. They are the same figure: Incidence and prevalence measure different things.\n\n5. KEY TAKEAWAY\nIncidence is new cases in a population over a period of time, while prevalence is all existing cases at a point in time.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A registrar swaps two figures. One is new cases in a year. The other is people who currently have the disease.",
       "best_treatment": "Incidence is new cases in a period. Prevalence is existing cases",
       "incorrect_answer_explanations": {
-        "B": "Incidence and prevalence measure different things.",
-        "C": "Prevalence can be lower than annual incidence for short illnesses.",
-        "D": "Incidence is the flow of new cases; prevalence is the stock.",
-        "E": "A cure that shortens disease lowers prevalence."
+        "A": "A cure that shortens disease lowers prevalence.",
+        "B": "Incidence is the flow of new cases; prevalence is the stock.",
+        "D": "Prevalence can be lower than annual incidence for short illnesses.",
+        "E": "Incidence and prevalence measure different things."
       },
       "key_takeaways": [
         "Incidence is new cases in a population over a period of time, while prevalence is all existing cases at a point in time.",
@@ -1126,23 +1126,23 @@
     {
       "question_text": "In a town of 10,000, 200 people have a chronic disease on a given day and 20 new cases occur that year. Which of the following is most accurate?",
       "options": [
-        "Prevalence 20 per 10,000 and incidence 200",
         "Prevalence 200 per 10,000. Incidence 20 per 10,000 per year",
-        "Both are 200",
+        "Prevalence is a rate per year only",
         "Incidence cannot be calculated from new cases",
-        "Prevalence is a rate per year only"
+        "Prevalence 20 per 10,000 and incidence 200",
+        "Both are 200"
       ],
-      "correct_answer": "B",
+      "correct_answer": "A",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. Prevalence 200 per 10,000. Incidence 20 per 10,000 per year\n\n---\n\n1. CLINICAL SITUATION\nIn a town of 10,000, 200 people have a chronic disease on a given day and 20 new cases occur that year.\n\n2. THE RULE\nIncidence is new cases in a population over a period of time, while prevalence is all existing cases at a point in time.\n\n3. WHY B IS CORRECT\nPrevalence is the stock. Incidence is the flow. Label them correctly.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Prevalence 20 per 10,000 and incidence 200: The figures are swapped.\nC. Both are 200: There are 200 existing cases and 20 new cases, so they differ.\nD. Incidence cannot be calculated from new cases: Incidence is calculated from new cases over the population at risk.\nE. Prevalence is a rate per year only: Point prevalence is a proportion at a time, not a yearly rate.\n\n5. KEY TAKEAWAY\nIncidence is new cases in a population over a period of time, while prevalence is all existing cases at a point in time.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nA. Prevalence 200 per 10,000. Incidence 20 per 10,000 per year\n\n---\n\n1. CLINICAL SITUATION\nIn a town of 10,000, 200 people have a chronic disease on a given day and 20 new cases occur that year.\n\n2. THE RULE\nIncidence is new cases in a population over a period of time, while prevalence is all existing cases at a point in time.\n\n3. WHY A IS CORRECT\nPrevalence is the stock. Incidence is the flow. Label them correctly.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Prevalence is a rate per year only: Point prevalence is a proportion at a time, not a yearly rate.\nC. Incidence cannot be calculated from new cases: Incidence is calculated from new cases over the population at risk.\nD. Prevalence 20 per 10,000 and incidence 200: The figures are swapped.\nE. Both are 200: There are 200 existing cases and 20 new cases, so they differ.\n\n5. KEY TAKEAWAY\nIncidence is new cases in a population over a period of time, while prevalence is all existing cases at a point in time.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "In a town of 10,000, 200 people have a chronic disease on a given day and 20 new cases occur that year.",
       "best_treatment": "Prevalence 200 per 10,000. Incidence 20 per 10,000 per year",
       "incorrect_answer_explanations": {
-        "A": "The figures are swapped.",
-        "C": "There are 200 existing cases and 20 new cases, so they differ.",
-        "D": "Incidence is calculated from new cases over the population at risk.",
-        "E": "Point prevalence is a proportion at a time, not a yearly rate."
+        "B": "Point prevalence is a proportion at a time, not a yearly rate.",
+        "C": "Incidence is calculated from new cases over the population at risk.",
+        "D": "The figures are swapped.",
+        "E": "There are 200 existing cases and 20 new cases, so they differ."
       },
       "key_takeaways": [
         "Incidence is new cases in a population over a period of time, while prevalence is all existing cases at a point in time.",
@@ -1169,22 +1169,22 @@
     {
       "question_text": "A trial reduces absolute risk from 8% to 4%. Which of the following is most accurate?",
       "options": [
-        "NNT is 25",
+        "NNT is 12.5",
         "NNT is 4",
         "NNT is 50",
-        "NNT is 12.5",
+        "NNT is 25",
         "NNT cannot be calculated"
       ],
-      "correct_answer": "A",
+      "correct_answer": "D",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. NNT is 25\n\n---\n\n1. CLINICAL SITUATION\nA trial reduces absolute risk from 8% to 4%.\n\n2. THE RULE\nThe number needed to treat is 1 divided by the absolute risk reduction, and relative risk reductions overstate small absolute benefits.\n\n3. WHY A IS CORRECT\nAbsolute risk reduction 0.04. NNT is 25. Not 4.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. NNT is 4: 4 is the ARR in percentage points; NNT is 1/0.04.\nC. NNT is 50: 50 would follow a 2% ARR.\nD. NNT is 12.5: 12.5 would follow an 8% ARR.\nE. NNT cannot be calculated: NNT is calculable from the ARR.\n\n5. KEY TAKEAWAY\nThe number needed to treat is 1 divided by the absolute risk reduction, and relative risk reductions overstate small absolute benefits.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nD. NNT is 25\n\n---\n\n1. CLINICAL SITUATION\nA trial reduces absolute risk from 8% to 4%.\n\n2. THE RULE\nThe number needed to treat is 1 divided by the absolute risk reduction, and relative risk reductions overstate small absolute benefits.\n\n3. WHY D IS CORRECT\nAbsolute risk reduction 0.04. NNT is 25. Not 4.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. NNT is 12.5: 12.5 would follow an 8% ARR.\nB. NNT is 4: 4 is the ARR in percentage points; NNT is 1/0.04.\nC. NNT is 50: 50 would follow a 2% ARR.\nE. NNT cannot be calculated: NNT is calculable from the ARR.\n\n5. KEY TAKEAWAY\nThe number needed to treat is 1 divided by the absolute risk reduction, and relative risk reductions overstate small absolute benefits.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A trial reduces absolute risk from 8% to 4%.",
       "best_treatment": "NNT is 25",
       "incorrect_answer_explanations": {
+        "A": "12.5 would follow an 8% ARR.",
         "B": "4 is the ARR in percentage points; NNT is 1/0.04.",
         "C": "50 would follow a 2% ARR.",
-        "D": "12.5 would follow an 8% ARR.",
         "E": "NNT is calculable from the ARR."
       },
       "key_takeaways": [
@@ -1212,23 +1212,23 @@
     {
       "question_text": "A newspaper reports that a new drug halves the risk of stroke. In the trial, the stroke rate fell from 2 per 1000 to 1 per 1000 over 5 years. A patient asks what this means for him. Which of the following is most accurate?",
       "options": [
-        "Half of people are saved",
-        "The absolute reduction is 1 per 1000. The 50% figure is the relative reduction",
         "The drug prevents 500 events per 1000",
+        "No benefit occurred",
+        "Half of people are saved",
         "Relative and absolute reductions are the same",
-        "No benefit occurred"
+        "The absolute reduction is 1 per 1000. The 50% figure is the relative reduction"
       ],
-      "correct_answer": "B",
+      "correct_answer": "E",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. The absolute reduction is 1 per 1000. The 50% figure is the relative reduction\n\n---\n\n1. CLINICAL SITUATION\nA newspaper reports that a new drug halves the risk of stroke. In the trial, the stroke rate fell from 2 per 1000 to 1 per 1000 over 5 years. A patient asks what this means for him.\n\n2. THE RULE\nThe number needed to treat is 1 divided by the absolute risk reduction, and relative risk reductions overstate small absolute benefits.\n\n3. WHY B IS CORRECT\nRelative reduction 50%, absolute reduction 1 per 1000. A rare event halved is still rare.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Half of people are saved: Only 1 in 1000 avoids the event.\nC. The drug prevents 500 events per 1000: The absolute reduction is 1 per 1000, not 500.\nD. Relative and absolute reductions are the same: A 50% relative reduction equals only a 0.1% absolute reduction here.\nE. No benefit occurred: There was a small absolute benefit.\n\n5. KEY TAKEAWAY\nThe number needed to treat is 1 divided by the absolute risk reduction, and relative risk reductions overstate small absolute benefits.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nE. The absolute reduction is 1 per 1000. The 50% figure is the relative reduction\n\n---\n\n1. CLINICAL SITUATION\nA newspaper reports that a new drug halves the risk of stroke. In the trial, the stroke rate fell from 2 per 1000 to 1 per 1000 over 5 years. A patient asks what this means for him.\n\n2. THE RULE\nThe number needed to treat is 1 divided by the absolute risk reduction, and relative risk reductions overstate small absolute benefits.\n\n3. WHY E IS CORRECT\nRelative reduction 50%, absolute reduction 1 per 1000. A rare event halved is still rare.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. The drug prevents 500 events per 1000: The absolute reduction is 1 per 1000, not 500.\nB. No benefit occurred: There was a small absolute benefit.\nC. Half of people are saved: Only 1 in 1000 avoids the event.\nD. Relative and absolute reductions are the same: A 50% relative reduction equals only a 0.1% absolute reduction here.\n\n5. KEY TAKEAWAY\nThe number needed to treat is 1 divided by the absolute risk reduction, and relative risk reductions overstate small absolute benefits.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A newspaper reports that a new drug halves the risk of stroke. In the trial, the stroke rate fell from 2 per 1000 to 1 per 1000 over 5 years. A patient asks what this means for him.",
       "best_treatment": "The absolute reduction is 1 per 1000. The 50% figure is the relative reduction",
       "incorrect_answer_explanations": {
-        "A": "Only 1 in 1000 avoids the event.",
-        "C": "The absolute reduction is 1 per 1000, not 500.",
-        "D": "A 50% relative reduction equals only a 0.1% absolute reduction here.",
-        "E": "There was a small absolute benefit."
+        "A": "The absolute reduction is 1 per 1000, not 500.",
+        "B": "There was a small absolute benefit.",
+        "C": "Only 1 in 1000 avoids the event.",
+        "D": "A 50% relative reduction equals only a 0.1% absolute reduction here."
       },
       "key_takeaways": [
         "The number needed to treat is 1 divided by the absolute risk reduction, and relative risk reductions overstate small absolute benefits.",
@@ -1255,23 +1255,23 @@
     {
       "question_text": "A trial reports a relative risk of 0.8 with a 95% confidence interval of 0.5 to 1.3. Which of the following is most accurate?",
       "options": [
-        "The interval includes 1, so a null effect is not excluded",
-        "The treatment works because the point estimate is under 1",
         "p is not needed if the estimate is 0.8",
-        "The interval proves harm",
-        "Significance is shown"
+        "The treatment works because the point estimate is under 1",
+        "Significance is shown",
+        "The interval includes 1, so a null effect is not excluded",
+        "The interval proves harm"
       ],
-      "correct_answer": "A",
+      "correct_answer": "D",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. The interval includes 1, so a null effect is not excluded\n\n---\n\n1. CLINICAL SITUATION\nA trial reports a relative risk of 0.8 with a 95% confidence interval of 0.5 to 1.3.\n\n2. THE RULE\nA 95% confidence interval that includes the null value is compatible with no effect, and a non-significant result in a small study may be a type II error.\n\n3. WHY A IS CORRECT\nInterval crosses 1. Compatible with no effect. Do not call it significant.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. The treatment works because the point estimate is under 1: The point estimate alone does not show an effect when the CI crosses 1.\nC. p is not needed if the estimate is 0.8: The CI already shows a lack of significance; a point estimate is not enough.\nD. The interval proves harm: The interval includes both benefit and harm and proves neither.\nE. Significance is shown: A CI crossing 1 means the result is not significant at 5%.\n\n5. KEY TAKEAWAY\nA 95% confidence interval that includes the null value is compatible with no effect, and a non-significant result in a small study may be a type II error.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nD. The interval includes 1, so a null effect is not excluded\n\n---\n\n1. CLINICAL SITUATION\nA trial reports a relative risk of 0.8 with a 95% confidence interval of 0.5 to 1.3.\n\n2. THE RULE\nA 95% confidence interval that includes the null value is compatible with no effect, and a non-significant result in a small study may be a type II error.\n\n3. WHY D IS CORRECT\nInterval crosses 1. Compatible with no effect. Do not call it significant.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. p is not needed if the estimate is 0.8: The CI already shows a lack of significance; a point estimate is not enough.\nB. The treatment works because the point estimate is under 1: The point estimate alone does not show an effect when the CI crosses 1.\nC. Significance is shown: A CI crossing 1 means the result is not significant at 5%.\nE. The interval proves harm: The interval includes both benefit and harm and proves neither.\n\n5. KEY TAKEAWAY\nA 95% confidence interval that includes the null value is compatible with no effect, and a non-significant result in a small study may be a type II error.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A trial reports a relative risk of 0.8 with a 95% confidence interval of 0.5 to 1.3.",
       "best_treatment": "The interval includes 1, so a null effect is not excluded",
       "incorrect_answer_explanations": {
+        "A": "The CI already shows a lack of significance; a point estimate is not enough.",
         "B": "The point estimate alone does not show an effect when the CI crosses 1.",
-        "C": "The CI already shows a lack of significance; a point estimate is not enough.",
-        "D": "The interval includes both benefit and harm and proves neither.",
-        "E": "A CI crossing 1 means the result is not significant at 5%."
+        "C": "A CI crossing 1 means the result is not significant at 5%.",
+        "E": "The interval includes both benefit and harm and proves neither."
       },
       "key_takeaways": [
         "A 95% confidence interval that includes the null value is compatible with no effect, and a non-significant result in a small study may be a type II error.",
@@ -1298,23 +1298,23 @@
     {
       "question_text": "A screening program reports longer survival from diagnosis in screened patients. Which of the following is most accurate?",
       "options": [
-        "Earlier diagnosis can lengthen survival time without delaying death",
-        "Longer survival from diagnosis proves the program works",
-        "Lead-time bias reduces apparent survival",
         "Screening always lowers mortality if survival from diagnosis rises",
-        "Length-time bias is about the clock from diagnosis"
+        "Earlier diagnosis can lengthen survival time without delaying death",
+        "Length-time bias is about the clock from diagnosis",
+        "Longer survival from diagnosis proves the program works",
+        "Lead-time bias reduces apparent survival"
       ],
-      "correct_answer": "A",
+      "correct_answer": "B",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. Earlier diagnosis can lengthen survival time without delaying death\n\n---\n\n1. CLINICAL SITUATION\nA screening program reports longer survival from diagnosis in screened patients.\n\n2. THE RULE\nLead-time and length-time biases can make screening look beneficial for survival without delaying death.\n\n3. WHY A IS CORRECT\nLead time shifts the start of the survival clock. It does not prove a later death.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Longer survival from diagnosis proves the program works: Lead-time bias can inflate survival without any benefit.\nC. Lead-time bias reduces apparent survival: Lead time lengthens apparent survival; it does not shorten it.\nD. Screening always lowers mortality if survival from diagnosis rises: Mortality, not survival from diagnosis, shows benefit.\nE. Length-time bias is about the clock from diagnosis: That describes lead-time bias, not length-time bias.\n\n5. KEY TAKEAWAY\nLead-time and length-time biases can make screening look beneficial for survival without delaying death.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nB. Earlier diagnosis can lengthen survival time without delaying death\n\n---\n\n1. CLINICAL SITUATION\nA screening program reports longer survival from diagnosis in screened patients.\n\n2. THE RULE\nLead-time and length-time biases can make screening look beneficial for survival without delaying death.\n\n3. WHY B IS CORRECT\nLead time shifts the start of the survival clock. It does not prove a later death.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Screening always lowers mortality if survival from diagnosis rises: Mortality, not survival from diagnosis, shows benefit.\nC. Length-time bias is about the clock from diagnosis: That describes lead-time bias, not length-time bias.\nD. Longer survival from diagnosis proves the program works: Lead-time bias can inflate survival without any benefit.\nE. Lead-time bias reduces apparent survival: Lead time lengthens apparent survival; it does not shorten it.\n\n5. KEY TAKEAWAY\nLead-time and length-time biases can make screening look beneficial for survival without delaying death.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A screening program reports longer survival from diagnosis in screened patients.",
       "best_treatment": "Earlier diagnosis can lengthen survival time without delaying death",
       "incorrect_answer_explanations": {
-        "B": "Lead-time bias can inflate survival without any benefit.",
-        "C": "Lead time lengthens apparent survival; it does not shorten it.",
-        "D": "Mortality, not survival from diagnosis, shows benefit.",
-        "E": "That describes lead-time bias, not length-time bias."
+        "A": "Mortality, not survival from diagnosis, shows benefit.",
+        "C": "That describes lead-time bias, not length-time bias.",
+        "D": "Lead-time bias can inflate survival without any benefit.",
+        "E": "Lead time lengthens apparent survival; it does not shorten it."
       },
       "key_takeaways": [
         "Lead-time and length-time biases can make screening look beneficial for survival without delaying death.",
@@ -1384,23 +1384,23 @@
     {
       "question_text": "Some allocated patients did not take treatment, and some controls obtained it. Analysing only takers can reintroduce bias. What is the most appropriate next step?",
       "options": [
-        "Analyse by allocated group. That is intention-to-treat",
-        "Analyse only those who took the treatment",
+        "Randomisation is preserved by analysing takers only",
         "Drop non-adherent patients from both arms without comment",
         "Per-protocol is always the primary analysis",
-        "Randomisation is preserved by analysing takers only"
+        "Analyse only those who took the treatment",
+        "Analyse by allocated group. That is intention-to-treat"
       ],
-      "correct_answer": "A",
+      "correct_answer": "E",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. Analyse by allocated group. That is intention-to-treat\n\n---\n\n1. CLINICAL SITUATION\nSome allocated patients did not take treatment, and some controls obtained it. Analysing only takers can reintroduce bias.\n\n2. THE RULE\nIntention-to-treat analysis keeps participants in their allocated group, and allocation concealment differs from blinding.\n\n3. WHY A IS CORRECT\nIntention-to-treat keeps people in the group they were allocated to.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Analyse only those who took the treatment: A per-protocol analysis of takers breaks randomisation.\nC. Drop non-adherent patients from both arms without comment: Dropping non-adherent patients introduces bias.\nD. Per-protocol is always the primary analysis: ITT is the primary analysis in superiority trials.\nE. Randomisation is preserved by analysing takers only: Analysing only takers does not preserve randomisation.\n\n5. KEY TAKEAWAY\nIntention-to-treat analysis keeps participants in their allocated group, and allocation concealment differs from blinding.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nE. Analyse by allocated group. That is intention-to-treat\n\n---\n\n1. CLINICAL SITUATION\nSome allocated patients did not take treatment, and some controls obtained it. Analysing only takers can reintroduce bias.\n\n2. THE RULE\nIntention-to-treat analysis keeps participants in their allocated group, and allocation concealment differs from blinding.\n\n3. WHY E IS CORRECT\nIntention-to-treat keeps people in the group they were allocated to.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Randomisation is preserved by analysing takers only: Analysing only takers does not preserve randomisation.\nB. Drop non-adherent patients from both arms without comment: Dropping non-adherent patients introduces bias.\nC. Per-protocol is always the primary analysis: ITT is the primary analysis in superiority trials.\nD. Analyse only those who took the treatment: A per-protocol analysis of takers breaks randomisation.\n\n5. KEY TAKEAWAY\nIntention-to-treat analysis keeps participants in their allocated group, and allocation concealment differs from blinding.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Some allocated patients did not take treatment, and some controls obtained it. Analysing only takers can reintroduce bias.",
       "best_treatment": "Analyse by allocated group. That is intention-to-treat",
       "incorrect_answer_explanations": {
-        "B": "A per-protocol analysis of takers breaks randomisation.",
-        "C": "Dropping non-adherent patients introduces bias.",
-        "D": "ITT is the primary analysis in superiority trials.",
-        "E": "Analysing only takers does not preserve randomisation."
+        "A": "Analysing only takers does not preserve randomisation.",
+        "B": "Dropping non-adherent patients introduces bias.",
+        "C": "ITT is the primary analysis in superiority trials.",
+        "D": "A per-protocol analysis of takers breaks randomisation."
       },
       "key_takeaways": [
         "Intention-to-treat analysis keeps participants in their allocated group, and allocation concealment differs from blinding.",
@@ -1427,23 +1427,23 @@
     {
       "question_text": "A report says allocation was concealed and assessors were blinded. Concealment protects the allocation sequence before assignment. Which of the following is most accurate?",
       "options": [
-        "Concealment and blinding are the same safeguard",
         "Concealment protects allocation. Blinding protects measurement after assignment",
-        "Blinding happens before assignment",
+        "Neither matters in a randomised trial",
         "Concealment is about the outcome assessor",
-        "Neither matters in a randomised trial"
+        "Blinding happens before assignment",
+        "Concealment and blinding are the same safeguard"
       ],
-      "correct_answer": "B",
+      "correct_answer": "A",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. Concealment protects allocation. Blinding protects measurement after assignment\n\n---\n\n1. CLINICAL SITUATION\nA report says allocation was concealed and assessors were blinded. Concealment protects the allocation sequence before assignment.\n\n2. THE RULE\nIntention-to-treat analysis keeps participants in their allocated group, and allocation concealment differs from blinding.\n\n3. WHY B IS CORRECT\nBefore assignment: concealment. After assignment: blinding.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Concealment and blinding are the same safeguard: Concealment and blinding are distinct safeguards.\nC. Blinding happens before assignment: Blinding happens after assignment.\nD. Concealment is about the outcome assessor: Concealment protects the allocation sequence, not the outcome assessor.\nE. Neither matters in a randomised trial: Both reduce bias in randomised trials.\n\n5. KEY TAKEAWAY\nIntention-to-treat analysis keeps participants in their allocated group, and allocation concealment differs from blinding.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nA. Concealment protects allocation. Blinding protects measurement after assignment\n\n---\n\n1. CLINICAL SITUATION\nA report says allocation was concealed and assessors were blinded. Concealment protects the allocation sequence before assignment.\n\n2. THE RULE\nIntention-to-treat analysis keeps participants in their allocated group, and allocation concealment differs from blinding.\n\n3. WHY A IS CORRECT\nBefore assignment: concealment. After assignment: blinding.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Neither matters in a randomised trial: Both reduce bias in randomised trials.\nC. Concealment is about the outcome assessor: Concealment protects the allocation sequence, not the outcome assessor.\nD. Blinding happens before assignment: Blinding happens after assignment.\nE. Concealment and blinding are the same safeguard: Concealment and blinding are distinct safeguards.\n\n5. KEY TAKEAWAY\nIntention-to-treat analysis keeps participants in their allocated group, and allocation concealment differs from blinding.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A report says allocation was concealed and assessors were blinded. Concealment protects the allocation sequence before assignment.",
       "best_treatment": "Concealment protects allocation. Blinding protects measurement after assignment",
       "incorrect_answer_explanations": {
-        "A": "Concealment and blinding are distinct safeguards.",
-        "C": "Blinding happens after assignment.",
-        "D": "Concealment protects the allocation sequence, not the outcome assessor.",
-        "E": "Both reduce bias in randomised trials."
+        "B": "Both reduce bias in randomised trials.",
+        "C": "Concealment protects the allocation sequence, not the outcome assessor.",
+        "D": "Blinding happens after assignment.",
+        "E": "Concealment and blinding are distinct safeguards."
       },
       "key_takeaways": [
         "Intention-to-treat analysis keeps participants in their allocated group, and allocation concealment differs from blinding.",
@@ -1470,21 +1470,21 @@
     {
       "question_text": "People with a rare cancer are asked about a past exposure and compared with people without the cancer. That is a case-control study. Which of the following is most accurate?",
       "options": [
-        "It is a case-control study and estimates an odds ratio",
         "It is a cohort and estimates a relative risk directly",
         "Exposure was assigned",
+        "It is a case-control study and estimates an odds ratio",
         "People were followed from a disease-free state",
         "Incidence can be calculated directly"
       ],
-      "correct_answer": "A",
+      "correct_answer": "C",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. It is a case-control study and estimates an odds ratio\n\n---\n\n1. CLINICAL SITUATION\nPeople with a rare cancer are asked about a past exposure and compared with people without the cancer. That is a case-control study.\n\n2. THE RULE\nStudy design determines what can be estimated: case-control studies give odds ratios, cohorts give incidence, and cross-sectional studies cannot show temporal direction.\n\n3. WHY A IS CORRECT\nOutcome first, exposure second. Case-control. Odds ratio.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. It is a cohort and estimates a relative risk directly: Selection by disease status makes it case-control, not cohort.\nC. Exposure was assigned: Exposure was not assigned; this is observational.\nD. People were followed from a disease-free state: Participants were selected by outcome, not followed from disease-free.\nE. Incidence can be calculated directly: Case-control studies cannot give incidence directly.\n\n5. KEY TAKEAWAY\nStudy design determines what can be estimated: case-control studies give odds ratios, cohorts give incidence, and cross-sectional studies cannot show temporal direction.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nC. It is a case-control study and estimates an odds ratio\n\n---\n\n1. CLINICAL SITUATION\nPeople with a rare cancer are asked about a past exposure and compared with people without the cancer. That is a case-control study.\n\n2. THE RULE\nStudy design determines what can be estimated: case-control studies give odds ratios, cohorts give incidence, and cross-sectional studies cannot show temporal direction.\n\n3. WHY C IS CORRECT\nOutcome first, exposure second. Case-control. Odds ratio.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. It is a cohort and estimates a relative risk directly: Selection by disease status makes it case-control, not cohort.\nB. Exposure was assigned: Exposure was not assigned; this is observational.\nD. People were followed from a disease-free state: Participants were selected by outcome, not followed from disease-free.\nE. Incidence can be calculated directly: Case-control studies cannot give incidence directly.\n\n5. KEY TAKEAWAY\nStudy design determines what can be estimated: case-control studies give odds ratios, cohorts give incidence, and cross-sectional studies cannot show temporal direction.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "People with a rare cancer are asked about a past exposure and compared with people without the cancer. That is a case-control study.",
       "best_treatment": "It is a case-control study and estimates an odds ratio",
       "incorrect_answer_explanations": {
-        "B": "Selection by disease status makes it case-control, not cohort.",
-        "C": "Exposure was not assigned; this is observational.",
+        "A": "Selection by disease status makes it case-control, not cohort.",
+        "B": "Exposure was not assigned; this is observational.",
         "D": "Participants were selected by outcome, not followed from disease-free.",
         "E": "Case-control studies cannot give incidence directly."
       },
@@ -1513,22 +1513,22 @@
     {
       "question_text": "Coffee drinkers have more heart disease and also smoke more. The smoking difference could explain the finding. Causation is not shown. Which of the following is most accurate?",
       "options": [
-        "Smoking may confound the coffee association",
         "The coffee association is therefore causal",
         "No confounder can be associated with both",
         "Adjustment is unnecessary",
+        "Smoking may confound the coffee association",
         "Randomisation has occurred"
       ],
-      "correct_answer": "A",
+      "correct_answer": "D",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. Smoking may confound the coffee association\n\n---\n\n1. CLINICAL SITUATION\nCoffee drinkers have more heart disease and also smoke more. The smoking difference could explain the finding. Causation is not shown.\n\n2. THE RULE\nA confounder is linked to both exposure and outcome and distorts the association, and unmeasured confounders can persist after adjustment.\n\n3. WHY A IS CORRECT\nA confounder is associated with the exposure and the outcome. Smoking fits.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. The coffee association is therefore causal: Confounding by smoking may explain the association.\nC. No confounder can be associated with both: A confounder is by definition associated with both.\nD. Adjustment is unnecessary: Adjustment or stratification for smoking is needed.\nE. Randomisation has occurred: This is an observational association; there was no randomisation.\n\n5. KEY TAKEAWAY\nA confounder is linked to both exposure and outcome and distorts the association, and unmeasured confounders can persist after adjustment.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nD. Smoking may confound the coffee association\n\n---\n\n1. CLINICAL SITUATION\nCoffee drinkers have more heart disease and also smoke more. The smoking difference could explain the finding. Causation is not shown.\n\n2. THE RULE\nA confounder is linked to both exposure and outcome and distorts the association, and unmeasured confounders can persist after adjustment.\n\n3. WHY D IS CORRECT\nA confounder is associated with the exposure and the outcome. Smoking fits.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. The coffee association is therefore causal: Confounding by smoking may explain the association.\nB. No confounder can be associated with both: A confounder is by definition associated with both.\nC. Adjustment is unnecessary: Adjustment or stratification for smoking is needed.\nE. Randomisation has occurred: This is an observational association; there was no randomisation.\n\n5. KEY TAKEAWAY\nA confounder is linked to both exposure and outcome and distorts the association, and unmeasured confounders can persist after adjustment.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Coffee drinkers have more heart disease and also smoke more. The smoking difference could explain the finding. Causation is not shown.",
       "best_treatment": "Smoking may confound the coffee association",
       "incorrect_answer_explanations": {
-        "B": "Confounding by smoking may explain the association.",
-        "C": "A confounder is by definition associated with both.",
-        "D": "Adjustment or stratification for smoking is needed.",
+        "A": "Confounding by smoking may explain the association.",
+        "B": "A confounder is by definition associated with both.",
+        "C": "Adjustment or stratification for smoking is needed.",
         "E": "This is an observational association; there was no randomisation."
       },
       "key_takeaways": [
@@ -1556,23 +1556,23 @@
     {
       "question_text": "A cohort adjusts for age, sex, and smoking and still finds an association. Adjustment only deals with confounders that were measured. Which of the following is most accurate?",
       "options": [
+        "Residual confounding is impossible after any model",
         "Adjustment removes all possible confounding",
-        "Unknown and unmeasured confounders can remain",
         "A cohort cannot be confounded",
         "Age and sex adjustment proves causation",
-        "Residual confounding is impossible after any model"
+        "Unknown and unmeasured confounders can remain"
       ],
-      "correct_answer": "B",
+      "correct_answer": "E",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. Unknown and unmeasured confounders can remain\n\n---\n\n1. CLINICAL SITUATION\nA cohort adjusts for age, sex, and smoking and still finds an association. Adjustment only deals with confounders that were measured.\n\n2. THE RULE\nA confounder is linked to both exposure and outcome and distorts the association, and unmeasured confounders can persist after adjustment.\n\n3. WHY B IS CORRECT\nResidual confounding from unmeasured factors remains possible.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Adjustment removes all possible confounding: Adjustment only handles measured confounders.\nC. A cohort cannot be confounded: Cohort studies can be confounded.\nD. Age and sex adjustment proves causation: Adjustment does not prove causation.\nE. Residual confounding is impossible after any model: Residual confounding is always possible.\n\n5. KEY TAKEAWAY\nA confounder is linked to both exposure and outcome and distorts the association, and unmeasured confounders can persist after adjustment.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nE. Unknown and unmeasured confounders can remain\n\n---\n\n1. CLINICAL SITUATION\nA cohort adjusts for age, sex, and smoking and still finds an association. Adjustment only deals with confounders that were measured.\n\n2. THE RULE\nA confounder is linked to both exposure and outcome and distorts the association, and unmeasured confounders can persist after adjustment.\n\n3. WHY E IS CORRECT\nResidual confounding from unmeasured factors remains possible.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Residual confounding is impossible after any model: Residual confounding is always possible.\nB. Adjustment removes all possible confounding: Adjustment only handles measured confounders.\nC. A cohort cannot be confounded: Cohort studies can be confounded.\nD. Age and sex adjustment proves causation: Adjustment does not prove causation.\n\n5. KEY TAKEAWAY\nA confounder is linked to both exposure and outcome and distorts the association, and unmeasured confounders can persist after adjustment.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A cohort adjusts for age, sex, and smoking and still finds an association. Adjustment only deals with confounders that were measured.",
       "best_treatment": "Unknown and unmeasured confounders can remain",
       "incorrect_answer_explanations": {
-        "A": "Adjustment only handles measured confounders.",
+        "A": "Residual confounding is always possible.",
+        "B": "Adjustment only handles measured confounders.",
         "C": "Cohort studies can be confounded.",
-        "D": "Adjustment does not prove causation.",
-        "E": "Residual confounding is always possible."
+        "D": "Adjustment does not prove causation."
       },
       "key_takeaways": [
         "A confounder is linked to both exposure and outcome and distorts the association, and unmeasured confounders can persist after adjustment.",
@@ -1599,23 +1599,23 @@
     {
       "question_text": "In a cohort the outcome is 20% in the exposed and 10% in the unexposed. The relative risk is 2. Which of the following is most accurate?",
       "options": [
-        "The relative risk is 2. The odds ratio overstates it",
         "The odds ratio is the relative risk",
         "RR is 2.25",
+        "Risk cannot be calculated in a cohort",
         "OR and RR are identical when the outcome is common",
-        "Risk cannot be calculated in a cohort"
+        "The relative risk is 2. The odds ratio overstates it"
       ],
-      "correct_answer": "A",
+      "correct_answer": "E",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. The relative risk is 2. The odds ratio overstates it\n\n---\n\n1. CLINICAL SITUATION\nIn a cohort the outcome is 20% in the exposed and 10% in the unexposed. The relative risk is 2.\n\n2. THE RULE\nWhen the outcome is common, the odds ratio overstates the relative risk, so cohort data should report the relative risk.\n\n3. WHY A IS CORRECT\nCommon outcome. RR is 2. OR is higher. Report the relative risk.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. The odds ratio is the relative risk: With a common outcome the OR (2.25) exceeds the RR (2).\nC. RR is 2.25: RR is 0.20/0.10 = 2; 2.25 is the odds ratio.\nD. OR and RR are identical when the outcome is common: OR and RR diverge when the outcome is common.\nE. Risk cannot be calculated in a cohort: Cohorts measure risk directly.\n\n5. KEY TAKEAWAY\nWhen the outcome is common, the odds ratio overstates the relative risk, so cohort data should report the relative risk.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nE. The relative risk is 2. The odds ratio overstates it\n\n---\n\n1. CLINICAL SITUATION\nIn a cohort the outcome is 20% in the exposed and 10% in the unexposed. The relative risk is 2.\n\n2. THE RULE\nWhen the outcome is common, the odds ratio overstates the relative risk, so cohort data should report the relative risk.\n\n3. WHY E IS CORRECT\nCommon outcome. RR is 2. OR is higher. Report the relative risk.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. The odds ratio is the relative risk: With a common outcome the OR (2.25) exceeds the RR (2).\nB. RR is 2.25: RR is 0.20/0.10 = 2; 2.25 is the odds ratio.\nC. Risk cannot be calculated in a cohort: Cohorts measure risk directly.\nD. OR and RR are identical when the outcome is common: OR and RR diverge when the outcome is common.\n\n5. KEY TAKEAWAY\nWhen the outcome is common, the odds ratio overstates the relative risk, so cohort data should report the relative risk.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "In a cohort the outcome is 20% in the exposed and 10% in the unexposed. The relative risk is 2.",
       "best_treatment": "The relative risk is 2. The odds ratio overstates it",
       "incorrect_answer_explanations": {
-        "B": "With a common outcome the OR (2.25) exceeds the RR (2).",
-        "C": "RR is 0.20/0.10 = 2; 2.25 is the odds ratio.",
-        "D": "OR and RR diverge when the outcome is common.",
-        "E": "Cohorts measure risk directly."
+        "A": "With a common outcome the OR (2.25) exceeds the RR (2).",
+        "B": "RR is 0.20/0.10 = 2; 2.25 is the odds ratio.",
+        "C": "Cohorts measure risk directly.",
+        "D": "OR and RR diverge when the outcome is common."
       },
       "key_takeaways": [
         "When the outcome is common, the odds ratio overstates the relative risk, so cohort data should report the relative risk.",
@@ -1642,23 +1642,23 @@
     {
       "question_text": "Students compute an odds ratio of about 2.25 and label it the relative risk. Here it is 2. What is the most appropriate next step?",
       "options": [
-        "Use the odds ratio as the risk ratio here",
         "Report the relative risk from the cohort risks",
+        "Incidence is irrelevant",
         "Odds are easier and therefore correct",
-        "A common outcome makes OR and RR equal",
-        "Incidence is irrelevant"
+        "Use the odds ratio as the risk ratio here",
+        "A common outcome makes OR and RR equal"
       ],
-      "correct_answer": "B",
+      "correct_answer": "A",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. Report the relative risk from the cohort risks\n\n---\n\n1. CLINICAL SITUATION\nStudents compute an odds ratio of about 2.25 and label it the relative risk. Here it is 2.\n\n2. THE RULE\nWhen the outcome is common, the odds ratio overstates the relative risk, so cohort data should report the relative risk.\n\n3. WHY B IS CORRECT\nDo not label an odds ratio as a risk ratio when the outcome is common.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Use the odds ratio as the risk ratio here: With a common outcome the OR overstates the risk ratio.\nC. Odds are easier and therefore correct: Ease of calculation does not make a measure correct.\nD. A common outcome makes OR and RR equal: OR approximates RR only when the outcome is rare.\nE. Incidence is irrelevant: Cohort risks (incidence) are what give the RR.\n\n5. KEY TAKEAWAY\nWhen the outcome is common, the odds ratio overstates the relative risk, so cohort data should report the relative risk.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nA. Report the relative risk from the cohort risks\n\n---\n\n1. CLINICAL SITUATION\nStudents compute an odds ratio of about 2.25 and label it the relative risk. Here it is 2.\n\n2. THE RULE\nWhen the outcome is common, the odds ratio overstates the relative risk, so cohort data should report the relative risk.\n\n3. WHY A IS CORRECT\nDo not label an odds ratio as a risk ratio when the outcome is common.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Incidence is irrelevant: Cohort risks (incidence) are what give the RR.\nC. Odds are easier and therefore correct: Ease of calculation does not make a measure correct.\nD. Use the odds ratio as the risk ratio here: With a common outcome the OR overstates the risk ratio.\nE. A common outcome makes OR and RR equal: OR approximates RR only when the outcome is rare.\n\n5. KEY TAKEAWAY\nWhen the outcome is common, the odds ratio overstates the relative risk, so cohort data should report the relative risk.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Students compute an odds ratio of about 2.25 and label it the relative risk. Here it is 2.",
       "best_treatment": "Report the relative risk from the cohort risks",
       "incorrect_answer_explanations": {
-        "A": "With a common outcome the OR overstates the risk ratio.",
+        "B": "Cohort risks (incidence) are what give the RR.",
         "C": "Ease of calculation does not make a measure correct.",
-        "D": "OR approximates RR only when the outcome is rare.",
-        "E": "Cohort risks (incidence) are what give the RR."
+        "D": "With a common outcome the OR overstates the risk ratio.",
+        "E": "OR approximates RR only when the outcome is rare."
       },
       "key_takeaways": [
         "When the outcome is common, the odds ratio overstates the relative risk, so cohort data should report the relative risk.",
@@ -1685,23 +1685,23 @@
     {
       "question_text": "A cohort study reports an outcome risk of 20% in the exposed group and 10% in the unexposed group. A registrar reports the odds ratio as if it were the relative risk. Which of the following is most accurate?",
       "options": [
-        "The odds ratio is always smaller than the relative risk",
-        "When the outcome is common the odds ratio moves further from 1 than the relative risk",
-        "They never differ",
+        "A 20% risk is rare",
         "Only case-control studies have this problem",
-        "A 20% risk is rare"
+        "They never differ",
+        "When the outcome is common the odds ratio moves further from 1 than the relative risk",
+        "The odds ratio is always smaller than the relative risk"
       ],
-      "correct_answer": "B",
+      "correct_answer": "D",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. When the outcome is common the odds ratio moves further from 1 than the relative risk\n\n---\n\n1. CLINICAL SITUATION\nA cohort study reports an outcome risk of 20% in the exposed group and 10% in the unexposed group. A registrar reports the odds ratio as if it were the relative risk.\n\n2. THE RULE\nWhen the outcome is common, the odds ratio overstates the relative risk, so cohort data should report the relative risk.\n\n3. WHY B IS CORRECT\nCommon outcome inflates the odds ratio relative to the risk ratio.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. The odds ratio is always smaller than the relative risk: For a harmful exposure the OR is further from 1, not smaller.\nC. They never differ: They differ when the outcome is common.\nD. Only case-control studies have this problem: The divergence is a property of the measures, in any design.\nE. A 20% risk is rare: A 20% risk is common, not rare.\n\n5. KEY TAKEAWAY\nWhen the outcome is common, the odds ratio overstates the relative risk, so cohort data should report the relative risk.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nD. When the outcome is common the odds ratio moves further from 1 than the relative risk\n\n---\n\n1. CLINICAL SITUATION\nA cohort study reports an outcome risk of 20% in the exposed group and 10% in the unexposed group. A registrar reports the odds ratio as if it were the relative risk.\n\n2. THE RULE\nWhen the outcome is common, the odds ratio overstates the relative risk, so cohort data should report the relative risk.\n\n3. WHY D IS CORRECT\nCommon outcome inflates the odds ratio relative to the risk ratio.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. A 20% risk is rare: A 20% risk is common, not rare.\nB. Only case-control studies have this problem: The divergence is a property of the measures, in any design.\nC. They never differ: They differ when the outcome is common.\nE. The odds ratio is always smaller than the relative risk: For a harmful exposure the OR is further from 1, not smaller.\n\n5. KEY TAKEAWAY\nWhen the outcome is common, the odds ratio overstates the relative risk, so cohort data should report the relative risk.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A cohort study reports an outcome risk of 20% in the exposed group and 10% in the unexposed group. A registrar reports the odds ratio as if it were the relative risk.",
       "best_treatment": "When the outcome is common the odds ratio moves further from 1 than the relative risk",
       "incorrect_answer_explanations": {
-        "A": "For a harmful exposure the OR is further from 1, not smaller.",
+        "A": "A 20% risk is common, not rare.",
+        "B": "The divergence is a property of the measures, in any design.",
         "C": "They differ when the outcome is common.",
-        "D": "The divergence is a property of the measures, in any design.",
-        "E": "A 20% risk is common, not rare."
+        "E": "For a harmful exposure the OR is further from 1, not smaller."
       },
       "key_takeaways": [
         "When the outcome is common, the odds ratio overstates the relative risk, so cohort data should report the relative risk.",
@@ -1722,6 +1722,49 @@
       "irt_b": 0.0,
       "difficulty_tier": "medium",
       "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
+    },
+    {
+      "question_text": "A screening test has a sensitivity of 90% and a specificity of 95%. It is offered to an asymptomatic population in which the prevalence of the disease is 1%. A man in this population has a positive result and asks how likely it is that he has the disease. What is the closest estimate?",
+      "options": [
+        "1%",
+        "90%",
+        "50%",
+        "About 15%",
+        "95%"
+      ],
+      "correct_answer": "D",
+      "category": "Population Health & Ethics",
+      "difficulty": "difficult",
+      "explanation": "CORRECT ANSWER\n\nD. About 15%\n\n---\n\n1. CLINICAL SITUATION\nA positive screening result is being interpreted in a low-prevalence population.\n\n2. THE RULE\nPositive predictive value depends on prevalence: with fixed sensitivity and specificity it falls as prevalence falls, so most positives may be false in a low-prevalence population.\n\n3. WHY D IS CORRECT\nPer 10,000 people: 100 have the disease and 90 test positive (true positives). 9,900 do not, and 5% of them, 495, test positive (false positives). PPV = 90 / (90 + 495), about 15%. When prevalence is low, false positives outnumber true positives even with a good test, so a positive screen needs diagnostic confirmation.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. 1%: 1% is the pre-test prevalence. A positive result raises the probability to about 15%.\nB. 90%: 90% is the sensitivity, P(positive given disease). It is not P(disease given positive).\nC. 50%: 50% would need far higher prevalence or specificity than this.\nE. 95%: 95% is the specificity, which concerns people without the disease.\n\n5. KEY TAKEAWAY\nAt low prevalence, PPV falls sharply: here about 15% despite 90% sensitivity and 95% specificity.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "A positive screening result is being interpreted in a low-prevalence population.",
+      "best_treatment": "About 15%",
+      "incorrect_answer_explanations": {
+        "A": "1% is the pre-test prevalence. A positive result raises the probability to about 15%.",
+        "B": "90% is the sensitivity, P(positive given disease). It is not P(disease given positive).",
+        "C": "50% would need far higher prevalence or specificity than this.",
+        "E": "95% is the specificity, which concerns people without the disease."
+      },
+      "key_takeaways": [
+        "Positive predictive value depends on prevalence: with fixed sensitivity and specificity it falls as prevalence falls, so most positives may be false in a low-prevalence population.",
+        "At low prevalence, PPV falls sharply: here about 15% despite 90% sensitivity and 95% specificity."
+      ],
+      "subtopic": "PPV depends on prevalence; calculate with a 2x2 table.",
+      "clinical_vignette": true,
+      "id": "c7954c81-ab29-52b2-8f65-ef5a70e54f4d",
+      "zyntra_id": "ZQ-0814",
+      "phase": "PH-04",
+      "phase_item_id": "PH-E-41",
+      "lo_id": "333485d2-5192-5695-a7ed-d13eb65aed63",
+      "lo_code": "PREDICTIVE_VALUE",
+      "lo_key": "PREDICTIVE_VALUE",
+      "lo_title": "Positive predictive value depends on prevalence: with fixed sensitivity and specificity it falls as prevalence falls, so most positives may be false in a low-prevalence population.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.9,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: general practice",
       "blueprint_eligible": true,
       "status": "draft"
     }

@@ -8,23 +8,23 @@
     {
       "question_text": "A GP sees a well 40-year-old for a 6-minute chat about a holiday. The receptionist asks which Medicare item to bill. What is the most appropriate action?",
       "options": [
-        "Do not bill a consultation. No clinically relevant service was provided",
         "Bill a level B. Any attendance can be claimed",
+        "Do not bill a consultation. No clinically relevant service was provided",
         "Bill a health assessment. He is an adult",
-        "Bill a care plan. It can be backdated",
-        "Bill the consultation to his wife's card because she is a regular patient"
+        "Bill the consultation to his wife's card because she is a regular patient",
+        "Bill a care plan. It can be backdated"
       ],
-      "correct_answer": "A",
+      "correct_answer": "B",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. Do not bill a consultation. No clinically relevant service was provided\n\n---\n\n1. CLINICAL SITUATION\nA GP sees a well 40-year-old for a 6-minute chat about a holiday. The receptionist asks which Medicare item to bill.\n\n2. THE RULE\nMedicare benefits are claimed only for a clinically relevant service personally provided, never double-billed to a public hospital service.\n\n3. WHY A IS CORRECT\nA Medicare benefit is for a clinically relevant service. A social chat with no clinical content is not one. Using another person's card is a separate offence.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Bill a level B. Any attendance can be claimed: Attendance alone is not enough.\nC. Bill a health assessment. He is an adult: No assessment was done.\nD. Bill a care plan. It can be backdated: There is no plan, and backdating is false.\nE. Bill the consultation to his wife's card because she is a regular patient: Another person's Medicare card is not available for use.\n\n5. KEY TAKEAWAY\nMedicare benefits are claimed only for a clinically relevant service personally provided, never double-billed to a public hospital service.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nB. Do not bill a consultation. No clinically relevant service was provided\n\n---\n\n1. CLINICAL SITUATION\nA GP sees a well 40-year-old for a 6-minute chat about a holiday. The receptionist asks which Medicare item to bill.\n\n2. THE RULE\nMedicare benefits are claimed only for a clinically relevant service personally provided, never double-billed to a public hospital service.\n\n3. WHY B IS CORRECT\nA Medicare benefit is for a clinically relevant service. A social chat with no clinical content is not one. Using another person's card is a separate offence.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Bill a level B. Any attendance can be claimed: Attendance alone is not enough.\nC. Bill a health assessment. He is an adult: No assessment was done.\nD. Bill the consultation to his wife's card because she is a regular patient: Another person's Medicare card is not available for use.\nE. Bill a care plan. It can be backdated: There is no plan, and backdating is false.\n\n5. KEY TAKEAWAY\nMedicare benefits are claimed only for a clinically relevant service personally provided, never double-billed to a public hospital service.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A GP sees a well 40-year-old for a 6-minute chat about a holiday. The receptionist asks which Medicare item to bill.",
       "best_treatment": "Do not bill a consultation. No clinically relevant service was provided",
       "incorrect_answer_explanations": {
-        "B": "Attendance alone is not enough.",
+        "A": "Attendance alone is not enough.",
         "C": "No assessment was done.",
-        "D": "There is no plan, and backdating is false.",
-        "E": "Another person's Medicare card is not available for use."
+        "D": "Another person's Medicare card is not available for use.",
+        "E": "There is no plan, and backdating is false."
       },
       "key_takeaways": [
         "Medicare benefits are claimed only for a clinically relevant service personally provided, never double-billed to a public hospital service.",
@@ -51,22 +51,22 @@
     {
       "question_text": "A practice bulk-bills a level C and also asks the patient for a $40 facility fee in cash, not receipted. The patient is a pensioner. What is the most appropriate view?",
       "options": [
-        "Acceptable. A facility fee is outside Medicare",
+        "Acceptable if the patient is not told it is compulsory",
         "Not acceptable. Bulk-billing means the benefit is full payment",
         "Acceptable if the fee is under $50",
-        "Acceptable if the patient is not told it is compulsory",
+        "Acceptable. A facility fee is outside Medicare",
         "Acceptable for pensioners only"
       ],
       "correct_answer": "B",
       "category": "Population Health & Ethics",
       "difficulty": "difficult",
-      "explanation": "CORRECT ANSWER\n\nB. Not acceptable. Bulk-billing means the benefit is full payment\n\n---\n\n1. CLINICAL SITUATION\nDo not take the $40. Bulk-billing is full payment.\n\n2. THE RULE\nBulk-billing means accepting the Medicare benefit as full payment, so no additional charge can be added.\n\n3. WHY B IS CORRECT\nIf a service is bulk-billed, the practitioner accepts the Medicare benefit as full payment for that service. An extra undisclosed cash fee is not permitted.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Acceptable. A facility fee is outside Medicare: Calling it a facility fee does not take it outside the agreement.\nC. Acceptable if the fee is under $50: There is no such allowance.\nD. Acceptable if the patient is not told it is compulsory: Not telling her does not make it lawful.\nE. Acceptable for pensioners only: The rule is not limited by concession status.\n\n5. KEY TAKEAWAY\nBulk-billing accepts the benefit as full payment.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nB. Not acceptable. Bulk-billing means the benefit is full payment\n\n---\n\n1. CLINICAL SITUATION\nDo not take the $40. Bulk-billing is full payment.\n\n2. THE RULE\nBulk-billing means accepting the Medicare benefit as full payment, so no additional charge can be added.\n\n3. WHY B IS CORRECT\nIf a service is bulk-billed, the practitioner accepts the Medicare benefit as full payment for that service. An extra undisclosed cash fee is not permitted.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Acceptable if the patient is not told it is compulsory: Not telling her does not make it lawful.\nC. Acceptable if the fee is under $50: There is no such allowance.\nD. Acceptable. A facility fee is outside Medicare: Calling it a facility fee does not take it outside the agreement.\nE. Acceptable for pensioners only: The rule is not limited by concession status.\n\n5. KEY TAKEAWAY\nBulk-billing accepts the benefit as full payment.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Do not take the $40. Bulk-billing is full payment.",
       "best_treatment": "Not acceptable. Bulk-billing means the benefit is full payment",
       "incorrect_answer_explanations": {
-        "A": "Calling it a facility fee does not take it outside the agreement.",
+        "A": "Not telling her does not make it lawful.",
         "C": "There is no such allowance.",
-        "D": "Not telling her does not make it lawful.",
+        "D": "Calling it a facility fee does not take it outside the agreement.",
         "E": "The rule is not limited by concession status."
       },
       "key_takeaways": [
@@ -94,23 +94,23 @@
     {
       "question_text": "A man asks you to prescribe his own statin onto his wife's PBS script because she has reached the safety net and he has not. Using a spouse's concession or safety net is a false claim. What is the most appropriate response?",
       "options": [
+        "Agree for statins only",
         "Agree. Safety-net sharing within a couple is allowed",
-        "Agree if he pays the difference",
-        "Decline. A PBS prescription is for the person who needs the medicine",
         "Write it in her name and document 'household use'",
-        "Agree for statins only"
+        "Agree if he pays the difference",
+        "Decline. A PBS prescription is for the person who needs the medicine"
       ],
-      "correct_answer": "C",
+      "correct_answer": "E",
       "category": "Population Health & Ethics",
       "difficulty": "easy",
-      "explanation": "CORRECT ANSWER\n\nC. Decline. A PBS prescription is for the person who needs the medicine\n\n---\n\n1. CLINICAL SITUATION\nDecline. His statin does not go on her script.\n\n2. THE RULE\nA PBS prescription is written only for the person who clinically needs the medicine and is named on it.\n\n3. WHY C IS CORRECT\nA PBS prescription is written for the patient who clinically needs that medicine. Using a spouse's concession or safety net is a false claim.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Agree. Safety-net sharing within a couple is allowed: It is not.\nB. Agree if he pays the difference: Paying a gap does not fix a script in the wrong name.\nD. Write it in her name and document 'household use': Documentation of a falsehood is worse.\nE. Agree for statins only: The drug class is irrelevant.\n\n5. KEY TAKEAWAY\nA PBS script is for the named patient.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nE. Decline. A PBS prescription is for the person who needs the medicine\n\n---\n\n1. CLINICAL SITUATION\nDecline. His statin does not go on her script.\n\n2. THE RULE\nA PBS prescription is written only for the person who clinically needs the medicine and is named on it.\n\n3. WHY E IS CORRECT\nA PBS prescription is written for the patient who clinically needs that medicine. Using a spouse's concession or safety net is a false claim.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Agree for statins only: The drug class is irrelevant.\nB. Agree. Safety-net sharing within a couple is allowed: It is not.\nC. Write it in her name and document 'household use': Documentation of a falsehood is worse.\nD. Agree if he pays the difference: Paying a gap does not fix a script in the wrong name.\n\n5. KEY TAKEAWAY\nA PBS script is for the named patient.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Decline. His statin does not go on her script.",
       "best_treatment": "Decline. A PBS prescription is for the person who needs the medicine",
       "incorrect_answer_explanations": {
-        "A": "It is not.",
-        "B": "Paying a gap does not fix a script in the wrong name.",
-        "D": "Documentation of a falsehood is worse.",
-        "E": "The drug class is irrelevant."
+        "A": "The drug class is irrelevant.",
+        "B": "It is not.",
+        "C": "Documentation of a falsehood is worse.",
+        "D": "Paying a gap does not fix a script in the wrong name."
       },
       "key_takeaways": [
         "A PBS script is for the named patient.",
@@ -137,23 +137,23 @@
     {
       "question_text": "A GP sees an Aboriginal man who is not registered for Closing the Gap. He writes CTG on the script and tells him the pharmacy will charge the lower co-payment. The annotation works only after that. What is the most appropriate correction?",
       "options": [
-        "The annotation is enough. Registration is optional",
+        "CTG applies automatically to every Aboriginal patient",
         "Ask the pharmacist to register him at the counter",
-        "Use a relative's CTG registration",
         "Register him properly first. An annotation alone does not create eligibility",
-        "CTG applies automatically to every Aboriginal patient"
+        "Use a relative's CTG registration",
+        "The annotation is enough. Registration is optional"
       ],
-      "correct_answer": "D",
+      "correct_answer": "C",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nD. Register him properly first. An annotation alone does not create eligibility\n\n---\n\n1. CLINICAL SITUATION\nRegister him. Writing CTG on the script is not enough.\n\n2. THE RULE\nWriting CTG on a script has no effect unless the patient is registered for the Closing the Gap PBS co-payment program first.\n\n3. WHY D IS CORRECT\nClosing the Gap PBS registration is a one-off clinical registration. The annotation works only after that. A pharmacist cannot create it, and it is not automatic.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. The annotation is enough. Registration is optional: Registration is the step that creates eligibility.\nB. Ask the pharmacist to register him at the counter: Registration is clinical, not a counter act.\nC. Use a relative's CTG registration: Registration is individual.\nE. CTG applies automatically to every Aboriginal patient: It does not.\n\n5. KEY TAKEAWAY\nCTG needs registration before annotation.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nC. Register him properly first. An annotation alone does not create eligibility\n\n---\n\n1. CLINICAL SITUATION\nRegister him. Writing CTG on the script is not enough.\n\n2. THE RULE\nClosing the Gap PBS co-payment relief needs a one-off registration by a PBS prescriber or Aboriginal and Torres Strait Islander Health Practitioner; writing CTG on a script (optional since July 2021) or asking a pharmacist does not create eligibility.\n\n3. WHY C IS CORRECT\nClosing the Gap PBS registration is a one-off clinical registration. The annotation works only after that. A pharmacist cannot create it, and it is not automatic.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. CTG applies automatically to every Aboriginal patient: It does not.\nB. Ask the pharmacist to register him at the counter: Registration is clinical, not a counter act.\nD. Use a relative's CTG registration: Registration is individual.\nE. The annotation is enough. Registration is optional: Registration is the step that creates eligibility.\n\n5. KEY TAKEAWAY\nCTG needs registration before annotation.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Register him. Writing CTG on the script is not enough.",
       "best_treatment": "Register him properly first. An annotation alone does not create eligibility",
       "incorrect_answer_explanations": {
-        "A": "Registration is the step that creates eligibility.",
+        "A": "It does not.",
         "B": "Registration is clinical, not a counter act.",
-        "C": "Registration is individual.",
-        "E": "It does not."
+        "D": "Registration is individual.",
+        "E": "Registration is the step that creates eligibility."
       },
       "key_takeaways": [
         "CTG needs registration before annotation.",
@@ -165,11 +165,11 @@
       "zyntra_id": "ZQ-0562",
       "phase": "PH-08",
       "phase_item_id": "PH-H-04",
-      "lo_id": "d0959aa2-8935-5247-a695-d24bd87b7005",
-      "lo_code": "CTG_REGISTRATION",
-      "lo_key": "CTG_REGISTRATION",
-      "lo_title": "Writing CTG on a script has no effect unless the patient is registered for the Closing the Gap PBS co-payment program first.",
-      "lo_role": "core",
+      "lo_id": "74f1cfd6-7217-59a7-9721-60f3fa0d504d",
+      "lo_code": "CTG_PBS",
+      "lo_key": "CTG_PBS",
+      "lo_title": "Closing the Gap PBS co-payment relief needs a one-off registration by a PBS prescriber or Aboriginal and Torres Strait Islander Health Practitioner; writing CTG on a script (optional since July 2021) or asking a pharmacist does not create eligibility.",
+      "lo_role": "variant",
       "shared_lo": true,
       "irt_b": 0.1,
       "difficulty_tier": "medium",
@@ -180,23 +180,23 @@
     {
       "question_text": "A 34-week pregnant woman in a small rural hospital has a blood pressure of 170/110 and headache, not settling with first-line treatment. The on-call GP plans to observe overnight because the flying doctor is busy and the road is two hours. A small hospital cannot provide the level she needs. What is the most appropriate action?",
       "options": [
-        "Observe overnight. Retrieval is for daytime only",
         "Discharge to the local motel near the hospital",
-        "Start treatment and review in the antenatal clinic next week",
         "Transfer by private car with no escort",
-        "Treat as pre-eclampsia and arrange urgent retrieval. Do not wait out the night"
+        "Observe overnight. Retrieval is for daytime only",
+        "Treat as pre-eclampsia and arrange urgent retrieval. Do not wait out the night",
+        "Start treatment and review in the antenatal clinic next week"
       ],
-      "correct_answer": "E",
+      "correct_answer": "D",
       "category": "Population Health & Ethics",
       "difficulty": "difficult",
-      "explanation": "CORRECT ANSWER\n\nE. Treat as pre-eclampsia and arrange urgent retrieval. Do not wait out the night\n\n---\n\n1. CLINICAL SITUATION\nTreat and retrieve tonight. Do not observe severe pre-eclampsia in a small hospital.\n\n2. THE RULE\nRural clinicians arrange timely retrieval or transfer when a patient needs a higher level of care and defer elective procedures when safe resources are unavailable.\n\n3. WHY E IS CORRECT\nThis is severe pre-eclampsia. A small hospital cannot provide the obstetric and neonatal level she needs. Busy is not a reason to hold an unstable patient. Private car is not a retrieval.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Observe overnight. Retrieval is for daytime only: Urgency is clinical, not clerical.\nB. Discharge to the local motel near the hospital: Proximity to the building is not care.\nC. Start treatment and review in the antenatal clinic next week: Next week is not a safe interval.\nD. Transfer by private car with no escort: An unescorted car is not a retrieval.\n\n5. KEY TAKEAWAY\nRetrieval follows clinical need, not the clock.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nD. Treat as pre-eclampsia and arrange urgent retrieval. Do not wait out the night\n\n---\n\n1. CLINICAL SITUATION\nTreat and retrieve tonight. Do not observe severe pre-eclampsia in a small hospital.\n\n2. THE RULE\nRural clinicians arrange timely retrieval or transfer when a patient needs a higher level of care and defer elective procedures when safe resources are unavailable.\n\n3. WHY D IS CORRECT\nThis is severe pre-eclampsia. A small hospital cannot provide the obstetric and neonatal level she needs. Busy is not a reason to hold an unstable patient. Private car is not a retrieval.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Discharge to the local motel near the hospital: Proximity to the building is not care.\nB. Transfer by private car with no escort: An unescorted car is not a retrieval.\nC. Observe overnight. Retrieval is for daytime only: Urgency is clinical, not clerical.\nE. Start treatment and review in the antenatal clinic next week: Next week is not a safe interval.\n\n5. KEY TAKEAWAY\nRetrieval follows clinical need, not the clock.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Treat and retrieve tonight. Do not observe severe pre-eclampsia in a small hospital.",
       "best_treatment": "Treat as pre-eclampsia and arrange urgent retrieval. Do not wait out the night",
       "incorrect_answer_explanations": {
-        "A": "Urgency is clinical, not clerical.",
-        "B": "Proximity to the building is not care.",
-        "C": "Next week is not a safe interval.",
-        "D": "An unescorted car is not a retrieval."
+        "A": "Proximity to the building is not care.",
+        "B": "An unescorted car is not a retrieval.",
+        "C": "Urgency is clinical, not clerical.",
+        "E": "Next week is not a safe interval."
       },
       "key_takeaways": [
         "Retrieval follows clinical need, not the clock.",
@@ -224,22 +224,22 @@
       "question_text": "A doctor opens the My Health Record of a well-known sportsperson who is not his patient, to see if the news is true. Access to a My Health Record needs a legitimate purpose in the person's care. Curiosity about a celebrity is not one. What is the most appropriate view?",
       "options": [
         "Not acceptable. Access requires a legitimate clinical purpose",
-        "Acceptable. Any registered clinician may open any record",
-        "Acceptable if he does not tell anyone",
         "Acceptable outside working hours",
-        "Acceptable if the record is already populated"
+        "Acceptable. Any registered clinician may open any record",
+        "Acceptable if the record is already populated",
+        "Acceptable if he does not tell anyone"
       ],
       "correct_answer": "A",
       "category": "Population Health & Ethics",
       "difficulty": "easy",
-      "explanation": "CORRECT ANSWER\n\nA. Not acceptable. Access requires a legitimate clinical purpose\n\n---\n\n1. CLINICAL SITUATION\nDo not open it. He is not your patient.\n\n2. THE RULE\nClinicians access a patient's My Health Record only for a legitimate clinical purpose within a care relationship.\n\n3. WHY A IS CORRECT\nAccess to a My Health Record needs a legitimate purpose in the person's care. Curiosity about a celebrity is not one. Secrecy does not repair it.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Acceptable. Any registered clinician may open any record: Registration is not a browsing right.\nC. Acceptable if he does not tell anyone: An undisclosed breach is still a breach.\nD. Acceptable outside working hours: The clock is irrelevant.\nE. Acceptable if the record is already populated: Content does not create a purpose.\n\n5. KEY TAKEAWAY\nMy Health Record access needs a care purpose.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nA. Not acceptable. Access requires a legitimate clinical purpose\n\n---\n\n1. CLINICAL SITUATION\nDo not open it. He is not your patient.\n\n2. THE RULE\nClinicians access a patient's My Health Record only for a legitimate clinical purpose within a care relationship.\n\n3. WHY A IS CORRECT\nAccess to a My Health Record needs a legitimate purpose in the person's care. Curiosity about a celebrity is not one. Secrecy does not repair it.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Acceptable outside working hours: The clock is irrelevant.\nC. Acceptable. Any registered clinician may open any record: Registration is not a browsing right.\nD. Acceptable if the record is already populated: Content does not create a purpose.\nE. Acceptable if he does not tell anyone: An undisclosed breach is still a breach.\n\n5. KEY TAKEAWAY\nMy Health Record access needs a care purpose.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Do not open it. He is not your patient.",
       "best_treatment": "Not acceptable. Access requires a legitimate clinical purpose",
       "incorrect_answer_explanations": {
-        "B": "Registration is not a browsing right.",
-        "C": "An undisclosed breach is still a breach.",
-        "D": "The clock is irrelevant.",
-        "E": "Content does not create a purpose."
+        "B": "The clock is irrelevant.",
+        "C": "Registration is not a browsing right.",
+        "D": "Content does not create a purpose.",
+        "E": "An undisclosed breach is still a breach."
       },
       "key_takeaways": [
         "My Health Record access needs a care purpose.",
@@ -266,23 +266,23 @@
     {
       "question_text": "A patient is seen in a public emergency department for a sprained ankle, at no charge. The visiting GP also bills a Medicare consultation for the same attendance. What is the most appropriate view?",
       "options": [
-        "Acceptable. Hospital and Medicare are different payers",
-        "Not acceptable. The same public-hospital service is not also bulk-billed to Medicare",
-        "Acceptable if the sprain is mild",
         "Acceptable if the patient agrees",
-        "Acceptable for after-hours only"
+        "Acceptable if the sprain is mild",
+        "Acceptable. Hospital and Medicare are different payers",
+        "Acceptable for after-hours only",
+        "Not acceptable. The same public-hospital service is not also bulk-billed to Medicare"
       ],
-      "correct_answer": "B",
+      "correct_answer": "E",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. Not acceptable. The same public-hospital service is not also bulk-billed to Medicare\n\n---\n\n1. CLINICAL SITUATION\nDo not bill Medicare for the same public ED attendance.\n\n2. THE RULE\nMedicare benefits are claimed only for a clinically relevant service personally provided, never double-billed to a public hospital service.\n\n3. WHY B IS CORRECT\nA service provided as part of a public hospital attendance is not also claimed on Medicare by the same doctor for the same occasion. Patient agreement does not create a second benefit.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Acceptable. Hospital and Medicare are different payers: Different payers do not mean two fees for one service.\nC. Acceptable if the sprain is mild: Severity is irrelevant.\nD. Acceptable if the patient agrees: The patient cannot authorise a duplicate claim.\nE. Acceptable for after-hours only: The hour does not change it.\n\n5. KEY TAKEAWAY\nOne public-hospital service is not claimed twice.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nE. Not acceptable. The same public-hospital service is not also bulk-billed to Medicare\n\n---\n\n1. CLINICAL SITUATION\nDo not bill Medicare for the same public ED attendance.\n\n2. THE RULE\nMedicare benefits are claimed only for a clinically relevant service personally provided, never double-billed to a public hospital service.\n\n3. WHY E IS CORRECT\nA service provided as part of a public hospital attendance is not also claimed on Medicare by the same doctor for the same occasion. Patient agreement does not create a second benefit.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Acceptable if the patient agrees: The patient cannot authorise a duplicate claim.\nB. Acceptable if the sprain is mild: Severity is irrelevant.\nC. Acceptable. Hospital and Medicare are different payers: Different payers do not mean two fees for one service.\nD. Acceptable for after-hours only: The hour does not change it.\n\n5. KEY TAKEAWAY\nOne public-hospital service is not claimed twice.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Do not bill Medicare for the same public ED attendance.",
       "best_treatment": "Not acceptable. The same public-hospital service is not also bulk-billed to Medicare",
       "incorrect_answer_explanations": {
-        "A": "Different payers do not mean two fees for one service.",
-        "C": "Severity is irrelevant.",
-        "D": "The patient cannot authorise a duplicate claim.",
-        "E": "The hour does not change it."
+        "A": "The patient cannot authorise a duplicate claim.",
+        "B": "Severity is irrelevant.",
+        "C": "Different payers do not mean two fees for one service.",
+        "D": "The hour does not change it."
       },
       "key_takeaways": [
         "One public-hospital service is not claimed twice.",
@@ -309,23 +309,23 @@
     {
       "question_text": "An online service offers a new patient, never examined, a benzodiazepine script after a 90-second chat, and bills a long telehealth consult. A telehealth consult must still be a proper clinical service, and the item billed must match what was done. What is the most appropriate view?",
       "options": [
+        "Acceptable if the script is for five tablets",
+        "Acceptable because the patient requested it",
         "Acceptable. Telehealth has no rules about length or drugs",
         "Acceptable if the patient is rural",
-        "Not acceptable. No adequate assessment, and a long-consult item is not earned",
-        "Acceptable if the script is for five tablets",
-        "Acceptable because the patient requested it"
+        "Not acceptable. No adequate assessment, and a long-consult item is not earned"
       ],
-      "correct_answer": "C",
+      "correct_answer": "E",
       "category": "Population Health & Ethics",
       "difficulty": "difficult",
-      "explanation": "CORRECT ANSWER\n\nC. Not acceptable. No adequate assessment, and a long-consult item is not earned\n\n---\n\n1. CLINICAL SITUATION\nDecline the model. A 90-second script is not a long consult.\n\n2. THE RULE\nTelehealth services require an adequate clinical assessment and are billed with the MBS item that matches the service actually provided.\n\n3. WHY C IS CORRECT\nA telehealth consult must still be a proper clinical service, and the item billed must match what was done. A 90-second chat with a stranger for a drug of dependence is neither.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Acceptable. Telehealth has no rules about length or drugs: It has both.\nB. Acceptable if the patient is rural: Rural location does not lower the standard.\nD. Acceptable if the script is for five tablets: Quantity does not repair the assessment.\nE. Acceptable because the patient requested it: A request is not a clinical indication.\n\n5. KEY TAKEAWAY\nTelehealth is still clinical care.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nE. Not acceptable. No adequate assessment, and a long-consult item is not earned\n\n---\n\n1. CLINICAL SITUATION\nDecline the model. A 90-second script is not a long consult.\n\n2. THE RULE\nTelehealth services require an adequate clinical assessment and are billed with the MBS item that matches the service actually provided.\n\n3. WHY E IS CORRECT\nA telehealth consult must still be a proper clinical service, and the item billed must match what was done. A 90-second chat with a stranger for a drug of dependence is neither.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Acceptable if the script is for five tablets: Quantity does not repair the assessment.\nB. Acceptable because the patient requested it: A request is not a clinical indication.\nC. Acceptable. Telehealth has no rules about length or drugs: It has both.\nD. Acceptable if the patient is rural: Rural location does not lower the standard.\n\n5. KEY TAKEAWAY\nTelehealth is still clinical care.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Decline the model. A 90-second script is not a long consult.",
       "best_treatment": "Not acceptable. No adequate assessment, and a long-consult item is not earned",
       "incorrect_answer_explanations": {
-        "A": "It has both.",
-        "B": "Rural location does not lower the standard.",
-        "D": "Quantity does not repair the assessment.",
-        "E": "A request is not a clinical indication."
+        "A": "Quantity does not repair the assessment.",
+        "B": "A request is not a clinical indication.",
+        "C": "It has both.",
+        "D": "Rural location does not lower the standard."
       },
       "key_takeaways": [
         "Telehealth is still clinical care.",
@@ -352,23 +352,23 @@
     {
       "question_text": "A practice bills a GP management plan for every patient over 65 who walks in for a script, using a prefilled template the patient never sees. A GP management plan is for a patient with a chronic condition, prepared with them. What is the most appropriate view?",
       "options": [
-        "Acceptable. Age over 65 is the indication",
         "Acceptable if the template mentions diabetes",
         "Acceptable once per year regardless of content",
-        "Not acceptable. A plan requires a chronic condition and the patient's involvement",
-        "Acceptable if the nurse clicks the box"
+        "Acceptable. Age over 65 is the indication",
+        "Acceptable if the nurse clicks the box",
+        "Not acceptable. A plan requires a chronic condition and the patient's involvement"
       ],
-      "correct_answer": "D",
+      "correct_answer": "E",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nD. Not acceptable. A plan requires a chronic condition and the patient's involvement\n\n---\n\n1. CLINICAL SITUATION\nDo not bill. A script visit is not a care plan.\n\n2. THE RULE\nA GP management plan is for a patient with a chronic condition and must be prepared with the patient, not billed by template or age.\n\n3. WHY D IS CORRECT\nA GP management plan is for a patient with a chronic condition, prepared with them. Age is not an indication. An unseen template is not a plan.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Acceptable. Age over 65 is the indication: It is not.\nB. Acceptable if the template mentions diabetes: A word on a template is not a plan.\nC. Acceptable once per year regardless of content: Frequency rules do not replace content.\nE. Acceptable if the nurse clicks the box: A click is not the service.\n\n5. KEY TAKEAWAY\nA care plan needs a chronic condition and the patient.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nE. Not acceptable. A plan requires a chronic condition and the patient's involvement\n\n---\n\n1. CLINICAL SITUATION\nDo not bill. A script visit is not a care plan.\n\n2. THE RULE\nA GP management plan is for a patient with a chronic condition and must be prepared with the patient, not billed by template or age.\n\n3. WHY E IS CORRECT\nA GP management plan is for a patient with a chronic condition, prepared with them. Age is not an indication. An unseen template is not a plan.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Acceptable if the template mentions diabetes: A word on a template is not a plan.\nB. Acceptable once per year regardless of content: Frequency rules do not replace content.\nC. Acceptable. Age over 65 is the indication: It is not.\nD. Acceptable if the nurse clicks the box: A click is not the service.\n\n5. KEY TAKEAWAY\nA care plan needs a chronic condition and the patient.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Do not bill. A script visit is not a care plan.",
       "best_treatment": "Not acceptable. A plan requires a chronic condition and the patient's involvement",
       "incorrect_answer_explanations": {
-        "A": "It is not.",
-        "B": "A word on a template is not a plan.",
-        "C": "Frequency rules do not replace content.",
-        "E": "A click is not the service."
+        "A": "A word on a template is not a plan.",
+        "B": "Frequency rules do not replace content.",
+        "C": "It is not.",
+        "D": "A click is not the service."
       },
       "key_takeaways": [
         "A care plan needs a chronic condition and the patient.",
@@ -396,22 +396,22 @@
       "question_text": "A GP wants to bill a 715 health assessment for an Aboriginal man who is an inpatient for pneumonia, having had a 715 four months ago. A 715 is a practice-based assessment, not a hospital inpatient item, and it is not claimed more often than the set interval. What is the most appropriate response?",
       "options": [
         "Bill it. Inpatient status does not matter",
-        "Bill it if the pneumonia is resolving",
         "Bill a 715 every admission",
         "Bill it to complete the hospital discharge",
-        "Do not bill. He is an inpatient, and the interval has not elapsed"
+        "Do not bill. He is an inpatient, and the interval has not elapsed",
+        "Bill it if the pneumonia is resolving"
       ],
-      "correct_answer": "E",
+      "correct_answer": "D",
       "category": "Population Health & Ethics",
       "difficulty": "easy",
-      "explanation": "CORRECT ANSWER\n\nE. Do not bill. He is an inpatient, and the interval has not elapsed\n\n---\n\n1. CLINICAL SITUATION\nDo not bill a 715. He is in hospital and had one four months ago.\n\n2. THE RULE\nAn Aboriginal and Torres Strait Islander health assessment is claimed for a non-admitted patient at the correct interval, not for a hospital inpatient.\n\n3. WHY E IS CORRECT\nA 715 is a practice-based assessment, not a hospital inpatient item, and it is not claimed more often than the set interval.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Bill it. Inpatient status does not matter: It does.\nB. Bill it if the pneumonia is resolving: Recovery does not create eligibility.\nC. Bill a 715 every admission: That is not the program.\nD. Bill it to complete the hospital discharge: Discharge is not a 715.\n\n5. KEY TAKEAWAY\nA 715 is not for an inpatient.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nD. Do not bill. He is an inpatient, and the interval has not elapsed\n\n---\n\n1. CLINICAL SITUATION\nDo not bill a 715. He is in hospital and had one four months ago.\n\n2. THE RULE\nThe MBS 715 health assessment is offered on self-identification as Aboriginal or Torres Strait Islander, at least 9 months apart, to a non-admitted patient, never to a hospital inpatient.\n\n3. WHY D IS CORRECT\nA 715 is a practice-based assessment, not a hospital inpatient item, and it is not claimed more often than the set interval.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Bill it. Inpatient status does not matter: It does.\nB. Bill a 715 every admission: That is not the program.\nC. Bill it to complete the hospital discharge: Discharge is not a 715.\nE. Bill it if the pneumonia is resolving: Recovery does not create eligibility.\n\n5. KEY TAKEAWAY\nA 715 is not for an inpatient.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Do not bill a 715. He is in hospital and had one four months ago.",
       "best_treatment": "Do not bill. He is an inpatient, and the interval has not elapsed",
       "incorrect_answer_explanations": {
         "A": "It does.",
-        "B": "Recovery does not create eligibility.",
-        "C": "That is not the program.",
-        "D": "Discharge is not a 715."
+        "B": "That is not the program.",
+        "C": "Discharge is not a 715.",
+        "E": "Recovery does not create eligibility."
       },
       "key_takeaways": [
         "A 715 is not for an inpatient.",
@@ -423,11 +423,11 @@
       "zyntra_id": "ZQ-0568",
       "phase": "PH-08",
       "phase_item_id": "PH-H-10",
-      "lo_id": "1e1314e2-69cb-5a68-84af-ea5f11244d51",
-      "lo_code": "HEALTH_ASSESSMENT",
-      "lo_key": "HEALTH_ASSESSMENT",
-      "lo_title": "An Aboriginal and Torres Strait Islander health assessment is claimed for a non-admitted patient at the correct interval, not for a hospital inpatient.",
-      "lo_role": "core",
+      "lo_id": "894c81b1-d7f2-53fe-85c1-23ae018b8114",
+      "lo_code": "HEALTH_CHECK_715",
+      "lo_key": "HEALTH_CHECK_715",
+      "lo_title": "The MBS 715 health assessment is offered on self-identification as Aboriginal or Torres Strait Islander, at least 9 months apart, to a non-admitted patient, never to a hospital inpatient.",
+      "lo_role": "variant",
       "shared_lo": true,
       "irt_b": -1.05,
       "difficulty_tier": "easy",
@@ -438,23 +438,23 @@
     {
       "question_text": "A rural GP obstetrician is asked to start an elective caesarean at 39 weeks. The hospital has no after-hours theatre nurse tonight, no blood on site, and the nearest backup is three hours away. Mother and baby are well. An elective case waits for a safe service. What is the most appropriate plan?",
       "options": [
+        "Start and ask a midwife to scrub",
+        "Discharge her to labour at home",
         "Defer. Do not start elective surgery without staff, blood, and a realistic backup",
         "Start. Elective caesarean is always safer in labour ward",
-        "Start and ask a midwife to scrub",
-        "Start under local anaesthetic to avoid the gap",
-        "Discharge her to labour at home"
+        "Start under local anaesthetic to avoid the gap"
       ],
-      "correct_answer": "A",
+      "correct_answer": "C",
       "category": "Population Health & Ethics",
       "difficulty": "difficult",
-      "explanation": "CORRECT ANSWER\n\nA. Defer. Do not start elective surgery without staff, blood, and a realistic backup\n\n---\n\n1. CLINICAL SITUATION\nDo not start. An elective caesarean waits for a safe theatre.\n\n2. THE RULE\nRural clinicians arrange timely retrieval or transfer when a patient needs a higher level of care and defer elective procedures when safe resources are unavailable.\n\n3. WHY A IS CORRECT\nAn elective case waits for a safe service. Starting without theatre staff or blood, hours from help, creates a risk she does not need tonight.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Start. Elective caesarean is always safer in labour ward: Safer than what is not established, and the conditions are absent.\nC. Start and ask a midwife to scrub: Improvising the team is not a service.\nD. Start under local anaesthetic to avoid the gap: Anaesthetic choice does not replace blood and help.\nE. Discharge her to labour at home: Deferring the operation is not abandoning antenatal care.\n\n5. KEY TAKEAWAY\nDo not start elective rural surgery without backup.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nC. Defer. Do not start elective surgery without staff, blood, and a realistic backup\n\n---\n\n1. CLINICAL SITUATION\nDo not start. An elective caesarean waits for a safe theatre.\n\n2. THE RULE\nRural clinicians arrange timely retrieval or transfer when a patient needs a higher level of care and defer elective procedures when safe resources are unavailable.\n\n3. WHY C IS CORRECT\nAn elective case waits for a safe service. Starting without theatre staff or blood, hours from help, creates a risk she does not need tonight.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Start and ask a midwife to scrub: Improvising the team is not a service.\nB. Discharge her to labour at home: Deferring the operation is not abandoning antenatal care.\nD. Start. Elective caesarean is always safer in labour ward: Safer than what is not established, and the conditions are absent.\nE. Start under local anaesthetic to avoid the gap: Anaesthetic choice does not replace blood and help.\n\n5. KEY TAKEAWAY\nDo not start elective rural surgery without backup.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Do not start. An elective caesarean waits for a safe theatre.",
       "best_treatment": "Defer. Do not start elective surgery without staff, blood, and a realistic backup",
       "incorrect_answer_explanations": {
-        "B": "Safer than what is not established, and the conditions are absent.",
-        "C": "Improvising the team is not a service.",
-        "D": "Anaesthetic choice does not replace blood and help.",
-        "E": "Deferring the operation is not abandoning antenatal care."
+        "A": "Improvising the team is not a service.",
+        "B": "Deferring the operation is not abandoning antenatal care.",
+        "D": "Safer than what is not established, and the conditions are absent.",
+        "E": "Anaesthetic choice does not replace blood and help."
       },
       "key_takeaways": [
         "Do not start elective rural surgery without backup.",
@@ -481,23 +481,23 @@
     {
       "question_text": "A patient needs a restricted PBS antibiotic. The GP writes the script with authority pending and tells the pharmacist to dispense a full PBS quantity. Pending is not approved. What is the most appropriate correction?",
       "options": [
-        "Dispense. Pending is the same as approved",
-        "Do not claim a PBS quantity until the authority is actually held",
         "Use another patient's authority number",
+        "Do not claim a PBS quantity until the authority is actually held",
+        "Ask the patient to sign that they accept the restriction",
         "Annotate CTG instead of an authority",
-        "Ask the patient to sign that they accept the restriction"
+        "Dispense. Pending is the same as approved"
       ],
       "correct_answer": "B",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. Do not claim a PBS quantity until the authority is actually held\n\n---\n\n1. CLINICAL SITUATION\nGet the authority first. Pending is not approval.\n\n2. THE RULE\nA PBS authority must be obtained when the restriction requires it before the PBS quantity is prescribed or claimed.\n\n3. WHY B IS CORRECT\nAn authority restriction means the authority comes first. Pending is not approved. Another patient's number, or a CTG annotation, does not replace it.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Dispense. Pending is the same as approved: It is not.\nC. Use another patient's authority number: That is a false claim.\nD. Annotate CTG instead of an authority: CTG is a co-payment scheme, not an authority.\nE. Ask the patient to sign that they accept the restriction: The patient cannot authorise a restricted benefit.\n\n5. KEY TAKEAWAY\nAn authority restriction is met before the PBS claim.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nB. Do not claim a PBS quantity until the authority is actually held\n\n---\n\n1. CLINICAL SITUATION\nGet the authority first. Pending is not approval.\n\n2. THE RULE\nA PBS authority must be obtained when the restriction requires it before the PBS quantity is prescribed or claimed.\n\n3. WHY B IS CORRECT\nAn authority restriction means the authority comes first. Pending is not approved. Another patient's number, or a CTG annotation, does not replace it.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Use another patient's authority number: That is a false claim.\nC. Ask the patient to sign that they accept the restriction: The patient cannot authorise a restricted benefit.\nD. Annotate CTG instead of an authority: CTG is a co-payment scheme, not an authority.\nE. Dispense. Pending is the same as approved: It is not.\n\n5. KEY TAKEAWAY\nAn authority restriction is met before the PBS claim.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Get the authority first. Pending is not approval.",
       "best_treatment": "Do not claim a PBS quantity until the authority is actually held",
       "incorrect_answer_explanations": {
-        "A": "It is not.",
-        "C": "That is a false claim.",
+        "A": "That is a false claim.",
+        "C": "The patient cannot authorise a restricted benefit.",
         "D": "CTG is a co-payment scheme, not an authority.",
-        "E": "The patient cannot authorise a restricted benefit."
+        "E": "It is not."
       },
       "key_takeaways": [
         "An authority restriction is met before the PBS claim.",
@@ -524,23 +524,23 @@
     {
       "question_text": "A patient phones at 10 pm for a repeat of his usual statin. He is well. The GP tells him to collect a script from the after-hours clinic and bills an urgent after-hours attendance. What is the most appropriate view?",
       "options": [
-        "Acceptable. Any 10 pm contact is urgent",
-        "Acceptable if he has no tablets left",
+        "Acceptable once per month",
         "Not acceptable. A routine repeat is not an urgent after-hours service",
-        "Acceptable if the clinic is open",
-        "Acceptable once per month"
+        "Acceptable if he has no tablets left",
+        "Acceptable. Any 10 pm contact is urgent",
+        "Acceptable if the clinic is open"
       ],
-      "correct_answer": "C",
+      "correct_answer": "B",
       "category": "Population Health & Ethics",
       "difficulty": "easy",
-      "explanation": "CORRECT ANSWER\n\nC. Not acceptable. A routine repeat is not an urgent after-hours service\n\n---\n\n1. CLINICAL SITUATION\nDo not bill an urgent after-hours item for a routine statin.\n\n2. THE RULE\nUrgent after-hours items are billed only for genuinely urgent services in after-hours periods, not routine repeat prescriptions.\n\n3. WHY C IS CORRECT\nUrgent after-hours items are for urgent clinical need in unsociable hours. A routine statin repeat is neither.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Acceptable. Any 10 pm contact is urgent: The clock does not define urgency.\nB. Acceptable if he has no tablets left: Running out of a statin is not an emergency attendance.\nD. Acceptable if the clinic is open: Opening hours do not create urgency.\nE. Acceptable once per month: Frequency is not the test.\n\n5. KEY TAKEAWAY\nUrgency is clinical, not the time on the clock.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nB. Not acceptable. A routine repeat is not an urgent after-hours service\n\n---\n\n1. CLINICAL SITUATION\nDo not bill an urgent after-hours item for a routine statin.\n\n2. THE RULE\nUrgent after-hours items are billed only for genuinely urgent services in after-hours periods, not routine repeat prescriptions.\n\n3. WHY B IS CORRECT\nUrgent after-hours items are for urgent clinical need in unsociable hours. A routine statin repeat is neither.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Acceptable once per month: Frequency is not the test.\nC. Acceptable if he has no tablets left: Running out of a statin is not an emergency attendance.\nD. Acceptable. Any 10 pm contact is urgent: The clock does not define urgency.\nE. Acceptable if the clinic is open: Opening hours do not create urgency.\n\n5. KEY TAKEAWAY\nUrgency is clinical, not the time on the clock.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Do not bill an urgent after-hours item for a routine statin.",
       "best_treatment": "Not acceptable. A routine repeat is not an urgent after-hours service",
       "incorrect_answer_explanations": {
-        "A": "The clock does not define urgency.",
-        "B": "Running out of a statin is not an emergency attendance.",
-        "D": "Opening hours do not create urgency.",
-        "E": "Frequency is not the test."
+        "A": "Frequency is not the test.",
+        "C": "Running out of a statin is not an emergency attendance.",
+        "D": "The clock does not define urgency.",
+        "E": "Opening hours do not create urgency."
       },
       "key_takeaways": [
         "Urgency is clinical, not the time on the clock.",
@@ -567,23 +567,23 @@
     {
       "question_text": "A child in a remote clinic has suspected appendicitis and looks unwell. The family want him kept locally because the regional hospital is far. The clinic has no theatre. What is the most appropriate plan?",
       "options": [
-        "Keep him. Family preference decides the level of care",
         "Start oral antibiotics and review in two days",
+        "Observe overnight and transfer only if he perforates",
         "Ask the family to drive him if they feel ready",
         "Arrange transfer to a hospital that can operate. Explain why local care is unsafe",
-        "Observe overnight and transfer only if he perforates"
+        "Keep him. Family preference decides the level of care"
       ],
       "correct_answer": "D",
       "category": "Population Health & Ethics",
       "difficulty": "difficult",
-      "explanation": "CORRECT ANSWER\n\nD. Arrange transfer to a hospital that can operate. Explain why local care is unsafe\n\n---\n\n1. CLINICAL SITUATION\nTransfer him. No theatre means he cannot stay.\n\n2. THE RULE\nRural clinicians arrange timely retrieval or transfer when a patient needs a higher level of care and defer elective procedures when safe resources are unavailable.\n\n3. WHY D IS CORRECT\nHe needs a surgeon. A clinic without a theatre cannot be the place of care because the family prefer it. Waiting for perforation is not a plan.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Keep him. Family preference decides the level of care: Preference is heard. It does not choose an unsafe level.\nB. Start oral antibiotics and review in two days: That delays a surgical abdomen.\nC. Ask the family to drive him if they feel ready: An unwell child is not a private-car transfer.\nE. Observe overnight and transfer only if he perforates: Perforation is the complication to avoid.\n\n5. KEY TAKEAWAY\nLevel of care follows the illness.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nD. Arrange transfer to a hospital that can operate. Explain why local care is unsafe\n\n---\n\n1. CLINICAL SITUATION\nTransfer him. No theatre means he cannot stay.\n\n2. THE RULE\nRural clinicians arrange timely retrieval or transfer when a patient needs a higher level of care and defer elective procedures when safe resources are unavailable.\n\n3. WHY D IS CORRECT\nHe needs a surgeon. A clinic without a theatre cannot be the place of care because the family prefer it. Waiting for perforation is not a plan.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Start oral antibiotics and review in two days: That delays a surgical abdomen.\nB. Observe overnight and transfer only if he perforates: Perforation is the complication to avoid.\nC. Ask the family to drive him if they feel ready: An unwell child is not a private-car transfer.\nE. Keep him. Family preference decides the level of care: Preference is heard. It does not choose an unsafe level.\n\n5. KEY TAKEAWAY\nLevel of care follows the illness.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Transfer him. No theatre means he cannot stay.",
       "best_treatment": "Arrange transfer to a hospital that can operate. Explain why local care is unsafe",
       "incorrect_answer_explanations": {
-        "A": "Preference is heard. It does not choose an unsafe level.",
-        "B": "That delays a surgical abdomen.",
+        "A": "That delays a surgical abdomen.",
+        "B": "Perforation is the complication to avoid.",
         "C": "An unwell child is not a private-car transfer.",
-        "E": "Perforation is the complication to avoid."
+        "E": "Preference is heard. It does not choose an unsafe level."
       },
       "key_takeaways": [
         "Level of care follows the illness.",
@@ -610,23 +610,23 @@
     {
       "question_text": "A GP bills a consultation item for a medical student who saw the patient alone, while the GP was at lunch and did not see the patient. A Medicare item is claimed by the practitioner who provided the service. What is the most appropriate view?",
       "options": [
-        "Acceptable. Students extend the GP's item",
-        "Acceptable if the student is in fifth year",
-        "Acceptable if the patient was not charged a gap",
         "Acceptable for bulk-billed patients only",
-        "Not acceptable. The GP did not provide the service that was billed"
+        "Acceptable if the patient was not charged a gap",
+        "Acceptable. Students extend the GP's item",
+        "Not acceptable. The GP did not provide the service that was billed",
+        "Acceptable if the student is in fifth year"
       ],
-      "correct_answer": "E",
+      "correct_answer": "D",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nE. Not acceptable. The GP did not provide the service that was billed\n\n---\n\n1. CLINICAL SITUATION\nDo not bill. The GP was not there.\n\n2. THE RULE\nMedicare benefits are claimed only for a clinically relevant service personally provided, never double-billed to a public hospital service.\n\n3. WHY E IS CORRECT\nA Medicare item is claimed by the practitioner who provided the service. A student seeing a patient alone is not that service.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Acceptable. Students extend the GP's item: They do not.\nB. Acceptable if the student is in fifth year: Seniority does not make a student the practitioner.\nC. Acceptable if the patient was not charged a gap: Bulk-billing a service you did not provide is still a false claim.\nD. Acceptable for bulk-billed patients only: The payer does not change the rule.\n\n5. KEY TAKEAWAY\nThe item belongs to the practitioner who did the work.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nD. Not acceptable. The GP did not provide the service that was billed\n\n---\n\n1. CLINICAL SITUATION\nDo not bill. The GP was not there.\n\n2. THE RULE\nMedicare benefits are claimed only for a clinically relevant service personally provided, never double-billed to a public hospital service.\n\n3. WHY D IS CORRECT\nA Medicare item is claimed by the practitioner who provided the service. A student seeing a patient alone is not that service.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Acceptable for bulk-billed patients only: The payer does not change the rule.\nB. Acceptable if the patient was not charged a gap: Bulk-billing a service you did not provide is still a false claim.\nC. Acceptable. Students extend the GP's item: They do not.\nE. Acceptable if the student is in fifth year: Seniority does not make a student the practitioner.\n\n5. KEY TAKEAWAY\nThe item belongs to the practitioner who did the work.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Do not bill. The GP was not there.",
       "best_treatment": "Not acceptable. The GP did not provide the service that was billed",
       "incorrect_answer_explanations": {
-        "A": "They do not.",
-        "B": "Seniority does not make a student the practitioner.",
-        "C": "Bulk-billing a service you did not provide is still a false claim.",
-        "D": "The payer does not change the rule."
+        "A": "The payer does not change the rule.",
+        "B": "Bulk-billing a service you did not provide is still a false claim.",
+        "C": "They do not.",
+        "E": "Seniority does not make a student the practitioner."
       },
       "key_takeaways": [
         "The item belongs to the practitioner who did the work.",
@@ -653,23 +653,23 @@
     {
       "question_text": "A well man has a 6-minute chat about a holiday. What is the most appropriate next step?",
       "options": [
-        "Do not bill a consultation. No clinically relevant service was provided",
-        "Bill a level B for the chat",
         "A 6-minute visit is always billable",
+        "Do not bill a consultation. No clinically relevant service was provided",
         "Social talk is a consultation",
-        "Bill and write nothing"
+        "Bill and write nothing",
+        "Bill a level B for the chat"
       ],
-      "correct_answer": "A",
+      "correct_answer": "B",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. Do not bill a consultation. No clinically relevant service was provided\n\n---\n\n1. CLINICAL SITUATION\nA well man has a 6-minute chat about a holiday.\n\n2. THE RULE\nMedicare benefits are claimed only for a clinically relevant service personally provided, never double-billed to a public hospital service.\n\n3. WHY A IS CORRECT\nMedicare needs a clinical service. A social chat is not one.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Bill a level B for the chat: A level B requires a clinically relevant service.\nC. A 6-minute visit is always billable: Duration alone does not create a billable service.\nD. Social talk is a consultation: Social conversation is not a clinically relevant service.\nE. Bill and write nothing: Billing without records is improper.\n\n5. KEY TAKEAWAY\nMedicare benefits are claimed only for a clinically relevant service personally provided, never double-billed to a public hospital service.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nB. Do not bill a consultation. No clinically relevant service was provided\n\n---\n\n1. CLINICAL SITUATION\nA well man has a 6-minute chat about a holiday.\n\n2. THE RULE\nMedicare benefits are claimed only for a clinically relevant service personally provided, never double-billed to a public hospital service.\n\n3. WHY B IS CORRECT\nMedicare needs a clinical service. A social chat is not one.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. A 6-minute visit is always billable: Duration alone does not create a billable service.\nC. Social talk is a consultation: Social conversation is not a clinically relevant service.\nD. Bill and write nothing: Billing without records is improper.\nE. Bill a level B for the chat: A level B requires a clinically relevant service.\n\n5. KEY TAKEAWAY\nMedicare benefits are claimed only for a clinically relevant service personally provided, never double-billed to a public hospital service.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A well man has a 6-minute chat about a holiday.",
       "best_treatment": "Do not bill a consultation. No clinically relevant service was provided",
       "incorrect_answer_explanations": {
-        "B": "A level B requires a clinically relevant service.",
-        "C": "Duration alone does not create a billable service.",
-        "D": "Social conversation is not a clinically relevant service.",
-        "E": "Billing without records is improper."
+        "A": "Duration alone does not create a billable service.",
+        "C": "Social conversation is not a clinically relevant service.",
+        "D": "Billing without records is improper.",
+        "E": "A level B requires a clinically relevant service."
       },
       "key_takeaways": [
         "Medicare benefits are claimed only for a clinically relevant service personally provided, never double-billed to a public hospital service.",
@@ -696,23 +696,23 @@
     {
       "question_text": "The practice bulk-bills and also asks for $40 cash, not receipted. The extra fee is not permitted. What is the most appropriate next step?",
       "options": [
-        "Not acceptable. Bulk-billing means the benefit is full payment",
         "A $40 facility fee in cash is fine",
-        "Pensioners can be charged extra",
+        "Bulk-billing plus a gap is standard",
         "An undisclosed cash fee is permitted",
-        "Bulk-billing plus a gap is standard"
+        "Not acceptable. Bulk-billing means the benefit is full payment",
+        "Pensioners can be charged extra"
       ],
-      "correct_answer": "A",
+      "correct_answer": "D",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. Not acceptable. Bulk-billing means the benefit is full payment\n\n---\n\n1. CLINICAL SITUATION\nThe practice bulk-bills and also asks for $40 cash, not receipted. The extra fee is not permitted.\n\n2. THE RULE\nBulk-billing means accepting the Medicare benefit as full payment, so no additional charge can be added.\n\n3. WHY A IS CORRECT\nNo extra cash on a bulk-billed service.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. A $40 facility fee in cash is fine: An extra fee on a bulk-billed service breaches the agreement.\nC. Pensioners can be charged extra: Concession status does not allow extra charges on bulk-billed services.\nD. An undisclosed cash fee is permitted: Undisclosed cash fees are improper.\nE. Bulk-billing plus a gap is standard: Bulk-billing excludes a gap.\n\n5. KEY TAKEAWAY\nBulk-billing means accepting the Medicare benefit as full payment, so no additional charge can be added.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nD. Not acceptable. Bulk-billing means the benefit is full payment\n\n---\n\n1. CLINICAL SITUATION\nThe practice bulk-bills and also asks for $40 cash, not receipted. The extra fee is not permitted.\n\n2. THE RULE\nBulk-billing means accepting the Medicare benefit as full payment, so no additional charge can be added.\n\n3. WHY D IS CORRECT\nNo extra cash on a bulk-billed service.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. A $40 facility fee in cash is fine: An extra fee on a bulk-billed service breaches the agreement.\nB. Bulk-billing plus a gap is standard: Bulk-billing excludes a gap.\nC. An undisclosed cash fee is permitted: Undisclosed cash fees are improper.\nE. Pensioners can be charged extra: Concession status does not allow extra charges on bulk-billed services.\n\n5. KEY TAKEAWAY\nBulk-billing means accepting the Medicare benefit as full payment, so no additional charge can be added.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "The practice bulk-bills and also asks for $40 cash, not receipted. The extra fee is not permitted.",
       "best_treatment": "Not acceptable. Bulk-billing means the benefit is full payment",
       "incorrect_answer_explanations": {
-        "B": "An extra fee on a bulk-billed service breaches the agreement.",
-        "C": "Concession status does not allow extra charges on bulk-billed services.",
-        "D": "Undisclosed cash fees are improper.",
-        "E": "Bulk-billing excludes a gap."
+        "A": "An extra fee on a bulk-billed service breaches the agreement.",
+        "B": "Bulk-billing excludes a gap.",
+        "C": "Undisclosed cash fees are improper.",
+        "E": "Concession status does not allow extra charges on bulk-billed services."
       },
       "key_takeaways": [
         "Bulk-billing means accepting the Medicare benefit as full payment, so no additional charge can be added.",
@@ -739,22 +739,22 @@
     {
       "question_text": "A bulk-billing practice adds a separate charge, renamed as a 'service fee', to each bulk-billed visit. Which of the following is most accurate?",
       "options": [
-        "Call it a facility fee and it is outside the agreement",
-        "The benefit is full payment. No extra fee",
-        "A pensioner status creates an exception",
         "Cash is not a fee",
+        "Call it a facility fee and it is outside the agreement",
+        "A pensioner status creates an exception",
+        "The benefit is full payment. No extra fee",
         "The patient agreed so it is fine"
       ],
-      "correct_answer": "B",
+      "correct_answer": "D",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. The benefit is full payment. No extra fee\n\n---\n\n1. CLINICAL SITUATION\nA bulk-billing practice adds a separate charge, renamed as a 'service fee', to each bulk-billed visit.\n\n2. THE RULE\nBulk-billing means accepting the Medicare benefit as full payment, so no additional charge can be added.\n\n3. WHY B IS CORRECT\nA facility fee is still an extra fee.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Call it a facility fee and it is outside the agreement: Renaming the fee does not take it outside the agreement.\nC. A pensioner status creates an exception: Pension status creates no exception.\nD. Cash is not a fee: Cash is still a fee.\nE. The patient agreed so it is fine: Patient agreement does not override bulk-billing rules.\n\n5. KEY TAKEAWAY\nBulk-billing means accepting the Medicare benefit as full payment, so no additional charge can be added.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nD. The benefit is full payment. No extra fee\n\n---\n\n1. CLINICAL SITUATION\nA bulk-billing practice adds a separate charge, renamed as a 'service fee', to each bulk-billed visit.\n\n2. THE RULE\nBulk-billing means accepting the Medicare benefit as full payment, so no additional charge can be added.\n\n3. WHY D IS CORRECT\nA facility fee is still an extra fee.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Cash is not a fee: Cash is still a fee.\nB. Call it a facility fee and it is outside the agreement: Renaming the fee does not take it outside the agreement.\nC. A pensioner status creates an exception: Pension status creates no exception.\nE. The patient agreed so it is fine: Patient agreement does not override bulk-billing rules.\n\n5. KEY TAKEAWAY\nBulk-billing means accepting the Medicare benefit as full payment, so no additional charge can be added.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A bulk-billing practice adds a separate charge, renamed as a 'service fee', to each bulk-billed visit.",
       "best_treatment": "The benefit is full payment. No extra fee",
       "incorrect_answer_explanations": {
-        "A": "Renaming the fee does not take it outside the agreement.",
+        "A": "Cash is still a fee.",
+        "B": "Renaming the fee does not take it outside the agreement.",
         "C": "Pension status creates no exception.",
-        "D": "Cash is still a fee.",
         "E": "Patient agreement does not override bulk-billing rules."
       },
       "key_takeaways": [
@@ -783,22 +783,22 @@
       "question_text": "A GP wants to bulk-bill a consultation and also collect a private gap payment from the patient. Which of the following is most accurate?",
       "options": [
         "Charge the gap and bulk-bill the rest",
-        "Accept the benefit as full payment or do not bulk-bill",
         "Both can be done if undocumented",
         "Only specialists are bound",
-        "A receipt cures it"
+        "A receipt cures it",
+        "Accept the benefit as full payment or do not bulk-bill"
       ],
-      "correct_answer": "B",
+      "correct_answer": "E",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. Accept the benefit as full payment or do not bulk-bill\n\n---\n\n1. CLINICAL SITUATION\nA GP wants to bulk-bill a consultation and also collect a private gap payment from the patient.\n\n2. THE RULE\nBulk-billing means accepting the Medicare benefit as full payment, so no additional charge can be added.\n\n3. WHY B IS CORRECT\nBulk-bill means full payment. Do not add a gap.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Charge the gap and bulk-bill the rest: A gap on a bulk-billed service is not allowed.\nC. Both can be done if undocumented: Concealment makes it worse.\nD. Only specialists are bound: The rule applies to all practitioners.\nE. A receipt cures it: A receipt does not legitimise an extra charge.\n\n5. KEY TAKEAWAY\nBulk-billing means accepting the Medicare benefit as full payment, so no additional charge can be added.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nE. Accept the benefit as full payment or do not bulk-bill\n\n---\n\n1. CLINICAL SITUATION\nA GP wants to bulk-bill a consultation and also collect a private gap payment from the patient.\n\n2. THE RULE\nBulk-billing means accepting the Medicare benefit as full payment, so no additional charge can be added.\n\n3. WHY E IS CORRECT\nBulk-bill means full payment. Do not add a gap.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Charge the gap and bulk-bill the rest: A gap on a bulk-billed service is not allowed.\nB. Both can be done if undocumented: Concealment makes it worse.\nC. Only specialists are bound: The rule applies to all practitioners.\nD. A receipt cures it: A receipt does not legitimise an extra charge.\n\n5. KEY TAKEAWAY\nBulk-billing means accepting the Medicare benefit as full payment, so no additional charge can be added.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A GP wants to bulk-bill a consultation and also collect a private gap payment from the patient.",
       "best_treatment": "Accept the benefit as full payment or do not bulk-bill",
       "incorrect_answer_explanations": {
         "A": "A gap on a bulk-billed service is not allowed.",
-        "C": "Concealment makes it worse.",
-        "D": "The rule applies to all practitioners.",
-        "E": "A receipt does not legitimise an extra charge."
+        "B": "Concealment makes it worse.",
+        "C": "The rule applies to all practitioners.",
+        "D": "A receipt does not legitimise an extra charge."
       },
       "key_takeaways": [
         "Bulk-billing means accepting the Medicare benefit as full payment, so no additional charge can be added.",
@@ -825,22 +825,22 @@
     {
       "question_text": "He wants his statin on his wife's script because she has reached the safety net. What is the most appropriate next step?",
       "options": [
-        "Decline. A PBS prescription is for the person who needs the medicine",
         "Put his statin on her script",
-        "Safety-net sharing is allowed",
         "A spouse can use the other's concession",
+        "Decline. A PBS prescription is for the person who needs the medicine",
+        "Safety-net sharing is allowed",
         "Paying a gap fixes the wrong name"
       ],
-      "correct_answer": "A",
+      "correct_answer": "C",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. Decline. A PBS prescription is for the person who needs the medicine\n\n---\n\n1. CLINICAL SITUATION\nHe wants his statin on his wife's script because she has reached the safety net.\n\n2. THE RULE\nA PBS prescription is written only for the person who clinically needs the medicine and is named on it.\n\n3. WHY A IS CORRECT\nWrong patient on the script is a false claim.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Put his statin on her script: A script must name the person the drug is for.\nC. Safety-net sharing is allowed: Safety-net entitlements are not shared this way.\nD. A spouse can use the other's concession: Concessions are not transferable.\nE. Paying a gap fixes the wrong name: Paying does not fix a falsely named script.\n\n5. KEY TAKEAWAY\nA PBS prescription is written only for the person who clinically needs the medicine and is named on it.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nC. Decline. A PBS prescription is for the person who needs the medicine\n\n---\n\n1. CLINICAL SITUATION\nHe wants his statin on his wife's script because she has reached the safety net.\n\n2. THE RULE\nA PBS prescription is written only for the person who clinically needs the medicine and is named on it.\n\n3. WHY C IS CORRECT\nWrong patient on the script is a false claim.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Put his statin on her script: A script must name the person the drug is for.\nB. A spouse can use the other's concession: Concessions are not transferable.\nD. Safety-net sharing is allowed: Safety-net entitlements are not shared this way.\nE. Paying a gap fixes the wrong name: Paying does not fix a falsely named script.\n\n5. KEY TAKEAWAY\nA PBS prescription is written only for the person who clinically needs the medicine and is named on it.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "He wants his statin on his wife's script because she has reached the safety net.",
       "best_treatment": "Decline. A PBS prescription is for the person who needs the medicine",
       "incorrect_answer_explanations": {
-        "B": "A script must name the person the drug is for.",
-        "C": "Safety-net entitlements are not shared this way.",
-        "D": "Concessions are not transferable.",
+        "A": "A script must name the person the drug is for.",
+        "B": "Concessions are not transferable.",
+        "D": "Safety-net entitlements are not shared this way.",
         "E": "Paying does not fix a falsely named script."
       },
       "key_takeaways": [
@@ -868,23 +868,23 @@
     {
       "question_text": "Household concession is not a thing. The script names the patient who needs the medicine. What is the most appropriate next step?",
       "options": [
-        "Her concession covers the household",
         "Write the script for the person who clinically needs the drug",
+        "Any name is fine if the drug is the same",
         "A family script is valid",
         "Safety net is transferable",
-        "Any name is fine if the drug is the same"
+        "Her concession covers the household"
       ],
-      "correct_answer": "B",
+      "correct_answer": "A",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. Write the script for the person who clinically needs the drug\n\n---\n\n1. CLINICAL SITUATION\nHousehold concession is not a thing. The script names the patient who needs the medicine.\n\n2. THE RULE\nA PBS prescription is written only for the person who clinically needs the medicine and is named on it.\n\n3. WHY B IS CORRECT\nNamed patient. No sharing.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Her concession covers the household: Concession status is personal.\nC. A family script is valid: PBS scripts are individual.\nD. Safety net is transferable: Safety-net entitlements are not transferred to another person's medicine.\nE. Any name is fine if the drug is the same: The named person must be the patient.\n\n5. KEY TAKEAWAY\nA PBS prescription is written only for the person who clinically needs the medicine and is named on it.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nA. Write the script for the person who clinically needs the drug\n\n---\n\n1. CLINICAL SITUATION\nHousehold concession is not a thing. The script names the patient who needs the medicine.\n\n2. THE RULE\nA PBS prescription is written only for the person who clinically needs the medicine and is named on it.\n\n3. WHY A IS CORRECT\nNamed patient. No sharing.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Any name is fine if the drug is the same: The named person must be the patient.\nC. A family script is valid: PBS scripts are individual.\nD. Safety net is transferable: Safety-net entitlements are not transferred to another person's medicine.\nE. Her concession covers the household: Concession status is personal.\n\n5. KEY TAKEAWAY\nA PBS prescription is written only for the person who clinically needs the medicine and is named on it.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Household concession is not a thing. The script names the patient who needs the medicine.",
       "best_treatment": "Write the script for the person who clinically needs the drug",
       "incorrect_answer_explanations": {
-        "A": "Concession status is personal.",
+        "B": "The named person must be the patient.",
         "C": "PBS scripts are individual.",
         "D": "Safety-net entitlements are not transferred to another person's medicine.",
-        "E": "The named person must be the patient."
+        "E": "Concession status is personal."
       },
       "key_takeaways": [
         "A PBS prescription is written only for the person who clinically needs the medicine and is named on it.",
@@ -911,23 +911,23 @@
     {
       "question_text": "A man asks his GP to add his own medicine to his wife's prescription. Which of the following is most accurate?",
       "options": [
-        "Annotate her script with his dose",
+        "A letter to PBS allows sharing",
         "Refuse the swapped script",
         "The pharmacist can change the name",
-        "A letter to PBS allows sharing",
-        "One script can name two people"
+        "One script can name two people",
+        "Annotate her script with his dose"
       ],
       "correct_answer": "B",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. Refuse the swapped script\n\n---\n\n1. CLINICAL SITUATION\nA man asks his GP to add his own medicine to his wife's prescription.\n\n2. THE RULE\nA PBS prescription is written only for the person who clinically needs the medicine and is named on it.\n\n3. WHY B IS CORRECT\nOne patient, one script.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Annotate her script with his dose: Adding his dose to her script is falsifying.\nC. The pharmacist can change the name: Pharmacists cannot change the patient name.\nD. A letter to PBS allows sharing: No letter allows sharing.\nE. One script can name two people: Scripts name one patient.\n\n5. KEY TAKEAWAY\nA PBS prescription is written only for the person who clinically needs the medicine and is named on it.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nB. Refuse the swapped script\n\n---\n\n1. CLINICAL SITUATION\nA man asks his GP to add his own medicine to his wife's prescription.\n\n2. THE RULE\nA PBS prescription is written only for the person who clinically needs the medicine and is named on it.\n\n3. WHY B IS CORRECT\nOne patient, one script.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. A letter to PBS allows sharing: No letter allows sharing.\nC. The pharmacist can change the name: Pharmacists cannot change the patient name.\nD. One script can name two people: Scripts name one patient.\nE. Annotate her script with his dose: Adding his dose to her script is falsifying.\n\n5. KEY TAKEAWAY\nA PBS prescription is written only for the person who clinically needs the medicine and is named on it.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A man asks his GP to add his own medicine to his wife's prescription.",
       "best_treatment": "Refuse the swapped script",
       "incorrect_answer_explanations": {
-        "A": "Adding his dose to her script is falsifying.",
+        "A": "No letter allows sharing.",
         "C": "Pharmacists cannot change the patient name.",
-        "D": "No letter allows sharing.",
-        "E": "Scripts name one patient."
+        "D": "Scripts name one patient.",
+        "E": "Adding his dose to her script is falsifying."
       },
       "key_takeaways": [
         "A PBS prescription is written only for the person who clinically needs the medicine and is named on it.",
@@ -954,26 +954,26 @@
     {
       "question_text": "An Aboriginal man with diabetes is not registered for Closing the Gap PBS co-payment relief. A GP proposes to write 'CTG' on his script instead. What is the most appropriate next step?",
       "options": [
-        "Register him properly first. An annotation alone does not create eligibility",
         "Write CTG and the pharmacy will register him",
-        "Self-registration online works",
+        "Register him properly first. An annotation alone does not create eligibility",
         "CTG is automatic on identification",
-        "A letter is enough"
+        "A letter is enough",
+        "Self-registration online works"
       ],
-      "correct_answer": "A",
+      "correct_answer": "B",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. Register him properly first. An annotation alone does not create eligibility\n\n---\n\n1. CLINICAL SITUATION\nAn Aboriginal man with diabetes is not registered for Closing the Gap PBS co-payment relief. A GP proposes to write 'CTG' on his script instead.\n\n2. THE RULE\nWriting CTG on a script has no effect unless the patient is registered for the Closing the Gap PBS co-payment program first.\n\n3. WHY A IS CORRECT\nRegistration, then annotation.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Write CTG and the pharmacy will register him: Pharmacies do not register CTG.\nC. Self-registration online works: Registration is a clinical step by an eligible practitioner.\nD. CTG is automatic on identification: Identification alone does not activate CTG.\nE. A letter is enough: No letter is involved.\n\n5. KEY TAKEAWAY\nWriting CTG on a script has no effect unless the patient is registered for the Closing the Gap PBS co-payment program first.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nB. Register him properly first. An annotation alone does not create eligibility\n\n---\n\n1. CLINICAL SITUATION\nAn Aboriginal man with diabetes is not registered for Closing the Gap PBS co-payment relief. A GP proposes to write 'CTG' on his script instead.\n\n2. THE RULE\nClosing the Gap PBS co-payment relief needs a one-off registration by a PBS prescriber or Aboriginal and Torres Strait Islander Health Practitioner; writing CTG on a script (optional since July 2021) or asking a pharmacist does not create eligibility.\n\n3. WHY B IS CORRECT\nRegistration, then annotation.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Write CTG and the pharmacy will register him: Pharmacies do not register CTG.\nC. CTG is automatic on identification: Identification alone does not activate CTG.\nD. A letter is enough: No letter is involved.\nE. Self-registration online works: Registration is a clinical step by an eligible practitioner.\n\n5. KEY TAKEAWAY\nClosing the Gap PBS co-payment relief needs a one-off registration by a PBS prescriber or Aboriginal and Torres Strait Islander Health Practitioner; writing CTG on a script (optional since July 2021) or asking a pharmacist does not create eligibility.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "An Aboriginal man with diabetes is not registered for Closing the Gap PBS co-payment relief. A GP proposes to write 'CTG' on his script instead.",
       "best_treatment": "Register him properly first. An annotation alone does not create eligibility",
       "incorrect_answer_explanations": {
-        "B": "Pharmacies do not register CTG.",
-        "C": "Registration is a clinical step by an eligible practitioner.",
-        "D": "Identification alone does not activate CTG.",
-        "E": "No letter is involved."
+        "A": "Pharmacies do not register CTG.",
+        "C": "Identification alone does not activate CTG.",
+        "D": "No letter is involved.",
+        "E": "Registration is a clinical step by an eligible practitioner."
       },
       "key_takeaways": [
-        "Writing CTG on a script has no effect unless the patient is registered for the Closing the Gap PBS co-payment program first.",
+        "Closing the Gap PBS co-payment relief needs a one-off registration by a PBS prescriber or Aboriginal and Torres Strait Islander Health Practitioner; writing CTG on a script (optional since July 2021) or asking a pharmacist does not create eligibility.",
         "Registration, then annotation."
       ],
       "subtopic": "Medicare benefits a clinically relevant service. It is not a reward for a social chat.",
@@ -982,10 +982,10 @@
       "zyntra_id": "ZQ-0770",
       "phase": "PH-08",
       "phase_item_id": "PH-H-23",
-      "lo_id": "d0959aa2-8935-5247-a695-d24bd87b7005",
-      "lo_code": "CTG_REGISTRATION",
-      "lo_key": "CTG_REGISTRATION",
-      "lo_title": "Writing CTG on a script has no effect unless the patient is registered for the Closing the Gap PBS co-payment program first.",
+      "lo_id": "74f1cfd6-7217-59a7-9721-60f3fa0d504d",
+      "lo_code": "CTG_PBS",
+      "lo_key": "CTG_PBS",
+      "lo_title": "Closing the Gap PBS co-payment relief needs a one-off registration by a PBS prescriber or Aboriginal and Torres Strait Islander Health Practitioner; writing CTG on a script (optional since July 2021) or asking a pharmacist does not create eligibility.",
       "lo_role": "edge",
       "shared_lo": true,
       "irt_b": 0.0,
@@ -997,26 +997,26 @@
     {
       "question_text": "An Aboriginal man is not registered for the Closing the Gap PBS co-payment program. A pharmacist asks whether the pharmacy can register him at the counter. Which of the following is most accurate?",
       "options": [
-        "The pharmacist creates eligibility",
         "Clinical registration comes first",
-        "Any staff member can tick CTG",
         "Re-register every script",
-        "Remote address is enough"
+        "Any staff member can tick CTG",
+        "Remote address is enough",
+        "The pharmacist creates eligibility"
       ],
-      "correct_answer": "B",
+      "correct_answer": "A",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. Clinical registration comes first\n\n---\n\n1. CLINICAL SITUATION\nAn Aboriginal man is not registered for the Closing the Gap PBS co-payment program. A pharmacist asks whether the pharmacy can register him at the counter.\n\n2. THE RULE\nWriting CTG on a script has no effect unless the patient is registered for the Closing the Gap PBS co-payment program first.\n\n3. WHY B IS CORRECT\nClinical registration. Not a pharmacy step.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. The pharmacist creates eligibility: Pharmacists cannot create eligibility.\nC. Any staff member can tick CTG: Only eligible prescribers or Aboriginal Health Practitioners register.\nD. Re-register every script: Registration is one-off.\nE. Remote address is enough: Address does not create eligibility.\n\n5. KEY TAKEAWAY\nWriting CTG on a script has no effect unless the patient is registered for the Closing the Gap PBS co-payment program first.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nA. Clinical registration comes first\n\n---\n\n1. CLINICAL SITUATION\nAn Aboriginal man is not registered for the Closing the Gap PBS co-payment program. A pharmacist asks whether the pharmacy can register him at the counter.\n\n2. THE RULE\nClosing the Gap PBS co-payment relief needs a one-off registration by a PBS prescriber or Aboriginal and Torres Strait Islander Health Practitioner; writing CTG on a script (optional since July 2021) or asking a pharmacist does not create eligibility.\n\n3. WHY A IS CORRECT\nClinical registration. Not a pharmacy step.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Re-register every script: Registration is one-off.\nC. Any staff member can tick CTG: Only eligible prescribers or Aboriginal Health Practitioners register.\nD. Remote address is enough: Address does not create eligibility.\nE. The pharmacist creates eligibility: Pharmacists cannot create eligibility.\n\n5. KEY TAKEAWAY\nClosing the Gap PBS co-payment relief needs a one-off registration by a PBS prescriber or Aboriginal and Torres Strait Islander Health Practitioner; writing CTG on a script (optional since July 2021) or asking a pharmacist does not create eligibility.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "An Aboriginal man is not registered for the Closing the Gap PBS co-payment program. A pharmacist asks whether the pharmacy can register him at the counter.",
       "best_treatment": "Clinical registration comes first",
       "incorrect_answer_explanations": {
-        "A": "Pharmacists cannot create eligibility.",
+        "B": "Registration is one-off.",
         "C": "Only eligible prescribers or Aboriginal Health Practitioners register.",
-        "D": "Registration is one-off.",
-        "E": "Address does not create eligibility."
+        "D": "Address does not create eligibility.",
+        "E": "Pharmacists cannot create eligibility."
       },
       "key_takeaways": [
-        "Writing CTG on a script has no effect unless the patient is registered for the Closing the Gap PBS co-payment program first.",
+        "Closing the Gap PBS co-payment relief needs a one-off registration by a PBS prescriber or Aboriginal and Torres Strait Islander Health Practitioner; writing CTG on a script (optional since July 2021) or asking a pharmacist does not create eligibility.",
         "Clinical registration."
       ],
       "subtopic": "Medicare benefits a clinically relevant service. It is not a reward for a social chat.",
@@ -1025,10 +1025,10 @@
       "zyntra_id": "ZQ-0771",
       "phase": "PH-08",
       "phase_item_id": "PH-H-24",
-      "lo_id": "d0959aa2-8935-5247-a695-d24bd87b7005",
-      "lo_code": "CTG_REGISTRATION",
-      "lo_key": "CTG_REGISTRATION",
-      "lo_title": "Writing CTG on a script has no effect unless the patient is registered for the Closing the Gap PBS co-payment program first.",
+      "lo_id": "74f1cfd6-7217-59a7-9721-60f3fa0d504d",
+      "lo_code": "CTG_PBS",
+      "lo_key": "CTG_PBS",
+      "lo_title": "Closing the Gap PBS co-payment relief needs a one-off registration by a PBS prescriber or Aboriginal and Torres Strait Islander Health Practitioner; writing CTG on a script (optional since July 2021) or asking a pharmacist does not create eligibility.",
       "lo_role": "variant",
       "shared_lo": true,
       "irt_b": 0.0,
@@ -1040,26 +1040,26 @@
     {
       "question_text": "A new GP has been writing 'CTG' on scripts for Aboriginal patients who have never been registered for the Closing the Gap PBS co-payment. What is the most appropriate next step?",
       "options": [
+        "A handwritten note is registration",
         "Annotation without registration still lowers the co-payment",
         "Register, then annotate subsequent scripts",
-        "CTG applies to every Aboriginal patient automatically",
-        "A handwritten note is registration",
-        "No process exists"
+        "No process exists",
+        "CTG applies to every Aboriginal patient automatically"
       ],
-      "correct_answer": "B",
+      "correct_answer": "C",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. Register, then annotate subsequent scripts\n\n---\n\n1. CLINICAL SITUATION\nA new GP has been writing 'CTG' on scripts for Aboriginal patients who have never been registered for the Closing the Gap PBS co-payment.\n\n2. THE RULE\nWriting CTG on a script has no effect unless the patient is registered for the Closing the Gap PBS co-payment program first.\n\n3. WHY B IS CORRECT\nOrder matters. Register first.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Annotation without registration still lowers the co-payment: Unregistered annotation does nothing.\nC. CTG applies to every Aboriginal patient automatically: Registration is required.\nD. A handwritten note is registration: A handwritten note is not registration.\nE. No process exists: There is a defined registration process.\n\n5. KEY TAKEAWAY\nWriting CTG on a script has no effect unless the patient is registered for the Closing the Gap PBS co-payment program first.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nC. Register, then annotate subsequent scripts\n\n---\n\n1. CLINICAL SITUATION\nA new GP has been writing 'CTG' on scripts for Aboriginal patients who have never been registered for the Closing the Gap PBS co-payment.\n\n2. THE RULE\nClosing the Gap PBS co-payment relief needs a one-off registration by a PBS prescriber or Aboriginal and Torres Strait Islander Health Practitioner; writing CTG on a script (optional since July 2021) or asking a pharmacist does not create eligibility.\n\n3. WHY C IS CORRECT\nOrder matters. Register first.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. A handwritten note is registration: A handwritten note is not registration.\nB. Annotation without registration still lowers the co-payment: Unregistered annotation does nothing.\nD. No process exists: There is a defined registration process.\nE. CTG applies to every Aboriginal patient automatically: Registration is required.\n\n5. KEY TAKEAWAY\nClosing the Gap PBS co-payment relief needs a one-off registration by a PBS prescriber or Aboriginal and Torres Strait Islander Health Practitioner; writing CTG on a script (optional since July 2021) or asking a pharmacist does not create eligibility.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A new GP has been writing 'CTG' on scripts for Aboriginal patients who have never been registered for the Closing the Gap PBS co-payment.",
       "best_treatment": "Register, then annotate subsequent scripts",
       "incorrect_answer_explanations": {
-        "A": "Unregistered annotation does nothing.",
-        "C": "Registration is required.",
-        "D": "A handwritten note is not registration.",
-        "E": "There is a defined registration process."
+        "A": "A handwritten note is not registration.",
+        "B": "Unregistered annotation does nothing.",
+        "D": "There is a defined registration process.",
+        "E": "Registration is required."
       },
       "key_takeaways": [
-        "Writing CTG on a script has no effect unless the patient is registered for the Closing the Gap PBS co-payment program first.",
+        "Closing the Gap PBS co-payment relief needs a one-off registration by a PBS prescriber or Aboriginal and Torres Strait Islander Health Practitioner; writing CTG on a script (optional since July 2021) or asking a pharmacist does not create eligibility.",
         "Order matters."
       ],
       "subtopic": "Medicare benefits a clinically relevant service. It is not a reward for a social chat.",
@@ -1068,10 +1068,10 @@
       "zyntra_id": "ZQ-0772",
       "phase": "PH-08",
       "phase_item_id": "PH-H-25",
-      "lo_id": "d0959aa2-8935-5247-a695-d24bd87b7005",
-      "lo_code": "CTG_REGISTRATION",
-      "lo_key": "CTG_REGISTRATION",
-      "lo_title": "Writing CTG on a script has no effect unless the patient is registered for the Closing the Gap PBS co-payment program first.",
+      "lo_id": "74f1cfd6-7217-59a7-9721-60f3fa0d504d",
+      "lo_code": "CTG_PBS",
+      "lo_key": "CTG_PBS",
+      "lo_title": "Closing the Gap PBS co-payment relief needs a one-off registration by a PBS prescriber or Aboriginal and Torres Strait Islander Health Practitioner; writing CTG on a script (optional since July 2021) or asking a pharmacist does not create eligibility.",
       "lo_role": "variant",
       "shared_lo": true,
       "irt_b": 0.0,
@@ -1083,23 +1083,23 @@
     {
       "question_text": "Elective caesarean, no theatre nurse tonight, no blood, backup three hours away. Mother and baby are well. What is the most appropriate next step?",
       "options": [
+        "Family preference decides",
         "Defer the elective caesarean. Do not start without staff, blood, and backup",
         "Start because she is 39 weeks",
-        "Family preference decides",
-        "No blood is acceptable for elective cases",
-        "A three-hour backup is fine for elective surgery"
+        "A three-hour backup is fine for elective surgery",
+        "No blood is acceptable for elective cases"
       ],
-      "correct_answer": "A",
+      "correct_answer": "B",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. Defer the elective caesarean. Do not start without staff, blood, and backup\n\n---\n\n1. CLINICAL SITUATION\nElective caesarean, no theatre nurse tonight, no blood, backup three hours away. Mother and baby are well.\n\n2. THE RULE\nRural clinicians arrange timely retrieval or transfer when a patient needs a higher level of care and defer elective procedures when safe resources are unavailable.\n\n3. WHY A IS CORRECT\nElective case waits for a safe service.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Start because she is 39 weeks: Gestational age does not override missing staff and blood.\nC. Family preference decides: Safety, not preference, decides whether to start.\nD. No blood is acceptable for elective cases: Blood availability is required for caesarean.\nE. A three-hour backup is fine for elective surgery: Backup must be realistic before elective surgery.\n\n5. KEY TAKEAWAY\nRural clinicians arrange timely retrieval or transfer when a patient needs a higher level of care and defer elective procedures when safe resources are unavailable.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nB. Defer the elective caesarean. Do not start without staff, blood, and backup\n\n---\n\n1. CLINICAL SITUATION\nElective caesarean, no theatre nurse tonight, no blood, backup three hours away. Mother and baby are well.\n\n2. THE RULE\nRural clinicians arrange timely retrieval or transfer when a patient needs a higher level of care and defer elective procedures when safe resources are unavailable.\n\n3. WHY B IS CORRECT\nElective case waits for a safe service.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Family preference decides: Safety, not preference, decides whether to start.\nC. Start because she is 39 weeks: Gestational age does not override missing staff and blood.\nD. A three-hour backup is fine for elective surgery: Backup must be realistic before elective surgery.\nE. No blood is acceptable for elective cases: Blood availability is required for caesarean.\n\n5. KEY TAKEAWAY\nRural clinicians arrange timely retrieval or transfer when a patient needs a higher level of care and defer elective procedures when safe resources are unavailable.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Elective caesarean, no theatre nurse tonight, no blood, backup three hours away. Mother and baby are well.",
       "best_treatment": "Defer the elective caesarean. Do not start without staff, blood, and backup",
       "incorrect_answer_explanations": {
-        "B": "Gestational age does not override missing staff and blood.",
-        "C": "Safety, not preference, decides whether to start.",
-        "D": "Blood availability is required for caesarean.",
-        "E": "Backup must be realistic before elective surgery."
+        "A": "Safety, not preference, decides whether to start.",
+        "C": "Gestational age does not override missing staff and blood.",
+        "D": "Backup must be realistic before elective surgery.",
+        "E": "Blood availability is required for caesarean."
       },
       "key_takeaways": [
         "Rural clinicians arrange timely retrieval or transfer when a patient needs a higher level of care and defer elective procedures when safe resources are unavailable.",
@@ -1126,23 +1126,23 @@
     {
       "question_text": "A doctor opens the My Health Record of a well-known sportsperson who is not his patient, out of curiosity. What is the most appropriate next step?",
       "options": [
+        "Registration as a clinician is a browsing right",
+        "Public interest in sport is enough",
         "Not acceptable. Access requires a legitimate clinical purpose",
         "A celebrity record can be opened out of interest",
-        "Registration as a clinician is a browsing right",
-        "Secrecy repairs it",
-        "Public interest in sport is enough"
+        "Secrecy repairs it"
       ],
-      "correct_answer": "A",
+      "correct_answer": "C",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. Not acceptable. Access requires a legitimate clinical purpose\n\n---\n\n1. CLINICAL SITUATION\nA doctor opens the My Health Record of a well-known sportsperson who is not his patient, out of curiosity.\n\n2. THE RULE\nClinicians access a patient's My Health Record only for a legitimate clinical purpose within a care relationship.\n\n3. WHY A IS CORRECT\nLegitimate care purpose, or do not open it.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. A celebrity record can be opened out of interest: Interest is not a clinical purpose.\nC. Registration as a clinician is a browsing right: Registration permits access only for care.\nD. Secrecy repairs it: Secrecy does not repair unauthorised access.\nE. Public interest in sport is enough: Public interest does not authorise access.\n\n5. KEY TAKEAWAY\nClinicians access a patient's My Health Record only for a legitimate clinical purpose within a care relationship.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nC. Not acceptable. Access requires a legitimate clinical purpose\n\n---\n\n1. CLINICAL SITUATION\nA doctor opens the My Health Record of a well-known sportsperson who is not his patient, out of curiosity.\n\n2. THE RULE\nClinicians access a patient's My Health Record only for a legitimate clinical purpose within a care relationship.\n\n3. WHY C IS CORRECT\nLegitimate care purpose, or do not open it.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Registration as a clinician is a browsing right: Registration permits access only for care.\nB. Public interest in sport is enough: Public interest does not authorise access.\nD. A celebrity record can be opened out of interest: Interest is not a clinical purpose.\nE. Secrecy repairs it: Secrecy does not repair unauthorised access.\n\n5. KEY TAKEAWAY\nClinicians access a patient's My Health Record only for a legitimate clinical purpose within a care relationship.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A doctor opens the My Health Record of a well-known sportsperson who is not his patient, out of curiosity.",
       "best_treatment": "Not acceptable. Access requires a legitimate clinical purpose",
       "incorrect_answer_explanations": {
-        "B": "Interest is not a clinical purpose.",
-        "C": "Registration permits access only for care.",
-        "D": "Secrecy does not repair unauthorised access.",
-        "E": "Public interest does not authorise access."
+        "A": "Registration permits access only for care.",
+        "B": "Public interest does not authorise access.",
+        "D": "Interest is not a clinical purpose.",
+        "E": "Secrecy does not repair unauthorised access."
       },
       "key_takeaways": [
         "Clinicians access a patient's My Health Record only for a legitimate clinical purpose within a care relationship.",
@@ -1169,23 +1169,23 @@
     {
       "question_text": "A doctor with no treating relationship with a patient wants to open the patient's My Health Record. What is the most appropriate next step?",
       "options": [
-        "Open it to check the news",
         "Do not open a record without a care relationship",
-        "Any clinician can browse",
         "A closed door makes it acceptable",
-        "Delete the access later"
+        "Delete the access later",
+        "Any clinician can browse",
+        "Open it to check the news"
       ],
-      "correct_answer": "B",
+      "correct_answer": "A",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. Do not open a record without a care relationship\n\n---\n\n1. CLINICAL SITUATION\nA doctor with no treating relationship with a patient wants to open the patient's My Health Record.\n\n2. THE RULE\nClinicians access a patient's My Health Record only for a legitimate clinical purpose within a care relationship.\n\n3. WHY B IS CORRECT\nNo relationship, no access.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Open it to check the news: Curiosity is not a legitimate purpose.\nC. Any clinician can browse: Browsing is unauthorised.\nD. A closed door makes it acceptable: Privacy breaches do not depend on who sees you.\nE. Delete the access later: The access is the breach; it cannot be undone.\n\n5. KEY TAKEAWAY\nClinicians access a patient's My Health Record only for a legitimate clinical purpose within a care relationship.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nA. Do not open a record without a care relationship\n\n---\n\n1. CLINICAL SITUATION\nA doctor with no treating relationship with a patient wants to open the patient's My Health Record.\n\n2. THE RULE\nClinicians access a patient's My Health Record only for a legitimate clinical purpose within a care relationship.\n\n3. WHY A IS CORRECT\nNo relationship, no access.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. A closed door makes it acceptable: Privacy breaches do not depend on who sees you.\nC. Delete the access later: The access is the breach; it cannot be undone.\nD. Any clinician can browse: Browsing is unauthorised.\nE. Open it to check the news: Curiosity is not a legitimate purpose.\n\n5. KEY TAKEAWAY\nClinicians access a patient's My Health Record only for a legitimate clinical purpose within a care relationship.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A doctor with no treating relationship with a patient wants to open the patient's My Health Record.",
       "best_treatment": "Do not open a record without a care relationship",
       "incorrect_answer_explanations": {
-        "A": "Curiosity is not a legitimate purpose.",
-        "C": "Browsing is unauthorised.",
-        "D": "Privacy breaches do not depend on who sees you.",
-        "E": "The access is the breach; it cannot be undone."
+        "B": "Privacy breaches do not depend on who sees you.",
+        "C": "The access is the breach; it cannot be undone.",
+        "D": "Browsing is unauthorised.",
+        "E": "Curiosity is not a legitimate purpose."
       },
       "key_takeaways": [
         "Clinicians access a patient's My Health Record only for a legitimate clinical purpose within a care relationship.",
@@ -1212,23 +1212,23 @@
     {
       "question_text": "A doctor wants to look at a public figure's My Health Record out of curiosity. He notes that every access is logged. Which of the following is most accurate?",
       "options": [
+        "Read and do not document",
         "Access is logged so it is fine",
-        "Logging does not create a purpose. Do not open it",
         "Public figures have no privacy",
-        "A colleague asked so it is legitimate",
-        "Read and do not document"
+        "Logging does not create a purpose. Do not open it",
+        "A colleague asked so it is legitimate"
       ],
-      "correct_answer": "B",
+      "correct_answer": "D",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. Logging does not create a purpose. Do not open it\n\n---\n\n1. CLINICAL SITUATION\nA doctor wants to look at a public figure's My Health Record out of curiosity. He notes that every access is logged.\n\n2. THE RULE\nClinicians access a patient's My Health Record only for a legitimate clinical purpose within a care relationship.\n\n3. WHY B IS CORRECT\nPurpose first. Logging is not permission.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Access is logged so it is fine: Logging records access; it does not authorise it.\nC. Public figures have no privacy: Public figures retain privacy rights.\nD. A colleague asked so it is legitimate: A colleague's request is not a purpose.\nE. Read and do not document: Not documenting adds a further breach.\n\n5. KEY TAKEAWAY\nClinicians access a patient's My Health Record only for a legitimate clinical purpose within a care relationship.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nD. Logging does not create a purpose. Do not open it\n\n---\n\n1. CLINICAL SITUATION\nA doctor wants to look at a public figure's My Health Record out of curiosity. He notes that every access is logged.\n\n2. THE RULE\nClinicians access a patient's My Health Record only for a legitimate clinical purpose within a care relationship.\n\n3. WHY D IS CORRECT\nPurpose first. Logging is not permission.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Read and do not document: Not documenting adds a further breach.\nB. Access is logged so it is fine: Logging records access; it does not authorise it.\nC. Public figures have no privacy: Public figures retain privacy rights.\nE. A colleague asked so it is legitimate: A colleague's request is not a purpose.\n\n5. KEY TAKEAWAY\nClinicians access a patient's My Health Record only for a legitimate clinical purpose within a care relationship.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A doctor wants to look at a public figure's My Health Record out of curiosity. He notes that every access is logged.",
       "best_treatment": "Logging does not create a purpose. Do not open it",
       "incorrect_answer_explanations": {
-        "A": "Logging records access; it does not authorise it.",
+        "A": "Not documenting adds a further breach.",
+        "B": "Logging records access; it does not authorise it.",
         "C": "Public figures retain privacy rights.",
-        "D": "A colleague's request is not a purpose.",
-        "E": "Not documenting adds a further breach."
+        "E": "A colleague's request is not a purpose."
       },
       "key_takeaways": [
         "Clinicians access a patient's My Health Record only for a legitimate clinical purpose within a care relationship.",
@@ -1255,23 +1255,23 @@
     {
       "question_text": "An online service offers a benzodiazepine after 90 seconds with a patient never examined, and bills a long consult. What is the most appropriate next step?",
       "options": [
-        "Not acceptable. No adequate assessment, and a long-consult item is not earned",
         "A 90-second chat is a long consult",
-        "A new patient can have a benzodiazepine this way",
         "Rural location lowers the standard",
-        "Bill the longest item available"
+        "Not acceptable. No adequate assessment, and a long-consult item is not earned",
+        "Bill the longest item available",
+        "A new patient can have a benzodiazepine this way"
       ],
-      "correct_answer": "A",
+      "correct_answer": "C",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. Not acceptable. No adequate assessment, and a long-consult item is not earned\n\n---\n\n1. CLINICAL SITUATION\nAn online service offers a benzodiazepine after 90 seconds with a patient never examined, and bills a long consult.\n\n2. THE RULE\nTelehealth services require an adequate clinical assessment and are billed with the MBS item that matches the service actually provided.\n\n3. WHY A IS CORRECT\nTelehealth still needs a proper clinical service. The item must match.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. A 90-second chat is a long consult: A 90-second chat does not meet a long-consult item.\nC. A new patient can have a benzodiazepine this way: Drugs of dependence need adequate assessment.\nD. Rural location lowers the standard: Standards apply everywhere.\nE. Bill the longest item available: Bill the item matching the service actually provided.\n\n5. KEY TAKEAWAY\nTelehealth services require an adequate clinical assessment and are billed with the MBS item that matches the service actually provided.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nC. Not acceptable. No adequate assessment, and a long-consult item is not earned\n\n---\n\n1. CLINICAL SITUATION\nAn online service offers a benzodiazepine after 90 seconds with a patient never examined, and bills a long consult.\n\n2. THE RULE\nTelehealth services require an adequate clinical assessment and are billed with the MBS item that matches the service actually provided.\n\n3. WHY C IS CORRECT\nTelehealth still needs a proper clinical service. The item must match.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. A 90-second chat is a long consult: A 90-second chat does not meet a long-consult item.\nB. Rural location lowers the standard: Standards apply everywhere.\nD. Bill the longest item available: Bill the item matching the service actually provided.\nE. A new patient can have a benzodiazepine this way: Drugs of dependence need adequate assessment.\n\n5. KEY TAKEAWAY\nTelehealth services require an adequate clinical assessment and are billed with the MBS item that matches the service actually provided.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "An online service offers a benzodiazepine after 90 seconds with a patient never examined, and bills a long consult.",
       "best_treatment": "Not acceptable. No adequate assessment, and a long-consult item is not earned",
       "incorrect_answer_explanations": {
-        "B": "A 90-second chat does not meet a long-consult item.",
-        "C": "Drugs of dependence need adequate assessment.",
-        "D": "Standards apply everywhere.",
-        "E": "Bill the item matching the service actually provided."
+        "A": "A 90-second chat does not meet a long-consult item.",
+        "B": "Standards apply everywhere.",
+        "D": "Bill the item matching the service actually provided.",
+        "E": "Drugs of dependence need adequate assessment."
       },
       "key_takeaways": [
         "Telehealth services require an adequate clinical assessment and are billed with the MBS item that matches the service actually provided.",
@@ -1298,23 +1298,23 @@
     {
       "question_text": "A telehealth doctor has a brief chat with a new patient, does no adequate assessment, and wants to bill a long consultation. Which of the following is most accurate?",
       "options": [
-        "Any video call is a long consult",
-        "The item matches the service actually provided",
-        "A stranger needs no history",
         "Drugs of dependence are fine by chat",
-        "Time on the booking equals the item"
+        "Any video call is a long consult",
+        "Time on the booking equals the item",
+        "The item matches the service actually provided",
+        "A stranger needs no history"
       ],
-      "correct_answer": "B",
+      "correct_answer": "D",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. The item matches the service actually provided\n\n---\n\n1. CLINICAL SITUATION\nA telehealth doctor has a brief chat with a new patient, does no adequate assessment, and wants to bill a long consultation.\n\n2. THE RULE\nTelehealth services require an adequate clinical assessment and are billed with the MBS item that matches the service actually provided.\n\n3. WHY B IS CORRECT\nItem matches the work.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Any video call is a long consult: The item depends on content and time actually provided.\nC. A stranger needs no history: New patients need a full history.\nD. Drugs of dependence are fine by chat: Drugs of dependence need proper assessment.\nE. Time on the booking equals the item: Booked time is not service time.\n\n5. KEY TAKEAWAY\nTelehealth services require an adequate clinical assessment and are billed with the MBS item that matches the service actually provided.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nD. The item matches the service actually provided\n\n---\n\n1. CLINICAL SITUATION\nA telehealth doctor has a brief chat with a new patient, does no adequate assessment, and wants to bill a long consultation.\n\n2. THE RULE\nTelehealth services require an adequate clinical assessment and are billed with the MBS item that matches the service actually provided.\n\n3. WHY D IS CORRECT\nItem matches the work.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Drugs of dependence are fine by chat: Drugs of dependence need proper assessment.\nB. Any video call is a long consult: The item depends on content and time actually provided.\nC. Time on the booking equals the item: Booked time is not service time.\nE. A stranger needs no history: New patients need a full history.\n\n5. KEY TAKEAWAY\nTelehealth services require an adequate clinical assessment and are billed with the MBS item that matches the service actually provided.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A telehealth doctor has a brief chat with a new patient, does no adequate assessment, and wants to bill a long consultation.",
       "best_treatment": "The item matches the service actually provided",
       "incorrect_answer_explanations": {
-        "A": "The item depends on content and time actually provided.",
-        "C": "New patients need a full history.",
-        "D": "Drugs of dependence need proper assessment.",
-        "E": "Booked time is not service time."
+        "A": "Drugs of dependence need proper assessment.",
+        "B": "The item depends on content and time actually provided.",
+        "C": "Booked time is not service time.",
+        "E": "New patients need a full history."
       },
       "key_takeaways": [
         "Telehealth services require an adequate clinical assessment and are billed with the MBS item that matches the service actually provided.",
@@ -1342,22 +1342,22 @@
       "question_text": "Telehealth does not remove the need for an adequate assessment. This was not one. Which of the following is most accurate?",
       "options": [
         "No examination is required for any telehealth",
-        "A proper assessment is still required",
-        "New patients cannot be charged so the item is free",
         "Benzodiazepines need no relationship",
-        "90 seconds is comprehensive"
+        "A proper assessment is still required",
+        "90 seconds is comprehensive",
+        "New patients cannot be charged so the item is free"
       ],
-      "correct_answer": "B",
+      "correct_answer": "C",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. A proper assessment is still required\n\n---\n\n1. CLINICAL SITUATION\nTelehealth does not remove the need for an adequate assessment. This was not one.\n\n2. THE RULE\nTelehealth services require an adequate clinical assessment and are billed with the MBS item that matches the service actually provided.\n\n3. WHY B IS CORRECT\nAdequate assessment still applies.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. No examination is required for any telehealth: Telehealth still requires an adequate assessment.\nC. New patients cannot be charged so the item is free: New patients can be billed for a real service.\nD. Benzodiazepines need no relationship: Prescribing benzodiazepines needs a clinical relationship.\nE. 90 seconds is comprehensive: 90 seconds is not comprehensive.\n\n5. KEY TAKEAWAY\nTelehealth services require an adequate clinical assessment and are billed with the MBS item that matches the service actually provided.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nC. A proper assessment is still required\n\n---\n\n1. CLINICAL SITUATION\nTelehealth does not remove the need for an adequate assessment. This was not one.\n\n2. THE RULE\nTelehealth services require an adequate clinical assessment and are billed with the MBS item that matches the service actually provided.\n\n3. WHY C IS CORRECT\nAdequate assessment still applies.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. No examination is required for any telehealth: Telehealth still requires an adequate assessment.\nB. Benzodiazepines need no relationship: Prescribing benzodiazepines needs a clinical relationship.\nD. 90 seconds is comprehensive: 90 seconds is not comprehensive.\nE. New patients cannot be charged so the item is free: New patients can be billed for a real service.\n\n5. KEY TAKEAWAY\nTelehealth services require an adequate clinical assessment and are billed with the MBS item that matches the service actually provided.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Telehealth does not remove the need for an adequate assessment. This was not one.",
       "best_treatment": "A proper assessment is still required",
       "incorrect_answer_explanations": {
         "A": "Telehealth still requires an adequate assessment.",
-        "C": "New patients can be billed for a real service.",
-        "D": "Prescribing benzodiazepines needs a clinical relationship.",
-        "E": "90 seconds is not comprehensive."
+        "B": "Prescribing benzodiazepines needs a clinical relationship.",
+        "D": "90 seconds is not comprehensive.",
+        "E": "New patients can be billed for a real service."
       },
       "key_takeaways": [
         "Telehealth services require an adequate clinical assessment and are billed with the MBS item that matches the service actually provided.",
@@ -1385,22 +1385,22 @@
       "question_text": "The practice bills a GP management plan for every patient over 65, using a template the patient never sees. What is the most appropriate next step?",
       "options": [
         "Not acceptable. A plan requires a chronic condition and the patient's involvement",
-        "Age over 65 is an indication",
         "A prefilled template the patient never sees is a plan",
-        "Bill a plan for every script visit",
-        "A nurse clicking a box is the service"
+        "Age over 65 is an indication",
+        "A nurse clicking a box is the service",
+        "Bill a plan for every script visit"
       ],
       "correct_answer": "A",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. Not acceptable. A plan requires a chronic condition and the patient's involvement\n\n---\n\n1. CLINICAL SITUATION\nThe practice bills a GP management plan for every patient over 65, using a template the patient never sees.\n\n2. THE RULE\nA GP management plan is for a patient with a chronic condition and must be prepared with the patient, not billed by template or age.\n\n3. WHY A IS CORRECT\nAge is not an indication. The patient is involved.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Age over 65 is an indication: Age is not an indication for a GP management plan.\nC. A prefilled template the patient never sees is a plan: A template the patient never sees is not a plan.\nD. Bill a plan for every script visit: Plans are not billed per visit.\nE. A nurse clicking a box is the service: The GP must provide the service.\n\n5. KEY TAKEAWAY\nA GP management plan is for a patient with a chronic condition and must be prepared with the patient, not billed by template or age.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nA. Not acceptable. A plan requires a chronic condition and the patient's involvement\n\n---\n\n1. CLINICAL SITUATION\nThe practice bills a GP management plan for every patient over 65, using a template the patient never sees.\n\n2. THE RULE\nA GP management plan is for a patient with a chronic condition and must be prepared with the patient, not billed by template or age.\n\n3. WHY A IS CORRECT\nAge is not an indication. The patient is involved.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. A prefilled template the patient never sees is a plan: A template the patient never sees is not a plan.\nC. Age over 65 is an indication: Age is not an indication for a GP management plan.\nD. A nurse clicking a box is the service: The GP must provide the service.\nE. Bill a plan for every script visit: Plans are not billed per visit.\n\n5. KEY TAKEAWAY\nA GP management plan is for a patient with a chronic condition and must be prepared with the patient, not billed by template or age.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "The practice bills a GP management plan for every patient over 65, using a template the patient never sees.",
       "best_treatment": "Not acceptable. A plan requires a chronic condition and the patient's involvement",
       "incorrect_answer_explanations": {
-        "B": "Age is not an indication for a GP management plan.",
-        "C": "A template the patient never sees is not a plan.",
-        "D": "Plans are not billed per visit.",
-        "E": "The GP must provide the service."
+        "B": "A template the patient never sees is not a plan.",
+        "C": "Age is not an indication for a GP management plan.",
+        "D": "The GP must provide the service.",
+        "E": "Plans are not billed per visit."
       },
       "key_takeaways": [
         "A GP management plan is for a patient with a chronic condition and must be prepared with the patient, not billed by template or age.",
@@ -1470,23 +1470,23 @@
     {
       "question_text": "A 66-year-old attends for a routine repeat prescription. The practice wants to attach a GP management plan item to the visit. Which of the following is most accurate?",
       "options": [
-        "Script visits generate a plan item",
         "A plan is a structured service, not a side effect of a script",
+        "A blank template counts",
         "65 is the indication",
-        "The patient need not know",
-        "A blank template counts"
+        "Script visits generate a plan item",
+        "The patient need not know"
       ],
-      "correct_answer": "B",
+      "correct_answer": "A",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. A plan is a structured service, not a side effect of a script\n\n---\n\n1. CLINICAL SITUATION\nA 66-year-old attends for a routine repeat prescription. The practice wants to attach a GP management plan item to the visit.\n\n2. THE RULE\nA GP management plan is for a patient with a chronic condition and must be prepared with the patient, not billed by template or age.\n\n3. WHY B IS CORRECT\nNot a side effect of attendance.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Script visits generate a plan item: Plans are separate structured services.\nC. 65 is the indication: Age is not an indication.\nD. The patient need not know: The patient must participate.\nE. A blank template counts: A blank template is not a service.\n\n5. KEY TAKEAWAY\nA GP management plan is for a patient with a chronic condition and must be prepared with the patient, not billed by template or age.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nA. A plan is a structured service, not a side effect of a script\n\n---\n\n1. CLINICAL SITUATION\nA 66-year-old attends for a routine repeat prescription. The practice wants to attach a GP management plan item to the visit.\n\n2. THE RULE\nA GP management plan is for a patient with a chronic condition and must be prepared with the patient, not billed by template or age.\n\n3. WHY A IS CORRECT\nNot a side effect of attendance.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. A blank template counts: A blank template is not a service.\nC. 65 is the indication: Age is not an indication.\nD. Script visits generate a plan item: Plans are separate structured services.\nE. The patient need not know: The patient must participate.\n\n5. KEY TAKEAWAY\nA GP management plan is for a patient with a chronic condition and must be prepared with the patient, not billed by template or age.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A 66-year-old attends for a routine repeat prescription. The practice wants to attach a GP management plan item to the visit.",
       "best_treatment": "A plan is a structured service, not a side effect of a script",
       "incorrect_answer_explanations": {
-        "A": "Plans are separate structured services.",
+        "B": "A blank template is not a service.",
         "C": "Age is not an indication.",
-        "D": "The patient must participate.",
-        "E": "A blank template is not a service."
+        "D": "Plans are separate structured services.",
+        "E": "The patient must participate."
       },
       "key_takeaways": [
         "A GP management plan is for a patient with a chronic condition and must be prepared with the patient, not billed by template or age.",
@@ -1513,26 +1513,26 @@
     {
       "question_text": "An Aboriginal man is a hospital inpatient. He had a 715 health assessment four months ago, and his GP asks about billing another. What is the most appropriate next step?",
       "options": [
-        "Do not bill. He is an inpatient, and the interval has not elapsed",
-        "Claim a 715 on the ward",
         "Four months is outside the interval",
-        "Pneumonia admission is a 715",
-        "Bill now and again after discharge"
+        "Do not bill. He is an inpatient, and the interval has not elapsed",
+        "Bill now and again after discharge",
+        "Claim a 715 on the ward",
+        "Pneumonia admission is a 715"
       ],
-      "correct_answer": "A",
+      "correct_answer": "B",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. Do not bill. He is an inpatient, and the interval has not elapsed\n\n---\n\n1. CLINICAL SITUATION\nAn Aboriginal man is a hospital inpatient. He had a 715 health assessment four months ago, and his GP asks about billing another.\n\n2. THE RULE\nAn Aboriginal and Torres Strait Islander health assessment is claimed for a non-admitted patient at the correct interval, not for a hospital inpatient.\n\n3. WHY A IS CORRECT\nNot an inpatient item. Interval applies.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Claim a 715 on the ward: 715 cannot be billed for an inpatient.\nC. Four months is outside the interval: Four months is inside the 9-month minimum interval.\nD. Pneumonia admission is a 715: An admission is not a health assessment.\nE. Bill now and again after discharge: Double-billing is improper.\n\n5. KEY TAKEAWAY\nAn Aboriginal and Torres Strait Islander health assessment is claimed for a non-admitted patient at the correct interval, not for a hospital inpatient.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nB. Do not bill. He is an inpatient, and the interval has not elapsed\n\n---\n\n1. CLINICAL SITUATION\nAn Aboriginal man is a hospital inpatient. He had a 715 health assessment four months ago, and his GP asks about billing another.\n\n2. THE RULE\nThe MBS 715 health assessment is offered on self-identification as Aboriginal or Torres Strait Islander, at least 9 months apart, to a non-admitted patient, never to a hospital inpatient.\n\n3. WHY B IS CORRECT\nNot an inpatient item. Interval applies.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Four months is outside the interval: Four months is inside the 9-month minimum interval.\nC. Bill now and again after discharge: Double-billing is improper.\nD. Claim a 715 on the ward: 715 cannot be billed for an inpatient.\nE. Pneumonia admission is a 715: An admission is not a health assessment.\n\n5. KEY TAKEAWAY\nThe MBS 715 health assessment is offered on self-identification as Aboriginal or Torres Strait Islander, at least 9 months apart, to a non-admitted patient, never to a hospital inpatient.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "An Aboriginal man is a hospital inpatient. He had a 715 health assessment four months ago, and his GP asks about billing another.",
       "best_treatment": "Do not bill. He is an inpatient, and the interval has not elapsed",
       "incorrect_answer_explanations": {
-        "B": "715 cannot be billed for an inpatient.",
-        "C": "Four months is inside the 9-month minimum interval.",
-        "D": "An admission is not a health assessment.",
-        "E": "Double-billing is improper."
+        "A": "Four months is inside the 9-month minimum interval.",
+        "C": "Double-billing is improper.",
+        "D": "715 cannot be billed for an inpatient.",
+        "E": "An admission is not a health assessment."
       },
       "key_takeaways": [
-        "An Aboriginal and Torres Strait Islander health assessment is claimed for a non-admitted patient at the correct interval, not for a hospital inpatient.",
+        "The MBS 715 health assessment is offered on self-identification as Aboriginal or Torres Strait Islander, at least 9 months apart, to a non-admitted patient, never to a hospital inpatient.",
         "Not an inpatient item."
       ],
       "subtopic": "Medicare benefits a clinically relevant service. It is not a reward for a social chat.",
@@ -1541,10 +1541,10 @@
       "zyntra_id": "ZQ-0783",
       "phase": "PH-08",
       "phase_item_id": "PH-H-36",
-      "lo_id": "1e1314e2-69cb-5a68-84af-ea5f11244d51",
-      "lo_code": "HEALTH_ASSESSMENT",
-      "lo_key": "HEALTH_ASSESSMENT",
-      "lo_title": "An Aboriginal and Torres Strait Islander health assessment is claimed for a non-admitted patient at the correct interval, not for a hospital inpatient.",
+      "lo_id": "894c81b1-d7f2-53fe-85c1-23ae018b8114",
+      "lo_code": "HEALTH_CHECK_715",
+      "lo_key": "HEALTH_CHECK_715",
+      "lo_title": "The MBS 715 health assessment is offered on self-identification as Aboriginal or Torres Strait Islander, at least 9 months apart, to a non-admitted patient, never to a hospital inpatient.",
       "lo_role": "edge",
       "shared_lo": true,
       "irt_b": 0.05,
@@ -1556,26 +1556,26 @@
     {
       "question_text": "An Aboriginal man is admitted to hospital with pneumonia. His GP, who is visiting, asks about doing a 715 health assessment. What is the most appropriate next step?",
       "options": [
-        "Any Aboriginal patient in the building can be billed",
-        "Offer the 715 in the practice after discharge if due",
         "The interval resets on admission",
-        "A junior can claim it unseen",
-        "Hospital equals practice"
+        "Any Aboriginal patient in the building can be billed",
+        "Hospital equals practice",
+        "Offer the 715 in the practice after discharge if due",
+        "A junior can claim it unseen"
       ],
-      "correct_answer": "B",
+      "correct_answer": "D",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. Offer the 715 in the practice after discharge if due\n\n---\n\n1. CLINICAL SITUATION\nAn Aboriginal man is admitted to hospital with pneumonia. His GP, who is visiting, asks about doing a 715 health assessment.\n\n2. THE RULE\nAn Aboriginal and Torres Strait Islander health assessment is claimed for a non-admitted patient at the correct interval, not for a hospital inpatient.\n\n3. WHY B IS CORRECT\nPractice setting, after the interval.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Any Aboriginal patient in the building can be billed: Inpatients are excluded.\nC. The interval resets on admission: Admission does not reset the interval.\nD. A junior can claim it unseen: 715 requires a face-to-face assessment.\nE. Hospital equals practice: Hospital inpatient care is not a practice service.\n\n5. KEY TAKEAWAY\nAn Aboriginal and Torres Strait Islander health assessment is claimed for a non-admitted patient at the correct interval, not for a hospital inpatient.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nD. Offer the 715 in the practice after discharge if due\n\n---\n\n1. CLINICAL SITUATION\nAn Aboriginal man is admitted to hospital with pneumonia. His GP, who is visiting, asks about doing a 715 health assessment.\n\n2. THE RULE\nThe MBS 715 health assessment is offered on self-identification as Aboriginal or Torres Strait Islander, at least 9 months apart, to a non-admitted patient, never to a hospital inpatient.\n\n3. WHY D IS CORRECT\nPractice setting, after the interval.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. The interval resets on admission: Admission does not reset the interval.\nB. Any Aboriginal patient in the building can be billed: Inpatients are excluded.\nC. Hospital equals practice: Hospital inpatient care is not a practice service.\nE. A junior can claim it unseen: 715 requires a face-to-face assessment.\n\n5. KEY TAKEAWAY\nThe MBS 715 health assessment is offered on self-identification as Aboriginal or Torres Strait Islander, at least 9 months apart, to a non-admitted patient, never to a hospital inpatient.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "An Aboriginal man is admitted to hospital with pneumonia. His GP, who is visiting, asks about doing a 715 health assessment.",
       "best_treatment": "Offer the 715 in the practice after discharge if due",
       "incorrect_answer_explanations": {
-        "A": "Inpatients are excluded.",
-        "C": "Admission does not reset the interval.",
-        "D": "715 requires a face-to-face assessment.",
-        "E": "Hospital inpatient care is not a practice service."
+        "A": "Admission does not reset the interval.",
+        "B": "Inpatients are excluded.",
+        "C": "Hospital inpatient care is not a practice service.",
+        "E": "715 requires a face-to-face assessment."
       },
       "key_takeaways": [
-        "An Aboriginal and Torres Strait Islander health assessment is claimed for a non-admitted patient at the correct interval, not for a hospital inpatient.",
+        "The MBS 715 health assessment is offered on self-identification as Aboriginal or Torres Strait Islander, at least 9 months apart, to a non-admitted patient, never to a hospital inpatient.",
         "Practice setting, after the interval."
       ],
       "subtopic": "Medicare benefits a clinically relevant service. It is not a reward for a social chat.",
@@ -1584,10 +1584,10 @@
       "zyntra_id": "ZQ-0784",
       "phase": "PH-08",
       "phase_item_id": "PH-H-37",
-      "lo_id": "1e1314e2-69cb-5a68-84af-ea5f11244d51",
-      "lo_code": "HEALTH_ASSESSMENT",
-      "lo_key": "HEALTH_ASSESSMENT",
-      "lo_title": "An Aboriginal and Torres Strait Islander health assessment is claimed for a non-admitted patient at the correct interval, not for a hospital inpatient.",
+      "lo_id": "894c81b1-d7f2-53fe-85c1-23ae018b8114",
+      "lo_code": "HEALTH_CHECK_715",
+      "lo_key": "HEALTH_CHECK_715",
+      "lo_title": "The MBS 715 health assessment is offered on self-identification as Aboriginal or Torres Strait Islander, at least 9 months apart, to a non-admitted patient, never to a hospital inpatient.",
       "lo_role": "variant",
       "shared_lo": true,
       "irt_b": -0.1,
@@ -1599,26 +1599,26 @@
     {
       "question_text": "A GP wants to claim a 715 health assessment for an Aboriginal patient on the hospital ward. What is the most appropriate next step?",
       "options": [
-        "Bill from the ward to help the practice",
+        "Interval is a suggestion",
         "Do not claim a 715 for an inpatient",
         "Identification is enough in hospital",
-        "Interval is a suggestion",
+        "Bill from the ward to help the practice",
         "Discharge is irrelevant"
       ],
       "correct_answer": "B",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. Do not claim a 715 for an inpatient\n\n---\n\n1. CLINICAL SITUATION\nA GP wants to claim a 715 health assessment for an Aboriginal patient on the hospital ward.\n\n2. THE RULE\nAn Aboriginal and Torres Strait Islander health assessment is claimed for a non-admitted patient at the correct interval, not for a hospital inpatient.\n\n3. WHY B IS CORRECT\nNo 715 on the ward.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Bill from the ward to help the practice: Billing an ineligible service is improper.\nC. Identification is enough in hospital: Identification does not override inpatient exclusion.\nD. Interval is a suggestion: The minimum interval is a rule.\nE. Discharge is irrelevant: Admitted status matters.\n\n5. KEY TAKEAWAY\nAn Aboriginal and Torres Strait Islander health assessment is claimed for a non-admitted patient at the correct interval, not for a hospital inpatient.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nB. Do not claim a 715 for an inpatient\n\n---\n\n1. CLINICAL SITUATION\nA GP wants to claim a 715 health assessment for an Aboriginal patient on the hospital ward.\n\n2. THE RULE\nThe MBS 715 health assessment is offered on self-identification as Aboriginal or Torres Strait Islander, at least 9 months apart, to a non-admitted patient, never to a hospital inpatient.\n\n3. WHY B IS CORRECT\nNo 715 on the ward.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Interval is a suggestion: The minimum interval is a rule.\nC. Identification is enough in hospital: Identification does not override inpatient exclusion.\nD. Bill from the ward to help the practice: Billing an ineligible service is improper.\nE. Discharge is irrelevant: Admitted status matters.\n\n5. KEY TAKEAWAY\nThe MBS 715 health assessment is offered on self-identification as Aboriginal or Torres Strait Islander, at least 9 months apart, to a non-admitted patient, never to a hospital inpatient.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A GP wants to claim a 715 health assessment for an Aboriginal patient on the hospital ward.",
       "best_treatment": "Do not claim a 715 for an inpatient",
       "incorrect_answer_explanations": {
-        "A": "Billing an ineligible service is improper.",
+        "A": "The minimum interval is a rule.",
         "C": "Identification does not override inpatient exclusion.",
-        "D": "The minimum interval is a rule.",
+        "D": "Billing an ineligible service is improper.",
         "E": "Admitted status matters."
       },
       "key_takeaways": [
-        "An Aboriginal and Torres Strait Islander health assessment is claimed for a non-admitted patient at the correct interval, not for a hospital inpatient.",
+        "The MBS 715 health assessment is offered on self-identification as Aboriginal or Torres Strait Islander, at least 9 months apart, to a non-admitted patient, never to a hospital inpatient.",
         "No 715 on the ward."
       ],
       "subtopic": "Medicare benefits a clinically relevant service. It is not a reward for a social chat.",
@@ -1627,10 +1627,10 @@
       "zyntra_id": "ZQ-0785",
       "phase": "PH-08",
       "phase_item_id": "PH-H-38",
-      "lo_id": "1e1314e2-69cb-5a68-84af-ea5f11244d51",
-      "lo_code": "HEALTH_ASSESSMENT",
-      "lo_key": "HEALTH_ASSESSMENT",
-      "lo_title": "An Aboriginal and Torres Strait Islander health assessment is claimed for a non-admitted patient at the correct interval, not for a hospital inpatient.",
+      "lo_id": "894c81b1-d7f2-53fe-85c1-23ae018b8114",
+      "lo_code": "HEALTH_CHECK_715",
+      "lo_key": "HEALTH_CHECK_715",
+      "lo_title": "The MBS 715 health assessment is offered on self-identification as Aboriginal or Torres Strait Islander, at least 9 months apart, to a non-admitted patient, never to a hospital inpatient.",
       "lo_role": "edge",
       "shared_lo": true,
       "irt_b": -0.05,
@@ -1642,22 +1642,22 @@
     {
       "question_text": "A restricted antibiotic needs an authority. None has been granted. Pending is not approved. What is the most appropriate next step?",
       "options": [
-        "Do not claim a PBS quantity until the authority is actually held",
+        "CTG is an authority",
         "Authority pending is approved",
         "Use another patient's authority number",
-        "CTG is an authority",
+        "Do not claim a PBS quantity until the authority is actually held",
         "The pharmacist can invent one"
       ],
-      "correct_answer": "A",
+      "correct_answer": "D",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. Do not claim a PBS quantity until the authority is actually held\n\n---\n\n1. CLINICAL SITUATION\nA restricted antibiotic needs an authority. None has been granted. Pending is not approved.\n\n2. THE RULE\nA PBS authority must be obtained when the restriction requires it before the PBS quantity is prescribed or claimed.\n\n3. WHY A IS CORRECT\nAuthority first. Then the claim.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Authority pending is approved: Pending is not approved.\nC. Use another patient's authority number: Authority numbers are patient-specific.\nD. CTG is an authority: CTG is not a PBS authority.\nE. The pharmacist can invent one: Fabricating authority is fraud.\n\n5. KEY TAKEAWAY\nA PBS authority must be obtained when the restriction requires it before the PBS quantity is prescribed or claimed.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nD. Do not claim a PBS quantity until the authority is actually held\n\n---\n\n1. CLINICAL SITUATION\nA restricted antibiotic needs an authority. None has been granted. Pending is not approved.\n\n2. THE RULE\nA PBS authority must be obtained when the restriction requires it before the PBS quantity is prescribed or claimed.\n\n3. WHY D IS CORRECT\nAuthority first. Then the claim.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. CTG is an authority: CTG is not a PBS authority.\nB. Authority pending is approved: Pending is not approved.\nC. Use another patient's authority number: Authority numbers are patient-specific.\nE. The pharmacist can invent one: Fabricating authority is fraud.\n\n5. KEY TAKEAWAY\nA PBS authority must be obtained when the restriction requires it before the PBS quantity is prescribed or claimed.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A restricted antibiotic needs an authority. None has been granted. Pending is not approved.",
       "best_treatment": "Do not claim a PBS quantity until the authority is actually held",
       "incorrect_answer_explanations": {
+        "A": "CTG is not a PBS authority.",
         "B": "Pending is not approved.",
         "C": "Authority numbers are patient-specific.",
-        "D": "CTG is not a PBS authority.",
         "E": "Fabricating authority is fraud."
       },
       "key_takeaways": [
@@ -1685,21 +1685,21 @@
     {
       "question_text": "A GP prescribes a PBS medicine whose restriction requires an authority, but has not obtained one. What is the most appropriate next step?",
       "options": [
-        "Write the script and let the pharmacy sort the authority",
         "Obtain the authority before claiming",
         "A phone message is an authority number",
+        "Write the script and let the pharmacy sort the authority",
         "Restrictions are optional",
         "Private quantity is the same as PBS"
       ],
-      "correct_answer": "B",
+      "correct_answer": "A",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. Obtain the authority before claiming\n\n---\n\n1. CLINICAL SITUATION\nA GP prescribes a PBS medicine whose restriction requires an authority, but has not obtained one.\n\n2. THE RULE\nA PBS authority must be obtained when the restriction requires it before the PBS quantity is prescribed or claimed.\n\n3. WHY B IS CORRECT\nAuthority before supply under PBS.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Write the script and let the pharmacy sort the authority: The prescriber obtains the authority, not the pharmacy.\nC. A phone message is an authority number: A message is not an authority approval.\nD. Restrictions are optional: Restrictions are mandatory for PBS subsidy.\nE. Private quantity is the same as PBS: A private script is not PBS-subsidised.\n\n5. KEY TAKEAWAY\nA PBS authority must be obtained when the restriction requires it before the PBS quantity is prescribed or claimed.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nA. Obtain the authority before claiming\n\n---\n\n1. CLINICAL SITUATION\nA GP prescribes a PBS medicine whose restriction requires an authority, but has not obtained one.\n\n2. THE RULE\nA PBS authority must be obtained when the restriction requires it before the PBS quantity is prescribed or claimed.\n\n3. WHY A IS CORRECT\nAuthority before supply under PBS.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. A phone message is an authority number: A message is not an authority approval.\nC. Write the script and let the pharmacy sort the authority: The prescriber obtains the authority, not the pharmacy.\nD. Restrictions are optional: Restrictions are mandatory for PBS subsidy.\nE. Private quantity is the same as PBS: A private script is not PBS-subsidised.\n\n5. KEY TAKEAWAY\nA PBS authority must be obtained when the restriction requires it before the PBS quantity is prescribed or claimed.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A GP prescribes a PBS medicine whose restriction requires an authority, but has not obtained one.",
       "best_treatment": "Obtain the authority before claiming",
       "incorrect_answer_explanations": {
-        "A": "The prescriber obtains the authority, not the pharmacy.",
-        "C": "A message is not an authority approval.",
+        "B": "A message is not an authority approval.",
+        "C": "The prescriber obtains the authority, not the pharmacy.",
         "D": "Restrictions are mandatory for PBS subsidy.",
         "E": "A private script is not PBS-subsidised."
       },
@@ -1728,22 +1728,22 @@
     {
       "question_text": "A GP prescribes an authority-required PBS medicine. The authority request is still pending, and a colleague suggests using another patient's approval number. Which of the following is most accurate?",
       "options": [
-        "Another patient's number transfers",
-        "It does not. Obtain this patient's authority",
         "Pending means yes",
+        "It does not. Obtain this patient's authority",
         "A restricted drug needs no approval",
+        "Another patient's number transfers",
         "Write authority required and stop there as if approved"
       ],
       "correct_answer": "B",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. It does not. Obtain this patient's authority\n\n---\n\n1. CLINICAL SITUATION\nA GP prescribes an authority-required PBS medicine. The authority request is still pending, and a colleague suggests using another patient's approval number.\n\n2. THE RULE\nA PBS authority must be obtained when the restriction requires it before the PBS quantity is prescribed or claimed.\n\n3. WHY B IS CORRECT\nThis patient, this authority.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Another patient's number transfers: Authority approvals are patient-specific.\nC. Pending means yes: Pending does not mean approved.\nD. A restricted drug needs no approval: Restricted drugs need approval.\nE. Write authority required and stop there as if approved: Writing \"authority required\" is not approval.\n\n5. KEY TAKEAWAY\nA PBS authority must be obtained when the restriction requires it before the PBS quantity is prescribed or claimed.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nB. It does not. Obtain this patient's authority\n\n---\n\n1. CLINICAL SITUATION\nA GP prescribes an authority-required PBS medicine. The authority request is still pending, and a colleague suggests using another patient's approval number.\n\n2. THE RULE\nA PBS authority must be obtained when the restriction requires it before the PBS quantity is prescribed or claimed.\n\n3. WHY B IS CORRECT\nThis patient, this authority.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Pending means yes: Pending does not mean approved.\nC. A restricted drug needs no approval: Restricted drugs need approval.\nD. Another patient's number transfers: Authority approvals are patient-specific.\nE. Write authority required and stop there as if approved: Writing \"authority required\" is not approval.\n\n5. KEY TAKEAWAY\nA PBS authority must be obtained when the restriction requires it before the PBS quantity is prescribed or claimed.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A GP prescribes an authority-required PBS medicine. The authority request is still pending, and a colleague suggests using another patient's approval number.",
       "best_treatment": "It does not. Obtain this patient's authority",
       "incorrect_answer_explanations": {
-        "A": "Authority approvals are patient-specific.",
-        "C": "Pending does not mean approved.",
-        "D": "Restricted drugs need approval.",
+        "A": "Pending does not mean approved.",
+        "C": "Restricted drugs need approval.",
+        "D": "Authority approvals are patient-specific.",
         "E": "Writing \"authority required\" is not approval."
       },
       "key_takeaways": [
@@ -1771,22 +1771,22 @@
     {
       "question_text": "A well 55-year-old man phones the practice at 10 pm asking for a repeat of his usual statin. The doctor asks whether this can be billed as an urgent after-hours attendance. What is the most appropriate next step?",
       "options": [
-        "Not acceptable. A routine repeat is not an urgent after-hours service",
-        "10 pm makes any script urgent",
         "A statin repeat is an emergency attendance",
         "Bill the urgent item",
+        "10 pm makes any script urgent",
+        "Not acceptable. A routine repeat is not an urgent after-hours service",
         "The clock defines urgency"
       ],
-      "correct_answer": "A",
+      "correct_answer": "D",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. Not acceptable. A routine repeat is not an urgent after-hours service\n\n---\n\n1. CLINICAL SITUATION\nA well 55-year-old man phones the practice at 10 pm asking for a repeat of his usual statin. The doctor asks whether this can be billed as an urgent after-hours attendance.\n\n2. THE RULE\nUrgent after-hours items are billed only for genuinely urgent services in after-hours periods, not routine repeat prescriptions.\n\n3. WHY A IS CORRECT\nTime does not define urgency. The clinical need does.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. 10 pm makes any script urgent: Clock time does not create urgency.\nC. A statin repeat is an emergency attendance: A routine statin is not an emergency.\nD. Bill the urgent item: Urgent items need genuine urgency.\nE. The clock defines urgency: Urgency is clinical.\n\n5. KEY TAKEAWAY\nUrgent after-hours items are billed only for genuinely urgent services in after-hours periods, not routine repeat prescriptions.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nD. Not acceptable. A routine repeat is not an urgent after-hours service\n\n---\n\n1. CLINICAL SITUATION\nA well 55-year-old man phones the practice at 10 pm asking for a repeat of his usual statin. The doctor asks whether this can be billed as an urgent after-hours attendance.\n\n2. THE RULE\nUrgent after-hours items are billed only for genuinely urgent services in after-hours periods, not routine repeat prescriptions.\n\n3. WHY D IS CORRECT\nTime does not define urgency. The clinical need does.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. A statin repeat is an emergency attendance: A routine statin is not an emergency.\nB. Bill the urgent item: Urgent items need genuine urgency.\nC. 10 pm makes any script urgent: Clock time does not create urgency.\nE. The clock defines urgency: Urgency is clinical.\n\n5. KEY TAKEAWAY\nUrgent after-hours items are billed only for genuinely urgent services in after-hours periods, not routine repeat prescriptions.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A well 55-year-old man phones the practice at 10 pm asking for a repeat of his usual statin. The doctor asks whether this can be billed as an urgent after-hours attendance.",
       "best_treatment": "Not acceptable. A routine repeat is not an urgent after-hours service",
       "incorrect_answer_explanations": {
-        "B": "Clock time does not create urgency.",
-        "C": "A routine statin is not an emergency.",
-        "D": "Urgent items need genuine urgency.",
+        "A": "A routine statin is not an emergency.",
+        "B": "Urgent items need genuine urgency.",
+        "C": "Clock time does not create urgency.",
         "E": "Urgency is clinical."
       },
       "key_takeaways": [
@@ -1814,23 +1814,23 @@
     {
       "question_text": "A well patient phones after hours for a routine repeat prescription. There is no urgent clinical need. What is the most appropriate next step?",
       "options": [
-        "Running out of a statin is an emergency",
-        "Do not bill an urgent item for a routine repeat",
         "Any after-hours contact is urgent",
+        "Bill and do not assess",
         "The clinic being open late creates the item",
-        "Bill and do not assess"
+        "Do not bill an urgent item for a routine repeat",
+        "Running out of a statin is an emergency"
       ],
-      "correct_answer": "B",
+      "correct_answer": "D",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. Do not bill an urgent item for a routine repeat\n\n---\n\n1. CLINICAL SITUATION\nA well patient phones after hours for a routine repeat prescription. There is no urgent clinical need.\n\n2. THE RULE\nUrgent after-hours items are billed only for genuinely urgent services in after-hours periods, not routine repeat prescriptions.\n\n3. WHY B IS CORRECT\nMatch the item to the urgency.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Running out of a statin is an emergency: Running out of a statin overnight is not an emergency.\nC. Any after-hours contact is urgent: Contact time is not clinical urgency.\nD. The clinic being open late creates the item: Opening hours do not create urgent items.\nE. Bill and do not assess: Billing without assessment is improper.\n\n5. KEY TAKEAWAY\nUrgent after-hours items are billed only for genuinely urgent services in after-hours periods, not routine repeat prescriptions.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nD. Do not bill an urgent item for a routine repeat\n\n---\n\n1. CLINICAL SITUATION\nA well patient phones after hours for a routine repeat prescription. There is no urgent clinical need.\n\n2. THE RULE\nUrgent after-hours items are billed only for genuinely urgent services in after-hours periods, not routine repeat prescriptions.\n\n3. WHY D IS CORRECT\nMatch the item to the urgency.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Any after-hours contact is urgent: Contact time is not clinical urgency.\nB. Bill and do not assess: Billing without assessment is improper.\nC. The clinic being open late creates the item: Opening hours do not create urgent items.\nE. Running out of a statin is an emergency: Running out of a statin overnight is not an emergency.\n\n5. KEY TAKEAWAY\nUrgent after-hours items are billed only for genuinely urgent services in after-hours periods, not routine repeat prescriptions.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A well patient phones after hours for a routine repeat prescription. There is no urgent clinical need.",
       "best_treatment": "Do not bill an urgent item for a routine repeat",
       "incorrect_answer_explanations": {
-        "A": "Running out of a statin overnight is not an emergency.",
-        "C": "Contact time is not clinical urgency.",
-        "D": "Opening hours do not create urgent items.",
-        "E": "Billing without assessment is improper."
+        "A": "Contact time is not clinical urgency.",
+        "B": "Billing without assessment is improper.",
+        "C": "Opening hours do not create urgent items.",
+        "E": "Running out of a statin overnight is not an emergency."
       },
       "key_takeaways": [
         "Urgent after-hours items are billed only for genuinely urgent services in after-hours periods, not routine repeat prescriptions.",
@@ -1857,23 +1857,23 @@
     {
       "question_text": "A well patient rings at 9 pm for a routine repeat prescription. The practice wants to bill an urgent after-hours attendance. Which of the following is most accurate?",
       "options": [
-        "Bill urgent because the phone rang after 8",
-        "Clinical urgency, not the clock, decides the item",
-        "A well patient is urgent at night",
+        "No alternative exists",
         "Repeats are always urgent",
-        "No alternative exists"
+        "A well patient is urgent at night",
+        "Clinical urgency, not the clock, decides the item",
+        "Bill urgent because the phone rang after 8"
       ],
-      "correct_answer": "B",
+      "correct_answer": "D",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. Clinical urgency, not the clock, decides the item\n\n---\n\n1. CLINICAL SITUATION\nA well patient rings at 9 pm for a routine repeat prescription. The practice wants to bill an urgent after-hours attendance.\n\n2. THE RULE\nUrgent after-hours items are billed only for genuinely urgent services in after-hours periods, not routine repeat prescriptions.\n\n3. WHY B IS CORRECT\nClock is not the test.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Bill urgent because the phone rang after 8: Clock time does not define urgency.\nC. A well patient is urgent at night: A well patient is not urgent.\nD. Repeats are always urgent: Repeats are routine.\nE. No alternative exists: A non-urgent item or no item is appropriate.\n\n5. KEY TAKEAWAY\nUrgent after-hours items are billed only for genuinely urgent services in after-hours periods, not routine repeat prescriptions.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nD. Clinical urgency, not the clock, decides the item\n\n---\n\n1. CLINICAL SITUATION\nA well patient rings at 9 pm for a routine repeat prescription. The practice wants to bill an urgent after-hours attendance.\n\n2. THE RULE\nUrgent after-hours items are billed only for genuinely urgent services in after-hours periods, not routine repeat prescriptions.\n\n3. WHY D IS CORRECT\nClock is not the test.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. No alternative exists: A non-urgent item or no item is appropriate.\nB. Repeats are always urgent: Repeats are routine.\nC. A well patient is urgent at night: A well patient is not urgent.\nE. Bill urgent because the phone rang after 8: Clock time does not define urgency.\n\n5. KEY TAKEAWAY\nUrgent after-hours items are billed only for genuinely urgent services in after-hours periods, not routine repeat prescriptions.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A well patient rings at 9 pm for a routine repeat prescription. The practice wants to bill an urgent after-hours attendance.",
       "best_treatment": "Clinical urgency, not the clock, decides the item",
       "incorrect_answer_explanations": {
-        "A": "Clock time does not define urgency.",
+        "A": "A non-urgent item or no item is appropriate.",
+        "B": "Repeats are routine.",
         "C": "A well patient is not urgent.",
-        "D": "Repeats are routine.",
-        "E": "A non-urgent item or no item is appropriate."
+        "E": "Clock time does not define urgency."
       },
       "key_takeaways": [
         "Urgent after-hours items are billed only for genuinely urgent services in after-hours periods, not routine repeat prescriptions.",

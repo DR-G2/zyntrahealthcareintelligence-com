@@ -1,30 +1,30 @@
 {
   "phase": "PH-10",
   "phase_name": "Open disclosure and research ethics",
-  "count": 12,
+  "count": 14,
   "reviewed_by": "Dr Heisenberg",
   "status": "draft",
   "items": [
     {
       "question_text": "A patient is given another patient's insulin dose and becomes hypoglycaemic. He recovers. The consultant says to say nothing unless he asks, because an apology is an admission of liability. Open disclosure is the discussion of an incident that resulted in harm. He is told what happened and what will be done to prevent a repeat. What is the most appropriate action?",
       "options": [
-        "Tell him what happened, the effect, and what has changed. An apology for the harm is appropriate",
         "Say nothing. An apology is an admission of liability",
-        "Tell him only if he develops lasting injury",
+        "Offer money before any explanation",
         "Ask the nurse to explain it in the notes and not to the patient",
-        "Offer money before any explanation"
+        "Tell him what happened, the effect, and what has changed. An apology for the harm is appropriate",
+        "Tell him only if he develops lasting injury"
       ],
-      "correct_answer": "A",
+      "correct_answer": "D",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. Tell him what happened, the effect, and what has changed. An apology for the harm is appropriate\n\n---\n\n1. CLINICAL SITUATION\nA patient is given another patient's insulin dose and becomes hypoglycaemic. He recovers. The consultant says to say nothing unless he asks, because an apology is an admission of liability.\n\n2. THE RULE\nOpen disclosure tells the patient or family honestly what happened, its effect, and what has changed, includes an apology, and also covers intercepted errors with internal reporting.\n\n3. WHY A IS CORRECT\nOpen disclosure is the discussion of an incident that resulted in harm. He is told what happened and what will be done to prevent a repeat. An expression of regret for the harm is part of that discussion. Staying silent unless asked is the error.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Say nothing. An apology is an admission of liability: Silence is not the safeguard.\nC. Tell him only if he develops lasting injury: Harm already occurred.\nD. Ask the nurse to explain it in the notes and not to the patient: The notes are not a substitute for telling him.\nE. Offer money before any explanation: Payment is not the first step, and it is not a substitute for disclosure.\n\n5. KEY TAKEAWAY\nOpen disclosure tells the patient or family honestly what happened, its effect, and what has changed, includes an apology, and also covers intercepted errors with internal reporting.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nD. Tell him what happened, the effect, and what has changed. An apology for the harm is appropriate\n\n---\n\n1. CLINICAL SITUATION\nA patient is given another patient's insulin dose and becomes hypoglycaemic. He recovers. The consultant says to say nothing unless he asks, because an apology is an admission of liability.\n\n2. THE RULE\nOpen disclosure tells the patient or family honestly what happened, its effect, and what has changed, includes an apology, and also covers intercepted errors with internal reporting.\n\n3. WHY D IS CORRECT\nOpen disclosure is the discussion of an incident that resulted in harm. He is told what happened and what will be done to prevent a repeat. An expression of regret for the harm is part of that discussion. Staying silent unless asked is the error.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Say nothing. An apology is an admission of liability: Silence is not the safeguard.\nB. Offer money before any explanation: Payment is not the first step, and it is not a substitute for disclosure.\nC. Ask the nurse to explain it in the notes and not to the patient: The notes are not a substitute for telling him.\nE. Tell him only if he develops lasting injury: Harm already occurred.\n\n5. KEY TAKEAWAY\nOpen disclosure tells the patient or family honestly what happened, its effect, and what has changed, includes an apology, and also covers intercepted errors with internal reporting.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A patient is given another patient's insulin dose and becomes hypoglycaemic. He recovers. The consultant says to say nothing unless he asks, because an apology is an admission of liability.",
       "best_treatment": "Tell him what happened, the effect, and what has changed. An apology for the harm is appropriate",
       "incorrect_answer_explanations": {
-        "B": "Silence is not the safeguard.",
-        "C": "Harm already occurred.",
-        "D": "The notes are not a substitute for telling him.",
-        "E": "Payment is not the first step, and it is not a substitute for disclosure."
+        "A": "Silence is not the safeguard.",
+        "B": "Payment is not the first step, and it is not a substitute for disclosure.",
+        "C": "The notes are not a substitute for telling him.",
+        "E": "Harm already occurred."
       },
       "key_takeaways": [
         "Open disclosure tells the patient or family honestly what happened, its effect, and what has changed, includes an apology, and also covers intercepted errors with internal reporting.",
@@ -51,23 +51,23 @@
     {
       "question_text": "A child is almost given a tenfold morphine dose. A second nurse stops it before any drug is given. The family were not in the room. A registrar says disclosure is unnecessary because nothing was administered. An error that reached the point of administration, even if intercepted, is disclosed and reported. What is the most appropriate course?",
       "options": [
-        "No disclosure. A near miss is an internal matter only",
-        "Tell the family about the intercepted error, and report it internally",
-        "Tell them only if they complain about the delay",
+        "Document 'dose checked' and move on",
         "Discipline the first nurse and close the file",
-        "Document 'dose checked' and move on"
+        "No disclosure. A near miss is an internal matter only",
+        "Tell them only if they complain about the delay",
+        "Tell the family about the intercepted error, and report it internally"
       ],
-      "correct_answer": "B",
+      "correct_answer": "E",
       "category": "Population Health & Ethics",
       "difficulty": "difficult",
-      "explanation": "CORRECT ANSWER\n\nB. Tell the family about the intercepted error, and report it internally\n\n---\n\n1. CLINICAL SITUATION\nTell the family and report it. Intercepted is not the same as never happened.\n\n2. THE RULE\nOpen disclosure tells the patient or family honestly what happened, its effect, and what has changed, includes an apology, and also covers intercepted errors with internal reporting.\n\n3. WHY B IS CORRECT\nAn error that reached the point of administration, even if intercepted, is disclosed in terms the family can understand, and is reported so the system changes. No drug given does not make it invisible.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. No disclosure. A near miss is an internal matter only: Internal reporting does not replace telling them.\nC. Tell them only if they complain about the delay: A complaint is not the trigger.\nD. Discipline the first nurse and close the file: Blame without system reporting misses the point.\nE. Document 'dose checked' and move on: A false reassuring entry hides the event.\n\n5. KEY TAKEAWAY\nA near miss that reached the bedside is disclosed.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nE. Tell the family about the intercepted error, and report it internally\n\n---\n\n1. CLINICAL SITUATION\nTell the family and report it. Intercepted is not the same as never happened.\n\n2. THE RULE\nOpen disclosure tells the patient or family honestly what happened, its effect, and what has changed, includes an apology, and also covers intercepted errors with internal reporting.\n\n3. WHY E IS CORRECT\nAn error that reached the point of administration, even if intercepted, is disclosed in terms the family can understand, and is reported so the system changes. No drug given does not make it invisible.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Document 'dose checked' and move on: A false reassuring entry hides the event.\nB. Discipline the first nurse and close the file: Blame without system reporting misses the point.\nC. No disclosure. A near miss is an internal matter only: Internal reporting does not replace telling them.\nD. Tell them only if they complain about the delay: A complaint is not the trigger.\n\n5. KEY TAKEAWAY\nA near miss that reached the bedside is disclosed.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Tell the family and report it. Intercepted is not the same as never happened.",
       "best_treatment": "Tell the family about the intercepted error, and report it internally",
       "incorrect_answer_explanations": {
-        "A": "Internal reporting does not replace telling them.",
-        "C": "A complaint is not the trigger.",
-        "D": "Blame without system reporting misses the point.",
-        "E": "A false reassuring entry hides the event."
+        "A": "A false reassuring entry hides the event.",
+        "B": "Blame without system reporting misses the point.",
+        "C": "Internal reporting does not replace telling them.",
+        "D": "A complaint is not the trigger."
       },
       "key_takeaways": [
         "A near miss that reached the bedside is disclosed.",
@@ -94,23 +94,23 @@
     {
       "question_text": "A patient is asked to join a drug trial. The registrar says his surgery will be scheduled sooner if he enrols, and delayed if he declines. What is the most appropriate view?",
       "options": [
-        "Acceptable. Incentives for recruitment are unrestricted",
-        "Acceptable if the trial drug is free",
         "Coercive. Care must not be conditional on joining the trial",
         "Acceptable if the surgeon agrees",
-        "Acceptable for public patients only"
+        "Acceptable if the trial drug is free",
+        "Acceptable for public patients only",
+        "Acceptable. Incentives for recruitment are unrestricted"
       ],
-      "correct_answer": "C",
+      "correct_answer": "A",
       "category": "Population Health & Ethics",
       "difficulty": "easy",
-      "explanation": "CORRECT ANSWER\n\nC. Coercive. Care must not be conditional on joining the trial\n\n---\n\n1. CLINICAL SITUATION\nDo not tie his operation to enrolment.\n\n2. THE RULE\nResearch participation is voluntary: people may decline or withdraw at any time without reason and their clinical care continues unchanged.\n\n3. WHY C IS CORRECT\nConsent to research is voluntary. Linking the timing of needed surgery to enrolment is coercion. A free drug does not repair that link.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Acceptable. Incentives for recruitment are unrestricted: They are not.\nB. Acceptable if the trial drug is free: Cost is not the problem.\nD. Acceptable if the surgeon agrees: Agreement does not make coercion valid.\nE. Acceptable for public patients only: Public patients are not a lesser group.\n\n5. KEY TAKEAWAY\nResearch consent is voluntary.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nA. Coercive. Care must not be conditional on joining the trial\n\n---\n\n1. CLINICAL SITUATION\nDo not tie his operation to enrolment.\n\n2. THE RULE\nResearch participation is voluntary: people may decline or withdraw at any time without reason and their clinical care continues unchanged.\n\n3. WHY A IS CORRECT\nConsent to research is voluntary. Linking the timing of needed surgery to enrolment is coercion. A free drug does not repair that link.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Acceptable if the surgeon agrees: Agreement does not make coercion valid.\nC. Acceptable if the trial drug is free: Cost is not the problem.\nD. Acceptable for public patients only: Public patients are not a lesser group.\nE. Acceptable. Incentives for recruitment are unrestricted: They are not.\n\n5. KEY TAKEAWAY\nResearch consent is voluntary.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Do not tie his operation to enrolment.",
       "best_treatment": "Coercive. Care must not be conditional on joining the trial",
       "incorrect_answer_explanations": {
-        "A": "They are not.",
-        "B": "Cost is not the problem.",
-        "D": "Agreement does not make coercion valid.",
-        "E": "Public patients are not a lesser group."
+        "B": "Agreement does not make coercion valid.",
+        "C": "Cost is not the problem.",
+        "D": "Public patients are not a lesser group.",
+        "E": "They are not."
       },
       "key_takeaways": [
         "Research consent is voluntary.",
@@ -137,23 +137,23 @@
     {
       "question_text": "A woman in a randomised drug trial wants to stop. She will not say why. The coordinator says she must give a reason, and that withdrawal means she loses her outpatient follow-up. Withdrawal is a right. Clinical care is not cancelled because she leaves the study. What is the most appropriate response?",
       "options": [
-        "She must give a reason. Otherwise the data are invalid",
-        "She may withdraw only before the second dose",
         "Withdrawal is allowed only if the chief investigator agrees",
+        "She can withdraw from the drug but must still attend research visits",
         "She may withdraw without a reason, and her clinical care continues",
-        "She can withdraw from the drug but must still attend research visits"
+        "She may withdraw only before the second dose",
+        "She must give a reason. Otherwise the data are invalid"
       ],
-      "correct_answer": "D",
+      "correct_answer": "C",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nD. She may withdraw without a reason, and her clinical care continues\n\n---\n\n1. CLINICAL SITUATION\nLet her stop. No reason, and her care continues.\n\n2. THE RULE\nResearch participation is voluntary: people may decline or withdraw at any time without reason and their clinical care continues unchanged.\n\n3. WHY D IS CORRECT\nWithdrawal is a right. No reason is required. Clinical care is not cancelled because she leaves the study. Further research visits cannot be compelled.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. She must give a reason. Otherwise the data are invalid: A reason is not a condition.\nB. She may withdraw only before the second dose: There is no such cut-off.\nC. Withdrawal is allowed only if the chief investigator agrees: It is her decision.\nE. She can withdraw from the drug but must still attend research visits: Research contact ends when she withdraws.\n\n5. KEY TAKEAWAY\nWithdrawal needs no reason.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nC. She may withdraw without a reason, and her clinical care continues\n\n---\n\n1. CLINICAL SITUATION\nLet her stop. No reason, and her care continues.\n\n2. THE RULE\nResearch participation is voluntary: people may decline or withdraw at any time without reason and their clinical care continues unchanged.\n\n3. WHY C IS CORRECT\nWithdrawal is a right. No reason is required. Clinical care is not cancelled because she leaves the study. Further research visits cannot be compelled.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Withdrawal is allowed only if the chief investigator agrees: It is her decision.\nB. She can withdraw from the drug but must still attend research visits: Research contact ends when she withdraws.\nD. She may withdraw only before the second dose: There is no such cut-off.\nE. She must give a reason. Otherwise the data are invalid: A reason is not a condition.\n\n5. KEY TAKEAWAY\nWithdrawal needs no reason.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Let her stop. No reason, and her care continues.",
       "best_treatment": "She may withdraw without a reason, and her clinical care continues",
       "incorrect_answer_explanations": {
-        "A": "A reason is not a condition.",
-        "B": "There is no such cut-off.",
-        "C": "It is her decision.",
-        "E": "Research contact ends when she withdraws."
+        "A": "It is her decision.",
+        "B": "Research contact ends when she withdraws.",
+        "D": "There is no such cut-off.",
+        "E": "A reason is not a condition."
       },
       "key_takeaways": [
         "Withdrawal needs no reason.",
@@ -180,23 +180,23 @@
     {
       "question_text": "The principal investigator owns 30% of the company making the trial device. The consent form does not mention this. He says disclosure would worry patients and reduce recruitment. Participants are told about interests that could influence the study. What is the most appropriate action?",
       "options": [
-        "Leave it out. Recruitment matters more than ownership",
-        "Disclose it only to the ethics committee, not to participants",
         "Disclose it after the trial, in the paper",
+        "Leave it out. Recruitment matters more than ownership",
         "Transfer the shares to a spouse and do not disclose",
+        "Disclose it only to the ethics committee, not to participants",
         "Disclose the ownership in the consent. Do not hide a financial interest"
       ],
       "correct_answer": "E",
       "category": "Population Health & Ethics",
       "difficulty": "difficult",
-      "explanation": "CORRECT ANSWER\n\nE. Disclose the ownership in the consent. Do not hide a financial interest\n\n---\n\n1. CLINICAL SITUATION\nPut the ownership in the consent. Recruitment is not a reason to hide it.\n\n2. THE RULE\nResearchers disclose financial conflicts of interest in consent materials and report serious adverse events promptly to the sponsor and ethics committee.\n\n3. WHY E IS CORRECT\nParticipants are told about interests that could influence the study. Ownership is such an interest. Telling only the committee, or only in the final paper, leaves the consent incomplete. Moving the shares to a spouse does not remove the interest.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Leave it out. Recruitment matters more than ownership: Recruitment is not a reason to hide it.\nB. Disclose it only to the ethics committee, not to participants: The participant is the person consenting.\nC. Disclose it after the trial, in the paper: Too late for consent.\nD. Transfer the shares to a spouse and do not disclose: A related-party holding is still an interest.\n\n5. KEY TAKEAWAY\nA financial interest is disclosed to participants.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nE. Disclose the ownership in the consent. Do not hide a financial interest\n\n---\n\n1. CLINICAL SITUATION\nPut the ownership in the consent. Recruitment is not a reason to hide it.\n\n2. THE RULE\nResearchers declare financial conflicts of interest to the HREC and disclose them in participant information; a conflict is managed, not hidden.\n\n3. WHY E IS CORRECT\nParticipants are told about interests that could influence the study. Ownership is such an interest. Telling only the committee, or only in the final paper, leaves the consent incomplete. Moving the shares to a spouse does not remove the interest.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Disclose it after the trial, in the paper: Too late for consent.\nB. Leave it out. Recruitment matters more than ownership: Recruitment is not a reason to hide it.\nC. Transfer the shares to a spouse and do not disclose: A related-party holding is still an interest.\nD. Disclose it only to the ethics committee, not to participants: The participant is the person consenting.\n\n5. KEY TAKEAWAY\nA financial interest is disclosed to participants.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Put the ownership in the consent. Recruitment is not a reason to hide it.",
       "best_treatment": "Disclose the ownership in the consent. Do not hide a financial interest",
       "incorrect_answer_explanations": {
-        "A": "Recruitment is not a reason to hide it.",
-        "B": "The participant is the person consenting.",
-        "C": "Too late for consent.",
-        "D": "A related-party holding is still an interest."
+        "A": "Too late for consent.",
+        "B": "Recruitment is not a reason to hide it.",
+        "C": "A related-party holding is still an interest.",
+        "D": "The participant is the person consenting."
       },
       "key_takeaways": [
         "A financial interest is disclosed to participants.",
@@ -211,8 +211,8 @@
       "lo_id": "3a1e8f67-733a-597c-a4e0-577e9ec304c0",
       "lo_code": "RESEARCH_CONFLICT",
       "lo_key": "RESEARCH_CONFLICT",
-      "lo_title": "Researchers disclose financial conflicts of interest in consent materials and report serious adverse events promptly to the sponsor and ethics committee.",
-      "lo_role": "edge",
+      "lo_title": "Researchers declare financial conflicts of interest to the HREC and disclose them in participant information; a conflict is managed, not hidden.",
+      "lo_role": "core",
       "shared_lo": true,
       "irt_b": 0.9,
       "difficulty_tier": "hard",
@@ -223,21 +223,21 @@
     {
       "question_text": "In a surgical trial, one participant dies of a pulmonary embolus a week after the new procedure. The investigator plans to mention it only if the journal asks, because the other 40 patients did well. What is the most appropriate action?",
       "options": [
+        "Report it only at the end-of-study meeting",
         "Report the death as a serious adverse event, to the sponsor and the ethics committee, now",
         "Wait for the journal. One death does not change a positive trial",
-        "Report it only at the end-of-study meeting",
         "Reclassify the death as unrelated without review",
         "Remove that participant from the analysis"
       ],
-      "correct_answer": "A",
+      "correct_answer": "B",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. Report the death as a serious adverse event, to the sponsor and the ethics committee, now\n\n---\n\n1. CLINICAL SITUATION\nReport the death now. Do not wait for the journal.\n\n2. THE RULE\nResearchers disclose financial conflicts of interest in consent materials and report serious adverse events promptly to the sponsor and ethics committee.\n\n3. WHY A IS CORRECT\nDeath is a serious adverse event. It is reported promptly through the trial's safety pathway. A favourable overall result does not delay or hide it. Reclassifying or deleting the case without review is misconduct.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Wait for the journal. One death does not change a positive trial: The journal is not the safety system.\nC. Report it only at the end-of-study meeting: Serious events are not saved for the end.\nD. Reclassify the death as unrelated without review: Relatedness is reviewed, not assumed away.\nE. Remove that participant from the analysis: Deleting a death corrupts the trial.\n\n5. KEY TAKEAWAY\nA trial death is a serious adverse event.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nB. Report the death as a serious adverse event, to the sponsor and the ethics committee, now\n\n---\n\n1. CLINICAL SITUATION\nReport the death now. Do not wait for the journal.\n\n2. THE RULE\nSerious adverse events in a trial are reported promptly (within 24 hours) to the sponsor whatever the investigator's view of causality, and significant safety issues reach the HREC; they are never withheld.\n\n3. WHY B IS CORRECT\nDeath is a serious adverse event. It is reported promptly through the trial's safety pathway. A favourable overall result does not delay or hide it. Reclassifying or deleting the case without review is misconduct.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Report it only at the end-of-study meeting: Serious events are not saved for the end.\nC. Wait for the journal. One death does not change a positive trial: The journal is not the safety system.\nD. Reclassify the death as unrelated without review: Relatedness is reviewed, not assumed away.\nE. Remove that participant from the analysis: Deleting a death corrupts the trial.\n\n5. KEY TAKEAWAY\nA trial death is a serious adverse event.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Report the death now. Do not wait for the journal.",
       "best_treatment": "Report the death as a serious adverse event, to the sponsor and the ethics committee, now",
       "incorrect_answer_explanations": {
-        "B": "The journal is not the safety system.",
-        "C": "Serious events are not saved for the end.",
+        "A": "Serious events are not saved for the end.",
+        "C": "The journal is not the safety system.",
         "D": "Relatedness is reviewed, not assumed away.",
         "E": "Deleting a death corrupts the trial."
       },
@@ -251,10 +251,10 @@
       "zyntra_id": "ZQ-0587",
       "phase": "PH-10",
       "phase_item_id": "PH-R-06",
-      "lo_id": "3a1e8f67-733a-597c-a4e0-577e9ec304c0",
-      "lo_code": "RESEARCH_CONFLICT",
-      "lo_key": "RESEARCH_CONFLICT",
-      "lo_title": "Researchers disclose financial conflicts of interest in consent materials and report serious adverse events promptly to the sponsor and ethics committee.",
+      "lo_id": "fcd5bfc0-e14c-593e-b21a-fa7aecaae36d",
+      "lo_code": "RESEARCH_SAE",
+      "lo_key": "RESEARCH_SAE",
+      "lo_title": "Serious adverse events in a trial are reported promptly (within 24 hours) to the sponsor whatever the investigator's view of causality, and significant safety issues reach the HREC; they are never withheld.",
       "lo_role": "core",
       "shared_lo": true,
       "irt_b": 0.05,
@@ -266,23 +266,23 @@
     {
       "question_text": "He was given another patient's insulin and became hypoglycaemic. He recovered. The consultant says to say nothing unless he asks, because an apology admits liability. What is the most appropriate next step?",
       "options": [
-        "Tell him what happened, the effect, and what has changed",
-        "Say nothing unless he asks",
-        "An apology is an admission of liability so avoid it",
         "A note is a substitute for telling him",
-        "Wait for a complaint"
+        "Tell him what happened, the effect, and what has changed",
+        "An apology is an admission of liability so avoid it",
+        "Wait for a complaint",
+        "Say nothing unless he asks"
       ],
-      "correct_answer": "A",
+      "correct_answer": "B",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. Tell him what happened, the effect, and what has changed\n\n---\n\n1. CLINICAL SITUATION\nHe was given another patient's insulin and became hypoglycaemic. He recovered. The consultant says to say nothing unless he asks, because an apology admits liability.\n\n2. THE RULE\nOpen disclosure tells the patient or family honestly what happened, its effect, and what has changed, includes an apology, and also covers intercepted errors with internal reporting.\n\n3. WHY A IS CORRECT\nOpen disclosure after harm. Silence unless asked is the error.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Say nothing unless he asks: Open disclosure is not dependent on being asked.\nC. An apology is an admission of liability so avoid it: Apology laws protect apologies in open disclosure.\nD. A note is a substitute for telling him: A note does not inform the patient.\nE. Wait for a complaint: Disclosure is prompt.\n\n5. KEY TAKEAWAY\nOpen disclosure tells the patient or family honestly what happened, its effect, and what has changed, includes an apology, and also covers intercepted errors with internal reporting.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nB. Tell him what happened, the effect, and what has changed\n\n---\n\n1. CLINICAL SITUATION\nHe was given another patient's insulin and became hypoglycaemic. He recovered. The consultant says to say nothing unless he asks, because an apology admits liability.\n\n2. THE RULE\nOpen disclosure tells the patient or family honestly what happened, its effect, and what has changed, includes an apology, and also covers intercepted errors with internal reporting.\n\n3. WHY B IS CORRECT\nOpen disclosure after harm. Silence unless asked is the error.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. A note is a substitute for telling him: A note does not inform the patient.\nC. An apology is an admission of liability so avoid it: Apology laws protect apologies in open disclosure.\nD. Wait for a complaint: Disclosure is prompt.\nE. Say nothing unless he asks: Open disclosure is not dependent on being asked.\n\n5. KEY TAKEAWAY\nOpen disclosure tells the patient or family honestly what happened, its effect, and what has changed, includes an apology, and also covers intercepted errors with internal reporting.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "He was given another patient's insulin and became hypoglycaemic. He recovered. The consultant says to say nothing unless he asks, because an apology admits liability.",
       "best_treatment": "Tell him what happened, the effect, and what has changed",
       "incorrect_answer_explanations": {
-        "B": "Open disclosure is not dependent on being asked.",
+        "A": "A note does not inform the patient.",
         "C": "Apology laws protect apologies in open disclosure.",
-        "D": "A note does not inform the patient.",
-        "E": "Disclosure is prompt."
+        "D": "Disclosure is prompt.",
+        "E": "Open disclosure is not dependent on being asked."
       },
       "key_takeaways": [
         "Open disclosure tells the patient or family honestly what happened, its effect, and what has changed, includes an apology, and also covers intercepted errors with internal reporting.",
@@ -309,23 +309,23 @@
     {
       "question_text": "A child is almost given a tenfold morphine dose. A second nurse stops it before any drug is given. An error that reached the point of administration is disclosed and reported, even if intercepted. What is the most appropriate next step?",
       "options": [
-        "Nothing was given so the family need not know",
         "Tell the family about the intercepted error, and report it internally",
+        "Nothing was given so the family need not know",
         "Blame the nurse only",
-        "No internal report if no drug was given",
-        "Wait for the family to ask"
+        "Wait for the family to ask",
+        "No internal report if no drug was given"
       ],
-      "correct_answer": "B",
+      "correct_answer": "A",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. Tell the family about the intercepted error, and report it internally\n\n---\n\n1. CLINICAL SITUATION\nA child is almost given a tenfold morphine dose. A second nurse stops it before any drug is given. An error that reached the point of administration is disclosed and reported, even if intercepted.\n\n2. THE RULE\nOpen disclosure tells the patient or family honestly what happened, its effect, and what has changed, includes an apology, and also covers intercepted errors with internal reporting.\n\n3. WHY B IS CORRECT\nIntercepted near miss that reached the point of administration is disclosed.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Nothing was given so the family need not know: Near misses are disclosed and reported.\nC. Blame the nurse only: Systems learning, not blame, is the response.\nD. No internal report if no drug was given: Near misses must be reported.\nE. Wait for the family to ask: Disclosure is proactive.\n\n5. KEY TAKEAWAY\nOpen disclosure tells the patient or family honestly what happened, its effect, and what has changed, includes an apology, and also covers intercepted errors with internal reporting.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nA. Tell the family about the intercepted error, and report it internally\n\n---\n\n1. CLINICAL SITUATION\nA child is almost given a tenfold morphine dose. A second nurse stops it before any drug is given. An error that reached the point of administration is disclosed and reported, even if intercepted.\n\n2. THE RULE\nOpen disclosure tells the patient or family honestly what happened, its effect, and what has changed, includes an apology, and also covers intercepted errors with internal reporting.\n\n3. WHY A IS CORRECT\nIntercepted near miss that reached the point of administration is disclosed.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Nothing was given so the family need not know: Near misses are disclosed and reported.\nC. Blame the nurse only: Systems learning, not blame, is the response.\nD. Wait for the family to ask: Disclosure is proactive.\nE. No internal report if no drug was given: Near misses must be reported.\n\n5. KEY TAKEAWAY\nOpen disclosure tells the patient or family honestly what happened, its effect, and what has changed, includes an apology, and also covers intercepted errors with internal reporting.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A child is almost given a tenfold morphine dose. A second nurse stops it before any drug is given. An error that reached the point of administration is disclosed and reported, even if intercepted.",
       "best_treatment": "Tell the family about the intercepted error, and report it internally",
       "incorrect_answer_explanations": {
-        "A": "Near misses are disclosed and reported.",
+        "B": "Near misses are disclosed and reported.",
         "C": "Systems learning, not blame, is the response.",
-        "D": "Near misses must be reported.",
-        "E": "Disclosure is proactive."
+        "D": "Disclosure is proactive.",
+        "E": "Near misses must be reported."
       },
       "key_takeaways": [
         "Open disclosure tells the patient or family honestly what happened, its effect, and what has changed, includes an apology, and also covers intercepted errors with internal reporting.",
@@ -396,22 +396,22 @@
       "question_text": "A woman in a randomised trial wants to withdraw and will not say why. The study coordinator tells her that withdrawing means losing her clinical follow-up. Which of the following is most accurate?",
       "options": [
         "She must give a reason, and withdrawal cancels follow-up",
+        "Leaving the study ends outpatient care",
         "She may withdraw without a reason, and clinical care continues",
         "Further research visits can be compelled",
-        "A coordinator can refuse withdrawal",
-        "Leaving the study ends outpatient care"
+        "A coordinator can refuse withdrawal"
       ],
-      "correct_answer": "B",
+      "correct_answer": "C",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. She may withdraw without a reason, and clinical care continues\n\n---\n\n1. CLINICAL SITUATION\nA woman in a randomised trial wants to withdraw and will not say why. The study coordinator tells her that withdrawing means losing her clinical follow-up.\n\n2. THE RULE\nResearch participation is voluntary: people may decline or withdraw at any time without reason and their clinical care continues unchanged.\n\n3. WHY B IS CORRECT\nWithdrawal is a right. Care is separate.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. She must give a reason, and withdrawal cancels follow-up: No reason is needed, and care continues.\nC. Further research visits can be compelled: Research participation is voluntary.\nD. A coordinator can refuse withdrawal: Coordinators cannot refuse withdrawal.\nE. Leaving the study ends outpatient care: Clinical care continues.\n\n5. KEY TAKEAWAY\nResearch participation is voluntary: people may decline or withdraw at any time without reason and their clinical care continues unchanged.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nC. She may withdraw without a reason, and clinical care continues\n\n---\n\n1. CLINICAL SITUATION\nA woman in a randomised trial wants to withdraw and will not say why. The study coordinator tells her that withdrawing means losing her clinical follow-up.\n\n2. THE RULE\nResearch participation is voluntary: people may decline or withdraw at any time without reason and their clinical care continues unchanged.\n\n3. WHY C IS CORRECT\nWithdrawal is a right. Care is separate.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. She must give a reason, and withdrawal cancels follow-up: No reason is needed, and care continues.\nB. Leaving the study ends outpatient care: Clinical care continues.\nD. Further research visits can be compelled: Research participation is voluntary.\nE. A coordinator can refuse withdrawal: Coordinators cannot refuse withdrawal.\n\n5. KEY TAKEAWAY\nResearch participation is voluntary: people may decline or withdraw at any time without reason and their clinical care continues unchanged.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A woman in a randomised trial wants to withdraw and will not say why. The study coordinator tells her that withdrawing means losing her clinical follow-up.",
       "best_treatment": "She may withdraw without a reason, and clinical care continues",
       "incorrect_answer_explanations": {
         "A": "No reason is needed, and care continues.",
-        "C": "Research participation is voluntary.",
-        "D": "Coordinators cannot refuse withdrawal.",
-        "E": "Clinical care continues."
+        "B": "Clinical care continues.",
+        "D": "Research participation is voluntary.",
+        "E": "Coordinators cannot refuse withdrawal."
       },
       "key_takeaways": [
         "Research participation is voluntary: people may decline or withdraw at any time without reason and their clinical care continues unchanged.",
@@ -439,25 +439,25 @@
       "question_text": "The principal investigator owns 30% of the company making the trial device. The consent form does not mention it. Participants are told about interests that could influence the study. What is the most appropriate next step?",
       "options": [
         "Disclose the ownership in the consent. Do not hide a financial interest",
-        "30% can be omitted because it would reduce recruitment",
         "Tell only the ethics committee",
+        "30% can be omitted because it would reduce recruitment",
         "Mention it only in the final paper",
         "Move the shares to a spouse and say nothing"
       ],
       "correct_answer": "A",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. Disclose the ownership in the consent. Do not hide a financial interest\n\n---\n\n1. CLINICAL SITUATION\nThe principal investigator owns 30% of the company making the trial device. The consent form does not mention it. Participants are told about interests that could influence the study.\n\n2. THE RULE\nResearchers disclose financial conflicts of interest in consent materials and report serious adverse events promptly to the sponsor and ethics committee.\n\n3. WHY A IS CORRECT\nFinancial interest in the consent. Do not hide it.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. 30% can be omitted because it would reduce recruitment: Recruitment concerns do not justify concealment.\nC. Tell only the ethics committee: Participants must also be informed.\nD. Mention it only in the final paper: Disclosure must happen before consent.\nE. Move the shares to a spouse and say nothing: Transferring shares to a spouse still leaves a conflict.\n\n5. KEY TAKEAWAY\nResearchers disclose financial conflicts of interest in consent materials and report serious adverse events promptly to the sponsor and ethics committee.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nA. Disclose the ownership in the consent. Do not hide a financial interest\n\n---\n\n1. CLINICAL SITUATION\nThe principal investigator owns 30% of the company making the trial device. The consent form does not mention it. Participants are told about interests that could influence the study.\n\n2. THE RULE\nResearchers declare financial conflicts of interest to the HREC and disclose them in participant information; a conflict is managed, not hidden.\n\n3. WHY A IS CORRECT\nFinancial interest in the consent. Do not hide it.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Tell only the ethics committee: Participants must also be informed.\nC. 30% can be omitted because it would reduce recruitment: Recruitment concerns do not justify concealment.\nD. Mention it only in the final paper: Disclosure must happen before consent.\nE. Move the shares to a spouse and say nothing: Transferring shares to a spouse still leaves a conflict.\n\n5. KEY TAKEAWAY\nResearchers declare financial conflicts of interest to the HREC and disclose them in participant information; a conflict is managed, not hidden.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "The principal investigator owns 30% of the company making the trial device. The consent form does not mention it. Participants are told about interests that could influence the study.",
       "best_treatment": "Disclose the ownership in the consent. Do not hide a financial interest",
       "incorrect_answer_explanations": {
-        "B": "Recruitment concerns do not justify concealment.",
-        "C": "Participants must also be informed.",
+        "B": "Participants must also be informed.",
+        "C": "Recruitment concerns do not justify concealment.",
         "D": "Disclosure must happen before consent.",
         "E": "Transferring shares to a spouse still leaves a conflict."
       },
       "key_takeaways": [
-        "Researchers disclose financial conflicts of interest in consent materials and report serious adverse events promptly to the sponsor and ethics committee.",
+        "Researchers declare financial conflicts of interest to the HREC and disclose them in participant information; a conflict is managed, not hidden.",
         "Financial interest in the consent."
       ],
       "subtopic": "Open disclosure tells the patient what happened, what it means, and what will be done. It is not an apology that admits legal liability in a scripted way, and it is not silence.",
@@ -469,7 +469,7 @@
       "lo_id": "3a1e8f67-733a-597c-a4e0-577e9ec304c0",
       "lo_code": "RESEARCH_CONFLICT",
       "lo_key": "RESEARCH_CONFLICT",
-      "lo_title": "Researchers disclose financial conflicts of interest in consent materials and report serious adverse events promptly to the sponsor and ethics committee.",
+      "lo_title": "Researchers declare financial conflicts of interest to the HREC and disclose them in participant information; a conflict is managed, not hidden.",
       "lo_role": "edge",
       "shared_lo": true,
       "irt_b": 0.0,
@@ -481,26 +481,26 @@
     {
       "question_text": "One participant dies of a pulmonary embolus a week after the new procedure. The other 40 did well. What is the most appropriate next step?",
       "options": [
+        "Delete the case",
         "Mention the death only if the journal asks",
-        "Report the death as a serious adverse event, to the sponsor and the ethics committee, now",
-        "A good result in the other 40 patients delays reporting",
         "Reclassify the death without review",
-        "Delete the case"
+        "A good result in the other 40 patients delays reporting",
+        "Report the death as a serious adverse event, to the sponsor and the ethics committee, now"
       ],
-      "correct_answer": "B",
+      "correct_answer": "E",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. Report the death as a serious adverse event, to the sponsor and the ethics committee, now\n\n---\n\n1. CLINICAL SITUATION\nOne participant dies of a pulmonary embolus a week after the new procedure. The other 40 did well.\n\n2. THE RULE\nResearchers disclose financial conflicts of interest in consent materials and report serious adverse events promptly to the sponsor and ethics committee.\n\n3. WHY B IS CORRECT\nA favourable overall result does not hide a death. Report it.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Mention the death only if the journal asks: SAEs must be reported promptly.\nC. A good result in the other 40 patients delays reporting: Good outcomes do not delay SAE reporting.\nD. Reclassify the death without review: Causality is assessed through proper review.\nE. Delete the case: Deleting data is misconduct.\n\n5. KEY TAKEAWAY\nResearchers disclose financial conflicts of interest in consent materials and report serious adverse events promptly to the sponsor and ethics committee.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nE. Report the death as a serious adverse event, to the sponsor and the ethics committee, now\n\n---\n\n1. CLINICAL SITUATION\nOne participant dies of a pulmonary embolus a week after the new procedure. The other 40 did well.\n\n2. THE RULE\nSerious adverse events in a trial are reported promptly (within 24 hours) to the sponsor whatever the investigator's view of causality, and significant safety issues reach the HREC; they are never withheld.\n\n3. WHY E IS CORRECT\nA favourable overall result does not hide a death. Report it.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Delete the case: Deleting data is misconduct.\nB. Mention the death only if the journal asks: SAEs must be reported promptly.\nC. Reclassify the death without review: Causality is assessed through proper review.\nD. A good result in the other 40 patients delays reporting: Good outcomes do not delay SAE reporting.\n\n5. KEY TAKEAWAY\nSerious adverse events in a trial are reported promptly (within 24 hours) to the sponsor whatever the investigator's view of causality, and significant safety issues reach the HREC; they are never withheld.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "One participant dies of a pulmonary embolus a week after the new procedure. The other 40 did well.",
       "best_treatment": "Report the death as a serious adverse event, to the sponsor and the ethics committee, now",
       "incorrect_answer_explanations": {
-        "A": "SAEs must be reported promptly.",
-        "C": "Good outcomes do not delay SAE reporting.",
-        "D": "Causality is assessed through proper review.",
-        "E": "Deleting data is misconduct."
+        "A": "Deleting data is misconduct.",
+        "B": "SAEs must be reported promptly.",
+        "C": "Causality is assessed through proper review.",
+        "D": "Good outcomes do not delay SAE reporting."
       },
       "key_takeaways": [
-        "Researchers disclose financial conflicts of interest in consent materials and report serious adverse events promptly to the sponsor and ethics committee.",
+        "Serious adverse events in a trial are reported promptly (within 24 hours) to the sponsor whatever the investigator's view of causality, and significant safety issues reach the HREC; they are never withheld.",
         "A favourable overall result does not hide a death."
       ],
       "subtopic": "Open disclosure tells the patient what happened, what it means, and what will be done. It is not an apology that admits legal liability in a scripted way, and it is not silence.",
@@ -509,15 +509,101 @@
       "zyntra_id": "ZQ-0805",
       "phase": "PH-10",
       "phase_item_id": "PH-R-12",
-      "lo_id": "3a1e8f67-733a-597c-a4e0-577e9ec304c0",
-      "lo_code": "RESEARCH_CONFLICT",
-      "lo_key": "RESEARCH_CONFLICT",
-      "lo_title": "Researchers disclose financial conflicts of interest in consent materials and report serious adverse events promptly to the sponsor and ethics committee.",
+      "lo_id": "fcd5bfc0-e14c-593e-b21a-fa7aecaae36d",
+      "lo_code": "RESEARCH_SAE",
+      "lo_key": "RESEARCH_SAE",
+      "lo_title": "Serious adverse events in a trial are reported promptly (within 24 hours) to the sponsor whatever the investigator's view of causality, and significant safety issues reach the HREC; they are never withheld.",
       "lo_role": "variant",
       "shared_lo": true,
       "irt_b": 0.0,
       "difficulty_tier": "medium",
       "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
+    },
+    {
+      "question_text": "A participant in a phase III trial of a new oral hypoglycaemic is admitted to hospital with acute pancreatitis. Ultrasound shows gallstones. The site investigator believes the drug is not the cause and says he will not report the event, because it is clearly gallstone pancreatitis. What is the most appropriate action?",
+      "options": [
+        "Report it only in the final study report",
+        "Report it only if the participant asks",
+        "Report it to the sponsor as a serious adverse event within 24 hours, giving his causality assessment",
+        "Withdraw the participant and remove her data so the event is not counted",
+        "Do not report it, because the investigator judges it unrelated"
+      ],
+      "correct_answer": "C",
+      "category": "Population Health & Ethics",
+      "difficulty": "difficult",
+      "explanation": "CORRECT ANSWER\n\nC. Report it to the sponsor as a serious adverse event within 24 hours, giving his causality assessment\n\n---\n\n1. CLINICAL SITUATION\nA trial participant has been hospitalised, and the investigator wants to skip reporting because he believes the event is unrelated.\n\n2. THE RULE\nSerious adverse events in a trial are reported promptly (within 24 hours) to the sponsor whatever the investigator's view of causality, and significant safety issues reach the HREC; they are never withheld.\n\n3. WHY C IS CORRECT\nUnder NHMRC guidance on safety monitoring and reporting in clinical trials, a serious adverse event (any event causing hospitalisation, among other criteria) is reported by the investigator to the sponsor promptly, within 24 hours, whatever the investigator thinks about causality. The investigator records his causality view. The sponsor assesses the event and escalates significant safety issues to the HREC. Relatedness affects the assessment, not whether the event is reported.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Report it only in the final study report: Waiting for the final report defeats ongoing safety monitoring.\nB. Report it only if the participant asks: Reporting is a protocol and regulatory duty. It does not depend on the participant asking.\nD. Withdraw the participant and remove her data so the event is not counted: Removing data to hide an adverse event is research misconduct.\nE. Do not report it, because the investigator judges it unrelated: Seriousness, here hospitalisation, triggers reporting. The investigator's view on causality goes in the report but does not remove the duty.\n\n5. KEY TAKEAWAY\nReport every SAE to the sponsor within 24 hours, with causality noted; causality does not decide reporting.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "A trial participant has been hospitalised, and the investigator wants to skip reporting because he believes the event is unrelated.",
+      "best_treatment": "Report it to the sponsor as a serious adverse event within 24 hours, giving his causality assessment",
+      "incorrect_answer_explanations": {
+        "A": "Waiting for the final report defeats ongoing safety monitoring.",
+        "B": "Reporting is a protocol and regulatory duty. It does not depend on the participant asking.",
+        "D": "Removing data to hide an adverse event is research misconduct.",
+        "E": "Seriousness, here hospitalisation, triggers reporting. The investigator's view on causality goes in the report but does not remove the duty."
+      },
+      "key_takeaways": [
+        "Serious adverse events in a trial are reported promptly (within 24 hours) to the sponsor whatever the investigator's view of causality, and significant safety issues reach the HREC; they are never withheld.",
+        "Report every SAE to the sponsor within 24 hours, with causality noted; causality does not decide reporting."
+      ],
+      "subtopic": "SAEs are reported promptly irrespective of perceived causality.",
+      "clinical_vignette": true,
+      "id": "198e7c45-4dc5-5a05-aeab-5780b4555884",
+      "zyntra_id": "ZQ-0816",
+      "phase": "PH-10",
+      "phase_item_id": "PH-R-13",
+      "lo_id": "fcd5bfc0-e14c-593e-b21a-fa7aecaae36d",
+      "lo_code": "RESEARCH_SAE",
+      "lo_key": "RESEARCH_SAE",
+      "lo_title": "Serious adverse events in a trial are reported promptly (within 24 hours) to the sponsor whatever the investigator's view of causality, and significant safety issues reach the HREC; they are never withheld.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.9,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: research setting",
+      "blueprint_eligible": true,
+      "status": "draft"
+    },
+    {
+      "question_text": "A physician is principal investigator on a government-funded trial comparing two antihypertensives. He receives about $40,000 a year in speaking fees from the manufacturer of one of the drugs. He has not declared this to the HREC, saying it is irrelevant because the manufacturer is not funding the trial. What is the most appropriate action?",
+      "options": [
+        "Stop the speaking fees but not mention past payments",
+        "Hand over the principal investigator role informally to a colleague without telling the HREC",
+        "Declare the interest to the HREC so it can be managed, including disclosure in the participant information",
+        "Disclose the interest only when the results are published",
+        "No action, because the trial is not industry-funded"
+      ],
+      "correct_answer": "C",
+      "category": "Population Health & Ethics",
+      "difficulty": "difficult",
+      "explanation": "CORRECT ANSWER\n\nC. Declare the interest to the HREC so it can be managed, including disclosure in the participant information\n\n---\n\n1. CLINICAL SITUATION\nAn investigator has a financial relationship with the manufacturer of a study drug, regardless of who funds the trial.\n\n2. THE RULE\nResearchers declare financial conflicts of interest to the HREC and disclose them in participant information; a conflict is managed, not hidden.\n\n3. WHY C IS CORRECT\nThe National Statement on Ethical Conduct in Human Research requires researchers to declare actual, potential and perceived conflicts of interest to the reviewing HREC, which decides how to manage them. Management usually includes telling participants. A financial relationship with a manufacturer whose product is being tested is a conflict whatever the funding source.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Stop the speaking fees but not mention past payments: Recent payments still create a perceived conflict. Stopping future fees does not remove the duty to declare.\nB. Hand over the principal investigator role informally to a colleague without telling the HREC: Quietly changing roles is not transparent management. The HREC must be told.\nD. Disclose the interest only when the results are published: Disclosing only at publication denies the HREC and participants the information when it matters.\nE. No action, because the trial is not industry-funded: Conflicts arise from the investigator's own financial interests, not only from who funds the trial.\n\n5. KEY TAKEAWAY\nDeclare research conflicts to the HREC, which manages them, usually including disclosure to participants.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "An investigator has a financial relationship with the manufacturer of a study drug, regardless of who funds the trial.",
+      "best_treatment": "Declare the interest to the HREC so it can be managed, including disclosure in the participant information",
+      "incorrect_answer_explanations": {
+        "A": "Recent payments still create a perceived conflict. Stopping future fees does not remove the duty to declare.",
+        "B": "Quietly changing roles is not transparent management. The HREC must be told.",
+        "D": "Disclosing only at publication denies the HREC and participants the information when it matters.",
+        "E": "Conflicts arise from the investigator's own financial interests, not only from who funds the trial."
+      },
+      "key_takeaways": [
+        "Researchers declare financial conflicts of interest to the HREC and disclose them in participant information; a conflict is managed, not hidden.",
+        "Declare research conflicts to the HREC, which manages them, usually including disclosure to participants."
+      ],
+      "subtopic": "Investigator financial interests are declared to the HREC and disclosed to participants.",
+      "clinical_vignette": true,
+      "id": "b220439a-61ef-5578-899f-5426c17dcfcd",
+      "zyntra_id": "ZQ-0817",
+      "phase": "PH-10",
+      "phase_item_id": "PH-R-14",
+      "lo_id": "3a1e8f67-733a-597c-a4e0-577e9ec304c0",
+      "lo_code": "RESEARCH_CONFLICT",
+      "lo_key": "RESEARCH_CONFLICT",
+      "lo_title": "Researchers declare financial conflicts of interest to the HREC and disclose them in participant information; a conflict is managed, not hidden.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.9,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: research setting",
       "blueprint_eligible": true,
       "status": "draft"
     }

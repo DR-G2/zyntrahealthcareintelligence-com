@@ -11,20 +11,20 @@
         "Book the next BreastScreen mammogram now",
         "Arrange annual breast MRI as her population screening test",
         "Replace mammography with screening ultrasound because the last report mentioned density",
-        "Defer all imaging until 65 because the last mammogram was normal",
-        "Measure CA 15-3 today and screen only if it is raised"
+        "Measure CA 15-3 today and screen only if it is raised",
+        "Defer all imaging until 65 because the last mammogram was normal"
       ],
       "correct_answer": "A",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. Book the next BreastScreen mammogram now\n\n---\n\n1. CLINICAL SITUATION\nA 58-year-old woman attends a Melbourne general practice on a Thursday afternoon for a repeat of transdermal oestradiol, which she has used since a surgical menopause at 49. She works as a school registrar, walks to the station each day, and has no chest pain, breast lump, nipple discharge, skin dimpling, or axillary swelling. Her mother is alive at 84 and has never had cancer.\n\n2. THE RULE\nSymptom-free women aged 50-74 are invited to BreastScreen every 2 years; women 40-49 and 75+ may self-refer, and asymptomatic men are not screened.\n\n3. WHY A IS CORRECT\nShe is symptom-free, 58, and 26 months past a normal mammogram, so she is due for the BreastScreen test. Heterogeneous density and an aunt diagnosed at 71 do not move her onto MRI. Hormone therapy is not a reason to change the program test.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Arrange annual breast MRI as her population screening test: MRI is used in selected high-risk pathways. An aunt at 71 and a density comment do not establish that pathway.\nC. Replace mammography with screening ultrasound because the last report mentioned density: Ultrasound is not the BreastScreen test, and density alone does not retire mammography.\nD. Defer all imaging until 65 because the last mammogram was normal: A normal result restarts the 2-year interval. It does not grant a 7-year gap.\nE. Measure CA 15-3 today and screen only if it is raised: A tumour marker is not a screening test and would not clear her for a longer interval.\n\n5. KEY TAKEAWAY\nSymptom-free women aged 50-74 are invited to BreastScreen every 2 years; women 40-49 and 75+ may self-refer, and asymptomatic men are not screened.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nA. Book the next BreastScreen mammogram now\n\n---\n\n1. CLINICAL SITUATION\nA 58-year-old woman attends a Melbourne general practice on a Thursday afternoon for a repeat of transdermal oestradiol, which she has used since a surgical menopause at 49. She works as a school registrar, walks to the station each day, and has no chest pain, breast lump, nipple discharge, skin dimpling, or axillary swelling. Her mother is alive at 84 and has never had cancer.\n\n2. THE RULE\nSymptom-free women aged 50-74 are invited to BreastScreen every 2 years; women 40-49 and 75+ may self-refer, and asymptomatic men are not screened.\n\n3. WHY A IS CORRECT\nShe is symptom-free, 58, and 26 months past a normal mammogram, so she is due for the BreastScreen test. Heterogeneous density and an aunt diagnosed at 71 do not move her onto MRI. Hormone therapy is not a reason to change the program test.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Arrange annual breast MRI as her population screening test: MRI is used in selected high-risk pathways. An aunt at 71 and a density comment do not establish that pathway.\nC. Replace mammography with screening ultrasound because the last report mentioned density: Ultrasound is not the BreastScreen test, and density alone does not retire mammography.\nD. Measure CA 15-3 today and screen only if it is raised: A tumour marker is not a screening test and would not clear her for a longer interval.\nE. Defer all imaging until 65 because the last mammogram was normal: A normal result restarts the 2-year interval. It does not grant a 7-year gap.\n\n5. KEY TAKEAWAY\nSymptom-free women aged 50-74 are invited to BreastScreen every 2 years; women 40-49 and 75+ may self-refer, and asymptomatic men are not screened.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A 58-year-old woman attends a Melbourne general practice on a Thursday afternoon for a repeat of transdermal oestradiol, which she has used since a surgical menopause at 49. She works as a school registrar, walks to the station each day, and has no chest pain, breast lump, nipple discharge, skin dimpling, or axillary swelling. Her mother is alive at 84 and has never had cancer.",
       "best_treatment": "Book the next BreastScreen mammogram now",
       "incorrect_answer_explanations": {
         "B": "MRI is used in selected high-risk pathways. An aunt at 71 and a density comment do not establish that pathway.",
         "C": "Ultrasound is not the BreastScreen test, and density alone does not retire mammography.",
-        "D": "A normal result restarts the 2-year interval. It does not grant a 7-year gap.",
-        "E": "A tumour marker is not a screening test and would not clear her for a longer interval."
+        "D": "A tumour marker is not a screening test and would not clear her for a longer interval.",
+        "E": "A normal result restarts the 2-year interval. It does not grant a 7-year gap."
       },
       "key_takeaways": [
         "Symptom-free women aged 50-74 are invited to BreastScreen every 2 years; women 40-49 and 75+ may self-refer, and asymptomatic men are not screened.",
@@ -52,22 +52,22 @@
       "question_text": "A 46-year-old woman in Adelaide has asked the receptionist for a BreastScreen referral after a friend said free mammograms do not start until 50 and that asking earlier is a waste of everyone's time. She has no lump, pain, nipple change, or skin thickening. Her sister had a fibroadenoma excised at 29. There is no relative with breast or ovarian cancer. She is otherwise well, has never had breast imaging, had one child at 32, and breastfed for four months. She works in a call centre, does not smoke, and drinks rarely. She is anxious because a colleague was diagnosed at 48, and she has convinced herself that waiting until 50 is reckless. On examination both breasts are normal, with no axillary nodes. She is not pregnant. She asks whether booking now is pointless, whether she will be turned away, and whether she should instead pay for a private ultrasound to be safe. A local radiology group has already quoted her $480 for a bilateral ultrasound and mammogram. Her GP records show no breast complaint in six years at the practice. There is no chest-wall radiation in her history. A cousin had a benign cyst drained at 40. She has private health insurance and wants a clear answer on whether the public system will accept her at 46. Blood pressure is 122/74. She takes no regular medicines. A recent cervical screen was normal. She can attend a centre next week if advised. Examination today adds nothing. What is the most appropriate advice about BreastScreen?",
       "options": [
         "Tell her she is ineligible for a free mammogram until she turns 50",
-        "She can book a BreastScreen mammogram now, but she will not be routinely invited until 50",
-        "Start annual mammography from today until 74 because she has asked early",
+        "A normal examination today replaces imaging until 50",
         "Screen with ultrasound every year until she enters the invitation group",
-        "A normal examination today replaces imaging until 50"
+        "She can book a BreastScreen mammogram now, but she will not be routinely invited until 50",
+        "Start annual mammography from today until 74 because she has asked early"
       ],
-      "correct_answer": "B",
+      "correct_answer": "D",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. She can book a BreastScreen mammogram now, but she will not be routinely invited until 50\n\n---\n\n1. CLINICAL SITUATION\nAt 46 she can book BreastScreen but is not in the routine invitation group, and a fibroadenoma in a sister does not create an annual pathway.\n\n2. THE RULE\nSymptom-free women aged 50-74 are invited to BreastScreen every 2 years; women 40-49 and 75+ may self-refer, and asymptomatic men are not screened.\n\n3. WHY B IS CORRECT\nInvitation and access are different. BreastScreen invites women aged 50\u201374. From 40 she may still book a free mammogram every 2 years. A sister's fibroadenoma is not a familial-cancer indication, so she does not need annual imaging.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Tell her she is ineligible for a free mammogram until she turns 50: That confuses the invitation letter with the age from which she can attend.\nC. Start annual mammography from today until 74 because she has asked early: Asking early does not shorten the interval from 2 years.\nD. Screen with ultrasound every year until she enters the invitation group: Ultrasound is not the population test at 46.\nE. A normal examination today replaces imaging until 50: Examination does not answer the screening question she asked.\n\n5. KEY TAKEAWAY\nInvitation age is 50\u201374. Attendance is open from 40.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nD. She can book a BreastScreen mammogram now, but she will not be routinely invited until 50\n\n---\n\n1. CLINICAL SITUATION\nAt 46 she can book BreastScreen but is not in the routine invitation group, and a fibroadenoma in a sister does not create an annual pathway.\n\n2. THE RULE\nSymptom-free women aged 50-74 are invited to BreastScreen every 2 years; women 40-49 and 75+ may self-refer, and asymptomatic men are not screened.\n\n3. WHY D IS CORRECT\nInvitation and access are different. BreastScreen invites women aged 50\u201374. From 40 she may still book a free mammogram every 2 years. A sister's fibroadenoma is not a familial-cancer indication, so she does not need annual imaging.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Tell her she is ineligible for a free mammogram until she turns 50: That confuses the invitation letter with the age from which she can attend.\nB. A normal examination today replaces imaging until 50: Examination does not answer the screening question she asked.\nC. Screen with ultrasound every year until she enters the invitation group: Ultrasound is not the population test at 46.\nE. Start annual mammography from today until 74 because she has asked early: Asking early does not shorten the interval from 2 years.\n\n5. KEY TAKEAWAY\nInvitation age is 50\u201374. Attendance is open from 40.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "At 46 she can book BreastScreen but is not in the routine invitation group, and a fibroadenoma in a sister does not create an annual pathway.",
       "best_treatment": "She can book a BreastScreen mammogram now, but she will not be routinely invited until 50",
       "incorrect_answer_explanations": {
         "A": "That confuses the invitation letter with the age from which she can attend.",
-        "C": "Asking early does not shorten the interval from 2 years.",
-        "D": "Ultrasound is not the population test at 46.",
-        "E": "Examination does not answer the screening question she asked."
+        "B": "Examination does not answer the screening question she asked.",
+        "C": "Ultrasound is not the population test at 46.",
+        "E": "Asking early does not shorten the interval from 2 years."
       },
       "key_takeaways": [
         "Invitation age is 50\u201374. Attendance is open from 40.",
@@ -94,23 +94,23 @@
     {
       "question_text": "A 61-year-old woman in Brisbane notices a new hard lump in the upper outer quadrant of her left breast while showering. It has been there for three weeks. She had a normal BreastScreen mammogram 14 months ago. There is no nipple discharge. She is a non-smoker, takes perindopril for hypertension, and has no family history of breast or ovarian cancer. On examination there is a 2 cm firm, irregular mass, tethered to skin, with a palpable left axillary node. She is frightened and asks whether she should simply wait for her next BreastScreen invitation, which she believes is the proper pathway, or book the routine screening mammogram a few months early. Her sister has told her that screening clinics are faster than hospital clinics. She has no fever, no recent trauma, and no signs of infection. The remainder of the examination is normal. She is systemically well, weight stable, and has no bone pain. A BreastScreen letter from 14 months ago is in her bag and is normal. The axillary node is firm and about 1.5 cm. She is post-menopausal on no hormone therapy. Her sister has offered to drive her to a BreastScreen van in the suburb next week. The GP can feel the mass and the node. Bloods last month were unremarkable. She is not anticoagulated. What is the most appropriate next step?",
       "options": [
-        "Use the BreastScreen appointment and review her once the screening report returns",
+        "Request CA 15-3 and a chest X-ray as the first screen",
         "Reassure her that a mobile lump under 45 can be reviewed in 6 months",
-        "Refer for diagnostic triple assessment rather than a screening mammogram",
         "Start tamoxifen now and image only if the lump is still there in 3 months",
-        "Request CA 15-3 and a chest X-ray as the first screen"
+        "Use the BreastScreen appointment and review her once the screening report returns",
+        "Refer for diagnostic triple assessment rather than a screening mammogram"
       ],
-      "correct_answer": "C",
+      "correct_answer": "E",
       "category": "Population Health & Ethics",
       "difficulty": "difficult",
-      "explanation": "CORRECT ANSWER\n\nC. Refer for diagnostic triple assessment rather than a screening mammogram\n\n---\n\n1. CLINICAL SITUATION\nA 3-week hard breast lump needs diagnostic triple assessment. A convenient BreastScreen slot does not convert it into a screening episode.\n\n2. THE RULE\nA breast symptom or high familial risk needs diagnostic or specialist assessment, not a routine BreastScreen mammogram.\n\n3. WHY C IS CORRECT\nA new hard lump is a symptom. BreastScreen is for women without breast symptoms, and a screening slot does not investigate a palpable mass. She needs diagnostic triple assessment: clinical review, diagnostic imaging, and needle biopsy as indicated.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Use the BreastScreen appointment and review her once the screening report returns: The free slot is the trap. A screening program should not be used to work up a lump, and 10 days on that list is the wrong queue.\nB. Reassure her that a mobile lump under 45 can be reviewed in 6 months: Mobility and age do not make a new hard lump safe to watch.\nD. Start tamoxifen now and image only if the lump is still there in 3 months: Endocrine therapy is not a test and not a holding measure.\nE. Request CA 15-3 and a chest X-ray as the first screen: Neither assesses a palpable breast mass.\n\n5. KEY TAKEAWAY\nSymptoms leave BreastScreen.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nE. Refer for diagnostic triple assessment rather than a screening mammogram\n\n---\n\n1. CLINICAL SITUATION\nA 3-week hard breast lump needs diagnostic triple assessment. A convenient BreastScreen slot does not convert it into a screening episode.\n\n2. THE RULE\nA breast symptom or high familial risk needs diagnostic or specialist assessment, not a routine BreastScreen mammogram.\n\n3. WHY E IS CORRECT\nA new hard lump is a symptom. BreastScreen is for women without breast symptoms, and a screening slot does not investigate a palpable mass. She needs diagnostic triple assessment: clinical review, diagnostic imaging, and needle biopsy as indicated.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Request CA 15-3 and a chest X-ray as the first screen: Neither assesses a palpable breast mass.\nB. Reassure her that a mobile lump under 45 can be reviewed in 6 months: Mobility and age do not make a new hard lump safe to watch.\nC. Start tamoxifen now and image only if the lump is still there in 3 months: Endocrine therapy is not a test and not a holding measure.\nD. Use the BreastScreen appointment and review her once the screening report returns: The free slot is the trap. A screening program should not be used to work up a lump, and 10 days on that list is the wrong queue.\n\n5. KEY TAKEAWAY\nSymptoms leave BreastScreen.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A 3-week hard breast lump needs diagnostic triple assessment. A convenient BreastScreen slot does not convert it into a screening episode.",
       "best_treatment": "Refer for diagnostic triple assessment rather than a screening mammogram",
       "incorrect_answer_explanations": {
-        "A": "The free slot is the trap. A screening program should not be used to work up a lump, and 10 days on that list is the wrong queue.",
+        "A": "Neither assesses a palpable breast mass.",
         "B": "Mobility and age do not make a new hard lump safe to watch.",
-        "D": "Endocrine therapy is not a test and not a holding measure.",
-        "E": "Neither assesses a palpable breast mass."
+        "C": "Endocrine therapy is not a test and not a holding measure.",
+        "D": "The free slot is the trap. A screening program should not be used to work up a lump, and 10 days on that list is the wrong queue."
       },
       "key_takeaways": [
         "Symptoms leave BreastScreen.",
@@ -137,23 +137,23 @@
     {
       "question_text": "A 77-year-old woman in Hobart has not been invited to BreastScreen for two years. She is well, has no breast symptom, and had normal screens throughout her sixties. Her daughter has read that screening stops at 74 and has told her she is no longer allowed to attend. She is a retired teacher, lives alone, drives, and has no cognitive impairment. There is no family history of breast or ovarian cancer. She takes a statin and vitamin D. Examination is normal. She asks whether the program has closed to her permanently, whether attending would be against the rules, and whether she should instead pay for a private mammogram every year for the rest of her life. She has attended BreastScreen regularly since 52 and has every normal report in a folder at home. Her daughter read a news article saying the program ends at 74 and has booked her a private annual mammogram at $320 a time. She is a retired teacher, lives alone, drives, and manages her own medicines. There is no cognitive impairment. She takes atorvastatin and vitamin D only. There is no family history of breast or ovarian cancer. Examination today is normal, with no mass and no node. She is not frail. Her GP estimates her life expectancy is well beyond five years. She asks whether the program has closed to her permanently, whether attending would be against the rules, and whether private imaging every year is now her only option. The question is invitation versus access after 74. What is the most appropriate advice?",
       "options": [
-        "Further mammography is contraindicated once she is over 74",
-        "She must continue annual mammography until 80 to stay enrolled",
         "Transfer her to annual screening MRI because invitation has stopped",
+        "Replace mammography with 2-yearly clinical examination only",
         "She is no longer invited, but she may choose to book BreastScreen after a discussion of benefit",
-        "Replace mammography with 2-yearly clinical examination only"
+        "She must continue annual mammography until 80 to stay enrolled",
+        "Further mammography is contraindicated once she is over 74"
       ],
-      "correct_answer": "D",
+      "correct_answer": "C",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nD. She is no longer invited, but she may choose to book BreastScreen after a discussion of benefit\n\n---\n\n1. CLINICAL SITUATION\nAfter 74 she is no longer invited, but mammography is not forbidden. She can still choose BreastScreen.\n\n2. THE RULE\nSymptom-free women aged 50-74 are invited to BreastScreen every 2 years; women 40-49 and 75+ may self-refer, and asymptomatic men are not screened.\n\n3. WHY D IS CORRECT\nActive invitation stops after 74. That is not a ban. A well 76-year-old with no breast symptoms may choose to keep attending after a discussion of benefit, overdiagnosis, and competing health problems. Her last screen was 18 months ago, so she is not even due today.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Further mammography is contraindicated once she is over 74: The friend has turned the end of invitation into a prohibition.\nB. She must continue annual mammography until 80 to stay enrolled: There is no compulsory annual program to 80.\nC. Transfer her to annual screening MRI because invitation has stopped: Loss of a reminder does not create an MRI pathway.\nE. Replace mammography with 2-yearly clinical examination only: Examination is not the screening test she has been having.\n\n5. KEY TAKEAWAY\nEnd of invitation is not a contraindication.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nC. She is no longer invited, but she may choose to book BreastScreen after a discussion of benefit\n\n---\n\n1. CLINICAL SITUATION\nAfter 74 she is no longer invited, but mammography is not forbidden. She can still choose BreastScreen.\n\n2. THE RULE\nSymptom-free women aged 50-74 are invited to BreastScreen every 2 years; women 40-49 and 75+ may self-refer, and asymptomatic men are not screened.\n\n3. WHY C IS CORRECT\nActive invitation stops after 74. That is not a ban. A well 76-year-old with no breast symptoms may choose to keep attending after a discussion of benefit, overdiagnosis, and competing health problems. Her last screen was 18 months ago, so she is not even due today.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Transfer her to annual screening MRI because invitation has stopped: Loss of a reminder does not create an MRI pathway.\nB. Replace mammography with 2-yearly clinical examination only: Examination is not the screening test she has been having.\nD. She must continue annual mammography until 80 to stay enrolled: There is no compulsory annual program to 80.\nE. Further mammography is contraindicated once she is over 74: The friend has turned the end of invitation into a prohibition.\n\n5. KEY TAKEAWAY\nEnd of invitation is not a contraindication.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "After 74 she is no longer invited, but mammography is not forbidden. She can still choose BreastScreen.",
       "best_treatment": "She is no longer invited, but she may choose to book BreastScreen after a discussion of benefit",
       "incorrect_answer_explanations": {
-        "A": "The friend has turned the end of invitation into a prohibition.",
-        "B": "There is no compulsory annual program to 80.",
-        "C": "Loss of a reminder does not create an MRI pathway.",
-        "E": "Examination is not the screening test she has been having."
+        "A": "Loss of a reminder does not create an MRI pathway.",
+        "B": "Examination is not the screening test she has been having.",
+        "D": "There is no compulsory annual program to 80.",
+        "E": "The friend has turned the end of invitation into a prohibition."
       },
       "key_takeaways": [
         "End of invitation is not a contraindication.",
@@ -180,22 +180,22 @@
     {
       "question_text": "A 42-year-old woman is found to carry a pathogenic BRCA1 variant after her sister died of ovarian cancer at 46. She has no breast symptom. She has been told by a relative to just join BreastScreen early and have an ordinary mammogram every two years like everyone else. She has two children, breastfed both, does not smoke, and has not had risk-reducing surgery. Examination of breasts and axillae is normal. She is not pregnant. There is no lump. Her GP has the genetic report. A colleague suggests that because she is under 50 she cannot access any imaging at all, and another suggests a single private ultrasound and discharge. The BRCA1 result arrived last week from a familial cancer service that tested her after her sister's death. She has no breast symptom, no ovarian symptom, and has not had risk-reducing surgery. She has two children, breastfed both, and does not smoke. A relative has told her to join BreastScreen early and have an ordinary mammogram every two years. She has been reading conflicting advice online, some of it about MRI and some about ultrasound. Examination of breasts and axillae is normal. She is not pregnant. There is no lump. Her GP has the genetic report in the file. A colleague has suggested she is too young for any imaging, and another has suggested a single private ultrasound and discharge. What is the most appropriate advice?",
       "options": [
+        "Bilateral mastectomy must be booked before any further imaging or pregnancy care",
         "Routine BreastScreen from age 50 is sufficient for a BRCA1 carrier",
         "Population ultrasound from age 30 can replace specialist review during pregnancy",
-        "Bilateral mastectomy must be booked before any further imaging or pregnancy care",
         "Defer every breast decision until she has finished childbearing",
         "Refer to a familial cancer service for an intensified surveillance plan"
       ],
       "correct_answer": "E",
       "category": "Population Health & Ethics",
       "difficulty": "difficult",
-      "explanation": "CORRECT ANSWER\n\nE. Refer to a familial cancer service for an intensified surveillance plan\n\n---\n\n1. CLINICAL SITUATION\nBRCA1 is not covered by waiting for BreastScreen at 50. She should be referred to a familial cancer service, not booked for immediate mastectomy.\n\n2. THE RULE\nA breast symptom or high familial risk needs diagnostic or specialist assessment, not a routine BreastScreen mammogram.\n\n3. WHY E IS CORRECT\nA pathogenic BRCA1 variant is not average risk, and pregnancy does not park that fact until BreastScreen invitation at 50. She needs a familial cancer service to plan surveillance, usually earlier and with MRI considered. Surgery may be discussed later. It is not an emergency order before antenatal care.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Routine BreastScreen from age 50 is sufficient for a BRCA1 carrier: That leaflet is the average-risk rule. The mutation is the fact that kills it.\nB. Population ultrasound from age 30 can replace specialist review during pregnancy: Ultrasound is not a population substitute for high-risk care.\nC. Bilateral mastectomy must be booked before any further imaging or pregnancy care: Risk-reducing surgery is a counselled option, not the mandatory next booking.\nD. Defer every breast decision until she has finished childbearing: Family completion is not the surveillance clock.\n\n5. KEY TAKEAWAY\nPopulation invitation ages assume average risk.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nE. Refer to a familial cancer service for an intensified surveillance plan\n\n---\n\n1. CLINICAL SITUATION\nBRCA1 is not covered by waiting for BreastScreen at 50. She should be referred to a familial cancer service, not booked for immediate mastectomy.\n\n2. THE RULE\nA breast symptom or high familial risk needs diagnostic or specialist assessment, not a routine BreastScreen mammogram.\n\n3. WHY E IS CORRECT\nA pathogenic BRCA1 variant is not average risk, and pregnancy does not park that fact until BreastScreen invitation at 50. She needs a familial cancer service to plan surveillance, usually earlier and with MRI considered. Surgery may be discussed later. It is not an emergency order before antenatal care.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Bilateral mastectomy must be booked before any further imaging or pregnancy care: Risk-reducing surgery is a counselled option, not the mandatory next booking.\nB. Routine BreastScreen from age 50 is sufficient for a BRCA1 carrier: That leaflet is the average-risk rule. The mutation is the fact that kills it.\nC. Population ultrasound from age 30 can replace specialist review during pregnancy: Ultrasound is not a population substitute for high-risk care.\nD. Defer every breast decision until she has finished childbearing: Family completion is not the surveillance clock.\n\n5. KEY TAKEAWAY\nPopulation invitation ages assume average risk.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "BRCA1 is not covered by waiting for BreastScreen at 50. She should be referred to a familial cancer service, not booked for immediate mastectomy.",
       "best_treatment": "Refer to a familial cancer service for an intensified surveillance plan",
       "incorrect_answer_explanations": {
-        "A": "That leaflet is the average-risk rule. The mutation is the fact that kills it.",
-        "B": "Ultrasound is not a population substitute for high-risk care.",
-        "C": "Risk-reducing surgery is a counselled option, not the mandatory next booking.",
+        "A": "Risk-reducing surgery is a counselled option, not the mandatory next booking.",
+        "B": "That leaflet is the average-risk rule. The mutation is the fact that kills it.",
+        "C": "Ultrasound is not a population substitute for high-risk care.",
         "D": "Family completion is not the surveillance clock."
       },
       "key_takeaways": [
@@ -223,23 +223,23 @@
     {
       "question_text": "A 55-year-old man asks whether he should enrol in BreastScreen because his mother had breast cancer at 78. He has no breast lump, nipple discharge, or skin change. He is well, takes no medicines, and has never had breast imaging. There is no other family history. He works as a driver and is a non-smoker. Examination shows no mass and no axillary node. He has read that men can get breast cancer and assumes there must be a population mammography program for asymptomatic men, parallel to the women's program. He asks for the invitation letter and the two-yearly recall. His GP notes he is asymptomatic and has no personal high-risk feature. He is 55, well, and takes no medicines. His mother had breast cancer at 78 and is alive. He has no breast lump, no nipple discharge, and no skin change. There is no other family history of breast or ovarian cancer. He works as a driver and has never smoked. Examination shows no mass and no axillary node. He has read that men can get breast cancer and assumes there is a population mammography program for asymptomatic men, with invitation letters and two-yearly recall, parallel to the women's program. He has asked the receptionist for the enrolment form. He is asymptomatic and has no personal high-risk feature such as prior chest radiation or a known pathogenic variant. What is the most appropriate advice?",
       "options": [
-        "Population breast screening is not offered to an asymptomatic man",
-        "Enrol him for 2-yearly mammography if he is willing to pay",
+        "Start tamoxifen for 5 years as the male prevention program",
         "Annual screening ultrasound until 74 is the male equivalent",
         "Check CA 15-3 every 2 years alongside his lipid tests",
-        "Start tamoxifen for 5 years as the male prevention program"
+        "Population breast screening is not offered to an asymptomatic man",
+        "Enrol him for 2-yearly mammography if he is willing to pay"
       ],
-      "correct_answer": "A",
+      "correct_answer": "D",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. Population breast screening is not offered to an asymptomatic man\n\n---\n\n1. CLINICAL SITUATION\nAn asymptomatic man is not enrolled in BreastScreen, including if he offers to pay.\n\n2. THE RULE\nSymptom-free women aged 50-74 are invited to BreastScreen every 2 years; women 40-49 and 75+ may self-refer, and asymptomatic men are not screened.\n\n3. WHY A IS CORRECT\nBreastScreen is a population program for women. Willingness to pay does not create a male invitation cohort. He has no lump, so this is not a diagnostic referral either.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Enrol him for 2-yearly mammography if he is willing to pay: Payment does not turn a women's screening program into a male one.\nC. Annual screening ultrasound until 74 is the male equivalent: There is no male ultrasound program shadowing BreastScreen.\nD. Check CA 15-3 every 2 years alongside his lipid tests: A marker is not screening.\nE. Start tamoxifen for 5 years as the male prevention program: Chemoprevention is not indicated by a request for enrolment.\n\n5. KEY TAKEAWAY\nBreastScreen does not have a male population arm.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nD. Population breast screening is not offered to an asymptomatic man\n\n---\n\n1. CLINICAL SITUATION\nAn asymptomatic man is not enrolled in BreastScreen, including if he offers to pay.\n\n2. THE RULE\nSymptom-free women aged 50-74 are invited to BreastScreen every 2 years; women 40-49 and 75+ may self-refer, and asymptomatic men are not screened.\n\n3. WHY D IS CORRECT\nBreastScreen is a population program for women. Willingness to pay does not create a male invitation cohort. He has no lump, so this is not a diagnostic referral either.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Start tamoxifen for 5 years as the male prevention program: Chemoprevention is not indicated by a request for enrolment.\nB. Annual screening ultrasound until 74 is the male equivalent: There is no male ultrasound program shadowing BreastScreen.\nC. Check CA 15-3 every 2 years alongside his lipid tests: A marker is not screening.\nE. Enrol him for 2-yearly mammography if he is willing to pay: Payment does not turn a women's screening program into a male one.\n\n5. KEY TAKEAWAY\nBreastScreen does not have a male population arm.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "An asymptomatic man is not enrolled in BreastScreen, including if he offers to pay.",
       "best_treatment": "Population breast screening is not offered to an asymptomatic man",
       "incorrect_answer_explanations": {
-        "B": "Payment does not turn a women's screening program into a male one.",
-        "C": "There is no male ultrasound program shadowing BreastScreen.",
-        "D": "A marker is not screening.",
-        "E": "Chemoprevention is not indicated by a request for enrolment."
+        "A": "Chemoprevention is not indicated by a request for enrolment.",
+        "B": "There is no male ultrasound program shadowing BreastScreen.",
+        "C": "A marker is not screening.",
+        "E": "Payment does not turn a women's screening program into a male one."
       },
       "key_takeaways": [
         "BreastScreen does not have a male population arm.",
@@ -266,23 +266,23 @@
     {
       "question_text": "A 47-year-old man in Perth asks for a bowel cancer screening kit. A friend told him the government posts them from 40. He has no rectal bleeding, change in bowel habit, weight loss, or anaemia. His father had a polyp removed at 72. He is otherwise well, BMI 29, non-smoker. He has never had a colonoscopy. He is keen to get on the list and is irritated that nothing has arrived in the post. Examination is unremarkable and there is no abdominal mass. He is 47, BMI 29, and a non-smoker. He has no rectal bleeding, no change in bowel habit, no weight loss, and no anaemia on a blood count done last month for an insurance medical. His father had a polyp removed at 72. He has never had a colonoscopy. A friend told him kits are posted from age 40, and he is irritated that nothing has arrived. Examination shows no abdominal mass. He asks whether he can request a free kit now or must wait for the automatic mail-out at 50. What is the most appropriate next step?",
       "options": [
-        "He is ineligible until his 50th birthday, so do not request a kit",
+        "The kit is only for people who have already noticed bleeding",
         "He can request a free kit now, and automatic mailing starts at 50",
-        "A kit should already have been mailed automatically at 45",
         "Book colonoscopy as the first program test because his wife was invited",
-        "The kit is only for people who have already noticed bleeding"
+        "He is ineligible until his 50th birthday, so do not request a kit",
+        "A kit should already have been mailed automatically at 45"
       ],
       "correct_answer": "B",
       "category": "Population Health & Ethics",
       "difficulty": "easy",
-      "explanation": "CORRECT ANSWER\n\nB. He can request a free kit now, and automatic mailing starts at 50\n\n---\n\n1. CLINICAL SITUATION\nAt 47 he requests a bowel kit. The mailed kit his wife received is the 50\u201374 path, not proof he was missed.\n\n2. THE RULE\nPeople aged 45-49 may request a free NBCSP iFOBT kit, automatic mail-out runs from 50 to 74, and recent colonoscopy surveillance replaces the kit.\n\n3. WHY B IS CORRECT\nSince 1 July 2024 the program age is 45\u201374. At 47 he requests the first kit. His wife's mailed kit reflects the 50\u201374 path, not a missed invitation. He has no symptoms, so colonoscopy is not the entry test.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. He is ineligible until his 50th birthday, so do not request a kit: That is the pre-2024 start age. Eligibility and automatic mail are no longer the same birthday.\nC. A kit should already have been mailed automatically at 45: The first kit at 45\u201349 is requested.\nD. Book colonoscopy as the first program test because his wife was invited: Her invitation does not promote him to colonoscopy.\nE. The kit is only for people who have already noticed bleeding: Bleeding would take him off the screening kit.\n\n5. KEY TAKEAWAY\n45\u201349 request the first kit. 50\u201374 are mailed one.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nB. He can request a free kit now, and automatic mailing starts at 50\n\n---\n\n1. CLINICAL SITUATION\nAt 47 he requests a bowel kit. The mailed kit his wife received is the 50\u201374 path, not proof he was missed.\n\n2. THE RULE\nPeople aged 45-49 may request a free NBCSP iFOBT kit, automatic mail-out runs from 50 to 74, and recent colonoscopy surveillance replaces the kit.\n\n3. WHY B IS CORRECT\nSince 1 July 2024 the program age is 45\u201374. At 47 he requests the first kit. His wife's mailed kit reflects the 50\u201374 path, not a missed invitation. He has no symptoms, so colonoscopy is not the entry test.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. The kit is only for people who have already noticed bleeding: Bleeding would take him off the screening kit.\nC. Book colonoscopy as the first program test because his wife was invited: Her invitation does not promote him to colonoscopy.\nD. He is ineligible until his 50th birthday, so do not request a kit: That is the pre-2024 start age. Eligibility and automatic mail are no longer the same birthday.\nE. A kit should already have been mailed automatically at 45: The first kit at 45\u201349 is requested.\n\n5. KEY TAKEAWAY\n45\u201349 request the first kit. 50\u201374 are mailed one.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "At 47 he requests a bowel kit. The mailed kit his wife received is the 50\u201374 path, not proof he was missed.",
       "best_treatment": "He can request a free kit now, and automatic mailing starts at 50",
       "incorrect_answer_explanations": {
-        "A": "That is the pre-2024 start age. Eligibility and automatic mail are no longer the same birthday.",
-        "C": "The first kit at 45\u201349 is requested.",
-        "D": "Her invitation does not promote him to colonoscopy.",
-        "E": "Bleeding would take him off the screening kit."
+        "A": "Bleeding would take him off the screening kit.",
+        "C": "Her invitation does not promote him to colonoscopy.",
+        "D": "That is the pre-2024 start age. Eligibility and automatic mail are no longer the same birthday.",
+        "E": "The first kit at 45\u201349 is requested."
       },
       "key_takeaways": [
         "45\u201349 request the first kit. 50\u201374 are mailed one.",
@@ -309,23 +309,23 @@
     {
       "question_text": "A 62-year-old woman receives her National Bowel Cancer Screening kit in the mail. She has no rectal bleeding, no change in bowel habit, and no weight loss. She had a normal colonoscopy eight years ago for a positive kit at the time. She asks if she can ignore the mail-out. There is no family history of colorectal cancer. Examination is normal. She is 62 and has just received her National Bowel Cancer Screening kit. She has no rectal bleeding, no change in bowel habit, and no weight loss. She had a normal colonoscopy eight years ago after a previous positive kit. She takes a statin and is otherwise well. There is no family history of colorectal cancer. She believes the old colonoscopy covers her for life and asks if she can ignore the mail-out. Examination is normal. Haemoglobin last year was normal. The question is whether she completes this kit. What is the most appropriate next step?",
       "options": [
-        "Discard the kit and book a screening colonoscopy because she is over 60",
-        "Keep the kit until she next sees blood, then post it",
         "Complete and return the kit",
-        "Do the kit only if a fresh full blood count shows anaemia",
-        "Cancel it and request a CEA with her annual lipids"
+        "Cancel it and request a CEA with her annual lipids",
+        "Keep the kit until she next sees blood, then post it",
+        "Discard the kit and book a screening colonoscopy because she is over 60",
+        "Do the kit only if a fresh full blood count shows anaemia"
       ],
-      "correct_answer": "C",
+      "correct_answer": "A",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nC. Complete and return the kit\n\n---\n\n1. CLINICAL SITUATION\nAn asymptomatic 63-year-old who receives a kit should complete it. A friend's colonoscopy and old haemorrhoids do not replace the kit.\n\n2. THE RULE\nPeople aged 45-49 may request a free NBCSP iFOBT kit, automatic mail-out runs from 50 to 74, and recent colonoscopy surveillance replaces the kit.\n\n3. WHY C IS CORRECT\nShe is in the mailed cohort and has no current bowel symptoms. Old treated haemorrhoids do not upgrade her to primary colonoscopy. The program test is the immunochemical kit.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Discard the kit and book a screening colonoscopy because she is over 60: Age over 60 is why she was mailed a kit, not a reason to skip it for colonoscopy.\nB. Keep the kit until she next sees blood, then post it: The kit is for people without bleeding. Waiting for a symptom misses the point.\nD. Do the kit only if a fresh full blood count shows anaemia: A normal blood count is not the switch. Anaemia would be investigated in its own right.\nE. Cancel it and request a CEA with her annual lipids: CEA is not the population test.\n\n5. KEY TAKEAWAY\nThe mailed test is the immunochemical kit every 2 years.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nA. Complete and return the kit\n\n---\n\n1. CLINICAL SITUATION\nAn asymptomatic 63-year-old who receives a kit should complete it. A friend's colonoscopy and old haemorrhoids do not replace the kit.\n\n2. THE RULE\nPeople aged 45-49 may request a free NBCSP iFOBT kit, automatic mail-out runs from 50 to 74, and recent colonoscopy surveillance replaces the kit.\n\n3. WHY A IS CORRECT\nShe is in the mailed cohort and has no current bowel symptoms. Old treated haemorrhoids do not upgrade her to primary colonoscopy. The program test is the immunochemical kit.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Cancel it and request a CEA with her annual lipids: CEA is not the population test.\nC. Keep the kit until she next sees blood, then post it: The kit is for people without bleeding. Waiting for a symptom misses the point.\nD. Discard the kit and book a screening colonoscopy because she is over 60: Age over 60 is why she was mailed a kit, not a reason to skip it for colonoscopy.\nE. Do the kit only if a fresh full blood count shows anaemia: A normal blood count is not the switch. Anaemia would be investigated in its own right.\n\n5. KEY TAKEAWAY\nThe mailed test is the immunochemical kit every 2 years.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "An asymptomatic 63-year-old who receives a kit should complete it. A friend's colonoscopy and old haemorrhoids do not replace the kit.",
       "best_treatment": "Complete and return the kit",
       "incorrect_answer_explanations": {
-        "A": "Age over 60 is why she was mailed a kit, not a reason to skip it for colonoscopy.",
-        "B": "The kit is for people without bleeding. Waiting for a symptom misses the point.",
-        "D": "A normal blood count is not the switch. Anaemia would be investigated in its own right.",
-        "E": "CEA is not the population test."
+        "B": "CEA is not the population test.",
+        "C": "The kit is for people without bleeding. Waiting for a symptom misses the point.",
+        "D": "Age over 60 is why she was mailed a kit, not a reason to skip it for colonoscopy.",
+        "E": "A normal blood count is not the switch. Anaemia would be investigated in its own right."
       },
       "key_takeaways": [
         "The mailed test is the immunochemical kit every 2 years.",
@@ -352,23 +352,23 @@
     {
       "question_text": "A 66-year-old man completes a mailed immunochemical kit. The result is positive. He feels well, has no bleeding, and a friend tells him to repeat the kit in case it was a false alarm, and to avoid colonoscopy. He had no recent colonoscopy. He asks his GP to order a second kit and keep it in the community. Haemoglobin is normal. He is 66 and has completed a mailed immunochemical kit. He feels well and has no bleeding. A friend has told him to repeat the kit in case it was a false alarm and to avoid colonoscopy. He had no colonoscopy in the last two years. Haemoglobin is normal. He asks his GP to order a second kit and keep the problem in the community. He is anxious about the procedure but can attend a public list. What is the most appropriate next step?",
       "options": [
-        "Repeat the kit in 6 weeks after a period of dietary restriction",
-        "File the result and send the next kit in 2 years",
-        "Order CEA and review the result in 6 months if it is normal",
         "Refer him for colonoscopy",
-        "Start oral iron and repeat the kit only if the haemoglobin falls"
+        "Repeat the kit in 6 weeks after a period of dietary restriction",
+        "Start oral iron and repeat the kit only if the haemoglobin falls",
+        "Order CEA and review the result in 6 months if it is normal",
+        "File the result and send the next kit in 2 years"
       ],
-      "correct_answer": "D",
+      "correct_answer": "A",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nD. Refer him for colonoscopy\n\n---\n\n1. CLINICAL SITUATION\nA positive program kit goes to colonoscopy. Repeating it after steak is the retired guaiac move, not the current pathway.\n\n2. THE RULE\nA positive bowel screening iFOBT, or bowel symptoms, requires diagnostic colonoscopy, never a repeat kit.\n\n3. WHY D IS CORRECT\nA positive immunochemical kit is not confirmed by repeating it after a diet change. Diet was a guaiac-era worry. He needs colonoscopy. A normal haemoglobin does not retire a positive screen.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Repeat the kit in 6 weeks after a period of dietary restriction: This is the old guaiac habit. A second negative test would not cancel the positive program result.\nB. File the result and send the next kit in 2 years: Two years is the interval after a negative screen.\nC. Order CEA and review the result in 6 months if it is normal: A marker does not clear a positive faecal immunochemical test.\nE. Start oral iron and repeat the kit only if the haemoglobin falls: His haemoglobin is already normal, and iron is not the investigation.\n\n5. KEY TAKEAWAY\nDo not repeat a positive immunochemical kit to see if diet clears it.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nA. Refer him for colonoscopy\n\n---\n\n1. CLINICAL SITUATION\nA positive program kit goes to colonoscopy. Repeating it after steak is the retired guaiac move, not the current pathway.\n\n2. THE RULE\nA positive bowel screening iFOBT, or bowel symptoms, requires diagnostic colonoscopy, never a repeat kit.\n\n3. WHY A IS CORRECT\nA positive immunochemical kit is not confirmed by repeating it after a diet change. Diet was a guaiac-era worry. He needs colonoscopy. A normal haemoglobin does not retire a positive screen.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Repeat the kit in 6 weeks after a period of dietary restriction: This is the old guaiac habit. A second negative test would not cancel the positive program result.\nC. Start oral iron and repeat the kit only if the haemoglobin falls: His haemoglobin is already normal, and iron is not the investigation.\nD. Order CEA and review the result in 6 months if it is normal: A marker does not clear a positive faecal immunochemical test.\nE. File the result and send the next kit in 2 years: Two years is the interval after a negative screen.\n\n5. KEY TAKEAWAY\nDo not repeat a positive immunochemical kit to see if diet clears it.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A positive program kit goes to colonoscopy. Repeating it after steak is the retired guaiac move, not the current pathway.",
       "best_treatment": "Refer him for colonoscopy",
       "incorrect_answer_explanations": {
-        "A": "This is the old guaiac habit. A second negative test would not cancel the positive program result.",
-        "B": "Two years is the interval after a negative screen.",
-        "C": "A marker does not clear a positive faecal immunochemical test.",
-        "E": "His haemoglobin is already normal, and iron is not the investigation."
+        "B": "This is the old guaiac habit. A second negative test would not cancel the positive program result.",
+        "C": "His haemoglobin is already normal, and iron is not the investigation.",
+        "D": "A marker does not clear a positive faecal immunochemical test.",
+        "E": "Two years is the interval after a negative screen."
       },
       "key_takeaways": [
         "Do not repeat a positive immunochemical kit to see if diet clears it.",
@@ -395,23 +395,23 @@
     {
       "question_text": "A 58-year-old woman has had bright red rectal bleeding on the paper for six weeks. She also has a mailed bowel kit at home, unopened, and asks whether she should just do the kit rather than make a fuss. She has no weight loss. Examination of the abdomen is normal. Rectal examination shows no mass. A colleague says the kit is the national pathway and should come first. She is 58 and has had bright red rectal bleeding on the paper for six weeks. She also has a mailed bowel kit at home, unopened, and asks whether she should just do the kit rather than make a fuss. She has no weight loss. Abdominal examination is normal. Rectal examination shows no mass. A colleague has said the kit is the national pathway and should come first. She is systemically well. The kit is a screening tool for people without symptoms. What is the most appropriate next step?",
       "options": [
-        "Give him the due kit and review in 2 years if it is negative",
+        "Refer for diagnostic colonoscopy rather than using the screening kit",
         "Wait 6 weeks for the bleeding to settle, then post a kit",
         "Order CEA today and book colonoscopy only if it is raised",
         "Reassure him that bright bleeding at 60 is haemorrhoids until a kit says otherwise",
-        "Refer for diagnostic colonoscopy rather than using the screening kit"
+        "Give him the due kit and review in 2 years if it is negative"
       ],
-      "correct_answer": "E",
+      "correct_answer": "A",
       "category": "Population Health & Ethics",
       "difficulty": "difficult",
-      "explanation": "CORRECT ANSWER\n\nE. Refer for diagnostic colonoscopy rather than using the screening kit\n\n---\n\n1. CLINICAL SITUATION\nRectal bleeding for 3 weeks needs diagnostic colonoscopy. A due screening kit does not triage it.\n\n2. THE RULE\nA positive bowel screening iFOBT, or bowel symptoms, requires diagnostic colonoscopy, never a repeat kit.\n\n3. WHY E IS CORRECT\nThree weeks of rectal bleeding is a symptom. A screening kit is for people without symptoms, and a negative kit would not explain the blood. He needs diagnostic colonoscopy.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Give him the due kit and review in 2 years if it is negative: The due date is the trap. A negative screen would leave the bleeding unexamined.\nB. Wait 6 weeks for the bleeding to settle, then post a kit: Settling the story to fit the kit delays the diagnostic pathway.\nC. Order CEA today and book colonoscopy only if it is raised: A normal marker would be a false stop.\nD. Reassure him that bright bleeding at 60 is haemorrhoids until a kit says otherwise: No pile was found, and haemorrhoids are not the default at 60.\n\n5. KEY TAKEAWAY\nSymptoms leave the bowel program.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nA. Refer for diagnostic colonoscopy rather than using the screening kit\n\n---\n\n1. CLINICAL SITUATION\nRectal bleeding for 3 weeks needs diagnostic colonoscopy. A due screening kit does not triage it.\n\n2. THE RULE\nA positive bowel screening iFOBT, or bowel symptoms, requires diagnostic colonoscopy, never a repeat kit.\n\n3. WHY A IS CORRECT\nThree weeks of rectal bleeding is a symptom. A screening kit is for people without symptoms, and a negative kit would not explain the blood. He needs diagnostic colonoscopy.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Wait 6 weeks for the bleeding to settle, then post a kit: Settling the story to fit the kit delays the diagnostic pathway.\nC. Order CEA today and book colonoscopy only if it is raised: A normal marker would be a false stop.\nD. Reassure him that bright bleeding at 60 is haemorrhoids until a kit says otherwise: No pile was found, and haemorrhoids are not the default at 60.\nE. Give him the due kit and review in 2 years if it is negative: The due date is the trap. A negative screen would leave the bleeding unexamined.\n\n5. KEY TAKEAWAY\nSymptoms leave the bowel program.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Rectal bleeding for 3 weeks needs diagnostic colonoscopy. A due screening kit does not triage it.",
       "best_treatment": "Refer for diagnostic colonoscopy rather than using the screening kit",
       "incorrect_answer_explanations": {
-        "A": "The due date is the trap. A negative screen would leave the bleeding unexamined.",
         "B": "Settling the story to fit the kit delays the diagnostic pathway.",
         "C": "A normal marker would be a false stop.",
-        "D": "No pile was found, and haemorrhoids are not the default at 60."
+        "D": "No pile was found, and haemorrhoids are not the default at 60.",
+        "E": "The due date is the trap. A negative screen would leave the bleeding unexamined."
       },
       "key_takeaways": [
         "Symptoms leave the bowel program.",
@@ -438,23 +438,23 @@
     {
       "question_text": "A 70-year-old man attends after a National Bowel Cancer Screening kit arrived in the post. Fourteen months ago he was admitted with diverticular bleeding and had a colonoscopy. The report is on the practice file. Preparation was good, the scope reached the caecum, and the only finding was diverticula. He has had no rectal bleeding since that admission. He is not anaemic on a blood count done last month. He is otherwise well, takes a statin, and has no family history of colorectal cancer. He keeps the new kit on the kitchen table and wants permission to use it because the envelope looks official. A neighbour has told him that ignoring a government kit can affect his Medicare record, which is not true. He is asymptomatic. There is no change in bowel habit and no weight loss. Abdominal examination is normal. What is the most appropriate advice?",
       "options": [
-        "Do not use this program kit; colonoscopy 14 months ago takes her out of this round",
         "Complete the kit because a posted invitation overrides a recent colonoscopy",
-        "Use the kit instead of the planned adenoma surveillance colonoscopy",
+        "Start 2-yearly kits and tell the specialist endoscopic follow-up can stop",
         "Order CEA now and cancel both the kit and the surveillance plan",
-        "Start 2-yearly kits and tell the specialist endoscopic follow-up can stop"
+        "Do not use this program kit; colonoscopy 14 months ago takes her out of this round",
+        "Use the kit instead of the planned adenoma surveillance colonoscopy"
       ],
-      "correct_answer": "A",
+      "correct_answer": "D",
       "category": "Population Health & Ethics",
       "difficulty": "difficult",
-      "explanation": "CORRECT ANSWER\n\nA. Do not use this program kit; colonoscopy 14 months ago takes her out of this round\n\n---\n\n1. CLINICAL SITUATION\nColonoscopy 14 months ago excludes this kit. The adenoma surveillance plan still stands.\n\n2. THE RULE\nA positive bowel screening iFOBT, or bowel symptoms, requires diagnostic colonoscopy, never a repeat kit.\n\n3. WHY A IS CORRECT\nThe program expects no colonoscopy in the past 2 years. Hers was 14 months ago and complete, so this kit is not the right test. The adenoma still needs the surveillance plan. A kit does not replace that plan, and the letter does not cancel it.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Complete the kit because a posted invitation overrides a recent colonoscopy: The letter is the trap. A mail-out is not a clinical override.\nC. Use the kit instead of the planned adenoma surveillance colonoscopy: A faecal test does not retire adenoma follow-up.\nD. Order CEA now and cancel both the kit and the surveillance plan: CEA is not the follow-up of a removed adenoma.\nE. Start 2-yearly kits and tell the specialist endoscopic follow-up can stop: Stopping surveillance is the wrong trade.\n\n5. KEY TAKEAWAY\nProgram kits are not for people colonoscoped in the past 2 years.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nD. Do not use this program kit; colonoscopy 14 months ago takes her out of this round\n\n---\n\n1. CLINICAL SITUATION\nColonoscopy 14 months ago excludes this kit. The adenoma surveillance plan still stands.\n\n2. THE RULE\nA positive bowel screening iFOBT, or bowel symptoms, requires diagnostic colonoscopy, never a repeat kit.\n\n3. WHY D IS CORRECT\nThe program expects no colonoscopy in the past 2 years. Hers was 14 months ago and complete, so this kit is not the right test. The adenoma still needs the surveillance plan. A kit does not replace that plan, and the letter does not cancel it.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Complete the kit because a posted invitation overrides a recent colonoscopy: The letter is the trap. A mail-out is not a clinical override.\nB. Start 2-yearly kits and tell the specialist endoscopic follow-up can stop: Stopping surveillance is the wrong trade.\nC. Order CEA now and cancel both the kit and the surveillance plan: CEA is not the follow-up of a removed adenoma.\nE. Use the kit instead of the planned adenoma surveillance colonoscopy: A faecal test does not retire adenoma follow-up.\n\n5. KEY TAKEAWAY\nProgram kits are not for people colonoscoped in the past 2 years.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Colonoscopy 14 months ago excludes this kit. The adenoma surveillance plan still stands.",
       "best_treatment": "Do not use this program kit; colonoscopy 14 months ago takes her out of this round",
       "incorrect_answer_explanations": {
-        "B": "The letter is the trap. A mail-out is not a clinical override.",
-        "C": "A faecal test does not retire adenoma follow-up.",
-        "D": "CEA is not the follow-up of a removed adenoma.",
-        "E": "Stopping surveillance is the wrong trade."
+        "A": "The letter is the trap. A mail-out is not a clinical override.",
+        "B": "Stopping surveillance is the wrong trade.",
+        "C": "CEA is not the follow-up of a removed adenoma.",
+        "E": "A faecal test does not retire adenoma follow-up."
       },
       "key_takeaways": [
         "Program kits are not for people colonoscoped in the past 2 years.",
@@ -484,20 +484,20 @@
         "Kits are mailed until 80, so ask the register to resend one",
         "He is outside the program age and is not mailed a kit",
         "He should request a first kit in the same way a 47-year-old does",
-        "A missing kit at 78 is a reason for urgent colonoscopy",
-        "He has aged out of any future bowel assessment, even if he develops bleeding"
+        "He has aged out of any future bowel assessment, even if he develops bleeding",
+        "A missing kit at 78 is a reason for urgent colonoscopy"
       ],
       "correct_answer": "B",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. He is outside the program age and is not mailed a kit\n\n---\n\n1. CLINICAL SITUATION\nAt 78 he is outside the bowel program and is not mailed a kit. A missing kit is not an emergency colonoscopy.\n\n2. THE RULE\nPeople aged 45-49 may request a free NBCSP iFOBT kit, automatic mail-out runs from 50 to 74, and recent colonoscopy surveillance replaces the kit.\n\n3. WHY B IS CORRECT\nEligibility is 45\u201374. He is not mailed a kit, and the 45\u201349 request path is not his either. His brother's kit does not extend the age. Being outside the program is not an urgent colonoscopy indication while he is asymptomatic, and it does not forbid later clinical care if he bleeds.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Kits are mailed until 80, so ask the register to resend one: The son has invented an extra 6 years.\nC. He should request a first kit in the same way a 47-year-old does: That request path is for 45\u201349.\nD. A missing kit at 78 is a reason for urgent colonoscopy: No symptom has been given.\nE. He has aged out of any future bowel assessment, even if he develops bleeding: The program stops. Symptom assessment does not.\n\n5. KEY TAKEAWAY\nProgram age is 45\u201374.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nB. He is outside the program age and is not mailed a kit\n\n---\n\n1. CLINICAL SITUATION\nAt 78 he is outside the bowel program and is not mailed a kit. A missing kit is not an emergency colonoscopy.\n\n2. THE RULE\nPeople aged 45-49 may request a free NBCSP iFOBT kit, automatic mail-out runs from 50 to 74, and recent colonoscopy surveillance replaces the kit.\n\n3. WHY B IS CORRECT\nEligibility is 45\u201374. He is not mailed a kit, and the 45\u201349 request path is not his either. His brother's kit does not extend the age. Being outside the program is not an urgent colonoscopy indication while he is asymptomatic, and it does not forbid later clinical care if he bleeds.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Kits are mailed until 80, so ask the register to resend one: The son has invented an extra 6 years.\nC. He should request a first kit in the same way a 47-year-old does: That request path is for 45\u201349.\nD. He has aged out of any future bowel assessment, even if he develops bleeding: The program stops. Symptom assessment does not.\nE. A missing kit at 78 is a reason for urgent colonoscopy: No symptom has been given.\n\n5. KEY TAKEAWAY\nProgram age is 45\u201374.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "At 78 he is outside the bowel program and is not mailed a kit. A missing kit is not an emergency colonoscopy.",
       "best_treatment": "He is outside the program age and is not mailed a kit",
       "incorrect_answer_explanations": {
         "A": "The son has invented an extra 6 years.",
         "C": "That request path is for 45\u201349.",
-        "D": "No symptom has been given.",
-        "E": "The program stops. Symptom assessment does not."
+        "D": "The program stops. Symptom assessment does not.",
+        "E": "No symptom has been given."
       },
       "key_takeaways": [
         "Program age is 45\u201374.",
@@ -524,23 +524,23 @@
     {
       "question_text": "A 19-year-old woman attends with her mother, who had Pap smears from the age of 18 and expects the same for her daughter. She became sexually active a year ago, has had one partner, and completed the school HPV vaccine course. There is no abnormal bleeding, no pelvic pain, and no immune suppression. She is not pregnant. Her mother is insistent that delaying is unsafe. A test today would follow an outdated schedule. She can be recalled at the appropriate age. What is the most appropriate advice about routine cervical screening?",
       "options": [
-        "Start 2-yearly Pap smears today, as her mother did",
+        "Refer for colposcopy before first sexual contact",
         "Vaccination today would replace any test she might need later",
-        "Routine screening is not due at 22",
+        "Start 2-yearly Pap smears today, as her mother did",
         "Take a self-collected sample today and repeat it in 12 months",
-        "Refer for colposcopy before first sexual contact"
+        "Routine screening is not due at 22"
       ],
-      "correct_answer": "C",
+      "correct_answer": "E",
       "category": "Population Health & Ethics",
       "difficulty": "easy",
-      "explanation": "CORRECT ANSWER\n\nC. Routine screening is not due at 22\n\n---\n\n1. CLINICAL SITUATION\nRoutine cervical screening is not due at 22 with no sexual contact and no symptoms. The old Pap start age of 18 does not apply.\n\n2. THE RULE\nRoutine HPV-based cervical screening runs from 25 to 74 every 5 years after a negative test, with self-collection an option for any eligible participant.\n\n3. WHY C IS CORRECT\nThe program invites people with a cervix from 25 to 74, every 5 years, once they have had sexual contact. She is 22 and has not had sexual contact, so a routine test is not due. Her mother's start age belongs to the retired Pap program. School vaccination does not pull the start age forward.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Start 2-yearly Pap smears today, as her mother did: That is the old program, and she is outside the current one on age and contact history.\nB. Vaccination today would replace any test she might need later: Vaccine does not replace screening once she is eligible.\nD. Take a self-collected sample today and repeat it in 12 months: Self-collection sits inside the eligible program.\nE. Refer for colposcopy before first sexual contact: Colposcopy is not a pre-contact screen.\n\n5. KEY TAKEAWAY\nThe program age is 25\u201374.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nE. Routine screening is not due at 22\n\n---\n\n1. CLINICAL SITUATION\nRoutine cervical screening is not due at 22 with no sexual contact and no symptoms. The old Pap start age of 18 does not apply.\n\n2. THE RULE\nRoutine HPV-based cervical screening runs from 25 to 74 every 5 years after a negative test, with self-collection an option for any eligible participant.\n\n3. WHY E IS CORRECT\nThe program invites people with a cervix from 25 to 74, every 5 years, once they have had sexual contact. She is 22 and has not had sexual contact, so a routine test is not due. Her mother's start age belongs to the retired Pap program. School vaccination does not pull the start age forward.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Refer for colposcopy before first sexual contact: Colposcopy is not a pre-contact screen.\nB. Vaccination today would replace any test she might need later: Vaccine does not replace screening once she is eligible.\nC. Start 2-yearly Pap smears today, as her mother did: That is the old program, and she is outside the current one on age and contact history.\nD. Take a self-collected sample today and repeat it in 12 months: Self-collection sits inside the eligible program.\n\n5. KEY TAKEAWAY\nThe program age is 25\u201374.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Routine cervical screening is not due at 22 with no sexual contact and no symptoms. The old Pap start age of 18 does not apply.",
       "best_treatment": "Routine screening is not due at 22",
       "incorrect_answer_explanations": {
-        "A": "That is the old program, and she is outside the current one on age and contact history.",
+        "A": "Colposcopy is not a pre-contact screen.",
         "B": "Vaccine does not replace screening once she is eligible.",
-        "D": "Self-collection sits inside the eligible program.",
-        "E": "Colposcopy is not a pre-contact screen."
+        "C": "That is the old program, and she is outside the current one on age and contact history.",
+        "D": "Self-collection sits inside the eligible program."
       },
       "key_takeaways": [
         "The program age is 25\u201374.",
@@ -567,23 +567,23 @@
     {
       "question_text": "A 27-year-old secondary teacher attends for a script. She has the HPV vaccine record on her phone, showing three doses given at school. She has read that the vaccine prevents the cancers the test looks for and believes she can opt out of screening permanently. There is no postcoital bleeding, no intermenstrual bleeding, and no abnormal discharge. She is not immune suppressed. Her mother has told her that vaccinated women no longer need tests. The vaccine reduces risk. She is in the eligible age band. What is the most appropriate advice?",
       "options": [
-        "Vaccination replaces screening, so cancel the test",
-        "Start annual Pap smears because vaccination changes the interval",
         "Screening can wait until 30 because she was vaccinated at school",
+        "Start annual Pap smears because vaccination changes the interval",
+        "Book colposcopy as the first test for every vaccinated woman",
         "She should have a Cervical Screening Test",
-        "Book colposcopy as the first test for every vaccinated woman"
+        "Vaccination replaces screening, so cancel the test"
       ],
       "correct_answer": "D",
       "category": "Population Health & Ethics",
       "difficulty": "easy",
-      "explanation": "CORRECT ANSWER\n\nD. She should have a Cervical Screening Test\n\n---\n\n1. CLINICAL SITUATION\nA vaccinated 28-year-old who has had sexual contact still needs a Cervical Screening Test.\n\n2. THE RULE\nRoutine HPV-based cervical screening runs from 25 to 74 every 5 years after a negative test, with self-collection an option for any eligible participant.\n\n3. WHY D IS CORRECT\nThe vaccine does not cover every oncogenic type. Vaccinated people with a cervix who have had sexual contact still enter the program at 25, every 5 years. She is 28 and unscreened, so she is due.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Vaccination replaces screening, so cancel the test: The pharmacy line is the trap. Vaccine reduces risk. It does not exit her.\nB. Start annual Pap smears because vaccination changes the interval: Vaccination does not create an annual Pap.\nC. Screening can wait until 30 because she was vaccinated at school: The start age is 25 for vaccinated and unvaccinated people.\nE. Book colposcopy as the first test for every vaccinated woman: Colposcopy follows a higher-risk result, not an invitation.\n\n5. KEY TAKEAWAY\nHPV vaccine does not replace the 5-yearly test.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nD. She should have a Cervical Screening Test\n\n---\n\n1. CLINICAL SITUATION\nA vaccinated 28-year-old who has had sexual contact still needs a Cervical Screening Test.\n\n2. THE RULE\nRoutine HPV-based cervical screening runs from 25 to 74 every 5 years after a negative test, with self-collection an option for any eligible participant.\n\n3. WHY D IS CORRECT\nThe vaccine does not cover every oncogenic type. Vaccinated people with a cervix who have had sexual contact still enter the program at 25, every 5 years. She is 28 and unscreened, so she is due.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Screening can wait until 30 because she was vaccinated at school: The start age is 25 for vaccinated and unvaccinated people.\nB. Start annual Pap smears because vaccination changes the interval: Vaccination does not create an annual Pap.\nC. Book colposcopy as the first test for every vaccinated woman: Colposcopy follows a higher-risk result, not an invitation.\nE. Vaccination replaces screening, so cancel the test: The pharmacy line is the trap. Vaccine reduces risk. It does not exit her.\n\n5. KEY TAKEAWAY\nHPV vaccine does not replace the 5-yearly test.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A vaccinated 28-year-old who has had sexual contact still needs a Cervical Screening Test.",
       "best_treatment": "She should have a Cervical Screening Test",
       "incorrect_answer_explanations": {
-        "A": "The pharmacy line is the trap. Vaccine reduces risk. It does not exit her.",
+        "A": "The start age is 25 for vaccinated and unvaccinated people.",
         "B": "Vaccination does not create an annual Pap.",
-        "C": "The start age is 25 for vaccinated and unvaccinated people.",
-        "E": "Colposcopy follows a higher-risk result, not an invitation."
+        "C": "Colposcopy follows a higher-risk result, not an invitation.",
+        "E": "The pharmacy line is the trap. Vaccine reduces risk. It does not exit her."
       },
       "key_takeaways": [
         "HPV vaccine does not replace the 5-yearly test.",
@@ -611,22 +611,22 @@
       "question_text": "A 36-year-old woman has just received a Cervical Screening Test result that is negative for oncogenic HPV. There is no previous treated abnormality on the national register. She is not immune suppressed. She is asymptomatic, with no postcoital or intermenstrual bleeding. Her mother had two-yearly Pap smears for decades and she asks whether she should book the same interval. She is otherwise well and takes no regular medicines. A negative HPV test in the current pathway is followed at five years, not two. Booking her at two years would be the old Pap habit. What is the most appropriate interval?",
       "options": [
         "Repeat the test today because the Pap interval was 2 years and the reminder is overdue",
-        "Exit screening after this single negative HPV test",
         "Switch her to an annual Pap smear to catch up",
-        "Refer for colposcopy because 4 years have passed since the last test",
-        "The next routine test is due in 1 year"
+        "Exit screening after this single negative HPV test",
+        "The next routine test is due in 1 year",
+        "Refer for colposcopy because 4 years have passed since the last test"
       ],
-      "correct_answer": "E",
+      "correct_answer": "D",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nE. The next routine test is due in 1 year\n\n---\n\n1. CLINICAL SITUATION\nFour years after a negative Cervical Screening Test she is not due. The next routine test is at 5 years.\n\n2. THE RULE\nRoutine HPV-based cervical screening runs from 25 to 74 every 5 years after a negative test, with self-collection an option for any eligible participant.\n\n3. WHY E IS CORRECT\nA negative HPV test carries a 5-year interval. She is at 4 years, so she is not due. The recall clock is the retired Pap program. Time alone does not send her to colposcopy, and one negative test does not exit her.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Repeat the test today because the Pap interval was 2 years and the reminder is overdue: The reminder is the trap. That interval is not the current program.\nB. Exit screening after this single negative HPV test: A negative result does not end participation before 74.\nC. Switch her to an annual Pap smear to catch up: There is nothing to catch up, and cytology alone is not the primary test.\nD. Refer for colposcopy because 4 years have passed since the last test: An ordinary interval is not a colposcopy indication.\n\n5. KEY TAKEAWAY\nNegative HPV screening returns in 5 years.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nD. The next routine test is due in 1 year\n\n---\n\n1. CLINICAL SITUATION\nFour years after a negative Cervical Screening Test she is not due. The next routine test is at 5 years.\n\n2. THE RULE\nRoutine HPV-based cervical screening runs from 25 to 74 every 5 years after a negative test, with self-collection an option for any eligible participant.\n\n3. WHY D IS CORRECT\nA negative HPV test carries a 5-year interval. She is at 4 years, so she is not due. The recall clock is the retired Pap program. Time alone does not send her to colposcopy, and one negative test does not exit her.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Repeat the test today because the Pap interval was 2 years and the reminder is overdue: The reminder is the trap. That interval is not the current program.\nB. Switch her to an annual Pap smear to catch up: There is nothing to catch up, and cytology alone is not the primary test.\nC. Exit screening after this single negative HPV test: A negative result does not end participation before 74.\nE. Refer for colposcopy because 4 years have passed since the last test: An ordinary interval is not a colposcopy indication.\n\n5. KEY TAKEAWAY\nNegative HPV screening returns in 5 years.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Four years after a negative Cervical Screening Test she is not due. The next routine test is at 5 years.",
       "best_treatment": "The next routine test is due in 1 year",
       "incorrect_answer_explanations": {
         "A": "The reminder is the trap. That interval is not the current program.",
-        "B": "A negative result does not end participation before 74.",
-        "C": "There is nothing to catch up, and cytology alone is not the primary test.",
-        "D": "An ordinary interval is not a colposcopy indication."
+        "B": "There is nothing to catch up, and cytology alone is not the primary test.",
+        "C": "A negative result does not end participation before 74.",
+        "E": "An ordinary interval is not a colposcopy indication."
       },
       "key_takeaways": [
         "Negative HPV screening returns in 5 years.",
@@ -654,22 +654,22 @@
       "question_text": "A 34-year-old woman attends to discuss a Cervical Screening Test result. The report names HPV 16 on the same page as a negative liquid-based cytology. She feels well and has no postcoital bleeding, no intermenstrual bleeding, and no pelvic pain. A colleague who glanced at the file has said that negative cells mean five-year recall. She is not immune suppressed and has no previous abnormality. Waiting five years would miss the higher-risk pathway. What is the most appropriate next step?",
       "options": [
         "Refer for colposcopy",
-        "Repeat the test in 5 years because cytology is negative",
         "Repeat the test in 12 months, as for intermediate risk",
-        "Repeat cytology alone in 6 weeks and do nothing if it stays negative",
-        "Discharge her from the program because the smear itself was normal"
+        "Discharge her from the program because the smear itself was normal",
+        "Repeat the test in 5 years because cytology is negative",
+        "Repeat cytology alone in 6 weeks and do nothing if it stays negative"
       ],
       "correct_answer": "A",
       "category": "Population Health & Ethics",
       "difficulty": "difficult",
-      "explanation": "CORRECT ANSWER\n\nA. Refer for colposcopy\n\n---\n\n1. CLINICAL SITUATION\nHPV 16 with negative cytology is still higher risk and goes to colposcopy, not a 12-month repeat.\n\n2. THE RULE\nHPV 16/18 is referred for colposcopy regardless of cytology, other oncogenic HPV is retested in 12 months, and abnormal bleeding is investigated as a symptom, not screened.\n\n3. WHY A IS CORRECT\nHPV 16 is higher risk regardless of negative cytology. She is referred for colposcopy. The 12-month return is the intermediate pathway for other oncogenic HPV with negative or low-grade cytology, which is the friend's result, not hers.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Repeat the test in 5 years because cytology is negative: Five years follows HPV not detected.\nC. Repeat the test in 12 months, as for intermediate risk: The colleague has applied the wrong branch. Type 16 is not intermediate.\nD. Repeat cytology alone in 6 weeks and do nothing if it stays negative: An unsatisfactory sample is repeated. This sample has a result.\nE. Discharge her from the program because the smear itself was normal: Cytology does not cancel HPV 16.\n\n5. KEY TAKEAWAY\nHPV 16/18 goes to colposcopy.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nA. Refer for colposcopy\n\n---\n\n1. CLINICAL SITUATION\nHPV 16 with negative cytology is still higher risk and goes to colposcopy, not a 12-month repeat.\n\n2. THE RULE\nHPV 16/18 is referred for colposcopy regardless of cytology, other oncogenic HPV is retested in 12 months, and abnormal bleeding is investigated as a symptom, not screened.\n\n3. WHY A IS CORRECT\nHPV 16 is higher risk regardless of negative cytology. She is referred for colposcopy. The 12-month return is the intermediate pathway for other oncogenic HPV with negative or low-grade cytology, which is the friend's result, not hers.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Repeat the test in 12 months, as for intermediate risk: The colleague has applied the wrong branch. Type 16 is not intermediate.\nC. Discharge her from the program because the smear itself was normal: Cytology does not cancel HPV 16.\nD. Repeat the test in 5 years because cytology is negative: Five years follows HPV not detected.\nE. Repeat cytology alone in 6 weeks and do nothing if it stays negative: An unsatisfactory sample is repeated. This sample has a result.\n\n5. KEY TAKEAWAY\nHPV 16/18 goes to colposcopy.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "HPV 16 with negative cytology is still higher risk and goes to colposcopy, not a 12-month repeat.",
       "best_treatment": "Refer for colposcopy",
       "incorrect_answer_explanations": {
-        "B": "Five years follows HPV not detected.",
-        "C": "The colleague has applied the wrong branch. Type 16 is not intermediate.",
-        "D": "An unsatisfactory sample is repeated. This sample has a result.",
-        "E": "Cytology does not cancel HPV 16."
+        "B": "The colleague has applied the wrong branch. Type 16 is not intermediate.",
+        "C": "Cytology does not cancel HPV 16.",
+        "D": "Five years follows HPV not detected.",
+        "E": "An unsatisfactory sample is repeated. This sample has a result."
       },
       "key_takeaways": [
         "HPV 16/18 goes to colposcopy.",
@@ -696,23 +696,23 @@
     {
       "question_text": "A 31-year-old woman attends after a Cervical Screening Test shows non-16/18 oncogenic HPV with LSIL on cytology. She is asymptomatic. There is no postcoital bleeding and no pelvic pain. She has searched the word lesion online and is frightened that this means cancer. She is not immune suppressed. She needs that plan explained, not an urgent procedure. What is the most appropriate plan?",
       "options": [
-        "Refer for colposcopy this month",
         "Repeat the Cervical Screening Test in 12 months",
-        "Repeat the test in 5 years",
         "Book cone biopsy as the next step",
-        "Stop screening because the type is not 16 or 18"
+        "Stop screening because the type is not 16 or 18",
+        "Refer for colposcopy this month",
+        "Repeat the test in 5 years"
       ],
-      "correct_answer": "B",
+      "correct_answer": "A",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. Repeat the Cervical Screening Test in 12 months\n\n---\n\n1. CLINICAL SITUATION\nNon-16/18 HPV with LSIL returns in 12 months. Cone biopsy is not the next step.\n\n2. THE RULE\nHPV 16/18 is referred for colposcopy regardless of cytology, other oncogenic HPV is retested in 12 months, and abnormal bleeding is investigated as a symptom, not screened.\n\n3. WHY B IS CORRECT\nOther oncogenic HPV with LSIL is intermediate risk. The next test is in 12 months. Colposcopy now would fit high-grade cytology or HPV 16/18. Cone biopsy is treatment, not the first response to this result.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Refer for colposcopy this month: Immediate colposcopy is the higher-risk branch. LSIL with non-16/18 does not meet it.\nC. Repeat the test in 5 years: That follows HPV not detected.\nD. Book cone biopsy as the next step: The registrar has skipped both the 12-month test and colposcopy.\nE. Stop screening because the type is not 16 or 18: Other oncogenic types still need follow-up.\n\n5. KEY TAKEAWAY\nIntermediate risk returns in 12 months.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nA. Repeat the Cervical Screening Test in 12 months\n\n---\n\n1. CLINICAL SITUATION\nNon-16/18 HPV with LSIL returns in 12 months. Cone biopsy is not the next step.\n\n2. THE RULE\nHPV 16/18 is referred for colposcopy regardless of cytology, other oncogenic HPV is retested in 12 months, and abnormal bleeding is investigated as a symptom, not screened.\n\n3. WHY A IS CORRECT\nOther oncogenic HPV with LSIL is intermediate risk. The next test is in 12 months. Colposcopy now would fit high-grade cytology or HPV 16/18. Cone biopsy is treatment, not the first response to this result.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Book cone biopsy as the next step: The registrar has skipped both the 12-month test and colposcopy.\nC. Stop screening because the type is not 16 or 18: Other oncogenic types still need follow-up.\nD. Refer for colposcopy this month: Immediate colposcopy is the higher-risk branch. LSIL with non-16/18 does not meet it.\nE. Repeat the test in 5 years: That follows HPV not detected.\n\n5. KEY TAKEAWAY\nIntermediate risk returns in 12 months.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Non-16/18 HPV with LSIL returns in 12 months. Cone biopsy is not the next step.",
       "best_treatment": "Repeat the Cervical Screening Test in 12 months",
       "incorrect_answer_explanations": {
-        "A": "Immediate colposcopy is the higher-risk branch. LSIL with non-16/18 does not meet it.",
-        "C": "That follows HPV not detected.",
-        "D": "The registrar has skipped both the 12-month test and colposcopy.",
-        "E": "Other oncogenic types still need follow-up."
+        "B": "The registrar has skipped both the 12-month test and colposcopy.",
+        "C": "Other oncogenic types still need follow-up.",
+        "D": "Immediate colposcopy is the higher-risk branch. LSIL with non-16/18 does not meet it.",
+        "E": "That follows HPV not detected."
       },
       "key_takeaways": [
         "Intermediate risk returns in 12 months.",
@@ -739,23 +739,23 @@
     {
       "question_text": "A 29-year-old woman has had postcoital bleeding for two months. Her last Cervical Screening Test, 18 months ago, was negative for oncogenic HPV. She asks if she can wait for the five-year recall because the last test was normal. Examination today shows a contact bleed from the cervix. There is no uterine mass on abdominal palpation and no adnexal tenderness. She is not pregnant. What is the most appropriate next step?",
       "options": [
+        "Arrange a self-collected sample in 12 months and do nothing before then",
         "Take a routine screening test and review in 5 years if HPV is not detected",
-        "Reassure her that bleeding under 30 in a vaccinated woman needs no test",
-        "Assess the bleeding as a symptom, including a diagnostic co-test, rather than a routine screen",
         "Give a further HPV vaccine dose today as the investigation",
-        "Arrange a self-collected sample in 12 months and do nothing before then"
+        "Reassure her that bleeding under 30 in a vaccinated woman needs no test",
+        "Assess the bleeding as a symptom, including a diagnostic co-test, rather than a routine screen"
       ],
-      "correct_answer": "C",
+      "correct_answer": "E",
       "category": "Population Health & Ethics",
       "difficulty": "difficult",
-      "explanation": "CORRECT ANSWER\n\nC. Assess the bleeding as a symptom, including a diagnostic co-test, rather than a routine screen\n\n---\n\n1. CLINICAL SITUATION\nSix weeks of postcoital bleeding needs diagnostic assessment and a co-test. A routine 5-year screening plan does not clear it.\n\n2. THE RULE\nHPV 16/18 is referred for colposcopy regardless of cytology, other oncogenic HPV is retested in 12 months, and abnormal bleeding is investigated as a symptom, not screened.\n\n3. WHY C IS CORRECT\nPostcoital bleeding is a symptom. A plan to wait 5 years if HPV is absent does not investigate it. She needs clinical assessment and a diagnostic HPV plus liquid-based cytology co-test, with referral if the cervix cannot be seen or looks abnormal. Vaccination does not explain 6 weeks of bleeding, and self-collection does not provide cytology.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Take a routine screening test and review in 5 years if HPV is not detected: A negative screen would be a false ending for a symptom.\nB. Reassure her that bleeding under 30 in a vaccinated woman needs no test: Age and vaccine status do not retire postcoital bleeding.\nD. Give a further HPV vaccine dose today as the investigation: Vaccine is prevention, not a test for bleeding.\nE. Arrange a self-collected sample in 12 months and do nothing before then: That borrows the intermediate-risk interval and skips cytology.\n\n5. KEY TAKEAWAY\nSymptoms are not managed on the screening interval.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nE. Assess the bleeding as a symptom, including a diagnostic co-test, rather than a routine screen\n\n---\n\n1. CLINICAL SITUATION\nSix weeks of postcoital bleeding needs diagnostic assessment and a co-test. A routine 5-year screening plan does not clear it.\n\n2. THE RULE\nHPV 16/18 is referred for colposcopy regardless of cytology, other oncogenic HPV is retested in 12 months, and abnormal bleeding is investigated as a symptom, not screened.\n\n3. WHY E IS CORRECT\nPostcoital bleeding is a symptom. A plan to wait 5 years if HPV is absent does not investigate it. She needs clinical assessment and a diagnostic HPV plus liquid-based cytology co-test, with referral if the cervix cannot be seen or looks abnormal. Vaccination does not explain 6 weeks of bleeding, and self-collection does not provide cytology.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Arrange a self-collected sample in 12 months and do nothing before then: That borrows the intermediate-risk interval and skips cytology.\nB. Take a routine screening test and review in 5 years if HPV is not detected: A negative screen would be a false ending for a symptom.\nC. Give a further HPV vaccine dose today as the investigation: Vaccine is prevention, not a test for bleeding.\nD. Reassure her that bleeding under 30 in a vaccinated woman needs no test: Age and vaccine status do not retire postcoital bleeding.\n\n5. KEY TAKEAWAY\nSymptoms are not managed on the screening interval.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Six weeks of postcoital bleeding needs diagnostic assessment and a co-test. A routine 5-year screening plan does not clear it.",
       "best_treatment": "Assess the bleeding as a symptom, including a diagnostic co-test, rather than a routine screen",
       "incorrect_answer_explanations": {
-        "A": "A negative screen would be a false ending for a symptom.",
-        "B": "Age and vaccine status do not retire postcoital bleeding.",
-        "D": "Vaccine is prevention, not a test for bleeding.",
-        "E": "That borrows the intermediate-risk interval and skips cytology."
+        "A": "That borrows the intermediate-risk interval and skips cytology.",
+        "B": "A negative screen would be a false ending for a symptom.",
+        "C": "Vaccine is prevention, not a test for bleeding.",
+        "D": "Age and vaccine status do not retire postcoital bleeding."
       },
       "key_takeaways": [
         "Symptoms are not managed on the screening interval.",
@@ -783,22 +783,22 @@
       "question_text": "A 33-year-old woman is eligible for cervical screening and is not overdue. She has declined a speculum examination before because of discomfort, and she asks about self-collection. A friend has told her that self-collection is only offered to women who have already missed their test, as a catch-up measure for the overdue. She is asymptomatic. There is no postcoital bleeding. She would prefer to avoid a speculum if the option is open to her. She does not have to be overdue first. What is the most appropriate advice?",
       "options": [
         "Self-collection is available only because she would otherwise be overdue",
-        "Declining a speculum ends her screening until she accepts one",
-        "She must have a conventional Pap smear instead of an HPV test",
         "She may choose a self-collected HPV sample as an eligible participant",
-        "Offer colposcopy as the alternative to a speculum examination"
+        "Offer colposcopy as the alternative to a speculum examination",
+        "Declining a speculum ends her screening until she accepts one",
+        "She must have a conventional Pap smear instead of an HPV test"
       ],
-      "correct_answer": "D",
+      "correct_answer": "B",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nD. She may choose a self-collected HPV sample as an eligible participant\n\n---\n\n1. CLINICAL SITUATION\nAn eligible woman who declines a speculum may self-collect. She does not need to be overdue.\n\n2. THE RULE\nRoutine HPV-based cervical screening runs from 25 to 74 every 5 years after a negative test, with self-collection an option for any eligible participant.\n\n3. WHY D IS CORRECT\nSince 1 July 2022, anyone eligible may choose self-collection. It is not restricted to people who are overdue. She is due and asymptomatic, so a self-collected HPV sample is an acceptable program test. If it finds non-16/18 HPV she will still need a practitioner sample for cytology.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Self-collection is available only because she would otherwise be overdue: The poster is the old rule, from before July 2022.\nB. Declining a speculum ends her screening until she accepts one: The program now has another collection method.\nC. She must have a conventional Pap smear instead of an HPV test: Cytology alone is not the primary test.\nE. Offer colposcopy as the alternative to a speculum examination: Colposcopy is a higher-risk referral, not the offer for a due screen.\n\n5. KEY TAKEAWAY\nUniversal self-collection choice dates from 1 July 2022.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nB. She may choose a self-collected HPV sample as an eligible participant\n\n---\n\n1. CLINICAL SITUATION\nAn eligible woman who declines a speculum may self-collect. She does not need to be overdue.\n\n2. THE RULE\nRoutine HPV-based cervical screening runs from 25 to 74 every 5 years after a negative test, with self-collection an option for any eligible participant.\n\n3. WHY B IS CORRECT\nSince 1 July 2022, anyone eligible may choose self-collection. It is not restricted to people who are overdue. She is due and asymptomatic, so a self-collected HPV sample is an acceptable program test. If it finds non-16/18 HPV she will still need a practitioner sample for cytology.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Self-collection is available only because she would otherwise be overdue: The poster is the old rule, from before July 2022.\nC. Offer colposcopy as the alternative to a speculum examination: Colposcopy is a higher-risk referral, not the offer for a due screen.\nD. Declining a speculum ends her screening until she accepts one: The program now has another collection method.\nE. She must have a conventional Pap smear instead of an HPV test: Cytology alone is not the primary test.\n\n5. KEY TAKEAWAY\nUniversal self-collection choice dates from 1 July 2022.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "An eligible woman who declines a speculum may self-collect. She does not need to be overdue.",
       "best_treatment": "She may choose a self-collected HPV sample as an eligible participant",
       "incorrect_answer_explanations": {
         "A": "The poster is the old rule, from before July 2022.",
-        "B": "The program now has another collection method.",
-        "C": "Cytology alone is not the primary test.",
-        "E": "Colposcopy is a higher-risk referral, not the offer for a due screen."
+        "C": "Colposcopy is a higher-risk referral, not the offer for a due screen.",
+        "D": "The program now has another collection method.",
+        "E": "Cytology alone is not the primary test."
       },
       "key_takeaways": [
         "Universal self-collection choice dates from 1 July 2022.",
@@ -825,23 +825,23 @@
     {
       "question_text": "A 48-year-old woman asks when her next Cervical Screening Test is due. Three years ago she had a hysterectomy for fibroids. Histology was benign, with no CIN and no malignancy. She has never had an abnormal smear or a previous positive HPV test. She is asymptomatic. She assumes the screening schedule continues after the operation in the same way it would if the cervix were still present. She does not have a next due date on the program. What is the most appropriate advice?",
       "options": [
-        "Vault cytology every 5 years until 74, because the register has written",
-        "Self-collection every 2 years is the correct vault program",
         "Colposcopy, because a reminder after hysterectomy implies higher risk",
+        "Vault cytology every 5 years until 74, because the register has written",
+        "She can leave routine cervical screening",
         "HPV vaccination now, followed by vault smears",
-        "She can leave routine cervical screening"
+        "Self-collection every 2 years is the correct vault program"
       ],
-      "correct_answer": "E",
+      "correct_answer": "C",
       "category": "Population Health & Ethics",
       "difficulty": "difficult",
-      "explanation": "CORRECT ANSWER\n\nE. She can leave routine cervical screening\n\n---\n\n1. CLINICAL SITUATION\nTotal hysterectomy for fibroids, cervix removed, no CIN and no bleeding, ends routine cervical screening despite the reminder.\n\n2. THE RULE\nRoutine HPV-based cervical screening runs from 25 to 74 every 5 years after a negative test, with self-collection an option for any eligible participant.\n\n3. WHY E IS CORRECT\nRoutine screening is for people with a cervix. Hers was removed for fibroids, with no CIN and no bleeding, so she does not continue vault screening to please the register. Vault tests still matter after hysterectomy for high-grade CIN or cancer, which this note is not.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Vault cytology every 5 years until 74, because the register has written: The letter is the trap. A reminder does not recreate an indication.\nB. Self-collection every 2 years is the correct vault program: Self-collection is not a 2-year vault scheme.\nC. Colposcopy, because a reminder after hysterectomy implies higher risk: A letter is not a higher-risk result.\nD. HPV vaccination now, followed by vault smears: Vaccination does not set a vault-smear program.\n\n5. KEY TAKEAWAY\nNo cervix and no high-grade history means exit from routine screening.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nC. She can leave routine cervical screening\n\n---\n\n1. CLINICAL SITUATION\nTotal hysterectomy for fibroids, cervix removed, no CIN and no bleeding, ends routine cervical screening despite the reminder.\n\n2. THE RULE\nRoutine HPV-based cervical screening runs from 25 to 74 every 5 years after a negative test, with self-collection an option for any eligible participant.\n\n3. WHY C IS CORRECT\nRoutine screening is for people with a cervix. Hers was removed for fibroids, with no CIN and no bleeding, so she does not continue vault screening to please the register. Vault tests still matter after hysterectomy for high-grade CIN or cancer, which this note is not.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Colposcopy, because a reminder after hysterectomy implies higher risk: A letter is not a higher-risk result.\nB. Vault cytology every 5 years until 74, because the register has written: The letter is the trap. A reminder does not recreate an indication.\nD. HPV vaccination now, followed by vault smears: Vaccination does not set a vault-smear program.\nE. Self-collection every 2 years is the correct vault program: Self-collection is not a 2-year vault scheme.\n\n5. KEY TAKEAWAY\nNo cervix and no high-grade history means exit from routine screening.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Total hysterectomy for fibroids, cervix removed, no CIN and no bleeding, ends routine cervical screening despite the reminder.",
       "best_treatment": "She can leave routine cervical screening",
       "incorrect_answer_explanations": {
-        "A": "The letter is the trap. A reminder does not recreate an indication.",
-        "B": "Self-collection is not a 2-year vault scheme.",
-        "C": "A letter is not a higher-risk result.",
-        "D": "Vaccination does not set a vault-smear program."
+        "A": "A letter is not a higher-risk result.",
+        "B": "The letter is the trap. A reminder does not recreate an indication.",
+        "D": "Vaccination does not set a vault-smear program.",
+        "E": "Self-collection is not a 2-year vault scheme."
       },
       "key_takeaways": [
         "No cervix and no high-grade history means exit from routine screening.",
@@ -868,23 +868,23 @@
     {
       "question_text": "A 62-year-old man asks about lung cancer screening. He has smoked 20 cigarettes a day since he was 18 and still smokes. There is no cough, no haemoptysis, no chest pain, and no weight loss. A chest X-ray done for a visa two years ago was reported normal, and he assumes that a chest X-ray is the screening test, because that is what his father had. Pack-years are well above the program threshold. He has no symptom that would move him from screening into a diagnostic pathway. He is otherwise well and can attend a program site. What is the most appropriate screening test if he is eligible?",
       "options": [
-        "Offer low-dose CT through the National Lung Cancer Screening Program",
-        "Arrange an annual chest X-ray, as his brother had",
         "Collect yearly sputum cytology as the program entry test",
         "Delay any request until he has quit for 4 weeks",
-        "Tell him screening does not start until he turns 65"
+        "Arrange an annual chest X-ray, as his brother had",
+        "Tell him screening does not start until he turns 65",
+        "Offer low-dose CT through the National Lung Cancer Screening Program"
       ],
-      "correct_answer": "A",
+      "correct_answer": "E",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. Offer low-dose CT through the National Lung Cancer Screening Program\n\n---\n\n1. CLINICAL SITUATION\nAn asymptomatic 61-year-old with about 40 pack-years who still smokes is offered low-dose CT, not a chest X-ray, and he need not quit first.\n\n2. THE RULE\nLung cancer screening is 2-yearly low-dose CT for asymptomatic people aged 50-70 with at least 30 pack-years who smoke or quit within 10 years; symptoms need investigation.\n\n3. WHY A IS CORRECT\nHe is 61, asymptomatic for cancer, currently smoking, and has about 40 pack-years. That meets the National Lung Cancer Screening Program, which uses low-dose CT and started on 1 July 2025. A smoker's cough without haemoptysis or weight loss does not block entry. Quitting is offered. It is not a precondition.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Arrange an annual chest X-ray, as his brother had: The brother's program is the retired test.\nC. Collect yearly sputum cytology as the program entry test: Sputum cytology is not the program.\nD. Delay any request until he has quit for 4 weeks: He does not have to quit before a request can be made.\nE. Tell him screening does not start until he turns 65: The age band is 50\u201370.\n\n5. KEY TAKEAWAY\nEntry is age 50\u201370, at least 30 pack-years, current smoking or quit within 10 years.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nE. Offer low-dose CT through the National Lung Cancer Screening Program\n\n---\n\n1. CLINICAL SITUATION\nAn asymptomatic 61-year-old with about 40 pack-years who still smokes is offered low-dose CT, not a chest X-ray, and he need not quit first.\n\n2. THE RULE\nLung cancer screening is 2-yearly low-dose CT for asymptomatic people aged 50-70 with at least 30 pack-years who smoke or quit within 10 years; symptoms need investigation.\n\n3. WHY E IS CORRECT\nHe is 61, asymptomatic for cancer, currently smoking, and has about 40 pack-years. That meets the National Lung Cancer Screening Program, which uses low-dose CT and started on 1 July 2025. A smoker's cough without haemoptysis or weight loss does not block entry. Quitting is offered. It is not a precondition.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Collect yearly sputum cytology as the program entry test: Sputum cytology is not the program.\nB. Delay any request until he has quit for 4 weeks: He does not have to quit before a request can be made.\nC. Arrange an annual chest X-ray, as his brother had: The brother's program is the retired test.\nD. Tell him screening does not start until he turns 65: The age band is 50\u201370.\n\n5. KEY TAKEAWAY\nEntry is age 50\u201370, at least 30 pack-years, current smoking or quit within 10 years.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "An asymptomatic 61-year-old with about 40 pack-years who still smokes is offered low-dose CT, not a chest X-ray, and he need not quit first.",
       "best_treatment": "Offer low-dose CT through the National Lung Cancer Screening Program",
       "incorrect_answer_explanations": {
-        "B": "The brother's program is the retired test.",
-        "C": "Sputum cytology is not the program.",
-        "D": "He does not have to quit before a request can be made.",
-        "E": "The age band is 50\u201370."
+        "A": "Sputum cytology is not the program.",
+        "B": "He does not have to quit before a request can be made.",
+        "C": "The brother's program is the retired test.",
+        "D": "The age band is 50\u201370."
       },
       "key_takeaways": [
         "Entry is age 50\u201370, at least 30 pack-years, current smoking or quit within 10 years.",
@@ -911,23 +911,23 @@
     {
       "question_text": "A 64-year-old woman asks to enter the national lung cancer screening program. She smoked 25 cigarettes a day from the age of 20 to 50, then quit. She has not smoked for 14 years. There is no cough, no haemoptysis, no chest pain, and no weight loss. She has seen advertising for the program and believes her heavy past smoking makes her eligible. Eligibility for former smokers requires that they quit within the last 10 years. Fourteen years is outside that window. What is the most appropriate advice about eligibility to enter?",
       "options": [
-        "Sign the program request for a low-dose CT",
+        "Enroll her on pack-years alone and ignore the quit date",
         "She is not eligible to enter the program",
         "Offer annual chest X-ray for 5 years because she is outside the CT rule",
-        "Enroll her on pack-years alone and ignore the quit date",
-        "Use sputum cytology as the substitute entry test"
+        "Use sputum cytology as the substitute entry test",
+        "Sign the program request for a low-dose CT"
       ],
       "correct_answer": "B",
       "category": "Population Health & Ethics",
       "difficulty": "difficult",
-      "explanation": "CORRECT ANSWER\n\nB. She is not eligible to enter the program\n\n---\n\n1. CLINICAL SITUATION\nA first lung-screening request is not eligible if she quit 12 years ago, even with 35 pack-years.\n\n2. THE RULE\nLung cancer screening is 2-yearly low-dose CT for asymptomatic people aged 50-70 with at least 30 pack-years who smoke or quit within 10 years; symptoms need investigation.\n\n3. WHY B IS CORRECT\nNew entry needs age 50\u201370, at least 30 pack-years, no suggestive symptoms, and current smoking or quit within 10 years. She quit 12 years ago and has never been enrolled. People already in the program may continue after they pass 10 years quit. That continuation rule does not open the door for a first request.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Sign the program request for a low-dose CT: The pack-years are enough. The quit interval is the fact that blocks entry.\nC. Offer annual chest X-ray for 5 years because she is outside the CT rule: Chest X-ray is not the fallback program.\nD. Enroll her on pack-years alone and ignore the quit date: Pack-years are necessary and not sufficient.\nE. Use sputum cytology as the substitute entry test: There is no sputum pathway for people outside the CT rule.\n\n5. KEY TAKEAWAY\nThe entry quit-window is 10 years.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nB. She is not eligible to enter the program\n\n---\n\n1. CLINICAL SITUATION\nA first lung-screening request is not eligible if she quit 12 years ago, even with 35 pack-years.\n\n2. THE RULE\nLung cancer screening is 2-yearly low-dose CT for asymptomatic people aged 50-70 with at least 30 pack-years who smoke or quit within 10 years; symptoms need investigation.\n\n3. WHY B IS CORRECT\nNew entry needs age 50\u201370, at least 30 pack-years, no suggestive symptoms, and current smoking or quit within 10 years. She quit 12 years ago and has never been enrolled. People already in the program may continue after they pass 10 years quit. That continuation rule does not open the door for a first request.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Enroll her on pack-years alone and ignore the quit date: Pack-years are necessary and not sufficient.\nC. Offer annual chest X-ray for 5 years because she is outside the CT rule: Chest X-ray is not the fallback program.\nD. Use sputum cytology as the substitute entry test: There is no sputum pathway for people outside the CT rule.\nE. Sign the program request for a low-dose CT: The pack-years are enough. The quit interval is the fact that blocks entry.\n\n5. KEY TAKEAWAY\nThe entry quit-window is 10 years.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A first lung-screening request is not eligible if she quit 12 years ago, even with 35 pack-years.",
       "best_treatment": "She is not eligible to enter the program",
       "incorrect_answer_explanations": {
-        "A": "The pack-years are enough. The quit interval is the fact that blocks entry.",
+        "A": "Pack-years are necessary and not sufficient.",
         "C": "Chest X-ray is not the fallback program.",
-        "D": "Pack-years are necessary and not sufficient.",
-        "E": "There is no sputum pathway for people outside the CT rule."
+        "D": "There is no sputum pathway for people outside the CT rule.",
+        "E": "The pack-years are enough. The quit interval is the fact that blocks entry."
       },
       "key_takeaways": [
         "The entry quit-window is 10 years.",
@@ -954,23 +954,23 @@
     {
       "question_text": "A 59-year-old man who still smokes, with a 40 pack-year history, attends after coughing up about a tablespoon of blood on two mornings this week. He has no fever and no chest pain. He has seen the lung screening advertisements and asks for a low-dose CT like the ads, rather than a diagnostic clinic appointment. He has no previous chest imaging. Enrolment in the screening program is the wrong pathway for someone who is bleeding. He needs assessment of the haemoptysis. What is the most appropriate next step?",
       "options": [
-        "Complete the screening request for a low-dose CT",
+        "Send sputum cytology as the program entry test",
         "Arrange a chest X-ray in 6 months and then decide about screening",
-        "Investigate the haemoptysis rather than enrol him in screening",
         "Ask him to quit for 4 weeks and then sign the screening form",
-        "Send sputum cytology as the program entry test"
+        "Investigate the haemoptysis rather than enrol him in screening",
+        "Complete the screening request for a low-dose CT"
       ],
-      "correct_answer": "C",
+      "correct_answer": "D",
       "category": "Population Health & Ethics",
       "difficulty": "difficult",
-      "explanation": "CORRECT ANSWER\n\nC. Investigate the haemoptysis rather than enrol him in screening\n\n---\n\n1. CLINICAL SITUATION\nHaemoptysis takes him out of the lung screening program and into diagnostic assessment, even though his pack-years would otherwise qualify.\n\n2. THE RULE\nLung cancer screening is 2-yearly low-dose CT for asymptomatic people aged 50-70 with at least 30 pack-years who smoke or quit within 10 years; symptoms need investigation.\n\n3. WHY C IS CORRECT\nHaemoptysis is a symptom suggestive of lung cancer. The program is for people without those symptoms. A free low-dose CT form is the wrong request. He needs diagnostic assessment. Quitting does not come before that.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Complete the screening request for a low-dose CT: He meets the smoking numbers. The blood is the fact that takes him off the form.\nB. Arrange a chest X-ray in 6 months and then decide about screening: Delay and a screening X-ray both miss the symptom.\nD. Ask him to quit for 4 weeks and then sign the screening form: Cessation is not the investigation, and it would not restore screening eligibility while he is bleeding.\nE. Send sputum cytology as the program entry test: Sputum cytology is not the entry test.\n\n5. KEY TAKEAWAY\nThe program requires no symptoms suggestive of lung cancer.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nD. Investigate the haemoptysis rather than enrol him in screening\n\n---\n\n1. CLINICAL SITUATION\nHaemoptysis takes him out of the lung screening program and into diagnostic assessment, even though his pack-years would otherwise qualify.\n\n2. THE RULE\nLung cancer screening is 2-yearly low-dose CT for asymptomatic people aged 50-70 with at least 30 pack-years who smoke or quit within 10 years; symptoms need investigation.\n\n3. WHY D IS CORRECT\nHaemoptysis is a symptom suggestive of lung cancer. The program is for people without those symptoms. A free low-dose CT form is the wrong request. He needs diagnostic assessment. Quitting does not come before that.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Send sputum cytology as the program entry test: Sputum cytology is not the entry test.\nB. Arrange a chest X-ray in 6 months and then decide about screening: Delay and a screening X-ray both miss the symptom.\nC. Ask him to quit for 4 weeks and then sign the screening form: Cessation is not the investigation, and it would not restore screening eligibility while he is bleeding.\nE. Complete the screening request for a low-dose CT: He meets the smoking numbers. The blood is the fact that takes him off the form.\n\n5. KEY TAKEAWAY\nThe program requires no symptoms suggestive of lung cancer.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Haemoptysis takes him out of the lung screening program and into diagnostic assessment, even though his pack-years would otherwise qualify.",
       "best_treatment": "Investigate the haemoptysis rather than enrol him in screening",
       "incorrect_answer_explanations": {
-        "A": "He meets the smoking numbers. The blood is the fact that takes him off the form.",
+        "A": "Sputum cytology is not the entry test.",
         "B": "Delay and a screening X-ray both miss the symptom.",
-        "D": "Cessation is not the investigation, and it would not restore screening eligibility while he is bleeding.",
-        "E": "Sputum cytology is not the entry test."
+        "C": "Cessation is not the investigation, and it would not restore screening eligibility while he is bleeding.",
+        "E": "He meets the smoking numbers. The blood is the fact that takes him off the form."
       },
       "key_takeaways": [
         "The program requires no symptoms suggestive of lung cancer.",
@@ -997,23 +997,23 @@
     {
       "question_text": "A 55-year-old man asks for lung cancer screening because he is over 50 and once smoked. He smoked socially, a few cigarettes at weekends, for about five years in his twenties, and quit at 30. He is asymptomatic, with no cough, no haemoptysis, and no weight loss. A friend of a similar age has been accepted into the program after a 40-year heavy smoking history, and he assumes age plus any smoking is enough. He does not meet it. What is the most appropriate advice?",
       "options": [
-        "She is eligible on age and current smoking",
-        "Offer annual chest X-ray because she is under 30 pack-years",
+        "She can self-request a screening PET scan",
         "She must wait until 55 even if the pack-years later qualify",
+        "She is eligible on age and current smoking",
         "She does not meet the pack-year threshold to enter",
-        "She can self-request a screening PET scan"
+        "Offer annual chest X-ray because she is under 30 pack-years"
       ],
       "correct_answer": "D",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nD. She does not meet the pack-year threshold to enter\n\n---\n\n1. CLINICAL SITUATION\nTen cigarettes a day for 20 years is 10 pack-years, below the 30 required to enter lung screening.\n\n2. THE RULE\nLung cancer screening is 2-yearly low-dose CT for asymptomatic people aged 50-70 with at least 30 pack-years who smoke or quit within 10 years; symptoms need investigation.\n\n3. WHY D IS CORRECT\nTen cigarettes a day for 20 years is 10 pack-years. Entry needs at least 30, plus age 50\u201370 and current smoking or quit within 10 years, without symptoms. The poster omitted the pack-year line. A chest X-ray or PET is not the alternative program.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. She is eligible on age and current smoking: Those are two of the rules. Pack-years are the third, and she fails it.\nB. Offer annual chest X-ray because she is under 30 pack-years: Being under the threshold does not create an X-ray program.\nC. She must wait until 55 even if the pack-years later qualify: The age floor is 50.\nE. She can self-request a screening PET scan: PET is not the screening test.\n\n5. KEY TAKEAWAY\nPack-years are packs per day times years.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nD. She does not meet the pack-year threshold to enter\n\n---\n\n1. CLINICAL SITUATION\nTen cigarettes a day for 20 years is 10 pack-years, below the 30 required to enter lung screening.\n\n2. THE RULE\nLung cancer screening is 2-yearly low-dose CT for asymptomatic people aged 50-70 with at least 30 pack-years who smoke or quit within 10 years; symptoms need investigation.\n\n3. WHY D IS CORRECT\nTen cigarettes a day for 20 years is 10 pack-years. Entry needs at least 30, plus age 50\u201370 and current smoking or quit within 10 years, without symptoms. The poster omitted the pack-year line. A chest X-ray or PET is not the alternative program.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. She can self-request a screening PET scan: PET is not the screening test.\nB. She must wait until 55 even if the pack-years later qualify: The age floor is 50.\nC. She is eligible on age and current smoking: Those are two of the rules. Pack-years are the third, and she fails it.\nE. Offer annual chest X-ray because she is under 30 pack-years: Being under the threshold does not create an X-ray program.\n\n5. KEY TAKEAWAY\nPack-years are packs per day times years.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Ten cigarettes a day for 20 years is 10 pack-years, below the 30 required to enter lung screening.",
       "best_treatment": "She does not meet the pack-year threshold to enter",
       "incorrect_answer_explanations": {
-        "A": "Those are two of the rules. Pack-years are the third, and she fails it.",
-        "B": "Being under the threshold does not create an X-ray program.",
-        "C": "The age floor is 50.",
-        "E": "PET is not the screening test."
+        "A": "PET is not the screening test.",
+        "B": "The age floor is 50.",
+        "C": "Those are two of the rules. Pack-years are the third, and she fails it.",
+        "E": "Being under the threshold does not create an X-ray program."
       },
       "key_takeaways": [
         "Pack-years are packs per day times years.",
@@ -1042,21 +1042,21 @@
       "options": [
         "He will be mailed a PSA kit every 2 years, like the bowel program",
         "Annual PSA is required for men from 50 to 74",
-        "A prostate MRI every 2 years is the population screening test",
+        "There is no national PSA screening program to enrol him in",
         "A normal PSA today would end any later discussion of prostate tests",
-        "There is no national PSA screening program to enrol him in"
+        "A prostate MRI every 2 years is the population screening test"
       ],
-      "correct_answer": "E",
+      "correct_answer": "C",
       "category": "Population Health & Ethics",
       "difficulty": "easy",
-      "explanation": "CORRECT ANSWER\n\nE. There is no national PSA screening program to enrol him in\n\n---\n\n1. CLINICAL SITUATION\nThere is no national PSA program to enrol him in. A request can lead to a shared decision, not a mail-out.\n\n2. THE RULE\nAustralia has no national population screening program for prostate (PSA), skin or ovarian cancer; only breast, bowel, cervical and lung programs exist.\n\n3. WHY E IS CORRECT\nAustralia does not run a population PSA program and does not mail PSA kits. A man who asks can have a shared discussion of benefit and harm. That discussion is not enrolment, and MRI is not a population screen.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. He will be mailed a PSA kit every 2 years, like the bowel program: He is mapping the bowel register onto a program that does not exist.\nB. Annual PSA is required for men from 50 to 74: There is no required annual cohort.\nC. A prostate MRI every 2 years is the population screening test: MRI is not a population program.\nD. A normal PSA today would end any later discussion of prostate tests: One result is not an exit rule from a program that is not running.\n\n5. KEY TAKEAWAY\nDo not describe PSA as a mailed national program.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nC. There is no national PSA screening program to enrol him in\n\n---\n\n1. CLINICAL SITUATION\nThere is no national PSA program to enrol him in. A request can lead to a shared decision, not a mail-out.\n\n2. THE RULE\nAustralia has no national population screening program for prostate (PSA), skin or ovarian cancer; only breast, bowel, cervical and lung programs exist.\n\n3. WHY C IS CORRECT\nAustralia does not run a population PSA program and does not mail PSA kits. A man who asks can have a shared discussion of benefit and harm. That discussion is not enrolment, and MRI is not a population screen.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. He will be mailed a PSA kit every 2 years, like the bowel program: He is mapping the bowel register onto a program that does not exist.\nB. Annual PSA is required for men from 50 to 74: There is no required annual cohort.\nD. A normal PSA today would end any later discussion of prostate tests: One result is not an exit rule from a program that is not running.\nE. A prostate MRI every 2 years is the population screening test: MRI is not a population program.\n\n5. KEY TAKEAWAY\nDo not describe PSA as a mailed national program.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "There is no national PSA program to enrol him in. A request can lead to a shared decision, not a mail-out.",
       "best_treatment": "There is no national PSA screening program to enrol him in",
       "incorrect_answer_explanations": {
         "A": "He is mapping the bowel register onto a program that does not exist.",
         "B": "There is no required annual cohort.",
-        "C": "MRI is not a population program.",
-        "D": "One result is not an exit rule from a program that is not running."
+        "D": "One result is not an exit rule from a program that is not running.",
+        "E": "MRI is not a population program."
       },
       "key_takeaways": [
         "Do not describe PSA as a mailed national program.",
@@ -1083,22 +1083,22 @@
     {
       "question_text": "A 49-year-old woman with many moles asks to enrol in the national melanoma screening program. None of the moles is changing, itching, or bleeding. She has no personal history of melanoma and no first-degree relative with melanoma. She expects invitation letters in the way BreastScreen works. What is the most appropriate advice?",
       "options": [
-        "There is no national skin-cancer screening program to enrol her in",
-        "Complete the national recall so she is photographed every 2 years",
         "The program is annual biopsy of two moles, whether or not they change",
         "A normal skin check at 45 ends any later skin surveillance",
+        "There is no national skin-cancer screening program to enrol her in",
+        "Complete the national recall so she is photographed every 2 years",
         "She should have a screening PET scan as the entry test"
       ],
-      "correct_answer": "A",
+      "correct_answer": "C",
       "category": "Population Health & Ethics",
       "difficulty": "easy",
-      "explanation": "CORRECT ANSWER\n\nA. There is no national skin-cancer screening program to enrol her in\n\n---\n\n1. CLINICAL SITUATION\nShe cannot be enrolled in a national melanoma program because Australia does not run one.\n\n2. THE RULE\nAustralia has no national population screening program for prostate (PSA), skin or ovarian cancer; only breast, bowel, cervical and lung programs exist.\n\n3. WHY A IS CORRECT\nNational programs cover bowel, breast, cervix, and lung. There is no population melanoma program with a government recall. A clinic package is a private service, not program enrolment. A changing lesion would be diagnostic, and she has none.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Complete the national recall so she is photographed every 2 years: The clinic has borrowed the language of a register.\nC. The program is annual biopsy of two moles, whether or not they change: Blind biopsy is not screening.\nD. A normal skin check at 45 ends any later skin surveillance: There is no program exit because there is no program.\nE. She should have a screening PET scan as the entry test: PET is not a skin screen.\n\n5. KEY TAKEAWAY\nNational cancer screening programs are bowel, breast, cervix, and lung.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nC. There is no national skin-cancer screening program to enrol her in\n\n---\n\n1. CLINICAL SITUATION\nShe cannot be enrolled in a national melanoma program because Australia does not run one.\n\n2. THE RULE\nAustralia has no national population screening program for prostate (PSA), skin or ovarian cancer; only breast, bowel, cervical and lung programs exist.\n\n3. WHY C IS CORRECT\nNational programs cover bowel, breast, cervix, and lung. There is no population melanoma program with a government recall. A clinic package is a private service, not program enrolment. A changing lesion would be diagnostic, and she has none.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. The program is annual biopsy of two moles, whether or not they change: Blind biopsy is not screening.\nB. A normal skin check at 45 ends any later skin surveillance: There is no program exit because there is no program.\nD. Complete the national recall so she is photographed every 2 years: The clinic has borrowed the language of a register.\nE. She should have a screening PET scan as the entry test: PET is not a skin screen.\n\n5. KEY TAKEAWAY\nNational cancer screening programs are bowel, breast, cervix, and lung.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "She cannot be enrolled in a national melanoma program because Australia does not run one.",
       "best_treatment": "There is no national skin-cancer screening program to enrol her in",
       "incorrect_answer_explanations": {
-        "B": "The clinic has borrowed the language of a register.",
-        "C": "Blind biopsy is not screening.",
-        "D": "There is no program exit because there is no program.",
+        "A": "Blind biopsy is not screening.",
+        "B": "There is no program exit because there is no program.",
+        "D": "The clinic has borrowed the language of a register.",
         "E": "PET is not a skin screen."
       },
       "key_takeaways": [
@@ -1126,22 +1126,22 @@
     {
       "question_text": "A 51-year-old woman at average risk asks for a yearly CA 125 blood test and a pelvic ultrasound to screen for ovarian cancer. She has no pelvic pain, no bloating, no urinary change, and no postmenopausal bleeding. There is no significant family history of ovarian, breast, or related cancers. A friend has these tests yearly and has told her this is standard screening, like a mammogram. Ordering them every year would be an unproven add-on, not screening. What is the most appropriate advice?",
       "options": [
-        "Enrol her in annual CA 125 and pelvic ultrasound",
+        "A single normal CA 125 today ends her familial risk",
         "Population ovarian screening is not recommended on this history",
         "CA 125 every 6 months can replace the ultrasound",
-        "A single normal CA 125 today ends her familial risk",
+        "Enrol her in annual CA 125 and pelvic ultrasound",
         "Start a combined oral contraceptive as the screening test"
       ],
       "correct_answer": "B",
       "category": "Population Health & Ethics",
       "difficulty": "difficult",
-      "explanation": "CORRECT ANSWER\n\nB. Population ovarian screening is not recommended on this history\n\n---\n\n1. CLINICAL SITUATION\nAnnual CA 125 and ultrasound are not a screening program for an asymptomatic woman whose only affected relative was diagnosed at 72.\n\n2. THE RULE\nAustralia has no national population screening program for prostate (PSA), skin or ovarian cancer; only breast, bowel, cervical and lung programs exist.\n\n3. WHY B IS CORRECT\nThere is no effective population screen for ovarian cancer, and CA 125 plus ultrasound is not a national program. One relative diagnosed at 72 does not by itself open a high-risk mutation pathway. The oral contraceptive pill is not a screening test.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Enrol her in annual CA 125 and pelvic ultrasound: The clinic has invented a BreastScreen equivalent. That pair does not perform as a program.\nC. CA 125 every 6 months can replace the ultrasound: A shorter marker interval is still not a program.\nD. A single normal CA 125 today ends her familial risk: A marker does not close a family history, and it is not the screen.\nE. Start a combined oral contraceptive as the screening test: Contraception is not surveillance.\n\n5. KEY TAKEAWAY\nNo national ovarian screening program exists.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nB. Population ovarian screening is not recommended on this history\n\n---\n\n1. CLINICAL SITUATION\nAnnual CA 125 and ultrasound are not a screening program for an asymptomatic woman whose only affected relative was diagnosed at 72.\n\n2. THE RULE\nAustralia has no national population screening program for prostate (PSA), skin or ovarian cancer; only breast, bowel, cervical and lung programs exist.\n\n3. WHY B IS CORRECT\nThere is no effective population screen for ovarian cancer, and CA 125 plus ultrasound is not a national program. One relative diagnosed at 72 does not by itself open a high-risk mutation pathway. The oral contraceptive pill is not a screening test.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. A single normal CA 125 today ends her familial risk: A marker does not close a family history, and it is not the screen.\nC. CA 125 every 6 months can replace the ultrasound: A shorter marker interval is still not a program.\nD. Enrol her in annual CA 125 and pelvic ultrasound: The clinic has invented a BreastScreen equivalent. That pair does not perform as a program.\nE. Start a combined oral contraceptive as the screening test: Contraception is not surveillance.\n\n5. KEY TAKEAWAY\nNo national ovarian screening program exists.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Annual CA 125 and ultrasound are not a screening program for an asymptomatic woman whose only affected relative was diagnosed at 72.",
       "best_treatment": "Population ovarian screening is not recommended on this history",
       "incorrect_answer_explanations": {
-        "A": "The clinic has invented a BreastScreen equivalent. That pair does not perform as a program.",
+        "A": "A marker does not close a family history, and it is not the screen.",
         "C": "A shorter marker interval is still not a program.",
-        "D": "A marker does not close a family history, and it is not the screen.",
+        "D": "The clinic has invented a BreastScreen equivalent. That pair does not perform as a program.",
         "E": "Contraception is not surveillance."
       },
       "key_takeaways": [
@@ -1169,23 +1169,23 @@
     {
       "question_text": "A 49-year-old woman requests her first bowel cancer screening kit. She is asymptomatic, with no rectal bleeding, no change in bowel habit, and no weight loss. She believes she is already in the automatic mail-out group because she is nearly 50 and has heard that kits arrive from 50. At 49 she is not yet in the mailed cohort. There is no family history that would move her to colonoscopy instead. Examination is normal. What is the most appropriate advice?",
       "options": [
-        "A kit will be mailed automatically within the year, so she should wait for it",
-        "She cannot screen until 50, so a request now will be rejected",
-        "She needs to request the first kit rather than wait for a mail-out",
         "Colonoscopy is the first program test at 49",
-        "She should wait until she has a symptom before requesting a kit"
+        "She should wait until she has a symptom before requesting a kit",
+        "She needs to request the first kit rather than wait for a mail-out",
+        "She cannot screen until 50, so a request now will be rejected",
+        "A kit will be mailed automatically within the year, so she should wait for it"
       ],
       "correct_answer": "C",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nC. She needs to request the first kit rather than wait for a mail-out\n\n---\n\n1. CLINICAL SITUATION\nAt 49 the first bowel kit is requested. It is not mailed automatically, and she does not wait until 50.\n\n2. THE RULE\nPeople aged 45-49 may request a free NBCSP iFOBT kit, automatic mail-out runs from 50 to 74, and recent colonoscopy surveillance replaces the kit.\n\n3. WHY C IS CORRECT\nAt 49 she is in the 45\u201349 band. The first kit is requested. Automatic mailing is what her neighbour received at 51. Once she completes a kit, later kits are mailed every 2 years. Symptoms would be a reason not to use the kit.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. A kit will be mailed automatically within the year, so she should wait for it: She has mapped her neighbour's path onto her own age.\nB. She cannot screen until 50, so a request now will be rejected: She can request a kit now. Fifty is the mail-out birthday, not the eligibility birthday.\nD. Colonoscopy is the first program test at 49: The program test is the immunochemical kit.\nE. She should wait until she has a symptom before requesting a kit: A symptom would take her off screening and onto diagnostic assessment.\n\n5. KEY TAKEAWAY\n45\u201349 request. 50\u201374 are mailed.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nC. She needs to request the first kit rather than wait for a mail-out\n\n---\n\n1. CLINICAL SITUATION\nAt 49 the first bowel kit is requested. It is not mailed automatically, and she does not wait until 50.\n\n2. THE RULE\nPeople aged 45-49 may request a free NBCSP iFOBT kit, automatic mail-out runs from 50 to 74, and recent colonoscopy surveillance replaces the kit.\n\n3. WHY C IS CORRECT\nAt 49 she is in the 45\u201349 band. The first kit is requested. Automatic mailing is what her neighbour received at 51. Once she completes a kit, later kits are mailed every 2 years. Symptoms would be a reason not to use the kit.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Colonoscopy is the first program test at 49: The program test is the immunochemical kit.\nB. She should wait until she has a symptom before requesting a kit: A symptom would take her off screening and onto diagnostic assessment.\nD. She cannot screen until 50, so a request now will be rejected: She can request a kit now. Fifty is the mail-out birthday, not the eligibility birthday.\nE. A kit will be mailed automatically within the year, so she should wait for it: She has mapped her neighbour's path onto her own age.\n\n5. KEY TAKEAWAY\n45\u201349 request. 50\u201374 are mailed.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "At 49 the first bowel kit is requested. It is not mailed automatically, and she does not wait until 50.",
       "best_treatment": "She needs to request the first kit rather than wait for a mail-out",
       "incorrect_answer_explanations": {
-        "A": "She has mapped her neighbour's path onto her own age.",
-        "B": "She can request a kit now. Fifty is the mail-out birthday, not the eligibility birthday.",
-        "D": "The program test is the immunochemical kit.",
-        "E": "A symptom would take her off screening and onto diagnostic assessment."
+        "A": "The program test is the immunochemical kit.",
+        "B": "A symptom would take her off screening and onto diagnostic assessment.",
+        "D": "She can request a kit now. Fifty is the mail-out birthday, not the eligibility birthday.",
+        "E": "She has mapped her neighbour's path onto her own age."
       },
       "key_takeaways": [
         "45\u201349 request. 50\u201374 are mailed.",
@@ -1212,22 +1212,22 @@
     {
       "question_text": "A 46-year-old woman finds a firm lump in the upper outer quadrant of her left breast. It has been there for three weeks. She is otherwise well, has no family history of breast cancer, and has never had a mammogram. She asks to be enrolled in BreastScreen so the lump can be checked on the program. A receptionist has told her the next screening round is in six months and she should wait. BreastScreen is a screening program for women without symptoms. A new lump is a diagnostic problem, not a screening invitation. She needs clinical assessment and diagnostic imaging, not a place on a screening list. What is the most appropriate advice?",
       "options": [
-        "Enrol her in BreastScreen and wait for the next round",
-        "Reassure her that a firm lump at 46 is benign and review in a year",
         "Refer for diagnostic triple assessment rather than a screening mammogram",
+        "Enrol her in BreastScreen and wait for the next round",
         "Arrange a screening mammogram only, with no clinical examination",
+        "Reassure her that a firm lump at 46 is benign and review in a year",
         "Start tamoxifen while waiting for the screening appointment"
       ],
-      "correct_answer": "C",
+      "correct_answer": "A",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nC. Refer for diagnostic triple assessment rather than a screening mammogram\n\n---\n\n1. CLINICAL SITUATION\nA 46-year-old woman finds a firm lump in the upper outer quadrant of her left breast. It has been there for three weeks. She is otherwise well, has no family history of breast cancer, and has never had a mammogram.\n\n2. THE RULE\nA breast symptom or high familial risk needs diagnostic or specialist assessment, not a routine BreastScreen mammogram.\n\n3. WHY C IS CORRECT\nA woman with a breast symptom is not a screening candidate. BreastScreen is for asymptomatic women in the eligible age range. A new lump needs diagnostic assessment, not a screening invitation. Waiting for the next round, or arranging only a screening mammogram, delays proper assessment.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Enrol her in BreastScreen and wait for the next round: A palpable lump is a symptom; screening rounds are not for symptomatic women and delay diagnosis.\nB. Reassure her that a firm lump at 46 is benign and review in a year: Age 46 does not make a new firm lump benign; it needs assessment now, not in a year.\nD. Arrange a screening mammogram only, with no clinical examination: Imaging alone omits clinical examination and biopsy; triple assessment needs all three.\nE. Start tamoxifen while waiting for the screening appointment: Tamoxifen is not a diagnostic step and has no role before a diagnosis.\n\n5. KEY TAKEAWAY\nA breast symptom or high familial risk needs diagnostic or specialist assessment, not a routine BreastScreen mammogram.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nA. Refer for diagnostic triple assessment rather than a screening mammogram\n\n---\n\n1. CLINICAL SITUATION\nA 46-year-old woman finds a firm lump in the upper outer quadrant of her left breast. It has been there for three weeks. She is otherwise well, has no family history of breast cancer, and has never had a mammogram.\n\n2. THE RULE\nA breast symptom or high familial risk needs diagnostic or specialist assessment, not a routine BreastScreen mammogram.\n\n3. WHY A IS CORRECT\nA woman with a breast symptom is not a screening candidate. BreastScreen is for asymptomatic women in the eligible age range. A new lump needs diagnostic assessment, not a screening invitation. Waiting for the next round, or arranging only a screening mammogram, delays proper assessment.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Enrol her in BreastScreen and wait for the next round: A palpable lump is a symptom; screening rounds are not for symptomatic women and delay diagnosis.\nC. Arrange a screening mammogram only, with no clinical examination: Imaging alone omits clinical examination and biopsy; triple assessment needs all three.\nD. Reassure her that a firm lump at 46 is benign and review in a year: Age 46 does not make a new firm lump benign; it needs assessment now, not in a year.\nE. Start tamoxifen while waiting for the screening appointment: Tamoxifen is not a diagnostic step and has no role before a diagnosis.\n\n5. KEY TAKEAWAY\nA breast symptom or high familial risk needs diagnostic or specialist assessment, not a routine BreastScreen mammogram.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A 46-year-old woman finds a firm lump in the upper outer quadrant of her left breast. It has been there for three weeks. She is otherwise well, has no family history of breast cancer, and has never had a mammogram.",
       "best_treatment": "Refer for diagnostic triple assessment rather than a screening mammogram",
       "incorrect_answer_explanations": {
-        "A": "A palpable lump is a symptom; screening rounds are not for symptomatic women and delay diagnosis.",
-        "B": "Age 46 does not make a new firm lump benign; it needs assessment now, not in a year.",
-        "D": "Imaging alone omits clinical examination and biopsy; triple assessment needs all three.",
+        "B": "A palpable lump is a symptom; screening rounds are not for symptomatic women and delay diagnosis.",
+        "C": "Imaging alone omits clinical examination and biopsy; triple assessment needs all three.",
+        "D": "Age 46 does not make a new firm lump benign; it needs assessment now, not in a year.",
         "E": "Tamoxifen is not a diagnostic step and has no role before a diagnosis."
       },
       "key_takeaways": [
@@ -1255,23 +1255,23 @@
     {
       "question_text": "A 58-year-old man completed a National Bowel Cancer Screening kit. The result is positive. He feels well, has no rectal bleeding, and his weight is stable. He asks for another kit to check the result, because he has read that the test can be wrong and he would prefer to avoid a colonoscopy. A colleague says a second kit is reasonable if he is anxious. What is the most appropriate advice?",
       "options": [
-        "Give him a second kit and only refer if that is also positive",
         "Reassure him that a positive kit in a well man is usually a false alarm",
-        "Arrange a faecal occult blood test in the clinic instead of colonoscopy",
         "Refer him for colonoscopy",
-        "Start him on a low-residue diet and repeat the kit in six months"
+        "Start him on a low-residue diet and repeat the kit in six months",
+        "Give him a second kit and only refer if that is also positive",
+        "Arrange a faecal occult blood test in the clinic instead of colonoscopy"
       ],
-      "correct_answer": "D",
+      "correct_answer": "B",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nD. Refer him for colonoscopy\n\n---\n\n1. CLINICAL SITUATION\nA 58-year-old man completed a National Bowel Cancer Screening kit. The result is positive. He feels well, has no rectal bleeding, and his weight is stable.\n\n2. THE RULE\nA positive bowel screening iFOBT, or bowel symptoms, requires diagnostic colonoscopy, never a repeat kit.\n\n3. WHY D IS CORRECT\nA positive bowel screening kit leads to colonoscopy. Repeating the kit can produce a false negative and delay diagnosis. Being asymptomatic does not change the pathway. The screening test is not confirmed by doing it again.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Give him a second kit and only refer if that is also positive: A repeat kit can be falsely negative; a positive iFOBT goes straight to colonoscopy.\nB. Reassure him that a positive kit in a well man is usually a false alarm: Feeling well does not lower the risk enough to ignore a positive program result.\nC. Arrange a faecal occult blood test in the clinic instead of colonoscopy: Another faecal blood test is still only a screen; it cannot replace colonoscopy.\nE. Start him on a low-residue diet and repeat the kit in six months: Diet change and a delayed repeat postpone the diagnostic test with no benefit.\n\n5. KEY TAKEAWAY\nA positive bowel screening iFOBT, or bowel symptoms, requires diagnostic colonoscopy, never a repeat kit.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nB. Refer him for colonoscopy\n\n---\n\n1. CLINICAL SITUATION\nA 58-year-old man completed a National Bowel Cancer Screening kit. The result is positive. He feels well, has no rectal bleeding, and his weight is stable.\n\n2. THE RULE\nA positive bowel screening iFOBT, or bowel symptoms, requires diagnostic colonoscopy, never a repeat kit.\n\n3. WHY B IS CORRECT\nA positive bowel screening kit leads to colonoscopy. Repeating the kit can produce a false negative and delay diagnosis. Being asymptomatic does not change the pathway. The screening test is not confirmed by doing it again.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Reassure him that a positive kit in a well man is usually a false alarm: Feeling well does not lower the risk enough to ignore a positive program result.\nC. Start him on a low-residue diet and repeat the kit in six months: Diet change and a delayed repeat postpone the diagnostic test with no benefit.\nD. Give him a second kit and only refer if that is also positive: A repeat kit can be falsely negative; a positive iFOBT goes straight to colonoscopy.\nE. Arrange a faecal occult blood test in the clinic instead of colonoscopy: Another faecal blood test is still only a screen; it cannot replace colonoscopy.\n\n5. KEY TAKEAWAY\nA positive bowel screening iFOBT, or bowel symptoms, requires diagnostic colonoscopy, never a repeat kit.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A 58-year-old man completed a National Bowel Cancer Screening kit. The result is positive. He feels well, has no rectal bleeding, and his weight is stable.",
       "best_treatment": "Refer him for colonoscopy",
       "incorrect_answer_explanations": {
-        "A": "A repeat kit can be falsely negative; a positive iFOBT goes straight to colonoscopy.",
-        "B": "Feeling well does not lower the risk enough to ignore a positive program result.",
-        "C": "Another faecal blood test is still only a screen; it cannot replace colonoscopy.",
-        "E": "Diet change and a delayed repeat postpone the diagnostic test with no benefit."
+        "A": "Feeling well does not lower the risk enough to ignore a positive program result.",
+        "C": "Diet change and a delayed repeat postpone the diagnostic test with no benefit.",
+        "D": "A repeat kit can be falsely negative; a positive iFOBT goes straight to colonoscopy.",
+        "E": "Another faecal blood test is still only a screen; it cannot replace colonoscopy."
       },
       "key_takeaways": [
         "A positive bowel screening iFOBT, or bowel symptoms, requires diagnostic colonoscopy, never a repeat kit.",
@@ -1298,23 +1298,23 @@
     {
       "question_text": "A 32-year-old woman has postcoital bleeding for two months. Her last cervical screening test was 18 months ago and was negative for HPV. She asks for an early routine screening test because she is worried, and a friend has told her that a negative test last year means she can wait for the normal five-year interval. She is not pregnant. What is the most appropriate next step?",
       "options": [
-        "Assess the bleeding and refer. Do not treat this as a routine interval screen",
-        "Repeat the HPV test now and reassure her if it is negative",
-        "Tell her to wait until the five-year interval because the last test was negative",
+        "Arrange a screening self-collection swab and discharge her",
         "Start the oral contraceptive pill and review the bleeding in six months",
-        "Arrange a screening self-collection swab and discharge her"
+        "Repeat the HPV test now and reassure her if it is negative",
+        "Assess the bleeding and refer. Do not treat this as a routine interval screen",
+        "Tell her to wait until the five-year interval because the last test was negative"
       ],
-      "correct_answer": "A",
+      "correct_answer": "D",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. Assess the bleeding and refer. Do not treat this as a routine interval screen\n\n---\n\n1. CLINICAL SITUATION\nA 32-year-old woman has postcoital bleeding for two months. Her last cervical screening test was 18 months ago and was negative for HPV. She asks for an early routine screening test because she is worried, and a friend has told her that a negative test last year means she can wait for the normal five-year interval.\n\n2. THE RULE\nHPV 16/18 is referred for colposcopy regardless of cytology, other oncogenic HPV is retested in 12 months, and abnormal bleeding is investigated as a symptom, not screened.\n\n3. WHY A IS CORRECT\nPostcoital bleeding is a symptom. It is not managed by repeating a screening test or by waiting for the next interval. A recent negative HPV result does not clear the symptom. She needs assessment and referral, not a routine screen.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Repeat the HPV test now and reassure her if it is negative: An HPV result cannot explain or exclude postcoital bleeding; the symptom needs examination and referral.\nC. Tell her to wait until the five-year interval because the last test was negative: The 5-year interval applies to asymptomatic people; symptoms override the screening schedule.\nD. Start the oral contraceptive pill and review the bleeding in six months: Starting the pill treats nothing and delays assessment of a possible cervical lesion.\nE. Arrange a screening self-collection swab and discharge her: A self-collected HPV swab is a screening test and gives no cytology or examination for a symptom.\n\n5. KEY TAKEAWAY\nHPV 16/18 is referred for colposcopy regardless of cytology, other oncogenic HPV is retested in 12 months, and abnormal bleeding is investigated as a symptom, not screened.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nD. Assess the bleeding and refer. Do not treat this as a routine interval screen\n\n---\n\n1. CLINICAL SITUATION\nA 32-year-old woman has postcoital bleeding for two months. Her last cervical screening test was 18 months ago and was negative for HPV. She asks for an early routine screening test because she is worried, and a friend has told her that a negative test last year means she can wait for the normal five-year interval.\n\n2. THE RULE\nHPV 16/18 is referred for colposcopy regardless of cytology, other oncogenic HPV is retested in 12 months, and abnormal bleeding is investigated as a symptom, not screened.\n\n3. WHY D IS CORRECT\nPostcoital bleeding is a symptom. It is not managed by repeating a screening test or by waiting for the next interval. A recent negative HPV result does not clear the symptom. She needs assessment and referral, not a routine screen.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Arrange a screening self-collection swab and discharge her: A self-collected HPV swab is a screening test and gives no cytology or examination for a symptom.\nB. Start the oral contraceptive pill and review the bleeding in six months: Starting the pill treats nothing and delays assessment of a possible cervical lesion.\nC. Repeat the HPV test now and reassure her if it is negative: An HPV result cannot explain or exclude postcoital bleeding; the symptom needs examination and referral.\nE. Tell her to wait until the five-year interval because the last test was negative: The 5-year interval applies to asymptomatic people; symptoms override the screening schedule.\n\n5. KEY TAKEAWAY\nHPV 16/18 is referred for colposcopy regardless of cytology, other oncogenic HPV is retested in 12 months, and abnormal bleeding is investigated as a symptom, not screened.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A 32-year-old woman has postcoital bleeding for two months. Her last cervical screening test was 18 months ago and was negative for HPV. She asks for an early routine screening test because she is worried, and a friend has told her that a negative test last year means she can wait for the normal five-year interval.",
       "best_treatment": "Assess the bleeding and refer. Do not treat this as a routine interval screen",
       "incorrect_answer_explanations": {
-        "B": "An HPV result cannot explain or exclude postcoital bleeding; the symptom needs examination and referral.",
-        "C": "The 5-year interval applies to asymptomatic people; symptoms override the screening schedule.",
-        "D": "Starting the pill treats nothing and delays assessment of a possible cervical lesion.",
-        "E": "A self-collected HPV swab is a screening test and gives no cytology or examination for a symptom."
+        "A": "A self-collected HPV swab is a screening test and gives no cytology or examination for a symptom.",
+        "B": "Starting the pill treats nothing and delays assessment of a possible cervical lesion.",
+        "C": "An HPV result cannot explain or exclude postcoital bleeding; the symptom needs examination and referral.",
+        "E": "The 5-year interval applies to asymptomatic people; symptoms override the screening schedule."
       },
       "key_takeaways": [
         "HPV 16/18 is referred for colposcopy regardless of cytology, other oncogenic HPV is retested in 12 months, and abnormal bleeding is investigated as a symptom, not screened.",
@@ -1341,23 +1341,23 @@
     {
       "question_text": "A 55-year-old man with no personal or family history of melanoma asks to be enrolled in a national skin-cancer screening program. He has read that Australia has the highest rate of melanoma and assumes there must be a mail-out or invitation program like BreastScreen. He has no changing moles and no symptom. A colleague says to enrol him in the national melanoma screen and arrange annual full-body photography on the program. What is the most appropriate advice?",
       "options": [
+        "Explain there is no national melanoma screening program to enrol him in",
         "Enrol him in the national melanoma screening program and arrange annual photography",
-        "Arrange a CA-125 and pelvic ultrasound as part of average-risk ovarian screening",
         "Start annual PSA screening because there is a national prostate program",
-        "Reassure him that melanoma does not occur in Australia",
-        "Explain there is no national melanoma screening program to enrol him in"
+        "Arrange a CA-125 and pelvic ultrasound as part of average-risk ovarian screening",
+        "Reassure him that melanoma does not occur in Australia"
       ],
-      "correct_answer": "E",
+      "correct_answer": "A",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nE. Explain there is no national melanoma screening program to enrol him in\n\n---\n\n1. CLINICAL SITUATION\nA 55-year-old man with no personal or family history of melanoma asks to be enrolled in a national skin-cancer screening program. He has read that Australia has the highest rate of melanoma and assumes there must be a mail-out or invitation program like BreastScreen. He has no changing moles and no symptom.\n\n2. THE RULE\nAustralia has no national population screening program for prostate (PSA), skin or ovarian cancer; only breast, bowel, cervical and lung programs exist.\n\n3. WHY E IS CORRECT\nAustralia has no national population screening program for melanoma, average-risk ovarian cancer, or prostate cancer. A high incidence does not create a program. He should not be enrolled in a screen that does not exist. Sun protection and review of changing lesions is the advice, not a fictional program.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Enrol him in the national melanoma screening program and arrange annual photography: Australia has no national melanoma screening program to enrol him in.\nB. Arrange a CA-125 and pelvic ultrasound as part of average-risk ovarian screening: Ovarian screening with CA-125 and ultrasound is not recommended and is irrelevant to his question.\nC. Start annual PSA screening because there is a national prostate program: There is no national prostate screening program, and PSA is unrelated to melanoma.\nD. Reassure him that melanoma does not occur in Australia: Australia has one of the highest melanoma rates in the world; this is false.\n\n5. KEY TAKEAWAY\nAustralia has no national population screening program for prostate (PSA), skin or ovarian cancer; only breast, bowel, cervical and lung programs exist.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nA. Explain there is no national melanoma screening program to enrol him in\n\n---\n\n1. CLINICAL SITUATION\nA 55-year-old man with no personal or family history of melanoma asks to be enrolled in a national skin-cancer screening program. He has read that Australia has the highest rate of melanoma and assumes there must be a mail-out or invitation program like BreastScreen. He has no changing moles and no symptom.\n\n2. THE RULE\nAustralia has no national population screening program for prostate (PSA), skin or ovarian cancer; only breast, bowel, cervical and lung programs exist.\n\n3. WHY A IS CORRECT\nAustralia has no national population screening program for melanoma, average-risk ovarian cancer, or prostate cancer. A high incidence does not create a program. He should not be enrolled in a screen that does not exist. Sun protection and review of changing lesions is the advice, not a fictional program.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Enrol him in the national melanoma screening program and arrange annual photography: Australia has no national melanoma screening program to enrol him in.\nC. Start annual PSA screening because there is a national prostate program: There is no national prostate screening program, and PSA is unrelated to melanoma.\nD. Arrange a CA-125 and pelvic ultrasound as part of average-risk ovarian screening: Ovarian screening with CA-125 and ultrasound is not recommended and is irrelevant to his question.\nE. Reassure him that melanoma does not occur in Australia: Australia has one of the highest melanoma rates in the world; this is false.\n\n5. KEY TAKEAWAY\nAustralia has no national population screening program for prostate (PSA), skin or ovarian cancer; only breast, bowel, cervical and lung programs exist.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "A 55-year-old man with no personal or family history of melanoma asks to be enrolled in a national skin-cancer screening program. He has read that Australia has the highest rate of melanoma and assumes there must be a mail-out or invitation program like BreastScreen. He has no changing moles and no symptom.",
       "best_treatment": "Explain there is no national melanoma screening program to enrol him in",
       "incorrect_answer_explanations": {
-        "A": "Australia has no national melanoma screening program to enrol him in.",
-        "B": "Ovarian screening with CA-125 and ultrasound is not recommended and is irrelevant to his question.",
+        "B": "Australia has no national melanoma screening program to enrol him in.",
         "C": "There is no national prostate screening program, and PSA is unrelated to melanoma.",
-        "D": "Australia has one of the highest melanoma rates in the world; this is false."
+        "D": "Ovarian screening with CA-125 and ultrasound is not recommended and is irrelevant to his question.",
+        "E": "Australia has one of the highest melanoma rates in the world; this is false."
       },
       "key_takeaways": [
         "Australia has no national population screening program for prostate (PSA), skin or ovarian cancer; only breast, bowel, cervical and lung programs exist.",
