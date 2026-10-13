@@ -11,7 +11,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/lib/supabase';
 import { RAZORPAY_TIERS, CHECKOUT_DISABLED, type TierKey } from '@/lib/razorpay-config';
-import { checkoutSummary, resubscribeSummary, cancelCopy, COPY_CARD_CHECK, COPY_CANCEL } from '@/lib/billing';
+import { checkoutSummary, resubscribeSummary, COPY_CANCEL_RESUBSCRIBE, cancelCopy, COPY_CARD_CHECK, COPY_CANCEL } from '@/lib/billing';
 import { SEO } from '@/components/SEO';
 import { PublicFooter } from '@/components/PublicFooter';
 import { PAYPAL_ENABLED } from '@/lib/payment-flags';
@@ -321,7 +321,7 @@ export default function Pricing() {
                       ))}
                     </ul>
                     <p className="mb-2 text-xs text-foreground" data-testid={`checkout-summary-${tierKey}`}>{returning ? resubscribeSummary(cfg.interval) : checkoutSummary(cfg.interval)}</p>
-                    <p className="mb-4 text-xs text-muted-foreground">{returning ? 'Cancel anytime in Settings > Billing.' : <>{COPY_CARD_CHECK} {cancelCopy(cfg.interval)}</>}</p>
+                    <p className="mb-4 text-xs text-muted-foreground">{returning ? COPY_CANCEL_RESUBSCRIBE : <>{COPY_CARD_CHECK} {cancelCopy(cfg.interval)}</>}</p>
                     <Button size="sm" className="w-full" onClick={() => choosePayment(tierKey)} disabled={CHECKOUT_DISABLED || loadingTier === tierKey || isCurrentTier(tierKey)}>
                       {isCurrentTier(tierKey) ? 'Current' : loadingTier === tierKey ? <Loader2 className="h-4 w-4 animate-spin" /> : CHECKOUT_DISABLED ? 'Coming soon' : returning ? 'Resubscribe' : 'Start 7-day free trial'}
                     </Button>

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { computeSchedule, checkoutSummary, cancelCopy, BILLING_MODEL, renewalDate, periodEnd, ordinal } from './billing';
+import { computeSchedule, checkoutSummary, cancelCopy, BILLING_MODEL, renewalDate, periodEnd, ordinal, resubscribeSummary, resubscribeRenewal, COPY_CANCEL_RESUBSCRIBE } from './billing';
 import { firstChargeUnix, sydneyDate, trialEndDate } from '../../supabase/functions/_shared/billing-dates';
 
 const signup = new Date('2026-10-12T23:00:00Z'); // 13 Oct 2026 10:00 Sydney (AEDT)
@@ -76,4 +76,23 @@ describe('B2: server start_at equals the Sydney trial-end date shown in copy (DS
     }
     expect(mismatches).toBe(0);
   }, 60_000);
+});
+
+describe('resubscribe copy (Saul rewrite)', () => {
+  const d15 = new Date('2027-03-14T23:00:00Z'); // 15 Mar 2027 10:00 AEDT
+  const d31 = new Date('2027-01-30T23:00:00Z'); // 31 Jan 2027 10:00 AEDT
+  it('monthly day 15', () => expect(resubscribeSummary('monthly', d15)).toBe("Welcome back. We'll charge A$39 today (15 March 2027), then A$39 every month on the 15th until you cancel. Free trials are for first-time subscribers only."));
+  it('quarterly day 15', () => expect(resubscribeSummary('quarterly', d15)).toBe("Welcome back. We'll charge A$99 today (15 March 2027), then A$99 every 3 months on the 15th until you cancel. Free trials are for first-time subscribers only."));
+  it('monthly day 31', () => expect(resubscribeSummary('monthly', d31)).toBe("Welcome back. We'll charge A$39 today (31 January 2027), then A$39 every month on the 31st (or the last day of the month, in months without a 31st) until you cancel. Free trials are for first-time subscribers only."));
+  it('quarterly day 31', () => expect(resubscribeSummary('quarterly', d31)).toBe("Welcome back. We'll charge A$99 today (31 January 2027), then A$99 every 3 months on the 31st (or the last day of the month, in months without a 31st) until you cancel. Free trials are for first-time subscribers only."));
+  it('uses Sydney date (UTC still previous day)', () => expect(resubscribeSummary('monthly', new Date('2027-03-14T14:00:00Z'))).toContain('today (15 March 2027)'));
+  it('renewals anchor on today Sydney with no drift', () => {
+    expect([1, 2, 3].map((n) => resubscribeRenewal('monthly', n, d31))).toEqual([{ y: 2027, m: 2, d: 28 }, { y: 2027, m: 3, d: 31 }, { y: 2027, m: 4, d: 30 }]);
+    expect([1, 2].map((n) => resubscribeRenewal('quarterly', n, d31))).toEqual([{ y: 2027, m: 4, d: 30 }, { y: 2027, m: 7, d: 31 }]);
+    expect(resubscribeRenewal('monthly', 1, d15)).toEqual({ y: 2027, m: 4, d: 15 });
+    expect(resubscribeRenewal('quarterly', 1, d15)).toEqual({ y: 2027, m: 6, d: 15 });
+  });
+  it('resubscribe cancel copy has no trial sentence', () => {
+    expect(COPY_CANCEL_RESUBSCRIBE).toBe('Cancel anytime in Settings > Billing.');
+  });
 });
