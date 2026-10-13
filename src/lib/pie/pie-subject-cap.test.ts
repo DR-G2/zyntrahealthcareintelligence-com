@@ -34,6 +34,9 @@ describe("0083 PIE per-session subject cap (static contract)", () => {
     expect(fn).toContain("order by c.total desc, c.tie_rank asc, c.tie_hash asc limit 1");
     expect(fn).toContain("'pie-select/p3.0-authoritative'");
   });
+  it("subject counts skip null subject_id so jsonb_object_agg cannot raise", () => {
+    expect(fn).toContain("from served where subject_id is not null group by 1");
+  });
   it("fallback prefers the least-represented capped subject, then the best score", () => {
     expect(fn).toMatch(/if v_fallback then[\s\S]*order by coalesce\(\(v_counts->>c\.subject_id::text\)::int, 0\) asc, c\.total desc, c\.tie_rank asc, c\.tie_hash asc limit 1/);
     expect(fn).toContain("'least_represented_subject_then_score'");

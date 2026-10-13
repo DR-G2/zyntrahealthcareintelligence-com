@@ -60,7 +60,7 @@ begin
       select q.subject_id from public.practice_session_questions x join public.questions q on q.id = x.question_id
        where x.session_id = p_session
       union all select unnest(v_subj)
-    ), c as (select subject_id, count(*)::int n from served group by 1)
+    ), c as (select subject_id, count(*)::int n from served where subject_id is not null group by 1)
     select coalesce(jsonb_object_agg(subject_id::text, n), '{}'::jsonb),
            coalesce(array_agg(subject_id) filter (where n >= v_cap), '{}')
       into v_counts, v_capped from c;
