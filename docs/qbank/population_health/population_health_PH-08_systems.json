@@ -37,7 +37,16 @@
       "phase": "PH-08",
       "phase_item_id": "PH-H-01",
       "lo_id": "770fae7b-72f8-5efb-89d1-edc3c94e50db",
-      "lo_code": "MEDICARE_SERVICE"
+      "lo_code": "MEDICARE_SERVICE",
+      "lo_key": "MEDICARE_SERVICE",
+      "lo_title": "Medicare benefits are claimed only for a clinically relevant service personally provided, never double-billed to a public hospital service.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A practice bulk-bills a level C and also asks the patient for a $40 facility fee in cash, not receipted. The patient is a pensioner. If a service is bulk-billed, the practitioner accepts the Medicare benefit as full payment for that service. An extra undisclosed cash fee is not permitted. Not acceptable. Bulk-billing means the benefit is full payment. What is the most appropriate view?  Calling it a facility fee does not take it outside the agreement. The pensioner status does not create an exception. No extra cash.  The rule is the same in a busy clinic or a rural hospital. Convenience does not create an item or a safe service.  Apply it to the facts in front of you. Do not bill or proceed on a workaround.  That is the correct step.  Nothing in the history creates an exception for billing, access, or a rural workaround. The standard is the same.  Decide on the rule, not on what would be easier to claim or to arrange tonight.  That settles the item.",
@@ -71,7 +80,16 @@
       "phase": "PH-08",
       "phase_item_id": "PH-H-02",
       "lo_id": "bf03581c-c0c3-5673-85fe-b4ca380539cc",
-      "lo_code": "BULK_BILLING"
+      "lo_code": "BULK_BILLING",
+      "lo_key": "BULK_BILLING",
+      "lo_title": "Bulk-billing means accepting the Medicare benefit as full payment, so no additional charge can be added.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 1.05,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A man asks you to prescribe his own statin onto his wife's PBS script because she has reached the safety net and he has not. A PBS prescription is written for the patient who clinically needs that medicine. Using a spouse's concession or safety net is a false claim. Decline. A PBS prescription is for the person who needs the medicine. What is the most appropriate response?  His statin on her script is a false PBS claim. Paying a gap does not fix the wrong name. Decline.  The rule is the same in a busy clinic or a rural hospital. Convenience does not create an item or a safe service.  Apply it to the facts in front of you. Do not bill or proceed on a workaround.  That is the correct step.  Nothing in the history creates an exception for billing, access, or a rural workaround. The standard is the same.  Decide on the rule, not on what would be easier to claim or to arrange tonight.  That settles the item.",
@@ -105,7 +123,16 @@
       "phase": "PH-08",
       "phase_item_id": "PH-H-03",
       "lo_id": "d2919c8b-44e6-5e80-864e-a88e920285b1",
-      "lo_code": "PBS_NAMED"
+      "lo_code": "PBS_NAMED",
+      "lo_key": "PBS_NAMED",
+      "lo_title": "A PBS prescription is written only for the person who clinically needs the medicine and is named on it.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -0.95,
+      "difficulty_tier": "easy",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A GP sees an Aboriginal man who is not registered for Closing the Gap. He writes CTG on the script and tells him the pharmacy will charge the lower co-payment. Closing the Gap PBS registration is a one-off clinical registration. The annotation works only after that. Register him properly first. An annotation alone does not create eligibility. What is the most appropriate correction?  Registration is clinical. A pharmacist cannot create it. It is not automatic. Register, then annotate.  The rule is the same in a busy clinic or a rural hospital. Convenience does not create an item or a safe service.  Apply it to the facts in front of you. Do not bill or proceed on a workaround.  That is the correct step.  Nothing in the history creates an exception for billing, access, or a rural workaround. The standard is the same.  Decide on the rule, not on what would be easier to claim or to arrange tonight.  That settles the item.",
@@ -139,7 +166,16 @@
       "phase": "PH-08",
       "phase_item_id": "PH-H-04",
       "lo_id": "d0959aa2-8935-5247-a695-d24bd87b7005",
-      "lo_code": "CTG_REGISTRATION"
+      "lo_code": "CTG_REGISTRATION",
+      "lo_key": "CTG_REGISTRATION",
+      "lo_title": "Writing CTG on a script has no effect unless the patient is registered for the Closing the Gap PBS co-payment program first.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: community pharmacy",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 34-week pregnant woman in a small rural hospital has a blood pressure of 170/110 and headache, not settling with first-line treatment. The on-call GP plans to observe overnight because the flying doctor is busy and the road is two hours. This is severe pre-eclampsia. A small hospital cannot provide the level she needs. Treat as pre-eclampsia and arrange urgent retrieval. Do not wait out the night. What is the most appropriate action?  Severe pre-eclampsia does not wait for daylight or a quieter retrieval list. Private car is not a retrieval. Treat and retrieve.  The rule is the same in a busy clinic or a rural hospital. Convenience does not create an item or a safe service.  Apply it to the facts in front of you. Do not bill or proceed on a workaround.  That is the correct step.  Nothing in the history creates an exception for billing, access, or a rural workaround. The standard is the same.  Decide on the rule, not on what would be easier to claim or to arrange tonight.  That settles the item.",
@@ -173,7 +209,16 @@
       "phase": "PH-08",
       "phase_item_id": "PH-H-05",
       "lo_id": "202ee238-7135-5b68-8c8d-6e89bc9d564d",
-      "lo_code": "RURAL_TRANSFER"
+      "lo_code": "RURAL_TRANSFER",
+      "lo_key": "RURAL_TRANSFER",
+      "lo_title": "Rural clinicians arrange timely retrieval or transfer when a patient needs a higher level of care and defer elective procedures when safe resources are unavailable.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.95,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: rural hospital",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A doctor opens the My Health Record of a well-known sportsperson who is not his patient, to see if the news is true. Access to a My Health Record needs a legitimate purpose in the person's care. Curiosity about a celebrity is not one. Not acceptable. Access requires a legitimate clinical purpose. What is the most appropriate view?  Registration as a clinician is not a browsing right. Secrecy does not repair it. Do not open the record.  The rule is the same in a busy clinic or a rural hospital. Convenience does not create an item or a safe service.  Apply it to the facts in front of you. Do not bill or proceed on a workaround.  That is the correct step.  Nothing in the history creates an exception for billing, access, or a rural workaround. The standard is the same.  Decide on the rule, not on what would be easier to claim or to arrange tonight.  That settles the item.",
@@ -207,7 +252,16 @@
       "phase": "PH-08",
       "phase_item_id": "PH-H-06",
       "lo_id": "034de426-d1c6-5a4b-9f5d-937733b5dc2c",
-      "lo_code": "MYHR_ACCESS"
+      "lo_code": "MYHR_ACCESS",
+      "lo_key": "MYHR_ACCESS",
+      "lo_title": "Clinicians access a patient's My Health Record only for a legitimate clinical purpose within a care relationship.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -1.1,
+      "difficulty_tier": "easy",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A patient is seen in a public emergency department for a sprained ankle, at no charge. The visiting GP also bills a Medicare consultation for the same attendance. A service provided as part of a public hospital attendance is not also claimed on Medicare by the same doctor for the same occasion. Not acceptable. The same public-hospital service is not also bulk-billed to Medicare. What is the most appropriate view?  Different payers do not mean two fees for one service. Patient agreement does not create a second benefit. Do not bill Medicare.  The rule is the same in a busy clinic or a rural hospital. Convenience does not create an item or a safe service.  Apply it to the facts in front of you. Do not bill or proceed on a workaround.  That is the correct step.  Nothing in the history creates an exception for billing, access, or a rural workaround. The standard is the same.  Decide on the rule, not on what would be easier to claim or to arrange tonight.  That settles the item.",
@@ -241,7 +295,16 @@
       "phase": "PH-08",
       "phase_item_id": "PH-H-07",
       "lo_id": "770fae7b-72f8-5efb-89d1-edc3c94e50db",
-      "lo_code": "MEDICARE_SERVICE"
+      "lo_code": "MEDICARE_SERVICE",
+      "lo_key": "MEDICARE_SERVICE",
+      "lo_title": "Medicare benefits are claimed only for a clinically relevant service personally provided, never double-billed to a public hospital service.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: emergency department",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "An online service offers a new patient, never examined, a benzodiazepine script after a 90-second chat, and bills a long telehealth consult. A telehealth consult must still be a proper clinical service, and the item billed must match what was done. Not acceptable. No adequate assessment, and a long-consult item is not earned. What is the most appropriate view?  A 90-second chat with a stranger for a drug of dependence is not a long consult. Rural location does not lower the standard. Decline the model.  The rule is the same in a busy clinic or a rural hospital. Convenience does not create an item or a safe service.  Apply it to the facts in front of you. Do not bill or proceed on a workaround.  That is the correct step.  Nothing in the history creates an exception for billing, access, or a rural workaround. The standard is the same.  Decide on the rule, not on what would be easier to claim or to arrange tonight.  That settles the item.",
@@ -275,7 +338,16 @@
       "phase": "PH-08",
       "phase_item_id": "PH-H-08",
       "lo_id": "ac590854-3555-5997-886a-e4a285625fdf",
-      "lo_code": "TELEHEALTH"
+      "lo_code": "TELEHEALTH",
+      "lo_key": "TELEHEALTH",
+      "lo_title": "Telehealth services require an adequate clinical assessment and are billed with the MBS item that matches the service actually provided.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.95,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A practice bills a GP management plan for every patient over 65 who walks in for a script, using a prefilled template the patient never sees. A GP management plan is for a patient with a chronic condition, prepared with them. Age is not an indication. Not acceptable. A plan requires a chronic condition and the patient's involvement. What is the most appropriate view?  A template the patient never sees is not a plan. Age over 65 is not an indication. A nurse clicking a box is not the service.  The rule is the same in a busy clinic or a rural hospital. Convenience does not create an item or a safe service.  Apply it to the facts in front of you. Do not bill or proceed on a workaround.  That is the correct step.  Nothing in the history creates an exception for billing, access, or a rural workaround. The standard is the same.  Decide on the rule, not on what would be easier to claim or to arrange tonight.  That settles the item.",
@@ -309,7 +381,16 @@
       "phase": "PH-08",
       "phase_item_id": "PH-H-09",
       "lo_id": "6b77c662-4c98-5f91-82f9-50228315b46d",
-      "lo_code": "CARE_PLAN"
+      "lo_code": "CARE_PLAN",
+      "lo_key": "CARE_PLAN",
+      "lo_title": "A GP management plan is for a patient with a chronic condition and must be prepared with the patient, not billed by template or age.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A GP wants to bill a 715 health assessment for an Aboriginal man who is an inpatient for pneumonia, having had a 715 four months ago. A 715 is a practice-based assessment, not a hospital inpatient item, and it is not claimed more often than the set interval. Do not bill. He is an inpatient, and the interval has not elapsed. What is the most appropriate response?  Inpatient status blocks the 715. Four months is inside the interval. Resolving pneumonia does not create eligibility. Do not bill.  The rule is the same in a busy clinic or a rural hospital. Convenience does not create an item or a safe service.  Apply it to the facts in front of you. Do not bill or proceed on a workaround.  That is the correct step.  Nothing in the history creates an exception for billing, access, or a rural workaround. The standard is the same.  Decide on the rule, not on what would be easier to claim or to arrange tonight.  That settles the item.",
@@ -343,7 +424,16 @@
       "phase": "PH-08",
       "phase_item_id": "PH-H-10",
       "lo_id": "1e1314e2-69cb-5a68-84af-ea5f11244d51",
-      "lo_code": "HEALTH_ASSESSMENT"
+      "lo_code": "HEALTH_ASSESSMENT",
+      "lo_key": "HEALTH_ASSESSMENT",
+      "lo_title": "An Aboriginal and Torres Strait Islander health assessment is claimed for a non-admitted patient at the correct interval, not for a hospital inpatient.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -1.05,
+      "difficulty_tier": "easy",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: hospital",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A rural GP obstetrician is asked to start an elective caesarean at 39 weeks. The hospital has no after-hours theatre nurse tonight, no blood on site, and the nearest backup is three hours away. Mother and baby are well. An elective case waits for a safe service. Defer. Do not start elective surgery without staff, blood, and a realistic backup. What is the most appropriate plan?  Well tonight means the elective case can wait. No theatre nurse, no blood, hours from help. Do not start.  The rule is the same in a busy clinic or a rural hospital. Convenience does not create an item or a safe service.  Apply it to the facts in front of you. Do not bill or proceed on a workaround.  That is the correct step.  Nothing in the history creates an exception for billing, access, or a rural workaround. The standard is the same.  Decide on the rule, not on what would be easier to claim or to arrange tonight.  That settles the item.",
@@ -377,7 +467,16 @@
       "phase": "PH-08",
       "phase_item_id": "PH-H-11",
       "lo_id": "202ee238-7135-5b68-8c8d-6e89bc9d564d",
-      "lo_code": "RURAL_TRANSFER"
+      "lo_code": "RURAL_TRANSFER",
+      "lo_key": "RURAL_TRANSFER",
+      "lo_title": "Rural clinicians arrange timely retrieval or transfer when a patient needs a higher level of care and defer elective procedures when safe resources are unavailable.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 1.0,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: operating theatre",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A patient needs a restricted PBS antibiotic. The GP writes the script with authority pending and tells the pharmacist to dispense a full PBS quantity. No authority has been granted. An authority restriction means the authority comes first. Pending is not approved. Do not claim a PBS quantity until the authority is actually held. What is the most appropriate correction?  Another patient's authority number does not transfer. CTG is not an authority. Pending is not approved. Get it first.  The rule is the same in a busy clinic or a rural hospital. Convenience does not create an item or a safe service.  Apply it to the facts in front of you. Do not bill or proceed on a workaround.  That is the correct step.  Nothing in the history creates an exception for billing, access, or a rural workaround. The standard is the same.  Decide on the rule, not on what would be easier to claim or to arrange tonight.  That settles the item.",
@@ -411,7 +510,16 @@
       "phase": "PH-08",
       "phase_item_id": "PH-H-12",
       "lo_id": "1b3ab9e9-c6c1-5d00-b641-2e1527f59f2f",
-      "lo_code": "PBS_AUTHORITY"
+      "lo_code": "PBS_AUTHORITY",
+      "lo_key": "PBS_AUTHORITY",
+      "lo_title": "A PBS authority must be obtained when the restriction requires it before the PBS quantity is prescribed or claimed.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A patient phones at 10 pm for a repeat of his usual statin. He is well. The GP tells him to collect a script from the after-hours clinic and bills an urgent after-hours attendance. Urgent after-hours items are for urgent clinical need. A routine statin repeat is neither. Not acceptable. A routine repeat is not an urgent after-hours service. What is the most appropriate view?  The clock does not define urgency. Running out of a statin is not an emergency attendance. Do not bill the urgent item.  The rule is the same in a busy clinic or a rural hospital. Convenience does not create an item or a safe service.  Apply it to the facts in front of you. Do not bill or proceed on a workaround.  That is the correct step.  Nothing in the history creates an exception for billing, access, or a rural workaround. The standard is the same.  Decide on the rule, not on what would be easier to claim or to arrange tonight.  That settles the item.",
@@ -445,7 +553,16 @@
       "phase": "PH-08",
       "phase_item_id": "PH-H-13",
       "lo_id": "e71a1c3e-57c0-5997-bf2e-cdf9de23a5c7",
-      "lo_code": "AFTER_HOURS"
+      "lo_code": "AFTER_HOURS",
+      "lo_key": "AFTER_HOURS",
+      "lo_title": "Urgent after-hours items are billed only for genuinely urgent services in after-hours periods, not routine repeat prescriptions.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -1.0,
+      "difficulty_tier": "easy",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A child in a remote clinic has suspected appendicitis and looks unwell. The family want him kept locally because the regional hospital is far. The clinic has no theatre. He needs a surgeon. A clinic without a theatre cannot be the place of care because the family prefer it. Arrange transfer to a hospital that can operate. Explain why local care is unsafe. What is the most appropriate plan?  Family preference is heard. It does not choose an unsafe level of care. No theatre means he cannot stay. Transfer.  The rule is the same in a busy clinic or a rural hospital. Convenience does not create an item or a safe service.  Apply it to the facts in front of you. Do not bill or proceed on a workaround.  That is the correct step.  Nothing in the history creates an exception for billing, access, or a rural workaround. The standard is the same.  Decide on the rule, not on what would be easier to claim or to arrange tonight.  That settles the item.",
@@ -479,7 +596,16 @@
       "phase": "PH-08",
       "phase_item_id": "PH-H-14",
       "lo_id": "202ee238-7135-5b68-8c8d-6e89bc9d564d",
-      "lo_code": "RURAL_TRANSFER"
+      "lo_code": "RURAL_TRANSFER",
+      "lo_key": "RURAL_TRANSFER",
+      "lo_title": "Rural clinicians arrange timely retrieval or transfer when a patient needs a higher level of care and defer elective procedures when safe resources are unavailable.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.95,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: remote community clinic",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A GP bills a consultation item for a medical student who saw the patient alone, while the GP was at lunch and did not see the patient. A Medicare item is claimed by the practitioner who provided the service. A student seeing a patient alone is not that service. Not acceptable. The GP did not provide the service that was billed. What is the most appropriate view?  The item belongs to the practitioner who did the work. A student alone is not a billed consultation. Bulk-billing does not fix it.  The rule is the same in a busy clinic or a rural hospital. Convenience does not create an item or a safe service.  Apply it to the facts in front of you. Do not bill or proceed on a workaround.  That is the correct step.  Nothing in the history creates an exception for billing, access, or a rural workaround. The standard is the same.  Decide on the rule, not on what would be easier to claim or to arrange tonight.  That settles the item.",
@@ -513,7 +639,16 @@
       "phase": "PH-08",
       "phase_item_id": "PH-H-15",
       "lo_id": "770fae7b-72f8-5efb-89d1-edc3c94e50db",
-      "lo_code": "MEDICARE_SERVICE"
+      "lo_code": "MEDICARE_SERVICE",
+      "lo_key": "MEDICARE_SERVICE",
+      "lo_title": "Medicare benefits are claimed only for a clinically relevant service personally provided, never double-billed to a public hospital service.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A well man has a 6-minute chat about a holiday. No history, examination, or plan is recorded. Do not bill. No clinically relevant service was provided. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
@@ -547,7 +682,16 @@
       "phase": "PH-08",
       "phase_item_id": "PH-H-16",
       "lo_id": "770fae7b-72f8-5efb-89d1-edc3c94e50db",
-      "lo_code": "MEDICARE_SERVICE"
+      "lo_code": "MEDICARE_SERVICE",
+      "lo_key": "MEDICARE_SERVICE",
+      "lo_title": "Medicare benefits are claimed only for a clinically relevant service personally provided, never double-billed to a public hospital service.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "The practice bulk-bills and also asks for $40 cash, not receipted. If bulk-billed, the benefit is full payment. The extra fee is not permitted. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
@@ -581,7 +725,16 @@
       "phase": "PH-08",
       "phase_item_id": "PH-H-17",
       "lo_id": "bf03581c-c0c3-5673-85fe-b4ca380539cc",
-      "lo_code": "BULK_BILLING"
+      "lo_code": "BULK_BILLING",
+      "lo_key": "BULK_BILLING",
+      "lo_title": "Bulk-billing means accepting the Medicare benefit as full payment, so no additional charge can be added.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "Renaming the extra charge does not take it outside the bulk-billing agreement. No extra fee. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
@@ -615,7 +768,16 @@
       "phase": "PH-08",
       "phase_item_id": "PH-H-18",
       "lo_id": "bf03581c-c0c3-5673-85fe-b4ca380539cc",
-      "lo_code": "BULK_BILLING"
+      "lo_code": "BULK_BILLING",
+      "lo_key": "BULK_BILLING",
+      "lo_title": "Bulk-billing means accepting the Medicare benefit as full payment, so no additional charge can be added.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "You either bulk-bill and accept the benefit, or you charge a private fee. Not both. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
@@ -649,7 +811,16 @@
       "phase": "PH-08",
       "phase_item_id": "PH-H-19",
       "lo_id": "bf03581c-c0c3-5673-85fe-b4ca380539cc",
-      "lo_code": "BULK_BILLING"
+      "lo_code": "BULK_BILLING",
+      "lo_key": "BULK_BILLING",
+      "lo_title": "Bulk-billing means accepting the Medicare benefit as full payment, so no additional charge can be added.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "He wants his statin on his wife's script because she has reached the safety net. Decline. A PBS prescription is for the person who needs that medicine. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
@@ -683,7 +854,16 @@
       "phase": "PH-08",
       "phase_item_id": "PH-H-20",
       "lo_id": "d2919c8b-44e6-5e80-864e-a88e920285b1",
-      "lo_code": "PBS_NAMED"
+      "lo_code": "PBS_NAMED",
+      "lo_key": "PBS_NAMED",
+      "lo_title": "A PBS prescription is written only for the person who clinically needs the medicine and is named on it.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "Household concession is not a thing. The script names the patient who needs the medicine. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
@@ -717,7 +897,16 @@
       "phase": "PH-08",
       "phase_item_id": "PH-H-21",
       "lo_id": "d2919c8b-44e6-5e80-864e-a88e920285b1",
-      "lo_code": "PBS_NAMED"
+      "lo_code": "PBS_NAMED",
+      "lo_key": "PBS_NAMED",
+      "lo_title": "A PBS prescription is written only for the person who clinically needs the medicine and is named on it.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "Do not write his medicine onto her prescription. Refuse. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
@@ -751,7 +940,16 @@
       "phase": "PH-08",
       "phase_item_id": "PH-H-22",
       "lo_id": "d2919c8b-44e6-5e80-864e-a88e920285b1",
-      "lo_code": "PBS_NAMED"
+      "lo_code": "PBS_NAMED",
+      "lo_key": "PBS_NAMED",
+      "lo_title": "A PBS prescription is written only for the person who clinically needs the medicine and is named on it.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "He is not registered for Closing the Gap. Writing CTG on the script does nothing until he is registered. Register first. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
@@ -785,7 +983,16 @@
       "phase": "PH-08",
       "phase_item_id": "PH-H-23",
       "lo_id": "d0959aa2-8935-5247-a695-d24bd87b7005",
-      "lo_code": "CTG_REGISTRATION"
+      "lo_code": "CTG_REGISTRATION",
+      "lo_key": "CTG_REGISTRATION",
+      "lo_title": "Writing CTG on a script has no effect unless the patient is registered for the Closing the Gap PBS co-payment program first.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "The pharmacy cannot create Closing the Gap eligibility. Register him clinically. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
@@ -819,7 +1026,16 @@
       "phase": "PH-08",
       "phase_item_id": "PH-H-24",
       "lo_id": "d0959aa2-8935-5247-a695-d24bd87b7005",
-      "lo_code": "CTG_REGISTRATION"
+      "lo_code": "CTG_REGISTRATION",
+      "lo_key": "CTG_REGISTRATION",
+      "lo_title": "Writing CTG on a script has no effect unless the patient is registered for the Closing the Gap PBS co-payment program first.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: community pharmacy",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "Until registration is done, annotation is decorative. Do the registration. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
@@ -853,7 +1069,16 @@
       "phase": "PH-08",
       "phase_item_id": "PH-H-25",
       "lo_id": "d0959aa2-8935-5247-a695-d24bd87b7005",
-      "lo_code": "CTG_REGISTRATION"
+      "lo_code": "CTG_REGISTRATION",
+      "lo_key": "CTG_REGISTRATION",
+      "lo_title": "Writing CTG on a script has no effect unless the patient is registered for the Closing the Gap PBS co-payment program first.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "Elective caesarean, no theatre nurse tonight, no blood, backup three hours away. Mother and baby are well. Defer. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
@@ -887,7 +1112,16 @@
       "phase": "PH-08",
       "phase_item_id": "PH-H-26",
       "lo_id": "202ee238-7135-5b68-8c8d-6e89bc9d564d",
-      "lo_code": "RURAL_TRANSFER"
+      "lo_code": "RURAL_TRANSFER",
+      "lo_key": "RURAL_TRANSFER",
+      "lo_title": "Rural clinicians arrange timely retrieval or transfer when a patient needs a higher level of care and defer elective procedures when safe resources are unavailable.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: operating theatre",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "He opens a sportsperson's My Health Record. The person is not his patient. Curiosity is not a legitimate purpose. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
@@ -921,7 +1155,16 @@
       "phase": "PH-08",
       "phase_item_id": "PH-H-27",
       "lo_id": "034de426-d1c6-5a4b-9f5d-937733b5dc2c",
-      "lo_code": "MYHR_ACCESS"
+      "lo_code": "MYHR_ACCESS",
+      "lo_key": "MYHR_ACCESS",
+      "lo_title": "Clinicians access a patient's My Health Record only for a legitimate clinical purpose within a care relationship.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "No treating relationship. Do not open the record. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
@@ -955,7 +1198,16 @@
       "phase": "PH-08",
       "phase_item_id": "PH-H-28",
       "lo_id": "034de426-d1c6-5a4b-9f5d-937733b5dc2c",
-      "lo_code": "MYHR_ACCESS"
+      "lo_code": "MYHR_ACCESS",
+      "lo_key": "MYHR_ACCESS",
+      "lo_title": "Clinicians access a patient's My Health Record only for a legitimate clinical purpose within a care relationship.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "An audit trail does not authorise curiosity. Do not open it. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
@@ -989,7 +1241,16 @@
       "phase": "PH-08",
       "phase_item_id": "PH-H-29",
       "lo_id": "034de426-d1c6-5a4b-9f5d-937733b5dc2c",
-      "lo_code": "MYHR_ACCESS"
+      "lo_code": "MYHR_ACCESS",
+      "lo_key": "MYHR_ACCESS",
+      "lo_title": "Clinicians access a patient's My Health Record only for a legitimate clinical purpose within a care relationship.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "An online service offers a benzodiazepine after 90 seconds with a patient never examined, and bills a long consult. Not acceptable. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
@@ -1023,7 +1284,16 @@
       "phase": "PH-08",
       "phase_item_id": "PH-H-30",
       "lo_id": "ac590854-3555-5997-886a-e4a285625fdf",
-      "lo_code": "TELEHEALTH"
+      "lo_code": "TELEHEALTH",
+      "lo_key": "TELEHEALTH",
+      "lo_title": "Telehealth services require an adequate clinical assessment and are billed with the MBS item that matches the service actually provided.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "Bill what was done. A brief inadequate chat is not a long consult. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
@@ -1057,7 +1327,16 @@
       "phase": "PH-08",
       "phase_item_id": "PH-H-31",
       "lo_id": "ac590854-3555-5997-886a-e4a285625fdf",
-      "lo_code": "TELEHEALTH"
+      "lo_code": "TELEHEALTH",
+      "lo_key": "TELEHEALTH",
+      "lo_title": "Telehealth services require an adequate clinical assessment and are billed with the MBS item that matches the service actually provided.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "Telehealth does not remove the need for an adequate assessment. This was not one. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
@@ -1091,7 +1370,16 @@
       "phase": "PH-08",
       "phase_item_id": "PH-H-32",
       "lo_id": "ac590854-3555-5997-886a-e4a285625fdf",
-      "lo_code": "TELEHEALTH"
+      "lo_code": "TELEHEALTH",
+      "lo_key": "TELEHEALTH",
+      "lo_title": "Telehealth services require an adequate clinical assessment and are billed with the MBS item that matches the service actually provided.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "The practice bills a GP management plan for every patient over 65, using a template the patient never sees. A plan needs a chronic condition and the patient. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
@@ -1125,7 +1413,16 @@
       "phase": "PH-08",
       "phase_item_id": "PH-H-33",
       "lo_id": "6b77c662-4c98-5f91-82f9-50228315b46d",
-      "lo_code": "CARE_PLAN"
+      "lo_code": "CARE_PLAN",
+      "lo_key": "CARE_PLAN",
+      "lo_title": "A GP management plan is for a patient with a chronic condition and must be prepared with the patient, not billed by template or age.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "No chronic condition, no discussion. Do not bill the plan. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
@@ -1159,7 +1456,16 @@
       "phase": "PH-08",
       "phase_item_id": "PH-H-34",
       "lo_id": "6b77c662-4c98-5f91-82f9-50228315b46d",
-      "lo_code": "CARE_PLAN"
+      "lo_code": "CARE_PLAN",
+      "lo_key": "CARE_PLAN",
+      "lo_title": "A GP management plan is for a patient with a chronic condition and must be prepared with the patient, not billed by template or age.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "Do not attach a plan item to an ordinary script visit. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
@@ -1193,7 +1499,16 @@
       "phase": "PH-08",
       "phase_item_id": "PH-H-35",
       "lo_id": "6b77c662-4c98-5f91-82f9-50228315b46d",
-      "lo_code": "CARE_PLAN"
+      "lo_code": "CARE_PLAN",
+      "lo_key": "CARE_PLAN",
+      "lo_title": "A GP management plan is for a patient with a chronic condition and must be prepared with the patient, not billed by template or age.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "He is an inpatient and had a 715 four months ago. Do not bill. Inpatient status blocks it, and the interval has not elapsed. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
@@ -1227,7 +1542,16 @@
       "phase": "PH-08",
       "phase_item_id": "PH-H-36",
       "lo_id": "1e1314e2-69cb-5a68-84af-ea5f11244d51",
-      "lo_code": "HEALTH_ASSESSMENT"
+      "lo_code": "HEALTH_ASSESSMENT",
+      "lo_key": "HEALTH_ASSESSMENT",
+      "lo_title": "An Aboriginal and Torres Strait Islander health assessment is claimed for a non-admitted patient at the correct interval, not for a hospital inpatient.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "Finish the admission. Offer the 715 later in the clinic if he is due. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
@@ -1261,7 +1585,16 @@
       "phase": "PH-08",
       "phase_item_id": "PH-H-37",
       "lo_id": "1e1314e2-69cb-5a68-84af-ea5f11244d51",
-      "lo_code": "HEALTH_ASSESSMENT"
+      "lo_code": "HEALTH_ASSESSMENT",
+      "lo_key": "HEALTH_ASSESSMENT",
+      "lo_title": "An Aboriginal and Torres Strait Islander health assessment is claimed for a non-admitted patient at the correct interval, not for a hospital inpatient.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: outpatient clinic",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "Ward is not a 715 setting. Do not claim it. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
@@ -1295,7 +1628,16 @@
       "phase": "PH-08",
       "phase_item_id": "PH-H-38",
       "lo_id": "1e1314e2-69cb-5a68-84af-ea5f11244d51",
-      "lo_code": "HEALTH_ASSESSMENT"
+      "lo_code": "HEALTH_ASSESSMENT",
+      "lo_key": "HEALTH_ASSESSMENT",
+      "lo_title": "An Aboriginal and Torres Strait Islander health assessment is claimed for a non-admitted patient at the correct interval, not for a hospital inpatient.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: hospital ward",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A restricted antibiotic needs an authority. None has been granted. Pending is not approved. Do not claim the PBS quantity yet. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
@@ -1329,7 +1671,16 @@
       "phase": "PH-08",
       "phase_item_id": "PH-H-39",
       "lo_id": "1b3ab9e9-c6c1-5d00-b641-2e1527f59f2f",
-      "lo_code": "PBS_AUTHORITY"
+      "lo_code": "PBS_AUTHORITY",
+      "lo_key": "PBS_AUTHORITY",
+      "lo_title": "A PBS authority must be obtained when the restriction requires it before the PBS quantity is prescribed or claimed.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "Get the authority. Do not ask the pharmacy to dispense a PBS quantity without it. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
@@ -1363,7 +1714,16 @@
       "phase": "PH-08",
       "phase_item_id": "PH-H-40",
       "lo_id": "1b3ab9e9-c6c1-5d00-b641-2e1527f59f2f",
-      "lo_code": "PBS_AUTHORITY"
+      "lo_code": "PBS_AUTHORITY",
+      "lo_key": "PBS_AUTHORITY",
+      "lo_title": "A PBS authority must be obtained when the restriction requires it before the PBS quantity is prescribed or claimed.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: community pharmacy",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "Do not borrow an authority number. Obtain this one. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
@@ -1397,7 +1757,16 @@
       "phase": "PH-08",
       "phase_item_id": "PH-H-41",
       "lo_id": "1b3ab9e9-c6c1-5d00-b641-2e1527f59f2f",
-      "lo_code": "PBS_AUTHORITY"
+      "lo_code": "PBS_AUTHORITY",
+      "lo_key": "PBS_AUTHORITY",
+      "lo_title": "A PBS authority must be obtained when the restriction requires it before the PBS quantity is prescribed or claimed.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "He phones at 10 pm for a routine statin. He is well. Urgent after-hours items need urgent clinical need. This is not urgent. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
@@ -1431,7 +1800,16 @@
       "phase": "PH-08",
       "phase_item_id": "PH-H-42",
       "lo_id": "e71a1c3e-57c0-5997-bf2e-cdf9de23a5c7",
-      "lo_code": "AFTER_HOURS"
+      "lo_code": "AFTER_HOURS",
+      "lo_key": "AFTER_HOURS",
+      "lo_title": "Urgent after-hours items are billed only for genuinely urgent services in after-hours periods, not routine repeat prescriptions.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "No urgent need. Do not bill the urgent attendance. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
@@ -1465,7 +1843,16 @@
       "phase": "PH-08",
       "phase_item_id": "PH-H-43",
       "lo_id": "e71a1c3e-57c0-5997-bf2e-cdf9de23a5c7",
-      "lo_code": "AFTER_HOURS"
+      "lo_code": "AFTER_HOURS",
+      "lo_key": "AFTER_HOURS",
+      "lo_title": "Urgent after-hours items are billed only for genuinely urgent services in after-hours periods, not routine repeat prescriptions.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "The hour does not make a routine request urgent. Bill appropriately, or not at all. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
@@ -1499,7 +1886,16 @@
       "phase": "PH-08",
       "phase_item_id": "PH-H-44",
       "lo_id": "e71a1c3e-57c0-5997-bf2e-cdf9de23a5c7",
-      "lo_code": "AFTER_HOURS"
+      "lo_code": "AFTER_HOURS",
+      "lo_key": "AFTER_HOURS",
+      "lo_title": "Urgent after-hours items are billed only for genuinely urgent services in after-hours periods, not routine repeat prescriptions.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     }
   ]
 }

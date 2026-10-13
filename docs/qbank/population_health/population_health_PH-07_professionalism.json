@@ -37,7 +37,16 @@
       "phase": "PH-07",
       "phase_item_id": "PH-P-01",
       "lo_id": "27d9a2f0-ce57-56b5-9079-9dc28350422c",
-      "lo_code": "SEXUAL_BOUNDARY"
+      "lo_code": "SEXUAL_BOUNDARY",
+      "lo_key": "SEXUAL_BOUNDARY",
+      "lo_title": "A sexual relationship with a current or recent patient is professional misconduct, regardless of consent or transfer of care.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A colleague arrives for an operating list smelling of alcohol. He says he only had two drinks last night and is fine. He is about to anaesthetise the first patient. Impairment that risks patients is acted on at once. A mandatory notification may follow. Stop him seeing patients now, correct the risk, and consider notification. What is the most appropriate action?  Alcohol on the breath before an anaesthetic is a current risk. Two drinks last night is not a clearance. Stand him down from the list. Notification may follow.  The standard is the same whether or not anyone complains. Apply it to the facts in front of you.  A private arrangement or a past illness does not create an exception here.  Decide on the duty, not on convenience.  Nothing in the history lowers the standard. The same rule applies if the person is a friend, a colleague, or a relative.  Act on the duty now. Waiting for a complaint is not the safeguard.  That is the professional response. Do not delay it. Today. Clearly.",
@@ -71,7 +80,16 @@
       "phase": "PH-07",
       "phase_item_id": "PH-P-02",
       "lo_id": "fa7be8c0-d22b-5207-8a04-a9de8c3c227f",
-      "lo_code": "IMPAIRMENT_RISK"
+      "lo_code": "IMPAIRMENT_RISK",
+      "lo_key": "IMPAIRMENT_RISK",
+      "lo_title": "Practising while impaired by alcohol or drugs with risk to patients requires immediate removal from practice and mandatory notification, but a treated practitioner with no ongoing risk does not.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.9,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A patient offers a GP $200 in cash to write a workers' compensation certificate stating a permanent back injury, when the examination shows a minor strain. The patient says everyone does it. A certificate must be honest. Payment for a false certificate is worse. Decline the cash. Explain that payment outside the proper fee for a false document is not acceptable. What is the most appropriate response?  The examination does not support a permanent injury. Cash for a false certificate is refused. Explain why. Do not write it.  The standard is the same whether or not anyone complains. Apply it to the facts in front of you.  A private arrangement or a past illness does not create an exception here.  Decide on the duty, not on convenience.  Nothing in the history lowers the standard. The same rule applies if the person is a friend, a colleague, or a relative.  Act on the duty now. Waiting for a complaint is not the safeguard.  That is the professional response. Do not delay it. Today. Clearly.",
@@ -105,7 +123,16 @@
       "phase": "PH-07",
       "phase_item_id": "PH-P-03",
       "lo_id": "1bf55b32-013b-50b8-b511-09ef5599acd5",
-      "lo_code": "HONEST_CERTIFICATE"
+      "lo_code": "HONEST_CERTIFICATE",
+      "lo_key": "HONEST_CERTIFICATE",
+      "lo_title": "Certificates must reflect the clinical findings honestly, and gifts or payments that could influence care or certification are declined.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -0.9,
+      "difficulty_tier": "easy",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A surgeon has a progressive tremor that has caused two recent intraoperative complications. He says he will only do easy cases. An impaired practitioner who continues to treat patients is a risk. Self-limitation is not a sufficient safeguard. He must stop operating now. Impairment with patient risk requires action, not a promise to be careful. What is the most appropriate action?  Two complications and a progressive tremor. Easy cases still carry risk. He stops operating. A promise to be careful is not a safeguard.  The standard is the same whether or not anyone complains. Apply it to the facts in front of you.  A private arrangement or a past illness does not create an exception here.  Decide on the duty, not on convenience.  Nothing in the history lowers the standard. The same rule applies if the person is a friend, a colleague, or a relative.  Act on the duty now. Waiting for a complaint is not the safeguard.  That is the professional response. Do not delay it. Today. Clearly.",
@@ -139,7 +166,16 @@
       "phase": "PH-07",
       "phase_item_id": "PH-P-04",
       "lo_id": "fa7be8c0-d22b-5207-8a04-a9de8c3c227f",
-      "lo_code": "IMPAIRMENT_RISK"
+      "lo_code": "IMPAIRMENT_RISK",
+      "lo_key": "IMPAIRMENT_RISK",
+      "lo_title": "Practising while impaired by alcohol or drugs with risk to patients requires immediate removal from practice and mandatory notification, but a treated practitioner with no ongoing risk does not.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A doctor posts a photo of a patient's unusual rash on a closed social-media group of 400 colleagues, with the suburb and the age. He says the group is private so it is not a breach. A patient can be identified from a combination of details even in a closed group. Consent for teaching is not the same as posting. A breach. The image and detail can identify him, and consent was not obtained. What is the most appropriate view?  Closed group is not confidential. Suburb plus age plus a distinctive rash can identify. No consent. Take it down. It is a breach.  The standard is the same whether or not anyone complains. Apply it to the facts in front of you.  A private arrangement or a past illness does not create an exception here.  Decide on the duty, not on convenience.  Nothing in the history lowers the standard. The same rule applies if the person is a friend, a colleague, or a relative.  Act on the duty now. Waiting for a complaint is not the safeguard.  That is the professional response. Do not delay it. Today. Clearly.",
@@ -173,7 +209,16 @@
       "phase": "PH-07",
       "phase_item_id": "PH-P-05",
       "lo_id": "0a12d5a9-40da-5124-a864-2d04f062b867",
-      "lo_code": "PRIVACY_SOCIAL"
+      "lo_code": "PRIVACY_SOCIAL",
+      "lo_key": "PRIVACY_SOCIAL",
+      "lo_title": "Posting case details on social media can identify a patient even without a name and breaches privacy without consent.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 1.0,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A male doctor is about to perform a pelvic examination. The female patient looks uncomfortable and asks if a nurse can be present. He says he is in a hurry and the examination will only take a minute. A chaperone is offered, and a patient's request for one is respected. Stop. Offer to wait for the nurse or to rebook with a chaperone. What is the most appropriate action?  She asked for a nurse. Hurry is not a reason to proceed. Wait or rebook. Do not examine without the chaperone she requested.  The standard is the same whether or not anyone complains. Apply it to the facts in front of you.  A private arrangement or a past illness does not create an exception here.  Decide on the duty, not on convenience.  Nothing in the history lowers the standard. The same rule applies if the person is a friend, a colleague, or a relative.  Act on the duty now. Waiting for a complaint is not the safeguard.  That is the professional response. Do not delay it. Today. Clearly.",
@@ -207,7 +252,16 @@
       "phase": "PH-07",
       "phase_item_id": "PH-P-06",
       "lo_id": "e7741c92-9cbb-5566-b50a-f6e1238b329d",
-      "lo_code": "CHAPERONE"
+      "lo_code": "CHAPERONE",
+      "lo_key": "CHAPERONE",
+      "lo_title": "A patient's request for a chaperone during an intimate examination must be respected, and the examination waits until one is available.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A surgeon's website says he has never had a complication from laparoscopic cholecystectomy in 2000 cases. A colleague knows of two bile-duct injuries. Advertising must not be misleading. An absolute claim of no complications, when complications have occurred, is misleading. What is the most appropriate view of the website?  Never had a complication is false if two bile-duct injuries occurred. Absolute claims in advertising are misleading. The website should not say it.  The standard is the same whether or not anyone complains. Apply it to the facts in front of you.  A private arrangement or a past illness does not create an exception here.  Decide on the duty, not on convenience.  Nothing in the history lowers the standard. The same rule applies if the person is a friend, a colleague, or a relative.  Act on the duty now. Waiting for a complaint is not the safeguard.  That is the professional response. Do not delay it. Today. Clearly.",
@@ -241,7 +295,16 @@
       "phase": "PH-07",
       "phase_item_id": "PH-P-07",
       "lo_id": "1e1ae1d0-5fa5-589b-afe4-b51aff5578ad",
-      "lo_code": "ADVERTISING"
+      "lo_code": "ADVERTISING",
+      "lo_key": "ADVERTISING",
+      "lo_title": "Health advertising must not be false or misleading or create unreasonable expectations, such as claiming no complications.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -1.05,
+      "difficulty_tier": "easy",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A GP's adult daughter asks him to become her doctor and prescribe her antidepressants, because she trusts him and does not want to see a stranger. Treating a close family member, especially for mental health or controlled drugs, is avoided. Decline to become her doctor. Arrange care with another practitioner. What is the most appropriate response?  Daughter, antidepressants, trust as the reason. That is exactly the situation to avoid. Arrange another doctor. Do not prescribe.  The standard is the same whether or not anyone complains. Apply it to the facts in front of you.  A private arrangement or a past illness does not create an exception here.  Decide on the duty, not on convenience.  Nothing in the history lowers the standard. The same rule applies if the person is a friend, a colleague, or a relative.  Act on the duty now. Waiting for a complaint is not the safeguard.  That is the professional response. Do not delay it. Today. Clearly.",
@@ -275,7 +338,16 @@
       "phase": "PH-07",
       "phase_item_id": "PH-P-08",
       "lo_id": "3a3569c2-7e2e-5d89-9ad3-be50bbeb4ac9",
-      "lo_code": "FAMILY_TREATMENT"
+      "lo_code": "FAMILY_TREATMENT",
+      "lo_key": "FAMILY_TREATMENT",
+      "lo_title": "Doctors should avoid treating family or close friends except in emergencies, and arrange care with an independent practitioner.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 1.05,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A patient has an anaphylactic reaction to a drug. The doctor treats it, then alters the original note to say he had warned her of this exact risk, which he had not. The original record is not rewritten to protect the doctor. A late entry is labelled as a late entry. Treat the reaction, keep the original record, and add a dated correction if needed. What is the most appropriate action?  The reaction is treated first. The original note stays. A late addition is marked as late. Rewriting history to invent a warning is the misconduct.  The standard is the same whether or not anyone complains. Apply it to the facts in front of you.  A private arrangement or a past illness does not create an exception here.  Decide on the duty, not on convenience.  Nothing in the history lowers the standard. The same rule applies if the person is a friend, a colleague, or a relative.  Act on the duty now. Waiting for a complaint is not the safeguard.  That is the professional response. Do not delay it. Today. Clearly.",
@@ -309,7 +381,16 @@
       "phase": "PH-07",
       "phase_item_id": "PH-P-09",
       "lo_id": "8ed0af72-098a-501d-aa0e-dfbebceca28a",
-      "lo_code": "RECORD_INTEGRITY"
+      "lo_code": "RECORD_INTEGRITY",
+      "lo_key": "RECORD_INTEGRITY",
+      "lo_title": "Clinical records are never altered after the fact; corrections are dated and identified additions, and errors causing harm are disclosed.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A registrar discovers that a colleague has fabricated a research result and enrolled two patients in a trial without consent. The colleague says it will not happen again and asks him to stay quiet. Research misconduct and missing consent are raised, not buried. The fabrication and missing consent must be raised through the proper channel. What is the most appropriate action?  Fabricated data and absent consent are not a private apology matter. Raise them. Staying quiet protects neither patients nor the record.  The standard is the same whether or not anyone complains. Apply it to the facts in front of you.  A private arrangement or a past illness does not create an exception here.  Decide on the duty, not on convenience.  Nothing in the history lowers the standard. The same rule applies if the person is a friend, a colleague, or a relative.  Act on the duty now. Waiting for a complaint is not the safeguard.  That is the professional response. Do not delay it. Today. Clearly.",
@@ -343,7 +424,16 @@
       "phase": "PH-07",
       "phase_item_id": "PH-P-10",
       "lo_id": "f46c0963-0d14-5b2e-8336-a8af8693d41d",
-      "lo_code": "RESEARCH_MISCONDUCT"
+      "lo_code": "RESEARCH_MISCONDUCT",
+      "lo_key": "RESEARCH_MISCONDUCT",
+      "lo_title": "Research fabrication and enrolment without consent are research misconduct that must be reported through proper channels, regardless of results.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -0.9,
+      "difficulty_tier": "easy",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: research setting",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A doctor is asked to notify AHPRA because a colleague had a treated episode of depression five years ago, is now well, and has no performance concerns. Mandatory notification is for current risk to patients, not for a past illness that is treated and not affecting practice. Decline. There is no risk to patients and no consent issue. What is the most appropriate response?  Treated depression, five years ago, well, no concerns. No current risk. Mandatory notification is not for past illness. Decline the request to notify.  The standard is the same whether or not anyone complains. Apply it to the facts in front of you.  A private arrangement or a past illness does not create an exception here.  Decide on the duty, not on convenience.  Nothing in the history lowers the standard. The same rule applies if the person is a friend, a colleague, or a relative.  Act on the duty now. Waiting for a complaint is not the safeguard.  That is the professional response. Do not delay it. Today. Clearly.",
@@ -377,7 +467,16 @@
       "phase": "PH-07",
       "phase_item_id": "PH-P-11",
       "lo_id": "fa7be8c0-d22b-5207-8a04-a9de8c3c227f",
-      "lo_code": "IMPAIRMENT_RISK"
+      "lo_code": "IMPAIRMENT_RISK",
+      "lo_key": "IMPAIRMENT_RISK",
+      "lo_title": "Practising while impaired by alcohol or drugs with risk to patients requires immediate removal from practice and mandatory notification, but a treated practitioner with no ongoing risk does not.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.9,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A device company offers a surgeon a week at a luxury resort, with no educational content, in return for using their implant. He says it is just hospitality. A gift or hospitality that could influence practice is declined. Education at a conference is different. Decline. The hospitality is out of proportion to any educational purpose. What is the most appropriate response?  A week at a resort with no education is an inducement. It can influence which implant is used. Decline. A modest educational meeting is a different thing.  The standard is the same whether or not anyone complains. Apply it to the facts in front of you.  A private arrangement or a past illness does not create an exception here.  Decide on the duty, not on convenience.  Nothing in the history lowers the standard. The same rule applies if the person is a friend, a colleague, or a relative.  Act on the duty now. Waiting for a complaint is not the safeguard.  That is the professional response. Do not delay it. Today. Clearly.",
@@ -411,7 +510,16 @@
       "phase": "PH-07",
       "phase_item_id": "PH-P-12",
       "lo_id": "162e3cfb-e67e-51a1-be32-564f1e99de12",
-      "lo_code": "CONFLICT_GIFT"
+      "lo_code": "CONFLICT_GIFT",
+      "lo_key": "CONFLICT_GIFT",
+      "lo_title": "Doctors decline industry hospitality or benefits beyond modest educational value and disclose financial interests to patients, offering real alternatives.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A consultant asks a medical student to consent a patient for a mastectomy, including the risks of the operation, and to get the form signed. The student has never seen the operation. Consent for a procedure is taken by someone who understands it and can answer questions. Stop it. The student is not competent for this task. What is the most appropriate action?  Consent includes risks the consenter must be able to explain. A student who has never seen the operation cannot. Stop the delegation.  The standard is the same whether or not anyone complains. Apply it to the facts in front of you.  A private arrangement or a past illness does not create an exception here.  Decide on the duty, not on convenience.  Nothing in the history lowers the standard. The same rule applies if the person is a friend, a colleague, or a relative.  Act on the duty now. Waiting for a complaint is not the safeguard.  That is the professional response. Do not delay it. Today. Clearly.",
@@ -445,7 +553,16 @@
       "phase": "PH-07",
       "phase_item_id": "PH-P-13",
       "lo_id": "7d13745c-e019-566c-85d1-6485780ca565",
-      "lo_code": "SUPERVISION"
+      "lo_code": "SUPERVISION",
+      "lo_key": "SUPERVISION",
+      "lo_title": "Students and juniors must only do tasks they are competent for and supervised in; obtaining consent requires someone who understands the procedure and its risks.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -1.05,
+      "difficulty_tier": "easy",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A colleague had a single seizure, was investigated, has been cleared by a neurologist, is on no treatment, and has had no further events. He does not drive. There is no concern about his practice. A past event that is treated, cleared, and poses no current risk to patients is not a mandatory notification. Do not notify. What is the most appropriate course?  Single seizure, cleared, no treatment, no driving, no practice concern. No current risk to patients. Do not notify.  The standard is the same whether or not anyone complains. Apply it to the facts in front of you.  A private arrangement or a past illness does not create an exception here.  Decide on the duty, not on convenience.  Nothing in the history lowers the standard. The same rule applies if the person is a friend, a colleague, or a relative.  Act on the duty now. Waiting for a complaint is not the safeguard.  That is the professional response. Do not delay it. Today. Clearly.",
@@ -479,7 +596,16 @@
       "phase": "PH-07",
       "phase_item_id": "PH-P-14",
       "lo_id": "fa7be8c0-d22b-5207-8a04-a9de8c3c227f",
-      "lo_code": "IMPAIRMENT_RISK"
+      "lo_code": "IMPAIRMENT_RISK",
+      "lo_key": "IMPAIRMENT_RISK",
+      "lo_title": "Practising while impaired by alcohol or drugs with risk to patients requires immediate removal from practice and mandatory notification, but a treated practitioner with no ongoing risk does not.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 1.1,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A GP owns 40% of a private radiology practice. He refers patients there for imaging and does not mention the ownership. A financial interest in a service you refer to is a conflict. It is disclosed. A conflict. Ownership must be disclosed, and the patient offered a real alternative. What is the most appropriate view?  Forty per cent ownership and referral without disclosure. The patient cannot choose freely. Disclose, and offer another provider.  The standard is the same whether or not anyone complains. Apply it to the facts in front of you.  A private arrangement or a past illness does not create an exception here.  Decide on the duty, not on convenience.  Nothing in the history lowers the standard. The same rule applies if the person is a friend, a colleague, or a relative.  Act on the duty now. Waiting for a complaint is not the safeguard.  That is the professional response. Do not delay it. Today. Clearly.",
@@ -513,7 +639,16 @@
       "phase": "PH-07",
       "phase_item_id": "PH-P-15",
       "lo_id": "162e3cfb-e67e-51a1-be32-564f1e99de12",
-      "lo_code": "CONFLICT_GIFT"
+      "lo_code": "CONFLICT_GIFT",
+      "lo_key": "CONFLICT_GIFT",
+      "lo_title": "Doctors decline industry hospitality or benefits beyond modest educational value and disclose financial interests to patients, offering real alternatives.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A GP has treated a woman for depression for six months. She is improving. He asks if a sexual relationship is now acceptable because the therapeutic relationship is almost over. Current or recent is still prohibited. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
@@ -547,7 +682,16 @@
       "phase": "PH-07",
       "phase_item_id": "PH-P-16",
       "lo_id": "27d9a2f0-ce57-56b5-9079-9dc28350422c",
-      "lo_code": "SEXUAL_BOUNDARY"
+      "lo_code": "SEXUAL_BOUNDARY",
+      "lo_key": "SEXUAL_BOUNDARY",
+      "lo_title": "A sexual relationship with a current or recent patient is professional misconduct, regardless of consent or transfer of care.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "He ended formal care four weeks ago and wants to start a relationship. Recent care is still a boundary. Decline. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
@@ -581,7 +725,16 @@
       "phase": "PH-07",
       "phase_item_id": "PH-P-17",
       "lo_id": "27d9a2f0-ce57-56b5-9079-9dc28350422c",
-      "lo_code": "SEXUAL_BOUNDARY"
+      "lo_code": "SEXUAL_BOUNDARY",
+      "lo_key": "SEXUAL_BOUNDARY",
+      "lo_title": "A sexual relationship with a current or recent patient is professional misconduct, regardless of consent or transfer of care.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "Transferring her today does not make yesterday's care distant. Do not start the relationship. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
@@ -615,7 +768,16 @@
       "phase": "PH-07",
       "phase_item_id": "PH-P-18",
       "lo_id": "27d9a2f0-ce57-56b5-9079-9dc28350422c",
-      "lo_code": "SEXUAL_BOUNDARY"
+      "lo_code": "SEXUAL_BOUNDARY",
+      "lo_key": "SEXUAL_BOUNDARY",
+      "lo_title": "A sexual relationship with a current or recent patient is professional misconduct, regardless of consent or transfer of care.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A patient offers $200 for a certificate of permanent injury. Examination shows a minor strain. Decline the cash. Do not write a false certificate. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
@@ -649,7 +811,16 @@
       "phase": "PH-07",
       "phase_item_id": "PH-P-19",
       "lo_id": "1bf55b32-013b-50b8-b511-09ef5599acd5",
-      "lo_code": "HONEST_CERTIFICATE"
+      "lo_code": "HONEST_CERTIFICATE",
+      "lo_key": "HONEST_CERTIFICATE",
+      "lo_title": "Certificates must reflect the clinical findings honestly, and gifts or payments that could influence care or certification are declined.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "He wants the wording that helps the claim. Write the findings. Do not sell a conclusion. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
@@ -683,7 +854,16 @@
       "phase": "PH-07",
       "phase_item_id": "PH-P-20",
       "lo_id": "1bf55b32-013b-50b8-b511-09ef5599acd5",
-      "lo_code": "HONEST_CERTIFICATE"
+      "lo_code": "HONEST_CERTIFICATE",
+      "lo_key": "HONEST_CERTIFICATE",
+      "lo_title": "Certificates must reflect the clinical findings honestly, and gifts or payments that could influence care or certification are declined.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "Regular patient or not, the examination does not support permanent injury. Decline. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
@@ -717,7 +897,16 @@
       "phase": "PH-07",
       "phase_item_id": "PH-P-21",
       "lo_id": "1bf55b32-013b-50b8-b511-09ef5599acd5",
-      "lo_code": "HONEST_CERTIFICATE"
+      "lo_code": "HONEST_CERTIFICATE",
+      "lo_key": "HONEST_CERTIFICATE",
+      "lo_title": "Certificates must reflect the clinical findings honestly, and gifts or payments that could influence care or certification are declined.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "He posts a distinctive rash with suburb and age to a closed group of 400. A closed group is not confidential. No consent. Take it down. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
@@ -751,7 +940,16 @@
       "phase": "PH-07",
       "phase_item_id": "PH-P-22",
       "lo_id": "0a12d5a9-40da-5124-a864-2d04f062b867",
-      "lo_code": "PRIVACY_SOCIAL"
+      "lo_code": "PRIVACY_SOCIAL",
+      "lo_key": "PRIVACY_SOCIAL",
+      "lo_title": "Posting case details on social media can identify a patient even without a name and breaches privacy without consent.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "No name, but age, suburb, and a rare rash. That can identify. Do not post. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
@@ -785,7 +983,16 @@
       "phase": "PH-07",
       "phase_item_id": "PH-P-23",
       "lo_id": "0a12d5a9-40da-5124-a864-2d04f062b867",
-      "lo_code": "PRIVACY_SOCIAL"
+      "lo_code": "PRIVACY_SOCIAL",
+      "lo_key": "PRIVACY_SOCIAL",
+      "lo_title": "Posting case details on social media can identify a patient even without a name and breaches privacy without consent.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "He plans to post tonight and ask the patient tomorrow. Consent comes first. Do not post. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
@@ -819,7 +1026,16 @@
       "phase": "PH-07",
       "phase_item_id": "PH-P-24",
       "lo_id": "0a12d5a9-40da-5124-a864-2d04f062b867",
-      "lo_code": "PRIVACY_SOCIAL"
+      "lo_code": "PRIVACY_SOCIAL",
+      "lo_key": "PRIVACY_SOCIAL",
+      "lo_title": "Posting case details on social media can identify a patient even without a name and breaches privacy without consent.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "She asks for a nurse before a pelvic examination. He is in a hurry. Stop. Wait or rebook. A requested chaperone is respected. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
@@ -853,7 +1069,16 @@
       "phase": "PH-07",
       "phase_item_id": "PH-P-25",
       "lo_id": "e7741c92-9cbb-5566-b50a-f6e1238b329d",
-      "lo_code": "CHAPERONE"
+      "lo_code": "CHAPERONE",
+      "lo_key": "CHAPERONE",
+      "lo_title": "A patient's request for a chaperone during an intimate examination must be respected, and the examination waits until one is available.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "She looks uncomfortable and has asked. Wait for the nurse. Do not proceed. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
@@ -887,7 +1112,16 @@
       "phase": "PH-07",
       "phase_item_id": "PH-P-26",
       "lo_id": "e7741c92-9cbb-5566-b50a-f6e1238b329d",
-      "lo_code": "CHAPERONE"
+      "lo_code": "CHAPERONE",
+      "lo_key": "CHAPERONE",
+      "lo_title": "A patient's request for a chaperone during an intimate examination must be respected, and the examination waits until one is available.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "Offer, and if she wants one, wait. Do not treat the offer as optional once she accepts. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
@@ -921,7 +1155,16 @@
       "phase": "PH-07",
       "phase_item_id": "PH-P-27",
       "lo_id": "e7741c92-9cbb-5566-b50a-f6e1238b329d",
-      "lo_code": "CHAPERONE"
+      "lo_code": "CHAPERONE",
+      "lo_key": "CHAPERONE",
+      "lo_title": "A patient's request for a chaperone during an intimate examination must be respected, and the examination waits until one is available.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "The website says no complications in 2000 cholecystectomies. Two bile-duct injuries are known. The absolute claim is misleading. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
@@ -955,7 +1198,16 @@
       "phase": "PH-07",
       "phase_item_id": "PH-P-28",
       "lo_id": "1e1ae1d0-5fa5-589b-afe4-b51aff5578ad",
-      "lo_code": "ADVERTISING"
+      "lo_code": "ADVERTISING",
+      "lo_key": "ADVERTISING",
+      "lo_title": "Health advertising must not be false or misleading or create unreasonable expectations, such as claiming no complications.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "He knows of the injuries. The claim must not stand. Correct it. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
@@ -989,7 +1241,16 @@
       "phase": "PH-07",
       "phase_item_id": "PH-P-29",
       "lo_id": "1e1ae1d0-5fa5-589b-afe4-b51aff5578ad",
-      "lo_code": "ADVERTISING"
+      "lo_code": "ADVERTISING",
+      "lo_key": "ADVERTISING",
+      "lo_title": "Health advertising must not be false or misleading or create unreasonable expectations, such as claiming no complications.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "Absolute and superlative claims without basis mislead. This one is false. It should not be published. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
@@ -1023,7 +1284,16 @@
       "phase": "PH-07",
       "phase_item_id": "PH-P-30",
       "lo_id": "1e1ae1d0-5fa5-589b-afe4-b51aff5578ad",
-      "lo_code": "ADVERTISING"
+      "lo_code": "ADVERTISING",
+      "lo_key": "ADVERTISING",
+      "lo_title": "Health advertising must not be false or misleading or create unreasonable expectations, such as claiming no complications.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "His adult daughter wants him as her doctor for antidepressants. Decline. Arrange another practitioner. Close family and mental health is a situation to avoid. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
@@ -1057,7 +1327,16 @@
       "phase": "PH-07",
       "phase_item_id": "PH-P-31",
       "lo_id": "3a3569c2-7e2e-5d89-9ad3-be50bbeb4ac9",
-      "lo_code": "FAMILY_TREATMENT"
+      "lo_code": "FAMILY_TREATMENT",
+      "lo_key": "FAMILY_TREATMENT",
+      "lo_title": "Doctors should avoid treating family or close friends except in emergencies, and arrange care with an independent practitioner.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "She wants a benzodiazepine from her father the GP. Arrange another doctor. Do not start. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
@@ -1091,7 +1370,16 @@
       "phase": "PH-07",
       "phase_item_id": "PH-P-32",
       "lo_id": "3a3569c2-7e2e-5d89-9ad3-be50bbeb4ac9",
-      "lo_code": "FAMILY_TREATMENT"
+      "lo_code": "FAMILY_TREATMENT",
+      "lo_key": "FAMILY_TREATMENT",
+      "lo_title": "Doctors should avoid treating family or close friends except in emergencies, and arrange care with an independent practitioner.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "The request is ongoing mental health care from her father. Redirect. Emergency first aid is a different question. This is not that. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
@@ -1125,7 +1413,16 @@
       "phase": "PH-07",
       "phase_item_id": "PH-P-33",
       "lo_id": "3a3569c2-7e2e-5d89-9ad3-be50bbeb4ac9",
-      "lo_code": "FAMILY_TREATMENT"
+      "lo_code": "FAMILY_TREATMENT",
+      "lo_key": "FAMILY_TREATMENT",
+      "lo_title": "Doctors should avoid treating family or close friends except in emergencies, and arrange care with an independent practitioner.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "Anaphylaxis occurs. He did not warn her of that risk. He wants to alter the original note. Keep the original. A late entry is labelled late. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
@@ -1159,7 +1456,16 @@
       "phase": "PH-07",
       "phase_item_id": "PH-P-34",
       "lo_id": "8ed0af72-098a-501d-aa0e-dfbebceca28a",
-      "lo_code": "RECORD_INTEGRITY"
+      "lo_code": "RECORD_INTEGRITY",
+      "lo_key": "RECORD_INTEGRITY",
+      "lo_title": "Clinical records are never altered after the fact; corrections are dated and identified additions, and errors causing harm are disclosed.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "He wants a clean note. The original remains. Any addition is marked as late. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
@@ -1193,7 +1499,16 @@
       "phase": "PH-07",
       "phase_item_id": "PH-P-35",
       "lo_id": "8ed0af72-098a-501d-aa0e-dfbebceca28a",
-      "lo_code": "RECORD_INTEGRITY"
+      "lo_code": "RECORD_INTEGRITY",
+      "lo_key": "RECORD_INTEGRITY",
+      "lo_title": "Clinical records are never altered after the fact; corrections are dated and identified additions, and errors causing harm are disclosed.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "Rewriting before a complaint is still rewriting. Do not do it. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
@@ -1227,7 +1542,16 @@
       "phase": "PH-07",
       "phase_item_id": "PH-P-36",
       "lo_id": "8ed0af72-098a-501d-aa0e-dfbebceca28a",
-      "lo_code": "RECORD_INTEGRITY"
+      "lo_code": "RECORD_INTEGRITY",
+      "lo_key": "RECORD_INTEGRITY",
+      "lo_title": "Clinical records are never altered after the fact; corrections are dated and identified additions, and errors causing harm are disclosed.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A colleague fabricated a result and enrolled two patients without consent. Raise it. Do not bury it. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
@@ -1261,7 +1585,16 @@
       "phase": "PH-07",
       "phase_item_id": "PH-P-37",
       "lo_id": "f46c0963-0d14-5b2e-8336-a8af8693d41d",
-      "lo_code": "RESEARCH_MISCONDUCT"
+      "lo_code": "RESEARCH_MISCONDUCT",
+      "lo_key": "RESEARCH_MISCONDUCT",
+      "lo_title": "Research fabrication and enrolment without consent are research misconduct that must be reported through proper channels, regardless of results.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "Enrolled without consent. That is raised. Retrospective consent does not repair it. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
@@ -1295,7 +1628,16 @@
       "phase": "PH-07",
       "phase_item_id": "PH-P-38",
       "lo_id": "f46c0963-0d14-5b2e-8336-a8af8693d41d",
-      "lo_code": "RESEARCH_MISCONDUCT"
+      "lo_code": "RESEARCH_MISCONDUCT",
+      "lo_key": "RESEARCH_MISCONDUCT",
+      "lo_title": "Research fabrication and enrolment without consent are research misconduct that must be reported through proper channels, regardless of results.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "One fabricated result is enough to raise. Do not wait for a pattern he admits. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
@@ -1329,7 +1671,16 @@
       "phase": "PH-07",
       "phase_item_id": "PH-P-39",
       "lo_id": "f46c0963-0d14-5b2e-8336-a8af8693d41d",
-      "lo_code": "RESEARCH_MISCONDUCT"
+      "lo_code": "RESEARCH_MISCONDUCT",
+      "lo_key": "RESEARCH_MISCONDUCT",
+      "lo_title": "Research fabrication and enrolment without consent are research misconduct that must be reported through proper channels, regardless of results.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A device company offers a week at a luxury resort with no education, for using their implant. Decline. It can influence practice. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
@@ -1363,7 +1714,16 @@
       "phase": "PH-07",
       "phase_item_id": "PH-P-40",
       "lo_id": "162e3cfb-e67e-51a1-be32-564f1e99de12",
-      "lo_code": "CONFLICT_GIFT"
+      "lo_code": "CONFLICT_GIFT",
+      "lo_key": "CONFLICT_GIFT",
+      "lo_title": "Doctors decline industry hospitality or benefits beyond modest educational value and disclose financial interests to patients, offering real alternatives.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "He owns 40% of a radiology practice and refers there without saying so. Disclose, and offer another provider. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
@@ -1397,7 +1757,16 @@
       "phase": "PH-07",
       "phase_item_id": "PH-P-41",
       "lo_id": "162e3cfb-e67e-51a1-be32-564f1e99de12",
-      "lo_code": "CONFLICT_GIFT"
+      "lo_code": "CONFLICT_GIFT",
+      "lo_key": "CONFLICT_GIFT",
+      "lo_title": "Doctors decline industry hospitality or benefits beyond modest educational value and disclose financial interests to patients, offering real alternatives.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A student who has never seen a mastectomy is asked to consent the patient, including risks. Stop the delegation. Consent is taken by someone who can explain it. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
@@ -1431,7 +1800,16 @@
       "phase": "PH-07",
       "phase_item_id": "PH-P-42",
       "lo_id": "7d13745c-e019-566c-85d1-6485780ca565",
-      "lo_code": "SUPERVISION"
+      "lo_code": "SUPERVISION",
+      "lo_key": "SUPERVISION",
+      "lo_title": "Students and juniors must only do tasks they are competent for and supervised in; obtaining consent requires someone who understands the procedure and its risks.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "The student cannot answer questions about the operation. Do not have them take the consent. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
@@ -1465,7 +1843,16 @@
       "phase": "PH-07",
       "phase_item_id": "PH-P-43",
       "lo_id": "7d13745c-e019-566c-85d1-6485780ca565",
-      "lo_code": "SUPERVISION"
+      "lo_code": "SUPERVISION",
+      "lo_key": "SUPERVISION",
+      "lo_title": "Students and juniors must only do tasks they are competent for and supervised in; obtaining consent requires someone who understands the procedure and its risks.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "Delegation has a limit. This task is beyond the student. Stop it. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
@@ -1499,7 +1886,16 @@
       "phase": "PH-07",
       "phase_item_id": "PH-P-44",
       "lo_id": "7d13745c-e019-566c-85d1-6485780ca565",
-      "lo_code": "SUPERVISION"
+      "lo_code": "SUPERVISION",
+      "lo_key": "SUPERVISION",
+      "lo_title": "Students and juniors must only do tasks they are competent for and supervised in; obtaining consent requires someone who understands the procedure and its risks.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     }
   ]
 }

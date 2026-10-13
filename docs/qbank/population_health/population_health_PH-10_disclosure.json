@@ -37,7 +37,16 @@
       "phase": "PH-10",
       "phase_item_id": "PH-R-01",
       "lo_id": "8e217bcd-7be6-523e-baa0-aff815d71609",
-      "lo_code": "OPEN_DISCLOSURE"
+      "lo_code": "OPEN_DISCLOSURE",
+      "lo_key": "OPEN_DISCLOSURE",
+      "lo_title": "Open disclosure tells the patient or family honestly what happened, its effect, and what has changed, includes an apology, and also covers intercepted errors with internal reporting.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A child is almost given a tenfold morphine dose. A second nurse stops it before any drug is given. The family were not in the room. A registrar says disclosure is unnecessary because nothing was administered. An error that reached the point of administration, even if intercepted, is disclosed and reported. Tell the family about the intercepted error, and report it internally. What is the most appropriate course?  No drug given does not make it invisible. Internal reporting does not replace telling the family. Blame without system reporting misses the point.  The duty is to the person affected, not to recruitment numbers or to a quiet file. Apply it.  Nothing in the outcome so far removes the need to disclose, to allow withdrawal, or to report.  Do that now.  A good overall result or a recovered patient does not close the duty.  Recruitment, a quiet file, or a recovered patient does not remove the duty to disclose, to allow withdrawal, or to report.  Apply the rule to the facts in front of you. Do not wait for a complaint or a journal query.",
@@ -71,7 +80,16 @@
       "phase": "PH-10",
       "phase_item_id": "PH-R-02",
       "lo_id": "8e217bcd-7be6-523e-baa0-aff815d71609",
-      "lo_code": "OPEN_DISCLOSURE"
+      "lo_code": "OPEN_DISCLOSURE",
+      "lo_key": "OPEN_DISCLOSURE",
+      "lo_title": "Open disclosure tells the patient or family honestly what happened, its effect, and what has changed, includes an apology, and also covers intercepted errors with internal reporting.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 1.05,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A patient is asked to join a drug trial. The registrar says his surgery will be scheduled sooner if he enrols, and delayed if he declines. Consent to research is voluntary. Linking the timing of needed surgery to enrolment is coercion. Coercive. Care must not be conditional on joining the trial. What is the most appropriate view?  A free drug does not repair a link between enrolment and the timing of surgery. Public patients are not a lesser group. Care is not a reward for saying yes.  The duty is to the person affected, not to recruitment numbers or to a quiet file. Apply it.  Nothing in the outcome so far removes the need to disclose, to allow withdrawal, or to report.  Do that now.  A good overall result or a recovered patient does not close the duty.  Recruitment, a quiet file, or a recovered patient does not remove the duty to disclose, to allow withdrawal, or to report.  Apply the rule to the facts in front of you. Do not wait for a complaint or a journal query.",
@@ -105,7 +123,16 @@
       "phase": "PH-10",
       "phase_item_id": "PH-R-03",
       "lo_id": "88fda62c-78aa-5cdb-9490-1e63385e8fca",
-      "lo_code": "RESEARCH_VOLUNTARY"
+      "lo_code": "RESEARCH_VOLUNTARY",
+      "lo_key": "RESEARCH_VOLUNTARY",
+      "lo_title": "Research participation is voluntary: people may decline or withdraw at any time without reason and their clinical care continues unchanged.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -0.95,
+      "difficulty_tier": "easy",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: research setting",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A woman in a randomised drug trial wants to stop. She will not say why. The coordinator says she must give a reason, and that withdrawal means she loses her outpatient follow-up. Withdrawal is a right. No reason is required. Clinical care is not cancelled because she leaves the study. She may withdraw without a reason, and her clinical care continues. What is the most appropriate response?  Further research visits cannot be compelled. A reason is not a condition. Clinical care is separate from the trial. Let her stop.  The duty is to the person affected, not to recruitment numbers or to a quiet file. Apply it.  Nothing in the outcome so far removes the need to disclose, to allow withdrawal, or to report.  Do that now.  A good overall result or a recovered patient does not close the duty.  Recruitment, a quiet file, or a recovered patient does not remove the duty to disclose, to allow withdrawal, or to report.  Apply the rule to the facts in front of you. Do not wait for a complaint or a journal query.",
@@ -139,7 +166,16 @@
       "phase": "PH-10",
       "phase_item_id": "PH-R-04",
       "lo_id": "88fda62c-78aa-5cdb-9490-1e63385e8fca",
-      "lo_code": "RESEARCH_VOLUNTARY"
+      "lo_code": "RESEARCH_VOLUNTARY",
+      "lo_key": "RESEARCH_VOLUNTARY",
+      "lo_title": "Research participation is voluntary: people may decline or withdraw at any time without reason and their clinical care continues unchanged.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: research setting",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "The principal investigator owns 30% of the company making the trial device. The consent form does not mention this. He says disclosure would worry patients and reduce recruitment. Participants are told about interests that could influence the study. Disclose the ownership in the consent. Do not hide a financial interest. What is the most appropriate action?  Telling only the committee, or only in the final paper, leaves the consent incomplete. Moving the shares to a spouse does not remove the interest.  The duty is to the person affected, not to recruitment numbers or to a quiet file. Apply it.  Nothing in the outcome so far removes the need to disclose, to allow withdrawal, or to report.  Do that now.  A good overall result or a recovered patient does not close the duty.  Recruitment, a quiet file, or a recovered patient does not remove the duty to disclose, to allow withdrawal, or to report.  Apply the rule to the facts in front of you. Do not wait for a complaint or a journal query.",
@@ -173,7 +209,16 @@
       "phase": "PH-10",
       "phase_item_id": "PH-R-05",
       "lo_id": "3a1e8f67-733a-597c-a4e0-577e9ec304c0",
-      "lo_code": "RESEARCH_CONFLICT"
+      "lo_code": "RESEARCH_CONFLICT",
+      "lo_key": "RESEARCH_CONFLICT",
+      "lo_title": "Researchers disclose financial conflicts of interest in consent materials and report serious adverse events promptly to the sponsor and ethics committee.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.9,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: research setting",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "In a surgical trial, one participant dies of a pulmonary embolus a week after the new procedure. The investigator plans to mention it only if the journal asks, because the other 40 patients did well. Death is a serious adverse event. It is reported promptly. Report the death as a serious adverse event, to the sponsor and the ethics committee, now. What is the most appropriate action?  A favourable overall result does not delay or hide a death. Reclassifying or deleting the case without review is misconduct. Report it now.  The duty is to the person affected, not to recruitment numbers or to a quiet file. Apply it.  Nothing in the outcome so far removes the need to disclose, to allow withdrawal, or to report.  Do that now.  A good overall result or a recovered patient does not close the duty.  Recruitment, a quiet file, or a recovered patient does not remove the duty to disclose, to allow withdrawal, or to report.  Apply the rule to the facts in front of you. Do not wait for a complaint or a journal query.",
@@ -207,7 +252,16 @@
       "phase": "PH-10",
       "phase_item_id": "PH-R-06",
       "lo_id": "3a1e8f67-733a-597c-a4e0-577e9ec304c0",
-      "lo_code": "RESEARCH_CONFLICT"
+      "lo_code": "RESEARCH_CONFLICT",
+      "lo_key": "RESEARCH_CONFLICT",
+      "lo_title": "Researchers disclose financial conflicts of interest in consent materials and report serious adverse events promptly to the sponsor and ethics committee.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: research setting",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "He was given another patient's insulin and became hypoglycaemic. He recovered. The consultant says to say nothing unless he asks, because an apology admits liability. Tell him what happened and what has changed. An apology for the harm is appropriate. The rest of the file does not remove the duty. Recruitment numbers, a quiet file, or a recovered patient does not close open disclosure, withdrawal, or reporting. Apply the rule to the facts in front of you. Do not wait for a complaint or a journal query. That is the correct step. Nothing in the outcome so far removes the need to disclose, to allow withdrawal, or to report. A good overall result does not close the duty. State the correct step clearly. Do that now. Waiting for someone else to ask is the error. The duty is to the person affected, not to recruitment or to a quiet file. Apply it. Clearly. Do not delay disclosure or reporting. Recruitment, a recovered patient, or a favourable trial result is not a reason to stay silent. Tell, allow withdrawal, or report as the duty requires.",
@@ -241,7 +295,16 @@
       "phase": "PH-10",
       "phase_item_id": "PH-R-07",
       "lo_id": "8e217bcd-7be6-523e-baa0-aff815d71609",
-      "lo_code": "OPEN_DISCLOSURE"
+      "lo_code": "OPEN_DISCLOSURE",
+      "lo_key": "OPEN_DISCLOSURE",
+      "lo_title": "Open disclosure tells the patient or family honestly what happened, its effect, and what has changed, includes an apology, and also covers intercepted errors with internal reporting.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A child is almost given a tenfold morphine dose. A second nurse stops it before any drug is given. An error that reached the point of administration is disclosed and reported, even if intercepted. The rest of the file does not remove the duty. Recruitment numbers, a quiet file, or a recovered patient does not close open disclosure, withdrawal, or reporting. Apply the rule to the facts in front of you. Do not wait for a complaint or a journal query. That is the correct step. Nothing in the outcome so far removes the need to disclose, to allow withdrawal, or to report. A good overall result does not close the duty. State the correct step clearly. Do that now. Waiting for someone else to ask is the error. The duty is to the person affected, not to recruitment or to a quiet file. Apply it. Clearly. Do not delay disclosure or reporting. Recruitment, a recovered patient, or a favourable trial result is not a reason to stay silent. Tell, allow withdrawal, or report as the duty requires.",
@@ -275,7 +338,16 @@
       "phase": "PH-10",
       "phase_item_id": "PH-R-08",
       "lo_id": "8e217bcd-7be6-523e-baa0-aff815d71609",
-      "lo_code": "OPEN_DISCLOSURE"
+      "lo_code": "OPEN_DISCLOSURE",
+      "lo_key": "OPEN_DISCLOSURE",
+      "lo_title": "Open disclosure tells the patient or family honestly what happened, its effect, and what has changed, includes an apology, and also covers intercepted errors with internal reporting.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A registrar says surgery will be sooner if he enrols and delayed if he declines. Consent to research is voluntary. Linking needed surgery to enrolment is coercion. The rest of the file does not remove the duty. Recruitment numbers, a quiet file, or a recovered patient does not close open disclosure, withdrawal, or reporting. Apply the rule to the facts in front of you. Do not wait for a complaint or a journal query. That is the correct step. Nothing in the outcome so far removes the need to disclose, to allow withdrawal, or to report. A good overall result does not close the duty. State the correct step clearly. Do that now. Waiting for someone else to ask is the error. The duty is to the person affected, not to recruitment or to a quiet file. Apply it. Clearly. Do not delay disclosure or reporting. Recruitment, a recovered patient, or a favourable trial result is not a reason to stay silent. Tell, allow withdrawal, or report as the duty requires.",
@@ -309,7 +381,16 @@
       "phase": "PH-10",
       "phase_item_id": "PH-R-09",
       "lo_id": "88fda62c-78aa-5cdb-9490-1e63385e8fca",
-      "lo_code": "RESEARCH_VOLUNTARY"
+      "lo_code": "RESEARCH_VOLUNTARY",
+      "lo_key": "RESEARCH_VOLUNTARY",
+      "lo_title": "Research participation is voluntary: people may decline or withdraw at any time without reason and their clinical care continues unchanged.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: research setting",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "She wants to stop a randomised trial and will not say why. The coordinator says withdrawal means she loses follow-up. Withdrawal needs no reason. Clinical care continues. The rest of the file does not remove the duty. Recruitment numbers, a quiet file, or a recovered patient does not close open disclosure, withdrawal, or reporting. Apply the rule to the facts in front of you. Do not wait for a complaint or a journal query. That is the correct step. Nothing in the outcome so far removes the need to disclose, to allow withdrawal, or to report. A good overall result does not close the duty. State the correct step clearly. Do that now. Waiting for someone else to ask is the error. The duty is to the person affected, not to recruitment or to a quiet file. Apply it. Clearly. Do not delay disclosure or reporting. Recruitment, a recovered patient, or a favourable trial result is not a reason to stay silent. Tell, allow withdrawal, or report as the duty requires.",
@@ -343,7 +424,16 @@
       "phase": "PH-10",
       "phase_item_id": "PH-R-10",
       "lo_id": "88fda62c-78aa-5cdb-9490-1e63385e8fca",
-      "lo_code": "RESEARCH_VOLUNTARY"
+      "lo_code": "RESEARCH_VOLUNTARY",
+      "lo_key": "RESEARCH_VOLUNTARY",
+      "lo_title": "Research participation is voluntary: people may decline or withdraw at any time without reason and their clinical care continues unchanged.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: research setting",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "The principal investigator owns 30% of the company making the trial device. The consent form does not mention it. Participants are told about interests that could influence the study. Disclose it. The rest of the file does not remove the duty. Recruitment numbers, a quiet file, or a recovered patient does not close open disclosure, withdrawal, or reporting. Apply the rule to the facts in front of you. Do not wait for a complaint or a journal query. That is the correct step. Nothing in the outcome so far removes the need to disclose, to allow withdrawal, or to report. A good overall result does not close the duty. State the correct step clearly. Do that now. Waiting for someone else to ask is the error. The duty is to the person affected, not to recruitment or to a quiet file. Apply it. Clearly. Do not delay disclosure or reporting. Recruitment, a recovered patient, or a favourable trial result is not a reason to stay silent. Tell, allow withdrawal, or report as the duty requires.",
@@ -377,7 +467,16 @@
       "phase": "PH-10",
       "phase_item_id": "PH-R-11",
       "lo_id": "3a1e8f67-733a-597c-a4e0-577e9ec304c0",
-      "lo_code": "RESEARCH_CONFLICT"
+      "lo_code": "RESEARCH_CONFLICT",
+      "lo_key": "RESEARCH_CONFLICT",
+      "lo_title": "Researchers disclose financial conflicts of interest in consent materials and report serious adverse events promptly to the sponsor and ethics committee.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: research setting",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "One participant dies of a pulmonary embolus a week after the new procedure. The other 40 did well. Death is a serious adverse event. Report it now. The rest of the file does not remove the duty. Recruitment numbers, a quiet file, or a recovered patient does not close open disclosure, withdrawal, or reporting. Apply the rule to the facts in front of you. Do not wait for a complaint or a journal query. That is the correct step. Nothing in the outcome so far removes the need to disclose, to allow withdrawal, or to report. A good overall result does not close the duty. State the correct step clearly. Do that now. Waiting for someone else to ask is the error. The duty is to the person affected, not to recruitment or to a quiet file. Apply it. Clearly. Do not delay disclosure or reporting. Recruitment, a recovered patient, or a favourable trial result is not a reason to stay silent. Tell, allow withdrawal, or report as the duty requires.",
@@ -411,7 +510,16 @@
       "phase": "PH-10",
       "phase_item_id": "PH-R-12",
       "lo_id": "3a1e8f67-733a-597c-a4e0-577e9ec304c0",
-      "lo_code": "RESEARCH_CONFLICT"
+      "lo_code": "RESEARCH_CONFLICT",
+      "lo_key": "RESEARCH_CONFLICT",
+      "lo_title": "Researchers disclose financial conflicts of interest in consent materials and report serious adverse events promptly to the sponsor and ethics committee.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     }
   ]
 }

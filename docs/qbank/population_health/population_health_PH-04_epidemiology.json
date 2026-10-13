@@ -37,7 +37,16 @@
       "phase": "PH-04",
       "phase_item_id": "PH-E-01",
       "lo_id": "70bffe72-cd4a-584c-96b0-e82c55b68ae3",
-      "lo_code": "TEST_PROPERTIES"
+      "lo_code": "TEST_PROPERTIES",
+      "lo_key": "TEST_PROPERTIES",
+      "lo_title": "Sensitivity and specificity are test properties; a negative highly sensitive test helps rule disease out, and the post-test probability also needs prevalence or likelihood ratios.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A screening test is used in two towns. The test is identical. Town A has a higher prevalence of the disease than town B. A student says the positive predictive value must be the same because the test has not changed. Positive predictive value rises as prevalence rises, even when sensitivity and specificity are fixed. Town A will have the higher PPV. What is the most appropriate statement?  Same test, different prevalence, different PPV. Specificity has not changed. The town with more disease has more true positives among positive tests.  Imagine  the same false-positive rate in both towns. More disease in town A means a larger share of positive tests are true positives. That is why PPV differs. The student has confused a property of the test with a property of the tested population.  Hold sensitivity and specificity constant in the explanation. Change only prevalence. PPV moves. That single change answers the student. The rest of the history does not change the definition or the calculation in front of you.  Nothing else in the consultation changes the figure or the bias being asked about. Answer the definition in front of you.  State the answer in those terms. Clearly.",
@@ -71,7 +80,16 @@
       "phase": "PH-04",
       "phase_item_id": "PH-E-02",
       "lo_id": "333485d2-5192-5695-a7ed-d13eb65aed63",
-      "lo_code": "PREDICTIVE_VALUE"
+      "lo_code": "PREDICTIVE_VALUE",
+      "lo_key": "PREDICTIVE_VALUE",
+      "lo_title": "Positive predictive value rises and falls with prevalence even when sensitivity and specificity are fixed, and a positive screening test still needs diagnostic confirmation.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 1.0,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A highly sensitive test for a rare serious infection is negative. A colleague says a sensitive test is used to confirm disease, so the negative result is unhelpful. A negative result on a sensitive test helps rule disease out. SnNOut. A specific test is the one that helps rule disease in when positive. What is the most appropriate interpretation?  Sensitive test negative: useful for ruling out. Specific test positive: useful for ruling in. The colleague has the uses reversed.  Use a concrete line. A sensitive test that is negative makes disease unlikely. A specific test that is positive makes disease likely. Confirmation and exclusion are different jobs. The colleague has assigned the sensitive test the wrong job.  SnNOut for the sensitive test. SpPIn for the specific test. One line settles the misuse. The rest of the history does not change the definition or the calculation in front of you.  Nothing else in the consultation changes the figure or the bias being asked about. Answer the definition in front of you.  State the answer in those terms. Clearly.",
@@ -105,7 +123,16 @@
       "phase": "PH-04",
       "phase_item_id": "PH-E-03",
       "lo_id": "70bffe72-cd4a-584c-96b0-e82c55b68ae3",
-      "lo_code": "TEST_PROPERTIES"
+      "lo_code": "TEST_PROPERTIES",
+      "lo_key": "TEST_PROPERTIES",
+      "lo_title": "Sensitivity and specificity are test properties; a negative highly sensitive test helps rule disease out, and the post-test probability also needs prevalence or likelihood ratios.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A registrar confuses two figures in a report. One is the number of new cases of a disease in a year. The other is the number of people who currently have it. Incidence is new cases in a period. Prevalence is existing cases at a point or in a period. They are not interchangeable. What is the most appropriate distinction?  New cases over time versus existing cases now. Incidence can be low while prevalence is high if the disease lasts. Do not swap the words.  Ask which number would fall if a cure shortened the disease, and which would fall if fewer people caught it. Prevalence can stay high with long duration. Incidence tracks new events. The registrar needs that split before using either figure in a report.  Incidence answers how fast new disease appears. Prevalence answers how much disease is present. Reports mix them. Do not. The rest of the history does not change the definition or the calculation in front of you.  Nothing else in the consultation changes the figure or the bias being asked about. Answer the definition in front of you.  State the answer in those terms. Clearly.",
@@ -139,7 +166,16 @@
       "phase": "PH-04",
       "phase_item_id": "PH-E-04",
       "lo_id": "a3166865-4555-5c3f-b319-5a35c9210fc6",
-      "lo_code": "INCIDENCE_PREVALENCE"
+      "lo_code": "INCIDENCE_PREVALENCE",
+      "lo_key": "INCIDENCE_PREVALENCE",
+      "lo_title": "Incidence is new cases in a population over a period of time, while prevalence is all existing cases at a point in time.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -1.0,
+      "difficulty_tier": "easy",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A trial reports that a treatment reduces the absolute risk of an outcome from 8% to 4%. A student asks for the number needed to treat. NNT is 1 divided by the absolute risk reduction. Here the reduction is 0.04, so NNT is 25. What is the number needed to treat?  Absolute risk reduction 4 percentage points. NNT 25. Not 12.5, not 4. One in 25 treated prevents one outcome, on these figures.  Show the arithmetic. Risk fell by 4 per 100. You treat 25 to prevent one event, on these data. Do not invert it to 4, and do not use the relative reduction. NNT is from the absolute difference.  1 / 0.04 = 25. State NNT as 25. Show the working so the relative-risk habit does not creep back in. The rest of the history does not change the definition or the calculation in front of you.  Nothing else in the consultation changes the figure or the bias being asked about. Answer the definition in front of you.  State the answer in those terms. Clearly.",
@@ -173,7 +209,16 @@
       "phase": "PH-04",
       "phase_item_id": "PH-E-05",
       "lo_id": "52fcd53b-e296-5b5f-b823-b645e1217c7e",
-      "lo_code": "ABSOLUTE_VERSUS_RELATIVE"
+      "lo_code": "ABSOLUTE_VERSUS_RELATIVE",
+      "lo_key": "ABSOLUTE_VERSUS_RELATIVE",
+      "lo_title": "The number needed to treat is 1 divided by the absolute risk reduction, and relative risk reductions overstate small absolute benefits.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: research setting",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A newspaper says a drug halves the risk of a rare event. The event fell from 2 per 1000 to 1 per 1000. A patient asks if that means half of people are saved. The absolute reduction is 1 per 1000. The 50% figure is the relative reduction. Both should be stated. What is the most appropriate explanation?  Relative risk reduction 50%. Absolute risk reduction 0.1%. A patient hears half and imagines a large benefit. State both.  Put both numbers in one sentence. Relative reduction 50%, absolute reduction 1 in 1000. A rare event halved is still rare. The headline used the relative figure alone. That is the trap.  Rare events produce large relative reductions from tiny absolute ones. Always pair them. The patient decision needs the absolute figure. The rest of the history does not change the definition or the calculation in front of you.  Nothing else in the consultation changes the figure or the bias being asked about. Answer the definition in front of you.  State the answer in those terms. Clearly.",
@@ -207,7 +252,16 @@
       "phase": "PH-04",
       "phase_item_id": "PH-E-06",
       "lo_id": "52fcd53b-e296-5b5f-b823-b645e1217c7e",
-      "lo_code": "ABSOLUTE_VERSUS_RELATIVE"
+      "lo_code": "ABSOLUTE_VERSUS_RELATIVE",
+      "lo_key": "ABSOLUTE_VERSUS_RELATIVE",
+      "lo_title": "The number needed to treat is 1 divided by the absolute risk reduction, and relative risk reductions overstate small absolute benefits.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.95,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A trial reports a relative risk of 0.8 with a 95% confidence interval of 0.5 to 1.3. A colleague says the treatment works because the point estimate is under 1. The interval includes 1, so a null effect is not excluded. Statistical significance is not shown. What is the most appropriate interpretation?  Point estimate 0.8 favours treatment. Interval crosses 1. The result is compatible with no effect. Do not call it significant.  Draw the interval. It crosses the null. The point estimate is encouraging and not conclusive. A larger trial might narrow it. Today you cannot claim a demonstrated effect.  Compatible with benefit, harm, or none. The interval is the message. Do not headline the 0.8 alone. The rest of the history does not change the definition or the calculation in front of you.  Nothing else in the consultation changes the figure or the bias being asked about. Answer the definition in front of you.  State the answer in those terms. Clearly.",
@@ -241,7 +295,16 @@
       "phase": "PH-04",
       "phase_item_id": "PH-E-07",
       "lo_id": "7728f3b7-21d2-52ae-b9f6-963c71402045",
-      "lo_code": "STATISTICAL_INFERENCE"
+      "lo_code": "STATISTICAL_INFERENCE",
+      "lo_key": "STATISTICAL_INFERENCE",
+      "lo_title": "A 95% confidence interval that includes the null value is compatible with no effect, and a non-significant result in a small study may be a type II error.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: research setting",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A paper reports p = 0.03 for a difference. A student says this means there is a 3% chance the result is due to chance, or a 97% chance the treatment works. The p value is the probability of a result at least this extreme if the null hypothesis is true. It is not the probability that the treatment works. What is the most appropriate explanation?  p is not the chance the null is true, and not the chance the treatment works. It is a tail probability under the null. Explain that.  Reject the 97% claim. A p value is not a posterior probability that the treatment works. It assumes the null and asks how surprising the data are. That is all.  Under the null, a result this extreme occurs 3% of the time. That is the sentence. Not a 97% chance of a true effect. The rest of the history does not change the definition or the calculation in front of you.  Nothing else in the consultation changes the figure or the bias being asked about. Answer the definition in front of you.  State the answer in those terms. Clearly.",
@@ -275,7 +338,16 @@
       "phase": "PH-04",
       "phase_item_id": "PH-E-08",
       "lo_id": "7728f3b7-21d2-52ae-b9f6-963c71402045",
-      "lo_code": "STATISTICAL_INFERENCE"
+      "lo_code": "STATISTICAL_INFERENCE",
+      "lo_key": "STATISTICAL_INFERENCE",
+      "lo_title": "A 95% confidence interval that includes the null value is compatible with no effect, and a non-significant result in a small study may be a type II error.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -0.95,
+      "difficulty_tier": "easy",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A screening program reports longer survival from diagnosis in screened patients than in unscreened patients. A colleague says this proves the program reduces deaths. Earlier diagnosis can lengthen the time from diagnosis to death without delaying the death. That is lead-time bias. Survival from diagnosis is not proof of benefit. What is the most appropriate caution?  Screen-detected cases are diagnosed earlier. The clock starts sooner. Survival looks longer even if death is not delayed. Ask for mortality, not survival from diagnosis.  Ask what would happen if screening only moved the diagnosis earlier and death stayed on the same date. Survival from diagnosis lengthens. Mortality does not fall. That is the bias. Look for deaths, not survival time.  Lead time shifts the start of the survival clock. It does not prove a later death. Mortality is the outcome that answers the program. The rest of the history does not change the definition or the calculation in front of you.  Nothing else in the consultation changes the figure or the bias being asked about. Answer the definition in front of you.  State the answer in those terms. Clearly.",
@@ -309,7 +381,16 @@
       "phase": "PH-04",
       "phase_item_id": "PH-E-09",
       "lo_id": "f5c57bb5-dddf-583d-903a-43bfcfaee4db",
-      "lo_code": "SCREENING_BIAS"
+      "lo_code": "SCREENING_BIAS",
+      "lo_key": "SCREENING_BIAS",
+      "lo_title": "Lead-time and length-time biases can make screening look beneficial for survival without delaying death.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A screening program finds many slow-growing cancers and few aggressive ones, and reports excellent outcomes in the screened group. Screening preferentially detects slower diseases that would have been found anyway. That is length-time bias. It can make screening look better than it is. What is the bias described?  Slow diseases sit in a detectable window longer. Screening finds them. Aggressive diseases slip through. Outcomes in the screened group look better. That is length-time bias.  Aggressive cancers have a short detectable preclinical phase. Slow ones linger and are found by screening. The screened series is enriched for favourable biology. Outcomes look better. That is length-time bias, not proof the test cures.  Length-time bias is about the speed of the disease, not the clock from diagnosis. Slow tumours are over-represented. Say that. The rest of the history does not change the definition or the calculation in front of you.  Nothing else in the consultation changes the figure or the bias being asked about. Answer the definition in front of you.  State the answer in those terms. Clearly.",
@@ -343,7 +424,16 @@
       "phase": "PH-04",
       "phase_item_id": "PH-E-10",
       "lo_id": "f5c57bb5-dddf-583d-903a-43bfcfaee4db",
-      "lo_code": "SCREENING_BIAS"
+      "lo_code": "SCREENING_BIAS",
+      "lo_key": "SCREENING_BIAS",
+      "lo_title": "Lead-time and length-time biases can make screening look beneficial for survival without delaying death.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "In a randomised trial, some patients allocated to treatment did not take it, and some allocated to control obtained it elsewhere. A student wants to analyse only those who took the treatment. Analyse by allocated group. That is the intention-to-treat analysis. It preserves the randomisation. What is the most appropriate analysis?  Intention-to-treat keeps people in the group they were allocated to. Per-protocol can reintroduce bias. Analyse by allocation.  People who do not take treatment often differ from those who do. Analysing only takers breaks the randomisation. Intention-to-treat accepts non-adherence and still compares the groups as allocated. That is the primary analysis.  Allocated group, not taken group. Intention-to-treat. Non-adherence stays in. That is the rule for the primary comparison. The rest of the history does not change the definition or the calculation in front of you.  Nothing else in the consultation changes the figure or the bias being asked about. Answer the definition in front of you.  State the answer in those terms. Clearly.",
@@ -377,7 +467,16 @@
       "phase": "PH-04",
       "phase_item_id": "PH-E-11",
       "lo_id": "102c8ead-4b24-5f57-b983-e217ce8b0e97",
-      "lo_code": "TRIAL_CONDUCT"
+      "lo_code": "TRIAL_CONDUCT",
+      "lo_key": "TRIAL_CONDUCT",
+      "lo_title": "Intention-to-treat analysis keeps participants in their allocated group, and allocation concealment differs from blinding.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 1.1,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: research setting",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A trial report says allocation was concealed, and separately that outcome assessors were blinded. A student treats the two words as the same thing. Concealment protects the allocation sequence before assignment. Blinding protects measurement after assignment. They are different safeguards. What is the most appropriate distinction?  Concealed allocation stops the recruiter choosing the next treatment. Blinding stops the assessor knowing which treatment was given. Both matter. They are not synonyms.  Concealment is about the moment of assignment. Blinding is about what happens after. A trial can conceal allocation and still fail to blind assessors. Do not use one word for both.  Before assignment: concealment. After assignment: blinding. Different threats, different protections. The rest of the history does not change the definition or the calculation in front of you.  Nothing else in the consultation changes the figure or the bias being asked about. Answer the definition in front of you.  State the answer in those terms. Clearly.",
@@ -411,7 +510,16 @@
       "phase": "PH-04",
       "phase_item_id": "PH-E-12",
       "lo_id": "102c8ead-4b24-5f57-b983-e217ce8b0e97",
-      "lo_code": "TRIAL_CONDUCT"
+      "lo_code": "TRIAL_CONDUCT",
+      "lo_key": "TRIAL_CONDUCT",
+      "lo_title": "Intention-to-treat analysis keeps participants in their allocated group, and allocation concealment differs from blinding.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: research setting",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "People with a rare cancer are asked about a past exposure, and compared with people without the cancer. A student calls it a cohort study and expects a relative risk. It is a case-control study. It estimates an odds ratio, not a relative risk directly from incidence. What is the most appropriate description?  Cases and controls, looking back at exposure. Odds ratio. Not a cohort, not a direct relative risk from incidence. Rare disease makes OR and RR closer, but the design is case-control.  Start with cases. Look back for exposure. Compare with controls. Odds of exposure, odds ratio. A cohort would start with exposure and count new disease. This study did not.  Outcome first, exposure second. Case-control. Odds ratio. Do not call it a cohort because people were compared. The rest of the history does not change the definition or the calculation in front of you.  Nothing else in the consultation changes the figure or the bias being asked about. Answer the definition in front of you.  State the answer in those terms. Clearly.",
@@ -445,7 +553,16 @@
       "phase": "PH-04",
       "phase_item_id": "PH-E-13",
       "lo_id": "34cbf05d-0efe-563f-b3cc-47e1050a4a95",
-      "lo_code": "STUDY_DESIGN"
+      "lo_code": "STUDY_DESIGN",
+      "lo_key": "STUDY_DESIGN",
+      "lo_title": "Study design determines what can be estimated: case-control studies give odds ratios, cohorts give incidence, and cross-sectional studies cannot show temporal direction.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A group of people free of disease is classified by exposure and followed over time for the outcome. A student calls it a case-control study. People are enrolled on exposure, before the outcome, and followed. That is a prospective cohort. What is the design?  Free of disease at the start, exposure measured, then followed. Prospective cohort. Case-control starts with the outcome.  No disease at entry. Exposure groups formed. Time passes. Outcomes counted. That sequence is a prospective cohort. Calling it case-control reverses the direction.  Exposure first, outcome later, disease-free at the start. Prospective cohort. The label follows the direction. The rest of the history does not change the definition or the calculation in front of you.  Nothing else in the consultation changes the figure or the bias being asked about. Answer the definition in front of you.  State the answer in those terms. Clearly.",
@@ -479,7 +596,16 @@
       "phase": "PH-04",
       "phase_item_id": "PH-E-14",
       "lo_id": "34cbf05d-0efe-563f-b3cc-47e1050a4a95",
-      "lo_code": "STUDY_DESIGN"
+      "lo_code": "STUDY_DESIGN",
+      "lo_key": "STUDY_DESIGN",
+      "lo_title": "Study design determines what can be estimated: case-control studies give odds ratios, cohorts give incidence, and cross-sectional studies cannot show temporal direction.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -0.95,
+      "difficulty_tier": "easy",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A study finds coffee drinkers have more heart disease. Coffee drinkers also smoke more. A student says the coffee association is therefore causal. Smoking may confound the coffee association. The smoking difference could explain the heart disease finding. What is the most appropriate caution?  Coffee and smoking travel together. The heart disease finding may be smoking. Confounding is the caution. Causation is not shown.  If smokers drink more coffee, and smoking causes heart disease, coffee can look causal when it is not. Measure and adjust for smoking, or the association is uninterpretable. Confounding is the issue.  A confounder is associated with the exposure and with the outcome, and is not on the causal path you care about. Smoking fits. Coffee may not be the cause. The rest of the history does not change the definition or the calculation in front of you.  Nothing else in the consultation changes the figure or the bias being asked about. Answer the definition in front of you.  State the answer in those terms. Clearly.",
@@ -513,7 +639,16 @@
       "phase": "PH-04",
       "phase_item_id": "PH-E-15",
       "lo_id": "b293d6c3-38c4-5b0a-8068-13b40f3492fa",
-      "lo_code": "CONFOUNDING"
+      "lo_code": "CONFOUNDING",
+      "lo_key": "CONFOUNDING",
+      "lo_title": "A confounder is linked to both exposure and outcome and distorts the association, and unmeasured confounders can persist after adjustment.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.95,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A cohort study adjusts for age, sex, and smoking, and still finds an association. A student says confounding is now impossible. Adjustment can only deal with confounders that were measured. Unknown and unmeasured confounders can remain. What is the most appropriate limitation?  Adjusted for what was measured. Residual confounding from unmeasured factors remains possible. Adjustment is not proof of causation.  Age, sex, and smoking were in the model. Occupation, diet, and unknown factors were not. Residual confounding remains. Do not treat an adjusted association as causal proof.  Residual confounding is the name for what adjustment did not catch. Mention it. Do not overclaim. The rest of the history does not change the definition or the calculation in front of you.  Nothing else in the consultation changes the figure or the bias being asked about. Answer the definition in front of you.  State the answer in those terms. Clearly.",
@@ -547,7 +682,16 @@
       "phase": "PH-04",
       "phase_item_id": "PH-E-16",
       "lo_id": "b293d6c3-38c4-5b0a-8068-13b40f3492fa",
-      "lo_code": "CONFOUNDING"
+      "lo_code": "CONFOUNDING",
+      "lo_key": "CONFOUNDING",
+      "lo_title": "A confounder is linked to both exposure and outcome and distorts the association, and unmeasured confounders can persist after adjustment.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A test has a sensitivity of 90% and a specificity of 80%. A student asks for the positive likelihood ratio. LR+ is sensitivity divided by 1 minus specificity. That is 0.9 / 0.2 = 4.5. What is the positive likelihood ratio?  Sensitivity 0.9, false positive rate 0.2. LR+ 4.5. Not 0.9, not 1.7. A result this positive is 4.5 times more likely in disease than in no disease.  Write 0.90 / (1 \u2212 0.80). That is 4.5. An LR+ above 1 raises the odds of disease. 4.5 is a moderate shift, not a diagnosis by itself.  LR+ 4.5. Moderate. It shifts probability. It does not replace a clinical assessment. The rest of the history does not change the definition or the calculation in front of you.  Nothing else in the consultation changes the figure or the bias being asked about. Answer the definition in front of you.  State the answer in those terms. Clearly.",
@@ -581,7 +725,16 @@
       "phase": "PH-04",
       "phase_item_id": "PH-E-17",
       "lo_id": "70bffe72-cd4a-584c-96b0-e82c55b68ae3",
-      "lo_code": "TEST_PROPERTIES"
+      "lo_code": "TEST_PROPERTIES",
+      "lo_key": "TEST_PROPERTIES",
+      "lo_title": "Sensitivity and specificity are test properties; a negative highly sensitive test helps rule disease out, and the post-test probability also needs prevalence or likelihood ratios.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A survey measures a dietary exposure and a symptom at the same visit and reports an association. A student says the exposure caused the symptom. Exposure and outcome were measured together, so direction cannot be assumed. It may be cross-sectional. Cause is not established. What is the most appropriate limitation?  Same-time measurement. The symptom might have changed the diet. Cross-sectional data do not establish which came first.  One questionnaire, one visit, both variables. You cannot tell whether diet preceded the symptom or followed it. Association only. Direction unknown.  Cross-sectional association. No time order. No cause claimed. That is the limit of the survey. The rest of the history does not change the definition or the calculation in front of you.  Nothing else in the consultation changes the figure or the bias being asked about. Answer the definition in front of you.  State the answer in those terms. Clearly.",
@@ -615,7 +768,16 @@
       "phase": "PH-04",
       "phase_item_id": "PH-E-18",
       "lo_id": "34cbf05d-0efe-563f-b3cc-47e1050a4a95",
-      "lo_code": "STUDY_DESIGN"
+      "lo_code": "STUDY_DESIGN",
+      "lo_key": "STUDY_DESIGN",
+      "lo_title": "Study design determines what can be estimated: case-control studies give odds ratios, cohorts give incidence, and cross-sectional studies cannot show temporal direction.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": -1.0,
+      "difficulty_tier": "easy",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "In a cohort, the risk of the outcome is 20% in the exposed and 10% in the unexposed. A student reports an odds ratio of 2.25 and calls it the relative risk. The relative risk is 2. The odds ratio overstates it when the outcome is common. What is the most appropriate statement?  Risk ratio 20/10 = 2. Odds in exposed 0.25, in unexposed about 0.11, OR about 2.25. When the outcome is common, OR is not the RR. Report the relative risk.  Common outcome. Risk ratio 2. Odds ratio higher. Students often compute odds and label them risk. In a cohort with a common outcome, report the relative risk.  Common outcome inflates the odds ratio relative to the risk ratio. Here RR is 2. Use that. The rest of the history does not change the definition or the calculation in front of you.  Nothing else in the consultation changes the figure or the bias being asked about. Answer the definition in front of you.  State the answer in those terms. Clearly.",
@@ -649,7 +811,16 @@
       "phase": "PH-04",
       "phase_item_id": "PH-E-19",
       "lo_id": "12e7a720-8e34-510e-8a3c-8eac5dd76555",
-      "lo_code": "ODDS_VERSUS_RISK"
+      "lo_code": "ODDS_VERSUS_RISK",
+      "lo_key": "ODDS_VERSUS_RISK",
+      "lo_title": "When the outcome is common, the odds ratio overstates the relative risk, so cohort data should report the relative risk.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 1.1,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A small trial finds no significant difference between two treatments. A colleague says this proves they are equivalent. A type II error is likely in a small study. Absence of a significant difference is not proof of no difference. What is the most appropriate caution?  Small sample, non-significant result. May be underpowered. Do not conclude equivalence. A type II error is the concern.  Non-significant is not the same as equivalent. The trial may have been too small to detect a real difference. Say underpowered, or type II error possible. Do not say proven the same.  No evidence of a difference is not evidence of no difference. Small trial. Type II error possible. Say that plainly. The rest of the history does not change the definition or the calculation in front of you.  Nothing else in the consultation changes the figure or the bias being asked about. Answer the definition in front of you.  State the answer in those terms. Clearly.",
@@ -683,7 +854,16 @@
       "phase": "PH-04",
       "phase_item_id": "PH-E-20",
       "lo_id": "7728f3b7-21d2-52ae-b9f6-963c71402045",
-      "lo_code": "STATISTICAL_INFERENCE"
+      "lo_code": "STATISTICAL_INFERENCE",
+      "lo_key": "STATISTICAL_INFERENCE",
+      "lo_title": "A 95% confidence interval that includes the null value is compatible with no effect, and a non-significant result in a small study may be a type II error.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: research setting",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A man has a positive bowel screening kit and asks for a repeat kit to confirm it before any procedure. A colleague agrees, to be sure. A positive screening test is not a diagnosis, and it is not confirmed by repeating the same test. He should be referred for colonoscopy. What is the most appropriate next step?  Positive kit goes to colonoscopy. A second kit can be falsely negative and delay diagnosis. Do not repeat the screen.  Positive screening test means diagnostic test next. Colonoscopy, not another kit. A repeat FIT can miss a cancer that the first test found. Refer.  Screening positive is a ticket to diagnosis, not a result to recheck with the same tool. Colonoscopy. The rest of the history does not change the definition or the calculation in front of you.  Nothing else in the consultation changes the figure or the bias being asked about. Answer the definition in front of you.  State the answer in those terms. Clearly.",
@@ -717,7 +897,16 @@
       "phase": "PH-04",
       "phase_item_id": "PH-E-21",
       "lo_id": "333485d2-5192-5695-a7ed-d13eb65aed63",
-      "lo_code": "PREDICTIVE_VALUE"
+      "lo_code": "PREDICTIVE_VALUE",
+      "lo_key": "PREDICTIVE_VALUE",
+      "lo_title": "Positive predictive value rises and falls with prevalence even when sensitivity and specificity are fixed, and a positive screening test still needs diagnostic confirmation.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "In a town of 10,000, 200 people have a chronic disease on a given day. In that year, 20 new cases occur. A student swaps the two rates. Prevalence is 200 per 10,000. Incidence is 20 per 10,000 per year. What are the two figures?  Prevalence is a stock. Incidence is a flow. 200 existing, 20 new that year. Do not swap them.  On the day, 200 have it. Across the year, 20 acquire it. Prevalence 200 per 10,000. Incidence 20 per 10,000 per year. Label them and do not swap.  Stock versus flow. 200 now, 20 new this year. Prevalence and incidence labelled correctly. The rest of the history does not change the definition or the calculation in front of you.  Nothing else in the consultation changes the figure or the bias being asked about. Answer the definition in front of you.  State the answer in those terms. Clearly.",
@@ -751,7 +940,16 @@
       "phase": "PH-04",
       "phase_item_id": "PH-E-22",
       "lo_id": "a3166865-4555-5c3f-b319-5a35c9210fc6",
-      "lo_code": "INCIDENCE_PREVALENCE"
+      "lo_code": "INCIDENCE_PREVALENCE",
+      "lo_key": "INCIDENCE_PREVALENCE",
+      "lo_title": "Incidence is new cases in a population over a period of time, while prevalence is all existing cases at a point in time.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": -1.1,
+      "difficulty_tier": "easy",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A highly sensitive test for a rare infection is negative. A colleague says a sensitive test confirms disease, so a negative result is unhelpful. A negative result on a sensitive test helps rule disease out. A specific test helps rule disease in when positive. The colleague has the uses reversed. The rest of the history does not change the definition or the calculation. A colleague's shortcut is the common error for this figure. State the answer in the terms the question asks. Do not swap a property of the test for a property of the population, or a relative figure for an absolute one. Decide on the numbers already given. Nothing else in the consultation changes the figure or the bias. Apply the definition in front of you. The point estimate, the interval, or the study direction is already enough. Do not add a causal claim the design cannot support.  State it clearly. That is the answer. Apply it to the numbers given. The common mistake is to use the wrong figure or the wrong design label. Avoid it. Clearly. Today. Apply the rule to these numbers. Now.",
@@ -785,7 +983,16 @@
       "phase": "PH-04",
       "phase_item_id": "PH-E-23",
       "lo_id": "70bffe72-cd4a-584c-96b0-e82c55b68ae3",
-      "lo_code": "TEST_PROPERTIES"
+      "lo_code": "TEST_PROPERTIES",
+      "lo_key": "TEST_PROPERTIES",
+      "lo_title": "Sensitivity and specificity are test properties; a negative highly sensitive test helps rule disease out, and the post-test probability also needs prevalence or likelihood ratios.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "The same screening test is used in two towns. Town A has higher prevalence. A student says PPV must be identical because the test has not changed. PPV rises as prevalence rises, even when sensitivity and specificity are fixed. Town A has the higher PPV. The rest of the history does not change the definition or the calculation. A colleague's shortcut is the common error for this figure. State the answer in the terms the question asks. Do not swap a property of the test for a property of the population, or a relative figure for an absolute one. Decide on the numbers already given. Nothing else in the consultation changes the figure or the bias. Apply the definition in front of you. The point estimate, the interval, or the study direction is already enough. Do not add a causal claim the design cannot support.  State it clearly. That is the answer. Apply it to the numbers given. The common mistake is to use the wrong figure or the wrong design label. Avoid it. Clearly. Today. Apply the rule to these numbers. Now.",
@@ -819,7 +1026,16 @@
       "phase": "PH-04",
       "phase_item_id": "PH-E-24",
       "lo_id": "333485d2-5192-5695-a7ed-d13eb65aed63",
-      "lo_code": "PREDICTIVE_VALUE"
+      "lo_code": "PREDICTIVE_VALUE",
+      "lo_key": "PREDICTIVE_VALUE",
+      "lo_title": "Positive predictive value rises and falls with prevalence even when sensitivity and specificity are fixed, and a positive screening test still needs diagnostic confirmation.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A man has a positive bowel screening kit and asks for a repeat kit before any procedure. A positive screening test is not confirmed by repeating it. A second kit can be falsely negative. He should be referred for colonoscopy. The rest of the history does not change the definition or the calculation. A colleague's shortcut is the common error for this figure. State the answer in the terms the question asks. Do not swap a property of the test for a property of the population, or a relative figure for an absolute one. Decide on the numbers already given. Nothing else in the consultation changes the figure or the bias. Apply the definition in front of you. The point estimate, the interval, or the study direction is already enough. Do not add a causal claim the design cannot support.  State it clearly. That is the answer. Apply it to the numbers given. The common mistake is to use the wrong figure or the wrong design label. Avoid it. Clearly. Today. Apply the rule to these numbers. Now.",
@@ -853,7 +1069,16 @@
       "phase": "PH-04",
       "phase_item_id": "PH-E-25",
       "lo_id": "333485d2-5192-5695-a7ed-d13eb65aed63",
-      "lo_code": "PREDICTIVE_VALUE"
+      "lo_code": "PREDICTIVE_VALUE",
+      "lo_key": "PREDICTIVE_VALUE",
+      "lo_title": "Positive predictive value rises and falls with prevalence even when sensitivity and specificity are fixed, and a positive screening test still needs diagnostic confirmation.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A registrar swaps two figures. One is new cases in a year. The other is people who currently have the disease. Incidence is new cases in a period. Prevalence is existing cases. They are not interchangeable. The rest of the history does not change the definition or the calculation. A colleague's shortcut is the common error for this figure. State the answer in the terms the question asks. Do not swap a property of the test for a property of the population, or a relative figure for an absolute one. Decide on the numbers already given. Nothing else in the consultation changes the figure or the bias. Apply the definition in front of you. The point estimate, the interval, or the study direction is already enough. Do not add a causal claim the design cannot support.  State it clearly. That is the answer. Apply it to the numbers given. The common mistake is to use the wrong figure or the wrong design label. Avoid it. Clearly. Today. Apply the rule to these numbers. Now.",
@@ -887,7 +1112,16 @@
       "phase": "PH-04",
       "phase_item_id": "PH-E-26",
       "lo_id": "a3166865-4555-5c3f-b319-5a35c9210fc6",
-      "lo_code": "INCIDENCE_PREVALENCE"
+      "lo_code": "INCIDENCE_PREVALENCE",
+      "lo_key": "INCIDENCE_PREVALENCE",
+      "lo_title": "Incidence is new cases in a population over a period of time, while prevalence is all existing cases at a point in time.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "In a town of 10,000, 200 people have a chronic disease on a given day and 20 new cases occur that year. Prevalence is 200 per 10,000. Incidence is 20 per 10,000 per year. The rest of the history does not change the definition or the calculation. A colleague's shortcut is the common error for this figure. State the answer in the terms the question asks. Do not swap a property of the test for a property of the population, or a relative figure for an absolute one. Decide on the numbers already given. Nothing else in the consultation changes the figure or the bias. Apply the definition in front of you. The point estimate, the interval, or the study direction is already enough. Do not add a causal claim the design cannot support.  State it clearly. That is the answer. Apply it to the numbers given. The common mistake is to use the wrong figure or the wrong design label. Avoid it. Clearly. Today. Apply the rule to these numbers. Now.",
@@ -921,7 +1155,16 @@
       "phase": "PH-04",
       "phase_item_id": "PH-E-27",
       "lo_id": "a3166865-4555-5c3f-b319-5a35c9210fc6",
-      "lo_code": "INCIDENCE_PREVALENCE"
+      "lo_code": "INCIDENCE_PREVALENCE",
+      "lo_key": "INCIDENCE_PREVALENCE",
+      "lo_title": "Incidence is new cases in a population over a period of time, while prevalence is all existing cases at a point in time.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A trial reduces absolute risk from 8% to 4%. NNT is 1 divided by the absolute risk reduction. The reduction is 0.04, so NNT is 25. The rest of the history does not change the definition or the calculation. A colleague's shortcut is the common error for this figure. State the answer in the terms the question asks. Do not swap a property of the test for a property of the population, or a relative figure for an absolute one. Decide on the numbers already given. Nothing else in the consultation changes the figure or the bias. Apply the definition in front of you. The point estimate, the interval, or the study direction is already enough. Do not add a causal claim the design cannot support.  State it clearly. That is the answer. Apply it to the numbers given. The common mistake is to use the wrong figure or the wrong design label. Avoid it. Clearly. Today. Apply the rule to these numbers. Now.",
@@ -955,7 +1198,16 @@
       "phase": "PH-04",
       "phase_item_id": "PH-E-28",
       "lo_id": "52fcd53b-e296-5b5f-b823-b645e1217c7e",
-      "lo_code": "ABSOLUTE_VERSUS_RELATIVE"
+      "lo_code": "ABSOLUTE_VERSUS_RELATIVE",
+      "lo_key": "ABSOLUTE_VERSUS_RELATIVE",
+      "lo_title": "The number needed to treat is 1 divided by the absolute risk reduction, and relative risk reductions overstate small absolute benefits.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: research setting",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A newspaper says a drug halves risk. The event fell from 2 per 1000 to 1 per 1000. The absolute reduction is 1 per 1000. The 50% figure is relative. State both. The rest of the history does not change the definition or the calculation. A colleague's shortcut is the common error for this figure. State the answer in the terms the question asks. Do not swap a property of the test for a property of the population, or a relative figure for an absolute one. Decide on the numbers already given. Nothing else in the consultation changes the figure or the bias. Apply the definition in front of you. The point estimate, the interval, or the study direction is already enough. Do not add a causal claim the design cannot support.  State it clearly. That is the answer. Apply it to the numbers given. The common mistake is to use the wrong figure or the wrong design label. Avoid it. Clearly. Today. Apply the rule to these numbers. Now.",
@@ -989,7 +1241,16 @@
       "phase": "PH-04",
       "phase_item_id": "PH-E-29",
       "lo_id": "52fcd53b-e296-5b5f-b823-b645e1217c7e",
-      "lo_code": "ABSOLUTE_VERSUS_RELATIVE"
+      "lo_code": "ABSOLUTE_VERSUS_RELATIVE",
+      "lo_key": "ABSOLUTE_VERSUS_RELATIVE",
+      "lo_title": "The number needed to treat is 1 divided by the absolute risk reduction, and relative risk reductions overstate small absolute benefits.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A trial reports a relative risk of 0.8 with a 95% confidence interval of 0.5 to 1.3. The interval includes 1, so a null effect is not excluded. The point estimate is not proof. The rest of the history does not change the definition or the calculation. A colleague's shortcut is the common error for this figure. State the answer in the terms the question asks. Do not swap a property of the test for a property of the population, or a relative figure for an absolute one. Decide on the numbers already given. Nothing else in the consultation changes the figure or the bias. Apply the definition in front of you. The point estimate, the interval, or the study direction is already enough. Do not add a causal claim the design cannot support.  State it clearly. That is the answer. Apply it to the numbers given. The common mistake is to use the wrong figure or the wrong design label. Avoid it. Clearly. Today. Apply the rule to these numbers. Now.",
@@ -1023,7 +1284,16 @@
       "phase": "PH-04",
       "phase_item_id": "PH-E-30",
       "lo_id": "7728f3b7-21d2-52ae-b9f6-963c71402045",
-      "lo_code": "STATISTICAL_INFERENCE"
+      "lo_code": "STATISTICAL_INFERENCE",
+      "lo_key": "STATISTICAL_INFERENCE",
+      "lo_title": "A 95% confidence interval that includes the null value is compatible with no effect, and a non-significant result in a small study may be a type II error.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: research setting",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A screening program reports longer survival from diagnosis in screened patients. Earlier diagnosis can lengthen time from diagnosis to death without delaying the death. That is lead-time bias. Ask for mortality, not survival from diagnosis. The rest of the history does not change the definition or the calculation. A colleague's shortcut is the common error for this figure. State the answer in the terms the question asks. Do not swap a property of the test for a property of the population, or a relative figure for an absolute one. Decide on the numbers already given. Nothing else in the consultation changes the figure or the bias. Apply the definition in front of you. The point estimate, the interval, or the study direction is already enough. Do not add a causal claim the design cannot support.  State it clearly. That is the answer. Apply it to the numbers given. The common mistake is to use the wrong figure or the wrong design label. Avoid it. Clearly. Today. Apply the rule to these numbers. Now.",
@@ -1057,7 +1327,16 @@
       "phase": "PH-04",
       "phase_item_id": "PH-E-31",
       "lo_id": "f5c57bb5-dddf-583d-903a-43bfcfaee4db",
-      "lo_code": "SCREENING_BIAS"
+      "lo_code": "SCREENING_BIAS",
+      "lo_key": "SCREENING_BIAS",
+      "lo_title": "Lead-time and length-time biases can make screening look beneficial for survival without delaying death.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A program finds many slow-growing cancers and reports excellent outcomes. Screening preferentially detects slower diseases that linger in a detectable window. That is length-time bias. The rest of the history does not change the definition or the calculation. A colleague's shortcut is the common error for this figure. State the answer in the terms the question asks. Do not swap a property of the test for a property of the population, or a relative figure for an absolute one. Decide on the numbers already given. Nothing else in the consultation changes the figure or the bias. Apply the definition in front of you. The point estimate, the interval, or the study direction is already enough. Do not add a causal claim the design cannot support.  State it clearly. That is the answer. Apply it to the numbers given. The common mistake is to use the wrong figure or the wrong design label. Avoid it. Clearly. Today. Apply the rule to these numbers. Now.",
@@ -1091,7 +1370,16 @@
       "phase": "PH-04",
       "phase_item_id": "PH-E-32",
       "lo_id": "f5c57bb5-dddf-583d-903a-43bfcfaee4db",
-      "lo_code": "SCREENING_BIAS"
+      "lo_code": "SCREENING_BIAS",
+      "lo_key": "SCREENING_BIAS",
+      "lo_title": "Lead-time and length-time biases can make screening look beneficial for survival without delaying death.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "Some allocated patients did not take treatment, and some controls obtained it. Analyse by allocated group. Intention-to-treat preserves the randomisation. Analysing only takers can reintroduce bias. The rest of the history does not change the definition or the calculation. A colleague's shortcut is the common error for this figure. State the answer in the terms the question asks. Do not swap a property of the test for a property of the population, or a relative figure for an absolute one. Decide on the numbers already given. Nothing else in the consultation changes the figure or the bias. Apply the definition in front of you. The point estimate, the interval, or the study direction is already enough. Do not add a causal claim the design cannot support.  State it clearly. That is the answer. Apply it to the numbers given. The common mistake is to use the wrong figure or the wrong design label. Avoid it. Clearly. Today. Apply the rule to these numbers. Now.",
@@ -1125,7 +1413,16 @@
       "phase": "PH-04",
       "phase_item_id": "PH-E-33",
       "lo_id": "102c8ead-4b24-5f57-b983-e217ce8b0e97",
-      "lo_code": "TRIAL_CONDUCT"
+      "lo_code": "TRIAL_CONDUCT",
+      "lo_key": "TRIAL_CONDUCT",
+      "lo_title": "Intention-to-treat analysis keeps participants in their allocated group, and allocation concealment differs from blinding.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A report says allocation was concealed and assessors were blinded. Concealment protects the allocation sequence before assignment. Blinding protects measurement after. They are different. The rest of the history does not change the definition or the calculation. A colleague's shortcut is the common error for this figure. State the answer in the terms the question asks. Do not swap a property of the test for a property of the population, or a relative figure for an absolute one. Decide on the numbers already given. Nothing else in the consultation changes the figure or the bias. Apply the definition in front of you. The point estimate, the interval, or the study direction is already enough. Do not add a causal claim the design cannot support.  State it clearly. That is the answer. Apply it to the numbers given. The common mistake is to use the wrong figure or the wrong design label. Avoid it. Clearly. Today. Apply the rule to these numbers. Now.",
@@ -1159,7 +1456,16 @@
       "phase": "PH-04",
       "phase_item_id": "PH-E-34",
       "lo_id": "102c8ead-4b24-5f57-b983-e217ce8b0e97",
-      "lo_code": "TRIAL_CONDUCT"
+      "lo_code": "TRIAL_CONDUCT",
+      "lo_key": "TRIAL_CONDUCT",
+      "lo_title": "Intention-to-treat analysis keeps participants in their allocated group, and allocation concealment differs from blinding.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "People with a rare cancer are asked about a past exposure and compared with people without the cancer. That is a case-control study. It estimates an odds ratio, not a relative risk from incidence. The rest of the history does not change the definition or the calculation. A colleague's shortcut is the common error for this figure. State the answer in the terms the question asks. Do not swap a property of the test for a property of the population, or a relative figure for an absolute one. Decide on the numbers already given. Nothing else in the consultation changes the figure or the bias. Apply the definition in front of you. The point estimate, the interval, or the study direction is already enough. Do not add a causal claim the design cannot support.  State it clearly. That is the answer. Apply it to the numbers given. The common mistake is to use the wrong figure or the wrong design label. Avoid it. Clearly. Today. Apply the rule to these numbers. Now.",
@@ -1193,7 +1499,16 @@
       "phase": "PH-04",
       "phase_item_id": "PH-E-35",
       "lo_id": "34cbf05d-0efe-563f-b3cc-47e1050a4a95",
-      "lo_code": "STUDY_DESIGN"
+      "lo_code": "STUDY_DESIGN",
+      "lo_key": "STUDY_DESIGN",
+      "lo_title": "Study design determines what can be estimated: case-control studies give odds ratios, cohorts give incidence, and cross-sectional studies cannot show temporal direction.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "Coffee drinkers have more heart disease and also smoke more. Smoking may confound the coffee association. The smoking difference could explain the finding. Causation is not shown. The rest of the history does not change the definition or the calculation. A colleague's shortcut is the common error for this figure. State the answer in the terms the question asks. Do not swap a property of the test for a property of the population, or a relative figure for an absolute one. Decide on the numbers already given. Nothing else in the consultation changes the figure or the bias. Apply the definition in front of you. The point estimate, the interval, or the study direction is already enough. Do not add a causal claim the design cannot support.  State it clearly. That is the answer. Apply it to the numbers given. The common mistake is to use the wrong figure or the wrong design label. Avoid it. Clearly. Today. Apply the rule to these numbers. Now.",
@@ -1227,7 +1542,16 @@
       "phase": "PH-04",
       "phase_item_id": "PH-E-36",
       "lo_id": "b293d6c3-38c4-5b0a-8068-13b40f3492fa",
-      "lo_code": "CONFOUNDING"
+      "lo_code": "CONFOUNDING",
+      "lo_key": "CONFOUNDING",
+      "lo_title": "A confounder is linked to both exposure and outcome and distorts the association, and unmeasured confounders can persist after adjustment.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A cohort adjusts for age, sex, and smoking and still finds an association. Adjustment only deals with confounders that were measured. Unknown and unmeasured confounders can remain. The rest of the history does not change the definition or the calculation. A colleague's shortcut is the common error for this figure. State the answer in the terms the question asks. Do not swap a property of the test for a property of the population, or a relative figure for an absolute one. Decide on the numbers already given. Nothing else in the consultation changes the figure or the bias. Apply the definition in front of you. The point estimate, the interval, or the study direction is already enough. Do not add a causal claim the design cannot support.  State it clearly. That is the answer. Apply it to the numbers given. The common mistake is to use the wrong figure or the wrong design label. Avoid it. Clearly. Today. Apply the rule to these numbers. Now.",
@@ -1261,7 +1585,16 @@
       "phase": "PH-04",
       "phase_item_id": "PH-E-37",
       "lo_id": "b293d6c3-38c4-5b0a-8068-13b40f3492fa",
-      "lo_code": "CONFOUNDING"
+      "lo_code": "CONFOUNDING",
+      "lo_key": "CONFOUNDING",
+      "lo_title": "A confounder is linked to both exposure and outcome and distorts the association, and unmeasured confounders can persist after adjustment.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "In a cohort the outcome is 20% in the exposed and 10% in the unexposed. The relative risk is 2. The odds ratio is higher. When the outcome is common, the odds ratio overstates the relative risk. The rest of the history does not change the definition or the calculation. A colleague's shortcut is the common error for this figure. State the answer in the terms the question asks. Do not swap a property of the test for a property of the population, or a relative figure for an absolute one. Decide on the numbers already given. Nothing else in the consultation changes the figure or the bias. Apply the definition in front of you. The point estimate, the interval, or the study direction is already enough. Do not add a causal claim the design cannot support.  State it clearly. That is the answer. Apply it to the numbers given. The common mistake is to use the wrong figure or the wrong design label. Avoid it. Clearly. Today. Apply the rule to these numbers. Now.",
@@ -1295,7 +1628,16 @@
       "phase": "PH-04",
       "phase_item_id": "PH-E-38",
       "lo_id": "12e7a720-8e34-510e-8a3c-8eac5dd76555",
-      "lo_code": "ODDS_VERSUS_RISK"
+      "lo_code": "ODDS_VERSUS_RISK",
+      "lo_key": "ODDS_VERSUS_RISK",
+      "lo_title": "When the outcome is common, the odds ratio overstates the relative risk, so cohort data should report the relative risk.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "Students compute an odds ratio of about 2.25 and label it the relative risk. In a cohort with a common outcome, report the risk ratio. Here it is 2. The rest of the history does not change the definition or the calculation. A colleague's shortcut is the common error for this figure. State the answer in the terms the question asks. Do not swap a property of the test for a property of the population, or a relative figure for an absolute one. Decide on the numbers already given. Nothing else in the consultation changes the figure or the bias. Apply the definition in front of you. The point estimate, the interval, or the study direction is already enough. Do not add a causal claim the design cannot support.  State it clearly. That is the answer. Apply it to the numbers given. The common mistake is to use the wrong figure or the wrong design label. Avoid it. Clearly. Today. Apply the rule to these numbers. Now.",
@@ -1329,7 +1671,16 @@
       "phase": "PH-04",
       "phase_item_id": "PH-E-39",
       "lo_id": "12e7a720-8e34-510e-8a3c-8eac5dd76555",
-      "lo_code": "ODDS_VERSUS_RISK"
+      "lo_code": "ODDS_VERSUS_RISK",
+      "lo_key": "ODDS_VERSUS_RISK",
+      "lo_title": "When the outcome is common, the odds ratio overstates the relative risk, so cohort data should report the relative risk.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "Risk 20% versus 10%. That outcome is common. The odds ratio will be further from 1 than the relative risk of 2. State the relative risk. The rest of the history does not change the definition or the calculation. A colleague's shortcut is the common error for this figure. State the answer in the terms the question asks. Do not swap a property of the test for a property of the population, or a relative figure for an absolute one. Decide on the numbers already given. Nothing else in the consultation changes the figure or the bias. Apply the definition in front of you. The point estimate, the interval, or the study direction is already enough. Do not add a causal claim the design cannot support.  State it clearly. That is the answer. Apply it to the numbers given. The common mistake is to use the wrong figure or the wrong design label. Avoid it. Clearly. Today. Apply the rule to these numbers. Now.",
@@ -1363,7 +1714,16 @@
       "phase": "PH-04",
       "phase_item_id": "PH-E-40",
       "lo_id": "12e7a720-8e34-510e-8a3c-8eac5dd76555",
-      "lo_code": "ODDS_VERSUS_RISK"
+      "lo_code": "ODDS_VERSUS_RISK",
+      "lo_key": "ODDS_VERSUS_RISK",
+      "lo_title": "When the outcome is common, the odds ratio overstates the relative risk, so cohort data should report the relative risk.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     }
   ]
 }

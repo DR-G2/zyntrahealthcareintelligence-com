@@ -37,7 +37,16 @@
       "phase": "PH-01",
       "phase_item_id": "PH-S-01",
       "lo_id": "86a6aa54-2f98-5309-b11a-80a55a6fd840",
-      "lo_code": "BREASTSCREEN_ELIGIBILITY"
+      "lo_code": "BREASTSCREEN_ELIGIBILITY",
+      "lo_key": "BREASTSCREEN_ELIGIBILITY",
+      "lo_title": "Symptom-free women aged 50-74 are invited to BreastScreen every 2 years; women 40-49 and 75+ may self-refer, and asymptomatic men are not screened.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 46-year-old woman in Adelaide has asked the receptionist for a BreastScreen referral after a friend said free mammograms do not start until 50 and that asking earlier is a waste of everyone's time. She has no lump, pain, nipple change, or skin thickening. Her sister had a fibroadenoma excised at 29. There is no relative with breast or ovarian cancer. She is otherwise well, has never had breast imaging, had one child at 32, and breastfed for four months. She works in a call centre, does not smoke, and drinks rarely. She is anxious because a colleague was diagnosed at 48, and she has convinced herself that waiting until 50 is reckless. On examination both breasts are normal, with no axillary nodes. She is not pregnant. She asks whether booking now is pointless, whether she will be turned away, and whether she should instead pay for a private ultrasound to be safe. A local radiology group has already quoted her $480 for a bilateral ultrasound and mammogram. Her GP records show no breast complaint in six years at the practice. There is no chest-wall radiation in her history. A cousin had a benign cyst drained at 40. She has private health insurance and wants a clear answer on whether the public system will accept her at 46. Blood pressure is 122/74. She takes no regular medicines. A recent cervical screen was normal. She can attend a centre next week if advised. Examination today adds nothing. What is the most appropriate advice about BreastScreen?  She has never used hormone therapy. Her periods stopped at 44. There is no personal history of atypical hyperplasia or lobular carcinoma in situ. A maternal grandmother died of unrelated heart disease at 80. She is up to date with cervical screening. The receptionist has already told her the referral will be rejected, which is why she is asking the GP directly. She is prepared to pay privately if the public pathway is closed to her, but she would prefer not to. The examination adds no mass, no skin change, and no node. The decision is whether a 46-year-old asymptomatic woman can attend BreastScreen now.",
@@ -71,7 +80,16 @@
       "phase": "PH-01",
       "phase_item_id": "PH-S-02",
       "lo_id": "86a6aa54-2f98-5309-b11a-80a55a6fd840",
-      "lo_code": "BREASTSCREEN_ELIGIBILITY"
+      "lo_code": "BREASTSCREEN_ELIGIBILITY",
+      "lo_key": "BREASTSCREEN_ELIGIBILITY",
+      "lo_title": "Symptom-free women aged 50-74 are invited to BreastScreen every 2 years; women 40-49 and 75+ may self-refer, and asymptomatic men are not screened.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 61-year-old woman in Brisbane notices a new hard lump in the upper outer quadrant of her left breast while showering. It has been there for three weeks. She had a normal BreastScreen mammogram 14 months ago. There is no nipple discharge. She is a non-smoker, takes perindopril for hypertension, and has no family history of breast or ovarian cancer. On examination there is a 2 cm firm, irregular mass, tethered to skin, with a palpable left axillary node. She is frightened and asks whether she should simply wait for her next BreastScreen invitation, which she believes is the proper pathway, or book the routine screening mammogram a few months early. Her sister has told her that screening clinics are faster than hospital clinics. She has no fever, no recent trauma, and no signs of infection. The remainder of the examination is normal. She is systemically well, weight stable, and has no bone pain. A BreastScreen letter from 14 months ago is in her bag and is normal. The axillary node is firm and about 1.5 cm. She is post-menopausal on no hormone therapy. Her sister has offered to drive her to a BreastScreen van in the suburb next week. The GP can feel the mass and the node. Bloods last month were unremarkable. She is not anticoagulated. What is the most appropriate next step?  She noticed the lump on a Saturday and has checked it daily since. It has not changed with her cycle because she no longer has cycles. There is no nipple inversion of long standing. A previous cyst was aspirated on the other side ten years ago and did not recur. She is a non-drinker. Her last mammogram report, which she has brought, says no significant abnormality and BIRADS 1. The node in the axilla was not present at her last GP visit six months ago for a flu vaccine. She is afebrile. There is no erythema. Weight is stable at 68 kg. The question is whether a new mass with a node goes to screening or to diagnostic assessment.",
@@ -105,7 +123,16 @@
       "phase": "PH-01",
       "phase_item_id": "PH-S-03",
       "lo_id": "4678d1c1-8c32-5b9b-bb13-24d626d3060a",
-      "lo_code": "BREAST_NOT_ROUTINE_SCREEN"
+      "lo_code": "BREAST_NOT_ROUTINE_SCREEN",
+      "lo_key": "BREAST_NOT_ROUTINE_SCREEN",
+      "lo_title": "A breast symptom or high familial risk needs diagnostic or specialist assessment, not a routine BreastScreen mammogram.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.95,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 77-year-old woman in Hobart has not been invited to BreastScreen for two years. She is well, has no breast symptom, and had normal screens throughout her sixties. Her daughter has read that screening stops at 74 and has told her she is no longer allowed to attend. She is a retired teacher, lives alone, drives, and has no cognitive impairment. There is no family history of breast or ovarian cancer. She takes a statin and vitamin D. Examination is normal. She asks whether the program has closed to her permanently, whether attending would be against the rules, and whether she should instead pay for a private mammogram every year for the rest of her life. She is not frail, has a life expectancy well beyond a few years, and can consent for herself. Her GP is aware that invitation and access are not the same thing at this age.  She has attended BreastScreen regularly since 52 and has every normal report in a folder at home. Her daughter read a news article saying the program ends at 74 and has booked her a private annual mammogram at $320 a time. She is a retired teacher, lives alone, drives, and manages her own medicines. There is no cognitive impairment. She takes atorvastatin and vitamin D only. There is no family history of breast or ovarian cancer. Examination today is normal, with no mass and no node. She is not frail. Her GP estimates her life expectancy is well beyond five years. She asks whether the program has closed to her permanently, whether attending would be against the rules, and whether private imaging every year is now her only option. She can consent for herself. The question is invitation versus access after 74. What is the most appropriate advice?",
@@ -139,7 +166,16 @@
       "phase": "PH-01",
       "phase_item_id": "PH-S-04",
       "lo_id": "86a6aa54-2f98-5309-b11a-80a55a6fd840",
-      "lo_code": "BREASTSCREEN_ELIGIBILITY"
+      "lo_code": "BREASTSCREEN_ELIGIBILITY",
+      "lo_key": "BREASTSCREEN_ELIGIBILITY",
+      "lo_title": "Symptom-free women aged 50-74 are invited to BreastScreen every 2 years; women 40-49 and 75+ may self-refer, and asymptomatic men are not screened.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 42-year-old woman is found to carry a pathogenic BRCA1 variant after her sister died of ovarian cancer at 46. She has no breast symptom. She has been told by a relative to just join BreastScreen early and have an ordinary mammogram every two years like everyone else. She has two children, breastfed both, does not smoke, and has not had risk-reducing surgery. She is anxious, has been reading conflicting advice online, and asks whether the national screening program is enough now that the gene result is known. Examination of breasts and axillae is normal. She is not pregnant. There is no lump. Her GP has the genetic report. A colleague suggests that because she is under 50 she cannot access any imaging at all, and another suggests a single private ultrasound and discharge.  The BRCA1 result arrived last week from a familial cancer service that tested her after her sister's death. She has no breast symptom, no ovarian symptom, and has not had risk-reducing surgery. She has two children, breastfed both, and does not smoke. A relative has told her to join BreastScreen early and have an ordinary mammogram every two years. She has been reading conflicting advice online, some of it about MRI and some about ultrasound. Examination of breasts and axillae is normal. She is not pregnant. There is no lump. Her GP has the genetic report in the file. A colleague has suggested she is too young for any imaging, and another has suggested a single private ultrasound and discharge. She is anxious and wants to know if the national program is enough now that the gene is known. The pathway is not routine screening. What is the most appropriate advice?",
@@ -173,7 +209,16 @@
       "phase": "PH-01",
       "phase_item_id": "PH-S-05",
       "lo_id": "4678d1c1-8c32-5b9b-bb13-24d626d3060a",
-      "lo_code": "BREAST_NOT_ROUTINE_SCREEN"
+      "lo_code": "BREAST_NOT_ROUTINE_SCREEN",
+      "lo_key": "BREAST_NOT_ROUTINE_SCREEN",
+      "lo_title": "A breast symptom or high familial risk needs diagnostic or specialist assessment, not a routine BreastScreen mammogram.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 1.0,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 55-year-old man asks whether he should enrol in BreastScreen because his mother had breast cancer at 78. He has no breast lump, nipple discharge, or skin change. He is well, takes no medicines, and has never had breast imaging. There is no other family history. He works as a driver and is a non-smoker. Examination shows no mass and no axillary node. He has read that men can get breast cancer and assumes there must be a population mammography program for asymptomatic men, parallel to the women's program. He asks for the invitation letter and the two-yearly recall. His GP notes he is asymptomatic and has no personal high-risk feature.  He is 55, well, and takes no medicines. His mother had breast cancer at 78 and is alive. He has no breast lump, no nipple discharge, and no skin change. There is no other family history of breast or ovarian cancer. He works as a driver and has never smoked. Examination shows no mass and no axillary node. He has read that men can get breast cancer and assumes there is a population mammography program for asymptomatic men, with invitation letters and two-yearly recall, parallel to the women's program. He has asked the receptionist for the enrolment form. He is asymptomatic and has no personal high-risk feature such as prior chest radiation or a known pathogenic variant. The question is whether an asymptomatic man is offered population breast screening. What is the most appropriate advice?  He has no gynaecomastia and no medication that would raise his own risk. A chest X-ray last year for a visa was normal. He is asking for enrolment in a population program, not for investigation of a symptom. Population breast screening is not offered to an asymptomatic man.",
@@ -207,7 +252,16 @@
       "phase": "PH-01",
       "phase_item_id": "PH-S-06",
       "lo_id": "86a6aa54-2f98-5309-b11a-80a55a6fd840",
-      "lo_code": "BREASTSCREEN_ELIGIBILITY"
+      "lo_code": "BREASTSCREEN_ELIGIBILITY",
+      "lo_key": "BREASTSCREEN_ELIGIBILITY",
+      "lo_title": "Symptom-free women aged 50-74 are invited to BreastScreen every 2 years; women 40-49 and 75+ may self-refer, and asymptomatic men are not screened.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 47-year-old man in Perth asks for a bowel cancer screening kit. A friend told him the government posts them from 40. He has no rectal bleeding, change in bowel habit, weight loss, or anaemia. His father had a polyp removed at 72. He is otherwise well, BMI 29, non-smoker. He has never had a colonoscopy. He is keen to get on the list and is irritated that nothing has arrived in the post. Examination is unremarkable and there is no abdominal mass. He asks whether requesting a kit now is allowed, or whether he must wait until the automatic mail-out.  He is 47, BMI 29, and a non-smoker. He has no rectal bleeding, no change in bowel habit, no weight loss, and no anaemia on a blood count done last month for an insurance medical. His father had a polyp removed at 72. He has never had a colonoscopy. A friend told him kits are posted from age 40, and he is irritated that nothing has arrived. Examination shows no abdominal mass. He asks whether he can request a free kit now or must wait for the automatic mail-out at 50. He is otherwise well and can complete a kit at home this week if one is available. The question is request versus automatic invitation. What is the most appropriate next step?  He works in construction and has private insurance but would prefer the free kit. There is no family history of colorectal cancer under 60. A faecal occult blood test was never done. He is not on aspirin or an anticoagulant. Weight is stable. He can follow instructions for the kit if one is issued. The friend who mentioned age 40 was mistaken about the mail-out. Requesting a kit at 47 is allowed. Automatic mailing starts at 50.",
@@ -241,7 +295,16 @@
       "phase": "PH-01",
       "phase_item_id": "PH-S-07",
       "lo_id": "5e0c0430-3119-5ee6-b984-5e7d15b5a087",
-      "lo_code": "BOWEL_ELIGIBILITY"
+      "lo_code": "BOWEL_ELIGIBILITY",
+      "lo_key": "BOWEL_ELIGIBILITY",
+      "lo_title": "People aged 45-49 may request a free NBCSP iFOBT kit, automatic mail-out runs from 50 to 74, and recent colonoscopy surveillance replaces the kit.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -1.1,
+      "difficulty_tier": "easy",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 62-year-old woman receives her National Bowel Cancer Screening kit in the mail. She has no rectal bleeding, no change in bowel habit, and no weight loss. She had a normal colonoscopy eight years ago for a positive kit at the time. She is well, takes a statin, and is unsure whether she still needs to complete this kit or whether the old colonoscopy covers her for life. She asks if she can ignore the mail-out. There is no family history of colorectal cancer. Examination is normal.  She is 62 and has just received her National Bowel Cancer Screening kit. She has no rectal bleeding, no change in bowel habit, and no weight loss. She had a normal colonoscopy eight years ago after a previous positive kit. She takes a statin and is otherwise well. There is no family history of colorectal cancer. She believes the old colonoscopy covers her for life and asks if she can ignore the mail-out. Examination is normal. Haemoglobin last year was normal. She is inside the mailed age band and has no symptom that would replace the kit with a diagnostic test. The question is whether she completes this kit. What is the most appropriate next step?  She is a retired nurse and remembers the old colonoscopy clearly. The report, which she has, showed diverticula only. She has had no polyps. She is not iron deficient. She asks if the program writes to people who ignore a kit. She is happy to do the test if it is still required. The eight-year gap means the old colonoscopy does not replace this kit. She should complete and return it.",
@@ -275,7 +338,16 @@
       "phase": "PH-01",
       "phase_item_id": "PH-S-08",
       "lo_id": "5e0c0430-3119-5ee6-b984-5e7d15b5a087",
-      "lo_code": "BOWEL_ELIGIBILITY"
+      "lo_code": "BOWEL_ELIGIBILITY",
+      "lo_key": "BOWEL_ELIGIBILITY",
+      "lo_title": "People aged 45-49 may request a free NBCSP iFOBT kit, automatic mail-out runs from 50 to 74, and recent colonoscopy surveillance replaces the kit.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 66-year-old man completes a mailed immunochemical kit. The result is positive. He feels well, has no bleeding, and a friend tells him to repeat the kit in case it was a false alarm, and to avoid colonoscopy. He had no recent colonoscopy. He asks his GP to order a second kit and keep it in the community. Haemoglobin is normal.  He is 66 and has completed a mailed immunochemical kit. The result is positive. He feels well and has no bleeding. A friend has told him to repeat the kit in case it was a false alarm and to avoid colonoscopy. He had no colonoscopy in the last two years. Haemoglobin is normal. He asks his GP to order a second kit and keep the problem in the community. He is anxious about the procedure but can attend a public list. The positive kit is the reason for the visit. The next step is not another kit. What is the most appropriate next step?  He has never had a colonoscopy. His brother had a polyp at 68. He is not anaemic. He has read that immunochemical tests have false positives and wants laboratory proof before a procedure. A second kit is not the pathway after a positive program result. Colonoscopy is the next test. Delaying for a repeat kit risks losing him to follow-up.  He works shifts and is worried about time off for a colonoscopy. A normal haemoglobin does not clear a positive kit. Repeating the kit is the common error. Referral for colonoscopy is the pathway.",
@@ -309,7 +381,16 @@
       "phase": "PH-01",
       "phase_item_id": "PH-S-09",
       "lo_id": "fe130935-33eb-5ba2-a042-fe471cc453ed",
-      "lo_code": "BOWEL_NOT_A_REPEAT_KIT"
+      "lo_code": "BOWEL_NOT_A_REPEAT_KIT",
+      "lo_key": "BOWEL_NOT_A_REPEAT_KIT",
+      "lo_title": "A positive bowel screening iFOBT, or bowel symptoms, requires diagnostic colonoscopy, never a repeat kit.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 58-year-old woman has had bright red rectal bleeding on the paper for six weeks. She also has a mailed bowel kit at home, unopened, and asks whether she should just do the kit rather than make a fuss. She has no weight loss. Examination of the abdomen is normal. Rectal examination shows no mass. A colleague says the kit is the national pathway and should come first.  She is 58 and has had bright red rectal bleeding on the paper for six weeks. She also has a mailed bowel kit at home, unopened, and asks whether she should just do the kit rather than make a fuss. She has no weight loss. Abdominal examination is normal. Rectal examination shows no mass. A colleague has said the kit is the national pathway and should come first. She is systemically well. The bleeding is a symptom. The kit is a screening tool for people without symptoms. The next step is diagnostic, not a kit. What is the most appropriate next step?  The bleeding is bright red, on the paper, and has occurred most days for six weeks. There is no dark stool and no weight loss. She is not on an anticoagulant. Abdominal and rectal examination show no mass. The unopened kit is a screening kit for asymptomatic people. Symptoms take her out of that pathway. She needs a diagnostic colonoscopy, not a kit result.  She has private insurance and could have a colonoscopy within a fortnight. The kit at home is irrelevant once bleeding is present. Diagnostic colonoscopy is the next step.",
@@ -343,7 +424,16 @@
       "phase": "PH-01",
       "phase_item_id": "PH-S-10",
       "lo_id": "fe130935-33eb-5ba2-a042-fe471cc453ed",
-      "lo_code": "BOWEL_NOT_A_REPEAT_KIT"
+      "lo_code": "BOWEL_NOT_A_REPEAT_KIT",
+      "lo_key": "BOWEL_NOT_A_REPEAT_KIT",
+      "lo_title": "A positive bowel screening iFOBT, or bowel symptoms, requires diagnostic colonoscopy, never a repeat kit.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 1.05,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 70-year-old man attends after a National Bowel Cancer Screening kit arrived in the post. Fourteen months ago he was admitted with diverticular bleeding and had a colonoscopy. The report is on the practice file. Preparation was good, the scope reached the caecum, and the only finding was diverticula. No polyp was removed and no cancer was seen. He has had no rectal bleeding since that admission. He is not anaemic on a blood count done last month. He is otherwise well, takes a statin, and has no family history of colorectal cancer. He keeps the new kit on the kitchen table and wants permission to use it because the envelope looks official. A neighbour has told him that ignoring a government kit can affect his Medicare record, which is not true. He is asymptomatic. There is no change in bowel habit and no weight loss. Abdominal examination is normal. The recent complete colonoscopy is the reason this program round does not apply. Completing the kit would not be the correct next test. What is the most appropriate advice?  He works part-time and is worried that not returning the kit will generate a reminder letter he does not want. The colonoscopy was done in a public hospital and the full report, including the preparation grade and the caecal landmarks, is scanned into the file. No surveillance interval was recommended because no polyp was found. He is not on an anticoagulant. Weight is stable. The envelope is a routine program mail-out and does not override a recent complete colonoscopy. He should leave the kit unused.",
@@ -377,7 +467,16 @@
       "phase": "PH-01",
       "phase_item_id": "PH-S-11",
       "lo_id": "fe130935-33eb-5ba2-a042-fe471cc453ed",
-      "lo_code": "BOWEL_NOT_A_REPEAT_KIT"
+      "lo_code": "BOWEL_NOT_A_REPEAT_KIT",
+      "lo_key": "BOWEL_NOT_A_REPEAT_KIT",
+      "lo_title": "A positive bowel screening iFOBT, or bowel symptoms, requires diagnostic colonoscopy, never a repeat kit.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 1.1,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 76-year-old woman asks why her bowel cancer screening kits have stopped arriving. She is active, drives herself to the practice, and has no cognitive impairment. She had normal kits at 60, 64 and 68. Nothing has arrived since she turned 75. Her son has booked a private gastroenterologist and wants a colonoscopy every five years as a substitute for the kit. She has no rectal bleeding, no change in bowel habit, and no weight loss. Haemoglobin is normal. She is disappointed rather than symptomatic. Examination is unremarkable. She takes a statin and vitamin D only. There is no family history of colorectal cancer. The program stops mailing kits after 74 by design. She is outside the automatic pathway. She asks whether a kit will still be posted, and what she should do if she wants to continue some form of testing. Any further test would be a clinical discussion, not a mailed kit. What is the most appropriate advice?  She lives alone and manages her own appointments. Her son is pushing hard for private colonoscopy and has already paid a deposit. She has no iron deficiency and no change in stool calibre. A faecal immunochemical test done privately two years ago, outside the program, was negative, but that does not change the age rule. The program does not post kits after 74. She has not been abandoned. She is simply outside the mailed age range. Further testing, if any, is a clinical decision based on symptoms or other risk, not a program entitlement.",
@@ -411,7 +510,16 @@
       "phase": "PH-01",
       "phase_item_id": "PH-S-12",
       "lo_id": "5e0c0430-3119-5ee6-b984-5e7d15b5a087",
-      "lo_code": "BOWEL_ELIGIBILITY"
+      "lo_code": "BOWEL_ELIGIBILITY",
+      "lo_key": "BOWEL_ELIGIBILITY",
+      "lo_title": "People aged 45-49 may request a free NBCSP iFOBT kit, automatic mail-out runs from 50 to 74, and recent colonoscopy surveillance replaces the kit.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 19-year-old woman attends with her mother, who had Pap smears from the age of 18 and expects the same for her daughter. She became sexually active a year ago, has had one partner, and completed the school HPV vaccine course. There is no abnormal bleeding, no pelvic pain, and no immune suppression. She is not pregnant. The practice nurse has already said a test is not due, and she has come to the GP for a second opinion. Her mother is insistent that delaying is unsafe. Routine cervical screening in Australia starts at 25, not at the old Pap age. A test today would follow an outdated schedule. She does not need screening now. She can be recalled at the appropriate age. What is the most appropriate advice about routine cervical screening?  She has no history of organ transplant and is not on immunosuppressants. Her periods are regular. There is no abnormal vaginal discharge. The mother has brought a pamphlet from the 1990s that lists 18 as the start age. That pamphlet is out of date. The current program starts at 25 for routine screening. Doing a test today would not be harmful in itself, but it is not indicated and would follow the wrong schedule. She can be advised of the correct start age and recalled then.",
@@ -445,7 +553,16 @@
       "phase": "PH-01",
       "phase_item_id": "PH-S-13",
       "lo_id": "741aa4d2-3587-575e-893e-414f83d286ef",
-      "lo_code": "CERVICAL_START_AND_INTERVAL"
+      "lo_code": "CERVICAL_START_AND_INTERVAL",
+      "lo_key": "CERVICAL_START_AND_INTERVAL",
+      "lo_title": "Routine HPV-based cervical screening runs from 25 to 74 every 5 years after a negative test, with self-collection an option for any eligible participant.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -0.9,
+      "difficulty_tier": "easy",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 27-year-old secondary teacher attends for a script. She has the HPV vaccine record on her phone, showing three doses given at school. She has never had a Cervical Screening Test. She has read that the vaccine prevents the cancers the test looks for and believes she can opt out of screening permanently. There is no postcoital bleeding, no intermenstrual bleeding, and no abnormal discharge. She is not immune suppressed. Her mother has told her that vaccinated women no longer need tests. The vaccine reduces risk. It does not replace the Cervical Screening Test. She is in the eligible age band. The belief that vaccination cancels the test is the error. What is the most appropriate advice?  She has had three documented vaccine doses. There is no gap in the record. She has never been sexually active with more than two partners and has no abnormal bleeding. A practice website she read said vaccinated women are protected and do not need tests. That advice is wrong. The vaccine does not cover every oncogenic type and does not remove the need for screening once she is in the age band. She should have a Cervical Screening Test. Opting out because of vaccination is the error.",
@@ -479,7 +596,16 @@
       "phase": "PH-01",
       "phase_item_id": "PH-S-14",
       "lo_id": "741aa4d2-3587-575e-893e-414f83d286ef",
-      "lo_code": "CERVICAL_START_AND_INTERVAL"
+      "lo_code": "CERVICAL_START_AND_INTERVAL",
+      "lo_key": "CERVICAL_START_AND_INTERVAL",
+      "lo_title": "Routine HPV-based cervical screening runs from 25 to 74 every 5 years after a negative test, with self-collection an option for any eligible participant.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": -1.1,
+      "difficulty_tier": "easy",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: school immunisation program",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 36-year-old woman has just received a Cervical Screening Test result that is negative for oncogenic HPV. There is no previous treated abnormality on the national register. She is not immune suppressed. She is asymptomatic, with no postcoital or intermenstrual bleeding. Her mother had two-yearly Pap smears for decades and she asks whether she should book the same interval. She is otherwise well and takes no regular medicines. A negative HPV test in the current pathway is followed at five years, not two. Booking her at two years would be the old Pap habit. The next routine test is due in five years. What is the most appropriate interval?  The laboratory report is unambiguous: oncogenic HPV not detected. There is no previous CIN treatment on the register. She is not taking immunosuppressants. She has private insurance and could book a test whenever she likes, but the correct interval is what matters. Her mother is in the room and expects a two-year plan. Two years was the Pap interval. Five years is the interval after a negative HPV test in this pathway. The next routine test is in five years.  She has no previous colposcopy. The result letter she brought is the standard negative letter. She is happy to attend whenever she is told. The interval is the point of the visit. Five years is correct.",
@@ -513,7 +639,16 @@
       "phase": "PH-01",
       "phase_item_id": "PH-S-15",
       "lo_id": "741aa4d2-3587-575e-893e-414f83d286ef",
-      "lo_code": "CERVICAL_START_AND_INTERVAL"
+      "lo_code": "CERVICAL_START_AND_INTERVAL",
+      "lo_key": "CERVICAL_START_AND_INTERVAL",
+      "lo_title": "Routine HPV-based cervical screening runs from 25 to 74 every 5 years after a negative test, with self-collection an option for any eligible participant.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 34-year-old woman attends to discuss a Cervical Screening Test result. The report names HPV 16 on the same page as a negative liquid-based cytology. She feels well and has no postcoital bleeding, no intermenstrual bleeding, and no pelvic pain. A colleague who glanced at the file has said that negative cells mean five-year recall. She is not immune suppressed and has no previous abnormality. In the cervical program, HPV 16 or 18 is referred to colposcopy even when cytology is negative. Waiting five years would miss the higher-risk pathway. She should be referred. What is the most appropriate next step?  The report is clear. HPV 16 detected. Cytology negative. She has no symptoms and a normal speculum examination today. A negative cytology result does not downgrade HPV 16 or 18 to routine recall. Those types are referred to colposcopy. She is anxious about the referral and asks if a repeat test in a year would be safer. It would not. The pathway is colposcopy.  She has capacity and can attend a colposcopy clinic within the recommended window. There is no pregnancy. The combination of HPV 16 and negative cytology is a referral, not a recall.",
@@ -547,7 +682,16 @@
       "phase": "PH-01",
       "phase_item_id": "PH-S-16",
       "lo_id": "b57ffc42-352c-5237-8eaa-85f5c609c438",
-      "lo_code": "CERVICAL_ABNORMAL_OR_SYMPTOM"
+      "lo_code": "CERVICAL_ABNORMAL_OR_SYMPTOM",
+      "lo_key": "CERVICAL_ABNORMAL_OR_SYMPTOM",
+      "lo_title": "HPV 16/18 is referred for colposcopy regardless of cytology, other oncogenic HPV is retested in 12 months, and abnormal bleeding is investigated as a symptom, not screened.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 1.1,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 31-year-old woman attends after a Cervical Screening Test shows non-16/18 oncogenic HPV with LSIL on cytology. She is asymptomatic. There is no postcoital bleeding and no pelvic pain. She has searched the word lesion online and is frightened that this means cancer. She asks whether she needs a colposcopy this week. She is not immune suppressed. This combination is intermediate risk in the program. The pathway is a repeat Cervical Screening Test in 12 months, not immediate colposcopy. She needs that plan explained, not an urgent procedure. What is the most appropriate plan?  She has no abnormal bleeding and a normal examination. The result is intermediate risk. Immediate colposcopy is reserved for higher-risk combinations, including HPV 16 or 18, or higher-grade cytology. For non-16/18 HPV with LSIL the step is a repeat Cervical Screening Test in 12 months. She needs that explained so she does not attend an emergency clinic or pay for an unnecessary private colposcopy this week.  She can attend for a repeat test in 12 months. There is no immune suppression that would change the category. Immediate colposcopy is not the first step.",
@@ -581,7 +725,16 @@
       "phase": "PH-01",
       "phase_item_id": "PH-S-17",
       "lo_id": "b57ffc42-352c-5237-8eaa-85f5c609c438",
-      "lo_code": "CERVICAL_ABNORMAL_OR_SYMPTOM"
+      "lo_code": "CERVICAL_ABNORMAL_OR_SYMPTOM",
+      "lo_key": "CERVICAL_ABNORMAL_OR_SYMPTOM",
+      "lo_title": "HPV 16/18 is referred for colposcopy regardless of cytology, other oncogenic HPV is retested in 12 months, and abnormal bleeding is investigated as a symptom, not screened.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 29-year-old woman has had postcoital bleeding for two months. Her last Cervical Screening Test, 18 months ago, was negative for oncogenic HPV. She asks if she can wait for the five-year recall because the last test was normal. Examination today shows a contact bleed from the cervix. There is no uterine mass on abdominal palpation and no adnexal tenderness. She is not pregnant. Postcoital bleeding is a symptom. It is investigated as a symptom, including a diagnostic co-test, and is not cleared by a previous negative screen or deferred to the routine interval. What is the most appropriate next step?  The bleeding occurs with most episodes of intercourse and has been present for eight weeks. She is not on hormonal contraception that would explain breakthrough bleeding. Pregnancy test is negative. The cervix bleeds to light touch. A negative HPV test 18 months ago is reassuring for that moment. It does not clear a current symptom. She needs assessment of the bleeding, including a diagnostic co-test, not a wait until the five-year date.  She is systemically well. There is no weight loss. The symptom has a diagnostic pathway. Screening intervals do not apply once bleeding is present.",
@@ -615,7 +768,16 @@
       "phase": "PH-01",
       "phase_item_id": "PH-S-18",
       "lo_id": "b57ffc42-352c-5237-8eaa-85f5c609c438",
-      "lo_code": "CERVICAL_ABNORMAL_OR_SYMPTOM"
+      "lo_code": "CERVICAL_ABNORMAL_OR_SYMPTOM",
+      "lo_key": "CERVICAL_ABNORMAL_OR_SYMPTOM",
+      "lo_title": "HPV 16/18 is referred for colposcopy regardless of cytology, other oncogenic HPV is retested in 12 months, and abnormal bleeding is investigated as a symptom, not screened.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 1.1,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: data gathering; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 33-year-old woman is eligible for cervical screening and is not overdue. She has declined a speculum examination before because of discomfort, and she asks about self-collection. A friend has told her that self-collection is only offered to women who have already missed their test, as a catch-up measure for the overdue. She is asymptomatic. There is no postcoital bleeding. She would prefer to avoid a speculum if the option is open to her. Self-collection is an option for anyone eligible for screening, not only those who are late. She may choose a self-collected HPV sample. She does not have to be overdue first. What is the most appropriate advice?  She is on time for screening. Her preference is clear and consistent. Self-collection was expanded so that eligible people can choose it, not only those who are overdue. A friend has described it as a penalty option. That description is wrong. She may have a self-collected sample. If that sample is HPV-positive she would then need a clinician-collected test, but that is a later step. Today the choice is open.  She understands that a positive self-collected sample would need follow-up. That does not remove the choice today. Eligible and on time is enough.",
@@ -649,7 +811,16 @@
       "phase": "PH-01",
       "phase_item_id": "PH-S-19",
       "lo_id": "741aa4d2-3587-575e-893e-414f83d286ef",
-      "lo_code": "CERVICAL_START_AND_INTERVAL"
+      "lo_code": "CERVICAL_START_AND_INTERVAL",
+      "lo_key": "CERVICAL_START_AND_INTERVAL",
+      "lo_title": "Routine HPV-based cervical screening runs from 25 to 74 every 5 years after a negative test, with self-collection an option for any eligible participant.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 48-year-old woman asks when her next Cervical Screening Test is due. Three years ago she had a hysterectomy for fibroids. The operation note confirms the cervix was removed. Histology was benign, with no CIN and no malignancy. She has never had an abnormal smear or a previous positive HPV test. She is asymptomatic. She assumes the screening schedule continues after the operation in the same way it would if the cervix were still present. After the cervix is removed for a benign indication, and with no history of cervical abnormality, routine cervical screening stops. She does not have a next due date on the program. What is the most appropriate advice?  The operation note and the histology are both on file. Cervix removed. Benign fibroids. No CIN. She has had no abnormal bleeding since the operation. She is not immune suppressed. Routine cervical screening exists to find HPV-related disease of the cervix. Without a cervix, and with this history, there is no routine test to schedule. She can leave the program. Vaginal bleeding in future would be a symptom to investigate, not a screening question.  Future vaginal bleeding would be assessed as a symptom. It would not restart a routine screening schedule. Today there is no screening test to book.",
@@ -683,7 +854,16 @@
       "phase": "PH-01",
       "phase_item_id": "PH-S-20",
       "lo_id": "741aa4d2-3587-575e-893e-414f83d286ef",
-      "lo_code": "CERVICAL_START_AND_INTERVAL"
+      "lo_code": "CERVICAL_START_AND_INTERVAL",
+      "lo_key": "CERVICAL_START_AND_INTERVAL",
+      "lo_title": "Routine HPV-based cervical screening runs from 25 to 74 every 5 years after a negative test, with self-collection an option for any eligible participant.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 1.1,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 62-year-old man asks about lung cancer screening. He has smoked 20 cigarettes a day since he was 18 and still smokes. There is no cough, no haemoptysis, no chest pain, and no weight loss. A chest X-ray done for a visa two years ago was reported normal, and he assumes that a chest X-ray is the screening test, because that is what his father had. Pack-years are well above the program threshold. He has no symptom that would move him from screening into a diagnostic pathway. He is otherwise well and can attend a program site. If he is offered screening, the test is a low-dose CT through the National Lung Cancer Screening Program, not a chest X-ray. What is the most appropriate screening test if he is eligible?  He has a 44 pack-year history and is a current smoker. There is no asbestos exposure and no previous thoracic CT. Spirometry done for a pre-employment check five years ago was normal. He is asymptomatic. The program test is low-dose CT. A chest X-ray is not used for screening in this program. He should be offered low-dose CT if the other eligibility checks are met, not sent for a plain film.",
@@ -717,7 +897,16 @@
       "phase": "PH-01",
       "phase_item_id": "PH-S-21",
       "lo_id": "1f6fa8fd-b034-5e4d-9ed5-193cc9893e1e",
-      "lo_code": "LUNG_SCREENING_ELIGIBILITY"
+      "lo_code": "LUNG_SCREENING_ELIGIBILITY",
+      "lo_key": "LUNG_SCREENING_ELIGIBILITY",
+      "lo_title": "Lung cancer screening is 2-yearly low-dose CT for asymptomatic people aged 50-70 with at least 30 pack-years who smoke or quit within 10 years; symptoms need investigation.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 64-year-old woman asks to enter the national lung cancer screening program. She smoked 25 cigarettes a day from the age of 20 to 50, then quit. She has not smoked for 14 years. There is no cough, no haemoptysis, no chest pain, and no weight loss. She has seen advertising for the program and believes her heavy past smoking makes her eligible. Eligibility for former smokers requires that they quit within the last 10 years. Fourteen years is outside that window. She is not eligible to enter, despite the pack-year history. A chest X-ray is not a substitute entry test. What is the most appropriate advice about eligibility to enter?  Quit date is documented as her 50th birthday. That is 14 years ago. She has not relapsed. There is no current respiratory symptom and no weight loss. The entry rule for former smokers is a quit within 10 years. She falls outside it. Heavy past smoking does not override the quit-time rule for entry. She is not eligible to enter the program.  She has no asbestos exposure that would create a different surveillance path. The quit-time rule is the barrier to entry. She is not eligible.",
@@ -751,7 +940,16 @@
       "phase": "PH-01",
       "phase_item_id": "PH-S-22",
       "lo_id": "1f6fa8fd-b034-5e4d-9ed5-193cc9893e1e",
-      "lo_code": "LUNG_SCREENING_ELIGIBILITY"
+      "lo_code": "LUNG_SCREENING_ELIGIBILITY",
+      "lo_key": "LUNG_SCREENING_ELIGIBILITY",
+      "lo_title": "Lung cancer screening is 2-yearly low-dose CT for asymptomatic people aged 50-70 with at least 30 pack-years who smoke or quit within 10 years; symptoms need investigation.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 1.0,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 59-year-old man who still smokes, with a 40 pack-year history, attends after coughing up about a tablespoon of blood on two mornings this week. He has no fever and no chest pain. He has seen the lung screening advertisements and asks for a low-dose CT like the ads, rather than a diagnostic clinic appointment. He has no previous chest imaging. Haemoptysis is a symptom. It is investigated as a possible cancer, not screened. Enrolment in the screening program is the wrong pathway for someone who is bleeding. He needs assessment of the haemoptysis. What is the most appropriate next step?  The blood is fresh and has happened on two separate mornings. He is a current heavy smoker. There is no infective prodrome. Screening programs are for people without symptoms of the target cancer. Haemoptysis is such a symptom. He needs a diagnostic pathway, not an invitation into a screening round. A low-dose screening CT is the wrong request.  He is haemodynamically stable. That does not make the bleeding a screening issue. Diagnostic assessment comes first.",
@@ -785,7 +983,16 @@
       "phase": "PH-01",
       "phase_item_id": "PH-S-23",
       "lo_id": "1f6fa8fd-b034-5e4d-9ed5-193cc9893e1e",
-      "lo_code": "LUNG_SCREENING_ELIGIBILITY"
+      "lo_code": "LUNG_SCREENING_ELIGIBILITY",
+      "lo_key": "LUNG_SCREENING_ELIGIBILITY",
+      "lo_title": "Lung cancer screening is 2-yearly low-dose CT for asymptomatic people aged 50-70 with at least 30 pack-years who smoke or quit within 10 years; symptoms need investigation.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 1.1,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: data gathering; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 55-year-old man asks for lung cancer screening because he is over 50 and once smoked. He smoked socially, a few cigarettes at weekends, for about five years in his twenties, and quit at 30. The total is well under 30 pack-years. He is asymptomatic, with no cough, no haemoptysis, and no weight loss. A friend of a similar age has been accepted into the program after a 40-year heavy smoking history, and he assumes age plus any smoking is enough. The program requires a 30 pack-year threshold. He does not meet it. A chest X-ray is not the alternative screening test. What is the most appropriate advice?  The smoking history is light and remote. Five social years do not reach 30 pack-years. He quit 25 years ago. He has no symptom. Age over 50 is necessary but not sufficient. He does not meet the pack-year threshold to enter. Offering him a chest X-ray instead would also be wrong. The advice is that he is not eligible.  No symptom, no threshold pack-years, quit long ago. He is not eligible. Age alone does not enrol him.",
@@ -819,7 +1026,16 @@
       "phase": "PH-01",
       "phase_item_id": "PH-S-24",
       "lo_id": "1f6fa8fd-b034-5e4d-9ed5-193cc9893e1e",
-      "lo_code": "LUNG_SCREENING_ELIGIBILITY"
+      "lo_code": "LUNG_SCREENING_ELIGIBILITY",
+      "lo_key": "LUNG_SCREENING_ELIGIBILITY",
+      "lo_title": "Lung cancer screening is 2-yearly low-dose CT for asymptomatic people aged 50-70 with at least 30 pack-years who smoke or quit within 10 years; symptoms need investigation.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 54-year-old man with no urinary symptoms attends asking to join the national PSA screening program. He has read about BreastScreen and the bowel kit program and assumes there is an equivalent national program for prostate cancer, with invitation letters and a fixed recall interval. There is no family history of prostate cancer. Examination is normal. He is not on a 5-alpha reductase inhibitor. He is asymptomatic. There is no national PSA screening program to enrol him in. Opportunistic discussion of the PSA test is a different conversation from enrolment in a program. The answer to the question he has asked is that no such program exists. What is the most appropriate advice?  He is average risk and asymptomatic. There is no national invitation program for PSA. BreastScreen and the bowel kit program are organised screening. PSA is not. He cannot enrol. A discussion about the limits of the PSA test can happen if he asks about the test itself. That is not the same as joining a program. The answer to enrolment is no.  He leaves with a clear answer on enrolment. There is no program. Any later talk about PSA is separate.",
@@ -853,7 +1069,16 @@
       "phase": "PH-01",
       "phase_item_id": "PH-S-25",
       "lo_id": "5db03f4f-0b66-5079-beb9-be70fb5409d1",
-      "lo_code": "NO_NATIONAL_SCREEN"
+      "lo_code": "NO_NATIONAL_SCREEN",
+      "lo_key": "NO_NATIONAL_SCREEN",
+      "lo_title": "Australia has no national population screening program for prostate (PSA), skin or ovarian cancer; only breast, bowel, cervical and lung programs exist.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -1.05,
+      "difficulty_tier": "easy",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 49-year-old woman with many moles asks to enrol in the national melanoma screening program. None of the moles is changing, itching, or bleeding. She has no personal history of melanoma and no first-degree relative with melanoma. She expects invitation letters in the way BreastScreen works. There is no national skin-cancer screening program. A clinical skin check may be offered as part of a consultation if there is a reason. It is not an enrolled population screen with a mail-out. She cannot join a program that does not exist. What is the most appropriate advice?  No mole is new or changing. There is no ulcerated lesion. She has no family history of melanoma. There is no national melanoma screening program with invitations. She cannot enrol. A skin check in a consultation is a clinical service, not a population program. The request to join a program has no program to join.  No changing lesion, no program. She cannot enrol. A clinical review of a specific mole would be a different visit.",
@@ -887,7 +1112,16 @@
       "phase": "PH-01",
       "phase_item_id": "PH-S-26",
       "lo_id": "5db03f4f-0b66-5079-beb9-be70fb5409d1",
-      "lo_code": "NO_NATIONAL_SCREEN"
+      "lo_code": "NO_NATIONAL_SCREEN",
+      "lo_key": "NO_NATIONAL_SCREEN",
+      "lo_title": "Australia has no national population screening program for prostate (PSA), skin or ovarian cancer; only breast, bowel, cervical and lung programs exist.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": -0.9,
+      "difficulty_tier": "easy",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 51-year-old woman at average risk asks for a yearly CA 125 blood test and a pelvic ultrasound to screen for ovarian cancer. She has no pelvic pain, no bloating, no urinary change, and no postmenopausal bleeding. There is no significant family history of ovarian, breast, or related cancers. A friend has these tests yearly and has told her this is standard screening, like a mammogram. Population ovarian screening with CA 125 and ultrasound is not recommended for average-risk women. The tests are not a national program. Ordering them every year would be an unproven add-on, not screening. What is the most appropriate advice?  She is average risk. No symptom. No significant family history. CA 125 and pelvic ultrasound have been tested as a screening pair and are not recommended for population screening in this group. A friend having the tests does not create a program. Ordering them yearly would not be appropriate screening. The advice is not to start that pair as a screen.  No symptom and average risk. The pair of tests is not recommended as a screen. She should not start yearly CA 125 and ultrasound for this purpose.",
@@ -921,7 +1155,16 @@
       "phase": "PH-01",
       "phase_item_id": "PH-S-27",
       "lo_id": "5db03f4f-0b66-5079-beb9-be70fb5409d1",
-      "lo_code": "NO_NATIONAL_SCREEN"
+      "lo_code": "NO_NATIONAL_SCREEN",
+      "lo_key": "NO_NATIONAL_SCREEN",
+      "lo_title": "Australia has no national population screening program for prostate (PSA), skin or ovarian cancer; only breast, bowel, cervical and lung programs exist.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 1.1,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 49-year-old woman requests her first bowel cancer screening kit. She is asymptomatic, with no rectal bleeding, no change in bowel habit, and no weight loss. She believes she is already in the automatic mail-out group because she is nearly 50 and has heard that kits arrive from 50. Automatic mailing starts at 50. At 49 she is not yet in the mailed cohort. She can request a free kit now. Waiting for a letter that will not come yet is the error. There is no family history that would move her to colonoscopy instead. Examination is normal. What is the most appropriate advice?  She is 49 and well. Automatic kits are mailed from 50. She is one year early for the mail-out. She can request a kit. There is no symptom and no family history that would replace a kit with colonoscopy. Waiting for a letter is unnecessary. The correct step is to request the kit.  No symptom, age 49, can request a kit. The mail-out has not started for her. Requesting is the step.",
@@ -955,7 +1198,16 @@
       "phase": "PH-01",
       "phase_item_id": "PH-S-28",
       "lo_id": "5e0c0430-3119-5ee6-b984-5e7d15b5a087",
-      "lo_code": "BOWEL_ELIGIBILITY"
+      "lo_code": "BOWEL_ELIGIBILITY",
+      "lo_key": "BOWEL_ELIGIBILITY",
+      "lo_title": "People aged 45-49 may request a free NBCSP iFOBT kit, automatic mail-out runs from 50 to 74, and recent colonoscopy surveillance replaces the kit.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 46-year-old woman finds a firm lump in the upper outer quadrant of her left breast. It has been there for three weeks. She is otherwise well, has no family history of breast cancer, and has never had a mammogram. She asks to be enrolled in BreastScreen so the lump can be checked on the program. A receptionist has told her the next screening round is in six months and she should wait. BreastScreen is a screening program for women without symptoms. A new lump is a diagnostic problem, not a screening invitation. She needs clinical assessment and diagnostic imaging, not a place on a screening list. What is the most appropriate advice? The lump is new, unilateral, and persistent. Waiting for a screening round delays assessment of a symptomatic breast. Screening mammography is not the pathway for a woman who has already found a lump. She should be referred for diagnostic assessment now, not booked into the next invitation cycle. Nothing about her age or the absence of a family history converts a symptomatic breast into a screening case. The program is for women who have no breast symptom. She has one. That single fact changes the pathway.",
@@ -989,7 +1241,16 @@
       "phase": "PH-01",
       "phase_item_id": "PH-S-29",
       "lo_id": "4678d1c1-8c32-5b9b-bb13-24d626d3060a",
-      "lo_code": "BREAST_NOT_ROUTINE_SCREEN"
+      "lo_code": "BREAST_NOT_ROUTINE_SCREEN",
+      "lo_key": "BREAST_NOT_ROUTINE_SCREEN",
+      "lo_title": "A breast symptom or high familial risk needs diagnostic or specialist assessment, not a routine BreastScreen mammogram.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 58-year-old man completed a National Bowel Cancer Screening kit. The result is positive. He feels well, has no rectal bleeding, and his weight is stable. He asks for another kit to check the result, because he has read that the test can be wrong and he would prefer to avoid a colonoscopy. A colleague says a second kit is reasonable if he is anxious. A positive screening kit is not confirmed by repeating the same test. A second kit can be negative and falsely reassure him. The next step after a positive kit is colonoscopy. What is the most appropriate advice? He is in the screening age range and the kit was done correctly. Feeling well does not clear a positive result. The kit is a screening test, not a diagnosis, and it is not a test that is repeated to confirm itself. Colonoscopy is the diagnostic step. Offering another kit delays that and can miss a cancer the first test found. Anxiety is managed by explaining the pathway, not by repeating the screen.",
@@ -1023,7 +1284,16 @@
       "phase": "PH-01",
       "phase_item_id": "PH-S-30",
       "lo_id": "fe130935-33eb-5ba2-a042-fe471cc453ed",
-      "lo_code": "BOWEL_NOT_A_REPEAT_KIT"
+      "lo_code": "BOWEL_NOT_A_REPEAT_KIT",
+      "lo_key": "BOWEL_NOT_A_REPEAT_KIT",
+      "lo_title": "A positive bowel screening iFOBT, or bowel symptoms, requires diagnostic colonoscopy, never a repeat kit.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 32-year-old woman has postcoital bleeding for two months. Her last cervical screening test was 18 months ago and was negative for HPV. She asks for an early routine screening test because she is worried, and a friend has told her that a negative test last year means she can wait for the normal five-year interval. She is not pregnant. There is no cervical screening result that clears postcoital bleeding. Bleeding after sex is a symptom. It is assessed, not screened. A recent negative HPV test does not replace examination and appropriate referral. What is the most appropriate next step? She is inside the screening age range and her last test was negative, which is why the five-year interval would apply if she had no symptoms. She has a symptom. Postcoital bleeding needs clinical assessment of the cervix, not another screening sample to reassure her. An early routine test is the wrong pathway. The interval is for asymptomatic women. She is not asymptomatic. Examine and refer on the symptom, not on the calendar.",
@@ -1057,7 +1327,16 @@
       "phase": "PH-01",
       "phase_item_id": "PH-S-31",
       "lo_id": "b57ffc42-352c-5237-8eaa-85f5c609c438",
-      "lo_code": "CERVICAL_ABNORMAL_OR_SYMPTOM"
+      "lo_code": "CERVICAL_ABNORMAL_OR_SYMPTOM",
+      "lo_key": "CERVICAL_ABNORMAL_OR_SYMPTOM",
+      "lo_title": "HPV 16/18 is referred for colposcopy regardless of cytology, other oncogenic HPV is retested in 12 months, and abnormal bleeding is investigated as a symptom, not screened.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: data gathering; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 55-year-old man with no personal or family history of melanoma asks to be enrolled in a national skin-cancer screening program. He has read that Australia has the highest rate of melanoma and assumes there must be a mail-out or invitation program like BreastScreen. He has no changing moles and no symptom. A colleague says to enrol him in the national melanoma screen and arrange annual full-body photography on the program. There is no national population screening program for melanoma. High incidence is not the same as a screening program. What is the most appropriate advice? He is well and has no lesion of concern. Opportunistic skin checks in general practice are not a national screening program. There is no invitation, no mail-out, and no program to enrol him in. Advising sun protection and telling him to return if a mole changes is appropriate. Inventing a national melanoma screen is not. The same applies to average-risk ovarian screening and to routine PSA screening. High burden of disease does not create a program that does not exist.",
@@ -1091,7 +1370,16 @@
       "phase": "PH-01",
       "phase_item_id": "PH-S-32",
       "lo_id": "5db03f4f-0b66-5079-beb9-be70fb5409d1",
-      "lo_code": "NO_NATIONAL_SCREEN"
+      "lo_code": "NO_NATIONAL_SCREEN",
+      "lo_key": "NO_NATIONAL_SCREEN",
+      "lo_title": "Australia has no national population screening program for prostate (PSA), skin or ovarian cancer; only breast, bowel, cervical and lung programs exist.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     }
   ]
 }

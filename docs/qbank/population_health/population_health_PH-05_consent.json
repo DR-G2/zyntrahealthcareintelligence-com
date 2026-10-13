@@ -37,7 +37,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-01",
       "lo_id": "40f0739a-a588-57ca-83ce-6790b0e9a894",
-      "lo_code": "CAPACITY_DECISION_SPECIFIC"
+      "lo_code": "CAPACITY_DECISION_SPECIFIC",
+      "lo_key": "CAPACITY_DECISION_SPECIFIC",
+      "lo_title": "Capacity is decision- and time-specific; a diagnosis such as dementia does not remove it, and a substitute decision-maker acts only when capacity is lost.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: data gathering; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 54-year-old man with a bleeding duodenal ulcer understands that without endoscopic therapy he may die. He can repeat the risks, says he has weighed them, and refuses the procedure for reasons he can explain. He is not intoxicated or delirious. His wife insists you proceed and says she will sign the form. A capacious refusal of treatment stands, even if the family and the clinician disagree. Respect the refusal, document the capacity assessment, and explain the risk again. What is the most appropriate course?  Emergency doctrine is for the person who cannot consent, not the person who has refused. His wife cannot override him. Document and respect the refusal.  The facts already in front of you are enough to decide. Do not add a step the law does not require.  Capacity, consent, and confidentiality are decided on this person and this decision, not on a relative's wish or a form. Apply that rule here.  Nothing further in the history changes the duty in front of you.  Decide on the information already given. A further signature or a family demand does not change it. Apply it.",
@@ -71,7 +80,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-02",
       "lo_id": "7799b232-e8b7-5957-b1ca-79a58eff21b0",
-      "lo_code": "CAPACIOUS_REFUSAL"
+      "lo_code": "CAPACIOUS_REFUSAL",
+      "lo_key": "CAPACIOUS_REFUSAL",
+      "lo_title": "A competent adult's informed refusal of treatment must be respected and documented, even when family or clinicians disagree.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 1.0,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 28-year-old is brought in unconscious after a high-speed crash. He has a rigid abdomen and hypotension. No family is present. A laparotomy is needed now. A colleague says you must wait for a relative to sign. Emergency treatment can proceed without consent when the person cannot consent and delay would cause serious harm. Proceed with life-saving surgery. What is the most appropriate action?  Waiting for a signature may kill him. Staff cannot consent on his behalf. A tribunal cannot move at this speed. Operate.  The facts already in front of you are enough to decide. Do not add a step the law does not require.  Capacity, consent, and confidentiality are decided on this person and this decision, not on a relative's wish or a form. Apply that rule here.  Nothing further in the history changes the duty in front of you.  Decide on the information already given. A further signature or a family demand does not change it. Apply it.",
@@ -105,7 +123,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-03",
       "lo_id": "4682f08e-5704-59fe-abb6-43251ebfefd9",
-      "lo_code": "EMERGENCY_TREATMENT"
+      "lo_code": "EMERGENCY_TREATMENT",
+      "lo_key": "EMERGENCY_TREATMENT",
+      "lo_title": "Emergency treatment may proceed without consent when the patient lacks capacity and delay would risk death or serious harm.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 15-year-old girl asks for a prescription for the oral contraceptive pill. She understands how it works, the failure rate, sexually transmitted infection risk, and the need for follow-up. She does not want her parents told. She is not being coerced. A mature minor may consent if she is Gillick competent for that decision. Assess her understanding. If she is competent for this decision, she may consent. What is the most appropriate course?  Age under 16 is not an absolute bar. Competence for this decision brings confidentiality with it. Do not phone her parents as the first step.  The facts already in front of you are enough to decide. Do not add a step the law does not require.  Capacity, consent, and confidentiality are decided on this person and this decision, not on a relative's wish or a form. Apply that rule here.  Nothing further in the history changes the duty in front of you.  Decide on the information already given. A further signature or a family demand does not change it. Apply it.",
@@ -139,7 +166,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-04",
       "lo_id": "55d03d52-a59b-52e9-a333-642593c6ff30",
-      "lo_code": "MATURE_MINOR"
+      "lo_code": "MATURE_MINOR",
+      "lo_key": "MATURE_MINOR",
+      "lo_title": "A minor who is Gillick competent for the decision can consent to their own treatment.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -0.95,
+      "difficulty_tier": "easy",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: data gathering; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 32-year-old man is newly diagnosed with HIV. He is well. He asks that his wife not be told. He says he will keep having unprotected sex with her and will not tell her himself. Confidentiality may be breached to prevent a serious, identifiable risk. It is not breached for family curiosity. Urge him to tell her. If he will not, disclosure to protect her may be justified. What is the most appropriate course?  She is a named person at serious risk. Urge disclosure first. If he refuses, limited disclosure to protect her may be justified. Absolute secrecy does not hold.  The facts already in front of you are enough to decide. Do not add a step the law does not require.  Capacity, consent, and confidentiality are decided on this person and this decision, not on a relative's wish or a form. Apply that rule here.  Nothing further in the history changes the duty in front of you.  Decide on the information already given. A further signature or a family demand does not change it. Apply it.",
@@ -173,7 +209,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-05",
       "lo_id": "3147fe05-acbd-58f5-a08a-8789aa23549d",
-      "lo_code": "CONFIDENTIALITY_BREACH"
+      "lo_code": "CONFIDENTIALITY_BREACH",
+      "lo_key": "CONFIDENTIALITY_BREACH",
+      "lo_title": "Confidentiality may be breached to prevent serious harm to an identifiable person, but not for curiosity, family requests or media interest, including after death.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 1.0,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 13-year-old boy tells you his stepfather hits him with a belt and he is frightened to go home. He asks you to promise not to tell anyone. There are bruises of different ages on his back. A child's confidence is not a reason to hide abuse. Mandatory reporting overrides that promise. Explain you cannot keep this secret, ensure his safety, and make the required report. What is the most appropriate action?  Do not promise secrecy. Do not alert the stepfather first. Protect him and report. Documentation alone is not enough.  The facts already in front of you are enough to decide. Do not add a step the law does not require.  Capacity, consent, and confidentiality are decided on this person and this decision, not on a relative's wish or a form. Apply that rule here.  Nothing further in the history changes the duty in front of you.  Decide on the information already given. A further signature or a family demand does not change it. Apply it.",
@@ -207,7 +252,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-06",
       "lo_id": "a480702b-c8b3-5985-ac19-9961ebb72512",
-      "lo_code": "MANDATORY_CHILD_REPORT"
+      "lo_code": "MANDATORY_CHILD_REPORT",
+      "lo_key": "MANDATORY_CHILD_REPORT",
+      "lo_title": "A child's request for secrecy does not override mandatory reporting of suspected abuse, and good-faith reports are legally protected.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A woman has consented to a diagnostic laparoscopy for pelvic pain. At operation the surgeon finds an uncomplicated ovarian cyst and removes the ovary, believing she would have wanted it done. She had not discussed oophorectomy. Consent for a procedure covers that procedure. It does not silently cover an unrelated extra. Removing the ovary without discussion exceeded the consent. What is the most appropriate judgment?  The cyst was not life-threatening on the table. Extra surgery needs its own consent, or true emergency necessity. This exceeded the consent. The form is not a blank cheque.  The facts already in front of you are enough to decide. Do not add a step the law does not require.  Capacity, consent, and confidentiality are decided on this person and this decision, not on a relative's wish or a form. Apply that rule here.  Nothing further in the history changes the duty in front of you.  Decide on the information already given. A further signature or a family demand does not change it. Apply it.",
@@ -241,7 +295,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-07",
       "lo_id": "8779aab8-013d-5c7b-a849-f541ec929ed6",
-      "lo_code": "CONSENT_SCOPE"
+      "lo_code": "CONSENT_SCOPE",
+      "lo_key": "CONSENT_SCOPE",
+      "lo_title": "Consent must cover the specific procedure and its material risks after a real discussion; a signature alone does not make it valid or extend it to extra procedures.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -0.9,
+      "difficulty_tier": "easy",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "An 82-year-old man with mild cognitive impairment wants a colonoscopy for rectal bleeding. He understands the indication, the perforation risk, and the alternative of doing nothing. His daughter, who holds an enduring power of attorney for health, refuses because she thinks he is too old. A person with capacity decides for themselves. A substitute decision-maker is for when capacity is lacking. Take his consent. The power of attorney is not active while he has capacity. What is the most appropriate course?  Mild cognitive impairment is not incapacity. He understands this colonoscopy. The daughter's refusal does not transfer the decision. Take his consent.  The facts already in front of you are enough to decide. Do not add a step the law does not require.  Capacity, consent, and confidentiality are decided on this person and this decision, not on a relative's wish or a form. Apply that rule here.  Nothing further in the history changes the duty in front of you.  Decide on the information already given. A further signature or a family demand does not change it. Apply it.",
@@ -275,7 +338,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-08",
       "lo_id": "40f0739a-a588-57ca-83ce-6790b0e9a894",
-      "lo_code": "CAPACITY_DECISION_SPECIFIC"
+      "lo_code": "CAPACITY_DECISION_SPECIFIC",
+      "lo_key": "CAPACITY_DECISION_SPECIFIC",
+      "lo_title": "Capacity is decision- and time-specific; a diagnosis such as dementia does not remove it, and a substitute decision-maker acts only when capacity is lost.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 40-year-old woman tests positive for a BRCA1 pathogenic variant. She refuses to tell her adult sister. There is no immediate threat to life this week. Her sister is not your patient. A colleague says you must phone the sister today. Genetic information about a relative is still the patient's confidence, unless a serious harm threshold is met. Encourage her to tell her sister. Do not disclose now. What is the most appropriate course?  No imminent serious harm this week. Encourage family disclosure. Do not phone the sister today. Genetic risk is not an automatic breach.  The facts already in front of you are enough to decide. Do not add a step the law does not require.  Capacity, consent, and confidentiality are decided on this person and this decision, not on a relative's wish or a form. Apply that rule here.  Nothing further in the history changes the duty in front of you.  Decide on the information already given. A further signature or a family demand does not change it. Apply it.",
@@ -309,7 +381,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-09",
       "lo_id": "3147fe05-acbd-58f5-a08a-8789aa23549d",
-      "lo_code": "CONFIDENTIALITY_BREACH"
+      "lo_code": "CONFIDENTIALITY_BREACH",
+      "lo_key": "CONFIDENTIALITY_BREACH",
+      "lo_title": "Confidentiality may be breached to prevent serious harm to an identifiable person, but not for curiosity, family requests or media interest, including after death.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 1.0,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 70-year-old with repeated unexplained syncope continues to drive a school bus. He understands the risk and refuses to stop. You have advised him and documented it. An impaired driver may need a report to the licensing authority. The patient is told, unless telling them would increase the risk. Tell him you will notify the licensing authority, then notify. What is the most appropriate next step?  He drives a school bus and will not stop. Tell him, then notify the licensing authority. Do not wait for a crash. Do not seize the licence yourself.  The facts already in front of you are enough to decide. Do not add a step the law does not require.  Capacity, consent, and confidentiality are decided on this person and this decision, not on a relative's wish or a form. Apply that rule here.  Nothing further in the history changes the duty in front of you.  Decide on the information already given. A further signature or a family demand does not change it. Apply it.",
@@ -343,7 +424,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-10",
       "lo_id": "8788b94b-e588-592a-87d3-e79e3a986ace",
-      "lo_code": "IMPAIRED_DRIVER"
+      "lo_code": "IMPAIRED_DRIVER",
+      "lo_key": "IMPAIRED_DRIVER",
+      "lo_title": "A doctor who finds a patient medically unfit to drive should tell them and may report to the licensing authority when they continue to drive unsafely.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A registrar asks a man to sign a colonoscopy consent form in the corridor, two minutes before the list, without explaining perforation, bleeding, or missed lesions. The man signs. Written consent is evidence of a discussion. The discussion is the consent. The signature does not repair an absent discussion. What is the most appropriate view of that signature?  A corridor signature without risks explained is not consent. The form records a discussion. Here there was none. The signature does not repair that.  The facts already in front of you are enough to decide. Do not add a step the law does not require.  Capacity, consent, and confidentiality are decided on this person and this decision, not on a relative's wish or a form. Apply that rule here.  Nothing further in the history changes the duty in front of you.  Decide on the information already given. A further signature or a family demand does not change it. Apply it.",
@@ -377,7 +467,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-11",
       "lo_id": "8779aab8-013d-5c7b-a849-f541ec929ed6",
-      "lo_code": "CONSENT_SCOPE"
+      "lo_code": "CONSENT_SCOPE",
+      "lo_key": "CONSENT_SCOPE",
+      "lo_title": "Consent must cover the specific procedure and its material risks after a real discussion; a signature alone does not make it valid or extend it to extra procedures.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": -1.05,
+      "difficulty_tier": "easy",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 19-year-old is brought in after taking 10 paracetamol tablets. She is alert, regrets it, understands the need for levels and acetylcysteine, and agrees to stay. Her mother wants her scheduled under a mental health order immediately. A young person who is a danger to themselves may need involuntary care. Ordinary treatment refusal is not that threshold, and she is not refusing. Treat with her consent. Involuntary care is not needed while she accepts treatment. What is the most appropriate course?  She accepts treatment and is staying. The overdose alone does not force an order. A parent cannot schedule an adult. Treat her. Do not schedule her to satisfy her mother.  The facts already in front of you are enough to decide. Do not add a step the law does not require.  Capacity, consent, and confidentiality are decided on this person and this decision, not on a relative's wish or a form. Apply that rule here.  Nothing further in the history changes the duty in front of you.  Decide on the information already given. A further signature or a family demand does not change it. Apply it.",
@@ -411,7 +510,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-12",
       "lo_id": "d7fcc865-c8a2-5932-9bc9-a7e20250f1c3",
-      "lo_code": "INVOLUNTARY_CARE"
+      "lo_code": "INVOLUNTARY_CARE",
+      "lo_key": "INVOLUNTARY_CARE",
+      "lo_title": "Involuntary mental health treatment requires the statutory risk threshold and is not used when a person accepts treatment voluntarily.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.95,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A surgeon is consenting a woman for elective laparoscopic cholecystectomy. She asks what could go wrong. He lists death from anaesthesia and nothing else, then asks her to sign. Information for consent includes material risks, not every theoretical risk, and not only death. Material risks for this procedure and this patient should be discussed, including bile duct injury and bleeding. What is the most appropriate standard?  Death alone is not an adequate consent for cholecystectomy. Bile duct injury, bleeding, infection, and conversion are material. A pamphlet does not replace the discussion.  The facts already in front of you are enough to decide. Do not add a step the law does not require.  Capacity, consent, and confidentiality are decided on this person and this decision, not on a relative's wish or a form. Apply that rule here.  Nothing further in the history changes the duty in front of you.  Decide on the information already given. A further signature or a family demand does not change it. Apply it.",
@@ -445,7 +553,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-13",
       "lo_id": "8779aab8-013d-5c7b-a849-f541ec929ed6",
-      "lo_code": "CONSENT_SCOPE"
+      "lo_code": "CONSENT_SCOPE",
+      "lo_key": "CONSENT_SCOPE",
+      "lo_title": "Consent must cover the specific procedure and its material risks after a real discussion; a signature alone does not make it valid or extend it to extra procedures.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A man phones the clinic and asks for his wife's recent cervical screening result. He says he is worried. She has not authorised any release. A partner has no automatic right to the other partner's record. Decline. Offer to take a message and ask her if she wishes to share it. What is the most appropriate response?  Marriage is not authority. Knowing her date of birth is not authority. Decline and ask her. Even the fact of an abnormal result is hers.  The facts already in front of you are enough to decide. Do not add a step the law does not require.  Capacity, consent, and confidentiality are decided on this person and this decision, not on a relative's wish or a form. Apply that rule here.  Nothing further in the history changes the duty in front of you.  Decide on the information already given. A further signature or a family demand does not change it. Apply it.",
@@ -479,7 +596,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-14",
       "lo_id": "5c5e1f9b-208e-53e5-961e-094f93beb63b",
-      "lo_code": "RECORD_ACCESS"
+      "lo_code": "RECORD_ACCESS",
+      "lo_key": "RECORD_ACCESS",
+      "lo_title": "Patients have a right to access their own records unless a limited legal ground applies, while third parties such as partners have no automatic right of access.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: outpatient clinic",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 76-year-old with severe pneumonia lacks capacity. A valid advance care directive, made last year while she had capacity, refuses intubation and intensive care. Her son demands intubation. An advance care directive made with capacity guides later care when capacity is lost. Follow the directive. It covers this situation. What is the most appropriate course?  The directive is her decision, made with capacity, and it applies. The son's demand does not cancel it. Follow it. Do not intubate first and read it later.  The facts already in front of you are enough to decide. Do not add a step the law does not require.  Capacity, consent, and confidentiality are decided on this person and this decision, not on a relative's wish or a form. Apply that rule here.  Nothing further in the history changes the duty in front of you.  Decide on the information already given. A further signature or a family demand does not change it. Apply it.",
@@ -513,7 +639,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-15",
       "lo_id": "4a955c60-336c-5904-b2fd-72d6f9803611",
-      "lo_code": "ADVANCE_DIRECTIVE"
+      "lo_code": "ADVANCE_DIRECTIVE",
+      "lo_key": "ADVANCE_DIRECTIVE",
+      "lo_title": "A valid advance care directive made with capacity that covers the situation must be followed when capacity is lost, even against family wishes.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 1.0,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 45-year-old asks for a copy of his clinic notes. There is no concern that release would put him or anyone else at serious risk. The receptionist says patients are never allowed to see their notes. A patient may see their own record. Access is refused only on limited grounds. Provide access. What is the most appropriate response?  No serious risk from release. Convenience is not a ground for refusal. He can see his notes. He does not need a lawyer.  The facts already in front of you are enough to decide. Do not add a step the law does not require.  Capacity, consent, and confidentiality are decided on this person and this decision, not on a relative's wish or a form. Apply that rule here.  Nothing further in the history changes the duty in front of you.  Decide on the information already given. A further signature or a family demand does not change it. Apply it.",
@@ -547,7 +682,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-16",
       "lo_id": "5c5e1f9b-208e-53e5-961e-094f93beb63b",
-      "lo_code": "RECORD_ACCESS"
+      "lo_code": "RECORD_ACCESS",
+      "lo_key": "RECORD_ACCESS",
+      "lo_title": "Patients have a right to access their own records unless a limited legal ground applies, while third parties such as partners have no automatic right of access.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -1.05,
+      "difficulty_tier": "easy",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: outpatient clinic",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A man has consented to standard chemotherapy. A registrar enrols him in a randomised trial of an extra agent and randomises him before mentioning the trial. Research consent is separate from clinical consent. Agreement to treatment is not agreement to a trial. Trial enrolment needed its own informed consent, before randomisation. What is the most appropriate judgment?  Consent to chemotherapy is not consent to research. Enrolment needs its own consent, before randomisation. Good intentions do not replace it.  The facts already in front of you are enough to decide. Do not add a step the law does not require.  Capacity, consent, and confidentiality are decided on this person and this decision, not on a relative's wish or a form. Apply that rule here.  Nothing further in the history changes the duty in front of you.  Decide on the information already given. A further signature or a family demand does not change it. Apply it.",
@@ -581,7 +725,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-17",
       "lo_id": "ba39b512-c3c4-5cdc-9577-48d5001f3659",
-      "lo_code": "RESEARCH_CONSENT"
+      "lo_code": "RESEARCH_CONSENT",
+      "lo_key": "RESEARCH_CONSENT",
+      "lo_title": "Research participation needs its own voluntary informed consent before enrolment, separate from treatment consent, and care cannot be conditional on it.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: research setting",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 36-year-old woman who is a Jehovah's Witness is booked for a myomectomy. She has capacity, has been counselled about bleeding, and has signed a specific refusal of red cells, platelets, and plasma. Intraoperative bleeding becomes heavy. Her husband, who is not a Witness, demands transfusion. A Jehovah's Witness with capacity may refuse blood. That refusal is respected. Use the agreed blood-conservation plan. What is the most appropriate course?  Her refusal of blood is specific and capacious. The husband cannot override it in theatre. Continue surgical haemostasis and the conservation plan. Do not transfuse.  The facts already in front of you are enough to decide. Do not add a step the law does not require.  Capacity, consent, and confidentiality are decided on this person and this decision, not on a relative's wish or a form. Apply that rule here.  Nothing further in the history changes the duty in front of you.  Decide on the information already given. A further signature or a family demand does not change it. Apply it.",
@@ -615,7 +768,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-18",
       "lo_id": "7799b232-e8b7-5957-b1ca-79a58eff21b0",
-      "lo_code": "CAPACIOUS_REFUSAL"
+      "lo_code": "CAPACIOUS_REFUSAL",
+      "lo_key": "CAPACIOUS_REFUSAL",
+      "lo_title": "A competent adult's informed refusal of treatment must be respected and documented, even when family or clinicians disagree.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 1.0,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A GP colleague smells of alcohol in morning clinic, misses two insulin doses for patients, and has been seen drinking in the car park. He asks you to keep it quiet and says he will take a week off. Mandatory notification of an impaired practitioner is about risk to the public, not about punishing illness. Act on the risk. A mandatory notification may be required, and patients need protection now. What is the most appropriate action?  Intoxication and missed insulin doses are a current risk to patients. Quiet loyalty is not the answer. Act now. A week off is not a safeguard by itself.  The facts already in front of you are enough to decide. Do not add a step the law does not require.  Capacity, consent, and confidentiality are decided on this person and this decision, not on a relative's wish or a form. Apply that rule here.  Nothing further in the history changes the duty in front of you.  Decide on the information already given. A further signature or a family demand does not change it. Apply it.",
@@ -649,7 +811,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-19",
       "lo_id": "eb867077-c869-5ac1-8c65-4493995aebda",
-      "lo_code": "IMPAIRED_PRACTITIONER"
+      "lo_code": "IMPAIRED_PRACTITIONER",
+      "lo_key": "IMPAIRED_PRACTITIONER",
+      "lo_title": "Mandatory notification of an impaired practitioner turns on substantial risk of harm to the public, not on illness alone.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 68-year-old woman needs consent for a colectomy. She speaks little English. Her son offers to interpret and says he will keep it simple. An interpreter is used when the patient cannot understand the discussion. A relative is not the default interpreter. Use a qualified interpreter. Do not rely on the son for the consent discussion. What is the most appropriate course?  She must understand the operation. A relative may filter information. Get a qualified interpreter. Do not let the son carry the consent, and do not have her sign a form she cannot read.  The facts already in front of you are enough to decide. Do not add a step the law does not require.  Capacity, consent, and confidentiality are decided on this person and this decision, not on a relative's wish or a form. Apply that rule here.  Nothing further in the history changes the duty in front of you.  Decide on the information already given. A further signature or a family demand does not change it. Apply it.",
@@ -683,7 +854,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-20",
       "lo_id": "3c839237-9558-53d0-8430-208e771684e2",
-      "lo_code": "INTERPRETER"
+      "lo_code": "INTERPRETER",
+      "lo_key": "INTERPRETER",
+      "lo_title": "When a patient has limited English, a qualified interpreter is used for consent and key discussions, not family members.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -0.95,
+      "difficulty_tier": "easy",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A journalist asks for the full record of a man who died in the emergency department last night, citing public interest in emergency wait times. The family has not consented. A deceased patient's confidence continues. Curiosity is not a reason to open the record. Decline. Death does not open the record to the press. What is the most appropriate response?  Confidentiality continues after death. A journalist's public-interest claim about wait times is not a lawful basis. Decline. Do not read out part of the record.  The facts already in front of you are enough to decide. Do not add a step the law does not require.  Capacity, consent, and confidentiality are decided on this person and this decision, not on a relative's wish or a form. Apply that rule here.  Nothing further in the history changes the duty in front of you.  Decide on the information already given. A further signature or a family demand does not change it. Apply it.",
@@ -717,7 +897,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-21",
       "lo_id": "3147fe05-acbd-58f5-a08a-8789aa23549d",
-      "lo_code": "CONFIDENTIALITY_BREACH"
+      "lo_code": "CONFIDENTIALITY_BREACH",
+      "lo_key": "CONFIDENTIALITY_BREACH",
+      "lo_title": "Confidentiality may be breached to prevent serious harm to an identifiable person, but not for curiosity, family requests or media interest, including after death.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: emergency department",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 14-year-old boy with newly diagnosed type 1 diabetes understands insulin, hypoglycaemia, and sick-day rules. He agrees to start treatment. His father refuses insulin on principle and demands herbs instead. A parent consents for a child who lacks capacity. The child's view still matters, and a competent minor can consent. Treat. The boy is competent for this decision, and insulin is life-saving care. What is the most appropriate course?  He understands and wants insulin. His father cannot veto life-saving care the competent young person accepts. Treat. Do not delay for herbs or a court he does not need.  The facts already in front of you are enough to decide. Do not add a step the law does not require.  Capacity, consent, and confidentiality are decided on this person and this decision, not on a relative's wish or a form. Apply that rule here.  Nothing further in the history changes the duty in front of you.  Decide on the information already given. A further signature or a family demand does not change it. Apply it.",
@@ -751,7 +940,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-22",
       "lo_id": "55d03d52-a59b-52e9-a333-642593c6ff30",
-      "lo_code": "MATURE_MINOR"
+      "lo_code": "MATURE_MINOR",
+      "lo_key": "MATURE_MINOR",
+      "lo_title": "A minor who is Gillick competent for the decision can consent to their own treatment.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 1.05,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A woman with moderate dementia can explain the hip operation, the main risks, and that she wants it so she can walk. She cannot name the day. Her son says his power of attorney blocks the operation. Capacity is decision-specific. Assess this decision. If she understands, retains, weighs and communicates it, she consents. The rest of the history does not change the duty. A relative's wish, a form, or a busy list does not create an exception. Capacity, consent, and confidentiality are decided on this person and this decision. Apply that rule. Do not add a step the law does not require. Nothing else in the file creates an exception. A family demand or a faster pathway does not change the duty. Decide on the facts given. Document the assessment and the decision. Do not invent a consent, a breach, or an exemption the law does not provide.  State the correct step clearly. Apply it now. Clearly. Today. The standard is the same whether or not a relative disagrees. Apply the rule to this person and this decision. A form without a discussion is not consent, and a wish is not a lawful override. That is the correct step.",
@@ -785,7 +983,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-23",
       "lo_id": "40f0739a-a588-57ca-83ce-6790b0e9a894",
-      "lo_code": "CAPACITY_DECISION_SPECIFIC"
+      "lo_code": "CAPACITY_DECISION_SPECIFIC",
+      "lo_key": "CAPACITY_DECISION_SPECIFIC",
+      "lo_title": "Capacity is decision- and time-specific; a diagnosis such as dementia does not remove it, and a substitute decision-maker acts only when capacity is lost.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: data gathering; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "An 82-year-old with mild cognitive impairment understands a colonoscopy, the perforation risk, and the alternative. His daughter, who holds power of attorney, refuses. A person with capacity decides. The substitute is for when capacity is lacking. The rest of the history does not change the duty. A relative's wish, a form, or a busy list does not create an exception. Capacity, consent, and confidentiality are decided on this person and this decision. Apply that rule. Do not add a step the law does not require. Nothing else in the file creates an exception. A family demand or a faster pathway does not change the duty. Decide on the facts given. Document the assessment and the decision. Do not invent a consent, a breach, or an exemption the law does not provide.  State the correct step clearly. Apply it now. Clearly. Today. The standard is the same whether or not a relative disagrees. Apply the rule to this person and this decision. A form without a discussion is not consent, and a wish is not a lawful override. That is the correct step.",
@@ -819,7 +1026,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-24",
       "lo_id": "40f0739a-a588-57ca-83ce-6790b0e9a894",
-      "lo_code": "CAPACITY_DECISION_SPECIFIC"
+      "lo_code": "CAPACITY_DECISION_SPECIFIC",
+      "lo_key": "CAPACITY_DECISION_SPECIFIC",
+      "lo_title": "Capacity is decision- and time-specific; a diagnosis such as dementia does not remove it, and a substitute decision-maker acts only when capacity is lost.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A man with a bleeding ulcer understands he may die without endoscopy, can explain the risks, and refuses. He is not delirious. His wife insists you proceed. A capacious refusal stands. Document it. The rest of the history does not change the duty. A relative's wish, a form, or a busy list does not create an exception. Capacity, consent, and confidentiality are decided on this person and this decision. Apply that rule. Do not add a step the law does not require. Nothing else in the file creates an exception. A family demand or a faster pathway does not change the duty. Decide on the facts given. Document the assessment and the decision. Do not invent a consent, a breach, or an exemption the law does not provide.  State the correct step clearly. Apply it now. Clearly. Today. The standard is the same whether or not a relative disagrees. Apply the rule to this person and this decision. A form without a discussion is not consent, and a wish is not a lawful override. That is the correct step.",
@@ -853,7 +1069,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-25",
       "lo_id": "7799b232-e8b7-5957-b1ca-79a58eff21b0",
-      "lo_code": "CAPACIOUS_REFUSAL"
+      "lo_code": "CAPACIOUS_REFUSAL",
+      "lo_key": "CAPACIOUS_REFUSAL",
+      "lo_title": "A competent adult's informed refusal of treatment must be respected and documented, even when family or clinicians disagree.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A Jehovah's Witness with capacity has refused blood for a myomectomy. Bleeding becomes heavy. Her husband demands transfusion. The refusal stands. Use the conservation plan. The rest of the history does not change the duty. A relative's wish, a form, or a busy list does not create an exception. Capacity, consent, and confidentiality are decided on this person and this decision. Apply that rule. Do not add a step the law does not require. Nothing else in the file creates an exception. A family demand or a faster pathway does not change the duty. Decide on the facts given. Document the assessment and the decision. Do not invent a consent, a breach, or an exemption the law does not provide.  State the correct step clearly. Apply it now. Clearly. Today. The standard is the same whether or not a relative disagrees. Apply the rule to this person and this decision. A form without a discussion is not consent, and a wish is not a lawful override. That is the correct step.",
@@ -887,7 +1112,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-26",
       "lo_id": "7799b232-e8b7-5957-b1ca-79a58eff21b0",
-      "lo_code": "CAPACIOUS_REFUSAL"
+      "lo_code": "CAPACIOUS_REFUSAL",
+      "lo_key": "CAPACIOUS_REFUSAL",
+      "lo_title": "A competent adult's informed refusal of treatment must be respected and documented, even when family or clinicians disagree.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "An unconscious man from a crash needs a laparotomy now. No family is present. Emergency treatment proceeds when he cannot consent and delay would cause serious harm. The rest of the history does not change the duty. A relative's wish, a form, or a busy list does not create an exception. Capacity, consent, and confidentiality are decided on this person and this decision. Apply that rule. Do not add a step the law does not require. Nothing else in the file creates an exception. A family demand or a faster pathway does not change the duty. Decide on the facts given. Document the assessment and the decision. Do not invent a consent, a breach, or an exemption the law does not provide.  State the correct step clearly. Apply it now. Clearly. Today. The standard is the same whether or not a relative disagrees. Apply the rule to this person and this decision. A form without a discussion is not consent, and a wish is not a lawful override. That is the correct step.",
@@ -921,7 +1155,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-27",
       "lo_id": "4682f08e-5704-59fe-abb6-43251ebfefd9",
-      "lo_code": "EMERGENCY_TREATMENT"
+      "lo_code": "EMERGENCY_TREATMENT",
+      "lo_key": "EMERGENCY_TREATMENT",
+      "lo_title": "Emergency treatment may proceed without consent when the patient lacks capacity and delay would risk death or serious harm.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "No relative can be reached. The abdomen is rigid and he is hypotensive. Operate. A neighbour's signature is not the authority. The emergency is. The rest of the history does not change the duty. A relative's wish, a form, or a busy list does not create an exception. Capacity, consent, and confidentiality are decided on this person and this decision. Apply that rule. Do not add a step the law does not require. Nothing else in the file creates an exception. A family demand or a faster pathway does not change the duty. Decide on the facts given. Document the assessment and the decision. Do not invent a consent, a breach, or an exemption the law does not provide.  State the correct step clearly. Apply it now. Clearly. Today. The standard is the same whether or not a relative disagrees. Apply the rule to this person and this decision. A form without a discussion is not consent, and a wish is not a lawful override. That is the correct step.",
@@ -955,7 +1198,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-28",
       "lo_id": "4682f08e-5704-59fe-abb6-43251ebfefd9",
-      "lo_code": "EMERGENCY_TREATMENT"
+      "lo_code": "EMERGENCY_TREATMENT",
+      "lo_key": "EMERGENCY_TREATMENT",
+      "lo_title": "Emergency treatment may proceed without consent when the patient lacks capacity and delay would risk death or serious harm.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "Retrieval of a relative will take longer than he has. Proceed and document why consent could not be obtained. The rest of the history does not change the duty. A relative's wish, a form, or a busy list does not create an exception. Capacity, consent, and confidentiality are decided on this person and this decision. Apply that rule. Do not add a step the law does not require. Nothing else in the file creates an exception. A family demand or a faster pathway does not change the duty. Decide on the facts given. Document the assessment and the decision. Do not invent a consent, a breach, or an exemption the law does not provide.  State the correct step clearly. Apply it now. Clearly. Today. The standard is the same whether or not a relative disagrees. Apply the rule to this person and this decision. A form without a discussion is not consent, and a wish is not a lawful override. That is the correct step.",
@@ -989,7 +1241,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-29",
       "lo_id": "4682f08e-5704-59fe-abb6-43251ebfefd9",
-      "lo_code": "EMERGENCY_TREATMENT"
+      "lo_code": "EMERGENCY_TREATMENT",
+      "lo_key": "EMERGENCY_TREATMENT",
+      "lo_title": "Emergency treatment may proceed without consent when the patient lacks capacity and delay would risk death or serious harm.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 15-year-old understands the pill, failure, infection risk, and follow-up, and does not want her parents told. A mature minor may consent if Gillick competent for that decision. The rest of the history does not change the duty. A relative's wish, a form, or a busy list does not create an exception. Capacity, consent, and confidentiality are decided on this person and this decision. Apply that rule. Do not add a step the law does not require. Nothing else in the file creates an exception. A family demand or a faster pathway does not change the duty. Decide on the facts given. Document the assessment and the decision. Do not invent a consent, a breach, or an exemption the law does not provide.  State the correct step clearly. Apply it now. Clearly. Today. The standard is the same whether or not a relative disagrees. Apply the rule to this person and this decision. A form without a discussion is not consent, and a wish is not a lawful override. That is the correct step.",
@@ -1023,7 +1284,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-30",
       "lo_id": "55d03d52-a59b-52e9-a333-642593c6ff30",
-      "lo_code": "MATURE_MINOR"
+      "lo_code": "MATURE_MINOR",
+      "lo_key": "MATURE_MINOR",
+      "lo_title": "A minor who is Gillick competent for the decision can consent to their own treatment.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: data gathering; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 14-year-old with new type 1 diabetes understands insulin and agrees. His father refuses and wants herbs. A competent minor can consent. Treat. The rest of the history does not change the duty. A relative's wish, a form, or a busy list does not create an exception. Capacity, consent, and confidentiality are decided on this person and this decision. Apply that rule. Do not add a step the law does not require. Nothing else in the file creates an exception. A family demand or a faster pathway does not change the duty. Decide on the facts given. Document the assessment and the decision. Do not invent a consent, a breach, or an exemption the law does not provide.  State the correct step clearly. Apply it now. Clearly. Today. The standard is the same whether or not a relative disagrees. Apply the rule to this person and this decision. A form without a discussion is not consent, and a wish is not a lawful override. That is the correct step.",
@@ -1057,7 +1327,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-31",
       "lo_id": "55d03d52-a59b-52e9-a333-642593c6ff30",
-      "lo_code": "MATURE_MINOR"
+      "lo_code": "MATURE_MINOR",
+      "lo_key": "MATURE_MINOR",
+      "lo_title": "A minor who is Gillick competent for the decision can consent to their own treatment.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A man with new HIV will not tell his wife and will keep having unprotected sex with her. Confidentiality may be breached to prevent a serious identifiable risk. Urge him first. The rest of the history does not change the duty. A relative's wish, a form, or a busy list does not create an exception. Capacity, consent, and confidentiality are decided on this person and this decision. Apply that rule. Do not add a step the law does not require. Nothing else in the file creates an exception. A family demand or a faster pathway does not change the duty. Decide on the facts given. Document the assessment and the decision. Do not invent a consent, a breach, or an exemption the law does not provide.  State the correct step clearly. Apply it now. Clearly. Today. The standard is the same whether or not a relative disagrees. Apply the rule to this person and this decision. A form without a discussion is not consent, and a wish is not a lawful override. That is the correct step.",
@@ -1091,7 +1370,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-32",
       "lo_id": "3147fe05-acbd-58f5-a08a-8789aa23549d",
-      "lo_code": "CONFIDENTIALITY_BREACH"
+      "lo_code": "CONFIDENTIALITY_BREACH",
+      "lo_key": "CONFIDENTIALITY_BREACH",
+      "lo_title": "Confidentiality may be breached to prevent serious harm to an identifiable person, but not for curiosity, family requests or media interest, including after death.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 13-year-old says his stepfather hits him and asks you to promise silence. There are bruises of different ages. Mandatory reporting overrides that promise. The rest of the history does not change the duty. A relative's wish, a form, or a busy list does not create an exception. Capacity, consent, and confidentiality are decided on this person and this decision. Apply that rule. Do not add a step the law does not require. Nothing else in the file creates an exception. A family demand or a faster pathway does not change the duty. Decide on the facts given. Document the assessment and the decision. Do not invent a consent, a breach, or an exemption the law does not provide.  State the correct step clearly. Apply it now. Clearly. Today. The standard is the same whether or not a relative disagrees. Apply the rule to this person and this decision. A form without a discussion is not consent, and a wish is not a lawful override. That is the correct step.",
@@ -1125,7 +1413,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-33",
       "lo_id": "a480702b-c8b3-5985-ac19-9961ebb72512",
-      "lo_code": "MANDATORY_CHILD_REPORT"
+      "lo_code": "MANDATORY_CHILD_REPORT",
+      "lo_key": "MANDATORY_CHILD_REPORT",
+      "lo_title": "A child's request for secrecy does not override mandatory reporting of suspected abuse, and good-faith reports are legally protected.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "You suspect inflicted injury. The mother says she will sue if you report. A good-faith report is not delayed by a threat of suit. The rest of the history does not change the duty. A relative's wish, a form, or a busy list does not create an exception. Capacity, consent, and confidentiality are decided on this person and this decision. Apply that rule. Do not add a step the law does not require. Nothing else in the file creates an exception. A family demand or a faster pathway does not change the duty. Decide on the facts given. Document the assessment and the decision. Do not invent a consent, a breach, or an exemption the law does not provide.  State the correct step clearly. Apply it now. Clearly. Today. The standard is the same whether or not a relative disagrees. Apply the rule to this person and this decision. A form without a discussion is not consent, and a wish is not a lawful override. That is the correct step.",
@@ -1159,7 +1456,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-34",
       "lo_id": "a480702b-c8b3-5985-ac19-9961ebb72512",
-      "lo_code": "MANDATORY_CHILD_REPORT"
+      "lo_code": "MANDATORY_CHILD_REPORT",
+      "lo_key": "MANDATORY_CHILD_REPORT",
+      "lo_title": "A child's request for secrecy does not override mandatory reporting of suspected abuse, and good-faith reports are legally protected.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 6-year-old has a spiral humeral fracture and the history changes twice. Report the concern. Do not wait for a consistent story. The rest of the history does not change the duty. A relative's wish, a form, or a busy list does not create an exception. Capacity, consent, and confidentiality are decided on this person and this decision. Apply that rule. Do not add a step the law does not require. Nothing else in the file creates an exception. A family demand or a faster pathway does not change the duty. Decide on the facts given. Document the assessment and the decision. Do not invent a consent, a breach, or an exemption the law does not provide.  State the correct step clearly. Apply it now. Clearly. Today. The standard is the same whether or not a relative disagrees. Apply the rule to this person and this decision. A form without a discussion is not consent, and a wish is not a lawful override. That is the correct step.",
@@ -1193,7 +1499,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-35",
       "lo_id": "a480702b-c8b3-5985-ac19-9961ebb72512",
-      "lo_code": "MANDATORY_CHILD_REPORT"
+      "lo_code": "MANDATORY_CHILD_REPORT",
+      "lo_key": "MANDATORY_CHILD_REPORT",
+      "lo_title": "A child's request for secrecy does not override mandatory reporting of suspected abuse, and good-faith reports are legally protected.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "She consented to diagnostic laparoscopy. The surgeon removes an uncomplicated ovary without prior discussion. Consent covers the procedure discussed, not a silent extra. The rest of the history does not change the duty. A relative's wish, a form, or a busy list does not create an exception. Capacity, consent, and confidentiality are decided on this person and this decision. Apply that rule. Do not add a step the law does not require. Nothing else in the file creates an exception. A family demand or a faster pathway does not change the duty. Decide on the facts given. Document the assessment and the decision. Do not invent a consent, a breach, or an exemption the law does not provide.  State the correct step clearly. Apply it now. Clearly. Today. The standard is the same whether or not a relative disagrees. Apply the rule to this person and this decision. A form without a discussion is not consent, and a wish is not a lawful override. That is the correct step.",
@@ -1227,7 +1542,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-36",
       "lo_id": "8779aab8-013d-5c7b-a849-f541ec929ed6",
-      "lo_code": "CONSENT_SCOPE"
+      "lo_code": "CONSENT_SCOPE",
+      "lo_key": "CONSENT_SCOPE",
+      "lo_title": "Consent must cover the specific procedure and its material risks after a real discussion; a signature alone does not make it valid or extend it to extra procedures.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A man with new seizures drives a school bus and refuses to stop. Tell him you will notify the licensing authority, then notify. The rest of the history does not change the duty. A relative's wish, a form, or a busy list does not create an exception. Capacity, consent, and confidentiality are decided on this person and this decision. Apply that rule. Do not add a step the law does not require. Nothing else in the file creates an exception. A family demand or a faster pathway does not change the duty. Decide on the facts given. Document the assessment and the decision. Do not invent a consent, a breach, or an exemption the law does not provide.  State the correct step clearly. Apply it now. Clearly. Today. The standard is the same whether or not a relative disagrees. Apply the rule to this person and this decision. A form without a discussion is not consent, and a wish is not a lawful override. That is the correct step.",
@@ -1261,7 +1585,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-37",
       "lo_id": "8788b94b-e588-592a-87d3-e79e3a986ace",
-      "lo_code": "IMPAIRED_DRIVER"
+      "lo_code": "IMPAIRED_DRIVER",
+      "lo_key": "IMPAIRED_DRIVER",
+      "lo_title": "A doctor who finds a patient medically unfit to drive should tell them and may report to the licensing authority when they continue to drive unsafely.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "Two unprovoked seizures this month. He is unfit for a truck now. Do not write a false fitness letter. Notify the licensing authority. The rest of the history does not change the duty. A relative's wish, a form, or a busy list does not create an exception. Capacity, consent, and confidentiality are decided on this person and this decision. Apply that rule. Do not add a step the law does not require. Nothing else in the file creates an exception. A family demand or a faster pathway does not change the duty. Decide on the facts given. Document the assessment and the decision. Do not invent a consent, a breach, or an exemption the law does not provide.  State the correct step clearly. Apply it now. Clearly. Today. The standard is the same whether or not a relative disagrees. Apply the rule to this person and this decision. A form without a discussion is not consent, and a wish is not a lawful override. That is the correct step.",
@@ -1295,7 +1628,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-38",
       "lo_id": "8788b94b-e588-592a-87d3-e79e3a986ace",
-      "lo_code": "IMPAIRED_DRIVER"
+      "lo_code": "IMPAIRED_DRIVER",
+      "lo_key": "IMPAIRED_DRIVER",
+      "lo_title": "A doctor who finds a patient medically unfit to drive should tell them and may report to the licensing authority when they continue to drive unsafely.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "Repeated syncope and a school bus. He has been advised and refuses to stop. Notify. Do not wait for an incident. The rest of the history does not change the duty. A relative's wish, a form, or a busy list does not create an exception. Capacity, consent, and confidentiality are decided on this person and this decision. Apply that rule. Do not add a step the law does not require. Nothing else in the file creates an exception. A family demand or a faster pathway does not change the duty. Decide on the facts given. Document the assessment and the decision. Do not invent a consent, a breach, or an exemption the law does not provide.  State the correct step clearly. Apply it now. Clearly. Today. The standard is the same whether or not a relative disagrees. Apply the rule to this person and this decision. A form without a discussion is not consent, and a wish is not a lawful override. That is the correct step.",
@@ -1329,7 +1671,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-39",
       "lo_id": "8788b94b-e588-592a-87d3-e79e3a986ace",
-      "lo_code": "IMPAIRED_DRIVER"
+      "lo_code": "IMPAIRED_DRIVER",
+      "lo_key": "IMPAIRED_DRIVER",
+      "lo_title": "A doctor who finds a patient medically unfit to drive should tell them and may report to the licensing authority when they continue to drive unsafely.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 19-year-old took paracetamol, regrets it, understands treatment, and agrees to stay. Her mother wants an immediate mental health order. She is accepting care. Treat her. Do not schedule her to satisfy her mother. The rest of the history does not change the duty. A relative's wish, a form, or a busy list does not create an exception. Capacity, consent, and confidentiality are decided on this person and this decision. Apply that rule. Do not add a step the law does not require. Nothing else in the file creates an exception. A family demand or a faster pathway does not change the duty. Decide on the facts given. Document the assessment and the decision. Do not invent a consent, a breach, or an exemption the law does not provide.  State the correct step clearly. Apply it now. Clearly. Today. The standard is the same whether or not a relative disagrees. Apply the rule to this person and this decision. A form without a discussion is not consent, and a wish is not a lawful override. That is the correct step.",
@@ -1363,7 +1714,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-40",
       "lo_id": "d7fcc865-c8a2-5932-9bc9-a7e20250f1c3",
-      "lo_code": "INVOLUNTARY_CARE"
+      "lo_code": "INVOLUNTARY_CARE",
+      "lo_key": "INVOLUNTARY_CARE",
+      "lo_title": "Involuntary mental health treatment requires the statutory risk threshold and is not used when a person accepts treatment voluntarily.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A family wants a well adult detained because he refused a blood test. Ordinary refusal is not the involuntary threshold. Assess risk. Do not schedule to satisfy the family. The rest of the history does not change the duty. A relative's wish, a form, or a busy list does not create an exception. Capacity, consent, and confidentiality are decided on this person and this decision. Apply that rule. Do not add a step the law does not require. Nothing else in the file creates an exception. A family demand or a faster pathway does not change the duty. Decide on the facts given. Document the assessment and the decision. Do not invent a consent, a breach, or an exemption the law does not provide.  State the correct step clearly. Apply it now. Clearly. Today. The standard is the same whether or not a relative disagrees. Apply the rule to this person and this decision. A form without a discussion is not consent, and a wish is not a lawful override. That is the correct step.",
@@ -1397,7 +1757,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-41",
       "lo_id": "d7fcc865-c8a2-5932-9bc9-a7e20250f1c3",
-      "lo_code": "INVOLUNTARY_CARE"
+      "lo_code": "INVOLUNTARY_CARE",
+      "lo_key": "INVOLUNTARY_CARE",
+      "lo_title": "Involuntary mental health treatment requires the statutory risk threshold and is not used when a person accepts treatment voluntarily.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "She is alert, agrees to levels and acetylcysteine, and will stay. The overdose alone does not force an order while she accepts care. The rest of the history does not change the duty. A relative's wish, a form, or a busy list does not create an exception. Capacity, consent, and confidentiality are decided on this person and this decision. Apply that rule. Do not add a step the law does not require. Nothing else in the file creates an exception. A family demand or a faster pathway does not change the duty. Decide on the facts given. Document the assessment and the decision. Do not invent a consent, a breach, or an exemption the law does not provide.  State the correct step clearly. Apply it now. Clearly. Today. The standard is the same whether or not a relative disagrees. Apply the rule to this person and this decision. A form without a discussion is not consent, and a wish is not a lawful override. That is the correct step.",
@@ -1431,7 +1800,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-42",
       "lo_id": "d7fcc865-c8a2-5932-9bc9-a7e20250f1c3",
-      "lo_code": "INVOLUNTARY_CARE"
+      "lo_code": "INVOLUNTARY_CARE",
+      "lo_key": "INVOLUNTARY_CARE",
+      "lo_title": "Involuntary mental health treatment requires the statutory risk threshold and is not used when a person accepts treatment voluntarily.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A man asks for his wife's cervical screening result. She has not authorised release. Decline. Ask her if she wishes to share it. The rest of the history does not change the duty. A relative's wish, a form, or a busy list does not create an exception. Capacity, consent, and confidentiality are decided on this person and this decision. Apply that rule. Do not add a step the law does not require. Nothing else in the file creates an exception. A family demand or a faster pathway does not change the duty. Decide on the facts given. Document the assessment and the decision. Do not invent a consent, a breach, or an exemption the law does not provide.  State the correct step clearly. Apply it now. Clearly. Today. The standard is the same whether or not a relative disagrees. Apply the rule to this person and this decision. A form without a discussion is not consent, and a wish is not a lawful override. That is the correct step.",
@@ -1465,7 +1843,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-43",
       "lo_id": "5c5e1f9b-208e-53e5-961e-094f93beb63b",
-      "lo_code": "RECORD_ACCESS"
+      "lo_code": "RECORD_ACCESS",
+      "lo_key": "RECORD_ACCESS",
+      "lo_title": "Patients have a right to access their own records unless a limited legal ground applies, while third parties such as partners have no automatic right of access.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A man asks for a copy of his notes. There is no serious risk from release. Provide access. Convenience is not a ground for refusal. The rest of the history does not change the duty. A relative's wish, a form, or a busy list does not create an exception. Capacity, consent, and confidentiality are decided on this person and this decision. Apply that rule. Do not add a step the law does not require. Nothing else in the file creates an exception. A family demand or a faster pathway does not change the duty. Decide on the facts given. Document the assessment and the decision. Do not invent a consent, a breach, or an exemption the law does not provide.  State the correct step clearly. Apply it now. Clearly. Today. The standard is the same whether or not a relative disagrees. Apply the rule to this person and this decision. A form without a discussion is not consent, and a wish is not a lawful override. That is the correct step.",
@@ -1499,7 +1886,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-44",
       "lo_id": "5c5e1f9b-208e-53e5-961e-094f93beb63b",
-      "lo_code": "RECORD_ACCESS"
+      "lo_code": "RECORD_ACCESS",
+      "lo_key": "RECORD_ACCESS",
+      "lo_title": "Patients have a right to access their own records unless a limited legal ground applies, while third parties such as partners have no automatic right of access.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A woman with severe pneumonia lacks capacity. A valid advance care directive refuses intubation. Her son demands it. Follow the directive. The rest of the history does not change the duty. A relative's wish, a form, or a busy list does not create an exception. Capacity, consent, and confidentiality are decided on this person and this decision. Apply that rule. Do not add a step the law does not require. Nothing else in the file creates an exception. A family demand or a faster pathway does not change the duty. Decide on the facts given. Document the assessment and the decision. Do not invent a consent, a breach, or an exemption the law does not provide.  State the correct step clearly. Apply it now. Clearly. Today. The standard is the same whether or not a relative disagrees. Apply the rule to this person and this decision. A form without a discussion is not consent, and a wish is not a lawful override. That is the correct step.",
@@ -1533,7 +1929,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-45",
       "lo_id": "4a955c60-336c-5904-b2fd-72d6f9803611",
-      "lo_code": "ADVANCE_DIRECTIVE"
+      "lo_code": "ADVANCE_DIRECTIVE",
+      "lo_key": "ADVANCE_DIRECTIVE",
+      "lo_title": "A valid advance care directive made with capacity that covers the situation must be followed when capacity is lost, even against family wishes.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "The directive refuses intensive care. It applies to this pneumonia. Do not intubate because a relative insists. The rest of the history does not change the duty. A relative's wish, a form, or a busy list does not create an exception. Capacity, consent, and confidentiality are decided on this person and this decision. Apply that rule. Do not add a step the law does not require. Nothing else in the file creates an exception. A family demand or a faster pathway does not change the duty. Decide on the facts given. Document the assessment and the decision. Do not invent a consent, a breach, or an exemption the law does not provide.  State the correct step clearly. Apply it now. Clearly. Today. The standard is the same whether or not a relative disagrees. Apply the rule to this person and this decision. A form without a discussion is not consent, and a wish is not a lawful override. That is the correct step.",
@@ -1567,7 +1972,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-46",
       "lo_id": "4a955c60-336c-5904-b2fd-72d6f9803611",
-      "lo_code": "ADVANCE_DIRECTIVE"
+      "lo_code": "ADVANCE_DIRECTIVE",
+      "lo_key": "ADVANCE_DIRECTIVE",
+      "lo_title": "A valid advance care directive made with capacity that covers the situation must be followed when capacity is lost, even against family wishes.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "She made the directive last year with capacity. It covers intubation. Use it. Do not invent a fresh decision that ignores it. The rest of the history does not change the duty. A relative's wish, a form, or a busy list does not create an exception. Capacity, consent, and confidentiality are decided on this person and this decision. Apply that rule. Do not add a step the law does not require. Nothing else in the file creates an exception. A family demand or a faster pathway does not change the duty. Decide on the facts given. Document the assessment and the decision. Do not invent a consent, a breach, or an exemption the law does not provide.  State the correct step clearly. Apply it now. Clearly. Today. The standard is the same whether or not a relative disagrees. Apply the rule to this person and this decision. A form without a discussion is not consent, and a wish is not a lawful override. That is the correct step.",
@@ -1601,7 +2015,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-47",
       "lo_id": "4a955c60-336c-5904-b2fd-72d6f9803611",
-      "lo_code": "ADVANCE_DIRECTIVE"
+      "lo_code": "ADVANCE_DIRECTIVE",
+      "lo_key": "ADVANCE_DIRECTIVE",
+      "lo_title": "A valid advance care directive made with capacity that covers the situation must be followed when capacity is lost, even against family wishes.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "He consented to standard chemotherapy. A registrar enrols him in a trial and randomises him before mentioning it. Research consent is separate and comes first. The rest of the history does not change the duty. A relative's wish, a form, or a busy list does not create an exception. Capacity, consent, and confidentiality are decided on this person and this decision. Apply that rule. Do not add a step the law does not require. Nothing else in the file creates an exception. A family demand or a faster pathway does not change the duty. Decide on the facts given. Document the assessment and the decision. Do not invent a consent, a breach, or an exemption the law does not provide.  State the correct step clearly. Apply it now. Clearly. Today. The standard is the same whether or not a relative disagrees. Apply the rule to this person and this decision. A form without a discussion is not consent, and a wish is not a lawful override. That is the correct step.",
@@ -1635,7 +2058,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-48",
       "lo_id": "ba39b512-c3c4-5cdc-9577-48d5001f3659",
-      "lo_code": "RESEARCH_CONSENT"
+      "lo_code": "RESEARCH_CONSENT",
+      "lo_key": "RESEARCH_CONSENT",
+      "lo_title": "Research participation needs its own voluntary informed consent before enrolment, separate from treatment consent, and care cannot be conditional on it.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: research setting",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A registrar says surgery will be sooner if he enrols and delayed if he declines. That is coercion. Care is not conditional on joining. The rest of the history does not change the duty. A relative's wish, a form, or a busy list does not create an exception. Capacity, consent, and confidentiality are decided on this person and this decision. Apply that rule. Do not add a step the law does not require. Nothing else in the file creates an exception. A family demand or a faster pathway does not change the duty. Decide on the facts given. Document the assessment and the decision. Do not invent a consent, a breach, or an exemption the law does not provide.  State the correct step clearly. Apply it now. Clearly. Today. The standard is the same whether or not a relative disagrees. Apply the rule to this person and this decision. A form without a discussion is not consent, and a wish is not a lawful override. That is the correct step.",
@@ -1669,7 +2101,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-49",
       "lo_id": "ba39b512-c3c4-5cdc-9577-48d5001f3659",
-      "lo_code": "RESEARCH_CONSENT"
+      "lo_code": "RESEARCH_CONSENT",
+      "lo_key": "RESEARCH_CONSENT",
+      "lo_title": "Research participation needs its own voluntary informed consent before enrolment, separate from treatment consent, and care cannot be conditional on it.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "She wants to stop a trial and will not say why. Withdrawal needs no reason. Clinical care continues. The rest of the history does not change the duty. A relative's wish, a form, or a busy list does not create an exception. Capacity, consent, and confidentiality are decided on this person and this decision. Apply that rule. Do not add a step the law does not require. Nothing else in the file creates an exception. A family demand or a faster pathway does not change the duty. Decide on the facts given. Document the assessment and the decision. Do not invent a consent, a breach, or an exemption the law does not provide.  State the correct step clearly. Apply it now. Clearly. Today. The standard is the same whether or not a relative disagrees. Apply the rule to this person and this decision. A form without a discussion is not consent, and a wish is not a lawful override. That is the correct step.",
@@ -1703,7 +2144,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-50",
       "lo_id": "ba39b512-c3c4-5cdc-9577-48d5001f3659",
-      "lo_code": "RESEARCH_CONSENT"
+      "lo_code": "RESEARCH_CONSENT",
+      "lo_key": "RESEARCH_CONSENT",
+      "lo_title": "Research participation needs its own voluntary informed consent before enrolment, separate from treatment consent, and care cannot be conditional on it.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: research setting",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A colleague smells of alcohol, has missed insulin doses, and asks you to keep it quiet. Act on the current risk to patients. A week off is not a safeguard by itself. The rest of the history does not change the duty. A relative's wish, a form, or a busy list does not create an exception. Capacity, consent, and confidentiality are decided on this person and this decision. Apply that rule. Do not add a step the law does not require. Nothing else in the file creates an exception. A family demand or a faster pathway does not change the duty. Decide on the facts given. Document the assessment and the decision. Do not invent a consent, a breach, or an exemption the law does not provide.  State the correct step clearly. Apply it now. Clearly. Today. The standard is the same whether or not a relative disagrees. Apply the rule to this person and this decision. A form without a discussion is not consent, and a wish is not a lawful override. That is the correct step.",
@@ -1737,7 +2187,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-51",
       "lo_id": "eb867077-c869-5ac1-8c65-4493995aebda",
-      "lo_code": "IMPAIRED_PRACTITIONER"
+      "lo_code": "IMPAIRED_PRACTITIONER",
+      "lo_key": "IMPAIRED_PRACTITIONER",
+      "lo_title": "Mandatory notification of an impaired practitioner turns on substantial risk of harm to the public, not on illness alone.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A colleague had treated depression five years ago, is well, and has no performance concerns. Mandatory notification is for current risk, not a past treated illness. The rest of the history does not change the duty. A relative's wish, a form, or a busy list does not create an exception. Capacity, consent, and confidentiality are decided on this person and this decision. Apply that rule. Do not add a step the law does not require. Nothing else in the file creates an exception. A family demand or a faster pathway does not change the duty. Decide on the facts given. Document the assessment and the decision. Do not invent a consent, a breach, or an exemption the law does not provide.  State the correct step clearly. Apply it now. Clearly. Today. The standard is the same whether or not a relative disagrees. Apply the rule to this person and this decision. A form without a discussion is not consent, and a wish is not a lawful override. That is the correct step.",
@@ -1771,7 +2230,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-52",
       "lo_id": "eb867077-c869-5ac1-8c65-4493995aebda",
-      "lo_code": "IMPAIRED_PRACTITIONER"
+      "lo_code": "IMPAIRED_PRACTITIONER",
+      "lo_key": "IMPAIRED_PRACTITIONER",
+      "lo_title": "Mandatory notification of an impaired practitioner turns on substantial risk of harm to the public, not on illness alone.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A surgeon's tremor has caused complications. Easy cases still carry risk. He stops. A promise is not a safeguard. The rest of the history does not change the duty. A relative's wish, a form, or a busy list does not create an exception. Capacity, consent, and confidentiality are decided on this person and this decision. Apply that rule. Do not add a step the law does not require. Nothing else in the file creates an exception. A family demand or a faster pathway does not change the duty. Decide on the facts given. Document the assessment and the decision. Do not invent a consent, a breach, or an exemption the law does not provide.  State the correct step clearly. Apply it now. Clearly. Today. The standard is the same whether or not a relative disagrees. Apply the rule to this person and this decision. A form without a discussion is not consent, and a wish is not a lawful override. That is the correct step.",
@@ -1805,7 +2273,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-53",
       "lo_id": "eb867077-c869-5ac1-8c65-4493995aebda",
-      "lo_code": "IMPAIRED_PRACTITIONER"
+      "lo_code": "IMPAIRED_PRACTITIONER",
+      "lo_key": "IMPAIRED_PRACTITIONER",
+      "lo_title": "Mandatory notification of an impaired practitioner turns on substantial risk of harm to the public, not on illness alone.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "She needs consent for a colectomy and speaks little English. Her son offers to interpret. Use a qualified interpreter. A relative is not the default. The rest of the history does not change the duty. A relative's wish, a form, or a busy list does not create an exception. Capacity, consent, and confidentiality are decided on this person and this decision. Apply that rule. Do not add a step the law does not require. Nothing else in the file creates an exception. A family demand or a faster pathway does not change the duty. Decide on the facts given. Document the assessment and the decision. Do not invent a consent, a breach, or an exemption the law does not provide.  State the correct step clearly. Apply it now. Clearly. Today. The standard is the same whether or not a relative disagrees. Apply the rule to this person and this decision. A form without a discussion is not consent, and a wish is not a lawful override. That is the correct step.",
@@ -1839,7 +2316,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-54",
       "lo_id": "3c839237-9558-53d0-8430-208e771684e2",
-      "lo_code": "INTERPRETER"
+      "lo_code": "INTERPRETER",
+      "lo_key": "INTERPRETER",
+      "lo_title": "When a patient has limited English, a qualified interpreter is used for consent and key discussions, not family members.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "Operative risks must be understood. A son may soften or omit them. Use a qualified interpreter for the consent discussion. The rest of the history does not change the duty. A relative's wish, a form, or a busy list does not create an exception. Capacity, consent, and confidentiality are decided on this person and this decision. Apply that rule. Do not add a step the law does not require. Nothing else in the file creates an exception. A family demand or a faster pathway does not change the duty. Decide on the facts given. Document the assessment and the decision. Do not invent a consent, a breach, or an exemption the law does not provide.  State the correct step clearly. Apply it now. Clearly. Today. The standard is the same whether or not a relative disagrees. Apply the rule to this person and this decision. A form without a discussion is not consent, and a wish is not a lawful override. That is the correct step.",
@@ -1873,7 +2359,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-55",
       "lo_id": "3c839237-9558-53d0-8430-208e771684e2",
-      "lo_code": "INTERPRETER"
+      "lo_code": "INTERPRETER",
+      "lo_key": "INTERPRETER",
+      "lo_title": "When a patient has limited English, a qualified interpreter is used for consent and key discussions, not family members.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "No interpreter is on site. Do not take consent she cannot understand. Rearrange. A signature on a form she cannot read is not consent. The rest of the history does not change the duty. A relative's wish, a form, or a busy list does not create an exception. Capacity, consent, and confidentiality are decided on this person and this decision. Apply that rule. Do not add a step the law does not require. Nothing else in the file creates an exception. A family demand or a faster pathway does not change the duty. Decide on the facts given. Document the assessment and the decision. Do not invent a consent, a breach, or an exemption the law does not provide.  State the correct step clearly. Apply it now. Clearly. Today. The standard is the same whether or not a relative disagrees. Apply the rule to this person and this decision. A form without a discussion is not consent, and a wish is not a lawful override. That is the correct step.",
@@ -1907,7 +2402,16 @@
       "phase": "PH-05",
       "phase_item_id": "PH-C-56",
       "lo_id": "3c839237-9558-53d0-8430-208e771684e2",
-      "lo_code": "INTERPRETER"
+      "lo_code": "INTERPRETER",
+      "lo_key": "INTERPRETER",
+      "lo_title": "When a patient has limited English, a qualified interpreter is used for consent and key discussions, not family members.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     }
   ]
 }

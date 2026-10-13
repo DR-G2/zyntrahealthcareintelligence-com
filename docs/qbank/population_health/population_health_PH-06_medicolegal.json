@@ -37,7 +37,16 @@
       "phase": "PH-06",
       "phase_item_id": "PH-M-01",
       "lo_id": "2c2702ab-a992-5be2-acaa-4d2a8b9d7174",
-      "lo_code": "DEATH_CERTIFICATE"
+      "lo_code": "DEATH_CERTIFICATE",
+      "lo_key": "DEATH_CERTIFICATE",
+      "lo_title": "A doctor certifies death only when able to state the disease causing death; a mode such as cardiac arrest is not a cause, and uncertain or unattended deaths go to the coroner.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 70-year-old dies of a myocardial infarct 18 hours after an elective hip replacement. The infarct looks unrelated to the operation. The orthopaedic registrar asks you to certify ischaemic heart disease and avoid the coroner so the family is not delayed. A death during or soon after a procedure is reportable, even if the surgery seemed unrelated. Report the death. What is the most appropriate course?  Eighteen hours after elective surgery is perioperative. Apparent unrelatedness does not let you certify around the coroner. Family preference does not decide reporting.  The duty is yours on the facts given. A family wish or a faster funeral does not change it.  Report or refuse as the rule requires. Do not invent a cause or a clearance.  Nothing else in the file creates an exception. Apply the reporting or disclosure rule as it stands.  A colleague's suggestion to certify, sign, or release does not override that rule.  Decide on the facts given and the duty they create. Do that. Now. Clearly. Today.",
@@ -71,7 +80,16 @@
       "phase": "PH-06",
       "phase_item_id": "PH-M-02",
       "lo_id": "41543afd-06ca-5f2f-8cfa-6df284e39646",
-      "lo_code": "REPORTABLE_DEATH"
+      "lo_code": "REPORTABLE_DEATH",
+      "lo_key": "REPORTABLE_DEATH",
+      "lo_title": "Unexpected, unnatural, violent, procedure-related, in-custody or unexplained deaths, including sudden child deaths, are reported to the coroner.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.9,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 46-year-old man on remand collapses in a prison van and dies in the emergency department. He had seemed well that morning. A colleague says this is an ordinary hospital death because he died in ED. A death in custody is reportable. The place of death does not have to be a cell. Report the death. Custody includes transit. What is the most appropriate action?  Remand, prison van, then ED. Custody includes transport. Dying in hospital does not convert it into an ordinary death. Report.  The duty is yours on the facts given. A family wish or a faster funeral does not change it.  Report or refuse as the rule requires. Do not invent a cause or a clearance.  Nothing else in the file creates an exception. Apply the reporting or disclosure rule as it stands.  A colleague's suggestion to certify, sign, or release does not override that rule.  Decide on the facts given and the duty they create. Do that. Now. Clearly. Today.",
@@ -105,7 +123,16 @@
       "phase": "PH-06",
       "phase_item_id": "PH-M-03",
       "lo_id": "41543afd-06ca-5f2f-8cfa-6df284e39646",
-      "lo_code": "REPORTABLE_DEATH"
+      "lo_code": "REPORTABLE_DEATH",
+      "lo_key": "REPORTABLE_DEATH",
+      "lo_title": "Unexpected, unnatural, violent, procedure-related, in-custody or unexplained deaths, including sudden child deaths, are reported to the coroner.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: emergency department",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "An 88-year-old woman who lives alone is found at the bottom of her stairs. She dies in ED from an acute subdural haematoma. Her GP knows her well and offers to write a certificate of old age and frailty. A violent, unnatural, or unexpected death is reportable. A fall with head injury qualifies. Report the death. Trauma is not frailty. What is the most appropriate course?  Subdural after a fall is trauma. Frailty does not make it natural. No allegation of assault is required. Report. Do not certify it away.  The duty is yours on the facts given. A family wish or a faster funeral does not change it.  Report or refuse as the rule requires. Do not invent a cause or a clearance.  Nothing else in the file creates an exception. Apply the reporting or disclosure rule as it stands.  A colleague's suggestion to certify, sign, or release does not override that rule.  Decide on the facts given and the duty they create. Do that. Now. Clearly. Today.",
@@ -139,7 +166,16 @@
       "phase": "PH-06",
       "phase_item_id": "PH-M-04",
       "lo_id": "41543afd-06ca-5f2f-8cfa-6df284e39646",
-      "lo_code": "REPORTABLE_DEATH"
+      "lo_code": "REPORTABLE_DEATH",
+      "lo_key": "REPORTABLE_DEATH",
+      "lo_title": "Unexpected, unnatural, violent, procedure-related, in-custody or unexplained deaths, including sudden child deaths, are reported to the coroner.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -0.95,
+      "difficulty_tier": "easy",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 60-year-old man dies of confirmed invasive meningococcal disease 12 hours after admission. The public-health unit was notified on arrival. The registrar asks whether the death also needs a coroner, given that the organism is known. A notifiable disease is reported to the public-health unit. A coroner referral is a different duty. Consider reporting. One notification does not cancel the other. What is the most appropriate advice?  Public-health notification and coronial reporting are separate. Death does not cancel the public-health duty. Do not assume one replaces the other.  The duty is yours on the facts given. A family wish or a faster funeral does not change it.  Report or refuse as the rule requires. Do not invent a cause or a clearance.  Nothing else in the file creates an exception. Apply the reporting or disclosure rule as it stands.  A colleague's suggestion to certify, sign, or release does not override that rule.  Decide on the facts given and the duty they create. Do that. Now. Clearly. Today.",
@@ -173,7 +209,16 @@
       "phase": "PH-06",
       "phase_item_id": "PH-M-05",
       "lo_id": "da7cc332-1706-5874-8a1c-94851d17fff9",
-      "lo_code": "NOTIFIABLE_VS_CORONER"
+      "lo_code": "NOTIFIABLE_VS_CORONER",
+      "lo_key": "NOTIFIABLE_VS_CORONER",
+      "lo_title": "Public health notification of a disease and referral to the coroner are separate duties, and one does not discharge the other.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 1.0,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 45-year-old with acute lumbar pain after lifting at work asks you to write that the injury is permanent and that his employer was negligent, so his claim is stronger. Examination shows a simple mechanical strain. A workers' compensation certificate states facts and capacity. It is not a letter of advocacy. Record the history, findings, and current capacity. Do not assert negligence or permanence. What is the most appropriate certificate?  Day-one strain is not permanent impairment. Negligence is a legal conclusion, not a clinical finding. Write what you find and what he can do now.  The duty is yours on the facts given. A family wish or a faster funeral does not change it.  Report or refuse as the rule requires. Do not invent a cause or a clearance.  Nothing else in the file creates an exception. Apply the reporting or disclosure rule as it stands.  A colleague's suggestion to certify, sign, or release does not override that rule.  Decide on the facts given and the duty they create. Do that. Now. Clearly. Today.",
@@ -207,7 +252,16 @@
       "phase": "PH-06",
       "phase_item_id": "PH-M-06",
       "lo_id": "26b83f06-ed46-503a-8c58-eaa03b60ab8c",
-      "lo_code": "CERTIFICATE_FACTS"
+      "lo_code": "CERTIFICATE_FACTS",
+      "lo_key": "CERTIFICATE_FACTS",
+      "lo_title": "Medicolegal certificates and reports must state factual findings and functional capacity answering the question asked, without advocacy, exaggeration or irrelevant disclosures.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A solicitor phones and asks for a full report on your patient for a personal-injury claim. The patient has not mentioned a claim and has not signed an authority. A medical report for a solicitor is released only with the patient's authority, or a lawful demand. Decline until you have the patient's written authority, unless a lawful compulsion exists. What is the most appropriate response?  A phone call is not authority. Email is not authority. Partial release is still release. Get written authority or a lawful demand.  The duty is yours on the facts given. A family wish or a faster funeral does not change it.  Report or refuse as the rule requires. Do not invent a cause or a clearance.  Nothing else in the file creates an exception. Apply the reporting or disclosure rule as it stands.  A colleague's suggestion to certify, sign, or release does not override that rule.  Decide on the facts given and the duty they create. Do that. Now. Clearly. Today.",
@@ -241,7 +295,16 @@
       "phase": "PH-06",
       "phase_item_id": "PH-M-07",
       "lo_id": "e7c8ed8b-4e4f-5841-bc69-1e29b3217425",
-      "lo_code": "RELEASE_AUTHORITY"
+      "lo_code": "RELEASE_AUTHORITY",
+      "lo_key": "RELEASE_AUTHORITY",
+      "lo_title": "Medical information goes to third parties such as solicitors only with the patient's written authority or a lawful demand, and records are never altered.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -0.9,
+      "difficulty_tier": "easy",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "You receive a subpoena for the original notes of a patient in a civil claim. The solicitor for the other side phones and asks you to add a sentence clarifying that the patient never mentioned back pain. A subpoena compels production. It does not compel you to rewrite the notes. Produce the notes as they are. Do not alter them. What is the most appropriate action?  Adding a sentence, even to clarify, alters the record. A rewrite is not the original. Produce what exists. Do not edit for the case.  The duty is yours on the facts given. A family wish or a faster funeral does not change it.  Report or refuse as the rule requires. Do not invent a cause or a clearance.  Nothing else in the file creates an exception. Apply the reporting or disclosure rule as it stands.  A colleague's suggestion to certify, sign, or release does not override that rule.  Decide on the facts given and the duty they create. Do that. Now. Clearly. Today.",
@@ -275,7 +338,16 @@
       "phase": "PH-06",
       "phase_item_id": "PH-M-08",
       "lo_id": "e7c8ed8b-4e4f-5841-bc69-1e29b3217425",
-      "lo_code": "RELEASE_AUTHORITY"
+      "lo_code": "RELEASE_AUTHORITY",
+      "lo_key": "RELEASE_AUTHORITY",
+      "lo_title": "Medical information goes to third parties such as solicitors only with the patient's written authority or a lawful demand, and records are never altered.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 1.0,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A man with new seizures asks you to write to his employer that he is fit to keep his truck licence, and to leave out the seizures. He has had two unprovoked seizures this month. A fitness-to-drive report goes to the licensing authority, and only about fitness. Advise him of the stand-down, and report fitness to the licensing authority rather than reassure the employer. What is the most appropriate action?  Two unprovoked seizures make him unfit for a truck now. The employer is not the licensing authority. Do not write a false fitness letter. Notify the right body.  The duty is yours on the facts given. A family wish or a faster funeral does not change it.  Report or refuse as the rule requires. Do not invent a cause or a clearance.  Nothing else in the file creates an exception. Apply the reporting or disclosure rule as it stands.  A colleague's suggestion to certify, sign, or release does not override that rule.  Decide on the facts given and the duty they create. Do that. Now. Clearly. Today.",
@@ -309,7 +381,16 @@
       "phase": "PH-06",
       "phase_item_id": "PH-M-09",
       "lo_id": "f3c1d3e2-5e86-5ef5-8fdd-dfe63c04a9fa",
-      "lo_code": "FITNESS_TO_DRIVE"
+      "lo_code": "FITNESS_TO_DRIVE",
+      "lo_key": "FITNESS_TO_DRIVE",
+      "lo_title": "Fitness-to-drive concerns are reported to the licensing authority about fitness only, with the patient informed, rather than reassuring an employer.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "Police bring a conscious man from a crash and ask you to take blood for alcohol because we always do. He refuses. There is no statute invoked and no warrant. A police request for a blood alcohol sample needs lawful authority. A verbal ask is not enough. Do not take the sample. Refusal stands unless a lawful power is engaged. What is the most appropriate response?  He has refused. No power has been engaged. A crash is not automatic authority. Do not take the blood. Do not relabel it as clinical.  The duty is yours on the facts given. A family wish or a faster funeral does not change it.  Report or refuse as the rule requires. Do not invent a cause or a clearance.  Nothing else in the file creates an exception. Apply the reporting or disclosure rule as it stands.  A colleague's suggestion to certify, sign, or release does not override that rule.  Decide on the facts given and the duty they create. Do that. Now. Clearly. Today.",
@@ -343,7 +424,16 @@
       "phase": "PH-06",
       "phase_item_id": "PH-M-10",
       "lo_id": "ba7e1e79-0288-5df4-bbca-fc068fcf66d6",
-      "lo_code": "LAWFUL_SAMPLE"
+      "lo_code": "LAWFUL_SAMPLE",
+      "lo_key": "LAWFUL_SAMPLE",
+      "lo_title": "Blood samples for police require the patient's consent or a specific lawful power; a verbal police request is not enough.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -1.1,
+      "difficulty_tier": "easy",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: police / custody",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 6-year-old has a spiral fracture of the humerus. The history changes twice. You are concerned about inflicted injury. The mother says she will sue if you report. A child-protection report is a statutory duty. It is not defamation if made in good faith. Make the report. A threat of suit does not delay it. What is the most appropriate action?  Suspected inflicted injury is reported. A threat of litigation does not delay a mandatory report. Good-faith reports are protected. Report.  The duty is yours on the facts given. A family wish or a faster funeral does not change it.  Report or refuse as the rule requires. Do not invent a cause or a clearance.  Nothing else in the file creates an exception. Apply the reporting or disclosure rule as it stands.  A colleague's suggestion to certify, sign, or release does not override that rule.  Decide on the facts given and the duty they create. Do that. Now. Clearly. Today.",
@@ -377,7 +467,16 @@
       "phase": "PH-06",
       "phase_item_id": "PH-M-11",
       "lo_id": "48d269de-7193-5768-95ae-648c45065906",
-      "lo_code": "CHILD_PROTECTION_REPORT"
+      "lo_code": "CHILD_PROTECTION_REPORT",
+      "lo_key": "CHILD_PROTECTION_REPORT",
+      "lo_title": "Child-protection reporting is a statutory duty made promptly in good faith, unaffected by threats of legal action or family objection.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "You are doing a pre-employment medical for a warehouse job. The worker discloses well-controlled HIV, unrelated to the lifting task. The employer form asks only about musculoskeletal capacity. A statutory health insurer or employer medical is still bound by the questions asked. Do not volunteer unrelated diagnoses. Report on the questions asked. Do not disclose HIV. What is the most appropriate report?  The form asks about lifting. HIV is unrelated. Do not volunteer it. Do not mark him unfit without a reason. Answer what was asked.  The duty is yours on the facts given. A family wish or a faster funeral does not change it.  Report or refuse as the rule requires. Do not invent a cause or a clearance.  Nothing else in the file creates an exception. Apply the reporting or disclosure rule as it stands.  A colleague's suggestion to certify, sign, or release does not override that rule.  Decide on the facts given and the duty they create. Do that. Now. Clearly. Today.",
@@ -411,7 +510,16 @@
       "phase": "PH-06",
       "phase_item_id": "PH-M-12",
       "lo_id": "26b83f06-ed46-503a-8c58-eaa03b60ab8c",
-      "lo_code": "CERTIFICATE_FACTS"
+      "lo_code": "CERTIFICATE_FACTS",
+      "lo_key": "CERTIFICATE_FACTS",
+      "lo_title": "Medicolegal certificates and reports must state factual findings and functional capacity answering the question asked, without advocacy, exaggeration or irrelevant disclosures.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.95,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A colleague asks you to sign a cremation form for a patient you never met, who died the day after a cholecystectomy. He says the surgeon is away and the family are waiting. A cremation certificate asks whether there is a reason to suspect an unnatural death. It is not a rubber stamp. Do not sign. You have no basis, and the perioperative death may be reportable. What is the most appropriate response?  You never met him. He died after an operation. That is a reason not to sign, not a reason to add not known to me and sign anyway. Decline.  The duty is yours on the facts given. A family wish or a faster funeral does not change it.  Report or refuse as the rule requires. Do not invent a cause or a clearance.  Nothing else in the file creates an exception. Apply the reporting or disclosure rule as it stands.  A colleague's suggestion to certify, sign, or release does not override that rule.  Decide on the facts given and the duty they create. Do that. Now. Clearly. Today.",
@@ -445,7 +553,16 @@
       "phase": "PH-06",
       "phase_item_id": "PH-M-13",
       "lo_id": "adf8d293-1247-5397-963e-13c1f6756ac0",
-      "lo_code": "CREMATION_FORM"
+      "lo_code": "CREMATION_FORM",
+      "lo_key": "CREMATION_FORM",
+      "lo_title": "A cremation certificate is signed only when the doctor has a basis to exclude an unnatural or reportable death, never as a rubber stamp.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "Police ask you for a statement about a man you treated for a scalp laceration. They want you to write that he was the aggressor. You saw a laceration and smell of alcohol. You did not see the fight. A police statement reports what you saw and did. It does not speculate on guilt. Describe the wound, the alcohol smell, and what he told you. Do not assign guilt. What is the most appropriate statement?  You did not see the fight. Alcohol is not proof of guilt. Describe findings and quoted history. Do not adopt the police theory.  The duty is yours on the facts given. A family wish or a faster funeral does not change it.  Report or refuse as the rule requires. Do not invent a cause or a clearance.  Nothing else in the file creates an exception. Apply the reporting or disclosure rule as it stands.  A colleague's suggestion to certify, sign, or release does not override that rule.  Decide on the facts given and the duty they create. Do that. Now. Clearly. Today.",
@@ -479,7 +596,16 @@
       "phase": "PH-06",
       "phase_item_id": "PH-M-14",
       "lo_id": "f6996f9e-429e-539d-9b9c-8d643cf7f821",
-      "lo_code": "POLICE_STATEMENT"
+      "lo_code": "POLICE_STATEMENT",
+      "lo_key": "POLICE_STATEMENT",
+      "lo_title": "A police statement records only what the doctor observed, did and was told, without opinions on guilt.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -0.95,
+      "difficulty_tier": "easy",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: police / custody",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 4-year-old with known epilepsy is found dead in bed. The parents say it must be the epilepsy and ask their GP to certify sudden unexpected death in epilepsy so the funeral can be arranged. A death of a child is reportable. A known chronic illness does not automatically make it natural. Report the death. Unexpected death of a child is reportable. What is the most appropriate course?  Unexpected death in bed of a child is reportable even with known epilepsy. SUDEP is a conclusion for the coroner, not a certificate to speed a funeral. Report.  The duty is yours on the facts given. A family wish or a faster funeral does not change it.  Report or refuse as the rule requires. Do not invent a cause or a clearance.  Nothing else in the file creates an exception. Apply the reporting or disclosure rule as it stands.  A colleague's suggestion to certify, sign, or release does not override that rule.  Decide on the facts given and the duty they create. Do that. Now. Clearly. Today.",
@@ -513,7 +639,16 @@
       "phase": "PH-06",
       "phase_item_id": "PH-M-15",
       "lo_id": "41543afd-06ca-5f2f-8cfa-6df284e39646",
-      "lo_code": "REPORTABLE_DEATH"
+      "lo_code": "REPORTABLE_DEATH",
+      "lo_key": "REPORTABLE_DEATH",
+      "lo_title": "Unexpected, unnatural, violent, procedure-related, in-custody or unexplained deaths, including sudden child deaths, are reported to the coroner.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.9,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A woman with mild intermittent asthma asks you to write that she cannot walk 50 metres and cannot work, so her payment is approved. She walked from the car park without distress. A Centrelink or disability form reports function. It is not inflated to secure a payment. Record her actual function. Do not overstate limitation. What is the most appropriate form?  She walked in without distress. Writing total incapacity would be false. Advocacy does not include exaggeration. Record real function.  The duty is yours on the facts given. A family wish or a faster funeral does not change it.  Report or refuse as the rule requires. Do not invent a cause or a clearance.  Nothing else in the file creates an exception. Apply the reporting or disclosure rule as it stands.  A colleague's suggestion to certify, sign, or release does not override that rule.  Decide on the facts given and the duty they create. Do that. Now. Clearly. Today.",
@@ -547,7 +682,16 @@
       "phase": "PH-06",
       "phase_item_id": "PH-M-16",
       "lo_id": "26b83f06-ed46-503a-8c58-eaa03b60ab8c",
-      "lo_code": "CERTIFICATE_FACTS"
+      "lo_code": "CERTIFICATE_FACTS",
+      "lo_key": "CERTIFICATE_FACTS",
+      "lo_title": "Medicolegal certificates and reports must state factual findings and functional capacity answering the question asked, without advocacy, exaggeration or irrelevant disclosures.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A stonemason has progressive silicosis. He is worried you will tell his boss before he is ready. A notifiable occupational disease is reported to the relevant authority. Telling the employer is not the same step. Notify the statutory health or safety authority as required, and discuss with him what is shared with the employer. What is the most appropriate reporting step?  Silicosis is notified to the statutory authority. The employer is a separate, limited disclosure. Do not start by phoning his boss. Do not post the case.  The duty is yours on the facts given. A family wish or a faster funeral does not change it.  Report or refuse as the rule requires. Do not invent a cause or a clearance.  Nothing else in the file creates an exception. Apply the reporting or disclosure rule as it stands.  A colleague's suggestion to certify, sign, or release does not override that rule.  Decide on the facts given and the duty they create. Do that. Now. Clearly. Today.",
@@ -581,7 +725,16 @@
       "phase": "PH-06",
       "phase_item_id": "PH-M-17",
       "lo_id": "b20ed6c3-066a-5cd1-8f9a-a28305483959",
-      "lo_code": "OCCUPATIONAL_NOTIFY"
+      "lo_code": "OCCUPATIONAL_NOTIFY",
+      "lo_key": "OCCUPATIONAL_NOTIFY",
+      "lo_title": "A notifiable occupational disease or exposure is reported to the relevant statutory authority, and what is shared with the employer is discussed with the patient.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -0.9,
+      "difficulty_tier": "easy",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 58-year-old is found dead at home. There is no suspicious circumstance, no doctor has seen him for a year, and no clear terminal illness is known. The family ask you, the after-hours GP, to write heart attack so a coroner is avoided. A death where the cause is unknown is reportable. Found dead is not a cause. Report the death. Do not invent a myocardial infarct. What is the most appropriate action?  You do not know why he died. Common is not known. Found dead is the circumstance, not the cause. Report the unknown, unattended death.  The duty is yours on the facts given. A family wish or a faster funeral does not change it.  Report or refuse as the rule requires. Do not invent a cause or a clearance.  Nothing else in the file creates an exception. Apply the reporting or disclosure rule as it stands.  A colleague's suggestion to certify, sign, or release does not override that rule.  Decide on the facts given and the duty they create. Do that. Now. Clearly. Today.",
@@ -615,7 +768,16 @@
       "phase": "PH-06",
       "phase_item_id": "PH-M-18",
       "lo_id": "41543afd-06ca-5f2f-8cfa-6df284e39646",
-      "lo_code": "REPORTABLE_DEATH"
+      "lo_code": "REPORTABLE_DEATH",
+      "lo_key": "REPORTABLE_DEATH",
+      "lo_title": "Unexpected, unnatural, violent, procedure-related, in-custody or unexplained deaths, including sudden child deaths, are reported to the coroner.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 1.0,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "An 84-year-old with metastatic cancer dies at home. She has not seen a doctor for three months. The daughter asks for cardiac arrest on the certificate. Cardiac arrest is a mode of death. Decline and refer. You did not attend her recently. The rest of the file does not change the duty. A family wish, a faster funeral, or a colleague's suggestion does not create an exception. Report, refuse, or release as the rule requires. Do not invent a cause, a clearance, or a consent the law does not provide. Decide on the facts given. Nothing else in the consultation creates an exception. Apply the reporting or disclosure rule as it stands. A colleague's suggestion to certify, sign, or release does not override it. State the correct step clearly. Do that now.  The duty is yours on these facts. Apply it. Clearly. Today. Family pressure and clinic convenience are the usual reasons this error is made. They are not reasons to certify, sign, or release. Write what you saw, report what must be reported, and refuse what you cannot support. That is the whole task. Do not invent a cause or a clearance.",
@@ -649,7 +811,16 @@
       "phase": "PH-06",
       "phase_item_id": "PH-M-19",
       "lo_id": "2c2702ab-a992-5be2-acaa-4d2a8b9d7174",
-      "lo_code": "DEATH_CERTIFICATE"
+      "lo_code": "DEATH_CERTIFICATE",
+      "lo_key": "DEATH_CERTIFICATE",
+      "lo_title": "A doctor certifies death only when able to state the disease causing death; a mode such as cardiac arrest is not a cause, and uncertain or unattended deaths go to the coroner.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "You have never treated her. The family want a certificate today. Convenience is irrelevant. Refer the death. The rest of the file does not change the duty. A family wish, a faster funeral, or a colleague's suggestion does not create an exception. Report, refuse, or release as the rule requires. Do not invent a cause, a clearance, or a consent the law does not provide. Decide on the facts given. Nothing else in the consultation creates an exception. Apply the reporting or disclosure rule as it stands. A colleague's suggestion to certify, sign, or release does not override it. State the correct step clearly. Do that now.  The duty is yours on these facts. Apply it. Clearly. Today. Family pressure and clinic convenience are the usual reasons this error is made. They are not reasons to certify, sign, or release. Write what you saw, report what must be reported, and refuse what you cannot support. That is the whole task. Do not invent a cause or a clearance.",
@@ -683,7 +854,16 @@
       "phase": "PH-06",
       "phase_item_id": "PH-M-20",
       "lo_id": "2c2702ab-a992-5be2-acaa-4d2a8b9d7174",
-      "lo_code": "DEATH_CERTIFICATE"
+      "lo_code": "DEATH_CERTIFICATE",
+      "lo_key": "DEATH_CERTIFICATE",
+      "lo_title": "A doctor certifies death only when able to state the disease causing death; a mode such as cardiac arrest is not a cause, and uncertain or unattended deaths go to the coroner.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "The family want a mode of death written as the cause. A certificate records the disease. Decline a mode-only certificate. The rest of the file does not change the duty. A family wish, a faster funeral, or a colleague's suggestion does not create an exception. Report, refuse, or release as the rule requires. Do not invent a cause, a clearance, or a consent the law does not provide. Decide on the facts given. Nothing else in the consultation creates an exception. Apply the reporting or disclosure rule as it stands. A colleague's suggestion to certify, sign, or release does not override it. State the correct step clearly. Do that now.  The duty is yours on these facts. Apply it. Clearly. Today. Family pressure and clinic convenience are the usual reasons this error is made. They are not reasons to certify, sign, or release. Write what you saw, report what must be reported, and refuse what you cannot support. That is the whole task. Do not invent a cause or a clearance.",
@@ -717,7 +897,16 @@
       "phase": "PH-06",
       "phase_item_id": "PH-M-21",
       "lo_id": "2c2702ab-a992-5be2-acaa-4d2a8b9d7174",
-      "lo_code": "DEATH_CERTIFICATE"
+      "lo_code": "DEATH_CERTIFICATE",
+      "lo_key": "DEATH_CERTIFICATE",
+      "lo_title": "A doctor certifies death only when able to state the disease causing death; a mode such as cardiac arrest is not a cause, and uncertain or unattended deaths go to the coroner.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A man dies of confirmed invasive meningococcal disease. Public health was notified on arrival. A known organism does not cancel a coroner consideration, and death does not cancel the public-health duty. The duties are separate. The rest of the file does not change the duty. A family wish, a faster funeral, or a colleague's suggestion does not create an exception. Report, refuse, or release as the rule requires. Do not invent a cause, a clearance, or a consent the law does not provide. Decide on the facts given. Nothing else in the consultation creates an exception. Apply the reporting or disclosure rule as it stands. A colleague's suggestion to certify, sign, or release does not override it. State the correct step clearly. Do that now.  The duty is yours on these facts. Apply it. Clearly. Today. Family pressure and clinic convenience are the usual reasons this error is made. They are not reasons to certify, sign, or release. Write what you saw, report what must be reported, and refuse what you cannot support. That is the whole task. Do not invent a cause or a clearance.",
@@ -751,7 +940,16 @@
       "phase": "PH-06",
       "phase_item_id": "PH-M-22",
       "lo_id": "da7cc332-1706-5874-8a1c-94851d17fff9",
-      "lo_code": "NOTIFIABLE_VS_CORONER"
+      "lo_code": "NOTIFIABLE_VS_CORONER",
+      "lo_key": "NOTIFIABLE_VS_CORONER",
+      "lo_title": "Public health notification of a disease and referral to the coroner are separate duties, and one does not discharge the other.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "He died of a notifiable disease. Finish the public-health duty. Consider coronial reporting as its own question. The rest of the file does not change the duty. A family wish, a faster funeral, or a colleague's suggestion does not create an exception. Report, refuse, or release as the rule requires. Do not invent a cause, a clearance, or a consent the law does not provide. Decide on the facts given. Nothing else in the consultation creates an exception. Apply the reporting or disclosure rule as it stands. A colleague's suggestion to certify, sign, or release does not override it. State the correct step clearly. Do that now.  The duty is yours on these facts. Apply it. Clearly. Today. Family pressure and clinic convenience are the usual reasons this error is made. They are not reasons to certify, sign, or release. Write what you saw, report what must be reported, and refuse what you cannot support. That is the whole task. Do not invent a cause or a clearance.",
@@ -785,7 +983,16 @@
       "phase": "PH-06",
       "phase_item_id": "PH-M-23",
       "lo_id": "da7cc332-1706-5874-8a1c-94851d17fff9",
-      "lo_code": "NOTIFIABLE_VS_CORONER"
+      "lo_code": "NOTIFIABLE_VS_CORONER",
+      "lo_key": "NOTIFIABLE_VS_CORONER",
+      "lo_title": "Public health notification of a disease and referral to the coroner are separate duties, and one does not discharge the other.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "The registrar wants to choose one pathway. Use both duties correctly. Do not collapse them. The rest of the file does not change the duty. A family wish, a faster funeral, or a colleague's suggestion does not create an exception. Report, refuse, or release as the rule requires. Do not invent a cause, a clearance, or a consent the law does not provide. Decide on the facts given. Nothing else in the consultation creates an exception. Apply the reporting or disclosure rule as it stands. A colleague's suggestion to certify, sign, or release does not override it. State the correct step clearly. Do that now.  The duty is yours on these facts. Apply it. Clearly. Today. Family pressure and clinic convenience are the usual reasons this error is made. They are not reasons to certify, sign, or release. Write what you saw, report what must be reported, and refuse what you cannot support. That is the whole task. Do not invent a cause or a clearance.",
@@ -819,7 +1026,16 @@
       "phase": "PH-06",
       "phase_item_id": "PH-M-24",
       "lo_id": "da7cc332-1706-5874-8a1c-94851d17fff9",
-      "lo_code": "NOTIFIABLE_VS_CORONER"
+      "lo_code": "NOTIFIABLE_VS_CORONER",
+      "lo_key": "NOTIFIABLE_VS_CORONER",
+      "lo_title": "Public health notification of a disease and referral to the coroner are separate duties, and one does not discharge the other.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A man with a simple strain wants a certificate saying the injury is permanent and the employer was negligent. A workers' certificate states facts and capacity. It is not advocacy. The rest of the file does not change the duty. A family wish, a faster funeral, or a colleague's suggestion does not create an exception. Report, refuse, or release as the rule requires. Do not invent a cause, a clearance, or a consent the law does not provide. Decide on the facts given. Nothing else in the consultation creates an exception. Apply the reporting or disclosure rule as it stands. A colleague's suggestion to certify, sign, or release does not override it. State the correct step clearly. Do that now.  The duty is yours on these facts. Apply it. Clearly. Today. Family pressure and clinic convenience are the usual reasons this error is made. They are not reasons to certify, sign, or release. Write what you saw, report what must be reported, and refuse what you cannot support. That is the whole task. Do not invent a cause or a clearance.",
@@ -853,7 +1069,16 @@
       "phase": "PH-06",
       "phase_item_id": "PH-M-25",
       "lo_id": "26b83f06-ed46-503a-8c58-eaa03b60ab8c",
-      "lo_code": "CERTIFICATE_FACTS"
+      "lo_code": "CERTIFICATE_FACTS",
+      "lo_key": "CERTIFICATE_FACTS",
+      "lo_title": "Medicolegal certificates and reports must state factual findings and functional capacity answering the question asked, without advocacy, exaggeration or irrelevant disclosures.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A solicitor asks for a full report. The patient has not signed an authority. Decline until you have written authority or a lawful compulsion. The rest of the file does not change the duty. A family wish, a faster funeral, or a colleague's suggestion does not create an exception. Report, refuse, or release as the rule requires. Do not invent a cause, a clearance, or a consent the law does not provide. Decide on the facts given. Nothing else in the consultation creates an exception. Apply the reporting or disclosure rule as it stands. A colleague's suggestion to certify, sign, or release does not override it. State the correct step clearly. Do that now.  The duty is yours on these facts. Apply it. Clearly. Today. Family pressure and clinic convenience are the usual reasons this error is made. They are not reasons to certify, sign, or release. Write what you saw, report what must be reported, and refuse what you cannot support. That is the whole task. Do not invent a cause or a clearance.",
@@ -887,7 +1112,16 @@
       "phase": "PH-06",
       "phase_item_id": "PH-M-26",
       "lo_id": "e7c8ed8b-4e4f-5841-bc69-1e29b3217425",
-      "lo_code": "RELEASE_AUTHORITY"
+      "lo_code": "RELEASE_AUTHORITY",
+      "lo_key": "RELEASE_AUTHORITY",
+      "lo_title": "Medical information goes to third parties such as solicitors only with the patient's written authority or a lawful demand, and records are never altered.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A subpoena arrives. The other side asks you to add a sentence. A subpoena compels production. It does not let you rewrite the notes. The rest of the file does not change the duty. A family wish, a faster funeral, or a colleague's suggestion does not create an exception. Report, refuse, or release as the rule requires. Do not invent a cause, a clearance, or a consent the law does not provide. Decide on the facts given. Nothing else in the consultation creates an exception. Apply the reporting or disclosure rule as it stands. A colleague's suggestion to certify, sign, or release does not override it. State the correct step clearly. Do that now.  The duty is yours on these facts. Apply it. Clearly. Today. Family pressure and clinic convenience are the usual reasons this error is made. They are not reasons to certify, sign, or release. Write what you saw, report what must be reported, and refuse what you cannot support. That is the whole task. Do not invent a cause or a clearance.",
@@ -921,7 +1155,16 @@
       "phase": "PH-06",
       "phase_item_id": "PH-M-27",
       "lo_id": "e7c8ed8b-4e4f-5841-bc69-1e29b3217425",
-      "lo_code": "RELEASE_AUTHORITY"
+      "lo_code": "RELEASE_AUTHORITY",
+      "lo_key": "RELEASE_AUTHORITY",
+      "lo_title": "Medical information goes to third parties such as solicitors only with the patient's written authority or a lawful demand, and records are never altered.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "He has had two unprovoked seizures and wants a letter clearing his truck licence. Report fitness to the licensing authority. Do not write a false clearance. The rest of the file does not change the duty. A family wish, a faster funeral, or a colleague's suggestion does not create an exception. Report, refuse, or release as the rule requires. Do not invent a cause, a clearance, or a consent the law does not provide. Decide on the facts given. Nothing else in the consultation creates an exception. Apply the reporting or disclosure rule as it stands. A colleague's suggestion to certify, sign, or release does not override it. State the correct step clearly. Do that now.  The duty is yours on these facts. Apply it. Clearly. Today. Family pressure and clinic convenience are the usual reasons this error is made. They are not reasons to certify, sign, or release. Write what you saw, report what must be reported, and refuse what you cannot support. That is the whole task. Do not invent a cause or a clearance.",
@@ -955,7 +1198,16 @@
       "phase": "PH-06",
       "phase_item_id": "PH-M-28",
       "lo_id": "f3c1d3e2-5e86-5ef5-8fdd-dfe63c04a9fa",
-      "lo_code": "FITNESS_TO_DRIVE"
+      "lo_code": "FITNESS_TO_DRIVE",
+      "lo_key": "FITNESS_TO_DRIVE",
+      "lo_title": "Fitness-to-drive concerns are reported to the licensing authority about fitness only, with the patient informed, rather than reassuring an employer.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "He will not stop driving. Tell him you will notify, then notify. Do not wait for a crash. The rest of the file does not change the duty. A family wish, a faster funeral, or a colleague's suggestion does not create an exception. Report, refuse, or release as the rule requires. Do not invent a cause, a clearance, or a consent the law does not provide. Decide on the facts given. Nothing else in the consultation creates an exception. Apply the reporting or disclosure rule as it stands. A colleague's suggestion to certify, sign, or release does not override it. State the correct step clearly. Do that now.  The duty is yours on these facts. Apply it. Clearly. Today. Family pressure and clinic convenience are the usual reasons this error is made. They are not reasons to certify, sign, or release. Write what you saw, report what must be reported, and refuse what you cannot support. That is the whole task. Do not invent a cause or a clearance.",
@@ -989,7 +1241,16 @@
       "phase": "PH-06",
       "phase_item_id": "PH-M-29",
       "lo_id": "f3c1d3e2-5e86-5ef5-8fdd-dfe63c04a9fa",
-      "lo_code": "FITNESS_TO_DRIVE"
+      "lo_code": "FITNESS_TO_DRIVE",
+      "lo_key": "FITNESS_TO_DRIVE",
+      "lo_title": "Fitness-to-drive concerns are reported to the licensing authority about fitness only, with the patient informed, rather than reassuring an employer.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "School-bus driving and a refusal to stop. The licensing authority is the body. Notify. The rest of the file does not change the duty. A family wish, a faster funeral, or a colleague's suggestion does not create an exception. Report, refuse, or release as the rule requires. Do not invent a cause, a clearance, or a consent the law does not provide. Decide on the facts given. Nothing else in the consultation creates an exception. Apply the reporting or disclosure rule as it stands. A colleague's suggestion to certify, sign, or release does not override it. State the correct step clearly. Do that now.  The duty is yours on these facts. Apply it. Clearly. Today. Family pressure and clinic convenience are the usual reasons this error is made. They are not reasons to certify, sign, or release. Write what you saw, report what must be reported, and refuse what you cannot support. That is the whole task. Do not invent a cause or a clearance.",
@@ -1023,7 +1284,16 @@
       "phase": "PH-06",
       "phase_item_id": "PH-M-30",
       "lo_id": "f3c1d3e2-5e86-5ef5-8fdd-dfe63c04a9fa",
-      "lo_code": "FITNESS_TO_DRIVE"
+      "lo_code": "FITNESS_TO_DRIVE",
+      "lo_key": "FITNESS_TO_DRIVE",
+      "lo_title": "Fitness-to-drive concerns are reported to the licensing authority about fitness only, with the patient informed, rather than reassuring an employer.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "Police ask for blood alcohol after a crash. He refuses. No statute is invoked and no warrant is produced. Do not take the sample. The rest of the file does not change the duty. A family wish, a faster funeral, or a colleague's suggestion does not create an exception. Report, refuse, or release as the rule requires. Do not invent a cause, a clearance, or a consent the law does not provide. Decide on the facts given. Nothing else in the consultation creates an exception. Apply the reporting or disclosure rule as it stands. A colleague's suggestion to certify, sign, or release does not override it. State the correct step clearly. Do that now.  The duty is yours on these facts. Apply it. Clearly. Today. Family pressure and clinic convenience are the usual reasons this error is made. They are not reasons to certify, sign, or release. Write what you saw, report what must be reported, and refuse what you cannot support. That is the whole task. Do not invent a cause or a clearance.",
@@ -1057,7 +1327,16 @@
       "phase": "PH-06",
       "phase_item_id": "PH-M-31",
       "lo_id": "ba7e1e79-0288-5df4-bbca-fc068fcf66d6",
-      "lo_code": "LAWFUL_SAMPLE"
+      "lo_code": "LAWFUL_SAMPLE",
+      "lo_key": "LAWFUL_SAMPLE",
+      "lo_title": "Blood samples for police require the patient's consent or a specific lawful power; a verbal police request is not enough.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: police / custody",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "They say we always do this. Habit is not authority. No power, no sample. The rest of the file does not change the duty. A family wish, a faster funeral, or a colleague's suggestion does not create an exception. Report, refuse, or release as the rule requires. Do not invent a cause, a clearance, or a consent the law does not provide. Decide on the facts given. Nothing else in the consultation creates an exception. Apply the reporting or disclosure rule as it stands. A colleague's suggestion to certify, sign, or release does not override it. State the correct step clearly. Do that now.  The duty is yours on these facts. Apply it. Clearly. Today. Family pressure and clinic convenience are the usual reasons this error is made. They are not reasons to certify, sign, or release. Write what you saw, report what must be reported, and refuse what you cannot support. That is the whole task. Do not invent a cause or a clearance.",
@@ -1091,7 +1370,16 @@
       "phase": "PH-06",
       "phase_item_id": "PH-M-32",
       "lo_id": "ba7e1e79-0288-5df4-bbca-fc068fcf66d6",
-      "lo_code": "LAWFUL_SAMPLE"
+      "lo_code": "LAWFUL_SAMPLE",
+      "lo_key": "LAWFUL_SAMPLE",
+      "lo_title": "Blood samples for police require the patient's consent or a specific lawful power; a verbal police request is not enough.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "He is conscious and refuses. Do not relabel a forensic request as clinical. Decline. The rest of the file does not change the duty. A family wish, a faster funeral, or a colleague's suggestion does not create an exception. Report, refuse, or release as the rule requires. Do not invent a cause, a clearance, or a consent the law does not provide. Decide on the facts given. Nothing else in the consultation creates an exception. Apply the reporting or disclosure rule as it stands. A colleague's suggestion to certify, sign, or release does not override it. State the correct step clearly. Do that now.  The duty is yours on these facts. Apply it. Clearly. Today. Family pressure and clinic convenience are the usual reasons this error is made. They are not reasons to certify, sign, or release. Write what you saw, report what must be reported, and refuse what you cannot support. That is the whole task. Do not invent a cause or a clearance.",
@@ -1125,7 +1413,16 @@
       "phase": "PH-06",
       "phase_item_id": "PH-M-33",
       "lo_id": "ba7e1e79-0288-5df4-bbca-fc068fcf66d6",
-      "lo_code": "LAWFUL_SAMPLE"
+      "lo_code": "LAWFUL_SAMPLE",
+      "lo_key": "LAWFUL_SAMPLE",
+      "lo_title": "Blood samples for police require the patient's consent or a specific lawful power; a verbal police request is not enough.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "You suspect inflicted injury. The mother threatens to sue. Make the report. Good-faith mandatory reports are protected. The rest of the file does not change the duty. A family wish, a faster funeral, or a colleague's suggestion does not create an exception. Report, refuse, or release as the rule requires. Do not invent a cause, a clearance, or a consent the law does not provide. Decide on the facts given. Nothing else in the consultation creates an exception. Apply the reporting or disclosure rule as it stands. A colleague's suggestion to certify, sign, or release does not override it. State the correct step clearly. Do that now.  The duty is yours on these facts. Apply it. Clearly. Today. Family pressure and clinic convenience are the usual reasons this error is made. They are not reasons to certify, sign, or release. Write what you saw, report what must be reported, and refuse what you cannot support. That is the whole task. Do not invent a cause or a clearance.",
@@ -1159,7 +1456,16 @@
       "phase": "PH-06",
       "phase_item_id": "PH-M-34",
       "lo_id": "48d269de-7193-5768-95ae-648c45065906",
-      "lo_code": "CHILD_PROTECTION_REPORT"
+      "lo_code": "CHILD_PROTECTION_REPORT",
+      "lo_key": "CHILD_PROTECTION_REPORT",
+      "lo_title": "Child-protection reporting is a statutory duty made promptly in good faith, unaffected by threats of legal action or family objection.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "Spiral fracture, history changes twice. Report. Do not wait for a consistent story. The rest of the file does not change the duty. A family wish, a faster funeral, or a colleague's suggestion does not create an exception. Report, refuse, or release as the rule requires. Do not invent a cause, a clearance, or a consent the law does not provide. Decide on the facts given. Nothing else in the consultation creates an exception. Apply the reporting or disclosure rule as it stands. A colleague's suggestion to certify, sign, or release does not override it. State the correct step clearly. Do that now.  The duty is yours on these facts. Apply it. Clearly. Today. Family pressure and clinic convenience are the usual reasons this error is made. They are not reasons to certify, sign, or release. Write what you saw, report what must be reported, and refuse what you cannot support. That is the whole task. Do not invent a cause or a clearance.",
@@ -1193,7 +1499,16 @@
       "phase": "PH-06",
       "phase_item_id": "PH-M-35",
       "lo_id": "48d269de-7193-5768-95ae-648c45065906",
-      "lo_code": "CHILD_PROTECTION_REPORT"
+      "lo_code": "CHILD_PROTECTION_REPORT",
+      "lo_key": "CHILD_PROTECTION_REPORT",
+      "lo_title": "Child-protection reporting is a statutory duty made promptly in good faith, unaffected by threats of legal action or family objection.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "He asks you to promise silence. There are bruises of different ages. Do not promise. Report. The rest of the file does not change the duty. A family wish, a faster funeral, or a colleague's suggestion does not create an exception. Report, refuse, or release as the rule requires. Do not invent a cause, a clearance, or a consent the law does not provide. Decide on the facts given. Nothing else in the consultation creates an exception. Apply the reporting or disclosure rule as it stands. A colleague's suggestion to certify, sign, or release does not override it. State the correct step clearly. Do that now.  The duty is yours on these facts. Apply it. Clearly. Today. Family pressure and clinic convenience are the usual reasons this error is made. They are not reasons to certify, sign, or release. Write what you saw, report what must be reported, and refuse what you cannot support. That is the whole task. Do not invent a cause or a clearance.",
@@ -1227,7 +1542,16 @@
       "phase": "PH-06",
       "phase_item_id": "PH-M-36",
       "lo_id": "48d269de-7193-5768-95ae-648c45065906",
-      "lo_code": "CHILD_PROTECTION_REPORT"
+      "lo_code": "CHILD_PROTECTION_REPORT",
+      "lo_key": "CHILD_PROTECTION_REPORT",
+      "lo_title": "Child-protection reporting is a statutory duty made promptly in good faith, unaffected by threats of legal action or family objection.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "You never met the patient, who died the day after a cholecystectomy. Do not sign the cremation form. A perioperative death may be reportable. The rest of the file does not change the duty. A family wish, a faster funeral, or a colleague's suggestion does not create an exception. Report, refuse, or release as the rule requires. Do not invent a cause, a clearance, or a consent the law does not provide. Decide on the facts given. Nothing else in the consultation creates an exception. Apply the reporting or disclosure rule as it stands. A colleague's suggestion to certify, sign, or release does not override it. State the correct step clearly. Do that now.  The duty is yours on these facts. Apply it. Clearly. Today. Family pressure and clinic convenience are the usual reasons this error is made. They are not reasons to certify, sign, or release. Write what you saw, report what must be reported, and refuse what you cannot support. That is the whole task. Do not invent a cause or a clearance.",
@@ -1261,7 +1585,16 @@
       "phase": "PH-06",
       "phase_item_id": "PH-M-37",
       "lo_id": "adf8d293-1247-5397-963e-13c1f6756ac0",
-      "lo_code": "CREMATION_FORM"
+      "lo_code": "CREMATION_FORM",
+      "lo_key": "CREMATION_FORM",
+      "lo_title": "A cremation certificate is signed only when the doctor has a basis to exclude an unnatural or reportable death, never as a rubber stamp.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "The surgeon is away. That does not create a basis for you to sign. Decline. The rest of the file does not change the duty. A family wish, a faster funeral, or a colleague's suggestion does not create an exception. Report, refuse, or release as the rule requires. Do not invent a cause, a clearance, or a consent the law does not provide. Decide on the facts given. Nothing else in the consultation creates an exception. Apply the reporting or disclosure rule as it stands. A colleague's suggestion to certify, sign, or release does not override it. State the correct step clearly. Do that now.  The duty is yours on these facts. Apply it. Clearly. Today. Family pressure and clinic convenience are the usual reasons this error is made. They are not reasons to certify, sign, or release. Write what you saw, report what must be reported, and refuse what you cannot support. That is the whole task. Do not invent a cause or a clearance.",
@@ -1295,7 +1628,16 @@
       "phase": "PH-06",
       "phase_item_id": "PH-M-38",
       "lo_id": "adf8d293-1247-5397-963e-13c1f6756ac0",
-      "lo_code": "CREMATION_FORM"
+      "lo_code": "CREMATION_FORM",
+      "lo_key": "CREMATION_FORM",
+      "lo_title": "A cremation certificate is signed only when the doctor has a basis to exclude an unnatural or reportable death, never as a rubber stamp.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "Death after an operation, patient unknown to you. That is a reason not to sign. The rest of the file does not change the duty. A family wish, a faster funeral, or a colleague's suggestion does not create an exception. Report, refuse, or release as the rule requires. Do not invent a cause, a clearance, or a consent the law does not provide. Decide on the facts given. Nothing else in the consultation creates an exception. Apply the reporting or disclosure rule as it stands. A colleague's suggestion to certify, sign, or release does not override it. State the correct step clearly. Do that now.  The duty is yours on these facts. Apply it. Clearly. Today. Family pressure and clinic convenience are the usual reasons this error is made. They are not reasons to certify, sign, or release. Write what you saw, report what must be reported, and refuse what you cannot support. That is the whole task. Do not invent a cause or a clearance.",
@@ -1329,7 +1671,16 @@
       "phase": "PH-06",
       "phase_item_id": "PH-M-39",
       "lo_id": "adf8d293-1247-5397-963e-13c1f6756ac0",
-      "lo_code": "CREMATION_FORM"
+      "lo_code": "CREMATION_FORM",
+      "lo_key": "CREMATION_FORM",
+      "lo_title": "A cremation certificate is signed only when the doctor has a basis to exclude an unnatural or reportable death, never as a rubber stamp.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "Police want you to say he was the aggressor. You saw a laceration and smelled alcohol. You did not see the fight. Describe findings. Do not assign guilt. The rest of the file does not change the duty. A family wish, a faster funeral, or a colleague's suggestion does not create an exception. Report, refuse, or release as the rule requires. Do not invent a cause, a clearance, or a consent the law does not provide. Decide on the facts given. Nothing else in the consultation creates an exception. Apply the reporting or disclosure rule as it stands. A colleague's suggestion to certify, sign, or release does not override it. State the correct step clearly. Do that now.  The duty is yours on these facts. Apply it. Clearly. Today. Family pressure and clinic convenience are the usual reasons this error is made. They are not reasons to certify, sign, or release. Write what you saw, report what must be reported, and refuse what you cannot support. That is the whole task. Do not invent a cause or a clearance.",
@@ -1363,7 +1714,16 @@
       "phase": "PH-06",
       "phase_item_id": "PH-M-40",
       "lo_id": "f6996f9e-429e-539d-9b9c-8d643cf7f821",
-      "lo_code": "POLICE_STATEMENT"
+      "lo_code": "POLICE_STATEMENT",
+      "lo_key": "POLICE_STATEMENT",
+      "lo_title": "A police statement records only what the doctor observed, did and was told, without opinions on guilt.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: police / custody",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "They ask for a conclusion. You have a smell of alcohol and a wound. State those. Do not decide the fight. The rest of the file does not change the duty. A family wish, a faster funeral, or a colleague's suggestion does not create an exception. Report, refuse, or release as the rule requires. Do not invent a cause, a clearance, or a consent the law does not provide. Decide on the facts given. Nothing else in the consultation creates an exception. Apply the reporting or disclosure rule as it stands. A colleague's suggestion to certify, sign, or release does not override it. State the correct step clearly. Do that now.  The duty is yours on these facts. Apply it. Clearly. Today. Family pressure and clinic convenience are the usual reasons this error is made. They are not reasons to certify, sign, or release. Write what you saw, report what must be reported, and refuse what you cannot support. That is the whole task. Do not invent a cause or a clearance.",
@@ -1397,7 +1757,16 @@
       "phase": "PH-06",
       "phase_item_id": "PH-M-41",
       "lo_id": "f6996f9e-429e-539d-9b9c-8d643cf7f821",
-      "lo_code": "POLICE_STATEMENT"
+      "lo_code": "POLICE_STATEMENT",
+      "lo_key": "POLICE_STATEMENT",
+      "lo_title": "A police statement records only what the doctor observed, did and was told, without opinions on guilt.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "You did not see the assault. Do not fill gaps. Examination and what he said. Stop there. The rest of the file does not change the duty. A family wish, a faster funeral, or a colleague's suggestion does not create an exception. Report, refuse, or release as the rule requires. Do not invent a cause, a clearance, or a consent the law does not provide. Decide on the facts given. Nothing else in the consultation creates an exception. Apply the reporting or disclosure rule as it stands. A colleague's suggestion to certify, sign, or release does not override it. State the correct step clearly. Do that now.  The duty is yours on these facts. Apply it. Clearly. Today. Family pressure and clinic convenience are the usual reasons this error is made. They are not reasons to certify, sign, or release. Write what you saw, report what must be reported, and refuse what you cannot support. That is the whole task. Do not invent a cause or a clearance.",
@@ -1431,7 +1800,16 @@
       "phase": "PH-06",
       "phase_item_id": "PH-M-42",
       "lo_id": "f6996f9e-429e-539d-9b9c-8d643cf7f821",
-      "lo_code": "POLICE_STATEMENT"
+      "lo_code": "POLICE_STATEMENT",
+      "lo_key": "POLICE_STATEMENT",
+      "lo_title": "A police statement records only what the doctor observed, did and was told, without opinions on guilt.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A stonemason has silicosis and is worried you will tell his boss first. Notify the statutory authority. Employer disclosure is a separate, limited step. The rest of the file does not change the duty. A family wish, a faster funeral, or a colleague's suggestion does not create an exception. Report, refuse, or release as the rule requires. Do not invent a cause, a clearance, or a consent the law does not provide. Decide on the facts given. Nothing else in the consultation creates an exception. Apply the reporting or disclosure rule as it stands. A colleague's suggestion to certify, sign, or release does not override it. State the correct step clearly. Do that now.  The duty is yours on these facts. Apply it. Clearly. Today. Family pressure and clinic convenience are the usual reasons this error is made. They are not reasons to certify, sign, or release. Write what you saw, report what must be reported, and refuse what you cannot support. That is the whole task. Do not invent a cause or a clearance.",
@@ -1465,7 +1843,16 @@
       "phase": "PH-06",
       "phase_item_id": "PH-M-43",
       "lo_id": "b20ed6c3-066a-5cd1-8f9a-a28305483959",
-      "lo_code": "OCCUPATIONAL_NOTIFY"
+      "lo_code": "OCCUPATIONAL_NOTIFY",
+      "lo_key": "OCCUPATIONAL_NOTIFY",
+      "lo_title": "A notifiable occupational disease or exposure is reported to the relevant statutory authority, and what is shared with the employer is discussed with the patient.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "He is not ready for his employer to know. The statutory notification still happens. Discuss the employer step separately. The rest of the file does not change the duty. A family wish, a faster funeral, or a colleague's suggestion does not create an exception. Report, refuse, or release as the rule requires. Do not invent a cause, a clearance, or a consent the law does not provide. Decide on the facts given. Nothing else in the consultation creates an exception. Apply the reporting or disclosure rule as it stands. A colleague's suggestion to certify, sign, or release does not override it. State the correct step clearly. Do that now.  The duty is yours on these facts. Apply it. Clearly. Today. Family pressure and clinic convenience are the usual reasons this error is made. They are not reasons to certify, sign, or release. Write what you saw, report what must be reported, and refuse what you cannot support. That is the whole task. Do not invent a cause or a clearance.",
@@ -1499,7 +1886,16 @@
       "phase": "PH-06",
       "phase_item_id": "PH-M-44",
       "lo_id": "b20ed6c3-066a-5cd1-8f9a-a28305483959",
-      "lo_code": "OCCUPATIONAL_NOTIFY"
+      "lo_code": "OCCUPATIONAL_NOTIFY",
+      "lo_key": "OCCUPATIONAL_NOTIFY",
+      "lo_title": "A notifiable occupational disease or exposure is reported to the relevant statutory authority, and what is shared with the employer is discussed with the patient.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     }
   ]
 }

@@ -37,7 +37,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-01",
       "lo_id": "18125cb0-f588-52a8-aa62-0ab762645b1c",
-      "lo_code": "BIRTH_HEPATITIS_B"
+      "lo_code": "BIRTH_HEPATITIS_B",
+      "lo_key": "BIRTH_HEPATITIS_B",
+      "lo_title": "Every newborn gets hepatitis B vaccine as soon as possible, ideally within 24 hours of birth, regardless of maternal HBsAg status or missing records.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: maternity unit",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 16-week-old infant in Adelaide is brought for vaccines that were missed after a move interstate. He is well, afebrile, and has had no intussusception. He has never had a rotavirus dose. The first dose of Rotarix cannot be started once the infant has turned 15 weeks. He is now 16 weeks. A locum suggests giving it anyway because the child is behind and the family are keen. The other infant vaccines that are due can still be given. Rotavirus is the one with the hard age limit on the first dose. Starting it now is outside the schedule. What is the most appropriate advice about rotavirus?  He is growing well and has no chronic gastrointestinal disease. The family moved at 10 weeks and missed the 4-month visit. Other due vaccines, including the diphtheria-tetanus-pertussis and pneumococcal doses, can proceed. Only rotavirus has this upper age limit on the first dose. Explaining that clearly avoids a dose given outside the schedule.  The AIR confirms no rotavirus dose ever. He is past the 14-week and 6-day limit for the first Rotarix dose. Document the missed window so a later clinician does not try to start it. Continue the rest of the catch-up.  Write the age limit in the notes. The family are anxious about being behind. Reassure them the other vaccines proceed. Rotavirus does not.",
@@ -71,7 +80,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-02",
       "lo_id": "80acd8b0-3a65-507d-b0b1-44772d52e1da",
-      "lo_code": "ROTAVIRUS_AGE_LIMIT"
+      "lo_code": "ROTAVIRUS_AGE_LIMIT",
+      "lo_key": "ROTAVIRUS_AGE_LIMIT",
+      "lo_title": "Rotarix dose 1 must be given by 14 weeks 6 days and dose 2 by 24 weeks 6 days; late doses are not given and missed doses are not made up with extras.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 1.1,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A woman in Perth is 24 weeks pregnant in her second pregnancy. She received dTpa at 28 weeks in the last pregnancy, three years ago. She asks if she needs it again or if the previous dose covers this baby. She is well, with no contraindication to the vaccine. Pertussis vaccine is recommended at 20 to 32 weeks in each pregnancy, to protect the newborn. A dose in a previous pregnancy does not cover this one. She is inside the window now. What is the most appropriate advice?  She had no reaction to the previous dTpa. This pregnancy is uncomplicated. She is not near delivery. The point of the dose is transplacental antibody for the newborn, so it is repeated each pregnancy in the recommended window. A dose three years ago does not provide that for this baby. She should have it now.  Antibody from a dose years ago will have waned for the purpose of protecting this newborn. The recommendation is explicit: each pregnancy, 20 to 32 weeks. She is at 24 weeks. Give dTpa now.  She can have it in the antenatal clinic or at the GP. Either is fine. The error is skipping it because of a dose in the last pregnancy.",
@@ -105,7 +123,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-03",
       "lo_id": "45a47844-6b8f-5179-a3b2-bd3300b33055",
-      "lo_code": "PREGNANCY_VACCINES"
+      "lo_code": "PREGNANCY_VACCINES",
+      "lo_key": "PREGNANCY_VACCINES",
+      "lo_title": "In each pregnancy give dTpa at 20-32 weeks and inactivated influenza at any stage; RSV vaccine (Abrysvo) is from 28 weeks, and live vaccines such as MMR wait until after delivery.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A woman in Hobart is 8 weeks pregnant and asks for the influenza vaccine because her toddler is in childcare. A receptionist has told her to wait until the second trimester. She is well, with no egg anaphylaxis and no previous reaction to the vaccine. Influenza vaccine is inactivated and can be given at any stage of pregnancy, in every pregnancy. Waiting for the second trimester is unnecessary. What is the most appropriate advice?  She has no febrile illness today. The toddler's childcare has had several respiratory infections. Influenza in pregnancy protects her and the newborn. The inactivated vaccine has no trimester restriction. The receptionist's advice to wait is the old habit, not the current recommendation. She can be vaccinated today.  No live vaccine is being considered. Influenza is inactivated. First-trimester administration is acceptable and recommended when the vaccine is available. Do not defer to 13 weeks.  Childcare exposure is a reason to give it, not to delay. Any trimester is acceptable. Vaccinate today.  She has no contraindication. The toddler's childcare is the exposure that prompted the visit. That supports giving the vaccine, not delaying it. Any stage of pregnancy is acceptable for inactivated influenza vaccine.",
@@ -139,7 +166,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-04",
       "lo_id": "45a47844-6b8f-5179-a3b2-bd3300b33055",
-      "lo_code": "PREGNANCY_VACCINES"
+      "lo_code": "PREGNANCY_VACCINES",
+      "lo_key": "PREGNANCY_VACCINES",
+      "lo_title": "In each pregnancy give dTpa at 20-32 weeks and inactivated influenza at any stage; RSV vaccine (Abrysvo) is from 28 weeks, and live vaccines such as MMR wait until after delivery.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -0.95,
+      "difficulty_tier": "easy",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: childcare / community",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A woman in Cairns is 10 weeks pregnant. Her serology shows she is not immune to rubella. She is travelling to a region with a measles outbreak in six weeks and asks for MMR now so she is covered before she goes. MMR is a live vaccine and is contraindicated in pregnancy. It can be planned after delivery. Giving it now is the error. What is the most appropriate advice?  Rubella non-immunity is noted. MMR would address that, but not in pregnancy. Travel advice and post-exposure planning can be discussed. The vaccine itself waits until after delivery, when she is no longer pregnant. Giving a live vaccine now is contraindicated.  Postnatal MMR can be arranged before she leaves hospital or at the 6-week check, once pregnancy is over. Travel precautions are separate. The injection today is not MMR.  Document non-immunity and the plan for postnatal MMR. Do not give the live vaccine this trimester, whatever the travel date.  Travel in six weeks does not override the live-vaccine contraindication. Measles protection for a pregnant woman who is susceptible is a public-health and exposure question, not a reason to inject MMR today.",
@@ -173,7 +209,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-05",
       "lo_id": "45a47844-6b8f-5179-a3b2-bd3300b33055",
-      "lo_code": "PREGNANCY_VACCINES"
+      "lo_code": "PREGNANCY_VACCINES",
+      "lo_key": "PREGNANCY_VACCINES",
+      "lo_title": "In each pregnancy give dTpa at 20-32 weeks and inactivated influenza at any stage; RSV vaccine (Abrysvo) is from 28 weeks, and live vaccines such as MMR wait until after delivery.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 45-year-old man with a history of egg anaphylaxis, which required adrenaline, asks for the influenza vaccine. He is well today. A colleague says egg allergy is a contraindication and he should be referred to hospital for any dose. Egg anaphylaxis is not a contraindication to influenza vaccination in a setting that can treat anaphylaxis. He can be vaccinated here today. What is the most appropriate advice?  His egg anaphylaxis was five years ago and is well documented. He has no anaphylaxis to a previous influenza vaccine. The clinic has adrenaline and a place to observe him. Egg allergy, including anaphylaxis, is not a reason to withhold influenza vaccine in that setting. Hospital referral is not required for this indication.  Observe him for the recommended period after the dose. Adrenaline is available. That is the setting the advice assumes. Withholding the vaccine for egg anaphylaxis is outdated.  He has asked specifically about egg. The answer is that he can be vaccinated here. Do not send him away for that history.",
@@ -207,7 +252,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-06",
       "lo_id": "da368592-c2ec-5bd0-aa06-1ea252ea241a",
-      "lo_code": "VACCINE_CONTRAINDICATION"
+      "lo_code": "VACCINE_CONTRAINDICATION",
+      "lo_key": "VACCINE_CONTRAINDICATION",
+      "lo_title": "True contraindications are anaphylaxis to a prior dose or component (and live vaccines in significant immunocompromise or pregnancy); egg allergy, minor illness and a past febrile convulsion are not.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 1.0,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 4-year-old had anaphylaxis, with wheeze and collapse, within minutes of a previous dose of a vaccine. The parent asks for the same vaccine today because the child is due a booster. Anaphylaxis after a previous dose of that vaccine is a contraindication to further doses of it. A mild local reaction would be different. This is not mild. The vaccine should not be given. What is the most appropriate advice?  The previous reaction was within 15 minutes, with respiratory and circulatory features, and adrenaline was given. That is anaphylaxis to that vaccine. A later-dose local redness would not be a contraindication. This history is. The booster of that vaccine is not given. An alternative schedule can be discussed.  Record the anaphylaxis clearly so it is not repeated at the next visit. Other vaccines that he has tolerated can continue. This one stops.  Parents sometimes confuse a fever after a vaccine with anaphylaxis. This history is anaphylaxis. Withhold this vaccine.  Collapse and wheeze with adrenaline is anaphylaxis. It is recorded against this vaccine. Further doses of it are contraindicated. Do not proceed because a booster is due.",
@@ -241,7 +295,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-07",
       "lo_id": "da368592-c2ec-5bd0-aa06-1ea252ea241a",
-      "lo_code": "VACCINE_CONTRAINDICATION"
+      "lo_code": "VACCINE_CONTRAINDICATION",
+      "lo_key": "VACCINE_CONTRAINDICATION",
+      "lo_title": "True contraindications are anaphylaxis to a prior dose or component (and live vaccines in significant immunocompromise or pregnancy); egg allergy, minor illness and a past febrile convulsion are not.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -1.1,
+      "difficulty_tier": "easy",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 12-month-old is due for vaccines and has a clear runny nose and a temperature of 37.6\u00b0C. He is feeding well and is not toxic. A grandparent says any illness means the vaccines should be deferred for two weeks. A mild afebrile or low-grade illness is not a reason to defer a due vaccine. He can be vaccinated today. What is the most appropriate advice?  He has been like this for a day. There is no wheeze, no rash, and no dehydration. Deferring for a minor illness delays protection and often leads to further missed visits. The due vaccines can be given. The grandparent's two-week rule is not the schedule rule.  If he were febrile and toxic, or had a serious evolving illness, deferral would be reasonable. A runny nose and 37.6\u00b0C is not that. Vaccinate today and advise on common reactions.  Give the 12-month vaccines. Advise on fever and the usual local reaction. Do not rebook for a cold.  Feeding well and not toxic is the picture of a minor illness. Due vaccines are given. A two-week deferral for a cold is not indicated.",
@@ -275,7 +338,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-08",
       "lo_id": "da368592-c2ec-5bd0-aa06-1ea252ea241a",
-      "lo_code": "VACCINE_CONTRAINDICATION"
+      "lo_code": "VACCINE_CONTRAINDICATION",
+      "lo_key": "VACCINE_CONTRAINDICATION",
+      "lo_title": "True contraindications are anaphylaxis to a prior dose or component (and live vaccines in significant immunocompromise or pregnancy); egg allergy, minor illness and a past febrile convulsion are not.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": -1.0,
+      "difficulty_tier": "easy",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 16-year-old girl missed the school HPV program. She has had no doses. She asks if she has missed her chance. Routine adolescent dosing is a single dose. A missed dose can be caught up to 26 years. She can have a catch-up dose. She has not missed the window. What is the most appropriate advice?  She is 16, well, and not pregnant. No doses are recorded on the AIR. Catch-up to 26 years is funded for this indication. Routine dosing at her age is one dose, not the old three-dose course. She can start today. She has not missed her chance.  One dose is the routine adolescent course. She does not need to start a three-dose schedule because she missed school. Catch-up is available. Give the dose.  Check AIR after the dose so the record is complete. One catch-up dose is the plan. She is in time.  Sixteen is within catch-up. No prior doses. One dose is enough for routine adolescent HPV. She has not left it too late.",
@@ -309,7 +381,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-09",
       "lo_id": "49de5829-e45a-5f4f-868a-572426c021a2",
-      "lo_code": "HPV_SCHEDULE"
+      "lo_code": "HPV_SCHEDULE",
+      "lo_key": "HPV_SCHEDULE",
+      "lo_title": "Routine adolescent HPV vaccination is a single dose, with funded catch-up available up to age 25.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 67-year-old man in the general population asks about the shingles vaccine on the NIP. He is well and immunocompetent. He has heard of a live vaccine and a non-live vaccine and does not know which one he should have. Shingrix is the non-live NIP shingles vaccine, offered from 65 years in the general population. A live vaccine is not the program choice here. What is the most appropriate advice?  He is 67, has no immunocompromise, and has not had shingles. The NIP product for his age is Shingrix. A live vaccine is not what the program uses for this cohort. He should be offered Shingrix. Choosing the live product because it is familiar is the error.  Shingrix is two doses. He has had neither. The live vaccine is not the NIP product for a 67-year-old in the general population. Offer Shingrix.  Two doses of Shingrix, on the recommended interval. Not the live vaccine. That is the program answer at 67.  Immunocompetent, 67, general population. Shingrix from 65. Live vaccine is not the program product. Offer Shingrix.",
@@ -343,7 +424,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-10",
       "lo_id": "631721f4-c0b0-5bc9-a999-6f841c0d073e",
-      "lo_code": "SHINGLES_VACCINE"
+      "lo_code": "SHINGLES_VACCINE",
+      "lo_key": "SHINGLES_VACCINE",
+      "lo_title": "The NIP shingles vaccine is non-live Shingrix (from 65, 50 for First Nations people, or 18 if immunocompromised), so it is safe where a live vaccine would be contraindicated.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 70-year-old woman on methotrexate for rheumatoid arthritis asks for the shingles vaccine. A pharmacist has offered her a live vaccine because it is in stock. A live shingles vaccine is not used in significant immunocompromise. Shingrix, the non-live vaccine, is the option. The live vaccine should not be given. What is the most appropriate advice?  Methotrexate is significant immunocompromise for a live vaccine decision. She has not had Shingrix. The pharmacist's live vaccine should be declined. The non-live vaccine is the safe option. Giving the live product because it is in stock is the error.  Check she is not offered the live product again at a pharmacy. The non-live vaccine is appropriate in immunocompromise. Decline the live dose.  Pharmacy stock is not a reason to use a live vaccine in immunosuppression. Redirect to Shingrix.  Methotrexate is enough immunocompromise to avoid a live shingles vaccine. Non-live is the choice. Stock in a pharmacy does not change that.",
@@ -377,7 +467,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-11",
       "lo_id": "631721f4-c0b0-5bc9-a999-6f841c0d073e",
-      "lo_code": "SHINGLES_VACCINE"
+      "lo_code": "SHINGLES_VACCINE",
+      "lo_key": "SHINGLES_VACCINE",
+      "lo_title": "The NIP shingles vaccine is non-live Shingrix (from 65, 50 for First Nations people, or 18 if immunocompromised), so it is safe where a live vaccine would be contraindicated.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 1.0,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 40-year-old Aboriginal man asks if he can have a funded influenza vaccine. He is well, with no chronic disease. He has been told that funded influenza vaccine for Aboriginal adults starts at 50, or only if there is a medical condition. All Aboriginal and Torres Strait Islander adults are eligible for funded influenza vaccine. He is eligible now. What is the most appropriate advice?  He identifies as Aboriginal. He has no chronic cardiac or respiratory disease, which is irrelevant to influenza eligibility. Funded influenza vaccine covers all Aboriginal and Torres Strait Islander adults, not only those over 50 or with comorbidity. He can have it today.  Identification is by his statement, not by a certificate. Funded influenza is available. Give it. The age-50 rule he was told does not apply.  No chronic disease is required. Aboriginal status and adult age are enough for funded influenza vaccine. Give it.  Self-identified Aboriginal adult. Funded influenza vaccine applies. No comorbidity is required. He is eligible now.",
@@ -411,7 +510,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-12",
       "lo_id": "bb2290d8-0941-5a3a-ae9c-4ed9dfa44283",
-      "lo_code": "ATSI_FUNDED_VACCINES"
+      "lo_code": "ATSI_FUNDED_VACCINES",
+      "lo_key": "ATSI_FUNDED_VACCINES",
+      "lo_title": "Aboriginal and Torres Strait Islander people are eligible for funded influenza vaccine from 6 months of age and for funded pneumococcal vaccine at earlier ages than other adults.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -1.1,
+      "difficulty_tier": "easy",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 28-year-old Aboriginal woman asks about pneumococcal vaccine. She is well. She has been told she must wait until 50, like the general population. Aboriginal and Torres Strait Islander adults are eligible for funded pneumococcal vaccine from 25 years. She is eligible. What is the most appropriate advice?  She identifies as Aboriginal and is 28. She has no chronic disease. The general-population pneumococcal age does not apply. Funded pneumococcal vaccine starts at 25 for Aboriginal and Torres Strait Islander adults. She is eligible now. Waiting until 50 is the error.  Pneumococcal eligibility at 25 for Aboriginal adults is independent of chronic disease. She does not wait for a comorbidity or for age 50. Offer the funded vaccine.  Age 28 is past 25. She is eligible. Do not apply the general-population age threshold.  Aboriginal, 28 years, well. Funded pneumococcal from 25. The general-population age of 50 or 70 does not apply. Offer it.",
@@ -445,7 +553,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-13",
       "lo_id": "bb2290d8-0941-5a3a-ae9c-4ed9dfa44283",
-      "lo_code": "ATSI_FUNDED_VACCINES"
+      "lo_code": "ATSI_FUNDED_VACCINES",
+      "lo_key": "ATSI_FUNDED_VACCINES",
+      "lo_title": "Aboriginal and Torres Strait Islander people are eligible for funded influenza vaccine from 6 months of age and for funded pneumococcal vaccine at earlier ages than other adults.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 9-year-old boy is brought in with fever, cough, conjunctivitis, and a morbilliform rash that started on the face yesterday. He is unimmunised. A colleague says to wait for measles serology before notifying, so the notification is confirmed. Suspected measles is notified immediately and the patient is isolated. Do not wait for serology. What is the most appropriate action?  The rash fits measles and he is unimmunised. Serology will not be back today. Notification and isolation are immediate. Waiting for a laboratory result delays contact tracing. He should be isolated and public health notified now.  Isolation is in a negative-pressure or single room if available, and staff use appropriate precautions. Notification is by phone, not by a letter next week. Do both now.  Phone public health while he is still in the room. Isolation starts now. Serology can follow. It does not lead.  Clinical measles in an unimmunised child is notified on suspicion. Isolation is immediate. Serology is confirmatory later, not a gate.",
@@ -479,7 +596,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-14",
       "lo_id": "586ac791-27c6-5e53-921a-0e0c34d66ba6",
-      "lo_code": "URGENT_NOTIFICATION"
+      "lo_code": "URGENT_NOTIFICATION",
+      "lo_key": "URGENT_NOTIFICATION",
+      "lo_title": "Urgent notifiable diseases such as measles, meningococcal disease and TB are notified on clinical suspicion with isolation or exclusion arranged immediately, without waiting for confirmation.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 1.0,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 6-week-old infant is admitted with pertussis, confirmed on PCR. The baby is the index case. A colleague starts antibiotics for the infant and says that is the end of the public-health action. Infant pertussis is notifiable. Close contacts need assessment for prophylaxis, not only treatment of the baby. What is the most appropriate action?  The infant is the index. Household contacts, including incompletely immunised children and the parents, need assessment. Antibiotics for the baby alone do not complete the public-health response. Notify, and arrange contact assessment.  Contacts may include the parents, siblings, and any infant-care setting. Assessment is today, not at discharge in a week. Notify and start that assessment.  The baby\u2019s antibiotics are necessary and not sufficient. Contacts are the other half. Do both.  Index infant with PCR-positive pertussis. Notify. Assess contacts for prophylaxis. Treating the baby only is incomplete.",
@@ -513,7 +639,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-15",
       "lo_id": "586ac791-27c6-5e53-921a-0e0c34d66ba6",
-      "lo_code": "URGENT_NOTIFICATION"
+      "lo_code": "URGENT_NOTIFICATION",
+      "lo_key": "URGENT_NOTIFICATION",
+      "lo_title": "Urgent notifiable diseases such as measles, meningococcal disease and TB are notified on clinical suspicion with isolation or exclusion arranged immediately, without waiting for confirmation.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 35-year-old chef has acute hepatitis A, confirmed on serology. He works in a restaurant kitchen. He feels better and asks if he can return to food handling tomorrow. Hepatitis A is urgently notifiable, including in a food handler. He should be excluded from food handling, and public health should be notified. What is the most appropriate action?  He prepares food for the public. Hepatitis A in a food handler is urgent. Feeling better does not clear him to return tomorrow. Notify public health and exclude him from food handling until advised. A routine medical certificate is not the step.  Public health will advise the exclusion period and workplace steps. Your job is urgent notification and immediate exclusion from food handling. Do not clear him for tomorrow's shift.  Kitchen work tomorrow is not safe. Exclusion and urgent notification come first. Clearance is a public-health decision.  Confirmed hepatitis A in a chef. Urgent notification. Exclude from food handling now. Return to work is not his decision or yours alone.",
@@ -547,7 +682,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-16",
       "lo_id": "586ac791-27c6-5e53-921a-0e0c34d66ba6",
-      "lo_code": "URGENT_NOTIFICATION"
+      "lo_code": "URGENT_NOTIFICATION",
+      "lo_key": "URGENT_NOTIFICATION",
+      "lo_title": "Urgent notifiable diseases such as measles, meningococcal disease and TB are notified on clinical suspicion with isolation or exclusion arranged immediately, without waiting for confirmation.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 19-year-old university student presents with fever and a non-blanching rash. He is septic. Blood cultures are not back. A colleague says to wait for culture confirmation before notifying meningococcal disease, to avoid a false alarm. Suspected invasive meningococcal disease is notified urgently, before culture confirmation. What is the most appropriate action?  He is unstable enough that empirical antibiotics have been started. Notification of suspected invasive meningococcal disease does not wait for the culture. Contacts may need prophylaxis. Notify now on clinical suspicion.  Empirical antibiotics do not replace notification. Suspected invasive disease is enough. Phone public health now, before the culture result.  Culture may take days. Notification is immediate on suspicion. Do not wait.  Fever and non-blanching rash in a septic young adult is suspected invasive meningococcal disease until proved otherwise. Notify before cultures return.",
@@ -581,7 +725,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-17",
       "lo_id": "586ac791-27c6-5e53-921a-0e0c34d66ba6",
-      "lo_code": "URGENT_NOTIFICATION"
+      "lo_code": "URGENT_NOTIFICATION",
+      "lo_key": "URGENT_NOTIFICATION",
+      "lo_title": "Urgent notifiable diseases such as measles, meningococcal disease and TB are notified on clinical suspicion with isolation or exclusion arranged immediately, without waiting for confirmation.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.9,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A practice fridge alarm shows the vaccine stock was at 12\u00b0C for six hours overnight. A nurse asks if the vaccines can still be used because they look normal and the breach was short. A cold-chain breach means the vaccine is not used until the breach is assessed. The stock should be quarantined. What is the most appropriate action?  The data logger confirms six hours above the limit. Vaccines that look normal can still have lost potency. Do not use the stock. Quarantine it and follow the cold-chain breach process. Using it to avoid waste is the error.  Label the stock do not use. Contact the state immunisation unit about the breach. Ordering replacement is separate. Using the warmed vaccines is not an option.  Six hours at 12\u00b0C is a breach. Quarantine. Do not use. Assessment decides disposal, not the nurse\u2019s eye.  Logger evidence of a breach. Quarantine the stock. Do not use it on appearance. Assessment comes before any dose from that fridge.",
@@ -615,7 +768,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-18",
       "lo_id": "983ee34b-896d-5237-bf4a-a22768c6c150",
-      "lo_code": "COLD_CHAIN"
+      "lo_code": "COLD_CHAIN",
+      "lo_key": "COLD_CHAIN",
+      "lo_title": "After a cold-chain breach, vaccines are isolated and not used until the breach is reported and assessed, regardless of how the vials look.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 3-year-old has had no vaccines since the 6-week doses, after the family moved. He is well. A colleague suggests restarting the entire infant schedule from dose one. Catch-up continues from the doses he has had. It does not restart the schedule, and it does not skip ahead. What is the most appropriate plan?  He has documented 6-week doses and nothing since. Catch-up counts those doses. Restarting from zero adds unnecessary injections and confuses the record. Plan forward from what he has had. Do not restart and do not skip.  Count the 6-week doses as dose one of the relevant antigens. Schedule the missing doses with minimum intervals. A full restart wastes doses and risks extra adverse events.  Restarting looks tidy and is wrong. Continue from the recorded doses. Intervals still apply.  Doses at 6 weeks count. Catch-up continues. It does not restart at dose one and does not jump to the 4-year vaccines.",
@@ -649,7 +811,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-19",
       "lo_id": "b961e409-bbb8-5508-92dd-894d0fd2a762",
-      "lo_code": "CATCH_UP"
+      "lo_code": "CATCH_UP",
+      "lo_key": "CATCH_UP",
+      "lo_title": "Catch-up vaccination counts all documented valid doses and continues from where the person left off; the schedule is never restarted and minimum intervals are kept.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "Parents of a 2-year-old say they conscientiously object to vaccination and ask you to sign a form so they still meet the immunisation requirement for family assistance. There is no medical contraindication. Conscientious objection no longer meets that requirement. A medical contraindication is a clinical record, not a preference. What is the most appropriate advice?  There is no anaphylaxis, no immunocompromise, and no other medical reason to withhold vaccines. Objection is a parental position, not a clinical contraindication. It does not meet the immunisation requirement for family assistance. You should not sign an exemption that does not exist.  You can discuss benefits and offer vaccines. You cannot create an exemption for objection. Explain that clearly and document the conversation.  No form you sign will create an exemption for objection. Say so. Offer vaccines if they reconsider.  No medical contraindication exists. Objection is not an exemption for family-assistance immunisation requirements. Do not sign one.",
@@ -683,7 +854,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-20",
       "lo_id": "ac2e3a63-6a77-5cc5-a908-f833b5715433",
-      "lo_code": "OBJECTION_NOT_CONTRAINDICATION"
+      "lo_code": "OBJECTION_NOT_CONTRAINDICATION",
+      "lo_key": "OBJECTION_NOT_CONTRAINDICATION",
+      "lo_title": "Conscientious or vaccine objection is not an exemption; only a documented medical contraindication qualifies, and the clinician must not certify a false one.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.95,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A susceptible adult had household contact with a confirmed measles case 48 hours ago. He is well and not pregnant. He asks if it is too late for anything. A susceptible measles contact may be offered MMR within 72 hours of exposure. He is inside that window. What is the most appropriate advice?  Exposure was 48 hours ago. He has no documented measles immunity and no previous MMR. He is not immunocompromised. MMR within 72 hours can prevent disease in a susceptible contact. He is inside the window. Offer it today.  If he presents after 72 hours the vaccine option for prevention may have closed, and immunoglobulin decisions differ. He is at 48 hours. Offer MMR today.  48 hours is inside 72. Offer MMR. Document the exposure time so the window is clear.  Susceptible, household measles contact, 48 hours ago, not pregnant. MMR within 72 hours is appropriate. Offer it today.",
@@ -717,7 +897,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-21",
       "lo_id": "9ea130b4-883b-53aa-af02-acd1c98238bc",
-      "lo_code": "MEASLES_POST_EXPOSURE"
+      "lo_code": "MEASLES_POST_EXPOSURE",
+      "lo_key": "MEASLES_POST_EXPOSURE",
+      "lo_title": "Susceptible measles contacts can be given MMR within 72 hours (or immunoglobulin within 6 days), and unprotected contacts are excluded from childcare for the exclusion period.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.95,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A woman is 30 weeks pregnant and asks about the RSV vaccine. She had it in a previous pregnancy two years ago and wonders if that covers this baby. RSV vaccine in pregnancy is recommended from 28 weeks, in each pregnancy. She is in the window now. The previous pregnancy dose does not cover this one. What is the most appropriate advice?  She is 30 weeks, in the recommended window. The previous pregnancy dose protected that baby, not this one. RSV vaccine is offered in each pregnancy from 28 weeks. She can have it now. Relying on the old dose is the error.  Abrysvo is the pregnancy product in this setting. Give it from 28 weeks, this pregnancy. Do not rely on a dose from two years ago.  Each pregnancy, from 28 weeks. This is a new pregnancy. Offer the vaccine now.  30 weeks, new pregnancy. RSV vaccine from 28 weeks each pregnancy. Previous pregnancy dose does not cover this baby. Offer it.",
@@ -751,7 +940,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-22",
       "lo_id": "45a47844-6b8f-5179-a3b2-bd3300b33055",
-      "lo_code": "PREGNANCY_VACCINES"
+      "lo_code": "PREGNANCY_VACCINES",
+      "lo_key": "PREGNANCY_VACCINES",
+      "lo_title": "In each pregnancy give dTpa at 20-32 weeks and inactivated influenza at any stage; RSV vaccine (Abrysvo) is from 28 weeks, and live vaccines such as MMR wait until after delivery.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A healthy child aged 8 months is having influenza vaccine for the first time. A parent asks if one dose is enough, as it is for older children. A healthy child aged 6 months to under 2 years needs two doses, at least 4 weeks apart, in the first year they are vaccinated. One dose is not enough this year. What is the most appropriate advice?  This is his first year of influenza vaccine. He is 8 months and healthy. Children from 6 months to under 2 years need two doses in that first year, at least four weeks apart. One dose, as for an older child, is not enough. Book the second.  First dose today, second in at least four weeks. Next year, if he is still under a relevant age, the schedule may be one dose. This first year is two.  Two doses this first season. Book the second before they leave. One dose is the older-child rule.  First influenza season, age 8 months, healthy. Two doses at least four weeks apart. One dose is insufficient this year.",
@@ -785,7 +983,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-23",
       "lo_id": "ba62f6aa-5d0d-5b22-be25-f2491bada823",
-      "lo_code": "INFANT_INFLUENZA_TWO_DOSE"
+      "lo_code": "INFANT_INFLUENZA_TWO_DOSE",
+      "lo_key": "INFANT_INFLUENZA_TWO_DOSE",
+      "lo_title": "Children aged 6 months to under 9 years need two influenza doses at least 4 weeks apart in the first year they are vaccinated, then one dose each year.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "An infant is due for meningococcal B vaccine. The parent has read that prophylactic paracetamol is no longer recommended with any vaccine and asks to skip it. Prophylactic paracetamol is recommended with meningococcal B vaccine in infants, to reduce fever. It should be given. What is the most appropriate advice?  Meningococcal B is associated with fever in infants. Prophylactic paracetamol is specifically recommended with it. The general advice against routine prophylactic paracetamol with other vaccines does not apply here. Give it as recommended.  Give the recommended doses of paracetamol around the meningococcal B injection. This is specific advice, not a general prophylactic habit. Do not skip it because of advice about other vaccines.  Paracetamol with infant MenB is recommended. Give the prophylactic doses. Do not omit them on general principles.  Infant MenB. Prophylactic paracetamol is recommended with this vaccine. General advice against routine prophylaxis does not apply. Give it.",
@@ -819,7 +1026,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-24",
       "lo_id": "bef6945b-b694-512d-874f-50c3ecea07ac",
-      "lo_code": "MENB_PARACETAMOL"
+      "lo_code": "MENB_PARACETAMOL",
+      "lo_key": "MENB_PARACETAMOL",
+      "lo_title": "Prophylactic paracetamol is recommended with each MenB dose in children under 2 years, but is not routine for other vaccines.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -1.05,
+      "difficulty_tier": "easy",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 4-year-old has a single episode of mild gastroenteritis at home. He is better in a day. There is no outbreak at childcare and no other cases in the house. A parent asks if this must be notified as a public-health outbreak. A single mild case in the community is not the same as an outbreak that must be notified. What is the most appropriate advice?  One child, one day, recovered, no other cases. That is not an outbreak. Notification is for outbreaks or specific notifiable patterns, not every mild home gastroenteritis. No notification is needed for this single case.  If several children at the same childcare had the same illness, that could be an outbreak to notify. One recovered child at home is not. No notification.  Single, mild, recovered, no cluster. Not an outbreak. No notification. Safety-net advice on hydration is enough.  One mild recovered gastroenteritis, no other cases. Not an outbreak. Notification is not required.",
@@ -853,7 +1069,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-25",
       "lo_id": "ce078006-c98a-5946-bb1c-f4961c4f7bb2",
-      "lo_code": "OUTBREAK_NOTIFICATION"
+      "lo_code": "OUTBREAK_NOTIFICATION",
+      "lo_key": "OUTBREAK_NOTIFICATION",
+      "lo_title": "Notification follows the jurisdiction's notifiable disease list: a single mild community gastroenteritis is not notified, but suspected outbreaks such as linked childcare cases are.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 45-year-old man from a high-incidence country has a chronic cough, night sweats, and upper-zone changes on a chest X-ray. A colleague starts amoxicillin and says to review in two weeks. Suspected tuberculosis is notified and referred. It is not treated with ordinary community antibiotics and forgotten. What is the most appropriate action?  Chronic cough, sweats, and upper-zone changes in a man from a high-incidence setting is tuberculosis until proved otherwise. Amoxicillin does not treat it. He needs urgent assessment and notification. Clearing him on community antibiotics is the error.  Arrange chest clinic or hospital assessment today. Notify. Do not give a delayed script for amoxicillin and discharge. Ordinary community treatment is the wrong path.  Refer and notify today. Community amoxicillin is not tuberculosis treatment. Do not clear him.  Suggestive symptoms and radiology, high-incidence background. Notify and refer for tuberculosis assessment. Community antibiotics are not the plan.",
@@ -887,7 +1112,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-26",
       "lo_id": "586ac791-27c6-5e53-921a-0e0c34d66ba6",
-      "lo_code": "URGENT_NOTIFICATION"
+      "lo_code": "URGENT_NOTIFICATION",
+      "lo_key": "URGENT_NOTIFICATION",
+      "lo_title": "Urgent notifiable diseases such as measles, meningococcal disease and TB are notified on clinical suspicion with isolation or exclusion arranged immediately, without waiting for confirmation.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 1.0,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "An unimmunised 3-year-old had contact with measles at childcare yesterday. He is well. The centre asks if he can attend today. An unimmunised measles contact is excluded from childcare unless protected within the post-exposure window. He should be excluded. What is the most appropriate advice?  He is unimmunised and the contact was yesterday. He cannot attend childcare today. Exclusion continues unless he is protected within the post-exposure window. Sending him in because he is well is the error.  The centre should be told he is excluded. Offer post-exposure MMR if he presents inside the window and is eligible. Until then he does not attend.  Well today does not mean he can attend. Exclusion stands until post-exposure protection is sorted.  Unimmunised, measles contact yesterday, childcare. Exclude. Return depends on post-exposure protection, not on being well today.",
@@ -921,7 +1155,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-27",
       "lo_id": "9ea130b4-883b-53aa-af02-acd1c98238bc",
-      "lo_code": "MEASLES_POST_EXPOSURE"
+      "lo_code": "MEASLES_POST_EXPOSURE",
+      "lo_key": "MEASLES_POST_EXPOSURE",
+      "lo_title": "Susceptible measles contacts can be given MMR within 72 hours (or immunoglobulin within 6 days), and unprotected contacts are excluded from childcare for the exclusion period.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: childcare / community",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A parent\u2019s Centrelink record shows a child as overdue for vaccines that were given at your practice. The doses are in your notes but were never uploaded. A colleague suggests writing a letter to Centrelink. An overdue AIR record is corrected by recording the doses given on the Australian Immunisation Register, not by a letter. What is the most appropriate action?  The doses are in your clinical record. The AIR does not have them. Centrelink reads the AIR. A letter does not update the register. Submit the missing encounters to the AIR. That corrects the overdue flag.  Upload the encounters with the correct dates. Once AIR is updated, the overdue status resolves. A Centrelink letter is unnecessary and does not fix the register.  AIR update is the fix. Dates must match the notes. A letter to Centrelink does not upload a dose.  Doses given, not on AIR, Centrelink shows overdue. Submit the encounters to AIR. A letter does not update the register.",
@@ -955,7 +1198,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-28",
       "lo_id": "5bfc74d7-c604-5732-8e2a-ee1e5c4d7205",
-      "lo_code": "AIR_RECORD"
+      "lo_code": "AIR_RECORD",
+      "lo_key": "AIR_RECORD",
+      "lo_title": "Missing vaccination records are fixed by a recognised vaccination provider submitting the encounter to the AIR with the actual date given.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A term baby is born at 2 am. The mother is hepatitis B surface-antigen negative on complete antenatal serology. The night registrar suggests leaving the birth dose until the 6-week check because the mother is negative and the baby is well. The parents are willing. Birth hepatitis B is given as soon as practicable, ideally within 24 hours, regardless of maternal status. Waiting for 6 weeks is the error. The dose is population protection, not only perinatal. Give it now. The rest of the history does not change the rule. A colleague's shortcut, a parent's preference, or a busy clinic does not create an exception. Apply the schedule or the notification duty as it stands. Document what you do and why. Do not invent a workaround that the program does not allow. State the correct step clearly. The error in front of you is the common one for this rule. Choosing it delays protection or breaks the program. The right action is the one that matches the schedule, the age limit, or the notification duty. Nothing else in the consultation changes that. Give the answer that matches the rule, not the convenient alternative.  Decide on the facts already given. Clearly. Today.",
@@ -989,7 +1241,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-29",
       "lo_id": "18125cb0-f588-52a8-aa62-0ab762645b1c",
-      "lo_code": "BIRTH_HEPATITIS_B"
+      "lo_code": "BIRTH_HEPATITIS_B",
+      "lo_key": "BIRTH_HEPATITIS_B",
+      "lo_title": "Every newborn gets hepatitis B vaccine as soon as possible, ideally within 24 hours of birth, regardless of maternal HBsAg status or missing records.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: maternity unit",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A baby is born at 36 weeks, well, and is 18 hours old. The birth dose of hepatitis B has not been given. A midwife says preterm babies wait for a paediatric decision next week. The baby is stable. Birth hepatitis B is still due, and 18 hours is inside the window. Preterm status does not cancel the birth dose. Give it now, before 24 hours pass. The rest of the history does not change the rule. A colleague's shortcut, a parent's preference, or a busy clinic does not create an exception. Apply the schedule or the notification duty as it stands. Document what you do and why. Do not invent a workaround that the program does not allow. State the correct step clearly. The error in front of you is the common one for this rule. Choosing it delays protection or breaks the program. The right action is the one that matches the schedule, the age limit, or the notification duty. Nothing else in the consultation changes that. Give the answer that matches the rule, not the convenient alternative.  Decide on the facts already given. Clearly. Today.",
@@ -1023,7 +1284,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-30",
       "lo_id": "18125cb0-f588-52a8-aa62-0ab762645b1c",
-      "lo_code": "BIRTH_HEPATITIS_B"
+      "lo_code": "BIRTH_HEPATITIS_B",
+      "lo_key": "BIRTH_HEPATITIS_B",
+      "lo_title": "Every newborn gets hepatitis B vaccine as soon as possible, ideally within 24 hours of birth, regardless of maternal HBsAg status or missing records.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: maternity unit",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "The antenatal hepatitis B result cannot be found at 3 am. The mother says she was told it was fine. The baby is 6 hours old and well. A missing record is not a reason to delay the birth dose. The dose is given regardless of maternal status. Do not wait for a repeat serology overnight. Give the birth dose now. The rest of the history does not change the rule. A colleague's shortcut, a parent's preference, or a busy clinic does not create an exception. Apply the schedule or the notification duty as it stands. Document what you do and why. Do not invent a workaround that the program does not allow. State the correct step clearly. The error in front of you is the common one for this rule. Choosing it delays protection or breaks the program. The right action is the one that matches the schedule, the age limit, or the notification duty. Nothing else in the consultation changes that. Give the answer that matches the rule, not the convenient alternative.  Decide on the facts already given. Clearly. Today.",
@@ -1057,7 +1327,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-31",
       "lo_id": "18125cb0-f588-52a8-aa62-0ab762645b1c",
-      "lo_code": "BIRTH_HEPATITIS_B"
+      "lo_code": "BIRTH_HEPATITIS_B",
+      "lo_key": "BIRTH_HEPATITIS_B",
+      "lo_title": "Every newborn gets hepatitis B vaccine as soon as possible, ideally within 24 hours of birth, regardless of maternal HBsAg status or missing records.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: antenatal clinic",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 16-week-old infant has never had rotavirus. He is well. A locum wants to start Rotarix because the family missed earlier visits. The first dose of Rotarix cannot be started once the infant has turned 15 weeks. He is past that limit. Other due vaccines can proceed. Rotavirus does not. Do not start it. The rest of the history does not change the rule. A colleague's shortcut, a parent's preference, or a busy clinic does not create an exception. Apply the schedule or the notification duty as it stands. Document what you do and why. Do not invent a workaround that the program does not allow. State the correct step clearly. The error in front of you is the common one for this rule. Choosing it delays protection or breaks the program. The right action is the one that matches the schedule, the age limit, or the notification duty. Nothing else in the consultation changes that. Give the answer that matches the rule, not the convenient alternative.  Decide on the facts already given. Clearly. Today.",
@@ -1091,7 +1370,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-32",
       "lo_id": "80acd8b0-3a65-507d-b0b1-44772d52e1da",
-      "lo_code": "ROTAVIRUS_AGE_LIMIT"
+      "lo_code": "ROTAVIRUS_AGE_LIMIT",
+      "lo_key": "ROTAVIRUS_AGE_LIMIT",
+      "lo_title": "Rotarix dose 1 must be given by 14 weeks 6 days and dose 2 by 24 weeks 6 days; late doses are not given and missed doses are not made up with extras.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "An infant had his first Rotarix at 8 weeks. He is now 20 weeks and missed the second dose. He is well. The second dose can be given if the first was on time and he is still under the upper age for the second dose. Do not restart. Do not add a third dose. Give the second dose if he is still inside the window. The rest of the history does not change the rule. A colleague's shortcut, a parent's preference, or a busy clinic does not create an exception. Apply the schedule or the notification duty as it stands. Document what you do and why. Do not invent a workaround that the program does not allow. State the correct step clearly. The error in front of you is the common one for this rule. Choosing it delays protection or breaks the program. The right action is the one that matches the schedule, the age limit, or the notification duty. Nothing else in the consultation changes that. Give the answer that matches the rule, not the convenient alternative.  Decide on the facts already given. Clearly. Today.",
@@ -1125,7 +1413,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-33",
       "lo_id": "80acd8b0-3a65-507d-b0b1-44772d52e1da",
-      "lo_code": "ROTAVIRUS_AGE_LIMIT"
+      "lo_code": "ROTAVIRUS_AGE_LIMIT",
+      "lo_key": "ROTAVIRUS_AGE_LIMIT",
+      "lo_title": "Rotarix dose 1 must be given by 14 weeks 6 days and dose 2 by 24 weeks 6 days; late doses are not given and missed doses are not made up with extras.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 10-week-old had surgery for intussusception four weeks ago. He is due for his first vaccines. A parent asks for Rotarix. Previous intussusception is a contraindication to rotavirus vaccine. The other infant vaccines can be given. Rotavirus is withheld. The rest of the history does not change the rule. A colleague's shortcut, a parent's preference, or a busy clinic does not create an exception. Apply the schedule or the notification duty as it stands. Document what you do and why. Do not invent a workaround that the program does not allow. State the correct step clearly. The error in front of you is the common one for this rule. Choosing it delays protection or breaks the program. The right action is the one that matches the schedule, the age limit, or the notification duty. Nothing else in the consultation changes that. Give the answer that matches the rule, not the convenient alternative.  Decide on the facts already given.  That is the correct step on these facts. Apply it now. Clearly. Today.",
@@ -1159,7 +1456,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-34",
       "lo_id": "80acd8b0-3a65-507d-b0b1-44772d52e1da",
-      "lo_code": "ROTAVIRUS_AGE_LIMIT"
+      "lo_code": "ROTAVIRUS_AGE_LIMIT",
+      "lo_key": "ROTAVIRUS_AGE_LIMIT",
+      "lo_title": "Rotarix dose 1 must be given by 14 weeks 6 days and dose 2 by 24 weeks 6 days; late doses are not given and missed doses are not made up with extras.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 4-year-old is due for vaccines. He has a clear runny nose and is afebrile, feeding well. A grandparent wants a one-month deferral. Mild illness is not a reason to defer. He can have the due vaccines today. A serious evolving illness would be different. This is not that. The rest of the history does not change the rule. A colleague's shortcut, a parent's preference, or a busy clinic does not create an exception. Apply the schedule or the notification duty as it stands. Document what you do and why. Do not invent a workaround that the program does not allow. State the correct step clearly. The error in front of you is the common one for this rule. Choosing it delays protection or breaks the program. The right action is the one that matches the schedule, the age limit, or the notification duty. Nothing else in the consultation changes that. Give the answer that matches the rule, not the convenient alternative.  Decide on the facts already given.  That is the correct step on these facts. Clearly. Today.",
@@ -1193,7 +1499,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-35",
       "lo_id": "da368592-c2ec-5bd0-aa06-1ea252ea241a",
-      "lo_code": "VACCINE_CONTRAINDICATION"
+      "lo_code": "VACCINE_CONTRAINDICATION",
+      "lo_key": "VACCINE_CONTRAINDICATION",
+      "lo_title": "True contraindications are anaphylaxis to a prior dose or component (and live vaccines in significant immunocompromise or pregnancy); egg allergy, minor illness and a past febrile convulsion are not.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 16-year-old missed the school HPV program. She has had no doses. She is well and not pregnant. Catch-up is available. Routine adolescent dosing is one dose, not the old three-dose course. She can start today. She has not left it too late. The rest of the history does not change the rule. A colleague's shortcut, a parent's preference, or a busy clinic does not create an exception. Apply the schedule or the notification duty as it stands. Document what you do and why. Do not invent a workaround that the program does not allow. State the correct step clearly. The error in front of you is the common one for this rule. Choosing it delays protection or breaks the program. The right action is the one that matches the schedule, the age limit, or the notification duty. Nothing else in the consultation changes that. Give the answer that matches the rule, not the convenient alternative.  Decide on the facts already given.  That is the correct step on these facts. Clearly. Today.",
@@ -1227,7 +1542,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-36",
       "lo_id": "49de5829-e45a-5f4f-868a-572426c021a2",
-      "lo_code": "HPV_SCHEDULE"
+      "lo_code": "HPV_SCHEDULE",
+      "lo_key": "HPV_SCHEDULE",
+      "lo_title": "Routine adolescent HPV vaccination is a single dose, with funded catch-up available up to age 25.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 12-year-old is offered HPV at school. A parent has read that three doses are required and refuses a single dose. Routine dosing in this age group is one dose. Sexual activity is not a prerequisite. She can have the single dose. The rest of the history does not change the rule. A colleague's shortcut, a parent's preference, or a busy clinic does not create an exception. Apply the schedule or the notification duty as it stands. Document what you do and why. Do not invent a workaround that the program does not allow. State the correct step clearly. The error in front of you is the common one for this rule. Choosing it delays protection or breaks the program. The right action is the one that matches the schedule, the age limit, or the notification duty. Nothing else in the consultation changes that. Give the answer that matches the rule, not the convenient alternative.  Decide on the facts already given.  That is the correct step on these facts. Apply it now. Clearly. Today.",
@@ -1261,7 +1585,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-37",
       "lo_id": "49de5829-e45a-5f4f-868a-572426c021a2",
-      "lo_code": "HPV_SCHEDULE"
+      "lo_code": "HPV_SCHEDULE",
+      "lo_key": "HPV_SCHEDULE",
+      "lo_title": "Routine adolescent HPV vaccination is a single dose, with funded catch-up available up to age 25.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: school immunisation program",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 24-year-old has never had HPV vaccine. She asks if she has missed the window. Catch-up is funded to 26 years. She can start. Age 24 is inside the catch-up range. One dose is appropriate for routine catch-up at her age. The rest of the history does not change the rule. A colleague's shortcut, a parent's preference, or a busy clinic does not create an exception. Apply the schedule or the notification duty as it stands. Document what you do and why. Do not invent a workaround that the program does not allow. State the correct step clearly. The error in front of you is the common one for this rule. Choosing it delays protection or breaks the program. The right action is the one that matches the schedule, the age limit, or the notification duty. Nothing else in the consultation changes that. Give the answer that matches the rule, not the convenient alternative.  Decide on the facts already given.  That is the correct step on these facts. Apply it now. Clearly. Today.",
@@ -1295,7 +1628,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-38",
       "lo_id": "49de5829-e45a-5f4f-868a-572426c021a2",
-      "lo_code": "HPV_SCHEDULE"
+      "lo_code": "HPV_SCHEDULE",
+      "lo_key": "HPV_SCHEDULE",
+      "lo_title": "Routine adolescent HPV vaccination is a single dose, with funded catch-up available up to age 25.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 67-year-old immunocompetent man asks about shingles vaccine. He has heard of a live and a non-live product. The NIP product from 65 in the general population is Shingrix, the non-live vaccine. Offer that. The live vaccine is not the program choice. The rest of the history does not change the rule. A colleague's shortcut, a parent's preference, or a busy clinic does not create an exception. Apply the schedule or the notification duty as it stands. Document what you do and why. Do not invent a workaround that the program does not allow. State the correct step clearly. The error in front of you is the common one for this rule. Choosing it delays protection or breaks the program. The right action is the one that matches the schedule, the age limit, or the notification duty. Nothing else in the consultation changes that. Give the answer that matches the rule, not the convenient alternative.  Decide on the facts already given.  That is the correct step on these facts. Apply it now. Clearly. Today.",
@@ -1329,7 +1671,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-39",
       "lo_id": "631721f4-c0b0-5bc9-a999-6f841c0d073e",
-      "lo_code": "SHINGLES_VACCINE"
+      "lo_code": "SHINGLES_VACCINE",
+      "lo_key": "SHINGLES_VACCINE",
+      "lo_title": "The NIP shingles vaccine is non-live Shingrix (from 65, 50 for First Nations people, or 18 if immunocompromised), so it is safe where a live vaccine would be contraindicated.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 70-year-old on methotrexate asks for shingles vaccine. A pharmacist offers a live product that is in stock. Significant immunocompromise is a reason to avoid a live shingles vaccine. Shingrix is the option. Decline the live dose. The rest of the history does not change the rule. A colleague's shortcut, a parent's preference, or a busy clinic does not create an exception. Apply the schedule or the notification duty as it stands. Document what you do and why. Do not invent a workaround that the program does not allow. State the correct step clearly. The error in front of you is the common one for this rule. Choosing it delays protection or breaks the program. The right action is the one that matches the schedule, the age limit, or the notification duty. Nothing else in the consultation changes that. Give the answer that matches the rule, not the convenient alternative.  Decide on the facts already given.  That is the correct step on these facts. Apply it now. Clearly. Today.",
@@ -1363,7 +1714,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-40",
       "lo_id": "631721f4-c0b0-5bc9-a999-6f841c0d073e",
-      "lo_code": "SHINGLES_VACCINE"
+      "lo_code": "SHINGLES_VACCINE",
+      "lo_key": "SHINGLES_VACCINE",
+      "lo_title": "The NIP shingles vaccine is non-live Shingrix (from 65, 50 for First Nations people, or 18 if immunocompromised), so it is safe where a live vaccine would be contraindicated.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 40-year-old Aboriginal man asks about funded influenza vaccine. He is well. All Aboriginal and Torres Strait Islander adults are eligible. The age-50 rule he was told does not apply. He can have it now. The rest of the history does not change the rule. A colleague's shortcut, a parent's preference, or a busy clinic does not create an exception. Apply the schedule or the notification duty as it stands. Document what you do and why. Do not invent a workaround that the program does not allow. State the correct step clearly. The error in front of you is the common one for this rule. Choosing it delays protection or breaks the program. The right action is the one that matches the schedule, the age limit, or the notification duty. Nothing else in the consultation changes that. Give the answer that matches the rule, not the convenient alternative.  Decide on the facts already given.  That is the correct step on these facts. Apply it now. Clearly. Today.",
@@ -1397,7 +1757,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-41",
       "lo_id": "bb2290d8-0941-5a3a-ae9c-4ed9dfa44283",
-      "lo_code": "ATSI_FUNDED_VACCINES"
+      "lo_code": "ATSI_FUNDED_VACCINES",
+      "lo_key": "ATSI_FUNDED_VACCINES",
+      "lo_title": "Aboriginal and Torres Strait Islander people are eligible for funded influenza vaccine from 6 months of age and for funded pneumococcal vaccine at earlier ages than other adults.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 28-year-old Aboriginal woman asks about pneumococcal vaccine. She is well. Funded pneumococcal vaccine for Aboriginal adults starts at 25, not at the general-population age. She is eligible now. The rest of the history does not change the rule. A colleague's shortcut, a parent's preference, or a busy clinic does not create an exception. Apply the schedule or the notification duty as it stands. Document what you do and why. Do not invent a workaround that the program does not allow. State the correct step clearly. The error in front of you is the common one for this rule. Choosing it delays protection or breaks the program. The right action is the one that matches the schedule, the age limit, or the notification duty. Nothing else in the consultation changes that. Give the answer that matches the rule, not the convenient alternative.  Decide on the facts already given.  That is the correct step on these facts. Apply it now. Clearly. Today.",
@@ -1431,7 +1800,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-42",
       "lo_id": "bb2290d8-0941-5a3a-ae9c-4ed9dfa44283",
-      "lo_code": "ATSI_FUNDED_VACCINES"
+      "lo_code": "ATSI_FUNDED_VACCINES",
+      "lo_key": "ATSI_FUNDED_VACCINES",
+      "lo_title": "Aboriginal and Torres Strait Islander people are eligible for funded influenza vaccine from 6 months of age and for funded pneumococcal vaccine at earlier ages than other adults.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A practice fridge was at 12\u00b0C for six hours. Vaccines look normal. A cold-chain breach means the stock is not used until the breach is assessed. Quarantine it. Appearance does not clear potency. The rest of the history does not change the rule. A colleague's shortcut, a parent's preference, or a busy clinic does not create an exception. Apply the schedule or the notification duty as it stands. Document what you do and why. Do not invent a workaround that the program does not allow. State the correct step clearly. The error in front of you is the common one for this rule. Choosing it delays protection or breaks the program. The right action is the one that matches the schedule, the age limit, or the notification duty. Nothing else in the consultation changes that. Give the answer that matches the rule, not the convenient alternative.  Decide on the facts already given.  That is the correct step on these facts. Apply it now. Clearly. Today.",
@@ -1465,7 +1843,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-43",
       "lo_id": "983ee34b-896d-5237-bf4a-a22768c6c150",
-      "lo_code": "COLD_CHAIN"
+      "lo_code": "COLD_CHAIN",
+      "lo_key": "COLD_CHAIN",
+      "lo_title": "After a cold-chain breach, vaccines are isolated and not used until the breach is reported and assessed, regardless of how the vials look.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A nurse asks if she can use vaccines that sat on the bench for two hours because the vials are cold to touch. Cold to touch is not a cold-chain assessment. A breach is judged on time and temperature, then assessed. Do not use stock that has left the cold chain until that assessment is done. The rest of the history does not change the rule. A colleague's shortcut, a parent's preference, or a busy clinic does not create an exception. Apply the schedule or the notification duty as it stands. Document what you do and why. Do not invent a workaround that the program does not allow. State the correct step clearly. The error in front of you is the common one for this rule. Choosing it delays protection or breaks the program. The right action is the one that matches the schedule, the age limit, or the notification duty. Nothing else in the consultation changes that. Give the answer that matches the rule, not the convenient alternative.  Decide on the facts already given. Clearly. Today.",
@@ -1499,7 +1886,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-44",
       "lo_id": "983ee34b-896d-5237-bf4a-a22768c6c150",
-      "lo_code": "COLD_CHAIN"
+      "lo_code": "COLD_CHAIN",
+      "lo_key": "COLD_CHAIN",
+      "lo_title": "After a cold-chain breach, vaccines are isolated and not used until the breach is reported and assessed, regardless of how the vials look.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "The logger alarmed overnight. Maximum was 14\u00b0C for five hours. The nurse wants to use the stock so the morning clinic is not cancelled. Waste is not a reason to use breached vaccine. Quarantine, report, and do not use it. The rest of the history does not change the rule. A colleague's shortcut, a parent's preference, or a busy clinic does not create an exception. Apply the schedule or the notification duty as it stands. Document what you do and why. Do not invent a workaround that the program does not allow. State the correct step clearly. The error in front of you is the common one for this rule. Choosing it delays protection or breaks the program. The right action is the one that matches the schedule, the age limit, or the notification duty. Nothing else in the consultation changes that. Give the answer that matches the rule, not the convenient alternative.  Decide on the facts already given.  That is the correct step on these facts. Apply it now. Clearly. Today.",
@@ -1533,7 +1929,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-45",
       "lo_id": "983ee34b-896d-5237-bf4a-a22768c6c150",
-      "lo_code": "COLD_CHAIN"
+      "lo_code": "COLD_CHAIN",
+      "lo_key": "COLD_CHAIN",
+      "lo_title": "After a cold-chain breach, vaccines are isolated and not used until the breach is reported and assessed, regardless of how the vials look.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 3-year-old had 6-week doses and nothing since. A colleague wants to restart from dose one. Catch-up continues from recorded doses. It does not restart and does not skip ahead. Plan forward from what he has had. The rest of the history does not change the rule. A colleague's shortcut, a parent's preference, or a busy clinic does not create an exception. Apply the schedule or the notification duty as it stands. Document what you do and why. Do not invent a workaround that the program does not allow. State the correct step clearly. The error in front of you is the common one for this rule. Choosing it delays protection or breaks the program. The right action is the one that matches the schedule, the age limit, or the notification duty. Nothing else in the consultation changes that. Give the answer that matches the rule, not the convenient alternative.  Decide on the facts already given.  That is the correct step on these facts. Apply it now. Clearly. Today.",
@@ -1567,7 +1972,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-46",
       "lo_id": "b961e409-bbb8-5508-92dd-894d0fd2a762",
-      "lo_code": "CATCH_UP"
+      "lo_code": "CATCH_UP",
+      "lo_key": "CATCH_UP",
+      "lo_title": "Catch-up vaccination counts all documented valid doses and continues from where the person left off; the schedule is never restarted and minimum intervals are kept.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A child arriving from overseas has a documented record of primary doses. A locum wants to repeat everything. Valid documented doses count. Continue the catch-up from those doses. Do not restart because the record is from another country. The rest of the history does not change the rule. A colleague's shortcut, a parent's preference, or a busy clinic does not create an exception. Apply the schedule or the notification duty as it stands. Document what you do and why. Do not invent a workaround that the program does not allow. State the correct step clearly. The error in front of you is the common one for this rule. Choosing it delays protection or breaks the program. The right action is the one that matches the schedule, the age limit, or the notification duty. Nothing else in the consultation changes that. Give the answer that matches the rule, not the convenient alternative.  Decide on the facts already given.  That is the correct step on these facts. Apply it now. Clearly. Today.",
@@ -1601,7 +2015,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-47",
       "lo_id": "b961e409-bbb8-5508-92dd-894d0fd2a762",
-      "lo_code": "CATCH_UP"
+      "lo_code": "CATCH_UP",
+      "lo_key": "CATCH_UP",
+      "lo_title": "Catch-up vaccination counts all documented valid doses and continues from where the person left off; the schedule is never restarted and minimum intervals are kept.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A catch-up plan is being written for a child who is years behind. A parent wants every dose today. Catch-up still respects minimum intervals between doses of the same antigen. It does not compress those intervals to zero, and a long gap does not force a restart. The rest of the history does not change the rule. A colleague's shortcut, a parent's preference, or a busy clinic does not create an exception. Apply the schedule or the notification duty as it stands. Document what you do and why. Do not invent a workaround that the program does not allow. State the correct step clearly. The error in front of you is the common one for this rule. Choosing it delays protection or breaks the program. The right action is the one that matches the schedule, the age limit, or the notification duty. Nothing else in the consultation changes that. Give the answer that matches the rule, not the convenient alternative.  Decide on the facts already given.  That is the correct step on these facts. Clearly. Today.",
@@ -1635,7 +2058,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-48",
       "lo_id": "b961e409-bbb8-5508-92dd-894d0fd2a762",
-      "lo_code": "CATCH_UP"
+      "lo_code": "CATCH_UP",
+      "lo_key": "CATCH_UP",
+      "lo_title": "Catch-up vaccination counts all documented valid doses and continues from where the person left off; the schedule is never restarted and minimum intervals are kept.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "Parents of a 2-year-old object to vaccination and ask you to sign a form so they still meet the immunisation requirement for family assistance. There is no medical contraindication. Objection is not an exemption. Do not sign one. The rest of the history does not change the rule. A colleague's shortcut, a parent's preference, or a busy clinic does not create an exception. Apply the schedule or the notification duty as it stands. Document what you do and why. Do not invent a workaround that the program does not allow. State the correct step clearly. The error in front of you is the common one for this rule. Choosing it delays protection or breaks the program. The right action is the one that matches the schedule, the age limit, or the notification duty. Nothing else in the consultation changes that. Give the answer that matches the rule, not the convenient alternative.  Decide on the facts already given.  That is the correct step on these facts. Apply it now. Clearly. Today.",
@@ -1669,7 +2101,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-49",
       "lo_id": "ac2e3a63-6a77-5cc5-a908-f833b5715433",
-      "lo_code": "OBJECTION_NOT_CONTRAINDICATION"
+      "lo_code": "OBJECTION_NOT_CONTRAINDICATION",
+      "lo_key": "OBJECTION_NOT_CONTRAINDICATION",
+      "lo_title": "Conscientious or vaccine objection is not an exemption; only a documented medical contraindication qualifies, and the clinician must not certify a false one.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "Parents ask for a medical exemption because they believe vaccines are unnecessary. The child is well. A medical exemption requires a medical contraindication, not a belief. Do not write one. The rest of the history does not change the rule. A colleague's shortcut, a parent's preference, or a busy clinic does not create an exception. Apply the schedule or the notification duty as it stands. Document what you do and why. Do not invent a workaround that the program does not allow. State the correct step clearly. The error in front of you is the common one for this rule. Choosing it delays protection or breaks the program. The right action is the one that matches the schedule, the age limit, or the notification duty. Nothing else in the consultation changes that. Give the answer that matches the rule, not the convenient alternative.  Decide on the facts already given.  That is the correct step on these facts. Apply it now. Clearly. Today.",
@@ -1703,7 +2144,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-50",
       "lo_id": "ac2e3a63-6a77-5cc5-a908-f833b5715433",
-      "lo_code": "OBJECTION_NOT_CONTRAINDICATION"
+      "lo_code": "OBJECTION_NOT_CONTRAINDICATION",
+      "lo_key": "OBJECTION_NOT_CONTRAINDICATION",
+      "lo_title": "Conscientious or vaccine objection is not an exemption; only a documented medical contraindication qualifies, and the clinician must not certify a false one.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "The same parents return with a blank exemption form. You can discuss benefits and offer vaccines. You cannot create an exemption for objection. Decline to sign. Document the conversation. The rest of the history does not change the rule. A colleague's shortcut, a parent's preference, or a busy clinic does not create an exception. Apply the schedule or the notification duty as it stands. Document what you do and why. Do not invent a workaround that the program does not allow. State the correct step clearly. The error in front of you is the common one for this rule. Choosing it delays protection or breaks the program. The right action is the one that matches the schedule, the age limit, or the notification duty. Nothing else in the consultation changes that. Give the answer that matches the rule, not the convenient alternative.  Decide on the facts already given.  That is the correct step on these facts. Apply it now. Clearly. Today.",
@@ -1737,7 +2187,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-51",
       "lo_id": "ac2e3a63-6a77-5cc5-a908-f833b5715433",
-      "lo_code": "OBJECTION_NOT_CONTRAINDICATION"
+      "lo_code": "OBJECTION_NOT_CONTRAINDICATION",
+      "lo_key": "OBJECTION_NOT_CONTRAINDICATION",
+      "lo_title": "Conscientious or vaccine objection is not an exemption; only a documented medical contraindication qualifies, and the clinician must not certify a false one.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A susceptible adult had household measles contact 48 hours ago. He is well and not pregnant. MMR within 72 hours can be offered to a susceptible contact. He is inside the window. Offer it today. The rest of the history does not change the rule. A colleague's shortcut, a parent's preference, or a busy clinic does not create an exception. Apply the schedule or the notification duty as it stands. Document what you do and why. Do not invent a workaround that the program does not allow. State the correct step clearly. The error in front of you is the common one for this rule. Choosing it delays protection or breaks the program. The right action is the one that matches the schedule, the age limit, or the notification duty. Nothing else in the consultation changes that. Give the answer that matches the rule, not the convenient alternative.  Decide on the facts already given.  That is the correct step on these facts. Apply it now. Clearly. Today.",
@@ -1771,7 +2230,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-52",
       "lo_id": "9ea130b4-883b-53aa-af02-acd1c98238bc",
-      "lo_code": "MEASLES_POST_EXPOSURE"
+      "lo_code": "MEASLES_POST_EXPOSURE",
+      "lo_key": "MEASLES_POST_EXPOSURE",
+      "lo_title": "Susceptible measles contacts can be given MMR within 72 hours (or immunoglobulin within 6 days), and unprotected contacts are excluded from childcare for the exclusion period.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "An unimmunised 3-year-old had measles contact at childcare yesterday. He is well. He should be excluded. Return depends on post-exposure protection, not on being well today. The rest of the history does not change the rule. A colleague's shortcut, a parent's preference, or a busy clinic does not create an exception. Apply the schedule or the notification duty as it stands. Document what you do and why. Do not invent a workaround that the program does not allow. State the correct step clearly. The error in front of you is the common one for this rule. Choosing it delays protection or breaks the program. The right action is the one that matches the schedule, the age limit, or the notification duty. Nothing else in the consultation changes that. Give the answer that matches the rule, not the convenient alternative.  Decide on the facts already given.  That is the correct step on these facts. Apply it now. Clearly. Today.",
@@ -1805,7 +2273,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-53",
       "lo_id": "9ea130b4-883b-53aa-af02-acd1c98238bc",
-      "lo_code": "MEASLES_POST_EXPOSURE"
+      "lo_code": "MEASLES_POST_EXPOSURE",
+      "lo_key": "MEASLES_POST_EXPOSURE",
+      "lo_title": "Susceptible measles contacts can be given MMR within 72 hours (or immunoglobulin within 6 days), and unprotected contacts are excluded from childcare for the exclusion period.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: childcare / community",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A healthy 8-month-old is having influenza vaccine for the first time. Children from 6 months to under 2 years need two doses, at least 4 weeks apart, in the first year they are vaccinated. One dose is not enough this year. The rest of the history does not change the rule. A colleague's shortcut, a parent's preference, or a busy clinic does not create an exception. Apply the schedule or the notification duty as it stands. Document what you do and why. Do not invent a workaround that the program does not allow. State the correct step clearly. The error in front of you is the common one for this rule. Choosing it delays protection or breaks the program. The right action is the one that matches the schedule, the age limit, or the notification duty. Nothing else in the consultation changes that. Give the answer that matches the rule, not the convenient alternative.  Decide on the facts already given.  That is the correct step on these facts. Apply it now. Clearly. Today.",
@@ -1839,7 +2316,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-54",
       "lo_id": "ba62f6aa-5d0d-5b22-be25-f2491bada823",
-      "lo_code": "INFANT_INFLUENZA_TWO_DOSE"
+      "lo_code": "INFANT_INFLUENZA_TWO_DOSE",
+      "lo_key": "INFANT_INFLUENZA_TWO_DOSE",
+      "lo_title": "Children aged 6 months to under 9 years need two influenza doses at least 4 weeks apart in the first year they are vaccinated, then one dose each year.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A child who completed a two-dose course last year is now 18 months. A parent thinks he needs two doses every year. After a complete first-year course, later years are a single annual dose. Do not repeat the two-dose priming. The rest of the history does not change the rule. A colleague's shortcut, a parent's preference, or a busy clinic does not create an exception. Apply the schedule or the notification duty as it stands. Document what you do and why. Do not invent a workaround that the program does not allow. State the correct step clearly. The error in front of you is the common one for this rule. Choosing it delays protection or breaks the program. The right action is the one that matches the schedule, the age limit, or the notification duty. Nothing else in the consultation changes that. Give the answer that matches the rule, not the convenient alternative.  Decide on the facts already given.  That is the correct step on these facts. Apply it now. Clearly. Today.",
@@ -1873,7 +2359,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-55",
       "lo_id": "ba62f6aa-5d0d-5b22-be25-f2491bada823",
-      "lo_code": "INFANT_INFLUENZA_TWO_DOSE"
+      "lo_code": "INFANT_INFLUENZA_TWO_DOSE",
+      "lo_key": "INFANT_INFLUENZA_TWO_DOSE",
+      "lo_title": "Children aged 6 months to under 9 years need two influenza doses at least 4 weeks apart in the first year they are vaccinated, then one dose each year.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 7-month-old is well. Influenza vaccine can be given from 6 months. He can start. Egg allergy is not a contraindication in a setting that can treat anaphylaxis. Do not wait for 12 months. The rest of the history does not change the rule. A colleague's shortcut, a parent's preference, or a busy clinic does not create an exception. Apply the schedule or the notification duty as it stands. Document what you do and why. Do not invent a workaround that the program does not allow. State the correct step clearly. The error in front of you is the common one for this rule. Choosing it delays protection or breaks the program. The right action is the one that matches the schedule, the age limit, or the notification duty. Nothing else in the consultation changes that. Give the answer that matches the rule, not the convenient alternative.  Decide on the facts already given.  That is the correct step on these facts. Apply it now. Clearly. Today.",
@@ -1907,7 +2402,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-56",
       "lo_id": "ba62f6aa-5d0d-5b22-be25-f2491bada823",
-      "lo_code": "INFANT_INFLUENZA_TWO_DOSE"
+      "lo_code": "INFANT_INFLUENZA_TWO_DOSE",
+      "lo_key": "INFANT_INFLUENZA_TWO_DOSE",
+      "lo_title": "Children aged 6 months to under 9 years need two influenza doses at least 4 weeks apart in the first year they are vaccinated, then one dose each year.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "An infant is due for meningococcal B. The parent has read that prophylactic paracetamol is no longer recommended with any vaccine. That general advice does not apply to MenB. Prophylactic paracetamol is recommended with infant MenB to reduce fever. Give it. The rest of the history does not change the rule. A colleague's shortcut, a parent's preference, or a busy clinic does not create an exception. Apply the schedule or the notification duty as it stands. Document what you do and why. Do not invent a workaround that the program does not allow. State the correct step clearly. The error in front of you is the common one for this rule. Choosing it delays protection or breaks the program. The right action is the one that matches the schedule, the age limit, or the notification duty. Nothing else in the consultation changes that. Give the answer that matches the rule, not the convenient alternative.  Decide on the facts already given.  That is the correct step on these facts. Apply it now. Clearly. Today.",
@@ -1941,7 +2445,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-57",
       "lo_id": "bef6945b-b694-512d-874f-50c3ecea07ac",
-      "lo_code": "MENB_PARACETAMOL"
+      "lo_code": "MENB_PARACETAMOL",
+      "lo_key": "MENB_PARACETAMOL",
+      "lo_title": "Prophylactic paracetamol is recommended with each MenB dose in children under 2 years, but is not routine for other vaccines.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 12-month-old is due for MenB. A parent wants to skip paracetamol because the child is older than 6 months. The recommendation for prophylactic paracetamol with infant MenB still applies. Give it. The rest of the history does not change the rule. A colleague's shortcut, a parent's preference, or a busy clinic does not create an exception. Apply the schedule or the notification duty as it stands. Document what you do and why. Do not invent a workaround that the program does not allow. State the correct step clearly. The error in front of you is the common one for this rule. Choosing it delays protection or breaks the program. The right action is the one that matches the schedule, the age limit, or the notification duty. Nothing else in the consultation changes that. Give the answer that matches the rule, not the convenient alternative.  Decide on the facts already given.  That is the correct step on these facts. Apply it now. Clearly. Today.",
@@ -1975,7 +2488,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-58",
       "lo_id": "bef6945b-b694-512d-874f-50c3ecea07ac",
-      "lo_code": "MENB_PARACETAMOL"
+      "lo_code": "MENB_PARACETAMOL",
+      "lo_key": "MENB_PARACETAMOL",
+      "lo_title": "Prophylactic paracetamol is recommended with each MenB dose in children under 2 years, but is not routine for other vaccines.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A parent wants prophylactic paracetamol with every infant vaccine because it was advised for MenB. The MenB advice is specific. Routine prophylactic paracetamol is not recommended with other infant vaccines. Explain the difference. The rest of the history does not change the rule. A colleague's shortcut, a parent's preference, or a busy clinic does not create an exception. Apply the schedule or the notification duty as it stands. Document what you do and why. Do not invent a workaround that the program does not allow. State the correct step clearly. The error in front of you is the common one for this rule. Choosing it delays protection or breaks the program. The right action is the one that matches the schedule, the age limit, or the notification duty. Nothing else in the consultation changes that. Give the answer that matches the rule, not the convenient alternative.  Decide on the facts already given.  That is the correct step on these facts. Apply it now. Clearly. Today.",
@@ -2009,7 +2531,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-59",
       "lo_id": "bef6945b-b694-512d-874f-50c3ecea07ac",
-      "lo_code": "MENB_PARACETAMOL"
+      "lo_code": "MENB_PARACETAMOL",
+      "lo_key": "MENB_PARACETAMOL",
+      "lo_title": "Prophylactic paracetamol is recommended with each MenB dose in children under 2 years, but is not routine for other vaccines.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 4-year-old has one day of mild gastroenteritis and recovers. No other cases at home or childcare. A single mild community case is not an outbreak. Notification is not required. The rest of the history does not change the rule. A colleague's shortcut, a parent's preference, or a busy clinic does not create an exception. Apply the schedule or the notification duty as it stands. Document what you do and why. Do not invent a workaround that the program does not allow. State the correct step clearly. The error in front of you is the common one for this rule. Choosing it delays protection or breaks the program. The right action is the one that matches the schedule, the age limit, or the notification duty. Nothing else in the consultation changes that. Give the answer that matches the rule, not the convenient alternative.  Decide on the facts already given.  That is the correct step on these facts. Apply it now. Clearly. Today.",
@@ -2043,7 +2574,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-60",
       "lo_id": "ce078006-c98a-5946-bb1c-f4961c4f7bb2",
-      "lo_code": "OUTBREAK_NOTIFICATION"
+      "lo_code": "OUTBREAK_NOTIFICATION",
+      "lo_key": "OUTBREAK_NOTIFICATION",
+      "lo_title": "Notification follows the jurisdiction's notifiable disease list: a single mild community gastroenteritis is not notified, but suspected outbreaks such as linked childcare cases are.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: childcare / community",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "Three children at the same childcare have the same diarrhoeal illness this week. That pattern can be an outbreak. Notify public health. It is not the same as one mild case at home. The rest of the history does not change the rule. A colleague's shortcut, a parent's preference, or a busy clinic does not create an exception. Apply the schedule or the notification duty as it stands. Document what you do and why. Do not invent a workaround that the program does not allow. State the correct step clearly. The error in front of you is the common one for this rule. Choosing it delays protection or breaks the program. The right action is the one that matches the schedule, the age limit, or the notification duty. Nothing else in the consultation changes that. Give the answer that matches the rule, not the convenient alternative.  Decide on the facts already given.  That is the correct step on these facts. Apply it now. Clearly. Today.",
@@ -2077,7 +2617,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-61",
       "lo_id": "ce078006-c98a-5946-bb1c-f4961c4f7bb2",
-      "lo_code": "OUTBREAK_NOTIFICATION"
+      "lo_code": "OUTBREAK_NOTIFICATION",
+      "lo_key": "OUTBREAK_NOTIFICATION",
+      "lo_title": "Notification follows the jurisdiction's notifiable disease list: a single mild community gastroenteritis is not notified, but suspected outbreaks such as linked childcare cases are.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: childcare / community",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A clinician confuses outbreak notification with single-case notification. Measles is notified on one suspected case. Ordinary gastroenteritis is not. The duties differ. Apply the right one. The rest of the history does not change the rule. A colleague's shortcut, a parent's preference, or a busy clinic does not create an exception. Apply the schedule or the notification duty as it stands. Document what you do and why. Do not invent a workaround that the program does not allow. State the correct step clearly. The error in front of you is the common one for this rule. Choosing it delays protection or breaks the program. The right action is the one that matches the schedule, the age limit, or the notification duty. Nothing else in the consultation changes that. Give the answer that matches the rule, not the convenient alternative.  Decide on the facts already given.  That is the correct step on these facts. Apply it now. Clearly. Today.",
@@ -2111,7 +2660,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-62",
       "lo_id": "ce078006-c98a-5946-bb1c-f4961c4f7bb2",
-      "lo_code": "OUTBREAK_NOTIFICATION"
+      "lo_code": "OUTBREAK_NOTIFICATION",
+      "lo_key": "OUTBREAK_NOTIFICATION",
+      "lo_title": "Notification follows the jurisdiction's notifiable disease list: a single mild community gastroenteritis is not notified, but suspected outbreaks such as linked childcare cases are.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A child's Centrelink record shows overdue vaccines that were given at your practice. The doses are in the notes but were never uploaded. Correct the overdue status by recording the encounters on the AIR. A letter does not update the register. The rest of the history does not change the rule. A colleague's shortcut, a parent's preference, or a busy clinic does not create an exception. Apply the schedule or the notification duty as it stands. Document what you do and why. Do not invent a workaround that the program does not allow. State the correct step clearly. The error in front of you is the common one for this rule. Choosing it delays protection or breaks the program. The right action is the one that matches the schedule, the age limit, or the notification duty. Nothing else in the consultation changes that. Give the answer that matches the rule, not the convenient alternative.  Decide on the facts already given.  That is the correct step on these facts. Apply it now. Clearly. Today.",
@@ -2145,7 +2703,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-63",
       "lo_id": "5bfc74d7-c604-5732-8e2a-ee1e5c4d7205",
-      "lo_code": "AIR_RECORD"
+      "lo_code": "AIR_RECORD",
+      "lo_key": "AIR_RECORD",
+      "lo_title": "Missing vaccination records are fixed by a recognised vaccination provider submitting the encounter to the AIR with the actual date given.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A parent asks to fix the AIR online themselves. AIR encounters are submitted by the vaccination provider. The parent cannot create a clinical dose record. Submit the missing encounters from the practice. The rest of the history does not change the rule. A colleague's shortcut, a parent's preference, or a busy clinic does not create an exception. Apply the schedule or the notification duty as it stands. Document what you do and why. Do not invent a workaround that the program does not allow. State the correct step clearly. The error in front of you is the common one for this rule. Choosing it delays protection or breaks the program. The right action is the one that matches the schedule, the age limit, or the notification duty. Nothing else in the consultation changes that. Give the answer that matches the rule, not the convenient alternative.  Decide on the facts already given.  That is the correct step on these facts. Apply it now. Clearly. Today.",
@@ -2179,7 +2746,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-64",
       "lo_id": "5bfc74d7-c604-5732-8e2a-ee1e5c4d7205",
-      "lo_code": "AIR_RECORD"
+      "lo_code": "AIR_RECORD",
+      "lo_key": "AIR_RECORD",
+      "lo_title": "Missing vaccination records are fixed by a recognised vaccination provider submitting the encounter to the AIR with the actual date given.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "Doses were given six months ago and never uploaded. Submit them with the actual dates of administration. Do not use today's date. Do not replace submission with a declaration. The rest of the history does not change the rule. A colleague's shortcut, a parent's preference, or a busy clinic does not create an exception. Apply the schedule or the notification duty as it stands. Document what you do and why. Do not invent a workaround that the program does not allow. State the correct step clearly. The error in front of you is the common one for this rule. Choosing it delays protection or breaks the program. The right action is the one that matches the schedule, the age limit, or the notification duty. Nothing else in the consultation changes that. Give the answer that matches the rule, not the convenient alternative.  Decide on the facts already given.  That is the correct step on these facts. Apply it now. Clearly. Today.",
@@ -2213,7 +2789,16 @@
       "phase": "PH-02",
       "phase_item_id": "PH-I-65",
       "lo_id": "5bfc74d7-c604-5732-8e2a-ee1e5c4d7205",
-      "lo_code": "AIR_RECORD"
+      "lo_code": "AIR_RECORD",
+      "lo_key": "AIR_RECORD",
+      "lo_title": "Missing vaccination records are fixed by a recognised vaccination provider submitting the encounter to the AIR with the actual date given.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     }
   ]
 }

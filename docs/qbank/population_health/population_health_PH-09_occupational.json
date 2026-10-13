@@ -37,7 +37,16 @@
       "phase": "PH-09",
       "phase_item_id": "PH-O-01",
       "lo_id": "d406e705-85ec-5725-8a48-44fd959ccacf",
-      "lo_code": "TOXIN_ANTIDOTE"
+      "lo_code": "TOXIN_ANTIDOTE",
+      "lo_key": "TOXIN_ANTIDOTE",
+      "lo_title": "Poisonings are treated with the specific antidote: high-flow oxygen for carbon monoxide (despite normal oximetry) and atropine with pralidoxime for organophosphate crisis.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A farmer is brought in after spraying without protection. He is sweaty, wheezy, bradycardic, and has small pupils and diarrhoea. A registrar wants to give pralidoxime only. This is a cholinergic crisis from organophosphate. Atropine is the immediate antidote for the muscarinic features. Pralidoxime is added, not used instead. Atropine now for the muscarinic crisis, with pralidoxime as directed. What is the most appropriate immediate treatment?  Bronchospasm, bradycardia, secretions, and diarrhoea are muscarinic. Atropine treats them. Neostigmine would worsen this. Pralidoxime does not replace atropine.  The exposure is the reason the ordinary diagnosis is wrong. Act on the occupational cause, not on the common label.  Nothing else in the history clears the exposure or delays the specific treatment.  That is the priority.  A normal test or a common diagnosis does not clear an occupational exposure. Treat and notify as the exposure requires.  Do not send him home, to theatre, or back to the same unprotected job on the ordinary label.  The specific pathway starts now.  Waiting for a confirmatory test does not delay the first correct step.",
@@ -71,7 +80,16 @@
       "phase": "PH-09",
       "phase_item_id": "PH-O-02",
       "lo_id": "d406e705-85ec-5725-8a48-44fd959ccacf",
-      "lo_code": "TOXIN_ANTIDOTE"
+      "lo_code": "TOXIN_ANTIDOTE",
+      "lo_key": "TOXIN_ANTIDOTE",
+      "lo_title": "Poisonings are treated with the specific antidote: high-flow oxygen for carbon monoxide (despite normal oximetry) and atropine with pralidoxime for organophosphate crisis.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 1.1,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A factory worker has trouble hearing his family. He has worked for 20 years beside a press with no hearing protection. Audiology shows a high-frequency notch. His employer says he is fine because he can hear on the phone. A high-frequency notch after years of unprotected noise is noise-induced loss. Diagnose likely noise injury, notify as required, and remove him from unprotected exposure. What is the most appropriate action?  Phone use does not exclude occupational loss. A hearing aid without removing the exposure lets the injury progress. Notify and remove him from the unprotected press.  The exposure is the reason the ordinary diagnosis is wrong. Act on the occupational cause, not on the common label.  Nothing else in the history clears the exposure or delays the specific treatment.  That is the priority.  A normal test or a common diagnosis does not clear an occupational exposure. Treat and notify as the exposure requires.  Do not send him home, to theatre, or back to the same unprotected job on the ordinary label.  The specific pathway starts now.  Waiting for a confirmatory test does not delay the first correct step.",
@@ -105,7 +123,16 @@
       "phase": "PH-09",
       "phase_item_id": "PH-O-03",
       "lo_id": "ab4875ea-f3d4-53ba-be74-e2152b5cfe15",
-      "lo_code": "OCCUPATIONAL_NOTIFY"
+      "lo_code": "OCCUPATIONAL_NOTIFY",
+      "lo_key": "OCCUPATIONAL_EXPOSURE_DISEASE",
+      "lo_title": "Occupational disease is recognised from the occupational history and exposure (noise, lead, asbestos, Q fever), with exposure removed, the condition managed and notification made where required.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -1.0,
+      "difficulty_tier": "easy",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: data gathering; setting: workplace",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A battery-factory worker has abdominal pain, constipation, and a wrist drop. He has been melting lead plates. A surgical registrar books him for appendicectomy. Abdominal pain, constipation, and a motor neuropathy in a lead worker is lead toxicity until proved otherwise. Stop the exposure, check a blood lead, notify, and do not operate for this pain. What is the most appropriate next step?  Wrist drop is a lead neuropathy, not overuse. Constipation is not gastroenteritis. Do not take him to theatre for appendicitis. Remove exposure and notify.  The exposure is the reason the ordinary diagnosis is wrong. Act on the occupational cause, not on the common label.  Nothing else in the history clears the exposure or delays the specific treatment.  That is the priority.  A normal test or a common diagnosis does not clear an occupational exposure. Treat and notify as the exposure requires.  Do not send him home, to theatre, or back to the same unprotected job on the ordinary label.  The specific pathway starts now.  Waiting for a confirmatory test does not delay the first correct step.",
@@ -139,7 +166,16 @@
       "phase": "PH-09",
       "phase_item_id": "PH-O-04",
       "lo_id": "ab4875ea-f3d4-53ba-be74-e2152b5cfe15",
-      "lo_code": "OCCUPATIONAL_NOTIFY"
+      "lo_code": "OCCUPATIONAL_NOTIFY",
+      "lo_key": "OCCUPATIONAL_EXPOSURE_DISEASE",
+      "lo_title": "Occupational disease is recognised from the occupational history and exposure (noise, lead, asbestos, Q fever), with exposure removed, the condition managed and notification made where required.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: workplace",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 72-year-old former boiler-maker has chest pain and a unilateral pleural effusion. He smoked for 10 years, stopping at 40. A colleague attributes the effusion to smoking and arranges routine follow-up. A unilateral effusion in a boiler-maker is mesothelioma until excluded. Urgent assessment for mesothelioma. Ask a full occupational history. What is the most appropriate priority?  A short smoking history does not explain pleural malignancy. Heart failure is usually bilateral. The occupational history is the key. Investigate urgently.  The exposure is the reason the ordinary diagnosis is wrong. Act on the occupational cause, not on the common label.  Nothing else in the history clears the exposure or delays the specific treatment.  That is the priority.  A normal test or a common diagnosis does not clear an occupational exposure. Treat and notify as the exposure requires.  Do not send him home, to theatre, or back to the same unprotected job on the ordinary label.  The specific pathway starts now.  Waiting for a confirmatory test does not delay the first correct step.",
@@ -173,7 +209,16 @@
       "phase": "PH-09",
       "phase_item_id": "PH-O-05",
       "lo_id": "ab4875ea-f3d4-53ba-be74-e2152b5cfe15",
-      "lo_code": "OCCUPATIONAL_NOTIFY"
+      "lo_code": "OCCUPATIONAL_NOTIFY",
+      "lo_key": "OCCUPATIONAL_EXPOSURE_DISEASE",
+      "lo_title": "Occupational disease is recognised from the occupational history and exposure (noise, lead, asbestos, Q fever), with exposure removed, the condition managed and notification made where required.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.95,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: data gathering; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A nurse sustains a deep needlestick from an unconscious patient of unknown status. She squeezes the finger and asks if that is enough. First aid is washing, not squeezing. An unknown source with a deep injury is a significant exposure. Wash, do not squeeze, assess the risk, and start the HIV post-exposure pathway urgently. What is the most appropriate immediate management?  Squeezing is not recommended. Waiting three months misses the window for prophylaxis. HIV post-exposure prophylaxis is time-critical. Start the pathway now.  The exposure is the reason the ordinary diagnosis is wrong. Act on the occupational cause, not on the common label.  Nothing else in the history clears the exposure or delays the specific treatment.  That is the priority.  A normal test or a common diagnosis does not clear an occupational exposure. Treat and notify as the exposure requires.  Do not send him home, to theatre, or back to the same unprotected job on the ordinary label.  The specific pathway starts now.  Waiting for a confirmatory test does not delay the first correct step.",
@@ -207,7 +252,16 @@
       "phase": "PH-09",
       "phase_item_id": "PH-O-06",
       "lo_id": "07c63052-5568-57f2-920f-c01c65e37a90",
-      "lo_code": "NEEDLESTICK"
+      "lo_code": "NEEDLESTICK",
+      "lo_key": "NEEDLESTICK",
+      "lo_title": "After a needlestick injury, wash without squeezing, assess source and exposure risk, and start blood-borne virus post-exposure management urgently.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A farm worker collapses after a day in extreme heat. He is confused, hot, and dry, with a temperature of 41\u00b0C. A colleague says it is heat exhaustion and suggests oral fluids in the shade. Confusion and a core temperature of 41\u00b0C is heat stroke, not exhaustion. This is heat stroke. Cool him actively and transfer as an emergency. What is the most appropriate action?  Paracetamol is not acute cooling. Finishing the shift is dangerous. Active cooling and emergency transfer. Heat stroke is hot plus brain dysfunction.  The exposure is the reason the ordinary diagnosis is wrong. Act on the occupational cause, not on the common label.  Nothing else in the history clears the exposure or delays the specific treatment.  That is the priority.  A normal test or a common diagnosis does not clear an occupational exposure. Treat and notify as the exposure requires.  Do not send him home, to theatre, or back to the same unprotected job on the ordinary label.  The specific pathway starts now.  Waiting for a confirmatory test does not delay the first correct step.",
@@ -241,7 +295,16 @@
       "phase": "PH-09",
       "phase_item_id": "PH-O-07",
       "lo_id": "65149ffc-1a60-5f6c-8cf9-8176dd9e95dc",
-      "lo_code": "ENVIRONMENTAL_EMERGENCY"
+      "lo_code": "ENVIRONMENTAL_EMERGENCY",
+      "lo_key": "ENVIRONMENTAL_EMERGENCY",
+      "lo_title": "Environmental emergencies are recognised and treated immediately: heat stroke with confusion and hyperthermia needs active cooling and transfer, and suspected carbon monoxide needs high-flow oxygen.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -1.05,
+      "difficulty_tier": "easy",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: rural workplace",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A meatworker has fever, severe headache, and pneumonia that has not responded to amoxicillin. He works on a killing floor. A registrar plans another course of the same antibiotic. Fever, headache, and pneumonia failing amoxicillin in an abattoir worker is Q fever until proved otherwise. Treat as possible Q fever. Doxycycline, and notify. What is the most appropriate change?  Failure of amoxicillin is the clue. Repeating it misses Q fever. Doxycycline is the treatment. It is notifiable. Abattoir work changes the antibiotic choice.  The exposure is the reason the ordinary diagnosis is wrong. Act on the occupational cause, not on the common label.  Nothing else in the history clears the exposure or delays the specific treatment.  That is the priority.  A normal test or a common diagnosis does not clear an occupational exposure. Treat and notify as the exposure requires.  Do not send him home, to theatre, or back to the same unprotected job on the ordinary label.  The specific pathway starts now.  Waiting for a confirmatory test does not delay the first correct step.",
@@ -275,7 +338,16 @@
       "phase": "PH-09",
       "phase_item_id": "PH-O-08",
       "lo_id": "ab4875ea-f3d4-53ba-be74-e2152b5cfe15",
-      "lo_code": "OCCUPATIONAL_NOTIFY"
+      "lo_code": "OCCUPATIONAL_NOTIFY",
+      "lo_key": "OCCUPATIONAL_EXPOSURE_DISEASE",
+      "lo_title": "Occupational disease is recognised from the occupational history and exposure (noise, lead, asbestos, Q fever), with exposure removed, the condition managed and notification made where required.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 1.05,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A family from a house with a poorly ventilated gas heater have headache and nausea. One is drowsy. The pulse oximeter reads 99%. Standard oximetry cannot distinguish carboxyhaemoglobin. High-flow oxygen now. Do not discharge on that reading. The rest of the history does not clear the exposure. A normal test or a common label does not replace the specific treatment. Act on the occupational or environmental cause. Do not send him home, to theatre, or back to the same job on the ordinary diagnosis. The specific pathway starts now. Nothing else in the consultation changes the first correct step. Waiting for a confirmatory test does not delay oxygen, atropine, cooling, or the post-exposure pathway. Remove the exposure and start the specific treatment. Document what you do. That is the priority. A colleague's ordinary diagnosis is the trap. Apply the exposure-specific rule. Clearly. Now. Do not delay the specific pathway. The exposure is the reason the ordinary diagnosis is wrong. Treat and notify as that exposure requires. A well-looking patient or a normal bedside test does not clear it. Start the correct pathway before he leaves.",
@@ -309,7 +381,16 @@
       "phase": "PH-09",
       "phase_item_id": "PH-O-09",
       "lo_id": "d406e705-85ec-5725-8a48-44fd959ccacf",
-      "lo_code": "TOXIN_ANTIDOTE"
+      "lo_code": "TOXIN_ANTIDOTE",
+      "lo_key": "TOXIN_ANTIDOTE",
+      "lo_title": "Poisonings are treated with the specific antidote: high-flow oxygen for carbon monoxide (despite normal oximetry) and atropine with pralidoxime for organophosphate crisis.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A farmer is sweaty, wheezy, bradycardic, with small pupils and diarrhoea after spraying. This is organophosphate. Atropine treats the muscarinic features now. Pralidoxime is added, not used instead. The rest of the history does not clear the exposure. A normal test or a common label does not replace the specific treatment. Act on the occupational or environmental cause. Do not send him home, to theatre, or back to the same job on the ordinary diagnosis. The specific pathway starts now. Nothing else in the consultation changes the first correct step. Waiting for a confirmatory test does not delay oxygen, atropine, cooling, or the post-exposure pathway. Remove the exposure and start the specific treatment. Document what you do. That is the priority. A colleague's ordinary diagnosis is the trap. Apply the exposure-specific rule. Clearly. Now. Do not delay the specific pathway. The exposure is the reason the ordinary diagnosis is wrong. Treat and notify as that exposure requires. A well-looking patient or a normal bedside test does not clear it. Start the correct pathway before he leaves.",
@@ -343,7 +424,16 @@
       "phase": "PH-09",
       "phase_item_id": "PH-O-10",
       "lo_id": "d406e705-85ec-5725-8a48-44fd959ccacf",
-      "lo_code": "TOXIN_ANTIDOTE"
+      "lo_code": "TOXIN_ANTIDOTE",
+      "lo_key": "TOXIN_ANTIDOTE",
+      "lo_title": "Poisonings are treated with the specific antidote: high-flow oxygen for carbon monoxide (despite normal oximetry) and atropine with pralidoxime for organophosphate crisis.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A nurse has a deep needlestick from an unconscious patient of unknown status. She squeezes the finger. Wash, do not squeeze. An unknown source with a deep injury is significant. Start the HIV post-exposure pathway now. The rest of the history does not clear the exposure. A normal test or a common label does not replace the specific treatment. Act on the occupational or environmental cause. Do not send him home, to theatre, or back to the same job on the ordinary diagnosis. The specific pathway starts now. Nothing else in the consultation changes the first correct step. Waiting for a confirmatory test does not delay oxygen, atropine, cooling, or the post-exposure pathway. Remove the exposure and start the specific treatment. Document what you do. That is the priority. A colleague's ordinary diagnosis is the trap. Apply the exposure-specific rule. Clearly. Now. Do not delay the specific pathway. The exposure is the reason the ordinary diagnosis is wrong. Treat and notify as that exposure requires. A well-looking patient or a normal bedside test does not clear it. Start the correct pathway before he leaves.",
@@ -377,7 +467,16 @@
       "phase": "PH-09",
       "phase_item_id": "PH-O-11",
       "lo_id": "07c63052-5568-57f2-920f-c01c65e37a90",
-      "lo_code": "NEEDLESTICK"
+      "lo_code": "NEEDLESTICK",
+      "lo_key": "NEEDLESTICK",
+      "lo_title": "After a needlestick injury, wash without squeezing, assess source and exposure risk, and start blood-borne virus post-exposure management urgently.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "The source is unknown and the injury is deep. Do not wait a week. HIV post-exposure prophylaxis is time-critical. The rest of the history does not clear the exposure. A normal test or a common label does not replace the specific treatment. Act on the occupational or environmental cause. Do not send him home, to theatre, or back to the same job on the ordinary diagnosis. The specific pathway starts now. Nothing else in the consultation changes the first correct step. Waiting for a confirmatory test does not delay oxygen, atropine, cooling, or the post-exposure pathway. Remove the exposure and start the specific treatment. Document what you do. That is the priority. A colleague's ordinary diagnosis is the trap. Apply the exposure-specific rule. Clearly. Now. Do not delay the specific pathway. The exposure is the reason the ordinary diagnosis is wrong. Treat and notify as that exposure requires. A well-looking patient or a normal bedside test does not clear it. Start the correct pathway before he leaves.",
@@ -411,7 +510,16 @@
       "phase": "PH-09",
       "phase_item_id": "PH-O-12",
       "lo_id": "07c63052-5568-57f2-920f-c01c65e37a90",
-      "lo_code": "NEEDLESTICK"
+      "lo_code": "NEEDLESTICK",
+      "lo_key": "NEEDLESTICK",
+      "lo_title": "After a needlestick injury, wash without squeezing, assess source and exposure risk, and start blood-borne virus post-exposure management urgently.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "Today's negative test does not clear an exposure from an hour ago. Assess properly and start the pathway. The rest of the history does not clear the exposure. A normal test or a common label does not replace the specific treatment. Act on the occupational or environmental cause. Do not send him home, to theatre, or back to the same job on the ordinary diagnosis. The specific pathway starts now. Nothing else in the consultation changes the first correct step. Waiting for a confirmatory test does not delay oxygen, atropine, cooling, or the post-exposure pathway. Remove the exposure and start the specific treatment. Document what you do. That is the priority. A colleague's ordinary diagnosis is the trap. Apply the exposure-specific rule. Clearly. Now. Do not delay the specific pathway. The exposure is the reason the ordinary diagnosis is wrong. Treat and notify as that exposure requires. A well-looking patient or a normal bedside test does not clear it. Start the correct pathway before he leaves.",
@@ -445,7 +553,16 @@
       "phase": "PH-09",
       "phase_item_id": "PH-O-13",
       "lo_id": "07c63052-5568-57f2-920f-c01c65e37a90",
-      "lo_code": "NEEDLESTICK"
+      "lo_code": "NEEDLESTICK",
+      "lo_key": "NEEDLESTICK",
+      "lo_title": "After a needlestick injury, wash without squeezing, assess source and exposure risk, and start blood-borne virus post-exposure management urgently.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A farm worker collapses after extreme heat. He is confused, hot, and dry, temperature 41\u00b0C. Confusion plus this temperature is heat stroke. Cool actively and transfer. It is not heat exhaustion. The rest of the history does not clear the exposure. A normal test or a common label does not replace the specific treatment. Act on the occupational or environmental cause. Do not send him home, to theatre, or back to the same job on the ordinary diagnosis. The specific pathway starts now. Nothing else in the consultation changes the first correct step. Waiting for a confirmatory test does not delay oxygen, atropine, cooling, or the post-exposure pathway. Remove the exposure and start the specific treatment. Document what you do. That is the priority. A colleague's ordinary diagnosis is the trap. Apply the exposure-specific rule. Clearly. Now. Do not delay the specific pathway. The exposure is the reason the ordinary diagnosis is wrong. Treat and notify as that exposure requires. A well-looking patient or a normal bedside test does not clear it. Start the correct pathway before he leaves.",
@@ -479,7 +596,16 @@
       "phase": "PH-09",
       "phase_item_id": "PH-O-14",
       "lo_id": "65149ffc-1a60-5f6c-8cf9-8176dd9e95dc",
-      "lo_code": "ENVIRONMENTAL_EMERGENCY"
+      "lo_code": "ENVIRONMENTAL_EMERGENCY",
+      "lo_key": "ENVIRONMENTAL_EMERGENCY",
+      "lo_title": "Environmental emergencies are recognised and treated immediately: heat stroke with confusion and hyperthermia needs active cooling and transfer, and suspected carbon monoxide needs high-flow oxygen.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: rural workplace",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "Heater, headache, a drowsy patient, normal saturation. Oxygen now. Do not trust the oximeter. The rest of the history does not clear the exposure. A normal test or a common label does not replace the specific treatment. Act on the occupational or environmental cause. Do not send him home, to theatre, or back to the same job on the ordinary diagnosis. The specific pathway starts now. Nothing else in the consultation changes the first correct step. Waiting for a confirmatory test does not delay oxygen, atropine, cooling, or the post-exposure pathway. Remove the exposure and start the specific treatment. Document what you do. That is the priority. A colleague's ordinary diagnosis is the trap. Apply the exposure-specific rule. Clearly. Now. Do not delay the specific pathway. The exposure is the reason the ordinary diagnosis is wrong. Treat and notify as that exposure requires. A well-looking patient or a normal bedside test does not clear it. Start the correct pathway before he leaves.",
@@ -513,7 +639,16 @@
       "phase": "PH-09",
       "phase_item_id": "PH-O-15",
       "lo_id": "65149ffc-1a60-5f6c-8cf9-8176dd9e95dc",
-      "lo_code": "ENVIRONMENTAL_EMERGENCY"
+      "lo_code": "ENVIRONMENTAL_EMERGENCY",
+      "lo_key": "ENVIRONMENTAL_EMERGENCY",
+      "lo_title": "Environmental emergencies are recognised and treated immediately: heat stroke with confusion and hyperthermia needs active cooling and transfer, and suspected carbon monoxide needs high-flow oxygen.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "Confused and 41\u00b0C. This is an emergency. Cool and transfer. Do not send him back to work. The rest of the history does not clear the exposure. A normal test or a common label does not replace the specific treatment. Act on the occupational or environmental cause. Do not send him home, to theatre, or back to the same job on the ordinary diagnosis. The specific pathway starts now. Nothing else in the consultation changes the first correct step. Waiting for a confirmatory test does not delay oxygen, atropine, cooling, or the post-exposure pathway. Remove the exposure and start the specific treatment. Document what you do. That is the priority. A colleague's ordinary diagnosis is the trap. Apply the exposure-specific rule. Clearly. Now. Do not delay the specific pathway. The exposure is the reason the ordinary diagnosis is wrong. Treat and notify as that exposure requires. A well-looking patient or a normal bedside test does not clear it. Start the correct pathway before he leaves.",
@@ -547,7 +682,16 @@
       "phase": "PH-09",
       "phase_item_id": "PH-O-16",
       "lo_id": "65149ffc-1a60-5f6c-8cf9-8176dd9e95dc",
-      "lo_code": "ENVIRONMENTAL_EMERGENCY"
+      "lo_code": "ENVIRONMENTAL_EMERGENCY",
+      "lo_key": "ENVIRONMENTAL_EMERGENCY",
+      "lo_title": "Environmental emergencies are recognised and treated immediately: heat stroke with confusion and hyperthermia needs active cooling and transfer, and suspected carbon monoxide needs high-flow oxygen.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: emergency department",
+      "blueprint_eligible": true,
+      "status": "draft"
     }
   ]
 }

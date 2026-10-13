@@ -37,7 +37,16 @@
       "phase": "PH-03",
       "phase_item_id": "PH-A-01",
       "lo_id": "894c81b1-d7f2-53fe-85c1-23ae018b8114",
-      "lo_code": "HEALTH_CHECK_715"
+      "lo_code": "HEALTH_CHECK_715",
+      "lo_key": "HEALTH_CHECK_715",
+      "lo_title": "The MBS 715 health assessment is offered on self-identification as Aboriginal or Torres Strait Islander, no more than every 9 months, in the practice, not to an inpatient.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 52-year-old Aboriginal woman asks for help with the cost of her PBS medicines. She has not been registered for Closing the Gap. She asks if she can register herself online. Closing the Gap PBS co-payment registration is a one-off clinical registration by a PBS prescriber or an eligible practitioner. The patient cannot self-register. Register her properly. What is the most appropriate action?  She is eligible once registered. Self-registration is not a pathway. Complete the clinical registration, then her scripts can be annotated. Until then the lower co-payment does not apply.  She has several PBS medicines and is paying the general co-payment. Registration is clinical and one-off. After it is done, annotation works. Before it, writing CTG does nothing. She cannot do this herself online.  Complete the registration in the consult. Explain it is once. After that, CTG annotation is valid. Online self-registration is not a real option.  Do the registration before she leaves. A later phone call often never happens. Eligibility starts at registration, not at the pharmacy counter.  Clinical registration, then she benefits. Self-service online is a myth here. Do it in the room.  Do the registration before the script is reprinted.",
@@ -71,7 +80,16 @@
       "phase": "PH-03",
       "phase_item_id": "PH-A-02",
       "lo_id": "74f1cfd6-7217-59a7-9721-60f3fa0d504d",
-      "lo_code": "CTG_PBS"
+      "lo_code": "CTG_PBS",
+      "lo_key": "CTG_PBS",
+      "lo_title": "Closing the Gap PBS co-payment eligibility requires a one-off registration by a PBS prescriber or eligible Aboriginal Health Practitioner before CTG scripts apply.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 12-year-old boy in a remote clinic had acute rheumatic fever last year and is on secondary prophylaxis. His benzathine dose is due. A locum suggests oral penicillin for a week because the clinic is busy. Secondary prophylaxis is intramuscular benzathine benzylpenicillin, usually every 28 days. An oral course does not replace it. Give the injection. What is the most appropriate action?  He is due, not early. The 28-day interval is the program. Oral penicillin for convenience fails secondary prophylaxis. Give benzathine today.  He had definite acute rheumatic fever. Prophylaxis is current and due today. Busy clinic is not a reason to substitute oral penicillin. Benzathine every 28 days is the regimen. Give it.  Document the dose and the next due date. Oral substitution breaks the prophylaxis that prevents recurrence. Injection today.  Pain of the injection is real. It is not a reason to switch to oral. Give benzathine, record it, book day 28.  Due dose, correct drug, correct route. Oral is not secondary prophylaxis. Inject.  Next dose in 28 days from today. Record both.",
@@ -105,7 +123,16 @@
       "phase": "PH-03",
       "phase_item_id": "PH-A-03",
       "lo_id": "9e7209fd-2f28-53c3-8342-db4e91a2d32d",
-      "lo_code": "RHD_SECONDARY_PROPHYLAXIS"
+      "lo_code": "RHD_SECONDARY_PROPHYLAXIS",
+      "lo_key": "RHD_SECONDARY_PROPHYLAXIS",
+      "lo_title": "RHD secondary prophylaxis is IM benzathine benzylpenicillin every 28 days (weight-adjusted dose), with duration set by disease severity and overdue doses given promptly.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.9,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: remote community clinic",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 9-year-old in Townsville has fever, migratory arthritis, and a new murmur. You suspect acute rheumatic fever. A colleague says to wait for echocardiogram confirmation before notifying. Acute rheumatic fever is notifiable on clinical suspicion and is registered with the jurisdictional RHD control program. Notify now and link him to the program. What is the most appropriate action?  Jones criteria can be met clinically. Echo will refine carditis but is not a gate for notification. Notify and register now.  Fever, migratory arthritis, and a new murmur in a child in northern Australia is acute rheumatic fever until proved otherwise. Notification is clinical. Echo refines the heart finding. Do not wait for it to notify.  Register with the RHD control program the same day. Echo can be arranged in parallel. Notification does not wait.  Phone the notification. Send the details the program needs. Echo appointment in parallel. Waiting for a scan delays the register.  Clinical notification, program registration, echo in parallel. That is the order.  Clinical suspicion is enough to notify. Do not wait for echo.",
@@ -139,7 +166,16 @@
       "phase": "PH-03",
       "phase_item_id": "PH-A-04",
       "lo_id": "e0b3c8c7-2741-5860-9a4a-ab703c84e659",
-      "lo_code": "ACUTE_RHEUMATIC_FEVER"
+      "lo_code": "ACUTE_RHEUMATIC_FEVER",
+      "lo_key": "ACUTE_RHEUMATIC_FEVER",
+      "lo_title": "Suspected acute rheumatic fever needs echocardiography, notification and register referral, and streptococcal infections in high-risk people are treated promptly.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 15-year-old girl had acute rheumatic fever with moderate carditis three years ago. She has had no recurrence. Her mother asks if the benzathine can stop at five years for everyone. Duration of secondary prophylaxis depends on cardiac involvement. Moderate RHD means a longer course than a fixed five years. Continue according to the cardiac category. What is the most appropriate advice?  Moderate carditis lengthens prophylaxis. A blanket five-year stop under-treats her. Follow the RHD duration table, not a fixed course.  Moderate RHD at diagnosis sets a longer duration. Three quiet years do not reset her to a five-year course. Check the category and continue. Stopping early is the error.  Look up the duration for moderate RHD. It is longer than five years. Continue. Do not stop because a parent asked for a fixed end date.  Moderate disease at the start is the category that counts. Quiet years are good. They do not shorten the table. Continue prophylaxis.  Category is moderate. Duration follows category. Five years is not universal. Continue.  The duration table, not a family preference, sets the stop date.",
@@ -173,7 +209,16 @@
       "phase": "PH-03",
       "phase_item_id": "PH-A-05",
       "lo_id": "9e7209fd-2f28-53c3-8342-db4e91a2d32d",
-      "lo_code": "RHD_SECONDARY_PROPHYLAXIS"
+      "lo_code": "RHD_SECONDARY_PROPHYLAXIS",
+      "lo_key": "RHD_SECONDARY_PROPHYLAXIS",
+      "lo_title": "RHD secondary prophylaxis is IM benzathine benzylpenicillin every 28 days (weight-adjusted dose), with duration set by disease severity and overdue doses given promptly.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.9,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "An 8-year-old Aboriginal boy from a remote community has infected skin sores and tea-coloured urine. A colleague treats the sores and says no further action is needed. Skin sores in a high-risk child are treated, and acute post-streptococcal glomerulonephritis is looked for and notified where required. Assess and treat for APSGN. What is the most appropriate action?  Tea-coloured urine after sores is APSGN until proved otherwise. Check blood pressure, urine, and renal function. Notify where required. Do not stop at the skin.  Infected sores plus dark urine in a remote child is APSGN until excluded. Blood pressure may be raised. Oedema may follow. Treat the skin and assess the kidneys. Notify if required.  Check oedema, blood pressure, and urine. Treat sores. Consider notification. APSGN is the diagnosis to chase, not a skin-only problem.  Remote community, sores, dark urine. APSGN pathway: assess, treat skin, notify if the jurisdiction requires. Do not close at topical care.  Sores plus dark urine. APSGN assessment and skin treatment. Notify if required. Do not stop at cream.  Dark urine after sores is not a skin-only visit.",
@@ -207,7 +252,16 @@
       "phase": "PH-03",
       "phase_item_id": "PH-A-06",
       "lo_id": "837f8392-1abe-5217-b157-1c21ad1459a2",
-      "lo_code": "APSGN"
+      "lo_code": "APSGN",
+      "lo_key": "APSGN",
+      "lo_title": "Skin sores in a high-risk child are treated, APSGN is assessed and notified, and household contacts are examined for sores and scabies.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: data gathering; setting: remote community clinic",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 55-year-old man from a Strongyloides-endemic northern community is about to start prednisolone for a flare of asthma. A colleague says to start the steroid and check serology later if he gets abdominal pain. Before steroids in a person from an endemic community, screen or treat for Strongyloides. Do not start steroids alone. What is the most appropriate action?  Steroids can precipitate severe strongyloidiasis. Serology or pre-emptive ivermectin comes first in an endemic-community patient. Starting prednisolone alone is the error.  He grew up in a community where Strongyloides is endemic. Prednisolone without cover risks hyperinfection. Serology or ivermectin first. Then the steroid. Do not reverse that order.  Ivermectin or a negative serology plan before the first steroid dose. Hyperinfection is the risk you are avoiding. Do not start and test later.  Endemic exposure is enough to act before steroids. Do not wait for eosinophilia or abdominal pain. Prevent hyperinfection.  Endemic community, steroids planned. Strongyloides cover or serology first. Then prednisolone.  Endemic exposure plus planned steroids is the trigger to act first.",
@@ -241,7 +295,16 @@
       "phase": "PH-03",
       "phase_item_id": "PH-A-07",
       "lo_id": "5509d80d-3dc8-5993-84cf-7d1248de7e6c",
-      "lo_code": "STRONGYLOIDES_BEFORE_STEROIDS"
+      "lo_code": "STRONGYLOIDES_BEFORE_STEROIDS",
+      "lo_key": "STRONGYLOIDES_BEFORE_STEROIDS",
+      "lo_title": "Before corticosteroids or immunosuppression in a person from a Strongyloides-endemic setting, check serology or give pre-emptive ivermectin.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.95,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: data gathering; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 48-year-old man in Darwin presents in the wet season with severe pneumonia and sepsis. He works outdoors. Standard community pneumonia antibiotics have been started. He is deteriorating. Melioidosis is treated with ceftazidime or meropenem, not standard community pneumonia cover. Change antibiotics and discuss melioidosis. What is the most appropriate action?  Wet season, outdoor work, severe pneumonia not responding to standard cover. Melioidosis is the concern. Ceftazidime or meropenem, and discuss it. Do not persist with community antibiotics.  Wet-season sepsis and pneumonia in the Top End raises melioidosis. Standard amoxicillin or ceftriaxone alone is not reliable cover. Switch to ceftazidime or meropenem and involve infectious diseases.  Blood cultures first if not done. Then ceftazidime or meropenem. Mention melioidosis in the referral. Community pneumonia treatment has failed.  Top End, wet season, severe pneumonia. Melioidosis until proved otherwise in this picture. Right antibiotic now.  Melioidosis antibiotics now. Ceftazidime or meropenem. Discuss the diagnosis. Do not persist with failed cover.  Wet-season sepsis in the Top End is melioidosis until proved otherwise.",
@@ -275,7 +338,16 @@
       "phase": "PH-03",
       "phase_item_id": "PH-A-08",
       "lo_id": "85ca6351-a47a-5e48-a67c-7fce6032ac0d",
-      "lo_code": "MELIOIDOSIS_ANTIBIOTICS"
+      "lo_code": "MELIOIDOSIS_ANTIBIOTICS",
+      "lo_key": "MELIOIDOSIS_ANTIBIOTICS",
+      "lo_title": "Suspected melioidosis in tropical northern Australia is treated with IV ceftazidime or meropenem, not standard community pneumonia antibiotics.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.95,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 34-year-old woman attends a city practice. The receptionist has marked her as non-Indigenous based on appearance. She has not been asked. Indigenous status is asked, not inferred from appearance or postcode. Ask her, in private, whether she identifies as Aboriginal or Torres Strait Islander. What is the most appropriate action?  Ask in private. Record what she says. Do not infer from appearance or address. The receptionist\u2019s mark is not an answer.  The question is simple and private. Do not guess from skin, name, or suburb. Record her answer. That answer, not the reception note, drives eligibility for programs.  Correct the record if she identifies. Programs and checks depend on that answer. Appearance is irrelevant.  Private question, direct answer, correct the file. That is the whole task. Inference is the error.  Ask. Record. Do not infer. The receptionist\u2019s assumption is void.  Ask in private and correct the record from her answer. The decision can be made on what is already in the history.",
@@ -309,7 +381,16 @@
       "phase": "PH-03",
       "phase_item_id": "PH-A-09",
       "lo_id": "baab0870-434d-56ff-94d7-9b085c7589d0",
-      "lo_code": "CULTURAL_SAFETY"
+      "lo_code": "CULTURAL_SAFETY",
+      "lo_key": "CULTURAL_SAFETY",
+      "lo_title": "Indigenous status is asked of the patient, not assumed, and culturally safe care follows the patient's wishes without delaying urgent assessment.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -0.9,
+      "difficulty_tier": "easy",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: data gathering; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 24-year-old pregnant woman with known rheumatic heart disease is booked for routine low-risk antenatal care at the local clinic. She has moderate mitral stenosis. A pregnant woman with known RHD needs specialist obstetric and cardiac care, not routine low-risk care alone. Refer and restart prophylaxis if it has lapsed. What is the most appropriate action?  Moderate mitral stenosis in pregnancy is not low-risk antenatal care. She needs obstetric and cardiac specialist input, and prophylaxis must be current. Refer.  Known RHD with mitral stenosis. Pregnancy increases risk. Routine midwife-only care is not enough. Specialist obstetric and cardiac review, and secure prophylaxis, are the plan.  Restart benzathine if the interval has slipped. Book specialist care this week, not at the next routine antenatal visit.  Stenosis plus pregnancy is specialist care. Low-risk booking is wrong. Change the pathway today.  Specialist obstetric and cardiac care. Secure prophylaxis. Not low-risk clinic alone.  Change the booking from low-risk to specialist care today. The decision can be made on what is already in the history.",
@@ -343,7 +424,16 @@
       "phase": "PH-03",
       "phase_item_id": "PH-A-10",
       "lo_id": "31ae0309-7bfb-5722-b992-bb23ef9cd472",
-      "lo_code": "PREGNANT_RHD"
+      "lo_code": "PREGNANT_RHD",
+      "lo_key": "PREGNANT_RHD",
+      "lo_title": "A pregnant woman with known RHD needs shared specialist obstetric and cardiac care and continued secondary prophylaxis, not routine low-risk care.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: antenatal clinic",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 6-year-old in a remote community has chronic discharge from one ear for months. A colleague says to watch it because it is common. Chronic suppurative otitis media is treated, and the hearing is assessed. It is not watched. What is the most appropriate action?  Months of discharge is CSOM. Treat the ear and test the hearing. Watching a common condition lets hearing loss progress.  Persistent otorrhoea for months is not acute otitis media to watch. Treat CSOM and arrange hearing assessment. Common in the community does not mean benign.  Clean and treat the ear. Refer for hearing. Do not write 'common, review if worse' and stop.  Hearing loss from CSOM is preventable if you treat and test. Watching is not management.  Treat CSOM. Test hearing. Do not watch chronic discharge.  Months of discharge needs treatment and a hearing test, not watchful waiting. The decision can be made on what is already in the history.",
@@ -377,7 +467,16 @@
       "phase": "PH-03",
       "phase_item_id": "PH-A-11",
       "lo_id": "9d854b98-6146-5564-abfd-2f5c869ee97e",
-      "lo_code": "CSOM"
+      "lo_code": "CSOM",
+      "lo_key": "CSOM",
+      "lo_title": "Chronic suppurative otitis media in a remote child is actively treated with ear cleaning and topical antibiotics and the hearing is formally assessed.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: remote community clinic",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A child in a remote household has scabies and impetigo. The clinic has one tube of permethrin and the nurse plans to treat only the index child. Scabies and impetigo in a household are treated together. One tube for the index child is not enough. Treat the household. What is the most appropriate action?  Scabies treatment fails if contacts are untreated. Impetigo is treated at the same time. One tube for one child is not a household plan.  Index child has both scabies and impetigo. Untreated household contacts reinfect him. Treat scabies for the household and treat the impetigo. One tube is not a plan.  Enough cream for the household, plus antibiotics for impetigo. Educate on linen and repeat treatment. Index-only treatment fails.  Household plan: scabies treatment for contacts, antibiotics for impetigo, review. Index-only cream fails.  Household scabies treatment and impetigo treatment together. Index-only fails.  Contacts untreated means the child is reinfected. Treat the house. The decision can be made on what is already in the history.",
@@ -411,7 +510,16 @@
       "phase": "PH-03",
       "phase_item_id": "PH-A-12",
       "lo_id": "400cb5fc-8203-5089-9989-9ce497383896",
-      "lo_code": "SCABIES_AND_IMPETIGO"
+      "lo_code": "SCABIES_AND_IMPETIGO",
+      "lo_key": "SCABIES_AND_IMPETIGO",
+      "lo_title": "Scabies is treated in the whole household at the same time, with impetigo treated alongside, not just the index child.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: remote community clinic",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 40-year-old Aboriginal man is brought in drowsy and febrile. A colleague attributes it to alcohol because of his background and plans observation only. Do not attribute a presentation to alcohol because the patient is Aboriginal. Assess for serious infection, including meningitis, now. What is the most appropriate action?  Drowsy and febrile needs a sepsis and meningitis assessment now. Alcohol is not the diagnosis because he is Aboriginal. Examine and investigate.  Febrile and drowsy is a medical emergency. Stereotyping the presentation as alcohol delays antibiotics and a lumbar puncture decision. Assess properly now.  Observations, glucose, and a sepsis screen. Do not leave him in a corner because someone assumed alcohol. Aboriginal status is not a diagnosis.  Fever plus reduced consciousness is meningitis until proved otherwise. Do not file it as alcohol. Act.  Serious infection until proved otherwise. Do not blame alcohol. Assess now.  Reduced consciousness and fever is assessed as infection first. The decision can be made on what is already in the history.",
@@ -445,7 +553,16 @@
       "phase": "PH-03",
       "phase_item_id": "PH-A-13",
       "lo_id": "baab0870-434d-56ff-94d7-9b085c7589d0",
-      "lo_code": "CULTURAL_SAFETY"
+      "lo_code": "CULTURAL_SAFETY",
+      "lo_key": "CULTURAL_SAFETY",
+      "lo_title": "Indigenous status is asked of the patient, not assumed, and culturally safe care follows the patient's wishes without delaying urgent assessment.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": -1.0,
+      "difficulty_tier": "easy",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: data gathering; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 38-year-old Aboriginal man has no symptoms. A standard cardiovascular risk calculator puts him at low risk. Cardiovascular risk assessment starts earlier in Aboriginal and Torres Strait Islander adults, and standard calculators can underestimate risk. Assess and manage risk now. Do not rely on the calculator alone. What is the most appropriate action?  Absolute risk starts earlier. A low calculator score can underestimate. Assess now. Do not defer because a tool said low.  He is 38 and Aboriginal. Risk assessment is indicated earlier than in the general population. A low Framingham-style score can miss risk. Do the assessment. Do not file the calculator and stop.  Earlier start, and do not trust an unadjusted calculator. Manage what you find. Low score is not clearance.  Earlier assessment is the guideline point. Use it. A reassuring calculator is not permission to skip.  Earlier risk assessment. Do not trust an underestimating calculator. Act on the person.  Age 38 is not too young for this assessment in an Aboriginal man.",
@@ -479,7 +596,16 @@
       "phase": "PH-03",
       "phase_item_id": "PH-A-14",
       "lo_id": "67596407-e60f-58be-ab4d-1988dde0a897",
-      "lo_code": "EARLY_CVD_RISK"
+      "lo_code": "EARLY_CVD_RISK",
+      "lo_key": "EARLY_CVD_RISK",
+      "lo_title": "Aboriginal and Torres Strait Islander adults have cardiovascular risk assessed from 30 years, and standard calculators may underestimate their risk.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: data gathering; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A child in a trachoma-endemic community has active trachoma. A colleague gives one set of drops to the child and discharges him. Trachoma in an endemic community is managed with the SAFE strategy, not a single drop for one child. Use surgery where needed, antibiotics, facial cleanliness, and environmental improvement. What is the most appropriate action?  SAFE is the strategy: surgery if needed, antibiotics for the community approach, facial cleanliness, environment. One child\u2019s drops are not the program.  Active trachoma in an endemic community is a community problem. SAFE covers surgery, antibiotics, facial cleanliness, and environment. A single course of drops for one child is not SAFE.  Community antibiotic approach where indicated, hygiene, and environment, plus surgery if trichiasis. One child, one bottle, is not SAFE.  SAFE, not a single prescription. Community and environment sit in the plan. One child is not the unit of care.  SAFE strategy for endemic trachoma. Not one child\u2019s drops.  Endemic trachoma is managed as SAFE, not as one prescription.",
@@ -513,7 +639,16 @@
       "phase": "PH-03",
       "phase_item_id": "PH-A-15",
       "lo_id": "d2d9a241-66ac-5854-b6ad-d3e0d13cb0ce",
-      "lo_code": "TRACHOMA_SAFE"
+      "lo_code": "TRACHOMA_SAFE",
+      "lo_key": "TRACHOMA_SAFE",
+      "lo_title": "Trachoma in an endemic community is managed with the SAFE strategy (surgery, antibiotics, facial cleanliness, environmental improvement).",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "An Aboriginal Health Worker is in the room for a consultation. A junior doctor stops examining the patient and lets the worker take the history alone. An Aboriginal Health Worker is part of the care team. Their presence does not replace clinical assessment. Include the worker if the patient wants her, and still assess the patient yourself. What is the most appropriate action?  The worker supports care. She does not replace the examination or the decision. Assess the patient. Include the worker as the patient wishes.  The patient wants the health worker present. That is right. The doctor still takes the history that matters, examines, and makes the clinical decision. Presence is not delegation of the assessment.  Thank the worker. Take the history you need. Examine. Decide. Team presence is not a handover of the clinical task.  Worker in the room is welcome. Clinical assessment remains yours. Do both.  Worker included as the patient wishes. Doctor still assesses. Both.  Support from the worker does not replace your examination.",
@@ -547,7 +682,16 @@
       "phase": "PH-03",
       "phase_item_id": "PH-A-16",
       "lo_id": "baab0870-434d-56ff-94d7-9b085c7589d0",
-      "lo_code": "CULTURAL_SAFETY"
+      "lo_code": "CULTURAL_SAFETY",
+      "lo_key": "CULTURAL_SAFETY",
+      "lo_title": "Indigenous status is asked of the patient, not assumed, and culturally safe care follows the patient's wishes without delaying urgent assessment.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": -1.1,
+      "difficulty_tier": "easy",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 14-year-old on benzathine secondary prophylaxis misses a dose by 10 days. A colleague restarts the whole course from zero and offers a short oral penicillin instead. A missed benzathine dose is given late. It is not restarted from zero and not replaced by a short oral course. Give it now and reset the 28-day clock. What is the most appropriate action?  Ten days late is still a late dose, not a new start. Give benzathine now. Reset 28 days from this dose. Do not switch to a short oral course.  Day 38 since the last dose. Give benzathine today. The next dose is 28 days from today. Do not restart a five-year clock from zero and do not swap to oral penicillin for a fortnight.  Late dose given is a late dose, not a failure of the whole program. Continue 28-daily from today. No oral replacement.  Give late dose. Reset 28 days. Do not zero the program and do not oralise it.  Late benzathine given today. Clock resets. No restart, no oral swap.  A late dose is given late. The program does not restart.",
@@ -581,7 +725,16 @@
       "phase": "PH-03",
       "phase_item_id": "PH-A-17",
       "lo_id": "9e7209fd-2f28-53c3-8342-db4e91a2d32d",
-      "lo_code": "RHD_SECONDARY_PROPHYLAXIS"
+      "lo_code": "RHD_SECONDARY_PROPHYLAXIS",
+      "lo_key": "RHD_SECONDARY_PROPHYLAXIS",
+      "lo_title": "RHD secondary prophylaxis is IM benzathine benzylpenicillin every 28 days (weight-adjusted dose), with duration set by disease severity and overdue doses given promptly.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A child is diagnosed with acute post-streptococcal glomerulonephritis. The family has several children at home. Household contacts of a child with APSGN are examined for skin sores and scabies. Ask the clinic to examine them. Treating only the index child is incomplete. What is the most appropriate action?  APSGN clusters around skin disease. Examine the other children for sores and scabies. Treating the index alone misses the household.  Index APSGN. Other children in the house may have sores or scabies driving the outbreak. Examine them. Treat what you find. The index child is not the whole case.  List the household children. Examine skin. Treat sores and scabies found. That is contact management for APSGN.  Contacts examined, sores and scabies treated. That is how APSGN households are managed.  Examine household children. Treat sores and scabies. Contacts matter in APSGN.  Other children in the house are part of the APSGN response. The decision can be made on what is already in the history.",
@@ -615,7 +768,16 @@
       "phase": "PH-03",
       "phase_item_id": "PH-A-18",
       "lo_id": "837f8392-1abe-5217-b157-1c21ad1459a2",
-      "lo_code": "APSGN"
+      "lo_code": "APSGN",
+      "lo_key": "APSGN",
+      "lo_title": "Skin sores in a high-risk child are treated, APSGN is assessed and notified, and household contacts are examined for sores and scabies.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: data gathering; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "An Aboriginal man is an inpatient for pneumonia. A junior doctor wants to claim a 715 health assessment before discharge because he is in the building. A 715 cannot be claimed for a hospital inpatient. Offer it after discharge in the practice, if the interval allows. What is the most appropriate action?  Inpatient status blocks a 715 claim. Pneumonia admission is not a health assessment. Offer the 715 in the practice after discharge if the interval is clear.  He is in a hospital bed. A 715 is a practice-based assessment and is not claimed for an inpatient. Finish the admission. Offer the 715 later in the clinic if he is due.  Do not bill a 715 from the ward. Discharge, then offer it in general practice if interval and identification allow.  Ward is not a 715 setting. Offer after discharge in the practice. Do not claim it now.  No 715 on an inpatient. Offer after discharge in the practice.  Claim the 715 in the practice after discharge, not on the ward.",
@@ -649,7 +811,16 @@
       "phase": "PH-03",
       "phase_item_id": "PH-A-19",
       "lo_id": "894c81b1-d7f2-53fe-85c1-23ae018b8114",
-      "lo_code": "HEALTH_CHECK_715"
+      "lo_code": "HEALTH_CHECK_715",
+      "lo_key": "HEALTH_CHECK_715",
+      "lo_title": "The MBS 715 health assessment is offered on self-identification as Aboriginal or Torres Strait Islander, no more than every 9 months, in the practice, not to an inpatient.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -1.1,
+      "difficulty_tier": "easy",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 7-year-old weighing 18 kg is due for benzathine secondary prophylaxis. A nurse draws up the adult dose of 1.2 million units. Benzathine dose is by weight. A child under 20 kg does not automatically get the adult dose. Give 600,000 units. What is the most appropriate action?  18 kg is under 20 kg. The lower dose is 600,000 units. The adult 1.2 million unit dose is wrong. Give the weight-based dose.  Weight 18 kg. Under 20 kg receives 600,000 units of benzathine, not 1.2 million. Check the weight. Give the lower dose. The adult syringe is wrong.  Weigh, calculate, draw 600,000 units. Double-check before giving. Adult dose in an 18 kg child is a dosing error.  Under 20 kg, lower dose. 18 kg gets 600,000 units. Check the vial before it is given.  Weight-based dose. Under 20 kg gets 600,000 units. Not the adult dose.  Confirm the weight and the vial before the injection. The decision can be made on what is already in the history.",
@@ -683,7 +854,16 @@
       "phase": "PH-03",
       "phase_item_id": "PH-A-20",
       "lo_id": "9e7209fd-2f28-53c3-8342-db4e91a2d32d",
-      "lo_code": "RHD_SECONDARY_PROPHYLAXIS"
+      "lo_code": "RHD_SECONDARY_PROPHYLAXIS",
+      "lo_key": "RHD_SECONDARY_PROPHYLAXIS",
+      "lo_title": "RHD secondary prophylaxis is IM benzathine benzylpenicillin every 28 days (weight-adjusted dose), with duration set by disease severity and overdue doses given promptly.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 1.05,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A GP writes CTG on a script for an Aboriginal woman who is not registered for Closing the Gap, expecting the pharmacy to charge the lower co-payment. Register for CTG before annotating scripts. A handwritten CTG on an unregistered patient does not create eligibility. Register her first. What is the most appropriate action?  Annotation without registration does nothing. Register her on CTG first. Then write CTG on subsequent scripts. The pharmacy cannot create eligibility.  Unregistered. CTG on the script is decorative. Register her through the proper clinical process. Then annotate. The pharmacist cannot fix an unregistered patient at the counter.  Registration first, annotation second. Explain the order so the next script is not written CTG in hope.  Register, then annotate. Order matters. Unregistered CTG is not a co-payment.  Register for CTG, then annotate. Handwritten CTG without registration is useless.  Unregistered means the annotation has no effect. Register first. The decision can be made on what is already in the history.",
@@ -717,7 +897,16 @@
       "phase": "PH-03",
       "phase_item_id": "PH-A-21",
       "lo_id": "74f1cfd6-7217-59a7-9721-60f3fa0d504d",
-      "lo_code": "CTG_PBS"
+      "lo_code": "CTG_PBS",
+      "lo_key": "CTG_PBS",
+      "lo_title": "Closing the Gap PBS co-payment eligibility requires a one-off registration by a PBS prescriber or eligible Aboriginal Health Practitioner before CTG scripts apply.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: community pharmacy",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A child with suspected acute rheumatic fever has a normal ECG. A colleague says carditis is excluded and no echo is needed. A child with acute rheumatic fever needs an echocardiogram. A normal ECG does not exclude carditis. Arrange the echo. What is the most appropriate action?  ECG can be normal with carditis. Echo is required in suspected acute rheumatic fever. A normal ECG does not clear the heart. Arrange it.  Suspected acute rheumatic fever. ECG normal. Carditis can be subclinical. Echo is required. A normal ECG is not clearance. Book the echocardiogram.  Book echo. Do not reassure on a normal ECG. Subclinical carditis changes duration of prophylaxis.  Echo for every suspected acute rheumatic fever. Normal ECG is not an exit. Book it.  Echo required. Normal ECG does not exclude carditis. Arrange it.  Subclinical carditis is an echo diagnosis. Book it. The decision can be made on what is already in the history.",
@@ -751,7 +940,16 @@
       "phase": "PH-03",
       "phase_item_id": "PH-A-22",
       "lo_id": "e0b3c8c7-2741-5860-9a4a-ab703c84e659",
-      "lo_code": "ACUTE_RHEUMATIC_FEVER"
+      "lo_code": "ACUTE_RHEUMATIC_FEVER",
+      "lo_key": "ACUTE_RHEUMATIC_FEVER",
+      "lo_title": "Suspected acute rheumatic fever needs echocardiography, notification and register referral, and streptococcal infections in high-risk people are treated promptly.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: data gathering; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 715 health assessment finds new hypertension and likely diabetes. The doctor completes the form and says follow-up is optional. Follow-up care after a 715 is part of the program, not an optional extra. Arrange follow-up for the blood pressure and diabetes. What is the most appropriate action?  New hypertension and diabetes found on a 715 need follow-up built in. Completing the form is not the end. Arrange the reviews.  The 715 found disease. Follow-up of blood pressure and glucose is part of the assessment pathway, not an optional extra. Arrange it before he leaves.  Book blood pressure review and diabetes work-up. The 715 without follow-up is incomplete care.  Abnormal findings need appointments, not a completed form only. Arrange follow-up.  Follow-up is part of the 715. Book it. The form is not the finish.  New diabetes and hypertension need named follow-up, not a filed form. The decision can be made on what is already in the history.",
@@ -785,7 +983,16 @@
       "phase": "PH-03",
       "phase_item_id": "PH-A-23",
       "lo_id": "894c81b1-d7f2-53fe-85c1-23ae018b8114",
-      "lo_code": "HEALTH_CHECK_715"
+      "lo_code": "HEALTH_CHECK_715",
+      "lo_key": "HEALTH_CHECK_715",
+      "lo_title": "The MBS 715 health assessment is offered on self-identification as Aboriginal or Torres Strait Islander, no more than every 9 months, in the practice, not to an inpatient.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": -0.9,
+      "difficulty_tier": "easy",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A child in a high-risk community has a streptococcal sore throat. A colleague says to watch it because primary prevention is surveillance. Primary prevention of acute rheumatic fever is treatment of streptococcal infection, not surveillance alone. Treat the sore throat now. What is the most appropriate action?  A streptococcal sore throat in a high-risk child is treated to prevent rheumatic fever. Surveillance without treatment is not primary prevention. Treat now.  High-risk community, streptococcal sore throat. Primary prevention is antibiotics now. Watching and notifying alone does not prevent rheumatic fever. Treat.  Penicillin now for the sore throat. That is primary prevention. Surveillance is not a substitute.  Treat strep throat in this child. That prevents rheumatic fever. Surveillance alone does not.  Treat the streptococcal infection. That is primary prevention. Not surveillance alone.  Antibiotics for the sore throat are the prevention. Give them. The decision can be made on what is already in the history.",
@@ -819,7 +1026,16 @@
       "phase": "PH-03",
       "phase_item_id": "PH-A-24",
       "lo_id": "e0b3c8c7-2741-5860-9a4a-ab703c84e659",
-      "lo_code": "ACUTE_RHEUMATIC_FEVER"
+      "lo_code": "ACUTE_RHEUMATIC_FEVER",
+      "lo_key": "ACUTE_RHEUMATIC_FEVER",
+      "lo_title": "Suspected acute rheumatic fever needs echocardiography, notification and register referral, and streptococcal infections in high-risk people are treated promptly.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 1.05,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "An Aboriginal woman needs emergency surgery. A staff member says cultural safety means waiting until a specific relative arrives, even if that delays life-saving care. Cultural safety includes asking who should be involved. It does not mean withholding indicated care. Proceed to emergency care, and ask her who she wants contacted. What is the most appropriate action?  Ask who she wants involved. Do not delay emergency surgery for a relative who is not yet there. Cultural safety does not withhold indicated care.  Emergency indication is clear. Ask who she wants called. Do not hold the theatre for a relative. Cultural safety is how you involve people, not a reason to withhold care.  Consent and emergency care proceed. Ask about family involvement without delaying the operation. Safety is not delay.  Emergency care now. Ask who to call. Do not wait. Cultural safety is not a delay.  Emergency care proceeds. Ask who to involve. Do not withhold treatment.  Life-saving care is not paused for a relative who has not arrived.",
@@ -853,7 +1069,16 @@
       "phase": "PH-03",
       "phase_item_id": "PH-A-25",
       "lo_id": "baab0870-434d-56ff-94d7-9b085c7589d0",
-      "lo_code": "CULTURAL_SAFETY"
+      "lo_code": "CULTURAL_SAFETY",
+      "lo_key": "CULTURAL_SAFETY",
+      "lo_title": "Indigenous status is asked of the patient, not assumed, and culturally safe care follows the patient's wishes without delaying urgent assessment.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: emergency department",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "An Aboriginal man is an inpatient for pneumonia. A junior doctor wants to claim a 715 before discharge. A 715 is not claimed for a hospital inpatient, and the interval has not elapsed. Offer it in the practice after discharge if he is due. The rest of the history does not change the rule. Appearance, a busy clinic, or a family preference does not create an exception. Apply the program or the clinical duty as it stands. Document what you do. Do not invent a workaround the guideline does not allow. State the correct step clearly. Nothing else in the consultation changes that. Give the answer that matches the guideline, not the convenient alternative. A colleague's shortcut is the common error for this rule. Choosing it delays care or breaks the program. The right action is the one already determined by identification, the disease, or the setting.  Decide on the facts already given. Apply it now. The decision can be made on what is already in the history. Do not add a step the guideline does not require, and do not skip the one it does. Clearly. Today.",
@@ -887,7 +1112,16 @@
       "phase": "PH-03",
       "phase_item_id": "PH-A-26",
       "lo_id": "894c81b1-d7f2-53fe-85c1-23ae018b8114",
-      "lo_code": "HEALTH_CHECK_715"
+      "lo_code": "HEALTH_CHECK_715",
+      "lo_key": "HEALTH_CHECK_715",
+      "lo_title": "The MBS 715 health assessment is offered on self-identification as Aboriginal or Torres Strait Islander, no more than every 9 months, in the practice, not to an inpatient.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "An Aboriginal woman is not registered for Closing the Gap. The GP writes CTG on the script expecting the lower co-payment. Registration is clinical and comes first. Annotation without registration does nothing. Register her, then annotate. The rest of the history does not change the rule. Appearance, a busy clinic, or a family preference does not create an exception. Apply the program or the clinical duty as it stands. Document what you do. Do not invent a workaround the guideline does not allow. State the correct step clearly. Nothing else in the consultation changes that. Give the answer that matches the guideline, not the convenient alternative. A colleague's shortcut is the common error for this rule. Choosing it delays care or breaks the program. The right action is the one already determined by identification, the disease, or the setting.  Decide on the facts already given. Apply it now. The decision can be made on what is already in the history. Do not add a step the guideline does not require, and do not skip the one it does. Clearly. Today.",
@@ -921,7 +1155,16 @@
       "phase": "PH-03",
       "phase_item_id": "PH-A-27",
       "lo_id": "74f1cfd6-7217-59a7-9721-60f3fa0d504d",
-      "lo_code": "CTG_PBS"
+      "lo_code": "CTG_PBS",
+      "lo_key": "CTG_PBS",
+      "lo_title": "Closing the Gap PBS co-payment eligibility requires a one-off registration by a PBS prescriber or eligible Aboriginal Health Practitioner before CTG scripts apply.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "She asks if the pharmacist can register her for Closing the Gap while dispensing. Registration is a clinical step by a PBS prescriber or eligible practitioner. It is not done at the counter by the patient or as a pharmacy convenience. The rest of the history does not change the rule. Appearance, a busy clinic, or a family preference does not create an exception. Apply the program or the clinical duty as it stands. Document what you do. Do not invent a workaround the guideline does not allow. State the correct step clearly. Nothing else in the consultation changes that. Give the answer that matches the guideline, not the convenient alternative. A colleague's shortcut is the common error for this rule. Choosing it delays care or breaks the program. The right action is the one already determined by identification, the disease, or the setting.  Decide on the facts already given. Apply it now. The decision can be made on what is already in the history. Do not add a step the guideline does not require, and do not skip the one it does. Clearly. Today.",
@@ -955,7 +1198,16 @@
       "phase": "PH-03",
       "phase_item_id": "PH-A-28",
       "lo_id": "74f1cfd6-7217-59a7-9721-60f3fa0d504d",
-      "lo_code": "CTG_PBS"
+      "lo_code": "CTG_PBS",
+      "lo_key": "CTG_PBS",
+      "lo_title": "Closing the Gap PBS co-payment eligibility requires a one-off registration by a PBS prescriber or eligible Aboriginal Health Practitioner before CTG scripts apply.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A child has suspected acute rheumatic fever. The ECG is normal. A colleague says carditis is excluded. Echo is required. A normal ECG does not exclude carditis. Notify on clinical suspicion and arrange the echo. The rest of the history does not change the rule. Appearance, a busy clinic, or a family preference does not create an exception. Apply the program or the clinical duty as it stands. Document what you do. Do not invent a workaround the guideline does not allow. State the correct step clearly. Nothing else in the consultation changes that. Give the answer that matches the guideline, not the convenient alternative. A colleague's shortcut is the common error for this rule. Choosing it delays care or breaks the program. The right action is the one already determined by identification, the disease, or the setting.  Decide on the facts already given. Apply it now. The decision can be made on what is already in the history. Do not add a step the guideline does not require, and do not skip the one it does. Clearly. Today.",
@@ -989,7 +1241,16 @@
       "phase": "PH-03",
       "phase_item_id": "PH-A-29",
       "lo_id": "e0b3c8c7-2741-5860-9a4a-ab703c84e659",
-      "lo_code": "ACUTE_RHEUMATIC_FEVER"
+      "lo_code": "ACUTE_RHEUMATIC_FEVER",
+      "lo_key": "ACUTE_RHEUMATIC_FEVER",
+      "lo_title": "Suspected acute rheumatic fever needs echocardiography, notification and register referral, and streptococcal infections in high-risk people are treated promptly.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A remote child has infected sores and dark urine. APSGN is the concern. Assess the kidneys and examine household children for sores and scabies. Treating the index skin alone is incomplete. The rest of the history does not change the rule. Appearance, a busy clinic, or a family preference does not create an exception. Apply the program or the clinical duty as it stands. Document what you do. Do not invent a workaround the guideline does not allow. State the correct step clearly. Nothing else in the consultation changes that. Give the answer that matches the guideline, not the convenient alternative. A colleague's shortcut is the common error for this rule. Choosing it delays care or breaks the program. The right action is the one already determined by identification, the disease, or the setting.  Decide on the facts already given. Apply it now. The decision can be made on what is already in the history. Do not add a step the guideline does not require, and do not skip the one it does. Clearly. Today.",
@@ -1023,7 +1284,16 @@
       "phase": "PH-03",
       "phase_item_id": "PH-A-30",
       "lo_id": "837f8392-1abe-5217-b157-1c21ad1459a2",
-      "lo_code": "APSGN"
+      "lo_code": "APSGN",
+      "lo_key": "APSGN",
+      "lo_title": "Skin sores in a high-risk child are treated, APSGN is assessed and notified, and household contacts are examined for sores and scabies.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: data gathering; setting: remote community clinic",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A child has APSGN. Several children live in the house. Contacts are examined for sores and scabies and treated if found. The index child is not the whole response. The rest of the history does not change the rule. Appearance, a busy clinic, or a family preference does not create an exception. Apply the program or the clinical duty as it stands. Document what you do. Do not invent a workaround the guideline does not allow. State the correct step clearly. Nothing else in the consultation changes that. Give the answer that matches the guideline, not the convenient alternative. A colleague's shortcut is the common error for this rule. Choosing it delays care or breaks the program. The right action is the one already determined by identification, the disease, or the setting.  Decide on the facts already given. Apply it now. The decision can be made on what is already in the history. Do not add a step the guideline does not require, and do not skip the one it does. Clearly. Today.",
@@ -1057,7 +1327,16 @@
       "phase": "PH-03",
       "phase_item_id": "PH-A-31",
       "lo_id": "837f8392-1abe-5217-b157-1c21ad1459a2",
-      "lo_code": "APSGN"
+      "lo_code": "APSGN",
+      "lo_key": "APSGN",
+      "lo_title": "Skin sores in a high-risk child are treated, APSGN is assessed and notified, and household contacts are examined for sores and scabies.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A man from a Strongyloides-endemic northern community is about to start prednisolone. Steroids can precipitate hyperinfection. Screen or give pre-emptive ivermectin first. Do not start steroids alone. The rest of the history does not change the rule. Appearance, a busy clinic, or a family preference does not create an exception. Apply the program or the clinical duty as it stands. Document what you do. Do not invent a workaround the guideline does not allow. State the correct step clearly. Nothing else in the consultation changes that. Give the answer that matches the guideline, not the convenient alternative. A colleague's shortcut is the common error for this rule. Choosing it delays care or breaks the program. The right action is the one already determined by identification, the disease, or the setting.  Decide on the facts already given. Apply it now. The decision can be made on what is already in the history. Do not add a step the guideline does not require, and do not skip the one it does. Clearly. Today.",
@@ -1091,7 +1370,16 @@
       "phase": "PH-03",
       "phase_item_id": "PH-A-32",
       "lo_id": "5509d80d-3dc8-5993-84cf-7d1248de7e6c",
-      "lo_code": "STRONGYLOIDES_BEFORE_STEROIDS"
+      "lo_code": "STRONGYLOIDES_BEFORE_STEROIDS",
+      "lo_key": "STRONGYLOIDES_BEFORE_STEROIDS",
+      "lo_title": "Before corticosteroids or immunosuppression in a person from a Strongyloides-endemic setting, check serology or give pre-emptive ivermectin.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "He grew up in an endemic community. The plan is a steroid burst for asthma. Endemic exposure is enough to act before the first dose. Do not wait for eosinophilia or pain. The rest of the history does not change the rule. Appearance, a busy clinic, or a family preference does not create an exception. Apply the program or the clinical duty as it stands. Document what you do. Do not invent a workaround the guideline does not allow. State the correct step clearly. Nothing else in the consultation changes that. Give the answer that matches the guideline, not the convenient alternative. A colleague's shortcut is the common error for this rule. Choosing it delays care or breaks the program. The right action is the one already determined by identification, the disease, or the setting.  Decide on the facts already given. Apply it now. The decision can be made on what is already in the history. Do not add a step the guideline does not require, and do not skip the one it does. Clearly. Today.",
@@ -1125,7 +1413,16 @@
       "phase": "PH-03",
       "phase_item_id": "PH-A-33",
       "lo_id": "5509d80d-3dc8-5993-84cf-7d1248de7e6c",
-      "lo_code": "STRONGYLOIDES_BEFORE_STEROIDS"
+      "lo_code": "STRONGYLOIDES_BEFORE_STEROIDS",
+      "lo_key": "STRONGYLOIDES_BEFORE_STEROIDS",
+      "lo_title": "Before corticosteroids or immunosuppression in a person from a Strongyloides-endemic setting, check serology or give pre-emptive ivermectin.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "The same patient is in clinic today. Hyperinfection is the risk you are avoiding. Put cover or serology before the steroid. Reversing that order is the error. The rest of the history does not change the rule. Appearance, a busy clinic, or a family preference does not create an exception. Apply the program or the clinical duty as it stands. Document what you do. Do not invent a workaround the guideline does not allow. State the correct step clearly. Nothing else in the consultation changes that. Give the answer that matches the guideline, not the convenient alternative. A colleague's shortcut is the common error for this rule. Choosing it delays care or breaks the program. The right action is the one already determined by identification, the disease, or the setting.  Decide on the facts already given. Apply it now. The decision can be made on what is already in the history. Do not add a step the guideline does not require, and do not skip the one it does. Clearly. Today.",
@@ -1159,7 +1456,16 @@
       "phase": "PH-03",
       "phase_item_id": "PH-A-34",
       "lo_id": "5509d80d-3dc8-5993-84cf-7d1248de7e6c",
-      "lo_code": "STRONGYLOIDES_BEFORE_STEROIDS"
+      "lo_code": "STRONGYLOIDES_BEFORE_STEROIDS",
+      "lo_key": "STRONGYLOIDES_BEFORE_STEROIDS",
+      "lo_title": "Before corticosteroids or immunosuppression in a person from a Strongyloides-endemic setting, check serology or give pre-emptive ivermectin.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: outpatient clinic",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A man in Darwin in the wet season has severe pneumonia and sepsis and is deteriorating on standard community cover. Melioidosis is the concern. Ceftazidime or meropenem, and discuss it. The rest of the history does not change the rule. Appearance, a busy clinic, or a family preference does not create an exception. Apply the program or the clinical duty as it stands. Document what you do. Do not invent a workaround the guideline does not allow. State the correct step clearly. Nothing else in the consultation changes that. Give the answer that matches the guideline, not the convenient alternative. A colleague's shortcut is the common error for this rule. Choosing it delays care or breaks the program. The right action is the one already determined by identification, the disease, or the setting.  Decide on the facts already given. Apply it now. The decision can be made on what is already in the history. Do not add a step the guideline does not require, and do not skip the one it does. Clearly. Today.",
@@ -1193,7 +1499,16 @@
       "phase": "PH-03",
       "phase_item_id": "PH-A-35",
       "lo_id": "85ca6351-a47a-5e48-a67c-7fce6032ac0d",
-      "lo_code": "MELIOIDOSIS_ANTIBIOTICS"
+      "lo_code": "MELIOIDOSIS_ANTIBIOTICS",
+      "lo_key": "MELIOIDOSIS_ANTIBIOTICS",
+      "lo_title": "Suspected melioidosis in tropical northern Australia is treated with IV ceftazidime or meropenem, not standard community pneumonia antibiotics.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "Outdoor work, wet season, sepsis, failed first antibiotics. This picture is melioidosis until proved otherwise. Change the antibiotic. Do not persist with failed cover. The rest of the history does not change the rule. Appearance, a busy clinic, or a family preference does not create an exception. Apply the program or the clinical duty as it stands. Document what you do. Do not invent a workaround the guideline does not allow. State the correct step clearly. Nothing else in the consultation changes that. Give the answer that matches the guideline, not the convenient alternative. A colleague's shortcut is the common error for this rule. Choosing it delays care or breaks the program. The right action is the one already determined by identification, the disease, or the setting.  Decide on the facts already given. Apply it now. The decision can be made on what is already in the history. Do not add a step the guideline does not require, and do not skip the one it does. Clearly. Today.",
@@ -1227,7 +1542,16 @@
       "phase": "PH-03",
       "phase_item_id": "PH-A-36",
       "lo_id": "85ca6351-a47a-5e48-a67c-7fce6032ac0d",
-      "lo_code": "MELIOIDOSIS_ANTIBIOTICS"
+      "lo_code": "MELIOIDOSIS_ANTIBIOTICS",
+      "lo_key": "MELIOIDOSIS_ANTIBIOTICS",
+      "lo_title": "Suspected melioidosis in tropical northern Australia is treated with IV ceftazidime or meropenem, not standard community pneumonia antibiotics.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "Blood cultures are pending. Empirical cover still has to be right. Suspected melioidosis is treated with ceftazidime or meropenem, not held for a result. The rest of the history does not change the rule. Appearance, a busy clinic, or a family preference does not create an exception. Apply the program or the clinical duty as it stands. Document what you do. Do not invent a workaround the guideline does not allow. State the correct step clearly. Nothing else in the consultation changes that. Give the answer that matches the guideline, not the convenient alternative. A colleague's shortcut is the common error for this rule. Choosing it delays care or breaks the program. The right action is the one already determined by identification, the disease, or the setting.  Decide on the facts already given. Apply it now. The decision can be made on what is already in the history. Do not add a step the guideline does not require, and do not skip the one it does. Clearly. Today.",
@@ -1261,7 +1585,16 @@
       "phase": "PH-03",
       "phase_item_id": "PH-A-37",
       "lo_id": "85ca6351-a47a-5e48-a67c-7fce6032ac0d",
-      "lo_code": "MELIOIDOSIS_ANTIBIOTICS"
+      "lo_code": "MELIOIDOSIS_ANTIBIOTICS",
+      "lo_key": "MELIOIDOSIS_ANTIBIOTICS",
+      "lo_title": "Suspected melioidosis in tropical northern Australia is treated with IV ceftazidime or meropenem, not standard community pneumonia antibiotics.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A pregnant woman has known RHD with moderate mitral stenosis and is booked as low-risk. Pregnancy with RHD needs specialist obstetric and cardiac care. Prophylaxis must be current. Change the pathway. The rest of the history does not change the rule. Appearance, a busy clinic, or a family preference does not create an exception. Apply the program or the clinical duty as it stands. Document what you do. Do not invent a workaround the guideline does not allow. State the correct step clearly. Nothing else in the consultation changes that. Give the answer that matches the guideline, not the convenient alternative. A colleague's shortcut is the common error for this rule. Choosing it delays care or breaks the program. The right action is the one already determined by identification, the disease, or the setting.  Decide on the facts already given. Apply it now. The decision can be made on what is already in the history. Do not add a step the guideline does not require, and do not skip the one it does. Clearly. Today.",
@@ -1295,7 +1628,16 @@
       "phase": "PH-03",
       "phase_item_id": "PH-A-38",
       "lo_id": "31ae0309-7bfb-5722-b992-bb23ef9cd472",
-      "lo_code": "PREGNANT_RHD"
+      "lo_code": "PREGNANT_RHD",
+      "lo_key": "PREGNANT_RHD",
+      "lo_title": "A pregnant woman with known RHD needs shared specialist obstetric and cardiac care and continued secondary prophylaxis, not routine low-risk care.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "She is 24 weeks with known RHD. Prophylaxis has lapsed. A dose years ago does not cover this pregnancy's risk. Restart prophylaxis and book specialist care. The rest of the history does not change the rule. Appearance, a busy clinic, or a family preference does not create an exception. Apply the program or the clinical duty as it stands. Document what you do. Do not invent a workaround the guideline does not allow. State the correct step clearly. Nothing else in the consultation changes that. Give the answer that matches the guideline, not the convenient alternative. A colleague's shortcut is the common error for this rule. Choosing it delays care or breaks the program. The right action is the one already determined by identification, the disease, or the setting.  Decide on the facts already given. Apply it now. The decision can be made on what is already in the history. Do not add a step the guideline does not require, and do not skip the one it does. Clearly. Today.",
@@ -1329,7 +1671,16 @@
       "phase": "PH-03",
       "phase_item_id": "PH-A-39",
       "lo_id": "31ae0309-7bfb-5722-b992-bb23ef9cd472",
-      "lo_code": "PREGNANT_RHD"
+      "lo_code": "PREGNANT_RHD",
+      "lo_key": "PREGNANT_RHD",
+      "lo_title": "A pregnant woman with known RHD needs shared specialist obstetric and cardiac care and continued secondary prophylaxis, not routine low-risk care.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "Moderate mitral stenosis and pregnancy. The booking must change today. Low-risk clinic care is the error. Specialist review is the plan. The rest of the history does not change the rule. Appearance, a busy clinic, or a family preference does not create an exception. Apply the program or the clinical duty as it stands. Document what you do. Do not invent a workaround the guideline does not allow. State the correct step clearly. Nothing else in the consultation changes that. Give the answer that matches the guideline, not the convenient alternative. A colleague's shortcut is the common error for this rule. Choosing it delays care or breaks the program. The right action is the one already determined by identification, the disease, or the setting.  Decide on the facts already given. Apply it now. The decision can be made on what is already in the history. Do not add a step the guideline does not require, and do not skip the one it does. Clearly. Today.",
@@ -1363,7 +1714,16 @@
       "phase": "PH-03",
       "phase_item_id": "PH-A-40",
       "lo_id": "31ae0309-7bfb-5722-b992-bb23ef9cd472",
-      "lo_code": "PREGNANT_RHD"
+      "lo_code": "PREGNANT_RHD",
+      "lo_key": "PREGNANT_RHD",
+      "lo_title": "A pregnant woman with known RHD needs shared specialist obstetric and cardiac care and continued secondary prophylaxis, not routine low-risk care.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A remote child has had discharge from one ear for months. Chronic suppurative otitis media is treated, and hearing is assessed. Watching a common condition lets hearing loss progress. The rest of the history does not change the rule. Appearance, a busy clinic, or a family preference does not create an exception. Apply the program or the clinical duty as it stands. Document what you do. Do not invent a workaround the guideline does not allow. State the correct step clearly. Nothing else in the consultation changes that. Give the answer that matches the guideline, not the convenient alternative. A colleague's shortcut is the common error for this rule. Choosing it delays care or breaks the program. The right action is the one already determined by identification, the disease, or the setting.  Decide on the facts already given. Apply it now. The decision can be made on what is already in the history. Do not add a step the guideline does not require, and do not skip the one it does. Clearly. Today.",
@@ -1397,7 +1757,16 @@
       "phase": "PH-03",
       "phase_item_id": "PH-A-41",
       "lo_id": "9d854b98-6146-5564-abfd-2f5c869ee97e",
-      "lo_code": "CSOM"
+      "lo_code": "CSOM",
+      "lo_key": "CSOM",
+      "lo_title": "Chronic suppurative otitis media in a remote child is actively treated with ear cleaning and topical antibiotics and the hearing is formally assessed.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: remote community clinic",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "Months of otorrhoea. Start treatment and arrange hearing assessment. Do not write common, review if worse. The rest of the history does not change the rule. Appearance, a busy clinic, or a family preference does not create an exception. Apply the program or the clinical duty as it stands. Document what you do. Do not invent a workaround the guideline does not allow. State the correct step clearly. Nothing else in the consultation changes that. Give the answer that matches the guideline, not the convenient alternative. A colleague's shortcut is the common error for this rule. Choosing it delays care or breaks the program. The right action is the one already determined by identification, the disease, or the setting.  Decide on the facts already given. Apply it now. The decision can be made on what is already in the history. Do not add a step the guideline does not require, and do not skip the one it does. Clearly. Today.",
@@ -1431,7 +1800,16 @@
       "phase": "PH-03",
       "phase_item_id": "PH-A-42",
       "lo_id": "9d854b98-6146-5564-abfd-2f5c869ee97e",
-      "lo_code": "CSOM"
+      "lo_code": "CSOM",
+      "lo_key": "CSOM",
+      "lo_title": "Chronic suppurative otitis media in a remote child is actively treated with ear cleaning and topical antibiotics and the hearing is formally assessed.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "The ear has discharged for months and is still wet. One dry day does not end the problem. Keep the treatment and hearing plan. The rest of the history does not change the rule. Appearance, a busy clinic, or a family preference does not create an exception. Apply the program or the clinical duty as it stands. Document what you do. Do not invent a workaround the guideline does not allow. State the correct step clearly. Nothing else in the consultation changes that. Give the answer that matches the guideline, not the convenient alternative. A colleague's shortcut is the common error for this rule. Choosing it delays care or breaks the program. The right action is the one already determined by identification, the disease, or the setting.  Decide on the facts already given. Apply it now. The decision can be made on what is already in the history. Do not add a step the guideline does not require, and do not skip the one it does. Clearly. Today.",
@@ -1465,7 +1843,16 @@
       "phase": "PH-03",
       "phase_item_id": "PH-A-43",
       "lo_id": "9d854b98-6146-5564-abfd-2f5c869ee97e",
-      "lo_code": "CSOM"
+      "lo_code": "CSOM",
+      "lo_key": "CSOM",
+      "lo_title": "Chronic suppurative otitis media in a remote child is actively treated with ear cleaning and topical antibiotics and the hearing is formally assessed.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A remote child has scabies and impetigo. Untreated contacts reinfect him. Treat the household for scabies and treat the impetigo together. The rest of the history does not change the rule. Appearance, a busy clinic, or a family preference does not create an exception. Apply the program or the clinical duty as it stands. Document what you do. Do not invent a workaround the guideline does not allow. State the correct step clearly. Nothing else in the consultation changes that. Give the answer that matches the guideline, not the convenient alternative. A colleague's shortcut is the common error for this rule. Choosing it delays care or breaks the program. The right action is the one already determined by identification, the disease, or the setting.  Decide on the facts already given. Apply it now. The decision can be made on what is already in the history. Do not add a step the guideline does not require, and do not skip the one it does. Clearly. Today.",
@@ -1499,7 +1886,16 @@
       "phase": "PH-03",
       "phase_item_id": "PH-A-44",
       "lo_id": "400cb5fc-8203-5089-9989-9ce497383896",
-      "lo_code": "SCABIES_AND_IMPETIGO"
+      "lo_code": "SCABIES_AND_IMPETIGO",
+      "lo_key": "SCABIES_AND_IMPETIGO",
+      "lo_title": "Scabies is treated in the whole household at the same time, with impetigo treated alongside, not just the index child.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: remote community clinic",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "Index child has both. Plan cream for the household, antibiotics for sores, and advice on linen and repeat treatment. The rest of the history does not change the rule. Appearance, a busy clinic, or a family preference does not create an exception. Apply the program or the clinical duty as it stands. Document what you do. Do not invent a workaround the guideline does not allow. State the correct step clearly. Nothing else in the consultation changes that. Give the answer that matches the guideline, not the convenient alternative. A colleague's shortcut is the common error for this rule. Choosing it delays care or breaks the program. The right action is the one already determined by identification, the disease, or the setting.  Decide on the facts already given. Apply it now. The decision can be made on what is already in the history. Do not add a step the guideline does not require, and do not skip the one it does. Clearly. Today.",
@@ -1533,7 +1929,16 @@
       "phase": "PH-03",
       "phase_item_id": "PH-A-45",
       "lo_id": "400cb5fc-8203-5089-9989-9ce497383896",
-      "lo_code": "SCABIES_AND_IMPETIGO"
+      "lo_code": "SCABIES_AND_IMPETIGO",
+      "lo_key": "SCABIES_AND_IMPETIGO",
+      "lo_title": "Scabies is treated in the whole household at the same time, with impetigo treated alongside, not just the index child.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "Adults in the house are contacts too. Treat the household. Waiting for a scrape delays care that should start now. The rest of the history does not change the rule. Appearance, a busy clinic, or a family preference does not create an exception. Apply the program or the clinical duty as it stands. Document what you do. Do not invent a workaround the guideline does not allow. State the correct step clearly. Nothing else in the consultation changes that. Give the answer that matches the guideline, not the convenient alternative. A colleague's shortcut is the common error for this rule. Choosing it delays care or breaks the program. The right action is the one already determined by identification, the disease, or the setting.  Decide on the facts already given. Apply it now. The decision can be made on what is already in the history. Do not add a step the guideline does not require, and do not skip the one it does. Clearly. Today.",
@@ -1567,7 +1972,16 @@
       "phase": "PH-03",
       "phase_item_id": "PH-A-46",
       "lo_id": "400cb5fc-8203-5089-9989-9ce497383896",
-      "lo_code": "SCABIES_AND_IMPETIGO"
+      "lo_code": "SCABIES_AND_IMPETIGO",
+      "lo_key": "SCABIES_AND_IMPETIGO",
+      "lo_title": "Scabies is treated in the whole household at the same time, with impetigo treated alongside, not just the index child.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A 38-year-old Aboriginal man has a low score on a standard calculator. Risk assessment starts earlier, and standard tools can underestimate. Assess now. Do not file a low score and stop. The rest of the history does not change the rule. Appearance, a busy clinic, or a family preference does not create an exception. Apply the program or the clinical duty as it stands. Document what you do. Do not invent a workaround the guideline does not allow. State the correct step clearly. Nothing else in the consultation changes that. Give the answer that matches the guideline, not the convenient alternative. A colleague's shortcut is the common error for this rule. Choosing it delays care or breaks the program. The right action is the one already determined by identification, the disease, or the setting.  Decide on the facts already given. Apply it now. The decision can be made on what is already in the history. Do not add a step the guideline does not require, and do not skip the one it does. Clearly. Today.",
@@ -1601,7 +2015,16 @@
       "phase": "PH-03",
       "phase_item_id": "PH-A-47",
       "lo_id": "67596407-e60f-58be-ab4d-1988dde0a897",
-      "lo_code": "EARLY_CVD_RISK"
+      "lo_code": "EARLY_CVD_RISK",
+      "lo_key": "EARLY_CVD_RISK",
+      "lo_title": "Aboriginal and Torres Strait Islander adults have cardiovascular risk assessed from 30 years, and standard calculators may underestimate their risk.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: data gathering; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "He is asymptomatic. Earlier start is the point. Do the assessment. A reassuring tool is not permission to skip. The rest of the history does not change the rule. Appearance, a busy clinic, or a family preference does not create an exception. Apply the program or the clinical duty as it stands. Document what you do. Do not invent a workaround the guideline does not allow. State the correct step clearly. Nothing else in the consultation changes that. Give the answer that matches the guideline, not the convenient alternative. A colleague's shortcut is the common error for this rule. Choosing it delays care or breaks the program. The right action is the one already determined by identification, the disease, or the setting.  Decide on the facts already given. Apply it now. The decision can be made on what is already in the history. Do not add a step the guideline does not require, and do not skip the one it does. Clearly. Today.",
@@ -1635,7 +2058,16 @@
       "phase": "PH-03",
       "phase_item_id": "PH-A-48",
       "lo_id": "67596407-e60f-58be-ab4d-1988dde0a897",
-      "lo_code": "EARLY_CVD_RISK"
+      "lo_code": "EARLY_CVD_RISK",
+      "lo_key": "EARLY_CVD_RISK",
+      "lo_title": "Aboriginal and Torres Strait Islander adults have cardiovascular risk assessed from 30 years, and standard calculators may underestimate their risk.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "The guideline point is earlier assessment. Use it. Manage what you find. Do not import the later general-population start. The rest of the history does not change the rule. Appearance, a busy clinic, or a family preference does not create an exception. Apply the program or the clinical duty as it stands. Document what you do. Do not invent a workaround the guideline does not allow. State the correct step clearly. Nothing else in the consultation changes that. Give the answer that matches the guideline, not the convenient alternative. A colleague's shortcut is the common error for this rule. Choosing it delays care or breaks the program. The right action is the one already determined by identification, the disease, or the setting.  Decide on the facts already given. Apply it now. The decision can be made on what is already in the history. Do not add a step the guideline does not require, and do not skip the one it does. Clearly. Today.",
@@ -1669,7 +2101,16 @@
       "phase": "PH-03",
       "phase_item_id": "PH-A-49",
       "lo_id": "67596407-e60f-58be-ab4d-1988dde0a897",
-      "lo_code": "EARLY_CVD_RISK"
+      "lo_code": "EARLY_CVD_RISK",
+      "lo_key": "EARLY_CVD_RISK",
+      "lo_title": "Aboriginal and Torres Strait Islander adults have cardiovascular risk assessed from 30 years, and standard calculators may underestimate their risk.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": -0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "A child in a trachoma-endemic community has active trachoma. SAFE is the strategy, not one child's drops. Surgery if needed, antibiotics, facial cleanliness, environment. The rest of the history does not change the rule. Appearance, a busy clinic, or a family preference does not create an exception. Apply the program or the clinical duty as it stands. Document what you do. Do not invent a workaround the guideline does not allow. State the correct step clearly. Nothing else in the consultation changes that. Give the answer that matches the guideline, not the convenient alternative. A colleague's shortcut is the common error for this rule. Choosing it delays care or breaks the program. The right action is the one already determined by identification, the disease, or the setting.  Decide on the facts already given. Apply it now. The decision can be made on what is already in the history. Do not add a step the guideline does not require, and do not skip the one it does. Clearly. Today.",
@@ -1703,7 +2144,16 @@
       "phase": "PH-03",
       "phase_item_id": "PH-A-50",
       "lo_id": "d2d9a241-66ac-5854-b6ad-d3e0d13cb0ce",
-      "lo_code": "TRACHOMA_SAFE"
+      "lo_code": "TRACHOMA_SAFE",
+      "lo_key": "TRACHOMA_SAFE",
+      "lo_title": "Trachoma in an endemic community is managed with the SAFE strategy (surgery, antibiotics, facial cleanliness, environmental improvement).",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "Active trachoma here is a community problem. One child, one bottle, is not SAFE. Include the community elements. The rest of the history does not change the rule. Appearance, a busy clinic, or a family preference does not create an exception. Apply the program or the clinical duty as it stands. Document what you do. Do not invent a workaround the guideline does not allow. State the correct step clearly. Nothing else in the consultation changes that. Give the answer that matches the guideline, not the convenient alternative. A colleague's shortcut is the common error for this rule. Choosing it delays care or breaks the program. The right action is the one already determined by identification, the disease, or the setting.  Decide on the facts already given. Apply it now. The decision can be made on what is already in the history. Do not add a step the guideline does not require, and do not skip the one it does. Clearly. Today.",
@@ -1737,7 +2187,16 @@
       "phase": "PH-03",
       "phase_item_id": "PH-A-51",
       "lo_id": "d2d9a241-66ac-5854-b6ad-d3e0d13cb0ce",
-      "lo_code": "TRACHOMA_SAFE"
+      "lo_code": "TRACHOMA_SAFE",
+      "lo_key": "TRACHOMA_SAFE",
+      "lo_title": "Trachoma in an endemic community is managed with the SAFE strategy (surgery, antibiotics, facial cleanliness, environmental improvement).",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
       "question_text": "Trichiasis needs surgical consideration. SAFE is four parts. Do not drop surgery or environment because drops were given. The rest of the history does not change the rule. Appearance, a busy clinic, or a family preference does not create an exception. Apply the program or the clinical duty as it stands. Document what you do. Do not invent a workaround the guideline does not allow. State the correct step clearly. Nothing else in the consultation changes that. Give the answer that matches the guideline, not the convenient alternative. A colleague's shortcut is the common error for this rule. Choosing it delays care or breaks the program. The right action is the one already determined by identification, the disease, or the setting.  Decide on the facts already given. Apply it now. The decision can be made on what is already in the history. Do not add a step the guideline does not require, and do not skip the one it does. Clearly. Today.",
@@ -1771,7 +2230,16 @@
       "phase": "PH-03",
       "phase_item_id": "PH-A-52",
       "lo_id": "d2d9a241-66ac-5854-b6ad-d3e0d13cb0ce",
-      "lo_code": "TRACHOMA_SAFE"
+      "lo_code": "TRACHOMA_SAFE",
+      "lo_key": "TRACHOMA_SAFE",
+      "lo_title": "Trachoma in an endemic community is managed with the SAFE strategy (surgery, antibiotics, facial cleanliness, environmental improvement).",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     }
   ]
 }
