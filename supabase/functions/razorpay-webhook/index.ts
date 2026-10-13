@@ -82,6 +82,8 @@ serve(async (req) => {
 
       let status: string;
       switch (event) {
+        // authenticated = mandate approved, trial running (promotes the reserved pending row if verify never ran)
+        case "subscription.authenticated":
         case "subscription.activated":
         case "subscription.charged":
           status = "active";
@@ -106,41 +108,44 @@ serve(async (req) => {
           });
       }
 
-      // Upsert: update existing record by subscription_id or insert new
+      // Only rows reserved by create-razorpay-order (pending -> active) are ever updated; unknown
+      // subscriptions are rejected (logged), never inserted.
       const { data: existing } = await supabase
         .from("payments")
-        .select("id")
+        .select("id,status,razorpay_payment_id")
         .eq("user_id", userId)
         .eq("razorpay_subscription_id", subscriptionId)
         .maybeSingle();
 
-      if (existing) {
+      if (!existing) {
+        log("REJECTED: subscription event with no matching reserved row", { event, subscriptionId, userId });
+      } else if (status === "active" && (existing.status === "cancelled" || existing.status === "expired")) {
+        // L1: money captured on a subscription we already cancelled -> flag for manual refund, no access.
+        const { error } = await supabase.from("payments").update({
+          needs_refund: true,
+          refund_payment_id: paymentId,
+        }).eq("id", existing.id);
+        if (error) throw error;
+        log("NEEDS_REFUND: charge on cancelled subscription", { id: existing.id, paymentId, subscriptionId });
+      } else {
         const { error } = await supabase
           .from("payments")
           .update({
             status,
-            razorpay_payment_id: paymentId || undefined,
-            ...(typeof entity.current_end === "number" ? { current_period_end: new Date(entity.current_end * 1000).toISOString() } : {}),
+            // Keep the first payment id (replay key); renewals go to last_razorpay_payment_id.
+            ...(paymentId && !existing.razorpay_payment_id ? { razorpay_payment_id: paymentId } : {}),
+            ...(paymentId ? { last_razorpay_payment_id: paymentId } : {}),
+            ...(existing.status === "pending" ? {
+              trial_end_at: typeof entity.start_at === "number" && notes.trial === "yes" ? new Date(entity.start_at * 1000).toISOString() : null,
+            } : {}),
+            ...(typeof entity.current_end === "number"
+              ? { current_period_end: new Date(entity.current_end * 1000).toISOString() }
+              : existing.status === "pending" && typeof entity.start_at === "number"
+                ? { current_period_end: new Date(entity.start_at * 1000).toISOString() } : {}),
           })
           .eq("id", existing.id);
         if (error) throw error;
         log("Updated payment", { id: existing.id, status });
-      } else {
-        const { error } = await supabase.from("payments").insert({
-          user_id: userId,
-          razorpay_subscription_id: subscriptionId,
-          razorpay_payment_id: paymentId,
-          tier,
-          status,
-          amount: Number(notes.price_aud) || null,
-          // Webhook-created rows carry the same dates as verify-created ones (trial end = start_at).
-          trial_end_at: typeof entity.start_at === "number" ? new Date(entity.start_at * 1000).toISOString() : null,
-          current_period_end: typeof entity.current_end === "number"
-            ? new Date(entity.current_end * 1000).toISOString()
-            : typeof entity.start_at === "number" ? new Date(entity.start_at * 1000).toISOString() : null,
-        });
-        if (error) throw error;
-        log("Inserted payment", { subscriptionId, status });
       }
     }
 

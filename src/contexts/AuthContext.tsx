@@ -39,6 +39,10 @@ export interface SubscriptionState {
   subscription_end: string | null;
   /** 39 (monthly) or 99 (3-month), from check-subscription. */
   plan_amount?: number | null;
+  /** 'monthly' | 'quarterly', stored on the payments row at checkout. */
+  plan_interval?: 'monthly' | 'quarterly' | null;
+  /** false for returning customers (resubscribe without trial). */
+  trial_eligible?: boolean;
   loading: boolean;
 }
 
@@ -131,6 +135,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         tier: data?.tier ?? 'free',
         subscription_end: data?.subscription_end ?? null,
         plan_amount: data?.plan_amount ?? null,
+        plan_interval: data?.plan_interval ?? null,
+        trial_eligible: data?.trial_eligible ?? true,
         loading: false,
       });
     } catch (e) {

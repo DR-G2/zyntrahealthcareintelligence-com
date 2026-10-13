@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import {
-  authorizeCancel, planCancel, selectTrialReminders, sendTrialReminders, trialReminderText,
+  authorizeCancel, planCancel, checkoutDecision, matchesPendingRow, selectTrialReminders, sendTrialReminders, trialReminderText,
   type PaymentRow, type RazorpaySub, type ReminderStore,
 } from '../../supabase/functions/_shared/billing-lifecycle';
 
@@ -29,6 +29,10 @@ describe('cancel timing', () => {
   });
   it('R4: start_at passed but first charge still pending -> cancel now (no later A$39), not at cycle end', () => {
     const p = planCancel(sub({ status: 'active', start_at: Math.floor(now.getTime() / 1000) - 3600, paid_count: 0, current_end: null }), now);
+    expect(p).toMatchObject({ inTrial: true, cancelAtCycleEnd: 0 });
+  });
+  it('L1: paid_count 0 is immediate even if current_end is set (first charge retrying)', () => {
+    const p = planCancel(sub({ status: 'pending', start_at: 1_700_000_000, paid_count: 0, current_end: Math.floor(now.getTime() / 1000) + 86400 }), now);
     expect(p).toMatchObject({ inTrial: true, cancelAtCycleEnd: 0 });
   });
   it('paid: cancel at cycle end, access to current_end', () => {
@@ -80,5 +84,31 @@ describe('trial reminder selection + idempotency', () => {
     const r = await sendTrialReminders(rows, store, { send: async () => { throw new Error('down'); } }, now);
     expect(r).toMatchObject({ failed: 1 });
     expect(sentAt.size).toBe(0);
+  });
+});
+
+describe('checkout eligibility (L2) and pending-row matching (race)', () => {
+  it('new customer gets a trial', () => expect(checkoutDecision([])).toEqual({ ok: true, trial: true }));
+  it('open pending/active/authenticated row -> 409', () => {
+    for (const status of ['pending', 'active', 'authenticated']) expect(checkoutDecision([{ status }]).ok).toBe(false);
+  });
+  it('lapsed/cancelled/expired paid customer resubscribes WITHOUT trial', () => {
+    expect(checkoutDecision([{ status: 'cancelled', razorpay_subscription_id: 'sub_1', trial_end_at: '2026-01-01T00:00:00Z' }])).toEqual({ ok: true, trial: false });
+    expect(checkoutDecision([{ status: 'cancelled', razorpay_subscription_id: 'sub_1' }])).toEqual({ ok: true, trial: false });
+  });
+  it('previous trial (even cancelled in trial) blocks a new trial', () => {
+    expect(checkoutDecision([{ status: 'cancelled', trial_end_at: '2026-01-01T00:00:00Z' }])).toEqual({ ok: true, trial: false });
+  });
+  it('abandoned (expired, never subscribed) checkout keeps trial eligibility', () => {
+    expect(checkoutDecision([{ status: 'expired', razorpay_subscription_id: null, trial_end_at: null }])).toEqual({ ok: true, trial: true });
+    expect(checkoutDecision([{ status: 'expired', razorpay_subscription_id: 'sub_abandoned', trial_end_at: null }])).toEqual({ ok: true, trial: true });
+  });
+  it('matchesPendingRow', () => {
+    const r = { user_id: ME, status: 'pending', razorpay_subscription_id: 'sub_1' };
+    expect(matchesPendingRow(ME, 'sub_1', r)).toBe(true);
+    expect(matchesPendingRow(OTHER, 'sub_1', r)).toBe(false);
+    expect(matchesPendingRow(ME, 'sub_2', r)).toBe(false);
+    expect(matchesPendingRow(ME, 'sub_1', { ...r, status: 'active' })).toBe(false);
+    expect(matchesPendingRow(ME, 'sub_1', null)).toBe(false);
   });
 });

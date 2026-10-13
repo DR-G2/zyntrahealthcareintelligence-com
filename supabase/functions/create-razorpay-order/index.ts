@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
 import { firstChargeUnix, PLAN_PRICES, type PlanInterval } from "../_shared/billing-dates.ts";
+import { checkoutDecision, PENDING_TTL_MS } from "../_shared/billing-lifecycle.ts";
 
 // Server-side plan catalogue — never trust plan IDs, amounts or tiers from the browser.
 // Single plan: Full Access, AUD. The client sends only { interval: "monthly" | "quarterly" }.
@@ -36,32 +37,48 @@ serve(async (req) => {
 
     const { interval } = await req.json();
     if (interval !== "monthly" && interval !== "quarterly") return reply({ error: "Unknown plan interval" }, 400);
-    // One free trial per user: reject if they have ever started a trial/subscription (any status),
-    // which also blocks a second concurrent active/authenticated subscription.
     const admin = createClient(Deno.env.get("SUPABASE_URL") ?? "", Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "", { auth: { persistSession: false } });
-    const { data: prior, error: priorErr } = await admin
+
+    // Expire this user's abandoned checkouts (pending > 1h) so they don't block a new attempt.
+    await admin.from("payments").update({ status: "expired" })
+      .eq("user_id", user.id).eq("status", "pending")
+      .lt("created_at", new Date(Date.now() - PENDING_TTL_MS).toISOString());
+
+    const { data: history, error: histErr } = await admin
       .from("payments")
-      .select("id,status")
-      .eq("user_id", user.id)
-      .or("razorpay_subscription_id.not.is.null,trial_end_at.not.is.null")
-      .limit(1);
-    if (priorErr) {
-      console.error("[CREATE-RAZORPAY] prior-trial lookup failed", priorErr.message);
+      .select("id,status,trial_end_at,razorpay_subscription_id")
+      .eq("user_id", user.id);
+    if (histErr) {
+      console.error("[CREATE-RAZORPAY] history lookup failed", histErr.message);
       return reply({ error: "Checkout failed. Please try again." }, 500);
     }
-    if (prior && prior.length) {
-      return reply({ error: prior[0].status === "active" ? "You already have an active subscription." : "The free trial is limited to one per account. Contact support to resubscribe." }, 409);
-    }
+    const decision = checkoutDecision(history ?? []);
+    if (!decision.ok) return reply({ error: decision.error }, 409);
+    const withTrial = decision.trial;
+
     const planId = Deno.env.get(PLAN_ENV[interval as PlanInterval]);
     if (!planId) return reply({ error: "Checkout is not available yet" }, 503);
+
+    // RACE GUARD: reserve a pending row BEFORE calling Razorpay. The unique partial index
+    // payments_one_open_per_user (migration 20261014060000) lets only one open row exist per user,
+    // so two simultaneous checkouts cannot both proceed.
+    const price = PLAN_PRICES[interval as PlanInterval].price;
+    const { data: pending, error: pendErr } = await admin.from("payments").insert({
+      user_id: user.id, tier: "full_access", status: "pending", amount: price, plan_interval: interval,
+    }).select("id").single();
+    if (pendErr || !pending) {
+      if ((pendErr as { code?: string } | null)?.code === "23505") return reply({ error: "A checkout or subscription is already in progress for this account." }, 409);
+      console.error("[CREATE-RAZORPAY] pending insert failed", pendErr?.message);
+      return reply({ error: "Checkout failed. Please try again." }, 500);
+    }
 
     const keyId = Deno.env.get("RAZORPAY_KEY_ID") || "";
     const keySecret = Deno.env.get("RAZORPAY_KEY_SECRET") || "";
     const authString = btoa(`${keyId}:${keySecret}`);
 
-    // First charge = trial-end Sydney calendar date at a fixed Sydney local time — the same
-    // shared helper the checkout copy uses, so the date shown always equals the date charged.
-    const startAt = firstChargeUnix(new Date());
+    // New customers: 7-day trial, first charge at trial-end Sydney date 10:00 (same helper as the copy)
+    // plus A$1 card check. Returning (lapsed/cancelled) customers: no trial, no A$1, charged now.
+    const startAt = withTrial ? firstChargeUnix(new Date()) : null;
 
     const subRes = await fetch("https://api.razorpay.com/v1/subscriptions", {
       method: "POST",
@@ -69,24 +86,33 @@ serve(async (req) => {
       body: JSON.stringify({
         plan_id: planId,
         total_count: TOTAL_COUNT[interval as PlanInterval],
-        start_at: startAt,
-        addons: [{ item: { name: "Card check (non-refundable)", amount: CARD_CHECK_CENTS, currency: "AUD" } }],
+        ...(withTrial ? {
+          start_at: startAt,
+          addons: [{ item: { name: "Card check (non-refundable)", amount: CARD_CHECK_CENTS, currency: "AUD" } }],
+        } : {}),
         notes: {
           user_id: user.id,
           email: user.email,
           tier: "full_access",
           interval,
-          price_aud: PLAN_PRICES[interval as PlanInterval].price,
+          price_aud: price,
+          trial: withTrial ? "yes" : "no",
+          pending_payment_id: pending.id,
         },
       }),
     });
     if (!subRes.ok) {
       console.error("[CREATE-RAZORPAY] provider error", subRes.status, await subRes.text());
+      await admin.from("payments").update({ status: "expired" }).eq("id", pending.id);
       return reply({ error: "Checkout could not be started. Please try again." }, 502);
     }
     const sub = await subRes.json();
+    await admin.from("payments").update({ razorpay_subscription_id: sub.id }).eq("id", pending.id);
 
-    return reply({ subscription_id: sub.id, key_id: keyId, tier: "full_access", trial_end_at: new Date(startAt * 1000).toISOString() });
+    return reply({
+      subscription_id: sub.id, key_id: keyId, tier: "full_access", trial: withTrial,
+      trial_end_at: startAt ? new Date(startAt * 1000).toISOString() : null,
+    });
   } catch (error) {
     console.error("[CREATE-RAZORPAY]", error instanceof Error ? error.message : error);
     return reply({ error: "Checkout failed. Please try again." }, 500);

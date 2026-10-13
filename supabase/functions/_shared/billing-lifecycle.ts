@@ -47,11 +47,11 @@ export interface CancelPlan {
 /**
  * No successful charge yet (in trial, OR start_at has passed but the first charge is still pending/retrying):
  * cancel NOW so no A$39/A$99 can be collected afterwards. Otherwise keep access to period end.
- * A recorded current_end means a cycle was billed, so that case is treated as paid.
  */
 export function planCancel(sub: RazorpaySub, now: Date = new Date()): CancelPlan {
   const nowSec = Math.floor(now.getTime() / 1000);
-  const inTrial = !(sub.paid_count && sub.paid_count > 0) && !sub.current_end;
+  // L1: paid_count === 0 (trial OR first charge still retrying) => ALWAYS immediate, never cycle-end.
+  const inTrial = !(typeof sub.paid_count === 'number' && sub.paid_count > 0);
   if (inTrial) return { inTrial: true, cancelAtCycleEnd: 0, accessEndsAt: now };
   return { inTrial: false, cancelAtCycleEnd: 1, accessEndsAt: new Date((sub.current_end ?? nowSec) * 1000) };
 }
@@ -138,4 +138,33 @@ export function entitlementFromRow(row: EntitlementRow | null, now: Date = new D
   if (t < end) return { entitled: true, endsAt: new Date(end).toISOString(), reason: trialEnd !== null && t < trialEnd ? 'trial' : 'paid' };
   if (t < end + RENEWAL_GRACE_HOURS * 3600_000) return { entitled: true, endsAt: new Date(end).toISOString(), reason: 'renewal_grace' };
   return { entitled: false, endsAt: new Date(end).toISOString(), reason: 'period_expired' };
+}
+
+// ---- Checkout eligibility (Gus L2 / race) ----
+export const PENDING_TTL_MS = 60 * 60 * 1000; // abandoned checkout rows expire after 1h
+export const OPEN_STATUSES = ['pending', 'active', 'authenticated'] as const;
+
+export interface HistoryRow { status: string; trial_end_at?: string | null; razorpay_subscription_id?: string | null }
+export type CheckoutDecision = { ok: true; trial: boolean } | { ok: false; error: string };
+
+/**
+ * - Any open row (pending / active / authenticated) -> 409.
+ * - Never had a trial/subscription -> new customer with 7-day trial + A$1 card check.
+ * - Previously trialled or subscribed (now cancelled/expired/lapsed) -> resubscribe WITHOUT a trial.
+ * Callers must expire stale pending rows first.
+ */
+export function checkoutDecision(rows: HistoryRow[]): CheckoutDecision {
+  if (rows.some((r) => (OPEN_STATUSES as readonly string[]).includes(r.status))) {
+    return { ok: false, error: rows.some((r) => r.status === 'pending')
+      ? 'A checkout or subscription is already in progress for this account.'
+      : 'You already have an active subscription.' };
+  }
+  // 'expired' = abandoned checkout (pending row timed out, never authorized): does not use up the trial.
+  const hadTrial = rows.some((r) => !!r.trial_end_at || (!!r.razorpay_subscription_id && r.status !== 'expired'));
+  return { ok: true, trial: !hadTrial };
+}
+
+/** Verify/webhook: an authorized subscription is accepted only against the caller's own pending row for it. */
+export function matchesPendingRow(userId: string, subscriptionId: string, row: { user_id: string; status: string; razorpay_subscription_id: string | null } | null): boolean {
+  return !!row && row.user_id === userId && row.status === 'pending' && row.razorpay_subscription_id === subscriptionId;
 }

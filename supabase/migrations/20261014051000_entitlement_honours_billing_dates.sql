@@ -11,6 +11,8 @@ RETURNS boolean LANGUAGE sql STABLE SET search_path = public AS $$
     END
   )
 $$;
+REVOKE EXECUTE ON FUNCTION public.payment_row_entitled(public.payments) FROM anon, public;
+GRANT EXECUTE ON FUNCTION public.payment_row_entitled(public.payments) TO authenticated;
 
 CREATE OR REPLACE FUNCTION public.current_user_can_read_questions()
 RETURNS boolean LANGUAGE sql STABLE SECURITY DEFINER SET search_path = public AS $$

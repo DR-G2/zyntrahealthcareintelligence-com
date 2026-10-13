@@ -20,6 +20,7 @@ serve(async (req) => {
       .select("id,user_id,razorpay_subscription_id,status,tier,amount,trial_end_at,current_period_end,cancel_at_period_end")
       .eq("user_id", caller.userId)
       .not("razorpay_subscription_id", "is", null)
+      .eq("status", "active")
       .order("created_at", { ascending: false })
       .limit(1);
     if (error) throw error;

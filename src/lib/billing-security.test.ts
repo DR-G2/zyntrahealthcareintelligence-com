@@ -120,15 +120,52 @@ describe('Gus retest items', () => {
     expect(src).toContain("import.meta.env.VITE_CHECKOUT_ENABLED === 'true'");
     expect(src).toContain('CHECKOUT_DISABLED = !CHECKOUT_ENABLED');
   });
-  it('R1: create-razorpay-order rejects a second trial / concurrent subscription', () => {
+  it('R1/L2/race: create uses checkoutDecision and reserves a pending row before calling Razorpay', () => {
     const src = read('supabase/functions/create-razorpay-order/index.ts');
-    expect(src).toContain('razorpay_subscription_id.not.is.null,trial_end_at.not.is.null');
-    expect(src).toMatch(/limited to one per account/);
+    expect(src).toContain('checkoutDecision(history');
+    const reserve = src.indexOf('status: "pending"');
+    const call = src.indexOf('https://api.razorpay.com/v1/subscriptions');
+    expect(reserve).toBeGreaterThan(0);
+    expect(reserve).toBeLessThan(call);
+    expect(src).toContain('"23505"');
+    expect(src).toMatch(/withTrial \? \{\s*start_at/);
   });
   it('R2: webhook-created rows set trial_end_at from entity.start_at', () => {
     expect(read('supabase/functions/razorpay-webhook/index.ts')).toContain('trial_end_at: typeof entity.start_at === "number"');
   });
   it('cron secret compared in constant time', () => {
     expect(read('supabase/functions/trial-reminder-email/index.ts')).toContain('timingSafeEqual(req.headers.get("x-cron-secret")');
+  });
+});
+
+describe('Gus retest 2', () => {
+  it('webhook never inserts subscription rows and flags charges on cancelled subs', () => {
+    const src = read('supabase/functions/razorpay-webhook/index.ts');
+    expect(src).not.toMatch(/from\("payments"\)\.insert\(/);
+    expect(src).toContain('REJECTED: subscription event with no matching reserved row');
+    expect(src).toContain('needs_refund: true');
+    expect(src).toContain('last_razorpay_payment_id');
+  });
+  it('verify rejects subscriptions that do not match the pending row', () => {
+    const src = read('supabase/functions/verify-razorpay-payment/index.ts');
+    expect(src).toContain('matchesPendingRow(userId, razorpay_subscription_id, pend)');
+  });
+  it('migrations: duplicate guard precedes unique; REVOKE on helper; pending partial unique index', () => {
+    const m50 = read('supabase/migrations/20261014050000_payments_replay_protection.sql');
+    expect(m50.indexOf('RAISE EXCEPTION')).toBeLessThan(m50.indexOf('add constraint'));
+    expect(read('supabase/migrations/20261014051000_entitlement_honours_billing_dates.sql')).toMatch(/REVOKE EXECUTE ON FUNCTION public\.payment_row_entitled\(public\.payments\) FROM anon, public/);
+    const m60 = read('supabase/migrations/20261014060000_payments_pending_checkout_guard.sql');
+    expect(m60).toMatch(/create unique index if not exists payments_one_open_per_user\s+on public\.payments \(user_id\)\s+where status in \('pending', 'active', 'authenticated'\)/);
+    expect(m60).toContain("interval '1 hour'");
+  });
+  it('v2-ai-lab uses the shared entitlement helper (no inlined copy)', () => {
+    const src = read('supabase/functions/v2-ai-lab/_shared/auth.ts');
+    expect(src).toContain('from "../../_shared/billing-lifecycle.ts"');
+    expect(src).not.toContain('RENEWAL_GRACE_MS');
+  });
+  it('BillingCard picks cancel copy from stored plan_interval, not amount', () => {
+    const src = read('src/components/settings/BillingCard.tsx');
+    expect(src).toContain("subscription.plan_interval === 'quarterly'");
+    expect(src).not.toContain('plan_amount');
   });
 });

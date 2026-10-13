@@ -38,6 +38,12 @@ export function checkoutSummary(interval: PlanInterval, signup: Date = new Date(
   }
   return `A$1 card check today. Your 7-day free trial ends on ${d}. If you don't cancel before then, we'll charge A$39 on ${d}, then A$39 every month on that date until you cancel.`;
 }
+/** Returning customers (already used a trial): no trial, no A$1, charged today. PENDING SAUL REVIEW. */
+export function resubscribeSummary(interval: PlanInterval): string {
+  return interval === 'quarterly'
+    ? "Welcome back. We'll charge A$99 today, then A$99 every 3 months until you cancel. No free trial applies because this account has already used one."
+    : "Welcome back. We'll charge A$39 today, then A$39 every month on that date until you cancel. No free trial applies because this account has already used one.";
+}
 export const COPY_CARD_CHECK = 'The A$1 card check confirms your card. It is not refunded if you cancel, except where required by law.';
 export const COPY_CANCEL = "Cancel anytime in Settings > Billing. Cancel during your trial and you won't be charged A$39.";
 /** Plan-aware variant (nit: 3-month plan charges A$99, not A$39). */

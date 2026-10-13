@@ -1,6 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
-import { entitlementFromRow } from "../_shared/billing-lifecycle.ts";
+import { checkoutDecision, entitlementFromRow } from "../_shared/billing-lifecycle.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -157,7 +157,7 @@ serve(async (req) => {
         const ent = entitlementFromRow(row);
         logStep("Entitlement", ent);
         return new Response(JSON.stringify(ent.entitled
-          ? { subscribed: true, tier: payment.tier, plan_amount: payment.amount ?? null, subscription_end: ent.endsAt, cancel_at_period_end: !!row.cancel_at_period_end, in_trial: ent.reason === "trial" }
+          ? { subscribed: true, tier: payment.tier, plan_amount: payment.amount ?? null, plan_interval: payment.plan_interval ?? null, subscription_end: ent.endsAt, cancel_at_period_end: !!row.cancel_at_period_end, in_trial: ent.reason === "trial" }
           : { subscribed: false, tier: "free", subscription_end: ent.endsAt }), {
           headers: { ...corsHeaders, "Content-Type": "application/json" },
           status: 200,
@@ -176,7 +176,11 @@ serve(async (req) => {
     }
 
     logStep("No active subscription or payment found");
-    return new Response(JSON.stringify({ subscribed: false, tier: "free" }), {
+    // trial_eligible: never trialled/subscribed before (returning customers resubscribe without a trial).
+    const { data: hist } = await supabaseClient.from("payments")
+      .select("status,trial_end_at,razorpay_subscription_id").eq("user_id", userId);
+    const trialEligible = checkoutDecision(hist ?? []).ok ? (checkoutDecision(hist ?? []) as { trial: boolean }).trial : false;
+    return new Response(JSON.stringify({ subscribed: false, tier: "free", trial_eligible: trialEligible }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 200,
     });

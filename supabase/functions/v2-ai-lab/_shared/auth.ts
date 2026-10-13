@@ -1,4 +1,5 @@
 import { createClient, type SupabaseClient } from "npm:@supabase/supabase-js@2.57.2";
+import { entitlementFromRow } from "../../_shared/billing-lifecycle.ts";
 
 export const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -51,18 +52,6 @@ export async function requireAdmin(req: Request): Promise<Caller | Response> {
   if (caller instanceof Response) return caller;
   if (!(await isAdmin(caller.email))) return json({ error: "Forbidden" }, 403);
   return caller;
-}
-
-// Copy of supabase/functions/_shared/billing-lifecycle.ts#entitlementFromRow (this folder is deployed
-// self-contained). Keep in sync.
-const RENEWAL_GRACE_MS = 48 * 3600_000;
-function entitlementFromRow(r: { status: string; trial_end_at?: string | null; current_period_end?: string | null; cancel_at_period_end?: boolean | null }): { entitled: boolean } {
-  if (r.status !== "active") return { entitled: false };
-  const end = r.current_period_end ? Date.parse(r.current_period_end) : r.trial_end_at ? Date.parse(r.trial_end_at) : null;
-  if (end === null) return { entitled: true };
-  const t = Date.now();
-  if (r.cancel_at_period_end) return { entitled: t < end };
-  return { entitled: t < end + RENEWAL_GRACE_MS };
 }
 
 /** True when the caller has an active paid payment or a live manual override. */

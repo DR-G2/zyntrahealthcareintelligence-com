@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
 import { verifyHmacSignature } from "../_shared/signature.ts";
+import { matchesPendingRow } from "../_shared/billing-lifecycle.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -82,22 +83,36 @@ serve(async (req) => {
       });
     }
 
-    // Store payment record (upsert ignoreDuplicates covers the race between two concurrent verifies)
-    const { error: insertError } = await supabase.from("payments").upsert({
-      user_id: userId,
-      razorpay_payment_id,
-      razorpay_order_id: razorpay_order_id || null,
-      razorpay_subscription_id: razorpay_subscription_id || null,
-      tier,
-      status: "active",
-      amount: amount ?? (Number(rz?.notes?.price_aud) || null),
-      // Subscription start_at is the trial end / first charge (set server-side in create-razorpay-order).
-      trial_end_at: !razorpay_order_id && rz?.start_at ? new Date(rz.start_at * 1000).toISOString() : null,
-      // Paid-through date: Razorpay current_end once billed; during trial, access runs to trial end.
-      current_period_end: !razorpay_order_id
-        ? (rz?.current_end ? new Date(rz.current_end * 1000).toISOString() : rz?.start_at ? new Date(rz.start_at * 1000).toISOString() : null)
-        : null,
-    }, { onConflict: "razorpay_payment_id", ignoreDuplicates: true });
+    const dates = {
+      // start_at = trial end / first charge (absent for no-trial resubscribes).
+      trial_end_at: rz?.start_at && rz?.notes?.trial === "yes" ? new Date(rz.start_at * 1000).toISOString() : null,
+      // Paid-through: Razorpay current_end once billed; during trial, access runs to trial end.
+      current_period_end: rz?.current_end ? new Date(rz.current_end * 1000).toISOString()
+        : rz?.start_at ? new Date(rz.start_at * 1000).toISOString() : null,
+    };
+
+    let insertError: unknown = null;
+    if (razorpay_subscription_id) {
+      // RACE GUARD: only accept a subscription that matches this user's own pending row
+      // (reserved by create-razorpay-order before Razorpay was called).
+      const { data: pend } = await supabase.from("payments")
+        .select("id,user_id,status,razorpay_subscription_id")
+        .eq("razorpay_subscription_id", razorpay_subscription_id).maybeSingle();
+      if (!matchesPendingRow(userId, razorpay_subscription_id, pend)) {
+        throw new ClientError("This checkout is no longer valid. Please start again.", 409);
+      }
+      const { error } = await supabase.from("payments").update({
+        razorpay_payment_id, status: "active", ...dates,
+      }).eq("id", pend!.id).eq("status", "pending");
+      insertError = error;
+    } else {
+      // Legacy one-time order path (follow-up: remove). Upsert ignoreDuplicates covers concurrent verifies.
+      const { error } = await supabase.from("payments").upsert({
+        user_id: userId, razorpay_payment_id, razorpay_order_id: razorpay_order_id || null,
+        tier, status: "active", amount,
+      }, { onConflict: "razorpay_payment_id", ignoreDuplicates: true });
+      insertError = error;
+    }
 
     if (insertError) throw insertError;
 

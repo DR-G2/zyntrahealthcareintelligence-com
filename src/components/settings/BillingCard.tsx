@@ -35,7 +35,7 @@ export function BillingCard() {
         <CardTitle className="font-display flex items-center gap-2"><CreditCard className="h-5 w-5 text-primary" /> Billing</CardTitle>
       </CardHeader>
       <CardContent className="space-y-3">
-        <p className="text-sm text-muted-foreground">{cancelCopy(subscription.plan_amount === 99 ? 'quarterly' : 'monthly')}</p>
+        <p className="text-sm text-muted-foreground">{cancelCopy(subscription.plan_interval === 'quarterly' ? 'quarterly' : 'monthly')}</p>
         {result ? (
           <p className="text-sm font-medium" data-testid="cancel-result">
             {result.inTrial
