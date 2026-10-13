@@ -54,9 +54,26 @@ export function firstChargeUnix(signup: Date = new Date()): number {
   return Math.floor(sydneyLocalToUtc(trialEndDate(signup), CHARGE_HOUR_SYDNEY).getTime() / 1000);
 }
 
-/** End (inclusive Sydney date) of the first paid period, anniversary billing, day clamped to month length. */
+/** End (inclusive Sydney date) of the first paid period, anniversary billing. */
 export function firstPeriodEnd(interval: PlanInterval, signup: Date = new Date()): YMD {
-  const te = trialEndDate(signup);
-  const em = addMonths(te, PLAN_PRICES[interval].months);
-  return addDays({ ...em, d: Math.min(te.d, daysInMonth(em.y, em.m)) }, -1);
+  return periodEnd(trialEndDate(signup), 0, interval);
+}
+
+/**
+ * Renewal date n (n=0 is the first charge = trial end). Always computed from the ORIGINAL anchor day,
+ * so a clamped month does not drift: 31 Jan -> 28/29 Feb -> 31 Mar -> 30 Apr -> 31 May.
+ */
+export function renewalDate(anchor: YMD, n: number, interval: PlanInterval = 'monthly'): YMD {
+  const em = addMonths(anchor, n * PLAN_PRICES[interval].months);
+  return { ...em, d: Math.min(anchor.d, daysInMonth(em.y, em.m)) };
+}
+
+/** Inclusive end of paid period n: the day before renewal n+1. */
+export function periodEnd(anchor: YMD, n: number, interval: PlanInterval = 'monthly'): YMD {
+  return addDays(renewalDate(anchor, n + 1, interval), -1);
+}
+
+export function ordinal(d: number): string {
+  const s = d % 100 >= 11 && d % 100 <= 13 ? 'th' : ({ 1: 'st', 2: 'nd', 3: 'rd' } as Record<number, string>)[d % 10] ?? 'th';
+  return `${d}${s}`;
 }
