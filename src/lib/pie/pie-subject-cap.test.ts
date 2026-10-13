@@ -3,11 +3,13 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 
 const root = resolve(__dirname, "../../..");
-const mig = readFileSync(resolve(root, "supabase/migrations_v2/0082_pie_subject_session_cap.sql"), "utf8");
+const mig = readFileSync(resolve(root, "supabase/migrations_v2/0083_pie_subject_session_cap.sql"), "utf8");
 const baseline = readFileSync(resolve(root, "supabase/verification_v2/pie_subject_cap/live_decide.sql"), "utf8");
 const fn = mig.slice(mig.indexOf("create or replace function pie.decide"), mig.indexOf("$function$;") + 11);
+const cs = mig.slice(mig.indexOf("CREATE OR REPLACE FUNCTION public.pie_create_session"));
+const liveCs = readFileSync(resolve(root, "supabase/verification_v2/pie_subject_cap/live_pie_create_session.sql"), "utf8");
 
-describe("0082 PIE per-session subject cap (static contract)", () => {
+describe("0083 PIE per-session subject cap (static contract)", () => {
   it("caps at ceil(0.4 * target) with session config, build size, or the 20-item default", () => {
     expect(fn).toMatch(/ceil\(0\.4 \* greatest\(v_target, v_served \+ 1\)\)/);
     expect(fn).toContain("config->>'target_length'");
@@ -31,5 +33,16 @@ describe("0082 PIE per-session subject cap (static contract)", () => {
     expect(fn).toContain("perform pie.rank_candidates(p_user, p_session, p_policy, p_blueprint_key, v_qs, v_los);");
     expect(fn).toContain("order by c.total desc, c.tie_rank asc, c.tie_hash asc limit 1");
     expect(fn).toContain("'pie-select/p3.0-authoritative'");
+  });
+  it("fallback prefers the least-represented capped subject, then the best score", () => {
+    expect(fn).toMatch(/if v_fallback then[\s\S]*order by coalesce\(\(v_counts->>c\.subject_id::text\)::int, 0\) asc, c\.total desc, c\.tie_rank asc, c\.tie_hash asc limit 1/);
+    expect(fn).toContain("'least_represented_subject_then_score'");
+  });
+  it("pie_create_session persists target_length and is otherwise the live body with live grants", () => {
+    expect(cs).toContain("'mode',p_mode,'target_length',p_count)");
+    const strip = (x: string) => x.replace(",'target_length',p_count", "").replace(/;\s*$/, "").trim();
+    expect(strip(cs.slice(0, cs.indexOf("$function$;") + 10))).toBe(strip(liveCs));
+    expect(mig).toMatch(/revoke all on function public\.pie_create_session\(integer, text, text\) from public, anon;/);
+    expect(mig).toMatch(/grant execute on function public\.pie_create_session\(integer, text, text\) to authenticated, service_role;/);
   });
 });

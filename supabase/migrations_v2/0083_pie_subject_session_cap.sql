@@ -1,4 +1,6 @@
--- 0082_pie_subject_session_cap
+-- 0083_pie_subject_session_cap
+-- Numbered 0083: 0081 is used twice on main and 0082 is taken by branch qns-v2-ph01-schema-fix
+-- (0082_qns_v2_ph01_draft_import.sql). Apply as postgres.
 -- PIE: 40% per-session subject coverage cap (approved by Mr. G, 2026-10-14).
 --
 -- Based on the LIVE definition of pie.decide on V2 hkowvjazuwebmibssdut (captured in
@@ -15,7 +17,8 @@
 -- When a subject is at the cap its candidates are marked ineligible with
 -- reject_reason = 'subject_cap' for this decision, provided another subject still has an
 -- eligible candidate. If every eligible candidate is capped, the best capped candidate is
--- served (graceful fallback) and the decision trace records the fallback.
+-- served (graceful fallback): the least-represented subject among the capped candidates first,
+-- then the best score; the decision trace records the fallback and the rule used.
 -- decision_trace.state_snapshot.subject_cap holds the cap state; reason_codes gains
 -- 'subject_cap_applied' or 'subject_cap_fallback'; evidence of excluded candidates appears in
 -- state_snapshot.subject_cap.excluded_candidates and in the ineligible counts.
@@ -77,8 +80,14 @@ begin
        where c.eligible and c.subject_id = any(v_capped);
     end if;
 
-    select * into r from pg_temp.pie_cand c where c.eligible
-      order by c.total desc, c.tie_rank asc, c.tie_hash asc limit 1;
+    if v_fallback then
+      -- every eligible candidate is capped: least-represented subject first, then best score
+      select c.* into r from pg_temp.pie_cand c where c.eligible
+        order by coalesce((v_counts->>c.subject_id::text)::int, 0) asc, c.total desc, c.tie_rank asc, c.tie_hash asc limit 1;
+    else
+      select * into r from pg_temp.pie_cand c where c.eligible
+        order by c.total desc, c.tie_rank asc, c.tie_hash asc limit 1;
+    end if;
     if r is null then
       if i = 1 then
         raise exception 'PIE_NO_ELIGIBLE_CANDIDATE' using errcode = 'P0002',
@@ -99,6 +108,7 @@ begin
       'selected_subject_count_after', coalesce((v_counts->>r.subject_id::text)::int, 0) + 1,
       'fallback', v_fallback,
       'fallback_reason', case when v_fallback then 'all_remaining_eligible_candidates_capped' end,
+      'fallback_rule', case when v_fallback then 'least_represented_subject_then_score' end,
       'excluded_candidates', case when v_fallback then '[]'::jsonb else v_excluded end,
       'excluded_count', case when v_fallback then 0 else
           (select count(*) from pg_temp.pie_cand c where c.reject_reason = 'subject_cap') end);
@@ -142,3 +152,40 @@ end $function$;
 
 revoke all on function pie.decide(uuid, uuid, text, integer, text, text) from public, anon, authenticated;
 grant execute on function pie.decide(uuid, uuid, text, integer, text, text) to service_role;
+
+-- public.pie_create_session: persist the requested session length as config.target_length so the
+-- subject cap stays right when an adaptive session is later extended with pie_next_question.
+-- Body is the LIVE definition (live_baseline_20261014.sql) with only that key added.
+-- SECURITY DEFINER, search_path '' and EXECUTE (postgres, service_role, authenticated) kept as live.
+CREATE OR REPLACE FUNCTION public.pie_create_session(p_count integer DEFAULT 10, p_blueprint_key text DEFAULT 'AMC_CAT_MCQ'::text, p_mode text DEFAULT 'pie_adaptive'::text)
+ RETURNS TABLE(session_id uuid, question_count integer)
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO ''
+AS $function$
+declare v_uid uuid:=auth.uid(); v_session uuid; v_pos integer:=0; d record;
+begin
+ if v_uid is null then raise exception 'Authentication required' using errcode='28000'; end if;
+ if p_count is null or p_count<1 or p_count>50 then raise exception 'p_count must be 1..50' using errcode='22023'; end if;
+ if p_mode not in ('pie_adaptive','pie_diagnostic') then raise exception 'invalid mode' using errcode='22023'; end if;
+ insert into public.practice_sessions(user_id,session_type,status,config,started_at,last_activity_at)
+ values(v_uid,p_mode,'active',jsonb_build_object('selector',case when p_mode='pie_adaptive' then 'pie' else 'diagnostic_fixed' end,'policy_version',case when p_mode='pie_adaptive' then 'pie-select/p3.0' else null end,'blueprint_key',p_blueprint_key,'mode',p_mode,'target_length',p_count),now(),now())
+ returning id into v_session;
+ if p_mode='pie_diagnostic' then
+   for d in select q.id question_id from public.questions q where q.status='active'
+     and not exists(select 1 from public.practice_session_questions x where x.session_id=v_session and x.question_id=q.id)
+     and not exists(select 1 from public.user_attempts ua where ua.user_id=v_uid and ua.question_id=q.id)
+     order by q.id limit p_count loop
+       insert into public.practice_session_questions(session_id,question_id,position,presented_at) values(v_session,d.question_id,v_pos,now()); v_pos:=v_pos+1;
+   end loop;
+ else
+   for d in select * from pie.decide(v_uid,v_session,'SESSION_BUILD',p_count,'pie-select/p3.0',p_blueprint_key) loop
+     insert into public.practice_session_questions(session_id,question_id,position,presented_at) values(v_session,d.question_id,v_pos,now()); v_pos:=v_pos+1;
+   end loop;
+ end if;
+ if v_pos=0 then raise exception 'PIE_NO_ELIGIBLE_CANDIDATE: no questions available' using errcode='P0002'; end if;
+ session_id:=v_session; question_count:=v_pos; return next;
+end $function$;
+
+revoke all on function public.pie_create_session(integer, text, text) from public, anon;
+grant execute on function public.pie_create_session(integer, text, text) to authenticated, service_role;

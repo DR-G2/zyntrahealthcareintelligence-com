@@ -1,4 +1,4 @@
--- Subject-cap tests for pie.decide (migration 0082). Run by run.sh against a throwaway cluster.
+-- Subject-cap tests for pie.decide (migration 0083). Run by run.sh against a throwaway cluster.
 \set ON_ERROR_STOP on
 create or replace function pg_temp.seed(p_subjects text[], p_sizes int[], p_tiers text[]) returns void language plpgsql as $$
 declare s int; k int; v_s uuid; v_c uuid; v_lo uuid; v_q uuid;
@@ -49,7 +49,7 @@ select pg_temp.seed(array['ph','bs','xx'], array[40,40,40], array['moderate','ea
 do $$ declare v uuid := pg_temp.build('00000000-0000-4000-8000-000000000001', 20); m jsonb := pg_temp.mix(v); begin
   perform pg_temp.assert_ok('T1b live baseline exceeds the cap (shows the guard matters)', (m->>'ph')::int > 8, m);
 end $$;
-\i ../../migrations_v2/0082_pie_subject_session_cap.sql
+\i ../../migrations_v2/0083_pie_subject_session_cap.sql
 
 -- T2: only one subject has items -> graceful fallback, all 20 served, fallback traced after the cap
 select pg_temp.seed(array['ph'], array[40], array['moderate']);
@@ -108,5 +108,53 @@ end $$;
 select pg_temp.seed(array['ph','bs','xx'], array[40,40,40], array['moderate','easy','difficult']);
 do $$ declare a uuid := pg_temp.build('00000000-0000-4000-8000-000000000007', 20); b uuid := pg_temp.build('00000000-0000-4000-8000-000000000007', 20); begin
   perform pg_temp.assert_ok('T7 two sessions both respect cap', (select bool_and(value::int<=8) from jsonb_each_text(pg_temp.mix(a))) and (select bool_and(value::int<=8) from jsonb_each_text(pg_temp.mix(b))), pg_temp.mix(b));
+end $$;
+
+-- T8: pie_create_session persists target_length; an extended session keeps the right cap
+select pg_temp.seed(array['ph','bs','xx'], array[40,40,40], array['moderate','easy','difficult']);
+select set_config('request.jwt.claims','{"sub":"00000000-0000-4000-8000-000000000008","role":"authenticated"}',false);
+do $$ declare v uuid; m jsonb; k int; d record; begin
+  select session_id into v from public.pie_create_session(10);
+  perform pg_temp.assert_ok('T8 config.target_length = 10 persisted', (select (config->>'target_length')::int=10 from public.practice_sessions where id=v), (select config from public.practice_sessions where id=v));
+  m := pg_temp.mix(v);
+  perform pg_temp.assert_ok('T8 build of 10 -> no subject above 4', (select bool_and(value::int<=4) from jsonb_each_text(m)), m);
+  perform pg_temp.assert_ok('T8 build traces target_source=session_config', (select bool_and(state_snapshot->'subject_cap'->>'target_source'='session_config') from pie.decision_trace where session_id=v), '{}');
+  for k in 1..10 loop
+    update public.practice_session_questions set answered_at=now() where session_id=v and answered_at is null;
+    perform * from public.pie_next_question(v);
+  end loop;
+  m := pg_temp.mix(v);
+  perform pg_temp.assert_ok('T8 extended to 20 -> no subject above 8 (cap grows with the session)', (select bool_and(value::int<=8) from jsonb_each_text(m)) and (select sum(value::int) from jsonb_each_text(m))=20, m);
+  perform pg_temp.assert_ok('T8 extension traces use session_config target', (select bool_and(state_snapshot->'subject_cap'->>'target_source'='session_config') from pie.decision_trace where session_id=v and decision_type='NEXT_QUESTION'), '{}');
+end $$;
+select set_config('request.jwt.claims','',false);
+
+-- T9: fallback prefers the least-represented capped subject, then score
+select pg_temp.seed(array['ph','bs'], array[40,40], array['moderate','easy']);
+do $$ declare v uuid; d record; k int := 0; q record; begin
+  insert into public.practice_sessions(user_id,session_type,config) values ('00000000-0000-4000-8000-000000000009','pie_adaptive','{"mode":"pie_adaptive","target_length":10}') returning id into v;
+  -- pre-served: ph 5, bs 4 (both at/over cap 4); ph scores higher but bs is less represented
+  for q in (select qq.id from public.questions qq join public.subjects s on s.id=qq.subject_id where s.slug='ph' order by qq.zyntra_id limit 5)
+    union all (select qq.id from public.questions qq join public.subjects s on s.id=qq.subject_id where s.slug='bs' order by qq.zyntra_id limit 4) loop
+    insert into public.practice_session_questions(session_id,question_id,position,answered_at) values (v,q.id,k,now()); k := k+1; end loop;
+  select * into d from pie.decide('00000000-0000-4000-8000-000000000009', v, 'NEXT_QUESTION', 1) limit 1;
+  perform pg_temp.assert_ok('T9 fallback picks least-represented subject (bs) over higher score (ph)',
+     (select s.slug='bs' from public.questions qq join public.subjects s on s.id=qq.subject_id where qq.id=d.question_id),
+     (select state_snapshot->'subject_cap' from pie.decision_trace where id=d.decision_id));
+  perform pg_temp.assert_ok('T9 trace records fallback rule', (select state_snapshot->'subject_cap'->>'fallback_rule'='least_represented_subject_then_score'
+     and 'subject_cap_fallback'=any(reason_codes) from pie.decision_trace where id=d.decision_id), '{}');
+  -- equal representation -> best score wins
+  insert into public.practice_session_questions(session_id,question_id,position,answered_at) values (v,d.question_id,9,now());
+  select * into d from pie.decide('00000000-0000-4000-8000-000000000009', v, 'NEXT_QUESTION', 1) limit 1;
+  perform pg_temp.assert_ok('T9 tie on representation -> higher-scoring subject (ph)',
+     (select s.slug='ph' from public.questions qq join public.subjects s on s.id=qq.subject_id where qq.id=d.question_id), '{}');
+end $$;
+
+-- T10: pie_create_session keeps definer, search_path and live ACL
+do $$ begin
+  perform pg_temp.assert_ok('T10 pie_create_session definer + search_path=""', (select prosecdef and proconfig=array['search_path=""'] from pg_proc where oid='public.pie_create_session(integer,text,text)'::regprocedure), '{}');
+  perform pg_temp.assert_ok('T10 pie_create_session EXECUTE: authenticated + service_role yes, anon no',
+     has_function_privilege('authenticated','public.pie_create_session(integer,text,text)','execute') and has_function_privilege('service_role','public.pie_create_session(integer,text,text)','execute')
+     and not has_function_privilege('anon','public.pie_create_session(integer,text,text)','execute'), (select to_jsonb(proacl::text) from pg_proc where oid='public.pie_create_session(integer,text,text)'::regprocedure));
 end $$;
 select 'ALL TESTS PASSED';
