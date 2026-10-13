@@ -44,10 +44,14 @@ export interface CancelPlan {
   accessEndsAt: Date;
 }
 
-/** In trial (no paid cycle yet): cancel now so the first A$39/A$99 is never charged. Otherwise keep access to period end. */
+/**
+ * No successful charge yet (in trial, OR start_at has passed but the first charge is still pending/retrying):
+ * cancel NOW so no A$39/A$99 can be collected afterwards. Otherwise keep access to period end.
+ * A recorded current_end means a cycle was billed, so that case is treated as paid.
+ */
 export function planCancel(sub: RazorpaySub, now: Date = new Date()): CancelPlan {
   const nowSec = Math.floor(now.getTime() / 1000);
-  const inTrial = !(sub.paid_count && sub.paid_count > 0) && (sub.start_at ?? 0) > nowSec;
+  const inTrial = !(sub.paid_count && sub.paid_count > 0) && !sub.current_end;
   if (inTrial) return { inTrial: true, cancelAtCycleEnd: 0, accessEndsAt: now };
   return { inTrial: false, cancelAtCycleEnd: 1, accessEndsAt: new Date((sub.current_end ?? nowSec) * 1000) };
 }
@@ -104,4 +108,34 @@ export async function sendTrialReminders(rows: PaymentRow[], store: ReminderStor
     }
   }
   return { sent, failed, skipped };
+}
+
+// ---- Server-side entitlement (Hank: expiry must be enforced from stored dates) ----
+/** Grace after current_period_end for a renewal webhook to arrive before access lapses (not cancelled subs only). */
+export const RENEWAL_GRACE_HOURS = 48;
+
+export interface EntitlementRow {
+  status: string;
+  trial_end_at?: string | null;
+  current_period_end?: string | null;
+  cancel_at_period_end?: boolean | null;
+}
+export interface Entitlement { entitled: boolean; endsAt: string | null; reason: string }
+
+/** Decides access from stored dates only. Never fails open: missing provider data cannot extend access. */
+export function entitlementFromRow(row: EntitlementRow | null, now: Date = new Date()): Entitlement {
+  if (!row || row.status !== 'active') return { entitled: false, endsAt: null, reason: 'no_active_payment' };
+  const t = now.getTime();
+  const periodEnd = row.current_period_end ? new Date(row.current_period_end).getTime() : null;
+  const trialEnd = row.trial_end_at ? new Date(row.trial_end_at).getTime() : null;
+  const end = periodEnd ?? trialEnd;
+  // Rows created before date columns existed: status alone decides (same as before this change).
+  // check-subscription backfills current_period_end from Razorpay on the next check.
+  if (end === null) return { entitled: true, endsAt: null, reason: 'legacy_no_dates' };
+  if (row.cancel_at_period_end) {
+    return t < end ? { entitled: true, endsAt: new Date(end).toISOString(), reason: 'cancelled_until_period_end' } : { entitled: false, endsAt: new Date(end).toISOString(), reason: 'cancelled_expired' };
+  }
+  if (t < end) return { entitled: true, endsAt: new Date(end).toISOString(), reason: trialEnd !== null && t < trialEnd ? 'trial' : 'paid' };
+  if (t < end + RENEWAL_GRACE_HOURS * 3600_000) return { entitled: true, endsAt: new Date(end).toISOString(), reason: 'renewal_grace' };
+  return { entitled: false, endsAt: new Date(end).toISOString(), reason: 'period_expired' };
 }

@@ -6,12 +6,13 @@
 //   RAZORPAY_PLAN_FULL_3M_AUD       (A$99 / 3 months)
 // TODO(owner): create both plans in the Razorpay dashboard (AUD) and set those env vars.
 // Old USD plan IDs (plan_SOsMQofBcfw3BU, plan_SOsNlReb9DLlAw, plan_SOsQDhBQkgyFfr, plan_SOsR9Hjy6UHpNG) are retired.
-// Checkout can be switched off deliberately with VITE_CHECKOUT_DISABLED=true (buttons show "Coming soon").
+// SAFE DEFAULT: checkout is OFF ("Coming soon") unless the build sets VITE_CHECKOUT_ENABLED=true.
 // Pre-launch note: nothing in this repository records existing paying subscribers on the old plans;
 // this was not verified against the production database.
 import { CARD_CHECK_AMOUNT, CURRENCY, TRIAL_DAYS } from './billing';
 
-export const CHECKOUT_DISABLED = import.meta.env.VITE_CHECKOUT_DISABLED === 'true';
+export const CHECKOUT_ENABLED = import.meta.env.VITE_CHECKOUT_ENABLED === 'true';
+export const CHECKOUT_DISABLED = !CHECKOUT_ENABLED;
 
 export const RAZORPAY_TIERS = {
   full_access: {

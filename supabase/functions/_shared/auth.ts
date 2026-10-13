@@ -1,4 +1,5 @@
 import { createClient, type SupabaseClient } from "npm:@supabase/supabase-js@2.57.2";
+import { entitlementFromRow } from "../_shared/billing-lifecycle.ts";
 
 export const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -58,10 +59,11 @@ export async function hasPaidAccess(userId: string): Promise<boolean> {
   const sb = serviceClient();
   const nowIso = new Date().toISOString();
   const [{ data: pay }, { data: ov }] = await Promise.all([
-    sb.from("payments").select("id").eq("user_id", userId).eq("status", "active").limit(1),
+    sb.from("payments").select("status,trial_end_at,current_period_end,cancel_at_period_end").eq("user_id", userId).eq("status", "active"),
     sb.from("manual_overrides").select("id, expires_at").eq("user_id", userId),
   ]);
-  if (pay && pay.length) return true;
+  // Honour stored trial / period end / cancel-at-period-end (same rule as check-subscription).
+  if ((pay ?? []).some((r) => entitlementFromRow(r).entitled)) return true;
   return (ov ?? []).some((o: { expires_at: string | null }) => !o.expires_at || o.expires_at > nowIso);
 }
 

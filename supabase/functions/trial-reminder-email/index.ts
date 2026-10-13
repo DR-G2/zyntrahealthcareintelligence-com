@@ -4,6 +4,7 @@
 // Env: RESEND_API_KEY, BILLING_EMAIL_FROM, TRIAL_REMINDER_CRON_SECRET (must match the cron header).
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { json, serviceClient } from "../_shared/auth.ts";
+import { timingSafeEqual } from "../_shared/signature.ts";
 import { REMINDER_MAX_HOURS, REMINDER_MIN_HOURS, sendTrialReminders, type EmailProvider, type PaymentRow } from "../_shared/billing-lifecycle.ts";
 
 const resend = (key: string, from: string): EmailProvider => ({
@@ -19,7 +20,7 @@ const resend = (key: string, from: string): EmailProvider => ({
 
 serve(async (req) => {
   const secret = Deno.env.get("TRIAL_REMINDER_CRON_SECRET");
-  if (!secret || req.headers.get("x-cron-secret") !== secret) return json({ error: "Unauthorized" }, 401);
+  if (!secret || !timingSafeEqual(req.headers.get("x-cron-secret") ?? "", secret)) return json({ error: "Unauthorized" }, 401);
   const key = Deno.env.get("RESEND_API_KEY"), from = Deno.env.get("BILLING_EMAIL_FROM");
   if (!key || !from) return json({ error: "Email provider not configured" }, 500);
 

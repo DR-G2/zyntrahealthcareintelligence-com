@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
+import { verifyHmacSignature } from "../_shared/signature.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -10,21 +11,6 @@ const log = (step: string, details?: unknown) => {
   console.log(`[RAZORPAY-WEBHOOK] ${step}${details ? ` - ${JSON.stringify(details)}` : ""}`);
 };
 
-async function verifyWebhookSignature(body: string, signature: string, secret: string): Promise<boolean> {
-  const encoder = new TextEncoder();
-  const key = await crypto.subtle.importKey(
-    "raw",
-    encoder.encode(secret),
-    { name: "HMAC", hash: "SHA-256" },
-    false,
-    ["sign"]
-  );
-  const sig = await crypto.subtle.sign("HMAC", key, encoder.encode(body));
-  const hex = Array.from(new Uint8Array(sig))
-    .map((b) => b.toString(16).padStart(2, "0"))
-    .join("");
-  return hex === signature;
-}
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -54,7 +40,7 @@ serve(async (req) => {
       });
     }
 
-    const isValid = await verifyWebhookSignature(rawBody, signature, webhookSecret);
+    const isValid = await verifyHmacSignature(rawBody, signature, webhookSecret);
     if (!isValid) {
       log("ERROR", "Invalid webhook signature");
       return new Response(JSON.stringify({ error: "Invalid signature" }), {
@@ -146,6 +132,12 @@ serve(async (req) => {
           razorpay_payment_id: paymentId,
           tier,
           status,
+          amount: Number(notes.price_aud) || null,
+          // Webhook-created rows carry the same dates as verify-created ones (trial end = start_at).
+          trial_end_at: typeof entity.start_at === "number" ? new Date(entity.start_at * 1000).toISOString() : null,
+          current_period_end: typeof entity.current_end === "number"
+            ? new Date(entity.current_end * 1000).toISOString()
+            : typeof entity.start_at === "number" ? new Date(entity.start_at * 1000).toISOString() : null,
         });
         if (error) throw error;
         log("Inserted payment", { subscriptionId, status });
@@ -175,14 +167,15 @@ serve(async (req) => {
             .eq("id", existing.id);
           log("Updated one-time payment", { id: existing.id });
         } else {
-          await supabase.from("payments").insert({
+          // Replay-safe: UNIQUE(razorpay_payment_id) + ignoreDuplicates makes a re-delivered event a no-op.
+          await supabase.from("payments").upsert({
             user_id: userId,
             razorpay_order_id: orderId,
             razorpay_payment_id: paymentId,
             tier,
             status: "active",
             amount,
-          });
+          }, { onConflict: "razorpay_payment_id", ignoreDuplicates: true });
           log("Inserted one-time payment", { orderId });
         }
       }

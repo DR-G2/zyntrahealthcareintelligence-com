@@ -1,25 +1,15 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
+import { verifyHmacSignature } from "../_shared/signature.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
-async function verifySignature(body: string, signature: string, secret: string): Promise<boolean> {
-  const encoder = new TextEncoder();
-  const key = await crypto.subtle.importKey(
-    "raw",
-    encoder.encode(secret),
-    { name: "HMAC", hash: "SHA-256" },
-    false,
-    ["sign"]
-  );
-  const sig = await crypto.subtle.sign("HMAC", key, encoder.encode(body));
-  const hex = Array.from(new Uint8Array(sig))
-    .map((b) => b.toString(16).padStart(2, "0"))
-    .join("");
-  return hex === signature;
+
+class ClientError extends Error {
+  constructor(message: string, public status = 400) { super(message); }
 }
 
 serve(async (req) => {
@@ -36,10 +26,10 @@ serve(async (req) => {
   try {
     // Authenticate user
     const authHeader = req.headers.get("Authorization");
-    if (!authHeader) throw new Error("No authorization header");
+    if (!authHeader) throw new ClientError("No authorization header", 401);
     const token = authHeader.replace("Bearer ", "");
     const { data: userData, error: userError } = await supabase.auth.getUser(token);
-    if (userError || !userData.user) throw new Error("Authentication failed");
+    if (userError || !userData.user) throw new ClientError("Authentication failed", 401);
     const userId = userData.user.id;
 
     const {
@@ -60,12 +50,12 @@ serve(async (req) => {
       // Subscription
       signatureBody = `${razorpay_payment_id}|${razorpay_subscription_id}`;
     } else {
-      throw new Error("Missing order_id or subscription_id");
+      throw new ClientError("Missing order_id or subscription_id", 400);
     }
 
-    const isValid = await verifySignature(signatureBody, razorpay_signature, keySecret);
+    const isValid = await verifyHmacSignature(signatureBody, razorpay_signature, keySecret);
     if (!isValid) {
-      throw new Error("Invalid payment signature");
+      throw new ClientError("Invalid payment signature", 400);
     }
 
     // Derive tier and amount from Razorpay's own record (notes were set server-side at checkout)
@@ -77,14 +67,23 @@ serve(async (req) => {
     const rzRes = await fetch(`https://api.razorpay.com/v1/${rzPath}`, { headers: { Authorization: rzAuth } });
     if (!rzRes.ok) throw new Error("Could not confirm payment with provider");
     const rz = await rzRes.json();
-    if (rz?.notes?.user_id !== userId) throw new Error("Payment does not belong to this account");
+    if (rz?.notes?.user_id !== userId) throw new ClientError("Payment does not belong to this account", 403);
     const allowedTiers = ["full_access"];
     const tier = rz?.notes?.tier;
-    if (!allowedTiers.includes(tier)) throw new Error("Unknown plan on payment");
+    if (!allowedTiers.includes(tier)) throw new ClientError("Unknown plan on payment", 400);
     const amount = razorpay_order_id && typeof rz.amount_paid === "number" ? Math.round(rz.amount_paid / 100) : null;
 
-    // Store payment record
-    const { error: insertError } = await supabase.from("payments").insert({
+    // Replay protection: a payment id is recorded at most once (UNIQUE index in migration 20261014050000).
+    const { data: already } = await supabase.from("payments").select("id,user_id").eq("razorpay_payment_id", razorpay_payment_id).maybeSingle();
+    if (already) {
+      if (already.user_id !== userId) throw new ClientError("Payment does not belong to this account", 409);
+      return new Response(JSON.stringify({ success: true, tier, already_recorded: true }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    // Store payment record (upsert ignoreDuplicates covers the race between two concurrent verifies)
+    const { error: insertError } = await supabase.from("payments").upsert({
       user_id: userId,
       razorpay_payment_id,
       razorpay_order_id: razorpay_order_id || null,
@@ -94,7 +93,11 @@ serve(async (req) => {
       amount: amount ?? (Number(rz?.notes?.price_aud) || null),
       // Subscription start_at is the trial end / first charge (set server-side in create-razorpay-order).
       trial_end_at: !razorpay_order_id && rz?.start_at ? new Date(rz.start_at * 1000).toISOString() : null,
-    });
+      // Paid-through date: Razorpay current_end once billed; during trial, access runs to trial end.
+      current_period_end: !razorpay_order_id
+        ? (rz?.current_end ? new Date(rz.current_end * 1000).toISOString() : rz?.start_at ? new Date(rz.start_at * 1000).toISOString() : null)
+        : null,
+    }, { onConflict: "razorpay_payment_id", ignoreDuplicates: true });
 
     if (insertError) throw insertError;
 
@@ -102,10 +105,13 @@ serve(async (req) => {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (error: any) {
-    console.error("[VERIFY-RAZORPAY] Error:", error.message);
-    return new Response(JSON.stringify({ error: error.message }), {
+    // Full detail to logs only; client gets a generic message (no provider internals).
+    console.error("[VERIFY-RAZORPAY] Error:", error?.message);
+    const status = error instanceof ClientError ? error.status : 500;
+    const msg = error instanceof ClientError ? error.message : "Payment verification failed. If you were charged, contact support.";
+    return new Response(JSON.stringify({ error: msg }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
-      status: 500,
+      status,
     });
   }
 });

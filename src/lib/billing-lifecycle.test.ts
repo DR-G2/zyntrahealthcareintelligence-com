@@ -27,6 +27,10 @@ describe('cancel timing', () => {
     expect(p).toMatchObject({ inTrial: true, cancelAtCycleEnd: 0 });
     expect(p.accessEndsAt).toEqual(now);
   });
+  it('R4: start_at passed but first charge still pending -> cancel now (no later A$39), not at cycle end', () => {
+    const p = planCancel(sub({ status: 'active', start_at: Math.floor(now.getTime() / 1000) - 3600, paid_count: 0, current_end: null }), now);
+    expect(p).toMatchObject({ inTrial: true, cancelAtCycleEnd: 0 });
+  });
   it('paid: cancel at cycle end, access to current_end', () => {
     const end = Math.floor(now.getTime() / 1000) + 20 * 86400;
     const p = planCancel(sub({ status: 'active', start_at: 1_700_000_000, paid_count: 1, current_end: end }), now);

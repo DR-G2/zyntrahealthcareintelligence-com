@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
+import { entitlementFromRow } from "../_shared/billing-lifecycle.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -113,12 +114,12 @@ serve(async (req) => {
             .update({ status: "cancelled" })
             .eq("id", payment.id);
         } catch (e) {
-          logStep("PayPal API check failed, using local data", { error: String(e) });
-          // Fallback to local data
+          logStep("PayPal API check failed; failing closed", { error: String(e) });
+          // Fail closed: a provider outage must not grant access (PayPal checkout is disabled anyway).
           return new Response(JSON.stringify({
-            subscribed: true,
-            tier: payment.tier,
-            subscription_end: null,
+            subscribed: false,
+            tier: "free",
+            verification_unavailable: true,
           }), {
             headers: { ...corsHeaders, "Content-Type": "application/json" },
             status: 200,
@@ -126,51 +127,41 @@ serve(async (req) => {
         }
       // For subscriptions, verify with Razorpay API that it's still active
       } else if (payment.razorpay_subscription_id) {
+        // Entitlement comes from STORED dates (trial_end_at / current_period_end / cancel_at_period_end).
+        // Razorpay is consulted only to refresh those dates; an API failure never extends access.
+        let row = payment;
         const keyId = Deno.env.get("RAZORPAY_KEY_ID") || "";
         const keySecret = Deno.env.get("RAZORPAY_KEY_SECRET") || "";
-        const authString = btoa(`${keyId}:${keySecret}`);
-
         try {
           const subRes = await fetch(
-            `https://api.razorpay.com/v1/subscriptions/${payment.razorpay_subscription_id}`,
-            {
-              headers: { "Authorization": `Basic ${authString}` },
-            }
+            `https://api.razorpay.com/v1/subscriptions/${encodeURIComponent(payment.razorpay_subscription_id)}`,
+            { headers: { "Authorization": `Basic ${btoa(`${keyId}:${keySecret}`)}` } },
           );
-
           if (subRes.ok) {
             const sub = await subRes.json();
-            if (sub.status === "active" || sub.status === "authenticated") {
-              const endAt = sub.current_end ? new Date(sub.current_end * 1000).toISOString() : null;
-              return new Response(JSON.stringify({
-                subscribed: true,
-                tier: payment.tier,
-                subscription_end: endAt,
-              }), {
-                headers: { ...corsHeaders, "Content-Type": "application/json" },
-                status: 200,
-              });
-            } else {
-              // Subscription expired/cancelled — mark payment inactive
-              logStep("Subscription no longer active", { status: sub.status });
-              await supabaseClient
-                .from("payments")
-                .update({ status: "cancelled" })
-                .eq("id", payment.id);
+            if (["cancelled", "completed", "expired"].includes(sub.status) && !payment.cancel_at_period_end) {
+              logStep("Subscription ended at provider", { status: sub.status });
+              await supabaseClient.from("payments").update({ status: "cancelled" }).eq("id", payment.id);
+              row = { ...payment, status: "cancelled" };
+            } else if (typeof sub.current_end === "number") {
+              const fresh = new Date(sub.current_end * 1000).toISOString();
+              if (!payment.current_period_end || fresh > payment.current_period_end) {
+                await supabaseClient.from("payments").update({ current_period_end: fresh }).eq("id", payment.id);
+                row = { ...payment, current_period_end: fresh };
+              }
             }
           }
         } catch (e) {
-          logStep("Razorpay API check failed, using local data", { error: String(e) });
-          // Fallback to local data
-          return new Response(JSON.stringify({
-            subscribed: true,
-            tier: payment.tier,
-            subscription_end: null,
-          }), {
-            headers: { ...corsHeaders, "Content-Type": "application/json" },
-            status: 200,
-          });
+          logStep("Razorpay refresh failed; using stored dates only", { error: String(e) });
         }
+        const ent = entitlementFromRow(row);
+        logStep("Entitlement", ent);
+        return new Response(JSON.stringify(ent.entitled
+          ? { subscribed: true, tier: payment.tier, plan_amount: payment.amount ?? null, subscription_end: ent.endsAt, cancel_at_period_end: !!row.cancel_at_period_end, in_trial: ent.reason === "trial" }
+          : { subscribed: false, tier: "free", subscription_end: ent.endsAt }), {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+          status: 200,
+        });
       } else {
         // One-time payment (lifetime) — always active
         return new Response(JSON.stringify({
@@ -192,7 +183,7 @@ serve(async (req) => {
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
     logStep("ERROR", { message: errorMessage });
-    return new Response(JSON.stringify({ error: errorMessage }), {
+    return new Response(JSON.stringify({ error: "Could not check subscription" }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 500,
     });

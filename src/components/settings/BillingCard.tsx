@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/lib/supabase';
-import { COPY_CANCEL } from '@/lib/billing';
+import { cancelCopy } from '@/lib/billing';
 
 const fmt = (iso: string) => new Date(iso).toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Australia/Sydney' });
 
@@ -35,7 +35,7 @@ export function BillingCard() {
         <CardTitle className="font-display flex items-center gap-2"><CreditCard className="h-5 w-5 text-primary" /> Billing</CardTitle>
       </CardHeader>
       <CardContent className="space-y-3">
-        <p className="text-sm text-muted-foreground">{COPY_CANCEL}</p>
+        <p className="text-sm text-muted-foreground">{cancelCopy(subscription.plan_amount === 99 ? 'quarterly' : 'monthly')}</p>
         {result ? (
           <p className="text-sm font-medium" data-testid="cancel-result">
             {result.inTrial

@@ -55,6 +55,7 @@ serve(async (req) => {
 
     return json({ cancelled: true, in_trial: plan.inTrial, access_ends_at: plan.accessEndsAt.toISOString() });
   } catch (e) {
-    return json({ error: e instanceof Error ? e.message : "Cancel failed" }, 500);
+    console.error("[CANCEL-RAZORPAY]", e instanceof Error ? e.message : e);
+    return json({ error: "Could not cancel right now. Please try again or contact support." }, 500);
   }
 });

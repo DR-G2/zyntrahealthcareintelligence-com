@@ -36,6 +36,22 @@ serve(async (req) => {
 
     const { interval } = await req.json();
     if (interval !== "monthly" && interval !== "quarterly") return reply({ error: "Unknown plan interval" }, 400);
+    // One free trial per user: reject if they have ever started a trial/subscription (any status),
+    // which also blocks a second concurrent active/authenticated subscription.
+    const admin = createClient(Deno.env.get("SUPABASE_URL") ?? "", Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "", { auth: { persistSession: false } });
+    const { data: prior, error: priorErr } = await admin
+      .from("payments")
+      .select("id,status")
+      .eq("user_id", user.id)
+      .or("razorpay_subscription_id.not.is.null,trial_end_at.not.is.null")
+      .limit(1);
+    if (priorErr) {
+      console.error("[CREATE-RAZORPAY] prior-trial lookup failed", priorErr.message);
+      return reply({ error: "Checkout failed. Please try again." }, 500);
+    }
+    if (prior && prior.length) {
+      return reply({ error: prior[0].status === "active" ? "You already have an active subscription." : "The free trial is limited to one per account. Contact support to resubscribe." }, 409);
+    }
     const planId = Deno.env.get(PLAN_ENV[interval as PlanInterval]);
     if (!planId) return reply({ error: "Checkout is not available yet" }, 503);
 
@@ -64,11 +80,15 @@ serve(async (req) => {
         },
       }),
     });
-    if (!subRes.ok) throw new Error(`Razorpay subscription error: ${await subRes.text()}`);
+    if (!subRes.ok) {
+      console.error("[CREATE-RAZORPAY] provider error", subRes.status, await subRes.text());
+      return reply({ error: "Checkout could not be started. Please try again." }, 502);
+    }
     const sub = await subRes.json();
 
     return reply({ subscription_id: sub.id, key_id: keyId, tier: "full_access", trial_end_at: new Date(startAt * 1000).toISOString() });
   } catch (error) {
-    return reply({ error: error instanceof Error ? error.message : "Checkout failed" }, 500);
+    console.error("[CREATE-RAZORPAY]", error instanceof Error ? error.message : error);
+    return reply({ error: "Checkout failed. Please try again." }, 500);
   }
 });

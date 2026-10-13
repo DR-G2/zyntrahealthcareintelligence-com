@@ -53,15 +53,28 @@ export async function requireAdmin(req: Request): Promise<Caller | Response> {
   return caller;
 }
 
+// Copy of supabase/functions/_shared/billing-lifecycle.ts#entitlementFromRow (this folder is deployed
+// self-contained). Keep in sync.
+const RENEWAL_GRACE_MS = 48 * 3600_000;
+function entitlementFromRow(r: { status: string; trial_end_at?: string | null; current_period_end?: string | null; cancel_at_period_end?: boolean | null }): { entitled: boolean } {
+  if (r.status !== "active") return { entitled: false };
+  const end = r.current_period_end ? Date.parse(r.current_period_end) : r.trial_end_at ? Date.parse(r.trial_end_at) : null;
+  if (end === null) return { entitled: true };
+  const t = Date.now();
+  if (r.cancel_at_period_end) return { entitled: t < end };
+  return { entitled: t < end + RENEWAL_GRACE_MS };
+}
+
 /** True when the caller has an active paid payment or a live manual override. */
 export async function hasPaidAccess(userId: string): Promise<boolean> {
   const sb = serviceClient();
   const nowIso = new Date().toISOString();
   const [{ data: pay }, { data: ov }] = await Promise.all([
-    sb.from("payments").select("id").eq("user_id", userId).eq("status", "active").limit(1),
+    sb.from("payments").select("status,trial_end_at,current_period_end,cancel_at_period_end").eq("user_id", userId).eq("status", "active"),
     sb.from("manual_overrides").select("id, expires_at").eq("user_id", userId),
   ]);
-  if (pay && pay.length) return true;
+  // Honour stored trial / period end / cancel-at-period-end (same rule as check-subscription).
+  if ((pay ?? []).some((r) => entitlementFromRow(r).entitled)) return true;
   return (ov ?? []).some((o: { expires_at: string | null }) => !o.expires_at || o.expires_at > nowIso);
 }
 

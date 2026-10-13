@@ -37,6 +37,8 @@ export interface SubscriptionState {
   subscribed: boolean;
   tier: 'free' | 'mcq_only' | 'osce_only' | 'full_access' | 'lifetime';
   subscription_end: string | null;
+  /** 39 (monthly) or 99 (3-month), from check-subscription. */
+  plan_amount?: number | null;
   loading: boolean;
 }
 
@@ -128,6 +130,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         subscribed: data?.subscribed ?? false,
         tier: data?.tier ?? 'free',
         subscription_end: data?.subscription_end ?? null,
+        plan_amount: data?.plan_amount ?? null,
         loading: false,
       });
     } catch (e) {
