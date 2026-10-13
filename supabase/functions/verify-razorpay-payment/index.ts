@@ -78,7 +78,7 @@ serve(async (req) => {
     if (!rzRes.ok) throw new Error("Could not confirm payment with provider");
     const rz = await rzRes.json();
     if (rz?.notes?.user_id !== userId) throw new Error("Payment does not belong to this account");
-    const allowedTiers = ["mcq_only", "full_access", "lifetime"];
+    const allowedTiers = ["full_access"];
     const tier = rz?.notes?.tier;
     if (!allowedTiers.includes(tier)) throw new Error("Unknown plan on payment");
     const amount = razorpay_order_id && typeof rz.amount_paid === "number" ? Math.round(rz.amount_paid / 100) : null;

@@ -2,13 +2,18 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
 
 // Server-side price and plan catalogue — never trust amounts or tiers from the browser.
-const LIFETIME_PRICE_USD = 349;
-const PLAN_CATALOG: Record<string, { tier: string; intervalMonths: number }> = {
-  plan_SOsMQofBcfw3BU: { tier: "mcq_only", intervalMonths: 1 },
-  plan_SOsNlReb9DLlAw: { tier: "mcq_only", intervalMonths: 3 },
-  plan_SOsQDhBQkgyFfr: { tier: "full_access", intervalMonths: 1 },
-  plan_SOsR9Hjy6UHpNG: { tier: "full_access", intervalMonths: 6 },
-};
+// Single plan: Full Access, AUD. Live AUD plan IDs come from env (set by owner):
+//   RAZORPAY_PLAN_FULL_MONTHLY_AUD (A$39/month), RAZORPAY_PLAN_FULL_3M_AUD (A$99/3 months).
+// 7-day trial: subscription start_at = now + 7 days. A$1 card check: upfront addon (non-refundable).
+// Anniversary billing: Razorpay renews on the same day as start_at (trial end), which matches the confirmed model.
+const TRIAL_DAYS = 7;
+const CARD_CHECK_CENTS = 100; // A$1
+const PLAN_CATALOG: Record<string, { tier: string; intervalMonths: number }> = Object.fromEntries(
+  [
+    [Deno.env.get("RAZORPAY_PLAN_FULL_MONTHLY_AUD"), 1],
+    [Deno.env.get("RAZORPAY_PLAN_FULL_3M_AUD"), 3],
+  ].filter(([id]) => !!id).map(([id, m]) => [id as string, { tier: "full_access", intervalMonths: m as number }]),
+);
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -38,42 +43,8 @@ serve(async (req) => {
     const keySecret = Deno.env.get("RAZORPAY_KEY_SECRET") || "";
     const authString = btoa(`${keyId}:${keySecret}`);
 
-    if (mode === "payment") {
-      // One-time payment (lifetime) — create Razorpay Order
-      const orderRes = await fetch("https://api.razorpay.com/v1/orders", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Basic ${authString}`,
-        },
-        body: JSON.stringify({
-          amount: LIFETIME_PRICE_USD * 100, // fixed server-side price in cents
-          currency: "USD",
-          notes: {
-            user_id: user.id,
-            email: user.email,
-            tier: "lifetime",
-          },
-        }),
-      });
-
-      if (!orderRes.ok) {
-        const err = await orderRes.text();
-        throw new Error(`Razorpay order error: ${err}`);
-      }
-
-      const order = await orderRes.json();
-
-      return new Response(JSON.stringify({
-        order_id: order.id,
-        amount: order.amount,
-        currency: order.currency,
-        key_id: keyId,
-        tier: "lifetime",
-      }), {
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    } else {
+    if (mode === "payment") throw new Error("One-time plans are no longer offered");
+    {
       // Subscription — create Razorpay Subscription
       const catalog = planId ? PLAN_CATALOG[planId] : undefined;
       if (!planId || !catalog) throw new Error("Unknown plan");
@@ -87,7 +58,9 @@ serve(async (req) => {
         },
         body: JSON.stringify({
           plan_id: planId,
-          total_count: intervalMonths === 1 ? 12 : 1,
+          total_count: intervalMonths === 1 ? 12 : 4,
+          start_at: Math.floor(Date.now() / 1000) + TRIAL_DAYS * 86400,
+          addons: [{ item: { name: "Card check (non-refundable)", amount: CARD_CHECK_CENTS, currency: "AUD" } }],
           notes: {
             user_id: user.id,
             email: user.email,
