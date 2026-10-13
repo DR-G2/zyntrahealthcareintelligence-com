@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import {
   authorizeCancel, planCancel, checkoutDecision, matchesPendingRow, orphanAction, pendingRowExpirable, resolveStalePending,
-  pickEntitledRow, entitlementFromRow, reconcilesPendingRow, provisionalPeriodEnd, selectTrialReminders, sendTrialReminders, trialReminderText,
+  pickEntitledRow, entitlementFromRow, reconcilesPendingRow, provisionalPeriodEnd, verifyDecision, selectTrialReminders, sendTrialReminders, trialReminderText,
   type PaymentRow, type RazorpaySub, type ReminderStore,
 } from '../../supabase/functions/_shared/billing-lifecycle';
 
@@ -166,5 +166,53 @@ describe('fail-closed entitlement + aligned row selection', () => {
     ];
     expect(pickEntitledRow(rows, now).row).toBe(rows[1]);
     expect(pickEntitledRow([rows[0]], now).entitlement.entitled).toBe(false);
+  });
+});
+
+describe('webhook/verify ordering race (Hank)', () => {
+  // Minimal model of the row transitions both handlers perform on the reserved row.
+  type Row = { id: string; user_id: string; status: string; razorpay_subscription_id: string | null; razorpay_payment_id: string | null };
+  const reserved = (): Row => ({ id: 'p1', user_id: ME, status: 'pending', razorpay_subscription_id: 'sub_1', razorpay_payment_id: null });
+  const cancelled: string[] = [];
+  const webhookActivate = (row: Row) => {
+    if (orphanAction(row, true, false) !== 'none') { cancelled.push(row.razorpay_subscription_id!); return; }
+    row.status = 'active';
+  };
+  const verify = (row: Row, paymentId: string) => {
+    const d = verifyDecision(ME, 'sub_1', row);
+    if (d === 'activate') { row.status = 'active'; row.razorpay_payment_id = paymentId; return 'ok'; }
+    if (d === 'idempotent') { row.razorpay_payment_id ??= paymentId; return 'ok'; }
+    cancelled.push('sub_1'); return '409';
+  };
+  it('webhook first, then verify: idempotent success, payment id filled, never cancelled', () => {
+    cancelled.length = 0;
+    const row = reserved();
+    webhookActivate(row);
+    expect(row.status).toBe('active');
+    expect(verify(row, 'pay_1')).toBe('ok');
+    expect(row.razorpay_payment_id).toBe('pay_1');
+    expect(cancelled).toEqual([]);
+  });
+  it('verify first, then webhook: webhook updates the active row, never cancels', () => {
+    cancelled.length = 0;
+    const row = reserved();
+    expect(verify(row, 'pay_1')).toBe('ok');
+    webhookActivate(row);
+    expect(row.status).toBe('active');
+    expect(cancelled).toEqual([]);
+  });
+  it('verify twice (replay) stays idempotent', () => {
+    cancelled.length = 0;
+    const row = reserved();
+    verify(row, 'pay_1');
+    expect(verify(row, 'pay_1')).toBe('ok');
+    expect(cancelled).toEqual([]);
+  });
+  it('verifyDecision rejects expired rows, other users and other subs', () => {
+    expect(verifyDecision(ME, 'sub_1', { ...reserved(), status: 'expired' })).toBe('reject');
+    expect(verifyDecision(ME, 'sub_1', { ...reserved(), user_id: OTHER, status: 'active' })).toBe('reject');
+    expect(verifyDecision(ME, 'sub_2', { ...reserved(), status: 'active' })).toBe('reject');
+    expect(verifyDecision(ME, 'sub_1', null)).toBe('reject');
+    expect(verifyDecision(ME, 'sub_1', { ...reserved(), status: 'authenticated' })).toBe('idempotent');
   });
 });

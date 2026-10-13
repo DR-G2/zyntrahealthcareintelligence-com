@@ -6,9 +6,9 @@
 -- PREVIEW 1 (duplicate payment ids):
 --   select razorpay_payment_id, array_agg(id order by created_at desc) ids, count(*)
 --   from public.payments where razorpay_payment_id is not null group by 1 having count(*) > 1;
--- PREVIEW 2 (users with >1 open row):
+-- PREVIEW 2 (users with >1 open non-lifetime row):
 --   select user_id, array_agg(id || ':' || status order by created_at desc), count(*)
---   from public.payments where status in ('pending','active','authenticated','paused','halted') group by 1 having count(*) > 1;
+--   from public.payments where status in ('pending','active','authenticated','paused','halted') and tier is distinct from 'lifetime' group by 1 having count(*) > 1;
 -- BACKFILL AUDIT (rows that now fail closed: no dates and not legacy 'lifetime'; check-subscription
 -- backfills current_period_end from Razorpay on the user's next check, or set it manually):
 --   select id, user_id, tier, status, razorpay_subscription_id, razorpay_order_id, created_at
@@ -17,6 +17,13 @@
 --   -- manual backfill example (after confirming the paid-through date at Razorpay):
 --   -- update public.payments set current_period_end = '<iso date>' where id = '<id>';
 
+-- CANCEL LIST (run AFTER applying; every superseded row that still carries a Razorpay subscription id —
+-- check each at Razorpay and cancel/refund if still live):
+--   select id, user_id, status, razorpay_subscription_id, superseded_reason, superseded_at
+--   from public.payments
+--   where status = 'superseded' and razorpay_subscription_id is not null
+--   order by superseded_at;
+--
 alter table public.payments
   add column if not exists superseded_at timestamptz,
   add column if not exists superseded_reason text,
@@ -27,7 +34,9 @@ alter table public.payments
 with ranked as (
   select id, row_number() over (
            partition by razorpay_payment_id
-           order by (status = 'active') desc, created_at desc, id desc) as rn
+           -- keep the row that actually entitles: active AND (dated OR legacy lifetime) first
+           order by (status = 'active' and (current_period_end is not null or trial_end_at is not null or tier = 'lifetime')) desc,
+                    (status = 'active') desc, created_at desc, id desc) as rn
   from public.payments
   where razorpay_payment_id is not null
 )
@@ -40,14 +49,17 @@ set status = 'superseded',
 from ranked r
 where p.id = r.id and r.rn > 1;
 
--- 2) More than one open row per user: keep the newest valid one (active > authenticated > paused/halted > pending).
+-- 2) More than one open (non-lifetime) row per user: keep the entitling one (active + dated) first, then
+--    active > authenticated > paused/halted > pending, newest first.
 with ranked as (
   select id, row_number() over (
            partition by user_id
-           order by case status when 'active' then 0 when 'authenticated' then 1 when 'paused' then 2 when 'halted' then 2 else 3 end,
+           order by (status = 'active' and (current_period_end is not null or trial_end_at is not null)) desc,
+                    case status when 'active' then 0 when 'authenticated' then 1 when 'paused' then 2 when 'halted' then 2 else 3 end,
                     created_at desc, id desc) as rn
   from public.payments
-  where status in ('pending', 'active', 'authenticated', 'paused', 'halted')
+  -- legacy lifetime rows are never superseded (and are outside the one-open-row index, see 060000)
+  where status in ('pending', 'active', 'authenticated', 'paused', 'halted') and tier is distinct from 'lifetime'
 )
 update public.payments p
 set status = 'superseded',
@@ -55,7 +67,4 @@ set status = 'superseded',
     superseded_reason = 'extra open row for user (20261014045000)'
 from ranked r
 where p.id = r.id and r.rn > 1;
--- NOTE: a superseded row that still has a live Razorpay subscription keeps billing at Razorpay. Review:
---   select id, user_id, razorpay_subscription_id from public.payments
---   where superseded_reason like 'extra open row%' and razorpay_subscription_id is not null;
--- and cancel those subscriptions at Razorpay / refund as appropriate.
+-- After applying: run the CANCEL LIST query in the header.

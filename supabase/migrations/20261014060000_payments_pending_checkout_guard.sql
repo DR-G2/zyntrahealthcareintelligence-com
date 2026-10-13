@@ -19,7 +19,7 @@ DECLARE n integer;
 BEGIN
   SELECT count(*) INTO n FROM (
     SELECT user_id FROM public.payments
-    WHERE status IN ('pending', 'active', 'authenticated', 'paused', 'halted') GROUP BY 1 HAVING count(*) > 1
+    WHERE status IN ('pending', 'active', 'authenticated', 'paused', 'halted') AND tier IS DISTINCT FROM 'lifetime' GROUP BY 1 HAVING count(*) > 1
   ) d;
   IF n > 0 THEN
     RAISE EXCEPTION '% users have more than one open payments row; resolve before applying', n;
@@ -28,7 +28,7 @@ END $$;
 
 create unique index if not exists payments_one_open_per_user
   on public.payments (user_id)
-  where status in ('pending', 'active', 'authenticated', 'paused', 'halted');
+  where status in ('pending', 'active', 'authenticated', 'paused', 'halted') and tier is distinct from 'lifetime';
 
 create index if not exists payments_needs_refund_idx on public.payments (needs_refund) where needs_refund;
 

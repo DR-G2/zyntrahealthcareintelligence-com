@@ -179,33 +179,17 @@ serve(async (req) => {
       const paymentId = payment.id;
       const amount = payment.amount ? Math.round(payment.amount / 100) : null;
 
-      // Only process order-based (non-subscription) payments
+      // Legacy one-time order path is retired (no code creates orders). A capture here is unexpected:
+      // never grant access; record an audit row flagged for manual refund (replay-safe on payment id).
       if (orderId && !payment.subscription_id) {
-        const { data: existing } = await supabase
-          .from("payments")
-          .select("id")
-          .eq("user_id", userId)
-          .eq("razorpay_order_id", orderId)
-          .maybeSingle();
-
-        if (existing) {
-          await supabase
-            .from("payments")
-            .update({ status: "active", razorpay_payment_id: paymentId })
-            .eq("id", existing.id);
-          log("Updated one-time payment", { id: existing.id });
-        } else {
-          // Replay-safe: UNIQUE(razorpay_payment_id) + ignoreDuplicates makes a re-delivered event a no-op.
-          await supabase.from("payments").upsert({
-            user_id: userId,
-            razorpay_order_id: orderId,
-            razorpay_payment_id: paymentId,
-            tier,
-            status: "active",
-            amount,
-          }, { onConflict: "razorpay_payment_id", ignoreDuplicates: true });
-          log("Inserted one-time payment", { orderId });
+        const { data: seen } = await supabase.from("payments").select("id").eq("refund_payment_id", paymentId).maybeSingle();
+        if (!seen) {
+          await supabase.from("payments").insert({
+            user_id: userId, razorpay_order_id: orderId, refund_payment_id: paymentId, tier, status: "orphan",
+            needs_refund: true, amount,
+          });
         }
+        log("NEEDS_REFUND: unexpected one-time order capture (legacy path retired)", { orderId, paymentId, userId });
       }
     }
 

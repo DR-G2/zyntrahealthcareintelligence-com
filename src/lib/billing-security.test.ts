@@ -149,14 +149,14 @@ describe('Gus retest 2', () => {
   });
   it('verify rejects subscriptions that do not match the pending row', () => {
     const src = read('supabase/functions/verify-razorpay-payment/index.ts');
-    expect(src).toContain('matchesPendingRow(userId, razorpay_subscription_id, pend)');
+    expect(src).toContain('verifyDecision(userId, razorpay_subscription_id, pend)');
   });
   it('migrations: duplicate guard precedes unique; REVOKE on helper; pending partial unique index', () => {
     const m50 = read('supabase/migrations/20261014050000_payments_replay_protection.sql');
     expect(m50.indexOf('RAISE EXCEPTION')).toBeLessThan(m50.indexOf('add constraint'));
     expect(read('supabase/migrations/20261014051000_entitlement_honours_billing_dates.sql')).toMatch(/REVOKE EXECUTE ON FUNCTION public\.payment_row_entitled\(public\.payments\) FROM anon, public/);
     const m60 = read('supabase/migrations/20261014060000_payments_pending_checkout_guard.sql');
-    expect(m60).toMatch(/create unique index if not exists payments_one_open_per_user\s+on public\.payments \(user_id\)\s+where status in \('pending', 'active', 'authenticated', 'paused', 'halted'\)/);
+    expect(m60).toMatch(/create unique index if not exists payments_one_open_per_user\s+on public\.payments \(user_id\)\s+where status in \('pending', 'active', 'authenticated', 'paused', 'halted'\) and tier is distinct from 'lifetime'/);
     expect(m60).toContain("interval '1 hour'");
   });
   it('v2-ai-lab uses the shared entitlement helper (no inlined copy)', () => {
@@ -206,7 +206,7 @@ describe('Hank B1/B2 + Gus retest 3 wiring', () => {
       expect(m).not.toMatch(/^select cron\.schedule/m);
     }
     const m60 = read('supabase/migrations/20261014060000_payments_pending_checkout_guard.sql');
-    expect(m60).toContain("where status in ('pending', 'active', 'authenticated', 'paused', 'halted');");
+    expect(m60).toContain("where status in ('pending', 'active', 'authenticated', 'paused', 'halted') and tier is distinct from 'lifetime';");
     expect(m60).toContain('razorpay_subscription_id is null');
   });
   it('customer-portal cancel routes through planCancel', () => {
@@ -216,5 +216,29 @@ describe('Hank B1/B2 + Gus retest 3 wiring', () => {
   });
   it('051000 fails closed on undated rows except explicit lifetime', () => {
     expect(read('supabase/migrations/20261014051000_entitlement_honours_billing_dates.sql')).toContain("THEN p.tier = 'lifetime'");
+  });
+});
+
+describe('Hank round 3', () => {
+  it('verify returns idempotent success for an already-active own row and never cancels it', () => {
+    const src = read('supabase/functions/verify-razorpay-payment/index.ts');
+    expect(src).toContain('verifyDecision(userId, razorpay_subscription_id, pend)');
+    const idem = src.indexOf('decision === "idempotent"');
+    const cancel = src.indexOf('cancelSubscriptionNow(');
+    expect(idem).toBeGreaterThan(0);
+    expect(idem).toBeLessThan(cancel);
+  });
+  it('legacy payment.captured never creates an active row', () => {
+    const src = read('supabase/functions/razorpay-webhook/index.ts');
+    const legacy = src.slice(src.indexOf('if (event === "payment.captured")'), src.indexOf('if (event === "payment.failed")'));
+    expect(legacy).not.toContain('status: "active"');
+    expect(legacy).toContain('needs_refund: true');
+  });
+  it('045000 ranks by entitlement, excludes lifetime from supersede, has cancel list', () => {
+    const m = read('supabase/migrations/20261014045000_payments_dedupe.sql');
+    expect(m).toContain("(status = 'active' and (current_period_end is not null or trial_end_at is not null or tier = 'lifetime')) desc");
+    expect(m).toContain("tier is distinct from 'lifetime'");
+    expect(m).toContain('CANCEL LIST');
+    expect(read('supabase/migrations/20261014060000_payments_pending_checkout_guard.sql')).toContain("and tier is distinct from 'lifetime';");
   });
 });

@@ -1,7 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
 import { verifyHmacSignature } from "../_shared/signature.ts";
-import { matchesPendingRow, provisionalPeriodEnd, reconcilesPendingRow } from "../_shared/billing-lifecycle.ts";
+import { provisionalPeriodEnd, reconcilesPendingRow, verifyDecision } from "../_shared/billing-lifecycle.ts";
 import { cancelSubscriptionNow } from "../_shared/razorpay.ts";
 
 const corsHeaders = {
@@ -99,18 +99,28 @@ serve(async (req) => {
       // RACE GUARD: only accept a subscription that matches this user's own pending row
       // (reserved by create-razorpay-order before Razorpay was called).
       let { data: pend } = await supabase.from("payments")
-        .select("id,user_id,status,razorpay_subscription_id")
+        .select("id,user_id,status,razorpay_subscription_id,razorpay_payment_id")
         .eq("razorpay_subscription_id", razorpay_subscription_id).maybeSingle();
       if (!pend && rz?.notes?.pending_payment_id) {
         // N1 crash-safety: create died before saving sub.id -> reconcile via notes.pending_payment_id.
         const { data: cand } = await supabase.from("payments")
-          .select("id,user_id,status,razorpay_subscription_id").eq("id", rz.notes.pending_payment_id).maybeSingle();
+          .select("id,user_id,status,razorpay_subscription_id,razorpay_payment_id").eq("id", rz.notes.pending_payment_id).maybeSingle();
         if (reconcilesPendingRow(userId, rz.notes, cand)) {
           await supabase.from("payments").update({ razorpay_subscription_id }).eq("id", cand!.id).is("razorpay_subscription_id", null);
           pend = { ...cand!, razorpay_subscription_id };
         }
       }
-      if (!matchesPendingRow(userId, razorpay_subscription_id, pend)) {
+      const decision = verifyDecision(userId, razorpay_subscription_id, pend);
+      if (decision === "idempotent") {
+        // Webhook-first race: the webhook already promoted this user's row. Success, never cancel.
+        if (!pend!.razorpay_payment_id) {
+          await supabase.from("payments").update({ razorpay_payment_id }).eq("id", pend!.id).is("razorpay_payment_id", null);
+        }
+        return new Response(JSON.stringify({ success: true, tier, already_active: true }), {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+      if (decision === "reject") {
         // Hank B1: authorised at Razorpay but no valid reservation -> stop it charging NOW and flag the
         // authorisation payment (e.g. A$1 card check) for manual refund. No access is granted.
         await cancelSubscriptionNow(razorpay_subscription_id, `verify:${pend ? pend.status : "no"}-row`);

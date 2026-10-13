@@ -232,3 +232,17 @@ export function provisionalPeriodEnd(interval: 'monthly' | 'quarterly', now: Dat
   d.setUTCMonth(d.getUTCMonth() + (interval === 'quarterly' ? 3 : 1));
   return d.toISOString();
 }
+
+/**
+ * verify-razorpay-payment decision for a subscription (Hank: webhook-first race).
+ * - caller's own pending row for this sub            -> 'activate'
+ * - caller's own row ALREADY active/authenticated
+ *   for this sub (webhook got there first)           -> 'idempotent' (success; fill payment id if missing; NEVER cancel)
+ * - anything else (no row / expired / other user)    -> 'reject' (cancel at provider + refund flag)
+ */
+export function verifyDecision(userId: string, subscriptionId: string,
+  row: { user_id: string; status: string; razorpay_subscription_id: string | null } | null): 'activate' | 'idempotent' | 'reject' {
+  if (matchesPendingRow(userId, subscriptionId, row)) return 'activate';
+  if (row && row.user_id === userId && row.razorpay_subscription_id === subscriptionId && (row.status === 'active' || row.status === 'authenticated')) return 'idempotent';
+  return 'reject';
+}
