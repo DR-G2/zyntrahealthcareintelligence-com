@@ -10,8 +10,8 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/lib/supabase';
-import { RAZORPAY_TIERS, type TierKey } from '@/lib/razorpay-config';
-import { checkoutSummary, COPY_CARD_CHECK, COPY_CANCEL } from '@/lib/billing';
+import { RAZORPAY_TIERS, CHECKOUT_DISABLED, type TierKey } from '@/lib/razorpay-config';
+import { checkoutSummary, cancelCopy, COPY_CARD_CHECK, COPY_CANCEL } from '@/lib/billing';
 import { SEO } from '@/components/SEO';
 import { PublicFooter } from '@/components/PublicFooter';
 import { PAYPAL_ENABLED } from '@/lib/payment-flags';
@@ -92,12 +92,8 @@ export default function Pricing() {
       const baseTier = tierKey.replace('_3m', '');
 
       const { data, error } = await supabase.functions.invoke('create-razorpay-order', {
-        body: {
-          planId: config.plan_id || undefined,
-          mode: config.mode,
-          tier: baseTier,
-          amount: config.price,
-        },
+        // Server owns plan IDs, price and trial dates; the client sends the interval only.
+        body: { interval: config.interval },
       });
       if (error) throw error;
       if (data?.error) throw new Error(data.error);
@@ -323,9 +319,9 @@ export default function Pricing() {
                       ))}
                     </ul>
                     <p className="mb-2 text-xs text-foreground" data-testid={`checkout-summary-${tierKey}`}>{checkoutSummary(cfg.interval)}</p>
-                    <p className="mb-4 text-xs text-muted-foreground">{COPY_CARD_CHECK} {COPY_CANCEL}</p>
-                    <Button size="sm" className="w-full" onClick={() => choosePayment(tierKey)} disabled={!cfg.plan_id || loadingTier === tierKey || isCurrentTier(tierKey)}>
-                      {isCurrentTier(tierKey) ? 'Current' : loadingTier === tierKey ? <Loader2 className="h-4 w-4 animate-spin" /> : !cfg.plan_id ? 'Coming soon' : 'Start 7-day free trial'}
+                    <p className="mb-4 text-xs text-muted-foreground">{COPY_CARD_CHECK} {cancelCopy(cfg.interval)}</p>
+                    <Button size="sm" className="w-full" onClick={() => choosePayment(tierKey)} disabled={CHECKOUT_DISABLED || loadingTier === tierKey || isCurrentTier(tierKey)}>
+                      {isCurrentTier(tierKey) ? 'Current' : loadingTier === tierKey ? <Loader2 className="h-4 w-4 animate-spin" /> : CHECKOUT_DISABLED ? 'Coming soon' : 'Start 7-day free trial'}
                     </Button>
                   </CardContent>
                 </Card>

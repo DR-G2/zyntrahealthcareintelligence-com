@@ -85,3 +85,5 @@ project_id = "yudkfmgilucyhukfggij"
 
   [functions.admin-pie-inspect-user]
     verify_jwt = false
+  [functions.trial-reminder-email]
+    verify_jwt = false

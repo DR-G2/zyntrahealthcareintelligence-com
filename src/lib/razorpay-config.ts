@@ -1,20 +1,20 @@
 // Razorpay configuration — Zyntra sells ONE plan: Full Access (AUD).
-//   - A$39/month, or A$99 per 3 months
-//   - 7-day free trial on both, cancel anytime
-//   - A$1 non-refundable card check at trial signup (Razorpay subscription "addon"/upfront amount)
-// Billing-period logic & checkout copy live in src/lib/billing.ts (model pending confirmation).
-//
-// TODO(owner): fill in the LIVE Razorpay plan IDs. Plans must be created in the Razorpay
-// dashboard in AUD (A$39 monthly, A$99 every 3 months). The previous USD plan IDs
-// (plan_SOsMQofBcfw3BU, plan_SOsNlReb9DLlAw, plan_SOsQDhBQkgyFfr, plan_SOsR9Hjy6UHpNG)
-// are retired and must not be reused. Until set, checkout is disabled for that interval.
-// Pre-launch note: nothing in this repository records existing paying subscribers on the old
-// plans; this was not verified against the production database.
+//   - A$39/month, or A$99 per 3 months; 7-day free trial on both; A$1 card check at trial signup.
+// The client never holds plan IDs. It sends only { interval } and the create-razorpay-order edge
+// function maps it to the live AUD plan IDs from env:
+//   RAZORPAY_PLAN_FULL_MONTHLY_AUD  (A$39 / month)
+//   RAZORPAY_PLAN_FULL_3M_AUD       (A$99 / 3 months)
+// TODO(owner): create both plans in the Razorpay dashboard (AUD) and set those env vars.
+// Old USD plan IDs (plan_SOsMQofBcfw3BU, plan_SOsNlReb9DLlAw, plan_SOsQDhBQkgyFfr, plan_SOsR9Hjy6UHpNG) are retired.
+// Checkout can be switched off deliberately with VITE_CHECKOUT_DISABLED=true (buttons show "Coming soon").
+// Pre-launch note: nothing in this repository records existing paying subscribers on the old plans;
+// this was not verified against the production database.
 import { CARD_CHECK_AMOUNT, CURRENCY, TRIAL_DAYS } from './billing';
+
+export const CHECKOUT_DISABLED = import.meta.env.VITE_CHECKOUT_DISABLED === 'true';
 
 export const RAZORPAY_TIERS = {
   full_access: {
-    plan_id: '', // TODO(owner): live AUD plan ID for A$39/month
     mode: 'subscription' as const,
     name: 'Full Access (monthly)',
     interval: 'monthly' as const,
@@ -24,7 +24,6 @@ export const RAZORPAY_TIERS = {
     card_check_amount: CARD_CHECK_AMOUNT,
   },
   full_access_3m: {
-    plan_id: '', // TODO(owner): live AUD plan ID for A$99 / 3 months
     mode: 'subscription' as const,
     name: 'Full Access (3 months)',
     interval: 'quarterly' as const,
@@ -34,10 +33,5 @@ export const RAZORPAY_TIERS = {
     card_check_amount: CARD_CHECK_AMOUNT,
   },
 } as const;
-
-// Plan ID → tier mapping (for subscription verification). Filled from RAZORPAY_TIERS.
-export const PLAN_TIER_MAP: Record<string, string> = Object.fromEntries(
-  Object.values(RAZORPAY_TIERS).filter((t) => t.plan_id).map((t) => [t.plan_id, 'full_access']),
-);
 
 export type TierKey = keyof typeof RAZORPAY_TIERS;

@@ -91,7 +91,9 @@ serve(async (req) => {
       razorpay_subscription_id: razorpay_subscription_id || null,
       tier,
       status: "active",
-      amount,
+      amount: amount ?? (Number(rz?.notes?.price_aud) || null),
+      // Subscription start_at is the trial end / first charge (set server-side in create-razorpay-order).
+      trial_end_at: !razorpay_order_id && rz?.start_at ? new Date(rz.start_at * 1000).toISOString() : null,
     });
 
     if (insertError) throw insertError;

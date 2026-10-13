@@ -100,6 +100,9 @@ serve(async (req) => {
         case "subscription.charged":
           status = "active";
           break;
+        // completed = all total_count cycles billed (~10y horizon, see create-razorpay-order); the
+        // last paid period has already ended at that point, so ending entitlement is correct.
+        // cancelled fires at cycle end for user cancels (cancel_at_cycle_end=1) or immediately in trial.
         case "subscription.completed":
         case "subscription.cancelled":
         case "subscription.expired":
@@ -128,7 +131,11 @@ serve(async (req) => {
       if (existing) {
         const { error } = await supabase
           .from("payments")
-          .update({ status, razorpay_payment_id: paymentId || undefined })
+          .update({
+            status,
+            razorpay_payment_id: paymentId || undefined,
+            ...(typeof entity.current_end === "number" ? { current_period_end: new Date(entity.current_end * 1000).toISOString() } : {}),
+          })
           .eq("id", existing.id);
         if (error) throw error;
         log("Updated payment", { id: existing.id, status });
