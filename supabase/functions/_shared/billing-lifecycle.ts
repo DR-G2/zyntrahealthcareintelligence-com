@@ -1,3 +1,5 @@
+import { CHARGE_HOUR_SYDNEY, renewalDate, sydneyDate, sydneyLocalToUtc } from "./billing-dates.ts";
+
 // Pure billing-lifecycle logic shared by edge functions (no Deno APIs, so it is unit-tested with vitest).
 
 export interface PaymentRow {
@@ -54,6 +56,13 @@ export function planCancel(sub: RazorpaySub, now: Date = new Date()): CancelPlan
   const inTrial = !(typeof sub.paid_count === 'number' && sub.paid_count > 0);
   if (inTrial) return { inTrial: true, cancelAtCycleEnd: 0, accessEndsAt: now };
   return { inTrial: false, cancelAtCycleEnd: 1, accessEndsAt: new Date((sub.current_end ?? nowSec) * 1000) };
+}
+
+/** User-facing result of planCancel (Retest 4 nit: immediate vs end-of-cycle must be stated correctly). */
+export function cancelMessage(plan: CancelPlan): string {
+  if (plan.inTrial) return 'Subscription cancelled immediately. You will not be charged.';
+  const d = plan.accessEndsAt.toLocaleDateString('en-AU', { timeZone: 'Australia/Sydney', day: 'numeric', month: 'long', year: 'numeric' });
+  return `Subscription will be cancelled at the end of the billing cycle. You keep access until ${d}.`;
 }
 
 /** Reminder window: trial ends 48–72h from now, so the email always lands >= 2 days before. Run hourly. */
@@ -228,21 +237,27 @@ export function reconcilesPendingRow(userId: string, notes: { user_id?: string; 
 
 /** No-trial resubscribe verified before Razorpay reports current_end: provisional paid-through = now + interval. */
 export function provisionalPeriodEnd(interval: 'monthly' | 'quarterly', now: Date = new Date()): string {
-  const d = new Date(now.getTime());
-  d.setUTCMonth(d.getUTCMonth() + (interval === 'quarterly' ? 3 : 1));
-  return d.toISOString();
+  // Same anniversary/clamp rule as everything else (31 Jan -> 28/29 Feb, never 3 Mar): Sydney date anchor,
+  // renewalDate(+1 period), at the standard Sydney charge hour.
+  return sydneyLocalToUtc(renewalDate(sydneyDate(now), 1, interval), CHARGE_HOUR_SYDNEY).toISOString();
 }
 
 /**
  * verify-razorpay-payment decision for a subscription (Hank: webhook-first race).
  * - caller's own pending row for this sub            -> 'activate'
- * - caller's own row ALREADY active/authenticated
+ * - caller's own row ALREADY active/authenticated/paused/halted
  *   for this sub (webhook got there first)           -> 'idempotent' (success; fill payment id if missing; NEVER cancel)
  * - anything else (no row / expired / other user)    -> 'reject' (cancel at provider + refund flag)
  */
 export function verifyDecision(userId: string, subscriptionId: string,
   row: { user_id: string; status: string; razorpay_subscription_id: string | null } | null): 'activate' | 'idempotent' | 'reject' {
   if (matchesPendingRow(userId, subscriptionId, row)) return 'activate';
-  if (row && row.user_id === userId && row.razorpay_subscription_id === subscriptionId && (row.status === 'active' || row.status === 'authenticated')) return 'idempotent';
+  if (row && row.user_id === userId && row.razorpay_subscription_id === subscriptionId && ['active', 'authenticated', 'paused', 'halted'].includes(row.status)) return 'idempotent';
   return 'reject';
+}
+
+/** Several rows may share a subscription id (audit 'orphan' rows); always prefer the real (non-orphan) row. */
+export function pickSubscriptionRow<T extends { status: string }>(rows: T[] | null | undefined): T | null {
+  if (!rows || rows.length === 0) return null;
+  return rows.find((r) => r.status !== 'orphan') ?? rows[0];
 }

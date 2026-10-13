@@ -242,3 +242,47 @@ describe('Hank round 3', () => {
     expect(read('supabase/migrations/20261014060000_payments_pending_checkout_guard.sql')).toContain("and tier is distinct from 'lifetime';");
   });
 });
+
+describe('Hank follow-ups + Gus Retest 4', () => {
+  it('payment_row_entitled is not granted to authenticated (called only via SECURITY DEFINER)', () => {
+    const m = read('supabase/migrations/20261014051000_entitlement_honours_billing_dates.sql');
+    expect(m).not.toMatch(/GRANT\s+EXECUTE\s+ON\s+FUNCTION\s+public\.payment_row_entitled[^;]*TO\s+authenticated/i);
+    expect(m).toMatch(/SECURITY DEFINER/i);
+  });
+  it('061000: refund_payment_id partial unique with dup precheck, needs_cancel, guarded hourly retry', () => {
+    const m = read('supabase/migrations/20261014061000_payments_refund_unique_needs_cancel.sql');
+    expect(m).toContain('RAISE EXCEPTION');
+    expect(m).toMatch(/unique index if not exists payments_refund_payment_id_key[\s\S]*where refund_payment_id is not null/);
+    expect(m).toContain('needs_cancel boolean not null default false');
+    expect(m).toContain("extname = 'pg_cron'");
+    expect(m).toContain('retry-razorpay-cancels');
+    expect(read('supabase/migrations/20261014060000_payments_pending_checkout_guard.sql')).toContain('OFF-PEAK');
+  });
+  it('failed cancels are flagged + alerted; webhook still 200; no maybeSingle on sub-id lookups', () => {
+    for (const f of ['razorpay-webhook', 'verify-razorpay-payment', 'create-razorpay-order']) {
+      const s = read(`supabase/functions/${f}/index.ts`);
+      expect(s).toContain('needs_cancel');
+      expect(s).toContain('ALERT NEEDS_CANCEL');
+    }
+    for (const f of ['razorpay-webhook', 'verify-razorpay-payment']) {
+      const s = read(`supabase/functions/${f}/index.ts`);
+      expect(s).toContain('pickSubscriptionRow');
+      expect(s).not.toMatch(/\.eq\("razorpay_subscription_id", [a-zA-Z_]+\)\s*\.maybeSingle\(\)/);
+    }
+  });
+  it('retry-razorpay-cancels: constant-time cron secret, clears flag on success, no JWT', () => {
+    const s = read('supabase/functions/retry-razorpay-cancels/index.ts');
+    expect(s).toContain('timingSafeEqual');
+    expect(s).toContain('needs_cancel: false');
+    expect(read('supabase/config.toml')).toMatch(/\[functions\.retry-razorpay-cancels\]\s*verify_jwt = false/);
+  });
+  it('customer-portal states immediate vs end-of-cycle via cancelMessage', () => {
+    const s = read('supabase/functions/customer-portal/index.ts');
+    expect(s).toContain('cancelMessage(plan)');
+    expect(s).not.toContain('"Subscription will be cancelled at end of billing cycle"');
+  });
+  it('no raw JS month arithmetic in billing code (use renewalDate)', () => {
+    for (const f of ['supabase/functions/_shared/billing-lifecycle.ts', 'supabase/functions/_shared/billing-dates.ts', 'src/lib/billing.ts'])
+      expect(read(f)).not.toMatch(/set(UTC)?Month\(/);
+  });
+});

@@ -1,7 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
 import { verifyHmacSignature } from "../_shared/signature.ts";
-import { provisionalPeriodEnd, reconcilesPendingRow, verifyDecision } from "../_shared/billing-lifecycle.ts";
+import { pickSubscriptionRow, provisionalPeriodEnd, reconcilesPendingRow, verifyDecision } from "../_shared/billing-lifecycle.ts";
 import { cancelSubscriptionNow } from "../_shared/razorpay.ts";
 
 const corsHeaders = {
@@ -98,9 +98,11 @@ serve(async (req) => {
     if (razorpay_subscription_id) {
       // RACE GUARD: only accept a subscription that matches this user's own pending row
       // (reserved by create-razorpay-order before Razorpay was called).
-      let { data: pend } = await supabase.from("payments")
+      // Retest 4 nit: a sub id may have a real row plus an audit orphan -> list + prefer non-orphan (no maybeSingle error).
+      const { data: subRows } = await supabase.from("payments")
         .select("id,user_id,status,razorpay_subscription_id,razorpay_payment_id")
-        .eq("razorpay_subscription_id", razorpay_subscription_id).maybeSingle();
+        .eq("razorpay_subscription_id", razorpay_subscription_id).order("created_at", { ascending: true }).limit(10);
+      let pend = pickSubscriptionRow(subRows);
       if (!pend && rz?.notes?.pending_payment_id) {
         // N1 crash-safety: create died before saving sub.id -> reconcile via notes.pending_payment_id.
         const { data: cand } = await supabase.from("payments")
@@ -123,13 +125,15 @@ serve(async (req) => {
       if (decision === "reject") {
         // Hank B1: authorised at Razorpay but no valid reservation -> stop it charging NOW and flag the
         // authorisation payment (e.g. A$1 card check) for manual refund. No access is granted.
-        await cancelSubscriptionNow(razorpay_subscription_id, `verify:${pend ? pend.status : "no"}-row`);
+        const cancelled = await cancelSubscriptionNow(razorpay_subscription_id, `verify:${pend ? pend.status : "no"}-row`);
+        if (!cancelled) console.error("[VERIFY-RAZORPAY] ALERT NEEDS_CANCEL: Razorpay cancel failed; queued for hourly retry", { razorpay_subscription_id });
+        const flags = { needs_refund: true, refund_payment_id: razorpay_payment_id, needs_cancel: !cancelled };
         if (pend && pend.user_id === userId) {
-          await supabase.from("payments").update({ needs_refund: true, refund_payment_id: razorpay_payment_id }).eq("id", pend.id);
+          await supabase.from("payments").update(flags).eq("id", pend.id); // replays reuse this row (incl. orphan)
         } else if (!pend) {
-          await supabase.from("payments").insert({
-            user_id: userId, razorpay_subscription_id, tier, status: "orphan", needs_refund: true, refund_payment_id: razorpay_payment_id,
-          });
+          await supabase.from("payments").insert({ user_id: userId, razorpay_subscription_id, tier, status: "orphan", ...flags });
+        } else if (!cancelled) {
+          await supabase.from("payments").update({ needs_cancel: true }).eq("id", pend.id);
         }
         throw new ClientError("This checkout is no longer valid and has been cancelled. Any charge will be refunded.", 409);
       }

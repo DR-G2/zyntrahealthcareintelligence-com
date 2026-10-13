@@ -54,7 +54,12 @@ serve(async (req) => {
       const rz = await fetchSubscription(row.razorpay_subscription_id!);
       const decision = resolveStalePending(rz?.status ?? null);
       if (decision === "cancel_then_expire") {
-        if (!(await cancelSubscriptionNow(row.razorpay_subscription_id!, "create:stale-unauthorised"))) continue;
+        if (!(await cancelSubscriptionNow(row.razorpay_subscription_id!, "create:stale-unauthorised"))) {
+          // Retest 4 #1: flag for the hourly retry-razorpay-cancels job; row stays pending (blocks a 2nd checkout).
+          console.error("[CREATE-RAZORPAY-ORDER] ALERT NEEDS_CANCEL: stale sub cancel failed; queued for retry", { id: row.id });
+          await admin.from("payments").update({ needs_cancel: true }).eq("id", row.id);
+          continue;
+        }
       }
       if (decision !== "keep") await admin.from("payments").update({ status: "expired" }).eq("id", row.id).eq("status", "pending");
     }

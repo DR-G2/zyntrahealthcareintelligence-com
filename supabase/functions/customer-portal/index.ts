@@ -1,6 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
-import { planCancel, type RazorpaySub } from "../_shared/billing-lifecycle.ts";
+import { cancelMessage, planCancel, type RazorpaySub } from "../_shared/billing-lifecycle.ts";
 import { fetchSubscription, razorpayAuth } from "../_shared/razorpay.ts";
 
 const corsHeaders = {
@@ -79,7 +79,7 @@ serve(async (req) => {
         })
         .eq("id", payment.id);
 
-      return new Response(JSON.stringify({ success: true, message: "Subscription will be cancelled at end of billing cycle" }), {
+      return new Response(JSON.stringify({ success: true, message: cancelMessage(plan) }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
         status: 200,
       });

@@ -1,5 +1,7 @@
 -- Checkout race guard + refund flagging + plan interval. NOT applied live by this PR.
 -- Requires 20261014040000, 20261014045000 (dedupe) and 20261014050000.
+-- OFF-PEAK: run in a low-traffic window (e.g. 02:00-05:00 Sydney). CREATE UNIQUE INDEX takes a lock that
+-- blocks writes to public.payments while it builds; the table is small, but avoid peak checkout hours.
 
 alter table public.payments
   add column if not exists plan_interval text check (plan_interval in ('monthly', 'quarterly')),

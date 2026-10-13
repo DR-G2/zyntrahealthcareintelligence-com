@@ -87,3 +87,6 @@ project_id = "yudkfmgilucyhukfggij"
     verify_jwt = false
   [functions.trial-reminder-email]
     verify_jwt = false
+
+  [functions.retry-razorpay-cancels]
+    verify_jwt = false

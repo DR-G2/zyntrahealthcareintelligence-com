@@ -1,7 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
 import { verifyHmacSignature } from "../_shared/signature.ts";
-import { orphanAction, reconcilesPendingRow } from "../_shared/billing-lifecycle.ts";
+import { orphanAction, pickSubscriptionRow, reconcilesPendingRow } from "../_shared/billing-lifecycle.ts";
 import { cancelSubscriptionNow } from "../_shared/razorpay.ts";
 
 const corsHeaders = {
@@ -112,13 +112,15 @@ serve(async (req) => {
 
       // Only rows reserved by create-razorpay-order (pending -> active) are ever updated; unknown
       // subscriptions are rejected (logged), never inserted.
-      const { data: found } = await supabase
+      // Retest 4 nit: several rows can share a sub id (real + audit orphan); never maybeSingle (it errors on >1).
+      const { data: foundRows } = await supabase
         .from("payments")
         .select("id,status,razorpay_payment_id")
         .eq("user_id", userId)
         .eq("razorpay_subscription_id", subscriptionId)
-        .maybeSingle();
-      let existing = found;
+        .order("created_at", { ascending: true })
+        .limit(10);
+      let existing = pickSubscriptionRow(foundRows);
       if (!existing && notes.pending_payment_id) {
         // N1 crash-safety: reconcile a pending row whose subscription id was never saved.
         const { data: cand } = await supabase.from("payments")
@@ -133,17 +135,20 @@ serve(async (req) => {
       if (action !== "none") {
         // Hank B1: unknown / expired / cancelled row but Razorpay is live -> stop it charging NOW,
         // and flag any captured money for manual refund. Never grant access.
-        await cancelSubscriptionNow(subscriptionId, existing ? `webhook:${existing.status}-row` : "webhook:no-row");
+        const cancelled = await cancelSubscriptionNow(subscriptionId, existing ? `webhook:${existing.status}-row` : "webhook:no-row");
+        // Retest 4 #1: a failed cancel is flagged and retried hourly by retry-razorpay-cancels.
+        const flags: Record<string, unknown> = { needs_cancel: !cancelled };
+        if (action === "cancel_and_refund") { flags.needs_refund = true; flags.refund_payment_id = paymentId; }
+        if (!cancelled) log("ALERT NEEDS_CANCEL: Razorpay cancel failed; queued for hourly retry", { event, subscriptionId, userId });
         if (existing) {
-          if (action === "cancel_and_refund") {
-            const { error } = await supabase.from("payments").update({ needs_refund: true, refund_payment_id: paymentId }).eq("id", existing.id);
-            if (error) throw error;
-          }
+          // Replays land on the same row (incl. an existing orphan row) -> no stacking.
+          const { error } = await supabase.from("payments").update(flags).eq("id", existing.id);
+          if (error) throw error;
         } else {
-          // Audit row (status 'orphan' is not an open/entitling status).
+          // Audit row (status 'orphan' is not an open/entitling status). Only reached when no row
+          // with this sub id exists, so replays update the row above instead of inserting again.
           const { error } = await supabase.from("payments").insert({
-            user_id: userId, razorpay_subscription_id: subscriptionId, tier, status: "orphan",
-            needs_refund: action === "cancel_and_refund", refund_payment_id: paymentId,
+            user_id: userId, razorpay_subscription_id: subscriptionId, tier, status: "orphan", ...flags,
           });
           if (error) throw error;
         }
@@ -182,8 +187,8 @@ serve(async (req) => {
       // Legacy one-time order path is retired (no code creates orders). A capture here is unexpected:
       // never grant access; record an audit row flagged for manual refund (replay-safe on payment id).
       if (orderId && !payment.subscription_id) {
-        const { data: seen } = await supabase.from("payments").select("id").eq("refund_payment_id", paymentId).maybeSingle();
-        if (!seen) {
+        const { data: seen } = await supabase.from("payments").select("id").eq("refund_payment_id", paymentId).limit(1);
+        if (!seen?.length) {
           await supabase.from("payments").insert({
             user_id: userId, razorpay_order_id: orderId, refund_payment_id: paymentId, tier, status: "orphan",
             needs_refund: true, amount,
