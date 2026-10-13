@@ -80,6 +80,9 @@ describe("Hank B1/B2: server-checked admin paths", () => {
     expect(adminCorsHeaders("x", allowed).Vary).toBe("Origin");
     expect(parseAllowedOrigins("*")).toEqual([...DEFAULT_ADMIN_ORIGINS]);
     expect(parseAllowedOrigins("https://a.example/, *, https://b.example")).toEqual(["https://a.example", "https://b.example"]);
+    // https only: plain http origins are dropped (all-http list falls back to the defaults)
+    expect(parseAllowedOrigins("http://a.example, https://b.example")).toEqual(["https://b.example"]);
+    expect(parseAllowedOrigins("http://localhost:5173")).toEqual([...DEFAULT_ADMIN_ORIGINS]);
   });
 
   it("question deletes never touch user_attempts directly and use the guard", () => {
@@ -103,7 +106,7 @@ describe("Hank B1/B2: server-checked admin paths", () => {
 
 // ── question delete guard (fake PostgREST client) ───────────────────────────────────────────────
 type Call = { table: string; op: string; ids?: string[] };
-function fakeDb(attempts: { id: string; question_id: string }[], opts: { lookupError?: boolean } = {}) {
+function fakeDb(attempts: { id: string; question_id: string }[], opts: { lookupError?: boolean; sideErrorTable?: string } = {}) {
   const calls: Call[] = [];
   const db = {
     from(table: string) {
@@ -124,7 +127,7 @@ function fakeDb(attempts: { id: string; question_id: string }[], opts: { lookupE
           return q;
         },
         delete() {
-          return { in(_c: string, v: string[]) { calls.push({ table, op: "delete", ids: v }); return Promise.resolve({ error: null }); } };
+          return { in(_c: string, v: string[]) { calls.push({ table, op: "delete", ids: v }); return Promise.resolve({ error: opts.sideErrorTable === table ? { message: "boom" } : null }); } };
         },
       };
     },
@@ -158,6 +161,12 @@ describe("question delete guard", () => {
     const { db, calls } = fakeDb([], { lookupError: true });
     await expect(deleteQuestionsGuarded(db, ["q1"], false)).rejects.toThrow(/nothing deleted/);
     expect(calls.filter((c) => c.op === "delete")).toEqual([]);
+  });
+
+  it("fails closed: side-table delete error stops before the question row is deleted", async () => {
+    const { db, calls } = fakeDb([], { sideErrorTable: "user_notes" });
+    await expect(deleteQuestionsGuarded(db, ["q1"], false)).rejects.toThrow(/user_notes delete failed/);
+    expect(calls.some((c) => c.table === "questions" && c.op === "delete")).toBe(false);
   });
 
   it("explicit confirmation deletes attempts too", async () => {

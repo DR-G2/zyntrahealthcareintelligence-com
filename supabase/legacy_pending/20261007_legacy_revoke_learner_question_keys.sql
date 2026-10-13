@@ -29,6 +29,20 @@
 --   usePresence, useSiteSettings, ErrorBoundary, ProtectedRoute). Their import closure (46 files)
 --   contains NO read of legacy public.questions (no .from('questions'), no questions(...) embed).
 --   /check runs the diagnostic on V2 PIE, not the legacy get_diagnostic_question RPC.
+--   Re-checked on v2-cutover-hardening @139bdd4 and main after PR #84 (diagnostic page removed):
+--   no src/ file calls get_diagnostic_question or submit_diagnostic_answer (types.ts only).
+--
+-- LEGACY DIAGNOSTIC ORACLE (Hank B1): public.submit_diagnostic_answer (SECURITY DEFINER, granted to
+--   anon + authenticated in 20261002022612_c1407bd6) takes any question id and returns is_correct, and
+--   public.get_diagnostic_question lets anyone enumerate the bank. EXECUTE is revoked here on EVERY
+--   overload of both from PUBLIC, anon and authenticated, and post-checked with has_function_privilege.
+--
+-- P6 IS BLOCKING: before anything is granted, the transaction ABORTS if any SECURITY DEFINER function
+--   whose body mentions questions is executable by anon/authenticated (directly or via PUBLIC), or any
+--   view/matview reading questions is selectable by anon/authenticated, unless it is on the documented
+--   allowlist below (_p6_allow). Allowlist (with reason):
+--     public.current_user_can_read_questions()  returns only a boolean entitlement flag, no row data.
+--   To allow another object, add it to _p6_allow with a reason in this header and get Hank to review.
 --   Signed-in reads of legacy questions that remain, all within the allowlist:
 --     src/pages/Practice.tsx           .from('questions').select('id, zyntra_id, category, subtopic, question_text, difficulty')
 --     src/lib/mcp/tools/list-recent-attempts.ts  questions(zyntra_id, question_text, category, subtopic, difficulty)
@@ -68,8 +82,10 @@
 -- from pg_depend d join pg_rewrite r on r.oid = d.objid join pg_class c on c.oid = r.ev_class
 -- where d.refobjid = 'public.questions'::regclass and c.oid <> 'public.questions'::regclass;
 -- -- P6. functions mentioning questions: SECURITY DEFINER ones bypass column grants (check what
--- --     they return); INVOKER ones that touch hidden columns will start failing with 42501
+-- --     they return); INVOKER ones that touch hidden columns will start failing with 42501.
+-- --     BLOCKING: the script itself aborts on any non-allowlisted SECURITY DEFINER hit (see header).
 -- select p.oid::regprocedure as fn, p.prosecdef as security_definer,
+--        has_function_privilege('anon', p.oid, 'execute') as anon_exec,
 --        has_function_privilege('authenticated', p.oid, 'execute') as auth_exec,
 --        p.prosrc ~* '(correct_answer|explanation|best_treatment|investigation|differential_diagnoses|key_takeaways|guideline_reference)' as touches_hidden
 -- from pg_proc p join pg_namespace n on n.oid = p.pronamespace
@@ -82,6 +98,62 @@
 
 begin;
 set local lock_timeout = '5s';
+
+-- B1. legacy diagnostic oracle: revoke EXECUTE on every overload from PUBLIC, anon, authenticated
+do $$
+declare r record; n int := 0;
+begin
+  for r in select p.oid::regprocedure as fn from pg_proc p join pg_namespace ns on ns.oid = p.pronamespace
+           where ns.nspname = 'public' and p.proname in ('submit_diagnostic_answer', 'get_diagnostic_question') loop
+    execute format('revoke execute on function %s from public, anon, authenticated', r.fn);
+    n := n + 1;
+  end loop;
+  raise notice 'diagnostic RPC overloads revoked: %', n;
+end $$;
+
+do $$
+declare r record; v_bad text[] := '{}';
+begin
+  for r in select p.oid, p.oid::regprocedure::text as fn, p.proacl from pg_proc p join pg_namespace ns on ns.oid = p.pronamespace
+           where ns.nspname = 'public' and p.proname in ('submit_diagnostic_answer', 'get_diagnostic_question') loop
+    if has_function_privilege('anon', r.oid, 'execute') then v_bad := v_bad || ('anon executes ' || r.fn); end if;
+    if has_function_privilege('authenticated', r.oid, 'execute') then v_bad := v_bad || ('authenticated executes ' || r.fn); end if;
+    if r.proacl is null or exists (select 1 from aclexplode(r.proacl) x where x.grantee = 0) then
+      v_bad := v_bad || ('PUBLIC executes ' || r.fn);
+    end if;
+  end loop;
+  if cardinality(v_bad) > 0 then raise exception 'diagnostic RPC revoke post-check failed: %', array_to_string(v_bad, '; '); end if;
+  raise notice 'diagnostic RPC revoke post-check passed';
+end $$;
+
+-- P6 (BLOCKING). SECURITY DEFINER functions / views reading questions reachable by anon/authenticated
+create temp table _p6_allow (obj text primary key) on commit drop;
+insert into _p6_allow values ('public.current_user_can_read_questions()');
+
+do $$
+declare r record; v_bad text[] := '{}';
+begin
+  for r in select p.oid, p.oid::regprocedure::text as fn from pg_proc p join pg_namespace ns on ns.oid = p.pronamespace
+           where ns.nspname not in ('pg_catalog', 'information_schema') and p.prosecdef
+             and p.prosrc ~* '\mquestions\M' loop
+    if (has_function_privilege('anon', r.oid, 'execute') or has_function_privilege('authenticated', r.oid, 'execute'))
+       and not exists (select 1 from _p6_allow a where to_regprocedure(a.obj) = r.oid) then
+      v_bad := v_bad || ('SECURITY DEFINER function ' || r.fn);
+    end if;
+  end loop;
+  for r in select distinct c.oid, c.oid::regclass::text as v from pg_depend d join pg_rewrite rw on rw.oid = d.objid
+           join pg_class c on c.oid = rw.ev_class
+           where d.refobjid = 'public.questions'::regclass and c.oid <> 'public.questions'::regclass loop
+    if (has_table_privilege('anon', r.oid, 'select') or has_table_privilege('authenticated', r.oid, 'select'))
+       and not exists (select 1 from _p6_allow a where to_regclass(a.obj) = r.oid) then
+      v_bad := v_bad || ('view ' || r.v);
+    end if;
+  end loop;
+  if cardinality(v_bad) > 0 then
+    raise exception 'P6 blocking: questions reachable by anon/authenticated outside allowlist: %', array_to_string(v_bad, '; ');
+  end if;
+  raise notice 'P6 passed';
+end $$;
 
 create temp table _q_allow (col text primary key) on commit drop;
 insert into _q_allow values

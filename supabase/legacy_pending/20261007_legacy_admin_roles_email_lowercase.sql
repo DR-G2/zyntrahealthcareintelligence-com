@@ -7,9 +7,12 @@
 -- it up with an exact .eq, then re-check the returned row lower-cased. PostgREST cannot lower() the
 -- column side, so this makes the stored side lower-case by construction:
 --   1. normalise admin_roles.email to lower(btrim(email)) (aborts on duplicates instead of merging);
---   2. CHECK constraint admin_roles_email_lowercase so it stays that way;
---   3. SQL helpers is_admin(_email) and current_user_can_read_questions() compare lower() on both
---      sides (pie_is_admin() already does).
+--   2. CHECK constraint admin_roles_email_lowercase so it stays that way.
+-- It does NOT rewrite any function (Hank B2): the live bodies of is_admin(),
+-- current_user_can_read_questions() etc. may differ from the repo, and a from-scratch rewrite could
+-- silently drop live entitlement logic. With the stored side lower-case, the only remaining gap is a
+-- mixed-case JWT email, which fails CLOSED. If Gus wants that closed too, see the OPTIONAL block at
+-- the end (commented out; it patches only the email comparison of the live definition).
 -- WHEN: before (or together with) deploying the edge functions from this branch. Until then a
 -- mixed-case admin row only fails CLOSED (that admin gets 403), never open.
 -- =============================================================================================
@@ -48,22 +51,6 @@ do $$ begin
   end if;
 end $$;
 
-create or replace function public.is_admin(_email text)
-returns boolean language sql stable security definer set search_path = public as $$
-  select exists (select 1 from public.admin_roles where lower(email) = lower(btrim(_email)))
-$$;
-
-create or replace function public.current_user_can_read_questions()
-returns boolean language sql stable security definer set search_path = public as $$
-  select auth.uid() is not null and (
-    exists (select 1 from public.payments where user_id = auth.uid() and status = 'active')
-    or exists (select 1 from public.manual_overrides where user_id = auth.uid() and (expires_at is null or expires_at > now()))
-    or exists (select 1 from public.admin_roles where lower(email) = lower(btrim(auth.jwt() ->> 'email')))
-  )
-$$;
-revoke execute on function public.current_user_can_read_questions() from anon, public;
-grant execute on function public.current_user_can_read_questions() to authenticated;
-
 do $$ begin
   if exists (select 1 from public.admin_roles where email <> lower(btrim(email))) then
     raise exception 'admin_roles still has non-lower-case emails';
@@ -76,3 +63,26 @@ do $$ begin
 end $$;
 
 commit;
+
+-- =============================================================================================
+-- OPTIONAL (Gus, by hand, separately; NOT part of the transaction above). Do NOT rewrite from
+-- scratch. For each helper that compares admin_roles.email (e.g. public.is_admin(text),
+-- public.current_user_can_read_questions()):
+--   1. pull the LIVE definition (read-only):
+--        select pg_get_functiondef('public.current_user_can_read_questions()'::regprocedure);
+--        select pg_get_functiondef('public.is_admin(text)'::regprocedure);
+--   2. copy it verbatim and change ONLY the email comparison, e.g.
+--        where email = (auth.jwt() ->> 'email')   ->   where email = lower(btrim(auth.jwt() ->> 'email'))
+--        where email = _email                     ->   where email = lower(btrim(_email))
+--      (stored side is already lower-case + constrained, so no lower() on the column is needed);
+--      fully schema-qualify every reference (public.admin_roles, auth.jwt(), pg_catalog.lower) and set
+--        SET search_path = ''
+--      leaving everything else (SECURITY DEFINER, volatility, other branches, grants) unchanged;
+--   3. run it in begin; ... ; then re-check the grants are unchanged:
+--        select p.oid::regprocedure, p.proacl, p.prosecdef, p.proconfig from pg_proc p
+--        where p.oid in ('public.is_admin(text)'::regprocedure, 'public.current_user_can_read_questions()'::regprocedure);
+--      and commit only if they match the pre-change output.
+-- -- begin;
+-- -- <paste the edited pg_get_functiondef output here>
+-- -- commit;
+-- =============================================================================================

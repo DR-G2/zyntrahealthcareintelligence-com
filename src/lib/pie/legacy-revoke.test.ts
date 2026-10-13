@@ -134,13 +134,45 @@ describe("legacy revoke: frontend audit", () => {
 });
 
 describe("admin_roles lowercase migration", () => {
-  it("normalises, constrains, and lower-cases both sides of the SQL helpers", () => {
+  it("only normalises data + adds the check constraint; no function rewrites", () => {
     const m = read("supabase/legacy_pending/20261007_legacy_admin_roles_email_lowercase.sql");
     expect(m).toMatch(/check \(email = lower\(btrim\(email\)\)\)/);
     expect(m).toMatch(/duplicate emails under lower-case/);
-    expect(m).toMatch(/lower\(email\) = lower\(btrim\(_email\)\)/);
-    expect(m).toMatch(/lower\(email\) = lower\(btrim\(auth\.jwt\(\) ->> 'email'\)\)/);
     expect(m).toMatch(/-- PRECHECK BEGIN/);
+    const active = m.split("\n").filter((l) => !/^\s*--/.test(l)).join("\n");
+    expect(active).not.toMatch(/create\s+(or\s+replace\s+)?function/i);
+    expect(active).not.toMatch(/\b(grant|revoke)\b/i);
+    expect(m).toMatch(/pg_get_functiondef/);
+    expect(m).toMatch(/SET search_path = ''/);
     expect(existsSync(resolve(ROOT, "supabase/migrations/20261007_legacy_admin_roles_email_lowercase.sql"))).toBe(false);
+  });
+});
+
+describe("legacy diagnostic oracle (Hank B1)", () => {
+  it("revokes EXECUTE on both RPCs from PUBLIC, anon, authenticated and post-checks it", () => {
+    const body = SQL.slice(SQL.indexOf("begin;"));
+    expect(body).toMatch(/proname in \('submit_diagnostic_answer', 'get_diagnostic_question'\)/);
+    expect(body).toMatch(/revoke execute on function %s from public, anon, authenticated/);
+    expect(body).toMatch(/has_function_privilege\('anon', r\.oid, 'execute'\)/);
+    expect(body).toMatch(/has_function_privilege\('authenticated', r\.oid, 'execute'\)/);
+    expect(body).toMatch(/diagnostic RPC revoke post-check failed/);
+  });
+
+  it("P6 is blocking with a documented allowlist", () => {
+    const body = SQL.slice(SQL.indexOf("begin;"));
+    expect(body).toMatch(/P6 blocking: questions reachable by anon\/authenticated outside allowlist/);
+    expect(body).toMatch(/p\.prosecdef/);
+    expect(body).toMatch(/has_table_privilege\('anon', r\.oid, 'select'\)/);
+    const allow = [...body.matchAll(/insert into _p6_allow values ([^;]*);/g)].flatMap((m) => [...m[1].matchAll(/\('([^']+)'\)/g)].map((x) => x[1]));
+    expect(allow).toEqual(["public.current_user_can_read_questions()"]);
+    for (const a of allow) expect(SQL.slice(0, SQL.indexOf("begin;"))).toContain(a);
+  });
+
+  it("no frontend code calls the legacy diagnostic RPCs", () => {
+    const walk = (d: string): string[] => readdirSync(d, { withFileTypes: true }).flatMap((e) =>
+      e.isDirectory() ? (e.name === "integrations" ? [] : walk(`${d}/${e.name}`)) : /\.tsx?$/.test(e.name) && !/\.test\./.test(e.name) ? [`${d}/${e.name}`] : []);
+    const hits = walk(SRC).filter((f) => /\b(submit_diagnostic_answer|get_diagnostic_question)\b/.test(stripComments(readFileSync(f, "utf8"))))
+      .map((f) => relative(ROOT, f));
+    expect(hits).toEqual([]);
   });
 });
