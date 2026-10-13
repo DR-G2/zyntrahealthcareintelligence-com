@@ -1046,15 +1046,15 @@
         "A second negative kit clears a positive one",
         "No further test is needed"
       ],
-      "correct_answer": "C",
+      "correct_answer": "B",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nC. Repeat the kit to be sure\n\n---\n\n1. CLINICAL DIAGNOSIS\nSensitivity and specificity do not give his chance of cancer. Prevalence is required for the positive predictive value.\n\n2. THE RULE\nPredictive value needs prevalence; screening is not diagnosis\n\n3. WHY THIS OPTION\nC matches the rule on the facts given.\n\n4. THE TRAP\nPositive screen goes to the diagnostic test, not a repeat of the same screen.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nRepeat the kit to be sure\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nSensitivity is true positives among those with disease. It does not tell you the chance you have the disease if the test is positive.\n\n10. MEMORY ANCHOR\nSensitivity is not the chance of disease after a positive test.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nB. A positive screening test is not a diagnosis and is not confirmed by repeating the same test\n\n---\n\n1. CLINICAL DIAGNOSIS\nSensitivity and specificity do not give his chance of cancer. Prevalence is required for the positive predictive value.\n\n2. THE RULE\nPredictive value needs prevalence; screening is not diagnosis\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nPositive screen goes to the diagnostic test, not a repeat of the same screen.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nA positive screening test is not a diagnosis and is not confirmed by repeating the same test\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nSensitivity is true positives among those with disease. It does not tell you the chance you have the disease if the test is positive.\n\n10. MEMORY ANCHOR\nSensitivity is not the chance of disease after a positive test.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Sensitivity and specificity do not give his chance of cancer. Prevalence is required for the positive predictive value.",
-      "best_treatment": "Repeat the kit to be sure",
+      "best_treatment": "A positive screening test is not a diagnosis and is not confirmed by repeating the same test",
       "incorrect_answer_explanations": {
         "A": "A positive screening test is a diagnosis is not the correct step for this presentation.",
-        "B": "A positive screening test is not a diagnosis and is not confirmed by repeating the same test is not the correct step for this presentation.",
+        "C": "Repeat the kit to be sure is not the correct step for this presentation.",
         "D": "A second negative kit clears a positive one is not the correct step for this presentation.",
         "E": "No further test is needed is not the correct step for this presentation."
       },
@@ -1691,15 +1691,15 @@
         "Only case-control studies have this problem",
         "A 20% risk is rare"
       ],
-      "correct_answer": "C",
+      "correct_answer": "B",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nC. They never differ\n\n---\n\n1. CLINICAL DIAGNOSIS\nSensitivity and specificity do not give his chance of cancer. Prevalence is required for the positive predictive value.\n\n2. THE RULE\nOdds ratio overstates relative risk when the outcome is common\n\n3. WHY THIS OPTION\nC matches the rule on the facts given.\n\n4. THE TRAP\nCommon outcome inflates the odds ratio relative to the risk ratio.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nThey never differ\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nSensitivity is true positives among those with disease. It does not tell you the chance you have the disease if the test is positive.\n\n10. MEMORY ANCHOR\nSensitivity is not the chance of disease after a positive test.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nB. When the outcome is common the odds ratio moves further from 1 than the relative risk\n\n---\n\n1. CLINICAL DIAGNOSIS\nSensitivity and specificity do not give his chance of cancer. Prevalence is required for the positive predictive value.\n\n2. THE RULE\nOdds ratio overstates relative risk when the outcome is common\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nCommon outcome inflates the odds ratio relative to the risk ratio.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nWhen the outcome is common the odds ratio moves further from 1 than the relative risk\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nSensitivity is true positives among those with disease. It does not tell you the chance you have the disease if the test is positive.\n\n10. MEMORY ANCHOR\nSensitivity is not the chance of disease after a positive test.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Sensitivity and specificity do not give his chance of cancer. Prevalence is required for the positive predictive value.",
-      "best_treatment": "They never differ",
+      "best_treatment": "When the outcome is common the odds ratio moves further from 1 than the relative risk",
       "incorrect_answer_explanations": {
         "A": "The odds ratio is always smaller than the relative risk is not the correct step for this presentation.",
-        "B": "When the outcome is common the odds ratio moves further from 1 than the relative risk is not the correct step for this presentation.",
+        "C": "They never differ is not the correct step for this presentation.",
         "D": "Only case-control studies have this problem is not the correct step for this presentation.",
         "E": "A 20% risk is rare is not the correct step for this presentation."
       },
@@ -1717,7 +1717,7 @@
       "lo_code": "ODDS_VERSUS_RISK",
       "lo_key": "ODDS_VERSUS_RISK",
       "lo_title": "When the outcome is common, the odds ratio overstates the relative risk, so cohort data should report the relative risk.",
-      "lo_role": "trap",
+      "lo_role": "variant",
       "shared_lo": true,
       "irt_b": 0.0,
       "difficulty_tier": "medium",
