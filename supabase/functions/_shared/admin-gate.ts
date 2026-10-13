@@ -32,9 +32,9 @@ export const DEFAULT_ADMIN_ORIGINS = [
   "https://zyntrahealthcareintelligence.com",
 ] as const;
 
-/** Comma-separated ADMIN_ALLOWED_ORIGINS (or legacy single ADMIN_ALLOWED_ORIGIN); "*" is never accepted. */
+/** Comma-separated ADMIN_ALLOWED_ORIGINS (or legacy single ADMIN_ALLOWED_ORIGIN); https origins only, "*" never accepted. */
 export function parseAllowedOrigins(raw: string | null | undefined): string[] {
-  const list = (raw ?? "").split(",").map((s) => s.trim().replace(/\/+$/, "")).filter((s) => /^https?:\/\/[^*\s/]+$/.test(s));
+  const list = (raw ?? "").split(",").map((s) => s.trim().replace(/\/+$/, "")).filter((s) => /^https:\/\/[^*\s/]+$/.test(s));
   return list.length ? list : [...DEFAULT_ADMIN_ORIGINS];
 }
 

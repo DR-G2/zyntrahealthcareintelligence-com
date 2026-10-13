@@ -5,7 +5,8 @@
 // a question with any user_attempts row is retained (reported back), and user_attempts is never
 // deleted. Deleting attempts requires the explicit request flag
 //   { "confirm_delete_user_attempts": "DELETE_LEARNER_ATTEMPTS" }.
-// The attempt lookup is paginated and fails closed: on any error nothing is deleted.
+// The attempt lookup is paginated and fails closed: on any error nothing is deleted. Side-table
+// deletes also fail closed: an error aborts before the question row is deleted.
 
 export const CONFIRM_DELETE_USER_ATTEMPTS = "DELETE_LEARNER_ATTEMPTS";
 const BATCH = 100;
@@ -49,7 +50,10 @@ export async function deleteQuestionsGuarded(db: Db, ids: readonly string[], all
   const { deletable, retained } = partitionForDelete(unique, withAttempts, allowAttemptDeletion);
   for (let i = 0; i < deletable.length; i += BATCH) {
     const batch = deletable.slice(i, i + BATCH);
-    for (const t of SIDE_TABLES) await db.from(t).delete().in("question_id", batch);
+    for (const t of SIDE_TABLES) {
+      const { error: sideError } = await db.from(t).delete().in("question_id", batch);
+      if (sideError) throw new Error(`${t} delete failed, question not deleted: ${sideError.message ?? sideError}`);
+    }
     if (allowAttemptDeletion) {
       const { error } = await db.from("user_attempts").delete().in("question_id", batch);
       if (error) throw new Error(`user_attempts delete failed: ${error.message ?? error}`);
