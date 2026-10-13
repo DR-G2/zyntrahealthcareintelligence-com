@@ -6,29 +6,29 @@
   "status": "draft",
   "items": [
     {
-      "question_text": "A family of four are brought from a house with a poorly ventilated gas heater. All have headache and nausea. One is drowsy. The pulse oximeter reads 99% on air. A colleague says the oxygen level is fine and they can go home. Standard pulse oximetry cannot distinguish carboxyhaemoglobin from oxyhaemoglobin. A normal reading does not exclude carbon monoxide. High-flow oxygen now. Do not trust the oximeter, and assess the drowsy patient for hyperbaric referral. What is the most appropriate action?  Oxygen starts before the co-oximeter result. The drowsy patient is discussed with a hyperbaric service. Do not discharge on a normal saturation.  The exposure is the reason the ordinary diagnosis is wrong. Act on the occupational cause, not on the common label.  Nothing else in the history clears the exposure or delays the specific treatment.  That is the priority.  A normal test or a common diagnosis does not clear an occupational exposure. Treat and notify as the exposure requires.  Do not send him home, to theatre, or back to the same unprotected job on the ordinary label.  The specific pathway starts now.  Waiting for a confirmatory test does not delay the first correct step.",
+      "question_text": "A family of four are brought from a house with a poorly ventilated gas heater. All have headache and nausea. A colleague says the oxygen level is fine and they can go home. Standard pulse oximetry cannot distinguish carboxyhaemoglobin from oxyhaemoglobin. What is the most appropriate action?",
       "options": [
-        "High-flow oxygen now. Do not trust the oximeter, and assess the drowsy patient for hyperbaric referral",
-        "Discharge. A normal oximeter excludes carbon monoxide",
         "Give antiemetics only",
         "Wait for a co-oximeter result before any oxygen",
+        "High-flow oxygen now. Do not trust the oximeter, and assess the drowsy patient for hyperbaric referral",
+        "Discharge. A normal oximeter excludes carbon monoxide",
         "Advise them to air the house and review next week"
       ],
-      "correct_answer": "A",
+      "correct_answer": "C",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. High-flow oxygen now. Do not trust the oximeter, and assess the drowsy patient for hyperbaric referral\n\n---\n\n1. CLINICAL DIAGNOSIS\nGive oxygen now. A normal oximeter does not clear them.\n\n2. THE RULE\nSpecific toxin antidote and exposure removal\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nStandard pulse oximetry cannot distinguish carboxyhaemoglobin from oxyhaemoglobin. A normal reading does not exclude carbon monoxide. High-flow oxygen is started at once. The drowsy patient is discussed with a hyperbaric service.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nHigh-flow oxygen now. Do not trust the oximeter, and assess the drowsy patient for hyperbaric referral\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nCarbon monoxide poisoning is treated with high-flow oxygen. The pulse oximeter can read near normal.\n\n10. MEMORY ANCHOR\nPulse oximetry misses carbon monoxide.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "Give oxygen now. A normal oximeter does not clear them.",
+      "explanation": "CORRECT ANSWER\n\nC. High-flow oxygen now. Do not trust the oximeter, and assess the drowsy patient for hyperbaric referral\n\n---\n\n1. CLINICAL SITUATION\nA family of four are brought from a house with a poorly ventilated gas heater. All have headache and nausea. A colleague says the oxygen level is fine and they can go home.\n\n2. THE RULE\nPoisonings are treated with the specific antidote: high-flow oxygen for carbon monoxide (despite normal oximetry) and atropine with pralidoxime for organophosphate crisis.\n\n3. WHY C IS CORRECT\nStandard pulse oximetry cannot distinguish carboxyhaemoglobin from oxyhaemoglobin. A normal reading does not exclude carbon monoxide. High-flow oxygen is started at once. The drowsy patient is discussed with a hyperbaric service.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Give antiemetics only: Nausea is the clue, not the disease.\nB. Wait for a co-oximeter result before any oxygen: Oxygen is not delayed for the confirmatory test.\nD. Discharge. A normal oximeter excludes carbon monoxide: It does not.\nE. Advise them to air the house and review next week: Next week is not the treatment of current poisoning.\n\n5. KEY TAKEAWAY\nPoisonings are treated with the specific antidote: high-flow oxygen for carbon monoxide (despite normal oximetry) and atropine with pralidoxime for organophosphate crisis.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "A family of four are brought from a house with a poorly ventilated gas heater. All have headache and nausea. A colleague says the oxygen level is fine and they can go home.",
       "best_treatment": "High-flow oxygen now. Do not trust the oximeter, and assess the drowsy patient for hyperbaric referral",
       "incorrect_answer_explanations": {
-        "B": "Discharge. A normal oximeter excludes carbon monoxide It does not.",
-        "C": "Give antiemetics only Nausea is the clue, not the disease.",
-        "D": "Wait for a co-oximeter result before any oxygen Oxygen is not delayed for the confirmatory test.",
-        "E": "Advise them to air the house and review next week Next week is not the treatment of current poisoning."
+        "A": "Nausea is the clue, not the disease.",
+        "B": "Oxygen is not delayed for the confirmatory test.",
+        "D": "It does not.",
+        "E": "Next week is not the treatment of current poisoning."
       },
       "key_takeaways": [
-        "Pulse oximetry misses carbon monoxide.",
-        "Oxygen starts before the co-oximeter result."
+        "Poisonings are treated with the specific antidote: high-flow oxygen for carbon monoxide (despite normal oximetry) and atropine with pralidoxime for organophosphate crisis.",
+        "Standard pulse oximetry cannot distinguish carboxyhaemoglobin from oxyhaemoglobin."
       ],
       "subtopic": "Carbon monoxide poisoning is treated with high-flow oxygen. The pulse oximeter can read near normal.",
       "clinical_vignette": true,
@@ -37,28 +37,37 @@
       "phase": "PH-09",
       "phase_item_id": "PH-O-01",
       "lo_id": "d406e705-85ec-5725-8a48-44fd959ccacf",
-      "lo_code": "TOXIN_ANTIDOTE"
+      "lo_code": "TOXIN_ANTIDOTE",
+      "lo_key": "TOXIN_ANTIDOTE",
+      "lo_title": "Poisonings are treated with the specific antidote: high-flow oxygen for carbon monoxide (despite normal oximetry) and atropine with pralidoxime for organophosphate crisis.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": 0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
-      "question_text": "A farmer is brought in after spraying without protection. He is sweaty, wheezy, bradycardic, and has small pupils and diarrhoea. A registrar wants to give pralidoxime only. This is a cholinergic crisis from organophosphate. Atropine is the immediate antidote for the muscarinic features. Pralidoxime is added, not used instead. Atropine now for the muscarinic crisis, with pralidoxime as directed. What is the most appropriate immediate treatment?  Bronchospasm, bradycardia, secretions, and diarrhoea are muscarinic. Atropine treats them. Neostigmine would worsen this. Pralidoxime does not replace atropine.  The exposure is the reason the ordinary diagnosis is wrong. Act on the occupational cause, not on the common label.  Nothing else in the history clears the exposure or delays the specific treatment.  That is the priority.  A normal test or a common diagnosis does not clear an occupational exposure. Treat and notify as the exposure requires.  Do not send him home, to theatre, or back to the same unprotected job on the ordinary label.  The specific pathway starts now.  Waiting for a confirmatory test does not delay the first correct step.",
+      "question_text": "A farmer is brought in after spraying without protection. He is sweaty, wheezy, bradycardic, and has small pupils and diarrhoea. A registrar wants to give pralidoxime only. What is the most appropriate immediate treatment?",
       "options": [
-        "Pralidoxime alone",
-        "Atropine now for the muscarinic crisis, with pralidoxime as directed",
         "Beta-blocker for the sweating",
         "Neostigmine to support respiration",
-        "Observe. Small pupils after spraying are normal"
+        "Observe. Small pupils after spraying are normal",
+        "Pralidoxime alone",
+        "Atropine now for the muscarinic crisis, with pralidoxime as directed"
       ],
-      "correct_answer": "B",
+      "correct_answer": "E",
       "category": "Population Health & Ethics",
       "difficulty": "difficult",
-      "explanation": "CORRECT ANSWER\n\nB. Atropine now for the muscarinic crisis, with pralidoxime as directed\n\n---\n\n1. CLINICAL DIAGNOSIS\nGive atropine now. Pralidoxime is added, not used alone.\n\n2. THE RULE\nSpecific toxin antidote and exposure removal\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nThis is a cholinergic crisis from organophosphate. Atropine is the immediate antidote for the muscarinic features: bronchospasm, bradycardia, secretions, diarrhoea. Pralidoxime regenerates enzyme and is added, not used instead. Neostigmine would worsen it.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nAtropine now for the muscarinic crisis, with pralidoxime as directed\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nOrganophosphate poisoning is cholinergic. Atropine treats the muscarinic signs. Pralidoxime is for the enzyme, not instead of atropine.\n\n10. MEMORY ANCHOR\nAtropine first for muscarinic signs.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nE. Atropine now for the muscarinic crisis, with pralidoxime as directed\n\n---\n\n1. CLINICAL SITUATION\nGive atropine now. Pralidoxime is added, not used alone.\n\n2. THE RULE\nPoisonings are treated with the specific antidote: high-flow oxygen for carbon monoxide (despite normal oximetry) and atropine with pralidoxime for organophosphate crisis.\n\n3. WHY E IS CORRECT\nThis is a cholinergic crisis from organophosphate. Atropine is the immediate antidote for the muscarinic features: bronchospasm, bradycardia, secretions, diarrhoea. Pralidoxime regenerates enzyme and is added, not used instead. Neostigmine would worsen it.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Beta-blocker for the sweating: Sweating here is cholinergic, and a beta-blocker worsens bradycardia.\nB. Neostigmine to support respiration: Neostigmine is a cholinergic agonist. It is the wrong direction.\nC. Observe. Small pupils after spraying are normal: Miosis with wheeze and diarrhoea is toxicity.\nD. Pralidoxime alone: It does not replace atropine for the crisis in front of you.\n\n5. KEY TAKEAWAY\nAtropine first for muscarinic signs.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Give atropine now. Pralidoxime is added, not used alone.",
       "best_treatment": "Atropine now for the muscarinic crisis, with pralidoxime as directed",
       "incorrect_answer_explanations": {
-        "A": "Pralidoxime alone It does not replace atropine for the crisis in front of you.",
-        "C": "Beta-blocker for the sweating Sweating here is cholinergic, and a beta-blocker worsens bradycardia.",
-        "D": "Neostigmine to support respiration Neostigmine is a cholinergic agonist. It is the wrong direction.",
-        "E": "Observe. Small pupils after spraying are normal Miosis with wheeze and diarrhoea is toxicity."
+        "A": "Sweating here is cholinergic, and a beta-blocker worsens bradycardia.",
+        "B": "Neostigmine is a cholinergic agonist. It is the wrong direction.",
+        "C": "Miosis with wheeze and diarrhoea is toxicity.",
+        "D": "It does not replace atropine for the crisis in front of you."
       },
       "key_takeaways": [
         "Atropine first for muscarinic signs.",
@@ -71,28 +80,37 @@
       "phase": "PH-09",
       "phase_item_id": "PH-O-02",
       "lo_id": "d406e705-85ec-5725-8a48-44fd959ccacf",
-      "lo_code": "TOXIN_ANTIDOTE"
+      "lo_code": "TOXIN_ANTIDOTE",
+      "lo_key": "TOXIN_ANTIDOTE",
+      "lo_title": "Poisonings are treated with the specific antidote: high-flow oxygen for carbon monoxide (despite normal oximetry) and atropine with pralidoxime for organophosphate crisis.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 1.1,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
-      "question_text": "A factory worker has trouble hearing his family. He has worked for 20 years beside a press with no hearing protection. Audiology shows a high-frequency notch. His employer says he is fine because he can hear on the phone. A high-frequency notch after years of unprotected noise is noise-induced loss. Diagnose likely noise injury, notify as required, and remove him from unprotected exposure. What is the most appropriate action?  Phone use does not exclude occupational loss. A hearing aid without removing the exposure lets the injury progress. Notify and remove him from the unprotected press.  The exposure is the reason the ordinary diagnosis is wrong. Act on the occupational cause, not on the common label.  Nothing else in the history clears the exposure or delays the specific treatment.  That is the priority.  A normal test or a common diagnosis does not clear an occupational exposure. Treat and notify as the exposure requires.  Do not send him home, to theatre, or back to the same unprotected job on the ordinary label.  The specific pathway starts now.  Waiting for a confirmatory test does not delay the first correct step.",
+      "question_text": "A factory worker has trouble hearing his family. He has worked for 20 years beside a press with no hearing protection. Audiology shows a high-frequency notch. His employer says he is fine because he can hear on the phone. A high-frequency notch after years of unprotected noise is noise-induced loss. What is the most appropriate action?",
       "options": [
+        "Diagnose likely noise injury, notify as required, and remove him from unprotected exposure",
         "Reassure. Phone use excludes occupational loss",
         "Prescribe a hearing aid and send him back to the same press",
-        "Diagnose likely noise injury, notify as required, and remove him from unprotected exposure",
         "Blame age. He is over 40",
         "Wait for complete deafness before any workplace action"
       ],
-      "correct_answer": "C",
+      "correct_answer": "A",
       "category": "Population Health & Ethics",
       "difficulty": "easy",
-      "explanation": "CORRECT ANSWER\n\nC. Diagnose likely noise injury, notify as required, and remove him from unprotected exposure\n\n---\n\n1. CLINICAL DIAGNOSIS\nThis is noise injury. Stop the unprotected exposure and notify.\n\n2. THE RULE\nOccupational disease is notified and exposure removed\n\n3. WHY THIS OPTION\nC matches the rule on the facts given.\n\n4. THE TRAP\nA high-frequency notch after years of unprotected noise is noise-induced loss. Being able to use a phone does not exclude it. The exposure stops, and occupational notification is made where required.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nDiagnose likely noise injury, notify as required, and remove him from unprotected exposure\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nNoise-induced hearing loss is prevented by controlling exposure. A normal conversation today does not clear chronic damage.\n\n10. MEMORY ANCHOR\nNoise injury is a notifiable occupational disease.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nA. Diagnose likely noise injury, notify as required, and remove him from unprotected exposure\n\n---\n\n1. CLINICAL SITUATION\nThis is noise injury. Stop the unprotected exposure and notify.\n\n2. THE RULE\nOccupational disease is recognised from the occupational history and exposure (noise, lead, asbestos, Q fever), with exposure removed, the condition managed and notification made where required.\n\n3. WHY A IS CORRECT\nA high-frequency notch after years of unprotected noise is noise-induced loss. Being able to use a phone does not exclude it. The exposure stops, and occupational notification is made where required.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Reassure. Phone use excludes occupational loss: It does not.\nC. Prescribe a hearing aid and send him back to the same press: An aid without removing the exposure lets the injury progress.\nD. Blame age. He is over 40: Age does not produce this history and notch on its own.\nE. Wait for complete deafness before any workplace action: The point is to prevent further loss.\n\n5. KEY TAKEAWAY\nNoise injury is a notifiable occupational disease.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "This is noise injury. Stop the unprotected exposure and notify.",
       "best_treatment": "Diagnose likely noise injury, notify as required, and remove him from unprotected exposure",
       "incorrect_answer_explanations": {
-        "A": "Reassure. Phone use excludes occupational loss It does not.",
-        "B": "Prescribe a hearing aid and send him back to the same press An aid without removing the exposure lets the injury progress.",
-        "D": "Blame age. He is over 40 Age does not produce this history and notch on its own.",
-        "E": "Wait for complete deafness before any workplace action The point is to prevent further loss."
+        "B": "It does not.",
+        "C": "An aid without removing the exposure lets the injury progress.",
+        "D": "Age does not produce this history and notch on its own.",
+        "E": "The point is to prevent further loss."
       },
       "key_takeaways": [
         "Noise injury is a notifiable occupational disease.",
@@ -105,28 +123,37 @@
       "phase": "PH-09",
       "phase_item_id": "PH-O-03",
       "lo_id": "ab4875ea-f3d4-53ba-be74-e2152b5cfe15",
-      "lo_code": "OCCUPATIONAL_NOTIFY"
+      "lo_code": "OCCUPATIONAL_EXPOSURE_DISEASE",
+      "lo_key": "OCCUPATIONAL_EXPOSURE_DISEASE",
+      "lo_title": "Occupational disease is recognised from the occupational history and exposure (noise, lead, asbestos, Q fever), with exposure removed, the condition managed and notification made where required.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -1.0,
+      "difficulty_tier": "easy",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: data gathering; setting: workplace",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
-      "question_text": "A battery-factory worker has abdominal pain, constipation, and a wrist drop. He has been melting lead plates. A surgical registrar books him for appendicectomy. Abdominal pain, constipation, and a motor neuropathy in a lead worker is lead toxicity until proved otherwise. Stop the exposure, check a blood lead, notify, and do not operate for this pain. What is the most appropriate next step?  Wrist drop is a lead neuropathy, not overuse. Constipation is not gastroenteritis. Do not take him to theatre for appendicitis. Remove exposure and notify.  The exposure is the reason the ordinary diagnosis is wrong. Act on the occupational cause, not on the common label.  Nothing else in the history clears the exposure or delays the specific treatment.  That is the priority.  A normal test or a common diagnosis does not clear an occupational exposure. Treat and notify as the exposure requires.  Do not send him home, to theatre, or back to the same unprotected job on the ordinary label.  The specific pathway starts now.  Waiting for a confirmatory test does not delay the first correct step.",
+      "question_text": "A battery-factory worker has abdominal pain, constipation, and a wrist drop. He has been melting lead plates. A surgical registrar books him for appendicectomy. What is the most appropriate next step?",
       "options": [
-        "Proceed to appendicectomy. Pain plus an operation is the priority",
         "Give antibiotics for presumed gastroenteritis",
-        "Reassure. Wrist drop after factory work is overuse",
         "Stop the exposure, check a blood lead, notify, and do not operate for this pain",
-        "Start iron. Lead and iron deficiency look nothing alike"
+        "Proceed to appendicectomy. Pain plus an operation is the priority",
+        "Start iron. Lead and iron deficiency look nothing alike",
+        "Reassure. Wrist drop after factory work is overuse"
       ],
-      "correct_answer": "D",
+      "correct_answer": "B",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nD. Stop the exposure, check a blood lead, notify, and do not operate for this pain\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not take him to theatre. This is lead until proved otherwise.\n\n2. THE RULE\nOccupational disease is notified and exposure removed\n\n3. WHY THIS OPTION\nD matches the rule on the facts given.\n\n4. THE TRAP\nAbdominal pain, constipation, and a motor neuropathy in a lead worker is lead toxicity until proved otherwise. Operating for appendicitis misses the diagnosis. He is removed from exposure and the case is notified.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nStop the exposure, check a blood lead, notify, and do not operate for this pain\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nLead toxicity in a worker needs removal from exposure and notification. Abdominal pain is a classic trap.\n\n10. MEMORY ANCHOR\nLead colic plus wrist drop is occupational toxicity.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nB. Stop the exposure, check a blood lead, notify, and do not operate for this pain\n\n---\n\n1. CLINICAL SITUATION\nDo not take him to theatre. This is lead until proved otherwise.\n\n2. THE RULE\nOccupational disease is recognised from the occupational history and exposure (noise, lead, asbestos, Q fever), with exposure removed, the condition managed and notification made where required.\n\n3. WHY B IS CORRECT\nAbdominal pain, constipation, and a motor neuropathy in a lead worker is lead toxicity until proved otherwise. Operating for appendicitis misses the diagnosis. He is removed from exposure and the case is notified.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Give antibiotics for presumed gastroenteritis: Constipation is not gastroenteritis.\nC. Proceed to appendicectomy. Pain plus an operation is the priority: This pain is not an appendix.\nD. Start iron. Lead and iron deficiency look nothing alike: Lead causes a sideroblastic picture. Iron is not the treatment of the exposure.\nE. Reassure. Wrist drop after factory work is overuse: Wrist drop is a lead neuropathy, not overuse.\n\n5. KEY TAKEAWAY\nLead colic plus wrist drop is occupational toxicity.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Do not take him to theatre. This is lead until proved otherwise.",
       "best_treatment": "Stop the exposure, check a blood lead, notify, and do not operate for this pain",
       "incorrect_answer_explanations": {
-        "A": "Proceed to appendicectomy. Pain plus an operation is the priority This pain is not an appendix.",
-        "B": "Give antibiotics for presumed gastroenteritis Constipation is not gastroenteritis.",
-        "C": "Reassure. Wrist drop after factory work is overuse Wrist drop is a lead neuropathy, not overuse.",
-        "E": "Start iron. Lead and iron deficiency look nothing alike Lead causes a sideroblastic picture. Iron is not the treatment of the exposure."
+        "A": "Constipation is not gastroenteritis.",
+        "C": "This pain is not an appendix.",
+        "D": "Lead causes a sideroblastic picture. Iron is not the treatment of the exposure.",
+        "E": "Wrist drop is a lead neuropathy, not overuse."
       },
       "key_takeaways": [
         "Lead colic plus wrist drop is occupational toxicity.",
@@ -139,28 +166,37 @@
       "phase": "PH-09",
       "phase_item_id": "PH-O-04",
       "lo_id": "ab4875ea-f3d4-53ba-be74-e2152b5cfe15",
-      "lo_code": "OCCUPATIONAL_NOTIFY"
+      "lo_code": "OCCUPATIONAL_EXPOSURE_DISEASE",
+      "lo_key": "OCCUPATIONAL_EXPOSURE_DISEASE",
+      "lo_title": "Occupational disease is recognised from the occupational history and exposure (noise, lead, asbestos, Q fever), with exposure removed, the condition managed and notification made where required.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.05,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: workplace",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
-      "question_text": "A 72-year-old former boiler-maker has chest pain and a unilateral pleural effusion. He smoked for 10 years, stopping at 40. A colleague attributes the effusion to smoking and arranges routine follow-up. A unilateral effusion in a boiler-maker is mesothelioma until excluded. Urgent assessment for mesothelioma. Ask a full occupational history. What is the most appropriate priority?  A short smoking history does not explain pleural malignancy. Heart failure is usually bilateral. The occupational history is the key. Investigate urgently.  The exposure is the reason the ordinary diagnosis is wrong. Act on the occupational cause, not on the common label.  Nothing else in the history clears the exposure or delays the specific treatment.  That is the priority.  A normal test or a common diagnosis does not clear an occupational exposure. Treat and notify as the exposure requires.  Do not send him home, to theatre, or back to the same unprotected job on the ordinary label.  The specific pathway starts now.  Waiting for a confirmatory test does not delay the first correct step.",
+      "question_text": "A 72-year-old former boiler-maker has chest pain and a unilateral pleural effusion. He smoked for 10 years, stopping at 40. A colleague attributes the effusion to smoking and arranges routine follow-up. A unilateral effusion in a boiler-maker is mesothelioma until excluded. What is the most appropriate priority?",
       "options": [
-        "Routine follow-up. A 10-pack history explains a pleural effusion",
-        "Treat as heart failure without a film",
         "Start empirical tuberculosis treatment",
+        "Treat as heart failure without a film",
+        "Urgent assessment for mesothelioma. Ask a full occupational history",
         "Reassure. Pleural cancer is a smokers' disease",
-        "Urgent assessment for mesothelioma. Ask a full occupational history"
+        "Routine follow-up. A 10-pack history explains a pleural effusion"
       ],
-      "correct_answer": "E",
+      "correct_answer": "C",
       "category": "Population Health & Ethics",
       "difficulty": "difficult",
-      "explanation": "CORRECT ANSWER\n\nE. Urgent assessment for mesothelioma. Ask a full occupational history\n\n---\n\n1. CLINICAL DIAGNOSIS\nAsk about asbestos and investigate urgently. Smoking is the distractor.\n\n2. THE RULE\nOccupational disease is notified and exposure removed\n\n3. WHY THIS OPTION\nE matches the rule on the facts given.\n\n4. THE TRAP\nA unilateral effusion in a boiler-maker is mesothelioma until excluded. A short smoking history does not explain pleural malignancy. The occupational history is the key.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nUrgent assessment for mesothelioma. Ask a full occupational history\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nAsbestos exposure is asked for in mesothelioma and asbestosis. Smoking does not explain pleural cancer.\n\n10. MEMORY ANCHOR\nBoiler-maker plus a unilateral effusion suggests mesothelioma.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nC. Urgent assessment for mesothelioma. Ask a full occupational history\n\n---\n\n1. CLINICAL SITUATION\nAsk about asbestos and investigate urgently. Smoking is the distractor.\n\n2. THE RULE\nOccupational disease is recognised from the occupational history and exposure (noise, lead, asbestos, Q fever), with exposure removed, the condition managed and notification made where required.\n\n3. WHY C IS CORRECT\nA unilateral effusion in a boiler-maker is mesothelioma until excluded. A short smoking history does not explain pleural malignancy. The occupational history is the key.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Start empirical tuberculosis treatment: TB is on the list. It is not the first label for this exposure.\nB. Treat as heart failure without a film: Heart failure is usually bilateral, and no film has been seen.\nD. Reassure. Pleural cancer is a smokers' disease: Mesothelioma is an asbestos disease.\nE. Routine follow-up. A 10-pack history explains a pleural effusion: It does not.\n\n5. KEY TAKEAWAY\nBoiler-maker plus a unilateral effusion suggests mesothelioma.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Ask about asbestos and investigate urgently. Smoking is the distractor.",
       "best_treatment": "Urgent assessment for mesothelioma. Ask a full occupational history",
       "incorrect_answer_explanations": {
-        "A": "Routine follow-up. A 10-pack history explains a pleural effusion It does not.",
-        "B": "Treat as heart failure without a film Heart failure is usually bilateral, and no film has been seen.",
-        "C": "Start empirical tuberculosis treatment TB is on the list. It is not the first label for this exposure.",
-        "D": "Reassure. Pleural cancer is a smokers' disease Mesothelioma is an asbestos disease."
+        "A": "TB is on the list. It is not the first label for this exposure.",
+        "B": "Heart failure is usually bilateral, and no film has been seen.",
+        "D": "Mesothelioma is an asbestos disease.",
+        "E": "It does not."
       },
       "key_takeaways": [
         "Boiler-maker plus a unilateral effusion suggests mesothelioma.",
@@ -173,28 +209,37 @@
       "phase": "PH-09",
       "phase_item_id": "PH-O-05",
       "lo_id": "ab4875ea-f3d4-53ba-be74-e2152b5cfe15",
-      "lo_code": "OCCUPATIONAL_NOTIFY"
+      "lo_code": "OCCUPATIONAL_EXPOSURE_DISEASE",
+      "lo_key": "OCCUPATIONAL_EXPOSURE_DISEASE",
+      "lo_title": "Occupational disease is recognised from the occupational history and exposure (noise, lead, asbestos, Q fever), with exposure removed, the condition managed and notification made where required.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.95,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: data gathering; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
-      "question_text": "A nurse sustains a deep needlestick from an unconscious patient of unknown status. She squeezes the finger and asks if that is enough. First aid is washing, not squeezing. An unknown source with a deep injury is a significant exposure. Wash, do not squeeze, assess the risk, and start the HIV post-exposure pathway urgently. What is the most appropriate immediate management?  Squeezing is not recommended. Waiting three months misses the window for prophylaxis. HIV post-exposure prophylaxis is time-critical. Start the pathway now.  The exposure is the reason the ordinary diagnosis is wrong. Act on the occupational cause, not on the common label.  Nothing else in the history clears the exposure or delays the specific treatment.  That is the priority.  A normal test or a common diagnosis does not clear an occupational exposure. Treat and notify as the exposure requires.  Do not send him home, to theatre, or back to the same unprotected job on the ordinary label.  The specific pathway starts now.  Waiting for a confirmatory test does not delay the first correct step.",
+      "question_text": "A nurse sustains a deep needlestick from an unconscious patient of unknown status. She squeezes the finger and asks if that is enough. An unknown source with a deep injury is a significant exposure. What is the most appropriate immediate management?",
       "options": [
         "Wash, do not squeeze, assess the risk, and start the HIV post-exposure pathway urgently",
         "Squeezing is sufficient. No further action tonight",
-        "Wait three months and test her then",
         "Give hepatitis B immunoglobulin only, whatever her vaccine status",
+        "Wait three months and test her then",
         "Tell her HIV is not transmitted by needlestick"
       ],
       "correct_answer": "A",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. Wash, do not squeeze, assess the risk, and start the HIV post-exposure pathway urgently\n\n---\n\n1. CLINICAL DIAGNOSIS\nWash, assess, and start the pathway now. Do not squeeze and wait.\n\n2. THE RULE\nNeedlestick first aid and urgent post-exposure pathway\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nFirst aid is washing, not squeezing. An unknown source with a deep injury is a significant exposure. HIV post-exposure prophylaxis is time-critical. Waiting three months is the follow-up test, not the immediate step.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nWash, do not squeeze, assess the risk, and start the HIV post-exposure pathway urgently\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA needlestick from an unknown source is managed by first aid, risk assessment, and urgent blood-borne virus action. Squeezing the wound is not the treatment.\n\n10. MEMORY ANCHOR\nNeedlestick first aid is wash, not squeeze.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nA. Wash, do not squeeze, assess the risk, and start the HIV post-exposure pathway urgently\n\n---\n\n1. CLINICAL SITUATION\nWash, assess, and start the pathway now. Do not squeeze and wait.\n\n2. THE RULE\nAfter a needlestick injury, wash without squeezing, assess source and exposure risk, and start blood-borne virus post-exposure management urgently.\n\n3. WHY A IS CORRECT\nFirst aid is washing, not squeezing. An unknown source with a deep injury is a significant exposure. HIV post-exposure prophylaxis is time-critical. Waiting three months is the follow-up test, not the immediate step.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Squeezing is sufficient. No further action tonight: Squeezing is not recommended, and it is not enough.\nC. Give hepatitis B immunoglobulin only, whatever her vaccine status: Immunoglobulin is for non-immune exposed people, not a reflex for everyone.\nD. Wait three months and test her then: That misses the window for prophylaxis.\nE. Tell her HIV is not transmitted by needlestick: It is.\n\n5. KEY TAKEAWAY\nNeedlestick first aid is wash, not squeeze.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Wash, assess, and start the pathway now. Do not squeeze and wait.",
       "best_treatment": "Wash, do not squeeze, assess the risk, and start the HIV post-exposure pathway urgently",
       "incorrect_answer_explanations": {
-        "B": "Squeezing is sufficient. No further action tonight Squeezing is not recommended, and it is not enough.",
-        "C": "Wait three months and test her then That misses the window for prophylaxis.",
-        "D": "Give hepatitis B immunoglobulin only, whatever her vaccine status Immunoglobulin is for non-immune exposed people, not a reflex for everyone.",
-        "E": "Tell her HIV is not transmitted by needlestick It is."
+        "B": "Squeezing is not recommended, and it is not enough.",
+        "C": "Immunoglobulin is for non-immune exposed people, not a reflex for everyone.",
+        "D": "That misses the window for prophylaxis.",
+        "E": "It is."
       },
       "key_takeaways": [
         "Needlestick first aid is wash, not squeeze.",
@@ -207,28 +252,37 @@
       "phase": "PH-09",
       "phase_item_id": "PH-O-06",
       "lo_id": "07c63052-5568-57f2-920f-c01c65e37a90",
-      "lo_code": "NEEDLESTICK"
+      "lo_code": "NEEDLESTICK",
+      "lo_key": "NEEDLESTICK",
+      "lo_title": "After a needlestick injury, wash without squeezing, assess source and exposure risk, and start blood-borne virus post-exposure management urgently.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
-      "question_text": "A farm worker collapses after a day in extreme heat. He is confused, hot, and dry, with a temperature of 41\u00b0C. A colleague says it is heat exhaustion and suggests oral fluids in the shade. Confusion and a core temperature of 41\u00b0C is heat stroke, not exhaustion. This is heat stroke. Cool him actively and transfer as an emergency. What is the most appropriate action?  Paracetamol is not acute cooling. Finishing the shift is dangerous. Active cooling and emergency transfer. Heat stroke is hot plus brain dysfunction.  The exposure is the reason the ordinary diagnosis is wrong. Act on the occupational cause, not on the common label.  Nothing else in the history clears the exposure or delays the specific treatment.  That is the priority.  A normal test or a common diagnosis does not clear an occupational exposure. Treat and notify as the exposure requires.  Do not send him home, to theatre, or back to the same unprotected job on the ordinary label.  The specific pathway starts now.  Waiting for a confirmatory test does not delay the first correct step.",
+      "question_text": "A farm worker collapses after a day in extreme heat. He is confused, hot, and dry, with a temperature of 41\u00b0C. A colleague says it is heat exhaustion and suggests oral fluids in the shade. What is the most appropriate action?",
       "options": [
-        "Oral fluids in the shade. Confusion is common in exhaustion",
-        "This is heat stroke. Cool him actively and transfer as an emergency",
-        "Give paracetamol and review tomorrow",
         "Encourage him to finish the shift once he has had water",
-        "Warm him. Collapse outdoors is usually hypothermia"
+        "Warm him. Collapse outdoors is usually hypothermia",
+        "Give paracetamol and review tomorrow",
+        "Oral fluids in the shade. Confusion is common in exhaustion",
+        "This is heat stroke. Cool him actively and transfer as an emergency"
       ],
-      "correct_answer": "B",
+      "correct_answer": "E",
       "category": "Population Health & Ethics",
       "difficulty": "easy",
-      "explanation": "CORRECT ANSWER\n\nB. This is heat stroke. Cool him actively and transfer as an emergency\n\n---\n\n1. CLINICAL DIAGNOSIS\nCool him and transfer. This is heat stroke.\n\n2. THE RULE\nEnvironmental emergency is treated as emergency, not ordinary illness\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nConfusion and a core temperature of 41\u00b0C is heat stroke, not exhaustion. He needs immediate active cooling and emergency transfer. Paracetamol is not the cooling method. Finishing the shift is dangerous.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nThis is heat stroke. Cool him actively and transfer as an emergency\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nHeat stroke is a medical emergency. Confusion and a very high temperature are not ordinary heat exhaustion.\n\n10. MEMORY ANCHOR\nHeat stroke is hot plus brain dysfunction.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nE. This is heat stroke. Cool him actively and transfer as an emergency\n\n---\n\n1. CLINICAL SITUATION\nCool him and transfer. This is heat stroke.\n\n2. THE RULE\nHeat stroke (confusion with core temperature around 40\u00b0C or more) is a medical emergency needing immediate active cooling and emergency transfer, not oral fluids or a return to work.\n\n3. WHY E IS CORRECT\nConfusion and a core temperature of 41\u00b0C is heat stroke, not exhaustion. He needs immediate active cooling and emergency transfer. Paracetamol is not the cooling method. Finishing the shift is dangerous.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Encourage him to finish the shift once he has had water: He is critically unwell.\nB. Warm him. Collapse outdoors is usually hypothermia: A temperature of 41\u00b0C is the opposite.\nC. Give paracetamol and review tomorrow: Tomorrow is not an option, and paracetamol is not acute cooling.\nD. Oral fluids in the shade. Confusion is common in exhaustion: Confusion marks stroke, not simple exhaustion.\n\n5. KEY TAKEAWAY\nHeat stroke is hot plus brain dysfunction.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Cool him and transfer. This is heat stroke.",
       "best_treatment": "This is heat stroke. Cool him actively and transfer as an emergency",
       "incorrect_answer_explanations": {
-        "A": "Oral fluids in the shade. Confusion is common in exhaustion Confusion marks stroke, not simple exhaustion.",
-        "C": "Give paracetamol and review tomorrow Tomorrow is not an option, and paracetamol is not acute cooling.",
-        "D": "Encourage him to finish the shift once he has had water He is critically unwell.",
-        "E": "Warm him. Collapse outdoors is usually hypothermia A temperature of 41\u00b0C is the opposite."
+        "A": "He is critically unwell.",
+        "B": "A temperature of 41\u00b0C is the opposite.",
+        "C": "Tomorrow is not an option, and paracetamol is not acute cooling.",
+        "D": "Confusion marks stroke, not simple exhaustion."
       },
       "key_takeaways": [
         "Heat stroke is hot plus brain dysfunction.",
@@ -241,28 +295,37 @@
       "phase": "PH-09",
       "phase_item_id": "PH-O-07",
       "lo_id": "65149ffc-1a60-5f6c-8cf9-8176dd9e95dc",
-      "lo_code": "ENVIRONMENTAL_EMERGENCY"
+      "lo_code": "ENVIRONMENTAL_EMERGENCY",
+      "lo_key": "ENVIRONMENTAL_EMERGENCY",
+      "lo_title": "Heat stroke (confusion with core temperature around 40\u00b0C or more) is a medical emergency needing immediate active cooling and emergency transfer, not oral fluids or a return to work.",
+      "lo_role": "core",
+      "shared_lo": true,
+      "irt_b": -1.05,
+      "difficulty_tier": "easy",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: rural workplace",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
-      "question_text": "A meatworker has fever, severe headache, and pneumonia that has not responded to amoxicillin. He works on a killing floor. A registrar plans another course of the same antibiotic. Fever, headache, and pneumonia failing amoxicillin in an abattoir worker is Q fever until proved otherwise. Treat as possible Q fever. Doxycycline, and notify. What is the most appropriate change?  Failure of amoxicillin is the clue. Repeating it misses Q fever. Doxycycline is the treatment. It is notifiable. Abattoir work changes the antibiotic choice.  The exposure is the reason the ordinary diagnosis is wrong. Act on the occupational cause, not on the common label.  Nothing else in the history clears the exposure or delays the specific treatment.  That is the priority.  A normal test or a common diagnosis does not clear an occupational exposure. Treat and notify as the exposure requires.  Do not send him home, to theatre, or back to the same unprotected job on the ordinary label.  The specific pathway starts now.  Waiting for a confirmatory test does not delay the first correct step.",
+      "question_text": "A meatworker has fever, severe headache, and pneumonia that has not responded to amoxicillin. He works on a killing floor. A registrar plans another course of the same antibiotic. What is the most appropriate change?",
       "options": [
         "Repeat amoxicillin for 14 days",
-        "Stop all antibiotics. Viral illness is more likely",
-        "Treat as possible Q fever. Doxycycline, and notify",
+        "Reassure. Abattoir work does not change antibiotic choice",
         "Add metronidazole for aspiration",
-        "Reassure. Abattoir work does not change antibiotic choice"
+        "Treat as possible Q fever. Doxycycline, and notify",
+        "Stop all antibiotics. Viral illness is more likely"
       ],
-      "correct_answer": "C",
+      "correct_answer": "D",
       "category": "Population Health & Ethics",
       "difficulty": "difficult",
-      "explanation": "CORRECT ANSWER\n\nC. Treat as possible Q fever. Doxycycline, and notify\n\n---\n\n1. CLINICAL DIAGNOSIS\nSwitch to doxycycline and notify. Do not repeat amoxicillin.\n\n2. THE RULE\nOccupational disease is notified and exposure removed\n\n3. WHY THIS OPTION\nC matches the rule on the facts given.\n\n4. THE TRAP\nFever, headache, and pneumonia failing amoxicillin in an abattoir worker is Q fever until proved otherwise. Doxycycline is the treatment. It is notifiable. Repeating amoxicillin misses it.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nTreat as possible Q fever. Doxycycline, and notify\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nQ fever is an occupational zoonosis. Atypical pneumonia in an abattoir worker is not ordinary community pneumonia.\n\n10. MEMORY ANCHOR\nAbattoir plus atypical pneumonia suggests Q fever.\n\n---\n\nEDITED BY HEISENBERG",
+      "explanation": "CORRECT ANSWER\n\nD. Treat as possible Q fever. Doxycycline, and notify\n\n---\n\n1. CLINICAL SITUATION\nSwitch to doxycycline and notify. Do not repeat amoxicillin.\n\n2. THE RULE\nOccupational disease is recognised from the occupational history and exposure (noise, lead, asbestos, Q fever), with exposure removed, the condition managed and notification made where required.\n\n3. WHY D IS CORRECT\nFever, headache, and pneumonia failing amoxicillin in an abattoir worker is Q fever until proved otherwise. Doxycycline is the treatment. It is notifiable. Repeating amoxicillin misses it.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Repeat amoxicillin for 14 days: Failure of amoxicillin is the clue.\nB. Reassure. Abattoir work does not change antibiotic choice: The exposure is the reason to change.\nC. Add metronidazole for aspiration: Nothing suggests aspiration.\nE. Stop all antibiotics. Viral illness is more likely: This illness needs treatment.\n\n5. KEY TAKEAWAY\nAbattoir plus atypical pneumonia suggests Q fever.\n\n---\n\nEDITED BY HEISENBERG",
       "diagnosis_explanation": "Switch to doxycycline and notify. Do not repeat amoxicillin.",
       "best_treatment": "Treat as possible Q fever. Doxycycline, and notify",
       "incorrect_answer_explanations": {
-        "A": "Repeat amoxicillin for 14 days Failure of amoxicillin is the clue.",
-        "B": "Stop all antibiotics. Viral illness is more likely This illness needs treatment.",
-        "D": "Add metronidazole for aspiration Nothing suggests aspiration.",
-        "E": "Reassure. Abattoir work does not change antibiotic choice The exposure is the reason to change."
+        "A": "Failure of amoxicillin is the clue.",
+        "B": "The exposure is the reason to change.",
+        "C": "Nothing suggests aspiration.",
+        "E": "This illness needs treatment."
       },
       "key_takeaways": [
         "Abattoir plus atypical pneumonia suggests Q fever.",
@@ -275,134 +338,41 @@
       "phase": "PH-09",
       "phase_item_id": "PH-O-08",
       "lo_id": "ab4875ea-f3d4-53ba-be74-e2152b5cfe15",
-      "lo_code": "OCCUPATIONAL_NOTIFY"
+      "lo_code": "OCCUPATIONAL_EXPOSURE_DISEASE",
+      "lo_key": "OCCUPATIONAL_EXPOSURE_DISEASE",
+      "lo_title": "Occupational disease is recognised from the occupational history and exposure (noise, lead, asbestos, Q fever), with exposure removed, the condition managed and notification made where required.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 1.05,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
-      "question_text": "A family from a house with a poorly ventilated gas heater have headache and nausea. One is drowsy. The pulse oximeter reads 99%. Standard oximetry cannot distinguish carboxyhaemoglobin. High-flow oxygen now. Do not discharge on that reading. The rest of the history does not clear the exposure. A normal test or a common label does not replace the specific treatment. Act on the occupational or environmental cause. Do not send him home, to theatre, or back to the same job on the ordinary diagnosis. The specific pathway starts now. Nothing else in the consultation changes the first correct step. Waiting for a confirmatory test does not delay oxygen, atropine, cooling, or the post-exposure pathway. Remove the exposure and start the specific treatment. Document what you do. That is the priority. A colleague's ordinary diagnosis is the trap. Apply the exposure-specific rule. Clearly. Now. Do not delay the specific pathway. The exposure is the reason the ordinary diagnosis is wrong. Treat and notify as that exposure requires. A well-looking patient or a normal bedside test does not clear it. Start the correct pathway before he leaves.",
+      "question_text": "A nurse has a deep needlestick injury from a source of unknown status. A colleague suggests waiting a week to see whether she becomes unwell. What is the most appropriate next step?",
       "options": [
-        "High-flow oxygen now. Do not trust the oximeter",
-        "The saturation is 99% so they can go home",
-        "Carbon monoxide is excluded by a normal pulse oximeter",
-        "Wait for a co-oximeter before any oxygen",
-        "Room air is enough"
-      ],
-      "correct_answer": "A",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. High-flow oxygen now. Do not trust the oximeter\n\n---\n\n1. CLINICAL DIAGNOSIS\nGive oxygen now. A normal oximeter does not clear them.\n\n2. THE RULE\nSpecific toxin antidote and exposure removal\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nNormal pulse oximetry does not exclude carbon monoxide. Give high-flow oxygen.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nHigh-flow oxygen now. Do not trust the oximeter\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nCarbon monoxide poisoning is treated with high-flow oxygen. The pulse oximeter can read near normal.\n\n10. MEMORY ANCHOR\nPulse oximetry misses carbon monoxide.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "Give oxygen now. A normal oximeter does not clear them.",
-      "best_treatment": "High-flow oxygen now. Do not trust the oximeter",
-      "incorrect_answer_explanations": {
-        "B": "The saturation is 99% so they can go home is not the correct step for this presentation.",
-        "C": "Carbon monoxide is excluded by a normal pulse oximeter is not the correct step for this presentation.",
-        "D": "Wait for a co-oximeter before any oxygen is not the correct step for this presentation.",
-        "E": "Room air is enough is not the correct step for this presentation."
-      },
-      "key_takeaways": [
-        "Pulse oximetry misses carbon monoxide.",
-        "Oxygen starts before the co-oximeter result."
-      ],
-      "subtopic": "Carbon monoxide poisoning is treated with high-flow oxygen. The pulse oximeter can read near normal.",
-      "clinical_vignette": true,
-      "id": "72aa62a2-c299-52a8-8a0d-049e614a82f1",
-      "zyntra_id": "ZQ-0792",
-      "phase": "PH-09",
-      "phase_item_id": "PH-O-09",
-      "lo_id": "d406e705-85ec-5725-8a48-44fd959ccacf",
-      "lo_code": "TOXIN_ANTIDOTE"
-    },
-    {
-      "question_text": "A farmer is sweaty, wheezy, bradycardic, with small pupils and diarrhoea after spraying. This is organophosphate. Atropine treats the muscarinic features now. Pralidoxime is added, not used instead. The rest of the history does not clear the exposure. A normal test or a common label does not replace the specific treatment. Act on the occupational or environmental cause. Do not send him home, to theatre, or back to the same job on the ordinary diagnosis. The specific pathway starts now. Nothing else in the consultation changes the first correct step. Waiting for a confirmatory test does not delay oxygen, atropine, cooling, or the post-exposure pathway. Remove the exposure and start the specific treatment. Document what you do. That is the priority. A colleague's ordinary diagnosis is the trap. Apply the exposure-specific rule. Clearly. Now. Do not delay the specific pathway. The exposure is the reason the ordinary diagnosis is wrong. Treat and notify as that exposure requires. A well-looking patient or a normal bedside test does not clear it. Start the correct pathway before he leaves.",
-      "options": [
-        "Pralidoxime alone is the immediate treatment",
-        "Atropine now for the muscarinic crisis, with pralidoxime as directed",
-        "Neostigmine for the wheeze",
-        "No antidote until the spray is identified in a lab",
-        "Oral fluids and home"
-      ],
-      "correct_answer": "B",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. Atropine now for the muscarinic crisis, with pralidoxime as directed\n\n---\n\n1. CLINICAL DIAGNOSIS\nGive oxygen now. A normal oximeter does not clear them.\n\n2. THE RULE\nSpecific toxin antidote and exposure removal\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nAtropine first for muscarinic crisis. Pralidoxime does not replace it.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nAtropine now for the muscarinic crisis, with pralidoxime as directed\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nCarbon monoxide poisoning is treated with high-flow oxygen. The pulse oximeter can read near normal.\n\n10. MEMORY ANCHOR\nPulse oximetry misses carbon monoxide.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "Give oxygen now. A normal oximeter does not clear them.",
-      "best_treatment": "Atropine now for the muscarinic crisis, with pralidoxime as directed",
-      "incorrect_answer_explanations": {
-        "A": "Pralidoxime alone is the immediate treatment is not the correct step for this presentation.",
-        "C": "Neostigmine for the wheeze is not the correct step for this presentation.",
-        "D": "No antidote until the spray is identified in a lab is not the correct step for this presentation.",
-        "E": "Oral fluids and home is not the correct step for this presentation."
-      },
-      "key_takeaways": [
-        "Pulse oximetry misses carbon monoxide.",
-        "Oxygen starts before the co-oximeter result."
-      ],
-      "subtopic": "Carbon monoxide poisoning is treated with high-flow oxygen. The pulse oximeter can read near normal.",
-      "clinical_vignette": true,
-      "id": "c3065195-0ee7-5dfa-b53e-23c75fa66e82",
-      "zyntra_id": "ZQ-0793",
-      "phase": "PH-09",
-      "phase_item_id": "PH-O-10",
-      "lo_id": "d406e705-85ec-5725-8a48-44fd959ccacf",
-      "lo_code": "TOXIN_ANTIDOTE"
-    },
-    {
-      "question_text": "A nurse has a deep needlestick from an unconscious patient of unknown status. She squeezes the finger. Wash, do not squeeze. An unknown source with a deep injury is significant. Start the HIV post-exposure pathway now. The rest of the history does not clear the exposure. A normal test or a common label does not replace the specific treatment. Act on the occupational or environmental cause. Do not send him home, to theatre, or back to the same job on the ordinary diagnosis. The specific pathway starts now. Nothing else in the consultation changes the first correct step. Waiting for a confirmatory test does not delay oxygen, atropine, cooling, or the post-exposure pathway. Remove the exposure and start the specific treatment. Document what you do. That is the priority. A colleague's ordinary diagnosis is the trap. Apply the exposure-specific rule. Clearly. Now. Do not delay the specific pathway. The exposure is the reason the ordinary diagnosis is wrong. Treat and notify as that exposure requires. A well-looking patient or a normal bedside test does not clear it. Start the correct pathway before he leaves.",
-      "options": [
-        "Wash, do not squeeze, assess the risk, and start the HIV post-exposure pathway urgently",
-        "Squeezing is enough",
-        "Wait three months for a test",
-        "Unknown source means no action",
-        "A deep injury is low risk"
-      ],
-      "correct_answer": "A",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. Wash, do not squeeze, assess the risk, and start the HIV post-exposure pathway urgently\n\n---\n\n1. CLINICAL DIAGNOSIS\nGive oxygen now. A normal oximeter does not clear them.\n\n2. THE RULE\nNeedlestick first aid and urgent post-exposure pathway\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nWash. Do not squeeze. Urgent post-exposure assessment.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nWash, do not squeeze, assess the risk, and start the HIV post-exposure pathway urgently\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nCarbon monoxide poisoning is treated with high-flow oxygen. The pulse oximeter can read near normal.\n\n10. MEMORY ANCHOR\nPulse oximetry misses carbon monoxide.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "Give oxygen now. A normal oximeter does not clear them.",
-      "best_treatment": "Wash, do not squeeze, assess the risk, and start the HIV post-exposure pathway urgently",
-      "incorrect_answer_explanations": {
-        "B": "Squeezing is enough is not the correct step for this presentation.",
-        "C": "Wait three months for a test is not the correct step for this presentation.",
-        "D": "Unknown source means no action is not the correct step for this presentation.",
-        "E": "A deep injury is low risk is not the correct step for this presentation."
-      },
-      "key_takeaways": [
-        "Pulse oximetry misses carbon monoxide.",
-        "Oxygen starts before the co-oximeter result."
-      ],
-      "subtopic": "Carbon monoxide poisoning is treated with high-flow oxygen. The pulse oximeter can read near normal.",
-      "clinical_vignette": true,
-      "id": "5ec572ba-7264-56c9-bf5e-b336d644c2ff",
-      "zyntra_id": "ZQ-0794",
-      "phase": "PH-09",
-      "phase_item_id": "PH-O-11",
-      "lo_id": "07c63052-5568-57f2-920f-c01c65e37a90",
-      "lo_code": "NEEDLESTICK"
-    },
-    {
-      "question_text": "The source is unknown and the injury is deep. Do not wait a week. HIV post-exposure prophylaxis is time-critical. The rest of the history does not clear the exposure. A normal test or a common label does not replace the specific treatment. Act on the occupational or environmental cause. Do not send him home, to theatre, or back to the same job on the ordinary diagnosis. The specific pathway starts now. Nothing else in the consultation changes the first correct step. Waiting for a confirmatory test does not delay oxygen, atropine, cooling, or the post-exposure pathway. Remove the exposure and start the specific treatment. Document what you do. That is the priority. A colleague's ordinary diagnosis is the trap. Apply the exposure-specific rule. Clearly. Now. Do not delay the specific pathway. The exposure is the reason the ordinary diagnosis is wrong. Treat and notify as that exposure requires. A well-looking patient or a normal bedside test does not clear it. Start the correct pathway before he leaves.",
-      "options": [
-        "Delay prophylaxis until the source is identified next week",
-        "Start the pathway now. Prophylaxis is time-critical",
-        "Only hepatitis B matters",
         "A shallow scratch and a deep injury are the same and both can wait",
-        "No occupational health exists"
+        "Start the pathway now. Prophylaxis is time-critical",
+        "Delay prophylaxis until the source is identified next week",
+        "No occupational health exists",
+        "Only hepatitis B matters"
       ],
       "correct_answer": "B",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. Start the pathway now. Prophylaxis is time-critical\n\n---\n\n1. CLINICAL DIAGNOSIS\nGive oxygen now. A normal oximeter does not clear them.\n\n2. THE RULE\nNeedlestick first aid and urgent post-exposure pathway\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nUnknown deep exposure. Act now.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nStart the pathway now. Prophylaxis is time-critical\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nCarbon monoxide poisoning is treated with high-flow oxygen. The pulse oximeter can read near normal.\n\n10. MEMORY ANCHOR\nPulse oximetry misses carbon monoxide.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "Give oxygen now. A normal oximeter does not clear them.",
+      "explanation": "CORRECT ANSWER\n\nB. Start the pathway now. Prophylaxis is time-critical\n\n---\n\n1. CLINICAL SITUATION\nA nurse has a deep needlestick injury from a source of unknown status. A colleague suggests waiting a week to see whether she becomes unwell.\n\n2. THE RULE\nAfter a needlestick injury, wash without squeezing, assess source and exposure risk, and start blood-borne virus post-exposure management urgently.\n\n3. WHY B IS CORRECT\nUnknown deep exposure. Act now.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. A shallow scratch and a deep injury are the same and both can wait: Injury depth changes risk; neither should wait.\nC. Delay prophylaxis until the source is identified next week: HIV PEP is most effective within hours, ideally within 72 hours.\nD. No occupational health exists: The occupational exposure pathway applies.\nE. Only hepatitis B matters: HIV and hepatitis C also need assessment.\n\n5. KEY TAKEAWAY\nAfter a needlestick injury, wash without squeezing, assess source and exposure risk, and start blood-borne virus post-exposure management urgently.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "A nurse has a deep needlestick injury from a source of unknown status. A colleague suggests waiting a week to see whether she becomes unwell.",
       "best_treatment": "Start the pathway now. Prophylaxis is time-critical",
       "incorrect_answer_explanations": {
-        "A": "Delay prophylaxis until the source is identified next week is not the correct step for this presentation.",
-        "C": "Only hepatitis B matters is not the correct step for this presentation.",
-        "D": "A shallow scratch and a deep injury are the same and both can wait is not the correct step for this presentation.",
-        "E": "No occupational health exists is not the correct step for this presentation."
+        "A": "Injury depth changes risk; neither should wait.",
+        "C": "HIV PEP is most effective within hours, ideally within 72 hours.",
+        "D": "The occupational exposure pathway applies.",
+        "E": "HIV and hepatitis C also need assessment."
       },
       "key_takeaways": [
-        "Pulse oximetry misses carbon monoxide.",
-        "Oxygen starts before the co-oximeter result."
+        "After a needlestick injury, wash without squeezing, assess source and exposure risk, and start blood-borne virus post-exposure management urgently.",
+        "Unknown deep exposure."
       ],
       "subtopic": "Carbon monoxide poisoning is treated with high-flow oxygen. The pulse oximeter can read near normal.",
       "clinical_vignette": true,
@@ -411,32 +381,41 @@
       "phase": "PH-09",
       "phase_item_id": "PH-O-12",
       "lo_id": "07c63052-5568-57f2-920f-c01c65e37a90",
-      "lo_code": "NEEDLESTICK"
+      "lo_code": "NEEDLESTICK",
+      "lo_key": "NEEDLESTICK",
+      "lo_title": "After a needlestick injury, wash without squeezing, assess source and exposure risk, and start blood-borne virus post-exposure management urgently.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
-      "question_text": "Today's negative test does not clear an exposure from an hour ago. Assess properly and start the pathway. The rest of the history does not clear the exposure. A normal test or a common label does not replace the specific treatment. Act on the occupational or environmental cause. Do not send him home, to theatre, or back to the same job on the ordinary diagnosis. The specific pathway starts now. Nothing else in the consultation changes the first correct step. Waiting for a confirmatory test does not delay oxygen, atropine, cooling, or the post-exposure pathway. Remove the exposure and start the specific treatment. Document what you do. That is the priority. A colleague's ordinary diagnosis is the trap. Apply the exposure-specific rule. Clearly. Now. Do not delay the specific pathway. The exposure is the reason the ordinary diagnosis is wrong. Treat and notify as that exposure requires. A well-looking patient or a normal bedside test does not clear it. Start the correct pathway before he leaves.",
+      "question_text": "A nurse had a needlestick injury an hour ago from a source of unknown status. Her own blood test today is negative. What is the most appropriate next step?",
       "options": [
-        "Promise her the risk is zero",
+        "A negative test today clears a exposure from an hour ago",
         "Assess and start the pathway. Do not reassure falsely",
-        "Squeezing reduces transmission to zero",
         "Only report if she becomes unwell",
-        "A negative test today clears a exposure from an hour ago"
+        "Promise her the risk is zero",
+        "Squeezing reduces transmission to zero"
       ],
-      "correct_answer": "C",
+      "correct_answer": "B",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nC. Squeezing reduces transmission to zero\n\n---\n\n1. CLINICAL DIAGNOSIS\nGive oxygen now. A normal oximeter does not clear them.\n\n2. THE RULE\nNeedlestick first aid and urgent post-exposure pathway\n\n3. WHY THIS OPTION\nC matches the rule on the facts given.\n\n4. THE TRAP\nDo not falsely reassure. Start the pathway.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nSqueezing reduces transmission to zero\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nCarbon monoxide poisoning is treated with high-flow oxygen. The pulse oximeter can read near normal.\n\n10. MEMORY ANCHOR\nPulse oximetry misses carbon monoxide.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "Give oxygen now. A normal oximeter does not clear them.",
-      "best_treatment": "Squeezing reduces transmission to zero",
+      "explanation": "CORRECT ANSWER\n\nB. Assess and start the pathway. Do not reassure falsely\n\n---\n\n1. CLINICAL SITUATION\nA nurse had a needlestick injury an hour ago from a source of unknown status. Her own blood test today is negative.\n\n2. THE RULE\nAfter a needlestick injury, wash without squeezing, assess source and exposure risk, and start blood-borne virus post-exposure management urgently.\n\n3. WHY B IS CORRECT\nDo not falsely reassure. Start the pathway.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. A negative test today clears a exposure from an hour ago: A baseline test does not exclude a new infection.\nC. Only report if she becomes unwell: Reporting and PEP are immediate.\nD. Promise her the risk is zero: Risk cannot be promised to be zero.\nE. Squeezing reduces transmission to zero: Squeezing does not reduce transmission.\n\n5. KEY TAKEAWAY\nAfter a needlestick injury, wash without squeezing, assess source and exposure risk, and start blood-borne virus post-exposure management urgently.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "A nurse had a needlestick injury an hour ago from a source of unknown status. Her own blood test today is negative.",
+      "best_treatment": "Assess and start the pathway. Do not reassure falsely",
       "incorrect_answer_explanations": {
-        "A": "Promise her the risk is zero is not the correct step for this presentation.",
-        "B": "Assess and start the pathway. Do not reassure falsely is not the correct step for this presentation.",
-        "D": "Only report if she becomes unwell is not the correct step for this presentation.",
-        "E": "A negative test today clears a exposure from an hour ago is not the correct step for this presentation."
+        "A": "A baseline test does not exclude a new infection.",
+        "C": "Reporting and PEP are immediate.",
+        "D": "Risk cannot be promised to be zero.",
+        "E": "Squeezing does not reduce transmission."
       },
       "key_takeaways": [
-        "Pulse oximetry misses carbon monoxide.",
-        "Oxygen starts before the co-oximeter result."
+        "After a needlestick injury, wash without squeezing, assess source and exposure risk, and start blood-borne virus post-exposure management urgently.",
+        "Do not falsely reassure."
       ],
       "subtopic": "Carbon monoxide poisoning is treated with high-flow oxygen. The pulse oximeter can read near normal.",
       "clinical_vignette": true,
@@ -445,109 +424,274 @@
       "phase": "PH-09",
       "phase_item_id": "PH-O-13",
       "lo_id": "07c63052-5568-57f2-920f-c01c65e37a90",
-      "lo_code": "NEEDLESTICK"
+      "lo_code": "NEEDLESTICK",
+      "lo_key": "NEEDLESTICK",
+      "lo_title": "After a needlestick injury, wash without squeezing, assess source and exposure risk, and start blood-borne virus post-exposure management urgently.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": -0.1,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
-      "question_text": "A farm worker collapses after extreme heat. He is confused, hot, and dry, temperature 41\u00b0C. Confusion plus this temperature is heat stroke. Cool actively and transfer. It is not heat exhaustion. The rest of the history does not clear the exposure. A normal test or a common label does not replace the specific treatment. Act on the occupational or environmental cause. Do not send him home, to theatre, or back to the same job on the ordinary diagnosis. The specific pathway starts now. Nothing else in the consultation changes the first correct step. Waiting for a confirmatory test does not delay oxygen, atropine, cooling, or the post-exposure pathway. Remove the exposure and start the specific treatment. Document what you do. That is the priority. A colleague's ordinary diagnosis is the trap. Apply the exposure-specific rule. Clearly. Now. Do not delay the specific pathway. The exposure is the reason the ordinary diagnosis is wrong. Treat and notify as that exposure requires. A well-looking patient or a normal bedside test does not clear it. Start the correct pathway before he leaves.",
+      "question_text": "A 27-year-old woman who is 24 weeks pregnant is brought in from a house with a faulty gas heater. She had a headache and briefly lost consciousness. Her carboxyhaemoglobin is 18% and her pulse oximetry reads 99%. She is now alert. What is the most appropriate management?",
       "options": [
-        "This is heat stroke. Cool him actively and transfer",
-        "Oral fluids in the shade for heat exhaustion",
-        "Finish the shift",
-        "Paracetamol is acute cooling",
-        "A temperature of 41\u00b0C is mild"
+        "Discharge once her headache settles",
+        "Room air because her oximetry is normal",
+        "Oxygen only if the carboxyhaemoglobin is above 25%",
+        "High-flow oxygen now, and urgent discussion with a hyperbaric unit and obstetrics",
+        "Give methylene blue"
+      ],
+      "correct_answer": "D",
+      "category": "Population Health & Ethics",
+      "difficulty": "difficult",
+      "explanation": "CORRECT ANSWER\n\nD. High-flow oxygen now, and urgent discussion with a hyperbaric unit and obstetrics\n\n---\n\n1. CLINICAL SITUATION\nCO poisoning in pregnancy with loss of consciousness.\n\n2. THE RULE\nPoisonings are treated with the specific antidote: high-flow oxygen for carbon monoxide (despite normal oximetry) and atropine with pralidoxime for organophosphate crisis.\n\n3. WHY D IS CORRECT\nPulse oximetry overestimates oxygenation in carbon monoxide poisoning. Treatment is high-flow oxygen immediately. Pregnancy (the fetus is more vulnerable) and loss of consciousness are indications to discuss hyperbaric oxygen with a hyperbaric unit, together with fetal monitoring.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Discharge once her headache settles: She needs treatment and assessment, not discharge.\nB. Room air because her oximetry is normal: Normal oximetry is misleading in CO poisoning.\nC. Oxygen only if the carboxyhaemoglobin is above 25%: Lower thresholds and clinical features matter, especially in pregnancy.\nE. Give methylene blue: Methylene blue treats methaemoglobinaemia, not CO poisoning.\n\n5. KEY TAKEAWAY\nCO poisoning: high-flow oxygen; pregnancy or LOC prompts hyperbaric discussion.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "CO poisoning in pregnancy with loss of consciousness.",
+      "best_treatment": "High-flow oxygen now, and urgent discussion with a hyperbaric unit and obstetrics",
+      "incorrect_answer_explanations": {
+        "A": "She needs treatment and assessment, not discharge.",
+        "B": "Normal oximetry is misleading in CO poisoning.",
+        "C": "Lower thresholds and clinical features matter, especially in pregnancy.",
+        "E": "Methylene blue treats methaemoglobinaemia, not CO poisoning."
+      },
+      "key_takeaways": [
+        "Poisonings are treated with the specific antidote: high-flow oxygen for carbon monoxide (despite normal oximetry) and atropine with pralidoxime for organophosphate crisis.",
+        "CO poisoning: high-flow oxygen; pregnancy or LOC prompts hyperbaric discussion."
+      ],
+      "subtopic": "CO poisoning: high-flow oxygen; pregnancy or LOC prompts hyperbaric discussion.",
+      "clinical_vignette": true,
+      "id": "e643914c-355b-5ba9-8832-34b75a9a9410",
+      "zyntra_id": "ZQ-0933",
+      "phase": "PH-09",
+      "phase_item_id": "PH-O-17",
+      "lo_id": "d406e705-85ec-5725-8a48-44fd959ccacf",
+      "lo_code": "TOXIN_ANTIDOTE",
+      "lo_key": "TOXIN_ANTIDOTE",
+      "lo_title": "Poisonings are treated with the specific antidote: high-flow oxygen for carbon monoxide (despite normal oximetry) and atropine with pralidoxime for organophosphate crisis.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": 0.9,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: emergency department",
+      "blueprint_eligible": true,
+      "status": "draft"
+    },
+    {
+      "question_text": "A farmer with organophosphate poisoning has received several doubling doses of atropine. His chest is now clear on auscultation, his heart rate is 90 bpm and systolic blood pressure 110 mmHg, but his pupils remain small. A colleague wants to keep doubling the atropine until his pupils dilate. What is the most appropriate action?",
+      "options": [
+        "Stop escalating atropine; the endpoints (clear chest, HR above 80, SBP above 80 to 90 mmHg) are met, and give a maintenance infusion",
+        "Switch to adrenaline",
+        "Stop all atropine",
+        "Give pralidoxime instead of atropine",
+        "Keep doubling atropine until the pupils dilate"
       ],
       "correct_answer": "A",
       "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. This is heat stroke. Cool him actively and transfer\n\n---\n\n1. CLINICAL DIAGNOSIS\nGive oxygen now. A normal oximeter does not clear them.\n\n2. THE RULE\nEnvironmental emergency is treated as emergency, not ordinary illness\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nHeat stroke is hot plus brain dysfunction. Emergency cooling and transfer.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nThis is heat stroke. Cool him actively and transfer\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nCarbon monoxide poisoning is treated with high-flow oxygen. The pulse oximeter can read near normal.\n\n10. MEMORY ANCHOR\nPulse oximetry misses carbon monoxide.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "Give oxygen now. A normal oximeter does not clear them.",
-      "best_treatment": "This is heat stroke. Cool him actively and transfer",
+      "difficulty": "difficult",
+      "explanation": "CORRECT ANSWER\n\nA. Stop escalating atropine; the endpoints (clear chest, HR above 80, SBP above 80 to 90 mmHg) are met, and give a maintenance infusion\n\n---\n\n1. CLINICAL SITUATION\nOrganophosphate poisoning with small pupils after atropinisation.\n\n2. THE RULE\nPoisonings are treated with the specific antidote: high-flow oxygen for carbon monoxide (despite normal oximetry) and atropine with pralidoxime for organophosphate crisis.\n\n3. WHY A IS CORRECT\nAtropinisation targets reversal of muscarinic features that threaten life: a clear chest (no bronchorrhoea), heart rate above 80 and systolic BP above 80 to 90 mmHg, with dry axillae. Pupil size is not an endpoint, and chasing it causes atropine toxicity. A maintenance infusion is then titrated.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Switch to adrenaline: Adrenaline is not the antidote.\nC. Stop all atropine: Stopping risks recurrence of bronchorrhoea and bradycardia.\nD. Give pralidoxime instead of atropine: Pralidoxime is an adjunct, not a replacement for atropine.\nE. Keep doubling atropine until the pupils dilate: Pupils may stay small; chasing them causes toxicity.\n\n5. KEY TAKEAWAY\nAtropine endpoints are chest, heart rate and blood pressure, not pupils.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Organophosphate poisoning with small pupils after atropinisation.",
+      "best_treatment": "Stop escalating atropine; the endpoints (clear chest, HR above 80, SBP above 80 to 90 mmHg) are met, and give a maintenance infusion",
       "incorrect_answer_explanations": {
-        "B": "Oral fluids in the shade for heat exhaustion is not the correct step for this presentation.",
-        "C": "Finish the shift is not the correct step for this presentation.",
-        "D": "Paracetamol is acute cooling is not the correct step for this presentation.",
-        "E": "A temperature of 41\u00b0C is mild is not the correct step for this presentation."
+        "B": "Adrenaline is not the antidote.",
+        "C": "Stopping risks recurrence of bronchorrhoea and bradycardia.",
+        "D": "Pralidoxime is an adjunct, not a replacement for atropine.",
+        "E": "Pupils may stay small; chasing them causes toxicity."
       },
       "key_takeaways": [
-        "Pulse oximetry misses carbon monoxide.",
-        "Oxygen starts before the co-oximeter result."
+        "Poisonings are treated with the specific antidote: high-flow oxygen for carbon monoxide (despite normal oximetry) and atropine with pralidoxime for organophosphate crisis.",
+        "Atropine endpoints are chest, heart rate and blood pressure, not pupils."
       ],
-      "subtopic": "Carbon monoxide poisoning is treated with high-flow oxygen. The pulse oximeter can read near normal.",
+      "subtopic": "Atropine endpoints are chest, heart rate and blood pressure, not pupils.",
       "clinical_vignette": true,
-      "id": "a0371d40-93ba-59da-923b-08915144dd44",
-      "zyntra_id": "ZQ-0797",
+      "id": "3da43c6d-dc80-58e8-aaed-30bc7605ff95",
+      "zyntra_id": "ZQ-0934",
       "phase": "PH-09",
-      "phase_item_id": "PH-O-14",
-      "lo_id": "65149ffc-1a60-5f6c-8cf9-8176dd9e95dc",
-      "lo_code": "ENVIRONMENTAL_EMERGENCY"
+      "phase_item_id": "PH-O-18",
+      "lo_id": "d406e705-85ec-5725-8a48-44fd959ccacf",
+      "lo_code": "TOXIN_ANTIDOTE",
+      "lo_key": "TOXIN_ANTIDOTE",
+      "lo_title": "Poisonings are treated with the specific antidote: high-flow oxygen for carbon monoxide (despite normal oximetry) and atropine with pralidoxime for organophosphate crisis.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.9,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: emergency department",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
-      "question_text": "Heater, headache, a drowsy patient, normal saturation. Oxygen now. Do not trust the oximeter. The rest of the history does not clear the exposure. A normal test or a common label does not replace the specific treatment. Act on the occupational or environmental cause. Do not send him home, to theatre, or back to the same job on the ordinary diagnosis. The specific pathway starts now. Nothing else in the consultation changes the first correct step. Waiting for a confirmatory test does not delay oxygen, atropine, cooling, or the post-exposure pathway. Remove the exposure and start the specific treatment. Document what you do. That is the priority. A colleague's ordinary diagnosis is the trap. Apply the exposure-specific rule. Clearly. Now. Do not delay the specific pathway. The exposure is the reason the ordinary diagnosis is wrong. Treat and notify as that exposure requires. A well-looking patient or a normal bedside test does not clear it. Start the correct pathway before he leaves.",
+      "question_text": "A nurse has a needlestick injury from a patient who is hepatitis B surface antigen positive. She completed hepatitis B vaccination years ago, and a documented anti-HBs level after vaccination was 120 mIU/mL. A colleague recommends hepatitis B immunoglobulin. What is the most appropriate management for hepatitis B?",
       "options": [
-        "A normal oximeter clears the drowsy family",
-        "High-flow oxygen for suspected carbon monoxide, now",
-        "Headache after a heater is always viral",
-        "Discharge if they can walk",
-        "Wait for arterial blood gas before oxygen"
+        "Give HBIG only",
+        "Repeat the full vaccine course",
+        "Give HBIG and a booster",
+        "Start antiviral therapy",
+        "No HBIG or further vaccination is needed, because she is a documented responder"
+      ],
+      "correct_answer": "E",
+      "category": "Population Health & Ethics",
+      "difficulty": "difficult",
+      "explanation": "CORRECT ANSWER\n\nE. No HBIG or further vaccination is needed, because she is a documented responder\n\n---\n\n1. CLINICAL SITUATION\nA documented hepatitis B vaccine responder with an HBsAg-positive exposure.\n\n2. THE RULE\nAfter a needlestick injury, wash without squeezing, assess source and exposure risk, and start blood-borne virus post-exposure management urgently.\n\n3. WHY E IS CORRECT\nPeople with a documented anti-HBs level of 10 mIU/mL or more after vaccination are considered protected long term, even if levels later wane. After exposure, no HBIG or booster is needed for hepatitis B. HIV and hepatitis C exposure management still proceeds.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Give HBIG only: HBIG is for non-responders or unvaccinated people.\nB. Repeat the full vaccine course: A full course is only for non-immune people.\nC. Give HBIG and a booster: A documented responder does not need HBIG or a booster.\nD. Start antiviral therapy: Antivirals are not hepatitis B post-exposure prophylaxis.\n\n5. KEY TAKEAWAY\nDocumented anti-HBs of 10 mIU/mL or more: no HBIG needed.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "A documented hepatitis B vaccine responder with an HBsAg-positive exposure.",
+      "best_treatment": "No HBIG or further vaccination is needed, because she is a documented responder",
+      "incorrect_answer_explanations": {
+        "A": "HBIG is for non-responders or unvaccinated people.",
+        "B": "A full course is only for non-immune people.",
+        "C": "A documented responder does not need HBIG or a booster.",
+        "D": "Antivirals are not hepatitis B post-exposure prophylaxis."
+      },
+      "key_takeaways": [
+        "After a needlestick injury, wash without squeezing, assess source and exposure risk, and start blood-borne virus post-exposure management urgently.",
+        "Documented anti-HBs of 10 mIU/mL or more: no HBIG needed."
+      ],
+      "subtopic": "Documented anti-HBs of 10 mIU/mL or more: no HBIG needed.",
+      "clinical_vignette": true,
+      "id": "a7a4e800-ffc3-547d-b6c9-6016b9f98357",
+      "zyntra_id": "ZQ-0935",
+      "phase": "PH-09",
+      "phase_item_id": "PH-O-19",
+      "lo_id": "07c63052-5568-57f2-920f-c01c65e37a90",
+      "lo_code": "NEEDLESTICK",
+      "lo_key": "NEEDLESTICK",
+      "lo_title": "After a needlestick injury, wash without squeezing, assess source and exposure risk, and start blood-borne virus post-exposure management urgently.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": 0.9,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: tertiary hospital",
+      "blueprint_eligible": true,
+      "status": "draft"
+    },
+    {
+      "question_text": "A 22-year-old runner collapses near the finish of a summer half-marathon. He is confused and his rectal temperature is 41.2\u00b0C. A medical tent with an ice-water immersion tub is next to the finish line. The ambulance is 10 minutes away. What is the most appropriate immediate management?",
+      "options": [
+        "Give paracetamol and fluids",
+        "Cool first: immerse him in ice water immediately, with monitoring, then transport",
+        "Give oral fluids and rest in the shade",
+        "Wait for the temperature to settle before acting",
+        "Transport first and start cooling in hospital"
       ],
       "correct_answer": "B",
       "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. High-flow oxygen for suspected carbon monoxide, now\n\n---\n\n1. CLINICAL DIAGNOSIS\nGive oxygen now. A normal oximeter does not clear them.\n\n2. THE RULE\nEnvironmental emergency is treated as emergency, not ordinary illness\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nSuspected carbon monoxide. Oxygen before the confirmatory test.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nHigh-flow oxygen for suspected carbon monoxide, now\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nCarbon monoxide poisoning is treated with high-flow oxygen. The pulse oximeter can read near normal.\n\n10. MEMORY ANCHOR\nPulse oximetry misses carbon monoxide.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "Give oxygen now. A normal oximeter does not clear them.",
-      "best_treatment": "High-flow oxygen for suspected carbon monoxide, now",
+      "difficulty": "difficult",
+      "explanation": "CORRECT ANSWER\n\nB. Cool first: immerse him in ice water immediately, with monitoring, then transport\n\n---\n\n1. CLINICAL SITUATION\nExertional heat stroke near an ice bath.\n\n2. THE RULE\nHeat stroke (confusion with core temperature around 40\u00b0C or more) is a medical emergency needing immediate active cooling and emergency transfer, not oral fluids or a return to work.\n\n3. WHY B IS CORRECT\nExertional heat stroke is an emergency where outcome depends on how quickly core temperature is lowered. When cold-water immersion is available on site, 'cool first, transport second' is recommended, cooling to about 38.5 to 39\u00b0C before transfer.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Give paracetamol and fluids: Antipyretics do not work in heat stroke.\nC. Give oral fluids and rest in the shade: Oral fluids and shade are insufficient for heat stroke.\nD. Wait for the temperature to settle before acting: Waiting allows organ damage.\nE. Transport first and start cooling in hospital: Delaying cooling for transport worsens outcome.\n\n5. KEY TAKEAWAY\nExertional heat stroke: cool first, transport second.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Exertional heat stroke near an ice bath.",
+      "best_treatment": "Cool first: immerse him in ice water immediately, with monitoring, then transport",
       "incorrect_answer_explanations": {
-        "A": "A normal oximeter clears the drowsy family is not the correct step for this presentation.",
-        "C": "Headache after a heater is always viral is not the correct step for this presentation.",
-        "D": "Discharge if they can walk is not the correct step for this presentation.",
-        "E": "Wait for arterial blood gas before oxygen is not the correct step for this presentation."
+        "A": "Antipyretics do not work in heat stroke.",
+        "C": "Oral fluids and shade are insufficient for heat stroke.",
+        "D": "Waiting allows organ damage.",
+        "E": "Delaying cooling for transport worsens outcome."
       },
       "key_takeaways": [
-        "Pulse oximetry misses carbon monoxide.",
-        "Oxygen starts before the co-oximeter result."
+        "Heat stroke (confusion with core temperature around 40\u00b0C or more) is a medical emergency needing immediate active cooling and emergency transfer, not oral fluids or a return to work.",
+        "Exertional heat stroke: cool first, transport second."
       ],
-      "subtopic": "Carbon monoxide poisoning is treated with high-flow oxygen. The pulse oximeter can read near normal.",
+      "subtopic": "Exertional heat stroke: cool first, transport second.",
       "clinical_vignette": true,
-      "id": "c509ca8a-6c87-5460-b4ab-99ec97a0f684",
-      "zyntra_id": "ZQ-0798",
+      "id": "ce39ccd3-ece1-5b72-b3ca-c63dfd28f583",
+      "zyntra_id": "ZQ-0936",
       "phase": "PH-09",
-      "phase_item_id": "PH-O-15",
+      "phase_item_id": "PH-O-20",
       "lo_id": "65149ffc-1a60-5f6c-8cf9-8176dd9e95dc",
-      "lo_code": "ENVIRONMENTAL_EMERGENCY"
+      "lo_code": "ENVIRONMENTAL_EMERGENCY",
+      "lo_key": "ENVIRONMENTAL_EMERGENCY",
+      "lo_title": "Heat stroke (confusion with core temperature around 40\u00b0C or more) is a medical emergency needing immediate active cooling and emergency transfer, not oral fluids or a return to work.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": 0.9,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: sports event",
+      "blueprint_eligible": true,
+      "status": "draft"
     },
     {
-      "question_text": "Confused and 41\u00b0C. This is an emergency. Cool and transfer. Do not send him back to work. The rest of the history does not clear the exposure. A normal test or a common label does not replace the specific treatment. Act on the occupational or environmental cause. Do not send him home, to theatre, or back to the same job on the ordinary diagnosis. The specific pathway starts now. Nothing else in the consultation changes the first correct step. Waiting for a confirmatory test does not delay oxygen, atropine, cooling, or the post-exposure pathway. Remove the exposure and start the specific treatment. Document what you do. That is the priority. A colleague's ordinary diagnosis is the trap. Apply the exposure-specific rule. Clearly. Now. Do not delay the specific pathway. The exposure is the reason the ordinary diagnosis is wrong. Treat and notify as that exposure requires. A well-looking patient or a normal bedside test does not clear it. Start the correct pathway before he leaves.",
+      "question_text": "A 45-year-old roofer feels weak, dizzy, nauseated and sweaty after working on a hot day. He is alert and fully oriented, with a temperature of 38.4\u00b0C and normal neurology. What is the most likely diagnosis and appropriate management?",
       "options": [
-        "Send him back to the field after water",
-        "Active cooling and emergency transfer for heat stroke",
-        "Confusion is dehydration only",
-        "41\u00b0C can be watched",
-        "No transfer from a farm"
+        "Heat stroke: immediate ice-water immersion and ICU",
+        "Migraine: triptan",
+        "Heat exhaustion: rest in a cool place, oral fluids, cooling and observation, with escalation if confusion develops",
+        "Viral illness: antibiotics",
+        "Hypoglycaemia: glucose only"
       ],
       "correct_answer": "C",
       "category": "Population Health & Ethics",
       "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nC. Confusion is dehydration only\n\n---\n\n1. CLINICAL DIAGNOSIS\nGive oxygen now. A normal oximeter does not clear them.\n\n2. THE RULE\nEnvironmental emergency is treated as emergency, not ordinary illness\n\n3. WHY THIS OPTION\nC matches the rule on the facts given.\n\n4. THE TRAP\nDo not return a heat-stroke patient to the exposure.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nConfusion is dehydration only\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nCarbon monoxide poisoning is treated with high-flow oxygen. The pulse oximeter can read near normal.\n\n10. MEMORY ANCHOR\nPulse oximetry misses carbon monoxide.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "Give oxygen now. A normal oximeter does not clear them.",
-      "best_treatment": "Confusion is dehydration only",
+      "explanation": "CORRECT ANSWER\n\nC. Heat exhaustion: rest in a cool place, oral fluids, cooling and observation, with escalation if confusion develops\n\n---\n\n1. CLINICAL SITUATION\nHeat illness without CNS dysfunction.\n\n2. THE RULE\nHeat stroke (confusion with core temperature around 40\u00b0C or more) is a medical emergency needing immediate active cooling and emergency transfer, not oral fluids or a return to work.\n\n3. WHY C IS CORRECT\nHeat exhaustion causes weakness, dizziness, nausea and sweating, with a normal mental state and temperature usually below 40\u00b0C. It is managed with rest, cooling and fluids, with monitoring because it can progress to heat stroke. Confusion or CNS dysfunction indicates heat stroke.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Heat stroke: immediate ice-water immersion and ICU: Heat stroke requires CNS dysfunction, which he does not have.\nB. Migraine: triptan: Migraine does not fit heat exposure with these features.\nD. Viral illness: antibiotics: There is no indication for antibiotics.\nE. Hypoglycaemia: glucose only: Nothing suggests hypoglycaemia as the main cause.\n\n5. KEY TAKEAWAY\nHeat exhaustion: normal mental state; heat stroke: CNS dysfunction.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Heat illness without CNS dysfunction.",
+      "best_treatment": "Heat exhaustion: rest in a cool place, oral fluids, cooling and observation, with escalation if confusion develops",
       "incorrect_answer_explanations": {
-        "A": "Send him back to the field after water is not the correct step for this presentation.",
-        "B": "Active cooling and emergency transfer for heat stroke is not the correct step for this presentation.",
-        "D": "41\u00b0C can be watched is not the correct step for this presentation.",
-        "E": "No transfer from a farm is not the correct step for this presentation."
+        "A": "Heat stroke requires CNS dysfunction, which he does not have.",
+        "B": "Migraine does not fit heat exposure with these features.",
+        "D": "There is no indication for antibiotics.",
+        "E": "Nothing suggests hypoglycaemia as the main cause."
       },
       "key_takeaways": [
-        "Pulse oximetry misses carbon monoxide.",
-        "Oxygen starts before the co-oximeter result."
+        "Heat stroke (confusion with core temperature around 40\u00b0C or more) is a medical emergency needing immediate active cooling and emergency transfer, not oral fluids or a return to work.",
+        "Heat exhaustion: normal mental state; heat stroke: CNS dysfunction."
       ],
-      "subtopic": "Carbon monoxide poisoning is treated with high-flow oxygen. The pulse oximeter can read near normal.",
+      "subtopic": "Heat exhaustion: normal mental state; heat stroke: CNS dysfunction.",
       "clinical_vignette": true,
-      "id": "c53c688e-5ee2-5d8d-bea1-72c9e2fec6ac",
-      "zyntra_id": "ZQ-0799",
+      "id": "816cc96e-fb3e-54c6-9e29-9ce7563ecef4",
+      "zyntra_id": "ZQ-0937",
       "phase": "PH-09",
-      "phase_item_id": "PH-O-16",
+      "phase_item_id": "PH-O-21",
       "lo_id": "65149ffc-1a60-5f6c-8cf9-8176dd9e95dc",
-      "lo_code": "ENVIRONMENTAL_EMERGENCY"
+      "lo_code": "ENVIRONMENTAL_EMERGENCY",
+      "lo_key": "ENVIRONMENTAL_EMERGENCY",
+      "lo_title": "Heat stroke (confusion with core temperature around 40\u00b0C or more) is a medical emergency needing immediate active cooling and emergency transfer, not oral fluids or a return to work.",
+      "lo_role": "edge",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: diagnosis; setting: general practice",
+      "blueprint_eligible": true,
+      "status": "draft"
+    },
+    {
+      "question_text": "A 70-year-old woman is found confused in her unairconditioned flat during a heatwave. Her temperature is 41\u00b0C. A nurse plans to give paracetamol and recheck the temperature in an hour. What is the most appropriate response?",
+      "options": [
+        "Give paracetamol and recheck in an hour",
+        "Start active cooling immediately (evaporative cooling, ice packs), because antipyretics do not work in heat stroke",
+        "Give ibuprofen instead",
+        "Cover her with blankets to prevent shivering",
+        "Await blood cultures before acting"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nB. Start active cooling immediately (evaporative cooling, ice packs), because antipyretics do not work in heat stroke\n\n---\n\n1. CLINICAL SITUATION\nClassic heat stroke in an older woman.\n\n2. THE RULE\nHeat stroke (confusion with core temperature around 40\u00b0C or more) is a medical emergency needing immediate active cooling and emergency transfer, not oral fluids or a return to work.\n\n3. WHY B IS CORRECT\nClassic (non-exertional) heat stroke in older people during heatwaves is caused by failed heat loss, not a raised hypothalamic set point, so antipyretics do not lower the temperature. Rapid active cooling, such as evaporative cooling with ice packs, is the treatment, alongside supportive care.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Give paracetamol and recheck in an hour: Paracetamol does not reduce heat stroke temperature, and delay is harmful.\nC. Give ibuprofen instead: NSAIDs are also ineffective and may worsen kidney injury.\nD. Cover her with blankets to prevent shivering: Blankets would increase temperature.\nE. Await blood cultures before acting: Cooling should not wait for cultures.\n\n5. KEY TAKEAWAY\nAntipyretics do not treat heat stroke; cool actively.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Classic heat stroke in an older woman.",
+      "best_treatment": "Start active cooling immediately (evaporative cooling, ice packs), because antipyretics do not work in heat stroke",
+      "incorrect_answer_explanations": {
+        "A": "Paracetamol does not reduce heat stroke temperature, and delay is harmful.",
+        "C": "NSAIDs are also ineffective and may worsen kidney injury.",
+        "D": "Blankets would increase temperature.",
+        "E": "Cooling should not wait for cultures."
+      },
+      "key_takeaways": [
+        "Heat stroke (confusion with core temperature around 40\u00b0C or more) is a medical emergency needing immediate active cooling and emergency transfer, not oral fluids or a return to work.",
+        "Antipyretics do not treat heat stroke; cool actively."
+      ],
+      "subtopic": "Antipyretics do not treat heat stroke; cool actively.",
+      "clinical_vignette": true,
+      "id": "cabdaaa3-71d7-56c1-9e58-bf3914351538",
+      "zyntra_id": "ZQ-0938",
+      "phase": "PH-09",
+      "phase_item_id": "PH-O-22",
+      "lo_id": "65149ffc-1a60-5f6c-8cf9-8176dd9e95dc",
+      "lo_code": "ENVIRONMENTAL_EMERGENCY",
+      "lo_key": "ENVIRONMENTAL_EMERGENCY",
+      "lo_title": "Heat stroke (confusion with core temperature around 40\u00b0C or more) is a medical emergency needing immediate active cooling and emergency transfer, not oral fluids or a return to work.",
+      "lo_role": "variant",
+      "shared_lo": true,
+      "irt_b": 0.0,
+      "difficulty_tier": "medium",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: emergency department",
+      "blueprint_eligible": true,
+      "status": "draft"
     }
   ]
 }

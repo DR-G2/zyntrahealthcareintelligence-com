@@ -1,19 +1,19 @@
 {
   "bank": "population_health",
-  "items": 405,
-  "los": 101,
+  "items": 414,
+  "los": 102,
   "status": "draft",
   "reviewed_by": "Dr Heisenberg",
   "phases": [
-    {"phase": "PH-01", "name": "Screening programs", "items": 32, "first": "ZQ-0401", "last": "ZQ-0591", "file": "population_health_PH-01_screening.json"},
-    {"phase": "PH-02", "name": "Immunisation and notifiable disease", "items": 65, "first": "ZQ-0429", "last": "ZQ-0628", "file": "population_health_PH-02_immunisation.json"},
-    {"phase": "PH-03", "name": "Aboriginal and Torres Strait Islander health", "items": 52, "first": "ZQ-0457", "last": "ZQ-0655", "file": "population_health_PH-03_first_nations.json"},
-    {"phase": "PH-04", "name": "Epidemiology and statistics", "items": 40, "first": "ZQ-0482", "last": "ZQ-0673", "file": "population_health_PH-04_epidemiology.json"},
-    {"phase": "PH-05", "name": "Consent, capacity, and confidentiality", "items": 56, "first": "ZQ-0504", "last": "ZQ-0707", "file": "population_health_PH-05_consent.json"},
-    {"phase": "PH-06", "name": "Medicolegal reporting", "items": 44, "first": "ZQ-0526", "last": "ZQ-0733", "file": "population_health_PH-06_medicolegal.json"},
-    {"phase": "PH-07", "name": "Professionalism and impairment", "items": 44, "first": "ZQ-0544", "last": "ZQ-0762", "file": "population_health_PH-07_professionalism.json"},
-    {"phase": "PH-08", "name": "Health systems, rural, PBS, and Medicare", "items": 44, "first": "ZQ-0559", "last": "ZQ-0791", "file": "population_health_PH-08_systems.json"},
-    {"phase": "PH-09", "name": "Occupational and environmental", "items": 16, "first": "ZQ-0574", "last": "ZQ-0799", "file": "population_health_PH-09_occupational.json"},
-    {"phase": "PH-10", "name": "Open disclosure and research ethics", "items": 12, "first": "ZQ-0582", "last": "ZQ-0805", "file": "population_health_PH-10_disclosure.json"}
+    {"phase": "PH-01", "name": "Screening programs", "items": 32, "first": "ZQ-0401", "last": "ZQ-0821", "file": "population_health_PH-01_screening.json"},
+    {"phase": "PH-02", "name": "Immunisation and notifiable disease", "items": 66, "first": "ZQ-0429", "last": "ZQ-0838", "file": "population_health_PH-02_immunisation.json"},
+    {"phase": "PH-03", "name": "Aboriginal and Torres Strait Islander health", "items": 62, "first": "ZQ-0457", "last": "ZQ-0855", "file": "population_health_PH-03_first_nations.json"},
+    {"phase": "PH-04", "name": "Epidemiology and statistics", "items": 41, "first": "ZQ-0482", "last": "ZQ-0872", "file": "population_health_PH-04_epidemiology.json"},
+    {"phase": "PH-05", "name": "Consent, capacity, and confidentiality", "items": 47, "first": "ZQ-0504", "last": "ZQ-0893", "file": "population_health_PH-05_consent.json"},
+    {"phase": "PH-06", "name": "Medicolegal reporting", "items": 44, "first": "ZQ-0526", "last": "ZQ-0907", "file": "population_health_PH-06_medicolegal.json"},
+    {"phase": "PH-07", "name": "Professionalism and impairment", "items": 52, "first": "ZQ-0544", "last": "ZQ-0920", "file": "population_health_PH-07_professionalism.json"},
+    {"phase": "PH-08", "name": "Health systems, rural, PBS, and Medicare", "items": 38, "first": "ZQ-0559", "last": "ZQ-0932", "file": "population_health_PH-08_systems.json"},
+    {"phase": "PH-09", "name": "Occupational and environmental", "items": 16, "first": "ZQ-0574", "last": "ZQ-0938", "file": "population_health_PH-09_occupational.json"},
+    {"phase": "PH-10", "name": "Open disclosure and research ethics", "items": 16, "first": "ZQ-0582", "last": "ZQ-0946", "file": "population_health_PH-10_disclosure.json"}
   ]
 }
