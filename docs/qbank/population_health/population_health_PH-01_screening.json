@@ -1,7 +1,7 @@
 {
   "phase": "PH-01",
   "phase_name": "Screening programs",
-  "count": 30,
+  "count": 32,
   "reviewed_by": "Dr Heisenberg",
   "status": "draft",
   "items": [
@@ -1292,6 +1292,92 @@
       "irt_b": 0.1,
       "difficulty_tier": "medium",
       "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
+      "blueprint_eligible": true,
+      "status": "draft"
+    },
+    {
+      "question_text": "A 52-year-old woman has had spontaneous blood-stained discharge from a single duct of her right nipple for three weeks. Her BreastScreen mammogram 7 months ago was normal and she has a screening appointment booked for next year. She asks whether she can mention it at that visit. What is the most appropriate next step?",
+      "options": [
+        "Send a nipple discharge smear for cytology and review in 6 months",
+        "Bring her BreastScreen appointment forward and raise the discharge there",
+        "Reassure her that a normal mammogram 7 months ago excludes cancer",
+        "Arrange diagnostic breast assessment now, with clinical examination and diagnostic imaging, not a screening appointment",
+        "Repeat the history at her next screening visit if it persists"
+      ],
+      "correct_answer": "D",
+      "category": "Population Health & Ethics",
+      "difficulty": "difficult",
+      "explanation": "CORRECT ANSWER\n\nD. Arrange diagnostic breast assessment now, with clinical examination and diagnostic imaging, not a screening appointment\n\n---\n\n1. CLINICAL SITUATION\nA woman with a new red-flag breast symptom shortly after a normal screening mammogram.\n\n2. THE RULE\nA breast symptom or high familial risk needs diagnostic or specialist assessment, not a routine BreastScreen mammogram.\n\n3. WHY D IS CORRECT\nSpontaneous, single-duct, blood-stained nipple discharge is a breast symptom that needs diagnostic assessment (clinical examination, diagnostic mammography and ultrasound, then specialist review as indicated). BreastScreen is for women without symptoms; a recent normal screen does not exclude an interval cancer or intraductal lesion.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Send a nipple discharge smear for cytology and review in 6 months: Discharge cytology has low sensitivity and does not replace imaging and examination.\nB. Bring her BreastScreen appointment forward and raise the discharge there: BreastScreen services are for asymptomatic women; symptoms go through diagnostic pathways.\nC. Reassure her that a normal mammogram 7 months ago excludes cancer: A normal screen 7 months earlier does not exclude an interval cancer or papilloma.\nE. Repeat the history at her next screening visit if it persists: Waiting for the next screen delays assessment of a red-flag symptom.\n\n5. KEY TAKEAWAY\nBreast symptoms go to diagnostic assessment even after a recent normal screen.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "A woman with a new red-flag breast symptom shortly after a normal screening mammogram.",
+      "best_treatment": "Arrange diagnostic breast assessment now, with clinical examination and diagnostic imaging, not a screening appointment",
+      "incorrect_answer_explanations": {
+        "A": "Discharge cytology has low sensitivity and does not replace imaging and examination.",
+        "B": "BreastScreen services are for asymptomatic women; symptoms go through diagnostic pathways.",
+        "C": "A normal screen 7 months earlier does not exclude an interval cancer or papilloma.",
+        "E": "Waiting for the next screen delays assessment of a red-flag symptom."
+      },
+      "key_takeaways": [
+        "A breast symptom or high familial risk needs diagnostic or specialist assessment, not a routine BreastScreen mammogram.",
+        "Breast symptoms go to diagnostic assessment even after a recent normal screen."
+      ],
+      "subtopic": "Breast symptoms go to diagnostic assessment even after a recent normal screen.",
+      "clinical_vignette": true,
+      "id": "23e57497-9505-548d-9841-9fe41d6c9fbe",
+      "zyntra_id": "ZQ-0820",
+      "phase": "PH-01",
+      "phase_item_id": "PH-S-33",
+      "lo_id": "4678d1c1-8c32-5b9b-bb13-24d626d3060a",
+      "lo_code": "BREAST_NOT_ROUTINE_SCREEN",
+      "lo_key": "BREAST_NOT_ROUTINE_SCREEN",
+      "lo_title": "A breast symptom or high familial risk needs diagnostic or specialist assessment, not a routine BreastScreen mammogram.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": 0.9,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice",
+      "blueprint_eligible": true,
+      "status": "draft"
+    },
+    {
+      "question_text": "A 44-year-old woman's clinician-collected Cervical Screening Test shows oncogenic HPV (not 16/18). Reflex liquid-based cytology reports a high-grade squamous intraepithelial lesion (HSIL). A colleague says that types other than 16/18 are simply retested in 12 months. What is the most appropriate management?",
+      "options": [
+        "Repeat the HPV test in 6 weeks",
+        "Refer for colposcopy, ideally within 8 weeks",
+        "Return her to 5-yearly routine screening",
+        "Refer to a gynaecological oncologist within 2 weeks for suspected invasive cancer",
+        "Repeat the HPV test in 12 months"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "difficult",
+      "explanation": "CORRECT ANSWER\n\nB. Refer for colposcopy, ideally within 8 weeks\n\n---\n\n1. CLINICAL SITUATION\nOncogenic HPV (not 16/18) with a high-grade cytology result.\n\n2. THE RULE\nHPV 16/18 is referred for colposcopy regardless of cytology, other oncogenic HPV is retested in 12 months, and abnormal bleeding is investigated as a symptom, not screened.\n\n3. WHY B IS CORRECT\nUnder the National Cervical Screening Program guidelines, HPV (not 16/18) with negative, pLSIL or LSIL cytology is retested in 12 months, but when cytology predicts pHSIL/HSIL or any glandular abnormality the person is referred for colposcopy at the earliest opportunity, ideally within 8 weeks. The cytology result changes the pathway.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Repeat the HPV test in 6 weeks: A 6-week repeat is for an unsatisfactory cytology sample, not HSIL.\nC. Return her to 5-yearly routine screening: An HSIL prediction is never returned to routine screening.\nD. Refer to a gynaecological oncologist within 2 weeks for suspected invasive cancer: Urgent gynae-oncology referral within 2 weeks is for cytology suggesting invasive cancer.\nE. Repeat the HPV test in 12 months: The 12-month retest applies only when cytology is negative, pLSIL or LSIL.\n\n5. KEY TAKEAWAY\nHPV (not 16/18) plus HSIL cytology: colposcopy within about 8 weeks, not a 12-month retest.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Oncogenic HPV (not 16/18) with a high-grade cytology result.",
+      "best_treatment": "Refer for colposcopy, ideally within 8 weeks",
+      "incorrect_answer_explanations": {
+        "A": "A 6-week repeat is for an unsatisfactory cytology sample, not HSIL.",
+        "C": "An HSIL prediction is never returned to routine screening.",
+        "D": "Urgent gynae-oncology referral within 2 weeks is for cytology suggesting invasive cancer.",
+        "E": "The 12-month retest applies only when cytology is negative, pLSIL or LSIL."
+      },
+      "key_takeaways": [
+        "HPV 16/18 is referred for colposcopy regardless of cytology, other oncogenic HPV is retested in 12 months, and abnormal bleeding is investigated as a symptom, not screened.",
+        "HPV (not 16/18) plus HSIL cytology: colposcopy within about 8 weeks, not a 12-month retest."
+      ],
+      "subtopic": "HPV (not 16/18) plus HSIL cytology: colposcopy within about 8 weeks, not a 12-month retest.",
+      "clinical_vignette": true,
+      "id": "83d2069a-c489-541c-b7c8-9f4964261303",
+      "zyntra_id": "ZQ-0821",
+      "phase": "PH-01",
+      "phase_item_id": "PH-S-34",
+      "lo_id": "b57ffc42-352c-5237-8eaa-85f5c609c438",
+      "lo_code": "CERVICAL_ABNORMAL_OR_SYMPTOM",
+      "lo_key": "CERVICAL_ABNORMAL_OR_SYMPTOM",
+      "lo_title": "HPV 16/18 is referred for colposcopy regardless of cytology, other oncogenic HPV is retested in 12 months, and abnormal bleeding is investigated as a symptom, not screened.",
+      "lo_role": "trap",
+      "shared_lo": true,
+      "irt_b": 0.9,
+      "difficulty_tier": "hard",
+      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: general practice",
       "blueprint_eligible": true,
       "status": "draft"
     }

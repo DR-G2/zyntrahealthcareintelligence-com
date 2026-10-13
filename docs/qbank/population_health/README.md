@@ -1,18 +1,18 @@
 # Population Health question bank
 
-329 items, 102 LOs, mean 3.23. Some LOs span two phases, so per-phase LO counts sum to more than 102 and a per-phase minimum can be below 3; every LO has at least 3 items bank-wide. Draft, pending review.
+414 items, 102 LOs, mean 4.06. Some LOs span two phases, so per-phase LO counts sum to more than 102 and a per-phase minimum can be below 3; every LO has at least 3 items bank-wide. Draft, pending review.
 
 | Phase | Items | LOs | Mean | Min |
 |---|---|---|---|---|
-| PH-01 | 30 | 8 | 3.75 | 3 |
-| PH-02 | 53 | 16 | 3.31 | 3 |
-| PH-03 | 48 | 16 | 3.0 | 2 |
-| PH-04 | 31 | 11 | 2.82 | 1 |
-| PH-05 | 37 | 14 | 2.64 | 1 |
-| PH-06 | 34 | 12 | 2.83 | 1 |
-| PH-07 | 42 | 13 | 3.23 | 3 |
-| PH-08 | 29 | 11 | 2.64 | 1 |
-| PH-09 | 13 | 4 | 3.25 | 3 |
-| PH-10 | 12 | 4 | 3.0 | 3 |
+| PH-01 | 32 | 8 | 4.0 | 3 |
+| PH-02 | 66 | 16 | 4.12 | 4 |
+| PH-03 | 62 | 16 | 3.88 | 3 |
+| PH-04 | 41 | 11 | 3.73 | 1 |
+| PH-05 | 47 | 14 | 3.36 | 1 |
+| PH-06 | 44 | 12 | 3.67 | 1 |
+| PH-07 | 52 | 13 | 4.0 | 4 |
+| PH-08 | 38 | 11 | 3.45 | 1 |
+| PH-09 | 16 | 4 | 4.0 | 4 |
+| PH-10 | 16 | 4 | 4.0 | 4 |
 
 Status: draft. Reviewed by Dr Heisenberg. Not activated.
