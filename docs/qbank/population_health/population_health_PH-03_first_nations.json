@@ -1,7 +1,7 @@
 {
   "phase": "PH-03",
   "phase_name": "Aboriginal and Torres Strait Islander health",
-  "count": 58,
+  "count": 48,
   "reviewed_by": "Dr Heisenberg",
   "status": "draft",
   "items": [
@@ -298,7 +298,7 @@
       "lo_code": "STRONGYLOIDES_BEFORE_STEROIDS",
       "lo_key": "STRONGYLOIDES_BEFORE_STEROIDS",
       "lo_title": "Before corticosteroids or immunosuppression in a person from a Strongyloides-endemic setting, check serology or give pre-emptive ivermectin.",
-      "lo_role": "edge",
+      "lo_role": "core",
       "shared_lo": true,
       "irt_b": 0.95,
       "difficulty_tier": "hard",
@@ -341,7 +341,7 @@
       "lo_code": "MELIOIDOSIS_ANTIBIOTICS",
       "lo_key": "MELIOIDOSIS_ANTIBIOTICS",
       "lo_title": "Suspected melioidosis in tropical northern Australia is treated with IV ceftazidime or meropenem, not standard community pneumonia antibiotics.",
-      "lo_role": "edge",
+      "lo_role": "core",
       "shared_lo": true,
       "irt_b": 0.95,
       "difficulty_tier": "hard",
@@ -436,49 +436,6 @@
       "status": "draft"
     },
     {
-      "question_text": "A 6-year-old in a remote community has chronic discharge from one ear for months. A colleague says to watch it because it is common. What is the most appropriate action?",
-      "options": [
-        "Tell the school the problem is behavioural",
-        "No action. Discharge is expected",
-        "Treat the ear disease and arrange a hearing assessment",
-        "Oral amoxicillin for 3 days is a complete cure",
-        "Grommets tomorrow without treating the discharge"
-      ],
-      "correct_answer": "C",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nC. Treat the ear disease and arrange a hearing assessment\n\n---\n\n1. CLINICAL SITUATION\nSix weeks of ear discharge and a perforation needs treatment and a hearing check. It is not a normal finding to ignore.\n\n2. THE RULE\nChronic suppurative otitis media in a remote child is actively treated with ear cleaning and topical antibiotics and the hearing is formally assessed.\n\n3. WHY C IS CORRECT\nChronic suppurative otitis media is common and harmful. Six weeks of discharge with a perforation needs ear toilet, topical antibiotics, and a hearing assessment. It is not normal, and it is not a behaviour problem.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Tell the school the problem is behavioural: The ear explains the classroom problem.\nB. No action. Discharge is expected: Expected does not mean acceptable.\nD. Oral amoxicillin for 3 days is a complete cure: CSOM needs topical therapy and ear care, not a short oral course.\nE. Grommets tomorrow without treating the discharge: Operating on an untreated discharging ear is the wrong order.\n\n5. KEY TAKEAWAY\nChronic suppurative otitis media is treated, not watched.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "Six weeks of ear discharge and a perforation needs treatment and a hearing check. It is not a normal finding to ignore.",
-      "best_treatment": "Treat the ear disease and arrange a hearing assessment",
-      "incorrect_answer_explanations": {
-        "A": "The ear explains the classroom problem.",
-        "B": "Expected does not mean acceptable.",
-        "D": "CSOM needs topical therapy and ear care, not a short oral course.",
-        "E": "Operating on an untreated discharging ear is the wrong order."
-      },
-      "key_takeaways": [
-        "Chronic suppurative otitis media is treated, not watched.",
-        "Hearing loss affects schooling."
-      ],
-      "subtopic": "Chronic suppurative otitis media in a remote child is treated and the hearing is assessed. It is not watched.",
-      "clinical_vignette": true,
-      "id": "1b5d0029-059c-57f7-8d31-6a6aed780fc1",
-      "zyntra_id": "ZQ-0467",
-      "phase": "PH-03",
-      "phase_item_id": "PH-A-11",
-      "lo_id": "9d854b98-6146-5564-abfd-2f5c869ee97e",
-      "lo_code": "CSOM",
-      "lo_key": "CSOM",
-      "lo_title": "Chronic suppurative otitis media in a remote child is actively treated with ear cleaning and topical antibiotics and the hearing is formally assessed.",
-      "lo_role": "core",
-      "shared_lo": true,
-      "irt_b": -0.1,
-      "difficulty_tier": "medium",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: remote community clinic",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
       "question_text": "A child in a remote household has scabies and impetigo. The clinic has one tube of permethrin and the nurse plans to treat only the index child. What is the most appropriate action?",
       "options": [
         "Oral ivermectin for the 4-year-old is always first-line",
@@ -560,49 +517,6 @@
       "shared_lo": true,
       "irt_b": -1.0,
       "difficulty_tier": "easy",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: data gathering; setting: general practice / community (not specified in stem)",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
-      "question_text": "A 38-year-old Aboriginal man has no symptoms. A standard cardiovascular risk calculator puts him at low risk. What is the most appropriate action?",
-      "options": [
-        "Only check lipids if he develops chest pain",
-        "Assess and manage cardiovascular risk now, and do not rely on an unadjusted calculator",
-        "Risk assessment is not relevant before a myocardial infarct",
-        "Wait until 45. The calculator is complete",
-        "Aboriginal status lowers cardiovascular risk"
-      ],
-      "correct_answer": "B",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. Assess and manage cardiovascular risk now, and do not rely on an unadjusted calculator\n\n---\n\n1. CLINICAL SITUATION\nDo not wait until 45 and do not trust an unadjusted low-risk result. Assess and manage now.\n\n2. THE RULE\nAboriginal and Torres Strait Islander adults have cardiovascular risk assessed from 30 years, and standard calculators may underestimate their risk.\n\n3. WHY B IS CORRECT\nCardiovascular disease occurs earlier. Assessment and management start earlier than the general-population age, and an unadjusted calculator can underestimate risk. Waiting for chest pain is too late.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Only check lipids if he develops chest pain: Symptoms are not the screening trigger.\nC. Risk assessment is not relevant before a myocardial infarct: The point is to act before the infarct.\nD. Wait until 45. The calculator is complete: The age and the unadjusted tool are both wrong here.\nE. Aboriginal status lowers cardiovascular risk: It raises it.\n\n5. KEY TAKEAWAY\nCardiovascular risk is assessed earlier.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "Do not wait until 45 and do not trust an unadjusted low-risk result. Assess and manage now.",
-      "best_treatment": "Assess and manage cardiovascular risk now, and do not rely on an unadjusted calculator",
-      "incorrect_answer_explanations": {
-        "A": "Symptoms are not the screening trigger.",
-        "C": "The point is to act before the infarct.",
-        "D": "The age and the unadjusted tool are both wrong here.",
-        "E": "It raises it."
-      },
-      "key_takeaways": [
-        "Cardiovascular risk is assessed earlier.",
-        "Standard calculators can underestimate risk."
-      ],
-      "subtopic": "Cardiovascular risk assessment starts earlier. Standard calculators can underestimate risk.",
-      "clinical_vignette": true,
-      "id": "440bb231-bb49-5445-85ff-70abf1f013fe",
-      "zyntra_id": "ZQ-0470",
-      "phase": "PH-03",
-      "phase_item_id": "PH-A-14",
-      "lo_id": "67596407-e60f-58be-ab4d-1988dde0a897",
-      "lo_code": "EARLY_CVD_RISK",
-      "lo_key": "EARLY_CVD_RISK",
-      "lo_title": "Aboriginal and Torres Strait Islander adults have cardiovascular risk assessed from 30 years, and standard calculators may underestimate their risk.",
-      "lo_role": "core",
-      "shared_lo": true,
-      "irt_b": 0.1,
-      "difficulty_tier": "medium",
       "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: data gathering; setting: general practice / community (not specified in stem)",
       "blueprint_eligible": true,
       "status": "draft"
@@ -866,49 +780,6 @@
       "status": "draft"
     },
     {
-      "question_text": "A GP writes CTG on a script for an Aboriginal woman who is not registered for Closing the Gap, expecting the pharmacy to charge the lower co-payment. What is the most appropriate action?",
-      "options": [
-        "She must pay full price forever if she was not registered as a child",
-        "CTG annotation is only valid in the Northern Territory",
-        "The annotation alone registers her",
-        "Pharmacists can register patients",
-        "Register her on the CTG program first, then write CTG prescriptions"
-      ],
-      "correct_answer": "E",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nE. Register her on the CTG program first, then write CTG prescriptions\n\n---\n\n1. CLINICAL SITUATION\nRegister her first. Writing CTG on the script does not put her on the program.\n\n2. THE RULE\nClosing the Gap PBS co-payment relief needs a one-off registration by a PBS prescriber or Aboriginal and Torres Strait Islander Health Practitioner; writing CTG on a script (optional since July 2021) or asking a pharmacist does not create eligibility.\n\n3. WHY E IS CORRECT\nRegistration in HPOS comes first. A CTG annotation on a script for an unregistered patient does not create eligibility. Pharmacists do not register patients, and there is no childhood-only window.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. She must pay full price forever if she was not registered as a child: Adults can be registered.\nB. CTG annotation is only valid in the Northern Territory: The program is national.\nC. The annotation alone registers her: The register is a separate step.\nD. Pharmacists can register patients: A PBS prescriber or eligible health practitioner registers.\n\n5. KEY TAKEAWAY\nRegistration precedes the annotated prescription.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "Register her first. Writing CTG on the script does not put her on the program.",
-      "best_treatment": "Register her on the CTG program first, then write CTG prescriptions",
-      "incorrect_answer_explanations": {
-        "A": "Adults can be registered.",
-        "B": "The program is national.",
-        "C": "The register is a separate step.",
-        "D": "A PBS prescriber or eligible health practitioner registers."
-      },
-      "key_takeaways": [
-        "Registration precedes the annotated prescription.",
-        "The program is national and not limited to childhood."
-      ],
-      "subtopic": "Register for CTG before annotating scripts. A handwritten CTG on an unregistered patient does not create eligibility.",
-      "clinical_vignette": true,
-      "id": "8c184c58-aba8-5cd8-8f21-16429bd73237",
-      "zyntra_id": "ZQ-0477",
-      "phase": "PH-03",
-      "phase_item_id": "PH-A-21",
-      "lo_id": "74f1cfd6-7217-59a7-9721-60f3fa0d504d",
-      "lo_code": "CTG_PBS",
-      "lo_key": "CTG_PBS",
-      "lo_title": "Closing the Gap PBS co-payment relief needs a one-off registration by a PBS prescriber or Aboriginal and Torres Strait Islander Health Practitioner; writing CTG on a script (optional since July 2021) or asking a pharmacist does not create eligibility.",
-      "lo_role": "variant",
-      "shared_lo": true,
-      "irt_b": 0.1,
-      "difficulty_tier": "medium",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: community pharmacy",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
       "question_text": "A child with suspected acute rheumatic fever has a normal ECG. A colleague says carditis is excluded and no echo is needed. What is the most appropriate action?",
       "options": [
         "Arrange echocardiography. Subclinical carditis changes the diagnosis and the prophylaxis",
@@ -1077,92 +948,6 @@
       "irt_b": 0.1,
       "difficulty_tier": "medium",
       "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: emergency department",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
-      "question_text": "An Aboriginal man is an inpatient for pneumonia. A junior doctor wants to claim a 715 before discharge. A 715 is not claimed for a hospital inpatient, and the interval has not elapsed. What is the most appropriate next step?",
-      "options": [
-        "Offer a 715 after discharge in the practice, if the interval allows",
-        "A 715 can be billed for any inpatient",
-        "Write a 715 without seeing him",
-        "Skip the 715 because he had one 4 months ago and is still an inpatient",
-        "Claim a 715 on the ward before discharge"
-      ],
-      "correct_answer": "A",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. Offer a 715 after discharge in the practice, if the interval allows\n\n---\n\n1. CLINICAL SITUATION\nAn Aboriginal man is an inpatient for pneumonia. A junior doctor wants to claim a 715 before discharge. A 715 is not claimed for a hospital inpatient, and the interval has not elapsed.\n\n2. THE RULE\nThe MBS 715 health assessment is offered on self-identification as Aboriginal or Torres Strait Islander, at least 9 months apart, to a non-admitted patient, never to a hospital inpatient.\n\n3. WHY A IS CORRECT\nA 715 is a practice assessment, not an inpatient item, and has an interval.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. A 715 can be billed for any inpatient: Inpatients are excluded from 715.\nC. Write a 715 without seeing him: A health assessment requires seeing the patient.\nD. Skip the 715 because he had one 4 months ago and is still an inpatient: He should not be dropped; the 715 is offered after discharge once the 9-month interval allows.\nE. Claim a 715 on the ward before discharge: MBS 715 cannot be claimed for an admitted patient.\n\n5. KEY TAKEAWAY\nThe MBS 715 health assessment is offered on self-identification as Aboriginal or Torres Strait Islander, at least 9 months apart, to a non-admitted patient, never to a hospital inpatient.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "An Aboriginal man is an inpatient for pneumonia. A junior doctor wants to claim a 715 before discharge. A 715 is not claimed for a hospital inpatient, and the interval has not elapsed.",
-      "best_treatment": "Offer a 715 after discharge in the practice, if the interval allows",
-      "incorrect_answer_explanations": {
-        "B": "Inpatients are excluded from 715.",
-        "C": "A health assessment requires seeing the patient.",
-        "D": "He should not be dropped; the 715 is offered after discharge once the 9-month interval allows.",
-        "E": "MBS 715 cannot be claimed for an admitted patient."
-      },
-      "key_takeaways": [
-        "The MBS 715 health assessment is offered on self-identification as Aboriginal or Torres Strait Islander, at least 9 months apart, to a non-admitted patient, never to a hospital inpatient.",
-        "A 715 is a practice assessment, not an inpatient item, and has an interval."
-      ],
-      "subtopic": "A 715 health assessment is offered on self-identification, not on appearance, and not more often than every 9 months.",
-      "clinical_vignette": true,
-      "id": "035b7756-f4b9-5833-9dad-ed591bb28633",
-      "zyntra_id": "ZQ-0629",
-      "phase": "PH-03",
-      "phase_item_id": "PH-A-26",
-      "lo_id": "894c81b1-d7f2-53fe-85c1-23ae018b8114",
-      "lo_code": "HEALTH_CHECK_715",
-      "lo_key": "HEALTH_CHECK_715",
-      "lo_title": "The MBS 715 health assessment is offered on self-identification as Aboriginal or Torres Strait Islander, at least 9 months apart, to a non-admitted patient, never to a hospital inpatient.",
-      "lo_role": "variant",
-      "shared_lo": true,
-      "irt_b": 0.1,
-      "difficulty_tier": "medium",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
-      "question_text": "An Aboriginal woman is not registered for Closing the Gap. The GP writes CTG on the script expecting the lower co-payment. What is the most appropriate next step?",
-      "options": [
-        "A letter to the PBS is enough",
-        "Register her for Closing the Gap first, then annotate",
-        "She can self-register online",
-        "CTG applies automatically if she identifies",
-        "Write CTG on the script and let the pharmacy sort it"
-      ],
-      "correct_answer": "B",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. Register her for Closing the Gap first, then annotate\n\n---\n\n1. CLINICAL SITUATION\nAn Aboriginal woman is not registered for Closing the Gap. The GP writes CTG on the script expecting the lower co-payment.\n\n2. THE RULE\nClosing the Gap PBS co-payment relief needs a one-off registration by a PBS prescriber or Aboriginal and Torres Strait Islander Health Practitioner; writing CTG on a script (optional since July 2021) or asking a pharmacist does not create eligibility.\n\n3. WHY B IS CORRECT\nCTG registration precedes annotation. A handwritten CTG on an unregistered patient is not eligibility.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. A letter to the PBS is enough: No letter is involved; registration is a clinical step.\nC. She can self-register online: Registration is done by a PBS prescriber or eligible Aboriginal Health Practitioner, not self-registration.\nD. CTG applies automatically if she identifies: Identification is necessary but registration is still needed.\nE. Write CTG on the script and let the pharmacy sort it: Annotation without registration does nothing.\n\n5. KEY TAKEAWAY\nClosing the Gap PBS co-payment relief needs a one-off registration by a PBS prescriber or Aboriginal and Torres Strait Islander Health Practitioner; writing CTG on a script (optional since July 2021) or asking a pharmacist does not create eligibility.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "An Aboriginal woman is not registered for Closing the Gap. The GP writes CTG on the script expecting the lower co-payment.",
-      "best_treatment": "Register her for Closing the Gap first, then annotate",
-      "incorrect_answer_explanations": {
-        "A": "No letter is involved; registration is a clinical step.",
-        "C": "Registration is done by a PBS prescriber or eligible Aboriginal Health Practitioner, not self-registration.",
-        "D": "Identification is necessary but registration is still needed.",
-        "E": "Annotation without registration does nothing."
-      },
-      "key_takeaways": [
-        "Closing the Gap PBS co-payment relief needs a one-off registration by a PBS prescriber or Aboriginal and Torres Strait Islander Health Practitioner; writing CTG on a script (optional since July 2021) or asking a pharmacist does not create eligibility.",
-        "CTG registration precedes annotation."
-      ],
-      "subtopic": "A 715 health assessment is offered on self-identification, not on appearance, and not more often than every 9 months.",
-      "clinical_vignette": true,
-      "id": "b591da78-f49f-52e3-843e-549a4f82e65b",
-      "zyntra_id": "ZQ-0630",
-      "phase": "PH-03",
-      "phase_item_id": "PH-A-27",
-      "lo_id": "74f1cfd6-7217-59a7-9721-60f3fa0d504d",
-      "lo_code": "CTG_PBS",
-      "lo_key": "CTG_PBS",
-      "lo_title": "Closing the Gap PBS co-payment relief needs a one-off registration by a PBS prescriber or Aboriginal and Torres Strait Islander Health Practitioner; writing CTG on a script (optional since July 2021) or asking a pharmacist does not create eligibility.",
-      "lo_role": "variant",
-      "shared_lo": true,
-      "irt_b": -0.05,
-      "difficulty_tier": "medium",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice",
       "blueprint_eligible": true,
       "status": "draft"
     },
@@ -1339,49 +1124,6 @@
       "status": "draft"
     },
     {
-      "question_text": "A man from a Strongyloides-endemic northern community is about to start prednisolone. Steroids can precipitate hyperinfection. What is the most appropriate next step?",
-      "options": [
-        "Delay steroids for a month with no cover",
-        "Strongyloides is irrelevant in the Top End",
-        "Start prednisolone and check serology if abdominal pain develops",
-        "Eosinophilia must be present before any action",
-        "Screen or treat for Strongyloides before starting steroids"
-      ],
-      "correct_answer": "E",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nE. Screen or treat for Strongyloides before starting steroids\n\n---\n\n1. CLINICAL SITUATION\nA man from a Strongyloides-endemic northern community is about to start prednisolone. Steroids can precipitate hyperinfection.\n\n2. THE RULE\nBefore corticosteroids or immunosuppression in a person from a Strongyloides-endemic setting, check serology or give pre-emptive ivermectin.\n\n3. WHY E IS CORRECT\nBefore steroids in an endemic-community patient, cover Strongyloides. Do not start and test later.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Delay steroids for a month with no cover: Leaving steroids out without a plan harms asthma care; screen or treat, then start.\nB. Strongyloides is irrelevant in the Top End: Strongyloides is endemic in parts of northern Australia.\nC. Start prednisolone and check serology if abdominal pain develops: Hyperinfection can occur before symptoms; act before the steroid.\nD. Eosinophilia must be present before any action: Eosinophilia is often absent; a normal count does not exclude infection.\n\n5. KEY TAKEAWAY\nBefore corticosteroids or immunosuppression in a person from a Strongyloides-endemic setting, check serology or give pre-emptive ivermectin.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "A man from a Strongyloides-endemic northern community is about to start prednisolone. Steroids can precipitate hyperinfection.",
-      "best_treatment": "Screen or treat for Strongyloides before starting steroids",
-      "incorrect_answer_explanations": {
-        "A": "Leaving steroids out without a plan harms asthma care; screen or treat, then start.",
-        "B": "Strongyloides is endemic in parts of northern Australia.",
-        "C": "Hyperinfection can occur before symptoms; act before the steroid.",
-        "D": "Eosinophilia is often absent; a normal count does not exclude infection."
-      },
-      "key_takeaways": [
-        "Before corticosteroids or immunosuppression in a person from a Strongyloides-endemic setting, check serology or give pre-emptive ivermectin.",
-        "Before steroids in an endemic-community patient, cover Strongyloides."
-      ],
-      "subtopic": "A 715 health assessment is offered on self-identification, not on appearance, and not more often than every 9 months.",
-      "clinical_vignette": true,
-      "id": "b631f2f0-ace3-5fff-b6df-93d54d2ce549",
-      "zyntra_id": "ZQ-0635",
-      "phase": "PH-03",
-      "phase_item_id": "PH-A-32",
-      "lo_id": "5509d80d-3dc8-5993-84cf-7d1248de7e6c",
-      "lo_code": "STRONGYLOIDES_BEFORE_STEROIDS",
-      "lo_key": "STRONGYLOIDES_BEFORE_STEROIDS",
-      "lo_title": "Before corticosteroids or immunosuppression in a person from a Strongyloides-endemic setting, check serology or give pre-emptive ivermectin.",
-      "lo_role": "core",
-      "shared_lo": true,
-      "irt_b": -0.05,
-      "difficulty_tier": "medium",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
       "question_text": "A 30-year-old man who grew up in a remote Aboriginal community in northern Australia presents with a moderate asthma exacerbation. The plan is a 5-day course of oral prednisolone. Which of the following is most accurate?",
       "options": [
         "A stool microscopy alone clears him",
@@ -1468,49 +1210,6 @@
       "status": "draft"
     },
     {
-      "question_text": "A man in Darwin in the wet season has severe pneumonia and sepsis and is deteriorating on standard community cover. Melioidosis is the concern. What is the most appropriate next step?",
-      "options": [
-        "Ceftriaxone alone is reliable cover",
-        "Oral ciprofloxacin from the start is enough",
-        "Wait for culture before changing",
-        "Change to ceftazidime or meropenem and discuss melioidosis",
-        "Continue amoxicillin"
-      ],
-      "correct_answer": "D",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nD. Change to ceftazidime or meropenem and discuss melioidosis\n\n---\n\n1. CLINICAL SITUATION\nA man in Darwin in the wet season has severe pneumonia and sepsis and is deteriorating on standard community cover. Melioidosis is the concern.\n\n2. THE RULE\nSuspected melioidosis in tropical northern Australia is treated with IV ceftazidime or meropenem, not standard community pneumonia antibiotics.\n\n3. WHY D IS CORRECT\nWet-season severe pneumonia in the Top End needs melioidosis cover: ceftazidime or meropenem.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Ceftriaxone alone is reliable cover: Ceftriaxone is not reliable melioidosis therapy.\nB. Oral ciprofloxacin from the start is enough: Oral therapy is for eradication after IV treatment, not initial sepsis.\nC. Wait for culture before changing: Waiting for culture delays effective therapy in sepsis.\nE. Continue amoxicillin: Amoxicillin does not cover Burkholderia pseudomallei.\n\n5. KEY TAKEAWAY\nSuspected melioidosis in tropical northern Australia is treated with IV ceftazidime or meropenem, not standard community pneumonia antibiotics.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "A man in Darwin in the wet season has severe pneumonia and sepsis and is deteriorating on standard community cover. Melioidosis is the concern.",
-      "best_treatment": "Change to ceftazidime or meropenem and discuss melioidosis",
-      "incorrect_answer_explanations": {
-        "A": "Ceftriaxone is not reliable melioidosis therapy.",
-        "B": "Oral therapy is for eradication after IV treatment, not initial sepsis.",
-        "C": "Waiting for culture delays effective therapy in sepsis.",
-        "E": "Amoxicillin does not cover Burkholderia pseudomallei."
-      },
-      "key_takeaways": [
-        "Suspected melioidosis in tropical northern Australia is treated with IV ceftazidime or meropenem, not standard community pneumonia antibiotics.",
-        "Wet-season severe pneumonia in the Top End needs melioidosis cover: ceftazidime or meropenem."
-      ],
-      "subtopic": "A 715 health assessment is offered on self-identification, not on appearance, and not more often than every 9 months.",
-      "clinical_vignette": true,
-      "id": "9145eea9-6ac8-529c-8c65-e1c0a8aaedfe",
-      "zyntra_id": "ZQ-0638",
-      "phase": "PH-03",
-      "phase_item_id": "PH-A-35",
-      "lo_id": "85ca6351-a47a-5e48-a67c-7fce6032ac0d",
-      "lo_code": "MELIOIDOSIS_ANTIBIOTICS",
-      "lo_key": "MELIOIDOSIS_ANTIBIOTICS",
-      "lo_title": "Suspected melioidosis in tropical northern Australia is treated with IV ceftazidime or meropenem, not standard community pneumonia antibiotics.",
-      "lo_role": "core",
-      "shared_lo": true,
-      "irt_b": 0.1,
-      "difficulty_tier": "medium",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
       "question_text": "Outdoor work, wet season, sepsis, failed first antibiotics. This picture is melioidosis until proved otherwise. What is the most appropriate next step?",
       "options": [
         "Switch to ceftazidime or meropenem now",
@@ -1591,49 +1290,6 @@
       "lo_role": "variant",
       "shared_lo": true,
       "irt_b": -0.1,
-      "difficulty_tier": "medium",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
-      "question_text": "A pregnant woman has known RHD with moderate mitral stenosis and is booked as low-risk. Pregnancy with RHD needs specialist obstetric and cardiac care. What is the most appropriate next step?",
-      "options": [
-        "Continue routine low-risk antenatal care",
-        "Stop benzathine in pregnancy",
-        "Delivery at the local clinic is fine with moderate mitral stenosis",
-        "Echo is unnecessary",
-        "Refer for specialist obstetric and cardiac care and secure prophylaxis"
-      ],
-      "correct_answer": "E",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nE. Refer for specialist obstetric and cardiac care and secure prophylaxis\n\n---\n\n1. CLINICAL SITUATION\nA pregnant woman has known RHD with moderate mitral stenosis and is booked as low-risk. Pregnancy with RHD needs specialist obstetric and cardiac care.\n\n2. THE RULE\nA pregnant woman with known RHD needs shared specialist obstetric and cardiac care and continued secondary prophylaxis, not routine low-risk care.\n\n3. WHY E IS CORRECT\nPregnant RHD is not low-risk care. Refer and keep prophylaxis current.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Continue routine low-risk antenatal care: Moderate mitral stenosis is high-risk in pregnancy and needs specialist care.\nB. Stop benzathine in pregnancy: Benzathine prophylaxis continues in pregnancy.\nC. Delivery at the local clinic is fine with moderate mitral stenosis: Moderate mitral stenosis needs delivery planning at a facility with cardiac support.\nD. Echo is unnecessary: Echo is needed to assess valve severity in pregnancy.\n\n5. KEY TAKEAWAY\nA pregnant woman with known RHD needs shared specialist obstetric and cardiac care and continued secondary prophylaxis, not routine low-risk care.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "A pregnant woman has known RHD with moderate mitral stenosis and is booked as low-risk. Pregnancy with RHD needs specialist obstetric and cardiac care.",
-      "best_treatment": "Refer for specialist obstetric and cardiac care and secure prophylaxis",
-      "incorrect_answer_explanations": {
-        "A": "Moderate mitral stenosis is high-risk in pregnancy and needs specialist care.",
-        "B": "Benzathine prophylaxis continues in pregnancy.",
-        "C": "Moderate mitral stenosis needs delivery planning at a facility with cardiac support.",
-        "D": "Echo is needed to assess valve severity in pregnancy."
-      },
-      "key_takeaways": [
-        "A pregnant woman with known RHD needs shared specialist obstetric and cardiac care and continued secondary prophylaxis, not routine low-risk care.",
-        "Pregnant RHD is not low-risk care."
-      ],
-      "subtopic": "A 715 health assessment is offered on self-identification, not on appearance, and not more often than every 9 months.",
-      "clinical_vignette": true,
-      "id": "264aaf13-34d3-5549-881e-68b292ee8194",
-      "zyntra_id": "ZQ-0641",
-      "phase": "PH-03",
-      "phase_item_id": "PH-A-38",
-      "lo_id": "31ae0309-7bfb-5722-b992-bb23ef9cd472",
-      "lo_code": "PREGNANT_RHD",
-      "lo_key": "PREGNANT_RHD",
-      "lo_title": "A pregnant woman with known RHD needs shared specialist obstetric and cardiac care and continued secondary prophylaxis, not routine low-risk care.",
-      "lo_role": "variant",
-      "shared_lo": true,
-      "irt_b": 0.0,
       "difficulty_tier": "medium",
       "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
       "blueprint_eligible": true,
@@ -1760,7 +1416,7 @@
       "lo_code": "CSOM",
       "lo_key": "CSOM",
       "lo_title": "Chronic suppurative otitis media in a remote child is actively treated with ear cleaning and topical antibiotics and the hearing is formally assessed.",
-      "lo_role": "variant",
+      "lo_role": "core",
       "shared_lo": true,
       "irt_b": 0.05,
       "difficulty_tier": "medium",
@@ -1851,49 +1507,6 @@
       "irt_b": -0.05,
       "difficulty_tier": "medium",
       "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
-      "question_text": "A remote child has scabies and impetigo. Untreated contacts reinfect him. What is the most appropriate next step?",
-      "options": [
-        "No contact treatment",
-        "Treat the whole household for scabies and treat the impetigo",
-        "Oral antibiotics alone clear scabies",
-        "One tube for the index child is enough",
-        "Scabies and impetigo are separate problems treated weeks apart"
-      ],
-      "correct_answer": "B",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. Treat the whole household for scabies and treat the impetigo\n\n---\n\n1. CLINICAL SITUATION\nA remote child has scabies and impetigo. Untreated contacts reinfect him.\n\n2. THE RULE\nScabies is treated in the whole household at the same time, with impetigo treated alongside, not just the index child.\n\n3. WHY B IS CORRECT\nHousehold scabies treatment plus impetigo treatment. Index-only fails.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. No contact treatment: Contacts must be treated to prevent reinfestation.\nC. Oral antibiotics alone clear scabies: Oral antibiotics do not treat scabies.\nD. One tube for the index child is enough: Treating one child lets the household reinfect him.\nE. Scabies and impetigo are separate problems treated weeks apart: Scabies and impetigo are treated at the same time.\n\n5. KEY TAKEAWAY\nScabies is treated in the whole household at the same time, with impetigo treated alongside, not just the index child.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "A remote child has scabies and impetigo. Untreated contacts reinfect him.",
-      "best_treatment": "Treat the whole household for scabies and treat the impetigo",
-      "incorrect_answer_explanations": {
-        "A": "Contacts must be treated to prevent reinfestation.",
-        "C": "Oral antibiotics do not treat scabies.",
-        "D": "Treating one child lets the household reinfect him.",
-        "E": "Scabies and impetigo are treated at the same time."
-      },
-      "key_takeaways": [
-        "Scabies is treated in the whole household at the same time, with impetigo treated alongside, not just the index child.",
-        "Household scabies treatment plus impetigo treatment."
-      ],
-      "subtopic": "A 715 health assessment is offered on self-identification, not on appearance, and not more often than every 9 months.",
-      "clinical_vignette": true,
-      "id": "1c5eaf15-beb6-5de5-9d4b-dbd5722ac495",
-      "zyntra_id": "ZQ-0647",
-      "phase": "PH-03",
-      "phase_item_id": "PH-A-44",
-      "lo_id": "400cb5fc-8203-5089-9989-9ce497383896",
-      "lo_code": "SCABIES_AND_IMPETIGO",
-      "lo_key": "SCABIES_AND_IMPETIGO",
-      "lo_title": "Scabies is treated in the whole household at the same time, with impetigo treated alongside, not just the index child.",
-      "lo_role": "variant",
-      "shared_lo": true,
-      "irt_b": 0.0,
-      "difficulty_tier": "medium",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: remote community clinic",
       "blueprint_eligible": true,
       "status": "draft"
     },
@@ -2018,7 +1631,7 @@
       "lo_code": "EARLY_CVD_RISK",
       "lo_key": "EARLY_CVD_RISK",
       "lo_title": "Aboriginal and Torres Strait Islander adults have cardiovascular risk assessed from 30 years, and standard calculators may underestimate their risk.",
-      "lo_role": "edge",
+      "lo_role": "core",
       "shared_lo": true,
       "irt_b": -0.1,
       "difficulty_tier": "medium",
@@ -2107,49 +1720,6 @@
       "lo_role": "variant",
       "shared_lo": true,
       "irt_b": -0.05,
-      "difficulty_tier": "medium",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
-      "question_text": "A child in a trachoma-endemic community has active trachoma. SAFE is the strategy, not one child's drops. What is the most appropriate next step?",
-      "options": [
-        "No environmental action is part of control",
-        "Trachoma is not managed in communities",
-        "Antibiotics alone are SAFE",
-        "Use the SAFE strategy: surgery where needed, antibiotics, facial cleanliness, and environment",
-        "One set of drops for the index child is the whole program"
-      ],
-      "correct_answer": "D",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nD. Use the SAFE strategy: surgery where needed, antibiotics, facial cleanliness, and environment\n\n---\n\n1. CLINICAL SITUATION\nA child in a trachoma-endemic community has active trachoma. SAFE is the strategy, not one child's drops.\n\n2. THE RULE\nTrachoma in an endemic community is managed with the SAFE strategy (surgery, antibiotics, facial cleanliness, environmental improvement).\n\n3. WHY D IS CORRECT\nEndemic trachoma is managed with SAFE, not a single prescription.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. No environmental action is part of control: Environmental improvement is part of SAFE.\nB. Trachoma is not managed in communities: Trachoma control is a community program.\nC. Antibiotics alone are SAFE: SAFE has four components, not only antibiotics.\nE. One set of drops for the index child is the whole program: Treating one child misses community transmission.\n\n5. KEY TAKEAWAY\nTrachoma in an endemic community is managed with the SAFE strategy (surgery, antibiotics, facial cleanliness, environmental improvement).\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "A child in a trachoma-endemic community has active trachoma. SAFE is the strategy, not one child's drops.",
-      "best_treatment": "Use the SAFE strategy: surgery where needed, antibiotics, facial cleanliness, and environment",
-      "incorrect_answer_explanations": {
-        "A": "Environmental improvement is part of SAFE.",
-        "B": "Trachoma control is a community program.",
-        "C": "SAFE has four components, not only antibiotics.",
-        "E": "Treating one child misses community transmission."
-      },
-      "key_takeaways": [
-        "Trachoma in an endemic community is managed with the SAFE strategy (surgery, antibiotics, facial cleanliness, environmental improvement).",
-        "Endemic trachoma is managed with SAFE, not a single prescription."
-      ],
-      "subtopic": "A 715 health assessment is offered on self-identification, not on appearance, and not more often than every 9 months.",
-      "clinical_vignette": true,
-      "id": "4c12d5ad-f467-5a09-94f8-3778257cab6e",
-      "zyntra_id": "ZQ-0653",
-      "phase": "PH-03",
-      "phase_item_id": "PH-A-50",
-      "lo_id": "d2d9a241-66ac-5854-b6ad-d3e0d13cb0ce",
-      "lo_code": "TRACHOMA_SAFE",
-      "lo_key": "TRACHOMA_SAFE",
-      "lo_title": "Trachoma in an endemic community is managed with the SAFE strategy (surgery, antibiotics, facial cleanliness, environmental improvement).",
-      "lo_role": "variant",
-      "shared_lo": true,
-      "irt_b": 0.1,
       "difficulty_tier": "medium",
       "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
       "blueprint_eligible": true,

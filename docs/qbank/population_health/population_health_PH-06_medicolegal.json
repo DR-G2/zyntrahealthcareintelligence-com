@@ -1,7 +1,7 @@
 {
   "phase": "PH-06",
   "phase_name": "Medicolegal reporting",
-  "count": 45,
+  "count": 34,
   "reviewed_by": "Dr Heisenberg",
   "status": "draft",
   "items": [
@@ -212,7 +212,7 @@
       "lo_code": "NOTIFIABLE_VS_CORONER",
       "lo_key": "NOTIFIABLE_VS_CORONER",
       "lo_title": "Public health notification of a disease and referral to the coroner are separate duties, and one does not discharge the other.",
-      "lo_role": "edge",
+      "lo_role": "core",
       "shared_lo": true,
       "irt_b": 1.0,
       "difficulty_tier": "hard",
@@ -780,49 +780,6 @@
       "status": "draft"
     },
     {
-      "question_text": "In Canberra, an 84-year-old woman with metastatic breast cancer dies at home. She has not been seen by a doctor or nurse practitioner for 7 months. Her daughter asks the locum called to the house to write cardiac arrest on the death certificate. What is the most appropriate next step?",
-      "options": [
-        "Sign because the daughter asked",
-        "Decline the certificate. Cardiac arrest is a mode, not a cause, and she was not attended recently",
-        "Write cardiac arrest so the funeral can proceed",
-        "Write old age",
-        "Invent ischaemic heart disease"
-      ],
-      "correct_answer": "B",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. Decline the certificate. Cardiac arrest is a mode, not a cause, and she was not attended recently\n\n---\n\n1. CLINICAL SITUATION\nAn ACT death at home, with no doctor or nurse practitioner attendance for 7 months, and a request to certify a mode of death.\n\n2. THE RULE\nA doctor certifies death only when able to state the disease causing it (a mode such as cardiac arrest is not a cause); deaths reportable in that jurisdiction, including no medical attendance in the 6 months before death in NSW and the ACT, go to the coroner.\n\n3. WHY B IS CORRECT\nIn the ACT a coroner must hold an inquest when a person dies without having been attended by a doctor or nurse practitioner in the 6 months before death (Coroners Act 1997 (ACT) s 13(1)(f)), so the death goes to the coroner rather than being certified. Cardiac arrest is a mode of death, not a cause, and is never an acceptable cause on a certificate.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Sign because the daughter asked: Family requests do not determine the cause.\nC. Write cardiac arrest so the funeral can proceed: Cardiac arrest is a mode of death, not a cause.\nD. Write old age: Old age alone is discouraged when a specific cause is known.\nE. Invent ischaemic heart disease: Inventing a cause is falsifying a legal document.\n\n5. KEY TAKEAWAY\nKnow your jurisdiction's reportable-death triggers: NSW and the ACT add no medical attendance in the 6 months before death; cardiac arrest is never a cause.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "An ACT death at home, with no doctor or nurse practitioner attendance for 7 months, and a request to certify a mode of death.",
-      "best_treatment": "Decline the certificate. Cardiac arrest is a mode, not a cause, and she was not attended recently",
-      "incorrect_answer_explanations": {
-        "A": "Family requests do not determine the cause.",
-        "C": "Cardiac arrest is a mode of death, not a cause.",
-        "D": "Old age alone is discouraged when a specific cause is known.",
-        "E": "Inventing a cause is falsifying a legal document."
-      },
-      "key_takeaways": [
-        "A doctor certifies death only when able to state the disease causing it (a mode such as cardiac arrest is not a cause); deaths reportable in that jurisdiction, including no medical attendance in the 6 months before death in NSW and the ACT, go to the coroner.",
-        "Do not invent a cause."
-      ],
-      "subtopic": "A death certificate records the disease that caused death. It is not a place for speculation or a mechanism.",
-      "clinical_vignette": true,
-      "id": "4983c4bc-5aae-57ef-8fad-2a600948076d",
-      "zyntra_id": "ZQ-0708",
-      "phase": "PH-06",
-      "phase_item_id": "PH-M-19",
-      "lo_id": "2c2702ab-a992-5be2-acaa-4d2a8b9d7174",
-      "lo_code": "DEATH_CERTIFICATE",
-      "lo_key": "DEATH_CERTIFICATE",
-      "lo_title": "A doctor certifies death only when able to state the disease causing it (a mode such as cardiac arrest is not a cause); deaths reportable in that jurisdiction, including no medical attendance in the 6 months before death in NSW and the ACT, go to the coroner.",
-      "lo_role": "edge",
-      "shared_lo": true,
-      "irt_b": 0.1,
-      "difficulty_tier": "medium",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
       "question_text": "A locum GP is called to a home death of a 90-year-old woman he has never treated and whose notes he cannot access. The family ask for a death certificate today, saying it was old age. What is the most appropriate next step?",
       "options": [
         "A locum can always certify a home death",
@@ -903,49 +860,6 @@
       "lo_role": "trap",
       "shared_lo": true,
       "irt_b": -0.1,
-      "difficulty_tier": "medium",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
-      "question_text": "A man dies of confirmed invasive meningococcal disease. Public health was notified on arrival. Which of the following is most accurate?",
-      "options": [
-        "One notification cancels the other",
-        "Public-health notification and a coroner referral are separate duties",
-        "Only the coroner is told",
-        "A known organism means no coroner",
-        "Death cancels the public-health duty"
-      ],
-      "correct_answer": "B",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. Public-health notification and a coroner referral are separate duties\n\n---\n\n1. CLINICAL SITUATION\nA man dies of confirmed invasive meningococcal disease. Public health was notified on arrival.\n\n2. THE RULE\nPublic health notification of a disease and referral to the coroner are separate duties, and one does not discharge the other.\n\n3. WHY B IS CORRECT\nDo not assume one notification replaces the other.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. One notification cancels the other: The two duties are independent.\nC. Only the coroner is told: Public health still needs notification.\nD. A known organism means no coroner: A known organism does not decide whether the death is reportable.\nE. Death cancels the public-health duty: Notification duties continue after death, including for contact tracing.\n\n5. KEY TAKEAWAY\nPublic health notification of a disease and referral to the coroner are separate duties, and one does not discharge the other.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "A man dies of confirmed invasive meningococcal disease. Public health was notified on arrival.",
-      "best_treatment": "Public-health notification and a coroner referral are separate duties",
-      "incorrect_answer_explanations": {
-        "A": "The two duties are independent.",
-        "C": "Public health still needs notification.",
-        "D": "A known organism does not decide whether the death is reportable.",
-        "E": "Notification duties continue after death, including for contact tracing."
-      },
-      "key_takeaways": [
-        "Public health notification of a disease and referral to the coroner are separate duties, and one does not discharge the other.",
-        "Do not assume one notification replaces the other."
-      ],
-      "subtopic": "A death certificate records the disease that caused death. It is not a place for speculation or a mechanism.",
-      "clinical_vignette": true,
-      "id": "0d8a3ebb-9a3c-568d-a517-66e3d4139f69",
-      "zyntra_id": "ZQ-0711",
-      "phase": "PH-06",
-      "phase_item_id": "PH-M-22",
-      "lo_id": "da7cc332-1706-5874-8a1c-94851d17fff9",
-      "lo_code": "NOTIFIABLE_VS_CORONER",
-      "lo_key": "NOTIFIABLE_VS_CORONER",
-      "lo_title": "Public health notification of a disease and referral to the coroner are separate duties, and one does not discharge the other.",
-      "lo_role": "core",
-      "shared_lo": true,
-      "irt_b": -0.05,
       "difficulty_tier": "medium",
       "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
       "blueprint_eligible": true,
@@ -1038,49 +952,6 @@
       "status": "draft"
     },
     {
-      "question_text": "A man with a simple strain wants a certificate saying the injury is permanent and the employer was negligent. A workers' certificate states facts and capacity. What is the most appropriate next step?",
-      "options": [
-        "Advocate for the largest payment",
-        "Write that the employer was negligent",
-        "Record the history, findings, and current capacity. Do not assert negligence",
-        "State the injury is permanent on day one",
-        "Omit the examination"
-      ],
-      "correct_answer": "C",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nC. Record the history, findings, and current capacity. Do not assert negligence\n\n---\n\n1. CLINICAL SITUATION\nA man with a simple strain wants a certificate saying the injury is permanent and the employer was negligent. A workers' certificate states facts and capacity.\n\n2. THE RULE\nMedicolegal certificates and reports must state factual findings and functional capacity answering the question asked, without advocacy, exaggeration or irrelevant disclosures.\n\n3. WHY C IS CORRECT\nWrite what you find. Do not assert negligence or permanence.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Advocate for the largest payment: Certificates are factual, not advocacy.\nB. Write that the employer was negligent: Negligence is a legal finding, not a clinical one.\nD. State the injury is permanent on day one: Permanence cannot be stated on day one of a simple strain.\nE. Omit the examination: The examination is the basis of the certificate.\n\n5. KEY TAKEAWAY\nMedicolegal certificates and reports must state factual findings and functional capacity answering the question asked, without advocacy, exaggeration or irrelevant disclosures.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "A man with a simple strain wants a certificate saying the injury is permanent and the employer was negligent. A workers' certificate states facts and capacity.",
-      "best_treatment": "Record the history, findings, and current capacity. Do not assert negligence",
-      "incorrect_answer_explanations": {
-        "A": "Certificates are factual, not advocacy.",
-        "B": "Negligence is a legal finding, not a clinical one.",
-        "D": "Permanence cannot be stated on day one of a simple strain.",
-        "E": "The examination is the basis of the certificate."
-      },
-      "key_takeaways": [
-        "Medicolegal certificates and reports must state factual findings and functional capacity answering the question asked, without advocacy, exaggeration or irrelevant disclosures.",
-        "Write what you find."
-      ],
-      "subtopic": "A death certificate records the disease that caused death. It is not a place for speculation or a mechanism.",
-      "clinical_vignette": true,
-      "id": "80aca14b-07a0-5fa3-91b2-c213fbde4043",
-      "zyntra_id": "ZQ-0714",
-      "phase": "PH-06",
-      "phase_item_id": "PH-M-25",
-      "lo_id": "26b83f06-ed46-503a-8c58-eaa03b60ab8c",
-      "lo_code": "CERTIFICATE_FACTS",
-      "lo_key": "CERTIFICATE_FACTS",
-      "lo_title": "Medicolegal certificates and reports must state factual findings and functional capacity answering the question asked, without advocacy, exaggeration or irrelevant disclosures.",
-      "lo_role": "edge",
-      "shared_lo": true,
-      "irt_b": -0.1,
-      "difficulty_tier": "medium",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
       "question_text": "A solicitor asks for a full report. The patient has not signed an authority. What is the most appropriate next step?",
       "options": [
         "A phone call is authority",
@@ -1116,135 +987,6 @@
       "lo_key": "RELEASE_AUTHORITY",
       "lo_title": "Medical information goes to third parties such as solicitors or insurers only with the patient's written authority or a lawful demand, and only within the scope of that authority.",
       "lo_role": "edge",
-      "shared_lo": true,
-      "irt_b": 0.0,
-      "difficulty_tier": "medium",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
-      "question_text": "A subpoena arrives. The other side asks you to add a sentence. A subpoena compels production. Which of the following is most accurate?",
-      "options": [
-        "Add a clarifying sentence and then produce the notes",
-        "Omit pages that weaken the claim",
-        "Produce the notes as they are. Do not alter them",
-        "A subpoena lets you edit",
-        "Rewrite the record for the case"
-      ],
-      "correct_answer": "C",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nC. Produce the notes as they are. Do not alter them\n\n---\n\n1. CLINICAL SITUATION\nA subpoena arrives. The other side asks you to add a sentence. A subpoena compels production.\n\n2. THE RULE\nClinical records are never altered after the fact, including when a party to litigation asks for changes; corrections are dated, identified additions, and errors causing harm are disclosed.\n\n3. WHY C IS CORRECT\nProduce the original. Do not alter it.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Add a clarifying sentence and then produce the notes: Adding to records after a subpoena is improper alteration.\nB. Omit pages that weaken the claim: Omitting pages breaches the subpoena.\nD. A subpoena lets you edit: A subpoena compels production of the record as it stands.\nE. Rewrite the record for the case: Rewriting is falsification.\n\n5. KEY TAKEAWAY\nClinical records are never altered after the fact, including when a party to litigation asks for changes; corrections are dated, identified additions, and errors causing harm are disclosed.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "A subpoena arrives. The other side asks you to add a sentence. A subpoena compels production.",
-      "best_treatment": "Produce the notes as they are. Do not alter them",
-      "incorrect_answer_explanations": {
-        "A": "Adding to records after a subpoena is improper alteration.",
-        "B": "Omitting pages breaches the subpoena.",
-        "D": "A subpoena compels production of the record as it stands.",
-        "E": "Rewriting is falsification."
-      },
-      "key_takeaways": [
-        "Clinical records are never altered after the fact, including when a party to litigation asks for changes; corrections are dated, identified additions, and errors causing harm are disclosed.",
-        "Produce the original."
-      ],
-      "subtopic": "A death certificate records the disease that caused death. It is not a place for speculation or a mechanism.",
-      "clinical_vignette": true,
-      "id": "1f258124-0831-5f35-8470-c6e8c113fd0a",
-      "zyntra_id": "ZQ-0716",
-      "phase": "PH-06",
-      "phase_item_id": "PH-M-27",
-      "lo_id": "8ed0af72-098a-501d-aa0e-dfbebceca28a",
-      "lo_code": "RECORD_INTEGRITY",
-      "lo_key": "RECORD_INTEGRITY",
-      "lo_title": "Clinical records are never altered after the fact, including when a party to litigation asks for changes; corrections are dated, identified additions, and errors causing harm are disclosed.",
-      "lo_role": "edge",
-      "shared_lo": true,
-      "irt_b": 0.05,
-      "difficulty_tier": "medium",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
-      "question_text": "A truck driver has had two unprovoked seizures. He asks for a letter clearing him to keep his licence. Which of the following is most accurate?",
-      "options": [
-        "Write to the employer that he is fit",
-        "The employer is the licensing authority",
-        "A promise to drive carefully is enough",
-        "Advise the stand-down and report fitness to the licensing authority",
-        "Leave out the seizures"
-      ],
-      "correct_answer": "D",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nD. Advise the stand-down and report fitness to the licensing authority\n\n---\n\n1. CLINICAL SITUATION\nA truck driver has had two unprovoked seizures. He asks for a letter clearing him to keep his licence.\n\n2. THE RULE\nA patient medically unfit to drive is told so, including any stand-down period; the doctor may notify the licensing authority about fitness when they keep driving unsafely, and gives employers no false reassurance.\n\n3. WHY D IS CORRECT\nLicensing authority, not the employer. Do not clear him.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Write to the employer that he is fit: The employer is not the right recipient, and he is not fit.\nB. The employer is the licensing authority: The licensing authority is a government body, not the employer.\nC. A promise to drive carefully is enough: A promise does not meet the medical standard.\nE. Leave out the seizures: Omitting seizures is dishonest.\n\n5. KEY TAKEAWAY\nA patient medically unfit to drive is told so, including any stand-down period; the doctor may notify the licensing authority about fitness when they keep driving unsafely, and gives employers no false reassurance.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "A truck driver has had two unprovoked seizures. He asks for a letter clearing him to keep his licence.",
-      "best_treatment": "Advise the stand-down and report fitness to the licensing authority",
-      "incorrect_answer_explanations": {
-        "A": "The employer is not the right recipient, and he is not fit.",
-        "B": "The licensing authority is a government body, not the employer.",
-        "C": "A promise does not meet the medical standard.",
-        "E": "Omitting seizures is dishonest."
-      },
-      "key_takeaways": [
-        "A patient medically unfit to drive is told so, including any stand-down period; the doctor may notify the licensing authority about fitness when they keep driving unsafely, and gives employers no false reassurance.",
-        "Licensing authority, not the employer."
-      ],
-      "subtopic": "A death certificate records the disease that caused death. It is not a place for speculation or a mechanism.",
-      "clinical_vignette": true,
-      "id": "8b0eb7f6-0184-54f4-80fa-03daa7514288",
-      "zyntra_id": "ZQ-0717",
-      "phase": "PH-06",
-      "phase_item_id": "PH-M-28",
-      "lo_id": "8788b94b-e588-592a-87d3-e79e3a986ace",
-      "lo_code": "IMPAIRED_DRIVER",
-      "lo_key": "IMPAIRED_DRIVER",
-      "lo_title": "A patient medically unfit to drive is told so, including any stand-down period; the doctor may notify the licensing authority about fitness when they keep driving unsafely, and gives employers no false reassurance.",
-      "lo_role": "variant",
-      "shared_lo": true,
-      "irt_b": 0.05,
-      "difficulty_tier": "medium",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
-      "question_text": "A school-bus driver with recurrent seizures has been advised not to drive. He says he will not stop driving. What is the most appropriate next step?",
-      "options": [
-        "Wait for a crash",
-        "Omit the diagnosis",
-        "Private advice replaces notification",
-        "Seize the licence",
-        "Tell him, then notify the licensing authority"
-      ],
-      "correct_answer": "E",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nE. Tell him, then notify the licensing authority\n\n---\n\n1. CLINICAL SITUATION\nA school-bus driver with recurrent seizures has been advised not to drive. He says he will not stop driving.\n\n2. THE RULE\nA patient medically unfit to drive is told so, including any stand-down period; the doctor may notify the licensing authority about fitness when they keep driving unsafely, and gives employers no false reassurance.\n\n3. WHY E IS CORRECT\nTell, then notify. Do not delay.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Wait for a crash: Waiting endangers the public.\nB. Omit the diagnosis: Omitting the diagnosis is dishonest.\nC. Private advice replaces notification: He refuses to stop, so private advice has failed.\nD. Seize the licence: The licensing authority acts; doctors do not seize licences.\n\n5. KEY TAKEAWAY\nA patient medically unfit to drive is told so, including any stand-down period; the doctor may notify the licensing authority about fitness when they keep driving unsafely, and gives employers no false reassurance.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "A school-bus driver with recurrent seizures has been advised not to drive. He says he will not stop driving.",
-      "best_treatment": "Tell him, then notify the licensing authority",
-      "incorrect_answer_explanations": {
-        "A": "Waiting endangers the public.",
-        "B": "Omitting the diagnosis is dishonest.",
-        "C": "He refuses to stop, so private advice has failed.",
-        "D": "The licensing authority acts; doctors do not seize licences."
-      },
-      "key_takeaways": [
-        "A patient medically unfit to drive is told so, including any stand-down period; the doctor may notify the licensing authority about fitness when they keep driving unsafely, and gives employers no false reassurance.",
-        "Tell, then notify."
-      ],
-      "subtopic": "A death certificate records the disease that caused death. It is not a place for speculation or a mechanism.",
-      "clinical_vignette": true,
-      "id": "1b467c55-d867-5116-9c3f-49675d743ff9",
-      "zyntra_id": "ZQ-0718",
-      "phase": "PH-06",
-      "phase_item_id": "PH-M-29",
-      "lo_id": "8788b94b-e588-592a-87d3-e79e3a986ace",
-      "lo_code": "IMPAIRED_DRIVER",
-      "lo_key": "IMPAIRED_DRIVER",
-      "lo_title": "A patient medically unfit to drive is told so, including any stand-down period; the doctor may notify the licensing authority about fitness when they keep driving unsafely, and gives employers no false reassurance.",
-      "lo_role": "variant",
       "shared_lo": true,
       "irt_b": 0.0,
       "difficulty_tier": "medium",
@@ -1292,49 +1034,6 @@
       "irt_b": -0.1,
       "difficulty_tier": "medium",
       "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
-      "question_text": "Police ask for blood alcohol after a crash. He refuses. What is the most appropriate next step?",
-      "options": [
-        "Take blood because police asked",
-        "A verbal ask is enough",
-        "Do not take the sample. Refusal stands unless a lawful power is engaged",
-        "Relabel a clinical sample",
-        "A crash is automatic authority"
-      ],
-      "correct_answer": "C",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nC. Do not take the sample. Refusal stands unless a lawful power is engaged\n\n---\n\n1. CLINICAL SITUATION\nPolice ask for blood alcohol after a crash. He refuses.\n\n2. THE RULE\nBlood samples for police require the patient's consent or a specific lawful power; a verbal police request is not enough.\n\n3. WHY C IS CORRECT\nRefusal stands without a lawful power.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Take blood because police asked: A police request alone is not authority.\nB. A verbal ask is enough: A verbal ask is insufficient.\nD. Relabel a clinical sample: Relabelling a sample is deception.\nE. A crash is automatic authority: A crash does not create authority; a specific statutory power is needed.\n\n5. KEY TAKEAWAY\nBlood samples for police require the patient's consent or a specific lawful power; a verbal police request is not enough.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "Police ask for blood alcohol after a crash. He refuses.",
-      "best_treatment": "Do not take the sample. Refusal stands unless a lawful power is engaged",
-      "incorrect_answer_explanations": {
-        "A": "A police request alone is not authority.",
-        "B": "A verbal ask is insufficient.",
-        "D": "Relabelling a sample is deception.",
-        "E": "A crash does not create authority; a specific statutory power is needed."
-      },
-      "key_takeaways": [
-        "Blood samples for police require the patient's consent or a specific lawful power; a verbal police request is not enough.",
-        "Refusal stands without a lawful power."
-      ],
-      "subtopic": "A death certificate records the disease that caused death. It is not a place for speculation or a mechanism.",
-      "clinical_vignette": true,
-      "id": "97599d22-e26a-5708-9138-e43e4e9a9809",
-      "zyntra_id": "ZQ-0720",
-      "phase": "PH-06",
-      "phase_item_id": "PH-M-31",
-      "lo_id": "ba7e1e79-0288-5df4-bbca-fc068fcf66d6",
-      "lo_code": "LAWFUL_SAMPLE",
-      "lo_key": "LAWFUL_SAMPLE",
-      "lo_title": "Blood samples for police require the patient's consent or a specific lawful power; a verbal police request is not enough.",
-      "lo_role": "edge",
-      "shared_lo": true,
-      "irt_b": -0.1,
-      "difficulty_tier": "medium",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: police / custody",
       "blueprint_eligible": true,
       "status": "draft"
     },
@@ -1425,49 +1124,6 @@
       "status": "draft"
     },
     {
-      "question_text": "A 2-year-old has bruises and a fracture that you suspect are inflicted. When you mention reporting, the mother threatens to sue you. What is the most appropriate next step?",
-      "options": [
-        "A lawyer must approve first",
-        "Only report with the mother's consent",
-        "Make the report. A threat of suit does not delay it",
-        "Wait because she will sue",
-        "Document and do nothing"
-      ],
-      "correct_answer": "C",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nC. Make the report. A threat of suit does not delay it\n\n---\n\n1. CLINICAL SITUATION\nA 2-year-old has bruises and a fracture that you suspect are inflicted. When you mention reporting, the mother threatens to sue you.\n\n2. THE RULE\nSuspected child abuse is reported promptly as a statutory duty; a child's request for secrecy, family objection or a threat of legal action does not stop it, and good-faith reports are protected.\n\n3. WHY C IS CORRECT\nReport. Do not delay for a threat.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. A lawyer must approve first: No lawyer approval is needed.\nB. Only report with the mother's consent: Consent is not required.\nD. Wait because she will sue: A threat of suit does not delay a report.\nE. Document and do nothing: Documentation without a report fails the duty.\n\n5. KEY TAKEAWAY\nSuspected child abuse is reported promptly as a statutory duty; a child's request for secrecy, family objection or a threat of legal action does not stop it, and good-faith reports are protected.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "A 2-year-old has bruises and a fracture that you suspect are inflicted. When you mention reporting, the mother threatens to sue you.",
-      "best_treatment": "Make the report. A threat of suit does not delay it",
-      "incorrect_answer_explanations": {
-        "A": "No lawyer approval is needed.",
-        "B": "Consent is not required.",
-        "D": "A threat of suit does not delay a report.",
-        "E": "Documentation without a report fails the duty."
-      },
-      "key_takeaways": [
-        "Suspected child abuse is reported promptly as a statutory duty; a child's request for secrecy, family objection or a threat of legal action does not stop it, and good-faith reports are protected.",
-        "Report."
-      ],
-      "subtopic": "A death certificate records the disease that caused death. It is not a place for speculation or a mechanism.",
-      "clinical_vignette": true,
-      "id": "3e8cefbf-02cc-537d-bc00-3fe57a67790c",
-      "zyntra_id": "ZQ-0723",
-      "phase": "PH-06",
-      "phase_item_id": "PH-M-34",
-      "lo_id": "a480702b-c8b3-5985-ac19-9961ebb72512",
-      "lo_code": "MANDATORY_CHILD_REPORT",
-      "lo_key": "MANDATORY_CHILD_REPORT",
-      "lo_title": "Suspected child abuse is reported promptly as a statutory duty; a child's request for secrecy, family objection or a threat of legal action does not stop it, and good-faith reports are protected.",
-      "lo_role": "edge",
-      "shared_lo": true,
-      "irt_b": 0.0,
-      "difficulty_tier": "medium",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
       "question_text": "A child has a spiral fracture, and the history of how it happened changes twice during the consultation. What is the most appropriate next step?",
       "options": [
         "Only fractures of the skull are reported",
@@ -1505,92 +1161,6 @@
       "lo_role": "variant",
       "shared_lo": true,
       "irt_b": 0.05,
-      "difficulty_tier": "medium",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
-      "question_text": "He asks you to promise silence. There are bruises of different ages. What is the most appropriate next step?",
-      "options": [
-        "Explain you cannot keep the secret, protect him, and report",
-        "Wait for a second beating",
-        "A promise overrides the duty",
-        "Promise the child secrecy",
-        "Tell the alleged abuser first"
-      ],
-      "correct_answer": "A",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. Explain you cannot keep the secret, protect him, and report\n\n---\n\n1. CLINICAL SITUATION\nHe asks you to promise silence. There are bruises of different ages.\n\n2. THE RULE\nSuspected child abuse is reported promptly as a statutory duty; a child's request for secrecy, family objection or a threat of legal action does not stop it, and good-faith reports are protected.\n\n3. WHY A IS CORRECT\nMandatory reporting overrides a promise of secrecy.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Wait for a second beating: Waiting endangers the child.\nC. A promise overrides the duty: No promise overrides the statutory duty.\nD. Promise the child secrecy: Secrecy cannot be promised.\nE. Tell the alleged abuser first: Telling the abuser risks the child.\n\n5. KEY TAKEAWAY\nSuspected child abuse is reported promptly as a statutory duty; a child's request for secrecy, family objection or a threat of legal action does not stop it, and good-faith reports are protected.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "He asks you to promise silence. There are bruises of different ages.",
-      "best_treatment": "Explain you cannot keep the secret, protect him, and report",
-      "incorrect_answer_explanations": {
-        "B": "Waiting endangers the child.",
-        "C": "No promise overrides the statutory duty.",
-        "D": "Secrecy cannot be promised.",
-        "E": "Telling the abuser risks the child."
-      },
-      "key_takeaways": [
-        "Suspected child abuse is reported promptly as a statutory duty; a child's request for secrecy, family objection or a threat of legal action does not stop it, and good-faith reports are protected.",
-        "Mandatory reporting overrides a promise of secrecy."
-      ],
-      "subtopic": "A death certificate records the disease that caused death. It is not a place for speculation or a mechanism.",
-      "clinical_vignette": true,
-      "id": "9481e548-5335-5776-ba65-608743c901a5",
-      "zyntra_id": "ZQ-0725",
-      "phase": "PH-06",
-      "phase_item_id": "PH-M-36",
-      "lo_id": "a480702b-c8b3-5985-ac19-9961ebb72512",
-      "lo_code": "MANDATORY_CHILD_REPORT",
-      "lo_key": "MANDATORY_CHILD_REPORT",
-      "lo_title": "Suspected child abuse is reported promptly as a statutory duty; a child's request for secrecy, family objection or a threat of legal action does not stop it, and good-faith reports are protected.",
-      "lo_role": "trap",
-      "shared_lo": true,
-      "irt_b": 0.0,
-      "difficulty_tier": "medium",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
-      "question_text": "You are asked to sign a cremation form for a patient you never met, who died the day after a cholecystectomy. What is the most appropriate next step?",
-      "options": [
-        "Sign because the family are waiting",
-        "Any doctor can sign",
-        "Write not known to me and sign",
-        "Do not sign. You have no basis, and the perioperative death may be reportable",
-        "The surgeon being away is a reason to sign"
-      ],
-      "correct_answer": "D",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nD. Do not sign. You have no basis, and the perioperative death may be reportable\n\n---\n\n1. CLINICAL SITUATION\nYou are asked to sign a cremation form for a patient you never met, who died the day after a cholecystectomy.\n\n2. THE RULE\nA cremation certificate is signed only when the doctor has a basis to exclude an unnatural or reportable death, never as a rubber stamp.\n\n3. WHY D IS CORRECT\nNo basis. Possible reportable death. Decline.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Sign because the family are waiting: Family waiting does not create a basis to sign.\nB. Any doctor can sign: The signer must have knowledge.\nC. Write not known to me and sign: Writing \"not known to me\" does not supply a basis.\nE. The surgeon being away is a reason to sign: The surgeon's absence is not a reason to sign.\n\n5. KEY TAKEAWAY\nA cremation certificate is signed only when the doctor has a basis to exclude an unnatural or reportable death, never as a rubber stamp.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "You are asked to sign a cremation form for a patient you never met, who died the day after a cholecystectomy.",
-      "best_treatment": "Do not sign. You have no basis, and the perioperative death may be reportable",
-      "incorrect_answer_explanations": {
-        "A": "Family waiting does not create a basis to sign.",
-        "B": "The signer must have knowledge.",
-        "C": "Writing \"not known to me\" does not supply a basis.",
-        "E": "The surgeon's absence is not a reason to sign."
-      },
-      "key_takeaways": [
-        "A cremation certificate is signed only when the doctor has a basis to exclude an unnatural or reportable death, never as a rubber stamp.",
-        "No basis."
-      ],
-      "subtopic": "A death certificate records the disease that caused death. It is not a place for speculation or a mechanism.",
-      "clinical_vignette": true,
-      "id": "ed08212b-762e-584b-9843-6f5586b73084",
-      "zyntra_id": "ZQ-0726",
-      "phase": "PH-06",
-      "phase_item_id": "PH-M-37",
-      "lo_id": "adf8d293-1247-5397-963e-13c1f6756ac0",
-      "lo_code": "CREMATION_FORM",
-      "lo_key": "CREMATION_FORM",
-      "lo_title": "A cremation certificate is signed only when the doctor has a basis to exclude an unnatural or reportable death, never as a rubber stamp.",
-      "lo_role": "edge",
-      "shared_lo": true,
-      "irt_b": -0.1,
       "difficulty_tier": "medium",
       "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
       "blueprint_eligible": true,
@@ -1679,49 +1249,6 @@
       "irt_b": 0.1,
       "difficulty_tier": "medium",
       "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
-      "question_text": "Police want you to say he was the aggressor. You saw a laceration and smelled alcohol. You did not see the fight. What is the most appropriate next step?",
-      "options": [
-        "Omit what you saw",
-        "Speculate on the fight you did not see",
-        "Write that he was the aggressor",
-        "Describe the wound, the alcohol smell, and what he told you. Do not assign guilt",
-        "Adopt the police theory"
-      ],
-      "correct_answer": "D",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nD. Describe the wound, the alcohol smell, and what he told you. Do not assign guilt\n\n---\n\n1. CLINICAL SITUATION\nPolice want you to say he was the aggressor. You saw a laceration and smelled alcohol. You did not see the fight.\n\n2. THE RULE\nA police statement records only what the doctor observed, did and was told, without opinions on guilt.\n\n3. WHY D IS CORRECT\nReport what you saw. Do not speculate on guilt.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Omit what you saw: Findings belong in the statement.\nB. Speculate on the fight you did not see: Speculation is not evidence.\nC. Write that he was the aggressor: You did not see the fight.\nE. Adopt the police theory: Adopting a theory is not your role.\n\n5. KEY TAKEAWAY\nA police statement records only what the doctor observed, did and was told, without opinions on guilt.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "Police want you to say he was the aggressor. You saw a laceration and smelled alcohol. You did not see the fight.",
-      "best_treatment": "Describe the wound, the alcohol smell, and what he told you. Do not assign guilt",
-      "incorrect_answer_explanations": {
-        "A": "Findings belong in the statement.",
-        "B": "Speculation is not evidence.",
-        "C": "You did not see the fight.",
-        "E": "Adopting a theory is not your role."
-      },
-      "key_takeaways": [
-        "A police statement records only what the doctor observed, did and was told, without opinions on guilt.",
-        "Report what you saw."
-      ],
-      "subtopic": "A death certificate records the disease that caused death. It is not a place for speculation or a mechanism.",
-      "clinical_vignette": true,
-      "id": "36786fc8-81a1-5d49-9105-91f48f4e86dc",
-      "zyntra_id": "ZQ-0729",
-      "phase": "PH-06",
-      "phase_item_id": "PH-M-40",
-      "lo_id": "f6996f9e-429e-539d-9b9c-8d643cf7f821",
-      "lo_code": "POLICE_STATEMENT",
-      "lo_key": "POLICE_STATEMENT",
-      "lo_title": "A police statement records only what the doctor observed, did and was told, without opinions on guilt.",
-      "lo_role": "edge",
-      "shared_lo": true,
-      "irt_b": 0.1,
-      "difficulty_tier": "medium",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: police / custody",
       "blueprint_eligible": true,
       "status": "draft"
     },

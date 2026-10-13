@@ -1,7 +1,7 @@
 {
   "phase": "PH-10",
   "phase_name": "Open disclosure and research ethics",
-  "count": 14,
+  "count": 12,
   "reviewed_by": "Dr Heisenberg",
   "status": "draft",
   "items": [
@@ -303,92 +303,6 @@
       "irt_b": -0.1,
       "difficulty_tier": "medium",
       "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
-      "question_text": "A child is almost given a tenfold morphine dose. A second nurse stops it before any drug is given. An error that reached the point of administration is disclosed and reported, even if intercepted. What is the most appropriate next step?",
-      "options": [
-        "Tell the family about the intercepted error, and report it internally",
-        "Nothing was given so the family need not know",
-        "Blame the nurse only",
-        "Wait for the family to ask",
-        "No internal report if no drug was given"
-      ],
-      "correct_answer": "A",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. Tell the family about the intercepted error, and report it internally\n\n---\n\n1. CLINICAL SITUATION\nA child is almost given a tenfold morphine dose. A second nurse stops it before any drug is given. An error that reached the point of administration is disclosed and reported, even if intercepted.\n\n2. THE RULE\nOpen disclosure tells the patient or family honestly what happened, its effect, and what has changed, includes an apology, and also covers intercepted errors with internal reporting.\n\n3. WHY A IS CORRECT\nIntercepted near miss that reached the point of administration is disclosed.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Nothing was given so the family need not know: Near misses are disclosed and reported.\nC. Blame the nurse only: Systems learning, not blame, is the response.\nD. Wait for the family to ask: Disclosure is proactive.\nE. No internal report if no drug was given: Near misses must be reported.\n\n5. KEY TAKEAWAY\nOpen disclosure tells the patient or family honestly what happened, its effect, and what has changed, includes an apology, and also covers intercepted errors with internal reporting.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "A child is almost given a tenfold morphine dose. A second nurse stops it before any drug is given. An error that reached the point of administration is disclosed and reported, even if intercepted.",
-      "best_treatment": "Tell the family about the intercepted error, and report it internally",
-      "incorrect_answer_explanations": {
-        "B": "Near misses are disclosed and reported.",
-        "C": "Systems learning, not blame, is the response.",
-        "D": "Disclosure is proactive.",
-        "E": "Near misses must be reported."
-      },
-      "key_takeaways": [
-        "Open disclosure tells the patient or family honestly what happened, its effect, and what has changed, includes an apology, and also covers intercepted errors with internal reporting.",
-        "Intercepted near miss that reached the point of administration is disclosed."
-      ],
-      "subtopic": "Open disclosure tells the patient what happened, what it means, and what will be done. It is not an apology that admits legal liability in a scripted way, and it is not silence.",
-      "clinical_vignette": true,
-      "id": "bc88cef1-15b1-512d-9f66-db3c0deef7b3",
-      "zyntra_id": "ZQ-0801",
-      "phase": "PH-10",
-      "phase_item_id": "PH-R-08",
-      "lo_id": "8e217bcd-7be6-523e-baa0-aff815d71609",
-      "lo_code": "OPEN_DISCLOSURE",
-      "lo_key": "OPEN_DISCLOSURE",
-      "lo_title": "Open disclosure tells the patient or family honestly what happened, its effect, and what has changed, includes an apology, and also covers intercepted errors with internal reporting.",
-      "lo_role": "variant",
-      "shared_lo": true,
-      "irt_b": 0.1,
-      "difficulty_tier": "medium",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
-      "question_text": "A registrar says surgery will be sooner if he enrols and delayed if he declines. Consent to research is voluntary. Which of the following is most accurate?",
-      "options": [
-        "Coercive. Care must not be conditional on joining the trial",
-        "Earlier surgery for enrolment is acceptable",
-        "A free drug repairs the link",
-        "Public patients can be pressured",
-        "Decline means delayed surgery is fine"
-      ],
-      "correct_answer": "A",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. Coercive. Care must not be conditional on joining the trial\n\n---\n\n1. CLINICAL SITUATION\nA registrar says surgery will be sooner if he enrols and delayed if he declines. Consent to research is voluntary.\n\n2. THE RULE\nResearch participation is voluntary: people may decline or withdraw at any time without reason and their clinical care continues unchanged.\n\n3. WHY A IS CORRECT\nCare is not a reward for saying yes.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Earlier surgery for enrolment is acceptable: Linking care to enrolment is coercion.\nC. A free drug repairs the link: Inducements do not repair coercion.\nD. Public patients can be pressured: All patients have the right to refuse.\nE. Decline means delayed surgery is fine: Penalising refusal is coercive.\n\n5. KEY TAKEAWAY\nResearch participation is voluntary: people may decline or withdraw at any time without reason and their clinical care continues unchanged.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "A registrar says surgery will be sooner if he enrols and delayed if he declines. Consent to research is voluntary.",
-      "best_treatment": "Coercive. Care must not be conditional on joining the trial",
-      "incorrect_answer_explanations": {
-        "B": "Linking care to enrolment is coercion.",
-        "C": "Inducements do not repair coercion.",
-        "D": "All patients have the right to refuse.",
-        "E": "Penalising refusal is coercive."
-      },
-      "key_takeaways": [
-        "Research participation is voluntary: people may decline or withdraw at any time without reason and their clinical care continues unchanged.",
-        "Care is not a reward for saying yes."
-      ],
-      "subtopic": "Open disclosure tells the patient what happened, what it means, and what will be done. It is not an apology that admits legal liability in a scripted way, and it is not silence.",
-      "clinical_vignette": true,
-      "id": "14974bad-ac6f-53d7-bfe1-105c0b1b7600",
-      "zyntra_id": "ZQ-0802",
-      "phase": "PH-10",
-      "phase_item_id": "PH-R-09",
-      "lo_id": "88fda62c-78aa-5cdb-9490-1e63385e8fca",
-      "lo_code": "RESEARCH_VOLUNTARY",
-      "lo_key": "RESEARCH_VOLUNTARY",
-      "lo_title": "Research participation is voluntary: people may decline or withdraw at any time without reason and their clinical care continues unchanged.",
-      "lo_role": "edge",
-      "shared_lo": true,
-      "irt_b": -0.05,
-      "difficulty_tier": "medium",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: research setting",
       "blueprint_eligible": true,
       "status": "draft"
     },

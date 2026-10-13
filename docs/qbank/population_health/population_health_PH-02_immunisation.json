@@ -1,7 +1,7 @@
 {
   "phase": "PH-02",
   "phase_name": "Immunisation and notifiable disease",
-  "count": 65,
+  "count": 53,
   "reviewed_by": "Dr Heisenberg",
   "status": "draft",
   "items": [
@@ -345,49 +345,6 @@
       "shared_lo": true,
       "irt_b": -1.0,
       "difficulty_tier": "easy",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
-      "question_text": "A 16-year-old girl missed the school HPV program. She has had no doses. She asks if she has missed her chance. She can have a catch-up dose. She has not missed the window. What is the most appropriate advice?",
-      "options": [
-        "She can have a catch-up HPV dose. Routine dosing at her age is a single dose if she is not in a risk group",
-        "She needs three doses because she is over 19",
-        "HPV vaccine replaces cervical screening, so do that instead",
-        "She is too old. HPV vaccine stops at the end of Year 10",
-        "Book colposcopy instead of vaccine"
-      ],
-      "correct_answer": "A",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. She can have a catch-up HPV dose. Routine dosing at her age is a single dose if she is not in a risk group\n\n---\n\n1. CLINICAL SITUATION\nAt 24, with no risk condition, she can catch up a single HPV dose. She has not aged out at the end of school.\n\n2. THE RULE\nRoutine adolescent HPV vaccination is a single dose, with funded catch-up available up to age 25.\n\n3. WHY A IS CORRECT\nCatch-up HPV vaccine is available up to and including age 25 if a dose was missed. For people who are not in a specified medical-risk group, the routine schedule is one dose. Being over 19 does not automatically mean three doses. Vaccine does not replace screening.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. She needs three doses because she is over 19: Three doses are for specified medical-risk conditions, not for age alone.\nC. HPV vaccine replaces cervical screening, so do that instead: Screening continues after vaccination.\nD. She is too old. HPV vaccine stops at the end of Year 10: School delivery is not the end of eligibility.\nE. Book colposcopy instead of vaccine: Colposcopy is not the catch-up.\n\n5. KEY TAKEAWAY\nHPV catch-up runs up to and including age 25.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "At 24, with no risk condition, she can catch up a single HPV dose. She has not aged out at the end of school.",
-      "best_treatment": "She can have a catch-up HPV dose. Routine dosing at her age is a single dose if she is not in a risk group",
-      "incorrect_answer_explanations": {
-        "B": "Three doses are for specified medical-risk conditions, not for age alone.",
-        "C": "Screening continues after vaccination.",
-        "D": "School delivery is not the end of eligibility.",
-        "E": "Colposcopy is not the catch-up."
-      },
-      "key_takeaways": [
-        "HPV catch-up runs up to and including age 25.",
-        "One dose is routine unless a specified medical-risk condition requires three."
-      ],
-      "subtopic": "A missed HPV dose can be caught up to and including age 25. Routine adolescent dosing is one dose.",
-      "clinical_vignette": true,
-      "id": "25e02caa-908e-5183-a9d7-d8c28de7e340",
-      "zyntra_id": "ZQ-0437",
-      "phase": "PH-02",
-      "phase_item_id": "PH-I-09",
-      "lo_id": "49de5829-e45a-5f4f-868a-572426c021a2",
-      "lo_code": "HPV_SCHEDULE",
-      "lo_key": "HPV_SCHEDULE",
-      "lo_title": "Routine adolescent HPV vaccination is a single dose, with funded catch-up available up to age 25.",
-      "lo_role": "core",
-      "shared_lo": true,
-      "irt_b": -0.05,
-      "difficulty_tier": "medium",
       "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
       "blueprint_eligible": true,
       "status": "draft"
@@ -857,7 +814,7 @@
       "lo_code": "OBJECTION_NOT_CONTRAINDICATION",
       "lo_key": "OBJECTION_NOT_CONTRAINDICATION",
       "lo_title": "Conscientious or vaccine objection is not an exemption; only a documented medical contraindication qualifies, and the clinician must not certify a false one.",
-      "lo_role": "edge",
+      "lo_role": "core",
       "shared_lo": true,
       "irt_b": 0.95,
       "difficulty_tier": "hard",
@@ -1167,92 +1124,6 @@
       "status": "draft"
     },
     {
-      "question_text": "A parent\u2019s Centrelink record shows a child as overdue for vaccines that were given at your practice. The doses are in your notes but were never uploaded. A colleague suggests writing a letter to Centrelink. What is the most appropriate action?",
-      "options": [
-        "Write a letter and leave the register overdue",
-        "A subsidy problem is not a clinical task, so do nothing",
-        "Submit the missing encounter to the Australian Immunisation Register",
-        "Repeat the vaccines so the register updates itself",
-        "Record a natural-immunity exemption for the missing preschool dose"
-      ],
-      "correct_answer": "C",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nC. Submit the missing encounter to the Australian Immunisation Register\n\n---\n\n1. CLINICAL SITUATION\nVaccines given but not uploaded are fixed by submitting the encounter to the register. A Centrelink letter does not replace that.\n\n2. THE RULE\nMissing vaccination records are fixed by a recognised vaccination provider submitting the encounter to the AIR with the actual date given.\n\n3. WHY C IS CORRECT\nThe doses were given. The fix is to submit the encounter to the Australian Immunisation Register, using the record already in the notes. A letter does not update the register. Repeating vaccines is unnecessary, and natural immunity is not a substitute for a missing upload.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Write a letter and leave the register overdue: Centrelink uses the register, not a side letter.\nB. A subsidy problem is not a clinical task, so do nothing: The clinical task is the accurate register entry.\nD. Repeat the vaccines so the register updates itself: A second preschool set is not the repair for a missed upload.\nE. Record a natural-immunity exemption for the missing preschool dose: He was vaccinated. Immunity is not the record to invent.\n\n5. KEY TAKEAWAY\nThe Australian Immunisation Register is the record that counts.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "Vaccines given but not uploaded are fixed by submitting the encounter to the register. A Centrelink letter does not replace that.",
-      "best_treatment": "Submit the missing encounter to the Australian Immunisation Register",
-      "incorrect_answer_explanations": {
-        "A": "Centrelink uses the register, not a side letter.",
-        "B": "The clinical task is the accurate register entry.",
-        "D": "A second preschool set is not the repair for a missed upload.",
-        "E": "He was vaccinated. Immunity is not the record to invent."
-      },
-      "key_takeaways": [
-        "The Australian Immunisation Register is the record that counts.",
-        "Do not revaccinate to repair a missed upload."
-      ],
-      "subtopic": "An overdue AIR record is corrected by recording the doses given, not by a letter to Centrelink.",
-      "clinical_vignette": true,
-      "id": "e2a68478-3a6d-5634-8222-c333b6841f9e",
-      "zyntra_id": "ZQ-0456",
-      "phase": "PH-02",
-      "phase_item_id": "PH-I-28",
-      "lo_id": "5bfc74d7-c604-5732-8e2a-ee1e5c4d7205",
-      "lo_code": "AIR_RECORD",
-      "lo_key": "AIR_RECORD",
-      "lo_title": "Missing vaccination records are fixed by a recognised vaccination provider submitting the encounter to the AIR with the actual date given.",
-      "lo_role": "core",
-      "shared_lo": true,
-      "irt_b": 0.0,
-      "difficulty_tier": "medium",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
-      "question_text": "A term baby is born at 2 am. The mother is hepatitis B surface-antigen negative on complete antenatal serology. The night registrar suggests leaving the birth dose until the 6-week check because the mother is negative and the baby is well. The parents are willing. What is the most appropriate next step?",
-      "options": [
-        "Omit hepatitis B entirely",
-        "Give hepatitis B immunoglobulin instead of vaccine",
-        "Give the birth dose of hepatitis B now",
-        "Delay until 6 weeks because the mother is negative",
-        "Wait for the 4-month vaccines"
-      ],
-      "correct_answer": "C",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nC. Give the birth dose of hepatitis B now\n\n---\n\n1. CLINICAL SITUATION\nA term baby is born at 2 am. The mother is hepatitis B surface-antigen negative on complete antenatal serology. The night registrar suggests leaving the birth dose until the 6-week check because the mother is negative and the baby is well.\n\n2. THE RULE\nEvery newborn gets hepatitis B vaccine as soon as possible, ideally within 24 hours of birth, regardless of maternal HBsAg status or missing records.\n\n3. WHY C IS CORRECT\nBirth hepatitis B is given within 24 hours regardless of maternal HBsAg status. A negative mother does not remove the birth dose.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Omit hepatitis B entirely: Hepatitis B vaccine is part of the NIP schedule for every infant.\nB. Give hepatitis B immunoglobulin instead of vaccine: Immunoglobulin is only for infants of HBsAg-positive mothers and never replaces the vaccine.\nD. Delay until 6 weeks because the mother is negative: A negative maternal HBsAg removes the need for HBIG, not the universal birth dose.\nE. Wait for the 4-month vaccines: Waiting for later doses leaves the birth-dose window unused; the birth dose is separate.\n\n5. KEY TAKEAWAY\nEvery newborn gets hepatitis B vaccine as soon as possible, ideally within 24 hours of birth, regardless of maternal HBsAg status or missing records.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "A term baby is born at 2 am. The mother is hepatitis B surface-antigen negative on complete antenatal serology. The night registrar suggests leaving the birth dose until the 6-week check because the mother is negative and the baby is well.",
-      "best_treatment": "Give the birth dose of hepatitis B now",
-      "incorrect_answer_explanations": {
-        "A": "Hepatitis B vaccine is part of the NIP schedule for every infant.",
-        "B": "Immunoglobulin is only for infants of HBsAg-positive mothers and never replaces the vaccine.",
-        "D": "A negative maternal HBsAg removes the need for HBIG, not the universal birth dose.",
-        "E": "Waiting for later doses leaves the birth-dose window unused; the birth dose is separate."
-      },
-      "key_takeaways": [
-        "Every newborn gets hepatitis B vaccine as soon as possible, ideally within 24 hours of birth, regardless of maternal HBsAg status or missing records.",
-        "Birth hepatitis B is given within 24 hours regardless of maternal HBsAg status."
-      ],
-      "subtopic": "Birth hepatitis B is given as soon as practicable, ideally within 24 hours and no later than 7 days.",
-      "clinical_vignette": true,
-      "id": "13172d4c-c55a-5b80-91b5-3b1ed1c6bde9",
-      "zyntra_id": "ZQ-0592",
-      "phase": "PH-02",
-      "phase_item_id": "PH-I-29",
-      "lo_id": "18125cb0-f588-52a8-aa62-0ab762645b1c",
-      "lo_code": "BIRTH_HEPATITIS_B",
-      "lo_key": "BIRTH_HEPATITIS_B",
-      "lo_title": "Every newborn gets hepatitis B vaccine as soon as possible, ideally within 24 hours of birth, regardless of maternal HBsAg status or missing records.",
-      "lo_role": "variant",
-      "shared_lo": true,
-      "irt_b": 0.0,
-      "difficulty_tier": "medium",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: maternity unit",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
       "question_text": "A baby is born at 36 weeks, well, and is 18 hours old. The birth dose of hepatitis B has not been given. A midwife says preterm babies wait for a paediatric decision next week. The baby is stable. What is the most appropriate next step?",
       "options": [
         "Omit the dose because the baby is preterm",
@@ -1545,7 +1416,7 @@
       "lo_code": "HPV_SCHEDULE",
       "lo_key": "HPV_SCHEDULE",
       "lo_title": "Routine adolescent HPV vaccination is a single dose, with funded catch-up available up to age 25.",
-      "lo_role": "variant",
+      "lo_role": "core",
       "shared_lo": true,
       "irt_b": -0.1,
       "difficulty_tier": "medium",
@@ -1683,49 +1554,6 @@
       "status": "draft"
     },
     {
-      "question_text": "A 70-year-old on methotrexate asks for shingles vaccine. A pharmacist offers a live product that is in stock. What is the most appropriate next step?",
-      "options": [
-        "Delay until methotrexate is stopped for a year",
-        "Omit all shingles vaccines in rheumatoid arthritis",
-        "Give both live and non-live today",
-        "Give the live vaccine because the pharmacy has it",
-        "Do not give a live shingles vaccine. Use the non-live vaccine"
-      ],
-      "correct_answer": "E",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nE. Do not give a live shingles vaccine. Use the non-live vaccine\n\n---\n\n1. CLINICAL SITUATION\nA 70-year-old on methotrexate asks for shingles vaccine. A pharmacist offers a live product that is in stock.\n\n2. THE RULE\nThe NIP shingles vaccine is non-live Shingrix (from 65, 50 for First Nations people, or 18 if immunocompromised), so it is safe where a live vaccine would be contraindicated.\n\n3. WHY E IS CORRECT\nLive shingles vaccine is not used in significant immunocompromise. Use the non-live vaccine.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Delay until methotrexate is stopped for a year: Shingrix can be given while on methotrexate; there is no need to stop it.\nB. Omit all shingles vaccines in rheumatoid arthritis: Rheumatoid arthritis increases zoster risk; non-live Shingrix is recommended, not withheld.\nC. Give both live and non-live today: The live vaccine is contraindicated, and two zoster vaccines are not co-administered.\nD. Give the live vaccine because the pharmacy has it: Methotrexate causes immunosuppression, so a live zoster vaccine is contraindicated.\n\n5. KEY TAKEAWAY\nThe NIP shingles vaccine is non-live Shingrix (from 65, 50 for First Nations people, or 18 if immunocompromised), so it is safe where a live vaccine would be contraindicated.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "A 70-year-old on methotrexate asks for shingles vaccine. A pharmacist offers a live product that is in stock.",
-      "best_treatment": "Do not give a live shingles vaccine. Use the non-live vaccine",
-      "incorrect_answer_explanations": {
-        "A": "Shingrix can be given while on methotrexate; there is no need to stop it.",
-        "B": "Rheumatoid arthritis increases zoster risk; non-live Shingrix is recommended, not withheld.",
-        "C": "The live vaccine is contraindicated, and two zoster vaccines are not co-administered.",
-        "D": "Methotrexate causes immunosuppression, so a live zoster vaccine is contraindicated."
-      },
-      "key_takeaways": [
-        "The NIP shingles vaccine is non-live Shingrix (from 65, 50 for First Nations people, or 18 if immunocompromised), so it is safe where a live vaccine would be contraindicated.",
-        "Live shingles vaccine is not used in significant immunocompromise."
-      ],
-      "subtopic": "Birth hepatitis B is given as soon as practicable, ideally within 24 hours and no later than 7 days.",
-      "clinical_vignette": true,
-      "id": "0d78e929-e939-5a6e-8345-829b9e8b51e4",
-      "zyntra_id": "ZQ-0603",
-      "phase": "PH-02",
-      "phase_item_id": "PH-I-40",
-      "lo_id": "631721f4-c0b0-5bc9-a999-6f841c0d073e",
-      "lo_code": "SHINGLES_VACCINE",
-      "lo_key": "SHINGLES_VACCINE",
-      "lo_title": "The NIP shingles vaccine is non-live Shingrix (from 65, 50 for First Nations people, or 18 if immunocompromised), so it is safe where a live vaccine would be contraindicated.",
-      "lo_role": "edge",
-      "shared_lo": true,
-      "irt_b": 0.05,
-      "difficulty_tier": "medium",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
       "question_text": "A 40-year-old Aboriginal man asks about funded influenza vaccine. He is well. The age-50 rule he was told does not apply. He can have it now. Which of the following is most accurate?",
       "options": [
         "Influenza vaccine is contraindicated without a certificate of Aboriginality",
@@ -1763,92 +1591,6 @@
       "lo_role": "variant",
       "shared_lo": true,
       "irt_b": 0.05,
-      "difficulty_tier": "medium",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
-      "question_text": "A 28-year-old Aboriginal woman asks about pneumococcal vaccine. She is well. Which of the following is most accurate?",
-      "options": [
-        "She must wait until 50 for pneumococcal vaccine",
-        "Omit because she is well",
-        "Give childhood Prevenar only",
-        "Pneumococcal vaccine is only for chronic disease",
-        "She is eligible for funded pneumococcal vaccine from 25 years"
-      ],
-      "correct_answer": "E",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nE. She is eligible for funded pneumococcal vaccine from 25 years\n\n---\n\n1. CLINICAL SITUATION\nA 28-year-old Aboriginal woman asks about pneumococcal vaccine. She is well.\n\n2. THE RULE\nAboriginal and Torres Strait Islander people are eligible for funded influenza vaccine from 6 months of age, and adults from 25 years for a funded dose of 21vPCV pneumococcal vaccine (NIP from 1 July 2026).\n\n3. WHY E IS CORRECT\nAboriginal adults are eligible for funded pneumococcal vaccine from 25 years.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. She must wait until 50 for pneumococcal vaccine: Since July 2026, 21vPCV is funded for Aboriginal and Torres Strait Islander adults from 25 years.\nB. Omit because she is well: Eligibility does not depend on current illness; a well adult should be vaccinated.\nC. Give childhood Prevenar only: Adults receive the adult schedule (21vPCV), not an infant course.\nD. Pneumococcal vaccine is only for chronic disease: Aboriginal and Torres Strait Islander adults from 25 are eligible without a risk condition.\n\n5. KEY TAKEAWAY\nAboriginal and Torres Strait Islander people are eligible for funded influenza vaccine from 6 months of age, and adults from 25 years for a funded dose of 21vPCV pneumococcal vaccine (NIP from 1 July 2026).\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "A 28-year-old Aboriginal woman asks about pneumococcal vaccine. She is well.",
-      "best_treatment": "She is eligible for funded pneumococcal vaccine from 25 years",
-      "incorrect_answer_explanations": {
-        "A": "Since July 2026, 21vPCV is funded for Aboriginal and Torres Strait Islander adults from 25 years.",
-        "B": "Eligibility does not depend on current illness; a well adult should be vaccinated.",
-        "C": "Adults receive the adult schedule (21vPCV), not an infant course.",
-        "D": "Aboriginal and Torres Strait Islander adults from 25 are eligible without a risk condition."
-      },
-      "key_takeaways": [
-        "Aboriginal and Torres Strait Islander people are eligible for funded influenza vaccine from 6 months of age, and adults from 25 years for a funded dose of 21vPCV pneumococcal vaccine (NIP from 1 July 2026).",
-        "Aboriginal adults are eligible for funded pneumococcal vaccine from 25 years."
-      ],
-      "subtopic": "Birth hepatitis B is given as soon as practicable, ideally within 24 hours and no later than 7 days.",
-      "clinical_vignette": true,
-      "id": "d4b7626b-3fad-5455-af37-a25efb3caaab",
-      "zyntra_id": "ZQ-0605",
-      "phase": "PH-02",
-      "phase_item_id": "PH-I-42",
-      "lo_id": "bb2290d8-0941-5a3a-ae9c-4ed9dfa44283",
-      "lo_code": "ATSI_FUNDED_VACCINES",
-      "lo_key": "ATSI_FUNDED_VACCINES",
-      "lo_title": "Aboriginal and Torres Strait Islander people are eligible for funded influenza vaccine from 6 months of age, and adults from 25 years for a funded dose of 21vPCV pneumococcal vaccine (NIP from 1 July 2026).",
-      "lo_role": "variant",
-      "shared_lo": true,
-      "irt_b": -0.1,
-      "difficulty_tier": "medium",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
-      "question_text": "A practice fridge was at 12\u00b0C for six hours. Vaccines look normal. What is the most appropriate next step?",
-      "options": [
-        "Use the vaccines because they look normal",
-        "Use them if the breach was under 8 hours",
-        "Discard without assessment",
-        "Quarantine the stock and do not use it until the breach is assessed",
-        "Move them to another fridge and use today"
-      ],
-      "correct_answer": "D",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nD. Quarantine the stock and do not use it until the breach is assessed\n\n---\n\n1. CLINICAL SITUATION\nA practice fridge was at 12\u00b0C for six hours. Vaccines look normal.\n\n2. THE RULE\nAfter a cold-chain breach, vaccines are isolated and not used until the breach is reported and assessed, regardless of how the vials look.\n\n3. WHY D IS CORRECT\nQuarantine vaccine after a cold-chain breach. Do not use it on appearance.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Use the vaccines because they look normal: Appearance does not show potency loss after temperature excursion.\nB. Use them if the breach was under 8 hours: There is no safe-duration threshold; every excursion is isolated and assessed.\nC. Discard without assessment: Stock is not discarded until the breach is assessed; some may be usable.\nE. Move them to another fridge and use today: Moving and using the stock skips the breach report and assessment.\n\n5. KEY TAKEAWAY\nAfter a cold-chain breach, vaccines are isolated and not used until the breach is reported and assessed, regardless of how the vials look.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "A practice fridge was at 12\u00b0C for six hours. Vaccines look normal.",
-      "best_treatment": "Quarantine the stock and do not use it until the breach is assessed",
-      "incorrect_answer_explanations": {
-        "A": "Appearance does not show potency loss after temperature excursion.",
-        "B": "There is no safe-duration threshold; every excursion is isolated and assessed.",
-        "C": "Stock is not discarded until the breach is assessed; some may be usable.",
-        "E": "Moving and using the stock skips the breach report and assessment."
-      },
-      "key_takeaways": [
-        "After a cold-chain breach, vaccines are isolated and not used until the breach is reported and assessed, regardless of how the vials look.",
-        "Quarantine vaccine after a cold-chain breach."
-      ],
-      "subtopic": "Birth hepatitis B is given as soon as practicable, ideally within 24 hours and no later than 7 days.",
-      "clinical_vignette": true,
-      "id": "b03bbc0e-b7d4-5937-86ef-5b19bd896850",
-      "zyntra_id": "ZQ-0606",
-      "phase": "PH-02",
-      "phase_item_id": "PH-I-43",
-      "lo_id": "983ee34b-896d-5237-bf4a-a22768c6c150",
-      "lo_code": "COLD_CHAIN",
-      "lo_key": "COLD_CHAIN",
-      "lo_title": "After a cold-chain breach, vaccines are isolated and not used until the breach is reported and assessed, regardless of how the vials look.",
-      "lo_role": "edge",
-      "shared_lo": true,
-      "irt_b": -0.1,
       "difficulty_tier": "medium",
       "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
       "blueprint_eligible": true,
@@ -1941,49 +1683,6 @@
       "status": "draft"
     },
     {
-      "question_text": "A 3-year-old had 6-week doses and nothing since. A colleague wants to restart from dose one. What is the most appropriate next step?",
-      "options": [
-        "Plan a catch-up from the doses he has had. Do not restart",
-        "Give adult doses",
-        "Skip to the 4-year vaccines",
-        "Restart the entire infant schedule from dose one",
-        "Omit all antigens he has missed"
-      ],
-      "correct_answer": "A",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. Plan a catch-up from the doses he has had. Do not restart\n\n---\n\n1. CLINICAL SITUATION\nA 3-year-old had 6-week doses and nothing since. A colleague wants to restart from dose one.\n\n2. THE RULE\nCatch-up vaccination counts all documented valid doses and continues from where the person left off; the schedule is never restarted and minimum intervals are kept.\n\n3. WHY A IS CORRECT\nCatch-up counts doses already given. Do not restart the schedule.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Give adult doses: Doses and products are age-appropriate; adult doses are not used.\nC. Skip to the 4-year vaccines: Skipping ahead leaves earlier antigens incomplete.\nD. Restart the entire infant schedule from dose one: Previous valid doses count; the schedule is never restarted.\nE. Omit all antigens he has missed: Missed antigens are caught up, not omitted.\n\n5. KEY TAKEAWAY\nCatch-up vaccination counts all documented valid doses and continues from where the person left off; the schedule is never restarted and minimum intervals are kept.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "A 3-year-old had 6-week doses and nothing since. A colleague wants to restart from dose one.",
-      "best_treatment": "Plan a catch-up from the doses he has had. Do not restart",
-      "incorrect_answer_explanations": {
-        "B": "Doses and products are age-appropriate; adult doses are not used.",
-        "C": "Skipping ahead leaves earlier antigens incomplete.",
-        "D": "Previous valid doses count; the schedule is never restarted.",
-        "E": "Missed antigens are caught up, not omitted."
-      },
-      "key_takeaways": [
-        "Catch-up vaccination counts all documented valid doses and continues from where the person left off; the schedule is never restarted and minimum intervals are kept.",
-        "Catch-up counts doses already given."
-      ],
-      "subtopic": "Birth hepatitis B is given as soon as practicable, ideally within 24 hours and no later than 7 days.",
-      "clinical_vignette": true,
-      "id": "d799a2b5-8faa-5981-b0d6-69fb7197e500",
-      "zyntra_id": "ZQ-0609",
-      "phase": "PH-02",
-      "phase_item_id": "PH-I-46",
-      "lo_id": "b961e409-bbb8-5508-92dd-894d0fd2a762",
-      "lo_code": "CATCH_UP",
-      "lo_key": "CATCH_UP",
-      "lo_title": "Catch-up vaccination counts all documented valid doses and continues from where the person left off; the schedule is never restarted and minimum intervals are kept.",
-      "lo_role": "edge",
-      "shared_lo": true,
-      "irt_b": 0.05,
-      "difficulty_tier": "medium",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
       "question_text": "A child arriving from overseas has a documented record of primary doses. A locum wants to repeat everything. Which of the following is most accurate?",
       "options": [
         "Count documented overseas doses and continue",
@@ -2064,49 +1763,6 @@
       "lo_role": "trap",
       "shared_lo": true,
       "irt_b": 0.05,
-      "difficulty_tier": "medium",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
-      "question_text": "Parents of a 2-year-old object to vaccination and ask you to sign a form so they still meet the immunisation requirement for family assistance. There is no medical contraindication. What is the most appropriate next step?",
-      "options": [
-        "Explain that objection is not an exemption, and there is no medical contraindication to record",
-        "Vaccinate against the parents' wishes today",
-        "Sign a conscientious-objection exemption",
-        "Record a medical exemption for parental preference",
-        "Refuse to see the child again"
-      ],
-      "correct_answer": "A",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. Explain that objection is not an exemption, and there is no medical contraindication to record\n\n---\n\n1. CLINICAL SITUATION\nParents of a 2-year-old object to vaccination and ask you to sign a form so they still meet the immunisation requirement for family assistance. There is no medical contraindication.\n\n2. THE RULE\nConscientious or vaccine objection is not an exemption; only a documented medical contraindication qualifies, and the clinician must not certify a false one.\n\n3. WHY A IS CORRECT\nConscientious objection is not a medical contraindication and is not an exemption for family-assistance requirements.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Vaccinate against the parents' wishes today: Vaccinating without consent is not lawful.\nC. Sign a conscientious-objection exemption: Conscientious objection has not been an exemption since 2016.\nD. Record a medical exemption for parental preference: A medical exemption needs a genuine medical contraindication, not a preference.\nE. Refuse to see the child again: Refusing care is not appropriate; keep engaging the family.\n\n5. KEY TAKEAWAY\nConscientious or vaccine objection is not an exemption; only a documented medical contraindication qualifies, and the clinician must not certify a false one.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "Parents of a 2-year-old object to vaccination and ask you to sign a form so they still meet the immunisation requirement for family assistance. There is no medical contraindication.",
-      "best_treatment": "Explain that objection is not an exemption, and there is no medical contraindication to record",
-      "incorrect_answer_explanations": {
-        "B": "Vaccinating without consent is not lawful.",
-        "C": "Conscientious objection has not been an exemption since 2016.",
-        "D": "A medical exemption needs a genuine medical contraindication, not a preference.",
-        "E": "Refusing care is not appropriate; keep engaging the family."
-      },
-      "key_takeaways": [
-        "Conscientious or vaccine objection is not an exemption; only a documented medical contraindication qualifies, and the clinician must not certify a false one.",
-        "Conscientious objection is not a medical contraindication and is not an exemption for family-assistance requirements."
-      ],
-      "subtopic": "Birth hepatitis B is given as soon as practicable, ideally within 24 hours and no later than 7 days.",
-      "clinical_vignette": true,
-      "id": "5bb4ec1d-d94f-5ecf-8dc6-4dd0d0293489",
-      "zyntra_id": "ZQ-0612",
-      "phase": "PH-02",
-      "phase_item_id": "PH-I-49",
-      "lo_id": "ac2e3a63-6a77-5cc5-a908-f833b5715433",
-      "lo_code": "OBJECTION_NOT_CONTRAINDICATION",
-      "lo_key": "OBJECTION_NOT_CONTRAINDICATION",
-      "lo_title": "Conscientious or vaccine objection is not an exemption; only a documented medical contraindication qualifies, and the clinician must not certify a false one.",
-      "lo_role": "core",
-      "shared_lo": true,
-      "irt_b": -0.05,
       "difficulty_tier": "medium",
       "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
       "blueprint_eligible": true,
@@ -2199,49 +1855,6 @@
       "status": "draft"
     },
     {
-      "question_text": "A susceptible adult had household measles contact 48 hours ago. He is well and not pregnant. What is the most appropriate next step?",
-      "options": [
-        "Exclude him and give nothing",
-        "Immunoglobulin is the only option at 48 hours",
-        "Offer MMR today, within 72 hours of exposure",
-        "It is too late at 48 hours",
-        "Give MMR at 2 weeks"
-      ],
-      "correct_answer": "C",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nC. Offer MMR today, within 72 hours of exposure\n\n---\n\n1. CLINICAL SITUATION\nA susceptible adult had household measles contact 48 hours ago. He is well and not pregnant.\n\n2. THE RULE\nSusceptible measles contacts can be given MMR within 72 hours (or immunoglobulin within 6 days), and unprotected contacts are excluded from childcare for the exclusion period.\n\n3. WHY C IS CORRECT\nSusceptible measles contacts may be offered MMR within 72 hours of exposure.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Exclude him and give nothing: Post-exposure protection should be offered, not just exclusion.\nB. Immunoglobulin is the only option at 48 hours: Within 72 hours MMR is preferred for a well adult; immunoglobulin is used up to 6 days, mainly if MMR is unsuitable.\nD. It is too late at 48 hours: MMR within 72 hours of exposure can prevent or modify measles.\nE. Give MMR at 2 weeks: MMR at 2 weeks is outside the post-exposure window.\n\n5. KEY TAKEAWAY\nSusceptible measles contacts can be given MMR within 72 hours (or immunoglobulin within 6 days), and unprotected contacts are excluded from childcare for the exclusion period.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "A susceptible adult had household measles contact 48 hours ago. He is well and not pregnant.",
-      "best_treatment": "Offer MMR today, within 72 hours of exposure",
-      "incorrect_answer_explanations": {
-        "A": "Post-exposure protection should be offered, not just exclusion.",
-        "B": "Within 72 hours MMR is preferred for a well adult; immunoglobulin is used up to 6 days, mainly if MMR is unsuitable.",
-        "D": "MMR within 72 hours of exposure can prevent or modify measles.",
-        "E": "MMR at 2 weeks is outside the post-exposure window."
-      },
-      "key_takeaways": [
-        "Susceptible measles contacts can be given MMR within 72 hours (or immunoglobulin within 6 days), and unprotected contacts are excluded from childcare for the exclusion period.",
-        "Susceptible measles contacts may be offered MMR within 72 hours of exposure."
-      ],
-      "subtopic": "Birth hepatitis B is given as soon as practicable, ideally within 24 hours and no later than 7 days.",
-      "clinical_vignette": true,
-      "id": "e8117387-01ae-5e66-bdd1-44adab1b1a54",
-      "zyntra_id": "ZQ-0615",
-      "phase": "PH-02",
-      "phase_item_id": "PH-I-52",
-      "lo_id": "9ea130b4-883b-53aa-af02-acd1c98238bc",
-      "lo_code": "MEASLES_POST_EXPOSURE",
-      "lo_key": "MEASLES_POST_EXPOSURE",
-      "lo_title": "Susceptible measles contacts can be given MMR within 72 hours (or immunoglobulin within 6 days), and unprotected contacts are excluded from childcare for the exclusion period.",
-      "lo_role": "variant",
-      "shared_lo": true,
-      "irt_b": 0.1,
-      "difficulty_tier": "medium",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
       "question_text": "An unimmunised 3-year-old had measles contact at childcare yesterday. He is well. What is the most appropriate next step?",
       "options": [
         "Only exclude if a rash appears",
@@ -2281,49 +1894,6 @@
       "irt_b": 0.0,
       "difficulty_tier": "medium",
       "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: childcare / community",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
-      "question_text": "A healthy 8-month-old is having influenza vaccine for the first time. What is the most appropriate next step?",
-      "options": [
-        "Give a live intranasal vaccine",
-        "Delay until next winter",
-        "One dose is enough at 8 months",
-        "Influenza vaccine starts at 2 years",
-        "Give two doses, at least 4 weeks apart, this first year"
-      ],
-      "correct_answer": "E",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nE. Give two doses, at least 4 weeks apart, this first year\n\n---\n\n1. CLINICAL SITUATION\nA healthy 8-month-old is having influenza vaccine for the first time.\n\n2. THE RULE\nChildren aged 6 months to under 9 years need two influenza doses at least 4 weeks apart in the first year they are vaccinated, then one dose each year.\n\n3. WHY E IS CORRECT\nFirst-year influenza vaccine under 9 years is two doses at least 4 weeks apart.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Give a live intranasal vaccine: Live attenuated intranasal influenza vaccine is not used in Australia.\nB. Delay until next winter: Delay leaves the infant unprotected this season.\nC. One dose is enough at 8 months: Children under 9 vaccinated for the first time need two doses.\nD. Influenza vaccine starts at 2 years: Influenza vaccine is recommended from 6 months of age.\n\n5. KEY TAKEAWAY\nChildren aged 6 months to under 9 years need two influenza doses at least 4 weeks apart in the first year they are vaccinated, then one dose each year.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "A healthy 8-month-old is having influenza vaccine for the first time.",
-      "best_treatment": "Give two doses, at least 4 weeks apart, this first year",
-      "incorrect_answer_explanations": {
-        "A": "Live attenuated intranasal influenza vaccine is not used in Australia.",
-        "B": "Delay leaves the infant unprotected this season.",
-        "C": "Children under 9 vaccinated for the first time need two doses.",
-        "D": "Influenza vaccine is recommended from 6 months of age."
-      },
-      "key_takeaways": [
-        "Children aged 6 months to under 9 years need two influenza doses at least 4 weeks apart in the first year they are vaccinated, then one dose each year.",
-        "First-year influenza vaccine under 9 years is two doses at least 4 weeks apart."
-      ],
-      "subtopic": "Birth hepatitis B is given as soon as practicable, ideally within 24 hours and no later than 7 days.",
-      "clinical_vignette": true,
-      "id": "cd89fb3a-6a85-5c4d-a492-b1d504ad6a72",
-      "zyntra_id": "ZQ-0617",
-      "phase": "PH-02",
-      "phase_item_id": "PH-I-54",
-      "lo_id": "ba62f6aa-5d0d-5b22-be25-f2491bada823",
-      "lo_code": "INFANT_INFLUENZA_TWO_DOSE",
-      "lo_key": "INFANT_INFLUENZA_TWO_DOSE",
-      "lo_title": "Children aged 6 months to under 9 years need two influenza doses at least 4 weeks apart in the first year they are vaccinated, then one dose each year.",
-      "lo_role": "variant",
-      "shared_lo": true,
-      "irt_b": 0.0,
-      "difficulty_tier": "medium",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
       "blueprint_eligible": true,
       "status": "draft"
     },
@@ -2414,49 +1984,6 @@
       "status": "draft"
     },
     {
-      "question_text": "An infant is due for meningococcal B. The parent has read that prophylactic paracetamol is no longer recommended with any vaccine. What is the most appropriate next step?",
-      "options": [
-        "Give prophylactic paracetamol with meningococcal B, as recommended",
-        "Give paracetamol only if fever occurs, never before",
-        "Omit paracetamol because routine prophylaxis is discouraged",
-        "Delay MenB until 12 months to avoid fever",
-        "Give ibuprofen instead"
-      ],
-      "correct_answer": "A",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. Give prophylactic paracetamol with meningococcal B, as recommended\n\n---\n\n1. CLINICAL SITUATION\nAn infant is due for meningococcal B. The parent has read that prophylactic paracetamol is no longer recommended with any vaccine.\n\n2. THE RULE\nProphylactic paracetamol is recommended with each MenB dose in children under 2 years, but is not routine for other vaccines.\n\n3. WHY A IS CORRECT\nProphylactic paracetamol is specifically recommended with infant meningococcal B vaccine.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Give paracetamol only if fever occurs, never before: The recommendation is prophylactic, starting 30 minutes before or at vaccination.\nC. Omit paracetamol because routine prophylaxis is discouraged: For MenB in children under 2, prophylactic paracetamol is specifically recommended.\nD. Delay MenB until 12 months to avoid fever: Delaying MenB leaves the infant unprotected in the highest-risk age.\nE. Give ibuprofen instead: Ibuprofen is not the recommended prophylaxis.\n\n5. KEY TAKEAWAY\nProphylactic paracetamol is recommended with each MenB dose in children under 2 years, but is not routine for other vaccines.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "An infant is due for meningococcal B. The parent has read that prophylactic paracetamol is no longer recommended with any vaccine.",
-      "best_treatment": "Give prophylactic paracetamol with meningococcal B, as recommended",
-      "incorrect_answer_explanations": {
-        "B": "The recommendation is prophylactic, starting 30 minutes before or at vaccination.",
-        "C": "For MenB in children under 2, prophylactic paracetamol is specifically recommended.",
-        "D": "Delaying MenB leaves the infant unprotected in the highest-risk age.",
-        "E": "Ibuprofen is not the recommended prophylaxis."
-      },
-      "key_takeaways": [
-        "Prophylactic paracetamol is recommended with each MenB dose in children under 2 years, but is not routine for other vaccines.",
-        "Prophylactic paracetamol is specifically recommended with infant meningococcal B vaccine."
-      ],
-      "subtopic": "Birth hepatitis B is given as soon as practicable, ideally within 24 hours and no later than 7 days.",
-      "clinical_vignette": true,
-      "id": "6d9f09f3-6e5b-5bf3-8f0f-c7bdad53bb07",
-      "zyntra_id": "ZQ-0620",
-      "phase": "PH-02",
-      "phase_item_id": "PH-I-57",
-      "lo_id": "bef6945b-b694-512d-874f-50c3ecea07ac",
-      "lo_code": "MENB_PARACETAMOL",
-      "lo_key": "MENB_PARACETAMOL",
-      "lo_title": "Prophylactic paracetamol is recommended with each MenB dose in children under 2 years, but is not routine for other vaccines.",
-      "lo_role": "variant",
-      "shared_lo": true,
-      "irt_b": 0.05,
-      "difficulty_tier": "medium",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
       "question_text": "A 12-month-old is due for MenB. A parent wants to skip paracetamol because the child is older than 6 months. Which of the following is most accurate?",
       "options": [
         "Still give the recommended paracetamol with infant MenB",
@@ -2539,49 +2066,6 @@
       "irt_b": 0.05,
       "difficulty_tier": "medium",
       "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
-      "question_text": "A 4-year-old had one day of mild gastroenteritis and has recovered. There are no other cases at home or at childcare. Which of the following is most accurate?",
-      "options": [
-        "Start antibiotics for the household",
-        "Collect stool on every family member today",
-        "This single mild case does not need notification",
-        "Notify every gastroenteritis",
-        "Close the childcare for one case"
-      ],
-      "correct_answer": "C",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nC. This single mild case does not need notification\n\n---\n\n1. CLINICAL SITUATION\nA 4-year-old had one day of mild gastroenteritis and has recovered. There are no other cases at home or at childcare.\n\n2. THE RULE\nNotification follows the jurisdiction's notifiable disease list: a single mild community gastroenteritis is not notified, but suspected outbreaks such as linked childcare cases are.\n\n3. WHY C IS CORRECT\nOne recovered gastroenteritis without a cluster is not an outbreak notification.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Start antibiotics for the household: Antibiotics are not indicated for mild self-limiting gastroenteritis or for contacts.\nB. Collect stool on every family member today: Stool testing of well family members is not indicated.\nD. Notify every gastroenteritis: Most single gastroenteritis cases are not notifiable without a specified pathogen or outbreak.\nE. Close the childcare for one case: One recovered case does not justify closing a centre.\n\n5. KEY TAKEAWAY\nNotification follows the jurisdiction's notifiable disease list: a single mild community gastroenteritis is not notified, but suspected outbreaks such as linked childcare cases are.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "A 4-year-old had one day of mild gastroenteritis and has recovered. There are no other cases at home or at childcare.",
-      "best_treatment": "This single mild case does not need notification",
-      "incorrect_answer_explanations": {
-        "A": "Antibiotics are not indicated for mild self-limiting gastroenteritis or for contacts.",
-        "B": "Stool testing of well family members is not indicated.",
-        "D": "Most single gastroenteritis cases are not notifiable without a specified pathogen or outbreak.",
-        "E": "One recovered case does not justify closing a centre."
-      },
-      "key_takeaways": [
-        "Notification follows the jurisdiction's notifiable disease list: a single mild community gastroenteritis is not notified, but suspected outbreaks such as linked childcare cases are.",
-        "One recovered gastroenteritis without a cluster is not an outbreak notification."
-      ],
-      "subtopic": "Birth hepatitis B is given as soon as practicable, ideally within 24 hours and no later than 7 days.",
-      "clinical_vignette": true,
-      "id": "02b6fbd7-c0df-550a-9b60-18de710aa68f",
-      "zyntra_id": "ZQ-0623",
-      "phase": "PH-02",
-      "phase_item_id": "PH-I-60",
-      "lo_id": "ce078006-c98a-5946-bb1c-f4961c4f7bb2",
-      "lo_code": "OUTBREAK_NOTIFICATION",
-      "lo_key": "OUTBREAK_NOTIFICATION",
-      "lo_title": "Notification follows the jurisdiction's notifiable disease list: a single mild community gastroenteritis is not notified, but suspected outbreaks such as linked childcare cases are.",
-      "lo_role": "edge",
-      "shared_lo": true,
-      "irt_b": 0.1,
-      "difficulty_tier": "medium",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: childcare / community",
       "blueprint_eligible": true,
       "status": "draft"
     },
@@ -2706,7 +2190,7 @@
       "lo_code": "AIR_RECORD",
       "lo_key": "AIR_RECORD",
       "lo_title": "Missing vaccination records are fixed by a recognised vaccination provider submitting the encounter to the AIR with the actual date given.",
-      "lo_role": "variant",
+      "lo_role": "core",
       "shared_lo": true,
       "irt_b": 0.05,
       "difficulty_tier": "medium",

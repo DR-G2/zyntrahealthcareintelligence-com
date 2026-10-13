@@ -1,7 +1,7 @@
 {
   "phase": "PH-07",
   "phase_name": "Professionalism and impairment",
-  "count": 48,
+  "count": 42,
   "reviewed_by": "Dr Heisenberg",
   "status": "draft",
   "items": [
@@ -212,7 +212,7 @@
       "lo_code": "PRIVACY_SOCIAL",
       "lo_key": "PRIVACY_SOCIAL",
       "lo_title": "Posting case details on social media can identify a patient even without a name and breaches privacy without consent.",
-      "lo_role": "edge",
+      "lo_role": "core",
       "shared_lo": true,
       "irt_b": 1.0,
       "difficulty_tier": "hard",
@@ -651,49 +651,6 @@
       "status": "draft"
     },
     {
-      "question_text": "A GP has treated a woman for depression for six months. She is improving. He asks if a sexual relationship is now acceptable because the therapeutic relationship is almost over. Which of the following is most accurate?",
-      "options": [
-        "Depression care is an exception",
-        "Almost over means it is acceptable",
-        "A sexual relationship with a current or recent patient is misconduct",
-        "Six months of care ends the prohibition",
-        "He may begin the relationship now"
-      ],
-      "correct_answer": "C",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nC. A sexual relationship with a current or recent patient is misconduct\n\n---\n\n1. CLINICAL SITUATION\nA GP has treated a woman for depression for six months. She is improving. He asks if a sexual relationship is now acceptable because the therapeutic relationship is almost over.\n\n2. THE RULE\nA sexual relationship with a current or recent patient is professional misconduct, regardless of consent or transfer of care.\n\n3. WHY C IS CORRECT\nAlmost over is not over. Decline the relationship.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Depression care is an exception: Mental health care heightens vulnerability; it is not an exception.\nB. Almost over means it is acceptable: Ending care soon does not permit a relationship.\nD. Six months of care ends the prohibition: Duration of care does not end the prohibition.\nE. He may begin the relationship now: This would be professional misconduct.\n\n5. KEY TAKEAWAY\nA sexual relationship with a current or recent patient is professional misconduct, regardless of consent or transfer of care.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "A GP has treated a woman for depression for six months. She is improving. He asks if a sexual relationship is now acceptable because the therapeutic relationship is almost over.",
-      "best_treatment": "A sexual relationship with a current or recent patient is misconduct",
-      "incorrect_answer_explanations": {
-        "A": "Mental health care heightens vulnerability; it is not an exception.",
-        "B": "Ending care soon does not permit a relationship.",
-        "D": "Duration of care does not end the prohibition.",
-        "E": "This would be professional misconduct."
-      },
-      "key_takeaways": [
-        "A sexual relationship with a current or recent patient is professional misconduct, regardless of consent or transfer of care.",
-        "Almost over is not over."
-      ],
-      "subtopic": "A sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.",
-      "clinical_vignette": true,
-      "id": "b9c89ccd-e3a7-5f2f-bb63-887fab02ff6d",
-      "zyntra_id": "ZQ-0734",
-      "phase": "PH-07",
-      "phase_item_id": "PH-P-16",
-      "lo_id": "27d9a2f0-ce57-56b5-9079-9dc28350422c",
-      "lo_code": "SEXUAL_BOUNDARY",
-      "lo_key": "SEXUAL_BOUNDARY",
-      "lo_title": "A sexual relationship with a current or recent patient is professional misconduct, regardless of consent or transfer of care.",
-      "lo_role": "variant",
-      "shared_lo": true,
-      "irt_b": -0.1,
-      "difficulty_tier": "medium",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
       "question_text": "He ended formal care four weeks ago and wants to start a relationship. Which of the following is most accurate?",
       "options": [
         "Private agreement cures it",
@@ -909,49 +866,6 @@
       "status": "draft"
     },
     {
-      "question_text": "A registrar posts a photo of a patient's distinctive rash, with the patient's suburb and age, to a closed social media group of 400 doctors. The patient did not consent. Which of the following is most accurate?",
-      "options": [
-        "A breach. The image and details can identify him",
-        "A closed group is confidential",
-        "Suburb and age are safe",
-        "400 colleagues is private enough",
-        "Teaching consent is not required"
-      ],
-      "correct_answer": "A",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. A breach. The image and details can identify him\n\n---\n\n1. CLINICAL SITUATION\nA registrar posts a photo of a patient's distinctive rash, with the patient's suburb and age, to a closed social media group of 400 doctors. The patient did not consent.\n\n2. THE RULE\nPosting case details on social media can identify a patient even without a name and breaches privacy without consent.\n\n3. WHY A IS CORRECT\nIdentifiable details in a closed group are still a breach.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. A closed group is confidential: A closed group is still a disclosure to others.\nC. Suburb and age are safe: Suburb, age and a distinctive rash can identify.\nD. 400 colleagues is private enough: Size does not make a breach acceptable.\nE. Teaching consent is not required: Identifiable teaching use needs consent.\n\n5. KEY TAKEAWAY\nPosting case details on social media can identify a patient even without a name and breaches privacy without consent.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "A registrar posts a photo of a patient's distinctive rash, with the patient's suburb and age, to a closed social media group of 400 doctors. The patient did not consent.",
-      "best_treatment": "A breach. The image and details can identify him",
-      "incorrect_answer_explanations": {
-        "B": "A closed group is still a disclosure to others.",
-        "C": "Suburb, age and a distinctive rash can identify.",
-        "D": "Size does not make a breach acceptable.",
-        "E": "Identifiable teaching use needs consent."
-      },
-      "key_takeaways": [
-        "Posting case details on social media can identify a patient even without a name and breaches privacy without consent.",
-        "Identifiable details in a closed group are still a breach."
-      ],
-      "subtopic": "A sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.",
-      "clinical_vignette": true,
-      "id": "6a776195-7da4-50d8-b3ee-a0a85f9010f0",
-      "zyntra_id": "ZQ-0740",
-      "phase": "PH-07",
-      "phase_item_id": "PH-P-22",
-      "lo_id": "0a12d5a9-40da-5124-a864-2d04f062b867",
-      "lo_code": "PRIVACY_SOCIAL",
-      "lo_key": "PRIVACY_SOCIAL",
-      "lo_title": "Posting case details on social media can identify a patient even without a name and breaches privacy without consent.",
-      "lo_role": "core",
-      "shared_lo": true,
-      "irt_b": -0.1,
-      "difficulty_tier": "medium",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
       "question_text": "A doctor wants to post a teaching case online. There is no name, but the post includes the patient's age, suburb, and a photo of a rare rash. Which of the following is most accurate?",
       "options": [
         "Private groups are outside the duty",
@@ -1032,49 +946,6 @@
       "lo_role": "trap",
       "shared_lo": true,
       "irt_b": 0.1,
-      "difficulty_tier": "medium",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
-      "question_text": "A woman asks for a female nurse chaperone before a pelvic examination. The male doctor is running late and the nurse is busy for 10 minutes. What is the most appropriate next step?",
-      "options": [
-        "Proceed because it will only take a minute",
-        "She can be examined and complain later",
-        "A hurry overrides the request",
-        "Stop. Offer to wait for the nurse or rebook",
-        "Male doctors need no chaperone"
-      ],
-      "correct_answer": "D",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nD. Stop. Offer to wait for the nurse or rebook\n\n---\n\n1. CLINICAL SITUATION\nA woman asks for a female nurse chaperone before a pelvic examination. The male doctor is running late and the nurse is busy for 10 minutes.\n\n2. THE RULE\nA patient's request for a chaperone during an intimate examination must be respected, and the examination waits until one is available.\n\n3. WHY D IS CORRECT\nHurry is not a reason to proceed without the chaperone she asked for.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Proceed because it will only take a minute: Brevity does not override a chaperone request.\nB. She can be examined and complain later: Proceeding against her wishes may be assault.\nC. A hurry overrides the request: Time pressure does not override her request.\nE. Male doctors need no chaperone: The request is the patient's to make, whoever the examiner.\n\n5. KEY TAKEAWAY\nA patient's request for a chaperone during an intimate examination must be respected, and the examination waits until one is available.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "A woman asks for a female nurse chaperone before a pelvic examination. The male doctor is running late and the nurse is busy for 10 minutes.",
-      "best_treatment": "Stop. Offer to wait for the nurse or rebook",
-      "incorrect_answer_explanations": {
-        "A": "Brevity does not override a chaperone request.",
-        "B": "Proceeding against her wishes may be assault.",
-        "C": "Time pressure does not override her request.",
-        "E": "The request is the patient's to make, whoever the examiner."
-      },
-      "key_takeaways": [
-        "A patient's request for a chaperone during an intimate examination must be respected, and the examination waits until one is available.",
-        "Hurry is not a reason to proceed without the chaperone she asked for."
-      ],
-      "subtopic": "A sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.",
-      "clinical_vignette": true,
-      "id": "e9bced32-390d-5e9a-b8ba-a38d69c590ca",
-      "zyntra_id": "ZQ-0743",
-      "phase": "PH-07",
-      "phase_item_id": "PH-P-25",
-      "lo_id": "e7741c92-9cbb-5566-b50a-f6e1238b329d",
-      "lo_code": "CHAPERONE",
-      "lo_key": "CHAPERONE",
-      "lo_title": "A patient's request for a chaperone during an intimate examination must be respected, and the examination waits until one is available.",
-      "lo_role": "variant",
-      "shared_lo": true,
-      "irt_b": -0.05,
       "difficulty_tier": "medium",
       "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
       "blueprint_eligible": true,
@@ -1339,49 +1210,6 @@
       "status": "draft"
     },
     {
-      "question_text": "A GP's adult daughter asks him for a benzodiazepine prescription. What is the most appropriate next step?",
-      "options": [
-        "Document and prescribe ongoing benzodiazepines",
-        "Avoid becoming the treating doctor for this",
-        "Trust is a reason to prescribe",
-        "A short script is harmless",
-        "No other doctor is acceptable"
-      ],
-      "correct_answer": "B",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. Avoid becoming the treating doctor for this\n\n---\n\n1. CLINICAL SITUATION\nA GP's adult daughter asks him for a benzodiazepine prescription.\n\n2. THE RULE\nDoctors should avoid treating family or close friends except in emergencies, and arrange care with an independent practitioner.\n\n3. WHY B IS CORRECT\nFamily plus these medicines. Decline.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Document and prescribe ongoing benzodiazepines: Ongoing benzodiazepines for family is clearly inappropriate.\nC. Trust is a reason to prescribe: Trust does not justify prescribing.\nD. A short script is harmless: Drugs of dependence for family should not be prescribed.\nE. No other doctor is acceptable: Other doctors are available and appropriate.\n\n5. KEY TAKEAWAY\nDoctors should avoid treating family or close friends except in emergencies, and arrange care with an independent practitioner.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "A GP's adult daughter asks him for a benzodiazepine prescription.",
-      "best_treatment": "Avoid becoming the treating doctor for this",
-      "incorrect_answer_explanations": {
-        "A": "Ongoing benzodiazepines for family is clearly inappropriate.",
-        "C": "Trust does not justify prescribing.",
-        "D": "Drugs of dependence for family should not be prescribed.",
-        "E": "Other doctors are available and appropriate."
-      },
-      "key_takeaways": [
-        "Doctors should avoid treating family or close friends except in emergencies, and arrange care with an independent practitioner.",
-        "Family plus these medicines."
-      ],
-      "subtopic": "A sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.",
-      "clinical_vignette": true,
-      "id": "6c607ad8-19a8-5b17-b3b5-ffe333fca113",
-      "zyntra_id": "ZQ-0750",
-      "phase": "PH-07",
-      "phase_item_id": "PH-P-32",
-      "lo_id": "3a3569c2-7e2e-5d89-9ad3-be50bbeb4ac9",
-      "lo_code": "FAMILY_TREATMENT",
-      "lo_key": "FAMILY_TREATMENT",
-      "lo_title": "Doctors should avoid treating family or close friends except in emergencies, and arrange care with an independent practitioner.",
-      "lo_role": "variant",
-      "shared_lo": true,
-      "irt_b": 0.1,
-      "difficulty_tier": "medium",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
       "question_text": "The request is ongoing mental health care from her father. Redirect. Emergency first aid is a different question. Which of the following is most accurate?",
       "options": [
         "A parent must treat",
@@ -1554,49 +1382,6 @@
       "status": "draft"
     },
     {
-      "question_text": "A colleague fabricated a result and enrolled two patients without consent. What is the most appropriate next step?",
-      "options": [
-        "Raise the fabrication and the missing consent through the proper channel",
-        "Missing consent is minor",
-        "Fabrication can be averaged out",
-        "A private apology is enough",
-        "Stay quiet because he promised"
-      ],
-      "correct_answer": "A",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. Raise the fabrication and the missing consent through the proper channel\n\n---\n\n1. CLINICAL SITUATION\nA colleague fabricated a result and enrolled two patients without consent.\n\n2. THE RULE\nResearch fabrication and enrolment without consent are research misconduct that must be reported through proper channels, regardless of results.\n\n3. WHY A IS CORRECT\nResearch misconduct is raised, not hidden.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Missing consent is minor: Missing consent is a serious ethical breach.\nC. Fabrication can be averaged out: Fabricated data cannot be averaged away.\nD. A private apology is enough: Private apology does not fix research integrity.\nE. Stay quiet because he promised: A promise does not discharge the duty to report misconduct.\n\n5. KEY TAKEAWAY\nResearch fabrication and enrolment without consent are research misconduct that must be reported through proper channels, regardless of results.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "A colleague fabricated a result and enrolled two patients without consent.",
-      "best_treatment": "Raise the fabrication and the missing consent through the proper channel",
-      "incorrect_answer_explanations": {
-        "B": "Missing consent is a serious ethical breach.",
-        "C": "Fabricated data cannot be averaged away.",
-        "D": "Private apology does not fix research integrity.",
-        "E": "A promise does not discharge the duty to report misconduct."
-      },
-      "key_takeaways": [
-        "Research fabrication and enrolment without consent are research misconduct that must be reported through proper channels, regardless of results.",
-        "Research misconduct is raised, not hidden."
-      ],
-      "subtopic": "A sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.",
-      "clinical_vignette": true,
-      "id": "2d2ae3bc-2aae-50d2-aa2c-ccb25c6285a8",
-      "zyntra_id": "ZQ-0755",
-      "phase": "PH-07",
-      "phase_item_id": "PH-P-37",
-      "lo_id": "f46c0963-0d14-5b2e-8336-a8af8693d41d",
-      "lo_code": "RESEARCH_MISCONDUCT",
-      "lo_key": "RESEARCH_MISCONDUCT",
-      "lo_title": "Research fabrication and enrolment without consent are research misconduct that must be reported through proper channels, regardless of results.",
-      "lo_role": "variant",
-      "shared_lo": true,
-      "irt_b": 0.0,
-      "difficulty_tier": "medium",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
       "question_text": "A trial investigator enrolled a patient without consent and proposes obtaining consent retrospectively. Which of the following is most accurate?",
       "options": [
         "A good overall result cures it",
@@ -1761,49 +1546,6 @@
       "lo_key": "CONFLICT_OWNERSHIP",
       "lo_title": "A financial interest, own or family, in a service a doctor refers to is disclosed to the patient, who is offered a genuine alternative, with referral based on clinical need.",
       "lo_role": "variant",
-      "shared_lo": true,
-      "irt_b": 0.1,
-      "difficulty_tier": "medium",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
-      "question_text": "A student who has never seen a mastectomy is asked to consent the patient, including risks. Consent is taken by someone who can explain it. What is the most appropriate next step?",
-      "options": [
-        "Delegation is always appropriate",
-        "A student can take any consent",
-        "Never having seen the operation does not matter",
-        "Stop it. The student is not competent to consent a patient for mastectomy",
-        "The form is what counts"
-      ],
-      "correct_answer": "D",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nD. Stop it. The student is not competent to consent a patient for mastectomy\n\n---\n\n1. CLINICAL SITUATION\nA student who has never seen a mastectomy is asked to consent the patient, including risks. Consent is taken by someone who can explain it.\n\n2. THE RULE\nStudents and juniors must only do tasks they are competent for and supervised in; obtaining consent requires someone who understands the procedure and its risks.\n\n3. WHY D IS CORRECT\nDo not delegate consent the junior cannot give.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Delegation is always appropriate: Delegation must match competence.\nB. A student can take any consent: Consent must be taken by someone able to explain the procedure.\nC. Never having seen the operation does not matter: Understanding the operation is essential to consent.\nE. The form is what counts: Consent is a process, not a form.\n\n5. KEY TAKEAWAY\nStudents and juniors must only do tasks they are competent for and supervised in; obtaining consent requires someone who understands the procedure and its risks.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "A student who has never seen a mastectomy is asked to consent the patient, including risks. Consent is taken by someone who can explain it.",
-      "best_treatment": "Stop it. The student is not competent to consent a patient for mastectomy",
-      "incorrect_answer_explanations": {
-        "A": "Delegation must match competence.",
-        "B": "Consent must be taken by someone able to explain the procedure.",
-        "C": "Understanding the operation is essential to consent.",
-        "E": "Consent is a process, not a form."
-      },
-      "key_takeaways": [
-        "Students and juniors must only do tasks they are competent for and supervised in; obtaining consent requires someone who understands the procedure and its risks.",
-        "Do not delegate consent the junior cannot give."
-      ],
-      "subtopic": "A sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.",
-      "clinical_vignette": true,
-      "id": "dcc772a7-b002-50d2-b82b-bf64608dc6e2",
-      "zyntra_id": "ZQ-0760",
-      "phase": "PH-07",
-      "phase_item_id": "PH-P-42",
-      "lo_id": "7d13745c-e019-566c-85d1-6485780ca565",
-      "lo_code": "SUPERVISION",
-      "lo_key": "SUPERVISION",
-      "lo_title": "Students and juniors must only do tasks they are competent for and supervised in; obtaining consent requires someone who understands the procedure and its risks.",
-      "lo_role": "edge",
       "shared_lo": true,
       "irt_b": 0.1,
       "difficulty_tier": "medium",

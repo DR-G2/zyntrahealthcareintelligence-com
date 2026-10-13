@@ -1,7 +1,7 @@
 {
   "phase": "PH-01",
   "phase_name": "Screening programs",
-  "count": 32,
+  "count": 30,
   "reviewed_by": "Dr Heisenberg",
   "status": "draft",
   "items": [
@@ -1249,92 +1249,6 @@
       "irt_b": 0.05,
       "difficulty_tier": "medium",
       "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
-      "question_text": "A 58-year-old man completed a National Bowel Cancer Screening kit. The result is positive. He feels well, has no rectal bleeding, and his weight is stable. He asks for another kit to check the result, because he has read that the test can be wrong and he would prefer to avoid a colonoscopy. A colleague says a second kit is reasonable if he is anxious. What is the most appropriate advice?",
-      "options": [
-        "Reassure him that a positive kit in a well man is usually a false alarm",
-        "Refer him for colonoscopy",
-        "Start him on a low-residue diet and repeat the kit in six months",
-        "Give him a second kit and only refer if that is also positive",
-        "Arrange a faecal occult blood test in the clinic instead of colonoscopy"
-      ],
-      "correct_answer": "B",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. Refer him for colonoscopy\n\n---\n\n1. CLINICAL SITUATION\nA 58-year-old man completed a National Bowel Cancer Screening kit. The result is positive. He feels well, has no rectal bleeding, and his weight is stable.\n\n2. THE RULE\nA positive bowel screening iFOBT, or bowel symptoms, requires diagnostic colonoscopy, never a repeat kit.\n\n3. WHY B IS CORRECT\nA positive bowel screening kit leads to colonoscopy. Repeating the kit can produce a false negative and delay diagnosis. Being asymptomatic does not change the pathway. The screening test is not confirmed by doing it again.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Reassure him that a positive kit in a well man is usually a false alarm: Feeling well does not lower the risk enough to ignore a positive program result.\nC. Start him on a low-residue diet and repeat the kit in six months: Diet change and a delayed repeat postpone the diagnostic test with no benefit.\nD. Give him a second kit and only refer if that is also positive: A repeat kit can be falsely negative; a positive iFOBT goes straight to colonoscopy.\nE. Arrange a faecal occult blood test in the clinic instead of colonoscopy: Another faecal blood test is still only a screen; it cannot replace colonoscopy.\n\n5. KEY TAKEAWAY\nA positive bowel screening iFOBT, or bowel symptoms, requires diagnostic colonoscopy, never a repeat kit.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "A 58-year-old man completed a National Bowel Cancer Screening kit. The result is positive. He feels well, has no rectal bleeding, and his weight is stable.",
-      "best_treatment": "Refer him for colonoscopy",
-      "incorrect_answer_explanations": {
-        "A": "Feeling well does not lower the risk enough to ignore a positive program result.",
-        "C": "Diet change and a delayed repeat postpone the diagnostic test with no benefit.",
-        "D": "A repeat kit can be falsely negative; a positive iFOBT goes straight to colonoscopy.",
-        "E": "Another faecal blood test is still only a screen; it cannot replace colonoscopy."
-      },
-      "key_takeaways": [
-        "A positive bowel screening iFOBT, or bowel symptoms, requires diagnostic colonoscopy, never a repeat kit.",
-        "A positive bowel screening kit leads to colonoscopy."
-      ],
-      "subtopic": "Invite a symptom-free woman aged 50\u201374 to BreastScreen every 2 years.",
-      "clinical_vignette": true,
-      "id": "53dfe562-3ad4-5779-84bb-bf7f319a7d2b",
-      "zyntra_id": "ZQ-0589",
-      "phase": "PH-01",
-      "phase_item_id": "PH-S-30",
-      "lo_id": "fe130935-33eb-5ba2-a042-fe471cc453ed",
-      "lo_code": "BOWEL_NOT_A_REPEAT_KIT",
-      "lo_key": "BOWEL_NOT_A_REPEAT_KIT",
-      "lo_title": "A positive bowel screening iFOBT, or bowel symptoms, requires diagnostic colonoscopy, never a repeat kit.",
-      "lo_role": "variant",
-      "shared_lo": true,
-      "irt_b": -0.05,
-      "difficulty_tier": "medium",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
-      "question_text": "A 32-year-old woman has postcoital bleeding for two months. Her last cervical screening test was 18 months ago and was negative for HPV. She asks for an early routine screening test because she is worried, and a friend has told her that a negative test last year means she can wait for the normal five-year interval. She is not pregnant. What is the most appropriate next step?",
-      "options": [
-        "Arrange a screening self-collection swab and discharge her",
-        "Start the oral contraceptive pill and review the bleeding in six months",
-        "Repeat the HPV test now and reassure her if it is negative",
-        "Assess the bleeding and refer. Do not treat this as a routine interval screen",
-        "Tell her to wait until the five-year interval because the last test was negative"
-      ],
-      "correct_answer": "D",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nD. Assess the bleeding and refer. Do not treat this as a routine interval screen\n\n---\n\n1. CLINICAL SITUATION\nA 32-year-old woman has postcoital bleeding for two months. Her last cervical screening test was 18 months ago and was negative for HPV. She asks for an early routine screening test because she is worried, and a friend has told her that a negative test last year means she can wait for the normal five-year interval.\n\n2. THE RULE\nHPV 16/18 is referred for colposcopy regardless of cytology, other oncogenic HPV is retested in 12 months, and abnormal bleeding is investigated as a symptom, not screened.\n\n3. WHY D IS CORRECT\nPostcoital bleeding is a symptom. It is not managed by repeating a screening test or by waiting for the next interval. A recent negative HPV result does not clear the symptom. She needs assessment and referral, not a routine screen.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Arrange a screening self-collection swab and discharge her: A self-collected HPV swab is a screening test and gives no cytology or examination for a symptom.\nB. Start the oral contraceptive pill and review the bleeding in six months: Starting the pill treats nothing and delays assessment of a possible cervical lesion.\nC. Repeat the HPV test now and reassure her if it is negative: An HPV result cannot explain or exclude postcoital bleeding; the symptom needs examination and referral.\nE. Tell her to wait until the five-year interval because the last test was negative: The 5-year interval applies to asymptomatic people; symptoms override the screening schedule.\n\n5. KEY TAKEAWAY\nHPV 16/18 is referred for colposcopy regardless of cytology, other oncogenic HPV is retested in 12 months, and abnormal bleeding is investigated as a symptom, not screened.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "A 32-year-old woman has postcoital bleeding for two months. Her last cervical screening test was 18 months ago and was negative for HPV. She asks for an early routine screening test because she is worried, and a friend has told her that a negative test last year means she can wait for the normal five-year interval.",
-      "best_treatment": "Assess the bleeding and refer. Do not treat this as a routine interval screen",
-      "incorrect_answer_explanations": {
-        "A": "A self-collected HPV swab is a screening test and gives no cytology or examination for a symptom.",
-        "B": "Starting the pill treats nothing and delays assessment of a possible cervical lesion.",
-        "C": "An HPV result cannot explain or exclude postcoital bleeding; the symptom needs examination and referral.",
-        "E": "The 5-year interval applies to asymptomatic people; symptoms override the screening schedule."
-      },
-      "key_takeaways": [
-        "HPV 16/18 is referred for colposcopy regardless of cytology, other oncogenic HPV is retested in 12 months, and abnormal bleeding is investigated as a symptom, not screened.",
-        "Postcoital bleeding is a symptom."
-      ],
-      "subtopic": "Invite a symptom-free woman aged 50\u201374 to BreastScreen every 2 years.",
-      "clinical_vignette": true,
-      "id": "8c42e1ab-7a8a-53d0-9b29-a3760ab3e4a2",
-      "zyntra_id": "ZQ-0590",
-      "phase": "PH-01",
-      "phase_item_id": "PH-S-31",
-      "lo_id": "b57ffc42-352c-5237-8eaa-85f5c609c438",
-      "lo_code": "CERVICAL_ABNORMAL_OR_SYMPTOM",
-      "lo_key": "CERVICAL_ABNORMAL_OR_SYMPTOM",
-      "lo_title": "HPV 16/18 is referred for colposcopy regardless of cytology, other oncogenic HPV is retested in 12 months, and abnormal bleeding is investigated as a symptom, not screened.",
-      "lo_role": "edge",
-      "shared_lo": true,
-      "irt_b": -0.05,
-      "difficulty_tier": "medium",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: data gathering; setting: general practice / community (not specified in stem)",
       "blueprint_eligible": true,
       "status": "draft"
     },

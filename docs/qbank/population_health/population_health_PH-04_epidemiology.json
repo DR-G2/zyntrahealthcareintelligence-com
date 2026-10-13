@@ -1,7 +1,7 @@
 {
   "phase": "PH-04",
   "phase_name": "Epidemiology and statistics",
-  "count": 41,
+  "count": 31,
   "reviewed_by": "Dr Heisenberg",
   "status": "draft",
   "items": [
@@ -87,49 +87,6 @@
       "shared_lo": true,
       "irt_b": 1.0,
       "difficulty_tier": "hard",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: general practice / community (not specified in stem)",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
-      "question_text": "A highly sensitive test for a rare serious infection is negative. A colleague says a sensitive test is used to confirm disease, so the negative result is unhelpful. SnNOut. What is the most appropriate interpretation?",
-      "options": [
-        "D-dimer sensitivity is irrelevant to a rule-out pathway",
-        "A negative result on a sensitive test helps rule disease out",
-        "A positive D-dimer in low-risk patients confirms embolism",
-        "Specificity is the chance the patient has the disease",
-        "A negative specific test rules disease in"
-      ],
-      "correct_answer": "B",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. A negative result on a sensitive test helps rule disease out\n\n---\n\n1. CLINICAL SITUATION\nA negative sensitive test helps rule disease out. Specificity is not the property that does that job.\n\n2. THE RULE\nSensitivity and specificity are test properties; a negative highly sensitive test helps rule disease out, and the post-test probability also needs prevalence or likelihood ratios.\n\n3. WHY B IS CORRECT\nA highly sensitive test, when negative, makes the disease unlikely. That is the rule-out use. A highly specific test, when positive, helps rule in. D-dimer is used as a sensitive rule-out test in low-risk patients, not as a rule-in test.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. D-dimer sensitivity is irrelevant to a rule-out pathway: Sensitivity is why the pathway works.\nC. A positive D-dimer in low-risk patients confirms embolism: D-dimer has many false positives.\nD. Specificity is the chance the patient has the disease: Specificity is a test property, not a post-test probability.\nE. A negative specific test rules disease in: A negative result does not rule in.\n\n5. KEY TAKEAWAY\nSnNOut: a sensitive test, if negative, helps rule out.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "A negative sensitive test helps rule disease out. Specificity is not the property that does that job.",
-      "best_treatment": "A negative result on a sensitive test helps rule disease out",
-      "incorrect_answer_explanations": {
-        "A": "Sensitivity is why the pathway works.",
-        "C": "D-dimer has many false positives.",
-        "D": "Specificity is a test property, not a post-test probability.",
-        "E": "A negative result does not rule in."
-      },
-      "key_takeaways": [
-        "SnNOut: a sensitive test, if negative, helps rule out.",
-        "SpPIn: a specific test, if positive, helps rule in."
-      ],
-      "subtopic": "Specificity is true negatives among those without disease. A specific test is used to rule in.",
-      "clinical_vignette": true,
-      "id": "e9aa449a-e060-5384-a1bf-60a37b408d5f",
-      "zyntra_id": "ZQ-0484",
-      "phase": "PH-04",
-      "phase_item_id": "PH-E-03",
-      "lo_id": "70bffe72-cd4a-584c-96b0-e82c55b68ae3",
-      "lo_code": "TEST_PROPERTIES",
-      "lo_key": "TEST_PROPERTIES",
-      "lo_title": "Sensitivity and specificity are test properties; a negative highly sensitive test helps rule disease out, and the post-test probability also needs prevalence or likelihood ratios.",
-      "lo_role": "variant",
-      "shared_lo": true,
-      "irt_b": 0.05,
-      "difficulty_tier": "medium",
       "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: general practice / community (not specified in stem)",
       "blueprint_eligible": true,
       "status": "draft"
@@ -1038,49 +995,6 @@
       "status": "draft"
     },
     {
-      "question_text": "A man has a positive bowel screening kit and asks for a repeat kit before any procedure. A second kit can be falsely negative. Which of the following is most accurate?",
-      "options": [
-        "A positive screening test is not a diagnosis and is not confirmed by repeating the same test",
-        "No further test is needed",
-        "Repeat the kit to be sure",
-        "A second negative kit clears a positive one",
-        "A positive screening test is a diagnosis"
-      ],
-      "correct_answer": "A",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. A positive screening test is not a diagnosis and is not confirmed by repeating the same test\n\n---\n\n1. CLINICAL SITUATION\nA man has a positive bowel screening kit and asks for a repeat kit before any procedure. A second kit can be falsely negative.\n\n2. THE RULE\nA positive bowel screening iFOBT, or bowel symptoms, requires diagnostic colonoscopy, never a repeat kit.\n\n3. WHY A IS CORRECT\nPositive screen goes to the diagnostic test, not a repeat of the same screen.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. No further test is needed: A positive screen needs diagnostic follow-up (colonoscopy).\nC. Repeat the kit to be sure: Repeating the screen does not confirm or exclude disease.\nD. A second negative kit clears a positive one: A second negative does not cancel a positive result.\nE. A positive screening test is a diagnosis: A screen is not a diagnosis; diagnostic testing follows.\n\n5. KEY TAKEAWAY\nA positive bowel screening iFOBT, or bowel symptoms, requires diagnostic colonoscopy, never a repeat kit.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "A man has a positive bowel screening kit and asks for a repeat kit before any procedure. A second kit can be falsely negative.",
-      "best_treatment": "A positive screening test is not a diagnosis and is not confirmed by repeating the same test",
-      "incorrect_answer_explanations": {
-        "B": "A positive screen needs diagnostic follow-up (colonoscopy).",
-        "C": "Repeating the screen does not confirm or exclude disease.",
-        "D": "A second negative does not cancel a positive result.",
-        "E": "A screen is not a diagnosis; diagnostic testing follows."
-      },
-      "key_takeaways": [
-        "A positive bowel screening iFOBT, or bowel symptoms, requires diagnostic colonoscopy, never a repeat kit.",
-        "Positive screen goes to the diagnostic test, not a repeat of the same screen."
-      ],
-      "subtopic": "Sensitivity is true positives among those with disease. It does not tell you the chance you have the disease if the test is positive.",
-      "clinical_vignette": true,
-      "id": "ab751fe0-dc95-536c-a367-7888475c6bc0",
-      "zyntra_id": "ZQ-0658",
-      "phase": "PH-04",
-      "phase_item_id": "PH-E-25",
-      "lo_id": "fe130935-33eb-5ba2-a042-fe471cc453ed",
-      "lo_code": "BOWEL_NOT_A_REPEAT_KIT",
-      "lo_key": "BOWEL_NOT_A_REPEAT_KIT",
-      "lo_title": "A positive bowel screening iFOBT, or bowel symptoms, requires diagnostic colonoscopy, never a repeat kit.",
-      "lo_role": "trap",
-      "shared_lo": true,
-      "irt_b": 0.05,
-      "difficulty_tier": "medium",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: general practice / community (not specified in stem)",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
       "question_text": "A registrar swaps two figures. One is new cases in a year. The other is people who currently have the disease. Which of the following is most accurate?",
       "options": [
         "A cure that shortens disease raises prevalence",
@@ -1124,92 +1038,6 @@
       "status": "draft"
     },
     {
-      "question_text": "In a town of 10,000, 200 people have a chronic disease on a given day and 20 new cases occur that year. Which of the following is most accurate?",
-      "options": [
-        "Prevalence 200 per 10,000. Incidence 20 per 10,000 per year",
-        "Prevalence is a rate per year only",
-        "Incidence cannot be calculated from new cases",
-        "Prevalence 20 per 10,000 and incidence 200",
-        "Both are 200"
-      ],
-      "correct_answer": "A",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. Prevalence 200 per 10,000. Incidence 20 per 10,000 per year\n\n---\n\n1. CLINICAL SITUATION\nIn a town of 10,000, 200 people have a chronic disease on a given day and 20 new cases occur that year.\n\n2. THE RULE\nIncidence is new cases in a population over a period of time, while prevalence is all existing cases at a point in time.\n\n3. WHY A IS CORRECT\nPrevalence is the stock. Incidence is the flow. Label them correctly.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Prevalence is a rate per year only: Point prevalence is a proportion at a time, not a yearly rate.\nC. Incidence cannot be calculated from new cases: Incidence is calculated from new cases over the population at risk.\nD. Prevalence 20 per 10,000 and incidence 200: The figures are swapped.\nE. Both are 200: There are 200 existing cases and 20 new cases, so they differ.\n\n5. KEY TAKEAWAY\nIncidence is new cases in a population over a period of time, while prevalence is all existing cases at a point in time.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "In a town of 10,000, 200 people have a chronic disease on a given day and 20 new cases occur that year.",
-      "best_treatment": "Prevalence 200 per 10,000. Incidence 20 per 10,000 per year",
-      "incorrect_answer_explanations": {
-        "B": "Point prevalence is a proportion at a time, not a yearly rate.",
-        "C": "Incidence is calculated from new cases over the population at risk.",
-        "D": "The figures are swapped.",
-        "E": "There are 200 existing cases and 20 new cases, so they differ."
-      },
-      "key_takeaways": [
-        "Incidence is new cases in a population over a period of time, while prevalence is all existing cases at a point in time.",
-        "Prevalence is the stock."
-      ],
-      "subtopic": "Sensitivity is true positives among those with disease. It does not tell you the chance you have the disease if the test is positive.",
-      "clinical_vignette": true,
-      "id": "17dc3a7b-f67a-548c-8c41-522b396dff1c",
-      "zyntra_id": "ZQ-0660",
-      "phase": "PH-04",
-      "phase_item_id": "PH-E-27",
-      "lo_id": "a3166865-4555-5c3f-b319-5a35c9210fc6",
-      "lo_code": "INCIDENCE_PREVALENCE",
-      "lo_key": "INCIDENCE_PREVALENCE",
-      "lo_title": "Incidence is new cases in a population over a period of time, while prevalence is all existing cases at a point in time.",
-      "lo_role": "variant",
-      "shared_lo": true,
-      "irt_b": 0.05,
-      "difficulty_tier": "medium",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: general practice / community (not specified in stem)",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
-      "question_text": "A trial reduces absolute risk from 8% to 4%. Which of the following is most accurate?",
-      "options": [
-        "NNT is 12.5",
-        "NNT is 4",
-        "NNT is 50",
-        "NNT is 25",
-        "NNT cannot be calculated"
-      ],
-      "correct_answer": "D",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nD. NNT is 25\n\n---\n\n1. CLINICAL SITUATION\nA trial reduces absolute risk from 8% to 4%.\n\n2. THE RULE\nThe number needed to treat is 1 divided by the absolute risk reduction, and relative risk reductions overstate small absolute benefits.\n\n3. WHY D IS CORRECT\nAbsolute risk reduction 0.04. NNT is 25. Not 4.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. NNT is 12.5: 12.5 would follow an 8% ARR.\nB. NNT is 4: 4 is the ARR in percentage points; NNT is 1/0.04.\nC. NNT is 50: 50 would follow a 2% ARR.\nE. NNT cannot be calculated: NNT is calculable from the ARR.\n\n5. KEY TAKEAWAY\nThe number needed to treat is 1 divided by the absolute risk reduction, and relative risk reductions overstate small absolute benefits.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "A trial reduces absolute risk from 8% to 4%.",
-      "best_treatment": "NNT is 25",
-      "incorrect_answer_explanations": {
-        "A": "12.5 would follow an 8% ARR.",
-        "B": "4 is the ARR in percentage points; NNT is 1/0.04.",
-        "C": "50 would follow a 2% ARR.",
-        "E": "NNT is calculable from the ARR."
-      },
-      "key_takeaways": [
-        "The number needed to treat is 1 divided by the absolute risk reduction, and relative risk reductions overstate small absolute benefits.",
-        "Absolute risk reduction 0.04."
-      ],
-      "subtopic": "Sensitivity is true positives among those with disease. It does not tell you the chance you have the disease if the test is positive.",
-      "clinical_vignette": true,
-      "id": "9eff3efb-2ce4-55c8-8cd2-3dac15bf4d2b",
-      "zyntra_id": "ZQ-0661",
-      "phase": "PH-04",
-      "phase_item_id": "PH-E-28",
-      "lo_id": "52fcd53b-e296-5b5f-b823-b645e1217c7e",
-      "lo_code": "ABSOLUTE_VERSUS_RELATIVE",
-      "lo_key": "ABSOLUTE_VERSUS_RELATIVE",
-      "lo_title": "The number needed to treat is 1 divided by the absolute risk reduction, and relative risk reductions overstate small absolute benefits.",
-      "lo_role": "variant",
-      "shared_lo": true,
-      "irt_b": 0.05,
-      "difficulty_tier": "medium",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: research setting",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
       "question_text": "A newspaper reports that a new drug halves the risk of stroke. In the trial, the stroke rate fell from 2 per 1000 to 1 per 1000 over 5 years. A patient asks what this means for him. Which of the following is most accurate?",
       "options": [
         "The drug prevents 500 events per 1000",
@@ -1247,92 +1075,6 @@
       "lo_role": "variant",
       "shared_lo": true,
       "irt_b": 0.1,
-      "difficulty_tier": "medium",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: general practice / community (not specified in stem)",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
-      "question_text": "A trial reports a relative risk of 0.8 with a 95% confidence interval of 0.5 to 1.3. Which of the following is most accurate?",
-      "options": [
-        "p is not needed if the estimate is 0.8",
-        "The treatment works because the point estimate is under 1",
-        "Significance is shown",
-        "The interval includes 1, so a null effect is not excluded",
-        "The interval proves harm"
-      ],
-      "correct_answer": "D",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nD. The interval includes 1, so a null effect is not excluded\n\n---\n\n1. CLINICAL SITUATION\nA trial reports a relative risk of 0.8 with a 95% confidence interval of 0.5 to 1.3.\n\n2. THE RULE\nA 95% confidence interval that includes the null value is compatible with no effect, and a non-significant result in a small study may be a type II error.\n\n3. WHY D IS CORRECT\nInterval crosses 1. Compatible with no effect. Do not call it significant.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. p is not needed if the estimate is 0.8: The CI already shows a lack of significance; a point estimate is not enough.\nB. The treatment works because the point estimate is under 1: The point estimate alone does not show an effect when the CI crosses 1.\nC. Significance is shown: A CI crossing 1 means the result is not significant at 5%.\nE. The interval proves harm: The interval includes both benefit and harm and proves neither.\n\n5. KEY TAKEAWAY\nA 95% confidence interval that includes the null value is compatible with no effect, and a non-significant result in a small study may be a type II error.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "A trial reports a relative risk of 0.8 with a 95% confidence interval of 0.5 to 1.3.",
-      "best_treatment": "The interval includes 1, so a null effect is not excluded",
-      "incorrect_answer_explanations": {
-        "A": "The CI already shows a lack of significance; a point estimate is not enough.",
-        "B": "The point estimate alone does not show an effect when the CI crosses 1.",
-        "C": "A CI crossing 1 means the result is not significant at 5%.",
-        "E": "The interval includes both benefit and harm and proves neither."
-      },
-      "key_takeaways": [
-        "A 95% confidence interval that includes the null value is compatible with no effect, and a non-significant result in a small study may be a type II error.",
-        "Interval crosses 1."
-      ],
-      "subtopic": "Sensitivity is true positives among those with disease. It does not tell you the chance you have the disease if the test is positive.",
-      "clinical_vignette": true,
-      "id": "1c1e6a38-1c73-59fe-be93-3ba6ac2fe17e",
-      "zyntra_id": "ZQ-0663",
-      "phase": "PH-04",
-      "phase_item_id": "PH-E-30",
-      "lo_id": "7728f3b7-21d2-52ae-b9f6-963c71402045",
-      "lo_code": "STATISTICAL_INFERENCE",
-      "lo_key": "STATISTICAL_INFERENCE",
-      "lo_title": "A 95% confidence interval that includes the null value is compatible with no effect, and a non-significant result in a small study may be a type II error.",
-      "lo_role": "edge",
-      "shared_lo": true,
-      "irt_b": 0.05,
-      "difficulty_tier": "medium",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: research setting",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
-      "question_text": "A screening program reports longer survival from diagnosis in screened patients. Which of the following is most accurate?",
-      "options": [
-        "Screening always lowers mortality if survival from diagnosis rises",
-        "Earlier diagnosis can lengthen survival time without delaying death",
-        "Length-time bias is about the clock from diagnosis",
-        "Longer survival from diagnosis proves the program works",
-        "Lead-time bias reduces apparent survival"
-      ],
-      "correct_answer": "B",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. Earlier diagnosis can lengthen survival time without delaying death\n\n---\n\n1. CLINICAL SITUATION\nA screening program reports longer survival from diagnosis in screened patients.\n\n2. THE RULE\nLead-time and length-time biases can make screening look beneficial for survival without delaying death.\n\n3. WHY B IS CORRECT\nLead time shifts the start of the survival clock. It does not prove a later death.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Screening always lowers mortality if survival from diagnosis rises: Mortality, not survival from diagnosis, shows benefit.\nC. Length-time bias is about the clock from diagnosis: That describes lead-time bias, not length-time bias.\nD. Longer survival from diagnosis proves the program works: Lead-time bias can inflate survival without any benefit.\nE. Lead-time bias reduces apparent survival: Lead time lengthens apparent survival; it does not shorten it.\n\n5. KEY TAKEAWAY\nLead-time and length-time biases can make screening look beneficial for survival without delaying death.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "A screening program reports longer survival from diagnosis in screened patients.",
-      "best_treatment": "Earlier diagnosis can lengthen survival time without delaying death",
-      "incorrect_answer_explanations": {
-        "A": "Mortality, not survival from diagnosis, shows benefit.",
-        "C": "That describes lead-time bias, not length-time bias.",
-        "D": "Lead-time bias can inflate survival without any benefit.",
-        "E": "Lead time lengthens apparent survival; it does not shorten it."
-      },
-      "key_takeaways": [
-        "Lead-time and length-time biases can make screening look beneficial for survival without delaying death.",
-        "Lead time shifts the start of the survival clock."
-      ],
-      "subtopic": "Sensitivity is true positives among those with disease. It does not tell you the chance you have the disease if the test is positive.",
-      "clinical_vignette": true,
-      "id": "939f0160-e435-5e19-b225-acbc99ad2c8d",
-      "zyntra_id": "ZQ-0664",
-      "phase": "PH-04",
-      "phase_item_id": "PH-E-31",
-      "lo_id": "f5c57bb5-dddf-583d-903a-43bfcfaee4db",
-      "lo_code": "SCREENING_BIAS",
-      "lo_key": "SCREENING_BIAS",
-      "lo_title": "Lead-time and length-time biases can make screening look beneficial for survival without delaying death.",
-      "lo_role": "variant",
-      "shared_lo": true,
-      "irt_b": -0.05,
       "difficulty_tier": "medium",
       "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: general practice / community (not specified in stem)",
       "blueprint_eligible": true,
@@ -1382,49 +1124,6 @@
       "status": "draft"
     },
     {
-      "question_text": "Some allocated patients did not take treatment, and some controls obtained it. Analysing only takers can reintroduce bias. What is the most appropriate next step?",
-      "options": [
-        "Randomisation is preserved by analysing takers only",
-        "Drop non-adherent patients from both arms without comment",
-        "Per-protocol is always the primary analysis",
-        "Analyse only those who took the treatment",
-        "Analyse by allocated group. That is intention-to-treat"
-      ],
-      "correct_answer": "E",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nE. Analyse by allocated group. That is intention-to-treat\n\n---\n\n1. CLINICAL SITUATION\nSome allocated patients did not take treatment, and some controls obtained it. Analysing only takers can reintroduce bias.\n\n2. THE RULE\nIntention-to-treat analysis keeps participants in their allocated group, and allocation concealment differs from blinding.\n\n3. WHY E IS CORRECT\nIntention-to-treat keeps people in the group they were allocated to.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Randomisation is preserved by analysing takers only: Analysing only takers does not preserve randomisation.\nB. Drop non-adherent patients from both arms without comment: Dropping non-adherent patients introduces bias.\nC. Per-protocol is always the primary analysis: ITT is the primary analysis in superiority trials.\nD. Analyse only those who took the treatment: A per-protocol analysis of takers breaks randomisation.\n\n5. KEY TAKEAWAY\nIntention-to-treat analysis keeps participants in their allocated group, and allocation concealment differs from blinding.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "Some allocated patients did not take treatment, and some controls obtained it. Analysing only takers can reintroduce bias.",
-      "best_treatment": "Analyse by allocated group. That is intention-to-treat",
-      "incorrect_answer_explanations": {
-        "A": "Analysing only takers does not preserve randomisation.",
-        "B": "Dropping non-adherent patients introduces bias.",
-        "C": "ITT is the primary analysis in superiority trials.",
-        "D": "A per-protocol analysis of takers breaks randomisation."
-      },
-      "key_takeaways": [
-        "Intention-to-treat analysis keeps participants in their allocated group, and allocation concealment differs from blinding.",
-        "Intention-to-treat keeps people in the group they were allocated to."
-      ],
-      "subtopic": "Sensitivity is true positives among those with disease. It does not tell you the chance you have the disease if the test is positive.",
-      "clinical_vignette": true,
-      "id": "66447322-8ffa-5572-8a59-ce7e1c7e9694",
-      "zyntra_id": "ZQ-0666",
-      "phase": "PH-04",
-      "phase_item_id": "PH-E-33",
-      "lo_id": "102c8ead-4b24-5f57-b983-e217ce8b0e97",
-      "lo_code": "TRIAL_CONDUCT",
-      "lo_key": "TRIAL_CONDUCT",
-      "lo_title": "Intention-to-treat analysis keeps participants in their allocated group, and allocation concealment differs from blinding.",
-      "lo_role": "variant",
-      "shared_lo": true,
-      "irt_b": -0.1,
-      "difficulty_tier": "medium",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: general practice / community (not specified in stem)",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
       "question_text": "A report says allocation was concealed and assessors were blinded. Concealment protects the allocation sequence before assignment. Which of the following is most accurate?",
       "options": [
         "Concealment protects allocation. Blinding protects measurement after assignment",
@@ -1459,49 +1158,6 @@
       "lo_code": "TRIAL_CONDUCT",
       "lo_key": "TRIAL_CONDUCT",
       "lo_title": "Intention-to-treat analysis keeps participants in their allocated group, and allocation concealment differs from blinding.",
-      "lo_role": "variant",
-      "shared_lo": true,
-      "irt_b": 0.0,
-      "difficulty_tier": "medium",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: general practice / community (not specified in stem)",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
-      "question_text": "People with a rare cancer are asked about a past exposure and compared with people without the cancer. That is a case-control study. Which of the following is most accurate?",
-      "options": [
-        "It is a cohort and estimates a relative risk directly",
-        "Exposure was assigned",
-        "It is a case-control study and estimates an odds ratio",
-        "People were followed from a disease-free state",
-        "Incidence can be calculated directly"
-      ],
-      "correct_answer": "C",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nC. It is a case-control study and estimates an odds ratio\n\n---\n\n1. CLINICAL SITUATION\nPeople with a rare cancer are asked about a past exposure and compared with people without the cancer. That is a case-control study.\n\n2. THE RULE\nStudy design determines what can be estimated: case-control studies give odds ratios, cohorts give incidence, and cross-sectional studies cannot show temporal direction.\n\n3. WHY C IS CORRECT\nOutcome first, exposure second. Case-control. Odds ratio.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. It is a cohort and estimates a relative risk directly: Selection by disease status makes it case-control, not cohort.\nB. Exposure was assigned: Exposure was not assigned; this is observational.\nD. People were followed from a disease-free state: Participants were selected by outcome, not followed from disease-free.\nE. Incidence can be calculated directly: Case-control studies cannot give incidence directly.\n\n5. KEY TAKEAWAY\nStudy design determines what can be estimated: case-control studies give odds ratios, cohorts give incidence, and cross-sectional studies cannot show temporal direction.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "People with a rare cancer are asked about a past exposure and compared with people without the cancer. That is a case-control study.",
-      "best_treatment": "It is a case-control study and estimates an odds ratio",
-      "incorrect_answer_explanations": {
-        "A": "Selection by disease status makes it case-control, not cohort.",
-        "B": "Exposure was not assigned; this is observational.",
-        "D": "Participants were selected by outcome, not followed from disease-free.",
-        "E": "Case-control studies cannot give incidence directly."
-      },
-      "key_takeaways": [
-        "Study design determines what can be estimated: case-control studies give odds ratios, cohorts give incidence, and cross-sectional studies cannot show temporal direction.",
-        "Outcome first, exposure second."
-      ],
-      "subtopic": "Sensitivity is true positives among those with disease. It does not tell you the chance you have the disease if the test is positive.",
-      "clinical_vignette": true,
-      "id": "df046cd5-c2c9-55fd-be8f-8885d1123e0a",
-      "zyntra_id": "ZQ-0668",
-      "phase": "PH-04",
-      "phase_item_id": "PH-E-35",
-      "lo_id": "34cbf05d-0efe-563f-b3cc-47e1050a4a95",
-      "lo_code": "STUDY_DESIGN",
-      "lo_key": "STUDY_DESIGN",
-      "lo_title": "Study design determines what can be estimated: case-control studies give odds ratios, cohorts give incidence, and cross-sectional studies cannot show temporal direction.",
       "lo_role": "variant",
       "shared_lo": true,
       "irt_b": 0.0,
@@ -1554,49 +1210,6 @@
       "status": "draft"
     },
     {
-      "question_text": "A cohort adjusts for age, sex, and smoking and still finds an association. Adjustment only deals with confounders that were measured. Which of the following is most accurate?",
-      "options": [
-        "Residual confounding is impossible after any model",
-        "Adjustment removes all possible confounding",
-        "A cohort cannot be confounded",
-        "Age and sex adjustment proves causation",
-        "Unknown and unmeasured confounders can remain"
-      ],
-      "correct_answer": "E",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nE. Unknown and unmeasured confounders can remain\n\n---\n\n1. CLINICAL SITUATION\nA cohort adjusts for age, sex, and smoking and still finds an association. Adjustment only deals with confounders that were measured.\n\n2. THE RULE\nA confounder is linked to both exposure and outcome and distorts the association, and unmeasured confounders can persist after adjustment.\n\n3. WHY E IS CORRECT\nResidual confounding from unmeasured factors remains possible.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Residual confounding is impossible after any model: Residual confounding is always possible.\nB. Adjustment removes all possible confounding: Adjustment only handles measured confounders.\nC. A cohort cannot be confounded: Cohort studies can be confounded.\nD. Age and sex adjustment proves causation: Adjustment does not prove causation.\n\n5. KEY TAKEAWAY\nA confounder is linked to both exposure and outcome and distorts the association, and unmeasured confounders can persist after adjustment.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "A cohort adjusts for age, sex, and smoking and still finds an association. Adjustment only deals with confounders that were measured.",
-      "best_treatment": "Unknown and unmeasured confounders can remain",
-      "incorrect_answer_explanations": {
-        "A": "Residual confounding is always possible.",
-        "B": "Adjustment only handles measured confounders.",
-        "C": "Cohort studies can be confounded.",
-        "D": "Adjustment does not prove causation."
-      },
-      "key_takeaways": [
-        "A confounder is linked to both exposure and outcome and distorts the association, and unmeasured confounders can persist after adjustment.",
-        "Residual confounding from unmeasured factors remains possible."
-      ],
-      "subtopic": "Sensitivity is true positives among those with disease. It does not tell you the chance you have the disease if the test is positive.",
-      "clinical_vignette": true,
-      "id": "e4bdd823-e379-59c7-85b7-aaeb27b6e146",
-      "zyntra_id": "ZQ-0670",
-      "phase": "PH-04",
-      "phase_item_id": "PH-E-37",
-      "lo_id": "b293d6c3-38c4-5b0a-8068-13b40f3492fa",
-      "lo_code": "CONFOUNDING",
-      "lo_key": "CONFOUNDING",
-      "lo_title": "A confounder is linked to both exposure and outcome and distorts the association, and unmeasured confounders can persist after adjustment.",
-      "lo_role": "variant",
-      "shared_lo": true,
-      "irt_b": 0.0,
-      "difficulty_tier": "medium",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: general practice / community (not specified in stem)",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
       "question_text": "In a cohort the outcome is 20% in the exposed and 10% in the unexposed. The relative risk is 2. Which of the following is most accurate?",
       "options": [
         "The odds ratio is the relative risk",
@@ -1632,49 +1245,6 @@
       "lo_key": "ODDS_VERSUS_RISK",
       "lo_title": "When the outcome is common, the odds ratio overstates the relative risk, so cohort data should report the relative risk.",
       "lo_role": "core",
-      "shared_lo": true,
-      "irt_b": -0.05,
-      "difficulty_tier": "medium",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: interpretation & synthesis; setting: general practice / community (not specified in stem)",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
-      "question_text": "Students compute an odds ratio of about 2.25 and label it the relative risk. Here it is 2. What is the most appropriate next step?",
-      "options": [
-        "Report the relative risk from the cohort risks",
-        "Incidence is irrelevant",
-        "Odds are easier and therefore correct",
-        "Use the odds ratio as the risk ratio here",
-        "A common outcome makes OR and RR equal"
-      ],
-      "correct_answer": "A",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nA. Report the relative risk from the cohort risks\n\n---\n\n1. CLINICAL SITUATION\nStudents compute an odds ratio of about 2.25 and label it the relative risk. Here it is 2.\n\n2. THE RULE\nWhen the outcome is common, the odds ratio overstates the relative risk, so cohort data should report the relative risk.\n\n3. WHY A IS CORRECT\nDo not label an odds ratio as a risk ratio when the outcome is common.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nB. Incidence is irrelevant: Cohort risks (incidence) are what give the RR.\nC. Odds are easier and therefore correct: Ease of calculation does not make a measure correct.\nD. Use the odds ratio as the risk ratio here: With a common outcome the OR overstates the risk ratio.\nE. A common outcome makes OR and RR equal: OR approximates RR only when the outcome is rare.\n\n5. KEY TAKEAWAY\nWhen the outcome is common, the odds ratio overstates the relative risk, so cohort data should report the relative risk.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "Students compute an odds ratio of about 2.25 and label it the relative risk. Here it is 2.",
-      "best_treatment": "Report the relative risk from the cohort risks",
-      "incorrect_answer_explanations": {
-        "B": "Cohort risks (incidence) are what give the RR.",
-        "C": "Ease of calculation does not make a measure correct.",
-        "D": "With a common outcome the OR overstates the risk ratio.",
-        "E": "OR approximates RR only when the outcome is rare."
-      },
-      "key_takeaways": [
-        "When the outcome is common, the odds ratio overstates the relative risk, so cohort data should report the relative risk.",
-        "Do not label an odds ratio as a risk ratio when the outcome is common."
-      ],
-      "subtopic": "Sensitivity is true positives among those with disease. It does not tell you the chance you have the disease if the test is positive.",
-      "clinical_vignette": true,
-      "id": "8ed1e67c-1d04-5288-bac4-7e4bda78ea34",
-      "zyntra_id": "ZQ-0672",
-      "phase": "PH-04",
-      "phase_item_id": "PH-E-39",
-      "lo_id": "12e7a720-8e34-510e-8a3c-8eac5dd76555",
-      "lo_code": "ODDS_VERSUS_RISK",
-      "lo_key": "ODDS_VERSUS_RISK",
-      "lo_title": "When the outcome is common, the odds ratio overstates the relative risk, so cohort data should report the relative risk.",
-      "lo_role": "variant",
       "shared_lo": true,
       "irt_b": -0.05,
       "difficulty_tier": "medium",

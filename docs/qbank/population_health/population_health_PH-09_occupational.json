@@ -1,7 +1,7 @@
 {
   "phase": "PH-09",
   "phase_name": "Occupational and environmental",
-  "count": 16,
+  "count": 13,
   "reviewed_by": "Dr Heisenberg",
   "status": "draft",
   "items": [
@@ -393,92 +393,6 @@
       "status": "draft"
     },
     {
-      "question_text": "A farmer is sweaty, wheezy, bradycardic, with small pupils and diarrhoea after spraying. This is organophosphate. Pralidoxime is added, not used instead. Which of the following is most accurate?",
-      "options": [
-        "Neostigmine for the wheeze",
-        "No antidote until the spray is identified in a lab",
-        "Pralidoxime alone is the immediate treatment",
-        "Atropine now for the muscarinic crisis, with pralidoxime as directed",
-        "Oral fluids and home"
-      ],
-      "correct_answer": "D",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nD. Atropine now for the muscarinic crisis, with pralidoxime as directed\n\n---\n\n1. CLINICAL SITUATION\nA farmer is sweaty, wheezy, bradycardic, with small pupils and diarrhoea after spraying. This is organophosphate. Pralidoxime is added, not used instead.\n\n2. THE RULE\nPoisonings are treated with the specific antidote: high-flow oxygen for carbon monoxide (despite normal oximetry) and atropine with pralidoxime for organophosphate crisis.\n\n3. WHY D IS CORRECT\nAtropine first for muscarinic crisis. Pralidoxime does not replace it.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Neostigmine for the wheeze: Neostigmine worsens cholinergic excess.\nB. No antidote until the spray is identified in a lab: Treatment is clinical and immediate.\nC. Pralidoxime alone is the immediate treatment: Atropine treats the life-threatening muscarinic effects first.\nE. Oral fluids and home: This is a cholinergic crisis needing resuscitation.\n\n5. KEY TAKEAWAY\nPoisonings are treated with the specific antidote: high-flow oxygen for carbon monoxide (despite normal oximetry) and atropine with pralidoxime for organophosphate crisis.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "A farmer is sweaty, wheezy, bradycardic, with small pupils and diarrhoea after spraying. This is organophosphate. Pralidoxime is added, not used instead.",
-      "best_treatment": "Atropine now for the muscarinic crisis, with pralidoxime as directed",
-      "incorrect_answer_explanations": {
-        "A": "Neostigmine worsens cholinergic excess.",
-        "B": "Treatment is clinical and immediate.",
-        "C": "Atropine treats the life-threatening muscarinic effects first.",
-        "E": "This is a cholinergic crisis needing resuscitation."
-      },
-      "key_takeaways": [
-        "Poisonings are treated with the specific antidote: high-flow oxygen for carbon monoxide (despite normal oximetry) and atropine with pralidoxime for organophosphate crisis.",
-        "Atropine first for muscarinic crisis."
-      ],
-      "subtopic": "Carbon monoxide poisoning is treated with high-flow oxygen. The pulse oximeter can read near normal.",
-      "clinical_vignette": true,
-      "id": "c3065195-0ee7-5dfa-b53e-23c75fa66e82",
-      "zyntra_id": "ZQ-0793",
-      "phase": "PH-09",
-      "phase_item_id": "PH-O-10",
-      "lo_id": "d406e705-85ec-5725-8a48-44fd959ccacf",
-      "lo_code": "TOXIN_ANTIDOTE",
-      "lo_key": "TOXIN_ANTIDOTE",
-      "lo_title": "Poisonings are treated with the specific antidote: high-flow oxygen for carbon monoxide (despite normal oximetry) and atropine with pralidoxime for organophosphate crisis.",
-      "lo_role": "variant",
-      "shared_lo": true,
-      "irt_b": -0.05,
-      "difficulty_tier": "medium",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
-      "question_text": "A nurse has a deep needlestick from an unconscious patient of unknown status. She squeezes the finger. An unknown source with a deep injury is significant. What is the most appropriate next step?",
-      "options": [
-        "Wait three months for a test",
-        "Wash, do not squeeze, assess the risk, and start the HIV post-exposure pathway urgently",
-        "Squeezing is enough",
-        "A deep injury is low risk",
-        "Unknown source means no action"
-      ],
-      "correct_answer": "B",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nB. Wash, do not squeeze, assess the risk, and start the HIV post-exposure pathway urgently\n\n---\n\n1. CLINICAL SITUATION\nA nurse has a deep needlestick from an unconscious patient of unknown status. She squeezes the finger. An unknown source with a deep injury is significant.\n\n2. THE RULE\nAfter a needlestick injury, wash without squeezing, assess source and exposure risk, and start blood-borne virus post-exposure management urgently.\n\n3. WHY B IS CORRECT\nWash. Do not squeeze. Urgent post-exposure assessment.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. Wait three months for a test: PEP must start within hours, not after months.\nC. Squeezing is enough: Squeezing is not recommended; wash with soap and water.\nD. A deep injury is low risk: Deep injuries carry higher risk.\nE. Unknown source means no action: An unknown source with a deep injury is significant.\n\n5. KEY TAKEAWAY\nAfter a needlestick injury, wash without squeezing, assess source and exposure risk, and start blood-borne virus post-exposure management urgently.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "A nurse has a deep needlestick from an unconscious patient of unknown status. She squeezes the finger. An unknown source with a deep injury is significant.",
-      "best_treatment": "Wash, do not squeeze, assess the risk, and start the HIV post-exposure pathway urgently",
-      "incorrect_answer_explanations": {
-        "A": "PEP must start within hours, not after months.",
-        "C": "Squeezing is not recommended; wash with soap and water.",
-        "D": "Deep injuries carry higher risk.",
-        "E": "An unknown source with a deep injury is significant."
-      },
-      "key_takeaways": [
-        "After a needlestick injury, wash without squeezing, assess source and exposure risk, and start blood-borne virus post-exposure management urgently.",
-        "Wash."
-      ],
-      "subtopic": "Carbon monoxide poisoning is treated with high-flow oxygen. The pulse oximeter can read near normal.",
-      "clinical_vignette": true,
-      "id": "5ec572ba-7264-56c9-bf5e-b336d644c2ff",
-      "zyntra_id": "ZQ-0794",
-      "phase": "PH-09",
-      "phase_item_id": "PH-O-11",
-      "lo_id": "07c63052-5568-57f2-920f-c01c65e37a90",
-      "lo_code": "NEEDLESTICK",
-      "lo_key": "NEEDLESTICK",
-      "lo_title": "After a needlestick injury, wash without squeezing, assess source and exposure risk, and start blood-borne virus post-exposure management urgently.",
-      "lo_role": "edge",
-      "shared_lo": true,
-      "irt_b": -0.05,
-      "difficulty_tier": "medium",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
       "question_text": "A nurse has a deep needlestick injury from a source of unknown status. A colleague suggests waiting a week to see whether she becomes unwell. What is the most appropriate next step?",
       "options": [
         "A shallow scratch and a deep injury are the same and both can wait",
@@ -604,49 +518,6 @@
       "irt_b": -0.1,
       "difficulty_tier": "medium",
       "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: rural workplace",
-      "blueprint_eligible": true,
-      "status": "draft"
-    },
-    {
-      "question_text": "A family of four presents in winter with headache and drowsiness after using an unflued gas heater overnight. Pulse oximetry reads 99% in each of them. Which of the following is most accurate?",
-      "options": [
-        "A normal oximeter clears the drowsy family",
-        "Headache after a heater is always viral",
-        "Wait for arterial blood gas before oxygen",
-        "Discharge if they can walk",
-        "High-flow oxygen for suspected carbon monoxide, now"
-      ],
-      "correct_answer": "E",
-      "category": "Population Health & Ethics",
-      "difficulty": "moderate",
-      "explanation": "CORRECT ANSWER\n\nE. High-flow oxygen for suspected carbon monoxide, now\n\n---\n\n1. CLINICAL SITUATION\nA family of four presents in winter with headache and drowsiness after using an unflued gas heater overnight. Pulse oximetry reads 99% in each of them.\n\n2. THE RULE\nPoisonings are treated with the specific antidote: high-flow oxygen for carbon monoxide (despite normal oximetry) and atropine with pralidoxime for organophosphate crisis.\n\n3. WHY E IS CORRECT\nSuspected carbon monoxide. Oxygen before the confirmatory test.\n\n4. WHY THE OTHER OPTIONS ARE WRONG\nA. A normal oximeter clears the drowsy family: Normal SpO2 does not exclude CO poisoning.\nB. Headache after a heater is always viral: Clustered symptoms near a heater suggest CO.\nC. Wait for arterial blood gas before oxygen: Oxygen must not wait for a gas.\nD. Discharge if they can walk: Walking does not exclude CO poisoning.\n\n5. KEY TAKEAWAY\nPoisonings are treated with the specific antidote: high-flow oxygen for carbon monoxide (despite normal oximetry) and atropine with pralidoxime for organophosphate crisis.\n\n---\n\nEDITED BY HEISENBERG",
-      "diagnosis_explanation": "A family of four presents in winter with headache and drowsiness after using an unflued gas heater overnight. Pulse oximetry reads 99% in each of them.",
-      "best_treatment": "High-flow oxygen for suspected carbon monoxide, now",
-      "incorrect_answer_explanations": {
-        "A": "Normal SpO2 does not exclude CO poisoning.",
-        "B": "Clustered symptoms near a heater suggest CO.",
-        "C": "Oxygen must not wait for a gas.",
-        "D": "Walking does not exclude CO poisoning."
-      },
-      "key_takeaways": [
-        "Poisonings are treated with the specific antidote: high-flow oxygen for carbon monoxide (despite normal oximetry) and atropine with pralidoxime for organophosphate crisis.",
-        "Suspected carbon monoxide."
-      ],
-      "subtopic": "Carbon monoxide poisoning is treated with high-flow oxygen. The pulse oximeter can read near normal.",
-      "clinical_vignette": true,
-      "id": "c509ca8a-6c87-5460-b4ab-99ec97a0f684",
-      "zyntra_id": "ZQ-0798",
-      "phase": "PH-09",
-      "phase_item_id": "PH-O-15",
-      "lo_id": "d406e705-85ec-5725-8a48-44fd959ccacf",
-      "lo_code": "TOXIN_ANTIDOTE",
-      "lo_key": "TOXIN_ANTIDOTE",
-      "lo_title": "Poisonings are treated with the specific antidote: high-flow oxygen for carbon monoxide (despite normal oximetry) and atropine with pralidoxime for organophosphate crisis.",
-      "lo_role": "variant",
-      "shared_lo": true,
-      "irt_b": -0.05,
-      "difficulty_tier": "medium",
-      "amc_question_context": "AMC MCQ V8, Population Health & Ethics; clinician task: management; setting: general practice / community (not specified in stem)",
       "blueprint_eligible": true,
       "status": "draft"
     },
