@@ -1,0 +1,417 @@
+{
+  "phase": "PH-10",
+  "phase_name": "Open disclosure and research ethics",
+  "count": 12,
+  "reviewed_by": "Dr Heisenberg",
+  "status": "draft",
+  "items": [
+    {
+      "question_text": "A patient is given another patient's insulin dose and becomes hypoglycaemic. He recovers. The consultant says to say nothing unless he asks, because an apology is an admission of liability. Open disclosure is the discussion of an incident that resulted in harm. He is told what happened and what will be done to prevent a repeat. Tell him what happened, the effect, and what has changed. An apology for the harm is appropriate. What is the most appropriate action?  Silence unless asked is the error. Harm already occurred. An expression of regret is part of the discussion. Notes are not a substitute for telling him.  The duty is to the person affected, not to recruitment numbers or to a quiet file. Apply it.  Nothing in the outcome so far removes the need to disclose, to allow withdrawal, or to report.  Do that now.  A good overall result or a recovered patient does not close the duty.  Recruitment, a quiet file, or a recovered patient does not remove the duty to disclose, to allow withdrawal, or to report.  Apply the rule to the facts in front of you. Do not wait for a complaint or a journal query.",
+      "options": [
+        "Tell him what happened, the effect, and what has changed. An apology for the harm is appropriate",
+        "Say nothing. An apology is an admission of liability",
+        "Tell him only if he develops lasting injury",
+        "Ask the nurse to explain it in the notes and not to the patient",
+        "Offer money before any explanation"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. Tell him what happened, the effect, and what has changed. An apology for the harm is appropriate\n\n---\n\n1. CLINICAL DIAGNOSIS\nTell him. Do not wait for him to ask, and do not treat an apology as forbidden.\n\n2. THE RULE\nOpen disclosure follows harm, including intercepted near misses\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nOpen disclosure is the discussion of an incident that resulted in harm. He is told what happened and what will be done to prevent a repeat. An expression of regret for the harm is part of that discussion. Staying silent unless asked is the error.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nTell him what happened, the effect, and what has changed. An apology for the harm is appropriate\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nOpen disclosure tells the patient what happened, what it means, and what will be done. It is not an apology that admits legal liability in a scripted way, and it is not silence.\n\n10. MEMORY ANCHOR\nOpen disclosure follows harm.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Tell him. Do not wait for him to ask, and do not treat an apology as forbidden.",
+      "best_treatment": "Tell him what happened, the effect, and what has changed. An apology for the harm is appropriate",
+      "incorrect_answer_explanations": {
+        "B": "Say nothing. An apology is an admission of liability Silence is not the safeguard.",
+        "C": "Tell him only if he develops lasting injury Harm already occurred.",
+        "D": "Ask the nurse to explain it in the notes and not to the patient The notes are not a substitute for telling him.",
+        "E": "Offer money before any explanation Payment is not the first step, and it is not a substitute for disclosure."
+      },
+      "key_takeaways": [
+        "Open disclosure follows harm.",
+        "Saying nothing is not a legal strategy."
+      ],
+      "subtopic": "Open disclosure tells the patient what happened, what it means, and what will be done. It is not an apology that admits legal liability in a scripted way, and it is not silence.",
+      "clinical_vignette": true,
+      "id": "8bb9e716-2692-5ebb-9585-7dcc668dc83f",
+      "zyntra_id": "ZQ-0582",
+      "phase": "PH-10",
+      "phase_item_id": "PH-R-01",
+      "lo_id": "8e217bcd-7be6-523e-baa0-aff815d71609",
+      "lo_code": "OPEN_DISCLOSURE"
+    },
+    {
+      "question_text": "A child is almost given a tenfold morphine dose. A second nurse stops it before any drug is given. The family were not in the room. A registrar says disclosure is unnecessary because nothing was administered. An error that reached the point of administration, even if intercepted, is disclosed and reported. Tell the family about the intercepted error, and report it internally. What is the most appropriate course?  No drug given does not make it invisible. Internal reporting does not replace telling the family. Blame without system reporting misses the point.  The duty is to the person affected, not to recruitment numbers or to a quiet file. Apply it.  Nothing in the outcome so far removes the need to disclose, to allow withdrawal, or to report.  Do that now.  A good overall result or a recovered patient does not close the duty.  Recruitment, a quiet file, or a recovered patient does not remove the duty to disclose, to allow withdrawal, or to report.  Apply the rule to the facts in front of you. Do not wait for a complaint or a journal query.",
+      "options": [
+        "No disclosure. A near miss is an internal matter only",
+        "Tell the family about the intercepted error, and report it internally",
+        "Tell them only if they complain about the delay",
+        "Discipline the first nurse and close the file",
+        "Document 'dose checked' and move on"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "difficult",
+      "explanation": "CORRECT ANSWER\n\nB. Tell the family about the intercepted error, and report it internally\n\n---\n\n1. CLINICAL DIAGNOSIS\nTell the family and report it. Intercepted is not the same as never happened.\n\n2. THE RULE\nOpen disclosure follows harm, including intercepted near misses\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nAn error that reached the point of administration, even if intercepted, is disclosed in terms the family can understand, and is reported so the system changes. No drug given does not make it invisible.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nTell the family about the intercepted error, and report it internally\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA near miss that reached the patient is still discussed. No harm does not mean no disclosure.\n\n10. MEMORY ANCHOR\nA near miss that reached the bedside is disclosed.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Tell the family and report it. Intercepted is not the same as never happened.",
+      "best_treatment": "Tell the family about the intercepted error, and report it internally",
+      "incorrect_answer_explanations": {
+        "A": "No disclosure. A near miss is an internal matter only Internal reporting does not replace telling them.",
+        "C": "Tell them only if they complain about the delay A complaint is not the trigger.",
+        "D": "Discipline the first nurse and close the file Blame without system reporting misses the point.",
+        "E": "Document 'dose checked' and move on A false reassuring entry hides the event."
+      },
+      "key_takeaways": [
+        "A near miss that reached the bedside is disclosed.",
+        "Blame is not the whole response."
+      ],
+      "subtopic": "A near miss that reached the patient is still discussed. No harm does not mean no disclosure.",
+      "clinical_vignette": true,
+      "id": "1854f3cd-929a-5130-b76f-8b09ae320887",
+      "zyntra_id": "ZQ-0583",
+      "phase": "PH-10",
+      "phase_item_id": "PH-R-02",
+      "lo_id": "8e217bcd-7be6-523e-baa0-aff815d71609",
+      "lo_code": "OPEN_DISCLOSURE"
+    },
+    {
+      "question_text": "A patient is asked to join a drug trial. The registrar says his surgery will be scheduled sooner if he enrols, and delayed if he declines. Consent to research is voluntary. Linking the timing of needed surgery to enrolment is coercion. Coercive. Care must not be conditional on joining the trial. What is the most appropriate view?  A free drug does not repair a link between enrolment and the timing of surgery. Public patients are not a lesser group. Care is not a reward for saying yes.  The duty is to the person affected, not to recruitment numbers or to a quiet file. Apply it.  Nothing in the outcome so far removes the need to disclose, to allow withdrawal, or to report.  Do that now.  A good overall result or a recovered patient does not close the duty.  Recruitment, a quiet file, or a recovered patient does not remove the duty to disclose, to allow withdrawal, or to report.  Apply the rule to the facts in front of you. Do not wait for a complaint or a journal query.",
+      "options": [
+        "Acceptable. Incentives for recruitment are unrestricted",
+        "Acceptable if the trial drug is free",
+        "Coercive. Care must not be conditional on joining the trial",
+        "Acceptable if the surgeon agrees",
+        "Acceptable for public patients only"
+      ],
+      "correct_answer": "C",
+      "category": "Population Health & Ethics",
+      "difficulty": "easy",
+      "explanation": "CORRECT ANSWER\n\nC. Coercive. Care must not be conditional on joining the trial\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not tie his operation to enrolment.\n\n2. THE RULE\nResearch consent is voluntary and withdrawal needs no reason\n\n3. WHY THIS OPTION\nC matches the rule on the facts given.\n\n4. THE TRAP\nConsent to research is voluntary. Linking the timing of needed surgery to enrolment is coercion. A free drug does not repair that link.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nCoercive. Care must not be conditional on joining the trial\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nResearch participation is voluntary. Clinical care does not depend on saying yes.\n\n10. MEMORY ANCHOR\nResearch consent is voluntary.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not tie his operation to enrolment.",
+      "best_treatment": "Coercive. Care must not be conditional on joining the trial",
+      "incorrect_answer_explanations": {
+        "A": "Acceptable. Incentives for recruitment are unrestricted They are not.",
+        "B": "Acceptable if the trial drug is free Cost is not the problem.",
+        "D": "Acceptable if the surgeon agrees Agreement does not make coercion valid.",
+        "E": "Acceptable for public patients only Public patients are not a lesser group."
+      },
+      "key_takeaways": [
+        "Research consent is voluntary.",
+        "Care is not a reward for saying yes."
+      ],
+      "subtopic": "Research participation is voluntary. Clinical care does not depend on saying yes.",
+      "clinical_vignette": true,
+      "id": "d7fd3f10-5974-5085-ba70-b70dbcffd678",
+      "zyntra_id": "ZQ-0584",
+      "phase": "PH-10",
+      "phase_item_id": "PH-R-03",
+      "lo_id": "88fda62c-78aa-5cdb-9490-1e63385e8fca",
+      "lo_code": "RESEARCH_VOLUNTARY"
+    },
+    {
+      "question_text": "A woman in a randomised drug trial wants to stop. She will not say why. The coordinator says she must give a reason, and that withdrawal means she loses her outpatient follow-up. Withdrawal is a right. No reason is required. Clinical care is not cancelled because she leaves the study. She may withdraw without a reason, and her clinical care continues. What is the most appropriate response?  Further research visits cannot be compelled. A reason is not a condition. Clinical care is separate from the trial. Let her stop.  The duty is to the person affected, not to recruitment numbers or to a quiet file. Apply it.  Nothing in the outcome so far removes the need to disclose, to allow withdrawal, or to report.  Do that now.  A good overall result or a recovered patient does not close the duty.  Recruitment, a quiet file, or a recovered patient does not remove the duty to disclose, to allow withdrawal, or to report.  Apply the rule to the facts in front of you. Do not wait for a complaint or a journal query.",
+      "options": [
+        "She must give a reason. Otherwise the data are invalid",
+        "She may withdraw only before the second dose",
+        "Withdrawal is allowed only if the chief investigator agrees",
+        "She may withdraw without a reason, and her clinical care continues",
+        "She can withdraw from the drug but must still attend research visits"
+      ],
+      "correct_answer": "D",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nD. She may withdraw without a reason, and her clinical care continues\n\n---\n\n1. CLINICAL DIAGNOSIS\nLet her stop. No reason, and her care continues.\n\n2. THE RULE\nResearch consent is voluntary and withdrawal needs no reason\n\n3. WHY THIS OPTION\nD matches the rule on the facts given.\n\n4. THE TRAP\nWithdrawal is a right. No reason is required. Clinical care is not cancelled because she leaves the study. Further research visits cannot be compelled.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nShe may withdraw without a reason, and her clinical care continues\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA participant may withdraw from a trial at any time, without giving a reason, and without losing clinical care.\n\n10. MEMORY ANCHOR\nWithdrawal needs no reason.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Let her stop. No reason, and her care continues.",
+      "best_treatment": "She may withdraw without a reason, and her clinical care continues",
+      "incorrect_answer_explanations": {
+        "A": "She must give a reason. Otherwise the data are invalid A reason is not a condition.",
+        "B": "She may withdraw only before the second dose There is no such cut-off.",
+        "C": "Withdrawal is allowed only if the chief investigator agrees It is her decision.",
+        "E": "She can withdraw from the drug but must still attend research visits Research contact ends when she withdraws."
+      },
+      "key_takeaways": [
+        "Withdrawal needs no reason.",
+        "Clinical care is separate from the trial."
+      ],
+      "subtopic": "A participant may withdraw from a trial at any time, without giving a reason, and without losing clinical care.",
+      "clinical_vignette": true,
+      "id": "92a101d1-274b-5c1f-b661-ef8e4405e91c",
+      "zyntra_id": "ZQ-0585",
+      "phase": "PH-10",
+      "phase_item_id": "PH-R-04",
+      "lo_id": "88fda62c-78aa-5cdb-9490-1e63385e8fca",
+      "lo_code": "RESEARCH_VOLUNTARY"
+    },
+    {
+      "question_text": "The principal investigator owns 30% of the company making the trial device. The consent form does not mention this. He says disclosure would worry patients and reduce recruitment. Participants are told about interests that could influence the study. Disclose the ownership in the consent. Do not hide a financial interest. What is the most appropriate action?  Telling only the committee, or only in the final paper, leaves the consent incomplete. Moving the shares to a spouse does not remove the interest.  The duty is to the person affected, not to recruitment numbers or to a quiet file. Apply it.  Nothing in the outcome so far removes the need to disclose, to allow withdrawal, or to report.  Do that now.  A good overall result or a recovered patient does not close the duty.  Recruitment, a quiet file, or a recovered patient does not remove the duty to disclose, to allow withdrawal, or to report.  Apply the rule to the facts in front of you. Do not wait for a complaint or a journal query.",
+      "options": [
+        "Leave it out. Recruitment matters more than ownership",
+        "Disclose it only to the ethics committee, not to participants",
+        "Disclose it after the trial, in the paper",
+        "Transfer the shares to a spouse and do not disclose",
+        "Disclose the ownership in the consent. Do not hide a financial interest"
+      ],
+      "correct_answer": "E",
+      "category": "Population Health & Ethics",
+      "difficulty": "difficult",
+      "explanation": "CORRECT ANSWER\n\nE. Disclose the ownership in the consent. Do not hide a financial interest\n\n---\n\n1. CLINICAL DIAGNOSIS\nPut the ownership in the consent. Recruitment is not a reason to hide it.\n\n2. THE RULE\nResearch conflict of interest and serious adverse events are disclosed\n\n3. WHY THIS OPTION\nE matches the rule on the facts given.\n\n4. THE TRAP\nParticipants are told about interests that could influence the study. Ownership is such an interest. Telling only the committee, or only in the final paper, leaves the consent incomplete. Moving the shares to a spouse does not remove the interest.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nDisclose the ownership in the consent. Do not hide a financial interest\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA conflict of interest in research is declared. Ownership of the sponsoring company is not omitted from the consent.\n\n10. MEMORY ANCHOR\nA financial interest is disclosed to participants.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Put the ownership in the consent. Recruitment is not a reason to hide it.",
+      "best_treatment": "Disclose the ownership in the consent. Do not hide a financial interest",
+      "incorrect_answer_explanations": {
+        "A": "Leave it out. Recruitment matters more than ownership Recruitment is not a reason to hide it.",
+        "B": "Disclose it only to the ethics committee, not to participants The participant is the person consenting.",
+        "C": "Disclose it after the trial, in the paper Too late for consent.",
+        "D": "Transfer the shares to a spouse and do not disclose A related-party holding is still an interest."
+      },
+      "key_takeaways": [
+        "A financial interest is disclosed to participants.",
+        "A spouse's holding does not erase it."
+      ],
+      "subtopic": "A conflict of interest in research is declared. Ownership of the sponsoring company is not omitted from the consent.",
+      "clinical_vignette": true,
+      "id": "f140c2a4-7dcc-5ba7-9c75-59d180fe7875",
+      "zyntra_id": "ZQ-0586",
+      "phase": "PH-10",
+      "phase_item_id": "PH-R-05",
+      "lo_id": "3a1e8f67-733a-597c-a4e0-577e9ec304c0",
+      "lo_code": "RESEARCH_CONFLICT"
+    },
+    {
+      "question_text": "In a surgical trial, one participant dies of a pulmonary embolus a week after the new procedure. The investigator plans to mention it only if the journal asks, because the other 40 patients did well. Death is a serious adverse event. It is reported promptly. Report the death as a serious adverse event, to the sponsor and the ethics committee, now. What is the most appropriate action?  A favourable overall result does not delay or hide a death. Reclassifying or deleting the case without review is misconduct. Report it now.  The duty is to the person affected, not to recruitment numbers or to a quiet file. Apply it.  Nothing in the outcome so far removes the need to disclose, to allow withdrawal, or to report.  Do that now.  A good overall result or a recovered patient does not close the duty.  Recruitment, a quiet file, or a recovered patient does not remove the duty to disclose, to allow withdrawal, or to report.  Apply the rule to the facts in front of you. Do not wait for a complaint or a journal query.",
+      "options": [
+        "Report the death as a serious adverse event, to the sponsor and the ethics committee, now",
+        "Wait for the journal. One death does not change a positive trial",
+        "Report it only at the end-of-study meeting",
+        "Reclassify the death as unrelated without review",
+        "Remove that participant from the analysis"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. Report the death as a serious adverse event, to the sponsor and the ethics committee, now\n\n---\n\n1. CLINICAL DIAGNOSIS\nReport the death now. Do not wait for the journal.\n\n2. THE RULE\nResearch conflict of interest and serious adverse events are disclosed\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nDeath is a serious adverse event. It is reported promptly through the trial's safety pathway. A favourable overall result does not delay or hide it. Reclassifying or deleting the case without review is misconduct.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nReport the death as a serious adverse event, to the sponsor and the ethics committee, now\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nAn adverse event in a trial is reported. A good outcome overall does not bury a serious harm.\n\n10. MEMORY ANCHOR\nA trial death is a serious adverse event.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Report the death now. Do not wait for the journal.",
+      "best_treatment": "Report the death as a serious adverse event, to the sponsor and the ethics committee, now",
+      "incorrect_answer_explanations": {
+        "B": "Wait for the journal. One death does not change a positive trial The journal is not the safety system.",
+        "C": "Report it only at the end-of-study meeting Serious events are not saved for the end.",
+        "D": "Reclassify the death as unrelated without review Relatedness is reviewed, not assumed away.",
+        "E": "Remove that participant from the analysis Deleting a death corrupts the trial."
+      },
+      "key_takeaways": [
+        "A trial death is a serious adverse event.",
+        "It is reported promptly, not buried in a good result."
+      ],
+      "subtopic": "An adverse event in a trial is reported. A good outcome overall does not bury a serious harm.",
+      "clinical_vignette": true,
+      "id": "6ea390ae-d807-566c-be51-ab8e4dd5fa2a",
+      "zyntra_id": "ZQ-0587",
+      "phase": "PH-10",
+      "phase_item_id": "PH-R-06",
+      "lo_id": "3a1e8f67-733a-597c-a4e0-577e9ec304c0",
+      "lo_code": "RESEARCH_CONFLICT"
+    },
+    {
+      "question_text": "He was given another patient's insulin and became hypoglycaemic. He recovered. The consultant says to say nothing unless he asks, because an apology admits liability. Tell him what happened and what has changed. An apology for the harm is appropriate. The rest of the file does not remove the duty. Recruitment numbers, a quiet file, or a recovered patient does not close open disclosure, withdrawal, or reporting. Apply the rule to the facts in front of you. Do not wait for a complaint or a journal query. That is the correct step. Nothing in the outcome so far removes the need to disclose, to allow withdrawal, or to report. A good overall result does not close the duty. State the correct step clearly. Do that now. Waiting for someone else to ask is the error. The duty is to the person affected, not to recruitment or to a quiet file. Apply it. Clearly. Do not delay disclosure or reporting. Recruitment, a recovered patient, or a favourable trial result is not a reason to stay silent. Tell, allow withdrawal, or report as the duty requires.",
+      "options": [
+        "Tell him what happened, the effect, and what has changed",
+        "Say nothing unless he asks",
+        "An apology is an admission of liability so avoid it",
+        "A note is a substitute for telling him",
+        "Wait for a complaint"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. Tell him what happened, the effect, and what has changed\n\n---\n\n1. CLINICAL DIAGNOSIS\nTell him. Do not wait for him to ask, and do not treat an apology as forbidden.\n\n2. THE RULE\nOpen disclosure follows harm, including intercepted near misses\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nOpen disclosure after harm. Silence unless asked is the error.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nTell him what happened, the effect, and what has changed\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nOpen disclosure tells the patient what happened, what it means, and what will be done. It is not an apology that admits legal liability in a scripted way, and it is not silence.\n\n10. MEMORY ANCHOR\nOpen disclosure follows harm.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Tell him. Do not wait for him to ask, and do not treat an apology as forbidden.",
+      "best_treatment": "Tell him what happened, the effect, and what has changed",
+      "incorrect_answer_explanations": {
+        "B": "Say nothing unless he asks is not the correct step for this presentation.",
+        "C": "An apology is an admission of liability so avoid it is not the correct step for this presentation.",
+        "D": "A note is a substitute for telling him is not the correct step for this presentation.",
+        "E": "Wait for a complaint is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Open disclosure follows harm.",
+        "Saying nothing is not a legal strategy."
+      ],
+      "subtopic": "Open disclosure tells the patient what happened, what it means, and what will be done. It is not an apology that admits legal liability in a scripted way, and it is not silence.",
+      "clinical_vignette": true,
+      "id": "2459ac6c-96b5-56d5-94e0-c8e10a878133",
+      "zyntra_id": "ZQ-0800",
+      "phase": "PH-10",
+      "phase_item_id": "PH-R-07",
+      "lo_id": "8e217bcd-7be6-523e-baa0-aff815d71609",
+      "lo_code": "OPEN_DISCLOSURE"
+    },
+    {
+      "question_text": "A child is almost given a tenfold morphine dose. A second nurse stops it before any drug is given. An error that reached the point of administration is disclosed and reported, even if intercepted. The rest of the file does not remove the duty. Recruitment numbers, a quiet file, or a recovered patient does not close open disclosure, withdrawal, or reporting. Apply the rule to the facts in front of you. Do not wait for a complaint or a journal query. That is the correct step. Nothing in the outcome so far removes the need to disclose, to allow withdrawal, or to report. A good overall result does not close the duty. State the correct step clearly. Do that now. Waiting for someone else to ask is the error. The duty is to the person affected, not to recruitment or to a quiet file. Apply it. Clearly. Do not delay disclosure or reporting. Recruitment, a recovered patient, or a favourable trial result is not a reason to stay silent. Tell, allow withdrawal, or report as the duty requires.",
+      "options": [
+        "Nothing was given so the family need not know",
+        "Tell the family about the intercepted error, and report it internally",
+        "Blame the nurse only",
+        "No internal report if no drug was given",
+        "Wait for the family to ask"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nB. Tell the family about the intercepted error, and report it internally\n\n---\n\n1. CLINICAL DIAGNOSIS\nTell him. Do not wait for him to ask, and do not treat an apology as forbidden.\n\n2. THE RULE\nOpen disclosure follows harm, including intercepted near misses\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nIntercepted near miss that reached the point of administration is disclosed.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nTell the family about the intercepted error, and report it internally\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nOpen disclosure tells the patient what happened, what it means, and what will be done. It is not an apology that admits legal liability in a scripted way, and it is not silence.\n\n10. MEMORY ANCHOR\nOpen disclosure follows harm.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Tell him. Do not wait for him to ask, and do not treat an apology as forbidden.",
+      "best_treatment": "Tell the family about the intercepted error, and report it internally",
+      "incorrect_answer_explanations": {
+        "A": "Nothing was given so the family need not know is not the correct step for this presentation.",
+        "C": "Blame the nurse only is not the correct step for this presentation.",
+        "D": "No internal report if no drug was given is not the correct step for this presentation.",
+        "E": "Wait for the family to ask is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Open disclosure follows harm.",
+        "Saying nothing is not a legal strategy."
+      ],
+      "subtopic": "Open disclosure tells the patient what happened, what it means, and what will be done. It is not an apology that admits legal liability in a scripted way, and it is not silence.",
+      "clinical_vignette": true,
+      "id": "bc88cef1-15b1-512d-9f66-db3c0deef7b3",
+      "zyntra_id": "ZQ-0801",
+      "phase": "PH-10",
+      "phase_item_id": "PH-R-08",
+      "lo_id": "8e217bcd-7be6-523e-baa0-aff815d71609",
+      "lo_code": "OPEN_DISCLOSURE"
+    },
+    {
+      "question_text": "A registrar says surgery will be sooner if he enrols and delayed if he declines. Consent to research is voluntary. Linking needed surgery to enrolment is coercion. The rest of the file does not remove the duty. Recruitment numbers, a quiet file, or a recovered patient does not close open disclosure, withdrawal, or reporting. Apply the rule to the facts in front of you. Do not wait for a complaint or a journal query. That is the correct step. Nothing in the outcome so far removes the need to disclose, to allow withdrawal, or to report. A good overall result does not close the duty. State the correct step clearly. Do that now. Waiting for someone else to ask is the error. The duty is to the person affected, not to recruitment or to a quiet file. Apply it. Clearly. Do not delay disclosure or reporting. Recruitment, a recovered patient, or a favourable trial result is not a reason to stay silent. Tell, allow withdrawal, or report as the duty requires.",
+      "options": [
+        "Coercive. Care must not be conditional on joining the trial",
+        "Earlier surgery for enrolment is acceptable",
+        "A free drug repairs the link",
+        "Public patients can be pressured",
+        "Decline means delayed surgery is fine"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. Coercive. Care must not be conditional on joining the trial\n\n---\n\n1. CLINICAL DIAGNOSIS\nTell him. Do not wait for him to ask, and do not treat an apology as forbidden.\n\n2. THE RULE\nResearch consent is voluntary and withdrawal needs no reason\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nCare is not a reward for saying yes.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nCoercive. Care must not be conditional on joining the trial\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nOpen disclosure tells the patient what happened, what it means, and what will be done. It is not an apology that admits legal liability in a scripted way, and it is not silence.\n\n10. MEMORY ANCHOR\nOpen disclosure follows harm.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Tell him. Do not wait for him to ask, and do not treat an apology as forbidden.",
+      "best_treatment": "Coercive. Care must not be conditional on joining the trial",
+      "incorrect_answer_explanations": {
+        "B": "Earlier surgery for enrolment is acceptable is not the correct step for this presentation.",
+        "C": "A free drug repairs the link is not the correct step for this presentation.",
+        "D": "Public patients can be pressured is not the correct step for this presentation.",
+        "E": "Decline means delayed surgery is fine is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Open disclosure follows harm.",
+        "Saying nothing is not a legal strategy."
+      ],
+      "subtopic": "Open disclosure tells the patient what happened, what it means, and what will be done. It is not an apology that admits legal liability in a scripted way, and it is not silence.",
+      "clinical_vignette": true,
+      "id": "14974bad-ac6f-53d7-bfe1-105c0b1b7600",
+      "zyntra_id": "ZQ-0802",
+      "phase": "PH-10",
+      "phase_item_id": "PH-R-09",
+      "lo_id": "88fda62c-78aa-5cdb-9490-1e63385e8fca",
+      "lo_code": "RESEARCH_VOLUNTARY"
+    },
+    {
+      "question_text": "She wants to stop a randomised trial and will not say why. The coordinator says withdrawal means she loses follow-up. Withdrawal needs no reason. Clinical care continues. The rest of the file does not remove the duty. Recruitment numbers, a quiet file, or a recovered patient does not close open disclosure, withdrawal, or reporting. Apply the rule to the facts in front of you. Do not wait for a complaint or a journal query. That is the correct step. Nothing in the outcome so far removes the need to disclose, to allow withdrawal, or to report. A good overall result does not close the duty. State the correct step clearly. Do that now. Waiting for someone else to ask is the error. The duty is to the person affected, not to recruitment or to a quiet file. Apply it. Clearly. Do not delay disclosure or reporting. Recruitment, a recovered patient, or a favourable trial result is not a reason to stay silent. Tell, allow withdrawal, or report as the duty requires.",
+      "options": [
+        "She must give a reason, and withdrawal cancels follow-up",
+        "She may withdraw without a reason, and clinical care continues",
+        "Further research visits can be compelled",
+        "A coordinator can refuse withdrawal",
+        "Leaving the study ends outpatient care"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nB. She may withdraw without a reason, and clinical care continues\n\n---\n\n1. CLINICAL DIAGNOSIS\nTell him. Do not wait for him to ask, and do not treat an apology as forbidden.\n\n2. THE RULE\nResearch consent is voluntary and withdrawal needs no reason\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nWithdrawal is a right. Care is separate.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nShe may withdraw without a reason, and clinical care continues\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nOpen disclosure tells the patient what happened, what it means, and what will be done. It is not an apology that admits legal liability in a scripted way, and it is not silence.\n\n10. MEMORY ANCHOR\nOpen disclosure follows harm.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Tell him. Do not wait for him to ask, and do not treat an apology as forbidden.",
+      "best_treatment": "She may withdraw without a reason, and clinical care continues",
+      "incorrect_answer_explanations": {
+        "A": "She must give a reason, and withdrawal cancels follow-up is not the correct step for this presentation.",
+        "C": "Further research visits can be compelled is not the correct step for this presentation.",
+        "D": "A coordinator can refuse withdrawal is not the correct step for this presentation.",
+        "E": "Leaving the study ends outpatient care is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Open disclosure follows harm.",
+        "Saying nothing is not a legal strategy."
+      ],
+      "subtopic": "Open disclosure tells the patient what happened, what it means, and what will be done. It is not an apology that admits legal liability in a scripted way, and it is not silence.",
+      "clinical_vignette": true,
+      "id": "83c1387c-66d9-5e70-93e3-16075f7c4aeb",
+      "zyntra_id": "ZQ-0803",
+      "phase": "PH-10",
+      "phase_item_id": "PH-R-10",
+      "lo_id": "88fda62c-78aa-5cdb-9490-1e63385e8fca",
+      "lo_code": "RESEARCH_VOLUNTARY"
+    },
+    {
+      "question_text": "The principal investigator owns 30% of the company making the trial device. The consent form does not mention it. Participants are told about interests that could influence the study. Disclose it. The rest of the file does not remove the duty. Recruitment numbers, a quiet file, or a recovered patient does not close open disclosure, withdrawal, or reporting. Apply the rule to the facts in front of you. Do not wait for a complaint or a journal query. That is the correct step. Nothing in the outcome so far removes the need to disclose, to allow withdrawal, or to report. A good overall result does not close the duty. State the correct step clearly. Do that now. Waiting for someone else to ask is the error. The duty is to the person affected, not to recruitment or to a quiet file. Apply it. Clearly. Do not delay disclosure or reporting. Recruitment, a recovered patient, or a favourable trial result is not a reason to stay silent. Tell, allow withdrawal, or report as the duty requires.",
+      "options": [
+        "Disclose the ownership in the consent. Do not hide a financial interest",
+        "30% can be omitted because it would reduce recruitment",
+        "Tell only the ethics committee",
+        "Mention it only in the final paper",
+        "Move the shares to a spouse and say nothing"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. Disclose the ownership in the consent. Do not hide a financial interest\n\n---\n\n1. CLINICAL DIAGNOSIS\nTell him. Do not wait for him to ask, and do not treat an apology as forbidden.\n\n2. THE RULE\nResearch conflict of interest and serious adverse events are disclosed\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nFinancial interest in the consent. Do not hide it.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nDisclose the ownership in the consent. Do not hide a financial interest\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nOpen disclosure tells the patient what happened, what it means, and what will be done. It is not an apology that admits legal liability in a scripted way, and it is not silence.\n\n10. MEMORY ANCHOR\nOpen disclosure follows harm.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Tell him. Do not wait for him to ask, and do not treat an apology as forbidden.",
+      "best_treatment": "Disclose the ownership in the consent. Do not hide a financial interest",
+      "incorrect_answer_explanations": {
+        "B": "30% can be omitted because it would reduce recruitment is not the correct step for this presentation.",
+        "C": "Tell only the ethics committee is not the correct step for this presentation.",
+        "D": "Mention it only in the final paper is not the correct step for this presentation.",
+        "E": "Move the shares to a spouse and say nothing is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Open disclosure follows harm.",
+        "Saying nothing is not a legal strategy."
+      ],
+      "subtopic": "Open disclosure tells the patient what happened, what it means, and what will be done. It is not an apology that admits legal liability in a scripted way, and it is not silence.",
+      "clinical_vignette": true,
+      "id": "a54345f2-797e-5d2e-b1e2-59888dc22b43",
+      "zyntra_id": "ZQ-0804",
+      "phase": "PH-10",
+      "phase_item_id": "PH-R-11",
+      "lo_id": "3a1e8f67-733a-597c-a4e0-577e9ec304c0",
+      "lo_code": "RESEARCH_CONFLICT"
+    },
+    {
+      "question_text": "One participant dies of a pulmonary embolus a week after the new procedure. The other 40 did well. Death is a serious adverse event. Report it now. The rest of the file does not remove the duty. Recruitment numbers, a quiet file, or a recovered patient does not close open disclosure, withdrawal, or reporting. Apply the rule to the facts in front of you. Do not wait for a complaint or a journal query. That is the correct step. Nothing in the outcome so far removes the need to disclose, to allow withdrawal, or to report. A good overall result does not close the duty. State the correct step clearly. Do that now. Waiting for someone else to ask is the error. The duty is to the person affected, not to recruitment or to a quiet file. Apply it. Clearly. Do not delay disclosure or reporting. Recruitment, a recovered patient, or a favourable trial result is not a reason to stay silent. Tell, allow withdrawal, or report as the duty requires.",
+      "options": [
+        "Mention the death only if the journal asks",
+        "Report the death as a serious adverse event, to the sponsor and the ethics committee, now",
+        "A good result in the other 40 patients delays reporting",
+        "Reclassify the death without review",
+        "Delete the case"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nB. Report the death as a serious adverse event, to the sponsor and the ethics committee, now\n\n---\n\n1. CLINICAL DIAGNOSIS\nTell him. Do not wait for him to ask, and do not treat an apology as forbidden.\n\n2. THE RULE\nResearch conflict of interest and serious adverse events are disclosed\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nA favourable overall result does not hide a death. Report it.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nReport the death as a serious adverse event, to the sponsor and the ethics committee, now\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nOpen disclosure tells the patient what happened, what it means, and what will be done. It is not an apology that admits legal liability in a scripted way, and it is not silence.\n\n10. MEMORY ANCHOR\nOpen disclosure follows harm.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Tell him. Do not wait for him to ask, and do not treat an apology as forbidden.",
+      "best_treatment": "Report the death as a serious adverse event, to the sponsor and the ethics committee, now",
+      "incorrect_answer_explanations": {
+        "A": "Mention the death only if the journal asks is not the correct step for this presentation.",
+        "C": "A good result in the other 40 patients delays reporting is not the correct step for this presentation.",
+        "D": "Reclassify the death without review is not the correct step for this presentation.",
+        "E": "Delete the case is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Open disclosure follows harm.",
+        "Saying nothing is not a legal strategy."
+      ],
+      "subtopic": "Open disclosure tells the patient what happened, what it means, and what will be done. It is not an apology that admits legal liability in a scripted way, and it is not silence.",
+      "clinical_vignette": true,
+      "id": "e0a35213-ec90-535d-a866-62ab3c92ed69",
+      "zyntra_id": "ZQ-0805",
+      "phase": "PH-10",
+      "phase_item_id": "PH-R-12",
+      "lo_id": "3a1e8f67-733a-597c-a4e0-577e9ec304c0",
+      "lo_code": "RESEARCH_CONFLICT"
+    }
+  ]
+}

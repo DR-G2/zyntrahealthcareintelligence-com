@@ -1,0 +1,1505 @@
+{
+  "phase": "PH-08",
+  "phase_name": "Health systems, rural, PBS, and Medicare",
+  "count": 44,
+  "reviewed_by": "Dr Heisenberg",
+  "status": "draft",
+  "items": [
+    {
+      "question_text": "A GP sees a well 40-year-old for a 6-minute chat about a holiday. No history, examination, or management is recorded. The receptionist asks which Medicare item to bill. A Medicare benefit is for a clinically relevant service. A social chat with no clinical content is not one. Do not bill a consultation. No clinically relevant service was provided. What is the most appropriate action?  No symptom was assessed. No examination. No plan. Billing any attendance item would be a false claim. Do not bill.  The rule is the same in a busy clinic or a rural hospital. Convenience does not create an item or a safe service.  Apply it to the facts in front of you. Do not bill or proceed on a workaround.  That is the correct step.  Nothing in the history creates an exception for billing, access, or a rural workaround. The standard is the same.  Decide on the rule, not on what would be easier to claim or to arrange tonight.  That settles the item.",
+      "options": [
+        "Do not bill a consultation. No clinically relevant service was provided",
+        "Bill a level B. Any attendance can be claimed",
+        "Bill a health assessment. He is an adult",
+        "Bill a care plan. It can be backdated",
+        "Bill the consultation to his wife's card because she is a regular patient"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. Do not bill a consultation. No clinically relevant service was provided\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not bill. A holiday chat is not a consultation.\n\n2. THE RULE\nMedicare needs a clinically relevant service\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nA Medicare benefit is for a clinically relevant service. A social chat with no clinical content is not one. Using another person's card is a separate offence.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nDo not bill a consultation. No clinically relevant service was provided\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nMedicare benefits a clinically relevant service. It is not a reward for a social chat.\n\n10. MEMORY ANCHOR\nMedicare needs a clinically relevant service.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not bill. A holiday chat is not a consultation.",
+      "best_treatment": "Do not bill a consultation. No clinically relevant service was provided",
+      "incorrect_answer_explanations": {
+        "B": "Bill a level B. Any attendance can be claimed Attendance alone is not enough.",
+        "C": "Bill a health assessment. He is an adult No assessment was done.",
+        "D": "Bill a care plan. It can be backdated There is no plan, and backdating is false.",
+        "E": "Bill the consultation to his wife's card because she is a regular patient Another person's Medicare card is not available for use."
+      },
+      "key_takeaways": [
+        "Medicare needs a clinically relevant service.",
+        "Another person's card is never the workaround."
+      ],
+      "subtopic": "Medicare benefits a clinically relevant service. It is not a reward for a social chat.",
+      "clinical_vignette": true,
+      "id": "1eb94ec4-cc1e-5af3-957c-e0a04062a0c8",
+      "zyntra_id": "ZQ-0559",
+      "phase": "PH-08",
+      "phase_item_id": "PH-H-01",
+      "lo_id": "770fae7b-72f8-5efb-89d1-edc3c94e50db",
+      "lo_code": "MEDICARE_SERVICE"
+    },
+    {
+      "question_text": "A practice bulk-bills a level C and also asks the patient for a $40 facility fee in cash, not receipted. The patient is a pensioner. If a service is bulk-billed, the practitioner accepts the Medicare benefit as full payment for that service. An extra undisclosed cash fee is not permitted. Not acceptable. Bulk-billing means the benefit is full payment. What is the most appropriate view?  Calling it a facility fee does not take it outside the agreement. The pensioner status does not create an exception. No extra cash.  The rule is the same in a busy clinic or a rural hospital. Convenience does not create an item or a safe service.  Apply it to the facts in front of you. Do not bill or proceed on a workaround.  That is the correct step.  Nothing in the history creates an exception for billing, access, or a rural workaround. The standard is the same.  Decide on the rule, not on what would be easier to claim or to arrange tonight.  That settles the item.",
+      "options": [
+        "Acceptable. A facility fee is outside Medicare",
+        "Not acceptable. Bulk-billing means the benefit is full payment",
+        "Acceptable if the fee is under $50",
+        "Acceptable if the patient is not told it is compulsory",
+        "Acceptable for pensioners only"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "difficult",
+      "explanation": "CORRECT ANSWER\n\nB. Not acceptable. Bulk-billing means the benefit is full payment\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not take the $40. Bulk-billing is full payment.\n\n2. THE RULE\nBulk-billing means the benefit is full payment\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nIf a service is bulk-billed, the practitioner accepts the Medicare benefit as full payment for that service. An extra undisclosed cash fee is not permitted.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nNot acceptable. Bulk-billing means the benefit is full payment\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nBulk-billing is an agreement to accept the benefit as full payment. An extra cash gap is not added on top.\n\n10. MEMORY ANCHOR\nBulk-billing accepts the benefit as full payment.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not take the $40. Bulk-billing is full payment.",
+      "best_treatment": "Not acceptable. Bulk-billing means the benefit is full payment",
+      "incorrect_answer_explanations": {
+        "A": "Acceptable. A facility fee is outside Medicare Calling it a facility fee does not take it outside the agreement.",
+        "C": "Acceptable if the fee is under $50 There is no such allowance.",
+        "D": "Acceptable if the patient is not told it is compulsory Not telling her does not make it lawful.",
+        "E": "Acceptable for pensioners only The rule is not limited by concession status."
+      },
+      "key_takeaways": [
+        "Bulk-billing accepts the benefit as full payment.",
+        "A renamed cash fee is still extra billing."
+      ],
+      "subtopic": "Bulk-billing is an agreement to accept the benefit as full payment. An extra cash gap is not added on top.",
+      "clinical_vignette": true,
+      "id": "f38c2983-3c7f-5ffd-be5d-91823cb3da25",
+      "zyntra_id": "ZQ-0560",
+      "phase": "PH-08",
+      "phase_item_id": "PH-H-02",
+      "lo_id": "bf03581c-c0c3-5673-85fe-b4ca380539cc",
+      "lo_code": "BULK_BILLING"
+    },
+    {
+      "question_text": "A man asks you to prescribe his own statin onto his wife's PBS script because she has reached the safety net and he has not. A PBS prescription is written for the patient who clinically needs that medicine. Using a spouse's concession or safety net is a false claim. Decline. A PBS prescription is for the person who needs the medicine. What is the most appropriate response?  His statin on her script is a false PBS claim. Paying a gap does not fix the wrong name. Decline.  The rule is the same in a busy clinic or a rural hospital. Convenience does not create an item or a safe service.  Apply it to the facts in front of you. Do not bill or proceed on a workaround.  That is the correct step.  Nothing in the history creates an exception for billing, access, or a rural workaround. The standard is the same.  Decide on the rule, not on what would be easier to claim or to arrange tonight.  That settles the item.",
+      "options": [
+        "Agree. Safety-net sharing within a couple is allowed",
+        "Agree if he pays the difference",
+        "Decline. A PBS prescription is for the person who needs the medicine",
+        "Write it in her name and document 'household use'",
+        "Agree for statins only"
+      ],
+      "correct_answer": "C",
+      "category": "Population Health & Ethics",
+      "difficulty": "easy",
+      "explanation": "CORRECT ANSWER\n\nC. Decline. A PBS prescription is for the person who needs the medicine\n\n---\n\n1. CLINICAL DIAGNOSIS\nDecline. His statin does not go on her script.\n\n2. THE RULE\nA PBS prescription is for the named patient\n\n3. WHY THIS OPTION\nC matches the rule on the facts given.\n\n4. THE TRAP\nA PBS prescription is written for the patient who clinically needs that medicine. Using a spouse's concession or safety net is a false claim.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nDecline. A PBS prescription is for the person who needs the medicine\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA PBS prescription is for the person named. It is not shared around a household.\n\n10. MEMORY ANCHOR\nA PBS script is for the named patient.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Decline. His statin does not go on her script.",
+      "best_treatment": "Decline. A PBS prescription is for the person who needs the medicine",
+      "incorrect_answer_explanations": {
+        "A": "Agree. Safety-net sharing within a couple is allowed It is not.",
+        "B": "Agree if he pays the difference Paying a gap does not fix a script in the wrong name.",
+        "D": "Write it in her name and document 'household use' Documentation of a falsehood is worse.",
+        "E": "Agree for statins only The drug class is irrelevant."
+      },
+      "key_takeaways": [
+        "A PBS script is for the named patient.",
+        "Safety net is not a household voucher."
+      ],
+      "subtopic": "A PBS prescription is for the person named. It is not shared around a household.",
+      "clinical_vignette": true,
+      "id": "f3cd7625-c58c-5e83-acef-09cc0081fb75",
+      "zyntra_id": "ZQ-0561",
+      "phase": "PH-08",
+      "phase_item_id": "PH-H-03",
+      "lo_id": "d2919c8b-44e6-5e80-864e-a88e920285b1",
+      "lo_code": "PBS_NAMED"
+    },
+    {
+      "question_text": "A GP sees an Aboriginal man who is not registered for Closing the Gap. He writes CTG on the script and tells him the pharmacy will charge the lower co-payment. Closing the Gap PBS registration is a one-off clinical registration. The annotation works only after that. Register him properly first. An annotation alone does not create eligibility. What is the most appropriate correction?  Registration is clinical. A pharmacist cannot create it. It is not automatic. Register, then annotate.  The rule is the same in a busy clinic or a rural hospital. Convenience does not create an item or a safe service.  Apply it to the facts in front of you. Do not bill or proceed on a workaround.  That is the correct step.  Nothing in the history creates an exception for billing, access, or a rural workaround. The standard is the same.  Decide on the rule, not on what would be easier to claim or to arrange tonight.  That settles the item.",
+      "options": [
+        "The annotation is enough. Registration is optional",
+        "Ask the pharmacist to register him at the counter",
+        "Use a relative's CTG registration",
+        "Register him properly first. An annotation alone does not create eligibility",
+        "CTG applies automatically to every Aboriginal patient"
+      ],
+      "correct_answer": "D",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nD. Register him properly first. An annotation alone does not create eligibility\n\n---\n\n1. CLINICAL DIAGNOSIS\nRegister him. Writing CTG on the script is not enough.\n\n2. THE RULE\nClosing the Gap needs registration before annotation\n\n3. WHY THIS OPTION\nD matches the rule on the facts given.\n\n4. THE TRAP\nClosing the Gap PBS registration is a one-off clinical registration. The annotation works only after that. A pharmacist cannot create it, and it is not automatic.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nRegister him properly first. An annotation alone does not create eligibility\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nClosing the Gap PBS co-payment help requires registration. Writing CTG on an unregistered patient's script does nothing.\n\n10. MEMORY ANCHOR\nCTG needs registration before annotation.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Register him. Writing CTG on the script is not enough.",
+      "best_treatment": "Register him properly first. An annotation alone does not create eligibility",
+      "incorrect_answer_explanations": {
+        "A": "The annotation is enough. Registration is optional Registration is the step that creates eligibility.",
+        "B": "Ask the pharmacist to register him at the counter Registration is clinical, not a counter act.",
+        "C": "Use a relative's CTG registration Registration is individual.",
+        "E": "CTG applies automatically to every Aboriginal patient It does not."
+      },
+      "key_takeaways": [
+        "CTG needs registration before annotation.",
+        "It is not automatic and not transferable."
+      ],
+      "subtopic": "Closing the Gap PBS co-payment help requires registration. Writing CTG on an unregistered patient's script does nothing.",
+      "clinical_vignette": true,
+      "id": "e4a1dadc-44a3-508b-ab47-0edbad969582",
+      "zyntra_id": "ZQ-0562",
+      "phase": "PH-08",
+      "phase_item_id": "PH-H-04",
+      "lo_id": "d0959aa2-8935-5247-a695-d24bd87b7005",
+      "lo_code": "CTG_REGISTRATION"
+    },
+    {
+      "question_text": "A 34-week pregnant woman in a small rural hospital has a blood pressure of 170/110 and headache, not settling with first-line treatment. The on-call GP plans to observe overnight because the flying doctor is busy and the road is two hours. This is severe pre-eclampsia. A small hospital cannot provide the level she needs. Treat as pre-eclampsia and arrange urgent retrieval. Do not wait out the night. What is the most appropriate action?  Severe pre-eclampsia does not wait for daylight or a quieter retrieval list. Private car is not a retrieval. Treat and retrieve.  The rule is the same in a busy clinic or a rural hospital. Convenience does not create an item or a safe service.  Apply it to the facts in front of you. Do not bill or proceed on a workaround.  That is the correct step.  Nothing in the history creates an exception for billing, access, or a rural workaround. The standard is the same.  Decide on the rule, not on what would be easier to claim or to arrange tonight.  That settles the item.",
+      "options": [
+        "Observe overnight. Retrieval is for daytime only",
+        "Discharge to the local motel near the hospital",
+        "Start treatment and review in the antenatal clinic next week",
+        "Transfer by private car with no escort",
+        "Treat as pre-eclampsia and arrange urgent retrieval. Do not wait out the night"
+      ],
+      "correct_answer": "E",
+      "category": "Population Health & Ethics",
+      "difficulty": "difficult",
+      "explanation": "CORRECT ANSWER\n\nE. Treat as pre-eclampsia and arrange urgent retrieval. Do not wait out the night\n\n---\n\n1. CLINICAL DIAGNOSIS\nTreat and retrieve tonight. Do not observe severe pre-eclampsia in a small hospital.\n\n2. THE RULE\nRural transfer and procedural safety follow clinical need\n\n3. WHY THIS OPTION\nE matches the rule on the facts given.\n\n4. THE TRAP\nThis is severe pre-eclampsia. A small hospital cannot provide the obstetric and neonatal level she needs. Busy is not a reason to hold an unstable patient. Private car is not a retrieval.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nTreat as pre-eclampsia and arrange urgent retrieval. Do not wait out the night\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA rural retrieval is for the patient who needs a higher level of care. Distance is not a reason to keep an unstable patient overnight.\n\n10. MEMORY ANCHOR\nRetrieval follows clinical need, not the clock.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Treat and retrieve tonight. Do not observe severe pre-eclampsia in a small hospital.",
+      "best_treatment": "Treat as pre-eclampsia and arrange urgent retrieval. Do not wait out the night",
+      "incorrect_answer_explanations": {
+        "A": "Observe overnight. Retrieval is for daytime only Urgency is clinical, not clerical.",
+        "B": "Discharge to the local motel near the hospital Proximity to the building is not care.",
+        "C": "Start treatment and review in the antenatal clinic next week Next week is not a safe interval.",
+        "D": "Transfer by private car with no escort An unescorted car is not a retrieval."
+      },
+      "key_takeaways": [
+        "Retrieval follows clinical need, not the clock.",
+        "A rural hospital does not hold what it cannot treat."
+      ],
+      "subtopic": "A rural retrieval is for the patient who needs a higher level of care. Distance is not a reason to keep an unstable patient overnight.",
+      "clinical_vignette": true,
+      "id": "5ca9fd99-e960-546d-96bc-5f464e5f9aa4",
+      "zyntra_id": "ZQ-0563",
+      "phase": "PH-08",
+      "phase_item_id": "PH-H-05",
+      "lo_id": "202ee238-7135-5b68-8c8d-6e89bc9d564d",
+      "lo_code": "RURAL_TRANSFER"
+    },
+    {
+      "question_text": "A doctor opens the My Health Record of a well-known sportsperson who is not his patient, to see if the news is true. Access to a My Health Record needs a legitimate purpose in the person's care. Curiosity about a celebrity is not one. Not acceptable. Access requires a legitimate clinical purpose. What is the most appropriate view?  Registration as a clinician is not a browsing right. Secrecy does not repair it. Do not open the record.  The rule is the same in a busy clinic or a rural hospital. Convenience does not create an item or a safe service.  Apply it to the facts in front of you. Do not bill or proceed on a workaround.  That is the correct step.  Nothing in the history creates an exception for billing, access, or a rural workaround. The standard is the same.  Decide on the rule, not on what would be easier to claim or to arrange tonight.  That settles the item.",
+      "options": [
+        "Not acceptable. Access requires a legitimate clinical purpose",
+        "Acceptable. Any registered clinician may open any record",
+        "Acceptable if he does not tell anyone",
+        "Acceptable outside working hours",
+        "Acceptable if the record is already populated"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "easy",
+      "explanation": "CORRECT ANSWER\n\nA. Not acceptable. Access requires a legitimate clinical purpose\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not open it. He is not your patient.\n\n2. THE RULE\nMy Health Record access needs a legitimate clinical purpose\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nAccess to a My Health Record needs a legitimate purpose in the person's care. Curiosity about a celebrity is not one. Secrecy does not repair it.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nNot acceptable. Access requires a legitimate clinical purpose\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nMy Health Record is the patient's record. A clinician does not browse a record they are not involved in.\n\n10. MEMORY ANCHOR\nMy Health Record access needs a care purpose.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not open it. He is not your patient.",
+      "best_treatment": "Not acceptable. Access requires a legitimate clinical purpose",
+      "incorrect_answer_explanations": {
+        "B": "Acceptable. Any registered clinician may open any record Registration is not a browsing right.",
+        "C": "Acceptable if he does not tell anyone An undisclosed breach is still a breach.",
+        "D": "Acceptable outside working hours The clock is irrelevant.",
+        "E": "Acceptable if the record is already populated Content does not create a purpose."
+      },
+      "key_takeaways": [
+        "My Health Record access needs a care purpose.",
+        "Celebrity is not that purpose."
+      ],
+      "subtopic": "My Health Record is the patient's record. A clinician does not browse a record they are not involved in.",
+      "clinical_vignette": true,
+      "id": "72ecace6-7dd1-5385-861a-4d950072918a",
+      "zyntra_id": "ZQ-0564",
+      "phase": "PH-08",
+      "phase_item_id": "PH-H-06",
+      "lo_id": "034de426-d1c6-5a4b-9f5d-937733b5dc2c",
+      "lo_code": "MYHR_ACCESS"
+    },
+    {
+      "question_text": "A patient is seen in a public emergency department for a sprained ankle, at no charge. The visiting GP also bills a Medicare consultation for the same attendance. A service provided as part of a public hospital attendance is not also claimed on Medicare by the same doctor for the same occasion. Not acceptable. The same public-hospital service is not also bulk-billed to Medicare. What is the most appropriate view?  Different payers do not mean two fees for one service. Patient agreement does not create a second benefit. Do not bill Medicare.  The rule is the same in a busy clinic or a rural hospital. Convenience does not create an item or a safe service.  Apply it to the facts in front of you. Do not bill or proceed on a workaround.  That is the correct step.  Nothing in the history creates an exception for billing, access, or a rural workaround. The standard is the same.  Decide on the rule, not on what would be easier to claim or to arrange tonight.  That settles the item.",
+      "options": [
+        "Acceptable. Hospital and Medicare are different payers",
+        "Not acceptable. The same public-hospital service is not also bulk-billed to Medicare",
+        "Acceptable if the sprain is mild",
+        "Acceptable if the patient agrees",
+        "Acceptable for after-hours only"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nB. Not acceptable. The same public-hospital service is not also bulk-billed to Medicare\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not bill Medicare for the same public ED attendance.\n\n2. THE RULE\nMedicare needs a clinically relevant service\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nA service provided as part of a public hospital attendance is not also claimed on Medicare by the same doctor for the same occasion. Patient agreement does not create a second benefit.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nNot acceptable. The same public-hospital service is not also bulk-billed to Medicare\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nAn emergency department attendance is not a substitute GP consultation billed twice.\n\n10. MEMORY ANCHOR\nOne public-hospital service is not claimed twice.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not bill Medicare for the same public ED attendance.",
+      "best_treatment": "Not acceptable. The same public-hospital service is not also bulk-billed to Medicare",
+      "incorrect_answer_explanations": {
+        "A": "Acceptable. Hospital and Medicare are different payers Different payers do not mean two fees for one service.",
+        "C": "Acceptable if the sprain is mild Severity is irrelevant.",
+        "D": "Acceptable if the patient agrees The patient cannot authorise a duplicate claim.",
+        "E": "Acceptable for after-hours only The hour does not change it."
+      },
+      "key_takeaways": [
+        "One public-hospital service is not claimed twice.",
+        "Patient agreement does not create a second benefit."
+      ],
+      "subtopic": "An emergency department attendance is not a substitute GP consultation billed twice.",
+      "clinical_vignette": true,
+      "id": "bbfc7aae-b128-501a-952a-41873a658a8d",
+      "zyntra_id": "ZQ-0565",
+      "phase": "PH-08",
+      "phase_item_id": "PH-H-07",
+      "lo_id": "770fae7b-72f8-5efb-89d1-edc3c94e50db",
+      "lo_code": "MEDICARE_SERVICE"
+    },
+    {
+      "question_text": "An online service offers a new patient, never examined, a benzodiazepine script after a 90-second chat, and bills a long telehealth consult. A telehealth consult must still be a proper clinical service, and the item billed must match what was done. Not acceptable. No adequate assessment, and a long-consult item is not earned. What is the most appropriate view?  A 90-second chat with a stranger for a drug of dependence is not a long consult. Rural location does not lower the standard. Decline the model.  The rule is the same in a busy clinic or a rural hospital. Convenience does not create an item or a safe service.  Apply it to the facts in front of you. Do not bill or proceed on a workaround.  That is the correct step.  Nothing in the history creates an exception for billing, access, or a rural workaround. The standard is the same.  Decide on the rule, not on what would be easier to claim or to arrange tonight.  That settles the item.",
+      "options": [
+        "Acceptable. Telehealth has no rules about length or drugs",
+        "Acceptable if the patient is rural",
+        "Not acceptable. No adequate assessment, and a long-consult item is not earned",
+        "Acceptable if the script is for five tablets",
+        "Acceptable because the patient requested it"
+      ],
+      "correct_answer": "C",
+      "category": "Population Health & Ethics",
+      "difficulty": "difficult",
+      "explanation": "CORRECT ANSWER\n\nC. Not acceptable. No adequate assessment, and a long-consult item is not earned\n\n---\n\n1. CLINICAL DIAGNOSIS\nDecline the model. A 90-second script is not a long consult.\n\n2. THE RULE\nTelehealth still needs a proper clinical service\n\n3. WHY THIS OPTION\nC matches the rule on the facts given.\n\n4. THE TRAP\nA telehealth consult must still be a proper clinical service, and the item billed must match what was done. A 90-second chat with a stranger for a drug of dependence is neither.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nNot acceptable. No adequate assessment, and a long-consult item is not earned\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nTelehealth still needs a clinical relationship and an appropriate item. It is not a script factory.\n\n10. MEMORY ANCHOR\nTelehealth is still clinical care.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Decline the model. A 90-second script is not a long consult.",
+      "best_treatment": "Not acceptable. No adequate assessment, and a long-consult item is not earned",
+      "incorrect_answer_explanations": {
+        "A": "Acceptable. Telehealth has no rules about length or drugs It has both.",
+        "B": "Acceptable if the patient is rural Rural location does not lower the standard.",
+        "D": "Acceptable if the script is for five tablets Quantity does not repair the assessment.",
+        "E": "Acceptable because the patient requested it A request is not a clinical indication."
+      },
+      "key_takeaways": [
+        "Telehealth is still clinical care.",
+        "The item billed must match the service."
+      ],
+      "subtopic": "Telehealth still needs a clinical relationship and an appropriate item. It is not a script factory.",
+      "clinical_vignette": true,
+      "id": "851c7caa-344e-51d4-973c-b1fa95d76c63",
+      "zyntra_id": "ZQ-0566",
+      "phase": "PH-08",
+      "phase_item_id": "PH-H-08",
+      "lo_id": "ac590854-3555-5997-886a-e4a285625fdf",
+      "lo_code": "TELEHEALTH"
+    },
+    {
+      "question_text": "A practice bills a GP management plan for every patient over 65 who walks in for a script, using a prefilled template the patient never sees. A GP management plan is for a patient with a chronic condition, prepared with them. Age is not an indication. Not acceptable. A plan requires a chronic condition and the patient's involvement. What is the most appropriate view?  A template the patient never sees is not a plan. Age over 65 is not an indication. A nurse clicking a box is not the service.  The rule is the same in a busy clinic or a rural hospital. Convenience does not create an item or a safe service.  Apply it to the facts in front of you. Do not bill or proceed on a workaround.  That is the correct step.  Nothing in the history creates an exception for billing, access, or a rural workaround. The standard is the same.  Decide on the rule, not on what would be easier to claim or to arrange tonight.  That settles the item.",
+      "options": [
+        "Acceptable. Age over 65 is the indication",
+        "Acceptable if the template mentions diabetes",
+        "Acceptable once per year regardless of content",
+        "Not acceptable. A plan requires a chronic condition and the patient's involvement",
+        "Acceptable if the nurse clicks the box"
+      ],
+      "correct_answer": "D",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nD. Not acceptable. A plan requires a chronic condition and the patient's involvement\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not bill. A script visit is not a care plan.\n\n2. THE RULE\nA care plan needs a chronic condition and the patient\n\n3. WHY THIS OPTION\nD matches the rule on the facts given.\n\n4. THE TRAP\nA GP management plan is for a patient with a chronic condition, prepared with them. Age is not an indication. An unseen template is not a plan.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nNot acceptable. A plan requires a chronic condition and the patient's involvement\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA care plan is a structured plan for a chronic condition, done with the patient. It is not a template billed on sight.\n\n10. MEMORY ANCHOR\nA care plan needs a chronic condition and the patient.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not bill. A script visit is not a care plan.",
+      "best_treatment": "Not acceptable. A plan requires a chronic condition and the patient's involvement",
+      "incorrect_answer_explanations": {
+        "A": "Acceptable. Age over 65 is the indication It is not.",
+        "B": "Acceptable if the template mentions diabetes A word on a template is not a plan.",
+        "C": "Acceptable once per year regardless of content Frequency rules do not replace content.",
+        "E": "Acceptable if the nurse clicks the box A click is not the service."
+      },
+      "key_takeaways": [
+        "A care plan needs a chronic condition and the patient.",
+        "A template on its own is not a plan."
+      ],
+      "subtopic": "A care plan is a structured plan for a chronic condition, done with the patient. It is not a template billed on sight.",
+      "clinical_vignette": true,
+      "id": "9537eeda-faa3-59cb-a652-772d5ea1c922",
+      "zyntra_id": "ZQ-0567",
+      "phase": "PH-08",
+      "phase_item_id": "PH-H-09",
+      "lo_id": "6b77c662-4c98-5f91-82f9-50228315b46d",
+      "lo_code": "CARE_PLAN"
+    },
+    {
+      "question_text": "A GP wants to bill a 715 health assessment for an Aboriginal man who is an inpatient for pneumonia, having had a 715 four months ago. A 715 is a practice-based assessment, not a hospital inpatient item, and it is not claimed more often than the set interval. Do not bill. He is an inpatient, and the interval has not elapsed. What is the most appropriate response?  Inpatient status blocks the 715. Four months is inside the interval. Resolving pneumonia does not create eligibility. Do not bill.  The rule is the same in a busy clinic or a rural hospital. Convenience does not create an item or a safe service.  Apply it to the facts in front of you. Do not bill or proceed on a workaround.  That is the correct step.  Nothing in the history creates an exception for billing, access, or a rural workaround. The standard is the same.  Decide on the rule, not on what would be easier to claim or to arrange tonight.  That settles the item.",
+      "options": [
+        "Bill it. Inpatient status does not matter",
+        "Bill it if the pneumonia is resolving",
+        "Bill a 715 every admission",
+        "Bill it to complete the hospital discharge",
+        "Do not bill. He is an inpatient, and the interval has not elapsed"
+      ],
+      "correct_answer": "E",
+      "category": "Population Health & Ethics",
+      "difficulty": "easy",
+      "explanation": "CORRECT ANSWER\n\nE. Do not bill. He is an inpatient, and the interval has not elapsed\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not bill a 715. He is in hospital and had one four months ago.\n\n2. THE RULE\nA 715 is not for an inpatient and has an interval\n\n3. WHY THIS OPTION\nE matches the rule on the facts given.\n\n4. THE TRAP\nA 715 is a practice-based assessment, not a hospital inpatient item, and it is not claimed more often than the set interval.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nDo not bill. He is an inpatient, and the interval has not elapsed\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nAn Aboriginal and Torres Strait Islander health assessment is offered on identification, at the right interval, and not to an inpatient.\n\n10. MEMORY ANCHOR\nA 715 is not for an inpatient.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not bill a 715. He is in hospital and had one four months ago.",
+      "best_treatment": "Do not bill. He is an inpatient, and the interval has not elapsed",
+      "incorrect_answer_explanations": {
+        "A": "Bill it. Inpatient status does not matter It does.",
+        "B": "Bill it if the pneumonia is resolving Recovery does not create eligibility.",
+        "C": "Bill a 715 every admission That is not the program.",
+        "D": "Bill it to complete the hospital discharge Discharge is not a 715."
+      },
+      "key_takeaways": [
+        "A 715 is not for an inpatient.",
+        "The interval still applies."
+      ],
+      "subtopic": "An Aboriginal and Torres Strait Islander health assessment is offered on identification, at the right interval, and not to an inpatient.",
+      "clinical_vignette": true,
+      "id": "3f6c59c4-aacc-57de-8079-94bd829f0b93",
+      "zyntra_id": "ZQ-0568",
+      "phase": "PH-08",
+      "phase_item_id": "PH-H-10",
+      "lo_id": "1e1314e2-69cb-5a68-84af-ea5f11244d51",
+      "lo_code": "HEALTH_ASSESSMENT"
+    },
+    {
+      "question_text": "A rural GP obstetrician is asked to start an elective caesarean at 39 weeks. The hospital has no after-hours theatre nurse tonight, no blood on site, and the nearest backup is three hours away. Mother and baby are well. An elective case waits for a safe service. Defer. Do not start elective surgery without staff, blood, and a realistic backup. What is the most appropriate plan?  Well tonight means the elective case can wait. No theatre nurse, no blood, hours from help. Do not start.  The rule is the same in a busy clinic or a rural hospital. Convenience does not create an item or a safe service.  Apply it to the facts in front of you. Do not bill or proceed on a workaround.  That is the correct step.  Nothing in the history creates an exception for billing, access, or a rural workaround. The standard is the same.  Decide on the rule, not on what would be easier to claim or to arrange tonight.  That settles the item.",
+      "options": [
+        "Defer. Do not start elective surgery without staff, blood, and a realistic backup",
+        "Start. Elective caesarean is always safer in labour ward",
+        "Start and ask a midwife to scrub",
+        "Start under local anaesthetic to avoid the gap",
+        "Discharge her to labour at home"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "difficult",
+      "explanation": "CORRECT ANSWER\n\nA. Defer. Do not start elective surgery without staff, blood, and a realistic backup\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not start. An elective caesarean waits for a safe theatre.\n\n2. THE RULE\nRural transfer and procedural safety follow clinical need\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nAn elective case waits for a safe service. Starting without theatre staff or blood, hours from help, creates a risk she does not need tonight.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nDefer. Do not start elective surgery without staff, blood, and a realistic backup\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nRural procedural backup means the practitioner does not start what they cannot finish or transfer safely.\n\n10. MEMORY ANCHOR\nDo not start elective rural surgery without backup.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not start. An elective caesarean waits for a safe theatre.",
+      "best_treatment": "Defer. Do not start elective surgery without staff, blood, and a realistic backup",
+      "incorrect_answer_explanations": {
+        "B": "Start. Elective caesarean is always safer in labour ward Safer than what is not established, and the conditions are absent.",
+        "C": "Start and ask a midwife to scrub Improvising the team is not a service.",
+        "D": "Start under local anaesthetic to avoid the gap Anaesthetic choice does not replace blood and help.",
+        "E": "Discharge her to labour at home Deferring the operation is not abandoning antenatal care."
+      },
+      "key_takeaways": [
+        "Do not start elective rural surgery without backup.",
+        "Well tonight means it can wait."
+      ],
+      "subtopic": "Rural procedural backup means the practitioner does not start what they cannot finish or transfer safely.",
+      "clinical_vignette": true,
+      "id": "aaa2e593-c3ca-50c5-9592-8b117d89c0d0",
+      "zyntra_id": "ZQ-0569",
+      "phase": "PH-08",
+      "phase_item_id": "PH-H-11",
+      "lo_id": "202ee238-7135-5b68-8c8d-6e89bc9d564d",
+      "lo_code": "RURAL_TRANSFER"
+    },
+    {
+      "question_text": "A patient needs a restricted PBS antibiotic. The GP writes the script with authority pending and tells the pharmacist to dispense a full PBS quantity. No authority has been granted. An authority restriction means the authority comes first. Pending is not approved. Do not claim a PBS quantity until the authority is actually held. What is the most appropriate correction?  Another patient's authority number does not transfer. CTG is not an authority. Pending is not approved. Get it first.  The rule is the same in a busy clinic or a rural hospital. Convenience does not create an item or a safe service.  Apply it to the facts in front of you. Do not bill or proceed on a workaround.  That is the correct step.  Nothing in the history creates an exception for billing, access, or a rural workaround. The standard is the same.  Decide on the rule, not on what would be easier to claim or to arrange tonight.  That settles the item.",
+      "options": [
+        "Dispense. Pending is the same as approved",
+        "Do not claim a PBS quantity until the authority is actually held",
+        "Use another patient's authority number",
+        "Annotate CTG instead of an authority",
+        "Ask the patient to sign that they accept the restriction"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nB. Do not claim a PBS quantity until the authority is actually held\n\n---\n\n1. CLINICAL DIAGNOSIS\nGet the authority first. Pending is not approval.\n\n2. THE RULE\nA PBS authority is obtained before the claim\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nAn authority restriction means the authority comes first. Pending is not approved. Another patient's number, or a CTG annotation, does not replace it.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nDo not claim a PBS quantity until the authority is actually held\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA PBS authority is obtained when the restriction requires it. Writing the drug and hoping is not an authority.\n\n10. MEMORY ANCHOR\nAn authority restriction is met before the PBS claim.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Get the authority first. Pending is not approval.",
+      "best_treatment": "Do not claim a PBS quantity until the authority is actually held",
+      "incorrect_answer_explanations": {
+        "A": "Dispense. Pending is the same as approved It is not.",
+        "C": "Use another patient's authority number That is a false claim.",
+        "D": "Annotate CTG instead of an authority CTG is a co-payment scheme, not an authority.",
+        "E": "Ask the patient to sign that they accept the restriction The patient cannot authorise a restricted benefit."
+      },
+      "key_takeaways": [
+        "An authority restriction is met before the PBS claim.",
+        "Another number does not transfer."
+      ],
+      "subtopic": "A PBS authority is obtained when the restriction requires it. Writing the drug and hoping is not an authority.",
+      "clinical_vignette": true,
+      "id": "f807273e-b3dd-5dd5-8b10-30c25c58b611",
+      "zyntra_id": "ZQ-0570",
+      "phase": "PH-08",
+      "phase_item_id": "PH-H-12",
+      "lo_id": "1b3ab9e9-c6c1-5d00-b641-2e1527f59f2f",
+      "lo_code": "PBS_AUTHORITY"
+    },
+    {
+      "question_text": "A patient phones at 10 pm for a repeat of his usual statin. He is well. The GP tells him to collect a script from the after-hours clinic and bills an urgent after-hours attendance. Urgent after-hours items are for urgent clinical need. A routine statin repeat is neither. Not acceptable. A routine repeat is not an urgent after-hours service. What is the most appropriate view?  The clock does not define urgency. Running out of a statin is not an emergency attendance. Do not bill the urgent item.  The rule is the same in a busy clinic or a rural hospital. Convenience does not create an item or a safe service.  Apply it to the facts in front of you. Do not bill or proceed on a workaround.  That is the correct step.  Nothing in the history creates an exception for billing, access, or a rural workaround. The standard is the same.  Decide on the rule, not on what would be easier to claim or to arrange tonight.  That settles the item.",
+      "options": [
+        "Acceptable. Any 10 pm contact is urgent",
+        "Acceptable if he has no tablets left",
+        "Not acceptable. A routine repeat is not an urgent after-hours service",
+        "Acceptable if the clinic is open",
+        "Acceptable once per month"
+      ],
+      "correct_answer": "C",
+      "category": "Population Health & Ethics",
+      "difficulty": "easy",
+      "explanation": "CORRECT ANSWER\n\nC. Not acceptable. A routine repeat is not an urgent after-hours service\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not bill an urgent after-hours item for a routine statin.\n\n2. THE RULE\nAfter-hours billing matches clinical urgency\n\n3. WHY THIS OPTION\nC matches the rule on the facts given.\n\n4. THE TRAP\nUrgent after-hours items are for urgent clinical need in unsociable hours. A routine statin repeat is neither.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nNot acceptable. A routine repeat is not an urgent after-hours service\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nAfter-hours billing matches the time and the urgency. A routine script the next morning is not an after-hours emergency.\n\n10. MEMORY ANCHOR\nUrgency is clinical, not the time on the clock.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not bill an urgent after-hours item for a routine statin.",
+      "best_treatment": "Not acceptable. A routine repeat is not an urgent after-hours service",
+      "incorrect_answer_explanations": {
+        "A": "Acceptable. Any 10 pm contact is urgent The clock does not define urgency.",
+        "B": "Acceptable if he has no tablets left Running out of a statin is not an emergency attendance.",
+        "D": "Acceptable if the clinic is open Opening hours do not create urgency.",
+        "E": "Acceptable once per month Frequency is not the test."
+      },
+      "key_takeaways": [
+        "Urgency is clinical, not the time on the clock.",
+        "A routine repeat is a routine service."
+      ],
+      "subtopic": "After-hours billing matches the time and the urgency. A routine script the next morning is not an after-hours emergency.",
+      "clinical_vignette": true,
+      "id": "b9937f4a-af18-57f3-b48c-7b8c01b9cec9",
+      "zyntra_id": "ZQ-0571",
+      "phase": "PH-08",
+      "phase_item_id": "PH-H-13",
+      "lo_id": "e71a1c3e-57c0-5997-bf2e-cdf9de23a5c7",
+      "lo_code": "AFTER_HOURS"
+    },
+    {
+      "question_text": "A child in a remote clinic has suspected appendicitis and looks unwell. The family want him kept locally because the regional hospital is far. The clinic has no theatre. He needs a surgeon. A clinic without a theatre cannot be the place of care because the family prefer it. Arrange transfer to a hospital that can operate. Explain why local care is unsafe. What is the most appropriate plan?  Family preference is heard. It does not choose an unsafe level of care. No theatre means he cannot stay. Transfer.  The rule is the same in a busy clinic or a rural hospital. Convenience does not create an item or a safe service.  Apply it to the facts in front of you. Do not bill or proceed on a workaround.  That is the correct step.  Nothing in the history creates an exception for billing, access, or a rural workaround. The standard is the same.  Decide on the rule, not on what would be easier to claim or to arrange tonight.  That settles the item.",
+      "options": [
+        "Keep him. Family preference decides the level of care",
+        "Start oral antibiotics and review in two days",
+        "Ask the family to drive him if they feel ready",
+        "Arrange transfer to a hospital that can operate. Explain why local care is unsafe",
+        "Observe overnight and transfer only if he perforates"
+      ],
+      "correct_answer": "D",
+      "category": "Population Health & Ethics",
+      "difficulty": "difficult",
+      "explanation": "CORRECT ANSWER\n\nD. Arrange transfer to a hospital that can operate. Explain why local care is unsafe\n\n---\n\n1. CLINICAL DIAGNOSIS\nTransfer him. No theatre means he cannot stay.\n\n2. THE RULE\nRural transfer and procedural safety follow clinical need\n\n3. WHY THIS OPTION\nD matches the rule on the facts given.\n\n4. THE TRAP\nHe needs a surgeon. A clinic without a theatre cannot be the place of care because the family prefer it. Waiting for perforation is not a plan.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nArrange transfer to a hospital that can operate. Explain why local care is unsafe\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA rural patient's transfer is a clinical decision. Family preference for the local hospital does not override a needed higher level of care.\n\n10. MEMORY ANCHOR\nLevel of care follows the illness.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Transfer him. No theatre means he cannot stay.",
+      "best_treatment": "Arrange transfer to a hospital that can operate. Explain why local care is unsafe",
+      "incorrect_answer_explanations": {
+        "A": "Keep him. Family preference decides the level of care Preference is heard. It does not choose an unsafe level.",
+        "B": "Start oral antibiotics and review in two days That delays a surgical abdomen.",
+        "C": "Ask the family to drive him if they feel ready An unwell child is not a private-car transfer.",
+        "E": "Observe overnight and transfer only if he perforates Perforation is the complication to avoid."
+      },
+      "key_takeaways": [
+        "Level of care follows the illness.",
+        "Family preference does not replace a theatre."
+      ],
+      "subtopic": "A rural patient's transfer is a clinical decision. Family preference for the local hospital does not override a needed higher level of care.",
+      "clinical_vignette": true,
+      "id": "caae804f-20e6-5006-bb08-6da1e8a6bb64",
+      "zyntra_id": "ZQ-0572",
+      "phase": "PH-08",
+      "phase_item_id": "PH-H-14",
+      "lo_id": "202ee238-7135-5b68-8c8d-6e89bc9d564d",
+      "lo_code": "RURAL_TRANSFER"
+    },
+    {
+      "question_text": "A GP bills a consultation item for a medical student who saw the patient alone, while the GP was at lunch and did not see the patient. A Medicare item is claimed by the practitioner who provided the service. A student seeing a patient alone is not that service. Not acceptable. The GP did not provide the service that was billed. What is the most appropriate view?  The item belongs to the practitioner who did the work. A student alone is not a billed consultation. Bulk-billing does not fix it.  The rule is the same in a busy clinic or a rural hospital. Convenience does not create an item or a safe service.  Apply it to the facts in front of you. Do not bill or proceed on a workaround.  That is the correct step.  Nothing in the history creates an exception for billing, access, or a rural workaround. The standard is the same.  Decide on the rule, not on what would be easier to claim or to arrange tonight.  That settles the item.",
+      "options": [
+        "Acceptable. Students extend the GP's item",
+        "Acceptable if the student is in fifth year",
+        "Acceptable if the patient was not charged a gap",
+        "Acceptable for bulk-billed patients only",
+        "Not acceptable. The GP did not provide the service that was billed"
+      ],
+      "correct_answer": "E",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nE. Not acceptable. The GP did not provide the service that was billed\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not bill. The GP was not there.\n\n2. THE RULE\nMedicare needs a clinically relevant service\n\n3. WHY THIS OPTION\nE matches the rule on the facts given.\n\n4. THE TRAP\nA Medicare item is claimed by the practitioner who provided the service. A student seeing a patient alone is not that service.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nNot acceptable. The GP did not provide the service that was billed\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nMedicare items are not claimed for a service provided by an unsupervised student.\n\n10. MEMORY ANCHOR\nThe item belongs to the practitioner who did the work.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not bill. The GP was not there.",
+      "best_treatment": "Not acceptable. The GP did not provide the service that was billed",
+      "incorrect_answer_explanations": {
+        "A": "Acceptable. Students extend the GP's item They do not.",
+        "B": "Acceptable if the student is in fifth year Seniority does not make a student the practitioner.",
+        "C": "Acceptable if the patient was not charged a gap Bulk-billing a service you did not provide is still a false claim.",
+        "D": "Acceptable for bulk-billed patients only The payer does not change the rule."
+      },
+      "key_takeaways": [
+        "The item belongs to the practitioner who did the work.",
+        "A student alone is not a billed consultation."
+      ],
+      "subtopic": "Medicare items are not claimed for a service provided by an unsupervised student.",
+      "clinical_vignette": true,
+      "id": "510212dc-6e03-5844-8e03-ac92549cd438",
+      "zyntra_id": "ZQ-0573",
+      "phase": "PH-08",
+      "phase_item_id": "PH-H-15",
+      "lo_id": "770fae7b-72f8-5efb-89d1-edc3c94e50db",
+      "lo_code": "MEDICARE_SERVICE"
+    },
+    {
+      "question_text": "A well man has a 6-minute chat about a holiday. No history, examination, or plan is recorded. Do not bill. No clinically relevant service was provided. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
+      "options": [
+        "Do not bill a consultation. No clinically relevant service was provided",
+        "Bill a level B for the chat",
+        "A 6-minute visit is always billable",
+        "Social talk is a consultation",
+        "Bill and write nothing"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. Do not bill a consultation. No clinically relevant service was provided\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not bill. A holiday chat is not a consultation.\n\n2. THE RULE\nMedicare needs a clinically relevant service\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nMedicare needs a clinical service. A social chat is not one.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nDo not bill a consultation. No clinically relevant service was provided\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nMedicare benefits a clinically relevant service. It is not a reward for a social chat.\n\n10. MEMORY ANCHOR\nMedicare needs a clinically relevant service.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not bill. A holiday chat is not a consultation.",
+      "best_treatment": "Do not bill a consultation. No clinically relevant service was provided",
+      "incorrect_answer_explanations": {
+        "B": "Bill a level B for the chat is not the correct step for this presentation.",
+        "C": "A 6-minute visit is always billable is not the correct step for this presentation.",
+        "D": "Social talk is a consultation is not the correct step for this presentation.",
+        "E": "Bill and write nothing is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Medicare needs a clinically relevant service.",
+        "Another person's card is never the workaround."
+      ],
+      "subtopic": "Medicare benefits a clinically relevant service. It is not a reward for a social chat.",
+      "clinical_vignette": true,
+      "id": "3d93d1fe-2f07-5829-9a82-f6249926ef2a",
+      "zyntra_id": "ZQ-0763",
+      "phase": "PH-08",
+      "phase_item_id": "PH-H-16",
+      "lo_id": "770fae7b-72f8-5efb-89d1-edc3c94e50db",
+      "lo_code": "MEDICARE_SERVICE"
+    },
+    {
+      "question_text": "The practice bulk-bills and also asks for $40 cash, not receipted. If bulk-billed, the benefit is full payment. The extra fee is not permitted. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
+      "options": [
+        "Not acceptable. Bulk-billing means the benefit is full payment",
+        "A $40 facility fee in cash is fine",
+        "Pensioners can be charged extra",
+        "An undisclosed cash fee is permitted",
+        "Bulk-billing plus a gap is standard"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. Not acceptable. Bulk-billing means the benefit is full payment\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not bill. A holiday chat is not a consultation.\n\n2. THE RULE\nBulk-billing means the benefit is full payment\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nNo extra cash on a bulk-billed service.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nNot acceptable. Bulk-billing means the benefit is full payment\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nMedicare benefits a clinically relevant service. It is not a reward for a social chat.\n\n10. MEMORY ANCHOR\nMedicare needs a clinically relevant service.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not bill. A holiday chat is not a consultation.",
+      "best_treatment": "Not acceptable. Bulk-billing means the benefit is full payment",
+      "incorrect_answer_explanations": {
+        "B": "A $40 facility fee in cash is fine is not the correct step for this presentation.",
+        "C": "Pensioners can be charged extra is not the correct step for this presentation.",
+        "D": "An undisclosed cash fee is permitted is not the correct step for this presentation.",
+        "E": "Bulk-billing plus a gap is standard is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Medicare needs a clinically relevant service.",
+        "Another person's card is never the workaround."
+      ],
+      "subtopic": "Medicare benefits a clinically relevant service. It is not a reward for a social chat.",
+      "clinical_vignette": true,
+      "id": "05fb22fa-6920-5fb6-bda5-8a8bc4880f10",
+      "zyntra_id": "ZQ-0764",
+      "phase": "PH-08",
+      "phase_item_id": "PH-H-17",
+      "lo_id": "bf03581c-c0c3-5673-85fe-b4ca380539cc",
+      "lo_code": "BULK_BILLING"
+    },
+    {
+      "question_text": "Renaming the extra charge does not take it outside the bulk-billing agreement. No extra fee. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
+      "options": [
+        "Call it a facility fee and it is outside the agreement",
+        "The benefit is full payment. No extra fee",
+        "A pensioner status creates an exception",
+        "Cash is not a fee",
+        "The patient agreed so it is fine"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nB. The benefit is full payment. No extra fee\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not bill. A holiday chat is not a consultation.\n\n2. THE RULE\nBulk-billing means the benefit is full payment\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nA facility fee is still an extra fee.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nThe benefit is full payment. No extra fee\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nMedicare benefits a clinically relevant service. It is not a reward for a social chat.\n\n10. MEMORY ANCHOR\nMedicare needs a clinically relevant service.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not bill. A holiday chat is not a consultation.",
+      "best_treatment": "The benefit is full payment. No extra fee",
+      "incorrect_answer_explanations": {
+        "A": "Call it a facility fee and it is outside the agreement is not the correct step for this presentation.",
+        "C": "A pensioner status creates an exception is not the correct step for this presentation.",
+        "D": "Cash is not a fee is not the correct step for this presentation.",
+        "E": "The patient agreed so it is fine is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Medicare needs a clinically relevant service.",
+        "Another person's card is never the workaround."
+      ],
+      "subtopic": "Medicare benefits a clinically relevant service. It is not a reward for a social chat.",
+      "clinical_vignette": true,
+      "id": "fadd8ecf-40c9-506f-90e4-43c66ad14365",
+      "zyntra_id": "ZQ-0765",
+      "phase": "PH-08",
+      "phase_item_id": "PH-H-18",
+      "lo_id": "bf03581c-c0c3-5673-85fe-b4ca380539cc",
+      "lo_code": "BULK_BILLING"
+    },
+    {
+      "question_text": "You either bulk-bill and accept the benefit, or you charge a private fee. Not both. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
+      "options": [
+        "Charge the gap and bulk-bill the rest",
+        "Accept the benefit as full payment or do not bulk-bill",
+        "Both can be done if undocumented",
+        "Only specialists are bound",
+        "A receipt cures it"
+      ],
+      "correct_answer": "C",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nC. Both can be done if undocumented\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not bill. A holiday chat is not a consultation.\n\n2. THE RULE\nBulk-billing means the benefit is full payment\n\n3. WHY THIS OPTION\nC matches the rule on the facts given.\n\n4. THE TRAP\nBulk-bill means full payment. Do not add a gap.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nBoth can be done if undocumented\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nMedicare benefits a clinically relevant service. It is not a reward for a social chat.\n\n10. MEMORY ANCHOR\nMedicare needs a clinically relevant service.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not bill. A holiday chat is not a consultation.",
+      "best_treatment": "Both can be done if undocumented",
+      "incorrect_answer_explanations": {
+        "A": "Charge the gap and bulk-bill the rest is not the correct step for this presentation.",
+        "B": "Accept the benefit as full payment or do not bulk-bill is not the correct step for this presentation.",
+        "D": "Only specialists are bound is not the correct step for this presentation.",
+        "E": "A receipt cures it is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Medicare needs a clinically relevant service.",
+        "Another person's card is never the workaround."
+      ],
+      "subtopic": "Medicare benefits a clinically relevant service. It is not a reward for a social chat.",
+      "clinical_vignette": true,
+      "id": "794571ac-07b3-5d43-be90-34835f85a261",
+      "zyntra_id": "ZQ-0766",
+      "phase": "PH-08",
+      "phase_item_id": "PH-H-19",
+      "lo_id": "bf03581c-c0c3-5673-85fe-b4ca380539cc",
+      "lo_code": "BULK_BILLING"
+    },
+    {
+      "question_text": "He wants his statin on his wife's script because she has reached the safety net. Decline. A PBS prescription is for the person who needs that medicine. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
+      "options": [
+        "Decline. A PBS prescription is for the person who needs the medicine",
+        "Put his statin on her script",
+        "Safety-net sharing is allowed",
+        "A spouse can use the other's concession",
+        "Paying a gap fixes the wrong name"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. Decline. A PBS prescription is for the person who needs the medicine\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not bill. A holiday chat is not a consultation.\n\n2. THE RULE\nA PBS prescription is for the named patient\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nWrong patient on the script is a false claim.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nDecline. A PBS prescription is for the person who needs the medicine\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nMedicare benefits a clinically relevant service. It is not a reward for a social chat.\n\n10. MEMORY ANCHOR\nMedicare needs a clinically relevant service.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not bill. A holiday chat is not a consultation.",
+      "best_treatment": "Decline. A PBS prescription is for the person who needs the medicine",
+      "incorrect_answer_explanations": {
+        "B": "Put his statin on her script is not the correct step for this presentation.",
+        "C": "Safety-net sharing is allowed is not the correct step for this presentation.",
+        "D": "A spouse can use the other's concession is not the correct step for this presentation.",
+        "E": "Paying a gap fixes the wrong name is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Medicare needs a clinically relevant service.",
+        "Another person's card is never the workaround."
+      ],
+      "subtopic": "Medicare benefits a clinically relevant service. It is not a reward for a social chat.",
+      "clinical_vignette": true,
+      "id": "469e6692-ba9d-5e2a-9c9e-a11eedba401b",
+      "zyntra_id": "ZQ-0767",
+      "phase": "PH-08",
+      "phase_item_id": "PH-H-20",
+      "lo_id": "d2919c8b-44e6-5e80-864e-a88e920285b1",
+      "lo_code": "PBS_NAMED"
+    },
+    {
+      "question_text": "Household concession is not a thing. The script names the patient who needs the medicine. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
+      "options": [
+        "Her concession covers the household",
+        "Write the script for the person who clinically needs the drug",
+        "A family script is valid",
+        "Safety net is transferable",
+        "Any name is fine if the drug is the same"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nB. Write the script for the person who clinically needs the drug\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not bill. A holiday chat is not a consultation.\n\n2. THE RULE\nA PBS prescription is for the named patient\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nNamed patient. No sharing.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nWrite the script for the person who clinically needs the drug\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nMedicare benefits a clinically relevant service. It is not a reward for a social chat.\n\n10. MEMORY ANCHOR\nMedicare needs a clinically relevant service.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not bill. A holiday chat is not a consultation.",
+      "best_treatment": "Write the script for the person who clinically needs the drug",
+      "incorrect_answer_explanations": {
+        "A": "Her concession covers the household is not the correct step for this presentation.",
+        "C": "A family script is valid is not the correct step for this presentation.",
+        "D": "Safety net is transferable is not the correct step for this presentation.",
+        "E": "Any name is fine if the drug is the same is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Medicare needs a clinically relevant service.",
+        "Another person's card is never the workaround."
+      ],
+      "subtopic": "Medicare benefits a clinically relevant service. It is not a reward for a social chat.",
+      "clinical_vignette": true,
+      "id": "229ad170-f115-5d88-9f1d-ffd32ae0b661",
+      "zyntra_id": "ZQ-0768",
+      "phase": "PH-08",
+      "phase_item_id": "PH-H-21",
+      "lo_id": "d2919c8b-44e6-5e80-864e-a88e920285b1",
+      "lo_code": "PBS_NAMED"
+    },
+    {
+      "question_text": "Do not write his medicine onto her prescription. Refuse. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
+      "options": [
+        "Annotate her script with his dose",
+        "Refuse the swapped script",
+        "The pharmacist can change the name",
+        "A letter to PBS allows sharing",
+        "One script can name two people"
+      ],
+      "correct_answer": "C",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nC. The pharmacist can change the name\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not bill. A holiday chat is not a consultation.\n\n2. THE RULE\nA PBS prescription is for the named patient\n\n3. WHY THIS OPTION\nC matches the rule on the facts given.\n\n4. THE TRAP\nOne patient, one script.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nThe pharmacist can change the name\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nMedicare benefits a clinically relevant service. It is not a reward for a social chat.\n\n10. MEMORY ANCHOR\nMedicare needs a clinically relevant service.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not bill. A holiday chat is not a consultation.",
+      "best_treatment": "The pharmacist can change the name",
+      "incorrect_answer_explanations": {
+        "A": "Annotate her script with his dose is not the correct step for this presentation.",
+        "B": "Refuse the swapped script is not the correct step for this presentation.",
+        "D": "A letter to PBS allows sharing is not the correct step for this presentation.",
+        "E": "One script can name two people is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Medicare needs a clinically relevant service.",
+        "Another person's card is never the workaround."
+      ],
+      "subtopic": "Medicare benefits a clinically relevant service. It is not a reward for a social chat.",
+      "clinical_vignette": true,
+      "id": "62e54537-a7b2-510b-b0f1-9d8456870208",
+      "zyntra_id": "ZQ-0769",
+      "phase": "PH-08",
+      "phase_item_id": "PH-H-22",
+      "lo_id": "d2919c8b-44e6-5e80-864e-a88e920285b1",
+      "lo_code": "PBS_NAMED"
+    },
+    {
+      "question_text": "He is not registered for Closing the Gap. Writing CTG on the script does nothing until he is registered. Register first. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
+      "options": [
+        "Register him properly first. An annotation alone does not create eligibility",
+        "Write CTG and the pharmacy will register him",
+        "Self-registration online works",
+        "CTG is automatic on identification",
+        "A letter is enough"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. Register him properly first. An annotation alone does not create eligibility\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not bill. A holiday chat is not a consultation.\n\n2. THE RULE\nClosing the Gap needs registration before annotation\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nRegistration, then annotation.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nRegister him properly first. An annotation alone does not create eligibility\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nMedicare benefits a clinically relevant service. It is not a reward for a social chat.\n\n10. MEMORY ANCHOR\nMedicare needs a clinically relevant service.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not bill. A holiday chat is not a consultation.",
+      "best_treatment": "Register him properly first. An annotation alone does not create eligibility",
+      "incorrect_answer_explanations": {
+        "B": "Write CTG and the pharmacy will register him is not the correct step for this presentation.",
+        "C": "Self-registration online works is not the correct step for this presentation.",
+        "D": "CTG is automatic on identification is not the correct step for this presentation.",
+        "E": "A letter is enough is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Medicare needs a clinically relevant service.",
+        "Another person's card is never the workaround."
+      ],
+      "subtopic": "Medicare benefits a clinically relevant service. It is not a reward for a social chat.",
+      "clinical_vignette": true,
+      "id": "d4be0be2-85ba-54fc-9ca6-f196c7bbd114",
+      "zyntra_id": "ZQ-0770",
+      "phase": "PH-08",
+      "phase_item_id": "PH-H-23",
+      "lo_id": "d0959aa2-8935-5247-a695-d24bd87b7005",
+      "lo_code": "CTG_REGISTRATION"
+    },
+    {
+      "question_text": "The pharmacy cannot create Closing the Gap eligibility. Register him clinically. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
+      "options": [
+        "The pharmacist creates eligibility",
+        "Clinical registration comes first",
+        "Any staff member can tick CTG",
+        "Re-register every script",
+        "Remote address is enough"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nB. Clinical registration comes first\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not bill. A holiday chat is not a consultation.\n\n2. THE RULE\nClosing the Gap needs registration before annotation\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nClinical registration. Not a pharmacy step.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nClinical registration comes first\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nMedicare benefits a clinically relevant service. It is not a reward for a social chat.\n\n10. MEMORY ANCHOR\nMedicare needs a clinically relevant service.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not bill. A holiday chat is not a consultation.",
+      "best_treatment": "Clinical registration comes first",
+      "incorrect_answer_explanations": {
+        "A": "The pharmacist creates eligibility is not the correct step for this presentation.",
+        "C": "Any staff member can tick CTG is not the correct step for this presentation.",
+        "D": "Re-register every script is not the correct step for this presentation.",
+        "E": "Remote address is enough is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Medicare needs a clinically relevant service.",
+        "Another person's card is never the workaround."
+      ],
+      "subtopic": "Medicare benefits a clinically relevant service. It is not a reward for a social chat.",
+      "clinical_vignette": true,
+      "id": "469d3149-6a72-5118-a328-bf5871fbc0a7",
+      "zyntra_id": "ZQ-0771",
+      "phase": "PH-08",
+      "phase_item_id": "PH-H-24",
+      "lo_id": "d0959aa2-8935-5247-a695-d24bd87b7005",
+      "lo_code": "CTG_REGISTRATION"
+    },
+    {
+      "question_text": "Until registration is done, annotation is decorative. Do the registration. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
+      "options": [
+        "Annotation without registration still lowers the co-payment",
+        "Register, then annotate subsequent scripts",
+        "CTG applies to every Aboriginal patient automatically",
+        "A handwritten note is registration",
+        "No process exists"
+      ],
+      "correct_answer": "C",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nC. CTG applies to every Aboriginal patient automatically\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not bill. A holiday chat is not a consultation.\n\n2. THE RULE\nClosing the Gap needs registration before annotation\n\n3. WHY THIS OPTION\nC matches the rule on the facts given.\n\n4. THE TRAP\nOrder matters. Register first.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nCTG applies to every Aboriginal patient automatically\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nMedicare benefits a clinically relevant service. It is not a reward for a social chat.\n\n10. MEMORY ANCHOR\nMedicare needs a clinically relevant service.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not bill. A holiday chat is not a consultation.",
+      "best_treatment": "CTG applies to every Aboriginal patient automatically",
+      "incorrect_answer_explanations": {
+        "A": "Annotation without registration still lowers the co-payment is not the correct step for this presentation.",
+        "B": "Register, then annotate subsequent scripts is not the correct step for this presentation.",
+        "D": "A handwritten note is registration is not the correct step for this presentation.",
+        "E": "No process exists is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Medicare needs a clinically relevant service.",
+        "Another person's card is never the workaround."
+      ],
+      "subtopic": "Medicare benefits a clinically relevant service. It is not a reward for a social chat.",
+      "clinical_vignette": true,
+      "id": "de00b2ba-6111-5da6-a24f-afddc6cd1dc2",
+      "zyntra_id": "ZQ-0772",
+      "phase": "PH-08",
+      "phase_item_id": "PH-H-25",
+      "lo_id": "d0959aa2-8935-5247-a695-d24bd87b7005",
+      "lo_code": "CTG_REGISTRATION"
+    },
+    {
+      "question_text": "Elective caesarean, no theatre nurse tonight, no blood, backup three hours away. Mother and baby are well. Defer. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
+      "options": [
+        "Defer the elective caesarean. Do not start without staff, blood, and backup",
+        "Start because she is 39 weeks",
+        "Family preference decides",
+        "No blood is acceptable for elective cases",
+        "A three-hour backup is fine for elective surgery"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. Defer the elective caesarean. Do not start without staff, blood, and backup\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not bill. A holiday chat is not a consultation.\n\n2. THE RULE\nRural transfer and procedural safety follow clinical need\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nElective case waits for a safe service.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nDefer the elective caesarean. Do not start without staff, blood, and backup\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nMedicare benefits a clinically relevant service. It is not a reward for a social chat.\n\n10. MEMORY ANCHOR\nMedicare needs a clinically relevant service.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not bill. A holiday chat is not a consultation.",
+      "best_treatment": "Defer the elective caesarean. Do not start without staff, blood, and backup",
+      "incorrect_answer_explanations": {
+        "B": "Start because she is 39 weeks is not the correct step for this presentation.",
+        "C": "Family preference decides is not the correct step for this presentation.",
+        "D": "No blood is acceptable for elective cases is not the correct step for this presentation.",
+        "E": "A three-hour backup is fine for elective surgery is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Medicare needs a clinically relevant service.",
+        "Another person's card is never the workaround."
+      ],
+      "subtopic": "Medicare benefits a clinically relevant service. It is not a reward for a social chat.",
+      "clinical_vignette": true,
+      "id": "0ef733ce-e968-5bd6-826f-3bde2a40f8aa",
+      "zyntra_id": "ZQ-0773",
+      "phase": "PH-08",
+      "phase_item_id": "PH-H-26",
+      "lo_id": "202ee238-7135-5b68-8c8d-6e89bc9d564d",
+      "lo_code": "RURAL_TRANSFER"
+    },
+    {
+      "question_text": "He opens a sportsperson's My Health Record. The person is not his patient. Curiosity is not a legitimate purpose. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
+      "options": [
+        "Not acceptable. Access requires a legitimate clinical purpose",
+        "A celebrity record can be opened out of interest",
+        "Registration as a clinician is a browsing right",
+        "Secrecy repairs it",
+        "Public interest in sport is enough"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. Not acceptable. Access requires a legitimate clinical purpose\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not bill. A holiday chat is not a consultation.\n\n2. THE RULE\nMy Health Record access needs a legitimate clinical purpose\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nLegitimate care purpose, or do not open it.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nNot acceptable. Access requires a legitimate clinical purpose\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nMedicare benefits a clinically relevant service. It is not a reward for a social chat.\n\n10. MEMORY ANCHOR\nMedicare needs a clinically relevant service.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not bill. A holiday chat is not a consultation.",
+      "best_treatment": "Not acceptable. Access requires a legitimate clinical purpose",
+      "incorrect_answer_explanations": {
+        "B": "A celebrity record can be opened out of interest is not the correct step for this presentation.",
+        "C": "Registration as a clinician is a browsing right is not the correct step for this presentation.",
+        "D": "Secrecy repairs it is not the correct step for this presentation.",
+        "E": "Public interest in sport is enough is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Medicare needs a clinically relevant service.",
+        "Another person's card is never the workaround."
+      ],
+      "subtopic": "Medicare benefits a clinically relevant service. It is not a reward for a social chat.",
+      "clinical_vignette": true,
+      "id": "c41ace26-b70c-5c37-83b2-6cf47ccc9b70",
+      "zyntra_id": "ZQ-0774",
+      "phase": "PH-08",
+      "phase_item_id": "PH-H-27",
+      "lo_id": "034de426-d1c6-5a4b-9f5d-937733b5dc2c",
+      "lo_code": "MYHR_ACCESS"
+    },
+    {
+      "question_text": "No treating relationship. Do not open the record. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
+      "options": [
+        "Open it to check the news",
+        "Do not open a record without a care relationship",
+        "Any clinician can browse",
+        "A closed door makes it acceptable",
+        "Delete the access later"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nB. Do not open a record without a care relationship\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not bill. A holiday chat is not a consultation.\n\n2. THE RULE\nMy Health Record access needs a legitimate clinical purpose\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nNo relationship, no access.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nDo not open a record without a care relationship\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nMedicare benefits a clinically relevant service. It is not a reward for a social chat.\n\n10. MEMORY ANCHOR\nMedicare needs a clinically relevant service.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not bill. A holiday chat is not a consultation.",
+      "best_treatment": "Do not open a record without a care relationship",
+      "incorrect_answer_explanations": {
+        "A": "Open it to check the news is not the correct step for this presentation.",
+        "C": "Any clinician can browse is not the correct step for this presentation.",
+        "D": "A closed door makes it acceptable is not the correct step for this presentation.",
+        "E": "Delete the access later is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Medicare needs a clinically relevant service.",
+        "Another person's card is never the workaround."
+      ],
+      "subtopic": "Medicare benefits a clinically relevant service. It is not a reward for a social chat.",
+      "clinical_vignette": true,
+      "id": "02f7cbec-51a6-54e9-9058-eb5cbdd9b15e",
+      "zyntra_id": "ZQ-0775",
+      "phase": "PH-08",
+      "phase_item_id": "PH-H-28",
+      "lo_id": "034de426-d1c6-5a4b-9f5d-937733b5dc2c",
+      "lo_code": "MYHR_ACCESS"
+    },
+    {
+      "question_text": "An audit trail does not authorise curiosity. Do not open it. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
+      "options": [
+        "Access is logged so it is fine",
+        "Logging does not create a purpose. Do not open it",
+        "Public figures have no privacy",
+        "A colleague asked so it is legitimate",
+        "Read and do not document"
+      ],
+      "correct_answer": "C",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nC. Public figures have no privacy\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not bill. A holiday chat is not a consultation.\n\n2. THE RULE\nMy Health Record access needs a legitimate clinical purpose\n\n3. WHY THIS OPTION\nC matches the rule on the facts given.\n\n4. THE TRAP\nPurpose first. Logging is not permission.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nPublic figures have no privacy\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nMedicare benefits a clinically relevant service. It is not a reward for a social chat.\n\n10. MEMORY ANCHOR\nMedicare needs a clinically relevant service.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not bill. A holiday chat is not a consultation.",
+      "best_treatment": "Public figures have no privacy",
+      "incorrect_answer_explanations": {
+        "A": "Access is logged so it is fine is not the correct step for this presentation.",
+        "B": "Logging does not create a purpose. Do not open it is not the correct step for this presentation.",
+        "D": "A colleague asked so it is legitimate is not the correct step for this presentation.",
+        "E": "Read and do not document is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Medicare needs a clinically relevant service.",
+        "Another person's card is never the workaround."
+      ],
+      "subtopic": "Medicare benefits a clinically relevant service. It is not a reward for a social chat.",
+      "clinical_vignette": true,
+      "id": "d3fc9f6a-621d-5b1f-86f5-6f744e74dfb4",
+      "zyntra_id": "ZQ-0776",
+      "phase": "PH-08",
+      "phase_item_id": "PH-H-29",
+      "lo_id": "034de426-d1c6-5a4b-9f5d-937733b5dc2c",
+      "lo_code": "MYHR_ACCESS"
+    },
+    {
+      "question_text": "An online service offers a benzodiazepine after 90 seconds with a patient never examined, and bills a long consult. Not acceptable. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
+      "options": [
+        "Not acceptable. No adequate assessment, and a long-consult item is not earned",
+        "A 90-second chat is a long consult",
+        "A new patient can have a benzodiazepine this way",
+        "Rural location lowers the standard",
+        "Bill the longest item available"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. Not acceptable. No adequate assessment, and a long-consult item is not earned\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not bill. A holiday chat is not a consultation.\n\n2. THE RULE\nTelehealth still needs a proper clinical service\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nTelehealth still needs a proper clinical service. The item must match.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nNot acceptable. No adequate assessment, and a long-consult item is not earned\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nMedicare benefits a clinically relevant service. It is not a reward for a social chat.\n\n10. MEMORY ANCHOR\nMedicare needs a clinically relevant service.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not bill. A holiday chat is not a consultation.",
+      "best_treatment": "Not acceptable. No adequate assessment, and a long-consult item is not earned",
+      "incorrect_answer_explanations": {
+        "B": "A 90-second chat is a long consult is not the correct step for this presentation.",
+        "C": "A new patient can have a benzodiazepine this way is not the correct step for this presentation.",
+        "D": "Rural location lowers the standard is not the correct step for this presentation.",
+        "E": "Bill the longest item available is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Medicare needs a clinically relevant service.",
+        "Another person's card is never the workaround."
+      ],
+      "subtopic": "Medicare benefits a clinically relevant service. It is not a reward for a social chat.",
+      "clinical_vignette": true,
+      "id": "45fd7288-063d-52ca-a318-2f3f5590404e",
+      "zyntra_id": "ZQ-0777",
+      "phase": "PH-08",
+      "phase_item_id": "PH-H-30",
+      "lo_id": "ac590854-3555-5997-886a-e4a285625fdf",
+      "lo_code": "TELEHEALTH"
+    },
+    {
+      "question_text": "Bill what was done. A brief inadequate chat is not a long consult. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
+      "options": [
+        "Any video call is a long consult",
+        "The item matches the service actually provided",
+        "A stranger needs no history",
+        "Drugs of dependence are fine by chat",
+        "Time on the booking equals the item"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nB. The item matches the service actually provided\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not bill. A holiday chat is not a consultation.\n\n2. THE RULE\nTelehealth still needs a proper clinical service\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nItem matches the work.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nThe item matches the service actually provided\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nMedicare benefits a clinically relevant service. It is not a reward for a social chat.\n\n10. MEMORY ANCHOR\nMedicare needs a clinically relevant service.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not bill. A holiday chat is not a consultation.",
+      "best_treatment": "The item matches the service actually provided",
+      "incorrect_answer_explanations": {
+        "A": "Any video call is a long consult is not the correct step for this presentation.",
+        "C": "A stranger needs no history is not the correct step for this presentation.",
+        "D": "Drugs of dependence are fine by chat is not the correct step for this presentation.",
+        "E": "Time on the booking equals the item is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Medicare needs a clinically relevant service.",
+        "Another person's card is never the workaround."
+      ],
+      "subtopic": "Medicare benefits a clinically relevant service. It is not a reward for a social chat.",
+      "clinical_vignette": true,
+      "id": "8b71e444-8abc-52eb-8c07-b01d0e448d97",
+      "zyntra_id": "ZQ-0778",
+      "phase": "PH-08",
+      "phase_item_id": "PH-H-31",
+      "lo_id": "ac590854-3555-5997-886a-e4a285625fdf",
+      "lo_code": "TELEHEALTH"
+    },
+    {
+      "question_text": "Telehealth does not remove the need for an adequate assessment. This was not one. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
+      "options": [
+        "No examination is required for any telehealth",
+        "A proper assessment is still required",
+        "New patients cannot be charged so the item is free",
+        "Benzodiazepines need no relationship",
+        "90 seconds is comprehensive"
+      ],
+      "correct_answer": "C",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nC. New patients cannot be charged so the item is free\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not bill. A holiday chat is not a consultation.\n\n2. THE RULE\nTelehealth still needs a proper clinical service\n\n3. WHY THIS OPTION\nC matches the rule on the facts given.\n\n4. THE TRAP\nAdequate assessment still applies.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nNew patients cannot be charged so the item is free\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nMedicare benefits a clinically relevant service. It is not a reward for a social chat.\n\n10. MEMORY ANCHOR\nMedicare needs a clinically relevant service.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not bill. A holiday chat is not a consultation.",
+      "best_treatment": "New patients cannot be charged so the item is free",
+      "incorrect_answer_explanations": {
+        "A": "No examination is required for any telehealth is not the correct step for this presentation.",
+        "B": "A proper assessment is still required is not the correct step for this presentation.",
+        "D": "Benzodiazepines need no relationship is not the correct step for this presentation.",
+        "E": "90 seconds is comprehensive is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Medicare needs a clinically relevant service.",
+        "Another person's card is never the workaround."
+      ],
+      "subtopic": "Medicare benefits a clinically relevant service. It is not a reward for a social chat.",
+      "clinical_vignette": true,
+      "id": "c4199cbe-f8f1-55cc-a883-1263691ec1cb",
+      "zyntra_id": "ZQ-0779",
+      "phase": "PH-08",
+      "phase_item_id": "PH-H-32",
+      "lo_id": "ac590854-3555-5997-886a-e4a285625fdf",
+      "lo_code": "TELEHEALTH"
+    },
+    {
+      "question_text": "The practice bills a GP management plan for every patient over 65, using a template the patient never sees. A plan needs a chronic condition and the patient. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
+      "options": [
+        "Not acceptable. A plan requires a chronic condition and the patient's involvement",
+        "Age over 65 is an indication",
+        "A prefilled template the patient never sees is a plan",
+        "Bill a plan for every script visit",
+        "A nurse clicking a box is the service"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. Not acceptable. A plan requires a chronic condition and the patient's involvement\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not bill. A holiday chat is not a consultation.\n\n2. THE RULE\nA care plan needs a chronic condition and the patient\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nAge is not an indication. The patient is involved.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nNot acceptable. A plan requires a chronic condition and the patient's involvement\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nMedicare benefits a clinically relevant service. It is not a reward for a social chat.\n\n10. MEMORY ANCHOR\nMedicare needs a clinically relevant service.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not bill. A holiday chat is not a consultation.",
+      "best_treatment": "Not acceptable. A plan requires a chronic condition and the patient's involvement",
+      "incorrect_answer_explanations": {
+        "B": "Age over 65 is an indication is not the correct step for this presentation.",
+        "C": "A prefilled template the patient never sees is a plan is not the correct step for this presentation.",
+        "D": "Bill a plan for every script visit is not the correct step for this presentation.",
+        "E": "A nurse clicking a box is the service is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Medicare needs a clinically relevant service.",
+        "Another person's card is never the workaround."
+      ],
+      "subtopic": "Medicare benefits a clinically relevant service. It is not a reward for a social chat.",
+      "clinical_vignette": true,
+      "id": "d85a2c97-b3e9-5577-83b3-9baee3414de1",
+      "zyntra_id": "ZQ-0780",
+      "phase": "PH-08",
+      "phase_item_id": "PH-H-33",
+      "lo_id": "6b77c662-4c98-5f91-82f9-50228315b46d",
+      "lo_code": "CARE_PLAN"
+    },
+    {
+      "question_text": "No chronic condition, no discussion. Do not bill the plan. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
+      "options": [
+        "A template is the plan",
+        "Prepare the plan with the patient for a real chronic condition",
+        "Every older patient qualifies",
+        "No discussion is needed",
+        "Bill and file"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nB. Prepare the plan with the patient for a real chronic condition\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not bill. A holiday chat is not a consultation.\n\n2. THE RULE\nA care plan needs a chronic condition and the patient\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nCondition plus involvement. Both.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nPrepare the plan with the patient for a real chronic condition\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nMedicare benefits a clinically relevant service. It is not a reward for a social chat.\n\n10. MEMORY ANCHOR\nMedicare needs a clinically relevant service.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not bill. A holiday chat is not a consultation.",
+      "best_treatment": "Prepare the plan with the patient for a real chronic condition",
+      "incorrect_answer_explanations": {
+        "A": "A template is the plan is not the correct step for this presentation.",
+        "C": "Every older patient qualifies is not the correct step for this presentation.",
+        "D": "No discussion is needed is not the correct step for this presentation.",
+        "E": "Bill and file is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Medicare needs a clinically relevant service.",
+        "Another person's card is never the workaround."
+      ],
+      "subtopic": "Medicare benefits a clinically relevant service. It is not a reward for a social chat.",
+      "clinical_vignette": true,
+      "id": "98879add-6991-5f6e-bb8d-8f6472d1323d",
+      "zyntra_id": "ZQ-0781",
+      "phase": "PH-08",
+      "phase_item_id": "PH-H-34",
+      "lo_id": "6b77c662-4c98-5f91-82f9-50228315b46d",
+      "lo_code": "CARE_PLAN"
+    },
+    {
+      "question_text": "Do not attach a plan item to an ordinary script visit. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
+      "options": [
+        "Script visits generate a plan item",
+        "A plan is a structured service, not a side effect of a script",
+        "65 is the indication",
+        "The patient need not know",
+        "A blank template counts"
+      ],
+      "correct_answer": "C",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nC. 65 is the indication\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not bill. A holiday chat is not a consultation.\n\n2. THE RULE\nA care plan needs a chronic condition and the patient\n\n3. WHY THIS OPTION\nC matches the rule on the facts given.\n\n4. THE TRAP\nNot a side effect of attendance.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\n65 is the indication\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nMedicare benefits a clinically relevant service. It is not a reward for a social chat.\n\n10. MEMORY ANCHOR\nMedicare needs a clinically relevant service.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not bill. A holiday chat is not a consultation.",
+      "best_treatment": "65 is the indication",
+      "incorrect_answer_explanations": {
+        "A": "Script visits generate a plan item is not the correct step for this presentation.",
+        "B": "A plan is a structured service, not a side effect of a script is not the correct step for this presentation.",
+        "D": "The patient need not know is not the correct step for this presentation.",
+        "E": "A blank template counts is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Medicare needs a clinically relevant service.",
+        "Another person's card is never the workaround."
+      ],
+      "subtopic": "Medicare benefits a clinically relevant service. It is not a reward for a social chat.",
+      "clinical_vignette": true,
+      "id": "36548f35-919a-5aed-ba57-83211e6b04ed",
+      "zyntra_id": "ZQ-0782",
+      "phase": "PH-08",
+      "phase_item_id": "PH-H-35",
+      "lo_id": "6b77c662-4c98-5f91-82f9-50228315b46d",
+      "lo_code": "CARE_PLAN"
+    },
+    {
+      "question_text": "He is an inpatient and had a 715 four months ago. Do not bill. Inpatient status blocks it, and the interval has not elapsed. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
+      "options": [
+        "Do not bill. He is an inpatient, and the interval has not elapsed",
+        "Claim a 715 on the ward",
+        "Four months is outside the interval",
+        "Pneumonia admission is a 715",
+        "Bill now and again after discharge"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. Do not bill. He is an inpatient, and the interval has not elapsed\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not bill. A holiday chat is not a consultation.\n\n2. THE RULE\nA 715 is not for an inpatient and has an interval\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nNot an inpatient item. Interval applies.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nDo not bill. He is an inpatient, and the interval has not elapsed\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nMedicare benefits a clinically relevant service. It is not a reward for a social chat.\n\n10. MEMORY ANCHOR\nMedicare needs a clinically relevant service.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not bill. A holiday chat is not a consultation.",
+      "best_treatment": "Do not bill. He is an inpatient, and the interval has not elapsed",
+      "incorrect_answer_explanations": {
+        "B": "Claim a 715 on the ward is not the correct step for this presentation.",
+        "C": "Four months is outside the interval is not the correct step for this presentation.",
+        "D": "Pneumonia admission is a 715 is not the correct step for this presentation.",
+        "E": "Bill now and again after discharge is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Medicare needs a clinically relevant service.",
+        "Another person's card is never the workaround."
+      ],
+      "subtopic": "Medicare benefits a clinically relevant service. It is not a reward for a social chat.",
+      "clinical_vignette": true,
+      "id": "8c76eb8c-252d-5879-a5e6-361a1969a418",
+      "zyntra_id": "ZQ-0783",
+      "phase": "PH-08",
+      "phase_item_id": "PH-H-36",
+      "lo_id": "1e1314e2-69cb-5a68-84af-ea5f11244d51",
+      "lo_code": "HEALTH_ASSESSMENT"
+    },
+    {
+      "question_text": "Finish the admission. Offer the 715 later in the clinic if he is due. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
+      "options": [
+        "Any Aboriginal patient in the building can be billed",
+        "Offer the 715 in the practice after discharge if due",
+        "The interval resets on admission",
+        "A junior can claim it unseen",
+        "Hospital equals practice"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nB. Offer the 715 in the practice after discharge if due\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not bill. A holiday chat is not a consultation.\n\n2. THE RULE\nA 715 is not for an inpatient and has an interval\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nPractice setting, after the interval.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nOffer the 715 in the practice after discharge if due\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nMedicare benefits a clinically relevant service. It is not a reward for a social chat.\n\n10. MEMORY ANCHOR\nMedicare needs a clinically relevant service.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not bill. A holiday chat is not a consultation.",
+      "best_treatment": "Offer the 715 in the practice after discharge if due",
+      "incorrect_answer_explanations": {
+        "A": "Any Aboriginal patient in the building can be billed is not the correct step for this presentation.",
+        "C": "The interval resets on admission is not the correct step for this presentation.",
+        "D": "A junior can claim it unseen is not the correct step for this presentation.",
+        "E": "Hospital equals practice is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Medicare needs a clinically relevant service.",
+        "Another person's card is never the workaround."
+      ],
+      "subtopic": "Medicare benefits a clinically relevant service. It is not a reward for a social chat.",
+      "clinical_vignette": true,
+      "id": "0b40778c-42f9-58b5-95b9-b9ce8fec66cc",
+      "zyntra_id": "ZQ-0784",
+      "phase": "PH-08",
+      "phase_item_id": "PH-H-37",
+      "lo_id": "1e1314e2-69cb-5a68-84af-ea5f11244d51",
+      "lo_code": "HEALTH_ASSESSMENT"
+    },
+    {
+      "question_text": "Ward is not a 715 setting. Do not claim it. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
+      "options": [
+        "Bill from the ward to help the practice",
+        "Do not claim a 715 for an inpatient",
+        "Identification is enough in hospital",
+        "Interval is a suggestion",
+        "Discharge is irrelevant"
+      ],
+      "correct_answer": "C",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nC. Identification is enough in hospital\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not bill. A holiday chat is not a consultation.\n\n2. THE RULE\nA 715 is not for an inpatient and has an interval\n\n3. WHY THIS OPTION\nC matches the rule on the facts given.\n\n4. THE TRAP\nNo 715 on the ward.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nIdentification is enough in hospital\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nMedicare benefits a clinically relevant service. It is not a reward for a social chat.\n\n10. MEMORY ANCHOR\nMedicare needs a clinically relevant service.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not bill. A holiday chat is not a consultation.",
+      "best_treatment": "Identification is enough in hospital",
+      "incorrect_answer_explanations": {
+        "A": "Bill from the ward to help the practice is not the correct step for this presentation.",
+        "B": "Do not claim a 715 for an inpatient is not the correct step for this presentation.",
+        "D": "Interval is a suggestion is not the correct step for this presentation.",
+        "E": "Discharge is irrelevant is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Medicare needs a clinically relevant service.",
+        "Another person's card is never the workaround."
+      ],
+      "subtopic": "Medicare benefits a clinically relevant service. It is not a reward for a social chat.",
+      "clinical_vignette": true,
+      "id": "af0623b6-085b-5ad9-9f6a-3eb47b483b32",
+      "zyntra_id": "ZQ-0785",
+      "phase": "PH-08",
+      "phase_item_id": "PH-H-38",
+      "lo_id": "1e1314e2-69cb-5a68-84af-ea5f11244d51",
+      "lo_code": "HEALTH_ASSESSMENT"
+    },
+    {
+      "question_text": "A restricted antibiotic needs an authority. None has been granted. Pending is not approved. Do not claim the PBS quantity yet. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
+      "options": [
+        "Do not claim a PBS quantity until the authority is actually held",
+        "Authority pending is approved",
+        "Use another patient's authority number",
+        "CTG is an authority",
+        "The pharmacist can invent one"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. Do not claim a PBS quantity until the authority is actually held\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not bill. A holiday chat is not a consultation.\n\n2. THE RULE\nA PBS authority is obtained before the claim\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nAuthority first. Then the claim.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nDo not claim a PBS quantity until the authority is actually held\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nMedicare benefits a clinically relevant service. It is not a reward for a social chat.\n\n10. MEMORY ANCHOR\nMedicare needs a clinically relevant service.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not bill. A holiday chat is not a consultation.",
+      "best_treatment": "Do not claim a PBS quantity until the authority is actually held",
+      "incorrect_answer_explanations": {
+        "B": "Authority pending is approved is not the correct step for this presentation.",
+        "C": "Use another patient's authority number is not the correct step for this presentation.",
+        "D": "CTG is an authority is not the correct step for this presentation.",
+        "E": "The pharmacist can invent one is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Medicare needs a clinically relevant service.",
+        "Another person's card is never the workaround."
+      ],
+      "subtopic": "Medicare benefits a clinically relevant service. It is not a reward for a social chat.",
+      "clinical_vignette": true,
+      "id": "2d9ab1f7-f7e3-5b2a-8b2e-8beb3df29465",
+      "zyntra_id": "ZQ-0786",
+      "phase": "PH-08",
+      "phase_item_id": "PH-H-39",
+      "lo_id": "1b3ab9e9-c6c1-5d00-b641-2e1527f59f2f",
+      "lo_code": "PBS_AUTHORITY"
+    },
+    {
+      "question_text": "Get the authority. Do not ask the pharmacy to dispense a PBS quantity without it. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
+      "options": [
+        "Write the script and let the pharmacy sort the authority",
+        "Obtain the authority before claiming",
+        "A phone message is an authority number",
+        "Restrictions are optional",
+        "Private quantity is the same as PBS"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nB. Obtain the authority before claiming\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not bill. A holiday chat is not a consultation.\n\n2. THE RULE\nA PBS authority is obtained before the claim\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nAuthority before supply under PBS.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nObtain the authority before claiming\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nMedicare benefits a clinically relevant service. It is not a reward for a social chat.\n\n10. MEMORY ANCHOR\nMedicare needs a clinically relevant service.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not bill. A holiday chat is not a consultation.",
+      "best_treatment": "Obtain the authority before claiming",
+      "incorrect_answer_explanations": {
+        "A": "Write the script and let the pharmacy sort the authority is not the correct step for this presentation.",
+        "C": "A phone message is an authority number is not the correct step for this presentation.",
+        "D": "Restrictions are optional is not the correct step for this presentation.",
+        "E": "Private quantity is the same as PBS is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Medicare needs a clinically relevant service.",
+        "Another person's card is never the workaround."
+      ],
+      "subtopic": "Medicare benefits a clinically relevant service. It is not a reward for a social chat.",
+      "clinical_vignette": true,
+      "id": "69ba36a7-5af1-5ccc-af84-ccb306446df8",
+      "zyntra_id": "ZQ-0787",
+      "phase": "PH-08",
+      "phase_item_id": "PH-H-40",
+      "lo_id": "1b3ab9e9-c6c1-5d00-b641-2e1527f59f2f",
+      "lo_code": "PBS_AUTHORITY"
+    },
+    {
+      "question_text": "Do not borrow an authority number. Obtain this one. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
+      "options": [
+        "Another patient's number transfers",
+        "It does not. Obtain this patient's authority",
+        "Pending means yes",
+        "A restricted drug needs no approval",
+        "Write authority required and stop there as if approved"
+      ],
+      "correct_answer": "C",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nC. Pending means yes\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not bill. A holiday chat is not a consultation.\n\n2. THE RULE\nA PBS authority is obtained before the claim\n\n3. WHY THIS OPTION\nC matches the rule on the facts given.\n\n4. THE TRAP\nThis patient, this authority.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nPending means yes\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nMedicare benefits a clinically relevant service. It is not a reward for a social chat.\n\n10. MEMORY ANCHOR\nMedicare needs a clinically relevant service.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not bill. A holiday chat is not a consultation.",
+      "best_treatment": "Pending means yes",
+      "incorrect_answer_explanations": {
+        "A": "Another patient's number transfers is not the correct step for this presentation.",
+        "B": "It does not. Obtain this patient's authority is not the correct step for this presentation.",
+        "D": "A restricted drug needs no approval is not the correct step for this presentation.",
+        "E": "Write authority required and stop there as if approved is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Medicare needs a clinically relevant service.",
+        "Another person's card is never the workaround."
+      ],
+      "subtopic": "Medicare benefits a clinically relevant service. It is not a reward for a social chat.",
+      "clinical_vignette": true,
+      "id": "c86ce17e-dc26-5718-8faa-359cd19284be",
+      "zyntra_id": "ZQ-0788",
+      "phase": "PH-08",
+      "phase_item_id": "PH-H-41",
+      "lo_id": "1b3ab9e9-c6c1-5d00-b641-2e1527f59f2f",
+      "lo_code": "PBS_AUTHORITY"
+    },
+    {
+      "question_text": "He phones at 10 pm for a routine statin. He is well. Urgent after-hours items need urgent clinical need. This is not urgent. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
+      "options": [
+        "Not acceptable. A routine repeat is not an urgent after-hours service",
+        "10 pm makes any script urgent",
+        "A statin repeat is an emergency attendance",
+        "Bill the urgent item",
+        "The clock defines urgency"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. Not acceptable. A routine repeat is not an urgent after-hours service\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not bill. A holiday chat is not a consultation.\n\n2. THE RULE\nAfter-hours billing matches clinical urgency\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nTime does not define urgency. The clinical need does.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nNot acceptable. A routine repeat is not an urgent after-hours service\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nMedicare benefits a clinically relevant service. It is not a reward for a social chat.\n\n10. MEMORY ANCHOR\nMedicare needs a clinically relevant service.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not bill. A holiday chat is not a consultation.",
+      "best_treatment": "Not acceptable. A routine repeat is not an urgent after-hours service",
+      "incorrect_answer_explanations": {
+        "B": "10 pm makes any script urgent is not the correct step for this presentation.",
+        "C": "A statin repeat is an emergency attendance is not the correct step for this presentation.",
+        "D": "Bill the urgent item is not the correct step for this presentation.",
+        "E": "The clock defines urgency is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Medicare needs a clinically relevant service.",
+        "Another person's card is never the workaround."
+      ],
+      "subtopic": "Medicare benefits a clinically relevant service. It is not a reward for a social chat.",
+      "clinical_vignette": true,
+      "id": "248c3bf4-5984-560a-9aa5-e3d2bac4605e",
+      "zyntra_id": "ZQ-0789",
+      "phase": "PH-08",
+      "phase_item_id": "PH-H-42",
+      "lo_id": "e71a1c3e-57c0-5997-bf2e-cdf9de23a5c7",
+      "lo_code": "AFTER_HOURS"
+    },
+    {
+      "question_text": "No urgent need. Do not bill the urgent attendance. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
+      "options": [
+        "Running out of a statin is an emergency",
+        "Do not bill an urgent item for a routine repeat",
+        "Any after-hours contact is urgent",
+        "The clinic being open late creates the item",
+        "Bill and do not assess"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nB. Do not bill an urgent item for a routine repeat\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not bill. A holiday chat is not a consultation.\n\n2. THE RULE\nAfter-hours billing matches clinical urgency\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nMatch the item to the urgency.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nDo not bill an urgent item for a routine repeat\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nMedicare benefits a clinically relevant service. It is not a reward for a social chat.\n\n10. MEMORY ANCHOR\nMedicare needs a clinically relevant service.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not bill. A holiday chat is not a consultation.",
+      "best_treatment": "Do not bill an urgent item for a routine repeat",
+      "incorrect_answer_explanations": {
+        "A": "Running out of a statin is an emergency is not the correct step for this presentation.",
+        "C": "Any after-hours contact is urgent is not the correct step for this presentation.",
+        "D": "The clinic being open late creates the item is not the correct step for this presentation.",
+        "E": "Bill and do not assess is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Medicare needs a clinically relevant service.",
+        "Another person's card is never the workaround."
+      ],
+      "subtopic": "Medicare benefits a clinically relevant service. It is not a reward for a social chat.",
+      "clinical_vignette": true,
+      "id": "aa7db53e-fd3e-5742-a7a4-fb313b80e778",
+      "zyntra_id": "ZQ-0790",
+      "phase": "PH-08",
+      "phase_item_id": "PH-H-43",
+      "lo_id": "e71a1c3e-57c0-5997-bf2e-cdf9de23a5c7",
+      "lo_code": "AFTER_HOURS"
+    },
+    {
+      "question_text": "The hour does not make a routine request urgent. Bill appropriately, or not at all. The rest of the history does not create an exception. Convenience, a rural setting, or a patient's agreement does not create an item or a safe service. Apply the billing, access, or transfer rule as it stands. Do not bill or proceed on a workaround. State the correct step clearly. Nothing in the consultation creates a billing exception or a safe workaround. The rule is the same in a busy clinic or a rural hospital. Apply it to the facts in front of you. Do not invent an item, an authority, or a clearance the system does not provide. That is the correct step. Decide on the rule, not on what would be easier to claim or to arrange tonight. Document what you do. Clearly. Today. A patient's agreement, a full list, or a missing nurse does not create the missing authority. Bill only what was done, access only what you may, and transfer when the local service cannot cope.",
+      "options": [
+        "Bill urgent because the phone rang after 8",
+        "Clinical urgency, not the clock, decides the item",
+        "A well patient is urgent at night",
+        "Repeats are always urgent",
+        "No alternative exists"
+      ],
+      "correct_answer": "C",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nC. A well patient is urgent at night\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not bill. A holiday chat is not a consultation.\n\n2. THE RULE\nAfter-hours billing matches clinical urgency\n\n3. WHY THIS OPTION\nC matches the rule on the facts given.\n\n4. THE TRAP\nClock is not the test.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nA well patient is urgent at night\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nMedicare benefits a clinically relevant service. It is not a reward for a social chat.\n\n10. MEMORY ANCHOR\nMedicare needs a clinically relevant service.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not bill. A holiday chat is not a consultation.",
+      "best_treatment": "A well patient is urgent at night",
+      "incorrect_answer_explanations": {
+        "A": "Bill urgent because the phone rang after 8 is not the correct step for this presentation.",
+        "B": "Clinical urgency, not the clock, decides the item is not the correct step for this presentation.",
+        "D": "Repeats are always urgent is not the correct step for this presentation.",
+        "E": "No alternative exists is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Medicare needs a clinically relevant service.",
+        "Another person's card is never the workaround."
+      ],
+      "subtopic": "Medicare benefits a clinically relevant service. It is not a reward for a social chat.",
+      "clinical_vignette": true,
+      "id": "8ce3ac72-6d14-58dd-85a1-1c465d9c723b",
+      "zyntra_id": "ZQ-0791",
+      "phase": "PH-08",
+      "phase_item_id": "PH-H-44",
+      "lo_id": "e71a1c3e-57c0-5997-bf2e-cdf9de23a5c7",
+      "lo_code": "AFTER_HOURS"
+    }
+  ]
+}

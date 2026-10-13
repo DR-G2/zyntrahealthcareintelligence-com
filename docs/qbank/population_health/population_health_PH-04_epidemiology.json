@@ -1,0 +1,1369 @@
+{
+  "phase": "PH-04",
+  "phase_name": "Epidemiology and statistics",
+  "count": 40,
+  "reviewed_by": "Dr Heisenberg",
+  "status": "draft",
+  "items": [
+    {
+      "question_text": "A 58-year-old man has a positive faecal immunochemical test. He has read that the test is 70% sensitive and asks what his chance of cancer is. Sensitivity is the chance the test is positive if he has cancer. It does not tell you the chance he has cancer given a positive test. That is the positive predictive value, which also depends on prevalence. You cannot quote his personal chance from sensitivity alone. What is the most appropriate explanation?  He wants a percentage for himself. Give him the distinction, not a false personal probability from sensitivity. PPV needs prevalence as well.  He is asymptomatic apart from the positive kit. There is no family history that changes the explanation. Walk him through what sensitivity can and cannot say. Then arrange colonoscopy, which is the clinical step. The teaching point in the room is the misuse of sensitivity.  Prevalence in the screened age group is what turns a positive test into a personal probability. Without it, sensitivity is the wrong number to quote. Say so, and proceed to colonoscopy. The rest of the history does not change the definition or the calculation in front of you.  Nothing else in the consultation changes the figure or the bias being asked about. Answer the definition in front of you.  State the answer in those terms. Clearly.",
+      "options": [
+        "His chance of cancer cannot be stated from sensitivity and specificity alone",
+        "His chance of cancer is 95%",
+        "His chance of cancer is 90%",
+        "A positive test in a sensitive assay means the disease is present",
+        "Specificity of 90% means 90% of positive tests are true"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. His chance of cancer cannot be stated from sensitivity and specificity alone\n\n---\n\n1. CLINICAL DIAGNOSIS\nSensitivity and specificity do not give his chance of cancer. Prevalence is required for the positive predictive value.\n\n2. THE RULE\nSensitivity, specificity and likelihood ratio\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nSensitivity is the proportion of people with disease who test positive. Specificity is the proportion without disease who test negative. Neither is the positive predictive value. PPV needs prevalence as well.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nHis chance of cancer cannot be stated from sensitivity and specificity alone\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nSensitivity is true positives among those with disease. It does not tell you the chance you have the disease if the test is positive.\n\n10. MEMORY ANCHOR\nSensitivity is not the chance of disease after a positive test.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Sensitivity and specificity do not give his chance of cancer. Prevalence is required for the positive predictive value.",
+      "best_treatment": "His chance of cancer cannot be stated from sensitivity and specificity alone",
+      "incorrect_answer_explanations": {
+        "B": "His chance of cancer is 95% That is the sensitivity, not his post-test probability.",
+        "C": "His chance of cancer is 90% That is the specificity.",
+        "D": "A positive test in a sensitive assay means the disease is present A sensitive test still has false positives.",
+        "E": "Specificity of 90% means 90% of positive tests are true That confuses specificity with PPV."
+      },
+      "key_takeaways": [
+        "Sensitivity is not the chance of disease after a positive test.",
+        "PPV needs prevalence as well as sensitivity and specificity."
+      ],
+      "subtopic": "Sensitivity is true positives among those with disease. It does not tell you the chance you have the disease if the test is positive.",
+      "clinical_vignette": true,
+      "id": "0a63bbab-5379-59a2-b8f9-0f38e47d87d0",
+      "zyntra_id": "ZQ-0482",
+      "phase": "PH-04",
+      "phase_item_id": "PH-E-01",
+      "lo_id": "70bffe72-cd4a-584c-96b0-e82c55b68ae3",
+      "lo_code": "TEST_PROPERTIES"
+    },
+    {
+      "question_text": "A screening test is used in two towns. The test is identical. Town A has a higher prevalence of the disease than town B. A student says the positive predictive value must be the same because the test has not changed. Positive predictive value rises as prevalence rises, even when sensitivity and specificity are fixed. Town A will have the higher PPV. What is the most appropriate statement?  Same test, different prevalence, different PPV. Specificity has not changed. The town with more disease has more true positives among positive tests.  Imagine  the same false-positive rate in both towns. More disease in town A means a larger share of positive tests are true positives. That is why PPV differs. The student has confused a property of the test with a property of the tested population.  Hold sensitivity and specificity constant in the explanation. Change only prevalence. PPV moves. That single change answers the student. The rest of the history does not change the definition or the calculation in front of you.  Nothing else in the consultation changes the figure or the bias being asked about. Answer the definition in front of you.  State the answer in those terms. Clearly.",
+      "options": [
+        "PPV is the same. The test characteristics are unchanged",
+        "PPV is higher where prevalence is higher",
+        "PPV is higher in the university clinic because the students are healthier",
+        "PPV equals specificity in both clinics",
+        "Sensitivity falls when prevalence falls"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "difficult",
+      "explanation": "CORRECT ANSWER\n\nB. PPV is higher where prevalence is higher\n\n---\n\n1. CLINICAL DIAGNOSIS\nThe same test has a lower positive predictive value in the low-prevalence clinic.\n\n2. THE RULE\nPredictive value needs prevalence; screening is not diagnosis\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nPPV is true positives divided by all positives. At low prevalence most positives are false positives, so PPV falls. Sensitivity and specificity are properties of the test. PPV is a property of the test in a population.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nPPV is higher where prevalence is higher\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nPositive predictive value falls when prevalence falls, even if sensitivity and specificity stay the same.\n\n10. MEMORY ANCHOR\nPPV rises with prevalence.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "The same test has a lower positive predictive value in the low-prevalence clinic.",
+      "best_treatment": "PPV is higher where prevalence is higher",
+      "incorrect_answer_explanations": {
+        "A": "PPV is the same. The test characteristics are unchanged Sensitivity and specificity are unchanged. PPV is not.",
+        "C": "PPV is higher in the university clinic because the students are healthier Lower prevalence lowers PPV.",
+        "D": "PPV equals specificity in both clinics They are different quantities.",
+        "E": "Sensitivity falls when prevalence falls Sensitivity does not."
+      },
+      "key_takeaways": [
+        "PPV rises with prevalence.",
+        "Sensitivity and specificity do not change with prevalence."
+      ],
+      "subtopic": "Positive predictive value falls when prevalence falls, even if sensitivity and specificity stay the same.",
+      "clinical_vignette": true,
+      "id": "bc27d58c-d2aa-587d-9f16-6c0deff2bc36",
+      "zyntra_id": "ZQ-0483",
+      "phase": "PH-04",
+      "phase_item_id": "PH-E-02",
+      "lo_id": "333485d2-5192-5695-a7ed-d13eb65aed63",
+      "lo_code": "PREDICTIVE_VALUE"
+    },
+    {
+      "question_text": "A highly sensitive test for a rare serious infection is negative. A colleague says a sensitive test is used to confirm disease, so the negative result is unhelpful. A negative result on a sensitive test helps rule disease out. SnNOut. A specific test is the one that helps rule disease in when positive. What is the most appropriate interpretation?  Sensitive test negative: useful for ruling out. Specific test positive: useful for ruling in. The colleague has the uses reversed.  Use a concrete line. A sensitive test that is negative makes disease unlikely. A specific test that is positive makes disease likely. Confirmation and exclusion are different jobs. The colleague has assigned the sensitive test the wrong job.  SnNOut for the sensitive test. SpPIn for the specific test. One line settles the misuse. The rest of the history does not change the definition or the calculation in front of you.  Nothing else in the consultation changes the figure or the bias being asked about. Answer the definition in front of you.  State the answer in those terms. Clearly.",
+      "options": [
+        "A negative specific test rules disease in",
+        "Specificity is the chance the patient has the disease",
+        "A negative result on a sensitive test helps rule disease out",
+        "A positive D-dimer in low-risk patients confirms embolism",
+        "D-dimer sensitivity is irrelevant to a rule-out pathway"
+      ],
+      "correct_answer": "C",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nC. A negative result on a sensitive test helps rule disease out\n\n---\n\n1. CLINICAL DIAGNOSIS\nA negative sensitive test helps rule disease out. Specificity is not the property that does that job.\n\n2. THE RULE\nSensitivity, specificity and likelihood ratio\n\n3. WHY THIS OPTION\nC matches the rule on the facts given.\n\n4. THE TRAP\nA highly sensitive test, when negative, makes the disease unlikely. That is the rule-out use. A highly specific test, when positive, helps rule in. D-dimer is used as a sensitive rule-out test in low-risk patients, not as a rule-in test.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nA negative result on a sensitive test helps rule disease out\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nSpecificity is true negatives among those without disease. A specific test is used to rule in.\n\n10. MEMORY ANCHOR\nSnNOut: a sensitive test, if negative, helps rule out.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "A negative sensitive test helps rule disease out. Specificity is not the property that does that job.",
+      "best_treatment": "A negative result on a sensitive test helps rule disease out",
+      "incorrect_answer_explanations": {
+        "A": "A negative specific test rules disease in A negative result does not rule in.",
+        "B": "Specificity is the chance the patient has the disease Specificity is a test property, not a post-test probability.",
+        "D": "A positive D-dimer in low-risk patients confirms embolism D-dimer has many false positives.",
+        "E": "D-dimer sensitivity is irrelevant to a rule-out pathway Sensitivity is why the pathway works."
+      },
+      "key_takeaways": [
+        "SnNOut: a sensitive test, if negative, helps rule out.",
+        "SpPIn: a specific test, if positive, helps rule in."
+      ],
+      "subtopic": "Specificity is true negatives among those without disease. A specific test is used to rule in.",
+      "clinical_vignette": true,
+      "id": "e9aa449a-e060-5384-a1bf-60a37b408d5f",
+      "zyntra_id": "ZQ-0484",
+      "phase": "PH-04",
+      "phase_item_id": "PH-E-03",
+      "lo_id": "70bffe72-cd4a-584c-96b0-e82c55b68ae3",
+      "lo_code": "TEST_PROPERTIES"
+    },
+    {
+      "question_text": "A registrar confuses two figures in a report. One is the number of new cases of a disease in a year. The other is the number of people who currently have it. Incidence is new cases in a period. Prevalence is existing cases at a point or in a period. They are not interchangeable. What is the most appropriate distinction?  New cases over time versus existing cases now. Incidence can be low while prevalence is high if the disease lasts. Do not swap the words.  Ask which number would fall if a cure shortened the disease, and which would fall if fewer people caught it. Prevalence can stay high with long duration. Incidence tracks new events. The registrar needs that split before using either figure in a report.  Incidence answers how fast new disease appears. Prevalence answers how much disease is present. Reports mix them. Do not. The rest of the history does not change the definition or the calculation in front of you.  Nothing else in the consultation changes the figure or the bias being asked about. Answer the definition in front of you.  State the answer in those terms. Clearly.",
+      "options": [
+        "Incidence counts existing cases. Prevalence counts new cases",
+        "Prevalence always falls when incidence is stable",
+        "Incidence includes deaths. Prevalence does not",
+        "Incidence is new cases in a period. Prevalence is existing cases at a time",
+        "They are interchangeable in chronic disease"
+      ],
+      "correct_answer": "D",
+      "category": "Population Health & Ethics",
+      "difficulty": "easy",
+      "explanation": "CORRECT ANSWER\n\nD. Incidence is new cases in a period. Prevalence is existing cases at a time\n\n---\n\n1. CLINICAL DIAGNOSIS\nIncidence is new cases. Prevalence is existing cases. A stable incidence can still raise prevalence.\n\n2. THE RULE\nIncidence is new cases. Prevalence is existing cases.\n\n3. WHY THIS OPTION\nD matches the rule on the facts given.\n\n4. THE TRAP\nIncidence is the rate of new cases. Prevalence is the proportion who have the disease at a point. Prevalence can rise if people live longer with the disease, even when incidence is flat.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nIncidence is new cases in a period. Prevalence is existing cases at a time\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nIncidence is new cases over time. Prevalence is existing cases at a point.\n\n10. MEMORY ANCHOR\nIncidence is new cases over time.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Incidence is new cases. Prevalence is existing cases. A stable incidence can still raise prevalence.",
+      "best_treatment": "Incidence is new cases in a period. Prevalence is existing cases at a time",
+      "incorrect_answer_explanations": {
+        "A": "Incidence counts existing cases. Prevalence counts new cases That reverses the definitions.",
+        "B": "Prevalence always falls when incidence is stable Longer survival raises prevalence.",
+        "C": "Incidence includes deaths. Prevalence does not Deaths remove people from the prevalent pool.",
+        "E": "They are interchangeable in chronic disease The distinction matters more in chronic disease, not less."
+      },
+      "key_takeaways": [
+        "Incidence is new cases over time.",
+        "Prevalence is a stock, not a flow."
+      ],
+      "subtopic": "Incidence is new cases over time. Prevalence is existing cases at a point.",
+      "clinical_vignette": true,
+      "id": "dd9c4a9e-412a-525f-8ff4-880541660046",
+      "zyntra_id": "ZQ-0485",
+      "phase": "PH-04",
+      "phase_item_id": "PH-E-04",
+      "lo_id": "a3166865-4555-5c3f-b319-5a35c9210fc6",
+      "lo_code": "INCIDENCE_PREVALENCE"
+    },
+    {
+      "question_text": "A trial reports that a treatment reduces the absolute risk of an outcome from 8% to 4%. A student asks for the number needed to treat. NNT is 1 divided by the absolute risk reduction. Here the reduction is 0.04, so NNT is 25. What is the number needed to treat?  Absolute risk reduction 4 percentage points. NNT 25. Not 12.5, not 4. One in 25 treated prevents one outcome, on these figures.  Show the arithmetic. Risk fell by 4 per 100. You treat 25 to prevent one event, on these data. Do not invert it to 4, and do not use the relative reduction. NNT is from the absolute difference.  1 / 0.04 = 25. State NNT as 25. Show the working so the relative-risk habit does not creep back in. The rest of the history does not change the definition or the calculation in front of you.  Nothing else in the consultation changes the figure or the bias being asked about. Answer the definition in front of you.  State the answer in those terms. Clearly.",
+      "options": [
+        "NNT is 4",
+        "NNT is 40",
+        "NNT is 10",
+        "NNT cannot be calculated without the p-value",
+        "NNT is 25"
+      ],
+      "correct_answer": "E",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nE. NNT is 25\n\n---\n\n1. CLINICAL DIAGNOSIS\nAbsolute reduction is 4 percentage points. NNT is 25, not 4.\n\n2. THE RULE\nAbsolute risk, NNT and relative reduction\n\n3. WHY THIS OPTION\nE matches the rule on the facts given.\n\n4. THE TRAP\nAbsolute risk reduction is 10% minus 6%, which is 4 percentage points, or 0.04. NNT is 1 / 0.04 = 25. The 40% figure is the relative risk reduction and is not the NNT.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nNNT is 25\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nNumber needed to treat is 1 divided by the absolute risk reduction.\n\n10. MEMORY ANCHOR\nNNT = 1 / absolute risk reduction.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Absolute reduction is 4 percentage points. NNT is 25, not 4.",
+      "best_treatment": "NNT is 25",
+      "incorrect_answer_explanations": {
+        "A": "NNT is 4 That treats the relative reduction as if it were the absolute one.",
+        "B": "NNT is 40 That is the relative reduction written as a whole number.",
+        "C": "NNT is 10 That is the placebo event rate, not the difference.",
+        "D": "NNT cannot be calculated without the p-value NNT is an effect size. The p-value is a separate question."
+      },
+      "key_takeaways": [
+        "NNT = 1 / absolute risk reduction.",
+        "Relative risk reduction is not the NNT."
+      ],
+      "subtopic": "Number needed to treat is 1 divided by the absolute risk reduction.",
+      "clinical_vignette": true,
+      "id": "ca64d207-c55a-5160-b2df-506fa8300be5",
+      "zyntra_id": "ZQ-0486",
+      "phase": "PH-04",
+      "phase_item_id": "PH-E-05",
+      "lo_id": "52fcd53b-e296-5b5f-b823-b645e1217c7e",
+      "lo_code": "ABSOLUTE_VERSUS_RELATIVE"
+    },
+    {
+      "question_text": "A newspaper says a drug halves the risk of a rare event. The event fell from 2 per 1000 to 1 per 1000. A patient asks if that means half of people are saved. The absolute reduction is 1 per 1000. The 50% figure is the relative reduction. Both should be stated. What is the most appropriate explanation?  Relative risk reduction 50%. Absolute risk reduction 0.1%. A patient hears half and imagines a large benefit. State both.  Put both numbers in one sentence. Relative reduction 50%, absolute reduction 1 in 1000. A rare event halved is still rare. The headline used the relative figure alone. That is the trap.  Rare events produce large relative reductions from tiny absolute ones. Always pair them. The patient decision needs the absolute figure. The rest of the history does not change the definition or the calculation in front of you.  Nothing else in the consultation changes the figure or the bias being asked about. Answer the definition in front of you.  State the answer in those terms. Clearly.",
+      "options": [
+        "The absolute reduction is 1 per 1000. The 50% figure is relative",
+        "Half of vaccinated people avoid the outcome",
+        "The absolute reduction is 50%",
+        "Relative risk reduction cannot exceed absolute risk reduction",
+        "The trial shows no effect because the rates are both small"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "difficult",
+      "explanation": "CORRECT ANSWER\n\nA. The absolute reduction is 1 per 1000. The 50% figure is relative\n\n---\n\n1. CLINICAL DIAGNOSIS\nThe 50% is relative. The absolute reduction is 1 event per 1000 people.\n\n2. THE RULE\nAbsolute risk, NNT and relative reduction\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nRelative risk reduction is (2 \u2212 1) / 2 = 50%. Absolute risk reduction is 1 per 1000. The advertisement uses the relative figure. The absolute figure is what tells the patient how many events are prevented.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nThe absolute reduction is 1 per 1000. The 50% figure is relative\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA relative risk reduction can look large when the absolute reduction is small.\n\n10. MEMORY ANCHOR\nAlways pair a relative reduction with the absolute one.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "The 50% is relative. The absolute reduction is 1 event per 1000 people.",
+      "best_treatment": "The absolute reduction is 1 per 1000. The 50% figure is relative",
+      "incorrect_answer_explanations": {
+        "B": "Half of vaccinated people avoid the outcome That misreads a relative reduction as a personal probability.",
+        "C": "The absolute reduction is 50% 50% is the relative figure.",
+        "D": "Relative risk reduction cannot exceed absolute risk reduction Relative often exceeds absolute when the baseline is small.",
+        "E": "The trial shows no effect because the rates are both small Small rates can still have a real relative effect."
+      },
+      "key_takeaways": [
+        "Always pair a relative reduction with the absolute one.",
+        "A large relative figure can hide a small absolute one."
+      ],
+      "subtopic": "A relative risk reduction can look large when the absolute reduction is small.",
+      "clinical_vignette": true,
+      "id": "6c301856-d1ae-5abf-a34e-d50d746d37d6",
+      "zyntra_id": "ZQ-0487",
+      "phase": "PH-04",
+      "phase_item_id": "PH-E-06",
+      "lo_id": "52fcd53b-e296-5b5f-b823-b645e1217c7e",
+      "lo_code": "ABSOLUTE_VERSUS_RELATIVE"
+    },
+    {
+      "question_text": "A trial reports a relative risk of 0.8 with a 95% confidence interval of 0.5 to 1.3. A colleague says the treatment works because the point estimate is under 1. The interval includes 1, so a null effect is not excluded. Statistical significance is not shown. What is the most appropriate interpretation?  Point estimate 0.8 favours treatment. Interval crosses 1. The result is compatible with no effect. Do not call it significant.  Draw the interval. It crosses the null. The point estimate is encouraging and not conclusive. A larger trial might narrow it. Today you cannot claim a demonstrated effect.  Compatible with benefit, harm, or none. The interval is the message. Do not headline the 0.8 alone. The rest of the history does not change the definition or the calculation in front of you.  Nothing else in the consultation changes the figure or the bias being asked about. Answer the definition in front of you.  State the answer in those terms. Clearly.",
+      "options": [
+        "The result is statistically significant because 0.80 is below 1",
+        "The interval includes 1, so a null effect is not excluded",
+        "The treatment is proven harmful",
+        "The p-value must be below 0.05 because the point estimate moved",
+        "A confidence interval is the range of individual patient results"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nB. The interval includes 1, so a null effect is not excluded\n\n---\n\n1. CLINICAL DIAGNOSIS\nThe interval crosses 1. The point estimate of 0.80 does not prove an effect.\n\n2. THE RULE\nConfidence interval, p-value and type II error\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nA 95% confidence interval that includes the null value, here a relative risk of 1, does not exclude no effect. The point estimate of 0.80 is the best single guess. It is not proof.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nThe interval includes 1, so a null effect is not excluded\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA confidence interval that crosses the null is compatible with no effect. The point estimate is not the whole result.\n\n10. MEMORY ANCHOR\nAn interval that includes the null does not exclude no effect.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "The interval crosses 1. The point estimate of 0.80 does not prove an effect.",
+      "best_treatment": "The interval includes 1, so a null effect is not excluded",
+      "incorrect_answer_explanations": {
+        "A": "The result is statistically significant because 0.80 is below 1 Significance is about the interval or the p-value, not the direction of the point estimate alone.",
+        "C": "The treatment is proven harmful The interval also includes benefit.",
+        "D": "The p-value must be below 0.05 because the point estimate moved An interval crossing 1 corresponds to a p-value above 0.05.",
+        "E": "A confidence interval is the range of individual patient results It is an interval for the estimated effect, not for individual outcomes."
+      },
+      "key_takeaways": [
+        "An interval that includes the null does not exclude no effect.",
+        "Do not treat the point estimate as the result."
+      ],
+      "subtopic": "A confidence interval that crosses the null is compatible with no effect. The point estimate is not the whole result.",
+      "clinical_vignette": true,
+      "id": "6ccc3af9-be91-501a-ba33-a32076828b48",
+      "zyntra_id": "ZQ-0488",
+      "phase": "PH-04",
+      "phase_item_id": "PH-E-07",
+      "lo_id": "7728f3b7-21d2-52ae-b9f6-963c71402045",
+      "lo_code": "STATISTICAL_INFERENCE"
+    },
+    {
+      "question_text": "A paper reports p = 0.03 for a difference. A student says this means there is a 3% chance the result is due to chance, or a 97% chance the treatment works. The p value is the probability of a result at least this extreme if the null hypothesis is true. It is not the probability that the treatment works. What is the most appropriate explanation?  p is not the chance the null is true, and not the chance the treatment works. It is a tail probability under the null. Explain that.  Reject the 97% claim. A p value is not a posterior probability that the treatment works. It assumes the null and asks how surprising the data are. That is all.  Under the null, a result this extreme occurs 3% of the time. That is the sentence. Not a 97% chance of a true effect. The rest of the history does not change the definition or the calculation in front of you.  Nothing else in the consultation changes the figure or the bias being asked about. Answer the definition in front of you.  State the answer in those terms. Clearly.",
+      "options": [
+        "p = 0.03 is the probability the null is true",
+        "p = 0.03 proves the effect is clinically important",
+        "p = 0.03 is the probability of a result at least this extreme if the null were true",
+        "p = 0.03 means the drug works in 97% of patients",
+        "A p-value below 0.05 means the study was adequately powered"
+      ],
+      "correct_answer": "C",
+      "category": "Population Health & Ethics",
+      "difficulty": "easy",
+      "explanation": "CORRECT ANSWER\n\nC. p = 0.03 is the probability of a result at least this extreme if the null were true\n\n---\n\n1. CLINICAL DIAGNOSIS\np = 0.03 is not a 3% chance that the drug does not work.\n\n2. THE RULE\nConfidence interval, p-value and type II error\n\n3. WHY THIS OPTION\nC matches the rule on the facts given.\n\n4. THE TRAP\nThe p-value is the probability of data at least as extreme as those observed, assuming the null is true. It is not the probability that the null is true, and it is not a measure of clinical importance.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\np = 0.03 is the probability of a result at least this extreme if the null were true\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA p-value is not the probability that the null hypothesis is true.\n\n10. MEMORY ANCHOR\nA p-value assumes the null and describes the data.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "p = 0.03 is not a 3% chance that the drug does not work.",
+      "best_treatment": "p = 0.03 is the probability of a result at least this extreme if the null were true",
+      "incorrect_answer_explanations": {
+        "A": "p = 0.03 is the probability the null is true That is the common misreading.",
+        "B": "p = 0.03 proves the effect is clinically important Statistical significance is not clinical importance.",
+        "D": "p = 0.03 means the drug works in 97% of patients That confuses a p-value with a response rate.",
+        "E": "A p-value below 0.05 means the study was adequately powered Power is set before the study. A small p-value does not prove it."
+      },
+      "key_takeaways": [
+        "A p-value assumes the null and describes the data.",
+        "It is not the probability the null is true."
+      ],
+      "subtopic": "A p-value is not the probability that the null hypothesis is true.",
+      "clinical_vignette": true,
+      "id": "6c6e7d6e-5bdf-51d4-97a0-dac525b35aac",
+      "zyntra_id": "ZQ-0489",
+      "phase": "PH-04",
+      "phase_item_id": "PH-E-08",
+      "lo_id": "7728f3b7-21d2-52ae-b9f6-963c71402045",
+      "lo_code": "STATISTICAL_INFERENCE"
+    },
+    {
+      "question_text": "A screening program reports longer survival from diagnosis in screened patients than in unscreened patients. A colleague says this proves the program reduces deaths. Earlier diagnosis can lengthen the time from diagnosis to death without delaying the death. That is lead-time bias. Survival from diagnosis is not proof of benefit. What is the most appropriate caution?  Screen-detected cases are diagnosed earlier. The clock starts sooner. Survival looks longer even if death is not delayed. Ask for mortality, not survival from diagnosis.  Ask what would happen if screening only moved the diagnosis earlier and death stayed on the same date. Survival from diagnosis lengthens. Mortality does not fall. That is the bias. Look for deaths, not survival time.  Lead time shifts the start of the survival clock. It does not prove a later death. Mortality is the outcome that answers the program. The rest of the history does not change the definition or the calculation in front of you.  Nothing else in the consultation changes the figure or the bias being asked about. Answer the definition in front of you.  State the answer in those terms. Clearly.",
+      "options": [
+        "Longer survival from diagnosis proves a mortality benefit",
+        "This is length-time bias",
+        "Screening always reduces mortality if survival from diagnosis rises",
+        "Earlier diagnosis can lengthen survival time without delaying death",
+        "Lead time applies only to infectious disease"
+      ],
+      "correct_answer": "D",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nD. Earlier diagnosis can lengthen survival time without delaying death\n\n---\n\n1. CLINICAL DIAGNOSIS\nLonger survival from diagnosis is not proof of benefit. The diagnosis may simply have been made earlier.\n\n2. THE RULE\nLead-time and length-time bias\n\n3. WHY THIS OPTION\nD matches the rule on the facts given.\n\n4. THE TRAP\nLead time is the interval between screen detection and the time the disease would have presented clinically. Survival measured from diagnosis lengthens by that interval even if the date of death is unchanged.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nEarlier diagnosis can lengthen survival time without delaying death\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nLead-time bias makes survival look longer because the disease is found earlier, not because treatment works.\n\n10. MEMORY ANCHOR\nLead-time bias shifts the start of the survival clock.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Longer survival from diagnosis is not proof of benefit. The diagnosis may simply have been made earlier.",
+      "best_treatment": "Earlier diagnosis can lengthen survival time without delaying death",
+      "incorrect_answer_explanations": {
+        "A": "Longer survival from diagnosis proves a mortality benefit The clock started earlier.",
+        "B": "This is length-time bias Length-time bias is the tendency of screening to find slower-growing disease.",
+        "C": "Screening always reduces mortality if survival from diagnosis rises That is the biased reading.",
+        "E": "Lead time applies only to infectious disease It is a screening concept."
+      },
+      "key_takeaways": [
+        "Lead-time bias shifts the start of the survival clock.",
+        "Mortality, not survival from diagnosis, is the screening endpoint."
+      ],
+      "subtopic": "Lead-time bias makes survival look longer because the disease is found earlier, not because treatment works.",
+      "clinical_vignette": true,
+      "id": "69cb1956-89e8-5861-be82-5758a4f77af2",
+      "zyntra_id": "ZQ-0490",
+      "phase": "PH-04",
+      "phase_item_id": "PH-E-09",
+      "lo_id": "f5c57bb5-dddf-583d-903a-43bfcfaee4db",
+      "lo_code": "SCREENING_BIAS"
+    },
+    {
+      "question_text": "A screening program finds many slow-growing cancers and few aggressive ones, and reports excellent outcomes in the screened group. Screening preferentially detects slower diseases that would have been found anyway. That is length-time bias. It can make screening look better than it is. What is the bias described?  Slow diseases sit in a detectable window longer. Screening finds them. Aggressive diseases slip through. Outcomes in the screened group look better. That is length-time bias.  Aggressive cancers have a short detectable preclinical phase. Slow ones linger and are found by screening. The screened series is enriched for favourable biology. Outcomes look better. That is length-time bias, not proof the test cures.  Length-time bias is about the speed of the disease, not the clock from diagnosis. Slow tumours are over-represented. Say that. The rest of the history does not change the definition or the calculation in front of you.  Nothing else in the consultation changes the figure or the bias being asked about. Answer the definition in front of you.  State the answer in those terms. Clearly.",
+      "options": [
+        "Recall bias",
+        "Allocation concealment failure",
+        "Contamination of the control arm",
+        "Intention-to-treat inflation",
+        "Length-time bias. Screening preferentially finds slower-growing tumours"
+      ],
+      "correct_answer": "E",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nE. Length-time bias. Screening preferentially finds slower-growing tumours\n\n---\n\n1. CLINICAL DIAGNOSIS\nBetter prognosis in screen-detected cancers can be length-time bias, not only lead time.\n\n2. THE RULE\nLead-time and length-time bias\n\n3. WHY THIS OPTION\nE matches the rule on the facts given.\n\n4. THE TRAP\nLength-time bias occurs because slow-growing tumours spend longer in a detectable pre-clinical phase, so screening is more likely to find them. They have a better prognosis anyway. Lead time is a different bias.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nLength-time bias. Screening preferentially finds slower-growing tumours\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nLength-time bias is the tendency of screening to detect slower, less aggressive disease.\n\n10. MEMORY ANCHOR\nLength-time bias favours slow tumours.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Better prognosis in screen-detected cancers can be length-time bias, not only lead time.",
+      "best_treatment": "Length-time bias. Screening preferentially finds slower-growing tumours",
+      "incorrect_answer_explanations": {
+        "A": "Recall bias Recall bias is about remembered exposures, not screen detection.",
+        "B": "Allocation concealment failure That is a trial-design problem.",
+        "C": "Contamination of the control arm Not the mechanism here.",
+        "D": "Intention-to-treat inflation Not a recognised bias by that name."
+      },
+      "key_takeaways": [
+        "Length-time bias favours slow tumours.",
+        "Lead time and length time are different."
+      ],
+      "subtopic": "Length-time bias is the tendency of screening to detect slower, less aggressive disease.",
+      "clinical_vignette": true,
+      "id": "44e5fc76-839d-5943-af66-53cfc3cc453c",
+      "zyntra_id": "ZQ-0491",
+      "phase": "PH-04",
+      "phase_item_id": "PH-E-10",
+      "lo_id": "f5c57bb5-dddf-583d-903a-43bfcfaee4db",
+      "lo_code": "SCREENING_BIAS"
+    },
+    {
+      "question_text": "In a randomised trial, some patients allocated to treatment did not take it, and some allocated to control obtained it elsewhere. A student wants to analyse only those who took the treatment. Analyse by allocated group. That is the intention-to-treat analysis. It preserves the randomisation. What is the most appropriate analysis?  Intention-to-treat keeps people in the group they were allocated to. Per-protocol can reintroduce bias. Analyse by allocation.  People who do not take treatment often differ from those who do. Analysing only takers breaks the randomisation. Intention-to-treat accepts non-adherence and still compares the groups as allocated. That is the primary analysis.  Allocated group, not taken group. Intention-to-treat. Non-adherence stays in. That is the rule for the primary comparison. The rest of the history does not change the definition or the calculation in front of you.  Nothing else in the consultation changes the figure or the bias being asked about. Answer the definition in front of you.  State the answer in those terms. Clearly.",
+      "options": [
+        "Analyse by allocated group. That is the intention-to-treat estimate",
+        "Analyse only those who received the allocated treatment. That measures efficacy",
+        "Move the crossovers into the arm they ended up in",
+        "Exclude anyone who missed a visit",
+        "Intention to treat applies only to drug trials"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "difficult",
+      "explanation": "CORRECT ANSWER\n\nA. Analyse by allocated group. That is the intention-to-treat estimate\n\n---\n\n1. CLINICAL DIAGNOSIS\nKeep people in the arm they were randomised to. Dropping crossovers breaks the protection of randomisation.\n\n2. THE RULE\nIntention to treat, concealment and blinding\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nIntention to treat keeps every randomised participant in the allocated arm. It estimates the effect of offering the treatment, preserves randomisation, and avoids bias from drop-out and crossover. A per-protocol analysis answers a different question and can mislead.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nAnalyse by allocated group. That is the intention-to-treat estimate\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nIntention to treat analyses people in the group they were allocated to, even if they did not receive the treatment.\n\n10. MEMORY ANCHOR\nIntention to treat follows allocation, not receipt.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Keep people in the arm they were randomised to. Dropping crossovers breaks the protection of randomisation.",
+      "best_treatment": "Analyse by allocated group. That is the intention-to-treat estimate",
+      "incorrect_answer_explanations": {
+        "B": "Analyse only those who received the allocated treatment. That measures efficacy That is per-protocol. It is not the primary unbiased estimate.",
+        "C": "Move the crossovers into the arm they ended up in That is as-treated analysis and breaks randomisation.",
+        "D": "Exclude anyone who missed a visit Missingness is handled. It is not a reason to drop the principle.",
+        "E": "Intention to treat applies only to drug trials It applies to any randomised comparison."
+      },
+      "key_takeaways": [
+        "Intention to treat follows allocation, not receipt.",
+        "Per-protocol is a different, more biased question."
+      ],
+      "subtopic": "Intention to treat analyses people in the group they were allocated to, even if they did not receive the treatment.",
+      "clinical_vignette": true,
+      "id": "5a9ae00d-d99b-5b9c-9ccc-462e0af7dd44",
+      "zyntra_id": "ZQ-0492",
+      "phase": "PH-04",
+      "phase_item_id": "PH-E-11",
+      "lo_id": "102c8ead-4b24-5f57-b983-e217ce8b0e97",
+      "lo_code": "TRIAL_CONDUCT"
+    },
+    {
+      "question_text": "A trial report says allocation was concealed, and separately that outcome assessors were blinded. A student treats the two words as the same thing. Concealment protects the allocation sequence before assignment. Blinding protects measurement after assignment. They are different safeguards. What is the most appropriate distinction?  Concealed allocation stops the recruiter choosing the next treatment. Blinding stops the assessor knowing which treatment was given. Both matter. They are not synonyms.  Concealment is about the moment of assignment. Blinding is about what happens after. A trial can conceal allocation and still fail to blind assessors. Do not use one word for both.  Before assignment: concealment. After assignment: blinding. Different threats, different protections. The rest of the history does not change the definition or the calculation in front of you.  Nothing else in the consultation changes the figure or the bias being asked about. Answer the definition in front of you.  State the answer in those terms. Clearly.",
+      "options": [
+        "Concealment and blinding are the same safeguard",
+        "Concealment protects the allocation. Blinding protects the outcome assessment",
+        "Surgery trials cannot conceal allocation",
+        "Open outcome assessment repairs a failed concealment",
+        "Envelopes are a form of blinding"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nB. Concealment protects the allocation. Blinding protects the outcome assessment\n\n---\n\n1. CLINICAL DIAGNOSIS\nSealed envelopes are about concealment. Knowing the arm afterwards is a blinding issue. They are not the same failure.\n\n2. THE RULE\nIntention to treat, concealment and blinding\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nAllocation concealment stops the recruiter knowing the next assignment. Blinding stops participants or assessors knowing which arm a person is in after assignment. A surgical trial can conceal allocation and still be unblinded.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nConcealment protects the allocation. Blinding protects the outcome assessment\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nAllocation concealment happens before assignment. Blinding happens after.\n\n10. MEMORY ANCHOR\nConcealment is before assignment.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Sealed envelopes are about concealment. Knowing the arm afterwards is a blinding issue. They are not the same failure.",
+      "best_treatment": "Concealment protects the allocation. Blinding protects the outcome assessment",
+      "incorrect_answer_explanations": {
+        "A": "Concealment and blinding are the same safeguard They act at different times.",
+        "C": "Surgery trials cannot conceal allocation They can. They often cannot blind the patient.",
+        "D": "Open outcome assessment repairs a failed concealment It does not.",
+        "E": "Envelopes are a form of blinding Envelopes, if truly opaque and sequenced, are concealment."
+      },
+      "key_takeaways": [
+        "Concealment is before assignment.",
+        "Blinding is after assignment."
+      ],
+      "subtopic": "Allocation concealment happens before assignment. Blinding happens after.",
+      "clinical_vignette": true,
+      "id": "bd2ae72e-4cce-5a90-937b-a9c05b79ba51",
+      "zyntra_id": "ZQ-0493",
+      "phase": "PH-04",
+      "phase_item_id": "PH-E-12",
+      "lo_id": "102c8ead-4b24-5f57-b983-e217ce8b0e97",
+      "lo_code": "TRIAL_CONDUCT"
+    },
+    {
+      "question_text": "People with a rare cancer are asked about a past exposure, and compared with people without the cancer. A student calls it a cohort study and expects a relative risk. It is a case-control study. It estimates an odds ratio, not a relative risk directly from incidence. What is the most appropriate description?  Cases and controls, looking back at exposure. Odds ratio. Not a cohort, not a direct relative risk from incidence. Rare disease makes OR and RR closer, but the design is case-control.  Start with cases. Look back for exposure. Compare with controls. Odds of exposure, odds ratio. A cohort would start with exposure and count new disease. This study did not.  Outcome first, exposure second. Case-control. Odds ratio. Do not call it a cohort because people were compared. The rest of the history does not change the definition or the calculation in front of you.  Nothing else in the consultation changes the figure or the bias being asked about. Answer the definition in front of you.  State the answer in those terms. Clearly.",
+      "options": [
+        "It is a cohort study and estimates incidence",
+        "It is a randomised trial",
+        "It is a case-control study and estimates an odds ratio, not an incidence",
+        "It is a cross-sectional prevalence survey of solariums",
+        "It can calculate a 1-year risk directly"
+      ],
+      "correct_answer": "C",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nC. It is a case-control study and estimates an odds ratio, not an incidence\n\n---\n\n1. CLINICAL DIAGNOSIS\nThis is a case-control study. It does not measure how many solarium users developed melanoma that year.\n\n2. THE RULE\nCase-control, cohort and cross-sectional\n\n3. WHY THIS OPTION\nC matches the rule on the facts given.\n\n4. THE TRAP\nCases and controls are sampled on disease status, then exposures are compared. The usual estimate is an odds ratio. Incidence cannot be read off unless the study is nested in a defined cohort.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nIt is a case-control study and estimates an odds ratio, not an incidence\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA case-control study starts with disease status. It cannot directly estimate incidence.\n\n10. MEMORY ANCHOR\nCase-control samples on disease.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "This is a case-control study. It does not measure how many solarium users developed melanoma that year.",
+      "best_treatment": "It is a case-control study and estimates an odds ratio, not an incidence",
+      "incorrect_answer_explanations": {
+        "A": "It is a cohort study and estimates incidence A cohort starts with exposure, not with disease.",
+        "B": "It is a randomised trial Nothing was assigned.",
+        "D": "It is a cross-sectional prevalence survey of solariums Cross-sectional samples a population at one time, not cases and controls.",
+        "E": "It can calculate a 1-year risk directly The sampling was on disease, so the risk in users is not observed."
+      },
+      "key_takeaways": [
+        "Case-control samples on disease.",
+        "The estimate is an odds ratio, not an incidence."
+      ],
+      "subtopic": "A case-control study starts with disease status. It cannot directly estimate incidence.",
+      "clinical_vignette": true,
+      "id": "b110cc18-e260-53e6-b5e1-8c269bd9b53d",
+      "zyntra_id": "ZQ-0494",
+      "phase": "PH-04",
+      "phase_item_id": "PH-E-13",
+      "lo_id": "34cbf05d-0efe-563f-b3cc-47e1050a4a95",
+      "lo_code": "STUDY_DESIGN"
+    },
+    {
+      "question_text": "A group of people free of disease is classified by exposure and followed over time for the outcome. A student calls it a case-control study. People are enrolled on exposure, before the outcome, and followed. That is a prospective cohort. What is the design?  Free of disease at the start, exposure measured, then followed. Prospective cohort. Case-control starts with the outcome.  No disease at entry. Exposure groups formed. Time passes. Outcomes counted. That sequence is a prospective cohort. Calling it case-control reverses the direction.  Exposure first, outcome later, disease-free at the start. Prospective cohort. The label follows the direction. The rest of the history does not change the definition or the calculation in front of you.  Nothing else in the consultation changes the figure or the bias being asked about. Answer the definition in front of you.  State the answer in those terms. Clearly.",
+      "options": [
+        "Case-control",
+        "Randomised trial",
+        "Cross-sectional",
+        "Prospective cohort",
+        "Case series"
+      ],
+      "correct_answer": "D",
+      "category": "Population Health & Ethics",
+      "difficulty": "easy",
+      "explanation": "CORRECT ANSWER\n\nD. Prospective cohort\n\n---\n\n1. CLINICAL DIAGNOSIS\nSmokers and non-smokers followed forward is a prospective cohort, not a trial.\n\n2. THE RULE\nCase-control, cohort and cross-sectional\n\n3. WHY THIS OPTION\nD matches the rule on the facts given.\n\n4. THE TRAP\nPeople are enrolled on exposure status, free of the outcome, and followed. That is a prospective cohort. No treatment was assigned, so it is not a trial.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nProspective cohort\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA cohort study follows exposed and unexposed people forward for the outcome.\n\n10. MEMORY ANCHOR\nCohort starts with exposure and follows for outcome.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Smokers and non-smokers followed forward is a prospective cohort, not a trial.",
+      "best_treatment": "Prospective cohort",
+      "incorrect_answer_explanations": {
+        "A": "Case-control Case-control starts with the outcome.",
+        "B": "Randomised trial Exposure was not assigned by the investigators.",
+        "C": "Cross-sectional There is follow-up over 10 years.",
+        "E": "Case series A case series has no comparison group of unaffected people."
+      },
+      "key_takeaways": [
+        "Cohort starts with exposure and follows for outcome.",
+        "No assignment means it is not a trial."
+      ],
+      "subtopic": "A cohort study follows exposed and unexposed people forward for the outcome.",
+      "clinical_vignette": true,
+      "id": "91d5b092-5255-5812-aa86-1c1b41cb145f",
+      "zyntra_id": "ZQ-0495",
+      "phase": "PH-04",
+      "phase_item_id": "PH-E-14",
+      "lo_id": "34cbf05d-0efe-563f-b3cc-47e1050a4a95",
+      "lo_code": "STUDY_DESIGN"
+    },
+    {
+      "question_text": "A study finds coffee drinkers have more heart disease. Coffee drinkers also smoke more. A student says the coffee association is therefore causal. Smoking may confound the coffee association. The smoking difference could explain the heart disease finding. What is the most appropriate caution?  Coffee and smoking travel together. The heart disease finding may be smoking. Confounding is the caution. Causation is not shown.  If smokers drink more coffee, and smoking causes heart disease, coffee can look causal when it is not. Measure and adjust for smoking, or the association is uninterpretable. Confounding is the issue.  A confounder is associated with the exposure and with the outcome, and is not on the causal path you care about. Smoking fits. Coffee may not be the cause. The rest of the history does not change the definition or the calculation in front of you.  Nothing else in the consultation changes the figure or the bias being asked about. Answer the definition in front of you.  State the answer in those terms. Clearly.",
+      "options": [
+        "Coffee is causal because the association was statistically significant",
+        "This is lead-time bias",
+        "Randomisation has removed the problem",
+        "A confounder must be on the causal pathway",
+        "Smoking may confound the coffee association"
+      ],
+      "correct_answer": "E",
+      "category": "Population Health & Ethics",
+      "difficulty": "difficult",
+      "explanation": "CORRECT ANSWER\n\nE. Smoking may confound the coffee association\n\n---\n\n1. CLINICAL DIAGNOSIS\nSmoking is a plausible confounder. The coffee association is not clean.\n\n2. THE RULE\nConfounding and why adjustment is not randomisation\n\n3. WHY THIS OPTION\nE matches the rule on the facts given.\n\n4. THE TRAP\nA confounder is associated with the exposure, associated with the outcome, and not on the causal pathway between them. Smoking fits. The coffee association may be partly or wholly smoking.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nSmoking may confound the coffee association\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nConfounding is a third factor associated with both exposure and outcome that distorts the estimate.\n\n10. MEMORY ANCHOR\nA confounder links to both exposure and outcome, and is not a mediator.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Smoking is a plausible confounder. The coffee association is not clean.",
+      "best_treatment": "Smoking may confound the coffee association",
+      "incorrect_answer_explanations": {
+        "A": "Coffee is causal because the association was statistically significant Significance does not settle confounding.",
+        "B": "This is lead-time bias Lead time is about screening.",
+        "C": "Randomisation has removed the problem This was not a randomised comparison.",
+        "D": "A confounder must be on the causal pathway A factor on the pathway is a mediator, not a confounder."
+      },
+      "key_takeaways": [
+        "A confounder links to both exposure and outcome, and is not a mediator.",
+        "Significance does not remove confounding."
+      ],
+      "subtopic": "Confounding is a third factor associated with both exposure and outcome that distorts the estimate.",
+      "clinical_vignette": true,
+      "id": "5cf48957-5bb8-53a5-ba28-1ef2d312b763",
+      "zyntra_id": "ZQ-0496",
+      "phase": "PH-04",
+      "phase_item_id": "PH-E-15",
+      "lo_id": "b293d6c3-38c4-5b0a-8068-13b40f3492fa",
+      "lo_code": "CONFOUNDING"
+    },
+    {
+      "question_text": "A cohort study adjusts for age, sex, and smoking, and still finds an association. A student says confounding is now impossible. Adjustment can only deal with confounders that were measured. Unknown and unmeasured confounders can remain. What is the most appropriate limitation?  Adjusted for what was measured. Residual confounding from unmeasured factors remains possible. Adjustment is not proof of causation.  Age, sex, and smoking were in the model. Occupation, diet, and unknown factors were not. Residual confounding remains. Do not treat an adjusted association as causal proof.  Residual confounding is the name for what adjustment did not catch. Mention it. Do not overclaim. The rest of the history does not change the definition or the calculation in front of you.  Nothing else in the consultation changes the figure or the bias being asked about. Answer the definition in front of you.  State the answer in those terms. Clearly.",
+      "options": [
+        "Unknown and unmeasured confounders can remain",
+        "Adjustment for age and sex equals randomisation",
+        "Observational studies cannot have confounding",
+        "Randomised trials are more confounded than cohorts",
+        "Adjustment creates allocation concealment"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. Unknown and unmeasured confounders can remain\n\n---\n\n1. CLINICAL DIAGNOSIS\nAdjusting for age and sex is not randomisation. Unmeasured confounding can remain.\n\n2. THE RULE\nConfounding and why adjustment is not randomisation\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nAdjustment can reduce confounding by measured factors. It cannot guarantee balance on unmeasured ones. Randomisation balances both known and unknown factors in expectation, which is why it is stronger for causality.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nUnknown and unmeasured confounders can remain\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nRandomisation balances known and unknown confounders in expectation. A cohort adjusted for age does not.\n\n10. MEMORY ANCHOR\nRandomisation balances unknown factors in expectation.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Adjusting for age and sex is not randomisation. Unmeasured confounding can remain.",
+      "best_treatment": "Unknown and unmeasured confounders can remain",
+      "incorrect_answer_explanations": {
+        "B": "Adjustment for age and sex equals randomisation It does not.",
+        "C": "Observational studies cannot have confounding They are where confounding is the central problem.",
+        "D": "Randomised trials are more confounded than cohorts The reverse is the usual concern.",
+        "E": "Adjustment creates allocation concealment Concealment is a trial procedure."
+      },
+      "key_takeaways": [
+        "Randomisation balances unknown factors in expectation.",
+        "Adjustment only addresses what was measured."
+      ],
+      "subtopic": "Randomisation balances known and unknown confounders in expectation. A cohort adjusted for age does not.",
+      "clinical_vignette": true,
+      "id": "e981a666-582c-55fe-9315-15623c12832d",
+      "zyntra_id": "ZQ-0497",
+      "phase": "PH-04",
+      "phase_item_id": "PH-E-16",
+      "lo_id": "b293d6c3-38c4-5b0a-8068-13b40f3492fa",
+      "lo_code": "CONFOUNDING"
+    },
+    {
+      "question_text": "A test has a sensitivity of 90% and a specificity of 80%. A student asks for the positive likelihood ratio. LR+ is sensitivity divided by 1 minus specificity. That is 0.9 / 0.2 = 4.5. What is the positive likelihood ratio?  Sensitivity 0.9, false positive rate 0.2. LR+ 4.5. Not 0.9, not 1.7. A result this positive is 4.5 times more likely in disease than in no disease.  Write 0.90 / (1 \u2212 0.80). That is 4.5. An LR+ above 1 raises the odds of disease. 4.5 is a moderate shift, not a diagnosis by itself.  LR+ 4.5. Moderate. It shifts probability. It does not replace a clinical assessment. The rest of the history does not change the definition or the calculation in front of you.  Nothing else in the consultation changes the figure or the bias being asked about. Answer the definition in front of you.  State the answer in those terms. Clearly.",
+      "options": [
+        "0.9",
+        "4.5",
+        "1.125",
+        "0.125",
+        "Prevalence is required before a likelihood ratio can be calculated"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nB. 4.5\n\n---\n\n1. CLINICAL DIAGNOSIS\nPositive likelihood ratio is 4.5, not 0.9.\n\n2. THE RULE\nSensitivity, specificity and likelihood ratio\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nPositive likelihood ratio is sensitivity / (1 \u2212 specificity) = 0.90 / 0.20 = 4.5. It does not use prevalence. A value of 0.9 would be a weak or useless positive ratio.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\n4.5\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA likelihood ratio uses sensitivity and specificity. It does not depend on prevalence.\n\n10. MEMORY ANCHOR\nLR+ = sensitivity / (1 \u2212 specificity).\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Positive likelihood ratio is 4.5, not 0.9.",
+      "best_treatment": "4.5",
+      "incorrect_answer_explanations": {
+        "A": "0.9 That is the sensitivity, not the ratio.",
+        "C": "1.125 That is sensitivity / specificity.",
+        "D": "0.125 That is not the positive ratio.",
+        "E": "Prevalence is required before a likelihood ratio can be calculated Likelihood ratios are independent of prevalence. Predictive values are not."
+      },
+      "key_takeaways": [
+        "LR+ = sensitivity / (1 \u2212 specificity).",
+        "Likelihood ratios do not need prevalence."
+      ],
+      "subtopic": "A likelihood ratio uses sensitivity and specificity. It does not depend on prevalence.",
+      "clinical_vignette": true,
+      "id": "9de7a391-0229-5891-bd7b-aa70e345e835",
+      "zyntra_id": "ZQ-0498",
+      "phase": "PH-04",
+      "phase_item_id": "PH-E-17",
+      "lo_id": "70bffe72-cd4a-584c-96b0-e82c55b68ae3",
+      "lo_code": "TEST_PROPERTIES"
+    },
+    {
+      "question_text": "A survey measures a dietary exposure and a symptom at the same visit and reports an association. A student says the exposure caused the symptom. Exposure and outcome were measured together, so direction cannot be assumed. It may be cross-sectional. Cause is not established. What is the most appropriate limitation?  Same-time measurement. The symptom might have changed the diet. Cross-sectional data do not establish which came first.  One questionnaire, one visit, both variables. You cannot tell whether diet preceded the symptom or followed it. Association only. Direction unknown.  Cross-sectional association. No time order. No cause claimed. That is the limit of the survey. The rest of the history does not change the definition or the calculation in front of you.  Nothing else in the consultation changes the figure or the bias being asked about. Answer the definition in front of you.  State the answer in those terms. Clearly.",
+      "options": [
+        "The design can show which came first",
+        "This is a randomised trial",
+        "Exposure and outcome were measured together, so direction cannot be established",
+        "Cross-sectional studies estimate incidence directly",
+        "Same-day measurement removes confounding"
+      ],
+      "correct_answer": "C",
+      "category": "Population Health & Ethics",
+      "difficulty": "easy",
+      "explanation": "CORRECT ANSWER\n\nC. Exposure and outcome were measured together, so direction cannot be established\n\n---\n\n1. CLINICAL DIAGNOSIS\nSame-day measurement cannot show that poor satisfaction caused the pain.\n\n2. THE RULE\nCase-control, cohort and cross-sectional\n\n3. WHY THIS OPTION\nC matches the rule on the facts given.\n\n4. THE TRAP\nA cross-sectional study is a snapshot. It can show association. It cannot show whether poor satisfaction preceded the pain or followed it.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nExposure and outcome were measured together, so direction cannot be established\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA cross-sectional study measures exposure and outcome at one time. It cannot order them.\n\n10. MEMORY ANCHOR\nCross-sectional studies are snapshots.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Same-day measurement cannot show that poor satisfaction caused the pain.",
+      "best_treatment": "Exposure and outcome were measured together, so direction cannot be established",
+      "incorrect_answer_explanations": {
+        "A": "The design can show which came first It cannot.",
+        "B": "This is a randomised trial Nothing was assigned.",
+        "D": "Cross-sectional studies estimate incidence directly They estimate prevalence.",
+        "E": "Same-day measurement removes confounding It does not."
+      },
+      "key_takeaways": [
+        "Cross-sectional studies are snapshots.",
+        "They do not establish time order."
+      ],
+      "subtopic": "A cross-sectional study measures exposure and outcome at one time. It cannot order them.",
+      "clinical_vignette": true,
+      "id": "36a3d64a-bc9e-5c38-a5f9-0aeb6a154519",
+      "zyntra_id": "ZQ-0499",
+      "phase": "PH-04",
+      "phase_item_id": "PH-E-18",
+      "lo_id": "34cbf05d-0efe-563f-b3cc-47e1050a4a95",
+      "lo_code": "STUDY_DESIGN"
+    },
+    {
+      "question_text": "In a cohort, the risk of the outcome is 20% in the exposed and 10% in the unexposed. A student reports an odds ratio of 2.25 and calls it the relative risk. The relative risk is 2. The odds ratio overstates it when the outcome is common. What is the most appropriate statement?  Risk ratio 20/10 = 2. Odds in exposed 0.25, in unexposed about 0.11, OR about 2.25. When the outcome is common, OR is not the RR. Report the relative risk.  Common outcome. Risk ratio 2. Odds ratio higher. Students often compute odds and label them risk. In a cohort with a common outcome, report the relative risk.  Common outcome inflates the odds ratio relative to the risk ratio. Here RR is 2. Use that. The rest of the history does not change the definition or the calculation in front of you.  Nothing else in the consultation changes the figure or the bias being asked about. Answer the definition in front of you.  State the answer in those terms. Clearly.",
+      "options": [
+        "Odds ratio and relative risk are always equal",
+        "The relative risk is 2.7",
+        "A common outcome makes the odds ratio smaller than the relative risk",
+        "The relative risk is 2. The odds ratio overstates it",
+        "Relative risk cannot be calculated in a cohort"
+      ],
+      "correct_answer": "D",
+      "category": "Population Health & Ethics",
+      "difficulty": "difficult",
+      "explanation": "CORRECT ANSWER\n\nD. The relative risk is 2. The odds ratio overstates it\n\n---\n\n1. CLINICAL DIAGNOSIS\nRisk doubled. The odds ratio of 2.7 overstates that because the outcome is common.\n\n2. THE RULE\nOdds ratio overstates relative risk when the outcome is common\n\n3. WHY THIS OPTION\nD matches the rule on the facts given.\n\n4. THE TRAP\nRelative risk is 0.40 / 0.20 = 2. The odds are 0.40/0.60 versus 0.20/0.80, so the odds ratio is (0.667) / (0.25) = 2.67. When the outcome is common, the odds ratio pulls away from the relative risk.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nThe relative risk is 2. The odds ratio overstates it\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nOdds ratio and relative risk are not interchangeable when the outcome is common.\n\n10. MEMORY ANCHOR\nRelative risk is the risk ratio.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Risk doubled. The odds ratio of 2.7 overstates that because the outcome is common.",
+      "best_treatment": "The relative risk is 2. The odds ratio overstates it",
+      "incorrect_answer_explanations": {
+        "A": "Odds ratio and relative risk are always equal They converge only when the outcome is rare.",
+        "B": "The relative risk is 2.7 That is the odds ratio.",
+        "C": "A common outcome makes the odds ratio smaller than the relative risk It makes it larger.",
+        "E": "Relative risk cannot be calculated in a cohort A cohort is where relative risk is natural."
+      },
+      "key_takeaways": [
+        "Relative risk is the risk ratio.",
+        "Odds ratio overstates relative risk when the outcome is common."
+      ],
+      "subtopic": "Odds ratio and relative risk are not interchangeable when the outcome is common.",
+      "clinical_vignette": true,
+      "id": "af13388c-609e-54aa-8d92-3a33bafab3aa",
+      "zyntra_id": "ZQ-0500",
+      "phase": "PH-04",
+      "phase_item_id": "PH-E-19",
+      "lo_id": "12e7a720-8e34-510e-8a3c-8eac5dd76555",
+      "lo_code": "ODDS_VERSUS_RISK"
+    },
+    {
+      "question_text": "A small trial finds no significant difference between two treatments. A colleague says this proves they are equivalent. A type II error is likely in a small study. Absence of a significant difference is not proof of no difference. What is the most appropriate caution?  Small sample, non-significant result. May be underpowered. Do not conclude equivalence. A type II error is the concern.  Non-significant is not the same as equivalent. The trial may have been too small to detect a real difference. Say underpowered, or type II error possible. Do not say proven the same.  No evidence of a difference is not evidence of no difference. Small trial. Type II error possible. Say that plainly. The rest of the history does not change the definition or the calculation in front of you.  Nothing else in the consultation changes the figure or the bias being asked about. Answer the definition in front of you.  State the answer in those terms. Clearly.",
+      "options": [
+        "They have proved equivalence",
+        "The p-value must be 0.40",
+        "Power of 40% means the result is significant",
+        "Type I error is the failure to detect a real effect",
+        "A type II error is likely. Absence of a significant difference is not evidence of no difference"
+      ],
+      "correct_answer": "E",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nE. A type II error is likely. Absence of a significant difference is not evidence of no difference\n\n---\n\n1. CLINICAL DIAGNOSIS\nNot significant in an underpowered trial is not proof of equivalence.\n\n2. THE RULE\nConfidence interval, p-value and type II error\n\n3. WHY THIS OPTION\nE matches the rule on the facts given.\n\n4. THE TRAP\nPower is 1 minus the type II error rate. At 40% power, a real difference of the hoped-for size will be missed often. 'Not significant' is not the same as 'no difference'.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nA type II error is likely. Absence of a significant difference is not evidence of no difference\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA type I error is a false positive result. A type II error is a false negative result.\n\n10. MEMORY ANCHOR\nType II error is missing a real effect.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Not significant in an underpowered trial is not proof of equivalence.",
+      "best_treatment": "A type II error is likely. Absence of a significant difference is not evidence of no difference",
+      "incorrect_answer_explanations": {
+        "A": "They have proved equivalence Equivalence needs a pre-set margin and adequate precision.",
+        "B": "The p-value must be 0.40 Power is not a p-value.",
+        "C": "Power of 40% means the result is significant Power is the chance of detecting an effect, not a result.",
+        "D": "Type I error is the failure to detect a real effect That is type II."
+      },
+      "key_takeaways": [
+        "Type II error is missing a real effect.",
+        "No significant difference is not evidence of no difference."
+      ],
+      "subtopic": "A type I error is a false positive result. A type II error is a false negative result.",
+      "clinical_vignette": true,
+      "id": "358e106c-2098-588c-a31a-f9ae719ebd2f",
+      "zyntra_id": "ZQ-0501",
+      "phase": "PH-04",
+      "phase_item_id": "PH-E-20",
+      "lo_id": "7728f3b7-21d2-52ae-b9f6-963c71402045",
+      "lo_code": "STATISTICAL_INFERENCE"
+    },
+    {
+      "question_text": "A man has a positive bowel screening kit and asks for a repeat kit to confirm it before any procedure. A colleague agrees, to be sure. A positive screening test is not a diagnosis, and it is not confirmed by repeating the same test. He should be referred for colonoscopy. What is the most appropriate next step?  Positive kit goes to colonoscopy. A second kit can be falsely negative and delay diagnosis. Do not repeat the screen.  Positive screening test means diagnostic test next. Colonoscopy, not another kit. A repeat FIT can miss a cancer that the first test found. Refer.  Screening positive is a ticket to diagnosis, not a result to recheck with the same tool. Colonoscopy. The rest of the history does not change the definition or the calculation in front of you.  Nothing else in the consultation changes the figure or the bias being asked about. Answer the definition in front of you.  State the answer in those terms. Clearly.",
+      "options": [
+        "Refer for colonoscopy. The screening test is not diagnostic",
+        "Tell him the positive screening test is the diagnosis",
+        "Repeat the faecal test in 2 years and do nothing now",
+        "Start chemotherapy while waiting",
+        "A positive screen in an average-risk man has a positive predictive value near 100%"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. Refer for colonoscopy. The screening test is not diagnostic\n\n---\n\n1. CLINICAL DIAGNOSIS\nA positive FIT is a reason for colonoscopy, not a cancer diagnosis.\n\n2. THE RULE\nPredictive value needs prevalence; screening is not diagnosis\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nA screening test sorts people who need a diagnostic test. A positive FIT leads to colonoscopy. It does not diagnose cancer, and the positive predictive value in average-risk screening is far below 100%.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nRefer for colonoscopy. The screening test is not diagnostic\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA screening test in a low-risk group needs a confirmatory test. The first positive is not the diagnosis.\n\n10. MEMORY ANCHOR\nScreening sorts. It does not diagnose.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "A positive FIT is a reason for colonoscopy, not a cancer diagnosis.",
+      "best_treatment": "Refer for colonoscopy. The screening test is not diagnostic",
+      "incorrect_answer_explanations": {
+        "B": "Tell him the positive screening test is the diagnosis Screening is not diagnosis.",
+        "C": "Repeat the faecal test in 2 years and do nothing now A positive screen is not deferred for two years.",
+        "D": "Start chemotherapy while waiting There is no confirmed cancer.",
+        "E": "A positive screen in an average-risk man has a positive predictive value near 100% Most positive FITs are not cancer."
+      },
+      "key_takeaways": [
+        "Screening sorts. It does not diagnose.",
+        "A positive screen needs the confirmatory test."
+      ],
+      "subtopic": "A screening test in a low-risk group needs a confirmatory test. The first positive is not the diagnosis.",
+      "clinical_vignette": true,
+      "id": "cfde5b47-4217-5588-bd46-7823d55fc240",
+      "zyntra_id": "ZQ-0502",
+      "phase": "PH-04",
+      "phase_item_id": "PH-E-21",
+      "lo_id": "333485d2-5192-5695-a7ed-d13eb65aed63",
+      "lo_code": "PREDICTIVE_VALUE"
+    },
+    {
+      "question_text": "In a town of 10,000, 200 people have a chronic disease on a given day. In that year, 20 new cases occur. A student swaps the two rates. Prevalence is 200 per 10,000. Incidence is 20 per 10,000 per year. What are the two figures?  Prevalence is a stock. Incidence is a flow. 200 existing, 20 new that year. Do not swap them.  On the day, 200 have it. Across the year, 20 acquire it. Prevalence 200 per 10,000. Incidence 20 per 10,000 per year. Label them and do not swap.  Stock versus flow. 200 now, 20 new this year. Prevalence and incidence labelled correctly. The rest of the history does not change the definition or the calculation in front of you.  Nothing else in the consultation changes the figure or the bias being asked about. Answer the definition in front of you.  State the answer in those terms. Clearly.",
+      "options": [
+        "Prevalence 20 per 10,000. Incidence 200 per 10,000",
+        "Prevalence 200 per 10,000. Incidence 20 per 10,000 per year",
+        "Both figures are incidence",
+        "Prevalence is 20 per 10,000 per year",
+        "Incidence cannot be calculated without a control group"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "easy",
+      "explanation": "CORRECT ANSWER\n\nB. Prevalence 200 per 10,000. Incidence 20 per 10,000 per year\n\n---\n\n1. CLINICAL DIAGNOSIS\nPrevalence is 200 per 10,000. Incidence is 20 per 10,000 per year.\n\n2. THE RULE\nIncidence is new cases. Prevalence is existing cases.\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nPoint prevalence is existing cases over the population, 200/10,000. Incidence is new cases over the period, 20/10,000 per year.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nPrevalence 200 per 10,000. Incidence 20 per 10,000 per year\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nPrevalence is a proportion. Incidence is a rate. They use different denominators.\n\n10. MEMORY ANCHOR\nPrevalence uses existing cases.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Prevalence is 200 per 10,000. Incidence is 20 per 10,000 per year.",
+      "best_treatment": "Prevalence 200 per 10,000. Incidence 20 per 10,000 per year",
+      "incorrect_answer_explanations": {
+        "A": "Prevalence 20 per 10,000. Incidence 200 per 10,000 The numbers are swapped.",
+        "C": "Both figures are incidence The 200 is a stock.",
+        "D": "Prevalence is 20 per 10,000 per year Prevalence is not a rate in this sense, and 20 is the new-case count.",
+        "E": "Incidence cannot be calculated without a control group Incidence needs a population and a time, not a control group."
+      },
+      "key_takeaways": [
+        "Prevalence uses existing cases.",
+        "Incidence uses new cases and a time period."
+      ],
+      "subtopic": "Prevalence is a proportion. Incidence is a rate. They use different denominators.",
+      "clinical_vignette": true,
+      "id": "ace496f0-343c-56dc-b1e5-53ece89f9056",
+      "zyntra_id": "ZQ-0503",
+      "phase": "PH-04",
+      "phase_item_id": "PH-E-22",
+      "lo_id": "a3166865-4555-5c3f-b319-5a35c9210fc6",
+      "lo_code": "INCIDENCE_PREVALENCE"
+    },
+    {
+      "question_text": "A highly sensitive test for a rare infection is negative. A colleague says a sensitive test confirms disease, so a negative result is unhelpful. A negative result on a sensitive test helps rule disease out. A specific test helps rule disease in when positive. The colleague has the uses reversed. The rest of the history does not change the definition or the calculation. A colleague's shortcut is the common error for this figure. State the answer in the terms the question asks. Do not swap a property of the test for a property of the population, or a relative figure for an absolute one. Decide on the numbers already given. Nothing else in the consultation changes the figure or the bias. Apply the definition in front of you. The point estimate, the interval, or the study direction is already enough. Do not add a causal claim the design cannot support.  State it clearly. That is the answer. Apply it to the numbers given. The common mistake is to use the wrong figure or the wrong design label. Avoid it. Clearly. Today. Apply the rule to these numbers. Now.",
+      "options": [
+        "A negative result on a sensitive test helps rule disease out",
+        "A sensitive test confirms disease when positive",
+        "Specificity is used to rule disease out",
+        "Sensitivity equals positive predictive value",
+        "A sensitive test is useless when negative"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. A negative result on a sensitive test helps rule disease out\n\n---\n\n1. CLINICAL DIAGNOSIS\nSensitivity and specificity do not give his chance of cancer. Prevalence is required for the positive predictive value.\n\n2. THE RULE\nSensitivity, specificity and likelihood ratio\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nSnNOut: a sensitive test that is negative helps rule disease out.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nA negative result on a sensitive test helps rule disease out\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nSensitivity is true positives among those with disease. It does not tell you the chance you have the disease if the test is positive.\n\n10. MEMORY ANCHOR\nSensitivity is not the chance of disease after a positive test.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Sensitivity and specificity do not give his chance of cancer. Prevalence is required for the positive predictive value.",
+      "best_treatment": "A negative result on a sensitive test helps rule disease out",
+      "incorrect_answer_explanations": {
+        "B": "A sensitive test confirms disease when positive is not the correct step for this presentation.",
+        "C": "Specificity is used to rule disease out is not the correct step for this presentation.",
+        "D": "Sensitivity equals positive predictive value is not the correct step for this presentation.",
+        "E": "A sensitive test is useless when negative is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Sensitivity is not the chance of disease after a positive test.",
+        "PPV needs prevalence as well as sensitivity and specificity."
+      ],
+      "subtopic": "Sensitivity is true positives among those with disease. It does not tell you the chance you have the disease if the test is positive.",
+      "clinical_vignette": true,
+      "id": "bf156245-67f5-5312-a80b-08b6afa79ecf",
+      "zyntra_id": "ZQ-0656",
+      "phase": "PH-04",
+      "phase_item_id": "PH-E-23",
+      "lo_id": "70bffe72-cd4a-584c-96b0-e82c55b68ae3",
+      "lo_code": "TEST_PROPERTIES"
+    },
+    {
+      "question_text": "The same screening test is used in two towns. Town A has higher prevalence. A student says PPV must be identical because the test has not changed. PPV rises as prevalence rises, even when sensitivity and specificity are fixed. Town A has the higher PPV. The rest of the history does not change the definition or the calculation. A colleague's shortcut is the common error for this figure. State the answer in the terms the question asks. Do not swap a property of the test for a property of the population, or a relative figure for an absolute one. Decide on the numbers already given. Nothing else in the consultation changes the figure or the bias. Apply the definition in front of you. The point estimate, the interval, or the study direction is already enough. Do not add a causal claim the design cannot support.  State it clearly. That is the answer. Apply it to the numbers given. The common mistake is to use the wrong figure or the wrong design label. Avoid it. Clearly. Today. Apply the rule to these numbers. Now.",
+      "options": [
+        "PPV is the same in both towns because the test is identical",
+        "PPV is higher where prevalence is higher",
+        "Specificity changes with prevalence",
+        "Sensitivity falls as prevalence rises",
+        "NPV rises as prevalence rises"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nB. PPV is higher where prevalence is higher\n\n---\n\n1. CLINICAL DIAGNOSIS\nSensitivity and specificity do not give his chance of cancer. Prevalence is required for the positive predictive value.\n\n2. THE RULE\nPredictive value needs prevalence; screening is not diagnosis\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nSame test, higher prevalence, higher PPV. Specificity has not changed.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nPPV is higher where prevalence is higher\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nSensitivity is true positives among those with disease. It does not tell you the chance you have the disease if the test is positive.\n\n10. MEMORY ANCHOR\nSensitivity is not the chance of disease after a positive test.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Sensitivity and specificity do not give his chance of cancer. Prevalence is required for the positive predictive value.",
+      "best_treatment": "PPV is higher where prevalence is higher",
+      "incorrect_answer_explanations": {
+        "A": "PPV is the same in both towns because the test is identical is not the correct step for this presentation.",
+        "C": "Specificity changes with prevalence is not the correct step for this presentation.",
+        "D": "Sensitivity falls as prevalence rises is not the correct step for this presentation.",
+        "E": "NPV rises as prevalence rises is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Sensitivity is not the chance of disease after a positive test.",
+        "PPV needs prevalence as well as sensitivity and specificity."
+      ],
+      "subtopic": "Sensitivity is true positives among those with disease. It does not tell you the chance you have the disease if the test is positive.",
+      "clinical_vignette": true,
+      "id": "99c115c8-0a3b-54bf-8c86-6a16fe6404f5",
+      "zyntra_id": "ZQ-0657",
+      "phase": "PH-04",
+      "phase_item_id": "PH-E-24",
+      "lo_id": "333485d2-5192-5695-a7ed-d13eb65aed63",
+      "lo_code": "PREDICTIVE_VALUE"
+    },
+    {
+      "question_text": "A man has a positive bowel screening kit and asks for a repeat kit before any procedure. A positive screening test is not confirmed by repeating it. A second kit can be falsely negative. He should be referred for colonoscopy. The rest of the history does not change the definition or the calculation. A colleague's shortcut is the common error for this figure. State the answer in the terms the question asks. Do not swap a property of the test for a property of the population, or a relative figure for an absolute one. Decide on the numbers already given. Nothing else in the consultation changes the figure or the bias. Apply the definition in front of you. The point estimate, the interval, or the study direction is already enough. Do not add a causal claim the design cannot support.  State it clearly. That is the answer. Apply it to the numbers given. The common mistake is to use the wrong figure or the wrong design label. Avoid it. Clearly. Today. Apply the rule to these numbers. Now.",
+      "options": [
+        "A positive screening test is a diagnosis",
+        "A positive screening test is not a diagnosis and is not confirmed by repeating the same test",
+        "Repeat the kit to be sure",
+        "A second negative kit clears a positive one",
+        "No further test is needed"
+      ],
+      "correct_answer": "C",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nC. Repeat the kit to be sure\n\n---\n\n1. CLINICAL DIAGNOSIS\nSensitivity and specificity do not give his chance of cancer. Prevalence is required for the positive predictive value.\n\n2. THE RULE\nPredictive value needs prevalence; screening is not diagnosis\n\n3. WHY THIS OPTION\nC matches the rule on the facts given.\n\n4. THE TRAP\nPositive screen goes to the diagnostic test, not a repeat of the same screen.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nRepeat the kit to be sure\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nSensitivity is true positives among those with disease. It does not tell you the chance you have the disease if the test is positive.\n\n10. MEMORY ANCHOR\nSensitivity is not the chance of disease after a positive test.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Sensitivity and specificity do not give his chance of cancer. Prevalence is required for the positive predictive value.",
+      "best_treatment": "Repeat the kit to be sure",
+      "incorrect_answer_explanations": {
+        "A": "A positive screening test is a diagnosis is not the correct step for this presentation.",
+        "B": "A positive screening test is not a diagnosis and is not confirmed by repeating the same test is not the correct step for this presentation.",
+        "D": "A second negative kit clears a positive one is not the correct step for this presentation.",
+        "E": "No further test is needed is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Sensitivity is not the chance of disease after a positive test.",
+        "PPV needs prevalence as well as sensitivity and specificity."
+      ],
+      "subtopic": "Sensitivity is true positives among those with disease. It does not tell you the chance you have the disease if the test is positive.",
+      "clinical_vignette": true,
+      "id": "ab751fe0-dc95-536c-a367-7888475c6bc0",
+      "zyntra_id": "ZQ-0658",
+      "phase": "PH-04",
+      "phase_item_id": "PH-E-25",
+      "lo_id": "333485d2-5192-5695-a7ed-d13eb65aed63",
+      "lo_code": "PREDICTIVE_VALUE"
+    },
+    {
+      "question_text": "A registrar swaps two figures. One is new cases in a year. The other is people who currently have the disease. Incidence is new cases in a period. Prevalence is existing cases. They are not interchangeable. The rest of the history does not change the definition or the calculation. A colleague's shortcut is the common error for this figure. State the answer in the terms the question asks. Do not swap a property of the test for a property of the population, or a relative figure for an absolute one. Decide on the numbers already given. Nothing else in the consultation changes the figure or the bias. Apply the definition in front of you. The point estimate, the interval, or the study direction is already enough. Do not add a causal claim the design cannot support.  State it clearly. That is the answer. Apply it to the numbers given. The common mistake is to use the wrong figure or the wrong design label. Avoid it. Clearly. Today. Apply the rule to these numbers. Now.",
+      "options": [
+        "Incidence is new cases in a period. Prevalence is existing cases",
+        "They are the same figure",
+        "Prevalence is always higher than incidence",
+        "Incidence is a stock and prevalence is a flow",
+        "A cure that shortens disease raises prevalence"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. Incidence is new cases in a period. Prevalence is existing cases\n\n---\n\n1. CLINICAL DIAGNOSIS\nSensitivity and specificity do not give his chance of cancer. Prevalence is required for the positive predictive value.\n\n2. THE RULE\nIncidence is new cases. Prevalence is existing cases.\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nIncidence is new events. Prevalence is existing cases. Do not swap them.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nIncidence is new cases in a period. Prevalence is existing cases\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nSensitivity is true positives among those with disease. It does not tell you the chance you have the disease if the test is positive.\n\n10. MEMORY ANCHOR\nSensitivity is not the chance of disease after a positive test.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Sensitivity and specificity do not give his chance of cancer. Prevalence is required for the positive predictive value.",
+      "best_treatment": "Incidence is new cases in a period. Prevalence is existing cases",
+      "incorrect_answer_explanations": {
+        "B": "They are the same figure is not the correct step for this presentation.",
+        "C": "Prevalence is always higher than incidence is not the correct step for this presentation.",
+        "D": "Incidence is a stock and prevalence is a flow is not the correct step for this presentation.",
+        "E": "A cure that shortens disease raises prevalence is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Sensitivity is not the chance of disease after a positive test.",
+        "PPV needs prevalence as well as sensitivity and specificity."
+      ],
+      "subtopic": "Sensitivity is true positives among those with disease. It does not tell you the chance you have the disease if the test is positive.",
+      "clinical_vignette": true,
+      "id": "cabdb3b1-1b56-5512-8134-822a788cb4ce",
+      "zyntra_id": "ZQ-0659",
+      "phase": "PH-04",
+      "phase_item_id": "PH-E-26",
+      "lo_id": "a3166865-4555-5c3f-b319-5a35c9210fc6",
+      "lo_code": "INCIDENCE_PREVALENCE"
+    },
+    {
+      "question_text": "In a town of 10,000, 200 people have a chronic disease on a given day and 20 new cases occur that year. Prevalence is 200 per 10,000. Incidence is 20 per 10,000 per year. The rest of the history does not change the definition or the calculation. A colleague's shortcut is the common error for this figure. State the answer in the terms the question asks. Do not swap a property of the test for a property of the population, or a relative figure for an absolute one. Decide on the numbers already given. Nothing else in the consultation changes the figure or the bias. Apply the definition in front of you. The point estimate, the interval, or the study direction is already enough. Do not add a causal claim the design cannot support.  State it clearly. That is the answer. Apply it to the numbers given. The common mistake is to use the wrong figure or the wrong design label. Avoid it. Clearly. Today. Apply the rule to these numbers. Now.",
+      "options": [
+        "Prevalence 20 per 10,000 and incidence 200",
+        "Prevalence 200 per 10,000. Incidence 20 per 10,000 per year",
+        "Both are 200",
+        "Incidence cannot be calculated from new cases",
+        "Prevalence is a rate per year only"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nB. Prevalence 200 per 10,000. Incidence 20 per 10,000 per year\n\n---\n\n1. CLINICAL DIAGNOSIS\nSensitivity and specificity do not give his chance of cancer. Prevalence is required for the positive predictive value.\n\n2. THE RULE\nIncidence is new cases. Prevalence is existing cases.\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nPrevalence is the stock. Incidence is the flow. Label them correctly.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nPrevalence 200 per 10,000. Incidence 20 per 10,000 per year\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nSensitivity is true positives among those with disease. It does not tell you the chance you have the disease if the test is positive.\n\n10. MEMORY ANCHOR\nSensitivity is not the chance of disease after a positive test.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Sensitivity and specificity do not give his chance of cancer. Prevalence is required for the positive predictive value.",
+      "best_treatment": "Prevalence 200 per 10,000. Incidence 20 per 10,000 per year",
+      "incorrect_answer_explanations": {
+        "A": "Prevalence 20 per 10,000 and incidence 200 is not the correct step for this presentation.",
+        "C": "Both are 200 is not the correct step for this presentation.",
+        "D": "Incidence cannot be calculated from new cases is not the correct step for this presentation.",
+        "E": "Prevalence is a rate per year only is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Sensitivity is not the chance of disease after a positive test.",
+        "PPV needs prevalence as well as sensitivity and specificity."
+      ],
+      "subtopic": "Sensitivity is true positives among those with disease. It does not tell you the chance you have the disease if the test is positive.",
+      "clinical_vignette": true,
+      "id": "17dc3a7b-f67a-548c-8c41-522b396dff1c",
+      "zyntra_id": "ZQ-0660",
+      "phase": "PH-04",
+      "phase_item_id": "PH-E-27",
+      "lo_id": "a3166865-4555-5c3f-b319-5a35c9210fc6",
+      "lo_code": "INCIDENCE_PREVALENCE"
+    },
+    {
+      "question_text": "A trial reduces absolute risk from 8% to 4%. NNT is 1 divided by the absolute risk reduction. The reduction is 0.04, so NNT is 25. The rest of the history does not change the definition or the calculation. A colleague's shortcut is the common error for this figure. State the answer in the terms the question asks. Do not swap a property of the test for a property of the population, or a relative figure for an absolute one. Decide on the numbers already given. Nothing else in the consultation changes the figure or the bias. Apply the definition in front of you. The point estimate, the interval, or the study direction is already enough. Do not add a causal claim the design cannot support.  State it clearly. That is the answer. Apply it to the numbers given. The common mistake is to use the wrong figure or the wrong design label. Avoid it. Clearly. Today. Apply the rule to these numbers. Now.",
+      "options": [
+        "NNT is 25",
+        "NNT is 4",
+        "NNT is 50",
+        "NNT is 12.5",
+        "NNT cannot be calculated"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. NNT is 25\n\n---\n\n1. CLINICAL DIAGNOSIS\nSensitivity and specificity do not give his chance of cancer. Prevalence is required for the positive predictive value.\n\n2. THE RULE\nAbsolute risk, NNT and relative reduction\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nAbsolute risk reduction 0.04. NNT is 25. Not 4.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nNNT is 25\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nSensitivity is true positives among those with disease. It does not tell you the chance you have the disease if the test is positive.\n\n10. MEMORY ANCHOR\nSensitivity is not the chance of disease after a positive test.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Sensitivity and specificity do not give his chance of cancer. Prevalence is required for the positive predictive value.",
+      "best_treatment": "NNT is 25",
+      "incorrect_answer_explanations": {
+        "B": "NNT is 4 is not the correct step for this presentation.",
+        "C": "NNT is 50 is not the correct step for this presentation.",
+        "D": "NNT is 12.5 is not the correct step for this presentation.",
+        "E": "NNT cannot be calculated is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Sensitivity is not the chance of disease after a positive test.",
+        "PPV needs prevalence as well as sensitivity and specificity."
+      ],
+      "subtopic": "Sensitivity is true positives among those with disease. It does not tell you the chance you have the disease if the test is positive.",
+      "clinical_vignette": true,
+      "id": "9eff3efb-2ce4-55c8-8cd2-3dac15bf4d2b",
+      "zyntra_id": "ZQ-0661",
+      "phase": "PH-04",
+      "phase_item_id": "PH-E-28",
+      "lo_id": "52fcd53b-e296-5b5f-b823-b645e1217c7e",
+      "lo_code": "ABSOLUTE_VERSUS_RELATIVE"
+    },
+    {
+      "question_text": "A newspaper says a drug halves risk. The event fell from 2 per 1000 to 1 per 1000. The absolute reduction is 1 per 1000. The 50% figure is relative. State both. The rest of the history does not change the definition or the calculation. A colleague's shortcut is the common error for this figure. State the answer in the terms the question asks. Do not swap a property of the test for a property of the population, or a relative figure for an absolute one. Decide on the numbers already given. Nothing else in the consultation changes the figure or the bias. Apply the definition in front of you. The point estimate, the interval, or the study direction is already enough. Do not add a causal claim the design cannot support.  State it clearly. That is the answer. Apply it to the numbers given. The common mistake is to use the wrong figure or the wrong design label. Avoid it. Clearly. Today. Apply the rule to these numbers. Now.",
+      "options": [
+        "Half of people are saved",
+        "The absolute reduction is 1 per 1000. The 50% figure is the relative reduction",
+        "The drug prevents 500 events per 1000",
+        "Relative and absolute reductions are the same",
+        "No benefit occurred"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nB. The absolute reduction is 1 per 1000. The 50% figure is the relative reduction\n\n---\n\n1. CLINICAL DIAGNOSIS\nSensitivity and specificity do not give his chance of cancer. Prevalence is required for the positive predictive value.\n\n2. THE RULE\nAbsolute risk, NNT and relative reduction\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nRelative reduction 50%, absolute reduction 1 per 1000. A rare event halved is still rare.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nThe absolute reduction is 1 per 1000. The 50% figure is the relative reduction\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nSensitivity is true positives among those with disease. It does not tell you the chance you have the disease if the test is positive.\n\n10. MEMORY ANCHOR\nSensitivity is not the chance of disease after a positive test.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Sensitivity and specificity do not give his chance of cancer. Prevalence is required for the positive predictive value.",
+      "best_treatment": "The absolute reduction is 1 per 1000. The 50% figure is the relative reduction",
+      "incorrect_answer_explanations": {
+        "A": "Half of people are saved is not the correct step for this presentation.",
+        "C": "The drug prevents 500 events per 1000 is not the correct step for this presentation.",
+        "D": "Relative and absolute reductions are the same is not the correct step for this presentation.",
+        "E": "No benefit occurred is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Sensitivity is not the chance of disease after a positive test.",
+        "PPV needs prevalence as well as sensitivity and specificity."
+      ],
+      "subtopic": "Sensitivity is true positives among those with disease. It does not tell you the chance you have the disease if the test is positive.",
+      "clinical_vignette": true,
+      "id": "77283aa7-97ab-5142-bb8d-a57bb5d4ba23",
+      "zyntra_id": "ZQ-0662",
+      "phase": "PH-04",
+      "phase_item_id": "PH-E-29",
+      "lo_id": "52fcd53b-e296-5b5f-b823-b645e1217c7e",
+      "lo_code": "ABSOLUTE_VERSUS_RELATIVE"
+    },
+    {
+      "question_text": "A trial reports a relative risk of 0.8 with a 95% confidence interval of 0.5 to 1.3. The interval includes 1, so a null effect is not excluded. The point estimate is not proof. The rest of the history does not change the definition or the calculation. A colleague's shortcut is the common error for this figure. State the answer in the terms the question asks. Do not swap a property of the test for a property of the population, or a relative figure for an absolute one. Decide on the numbers already given. Nothing else in the consultation changes the figure or the bias. Apply the definition in front of you. The point estimate, the interval, or the study direction is already enough. Do not add a causal claim the design cannot support.  State it clearly. That is the answer. Apply it to the numbers given. The common mistake is to use the wrong figure or the wrong design label. Avoid it. Clearly. Today. Apply the rule to these numbers. Now.",
+      "options": [
+        "The interval includes 1, so a null effect is not excluded",
+        "The treatment works because the point estimate is under 1",
+        "p is not needed if the estimate is 0.8",
+        "The interval proves harm",
+        "Significance is shown"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. The interval includes 1, so a null effect is not excluded\n\n---\n\n1. CLINICAL DIAGNOSIS\nSensitivity and specificity do not give his chance of cancer. Prevalence is required for the positive predictive value.\n\n2. THE RULE\nConfidence interval, p-value and type II error\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nInterval crosses 1. Compatible with no effect. Do not call it significant.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nThe interval includes 1, so a null effect is not excluded\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nSensitivity is true positives among those with disease. It does not tell you the chance you have the disease if the test is positive.\n\n10. MEMORY ANCHOR\nSensitivity is not the chance of disease after a positive test.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Sensitivity and specificity do not give his chance of cancer. Prevalence is required for the positive predictive value.",
+      "best_treatment": "The interval includes 1, so a null effect is not excluded",
+      "incorrect_answer_explanations": {
+        "B": "The treatment works because the point estimate is under 1 is not the correct step for this presentation.",
+        "C": "p is not needed if the estimate is 0.8 is not the correct step for this presentation.",
+        "D": "The interval proves harm is not the correct step for this presentation.",
+        "E": "Significance is shown is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Sensitivity is not the chance of disease after a positive test.",
+        "PPV needs prevalence as well as sensitivity and specificity."
+      ],
+      "subtopic": "Sensitivity is true positives among those with disease. It does not tell you the chance you have the disease if the test is positive.",
+      "clinical_vignette": true,
+      "id": "1c1e6a38-1c73-59fe-be93-3ba6ac2fe17e",
+      "zyntra_id": "ZQ-0663",
+      "phase": "PH-04",
+      "phase_item_id": "PH-E-30",
+      "lo_id": "7728f3b7-21d2-52ae-b9f6-963c71402045",
+      "lo_code": "STATISTICAL_INFERENCE"
+    },
+    {
+      "question_text": "A screening program reports longer survival from diagnosis in screened patients. Earlier diagnosis can lengthen time from diagnosis to death without delaying the death. That is lead-time bias. Ask for mortality, not survival from diagnosis. The rest of the history does not change the definition or the calculation. A colleague's shortcut is the common error for this figure. State the answer in the terms the question asks. Do not swap a property of the test for a property of the population, or a relative figure for an absolute one. Decide on the numbers already given. Nothing else in the consultation changes the figure or the bias. Apply the definition in front of you. The point estimate, the interval, or the study direction is already enough. Do not add a causal claim the design cannot support.  State it clearly. That is the answer. Apply it to the numbers given. The common mistake is to use the wrong figure or the wrong design label. Avoid it. Clearly. Today. Apply the rule to these numbers. Now.",
+      "options": [
+        "Earlier diagnosis can lengthen survival time without delaying death",
+        "Longer survival from diagnosis proves the program works",
+        "Lead-time bias reduces apparent survival",
+        "Screening always lowers mortality if survival from diagnosis rises",
+        "Length-time bias is about the clock from diagnosis"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. Earlier diagnosis can lengthen survival time without delaying death\n\n---\n\n1. CLINICAL DIAGNOSIS\nSensitivity and specificity do not give his chance of cancer. Prevalence is required for the positive predictive value.\n\n2. THE RULE\nLead-time and length-time bias\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nLead time shifts the start of the survival clock. It does not prove a later death.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nEarlier diagnosis can lengthen survival time without delaying death\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nSensitivity is true positives among those with disease. It does not tell you the chance you have the disease if the test is positive.\n\n10. MEMORY ANCHOR\nSensitivity is not the chance of disease after a positive test.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Sensitivity and specificity do not give his chance of cancer. Prevalence is required for the positive predictive value.",
+      "best_treatment": "Earlier diagnosis can lengthen survival time without delaying death",
+      "incorrect_answer_explanations": {
+        "B": "Longer survival from diagnosis proves the program works is not the correct step for this presentation.",
+        "C": "Lead-time bias reduces apparent survival is not the correct step for this presentation.",
+        "D": "Screening always lowers mortality if survival from diagnosis rises is not the correct step for this presentation.",
+        "E": "Length-time bias is about the clock from diagnosis is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Sensitivity is not the chance of disease after a positive test.",
+        "PPV needs prevalence as well as sensitivity and specificity."
+      ],
+      "subtopic": "Sensitivity is true positives among those with disease. It does not tell you the chance you have the disease if the test is positive.",
+      "clinical_vignette": true,
+      "id": "939f0160-e435-5e19-b225-acbc99ad2c8d",
+      "zyntra_id": "ZQ-0664",
+      "phase": "PH-04",
+      "phase_item_id": "PH-E-31",
+      "lo_id": "f5c57bb5-dddf-583d-903a-43bfcfaee4db",
+      "lo_code": "SCREENING_BIAS"
+    },
+    {
+      "question_text": "A program finds many slow-growing cancers and reports excellent outcomes. Screening preferentially detects slower diseases that linger in a detectable window. That is length-time bias. The rest of the history does not change the definition or the calculation. A colleague's shortcut is the common error for this figure. State the answer in the terms the question asks. Do not swap a property of the test for a property of the population, or a relative figure for an absolute one. Decide on the numbers already given. Nothing else in the consultation changes the figure or the bias. Apply the definition in front of you. The point estimate, the interval, or the study direction is already enough. Do not add a causal claim the design cannot support.  State it clearly. That is the answer. Apply it to the numbers given. The common mistake is to use the wrong figure or the wrong design label. Avoid it. Clearly. Today. Apply the rule to these numbers. Now.",
+      "options": [
+        "Screening finds more aggressive cancers",
+        "Length-time bias. Screening preferentially finds slower disease",
+        "Lead-time bias explains enrichment for slow tumours",
+        "All cancers have the same detectable window",
+        "Outcomes in screened groups are unbiased"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nB. Length-time bias. Screening preferentially finds slower disease\n\n---\n\n1. CLINICAL DIAGNOSIS\nSensitivity and specificity do not give his chance of cancer. Prevalence is required for the positive predictive value.\n\n2. THE RULE\nLead-time and length-time bias\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nLength-time bias is about the speed of the disease. Slow tumours are over-represented.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nLength-time bias. Screening preferentially finds slower disease\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nSensitivity is true positives among those with disease. It does not tell you the chance you have the disease if the test is positive.\n\n10. MEMORY ANCHOR\nSensitivity is not the chance of disease after a positive test.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Sensitivity and specificity do not give his chance of cancer. Prevalence is required for the positive predictive value.",
+      "best_treatment": "Length-time bias. Screening preferentially finds slower disease",
+      "incorrect_answer_explanations": {
+        "A": "Screening finds more aggressive cancers is not the correct step for this presentation.",
+        "C": "Lead-time bias explains enrichment for slow tumours is not the correct step for this presentation.",
+        "D": "All cancers have the same detectable window is not the correct step for this presentation.",
+        "E": "Outcomes in screened groups are unbiased is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Sensitivity is not the chance of disease after a positive test.",
+        "PPV needs prevalence as well as sensitivity and specificity."
+      ],
+      "subtopic": "Sensitivity is true positives among those with disease. It does not tell you the chance you have the disease if the test is positive.",
+      "clinical_vignette": true,
+      "id": "1f1c4e63-946c-50c0-bb89-c7eb3d86c67e",
+      "zyntra_id": "ZQ-0665",
+      "phase": "PH-04",
+      "phase_item_id": "PH-E-32",
+      "lo_id": "f5c57bb5-dddf-583d-903a-43bfcfaee4db",
+      "lo_code": "SCREENING_BIAS"
+    },
+    {
+      "question_text": "Some allocated patients did not take treatment, and some controls obtained it. Analyse by allocated group. Intention-to-treat preserves the randomisation. Analysing only takers can reintroduce bias. The rest of the history does not change the definition or the calculation. A colleague's shortcut is the common error for this figure. State the answer in the terms the question asks. Do not swap a property of the test for a property of the population, or a relative figure for an absolute one. Decide on the numbers already given. Nothing else in the consultation changes the figure or the bias. Apply the definition in front of you. The point estimate, the interval, or the study direction is already enough. Do not add a causal claim the design cannot support.  State it clearly. That is the answer. Apply it to the numbers given. The common mistake is to use the wrong figure or the wrong design label. Avoid it. Clearly. Today. Apply the rule to these numbers. Now.",
+      "options": [
+        "Analyse by allocated group. That is intention-to-treat",
+        "Analyse only those who took the treatment",
+        "Drop non-adherent patients from both arms without comment",
+        "Per-protocol is always the primary analysis",
+        "Randomisation is preserved by analysing takers only"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. Analyse by allocated group. That is intention-to-treat\n\n---\n\n1. CLINICAL DIAGNOSIS\nSensitivity and specificity do not give his chance of cancer. Prevalence is required for the positive predictive value.\n\n2. THE RULE\nIntention to treat, concealment and blinding\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nIntention-to-treat keeps people in the group they were allocated to.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nAnalyse by allocated group. That is intention-to-treat\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nSensitivity is true positives among those with disease. It does not tell you the chance you have the disease if the test is positive.\n\n10. MEMORY ANCHOR\nSensitivity is not the chance of disease after a positive test.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Sensitivity and specificity do not give his chance of cancer. Prevalence is required for the positive predictive value.",
+      "best_treatment": "Analyse by allocated group. That is intention-to-treat",
+      "incorrect_answer_explanations": {
+        "B": "Analyse only those who took the treatment is not the correct step for this presentation.",
+        "C": "Drop non-adherent patients from both arms without comment is not the correct step for this presentation.",
+        "D": "Per-protocol is always the primary analysis is not the correct step for this presentation.",
+        "E": "Randomisation is preserved by analysing takers only is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Sensitivity is not the chance of disease after a positive test.",
+        "PPV needs prevalence as well as sensitivity and specificity."
+      ],
+      "subtopic": "Sensitivity is true positives among those with disease. It does not tell you the chance you have the disease if the test is positive.",
+      "clinical_vignette": true,
+      "id": "66447322-8ffa-5572-8a59-ce7e1c7e9694",
+      "zyntra_id": "ZQ-0666",
+      "phase": "PH-04",
+      "phase_item_id": "PH-E-33",
+      "lo_id": "102c8ead-4b24-5f57-b983-e217ce8b0e97",
+      "lo_code": "TRIAL_CONDUCT"
+    },
+    {
+      "question_text": "A report says allocation was concealed and assessors were blinded. Concealment protects the allocation sequence before assignment. Blinding protects measurement after. They are different. The rest of the history does not change the definition or the calculation. A colleague's shortcut is the common error for this figure. State the answer in the terms the question asks. Do not swap a property of the test for a property of the population, or a relative figure for an absolute one. Decide on the numbers already given. Nothing else in the consultation changes the figure or the bias. Apply the definition in front of you. The point estimate, the interval, or the study direction is already enough. Do not add a causal claim the design cannot support.  State it clearly. That is the answer. Apply it to the numbers given. The common mistake is to use the wrong figure or the wrong design label. Avoid it. Clearly. Today. Apply the rule to these numbers. Now.",
+      "options": [
+        "Concealment and blinding are the same safeguard",
+        "Concealment protects allocation. Blinding protects measurement after assignment",
+        "Blinding happens before assignment",
+        "Concealment is about the outcome assessor",
+        "Neither matters in a randomised trial"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nB. Concealment protects allocation. Blinding protects measurement after assignment\n\n---\n\n1. CLINICAL DIAGNOSIS\nSensitivity and specificity do not give his chance of cancer. Prevalence is required for the positive predictive value.\n\n2. THE RULE\nIntention to treat, concealment and blinding\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nBefore assignment: concealment. After assignment: blinding.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nConcealment protects allocation. Blinding protects measurement after assignment\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nSensitivity is true positives among those with disease. It does not tell you the chance you have the disease if the test is positive.\n\n10. MEMORY ANCHOR\nSensitivity is not the chance of disease after a positive test.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Sensitivity and specificity do not give his chance of cancer. Prevalence is required for the positive predictive value.",
+      "best_treatment": "Concealment protects allocation. Blinding protects measurement after assignment",
+      "incorrect_answer_explanations": {
+        "A": "Concealment and blinding are the same safeguard is not the correct step for this presentation.",
+        "C": "Blinding happens before assignment is not the correct step for this presentation.",
+        "D": "Concealment is about the outcome assessor is not the correct step for this presentation.",
+        "E": "Neither matters in a randomised trial is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Sensitivity is not the chance of disease after a positive test.",
+        "PPV needs prevalence as well as sensitivity and specificity."
+      ],
+      "subtopic": "Sensitivity is true positives among those with disease. It does not tell you the chance you have the disease if the test is positive.",
+      "clinical_vignette": true,
+      "id": "adf9da65-b154-5492-925e-f66e743029ea",
+      "zyntra_id": "ZQ-0667",
+      "phase": "PH-04",
+      "phase_item_id": "PH-E-34",
+      "lo_id": "102c8ead-4b24-5f57-b983-e217ce8b0e97",
+      "lo_code": "TRIAL_CONDUCT"
+    },
+    {
+      "question_text": "People with a rare cancer are asked about a past exposure and compared with people without the cancer. That is a case-control study. It estimates an odds ratio, not a relative risk from incidence. The rest of the history does not change the definition or the calculation. A colleague's shortcut is the common error for this figure. State the answer in the terms the question asks. Do not swap a property of the test for a property of the population, or a relative figure for an absolute one. Decide on the numbers already given. Nothing else in the consultation changes the figure or the bias. Apply the definition in front of you. The point estimate, the interval, or the study direction is already enough. Do not add a causal claim the design cannot support.  State it clearly. That is the answer. Apply it to the numbers given. The common mistake is to use the wrong figure or the wrong design label. Avoid it. Clearly. Today. Apply the rule to these numbers. Now.",
+      "options": [
+        "It is a case-control study and estimates an odds ratio",
+        "It is a cohort and estimates a relative risk directly",
+        "Exposure was assigned",
+        "People were followed from a disease-free state",
+        "Incidence can be calculated directly"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. It is a case-control study and estimates an odds ratio\n\n---\n\n1. CLINICAL DIAGNOSIS\nSensitivity and specificity do not give his chance of cancer. Prevalence is required for the positive predictive value.\n\n2. THE RULE\nCase-control, cohort and cross-sectional\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nOutcome first, exposure second. Case-control. Odds ratio.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nIt is a case-control study and estimates an odds ratio\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nSensitivity is true positives among those with disease. It does not tell you the chance you have the disease if the test is positive.\n\n10. MEMORY ANCHOR\nSensitivity is not the chance of disease after a positive test.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Sensitivity and specificity do not give his chance of cancer. Prevalence is required for the positive predictive value.",
+      "best_treatment": "It is a case-control study and estimates an odds ratio",
+      "incorrect_answer_explanations": {
+        "B": "It is a cohort and estimates a relative risk directly is not the correct step for this presentation.",
+        "C": "Exposure was assigned is not the correct step for this presentation.",
+        "D": "People were followed from a disease-free state is not the correct step for this presentation.",
+        "E": "Incidence can be calculated directly is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Sensitivity is not the chance of disease after a positive test.",
+        "PPV needs prevalence as well as sensitivity and specificity."
+      ],
+      "subtopic": "Sensitivity is true positives among those with disease. It does not tell you the chance you have the disease if the test is positive.",
+      "clinical_vignette": true,
+      "id": "df046cd5-c2c9-55fd-be8f-8885d1123e0a",
+      "zyntra_id": "ZQ-0668",
+      "phase": "PH-04",
+      "phase_item_id": "PH-E-35",
+      "lo_id": "34cbf05d-0efe-563f-b3cc-47e1050a4a95",
+      "lo_code": "STUDY_DESIGN"
+    },
+    {
+      "question_text": "Coffee drinkers have more heart disease and also smoke more. Smoking may confound the coffee association. The smoking difference could explain the finding. Causation is not shown. The rest of the history does not change the definition or the calculation. A colleague's shortcut is the common error for this figure. State the answer in the terms the question asks. Do not swap a property of the test for a property of the population, or a relative figure for an absolute one. Decide on the numbers already given. Nothing else in the consultation changes the figure or the bias. Apply the definition in front of you. The point estimate, the interval, or the study direction is already enough. Do not add a causal claim the design cannot support.  State it clearly. That is the answer. Apply it to the numbers given. The common mistake is to use the wrong figure or the wrong design label. Avoid it. Clearly. Today. Apply the rule to these numbers. Now.",
+      "options": [
+        "Smoking may confound the coffee association",
+        "The coffee association is therefore causal",
+        "No confounder can be associated with both",
+        "Adjustment is unnecessary",
+        "Randomisation has occurred"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. Smoking may confound the coffee association\n\n---\n\n1. CLINICAL DIAGNOSIS\nSensitivity and specificity do not give his chance of cancer. Prevalence is required for the positive predictive value.\n\n2. THE RULE\nConfounding and why adjustment is not randomisation\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nA confounder is associated with the exposure and the outcome. Smoking fits.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nSmoking may confound the coffee association\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nSensitivity is true positives among those with disease. It does not tell you the chance you have the disease if the test is positive.\n\n10. MEMORY ANCHOR\nSensitivity is not the chance of disease after a positive test.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Sensitivity and specificity do not give his chance of cancer. Prevalence is required for the positive predictive value.",
+      "best_treatment": "Smoking may confound the coffee association",
+      "incorrect_answer_explanations": {
+        "B": "The coffee association is therefore causal is not the correct step for this presentation.",
+        "C": "No confounder can be associated with both is not the correct step for this presentation.",
+        "D": "Adjustment is unnecessary is not the correct step for this presentation.",
+        "E": "Randomisation has occurred is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Sensitivity is not the chance of disease after a positive test.",
+        "PPV needs prevalence as well as sensitivity and specificity."
+      ],
+      "subtopic": "Sensitivity is true positives among those with disease. It does not tell you the chance you have the disease if the test is positive.",
+      "clinical_vignette": true,
+      "id": "b247b4ef-62b0-588f-b49c-c68cc67a4104",
+      "zyntra_id": "ZQ-0669",
+      "phase": "PH-04",
+      "phase_item_id": "PH-E-36",
+      "lo_id": "b293d6c3-38c4-5b0a-8068-13b40f3492fa",
+      "lo_code": "CONFOUNDING"
+    },
+    {
+      "question_text": "A cohort adjusts for age, sex, and smoking and still finds an association. Adjustment only deals with confounders that were measured. Unknown and unmeasured confounders can remain. The rest of the history does not change the definition or the calculation. A colleague's shortcut is the common error for this figure. State the answer in the terms the question asks. Do not swap a property of the test for a property of the population, or a relative figure for an absolute one. Decide on the numbers already given. Nothing else in the consultation changes the figure or the bias. Apply the definition in front of you. The point estimate, the interval, or the study direction is already enough. Do not add a causal claim the design cannot support.  State it clearly. That is the answer. Apply it to the numbers given. The common mistake is to use the wrong figure or the wrong design label. Avoid it. Clearly. Today. Apply the rule to these numbers. Now.",
+      "options": [
+        "Adjustment removes all possible confounding",
+        "Unknown and unmeasured confounders can remain",
+        "A cohort cannot be confounded",
+        "Age and sex adjustment proves causation",
+        "Residual confounding is impossible after any model"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nB. Unknown and unmeasured confounders can remain\n\n---\n\n1. CLINICAL DIAGNOSIS\nSensitivity and specificity do not give his chance of cancer. Prevalence is required for the positive predictive value.\n\n2. THE RULE\nConfounding and why adjustment is not randomisation\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nResidual confounding from unmeasured factors remains possible.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nUnknown and unmeasured confounders can remain\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nSensitivity is true positives among those with disease. It does not tell you the chance you have the disease if the test is positive.\n\n10. MEMORY ANCHOR\nSensitivity is not the chance of disease after a positive test.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Sensitivity and specificity do not give his chance of cancer. Prevalence is required for the positive predictive value.",
+      "best_treatment": "Unknown and unmeasured confounders can remain",
+      "incorrect_answer_explanations": {
+        "A": "Adjustment removes all possible confounding is not the correct step for this presentation.",
+        "C": "A cohort cannot be confounded is not the correct step for this presentation.",
+        "D": "Age and sex adjustment proves causation is not the correct step for this presentation.",
+        "E": "Residual confounding is impossible after any model is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Sensitivity is not the chance of disease after a positive test.",
+        "PPV needs prevalence as well as sensitivity and specificity."
+      ],
+      "subtopic": "Sensitivity is true positives among those with disease. It does not tell you the chance you have the disease if the test is positive.",
+      "clinical_vignette": true,
+      "id": "e4bdd823-e379-59c7-85b7-aaeb27b6e146",
+      "zyntra_id": "ZQ-0670",
+      "phase": "PH-04",
+      "phase_item_id": "PH-E-37",
+      "lo_id": "b293d6c3-38c4-5b0a-8068-13b40f3492fa",
+      "lo_code": "CONFOUNDING"
+    },
+    {
+      "question_text": "In a cohort the outcome is 20% in the exposed and 10% in the unexposed. The relative risk is 2. The odds ratio is higher. When the outcome is common, the odds ratio overstates the relative risk. The rest of the history does not change the definition or the calculation. A colleague's shortcut is the common error for this figure. State the answer in the terms the question asks. Do not swap a property of the test for a property of the population, or a relative figure for an absolute one. Decide on the numbers already given. Nothing else in the consultation changes the figure or the bias. Apply the definition in front of you. The point estimate, the interval, or the study direction is already enough. Do not add a causal claim the design cannot support.  State it clearly. That is the answer. Apply it to the numbers given. The common mistake is to use the wrong figure or the wrong design label. Avoid it. Clearly. Today. Apply the rule to these numbers. Now.",
+      "options": [
+        "The relative risk is 2. The odds ratio overstates it",
+        "The odds ratio is the relative risk",
+        "RR is 2.25",
+        "OR and RR are identical when the outcome is common",
+        "Risk cannot be calculated in a cohort"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. The relative risk is 2. The odds ratio overstates it\n\n---\n\n1. CLINICAL DIAGNOSIS\nSensitivity and specificity do not give his chance of cancer. Prevalence is required for the positive predictive value.\n\n2. THE RULE\nOdds ratio overstates relative risk when the outcome is common\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nCommon outcome. RR is 2. OR is higher. Report the relative risk.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nThe relative risk is 2. The odds ratio overstates it\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nSensitivity is true positives among those with disease. It does not tell you the chance you have the disease if the test is positive.\n\n10. MEMORY ANCHOR\nSensitivity is not the chance of disease after a positive test.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Sensitivity and specificity do not give his chance of cancer. Prevalence is required for the positive predictive value.",
+      "best_treatment": "The relative risk is 2. The odds ratio overstates it",
+      "incorrect_answer_explanations": {
+        "B": "The odds ratio is the relative risk is not the correct step for this presentation.",
+        "C": "RR is 2.25 is not the correct step for this presentation.",
+        "D": "OR and RR are identical when the outcome is common is not the correct step for this presentation.",
+        "E": "Risk cannot be calculated in a cohort is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Sensitivity is not the chance of disease after a positive test.",
+        "PPV needs prevalence as well as sensitivity and specificity."
+      ],
+      "subtopic": "Sensitivity is true positives among those with disease. It does not tell you the chance you have the disease if the test is positive.",
+      "clinical_vignette": true,
+      "id": "c2b170e9-2527-5415-80e5-07e5768c29bb",
+      "zyntra_id": "ZQ-0671",
+      "phase": "PH-04",
+      "phase_item_id": "PH-E-38",
+      "lo_id": "12e7a720-8e34-510e-8a3c-8eac5dd76555",
+      "lo_code": "ODDS_VERSUS_RISK"
+    },
+    {
+      "question_text": "Students compute an odds ratio of about 2.25 and label it the relative risk. In a cohort with a common outcome, report the risk ratio. Here it is 2. The rest of the history does not change the definition or the calculation. A colleague's shortcut is the common error for this figure. State the answer in the terms the question asks. Do not swap a property of the test for a property of the population, or a relative figure for an absolute one. Decide on the numbers already given. Nothing else in the consultation changes the figure or the bias. Apply the definition in front of you. The point estimate, the interval, or the study direction is already enough. Do not add a causal claim the design cannot support.  State it clearly. That is the answer. Apply it to the numbers given. The common mistake is to use the wrong figure or the wrong design label. Avoid it. Clearly. Today. Apply the rule to these numbers. Now.",
+      "options": [
+        "Use the odds ratio as the risk ratio here",
+        "Report the relative risk from the cohort risks",
+        "Odds are easier and therefore correct",
+        "A common outcome makes OR and RR equal",
+        "Incidence is irrelevant"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nB. Report the relative risk from the cohort risks\n\n---\n\n1. CLINICAL DIAGNOSIS\nSensitivity and specificity do not give his chance of cancer. Prevalence is required for the positive predictive value.\n\n2. THE RULE\nOdds ratio overstates relative risk when the outcome is common\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nDo not label an odds ratio as a risk ratio when the outcome is common.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nReport the relative risk from the cohort risks\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nSensitivity is true positives among those with disease. It does not tell you the chance you have the disease if the test is positive.\n\n10. MEMORY ANCHOR\nSensitivity is not the chance of disease after a positive test.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Sensitivity and specificity do not give his chance of cancer. Prevalence is required for the positive predictive value.",
+      "best_treatment": "Report the relative risk from the cohort risks",
+      "incorrect_answer_explanations": {
+        "A": "Use the odds ratio as the risk ratio here is not the correct step for this presentation.",
+        "C": "Odds are easier and therefore correct is not the correct step for this presentation.",
+        "D": "A common outcome makes OR and RR equal is not the correct step for this presentation.",
+        "E": "Incidence is irrelevant is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Sensitivity is not the chance of disease after a positive test.",
+        "PPV needs prevalence as well as sensitivity and specificity."
+      ],
+      "subtopic": "Sensitivity is true positives among those with disease. It does not tell you the chance you have the disease if the test is positive.",
+      "clinical_vignette": true,
+      "id": "8ed1e67c-1d04-5288-bac4-7e4bda78ea34",
+      "zyntra_id": "ZQ-0672",
+      "phase": "PH-04",
+      "phase_item_id": "PH-E-39",
+      "lo_id": "12e7a720-8e34-510e-8a3c-8eac5dd76555",
+      "lo_code": "ODDS_VERSUS_RISK"
+    },
+    {
+      "question_text": "Risk 20% versus 10%. That outcome is common. The odds ratio will be further from 1 than the relative risk of 2. State the relative risk. The rest of the history does not change the definition or the calculation. A colleague's shortcut is the common error for this figure. State the answer in the terms the question asks. Do not swap a property of the test for a property of the population, or a relative figure for an absolute one. Decide on the numbers already given. Nothing else in the consultation changes the figure or the bias. Apply the definition in front of you. The point estimate, the interval, or the study direction is already enough. Do not add a causal claim the design cannot support.  State it clearly. That is the answer. Apply it to the numbers given. The common mistake is to use the wrong figure or the wrong design label. Avoid it. Clearly. Today. Apply the rule to these numbers. Now.",
+      "options": [
+        "The odds ratio is always smaller than the relative risk",
+        "When the outcome is common the odds ratio moves further from 1 than the relative risk",
+        "They never differ",
+        "Only case-control studies have this problem",
+        "A 20% risk is rare"
+      ],
+      "correct_answer": "C",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nC. They never differ\n\n---\n\n1. CLINICAL DIAGNOSIS\nSensitivity and specificity do not give his chance of cancer. Prevalence is required for the positive predictive value.\n\n2. THE RULE\nOdds ratio overstates relative risk when the outcome is common\n\n3. WHY THIS OPTION\nC matches the rule on the facts given.\n\n4. THE TRAP\nCommon outcome inflates the odds ratio relative to the risk ratio.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nThey never differ\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nSensitivity is true positives among those with disease. It does not tell you the chance you have the disease if the test is positive.\n\n10. MEMORY ANCHOR\nSensitivity is not the chance of disease after a positive test.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Sensitivity and specificity do not give his chance of cancer. Prevalence is required for the positive predictive value.",
+      "best_treatment": "They never differ",
+      "incorrect_answer_explanations": {
+        "A": "The odds ratio is always smaller than the relative risk is not the correct step for this presentation.",
+        "B": "When the outcome is common the odds ratio moves further from 1 than the relative risk is not the correct step for this presentation.",
+        "D": "Only case-control studies have this problem is not the correct step for this presentation.",
+        "E": "A 20% risk is rare is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Sensitivity is not the chance of disease after a positive test.",
+        "PPV needs prevalence as well as sensitivity and specificity."
+      ],
+      "subtopic": "Sensitivity is true positives among those with disease. It does not tell you the chance you have the disease if the test is positive.",
+      "clinical_vignette": true,
+      "id": "dacc49c0-f298-5814-b341-e5534498d37b",
+      "zyntra_id": "ZQ-0673",
+      "phase": "PH-04",
+      "phase_item_id": "PH-E-40",
+      "lo_id": "12e7a720-8e34-510e-8a3c-8eac5dd76555",
+      "lo_code": "ODDS_VERSUS_RISK"
+    }
+  ]
+}

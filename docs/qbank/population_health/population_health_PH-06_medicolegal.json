@@ -1,0 +1,1505 @@
+{
+  "phase": "PH-06",
+  "phase_name": "Medicolegal reporting",
+  "count": 44,
+  "reviewed_by": "Dr Heisenberg",
+  "status": "draft",
+  "items": [
+    {
+      "question_text": "An 84-year-old woman with metastatic lung cancer dies at home after a week of progressive breathlessness. She has not seen a doctor in the last three months. Her daughter asks the locum to write cardiac arrest as the cause of death so the funeral can proceed today. Cardiac arrest is a mode of death, not a cause. A doctor who has not attended her recently should not invent a certificate. Decline the certificate. The death should be referred to the coroner because she was not attended recently. What is the most appropriate action?  You never treated her. Old age and cardiac arrest are not causes here. Convenience of the funeral is irrelevant. Refer.  The duty is yours on the facts given. A family wish or a faster funeral does not change it.  Report or refuse as the rule requires. Do not invent a cause or a clearance.  Nothing else in the file creates an exception. Apply the reporting or disclosure rule as it stands.  A colleague's suggestion to certify, sign, or release does not override that rule.  Decide on the facts given and the duty they create. Do that. Now. Clearly. Today.",
+      "options": [
+        "Decline the certificate. The death should be referred to the coroner because she was not attended recently",
+        "Write cardiac arrest. It is true of every death",
+        "Write metastatic lung cancer and sign, even though you never treated her",
+        "Ask the daughter to complete the cause-of-death section",
+        "Write 'old age' so the family is not distressed"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. Decline the certificate. The death should be referred to the coroner because she was not attended recently\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not write cardiac arrest. Refer this unattended death.\n\n2. THE RULE\nA death certificate records the disease that caused death\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nCardiac arrest is a mode of death, not a cause. A doctor who has not attended the patient in the recent period, and who is not satisfied about the cause, should not invent a certificate. An unattended death of this kind is a coroner referral.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nDecline the certificate. The death should be referred to the coroner because she was not attended recently\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA death certificate records the disease that caused death. It is not a place for speculation or a mechanism.\n\n10. MEMORY ANCHOR\nCause of death is a disease, not a mode.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not write cardiac arrest. Refer this unattended death.",
+      "best_treatment": "Decline the certificate. The death should be referred to the coroner because she was not attended recently",
+      "incorrect_answer_explanations": {
+        "B": "Write cardiac arrest. It is true of every death Mode of death is not a cause.",
+        "C": "Write metastatic lung cancer and sign, even though you never treated her You cannot certify a death you are not in a position to know.",
+        "D": "Ask the daughter to complete the cause-of-death section The certificate is a medical document.",
+        "E": "Write 'old age' so the family is not distressed Old age is not a cause here, and convenience is not a reason."
+      },
+      "key_takeaways": [
+        "Cause of death is a disease, not a mode.",
+        "An unattended death is not certified for convenience."
+      ],
+      "subtopic": "A death certificate records the disease that caused death. It is not a place for speculation or a mechanism.",
+      "clinical_vignette": true,
+      "id": "343a2496-9e8c-521d-92db-deb292b21c45",
+      "zyntra_id": "ZQ-0526",
+      "phase": "PH-06",
+      "phase_item_id": "PH-M-01",
+      "lo_id": "2c2702ab-a992-5be2-acaa-4d2a8b9d7174",
+      "lo_code": "DEATH_CERTIFICATE"
+    },
+    {
+      "question_text": "A 70-year-old dies of a myocardial infarct 18 hours after an elective hip replacement. The infarct looks unrelated to the operation. The orthopaedic registrar asks you to certify ischaemic heart disease and avoid the coroner so the family is not delayed. A death during or soon after a procedure is reportable, even if the surgery seemed unrelated. Report the death. What is the most appropriate course?  Eighteen hours after elective surgery is perioperative. Apparent unrelatedness does not let you certify around the coroner. Family preference does not decide reporting.  The duty is yours on the facts given. A family wish or a faster funeral does not change it.  Report or refuse as the rule requires. Do not invent a cause or a clearance.  Nothing else in the file creates an exception. Apply the reporting or disclosure rule as it stands.  A colleague's suggestion to certify, sign, or release does not override that rule.  Decide on the facts given and the duty they create. Do that. Now. Clearly. Today.",
+      "options": [
+        "Certify ischaemic heart disease. The operation was successful",
+        "Report the death. A death soon after a procedure is reportable",
+        "Certify it if the anaesthetist agrees",
+        "Wait 30 days and then certify, so it is no longer perioperative",
+        "Ask the family whether they would prefer to avoid the coroner"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "difficult",
+      "explanation": "CORRECT ANSWER\n\nB. Report the death. A death soon after a procedure is reportable\n\n---\n\n1. CLINICAL DIAGNOSIS\nReport it. A death the day after a hip replacement is not certified away.\n\n2. THE RULE\nReportable deaths include perioperative, custody, trauma, and unknown\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nA death during, or as a result of, an operation or procedure, or in the perioperative period where the procedure may be relevant, is reportable. Apparent unrelatedness is not a reason to certify around the coroner.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nReport the death. A death soon after a procedure is reportable\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA death during or soon after a procedure is reportable, even if the surgery seemed unrelated.\n\n10. MEMORY ANCHOR\nPerioperative death is reportable.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Report it. A death the day after a hip replacement is not certified away.",
+      "best_treatment": "Report the death. A death soon after a procedure is reportable",
+      "incorrect_answer_explanations": {
+        "A": "Certify ischaemic heart disease. The operation was successful Success of the operation does not remove the reporting duty.",
+        "C": "Certify it if the anaesthetist agrees Agreement between clinicians is not a substitute for reporting.",
+        "D": "Wait 30 days and then certify, so it is no longer perioperative Delay does not change a reportable death.",
+        "E": "Ask the family whether they would prefer to avoid the coroner Reporting is not the family's choice."
+      },
+      "key_takeaways": [
+        "Perioperative death is reportable.",
+        "Family preference does not decide reporting."
+      ],
+      "subtopic": "A death during or soon after a procedure is reportable, even if the surgery seemed unrelated.",
+      "clinical_vignette": true,
+      "id": "6e4646af-a2f7-5591-914c-75fc4a2dcc3f",
+      "zyntra_id": "ZQ-0527",
+      "phase": "PH-06",
+      "phase_item_id": "PH-M-02",
+      "lo_id": "41543afd-06ca-5f2f-8cfa-6df284e39646",
+      "lo_code": "REPORTABLE_DEATH"
+    },
+    {
+      "question_text": "A 46-year-old man on remand collapses in a prison van and dies in the emergency department. He had seemed well that morning. A colleague says this is an ordinary hospital death because he died in ED. A death in custody is reportable. The place of death does not have to be a cell. Report the death. Custody includes transit. What is the most appropriate action?  Remand, prison van, then ED. Custody includes transport. Dying in hospital does not convert it into an ordinary death. Report.  The duty is yours on the facts given. A family wish or a faster funeral does not change it.  Report or refuse as the rule requires. Do not invent a cause or a clearance.  Nothing else in the file creates an exception. Apply the reporting or disclosure rule as it stands.  A colleague's suggestion to certify, sign, or release does not override that rule.  Decide on the facts given and the duty they create. Do that. Now. Clearly. Today.",
+      "options": [
+        "Certify the hospital diagnosis. Custody ended at the van door",
+        "Ask the prison governor to certify it",
+        "Report the death. A death in custody, including in transit, is reportable",
+        "Certify it if the toxicology is normal",
+        "Report only if there are signs of assault"
+      ],
+      "correct_answer": "C",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nC. Report the death. A death in custody, including in transit, is reportable\n\n---\n\n1. CLINICAL DIAGNOSIS\nHe died in custody. Report it, even though the last place was ED.\n\n2. THE RULE\nReportable deaths include perioperative, custody, trauma, and unknown\n\n3. WHY THIS OPTION\nC matches the rule on the facts given.\n\n4. THE TRAP\nDeath in custody includes police or prison custody and transport. Dying in a hospital after collapse in a van does not convert it into an ordinary death.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nReport the death. A death in custody, including in transit, is reportable\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA death in custody is reportable. The place of death does not have to be a cell.\n\n10. MEMORY ANCHOR\nDeath in custody includes transit.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "He died in custody. Report it, even though the last place was ED.",
+      "best_treatment": "Report the death. A death in custody, including in transit, is reportable",
+      "incorrect_answer_explanations": {
+        "A": "Certify the hospital diagnosis. Custody ended at the van door Custody includes the van.",
+        "B": "Ask the prison governor to certify it A governor does not complete a medical certificate of cause of death.",
+        "D": "Certify it if the toxicology is normal Normal toxicology does not remove the duty.",
+        "E": "Report only if there are signs of assault The duty does not wait for signs of violence."
+      },
+      "key_takeaways": [
+        "Death in custody includes transit.",
+        "Hospital as the place of death does not end the duty."
+      ],
+      "subtopic": "A death in custody is reportable. The place of death does not have to be a cell.",
+      "clinical_vignette": true,
+      "id": "f08442b0-452b-5450-a631-fdd4c4d9ccda",
+      "zyntra_id": "ZQ-0528",
+      "phase": "PH-06",
+      "phase_item_id": "PH-M-03",
+      "lo_id": "41543afd-06ca-5f2f-8cfa-6df284e39646",
+      "lo_code": "REPORTABLE_DEATH"
+    },
+    {
+      "question_text": "An 88-year-old woman who lives alone is found at the bottom of her stairs. She dies in ED from an acute subdural haematoma. Her GP knows her well and offers to write a certificate of old age and frailty. A violent, unnatural, or unexpected death is reportable. A fall with head injury qualifies. Report the death. Trauma is not frailty. What is the most appropriate course?  Subdural after a fall is trauma. Frailty does not make it natural. No allegation of assault is required. Report. Do not certify it away.  The duty is yours on the facts given. A family wish or a faster funeral does not change it.  Report or refuse as the rule requires. Do not invent a cause or a clearance.  Nothing else in the file creates an exception. Apply the reporting or disclosure rule as it stands.  A colleague's suggestion to certify, sign, or release does not override that rule.  Decide on the facts given and the duty they create. Do that. Now. Clearly. Today.",
+      "options": [
+        "Accept the GP certificate. Frailty explains the fall",
+        "Certify subdural haematoma without mentioning the fall",
+        "Report only if the family allege assault",
+        "Report the death. Trauma from a fall is an unnatural death",
+        "Ask the funeral director which option is faster"
+      ],
+      "correct_answer": "D",
+      "category": "Population Health & Ethics",
+      "difficulty": "easy",
+      "explanation": "CORRECT ANSWER\n\nD. Report the death. Trauma from a fall is an unnatural death\n\n---\n\n1. CLINICAL DIAGNOSIS\nReport the fall. Do not certify it as frailty.\n\n2. THE RULE\nReportable deaths include perioperative, custody, trauma, and unknown\n\n3. WHY THIS OPTION\nD matches the rule on the facts given.\n\n4. THE TRAP\nDeath from trauma is unnatural, even in a frail older person, and even if no one alleges assault. It is reportable. Omitting the fall from the certificate would conceal the reason for reporting.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nReport the death. Trauma from a fall is an unnatural death\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA violent, unnatural, or unexpected death is reportable. A fall with head injury qualifies.\n\n10. MEMORY ANCHOR\nTraumatic death is reportable.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Report the fall. Do not certify it as frailty.",
+      "best_treatment": "Report the death. Trauma from a fall is an unnatural death",
+      "incorrect_answer_explanations": {
+        "A": "Accept the GP certificate. Frailty explains the fall Frailty does not turn trauma into a natural death.",
+        "B": "Certify subdural haematoma without mentioning the fall That conceals the injury.",
+        "C": "Report only if the family allege assault Allegation is not required.",
+        "E": "Ask the funeral director which option is faster Speed of the funeral is irrelevant."
+      },
+      "key_takeaways": [
+        "Traumatic death is reportable.",
+        "No allegation of assault is required."
+      ],
+      "subtopic": "A violent, unnatural, or unexpected death is reportable. A fall with head injury qualifies.",
+      "clinical_vignette": true,
+      "id": "f2dd3df5-b3e8-5607-9b65-e66fcb0d3bf3",
+      "zyntra_id": "ZQ-0529",
+      "phase": "PH-06",
+      "phase_item_id": "PH-M-04",
+      "lo_id": "41543afd-06ca-5f2f-8cfa-6df284e39646",
+      "lo_code": "REPORTABLE_DEATH"
+    },
+    {
+      "question_text": "A 60-year-old man dies of confirmed invasive meningococcal disease 12 hours after admission. The public-health unit was notified on arrival. The registrar asks whether the death also needs a coroner, given that the organism is known. A notifiable disease is reported to the public-health unit. A coroner referral is a different duty. Consider reporting. One notification does not cancel the other. What is the most appropriate advice?  Public-health notification and coronial reporting are separate. Death does not cancel the public-health duty. Do not assume one replaces the other.  The duty is yours on the facts given. A family wish or a faster funeral does not change it.  Report or refuse as the rule requires. Do not invent a cause or a clearance.  Nothing else in the file creates an exception. Apply the reporting or disclosure rule as it stands.  A colleague's suggestion to certify, sign, or release does not override that rule.  Decide on the facts given and the duty they create. Do that. Now. Clearly. Today.",
+      "options": [
+        "No coroner. Notification to public health covers the death",
+        "The coroner is involved only if the family ask",
+        "Cancel the public-health notification now that he has died",
+        "Write the certificate to the organism and nothing else is required in any state",
+        "Consider reporting. A death from a notifiable disease can still be reportable to the coroner"
+      ],
+      "correct_answer": "E",
+      "category": "Population Health & Ethics",
+      "difficulty": "difficult",
+      "explanation": "CORRECT ANSWER\n\nE. Consider reporting. A death from a notifiable disease can still be reportable to the coroner\n\n---\n\n1. CLINICAL DIAGNOSIS\nPublic health and the coroner are separate. Do not assume one replaces the other.\n\n2. THE RULE\nPublic-health notification and coroner reporting are separate duties\n\n3. WHY THIS OPTION\nE matches the rule on the facts given.\n\n4. THE TRAP\nPublic-health notification and coronial reporting are separate duties. Meningococcal disease is urgently notifiable. Death from it may also be reportable to the coroner, depending on the jurisdiction and whether the death is unexpected or the cause needs investigation. One notification does not cancel the other.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nConsider reporting. A death from a notifiable disease can still be reportable to the coroner\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA notifiable disease is reported to the public-health unit. A coroner referral is a different duty.\n\n10. MEMORY ANCHOR\nNotification and coronial reporting are different duties.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Public health and the coroner are separate. Do not assume one replaces the other.",
+      "best_treatment": "Consider reporting. A death from a notifiable disease can still be reportable to the coroner",
+      "incorrect_answer_explanations": {
+        "A": "No coroner. Notification to public health covers the death They are different pathways.",
+        "B": "The coroner is involved only if the family ask Family request is not the test.",
+        "C": "Cancel the public-health notification now that he has died Death does not cancel the public-health duty.",
+        "D": "Write the certificate to the organism and nothing else is required in any state Jurisdictions differ, and a certificate is not a substitute for a reportable-death duty."
+      },
+      "key_takeaways": [
+        "Notification and coronial reporting are different duties.",
+        "Death does not cancel a public-health notification."
+      ],
+      "subtopic": "A notifiable disease is reported to the public-health unit. A coroner referral is a different duty.",
+      "clinical_vignette": true,
+      "id": "4d4b54c2-7dab-5923-8d56-26993c7d3bf4",
+      "zyntra_id": "ZQ-0530",
+      "phase": "PH-06",
+      "phase_item_id": "PH-M-05",
+      "lo_id": "da7cc332-1706-5874-8a1c-94851d17fff9",
+      "lo_code": "NOTIFIABLE_VS_CORONER"
+    },
+    {
+      "question_text": "A 45-year-old with acute lumbar pain after lifting at work asks you to write that the injury is permanent and that his employer was negligent, so his claim is stronger. Examination shows a simple mechanical strain. A workers' compensation certificate states facts and capacity. It is not a letter of advocacy. Record the history, findings, and current capacity. Do not assert negligence or permanence. What is the most appropriate certificate?  Day-one strain is not permanent impairment. Negligence is a legal conclusion, not a clinical finding. Write what you find and what he can do now.  The duty is yours on the facts given. A family wish or a faster funeral does not change it.  Report or refuse as the rule requires. Do not invent a cause or a clearance.  Nothing else in the file creates an exception. Apply the reporting or disclosure rule as it stands.  A colleague's suggestion to certify, sign, or release does not override that rule.  Decide on the facts given and the duty they create. Do that. Now. Clearly. Today.",
+      "options": [
+        "Record the history, findings, and current capacity. Do not assert negligence or permanence",
+        "State negligence and permanent impairment, because he asked",
+        "Refuse any certificate about a work injury",
+        "Copy his words onto the form and sign",
+        "Write that he can do full duties, to avoid a dispute"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. Record the history, findings, and current capacity. Do not assert negligence or permanence\n\n---\n\n1. CLINICAL DIAGNOSIS\nWrite findings and capacity. Do not write negligence.\n\n2. THE RULE\nCertificates state facts and capacity, not advocacy or permanence\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nA work certificate reports what you find and what he can do now. Negligence is a legal conclusion. Permanence is not established on day one of a strain. Signing his words as yours is not a medical opinion.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nRecord the history, findings, and current capacity. Do not assert negligence or permanence\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA workers' compensation certificate states facts and capacity. It is not a letter of advocacy.\n\n10. MEMORY ANCHOR\nA work certificate is factual.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Write findings and capacity. Do not write negligence.",
+      "best_treatment": "Record the history, findings, and current capacity. Do not assert negligence or permanence",
+      "incorrect_answer_explanations": {
+        "B": "State negligence and permanent impairment, because he asked His request does not make it your finding.",
+        "C": "Refuse any certificate about a work injury A factual capacity certificate is appropriate.",
+        "D": "Copy his words onto the form and sign That is not your opinion.",
+        "E": "Write that he can do full duties, to avoid a dispute Minimising is as wrong as exaggerating."
+      },
+      "key_takeaways": [
+        "A work certificate is factual.",
+        "Negligence is not a clinical finding."
+      ],
+      "subtopic": "A workers' compensation certificate states facts and capacity. It is not a letter of advocacy.",
+      "clinical_vignette": true,
+      "id": "e6a8e8f9-ad8d-5ef9-8cd6-5eef231b72c6",
+      "zyntra_id": "ZQ-0531",
+      "phase": "PH-06",
+      "phase_item_id": "PH-M-06",
+      "lo_id": "26b83f06-ed46-503a-8c58-eaa03b60ab8c",
+      "lo_code": "CERTIFICATE_FACTS"
+    },
+    {
+      "question_text": "A solicitor phones and asks for a full report on your patient for a personal-injury claim. The patient has not mentioned a claim and has not signed an authority. A medical report for a solicitor is released only with the patient's authority, or a lawful demand. Decline until you have the patient's written authority, unless a lawful compulsion exists. What is the most appropriate response?  A phone call is not authority. Email is not authority. Partial release is still release. Get written authority or a lawful demand.  The duty is yours on the facts given. A family wish or a faster funeral does not change it.  Report or refuse as the rule requires. Do not invent a cause or a clearance.  Nothing else in the file creates an exception. Apply the reporting or disclosure rule as it stands.  A colleague's suggestion to certify, sign, or release does not override that rule.  Decide on the facts given and the duty they create. Do that. Now. Clearly. Today.",
+      "options": [
+        "Send the report. A solicitor's request is authority enough",
+        "Decline until you have the patient's written authority, unless a lawful compulsion exists",
+        "Send the report but omit the mental-health history",
+        "Ask the solicitor to confirm the request by email, then send it",
+        "Give a verbal summary and follow with the file"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "easy",
+      "explanation": "CORRECT ANSWER\n\nB. Decline until you have the patient's written authority, unless a lawful compulsion exists\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not send it. Get the patient's authority first.\n\n2. THE RULE\nReports and notes are released only with authority or lawful demand\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nA report to a third party needs the patient's consent, or a subpoena, court order, or other lawful power. A phone call from a solicitor is none of these.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nDecline until you have the patient's written authority, unless a lawful compulsion exists\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA medical report for a solicitor is released only with the patient's authority, or a lawful demand.\n\n10. MEMORY ANCHOR\nA solicitor is a third party.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not send it. Get the patient's authority first.",
+      "best_treatment": "Decline until you have the patient's written authority, unless a lawful compulsion exists",
+      "incorrect_answer_explanations": {
+        "A": "Send the report. A solicitor's request is authority enough It is not.",
+        "C": "Send the report but omit the mental-health history Partial release is still release.",
+        "D": "Ask the solicitor to confirm the request by email, then send it Email does not create authority.",
+        "E": "Give a verbal summary and follow with the file Verbal disclosure is still disclosure."
+      },
+      "key_takeaways": [
+        "A solicitor is a third party.",
+        "Authority or a lawful demand is required."
+      ],
+      "subtopic": "A medical report for a solicitor is released only with the patient's authority, or a lawful demand.",
+      "clinical_vignette": true,
+      "id": "db5a0df3-f2b5-52dc-934b-ffc0605f298a",
+      "zyntra_id": "ZQ-0532",
+      "phase": "PH-06",
+      "phase_item_id": "PH-M-07",
+      "lo_id": "e7c8ed8b-4e4f-5841-bc69-1e29b3217425",
+      "lo_code": "RELEASE_AUTHORITY"
+    },
+    {
+      "question_text": "You receive a subpoena for the original notes of a patient in a civil claim. The solicitor for the other side phones and asks you to add a sentence clarifying that the patient never mentioned back pain. A subpoena compels production. It does not compel you to rewrite the notes. Produce the notes as they are. Do not alter them. What is the most appropriate action?  Adding a sentence, even to clarify, alters the record. A rewrite is not the original. Produce what exists. Do not edit for the case.  The duty is yours on the facts given. A family wish or a faster funeral does not change it.  Report or refuse as the rule requires. Do not invent a cause or a clearance.  Nothing else in the file creates an exception. Apply the reporting or disclosure rule as it stands.  A colleague's suggestion to certify, sign, or release does not override that rule.  Decide on the facts given and the duty they create. Do that. Now. Clearly. Today.",
+      "options": [
+        "Add the sentence, then produce the notes",
+        "Refuse the subpoena because you prefer not to be involved",
+        "Produce the notes as they are. Do not alter them",
+        "Rewrite the notes neatly and send the rewrite as the original",
+        "Ask the patient which version they would like produced"
+      ],
+      "correct_answer": "C",
+      "category": "Population Health & Ethics",
+      "difficulty": "difficult",
+      "explanation": "CORRECT ANSWER\n\nC. Produce the notes as they are. Do not alter them\n\n---\n\n1. CLINICAL DIAGNOSIS\nSend the notes unchanged. Do not add the sentence.\n\n2. THE RULE\nReports and notes are released only with authority or lawful demand\n\n3. WHY THIS OPTION\nC matches the rule on the facts given.\n\n4. THE TRAP\nA subpoena requires production of the existing record. Altering the record after the event, even to 'clarify', is a false entry. Objection to a subpoena is a legal step, not a personal preference, and is not the issue here.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nProduce the notes as they are. Do not alter them\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA subpoena compels production. It does not compel you to rewrite the notes.\n\n10. MEMORY ANCHOR\nA subpoena produces the record that exists.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Send the notes unchanged. Do not add the sentence.",
+      "best_treatment": "Produce the notes as they are. Do not alter them",
+      "incorrect_answer_explanations": {
+        "A": "Add the sentence, then produce the notes That alters the record.",
+        "B": "Refuse the subpoena because you prefer not to be involved Preference is not a ground.",
+        "D": "Rewrite the notes neatly and send the rewrite as the original A rewrite is not the original.",
+        "E": "Ask the patient which version they would like produced The patient does not edit the legal production."
+      },
+      "key_takeaways": [
+        "A subpoena produces the record that exists.",
+        "Do not alter notes for a case."
+      ],
+      "subtopic": "A subpoena compels production. It does not compel you to rewrite the notes.",
+      "clinical_vignette": true,
+      "id": "7aa5831c-0fcc-556a-af99-a0a439413f17",
+      "zyntra_id": "ZQ-0533",
+      "phase": "PH-06",
+      "phase_item_id": "PH-M-08",
+      "lo_id": "e7c8ed8b-4e4f-5841-bc69-1e29b3217425",
+      "lo_code": "RELEASE_AUTHORITY"
+    },
+    {
+      "question_text": "A man with new seizures asks you to write to his employer that he is fit to keep his truck licence, and to leave out the seizures. He has had two unprovoked seizures this month. A fitness-to-drive report goes to the licensing authority, and only about fitness. Advise him of the stand-down, and report fitness to the licensing authority rather than reassure the employer. What is the most appropriate action?  Two unprovoked seizures make him unfit for a truck now. The employer is not the licensing authority. Do not write a false fitness letter. Notify the right body.  The duty is yours on the facts given. A family wish or a faster funeral does not change it.  Report or refuse as the rule requires. Do not invent a cause or a clearance.  Nothing else in the file creates an exception. Apply the reporting or disclosure rule as it stands.  A colleague's suggestion to certify, sign, or release does not override that rule.  Decide on the facts given and the duty they create. Do that. Now. Clearly. Today.",
+      "options": [
+        "Write the letter he wants. Employment is his main concern",
+        "Tell the employer the full history, including unrelated depression",
+        "Confiscate the licence yourself",
+        "Advise him of the stand-down, and report fitness to the licensing authority rather than reassure the employer",
+        "Wait for the neurologist in three months before any advice"
+      ],
+      "correct_answer": "D",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nD. Advise him of the stand-down, and report fitness to the licensing authority rather than reassure the employer\n\n---\n\n1. CLINICAL DIAGNOSIS\nHe is unfit now. Do not write a reassuring letter to his employer.\n\n2. THE RULE\nFitness-to-drive reports go to the licensing authority\n\n3. WHY THIS OPTION\nD matches the rule on the facts given.\n\n4. THE TRAP\nTwo unprovoked seizures make him unfit to drive a truck now. The report, if needed, goes to the licensing authority and is limited to fitness. A reassuring letter to the employer would be false. You do not seize the licence.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nAdvise him of the stand-down, and report fitness to the licensing authority rather than reassure the employer\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA fitness-to-drive report goes to the licensing authority, and only about fitness.\n\n10. MEMORY ANCHOR\nFitness advice follows the seizure standard.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "He is unfit now. Do not write a reassuring letter to his employer.",
+      "best_treatment": "Advise him of the stand-down, and report fitness to the licensing authority rather than reassure the employer",
+      "incorrect_answer_explanations": {
+        "A": "Write the letter he wants. Employment is his main concern A false fitness letter is not justified by his job.",
+        "B": "Tell the employer the full history, including unrelated depression The employer is not the licensing body, and the disclosure would be excessive.",
+        "C": "Confiscate the licence yourself A clinician does not seize a licence.",
+        "E": "Wait for the neurologist in three months before any advice The stand-down starts with the seizures, not with the clinic date."
+      },
+      "key_takeaways": [
+        "Fitness advice follows the seizure standard.",
+        "The licensing authority, not the employer, is the reporting body."
+      ],
+      "subtopic": "A fitness-to-drive report goes to the licensing authority, and only about fitness.",
+      "clinical_vignette": true,
+      "id": "5f6bfba3-be6f-5ba0-beb2-20c673fd0775",
+      "zyntra_id": "ZQ-0534",
+      "phase": "PH-06",
+      "phase_item_id": "PH-M-09",
+      "lo_id": "f3c1d3e2-5e86-5ef5-8fdd-dfe63c04a9fa",
+      "lo_code": "FITNESS_TO_DRIVE"
+    },
+    {
+      "question_text": "Police bring a conscious man from a crash and ask you to take blood for alcohol because we always do. He refuses. There is no statute invoked and no warrant. A police request for a blood alcohol sample needs lawful authority. A verbal ask is not enough. Do not take the sample. Refusal stands unless a lawful power is engaged. What is the most appropriate response?  He has refused. No power has been engaged. A crash is not automatic authority. Do not take the blood. Do not relabel it as clinical.  The duty is yours on the facts given. A family wish or a faster funeral does not change it.  Report or refuse as the rule requires. Do not invent a cause or a clearance.  Nothing else in the file creates an exception. Apply the reporting or disclosure rule as it stands.  A colleague's suggestion to certify, sign, or release does not override that rule.  Decide on the facts given and the duty they create. Do that. Now. Clearly. Today.",
+      "options": [
+        "Take the blood. A crash creates automatic authority",
+        "Take it but label it 'clinical' so it can still be used in court",
+        "Ask a nurse to take it so the request is not yours",
+        "Take it if the passenger consents",
+        "Do not take the sample. Refusal stands unless a lawful power is engaged"
+      ],
+      "correct_answer": "E",
+      "category": "Population Health & Ethics",
+      "difficulty": "easy",
+      "explanation": "CORRECT ANSWER\n\nE. Do not take the sample. Refusal stands unless a lawful power is engaged\n\n---\n\n1. CLINICAL DIAGNOSIS\nHe has refused and no power has been engaged. Do not take the blood.\n\n2. THE RULE\nA police blood sample needs lawful authority\n\n3. WHY THIS OPTION\nE matches the rule on the facts given.\n\n4. THE TRAP\nForensic sampling needs a lawful basis. A routine police request is not one. Relabelling a non-consented sample as clinical does not repair the lack of authority. A passenger cannot consent for him.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nDo not take the sample. Refusal stands unless a lawful power is engaged\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA police request for a blood alcohol sample needs lawful authority. A verbal ask is not enough.\n\n10. MEMORY ANCHOR\nForensic blood needs lawful authority.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "He has refused and no power has been engaged. Do not take the blood.",
+      "best_treatment": "Do not take the sample. Refusal stands unless a lawful power is engaged",
+      "incorrect_answer_explanations": {
+        "A": "Take the blood. A crash creates automatic authority It does not.",
+        "B": "Take it but label it 'clinical' so it can still be used in court Mislabeling is a further wrong.",
+        "C": "Ask a nurse to take it so the request is not yours Delegating does not create authority.",
+        "D": "Take it if the passenger consents A passenger cannot consent to his blood."
+      },
+      "key_takeaways": [
+        "Forensic blood needs lawful authority.",
+        "A crash is not that authority by itself."
+      ],
+      "subtopic": "A police request for a blood alcohol sample needs lawful authority. A verbal ask is not enough.",
+      "clinical_vignette": true,
+      "id": "fd2a924a-97c4-5ecd-931f-5229555b21fc",
+      "zyntra_id": "ZQ-0535",
+      "phase": "PH-06",
+      "phase_item_id": "PH-M-10",
+      "lo_id": "ba7e1e79-0288-5df4-bbca-fc068fcf66d6",
+      "lo_code": "LAWFUL_SAMPLE"
+    },
+    {
+      "question_text": "A 6-year-old has a spiral fracture of the humerus. The history changes twice. You are concerned about inflicted injury. The mother says she will sue if you report. A child-protection report is a statutory duty. It is not defamation if made in good faith. Make the report. A threat of suit does not delay it. What is the most appropriate action?  Suspected inflicted injury is reported. A threat of litigation does not delay a mandatory report. Good-faith reports are protected. Report.  The duty is yours on the facts given. A family wish or a faster funeral does not change it.  Report or refuse as the rule requires. Do not invent a cause or a clearance.  Nothing else in the file creates an exception. Apply the reporting or disclosure rule as it stands.  A colleague's suggestion to certify, sign, or release does not override that rule.  Decide on the facts given and the duty they create. Do that. Now. Clearly. Today.",
+      "options": [
+        "Make the report. A good-faith mandatory report is protected",
+        "Do not report. A threat of suit is a reason to wait",
+        "Report only after the orthopaedic surgeon agrees in writing",
+        "Ask the mother to sign a waiver before you report",
+        "Document the concern and leave reporting to the school"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. Make the report. A good-faith mandatory report is protected\n\n---\n\n1. CLINICAL DIAGNOSIS\nReport. Her threat of a lawsuit does not stop the duty.\n\n2. THE RULE\nChild-protection report is a statutory duty\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nSuspected inflicted injury is reported. A threat of litigation does not delay a mandatory report. Good-faith reports to the proper authority are protected from suit.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nMake the report. A good-faith mandatory report is protected\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA child-protection report is a statutory duty. It is not defamation if made in good faith.\n\n10. MEMORY ANCHOR\nMandatory reporting is not delayed by a threat of suit.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Report. Her threat of a lawsuit does not stop the duty.",
+      "best_treatment": "Make the report. A good-faith mandatory report is protected",
+      "incorrect_answer_explanations": {
+        "B": "Do not report. A threat of suit is a reason to wait The threat is not a reason.",
+        "C": "Report only after the orthopaedic surgeon agrees in writing The duty is yours and is not conditional on a colleague's signature.",
+        "D": "Ask the mother to sign a waiver before you report There is no waiver of a mandatory duty.",
+        "E": "Document the concern and leave reporting to the school Documentation without a report leaves the child unprotected."
+      },
+      "key_takeaways": [
+        "Mandatory reporting is not delayed by a threat of suit.",
+        "A good-faith report is protected."
+      ],
+      "subtopic": "A child-protection report is a statutory duty. It is not defamation if made in good faith.",
+      "clinical_vignette": true,
+      "id": "d2a546c4-8f54-585b-b41a-8bc241db21e7",
+      "zyntra_id": "ZQ-0536",
+      "phase": "PH-06",
+      "phase_item_id": "PH-M-11",
+      "lo_id": "48d269de-7193-5768-95ae-648c45065906",
+      "lo_code": "CHILD_PROTECTION_REPORT"
+    },
+    {
+      "question_text": "You are doing a pre-employment medical for a warehouse job. The worker discloses well-controlled HIV, unrelated to the lifting task. The employer form asks only about musculoskeletal capacity. A statutory health insurer or employer medical is still bound by the questions asked. Do not volunteer unrelated diagnoses. Report on the questions asked. Do not disclose HIV. What is the most appropriate report?  The form asks about lifting. HIV is unrelated. Do not volunteer it. Do not mark him unfit without a reason. Answer what was asked.  The duty is yours on the facts given. A family wish or a faster funeral does not change it.  Report or refuse as the rule requires. Do not invent a cause or a clearance.  Nothing else in the file creates an exception. Apply the reporting or disclosure rule as it stands.  A colleague's suggestion to certify, sign, or release does not override that rule.  Decide on the facts given and the duty they create. Do that. Now. Clearly. Today.",
+      "options": [
+        "Tell the employer the HIV diagnosis. They have a right to know",
+        "Report on the questions asked. Do not disclose HIV",
+        "Refuse to complete any pre-employment form",
+        "Write 'medically unfit' without a reason",
+        "Phone the worker's partner to check adherence before you report"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "difficult",
+      "explanation": "CORRECT ANSWER\n\nB. Report on the questions asked. Do not disclose HIV\n\n---\n\n1. CLINICAL DIAGNOSIS\nAnswer the lifting questions. Leave HIV off the form.\n\n2. THE RULE\nCertificates state facts and capacity, not advocacy or permanence\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nA third-party report answers the questions that were asked and consented to. Unrelated HIV is not relevant to a lifting assessment and is not volunteered.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nReport on the questions asked. Do not disclose HIV\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA statutory health insurer or employer medical is still bound by the questions asked. Do not volunteer unrelated diagnoses.\n\n10. MEMORY ANCHOR\nA third-party report answers what was asked.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Answer the lifting questions. Leave HIV off the form.",
+      "best_treatment": "Report on the questions asked. Do not disclose HIV",
+      "incorrect_answer_explanations": {
+        "A": "Tell the employer the HIV diagnosis. They have a right to know They do not, on this form.",
+        "C": "Refuse to complete any pre-employment form The relevant assessment can be completed.",
+        "D": "Write 'medically unfit' without a reason That is neither factual nor fair.",
+        "E": "Phone the worker's partner to check adherence before you report The partner is not part of this assessment."
+      },
+      "key_takeaways": [
+        "A third-party report answers what was asked.",
+        "Unrelated diagnoses are not volunteered."
+      ],
+      "subtopic": "A statutory health insurer or employer medical is still bound by the questions asked. Do not volunteer unrelated diagnoses.",
+      "clinical_vignette": true,
+      "id": "6ccbae49-5c14-5663-8a6e-d30d7f3a63ba",
+      "zyntra_id": "ZQ-0537",
+      "phase": "PH-06",
+      "phase_item_id": "PH-M-12",
+      "lo_id": "26b83f06-ed46-503a-8c58-eaa03b60ab8c",
+      "lo_code": "CERTIFICATE_FACTS"
+    },
+    {
+      "question_text": "A colleague asks you to sign a cremation form for a patient you never met, who died the day after a cholecystectomy. He says the surgeon is away and the family are waiting. A cremation certificate asks whether there is a reason to suspect an unnatural death. It is not a rubber stamp. Do not sign. You have no basis, and the perioperative death may be reportable. What is the most appropriate response?  You never met him. He died after an operation. That is a reason not to sign, not a reason to add not known to me and sign anyway. Decline.  The duty is yours on the facts given. A family wish or a faster funeral does not change it.  Report or refuse as the rule requires. Do not invent a cause or a clearance.  Nothing else in the file creates an exception. Apply the reporting or disclosure rule as it stands.  A colleague's suggestion to certify, sign, or release does not override that rule.  Decide on the facts given and the duty they create. Do that. Now. Clearly. Today.",
+      "options": [
+        "Sign. Cremation forms are administrative",
+        "Sign if the nurse confirms the identity",
+        "Do not sign. You have no basis, and the perioperative death may be reportable",
+        "Sign and add 'not known to me'",
+        "Ask the funeral director to witness that the death was natural"
+      ],
+      "correct_answer": "C",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nC. Do not sign. You have no basis, and the perioperative death may be reportable\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not sign. You do not know this death, and it may be reportable.\n\n2. THE RULE\nDo not sign a cremation form without basis\n\n3. WHY THIS OPTION\nC matches the rule on the facts given.\n\n4. THE TRAP\nA cremation certificate requires you to be satisfied there is no reason to suspect an unnatural or reportable death. A patient you never met, dead after an operation, is the opposite of that. Signing to help the family is not a basis.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nDo not sign. You have no basis, and the perioperative death may be reportable\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA cremation certificate asks whether there is a reason to suspect an unnatural death. It is not a rubber stamp.\n\n10. MEMORY ANCHOR\nA cremation form is a clinical judgment.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not sign. You do not know this death, and it may be reportable.",
+      "best_treatment": "Do not sign. You have no basis, and the perioperative death may be reportable",
+      "incorrect_answer_explanations": {
+        "A": "Sign. Cremation forms are administrative They are a safeguard, not a stamp.",
+        "B": "Sign if the nurse confirms the identity Identity is not cause.",
+        "D": "Sign and add 'not known to me' That sentence is a reason not to sign, not a repair.",
+        "E": "Ask the funeral director to witness that the death was natural A funeral director does not certify the cause."
+      },
+      "key_takeaways": [
+        "A cremation form is a clinical judgment.",
+        "Do not sign a death you cannot account for."
+      ],
+      "subtopic": "A cremation certificate asks whether there is a reason to suspect an unnatural death. It is not a rubber stamp.",
+      "clinical_vignette": true,
+      "id": "4aad9937-88aa-5a5b-88d4-d40b1736b9c4",
+      "zyntra_id": "ZQ-0538",
+      "phase": "PH-06",
+      "phase_item_id": "PH-M-13",
+      "lo_id": "adf8d293-1247-5397-963e-13c1f6756ac0",
+      "lo_code": "CREMATION_FORM"
+    },
+    {
+      "question_text": "Police ask you for a statement about a man you treated for a scalp laceration. They want you to write that he was the aggressor. You saw a laceration and smell of alcohol. You did not see the fight. A police statement reports what you saw and did. It does not speculate on guilt. Describe the wound, the alcohol smell, and what he told you. Do not assign guilt. What is the most appropriate statement?  You did not see the fight. Alcohol is not proof of guilt. Describe findings and quoted history. Do not adopt the police theory.  The duty is yours on the facts given. A family wish or a faster funeral does not change it.  Report or refuse as the rule requires. Do not invent a cause or a clearance.  Nothing else in the file creates an exception. Apply the reporting or disclosure rule as it stands.  A colleague's suggestion to certify, sign, or release does not override that rule.  Decide on the facts given and the duty they create. Do that. Now. Clearly. Today.",
+      "options": [
+        "Write that he was the aggressor, because police say so",
+        "Refuse any statement, even with his consent or a lawful request",
+        "Send his whole record, including an old psychiatric admission",
+        "Describe the wound, the alcohol smell, and what he told you. Do not assign guilt",
+        "State that alcohol proves he started the fight"
+      ],
+      "correct_answer": "D",
+      "category": "Population Health & Ethics",
+      "difficulty": "easy",
+      "explanation": "CORRECT ANSWER\n\nD. Describe the wound, the alcohol smell, and what he told you. Do not assign guilt\n\n---\n\n1. CLINICAL DIAGNOSIS\nDescribe what you found. Do not call him the aggressor.\n\n2. THE RULE\nA police statement reports what was seen, not guilt\n\n3. WHY THIS OPTION\nD matches the rule on the facts given.\n\n4. THE TRAP\nA statement is factual. You report findings and quoted history. You do not adopt the police theory, and you do not send unrelated records.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nDescribe the wound, the alcohol smell, and what he told you. Do not assign guilt\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA police statement reports what you saw and did. It does not speculate on guilt.\n\n10. MEMORY ANCHOR\nA statement is what you observed.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Describe what you found. Do not call him the aggressor.",
+      "best_treatment": "Describe the wound, the alcohol smell, and what he told you. Do not assign guilt",
+      "incorrect_answer_explanations": {
+        "A": "Write that he was the aggressor, because police say so Their theory is not your observation.",
+        "B": "Refuse any statement, even with his consent or a lawful request A proper request can be answered factually.",
+        "C": "Send his whole record, including an old psychiatric admission Unrelated history is not part of this statement.",
+        "E": "State that alcohol proves he started the fight Intoxication is not proof of guilt."
+      },
+      "key_takeaways": [
+        "A statement is what you observed.",
+        "Guilt is not a clinical finding."
+      ],
+      "subtopic": "A police statement reports what you saw and did. It does not speculate on guilt.",
+      "clinical_vignette": true,
+      "id": "7a885a48-a362-5629-8a62-11ca77e46e8b",
+      "zyntra_id": "ZQ-0539",
+      "phase": "PH-06",
+      "phase_item_id": "PH-M-14",
+      "lo_id": "f6996f9e-429e-539d-9b9c-8d643cf7f821",
+      "lo_code": "POLICE_STATEMENT"
+    },
+    {
+      "question_text": "A 4-year-old with known epilepsy is found dead in bed. The parents say it must be the epilepsy and ask their GP to certify sudden unexpected death in epilepsy so the funeral can be arranged. A death of a child is reportable. A known chronic illness does not automatically make it natural. Report the death. Unexpected death of a child is reportable. What is the most appropriate course?  Unexpected death in bed of a child is reportable even with known epilepsy. SUDEP is a conclusion for the coroner, not a certificate to speed a funeral. Report.  The duty is yours on the facts given. A family wish or a faster funeral does not change it.  Report or refuse as the rule requires. Do not invent a cause or a clearance.  Nothing else in the file creates an exception. Apply the reporting or disclosure rule as it stands.  A colleague's suggestion to certify, sign, or release does not override that rule.  Decide on the facts given and the duty they create. Do that. Now. Clearly. Today.",
+      "options": [
+        "Certify SUDEP. The history is enough",
+        "Certify if the parents sign a statement that there was no foul play",
+        "Ask the school to confirm he seemed well, then certify",
+        "Certify epilepsy and mention the death was expected",
+        "Report the death. Unexpected death of a child is reportable"
+      ],
+      "correct_answer": "E",
+      "category": "Population Health & Ethics",
+      "difficulty": "difficult",
+      "explanation": "CORRECT ANSWER\n\nE. Report the death. Unexpected death of a child is reportable\n\n---\n\n1. CLINICAL DIAGNOSIS\nReport the child's unexpected death. Do not certify it for the funeral.\n\n2. THE RULE\nReportable deaths include perioperative, custody, trauma, and unknown\n\n3. WHY THIS OPTION\nE matches the rule on the facts given.\n\n4. THE TRAP\nUnexpected death of a child is reportable even when a chronic illness could explain it. SUDEP is a conclusion for the coroner, not a certificate written to speed a funeral.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nReport the death. Unexpected death of a child is reportable\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA death of a child is reportable. A known chronic illness does not automatically make it natural.\n\n10. MEMORY ANCHOR\nUnexpected child death is reportable.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Report the child's unexpected death. Do not certify it for the funeral.",
+      "best_treatment": "Report the death. Unexpected death of a child is reportable",
+      "incorrect_answer_explanations": {
+        "A": "Certify SUDEP. The history is enough The history does not let you bypass reporting.",
+        "B": "Certify if the parents sign a statement that there was no foul play A family statement is not a medical basis.",
+        "C": "Ask the school to confirm he seemed well, then certify School reassurance does not replace reporting.",
+        "D": "Certify epilepsy and mention the death was expected An unexpected death in bed is not an expected death."
+      },
+      "key_takeaways": [
+        "Unexpected child death is reportable.",
+        "A known illness does not remove that duty."
+      ],
+      "subtopic": "A death of a child is reportable. A known chronic illness does not automatically make it natural.",
+      "clinical_vignette": true,
+      "id": "488f5096-890e-57d9-ae1c-65e62354c5a7",
+      "zyntra_id": "ZQ-0540",
+      "phase": "PH-06",
+      "phase_item_id": "PH-M-15",
+      "lo_id": "41543afd-06ca-5f2f-8cfa-6df284e39646",
+      "lo_code": "REPORTABLE_DEATH"
+    },
+    {
+      "question_text": "A woman with mild intermittent asthma asks you to write that she cannot walk 50 metres and cannot work, so her payment is approved. She walked from the car park without distress. A Centrelink or disability form reports function. It is not inflated to secure a payment. Record her actual function. Do not overstate limitation. What is the most appropriate form?  She walked in without distress. Writing total incapacity would be false. Advocacy does not include exaggeration. Record real function.  The duty is yours on the facts given. A family wish or a faster funeral does not change it.  Report or refuse as the rule requires. Do not invent a cause or a clearance.  Nothing else in the file creates an exception. Apply the reporting or disclosure rule as it stands.  A colleague's suggestion to certify, sign, or release does not override that rule.  Decide on the facts given and the duty they create. Do that. Now. Clearly. Today.",
+      "options": [
+        "Record her actual function. Do not overstate limitation",
+        "Use her wording. Advocacy includes exaggeration",
+        "Refuse all disability forms on principle",
+        "Write total incapacity and review in a year",
+        "Leave the function section blank and sign the back"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. Record her actual function. Do not overstate limitation\n\n---\n\n1. CLINICAL DIAGNOSIS\nWrite what she can do. Do not inflate the form.\n\n2. THE RULE\nCertificates state facts and capacity, not advocacy or permanence\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nA disability form is a medical opinion on function. Writing a limitation she does not have is a false report. Refusing all such forms is not required. A blank function section is incomplete, not neutral.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nRecord her actual function. Do not overstate limitation\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA Centrelink or disability form reports function. It is not inflated to secure a payment.\n\n10. MEMORY ANCHOR\nA disability report is factual.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Write what she can do. Do not inflate the form.",
+      "best_treatment": "Record her actual function. Do not overstate limitation",
+      "incorrect_answer_explanations": {
+        "B": "Use her wording. Advocacy includes exaggeration Advocacy does not include a false opinion.",
+        "C": "Refuse all disability forms on principle A true report is appropriate.",
+        "D": "Write total incapacity and review in a year That is the overstatement.",
+        "E": "Leave the function section blank and sign the back Signing an incomplete form is not a solution."
+      },
+      "key_takeaways": [
+        "A disability report is factual.",
+        "Advocacy does not justify exaggeration."
+      ],
+      "subtopic": "A Centrelink or disability form reports function. It is not inflated to secure a payment.",
+      "clinical_vignette": true,
+      "id": "3035a227-9f2d-5032-826a-427549af3bd3",
+      "zyntra_id": "ZQ-0541",
+      "phase": "PH-06",
+      "phase_item_id": "PH-M-16",
+      "lo_id": "26b83f06-ed46-503a-8c58-eaa03b60ab8c",
+      "lo_code": "CERTIFICATE_FACTS"
+    },
+    {
+      "question_text": "A stonemason has progressive silicosis. He is worried you will tell his boss before he is ready. A notifiable occupational disease is reported to the relevant authority. Telling the employer is not the same step. Notify the statutory health or safety authority as required, and discuss with him what is shared with the employer. What is the most appropriate reporting step?  Silicosis is notified to the statutory authority. The employer is a separate, limited disclosure. Do not start by phoning his boss. Do not post the case.  The duty is yours on the facts given. A family wish or a faster funeral does not change it.  Report or refuse as the rule requires. Do not invent a cause or a clearance.  Nothing else in the file creates an exception. Apply the reporting or disclosure rule as it stands.  A colleague's suggestion to certify, sign, or release does not override that rule.  Decide on the facts given and the duty they create. Do that. Now. Clearly. Today.",
+      "options": [
+        "Phone the employer with the diagnosis today",
+        "Notify the statutory health or safety authority as required, and discuss with him what is shared with the employer",
+        "Do not notify anyone, because he is worried",
+        "Wait until he leaves the job, then notify",
+        "Post the case, with his workplace named, in a teaching group"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "easy",
+      "explanation": "CORRECT ANSWER\n\nB. Notify the statutory health or safety authority as required, and discuss with him what is shared with the employer\n\n---\n\n1. CLINICAL DIAGNOSIS\nNotify the authority. Do not start by phoning his boss.\n\n2. THE RULE\nNotify the statutory authority for a notifiable occupational disease\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nSilicosis is a notifiable occupational disease. The notification goes to the proper authority. Disclosure to the employer is a separate, limited step and is discussed with him. Worry does not cancel the statutory notification.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nNotify the statutory health or safety authority as required, and discuss with him what is shared with the employer\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA notifiable occupational disease is reported to the relevant authority. Telling the employer is not the same step.\n\n10. MEMORY ANCHOR\nOccupational disease is notified to the statutory authority.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Notify the authority. Do not start by phoning his boss.",
+      "best_treatment": "Notify the statutory health or safety authority as required, and discuss with him what is shared with the employer",
+      "incorrect_answer_explanations": {
+        "A": "Phone the employer with the diagnosis today The employer is not the notification authority.",
+        "C": "Do not notify anyone, because he is worried Worry does not cancel the duty.",
+        "D": "Wait until he leaves the job, then notify Delay leaves other workers unrecognised.",
+        "E": "Post the case, with his workplace named, in a teaching group That identifies him and is not the pathway."
+      },
+      "key_takeaways": [
+        "Occupational disease is notified to the statutory authority.",
+        "The employer is a separate disclosure."
+      ],
+      "subtopic": "A notifiable occupational disease is reported to the relevant authority. Telling the employer is not the same step.",
+      "clinical_vignette": true,
+      "id": "b887fd21-2fe6-5dd0-876e-0845921e7729",
+      "zyntra_id": "ZQ-0542",
+      "phase": "PH-06",
+      "phase_item_id": "PH-M-17",
+      "lo_id": "b20ed6c3-066a-5cd1-8f9a-a28305483959",
+      "lo_code": "OCCUPATIONAL_NOTIFY"
+    },
+    {
+      "question_text": "A 58-year-old is found dead at home. There is no suspicious circumstance, no doctor has seen him for a year, and no clear terminal illness is known. The family ask you, the after-hours GP, to write heart attack so a coroner is avoided. A death where the cause is unknown is reportable. Found dead is not a cause. Report the death. Do not invent a myocardial infarct. What is the most appropriate action?  You do not know why he died. Common is not known. Found dead is the circumstance, not the cause. Report the unknown, unattended death.  The duty is yours on the facts given. A family wish or a faster funeral does not change it.  Report or refuse as the rule requires. Do not invent a cause or a clearance.  Nothing else in the file creates an exception. Apply the reporting or disclosure rule as it stands.  A colleague's suggestion to certify, sign, or release does not override that rule.  Decide on the facts given and the duty they create. Do that. Now. Clearly. Today.",
+      "options": [
+        "Write myocardial infarct. It is the most common cause",
+        "Write 'found dead' as the cause and sign",
+        "Report the death. The cause is unknown and he was unattended",
+        "Ask a neighbour to confirm he had chest pain, then certify",
+        "Certify if the family accept the cause"
+      ],
+      "correct_answer": "C",
+      "category": "Population Health & Ethics",
+      "difficulty": "difficult",
+      "explanation": "CORRECT ANSWER\n\nC. Report the death. The cause is unknown and he was unattended\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not guess a heart attack. Report the unknown, unattended death.\n\n2. THE RULE\nReportable deaths include perioperative, custody, trauma, and unknown\n\n3. WHY THIS OPTION\nC matches the rule on the facts given.\n\n4. THE TRAP\nYou do not know why he died. Guessing a myocardial infarct to avoid the coroner is a false certificate. An unknown cause in an unattended death is reportable.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nReport the death. The cause is unknown and he was unattended\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA death where the cause is unknown is reportable. 'Found dead' is not a cause.\n\n10. MEMORY ANCHOR\nUnknown cause is reportable.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not guess a heart attack. Report the unknown, unattended death.",
+      "best_treatment": "Report the death. The cause is unknown and he was unattended",
+      "incorrect_answer_explanations": {
+        "A": "Write myocardial infarct. It is the most common cause Common is not known.",
+        "B": "Write 'found dead' as the cause and sign Found dead is the circumstance, not the cause.",
+        "D": "Ask a neighbour to confirm he had chest pain, then certify Second-hand history does not let you certify.",
+        "E": "Certify if the family accept the cause Family acceptance is not medical knowledge."
+      },
+      "key_takeaways": [
+        "Unknown cause is reportable.",
+        "Do not invent a cause to avoid the coroner."
+      ],
+      "subtopic": "A death where the cause is unknown is reportable. 'Found dead' is not a cause.",
+      "clinical_vignette": true,
+      "id": "08ccf0c3-baed-5092-8ada-c508693a19ab",
+      "zyntra_id": "ZQ-0543",
+      "phase": "PH-06",
+      "phase_item_id": "PH-M-18",
+      "lo_id": "41543afd-06ca-5f2f-8cfa-6df284e39646",
+      "lo_code": "REPORTABLE_DEATH"
+    },
+    {
+      "question_text": "An 84-year-old with metastatic cancer dies at home. She has not seen a doctor for three months. The daughter asks for cardiac arrest on the certificate. Cardiac arrest is a mode of death. Decline and refer. You did not attend her recently. The rest of the file does not change the duty. A family wish, a faster funeral, or a colleague's suggestion does not create an exception. Report, refuse, or release as the rule requires. Do not invent a cause, a clearance, or a consent the law does not provide. Decide on the facts given. Nothing else in the consultation creates an exception. Apply the reporting or disclosure rule as it stands. A colleague's suggestion to certify, sign, or release does not override it. State the correct step clearly. Do that now.  The duty is yours on these facts. Apply it. Clearly. Today. Family pressure and clinic convenience are the usual reasons this error is made. They are not reasons to certify, sign, or release. Write what you saw, report what must be reported, and refuse what you cannot support. That is the whole task. Do not invent a cause or a clearance.",
+      "options": [
+        "Decline the certificate. Cardiac arrest is a mode, not a cause, and she was not attended recently",
+        "Write cardiac arrest so the funeral can proceed",
+        "Write old age",
+        "Invent ischaemic heart disease",
+        "Sign because the daughter asked"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. Decline the certificate. Cardiac arrest is a mode, not a cause, and she was not attended recently\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not write cardiac arrest. Refer this unattended death.\n\n2. THE RULE\nA death certificate records the disease that caused death\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nDo not invent a cause. Refer a death you cannot certify.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nDecline the certificate. Cardiac arrest is a mode, not a cause, and she was not attended recently\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA death certificate records the disease that caused death. It is not a place for speculation or a mechanism.\n\n10. MEMORY ANCHOR\nCause of death is a disease, not a mode.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not write cardiac arrest. Refer this unattended death.",
+      "best_treatment": "Decline the certificate. Cardiac arrest is a mode, not a cause, and she was not attended recently",
+      "incorrect_answer_explanations": {
+        "B": "Write cardiac arrest so the funeral can proceed is not the correct step for this presentation.",
+        "C": "Write old age is not the correct step for this presentation.",
+        "D": "Invent ischaemic heart disease is not the correct step for this presentation.",
+        "E": "Sign because the daughter asked is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Cause of death is a disease, not a mode.",
+        "An unattended death is not certified for convenience."
+      ],
+      "subtopic": "A death certificate records the disease that caused death. It is not a place for speculation or a mechanism.",
+      "clinical_vignette": true,
+      "id": "4983c4bc-5aae-57ef-8fad-2a600948076d",
+      "zyntra_id": "ZQ-0708",
+      "phase": "PH-06",
+      "phase_item_id": "PH-M-19",
+      "lo_id": "2c2702ab-a992-5be2-acaa-4d2a8b9d7174",
+      "lo_code": "DEATH_CERTIFICATE"
+    },
+    {
+      "question_text": "You have never treated her. The family want a certificate today. Convenience is irrelevant. Refer the death. The rest of the file does not change the duty. A family wish, a faster funeral, or a colleague's suggestion does not create an exception. Report, refuse, or release as the rule requires. Do not invent a cause, a clearance, or a consent the law does not provide. Decide on the facts given. Nothing else in the consultation creates an exception. Apply the reporting or disclosure rule as it stands. A colleague's suggestion to certify, sign, or release does not override it. State the correct step clearly. Do that now.  The duty is yours on these facts. Apply it. Clearly. Today. Family pressure and clinic convenience are the usual reasons this error is made. They are not reasons to certify, sign, or release. Write what you saw, report what must be reported, and refuse what you cannot support. That is the whole task. Do not invent a cause or a clearance.",
+      "options": [
+        "Old age is an acceptable cause here",
+        "Refer. You have no basis to certify",
+        "A locum can always certify a home death",
+        "Write frailty without seeing the notes",
+        "Family preference decides the cause"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nB. Refer. You have no basis to certify\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not write cardiac arrest. Refer this unattended death.\n\n2. THE RULE\nA death certificate records the disease that caused death\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nNo attendance and no known cause. Refer.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nRefer. You have no basis to certify\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA death certificate records the disease that caused death. It is not a place for speculation or a mechanism.\n\n10. MEMORY ANCHOR\nCause of death is a disease, not a mode.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not write cardiac arrest. Refer this unattended death.",
+      "best_treatment": "Refer. You have no basis to certify",
+      "incorrect_answer_explanations": {
+        "A": "Old age is an acceptable cause here is not the correct step for this presentation.",
+        "C": "A locum can always certify a home death is not the correct step for this presentation.",
+        "D": "Write frailty without seeing the notes is not the correct step for this presentation.",
+        "E": "Family preference decides the cause is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Cause of death is a disease, not a mode.",
+        "An unattended death is not certified for convenience."
+      ],
+      "subtopic": "A death certificate records the disease that caused death. It is not a place for speculation or a mechanism.",
+      "clinical_vignette": true,
+      "id": "c4bfe233-de72-5952-b470-96858bde3b87",
+      "zyntra_id": "ZQ-0709",
+      "phase": "PH-06",
+      "phase_item_id": "PH-M-20",
+      "lo_id": "2c2702ab-a992-5be2-acaa-4d2a8b9d7174",
+      "lo_code": "DEATH_CERTIFICATE"
+    },
+    {
+      "question_text": "The family want a mode of death written as the cause. A certificate records the disease. Decline a mode-only certificate. The rest of the file does not change the duty. A family wish, a faster funeral, or a colleague's suggestion does not create an exception. Report, refuse, or release as the rule requires. Do not invent a cause, a clearance, or a consent the law does not provide. Decide on the facts given. Nothing else in the consultation creates an exception. Apply the reporting or disclosure rule as it stands. A colleague's suggestion to certify, sign, or release does not override it. State the correct step clearly. Do that now.  The duty is yours on these facts. Apply it. Clearly. Today. Family pressure and clinic convenience are the usual reasons this error is made. They are not reasons to certify, sign, or release. Write what you saw, report what must be reported, and refuse what you cannot support. That is the whole task. Do not invent a cause or a clearance.",
+      "options": [
+        "Write the mode of death as the cause",
+        "A certificate records the disease that caused death, not the mode",
+        "Cardiac arrest is a disease",
+        "Respiratory arrest is a cause",
+        "Any word the family prefer is acceptable"
+      ],
+      "correct_answer": "C",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nC. Cardiac arrest is a disease\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not write cardiac arrest. Refer this unattended death.\n\n2. THE RULE\nA death certificate records the disease that caused death\n\n3. WHY THIS OPTION\nC matches the rule on the facts given.\n\n4. THE TRAP\nMode is not cause. Do not certify it.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nCardiac arrest is a disease\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA death certificate records the disease that caused death. It is not a place for speculation or a mechanism.\n\n10. MEMORY ANCHOR\nCause of death is a disease, not a mode.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not write cardiac arrest. Refer this unattended death.",
+      "best_treatment": "Cardiac arrest is a disease",
+      "incorrect_answer_explanations": {
+        "A": "Write the mode of death as the cause is not the correct step for this presentation.",
+        "B": "A certificate records the disease that caused death, not the mode is not the correct step for this presentation.",
+        "D": "Respiratory arrest is a cause is not the correct step for this presentation.",
+        "E": "Any word the family prefer is acceptable is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Cause of death is a disease, not a mode.",
+        "An unattended death is not certified for convenience."
+      ],
+      "subtopic": "A death certificate records the disease that caused death. It is not a place for speculation or a mechanism.",
+      "clinical_vignette": true,
+      "id": "555ff562-139a-5d9e-a342-fbcad826f4a9",
+      "zyntra_id": "ZQ-0710",
+      "phase": "PH-06",
+      "phase_item_id": "PH-M-21",
+      "lo_id": "2c2702ab-a992-5be2-acaa-4d2a8b9d7174",
+      "lo_code": "DEATH_CERTIFICATE"
+    },
+    {
+      "question_text": "A man dies of confirmed invasive meningococcal disease. Public health was notified on arrival. A known organism does not cancel a coroner consideration, and death does not cancel the public-health duty. The duties are separate. The rest of the file does not change the duty. A family wish, a faster funeral, or a colleague's suggestion does not create an exception. Report, refuse, or release as the rule requires. Do not invent a cause, a clearance, or a consent the law does not provide. Decide on the facts given. Nothing else in the consultation creates an exception. Apply the reporting or disclosure rule as it stands. A colleague's suggestion to certify, sign, or release does not override it. State the correct step clearly. Do that now.  The duty is yours on these facts. Apply it. Clearly. Today. Family pressure and clinic convenience are the usual reasons this error is made. They are not reasons to certify, sign, or release. Write what you saw, report what must be reported, and refuse what you cannot support. That is the whole task. Do not invent a cause or a clearance.",
+      "options": [
+        "Public-health notification and a coroner referral are separate duties",
+        "One notification cancels the other",
+        "A known organism means no coroner",
+        "Death cancels the public-health duty",
+        "Only the coroner is told"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. Public-health notification and a coroner referral are separate duties\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not write cardiac arrest. Refer this unattended death.\n\n2. THE RULE\nPublic-health notification and coroner reporting are separate duties\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nDo not assume one notification replaces the other.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nPublic-health notification and a coroner referral are separate duties\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA death certificate records the disease that caused death. It is not a place for speculation or a mechanism.\n\n10. MEMORY ANCHOR\nCause of death is a disease, not a mode.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not write cardiac arrest. Refer this unattended death.",
+      "best_treatment": "Public-health notification and a coroner referral are separate duties",
+      "incorrect_answer_explanations": {
+        "B": "One notification cancels the other is not the correct step for this presentation.",
+        "C": "A known organism means no coroner is not the correct step for this presentation.",
+        "D": "Death cancels the public-health duty is not the correct step for this presentation.",
+        "E": "Only the coroner is told is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Cause of death is a disease, not a mode.",
+        "An unattended death is not certified for convenience."
+      ],
+      "subtopic": "A death certificate records the disease that caused death. It is not a place for speculation or a mechanism.",
+      "clinical_vignette": true,
+      "id": "0d8a3ebb-9a3c-568d-a517-66e3d4139f69",
+      "zyntra_id": "ZQ-0711",
+      "phase": "PH-06",
+      "phase_item_id": "PH-M-22",
+      "lo_id": "da7cc332-1706-5874-8a1c-94851d17fff9",
+      "lo_code": "NOTIFIABLE_VS_CORONER"
+    },
+    {
+      "question_text": "He died of a notifiable disease. Finish the public-health duty. Consider coronial reporting as its own question. The rest of the file does not change the duty. A family wish, a faster funeral, or a colleague's suggestion does not create an exception. Report, refuse, or release as the rule requires. Do not invent a cause, a clearance, or a consent the law does not provide. Decide on the facts given. Nothing else in the consultation creates an exception. Apply the reporting or disclosure rule as it stands. A colleague's suggestion to certify, sign, or release does not override it. State the correct step clearly. Do that now.  The duty is yours on these facts. Apply it. Clearly. Today. Family pressure and clinic convenience are the usual reasons this error is made. They are not reasons to certify, sign, or release. Write what you saw, report what must be reported, and refuse what you cannot support. That is the whole task. Do not invent a cause or a clearance.",
+      "options": [
+        "Stop the public-health process because he died",
+        "Complete the public-health notification and consider the coroner separately",
+        "Only tell the family",
+        "A death certificate replaces both",
+        "Wait a week"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nB. Complete the public-health notification and consider the coroner separately\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not write cardiac arrest. Refer this unattended death.\n\n2. THE RULE\nPublic-health notification and coroner reporting are separate duties\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nSeparate duties. Do both considerations.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nComplete the public-health notification and consider the coroner separately\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA death certificate records the disease that caused death. It is not a place for speculation or a mechanism.\n\n10. MEMORY ANCHOR\nCause of death is a disease, not a mode.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not write cardiac arrest. Refer this unattended death.",
+      "best_treatment": "Complete the public-health notification and consider the coroner separately",
+      "incorrect_answer_explanations": {
+        "A": "Stop the public-health process because he died is not the correct step for this presentation.",
+        "C": "Only tell the family is not the correct step for this presentation.",
+        "D": "A death certificate replaces both is not the correct step for this presentation.",
+        "E": "Wait a week is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Cause of death is a disease, not a mode.",
+        "An unattended death is not certified for convenience."
+      ],
+      "subtopic": "A death certificate records the disease that caused death. It is not a place for speculation or a mechanism.",
+      "clinical_vignette": true,
+      "id": "19473252-9d98-5617-9461-8bf5b1c44f42",
+      "zyntra_id": "ZQ-0712",
+      "phase": "PH-06",
+      "phase_item_id": "PH-M-23",
+      "lo_id": "da7cc332-1706-5874-8a1c-94851d17fff9",
+      "lo_code": "NOTIFIABLE_VS_CORONER"
+    },
+    {
+      "question_text": "The registrar wants to choose one pathway. Use both duties correctly. Do not collapse them. The rest of the file does not change the duty. A family wish, a faster funeral, or a colleague's suggestion does not create an exception. Report, refuse, or release as the rule requires. Do not invent a cause, a clearance, or a consent the law does not provide. Decide on the facts given. Nothing else in the consultation creates an exception. Apply the reporting or disclosure rule as it stands. A colleague's suggestion to certify, sign, or release does not override it. State the correct step clearly. Do that now.  The duty is yours on these facts. Apply it. Clearly. Today. Family pressure and clinic convenience are the usual reasons this error is made. They are not reasons to certify, sign, or release. Write what you saw, report what must be reported, and refuse what you cannot support. That is the whole task. Do not invent a cause or a clearance.",
+      "options": [
+        "A coroner referral cancels disease notification",
+        "Notify public health and consider the coroner. One does not cancel the other",
+        "Only laboratory staff notify",
+        "Death is never notifiable",
+        "Ignore both"
+      ],
+      "correct_answer": "C",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nC. Only laboratory staff notify\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not write cardiac arrest. Refer this unattended death.\n\n2. THE RULE\nPublic-health notification and coroner reporting are separate duties\n\n3. WHY THIS OPTION\nC matches the rule on the facts given.\n\n4. THE TRAP\nNotifiable disease and coroner are different. Apply each.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nOnly laboratory staff notify\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA death certificate records the disease that caused death. It is not a place for speculation or a mechanism.\n\n10. MEMORY ANCHOR\nCause of death is a disease, not a mode.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not write cardiac arrest. Refer this unattended death.",
+      "best_treatment": "Only laboratory staff notify",
+      "incorrect_answer_explanations": {
+        "A": "A coroner referral cancels disease notification is not the correct step for this presentation.",
+        "B": "Notify public health and consider the coroner. One does not cancel the other is not the correct step for this presentation.",
+        "D": "Death is never notifiable is not the correct step for this presentation.",
+        "E": "Ignore both is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Cause of death is a disease, not a mode.",
+        "An unattended death is not certified for convenience."
+      ],
+      "subtopic": "A death certificate records the disease that caused death. It is not a place for speculation or a mechanism.",
+      "clinical_vignette": true,
+      "id": "b54cbeb1-097a-5391-ae55-da2c7d0aa7af",
+      "zyntra_id": "ZQ-0713",
+      "phase": "PH-06",
+      "phase_item_id": "PH-M-24",
+      "lo_id": "da7cc332-1706-5874-8a1c-94851d17fff9",
+      "lo_code": "NOTIFIABLE_VS_CORONER"
+    },
+    {
+      "question_text": "A man with a simple strain wants a certificate saying the injury is permanent and the employer was negligent. A workers' certificate states facts and capacity. It is not advocacy. The rest of the file does not change the duty. A family wish, a faster funeral, or a colleague's suggestion does not create an exception. Report, refuse, or release as the rule requires. Do not invent a cause, a clearance, or a consent the law does not provide. Decide on the facts given. Nothing else in the consultation creates an exception. Apply the reporting or disclosure rule as it stands. A colleague's suggestion to certify, sign, or release does not override it. State the correct step clearly. Do that now.  The duty is yours on these facts. Apply it. Clearly. Today. Family pressure and clinic convenience are the usual reasons this error is made. They are not reasons to certify, sign, or release. Write what you saw, report what must be reported, and refuse what you cannot support. That is the whole task. Do not invent a cause or a clearance.",
+      "options": [
+        "Record the history, findings, and current capacity. Do not assert negligence",
+        "Write that the employer was negligent",
+        "State the injury is permanent on day one",
+        "Omit the examination",
+        "Advocate for the largest payment"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. Record the history, findings, and current capacity. Do not assert negligence\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not write cardiac arrest. Refer this unattended death.\n\n2. THE RULE\nCertificates state facts and capacity, not advocacy or permanence\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nWrite what you find. Do not assert negligence or permanence.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nRecord the history, findings, and current capacity. Do not assert negligence\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA death certificate records the disease that caused death. It is not a place for speculation or a mechanism.\n\n10. MEMORY ANCHOR\nCause of death is a disease, not a mode.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not write cardiac arrest. Refer this unattended death.",
+      "best_treatment": "Record the history, findings, and current capacity. Do not assert negligence",
+      "incorrect_answer_explanations": {
+        "B": "Write that the employer was negligent is not the correct step for this presentation.",
+        "C": "State the injury is permanent on day one is not the correct step for this presentation.",
+        "D": "Omit the examination is not the correct step for this presentation.",
+        "E": "Advocate for the largest payment is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Cause of death is a disease, not a mode.",
+        "An unattended death is not certified for convenience."
+      ],
+      "subtopic": "A death certificate records the disease that caused death. It is not a place for speculation or a mechanism.",
+      "clinical_vignette": true,
+      "id": "80aca14b-07a0-5fa3-91b2-c213fbde4043",
+      "zyntra_id": "ZQ-0714",
+      "phase": "PH-06",
+      "phase_item_id": "PH-M-25",
+      "lo_id": "26b83f06-ed46-503a-8c58-eaa03b60ab8c",
+      "lo_code": "CERTIFICATE_FACTS"
+    },
+    {
+      "question_text": "A solicitor asks for a full report. The patient has not signed an authority. Decline until you have written authority or a lawful compulsion. The rest of the file does not change the duty. A family wish, a faster funeral, or a colleague's suggestion does not create an exception. Report, refuse, or release as the rule requires. Do not invent a cause, a clearance, or a consent the law does not provide. Decide on the facts given. Nothing else in the consultation creates an exception. Apply the reporting or disclosure rule as it stands. A colleague's suggestion to certify, sign, or release does not override it. State the correct step clearly. Do that now.  The duty is yours on these facts. Apply it. Clearly. Today. Family pressure and clinic convenience are the usual reasons this error is made. They are not reasons to certify, sign, or release. Write what you saw, report what must be reported, and refuse what you cannot support. That is the whole task. Do not invent a cause or a clearance.",
+      "options": [
+        "Decline until you have the patient's written authority, unless a lawful demand exists",
+        "Send the full report because the solicitor asked",
+        "A phone call is authority",
+        "Email is authority",
+        "Partial release needs no authority"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. Decline until you have the patient's written authority, unless a lawful demand exists\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not write cardiac arrest. Refer this unattended death.\n\n2. THE RULE\nReports and notes are released only with authority or lawful demand\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nA phone call is not authority.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nDecline until you have the patient's written authority, unless a lawful demand exists\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA death certificate records the disease that caused death. It is not a place for speculation or a mechanism.\n\n10. MEMORY ANCHOR\nCause of death is a disease, not a mode.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not write cardiac arrest. Refer this unattended death.",
+      "best_treatment": "Decline until you have the patient's written authority, unless a lawful demand exists",
+      "incorrect_answer_explanations": {
+        "B": "Send the full report because the solicitor asked is not the correct step for this presentation.",
+        "C": "A phone call is authority is not the correct step for this presentation.",
+        "D": "Email is authority is not the correct step for this presentation.",
+        "E": "Partial release needs no authority is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Cause of death is a disease, not a mode.",
+        "An unattended death is not certified for convenience."
+      ],
+      "subtopic": "A death certificate records the disease that caused death. It is not a place for speculation or a mechanism.",
+      "clinical_vignette": true,
+      "id": "8d0186d8-b544-582e-8214-b42d43169879",
+      "zyntra_id": "ZQ-0715",
+      "phase": "PH-06",
+      "phase_item_id": "PH-M-26",
+      "lo_id": "e7c8ed8b-4e4f-5841-bc69-1e29b3217425",
+      "lo_code": "RELEASE_AUTHORITY"
+    },
+    {
+      "question_text": "A subpoena arrives. The other side asks you to add a sentence. A subpoena compels production. It does not let you rewrite the notes. The rest of the file does not change the duty. A family wish, a faster funeral, or a colleague's suggestion does not create an exception. Report, refuse, or release as the rule requires. Do not invent a cause, a clearance, or a consent the law does not provide. Decide on the facts given. Nothing else in the consultation creates an exception. Apply the reporting or disclosure rule as it stands. A colleague's suggestion to certify, sign, or release does not override it. State the correct step clearly. Do that now.  The duty is yours on these facts. Apply it. Clearly. Today. Family pressure and clinic convenience are the usual reasons this error is made. They are not reasons to certify, sign, or release. Write what you saw, report what must be reported, and refuse what you cannot support. That is the whole task. Do not invent a cause or a clearance.",
+      "options": [
+        "Add a clarifying sentence and then produce the notes",
+        "Produce the notes as they are. Do not alter them",
+        "Rewrite the record for the case",
+        "Omit pages that weaken the claim",
+        "A subpoena lets you edit"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nB. Produce the notes as they are. Do not alter them\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not write cardiac arrest. Refer this unattended death.\n\n2. THE RULE\nReports and notes are released only with authority or lawful demand\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nProduce the original. Do not alter it.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nProduce the notes as they are. Do not alter them\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA death certificate records the disease that caused death. It is not a place for speculation or a mechanism.\n\n10. MEMORY ANCHOR\nCause of death is a disease, not a mode.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not write cardiac arrest. Refer this unattended death.",
+      "best_treatment": "Produce the notes as they are. Do not alter them",
+      "incorrect_answer_explanations": {
+        "A": "Add a clarifying sentence and then produce the notes is not the correct step for this presentation.",
+        "C": "Rewrite the record for the case is not the correct step for this presentation.",
+        "D": "Omit pages that weaken the claim is not the correct step for this presentation.",
+        "E": "A subpoena lets you edit is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Cause of death is a disease, not a mode.",
+        "An unattended death is not certified for convenience."
+      ],
+      "subtopic": "A death certificate records the disease that caused death. It is not a place for speculation or a mechanism.",
+      "clinical_vignette": true,
+      "id": "1f258124-0831-5f35-8470-c6e8c113fd0a",
+      "zyntra_id": "ZQ-0716",
+      "phase": "PH-06",
+      "phase_item_id": "PH-M-27",
+      "lo_id": "e7c8ed8b-4e4f-5841-bc69-1e29b3217425",
+      "lo_code": "RELEASE_AUTHORITY"
+    },
+    {
+      "question_text": "He has had two unprovoked seizures and wants a letter clearing his truck licence. Report fitness to the licensing authority. Do not write a false clearance. The rest of the file does not change the duty. A family wish, a faster funeral, or a colleague's suggestion does not create an exception. Report, refuse, or release as the rule requires. Do not invent a cause, a clearance, or a consent the law does not provide. Decide on the facts given. Nothing else in the consultation creates an exception. Apply the reporting or disclosure rule as it stands. A colleague's suggestion to certify, sign, or release does not override it. State the correct step clearly. Do that now.  The duty is yours on these facts. Apply it. Clearly. Today. Family pressure and clinic convenience are the usual reasons this error is made. They are not reasons to certify, sign, or release. Write what you saw, report what must be reported, and refuse what you cannot support. That is the whole task. Do not invent a cause or a clearance.",
+      "options": [
+        "Advise the stand-down and report fitness to the licensing authority",
+        "Write to the employer that he is fit",
+        "Leave out the seizures",
+        "The employer is the licensing authority",
+        "A promise to drive carefully is enough"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. Advise the stand-down and report fitness to the licensing authority\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not write cardiac arrest. Refer this unattended death.\n\n2. THE RULE\nFitness-to-drive reports go to the licensing authority\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nLicensing authority, not the employer. Do not clear him.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nAdvise the stand-down and report fitness to the licensing authority\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA death certificate records the disease that caused death. It is not a place for speculation or a mechanism.\n\n10. MEMORY ANCHOR\nCause of death is a disease, not a mode.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not write cardiac arrest. Refer this unattended death.",
+      "best_treatment": "Advise the stand-down and report fitness to the licensing authority",
+      "incorrect_answer_explanations": {
+        "B": "Write to the employer that he is fit is not the correct step for this presentation.",
+        "C": "Leave out the seizures is not the correct step for this presentation.",
+        "D": "The employer is the licensing authority is not the correct step for this presentation.",
+        "E": "A promise to drive carefully is enough is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Cause of death is a disease, not a mode.",
+        "An unattended death is not certified for convenience."
+      ],
+      "subtopic": "A death certificate records the disease that caused death. It is not a place for speculation or a mechanism.",
+      "clinical_vignette": true,
+      "id": "8b0eb7f6-0184-54f4-80fa-03daa7514288",
+      "zyntra_id": "ZQ-0717",
+      "phase": "PH-06",
+      "phase_item_id": "PH-M-28",
+      "lo_id": "f3c1d3e2-5e86-5ef5-8fdd-dfe63c04a9fa",
+      "lo_code": "FITNESS_TO_DRIVE"
+    },
+    {
+      "question_text": "He will not stop driving. Tell him you will notify, then notify. Do not wait for a crash. The rest of the file does not change the duty. A family wish, a faster funeral, or a colleague's suggestion does not create an exception. Report, refuse, or release as the rule requires. Do not invent a cause, a clearance, or a consent the law does not provide. Decide on the facts given. Nothing else in the consultation creates an exception. Apply the reporting or disclosure rule as it stands. A colleague's suggestion to certify, sign, or release does not override it. State the correct step clearly. Do that now.  The duty is yours on these facts. Apply it. Clearly. Today. Family pressure and clinic convenience are the usual reasons this error is made. They are not reasons to certify, sign, or release. Write what you saw, report what must be reported, and refuse what you cannot support. That is the whole task. Do not invent a cause or a clearance.",
+      "options": [
+        "Private advice replaces notification",
+        "Tell him, then notify the licensing authority",
+        "Seize the licence",
+        "Wait for a crash",
+        "Omit the diagnosis"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nB. Tell him, then notify the licensing authority\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not write cardiac arrest. Refer this unattended death.\n\n2. THE RULE\nFitness-to-drive reports go to the licensing authority\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nTell, then notify. Do not delay.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nTell him, then notify the licensing authority\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA death certificate records the disease that caused death. It is not a place for speculation or a mechanism.\n\n10. MEMORY ANCHOR\nCause of death is a disease, not a mode.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not write cardiac arrest. Refer this unattended death.",
+      "best_treatment": "Tell him, then notify the licensing authority",
+      "incorrect_answer_explanations": {
+        "A": "Private advice replaces notification is not the correct step for this presentation.",
+        "C": "Seize the licence is not the correct step for this presentation.",
+        "D": "Wait for a crash is not the correct step for this presentation.",
+        "E": "Omit the diagnosis is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Cause of death is a disease, not a mode.",
+        "An unattended death is not certified for convenience."
+      ],
+      "subtopic": "A death certificate records the disease that caused death. It is not a place for speculation or a mechanism.",
+      "clinical_vignette": true,
+      "id": "1b467c55-d867-5116-9c3f-49675d743ff9",
+      "zyntra_id": "ZQ-0718",
+      "phase": "PH-06",
+      "phase_item_id": "PH-M-29",
+      "lo_id": "f3c1d3e2-5e86-5ef5-8fdd-dfe63c04a9fa",
+      "lo_code": "FITNESS_TO_DRIVE"
+    },
+    {
+      "question_text": "School-bus driving and a refusal to stop. The licensing authority is the body. Notify. The rest of the file does not change the duty. A family wish, a faster funeral, or a colleague's suggestion does not create an exception. Report, refuse, or release as the rule requires. Do not invent a cause, a clearance, or a consent the law does not provide. Decide on the facts given. Nothing else in the consultation creates an exception. Apply the reporting or disclosure rule as it stands. A colleague's suggestion to certify, sign, or release does not override it. State the correct step clearly. Do that now.  The duty is yours on these facts. Apply it. Clearly. Today. Family pressure and clinic convenience are the usual reasons this error is made. They are not reasons to certify, sign, or release. Write what you saw, report what must be reported, and refuse what you cannot support. That is the whole task. Do not invent a cause or a clearance.",
+      "options": [
+        "A school bus and refused stand-down can be ignored",
+        "Notify the licensing authority about fitness",
+        "Only the employer is told",
+        "A family promise is enough",
+        "He can keep the route"
+      ],
+      "correct_answer": "C",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nC. Only the employer is told\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not write cardiac arrest. Refer this unattended death.\n\n2. THE RULE\nFitness-to-drive reports go to the licensing authority\n\n3. WHY THIS OPTION\nC matches the rule on the facts given.\n\n4. THE TRAP\nPublic risk. Notify the right body.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nOnly the employer is told\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA death certificate records the disease that caused death. It is not a place for speculation or a mechanism.\n\n10. MEMORY ANCHOR\nCause of death is a disease, not a mode.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not write cardiac arrest. Refer this unattended death.",
+      "best_treatment": "Only the employer is told",
+      "incorrect_answer_explanations": {
+        "A": "A school bus and refused stand-down can be ignored is not the correct step for this presentation.",
+        "B": "Notify the licensing authority about fitness is not the correct step for this presentation.",
+        "D": "A family promise is enough is not the correct step for this presentation.",
+        "E": "He can keep the route is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Cause of death is a disease, not a mode.",
+        "An unattended death is not certified for convenience."
+      ],
+      "subtopic": "A death certificate records the disease that caused death. It is not a place for speculation or a mechanism.",
+      "clinical_vignette": true,
+      "id": "bd47c649-177c-5f0e-ba04-803d49779e38",
+      "zyntra_id": "ZQ-0719",
+      "phase": "PH-06",
+      "phase_item_id": "PH-M-30",
+      "lo_id": "f3c1d3e2-5e86-5ef5-8fdd-dfe63c04a9fa",
+      "lo_code": "FITNESS_TO_DRIVE"
+    },
+    {
+      "question_text": "Police ask for blood alcohol after a crash. He refuses. No statute is invoked and no warrant is produced. Do not take the sample. The rest of the file does not change the duty. A family wish, a faster funeral, or a colleague's suggestion does not create an exception. Report, refuse, or release as the rule requires. Do not invent a cause, a clearance, or a consent the law does not provide. Decide on the facts given. Nothing else in the consultation creates an exception. Apply the reporting or disclosure rule as it stands. A colleague's suggestion to certify, sign, or release does not override it. State the correct step clearly. Do that now.  The duty is yours on these facts. Apply it. Clearly. Today. Family pressure and clinic convenience are the usual reasons this error is made. They are not reasons to certify, sign, or release. Write what you saw, report what must be reported, and refuse what you cannot support. That is the whole task. Do not invent a cause or a clearance.",
+      "options": [
+        "Do not take the sample. Refusal stands unless a lawful power is engaged",
+        "Take blood because police asked",
+        "A crash is automatic authority",
+        "Relabel a clinical sample",
+        "A verbal ask is enough"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. Do not take the sample. Refusal stands unless a lawful power is engaged\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not write cardiac arrest. Refer this unattended death.\n\n2. THE RULE\nA police blood sample needs lawful authority\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nRefusal stands without a lawful power.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nDo not take the sample. Refusal stands unless a lawful power is engaged\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA death certificate records the disease that caused death. It is not a place for speculation or a mechanism.\n\n10. MEMORY ANCHOR\nCause of death is a disease, not a mode.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not write cardiac arrest. Refer this unattended death.",
+      "best_treatment": "Do not take the sample. Refusal stands unless a lawful power is engaged",
+      "incorrect_answer_explanations": {
+        "B": "Take blood because police asked is not the correct step for this presentation.",
+        "C": "A crash is automatic authority is not the correct step for this presentation.",
+        "D": "Relabel a clinical sample is not the correct step for this presentation.",
+        "E": "A verbal ask is enough is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Cause of death is a disease, not a mode.",
+        "An unattended death is not certified for convenience."
+      ],
+      "subtopic": "A death certificate records the disease that caused death. It is not a place for speculation or a mechanism.",
+      "clinical_vignette": true,
+      "id": "97599d22-e26a-5708-9138-e43e4e9a9809",
+      "zyntra_id": "ZQ-0720",
+      "phase": "PH-06",
+      "phase_item_id": "PH-M-31",
+      "lo_id": "ba7e1e79-0288-5df4-bbca-fc068fcf66d6",
+      "lo_code": "LAWFUL_SAMPLE"
+    },
+    {
+      "question_text": "They say we always do this. Habit is not authority. No power, no sample. The rest of the file does not change the duty. A family wish, a faster funeral, or a colleague's suggestion does not create an exception. Report, refuse, or release as the rule requires. Do not invent a cause, a clearance, or a consent the law does not provide. Decide on the facts given. Nothing else in the consultation creates an exception. Apply the reporting or disclosure rule as it stands. A colleague's suggestion to certify, sign, or release does not override it. State the correct step clearly. Do that now.  The duty is yours on these facts. Apply it. Clearly. Today. Family pressure and clinic convenience are the usual reasons this error is made. They are not reasons to certify, sign, or release. Write what you saw, report what must be reported, and refuse what you cannot support. That is the whole task. Do not invent a cause or a clearance.",
+      "options": [
+        "Clinical care lets you take forensic blood without authority",
+        "A police request needs lawful authority",
+        "Any doctor can take forensic blood on request",
+        "Refusal is irrelevant",
+        "Document and take it anyway"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nB. A police request needs lawful authority\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not write cardiac arrest. Refer this unattended death.\n\n2. THE RULE\nA police blood sample needs lawful authority\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nLawful authority or no forensic sample.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nA police request needs lawful authority\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA death certificate records the disease that caused death. It is not a place for speculation or a mechanism.\n\n10. MEMORY ANCHOR\nCause of death is a disease, not a mode.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not write cardiac arrest. Refer this unattended death.",
+      "best_treatment": "A police request needs lawful authority",
+      "incorrect_answer_explanations": {
+        "A": "Clinical care lets you take forensic blood without authority is not the correct step for this presentation.",
+        "C": "Any doctor can take forensic blood on request is not the correct step for this presentation.",
+        "D": "Refusal is irrelevant is not the correct step for this presentation.",
+        "E": "Document and take it anyway is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Cause of death is a disease, not a mode.",
+        "An unattended death is not certified for convenience."
+      ],
+      "subtopic": "A death certificate records the disease that caused death. It is not a place for speculation or a mechanism.",
+      "clinical_vignette": true,
+      "id": "b7935dd3-0414-5748-9248-d07cd3b7733c",
+      "zyntra_id": "ZQ-0721",
+      "phase": "PH-06",
+      "phase_item_id": "PH-M-32",
+      "lo_id": "ba7e1e79-0288-5df4-bbca-fc068fcf66d6",
+      "lo_code": "LAWFUL_SAMPLE"
+    },
+    {
+      "question_text": "He is conscious and refuses. Do not relabel a forensic request as clinical. Decline. The rest of the file does not change the duty. A family wish, a faster funeral, or a colleague's suggestion does not create an exception. Report, refuse, or release as the rule requires. Do not invent a cause, a clearance, or a consent the law does not provide. Decide on the facts given. Nothing else in the consultation creates an exception. Apply the reporting or disclosure rule as it stands. A colleague's suggestion to certify, sign, or release does not override it. State the correct step clearly. Do that now.  The duty is yours on these facts. Apply it. Clearly. Today. Family pressure and clinic convenience are the usual reasons this error is made. They are not reasons to certify, sign, or release. Write what you saw, report what must be reported, and refuse what you cannot support. That is the whole task. Do not invent a cause or a clearance.",
+      "options": [
+        "Take it and call it a clinical test",
+        "Do not disguise a forensic sample as clinical care",
+        "The crash injures him so consent is irrelevant for alcohol",
+        "A colleague can take it if you refuse",
+        "Police consent for him"
+      ],
+      "correct_answer": "C",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nC. The crash injures him so consent is irrelevant for alcohol\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not write cardiac arrest. Refer this unattended death.\n\n2. THE RULE\nA police blood sample needs lawful authority\n\n3. WHY THIS OPTION\nC matches the rule on the facts given.\n\n4. THE TRAP\nDo not disguise the purpose.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nThe crash injures him so consent is irrelevant for alcohol\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA death certificate records the disease that caused death. It is not a place for speculation or a mechanism.\n\n10. MEMORY ANCHOR\nCause of death is a disease, not a mode.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not write cardiac arrest. Refer this unattended death.",
+      "best_treatment": "The crash injures him so consent is irrelevant for alcohol",
+      "incorrect_answer_explanations": {
+        "A": "Take it and call it a clinical test is not the correct step for this presentation.",
+        "B": "Do not disguise a forensic sample as clinical care is not the correct step for this presentation.",
+        "D": "A colleague can take it if you refuse is not the correct step for this presentation.",
+        "E": "Police consent for him is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Cause of death is a disease, not a mode.",
+        "An unattended death is not certified for convenience."
+      ],
+      "subtopic": "A death certificate records the disease that caused death. It is not a place for speculation or a mechanism.",
+      "clinical_vignette": true,
+      "id": "d7df4ee0-4256-5f14-898f-f735f9de4a33",
+      "zyntra_id": "ZQ-0722",
+      "phase": "PH-06",
+      "phase_item_id": "PH-M-33",
+      "lo_id": "ba7e1e79-0288-5df4-bbca-fc068fcf66d6",
+      "lo_code": "LAWFUL_SAMPLE"
+    },
+    {
+      "question_text": "You suspect inflicted injury. The mother threatens to sue. Make the report. Good-faith mandatory reports are protected. The rest of the file does not change the duty. A family wish, a faster funeral, or a colleague's suggestion does not create an exception. Report, refuse, or release as the rule requires. Do not invent a cause, a clearance, or a consent the law does not provide. Decide on the facts given. Nothing else in the consultation creates an exception. Apply the reporting or disclosure rule as it stands. A colleague's suggestion to certify, sign, or release does not override it. State the correct step clearly. Do that now.  The duty is yours on these facts. Apply it. Clearly. Today. Family pressure and clinic convenience are the usual reasons this error is made. They are not reasons to certify, sign, or release. Write what you saw, report what must be reported, and refuse what you cannot support. That is the whole task. Do not invent a cause or a clearance.",
+      "options": [
+        "Make the report. A threat of suit does not delay it",
+        "Wait because she will sue",
+        "Only report with the mother's consent",
+        "A lawyer must approve first",
+        "Document and do nothing"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. Make the report. A threat of suit does not delay it\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not write cardiac arrest. Refer this unattended death.\n\n2. THE RULE\nChild-protection report is a statutory duty\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nReport. Do not delay for a threat.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nMake the report. A threat of suit does not delay it\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA death certificate records the disease that caused death. It is not a place for speculation or a mechanism.\n\n10. MEMORY ANCHOR\nCause of death is a disease, not a mode.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not write cardiac arrest. Refer this unattended death.",
+      "best_treatment": "Make the report. A threat of suit does not delay it",
+      "incorrect_answer_explanations": {
+        "B": "Wait because she will sue is not the correct step for this presentation.",
+        "C": "Only report with the mother's consent is not the correct step for this presentation.",
+        "D": "A lawyer must approve first is not the correct step for this presentation.",
+        "E": "Document and do nothing is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Cause of death is a disease, not a mode.",
+        "An unattended death is not certified for convenience."
+      ],
+      "subtopic": "A death certificate records the disease that caused death. It is not a place for speculation or a mechanism.",
+      "clinical_vignette": true,
+      "id": "3e8cefbf-02cc-537d-bc00-3fe57a67790c",
+      "zyntra_id": "ZQ-0723",
+      "phase": "PH-06",
+      "phase_item_id": "PH-M-34",
+      "lo_id": "48d269de-7193-5768-95ae-648c45065906",
+      "lo_code": "CHILD_PROTECTION_REPORT"
+    },
+    {
+      "question_text": "Spiral fracture, history changes twice. Report. Do not wait for a consistent story. The rest of the file does not change the duty. A family wish, a faster funeral, or a colleague's suggestion does not create an exception. Report, refuse, or release as the rule requires. Do not invent a cause, a clearance, or a consent the law does not provide. Decide on the facts given. Nothing else in the consultation creates an exception. Apply the reporting or disclosure rule as it stands. A colleague's suggestion to certify, sign, or release does not override it. State the correct step clearly. Do that now.  The duty is yours on these facts. Apply it. Clearly. Today. Family pressure and clinic convenience are the usual reasons this error is made. They are not reasons to certify, sign, or release. Write what you saw, report what must be reported, and refuse what you cannot support. That is the whole task. Do not invent a cause or a clearance.",
+      "options": [
+        "A changing history is a reason to wait",
+        "Report the concern now",
+        "Only fractures of the skull are reported",
+        "School will report",
+        "Observe for a month"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nB. Report the concern now\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not write cardiac arrest. Refer this unattended death.\n\n2. THE RULE\nChild-protection report is a statutory duty\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nSuspicious injury. Report.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nReport the concern now\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA death certificate records the disease that caused death. It is not a place for speculation or a mechanism.\n\n10. MEMORY ANCHOR\nCause of death is a disease, not a mode.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not write cardiac arrest. Refer this unattended death.",
+      "best_treatment": "Report the concern now",
+      "incorrect_answer_explanations": {
+        "A": "A changing history is a reason to wait is not the correct step for this presentation.",
+        "C": "Only fractures of the skull are reported is not the correct step for this presentation.",
+        "D": "School will report is not the correct step for this presentation.",
+        "E": "Observe for a month is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Cause of death is a disease, not a mode.",
+        "An unattended death is not certified for convenience."
+      ],
+      "subtopic": "A death certificate records the disease that caused death. It is not a place for speculation or a mechanism.",
+      "clinical_vignette": true,
+      "id": "fbe8fbbc-9e11-55ff-93aa-1180a968428a",
+      "zyntra_id": "ZQ-0724",
+      "phase": "PH-06",
+      "phase_item_id": "PH-M-35",
+      "lo_id": "48d269de-7193-5768-95ae-648c45065906",
+      "lo_code": "CHILD_PROTECTION_REPORT"
+    },
+    {
+      "question_text": "He asks you to promise silence. There are bruises of different ages. Do not promise. Report. The rest of the file does not change the duty. A family wish, a faster funeral, or a colleague's suggestion does not create an exception. Report, refuse, or release as the rule requires. Do not invent a cause, a clearance, or a consent the law does not provide. Decide on the facts given. Nothing else in the consultation creates an exception. Apply the reporting or disclosure rule as it stands. A colleague's suggestion to certify, sign, or release does not override it. State the correct step clearly. Do that now.  The duty is yours on these facts. Apply it. Clearly. Today. Family pressure and clinic convenience are the usual reasons this error is made. They are not reasons to certify, sign, or release. Write what you saw, report what must be reported, and refuse what you cannot support. That is the whole task. Do not invent a cause or a clearance.",
+      "options": [
+        "Promise the child secrecy",
+        "Explain you cannot keep the secret, protect him, and report",
+        "Tell the alleged abuser first",
+        "A promise overrides the duty",
+        "Wait for a second beating"
+      ],
+      "correct_answer": "C",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nC. Tell the alleged abuser first\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not write cardiac arrest. Refer this unattended death.\n\n2. THE RULE\nChild-protection report is a statutory duty\n\n3. WHY THIS OPTION\nC matches the rule on the facts given.\n\n4. THE TRAP\nMandatory reporting overrides a promise of secrecy.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nTell the alleged abuser first\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA death certificate records the disease that caused death. It is not a place for speculation or a mechanism.\n\n10. MEMORY ANCHOR\nCause of death is a disease, not a mode.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not write cardiac arrest. Refer this unattended death.",
+      "best_treatment": "Tell the alleged abuser first",
+      "incorrect_answer_explanations": {
+        "A": "Promise the child secrecy is not the correct step for this presentation.",
+        "B": "Explain you cannot keep the secret, protect him, and report is not the correct step for this presentation.",
+        "D": "A promise overrides the duty is not the correct step for this presentation.",
+        "E": "Wait for a second beating is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Cause of death is a disease, not a mode.",
+        "An unattended death is not certified for convenience."
+      ],
+      "subtopic": "A death certificate records the disease that caused death. It is not a place for speculation or a mechanism.",
+      "clinical_vignette": true,
+      "id": "9481e548-5335-5776-ba65-608743c901a5",
+      "zyntra_id": "ZQ-0725",
+      "phase": "PH-06",
+      "phase_item_id": "PH-M-36",
+      "lo_id": "48d269de-7193-5768-95ae-648c45065906",
+      "lo_code": "CHILD_PROTECTION_REPORT"
+    },
+    {
+      "question_text": "You never met the patient, who died the day after a cholecystectomy. Do not sign the cremation form. A perioperative death may be reportable. The rest of the file does not change the duty. A family wish, a faster funeral, or a colleague's suggestion does not create an exception. Report, refuse, or release as the rule requires. Do not invent a cause, a clearance, or a consent the law does not provide. Decide on the facts given. Nothing else in the consultation creates an exception. Apply the reporting or disclosure rule as it stands. A colleague's suggestion to certify, sign, or release does not override it. State the correct step clearly. Do that now.  The duty is yours on these facts. Apply it. Clearly. Today. Family pressure and clinic convenience are the usual reasons this error is made. They are not reasons to certify, sign, or release. Write what you saw, report what must be reported, and refuse what you cannot support. That is the whole task. Do not invent a cause or a clearance.",
+      "options": [
+        "Do not sign. You have no basis, and the perioperative death may be reportable",
+        "Sign because the family are waiting",
+        "Write not known to me and sign",
+        "The surgeon being away is a reason to sign",
+        "Any doctor can sign"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. Do not sign. You have no basis, and the perioperative death may be reportable\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not write cardiac arrest. Refer this unattended death.\n\n2. THE RULE\nDo not sign a cremation form without basis\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nNo basis. Possible reportable death. Decline.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nDo not sign. You have no basis, and the perioperative death may be reportable\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA death certificate records the disease that caused death. It is not a place for speculation or a mechanism.\n\n10. MEMORY ANCHOR\nCause of death is a disease, not a mode.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not write cardiac arrest. Refer this unattended death.",
+      "best_treatment": "Do not sign. You have no basis, and the perioperative death may be reportable",
+      "incorrect_answer_explanations": {
+        "B": "Sign because the family are waiting is not the correct step for this presentation.",
+        "C": "Write not known to me and sign is not the correct step for this presentation.",
+        "D": "The surgeon being away is a reason to sign is not the correct step for this presentation.",
+        "E": "Any doctor can sign is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Cause of death is a disease, not a mode.",
+        "An unattended death is not certified for convenience."
+      ],
+      "subtopic": "A death certificate records the disease that caused death. It is not a place for speculation or a mechanism.",
+      "clinical_vignette": true,
+      "id": "ed08212b-762e-584b-9843-6f5586b73084",
+      "zyntra_id": "ZQ-0726",
+      "phase": "PH-06",
+      "phase_item_id": "PH-M-37",
+      "lo_id": "adf8d293-1247-5397-963e-13c1f6756ac0",
+      "lo_code": "CREMATION_FORM"
+    },
+    {
+      "question_text": "The surgeon is away. That does not create a basis for you to sign. Decline. The rest of the file does not change the duty. A family wish, a faster funeral, or a colleague's suggestion does not create an exception. Report, refuse, or release as the rule requires. Do not invent a cause, a clearance, or a consent the law does not provide. Decide on the facts given. Nothing else in the consultation creates an exception. Apply the reporting or disclosure rule as it stands. A colleague's suggestion to certify, sign, or release does not override it. State the correct step clearly. Do that now.  The duty is yours on these facts. Apply it. Clearly. Today. Family pressure and clinic convenience are the usual reasons this error is made. They are not reasons to certify, sign, or release. Write what you saw, report what must be reported, and refuse what you cannot support. That is the whole task. Do not invent a cause or a clearance.",
+      "options": [
+        "Sign to help the family",
+        "Decline. A cremation form is not a rubber stamp",
+        "Not known to me is enough",
+        "Perioperative death is always natural",
+        "Speed matters more than basis"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nB. Decline. A cremation form is not a rubber stamp\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not write cardiac arrest. Refer this unattended death.\n\n2. THE RULE\nDo not sign a cremation form without basis\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nDo not rubber-stamp a cremation form.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nDecline. A cremation form is not a rubber stamp\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA death certificate records the disease that caused death. It is not a place for speculation or a mechanism.\n\n10. MEMORY ANCHOR\nCause of death is a disease, not a mode.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not write cardiac arrest. Refer this unattended death.",
+      "best_treatment": "Decline. A cremation form is not a rubber stamp",
+      "incorrect_answer_explanations": {
+        "A": "Sign to help the family is not the correct step for this presentation.",
+        "C": "Not known to me is enough is not the correct step for this presentation.",
+        "D": "Perioperative death is always natural is not the correct step for this presentation.",
+        "E": "Speed matters more than basis is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Cause of death is a disease, not a mode.",
+        "An unattended death is not certified for convenience."
+      ],
+      "subtopic": "A death certificate records the disease that caused death. It is not a place for speculation or a mechanism.",
+      "clinical_vignette": true,
+      "id": "d94ef166-3614-52b4-be3c-ae4c62ca0bc2",
+      "zyntra_id": "ZQ-0727",
+      "phase": "PH-06",
+      "phase_item_id": "PH-M-38",
+      "lo_id": "adf8d293-1247-5397-963e-13c1f6756ac0",
+      "lo_code": "CREMATION_FORM"
+    },
+    {
+      "question_text": "Death after an operation, patient unknown to you. That is a reason not to sign. The rest of the file does not change the duty. A family wish, a faster funeral, or a colleague's suggestion does not create an exception. Report, refuse, or release as the rule requires. Do not invent a cause, a clearance, or a consent the law does not provide. Decide on the facts given. Nothing else in the consultation creates an exception. Apply the reporting or disclosure rule as it stands. A colleague's suggestion to certify, sign, or release does not override it. State the correct step clearly. Do that now.  The duty is yours on these facts. Apply it. Clearly. Today. Family pressure and clinic convenience are the usual reasons this error is made. They are not reasons to certify, sign, or release. Write what you saw, report what must be reported, and refuse what you cannot support. That is the whole task. Do not invent a cause or a clearance.",
+      "options": [
+        "Add a sentence and sign",
+        "You have not seen him and cannot certify the absence of a reason to report",
+        "Family pressure is a reason",
+        "Any hospital doctor signs",
+        "Ignore the recent operation"
+      ],
+      "correct_answer": "C",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nC. Family pressure is a reason\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not write cardiac arrest. Refer this unattended death.\n\n2. THE RULE\nDo not sign a cremation form without basis\n\n3. WHY THIS OPTION\nC matches the rule on the facts given.\n\n4. THE TRAP\nUnknown patient, recent procedure. Do not sign.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nFamily pressure is a reason\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA death certificate records the disease that caused death. It is not a place for speculation or a mechanism.\n\n10. MEMORY ANCHOR\nCause of death is a disease, not a mode.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not write cardiac arrest. Refer this unattended death.",
+      "best_treatment": "Family pressure is a reason",
+      "incorrect_answer_explanations": {
+        "A": "Add a sentence and sign is not the correct step for this presentation.",
+        "B": "You have not seen him and cannot certify the absence of a reason to report is not the correct step for this presentation.",
+        "D": "Any hospital doctor signs is not the correct step for this presentation.",
+        "E": "Ignore the recent operation is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Cause of death is a disease, not a mode.",
+        "An unattended death is not certified for convenience."
+      ],
+      "subtopic": "A death certificate records the disease that caused death. It is not a place for speculation or a mechanism.",
+      "clinical_vignette": true,
+      "id": "6d1491a4-6b62-5518-9da0-96c94868a98e",
+      "zyntra_id": "ZQ-0728",
+      "phase": "PH-06",
+      "phase_item_id": "PH-M-39",
+      "lo_id": "adf8d293-1247-5397-963e-13c1f6756ac0",
+      "lo_code": "CREMATION_FORM"
+    },
+    {
+      "question_text": "Police want you to say he was the aggressor. You saw a laceration and smelled alcohol. You did not see the fight. Describe findings. Do not assign guilt. The rest of the file does not change the duty. A family wish, a faster funeral, or a colleague's suggestion does not create an exception. Report, refuse, or release as the rule requires. Do not invent a cause, a clearance, or a consent the law does not provide. Decide on the facts given. Nothing else in the consultation creates an exception. Apply the reporting or disclosure rule as it stands. A colleague's suggestion to certify, sign, or release does not override it. State the correct step clearly. Do that now.  The duty is yours on these facts. Apply it. Clearly. Today. Family pressure and clinic convenience are the usual reasons this error is made. They are not reasons to certify, sign, or release. Write what you saw, report what must be reported, and refuse what you cannot support. That is the whole task. Do not invent a cause or a clearance.",
+      "options": [
+        "Describe the wound, the alcohol smell, and what he told you. Do not assign guilt",
+        "Write that he was the aggressor",
+        "Adopt the police theory",
+        "Omit what you saw",
+        "Speculate on the fight you did not see"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. Describe the wound, the alcohol smell, and what he told you. Do not assign guilt\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not write cardiac arrest. Refer this unattended death.\n\n2. THE RULE\nA police statement reports what was seen, not guilt\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nReport what you saw. Do not speculate on guilt.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nDescribe the wound, the alcohol smell, and what he told you. Do not assign guilt\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA death certificate records the disease that caused death. It is not a place for speculation or a mechanism.\n\n10. MEMORY ANCHOR\nCause of death is a disease, not a mode.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not write cardiac arrest. Refer this unattended death.",
+      "best_treatment": "Describe the wound, the alcohol smell, and what he told you. Do not assign guilt",
+      "incorrect_answer_explanations": {
+        "B": "Write that he was the aggressor is not the correct step for this presentation.",
+        "C": "Adopt the police theory is not the correct step for this presentation.",
+        "D": "Omit what you saw is not the correct step for this presentation.",
+        "E": "Speculate on the fight you did not see is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Cause of death is a disease, not a mode.",
+        "An unattended death is not certified for convenience."
+      ],
+      "subtopic": "A death certificate records the disease that caused death. It is not a place for speculation or a mechanism.",
+      "clinical_vignette": true,
+      "id": "36786fc8-81a1-5d49-9105-91f48f4e86dc",
+      "zyntra_id": "ZQ-0729",
+      "phase": "PH-06",
+      "phase_item_id": "PH-M-40",
+      "lo_id": "f6996f9e-429e-539d-9b9c-8d643cf7f821",
+      "lo_code": "POLICE_STATEMENT"
+    },
+    {
+      "question_text": "They ask for a conclusion. You have a smell of alcohol and a wound. State those. Do not decide the fight. The rest of the file does not change the duty. A family wish, a faster funeral, or a colleague's suggestion does not create an exception. Report, refuse, or release as the rule requires. Do not invent a cause, a clearance, or a consent the law does not provide. Decide on the facts given. Nothing else in the consultation creates an exception. Apply the reporting or disclosure rule as it stands. A colleague's suggestion to certify, sign, or release does not override it. State the correct step clearly. Do that now.  The duty is yours on these facts. Apply it. Clearly. Today. Family pressure and clinic convenience are the usual reasons this error is made. They are not reasons to certify, sign, or release. Write what you saw, report what must be reported, and refuse what you cannot support. That is the whole task. Do not invent a cause or a clearance.",
+      "options": [
+        "Alcohol proves guilt",
+        "Alcohol is a finding, not proof of who started the fight",
+        "Write the conclusion they want",
+        "A statement can include guesses",
+        "You must pick a side"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nB. Alcohol is a finding, not proof of who started the fight\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not write cardiac arrest. Refer this unattended death.\n\n2. THE RULE\nA police statement reports what was seen, not guilt\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nFindings, not a verdict.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nAlcohol is a finding, not proof of who started the fight\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA death certificate records the disease that caused death. It is not a place for speculation or a mechanism.\n\n10. MEMORY ANCHOR\nCause of death is a disease, not a mode.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not write cardiac arrest. Refer this unattended death.",
+      "best_treatment": "Alcohol is a finding, not proof of who started the fight",
+      "incorrect_answer_explanations": {
+        "A": "Alcohol proves guilt is not the correct step for this presentation.",
+        "C": "Write the conclusion they want is not the correct step for this presentation.",
+        "D": "A statement can include guesses is not the correct step for this presentation.",
+        "E": "You must pick a side is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Cause of death is a disease, not a mode.",
+        "An unattended death is not certified for convenience."
+      ],
+      "subtopic": "A death certificate records the disease that caused death. It is not a place for speculation or a mechanism.",
+      "clinical_vignette": true,
+      "id": "b30f9168-0236-535b-8cef-a81a3f4fd42f",
+      "zyntra_id": "ZQ-0730",
+      "phase": "PH-06",
+      "phase_item_id": "PH-M-41",
+      "lo_id": "f6996f9e-429e-539d-9b9c-8d643cf7f821",
+      "lo_code": "POLICE_STATEMENT"
+    },
+    {
+      "question_text": "You did not see the assault. Do not fill gaps. Examination and what he said. Stop there. The rest of the file does not change the duty. A family wish, a faster funeral, or a colleague's suggestion does not create an exception. Report, refuse, or release as the rule requires. Do not invent a cause, a clearance, or a consent the law does not provide. Decide on the facts given. Nothing else in the consultation creates an exception. Apply the reporting or disclosure rule as it stands. A colleague's suggestion to certify, sign, or release does not override it. State the correct step clearly. Do that now.  The duty is yours on these facts. Apply it. Clearly. Today. Family pressure and clinic convenience are the usual reasons this error is made. They are not reasons to certify, sign, or release. Write what you saw, report what must be reported, and refuse what you cannot support. That is the whole task. Do not invent a cause or a clearance.",
+      "options": [
+        "Fill the gaps with what probably happened",
+        "Limit the statement to examination and quoted history",
+        "The police narrative is your narrative",
+        "Omit uncertainty",
+        "Sign their draft unchanged"
+      ],
+      "correct_answer": "C",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nC. The police narrative is your narrative\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not write cardiac arrest. Refer this unattended death.\n\n2. THE RULE\nA police statement reports what was seen, not guilt\n\n3. WHY THIS OPTION\nC matches the rule on the facts given.\n\n4. THE TRAP\nNo speculation.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nThe police narrative is your narrative\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA death certificate records the disease that caused death. It is not a place for speculation or a mechanism.\n\n10. MEMORY ANCHOR\nCause of death is a disease, not a mode.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not write cardiac arrest. Refer this unattended death.",
+      "best_treatment": "The police narrative is your narrative",
+      "incorrect_answer_explanations": {
+        "A": "Fill the gaps with what probably happened is not the correct step for this presentation.",
+        "B": "Limit the statement to examination and quoted history is not the correct step for this presentation.",
+        "D": "Omit uncertainty is not the correct step for this presentation.",
+        "E": "Sign their draft unchanged is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Cause of death is a disease, not a mode.",
+        "An unattended death is not certified for convenience."
+      ],
+      "subtopic": "A death certificate records the disease that caused death. It is not a place for speculation or a mechanism.",
+      "clinical_vignette": true,
+      "id": "1ebca15e-ab63-5671-92b8-32ef84c270c2",
+      "zyntra_id": "ZQ-0731",
+      "phase": "PH-06",
+      "phase_item_id": "PH-M-42",
+      "lo_id": "f6996f9e-429e-539d-9b9c-8d643cf7f821",
+      "lo_code": "POLICE_STATEMENT"
+    },
+    {
+      "question_text": "A stonemason has silicosis and is worried you will tell his boss first. Notify the statutory authority. Employer disclosure is a separate, limited step. The rest of the file does not change the duty. A family wish, a faster funeral, or a colleague's suggestion does not create an exception. Report, refuse, or release as the rule requires. Do not invent a cause, a clearance, or a consent the law does not provide. Decide on the facts given. Nothing else in the consultation creates an exception. Apply the reporting or disclosure rule as it stands. A colleague's suggestion to certify, sign, or release does not override it. State the correct step clearly. Do that now.  The duty is yours on these facts. Apply it. Clearly. Today. Family pressure and clinic convenience are the usual reasons this error is made. They are not reasons to certify, sign, or release. Write what you saw, report what must be reported, and refuse what you cannot support. That is the whole task. Do not invent a cause or a clearance.",
+      "options": [
+        "Notify the statutory authority. Discuss what is shared with the employer",
+        "Phone his boss first",
+        "Post the case on a forum",
+        "Telling the employer is the notification",
+        "Do not notify because he is worried"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. Notify the statutory authority. Discuss what is shared with the employer\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not write cardiac arrest. Refer this unattended death.\n\n2. THE RULE\nNotify the statutory authority for a notifiable occupational disease\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nNotify the authority. Do not start with the employer.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nNotify the statutory authority. Discuss what is shared with the employer\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA death certificate records the disease that caused death. It is not a place for speculation or a mechanism.\n\n10. MEMORY ANCHOR\nCause of death is a disease, not a mode.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not write cardiac arrest. Refer this unattended death.",
+      "best_treatment": "Notify the statutory authority. Discuss what is shared with the employer",
+      "incorrect_answer_explanations": {
+        "B": "Phone his boss first is not the correct step for this presentation.",
+        "C": "Post the case on a forum is not the correct step for this presentation.",
+        "D": "Telling the employer is the notification is not the correct step for this presentation.",
+        "E": "Do not notify because he is worried is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Cause of death is a disease, not a mode.",
+        "An unattended death is not certified for convenience."
+      ],
+      "subtopic": "A death certificate records the disease that caused death. It is not a place for speculation or a mechanism.",
+      "clinical_vignette": true,
+      "id": "5a15b1ea-ed75-5bde-a9d6-1c72e0556861",
+      "zyntra_id": "ZQ-0732",
+      "phase": "PH-06",
+      "phase_item_id": "PH-M-43",
+      "lo_id": "b20ed6c3-066a-5cd1-8f9a-a28305483959",
+      "lo_code": "OCCUPATIONAL_NOTIFY"
+    },
+    {
+      "question_text": "He is not ready for his employer to know. The statutory notification still happens. Discuss the employer step separately. The rest of the file does not change the duty. A family wish, a faster funeral, or a colleague's suggestion does not create an exception. Report, refuse, or release as the rule requires. Do not invent a cause, a clearance, or a consent the law does not provide. Decide on the facts given. Nothing else in the consultation creates an exception. Apply the reporting or disclosure rule as it stands. A colleague's suggestion to certify, sign, or release does not override it. State the correct step clearly. Do that now.  The duty is yours on these facts. Apply it. Clearly. Today. Family pressure and clinic convenience are the usual reasons this error is made. They are not reasons to certify, sign, or release. Write what you saw, report what must be reported, and refuse what you cannot support. That is the whole task. Do not invent a cause or a clearance.",
+      "options": [
+        "A notifiable occupational disease is optional",
+        "Notify as required. His concern about the employer does not cancel the duty",
+        "Only the employer is told",
+        "Wait until he resigns",
+        "Ignore silicosis"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nB. Notify as required. His concern about the employer does not cancel the duty\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not write cardiac arrest. Refer this unattended death.\n\n2. THE RULE\nNotify the statutory authority for a notifiable occupational disease\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nStatutory notification stands. Handle the employer disclosure separately.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nNotify as required. His concern about the employer does not cancel the duty\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA death certificate records the disease that caused death. It is not a place for speculation or a mechanism.\n\n10. MEMORY ANCHOR\nCause of death is a disease, not a mode.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not write cardiac arrest. Refer this unattended death.",
+      "best_treatment": "Notify as required. His concern about the employer does not cancel the duty",
+      "incorrect_answer_explanations": {
+        "A": "A notifiable occupational disease is optional is not the correct step for this presentation.",
+        "C": "Only the employer is told is not the correct step for this presentation.",
+        "D": "Wait until he resigns is not the correct step for this presentation.",
+        "E": "Ignore silicosis is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "Cause of death is a disease, not a mode.",
+        "An unattended death is not certified for convenience."
+      ],
+      "subtopic": "A death certificate records the disease that caused death. It is not a place for speculation or a mechanism.",
+      "clinical_vignette": true,
+      "id": "0710c05e-82ec-5b02-89cd-4e1e1c469ff9",
+      "zyntra_id": "ZQ-0733",
+      "phase": "PH-06",
+      "phase_item_id": "PH-M-44",
+      "lo_id": "b20ed6c3-066a-5cd1-8f9a-a28305483959",
+      "lo_code": "OCCUPATIONAL_NOTIFY"
+    }
+  ]
+}

@@ -1,0 +1,1505 @@
+{
+  "phase": "PH-07",
+  "phase_name": "Professionalism and impairment",
+  "count": 44,
+  "reviewed_by": "Dr Heisenberg",
+  "status": "draft",
+  "items": [
+    {
+      "question_text": "A GP has been seeing a 32-year-old woman for depression for six months. She is improving. He asks whether he may now begin a sexual relationship with her, because the therapeutic relationship is almost over. A sexual relationship with a current or recent patient is professional misconduct. The end of the formal treating period does not make it acceptable. What is the most appropriate view?  Six months of care for depression is a current treating relationship. Almost over is not over, and recent is still prohibited. Decline the relationship.  The standard is the same whether or not anyone complains. Apply it to the facts in front of you.  A private arrangement or a past illness does not create an exception here.  Decide on the duty, not on convenience.  Nothing in the history lowers the standard. The same rule applies if the person is a friend, a colleague, or a relative.  Act on the duty now. Waiting for a complaint is not the safeguard.  That is the professional response. Do not delay it. Today. Clearly.",
+      "options": [
+        "A sexual relationship with a current or recent patient is misconduct, and transfer does not immediately cure it",
+        "A relationship is acceptable once care is transferred and she consents",
+        "It is acceptable because he is not her surgeon",
+        "It is acceptable if it is not recorded in the notes",
+        "Only a relationship with a patient under 18 is misconduct"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. A sexual relationship with a current or recent patient is misconduct, and transfer does not immediately cure it\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not start the relationship. Consent and a transfer do not make it acceptable.\n\n2. THE RULE\nA sexual relationship with a current or recent patient is misconduct\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nThe power imbalance of a treating relationship means a sexual relationship with a patient is misconduct. Ending the formal relationship yesterday does not remove that imbalance, especially after long psychological care. Consent does not cure it.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nA sexual relationship with a current or recent patient is misconduct, and transfer does not immediately cure it\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.\n\n10. MEMORY ANCHOR\nA sexual relationship with a patient is misconduct.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not start the relationship. Consent and a transfer do not make it acceptable.",
+      "best_treatment": "A sexual relationship with a current or recent patient is misconduct, and transfer does not immediately cure it",
+      "incorrect_answer_explanations": {
+        "B": "A relationship is acceptable once care is transferred and she consents Transfer and consent do not repair the boundary.",
+        "C": "It is acceptable because he is not her surgeon The rule is not limited to surgeons.",
+        "D": "It is acceptable if it is not recorded in the notes Concealment makes it worse.",
+        "E": "Only a relationship with a patient under 18 is misconduct Adult patients are protected too."
+      },
+      "key_takeaways": [
+        "A sexual relationship with a patient is misconduct.",
+        "Consent does not cure the power imbalance."
+      ],
+      "subtopic": "A sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.",
+      "clinical_vignette": true,
+      "id": "3ade829a-f00e-5ffa-9ce0-032baf197a87",
+      "zyntra_id": "ZQ-0544",
+      "phase": "PH-07",
+      "phase_item_id": "PH-P-01",
+      "lo_id": "27d9a2f0-ce57-56b5-9079-9dc28350422c",
+      "lo_code": "SEXUAL_BOUNDARY"
+    },
+    {
+      "question_text": "A colleague arrives for an operating list smelling of alcohol. He says he only had two drinks last night and is fine. He is about to anaesthetise the first patient. Impairment that risks patients is acted on at once. A mandatory notification may follow. Stop him seeing patients now, correct the risk, and consider notification. What is the most appropriate action?  Alcohol on the breath before an anaesthetic is a current risk. Two drinks last night is not a clearance. Stand him down from the list. Notification may follow.  The standard is the same whether or not anyone complains. Apply it to the facts in front of you.  A private arrangement or a past illness does not create an exception here.  Decide on the duty, not on convenience.  Nothing in the history lowers the standard. The same rule applies if the person is a friend, a colleague, or a relative.  Act on the duty now. Waiting for a complaint is not the safeguard.  That is the professional response. Do not delay it. Today. Clearly.",
+      "options": [
+        "Cover the rest of his shift and say nothing",
+        "Stop him seeing patients now, correct the risk, and make a mandatory notification",
+        "Wait until the end of the term before deciding",
+        "Tell only the other registrars in a group chat",
+        "Accept his plan to sleep if he promises not to prescribe again tonight"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "difficult",
+      "explanation": "CORRECT ANSWER\n\nB. Stop him seeing patients now, correct the risk, and make a mandatory notification\n\n---\n\n1. CLINICAL DIAGNOSIS\nStop him now and notify. Friendship does not cover intoxication at work.\n\n2. THE RULE\nImpairment that risks patients is acted on at once\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nIntoxication while practising places patients at substantial risk. That is a ground for mandatory notification. The unsafe dose must be corrected and he must stop work now. A private promise is not a safeguard.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nStop him seeing patients now, correct the risk, and make a mandatory notification\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nPractising while intoxicated is a mandatory notification. Friendship is not a reason to stay silent.\n\n10. MEMORY ANCHOR\nIntoxicated practice is mandatorily notifiable.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Stop him now and notify. Friendship does not cover intoxication at work.",
+      "best_treatment": "Stop him seeing patients now, correct the risk, and make a mandatory notification",
+      "incorrect_answer_explanations": {
+        "A": "Cover the rest of his shift and say nothing Silence leaves the next patient exposed.",
+        "C": "Wait until the end of the term before deciding The risk is tonight.",
+        "D": "Tell only the other registrars in a group chat Gossip is not notification, and it spreads his health information.",
+        "E": "Accept his plan to sleep if he promises not to prescribe again tonight A promise from an intoxicated colleague is not protection."
+      },
+      "key_takeaways": [
+        "Intoxicated practice is mandatorily notifiable.",
+        "Remove him from patient care immediately."
+      ],
+      "subtopic": "Practising while intoxicated is a mandatory notification. Friendship is not a reason to stay silent.",
+      "clinical_vignette": true,
+      "id": "8601b066-1488-5d1e-aa42-aeef138b248b",
+      "zyntra_id": "ZQ-0545",
+      "phase": "PH-07",
+      "phase_item_id": "PH-P-02",
+      "lo_id": "fa7be8c0-d22b-5207-8a04-a9de8c3c227f",
+      "lo_code": "IMPAIRMENT_RISK"
+    },
+    {
+      "question_text": "A patient offers a GP $200 in cash to write a workers' compensation certificate stating a permanent back injury, when the examination shows a minor strain. The patient says everyone does it. A certificate must be honest. Payment for a false certificate is worse. Decline the cash. Explain that payment outside the proper fee for a false document is not acceptable. What is the most appropriate response?  The examination does not support a permanent injury. Cash for a false certificate is refused. Explain why. Do not write it.  The standard is the same whether or not anyone complains. Apply it to the facts in front of you.  A private arrangement or a past illness does not create an exception here.  Decide on the duty, not on convenience.  Nothing in the history lowers the standard. The same rule applies if the person is a friend, a colleague, or a relative.  Act on the duty now. Waiting for a complaint is not the safeguard.  That is the professional response. Do not delay it. Today. Clearly.",
+      "options": [
+        "Accept. Refusing a cultural gift is disrespectful in every case",
+        "Accept and donate it later without telling anyone",
+        "Decline the cash. Explain that payment outside the hospital system is not accepted",
+        "Accept if it is less than one week's wage",
+        "Ask them to give the cash to the nurse in charge instead"
+      ],
+      "correct_answer": "C",
+      "category": "Population Health & Ethics",
+      "difficulty": "easy",
+      "explanation": "CORRECT ANSWER\n\nC. Decline the cash. Explain that payment outside the hospital system is not accepted\n\n---\n\n1. CLINICAL DIAGNOSIS\nDecline the cash. Thanks does not need an envelope.\n\n2. THE RULE\nA certificate must be honest. Payment for a false one is worse\n\n3. WHY THIS OPTION\nC matches the rule on the facts given.\n\n4. THE TRAP\nCash from a patient or family can be seen as an inducement and should be declined. Directing it to another staff member does not repair that. A small token after care is different from an envelope of money.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nDecline the cash. Explain that payment outside the hospital system is not accepted\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA gift that could influence care should be declined. A token after discharge is different.\n\n10. MEMORY ANCHOR\nCash from patients is declined.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Decline the cash. Thanks does not need an envelope.",
+      "best_treatment": "Decline the cash. Explain that payment outside the hospital system is not accepted",
+      "incorrect_answer_explanations": {
+        "A": "Accept. Refusing a cultural gift is disrespectful in every case Courtesy does not require accepting cash.",
+        "B": "Accept and donate it later without telling anyone Concealment does not make the gift proper.",
+        "D": "Accept if it is less than one week's wage There is no such threshold.",
+        "E": "Ask them to give the cash to the nurse in charge instead Redirecting the inducement is not a solution."
+      },
+      "key_takeaways": [
+        "Cash from patients is declined.",
+        "Redirecting it does not make it acceptable."
+      ],
+      "subtopic": "A gift that could influence care should be declined. A token after discharge is different.",
+      "clinical_vignette": true,
+      "id": "069e5b07-c167-5cc6-937a-6265987a71cf",
+      "zyntra_id": "ZQ-0546",
+      "phase": "PH-07",
+      "phase_item_id": "PH-P-03",
+      "lo_id": "1bf55b32-013b-50b8-b511-09ef5599acd5",
+      "lo_code": "HONEST_CERTIFICATE"
+    },
+    {
+      "question_text": "A surgeon has a progressive tremor that has caused two recent intraoperative complications. He says he will only do easy cases. An impaired practitioner who continues to treat patients is a risk. Self-limitation is not a sufficient safeguard. He must stop operating now. Impairment with patient risk requires action, not a promise to be careful. What is the most appropriate action?  Two complications and a progressive tremor. Easy cases still carry risk. He stops operating. A promise to be careful is not a safeguard.  The standard is the same whether or not anyone complains. Apply it to the facts in front of you.  A private arrangement or a past illness does not create an exception here.  Decide on the duty, not on convenience.  Nothing in the history lowers the standard. The same rule applies if the person is a friend, a colleague, or a relative.  Act on the duty now. Waiting for a complaint is not the safeguard.  That is the professional response. Do not delay it. Today. Clearly.",
+      "options": [
+        "Quiet double-checking until his retirement date",
+        "Suggest he operate only on private patients",
+        "Wait for a formal complaint from a patient",
+        "He must stop operating now. Impairment with patient harm is notified",
+        "Agree, provided he stops self-prescribing"
+      ],
+      "correct_answer": "D",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nD. He must stop operating now. Impairment with patient harm is notified\n\n---\n\n1. CLINICAL DIAGNOSIS\nHe stops now. A retirement date is not a safety plan.\n\n2. THE RULE\nImpairment that risks patients is acted on at once\n\n3. WHY THIS OPTION\nD matches the rule on the facts given.\n\n4. THE TRAP\nImpairment that has already led to missed diagnoses is a current risk. A plan to retire next year does not protect the next patient. Self-prescribing is a further concern, not a remedy.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nHe must stop operating now. Impairment with patient harm is notified\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA doctor's own illness that risks patients must be acted on. Self-prescribing is not the treatment.\n\n10. MEMORY ANCHOR\nImpairment with current harm is acted on at once.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "He stops now. A retirement date is not a safety plan.",
+      "best_treatment": "He must stop operating now. Impairment with patient harm is notified",
+      "incorrect_answer_explanations": {
+        "A": "Quiet double-checking until his retirement date An informal net is not a safeguard.",
+        "B": "Suggest he operate only on private patients Private patients are not a lesser duty.",
+        "C": "Wait for a formal complaint from a patient The risk is already evident.",
+        "E": "Agree, provided he stops self-prescribing Stopping one drug does not restore safe practice."
+      },
+      "key_takeaways": [
+        "Impairment with current harm is acted on at once.",
+        "An informal checking plan is not enough."
+      ],
+      "subtopic": "A doctor's own illness that risks patients must be acted on. Self-prescribing is not the treatment.",
+      "clinical_vignette": true,
+      "id": "32c3044f-69e1-50a2-81ec-19cef5899e3e",
+      "zyntra_id": "ZQ-0547",
+      "phase": "PH-07",
+      "phase_item_id": "PH-P-04",
+      "lo_id": "fa7be8c0-d22b-5207-8a04-a9de8c3c227f",
+      "lo_code": "IMPAIRMENT_RISK"
+    },
+    {
+      "question_text": "A doctor posts a photo of a patient's unusual rash on a closed social-media group of 400 colleagues, with the suburb and the age. He says the group is private so it is not a breach. A patient can be identified from a combination of details even in a closed group. Consent for teaching is not the same as posting. A breach. The image and detail can identify him, and consent was not obtained. What is the most appropriate view?  Closed group is not confidential. Suburb plus age plus a distinctive rash can identify. No consent. Take it down. It is a breach.  The standard is the same whether or not anyone complains. Apply it to the facts in front of you.  A private arrangement or a past illness does not create an exception here.  Decide on the duty, not on convenience.  Nothing in the history lowers the standard. The same rule applies if the person is a friend, a colleague, or a relative.  Act on the duty now. Waiting for a complaint is not the safeguard.  That is the professional response. Do not delay it. Today. Clearly.",
+      "options": [
+        "Acceptable. No name means no breach",
+        "Acceptable if the account is set to friends only",
+        "Acceptable if posted more than an hour after the event",
+        "Acceptable because teaching justifies any de-identified image",
+        "A breach. The image and detail can identify him, and there is no consent"
+      ],
+      "correct_answer": "E",
+      "category": "Population Health & Ethics",
+      "difficulty": "difficult",
+      "explanation": "CORRECT ANSWER\n\nE. A breach. The image and detail can identify him, and there is no consent\n\n---\n\n1. CLINICAL DIAGNOSIS\nTake it down. No name does not mean no identification.\n\n2. THE RULE\nA patient can be identified from posted details even in a closed group\n\n3. WHY THIS OPTION\nE matches the rule on the facts given.\n\n4. THE TRAP\nIdentification does not need a name. A distinctive tattoo plus a time and place can identify a patient. Posting it without consent is a breach, whatever the privacy setting.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nA breach. The image and detail can identify him, and there is no consent\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nSocial media posts about a case can identify a patient even without a name.\n\n10. MEMORY ANCHOR\nA case can be identified without a name.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Take it down. No name does not mean no identification.",
+      "best_treatment": "A breach. The image and detail can identify him, and there is no consent",
+      "incorrect_answer_explanations": {
+        "A": "Acceptable. No name means no breach Name is not the only identifier.",
+        "B": "Acceptable if the account is set to friends only A smaller audience is still publication.",
+        "C": "Acceptable if posted more than an hour after the event Delay does not create consent.",
+        "D": "Acceptable because teaching justifies any de-identified image This image is not de-identified, and teaching is not a blank cheque."
+      },
+      "key_takeaways": [
+        "A case can be identified without a name.",
+        "Social media is publication."
+      ],
+      "subtopic": "Social media posts about a case can identify a patient even without a name.",
+      "clinical_vignette": true,
+      "id": "33f17e96-b6ab-50e8-9823-25dfcf2fcfa9",
+      "zyntra_id": "ZQ-0548",
+      "phase": "PH-07",
+      "phase_item_id": "PH-P-05",
+      "lo_id": "0a12d5a9-40da-5124-a864-2d04f062b867",
+      "lo_code": "PRIVACY_SOCIAL"
+    },
+    {
+      "question_text": "A male doctor is about to perform a pelvic examination. The female patient looks uncomfortable and asks if a nurse can be present. He says he is in a hurry and the examination will only take a minute. A chaperone is offered, and a patient's request for one is respected. Stop. Offer to wait for the nurse or to rebook with a chaperone. What is the most appropriate action?  She asked for a nurse. Hurry is not a reason to proceed. Wait or rebook. Do not examine without the chaperone she requested.  The standard is the same whether or not anyone complains. Apply it to the facts in front of you.  A private arrangement or a past illness does not create an exception here.  Decide on the duty, not on convenience.  Nothing in the history lowers the standard. The same rule applies if the person is a friend, a colleague, or a relative.  Act on the duty now. Waiting for a complaint is not the safeguard.  That is the professional response. Do not delay it. Today. Clearly.",
+      "options": [
+        "Stop. Offer to wait for the nurse or to rebook with a chaperone",
+        "Proceed. A short examination does not need a chaperone",
+        "Proceed if he leaves the door open",
+        "Ask her husband to wait outside and then proceed",
+        "Proceed and document that a chaperone was offered"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. Stop. Offer to wait for the nurse or to rebook with a chaperone\n\n---\n\n1. CLINICAL DIAGNOSIS\nWait or rebook. Do not start because it will be quick.\n\n2. THE RULE\nA chaperone request is respected\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nShe has asked for a chaperone. Proceeding without one, after that request, ignores her condition for the examination. An open door is not a chaperone. Documenting an offer she could not take up is not the same as providing one.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nStop. Offer to wait for the nurse or to rebook with a chaperone\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA chaperone is offered for an intimate examination. It is the patient's choice, not a formality.\n\n10. MEMORY ANCHOR\nA requested chaperone is provided.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Wait or rebook. Do not start because it will be quick.",
+      "best_treatment": "Stop. Offer to wait for the nurse or to rebook with a chaperone",
+      "incorrect_answer_explanations": {
+        "B": "Proceed. A short examination does not need a chaperone Length is irrelevant once she has asked.",
+        "C": "Proceed if he leaves the door open An open door is not a chaperone.",
+        "D": "Ask her husband to wait outside and then proceed Sending the support person out is the opposite of her request.",
+        "E": "Proceed and document that a chaperone was offered The offer was accepted. Proceeding without one falsifies the protection."
+      },
+      "key_takeaways": [
+        "A requested chaperone is provided.",
+        "Documentation does not replace the person."
+      ],
+      "subtopic": "A chaperone is offered for an intimate examination. It is the patient's choice, not a formality.",
+      "clinical_vignette": true,
+      "id": "6a1e52c1-a260-55b0-b987-2efc2b2463bc",
+      "zyntra_id": "ZQ-0549",
+      "phase": "PH-07",
+      "phase_item_id": "PH-P-06",
+      "lo_id": "e7741c92-9cbb-5566-b50a-f6e1238b329d",
+      "lo_code": "CHAPERONE"
+    },
+    {
+      "question_text": "A surgeon's website says he has never had a complication from laparoscopic cholecystectomy in 2000 cases. A colleague knows of two bile-duct injuries. Advertising must not be misleading. An absolute claim of no complications, when complications have occurred, is misleading. What is the most appropriate view of the website?  Never had a complication is false if two bile-duct injuries occurred. Absolute claims in advertising are misleading. The website should not say it.  The standard is the same whether or not anyone complains. Apply it to the facts in front of you.  A private arrangement or a past illness does not create an exception here.  Decide on the duty, not on convenience.  Nothing in the history lowers the standard. The same rule applies if the person is a friend, a colleague, or a relative.  Act on the duty now. Waiting for a complaint is not the safeguard.  That is the professional response. Do not delay it. Today. Clearly.",
+      "options": [
+        "Acceptable. Unnamed photos are always fair advertising",
+        "Misleading. An absolute claim of no complications is not acceptable",
+        "Acceptable if the photos are of real patients",
+        "Acceptable if a disclaimer is in small print",
+        "Acceptable because surgery advertising is unregulated"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "easy",
+      "explanation": "CORRECT ANSWER\n\nB. Misleading. An absolute claim of no complications is not acceptable\n\n---\n\n1. CLINICAL DIAGNOSIS\nThe claim is misleading. No complications is not an acceptable promise.\n\n2. THE RULE\nAdvertising must not be misleading\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nAdvertising must be honest and must not create an unreasonable expectation. A claim of no complications is misleading. Unnamed photos do not repair an absolute claim.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nMisleading. An absolute claim of no complications is not acceptable\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nAdvertising must not create an unreasonable expectation. Before-and-after claims need care.\n\n10. MEMORY ANCHOR\nAdvertising must not promise an outcome.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "The claim is misleading. No complications is not an acceptable promise.",
+      "best_treatment": "Misleading. An absolute claim of no complications is not acceptable",
+      "incorrect_answer_explanations": {
+        "A": "Acceptable. Unnamed photos are always fair advertising Anonymity is not the problem.",
+        "C": "Acceptable if the photos are of real patients Real photos can still be misleading.",
+        "D": "Acceptable if a disclaimer is in small print Small print does not neutralise a false headline.",
+        "E": "Acceptable because surgery advertising is unregulated It is regulated."
+      },
+      "key_takeaways": [
+        "Advertising must not promise an outcome.",
+        "Small print does not repair a false claim."
+      ],
+      "subtopic": "Advertising must not create an unreasonable expectation. Before-and-after claims need care.",
+      "clinical_vignette": true,
+      "id": "060f33b4-26ed-5e4f-b698-59b3fbf6578f",
+      "zyntra_id": "ZQ-0550",
+      "phase": "PH-07",
+      "phase_item_id": "PH-P-07",
+      "lo_id": "1e1ae1d0-5fa5-589b-afe4-b51aff5578ad",
+      "lo_code": "ADVERTISING"
+    },
+    {
+      "question_text": "A GP's adult daughter asks him to become her doctor and prescribe her antidepressants, because she trusts him and does not want to see a stranger. Treating a close family member, especially for mental health or controlled drugs, is avoided. Decline to become her doctor. Arrange care with another practitioner. What is the most appropriate response?  Daughter, antidepressants, trust as the reason. That is exactly the situation to avoid. Arrange another doctor. Do not prescribe.  The standard is the same whether or not anyone complains. Apply it to the facts in front of you.  A private arrangement or a past illness does not create an exception here.  Decide on the duty, not on convenience.  Nothing in the history lowers the standard. The same rule applies if the person is a friend, a colleague, or a relative.  Act on the duty now. Waiting for a complaint is not the safeguard.  That is the professional response. Do not delay it. Today. Clearly.",
+      "options": [
+        "Prescribe. Treating family is always acceptable for short courses",
+        "Prescribe once, then transfer",
+        "Decline to become her doctor. Arrange care with an independent GP",
+        "Prescribe if you document that she is your partner",
+        "Order the bloods but leave the script to a pharmacist"
+      ],
+      "correct_answer": "C",
+      "category": "Population Health & Ethics",
+      "difficulty": "difficult",
+      "explanation": "CORRECT ANSWER\n\nC. Decline to become her doctor. Arrange care with an independent GP\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not prescribe. She needs her own GP.\n\n2. THE RULE\nAvoid treating a close family member for mental health or controlled drugs\n\n3. WHY THIS OPTION\nC matches the rule on the facts given.\n\n4. THE TRAP\nTreating someone with whom you have a close relationship risks impaired judgment, especially for drugs of dependence. The right step is an independent doctor, not a one-off script.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nDecline to become her doctor. Arrange care with an independent GP\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA close personal relationship with a colleague's patient still needs a boundary if you become their doctor.\n\n10. MEMORY ANCHOR\nDo not treat someone close to you for drugs of dependence.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not prescribe. She needs her own GP.",
+      "best_treatment": "Decline to become her doctor. Arrange care with an independent GP",
+      "incorrect_answer_explanations": {
+        "A": "Prescribe. Treating family is always acceptable for short courses Short and dependence-forming is a poor combination.",
+        "B": "Prescribe once, then transfer The one-off is the problem.",
+        "D": "Prescribe if you document that she is your partner Documentation does not restore objectivity.",
+        "E": "Order the bloods but leave the script to a pharmacist Splitting the care does not create an independent doctor."
+      },
+      "key_takeaways": [
+        "Do not treat someone close to you for drugs of dependence.",
+        "An independent doctor is the safeguard."
+      ],
+      "subtopic": "A close personal relationship with a colleague's patient still needs a boundary if you become their doctor.",
+      "clinical_vignette": true,
+      "id": "2858bc74-8e05-5b55-b1f0-910ac7b27654",
+      "zyntra_id": "ZQ-0551",
+      "phase": "PH-07",
+      "phase_item_id": "PH-P-08",
+      "lo_id": "3a3569c2-7e2e-5d89-9ad3-be50bbeb4ac9",
+      "lo_code": "FAMILY_TREATMENT"
+    },
+    {
+      "question_text": "A patient has an anaphylactic reaction to a drug. The doctor treats it, then alters the original note to say he had warned her of this exact risk, which he had not. The original record is not rewritten to protect the doctor. A late entry is labelled as a late entry. Treat the reaction, keep the original record, and add a dated correction if needed. What is the most appropriate action?  The reaction is treated first. The original note stays. A late addition is marked as late. Rewriting history to invent a warning is the misconduct.  The standard is the same whether or not anyone complains. Apply it to the facts in front of you.  A private arrangement or a past illness does not create an exception here.  Decide on the duty, not on convenience.  Nothing in the history lowers the standard. The same rule applies if the person is a friend, a colleague, or a relative.  Act on the duty now. Waiting for a complaint is not the safeguard.  That is the professional response. Do not delay it. Today. Clearly.",
+      "options": [
+        "Rewrite the chart, then mention it vaguely",
+        "Treat the reaction and say nothing if he recovers",
+        "Blame the nurse in the notes and move on",
+        "Treat the reaction, keep the original record, and disclose the error",
+        "Ask the family what they would prefer to be told"
+      ],
+      "correct_answer": "D",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nD. Treat the reaction, keep the original record, and disclose the error\n\n---\n\n1. CLINICAL DIAGNOSIS\nTreat him, keep the chart, and tell them. Do not rewrite it.\n\n2. THE RULE\nDo not rewrite the original record to protect yourself\n\n3. WHY THIS OPTION\nD matches the rule on the facts given.\n\n4. THE TRAP\nThe reaction is treated. The record stays accurate. The error is disclosed. Rewriting the chart is a false record. Waiting to see if he recovers does not change the duty.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nTreat the reaction, keep the original record, and disclose the error\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA error that harms a patient is disclosed. Hiding it is a further breach.\n\n10. MEMORY ANCHOR\nA harmful error is disclosed.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Treat him, keep the chart, and tell them. Do not rewrite it.",
+      "best_treatment": "Treat the reaction, keep the original record, and disclose the error",
+      "incorrect_answer_explanations": {
+        "A": "Rewrite the chart, then mention it vaguely Altering the record is misconduct.",
+        "B": "Treat the reaction and say nothing if he recovers Recovery does not erase the error.",
+        "C": "Blame the nurse in the notes and move on Blame is not disclosure.",
+        "E": "Ask the family what they would prefer to be told Open disclosure is not negotiated down."
+      },
+      "key_takeaways": [
+        "A harmful error is disclosed.",
+        "The record is not altered."
+      ],
+      "subtopic": "A error that harms a patient is disclosed. Hiding it is a further breach.",
+      "clinical_vignette": true,
+      "id": "6aaa27e3-5bf7-522f-b08f-1edc33474ad1",
+      "zyntra_id": "ZQ-0552",
+      "phase": "PH-07",
+      "phase_item_id": "PH-P-09",
+      "lo_id": "8ed0af72-098a-501d-aa0e-dfbebceca28a",
+      "lo_code": "RECORD_INTEGRITY"
+    },
+    {
+      "question_text": "A registrar discovers that a colleague has fabricated a research result and enrolled two patients in a trial without consent. The colleague says it will not happen again and asks him to stay quiet. Research misconduct and missing consent are raised, not buried. The fabrication and missing consent must be raised through the proper channel. What is the most appropriate action?  Fabricated data and absent consent are not a private apology matter. Raise them. Staying quiet protects neither patients nor the record.  The standard is the same whether or not anyone complains. Apply it to the facts in front of you.  A private arrangement or a past illness does not create an exception here.  Decide on the duty, not on convenience.  Nothing in the history lowers the standard. The same rule applies if the person is a friend, a colleague, or a relative.  Act on the duty now. Waiting for a complaint is not the safeguard.  That is the professional response. Do not delay it. Today. Clearly.",
+      "options": [
+        "Leave it. The findings are clinically useful",
+        "Ask him to add the consents now and backdate them",
+        "Do nothing unless a patient complains",
+        "Celebrate the acceptance and discuss consent on the next paper",
+        "The fabrication and missing consent must be raised, and the paper cannot stand as it is"
+      ],
+      "correct_answer": "E",
+      "category": "Population Health & Ethics",
+      "difficulty": "easy",
+      "explanation": "CORRECT ANSWER\n\nE. The fabrication and missing consent must be raised, and the paper cannot stand as it is\n\n---\n\n1. CLINICAL DIAGNOSIS\nRaise it. The paper cannot stand with invented follow-up and no consent.\n\n2. THE RULE\nResearch misconduct and missing consent are raised\n\n3. WHY THIS OPTION\nE matches the rule on the facts given.\n\n4. THE TRAP\nInvented data and absent consent are research misconduct. Backdating a consent is a further false record. Usefulness of the result is irrelevant.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nThe fabrication and missing consent must be raised, and the paper cannot stand as it is\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nResearch fraud is misconduct. A missing consent is not repaired by good results.\n\n10. MEMORY ANCHOR\nFabricated data is misconduct.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Raise it. The paper cannot stand with invented follow-up and no consent.",
+      "best_treatment": "The fabrication and missing consent must be raised, and the paper cannot stand as it is",
+      "incorrect_answer_explanations": {
+        "A": "Leave it. The findings are clinically useful Use does not excuse fraud.",
+        "B": "Ask him to add the consents now and backdate them Backdating is another falsehood.",
+        "C": "Do nothing unless a patient complains The duty does not wait for a complaint.",
+        "D": "Celebrate the acceptance and discuss consent on the next paper The current paper is the problem."
+      },
+      "key_takeaways": [
+        "Fabricated data is misconduct.",
+        "Backdated consent is a further breach."
+      ],
+      "subtopic": "Research fraud is misconduct. A missing consent is not repaired by good results.",
+      "clinical_vignette": true,
+      "id": "37543f91-d0aa-5473-9f3b-c0c43062727c",
+      "zyntra_id": "ZQ-0553",
+      "phase": "PH-07",
+      "phase_item_id": "PH-P-10",
+      "lo_id": "f46c0963-0d14-5b2e-8336-a8af8693d41d",
+      "lo_code": "RESEARCH_MISCONDUCT"
+    },
+    {
+      "question_text": "A doctor is asked to notify AHPRA because a colleague had a treated episode of depression five years ago, is now well, and has no performance concerns. Mandatory notification is for current risk to patients, not for a past illness that is treated and not affecting practice. Decline. There is no risk to patients and no consent issue. What is the most appropriate response?  Treated depression, five years ago, well, no concerns. No current risk. Mandatory notification is not for past illness. Decline the request to notify.  The standard is the same whether or not anyone complains. Apply it to the facts in front of you.  A private arrangement or a past illness does not create an exception here.  Decide on the duty, not on convenience.  Nothing in the history lowers the standard. The same rule applies if the person is a friend, a colleague, or a relative.  Act on the duty now. Waiting for a complaint is not the safeguard.  That is the professional response. Do not delay it. Today. Clearly.",
+      "options": [
+        "Decline. There is no risk to patients and no consent to disclose",
+        "Share the diagnosis. A supervisor is entitled to it",
+        "Confirm the diagnosis but not the treatment",
+        "Suggest he read her employee file",
+        "Disclose if he agrees not to write it down"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "difficult",
+      "explanation": "CORRECT ANSWER\n\nA. Decline. There is no risk to patients and no consent to disclose\n\n---\n\n1. CLINICAL DIAGNOSIS\nSay nothing. Well and working is not a reason to disclose.\n\n2. THE RULE\nImpairment that risks patients is acted on at once\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nHer health information is confidential. A busy term is not a lawful basis, and there is no impairment to notify. Disclosure needs her consent or a real risk.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nDecline. There is no risk to patients and no consent to disclose\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA doctor's health is private, except where it creates a risk to patients.\n\n10. MEMORY ANCHOR\nA colleague's illness is confidential.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Say nothing. Well and working is not a reason to disclose.",
+      "best_treatment": "Decline. There is no risk to patients and no consent to disclose",
+      "incorrect_answer_explanations": {
+        "B": "Share the diagnosis. A supervisor is entitled to it He is not.",
+        "C": "Confirm the diagnosis but not the treatment The diagnosis is the confidential fact.",
+        "D": "Suggest he read her employee file Pointing him to another improper source is still a breach.",
+        "E": "Disclose if he agrees not to write it down An unwritten breach is still a breach."
+      },
+      "key_takeaways": [
+        "A colleague's illness is confidential.",
+        "No impairment means no notification."
+      ],
+      "subtopic": "A doctor's health is private, except where it creates a risk to patients.",
+      "clinical_vignette": true,
+      "id": "f4b037f3-2288-5821-810b-cecafefe2a8b",
+      "zyntra_id": "ZQ-0554",
+      "phase": "PH-07",
+      "phase_item_id": "PH-P-11",
+      "lo_id": "fa7be8c0-d22b-5207-8a04-a9de8c3c227f",
+      "lo_code": "IMPAIRMENT_RISK"
+    },
+    {
+      "question_text": "A device company offers a surgeon a week at a luxury resort, with no educational content, in return for using their implant. He says it is just hospitality. A gift or hospitality that could influence practice is declined. Education at a conference is different. Decline. The hospitality is out of proportion to any educational purpose. What is the most appropriate response?  A week at a resort with no education is an inducement. It can influence which implant is used. Decline. A modest educational meeting is a different thing.  The standard is the same whether or not anyone complains. Apply it to the facts in front of you.  A private arrangement or a past illness does not create an exception here.  Decide on the duty, not on convenience.  Nothing in the history lowers the standard. The same rule applies if the person is a friend, a colleague, or a relative.  Act on the duty now. Waiting for a complaint is not the safeguard.  That is the professional response. Do not delay it. Today. Clearly.",
+      "options": [
+        "Accept. One hour of content makes it education",
+        "Decline. The hospitality is out of proportion to any educational value",
+        "Accept if you later prescribe a competitor's device",
+        "Accept and declare it only if a patient asks",
+        "Accept for your partner and attend the talk alone"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nB. Decline. The hospitality is out of proportion to any educational value\n\n---\n\n1. CLINICAL DIAGNOSIS\nDecline. A resort weekend is not an educational meeting.\n\n2. THE RULE\nDecline gifts or hospitality that could influence practice\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nHospitality that dwarfs the educational content is an inducement. Prescribing a competitor later does not undo the influence. Declaration after the fact is not the same as declining.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nDecline. The hospitality is out of proportion to any educational value\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nAccepting industry hospitality that is more than modest can bias prescribing.\n\n10. MEMORY ANCHOR\nInducement is judged by proportion.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Decline. A resort weekend is not an educational meeting.",
+      "best_treatment": "Decline. The hospitality is out of proportion to any educational value",
+      "incorrect_answer_explanations": {
+        "A": "Accept. One hour of content makes it education The content is token.",
+        "C": "Accept if you later prescribe a competitor's device Future prescribing does not clean the gift.",
+        "D": "Accept and declare it only if a patient asks Patients should not have to ask.",
+        "E": "Accept for your partner and attend the talk alone Extending the benefit to a partner is a further inducement."
+      },
+      "key_takeaways": [
+        "Inducement is judged by proportion.",
+        "A token talk does not launder hospitality."
+      ],
+      "subtopic": "Accepting industry hospitality that is more than modest can bias prescribing.",
+      "clinical_vignette": true,
+      "id": "20d9f60f-1784-5af4-8c9a-04f88e7f389b",
+      "zyntra_id": "ZQ-0555",
+      "phase": "PH-07",
+      "phase_item_id": "PH-P-12",
+      "lo_id": "162e3cfb-e67e-51a1-be32-564f1e99de12",
+      "lo_code": "CONFLICT_GIFT"
+    },
+    {
+      "question_text": "A consultant asks a medical student to consent a patient for a mastectomy, including the risks of the operation, and to get the form signed. The student has never seen the operation. Consent for a procedure is taken by someone who understands it and can answer questions. Stop it. The student is not competent for this task. What is the most appropriate action?  Consent includes risks the consenter must be able to explain. A student who has never seen the operation cannot. Stop the delegation.  The standard is the same whether or not anyone complains. Apply it to the facts in front of you.  A private arrangement or a past illness does not create an exception here.  Decide on the duty, not on convenience.  Nothing in the history lowers the standard. The same rule applies if the person is a friend, a colleague, or a relative.  Act on the duty now. Waiting for a complaint is not the safeguard.  That is the professional response. Do not delay it. Today. Clearly.",
+      "options": [
+        "Let the student proceed. Service need outweighs supervision",
+        "Let the student proceed if the child is consented",
+        "Stop it. The student is not competent, and the task needs a trained person",
+        "Ask the student to try and call someone if it goes wrong",
+        "Allow it because students must learn under pressure"
+      ],
+      "correct_answer": "C",
+      "category": "Population Health & Ethics",
+      "difficulty": "easy",
+      "explanation": "CORRECT ANSWER\n\nC. Stop it. The student is not competent, and the task needs a trained person\n\n---\n\n1. CLINICAL DIAGNOSIS\nStop it. Busy is not a reason for an unsupervised first facial suture.\n\n2. THE RULE\nDo not delegate a task the junior is not competent for\n\n3. WHY THIS OPTION\nC matches the rule on the facts given.\n\n4. THE TRAP\nDelegation requires competence and supervision. A face on a child is not a first suture. Busyness is not a reason. Consent for the procedure is not consent to an incompetent operator.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nStop it. The student is not competent, and the task needs a trained person\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA student or junior is not asked to do a task they are not competent to do.\n\n10. MEMORY ANCHOR\nDelegate only what the person can do.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Stop it. Busy is not a reason for an unsupervised first facial suture.",
+      "best_treatment": "Stop it. The student is not competent, and the task needs a trained person",
+      "incorrect_answer_explanations": {
+        "A": "Let the student proceed. Service need outweighs supervision Service need does not.",
+        "B": "Let the student proceed if the child is consented Consent does not create competence.",
+        "D": "Ask the student to try and call someone if it goes wrong Waiting for harm is not supervision.",
+        "E": "Allow it because students must learn under pressure Learning is supervised, not imposed."
+      },
+      "key_takeaways": [
+        "Delegate only what the person can do.",
+        "Consent does not replace competence."
+      ],
+      "subtopic": "A student or junior is not asked to do a task they are not competent to do.",
+      "clinical_vignette": true,
+      "id": "509cc600-3545-5a2a-ba58-b9c89d31ec0b",
+      "zyntra_id": "ZQ-0556",
+      "phase": "PH-07",
+      "phase_item_id": "PH-P-13",
+      "lo_id": "7d13745c-e019-566c-85d1-6485780ca565",
+      "lo_code": "SUPERVISION"
+    },
+    {
+      "question_text": "A colleague had a single seizure, was investigated, has been cleared by a neurologist, is on no treatment, and has had no further events. He does not drive. There is no concern about his practice. A past event that is treated, cleared, and poses no current risk to patients is not a mandatory notification. Do not notify. What is the most appropriate course?  Single seizure, cleared, no treatment, no driving, no practice concern. No current risk to patients. Do not notify.  The standard is the same whether or not anyone complains. Apply it to the facts in front of you.  A private arrangement or a past illness does not create an exception here.  Decide on the duty, not on convenience.  Nothing in the history lowers the standard. The same rule applies if the person is a friend, a colleague, or a relative.  Act on the duty now. Waiting for a complaint is not the safeguard.  That is the professional response. Do not delay it. Today. Clearly.",
+      "options": [
+        "Notify Ahpra because HIV in a surgeon is always reportable",
+        "Tell the patient, because autonomy requires it",
+        "Notify the hospital board by email tonight",
+        "Do not notify. Treated, cleared, and no risk to patients is not a notification. Do not answer the patient",
+        "Advise her to stop operating until a second clearance"
+      ],
+      "correct_answer": "D",
+      "category": "Population Health & Ethics",
+      "difficulty": "difficult",
+      "explanation": "CORRECT ANSWER\n\nD. Do not notify. Treated, cleared, and no risk to patients is not a notification. Do not answer the patient\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not notify and do not tell the patient. There is no risk.\n\n2. THE RULE\nImpairment that risks patients is acted on at once\n\n3. WHY THIS OPTION\nD matches the rule on the facts given.\n\n4. THE TRAP\nMandatory notification is about risk: impairment, intoxication, departure from standards, or sexual misconduct. A well-managed infection with clearance and no risk to patients is not a ground. The patient's curiosity is not a basis for disclosure.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nDo not notify. Treated, cleared, and no risk to patients is not a notification. Do not answer the patient\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA mandatory notification is not required for a colleague's illness that is well managed and not affecting practice.\n\n10. MEMORY ANCHOR\nNotification needs a risk, not a diagnosis.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not notify and do not tell the patient. There is no risk.",
+      "best_treatment": "Do not notify. Treated, cleared, and no risk to patients is not a notification. Do not answer the patient",
+      "incorrect_answer_explanations": {
+        "A": "Notify Ahpra because HIV in a surgeon is always reportable It is not, where there is no risk.",
+        "B": "Tell the patient, because autonomy requires it Autonomy does not include another person's health record.",
+        "C": "Notify the hospital board by email tonight There is nothing to notify.",
+        "E": "Advise her to stop operating until a second clearance She already has clearance."
+      },
+      "key_takeaways": [
+        "Notification needs a risk, not a diagnosis.",
+        "A patient's question is not consent to disclose."
+      ],
+      "subtopic": "A mandatory notification is not required for a colleague's illness that is well managed and not affecting practice.",
+      "clinical_vignette": true,
+      "id": "dc408993-4b97-56fe-8078-521d05ca192c",
+      "zyntra_id": "ZQ-0557",
+      "phase": "PH-07",
+      "phase_item_id": "PH-P-14",
+      "lo_id": "fa7be8c0-d22b-5207-8a04-a9de8c3c227f",
+      "lo_code": "IMPAIRMENT_RISK"
+    },
+    {
+      "question_text": "A GP owns 40% of a private radiology practice. He refers patients there for imaging and does not mention the ownership. A financial interest in a service you refer to is a conflict. It is disclosed. A conflict. Ownership must be disclosed, and the patient offered a real alternative. What is the most appropriate view?  Forty per cent ownership and referral without disclosure. The patient cannot choose freely. Disclose, and offer another provider.  The standard is the same whether or not anyone complains. Apply it to the facts in front of you.  A private arrangement or a past illness does not create an exception here.  Decide on the duty, not on convenience.  Nothing in the history lowers the standard. The same rule applies if the person is a friend, a colleague, or a relative.  Act on the duty now. Waiting for a complaint is not the safeguard.  That is the professional response. Do not delay it. Today. Clearly.",
+      "options": [
+        "Acceptable. Normal fees remove any conflict",
+        "Acceptable if the clinic is in the same building",
+        "Acceptable because injections are minor",
+        "A conflict only if he is the sole owner",
+        "A conflict. Ownership must be disclosed, and the patient offered a real alternative"
+      ],
+      "correct_answer": "E",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nE. A conflict. Ownership must be disclosed, and the patient offered a real alternative\n\n---\n\n1. CLINICAL DIAGNOSIS\nHe must tell patients he owns half the clinic, and offer another option.\n\n2. THE RULE\nDecline gifts or hospitality that could influence practice\n\n3. WHY THIS OPTION\nE matches the rule on the facts given.\n\n4. THE TRAP\nA financial interest in a service you refer to is a conflict. It is declared, and the patient can choose elsewhere. Normal fees and convenience do not remove it. Half-ownership is enough.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nA conflict. Ownership must be disclosed, and the patient offered a real alternative\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA conflict of interest is declared. Referring to a service you own without disclosure is not acceptable.\n\n10. MEMORY ANCHOR\nA financial interest in a referral is declared.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "He must tell patients he owns half the clinic, and offer another option.",
+      "best_treatment": "A conflict. Ownership must be disclosed, and the patient offered a real alternative",
+      "incorrect_answer_explanations": {
+        "A": "Acceptable. Normal fees remove any conflict Fees are not the test.",
+        "B": "Acceptable if the clinic is in the same building Proximity can increase the capture.",
+        "C": "Acceptable because injections are minor Size of the procedure is irrelevant.",
+        "D": "A conflict only if he is the sole owner Any material interest counts."
+      },
+      "key_takeaways": [
+        "A financial interest in a referral is declared.",
+        "Normal fees do not erase it."
+      ],
+      "subtopic": "A conflict of interest is declared. Referring to a service you own without disclosure is not acceptable.",
+      "clinical_vignette": true,
+      "id": "34cd676d-7c21-5662-b6d6-44dd0ec3860b",
+      "zyntra_id": "ZQ-0558",
+      "phase": "PH-07",
+      "phase_item_id": "PH-P-15",
+      "lo_id": "162e3cfb-e67e-51a1-be32-564f1e99de12",
+      "lo_code": "CONFLICT_GIFT"
+    },
+    {
+      "question_text": "A GP has treated a woman for depression for six months. She is improving. He asks if a sexual relationship is now acceptable because the therapeutic relationship is almost over. Current or recent is still prohibited. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
+      "options": [
+        "A sexual relationship with a current or recent patient is misconduct",
+        "Almost over means it is acceptable",
+        "Six months of care ends the prohibition",
+        "Depression care is an exception",
+        "He may begin the relationship now"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. A sexual relationship with a current or recent patient is misconduct\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not start the relationship. Consent and a transfer do not make it acceptable.\n\n2. THE RULE\nA sexual relationship with a current or recent patient is misconduct\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nAlmost over is not over. Decline the relationship.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nA sexual relationship with a current or recent patient is misconduct\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.\n\n10. MEMORY ANCHOR\nA sexual relationship with a patient is misconduct.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not start the relationship. Consent and a transfer do not make it acceptable.",
+      "best_treatment": "A sexual relationship with a current or recent patient is misconduct",
+      "incorrect_answer_explanations": {
+        "B": "Almost over means it is acceptable is not the correct step for this presentation.",
+        "C": "Six months of care ends the prohibition is not the correct step for this presentation.",
+        "D": "Depression care is an exception is not the correct step for this presentation.",
+        "E": "He may begin the relationship now is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "A sexual relationship with a patient is misconduct.",
+        "Consent does not cure the power imbalance."
+      ],
+      "subtopic": "A sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.",
+      "clinical_vignette": true,
+      "id": "b9c89ccd-e3a7-5f2f-bb63-887fab02ff6d",
+      "zyntra_id": "ZQ-0734",
+      "phase": "PH-07",
+      "phase_item_id": "PH-P-16",
+      "lo_id": "27d9a2f0-ce57-56b5-9079-9dc28350422c",
+      "lo_code": "SEXUAL_BOUNDARY"
+    },
+    {
+      "question_text": "He ended formal care four weeks ago and wants to start a relationship. Recent care is still a boundary. Decline. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
+      "options": [
+        "A former patient of last month is fair game",
+        "Recent care still prohibits a sexual relationship",
+        "Only current patients are protected",
+        "Private agreement cures it",
+        "The college has no view"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nB. Recent care still prohibits a sexual relationship\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not start the relationship. Consent and a transfer do not make it acceptable.\n\n2. THE RULE\nA sexual relationship with a current or recent patient is misconduct\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nRecent is prohibited. Four weeks is recent.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nRecent care still prohibits a sexual relationship\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.\n\n10. MEMORY ANCHOR\nA sexual relationship with a patient is misconduct.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not start the relationship. Consent and a transfer do not make it acceptable.",
+      "best_treatment": "Recent care still prohibits a sexual relationship",
+      "incorrect_answer_explanations": {
+        "A": "A former patient of last month is fair game is not the correct step for this presentation.",
+        "C": "Only current patients are protected is not the correct step for this presentation.",
+        "D": "Private agreement cures it is not the correct step for this presentation.",
+        "E": "The college has no view is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "A sexual relationship with a patient is misconduct.",
+        "Consent does not cure the power imbalance."
+      ],
+      "subtopic": "A sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.",
+      "clinical_vignette": true,
+      "id": "18247758-dd4a-5b38-85ee-09178a37db6c",
+      "zyntra_id": "ZQ-0735",
+      "phase": "PH-07",
+      "phase_item_id": "PH-P-17",
+      "lo_id": "27d9a2f0-ce57-56b5-9079-9dc28350422c",
+      "lo_code": "SEXUAL_BOUNDARY"
+    },
+    {
+      "question_text": "Transferring her today does not make yesterday's care distant. Do not start the relationship. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
+      "options": [
+        "Transfer her and start the relationship the same day",
+        "Do not begin a sexual relationship with a current or recent patient",
+        "A colleague can approve it",
+        "Mental health care is exempt",
+        "Document and proceed"
+      ],
+      "correct_answer": "C",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nC. A colleague can approve it\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not start the relationship. Consent and a transfer do not make it acceptable.\n\n2. THE RULE\nA sexual relationship with a current or recent patient is misconduct\n\n3. WHY THIS OPTION\nC matches the rule on the facts given.\n\n4. THE TRAP\nTransfer does not launder a recent treating relationship.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nA colleague can approve it\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.\n\n10. MEMORY ANCHOR\nA sexual relationship with a patient is misconduct.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not start the relationship. Consent and a transfer do not make it acceptable.",
+      "best_treatment": "A colleague can approve it",
+      "incorrect_answer_explanations": {
+        "A": "Transfer her and start the relationship the same day is not the correct step for this presentation.",
+        "B": "Do not begin a sexual relationship with a current or recent patient is not the correct step for this presentation.",
+        "D": "Mental health care is exempt is not the correct step for this presentation.",
+        "E": "Document and proceed is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "A sexual relationship with a patient is misconduct.",
+        "Consent does not cure the power imbalance."
+      ],
+      "subtopic": "A sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.",
+      "clinical_vignette": true,
+      "id": "51c59042-bd4c-558e-a0b8-6bcf7d527926",
+      "zyntra_id": "ZQ-0736",
+      "phase": "PH-07",
+      "phase_item_id": "PH-P-18",
+      "lo_id": "27d9a2f0-ce57-56b5-9079-9dc28350422c",
+      "lo_code": "SEXUAL_BOUNDARY"
+    },
+    {
+      "question_text": "A patient offers $200 for a certificate of permanent injury. Examination shows a minor strain. Decline the cash. Do not write a false certificate. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
+      "options": [
+        "Decline the cash. A certificate must be honest",
+        "Write the permanent injury he paid for",
+        "Everyone does it is a defence",
+        "A $200 fee creates a different standard",
+        "Omit the examination"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. Decline the cash. A certificate must be honest\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not start the relationship. Consent and a transfer do not make it acceptable.\n\n2. THE RULE\nA certificate must be honest. Payment for a false one is worse\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nPayment for a false certificate is refused.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nDecline the cash. A certificate must be honest\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.\n\n10. MEMORY ANCHOR\nA sexual relationship with a patient is misconduct.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not start the relationship. Consent and a transfer do not make it acceptable.",
+      "best_treatment": "Decline the cash. A certificate must be honest",
+      "incorrect_answer_explanations": {
+        "B": "Write the permanent injury he paid for is not the correct step for this presentation.",
+        "C": "Everyone does it is a defence is not the correct step for this presentation.",
+        "D": "A $200 fee creates a different standard is not the correct step for this presentation.",
+        "E": "Omit the examination is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "A sexual relationship with a patient is misconduct.",
+        "Consent does not cure the power imbalance."
+      ],
+      "subtopic": "A sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.",
+      "clinical_vignette": true,
+      "id": "ce21c1f5-158a-5dc9-841d-36b5e13baed8",
+      "zyntra_id": "ZQ-0737",
+      "phase": "PH-07",
+      "phase_item_id": "PH-P-19",
+      "lo_id": "1bf55b32-013b-50b8-b511-09ef5599acd5",
+      "lo_code": "HONEST_CERTIFICATE"
+    },
+    {
+      "question_text": "He wants the wording that helps the claim. Write the findings. Do not sell a conclusion. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
+      "options": [
+        "A larger fee allows a stronger opinion",
+        "The certificate matches the examination, not the payment",
+        "Advocacy includes exaggeration",
+        "Permanent can be written on day one",
+        "Negligence is a clinical finding"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nB. The certificate matches the examination, not the payment\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not start the relationship. Consent and a transfer do not make it acceptable.\n\n2. THE RULE\nA certificate must be honest. Payment for a false one is worse\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nHonest certificate. No purchased permanence.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nThe certificate matches the examination, not the payment\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.\n\n10. MEMORY ANCHOR\nA sexual relationship with a patient is misconduct.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not start the relationship. Consent and a transfer do not make it acceptable.",
+      "best_treatment": "The certificate matches the examination, not the payment",
+      "incorrect_answer_explanations": {
+        "A": "A larger fee allows a stronger opinion is not the correct step for this presentation.",
+        "C": "Advocacy includes exaggeration is not the correct step for this presentation.",
+        "D": "Permanent can be written on day one is not the correct step for this presentation.",
+        "E": "Negligence is a clinical finding is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "A sexual relationship with a patient is misconduct.",
+        "Consent does not cure the power imbalance."
+      ],
+      "subtopic": "A sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.",
+      "clinical_vignette": true,
+      "id": "2a095a09-be3e-536a-8827-b7962846392d",
+      "zyntra_id": "ZQ-0738",
+      "phase": "PH-07",
+      "phase_item_id": "PH-P-20",
+      "lo_id": "1bf55b32-013b-50b8-b511-09ef5599acd5",
+      "lo_code": "HONEST_CERTIFICATE"
+    },
+    {
+      "question_text": "Regular patient or not, the examination does not support permanent injury. Decline. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
+      "options": [
+        "Sign because he is a regular patient",
+        "Decline to certify what the examination does not support",
+        "A strain is permanent if he says so",
+        "Cash is a private gift",
+        "The insurer prefers a strong certificate"
+      ],
+      "correct_answer": "C",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nC. A strain is permanent if he says so\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not start the relationship. Consent and a transfer do not make it acceptable.\n\n2. THE RULE\nA certificate must be honest. Payment for a false one is worse\n\n3. WHY THIS OPTION\nC matches the rule on the facts given.\n\n4. THE TRAP\nRelationship does not change the facts.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nA strain is permanent if he says so\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.\n\n10. MEMORY ANCHOR\nA sexual relationship with a patient is misconduct.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not start the relationship. Consent and a transfer do not make it acceptable.",
+      "best_treatment": "A strain is permanent if he says so",
+      "incorrect_answer_explanations": {
+        "A": "Sign because he is a regular patient is not the correct step for this presentation.",
+        "B": "Decline to certify what the examination does not support is not the correct step for this presentation.",
+        "D": "Cash is a private gift is not the correct step for this presentation.",
+        "E": "The insurer prefers a strong certificate is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "A sexual relationship with a patient is misconduct.",
+        "Consent does not cure the power imbalance."
+      ],
+      "subtopic": "A sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.",
+      "clinical_vignette": true,
+      "id": "aed375dd-4ae2-594a-a74b-645555c5d135",
+      "zyntra_id": "ZQ-0739",
+      "phase": "PH-07",
+      "phase_item_id": "PH-P-21",
+      "lo_id": "1bf55b32-013b-50b8-b511-09ef5599acd5",
+      "lo_code": "HONEST_CERTIFICATE"
+    },
+    {
+      "question_text": "He posts a distinctive rash with suburb and age to a closed group of 400. A closed group is not confidential. No consent. Take it down. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
+      "options": [
+        "A breach. The image and details can identify him",
+        "A closed group is confidential",
+        "Suburb and age are safe",
+        "Teaching consent is not required",
+        "400 colleagues is private enough"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. A breach. The image and details can identify him\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not start the relationship. Consent and a transfer do not make it acceptable.\n\n2. THE RULE\nA patient can be identified from posted details even in a closed group\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nIdentifiable details in a closed group are still a breach.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nA breach. The image and details can identify him\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.\n\n10. MEMORY ANCHOR\nA sexual relationship with a patient is misconduct.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not start the relationship. Consent and a transfer do not make it acceptable.",
+      "best_treatment": "A breach. The image and details can identify him",
+      "incorrect_answer_explanations": {
+        "B": "A closed group is confidential is not the correct step for this presentation.",
+        "C": "Suburb and age are safe is not the correct step for this presentation.",
+        "D": "Teaching consent is not required is not the correct step for this presentation.",
+        "E": "400 colleagues is private enough is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "A sexual relationship with a patient is misconduct.",
+        "Consent does not cure the power imbalance."
+      ],
+      "subtopic": "A sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.",
+      "clinical_vignette": true,
+      "id": "6a776195-7da4-50d8-b3ee-a0a85f9010f0",
+      "zyntra_id": "ZQ-0740",
+      "phase": "PH-07",
+      "phase_item_id": "PH-P-22",
+      "lo_id": "0a12d5a9-40da-5124-a864-2d04f062b867",
+      "lo_code": "PRIVACY_SOCIAL"
+    },
+    {
+      "question_text": "No name, but age, suburb, and a rare rash. That can identify. Do not post. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
+      "options": [
+        "Remove the name and the photo is fine",
+        "Combinations of details can identify. Do not post",
+        "Private groups are outside the duty",
+        "A teaching purpose needs no consent",
+        "Delete only if someone complains"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nB. Combinations of details can identify. Do not post\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not start the relationship. Consent and a transfer do not make it acceptable.\n\n2. THE RULE\nA patient can be identified from posted details even in a closed group\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nDe-identification is about the combination, not the name alone.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nCombinations of details can identify. Do not post\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.\n\n10. MEMORY ANCHOR\nA sexual relationship with a patient is misconduct.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not start the relationship. Consent and a transfer do not make it acceptable.",
+      "best_treatment": "Combinations of details can identify. Do not post",
+      "incorrect_answer_explanations": {
+        "A": "Remove the name and the photo is fine is not the correct step for this presentation.",
+        "C": "Private groups are outside the duty is not the correct step for this presentation.",
+        "D": "A teaching purpose needs no consent is not the correct step for this presentation.",
+        "E": "Delete only if someone complains is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "A sexual relationship with a patient is misconduct.",
+        "Consent does not cure the power imbalance."
+      ],
+      "subtopic": "A sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.",
+      "clinical_vignette": true,
+      "id": "0c79a15f-8f82-5611-a1ee-bb0551e9ef00",
+      "zyntra_id": "ZQ-0741",
+      "phase": "PH-07",
+      "phase_item_id": "PH-P-23",
+      "lo_id": "0a12d5a9-40da-5124-a864-2d04f062b867",
+      "lo_code": "PRIVACY_SOCIAL"
+    },
+    {
+      "question_text": "He plans to post tonight and ask the patient tomorrow. Consent comes first. Do not post. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
+      "options": [
+        "Post now and consent later",
+        "Consent before any identifiable teaching post",
+        "A closed group replaces consent",
+        "Colleagues are not the public",
+        "The duty ends at the hospital door"
+      ],
+      "correct_answer": "C",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nC. A closed group replaces consent\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not start the relationship. Consent and a transfer do not make it acceptable.\n\n2. THE RULE\nA patient can be identified from posted details even in a closed group\n\n3. WHY THIS OPTION\nC matches the rule on the facts given.\n\n4. THE TRAP\nConsent before posting. Not after.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nA closed group replaces consent\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.\n\n10. MEMORY ANCHOR\nA sexual relationship with a patient is misconduct.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not start the relationship. Consent and a transfer do not make it acceptable.",
+      "best_treatment": "A closed group replaces consent",
+      "incorrect_answer_explanations": {
+        "A": "Post now and consent later is not the correct step for this presentation.",
+        "B": "Consent before any identifiable teaching post is not the correct step for this presentation.",
+        "D": "Colleagues are not the public is not the correct step for this presentation.",
+        "E": "The duty ends at the hospital door is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "A sexual relationship with a patient is misconduct.",
+        "Consent does not cure the power imbalance."
+      ],
+      "subtopic": "A sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.",
+      "clinical_vignette": true,
+      "id": "f4149e00-6f24-5d61-91fb-138c0c677f5b",
+      "zyntra_id": "ZQ-0742",
+      "phase": "PH-07",
+      "phase_item_id": "PH-P-24",
+      "lo_id": "0a12d5a9-40da-5124-a864-2d04f062b867",
+      "lo_code": "PRIVACY_SOCIAL"
+    },
+    {
+      "question_text": "She asks for a nurse before a pelvic examination. He is in a hurry. Stop. Wait or rebook. A requested chaperone is respected. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
+      "options": [
+        "Stop. Offer to wait for the nurse or rebook",
+        "Proceed because it will only take a minute",
+        "A hurry overrides the request",
+        "Male doctors need no chaperone",
+        "She can be examined and complain later"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. Stop. Offer to wait for the nurse or rebook\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not start the relationship. Consent and a transfer do not make it acceptable.\n\n2. THE RULE\nA chaperone request is respected\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nHurry is not a reason to proceed without the chaperone she asked for.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nStop. Offer to wait for the nurse or rebook\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.\n\n10. MEMORY ANCHOR\nA sexual relationship with a patient is misconduct.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not start the relationship. Consent and a transfer do not make it acceptable.",
+      "best_treatment": "Stop. Offer to wait for the nurse or rebook",
+      "incorrect_answer_explanations": {
+        "B": "Proceed because it will only take a minute is not the correct step for this presentation.",
+        "C": "A hurry overrides the request is not the correct step for this presentation.",
+        "D": "Male doctors need no chaperone is not the correct step for this presentation.",
+        "E": "She can be examined and complain later is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "A sexual relationship with a patient is misconduct.",
+        "Consent does not cure the power imbalance."
+      ],
+      "subtopic": "A sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.",
+      "clinical_vignette": true,
+      "id": "e9bced32-390d-5e9a-b8ba-a38d69c590ca",
+      "zyntra_id": "ZQ-0743",
+      "phase": "PH-07",
+      "phase_item_id": "PH-P-25",
+      "lo_id": "e7741c92-9cbb-5566-b50a-f6e1238b329d",
+      "lo_code": "CHAPERONE"
+    },
+    {
+      "question_text": "She looks uncomfortable and has asked. Wait for the nurse. Do not proceed. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
+      "options": [
+        "The examination is brief so no chaperone",
+        "Respect the request. Do not examine without the nurse",
+        "Offer and then proceed if she hesitates",
+        "A student is an adequate chaperone if untrained",
+        "Document refusal and proceed"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nB. Respect the request. Do not examine without the nurse\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not start the relationship. Consent and a transfer do not make it acceptable.\n\n2. THE RULE\nA chaperone request is respected\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nRequested chaperone. Wait.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nRespect the request. Do not examine without the nurse\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.\n\n10. MEMORY ANCHOR\nA sexual relationship with a patient is misconduct.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not start the relationship. Consent and a transfer do not make it acceptable.",
+      "best_treatment": "Respect the request. Do not examine without the nurse",
+      "incorrect_answer_explanations": {
+        "A": "The examination is brief so no chaperone is not the correct step for this presentation.",
+        "C": "Offer and then proceed if she hesitates is not the correct step for this presentation.",
+        "D": "A student is an adequate chaperone if untrained is not the correct step for this presentation.",
+        "E": "Document refusal and proceed is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "A sexual relationship with a patient is misconduct.",
+        "Consent does not cure the power imbalance."
+      ],
+      "subtopic": "A sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.",
+      "clinical_vignette": true,
+      "id": "9c15970a-ffad-534a-b945-fb7b61bb3a0f",
+      "zyntra_id": "ZQ-0744",
+      "phase": "PH-07",
+      "phase_item_id": "PH-P-26",
+      "lo_id": "e7741c92-9cbb-5566-b50a-f6e1238b329d",
+      "lo_code": "CHAPERONE"
+    },
+    {
+      "question_text": "Offer, and if she wants one, wait. Do not treat the offer as optional once she accepts. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
+      "options": [
+        "Intimate examination never needs a chaperone",
+        "Offer a chaperone and respect a yes",
+        "Only women can request one",
+        "A closed door is a chaperone",
+        "Time pressure decides"
+      ],
+      "correct_answer": "C",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nC. Only women can request one\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not start the relationship. Consent and a transfer do not make it acceptable.\n\n2. THE RULE\nA chaperone request is respected\n\n3. WHY THIS OPTION\nC matches the rule on the facts given.\n\n4. THE TRAP\nOffer and honour. Both.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nOnly women can request one\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.\n\n10. MEMORY ANCHOR\nA sexual relationship with a patient is misconduct.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not start the relationship. Consent and a transfer do not make it acceptable.",
+      "best_treatment": "Only women can request one",
+      "incorrect_answer_explanations": {
+        "A": "Intimate examination never needs a chaperone is not the correct step for this presentation.",
+        "B": "Offer a chaperone and respect a yes is not the correct step for this presentation.",
+        "D": "A closed door is a chaperone is not the correct step for this presentation.",
+        "E": "Time pressure decides is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "A sexual relationship with a patient is misconduct.",
+        "Consent does not cure the power imbalance."
+      ],
+      "subtopic": "A sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.",
+      "clinical_vignette": true,
+      "id": "ac71668b-3385-5967-984e-3c8e7bf4d68c",
+      "zyntra_id": "ZQ-0745",
+      "phase": "PH-07",
+      "phase_item_id": "PH-P-27",
+      "lo_id": "e7741c92-9cbb-5566-b50a-f6e1238b329d",
+      "lo_code": "CHAPERONE"
+    },
+    {
+      "question_text": "The website says no complications in 2000 cholecystectomies. Two bile-duct injuries are known. The absolute claim is misleading. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
+      "options": [
+        "The website is misleading. He has had complications",
+        "Never had a complication is acceptable advertising",
+        "Two bile-duct injuries do not count",
+        "Absolute claims are always true",
+        "A website is not advertising"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. The website is misleading. He has had complications\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not start the relationship. Consent and a transfer do not make it acceptable.\n\n2. THE RULE\nAdvertising must not be misleading\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nDo not claim zero complications when complications occurred.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nThe website is misleading. He has had complications\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.\n\n10. MEMORY ANCHOR\nA sexual relationship with a patient is misconduct.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not start the relationship. Consent and a transfer do not make it acceptable.",
+      "best_treatment": "The website is misleading. He has had complications",
+      "incorrect_answer_explanations": {
+        "B": "Never had a complication is acceptable advertising is not the correct step for this presentation.",
+        "C": "Two bile-duct injuries do not count is not the correct step for this presentation.",
+        "D": "Absolute claims are always true is not the correct step for this presentation.",
+        "E": "A website is not advertising is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "A sexual relationship with a patient is misconduct.",
+        "Consent does not cure the power imbalance."
+      ],
+      "subtopic": "A sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.",
+      "clinical_vignette": true,
+      "id": "88097cff-ad5f-5d1b-93d3-1b9172f5f409",
+      "zyntra_id": "ZQ-0746",
+      "phase": "PH-07",
+      "phase_item_id": "PH-P-28",
+      "lo_id": "1e1ae1d0-5fa5-589b-afe4-b51aff5578ad",
+      "lo_code": "ADVERTISING"
+    },
+    {
+      "question_text": "He knows of the injuries. The claim must not stand. Correct it. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
+      "options": [
+        "Remove only if a patient complains",
+        "Correct the absolute claim. It is false",
+        "Advertising standards do not apply to surgeons",
+        "A small complication can be omitted",
+        "The number of cases cures the claim"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nB. Correct the absolute claim. It is false\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not start the relationship. Consent and a transfer do not make it acceptable.\n\n2. THE RULE\nAdvertising must not be misleading\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nFalse absolute claim. Correct it.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nCorrect the absolute claim. It is false\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.\n\n10. MEMORY ANCHOR\nA sexual relationship with a patient is misconduct.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not start the relationship. Consent and a transfer do not make it acceptable.",
+      "best_treatment": "Correct the absolute claim. It is false",
+      "incorrect_answer_explanations": {
+        "A": "Remove only if a patient complains is not the correct step for this presentation.",
+        "C": "Advertising standards do not apply to surgeons is not the correct step for this presentation.",
+        "D": "A small complication can be omitted is not the correct step for this presentation.",
+        "E": "The number of cases cures the claim is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "A sexual relationship with a patient is misconduct.",
+        "Consent does not cure the power imbalance."
+      ],
+      "subtopic": "A sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.",
+      "clinical_vignette": true,
+      "id": "55fffb73-102c-5abb-9b77-bdc476cee2f6",
+      "zyntra_id": "ZQ-0747",
+      "phase": "PH-07",
+      "phase_item_id": "PH-P-29",
+      "lo_id": "1e1ae1d0-5fa5-589b-afe4-b51aff5578ad",
+      "lo_code": "ADVERTISING"
+    },
+    {
+      "question_text": "Absolute and superlative claims without basis mislead. This one is false. It should not be published. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
+      "options": [
+        "Best in the state needs no evidence",
+        "Misleading claims, including false absolutes, are not acceptable",
+        "Complications are confidential so the claim is fine",
+        "A website is personal",
+        "Only print advertising is regulated"
+      ],
+      "correct_answer": "C",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nC. Complications are confidential so the claim is fine\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not start the relationship. Consent and a transfer do not make it acceptable.\n\n2. THE RULE\nAdvertising must not be misleading\n\n3. WHY THIS OPTION\nC matches the rule on the facts given.\n\n4. THE TRAP\nMisleading advertising. Remove the claim.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nComplications are confidential so the claim is fine\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.\n\n10. MEMORY ANCHOR\nA sexual relationship with a patient is misconduct.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not start the relationship. Consent and a transfer do not make it acceptable.",
+      "best_treatment": "Complications are confidential so the claim is fine",
+      "incorrect_answer_explanations": {
+        "A": "Best in the state needs no evidence is not the correct step for this presentation.",
+        "B": "Misleading claims, including false absolutes, are not acceptable is not the correct step for this presentation.",
+        "D": "A website is personal is not the correct step for this presentation.",
+        "E": "Only print advertising is regulated is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "A sexual relationship with a patient is misconduct.",
+        "Consent does not cure the power imbalance."
+      ],
+      "subtopic": "A sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.",
+      "clinical_vignette": true,
+      "id": "7e18441d-44ce-5525-9289-c09ab30f3f6b",
+      "zyntra_id": "ZQ-0748",
+      "phase": "PH-07",
+      "phase_item_id": "PH-P-30",
+      "lo_id": "1e1ae1d0-5fa5-589b-afe4-b51aff5578ad",
+      "lo_code": "ADVERTISING"
+    },
+    {
+      "question_text": "His adult daughter wants him as her doctor for antidepressants. Decline. Arrange another practitioner. Close family and mental health is a situation to avoid. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
+      "options": [
+        "Decline to become her doctor. Arrange care with another practitioner",
+        "Prescribe because she trusts him",
+        "A daughter is an exception",
+        "Antidepressants for family are fine",
+        "Controlled-drug rules do not apply to family"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. Decline to become her doctor. Arrange care with another practitioner\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not start the relationship. Consent and a transfer do not make it acceptable.\n\n2. THE RULE\nAvoid treating a close family member for mental health or controlled drugs\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nDo not treat close family for mental health. Arrange care.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nDecline to become her doctor. Arrange care with another practitioner\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.\n\n10. MEMORY ANCHOR\nA sexual relationship with a patient is misconduct.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not start the relationship. Consent and a transfer do not make it acceptable.",
+      "best_treatment": "Decline to become her doctor. Arrange care with another practitioner",
+      "incorrect_answer_explanations": {
+        "B": "Prescribe because she trusts him is not the correct step for this presentation.",
+        "C": "A daughter is an exception is not the correct step for this presentation.",
+        "D": "Antidepressants for family are fine is not the correct step for this presentation.",
+        "E": "Controlled-drug rules do not apply to family is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "A sexual relationship with a patient is misconduct.",
+        "Consent does not cure the power imbalance."
+      ],
+      "subtopic": "A sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.",
+      "clinical_vignette": true,
+      "id": "d21ec1b6-311b-50d3-8ca0-0245571d7577",
+      "zyntra_id": "ZQ-0749",
+      "phase": "PH-07",
+      "phase_item_id": "PH-P-31",
+      "lo_id": "3a3569c2-7e2e-5d89-9ad3-be50bbeb4ac9",
+      "lo_code": "FAMILY_TREATMENT"
+    },
+    {
+      "question_text": "She wants a benzodiazepine from her father the GP. Arrange another doctor. Do not start. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
+      "options": [
+        "A short script is harmless",
+        "Avoid becoming the treating doctor for this",
+        "Trust is a reason to prescribe",
+        "No other doctor is acceptable",
+        "Document and prescribe ongoing benzodiazepines"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nB. Avoid becoming the treating doctor for this\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not start the relationship. Consent and a transfer do not make it acceptable.\n\n2. THE RULE\nAvoid treating a close family member for mental health or controlled drugs\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nFamily plus these medicines. Decline.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nAvoid becoming the treating doctor for this\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.\n\n10. MEMORY ANCHOR\nA sexual relationship with a patient is misconduct.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not start the relationship. Consent and a transfer do not make it acceptable.",
+      "best_treatment": "Avoid becoming the treating doctor for this",
+      "incorrect_answer_explanations": {
+        "A": "A short script is harmless is not the correct step for this presentation.",
+        "C": "Trust is a reason to prescribe is not the correct step for this presentation.",
+        "D": "No other doctor is acceptable is not the correct step for this presentation.",
+        "E": "Document and prescribe ongoing benzodiazepines is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "A sexual relationship with a patient is misconduct.",
+        "Consent does not cure the power imbalance."
+      ],
+      "subtopic": "A sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.",
+      "clinical_vignette": true,
+      "id": "6c607ad8-19a8-5b17-b3b5-ffe333fca113",
+      "zyntra_id": "ZQ-0750",
+      "phase": "PH-07",
+      "phase_item_id": "PH-P-32",
+      "lo_id": "3a3569c2-7e2e-5d89-9ad3-be50bbeb4ac9",
+      "lo_code": "FAMILY_TREATMENT"
+    },
+    {
+      "question_text": "The request is ongoing mental health care from her father. Redirect. Emergency first aid is a different question. This is not that. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
+      "options": [
+        "One-off antibiotic for a spouse is the same as ongoing mental health care",
+        "This request is the one to decline and redirect",
+        "Any family care is prohibited including emergencies",
+        "A parent must treat",
+        "No alternative exists"
+      ],
+      "correct_answer": "C",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nC. Any family care is prohibited including emergencies\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not start the relationship. Consent and a transfer do not make it acceptable.\n\n2. THE RULE\nAvoid treating a close family member for mental health or controlled drugs\n\n3. WHY THIS OPTION\nC matches the rule on the facts given.\n\n4. THE TRAP\nRedirect this care. Do not become her doctor.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nAny family care is prohibited including emergencies\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.\n\n10. MEMORY ANCHOR\nA sexual relationship with a patient is misconduct.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not start the relationship. Consent and a transfer do not make it acceptable.",
+      "best_treatment": "Any family care is prohibited including emergencies",
+      "incorrect_answer_explanations": {
+        "A": "One-off antibiotic for a spouse is the same as ongoing mental health care is not the correct step for this presentation.",
+        "B": "This request is the one to decline and redirect is not the correct step for this presentation.",
+        "D": "A parent must treat is not the correct step for this presentation.",
+        "E": "No alternative exists is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "A sexual relationship with a patient is misconduct.",
+        "Consent does not cure the power imbalance."
+      ],
+      "subtopic": "A sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.",
+      "clinical_vignette": true,
+      "id": "5199df52-f1dd-56d4-aeca-524638e01f43",
+      "zyntra_id": "ZQ-0751",
+      "phase": "PH-07",
+      "phase_item_id": "PH-P-33",
+      "lo_id": "3a3569c2-7e2e-5d89-9ad3-be50bbeb4ac9",
+      "lo_code": "FAMILY_TREATMENT"
+    },
+    {
+      "question_text": "Anaphylaxis occurs. He did not warn her of that risk. He wants to alter the original note. Keep the original. A late entry is labelled late. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
+      "options": [
+        "Treat the reaction, keep the original record, and add a dated late entry if needed",
+        "Rewrite the note to say he warned her",
+        "Delete the original",
+        "Backdate a warning",
+        "Alter and do not mark it"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. Treat the reaction, keep the original record, and add a dated late entry if needed\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not start the relationship. Consent and a transfer do not make it acceptable.\n\n2. THE RULE\nDo not rewrite the original record to protect yourself\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nDo not rewrite history. Late entry, marked late.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nTreat the reaction, keep the original record, and add a dated late entry if needed\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.\n\n10. MEMORY ANCHOR\nA sexual relationship with a patient is misconduct.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not start the relationship. Consent and a transfer do not make it acceptable.",
+      "best_treatment": "Treat the reaction, keep the original record, and add a dated late entry if needed",
+      "incorrect_answer_explanations": {
+        "B": "Rewrite the note to say he warned her is not the correct step for this presentation.",
+        "C": "Delete the original is not the correct step for this presentation.",
+        "D": "Backdate a warning is not the correct step for this presentation.",
+        "E": "Alter and do not mark it is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "A sexual relationship with a patient is misconduct.",
+        "Consent does not cure the power imbalance."
+      ],
+      "subtopic": "A sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.",
+      "clinical_vignette": true,
+      "id": "6f4142bf-bd9d-5dd6-9c40-ce0b66886391",
+      "zyntra_id": "ZQ-0752",
+      "phase": "PH-07",
+      "phase_item_id": "PH-P-34",
+      "lo_id": "8ed0af72-098a-501d-aa0e-dfbebceca28a",
+      "lo_code": "RECORD_INTEGRITY"
+    },
+    {
+      "question_text": "He wants a clean note. The original remains. Any addition is marked as late. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
+      "options": [
+        "A correction can silently replace the original",
+        "Original stays. Addition is dated and identified",
+        "Protecting yourself justifies a rewrite",
+        "The insurer prefers a clean note",
+        "Delete and retype"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nB. Original stays. Addition is dated and identified\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not start the relationship. Consent and a transfer do not make it acceptable.\n\n2. THE RULE\nDo not rewrite the original record to protect yourself\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nIntegrity of the record. No silent rewrite.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nOriginal stays. Addition is dated and identified\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.\n\n10. MEMORY ANCHOR\nA sexual relationship with a patient is misconduct.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not start the relationship. Consent and a transfer do not make it acceptable.",
+      "best_treatment": "Original stays. Addition is dated and identified",
+      "incorrect_answer_explanations": {
+        "A": "A correction can silently replace the original is not the correct step for this presentation.",
+        "C": "Protecting yourself justifies a rewrite is not the correct step for this presentation.",
+        "D": "The insurer prefers a clean note is not the correct step for this presentation.",
+        "E": "Delete and retype is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "A sexual relationship with a patient is misconduct.",
+        "Consent does not cure the power imbalance."
+      ],
+      "subtopic": "A sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.",
+      "clinical_vignette": true,
+      "id": "72e221af-5a52-5b57-8f56-df4cbcafc644",
+      "zyntra_id": "ZQ-0753",
+      "phase": "PH-07",
+      "phase_item_id": "PH-P-35",
+      "lo_id": "8ed0af72-098a-501d-aa0e-dfbebceca28a",
+      "lo_code": "RECORD_INTEGRITY"
+    },
+    {
+      "question_text": "Rewriting before a complaint is still rewriting. Do not do it. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
+      "options": [
+        "Alter before the complaint arrives",
+        "Do not alter. Treat, keep, and label any late entry",
+        "A rewritten note is still the original",
+        "Time of alteration does not matter",
+        "No record is safer"
+      ],
+      "correct_answer": "C",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nC. A rewritten note is still the original\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not start the relationship. Consent and a transfer do not make it acceptable.\n\n2. THE RULE\nDo not rewrite the original record to protect yourself\n\n3. WHY THIS OPTION\nC matches the rule on the facts given.\n\n4. THE TRAP\nDo not alter the original to protect yourself.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nA rewritten note is still the original\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.\n\n10. MEMORY ANCHOR\nA sexual relationship with a patient is misconduct.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not start the relationship. Consent and a transfer do not make it acceptable.",
+      "best_treatment": "A rewritten note is still the original",
+      "incorrect_answer_explanations": {
+        "A": "Alter before the complaint arrives is not the correct step for this presentation.",
+        "B": "Do not alter. Treat, keep, and label any late entry is not the correct step for this presentation.",
+        "D": "Time of alteration does not matter is not the correct step for this presentation.",
+        "E": "No record is safer is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "A sexual relationship with a patient is misconduct.",
+        "Consent does not cure the power imbalance."
+      ],
+      "subtopic": "A sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.",
+      "clinical_vignette": true,
+      "id": "f9fb4e92-b87b-54d1-83e1-32271b9c9748",
+      "zyntra_id": "ZQ-0754",
+      "phase": "PH-07",
+      "phase_item_id": "PH-P-36",
+      "lo_id": "8ed0af72-098a-501d-aa0e-dfbebceca28a",
+      "lo_code": "RECORD_INTEGRITY"
+    },
+    {
+      "question_text": "A colleague fabricated a result and enrolled two patients without consent. Raise it. Do not bury it. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
+      "options": [
+        "Raise the fabrication and the missing consent through the proper channel",
+        "Stay quiet because he promised",
+        "A private apology is enough",
+        "Missing consent is minor",
+        "Fabrication can be averaged out"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. Raise the fabrication and the missing consent through the proper channel\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not start the relationship. Consent and a transfer do not make it acceptable.\n\n2. THE RULE\nResearch misconduct and missing consent are raised\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nResearch misconduct is raised, not hidden.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nRaise the fabrication and the missing consent through the proper channel\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.\n\n10. MEMORY ANCHOR\nA sexual relationship with a patient is misconduct.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not start the relationship. Consent and a transfer do not make it acceptable.",
+      "best_treatment": "Raise the fabrication and the missing consent through the proper channel",
+      "incorrect_answer_explanations": {
+        "B": "Stay quiet because he promised is not the correct step for this presentation.",
+        "C": "A private apology is enough is not the correct step for this presentation.",
+        "D": "Missing consent is minor is not the correct step for this presentation.",
+        "E": "Fabrication can be averaged out is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "A sexual relationship with a patient is misconduct.",
+        "Consent does not cure the power imbalance."
+      ],
+      "subtopic": "A sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.",
+      "clinical_vignette": true,
+      "id": "2d2ae3bc-2aae-50d2-aa2c-ccb25c6285a8",
+      "zyntra_id": "ZQ-0755",
+      "phase": "PH-07",
+      "phase_item_id": "PH-P-37",
+      "lo_id": "f46c0963-0d14-5b2e-8336-a8af8693d41d",
+      "lo_code": "RESEARCH_MISCONDUCT"
+    },
+    {
+      "question_text": "Enrolled without consent. That is raised. Retrospective consent does not repair it. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
+      "options": [
+        "Missing consent can be obtained after randomisation as a fix",
+        "Consent was required before enrolment. Raise the breach",
+        "A good overall result cures it",
+        "The journal will not care",
+        "Delete the two patients quietly"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nB. Consent was required before enrolment. Raise the breach\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not start the relationship. Consent and a transfer do not make it acceptable.\n\n2. THE RULE\nResearch misconduct and missing consent are raised\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nRaise the missing consent. Do not quietly delete.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nConsent was required before enrolment. Raise the breach\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.\n\n10. MEMORY ANCHOR\nA sexual relationship with a patient is misconduct.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not start the relationship. Consent and a transfer do not make it acceptable.",
+      "best_treatment": "Consent was required before enrolment. Raise the breach",
+      "incorrect_answer_explanations": {
+        "A": "Missing consent can be obtained after randomisation as a fix is not the correct step for this presentation.",
+        "C": "A good overall result cures it is not the correct step for this presentation.",
+        "D": "The journal will not care is not the correct step for this presentation.",
+        "E": "Delete the two patients quietly is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "A sexual relationship with a patient is misconduct.",
+        "Consent does not cure the power imbalance."
+      ],
+      "subtopic": "A sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.",
+      "clinical_vignette": true,
+      "id": "fcd2b76d-cccf-57af-86f9-900cba675117",
+      "zyntra_id": "ZQ-0756",
+      "phase": "PH-07",
+      "phase_item_id": "PH-P-38",
+      "lo_id": "f46c0963-0d14-5b2e-8336-a8af8693d41d",
+      "lo_code": "RESEARCH_MISCONDUCT"
+    },
+    {
+      "question_text": "One fabricated result is enough to raise. Do not wait for a pattern he admits. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
+      "options": [
+        "Fabricated data are a personal matter",
+        "Report the fabrication. Staying quiet protects neither patients nor the record",
+        "A promise not to repeat is the sanction",
+        "Only the journal is told, after publication",
+        "Ignore a single result"
+      ],
+      "correct_answer": "C",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nC. A promise not to repeat is the sanction\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not start the relationship. Consent and a transfer do not make it acceptable.\n\n2. THE RULE\nResearch misconduct and missing consent are raised\n\n3. WHY THIS OPTION\nC matches the rule on the facts given.\n\n4. THE TRAP\nRaise it now.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nA promise not to repeat is the sanction\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.\n\n10. MEMORY ANCHOR\nA sexual relationship with a patient is misconduct.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not start the relationship. Consent and a transfer do not make it acceptable.",
+      "best_treatment": "A promise not to repeat is the sanction",
+      "incorrect_answer_explanations": {
+        "A": "Fabricated data are a personal matter is not the correct step for this presentation.",
+        "B": "Report the fabrication. Staying quiet protects neither patients nor the record is not the correct step for this presentation.",
+        "D": "Only the journal is told, after publication is not the correct step for this presentation.",
+        "E": "Ignore a single result is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "A sexual relationship with a patient is misconduct.",
+        "Consent does not cure the power imbalance."
+      ],
+      "subtopic": "A sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.",
+      "clinical_vignette": true,
+      "id": "7b4c1144-6780-5fd8-98c7-c01e91486043",
+      "zyntra_id": "ZQ-0757",
+      "phase": "PH-07",
+      "phase_item_id": "PH-P-39",
+      "lo_id": "f46c0963-0d14-5b2e-8336-a8af8693d41d",
+      "lo_code": "RESEARCH_MISCONDUCT"
+    },
+    {
+      "question_text": "A device company offers a week at a luxury resort with no education, for using their implant. Decline. It can influence practice. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
+      "options": [
+        "Decline. The hospitality is out of proportion to any educational purpose",
+        "A week at a resort is ordinary hospitality",
+        "No educational content is still fine",
+        "Using the implant creates no conflict",
+        "Gifts never influence"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. Decline. The hospitality is out of proportion to any educational purpose\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not start the relationship. Consent and a transfer do not make it acceptable.\n\n2. THE RULE\nDecline gifts or hospitality that could influence practice\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nInducement. Decline.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nDecline. The hospitality is out of proportion to any educational purpose\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.\n\n10. MEMORY ANCHOR\nA sexual relationship with a patient is misconduct.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not start the relationship. Consent and a transfer do not make it acceptable.",
+      "best_treatment": "Decline. The hospitality is out of proportion to any educational purpose",
+      "incorrect_answer_explanations": {
+        "B": "A week at a resort is ordinary hospitality is not the correct step for this presentation.",
+        "C": "No educational content is still fine is not the correct step for this presentation.",
+        "D": "Using the implant creates no conflict is not the correct step for this presentation.",
+        "E": "Gifts never influence is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "A sexual relationship with a patient is misconduct.",
+        "Consent does not cure the power imbalance."
+      ],
+      "subtopic": "A sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.",
+      "clinical_vignette": true,
+      "id": "4f82b39a-c9bb-587a-96ec-6bb8a8ba9db3",
+      "zyntra_id": "ZQ-0758",
+      "phase": "PH-07",
+      "phase_item_id": "PH-P-40",
+      "lo_id": "162e3cfb-e67e-51a1-be32-564f1e99de12",
+      "lo_code": "CONFLICT_GIFT"
+    },
+    {
+      "question_text": "He owns 40% of a radiology practice and refers there without saying so. Disclose, and offer another provider. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
+      "options": [
+        "Ownership need not be disclosed if the service is good",
+        "Disclose the ownership and offer a real alternative",
+        "40% is too small to mention",
+        "Patients prefer not to know",
+        "Referral to your own service is always neutral"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nB. Disclose the ownership and offer a real alternative\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not start the relationship. Consent and a transfer do not make it acceptable.\n\n2. THE RULE\nDecline gifts or hospitality that could influence practice\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nFinancial interest in a service you refer to is disclosed.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nDisclose the ownership and offer a real alternative\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.\n\n10. MEMORY ANCHOR\nA sexual relationship with a patient is misconduct.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not start the relationship. Consent and a transfer do not make it acceptable.",
+      "best_treatment": "Disclose the ownership and offer a real alternative",
+      "incorrect_answer_explanations": {
+        "A": "Ownership need not be disclosed if the service is good is not the correct step for this presentation.",
+        "C": "40% is too small to mention is not the correct step for this presentation.",
+        "D": "Patients prefer not to know is not the correct step for this presentation.",
+        "E": "Referral to your own service is always neutral is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "A sexual relationship with a patient is misconduct.",
+        "Consent does not cure the power imbalance."
+      ],
+      "subtopic": "A sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.",
+      "clinical_vignette": true,
+      "id": "3d8f1239-a39f-5e9b-b9eb-7649e4744535",
+      "zyntra_id": "ZQ-0759",
+      "phase": "PH-07",
+      "phase_item_id": "PH-P-41",
+      "lo_id": "162e3cfb-e67e-51a1-be32-564f1e99de12",
+      "lo_code": "CONFLICT_GIFT"
+    },
+    {
+      "question_text": "A student who has never seen a mastectomy is asked to consent the patient, including risks. Stop the delegation. Consent is taken by someone who can explain it. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
+      "options": [
+        "Stop it. The student is not competent to consent a patient for mastectomy",
+        "A student can take any consent",
+        "Never having seen the operation does not matter",
+        "The form is what counts",
+        "Delegation is always appropriate"
+      ],
+      "correct_answer": "A",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nA. Stop it. The student is not competent to consent a patient for mastectomy\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not start the relationship. Consent and a transfer do not make it acceptable.\n\n2. THE RULE\nDo not delegate a task the junior is not competent for\n\n3. WHY THIS OPTION\nA matches the rule on the facts given.\n\n4. THE TRAP\nDo not delegate consent the junior cannot give.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nStop it. The student is not competent to consent a patient for mastectomy\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.\n\n10. MEMORY ANCHOR\nA sexual relationship with a patient is misconduct.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not start the relationship. Consent and a transfer do not make it acceptable.",
+      "best_treatment": "Stop it. The student is not competent to consent a patient for mastectomy",
+      "incorrect_answer_explanations": {
+        "B": "A student can take any consent is not the correct step for this presentation.",
+        "C": "Never having seen the operation does not matter is not the correct step for this presentation.",
+        "D": "The form is what counts is not the correct step for this presentation.",
+        "E": "Delegation is always appropriate is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "A sexual relationship with a patient is misconduct.",
+        "Consent does not cure the power imbalance."
+      ],
+      "subtopic": "A sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.",
+      "clinical_vignette": true,
+      "id": "dcc772a7-b002-50d2-b82b-bf64608dc6e2",
+      "zyntra_id": "ZQ-0760",
+      "phase": "PH-07",
+      "phase_item_id": "PH-P-42",
+      "lo_id": "7d13745c-e019-566c-85d1-6485780ca565",
+      "lo_code": "SUPERVISION"
+    },
+    {
+      "question_text": "The student cannot answer questions about the operation. Do not have them take the consent. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
+      "options": [
+        "Sign the form the student filled",
+        "The consenter must understand the procedure and the risks",
+        "A consultant need not be available",
+        "Students consent to save time",
+        "Risks can be omitted"
+      ],
+      "correct_answer": "B",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nB. The consenter must understand the procedure and the risks\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not start the relationship. Consent and a transfer do not make it acceptable.\n\n2. THE RULE\nDo not delegate a task the junior is not competent for\n\n3. WHY THIS OPTION\nB matches the rule on the facts given.\n\n4. THE TRAP\nCompetence to explain is required. The student does not have it.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nThe consenter must understand the procedure and the risks\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.\n\n10. MEMORY ANCHOR\nA sexual relationship with a patient is misconduct.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not start the relationship. Consent and a transfer do not make it acceptable.",
+      "best_treatment": "The consenter must understand the procedure and the risks",
+      "incorrect_answer_explanations": {
+        "A": "Sign the form the student filled is not the correct step for this presentation.",
+        "C": "A consultant need not be available is not the correct step for this presentation.",
+        "D": "Students consent to save time is not the correct step for this presentation.",
+        "E": "Risks can be omitted is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "A sexual relationship with a patient is misconduct.",
+        "Consent does not cure the power imbalance."
+      ],
+      "subtopic": "A sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.",
+      "clinical_vignette": true,
+      "id": "3c14039f-69d3-55ba-8949-9f29b56b626e",
+      "zyntra_id": "ZQ-0761",
+      "phase": "PH-07",
+      "phase_item_id": "PH-P-43",
+      "lo_id": "7d13745c-e019-566c-85d1-6485780ca565",
+      "lo_code": "SUPERVISION"
+    },
+    {
+      "question_text": "Delegation has a limit. This task is beyond the student. Stop it. The rest of the history does not lower the standard. A private arrangement, a past illness, or a busy list does not create an exception. Apply the professional duty to the facts in front of you. Act on it now. Waiting for a complaint is not the safeguard. Nothing in the history creates an exception. The same rule applies if the person is a friend, a colleague, or a relative. A promise or a private arrangement does not replace the duty. State the correct step clearly. Do not delay it. The standard is the same whether or not anyone complains. Apply it to the facts in front of you. That is the professional response. Clearly. Today. Convenience, loyalty, and a busy list are the usual reasons this error is made. They are not reasons to cross the boundary, alter the record, or ignore a risk. Decide on the duty, not on what would be easier tonight.",
+      "options": [
+        "Any delegated task is the student's responsibility alone",
+        "Do not ask a junior to do a task they are not competent for",
+        "Supervision means absence",
+        "Consent is administrative",
+        "The patient will not know"
+      ],
+      "correct_answer": "C",
+      "category": "Population Health & Ethics",
+      "difficulty": "moderate",
+      "explanation": "CORRECT ANSWER\n\nC. Supervision means absence\n\n---\n\n1. CLINICAL DIAGNOSIS\nDo not start the relationship. Consent and a transfer do not make it acceptable.\n\n2. THE RULE\nDo not delegate a task the junior is not competent for\n\n3. WHY THIS OPTION\nC matches the rule on the facts given.\n\n4. THE TRAP\nSupervise. Do not delegate incompetence.\n\n5. WHAT CHANGES THE ANSWER\nThe single fact that places this case on this rule, not a neighbouring one.\n\n6. WHAT DOES NOT CHANGE IT\nAge, a relative's preference, a busy clinic, or a recent negative test does not create an exception.\n\n7. THE NEXT STEP\nSupervision means absence\n\n8. WHAT TO DOCUMENT\nThe assessment, the rule applied, and the action taken.\n\n9. RELATED RULES\nA sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.\n\n10. MEMORY ANCHOR\nA sexual relationship with a patient is misconduct.\n\n---\n\nEDITED BY HEISENBERG",
+      "diagnosis_explanation": "Do not start the relationship. Consent and a transfer do not make it acceptable.",
+      "best_treatment": "Supervision means absence",
+      "incorrect_answer_explanations": {
+        "A": "Any delegated task is the student's responsibility alone is not the correct step for this presentation.",
+        "B": "Do not ask a junior to do a task they are not competent for is not the correct step for this presentation.",
+        "D": "Consent is administrative is not the correct step for this presentation.",
+        "E": "The patient will not know is not the correct step for this presentation."
+      },
+      "key_takeaways": [
+        "A sexual relationship with a patient is misconduct.",
+        "Consent does not cure the power imbalance."
+      ],
+      "subtopic": "A sexual or improper relationship with a patient is professional misconduct, even if the patient agrees.",
+      "clinical_vignette": true,
+      "id": "9c3b6fc2-8c31-5293-8c37-efb86f6a4917",
+      "zyntra_id": "ZQ-0762",
+      "phase": "PH-07",
+      "phase_item_id": "PH-P-44",
+      "lo_id": "7d13745c-e019-566c-85d1-6485780ca565",
+      "lo_code": "SUPERVISION"
+    }
+  ]
+}
