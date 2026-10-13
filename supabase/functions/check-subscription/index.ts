@@ -1,6 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
-import { checkoutDecision, entitlementFromRow } from "../_shared/billing-lifecycle.ts";
+import { checkoutDecision, entitlementFromRow, pickEntitledRow } from "../_shared/billing-lifecycle.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -67,15 +67,15 @@ serve(async (req) => {
       .select("*")
       .eq("user_id", userId)
       .eq("status", "active")
-      .order("created_at", { ascending: false })
-      .limit(1);
+      .order("created_at", { ascending: false });
 
     if (paymentsError) {
       logStep("Payments query error", { message: paymentsError.message });
     }
 
     if (payments && payments.length > 0) {
-      const payment = payments[0];
+      // Same selection rule as hasPaidAccess: any entitled row wins (else newest, for refresh).
+      const payment = pickEntitledRow(payments).row!;
       logStep("Active payment found", { tier: payment.tier, subscription_id: payment.razorpay_subscription_id });
 
       // PayPal subscriptions: verify with PayPal API that it's still active
@@ -143,8 +143,9 @@ serve(async (req) => {
               logStep("Subscription ended at provider", { status: sub.status });
               await supabaseClient.from("payments").update({ status: "cancelled" }).eq("id", payment.id);
               row = { ...payment, status: "cancelled" };
-            } else if (typeof sub.current_end === "number") {
-              const fresh = new Date(sub.current_end * 1000).toISOString();
+            } else if (typeof (sub.current_end ?? sub.charge_at) === "number") {
+              // current_end once billed; during trial charge_at (= trial end) backfills null-date rows.
+              const fresh = new Date((sub.current_end ?? sub.charge_at) * 1000).toISOString();
               if (!payment.current_period_end || fresh > payment.current_period_end) {
                 await supabaseClient.from("payments").update({ current_period_end: fresh }).eq("id", payment.id);
                 row = { ...payment, current_period_end: fresh };
@@ -163,12 +164,11 @@ serve(async (req) => {
           status: 200,
         });
       } else {
-        // One-time payment (lifetime) — always active
-        return new Response(JSON.stringify({
-          subscribed: true,
-          tier: payment.tier,
-          subscription_end: null,
-        }), {
+        // One-time / no-subscription rows: fail closed unless the explicit legacy 'lifetime' tier.
+        const ent = entitlementFromRow(payment);
+        return new Response(JSON.stringify(ent.entitled
+          ? { subscribed: true, tier: payment.tier, subscription_end: ent.endsAt }
+          : { subscribed: false, tier: "free" }), {
           headers: { ...corsHeaders, "Content-Type": "application/json" },
           status: 200,
         });
@@ -179,7 +179,8 @@ serve(async (req) => {
     // trial_eligible: never trialled/subscribed before (returning customers resubscribe without a trial).
     const { data: hist } = await supabaseClient.from("payments")
       .select("status,trial_end_at,razorpay_subscription_id").eq("user_id", userId);
-    const trialEligible = checkoutDecision(hist ?? []).ok ? (checkoutDecision(hist ?? []) as { trial: boolean }).trial : false;
+    const decision = checkoutDecision(hist ?? []);
+    const trialEligible = decision.ok && decision.trial;
     return new Response(JSON.stringify({ subscribed: false, tier: "free", trial_eligible: trialEligible }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 200,

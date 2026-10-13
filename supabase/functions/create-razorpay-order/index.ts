@@ -1,7 +1,8 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
 import { firstChargeUnix, PLAN_PRICES, type PlanInterval } from "../_shared/billing-dates.ts";
-import { checkoutDecision, PENDING_TTL_MS } from "../_shared/billing-lifecycle.ts";
+import { checkoutDecision, pendingRowExpirable, resolveStalePending, PENDING_TTL_MS } from "../_shared/billing-lifecycle.ts";
+import { cancelSubscriptionNow, fetchSubscription } from "../_shared/razorpay.ts";
 
 // Server-side plan catalogue — never trust plan IDs, amounts or tiers from the browser.
 // Single plan: Full Access, AUD. The client sends only { interval: "monthly" | "quarterly" }.
@@ -39,10 +40,24 @@ serve(async (req) => {
     if (interval !== "monthly" && interval !== "quarterly") return reply({ error: "Unknown plan interval" }, 400);
     const admin = createClient(Deno.env.get("SUPABASE_URL") ?? "", Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "", { auth: { persistSession: false } });
 
-    // Expire this user's abandoned checkouts (pending > 1h) so they don't block a new attempt.
-    await admin.from("payments").update({ status: "expired" })
+    // Stale pending rows (> 1h). Hank B1: only rows WITHOUT a Razorpay subscription id are expired blindly.
+    // Rows with a subscription id are resolved against Razorpay so a live subscription is never orphaned.
+    const { data: stale } = await admin.from("payments")
+      .select("id,status,razorpay_subscription_id,created_at")
       .eq("user_id", user.id).eq("status", "pending")
       .lt("created_at", new Date(Date.now() - PENDING_TTL_MS).toISOString());
+    for (const row of stale ?? []) {
+      if (pendingRowExpirable(row)) {
+        await admin.from("payments").update({ status: "expired" }).eq("id", row.id).eq("status", "pending");
+        continue;
+      }
+      const rz = await fetchSubscription(row.razorpay_subscription_id!);
+      const decision = resolveStalePending(rz?.status ?? null);
+      if (decision === "cancel_then_expire") {
+        if (!(await cancelSubscriptionNow(row.razorpay_subscription_id!, "create:stale-unauthorised"))) continue;
+      }
+      if (decision !== "keep") await admin.from("payments").update({ status: "expired" }).eq("id", row.id).eq("status", "pending");
+    }
 
     const { data: history, error: histErr } = await admin
       .from("payments")
@@ -86,6 +101,8 @@ serve(async (req) => {
       body: JSON.stringify({
         plan_id: planId,
         total_count: TOTAL_COUNT[interval as PlanInterval],
+        // N1: Razorpay itself refuses authorisation after the reservation TTL (matches pending-row expiry).
+        expire_by: Math.floor((Date.now() + PENDING_TTL_MS) / 1000),
         ...(withTrial ? {
           start_at: startAt,
           addons: [{ item: { name: "Card check (non-refundable)", amount: CARD_CHECK_CENTS, currency: "AUD" } }],

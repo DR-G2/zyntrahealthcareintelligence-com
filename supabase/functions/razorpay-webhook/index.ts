@@ -1,6 +1,8 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
 import { verifyHmacSignature } from "../_shared/signature.ts";
+import { orphanAction, reconcilesPendingRow } from "../_shared/billing-lifecycle.ts";
+import { cancelSubscriptionNow } from "../_shared/razorpay.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -110,23 +112,44 @@ serve(async (req) => {
 
       // Only rows reserved by create-razorpay-order (pending -> active) are ever updated; unknown
       // subscriptions are rejected (logged), never inserted.
-      const { data: existing } = await supabase
+      const { data: found } = await supabase
         .from("payments")
         .select("id,status,razorpay_payment_id")
         .eq("user_id", userId)
         .eq("razorpay_subscription_id", subscriptionId)
         .maybeSingle();
+      let existing = found;
+      if (!existing && notes.pending_payment_id) {
+        // N1 crash-safety: reconcile a pending row whose subscription id was never saved.
+        const { data: cand } = await supabase.from("payments")
+          .select("id,user_id,status,razorpay_subscription_id,razorpay_payment_id").eq("id", notes.pending_payment_id).maybeSingle();
+        if (reconcilesPendingRow(userId, notes, cand)) {
+          await supabase.from("payments").update({ razorpay_subscription_id: subscriptionId }).eq("id", cand!.id).is("razorpay_subscription_id", null);
+          existing = { id: cand!.id, status: cand!.status, razorpay_payment_id: cand!.razorpay_payment_id };
+        }
+      }
 
-      if (!existing) {
-        log("REJECTED: subscription event with no matching reserved row", { event, subscriptionId, userId });
-      } else if (status === "active" && (existing.status === "cancelled" || existing.status === "expired")) {
-        // L1: money captured on a subscription we already cancelled -> flag for manual refund, no access.
-        const { error } = await supabase.from("payments").update({
-          needs_refund: true,
-          refund_payment_id: paymentId,
-        }).eq("id", existing.id);
-        if (error) throw error;
-        log("NEEDS_REFUND: charge on cancelled subscription", { id: existing.id, paymentId, subscriptionId });
+      const action = orphanAction(existing, status === "active", !!paymentId);
+      if (action !== "none") {
+        // Hank B1: unknown / expired / cancelled row but Razorpay is live -> stop it charging NOW,
+        // and flag any captured money for manual refund. Never grant access.
+        await cancelSubscriptionNow(subscriptionId, existing ? `webhook:${existing.status}-row` : "webhook:no-row");
+        if (existing) {
+          if (action === "cancel_and_refund") {
+            const { error } = await supabase.from("payments").update({ needs_refund: true, refund_payment_id: paymentId }).eq("id", existing.id);
+            if (error) throw error;
+          }
+        } else {
+          // Audit row (status 'orphan' is not an open/entitling status).
+          const { error } = await supabase.from("payments").insert({
+            user_id: userId, razorpay_subscription_id: subscriptionId, tier, status: "orphan",
+            needs_refund: action === "cancel_and_refund", refund_payment_id: paymentId,
+          });
+          if (error) throw error;
+        }
+        log(action === "cancel_and_refund" ? "NEEDS_REFUND: charge on unknown/ended subscription; cancelled at provider" : "Cancelled unknown/ended subscription at provider", { event, subscriptionId, userId, row: existing?.id ?? null });
+      } else if (!existing) {
+        log("Ignored non-granting event for unknown subscription", { event, subscriptionId });
       } else {
         const { error } = await supabase
           .from("payments")
@@ -200,8 +223,8 @@ serve(async (req) => {
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : String(error);
     log("ERROR", { message });
-    // Return 200 to prevent Razorpay from retrying on our errors
-    return new Response(JSON.stringify({ error: message }), {
+    // Return 200 to prevent Razorpay from retrying on our errors; no internal detail in the body.
+    return new Response(JSON.stringify({ error: "processing_failed" }), {
       status: 200,
       headers: { "Content-Type": "application/json" },
     });

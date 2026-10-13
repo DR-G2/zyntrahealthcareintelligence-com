@@ -141,8 +141,9 @@ describe('Gus retest items', () => {
 describe('Gus retest 2', () => {
   it('webhook never inserts subscription rows and flags charges on cancelled subs', () => {
     const src = read('supabase/functions/razorpay-webhook/index.ts');
-    expect(src).not.toMatch(/from\("payments"\)\.insert\(/);
-    expect(src).toContain('REJECTED: subscription event with no matching reserved row');
+    // Only audit rows with status 'orphan' may be inserted (never an entitling row).
+    const inserts = src.split('from("payments").insert(').slice(1);
+    for (const chunk of inserts) expect(chunk.slice(0, 400)).toMatch(/status: "orphan"|razorpay_order_id/);
     expect(src).toContain('needs_refund: true');
     expect(src).toContain('last_razorpay_payment_id');
   });
@@ -155,7 +156,7 @@ describe('Gus retest 2', () => {
     expect(m50.indexOf('RAISE EXCEPTION')).toBeLessThan(m50.indexOf('add constraint'));
     expect(read('supabase/migrations/20261014051000_entitlement_honours_billing_dates.sql')).toMatch(/REVOKE EXECUTE ON FUNCTION public\.payment_row_entitled\(public\.payments\) FROM anon, public/);
     const m60 = read('supabase/migrations/20261014060000_payments_pending_checkout_guard.sql');
-    expect(m60).toMatch(/create unique index if not exists payments_one_open_per_user\s+on public\.payments \(user_id\)\s+where status in \('pending', 'active', 'authenticated'\)/);
+    expect(m60).toMatch(/create unique index if not exists payments_one_open_per_user\s+on public\.payments \(user_id\)\s+where status in \('pending', 'active', 'authenticated', 'paused', 'halted'\)/);
     expect(m60).toContain("interval '1 hour'");
   });
   it('v2-ai-lab uses the shared entitlement helper (no inlined copy)', () => {
@@ -167,5 +168,53 @@ describe('Gus retest 2', () => {
     const src = read('src/components/settings/BillingCard.tsx');
     expect(src).toContain("subscription.plan_interval === 'quarterly'");
     expect(src).not.toContain('plan_amount');
+  });
+});
+
+describe('Hank B1/B2 + Gus retest 3 wiring', () => {
+  it('create sets expire_by and resolves stale pending rows against Razorpay', () => {
+    const src = read('supabase/functions/create-razorpay-order/index.ts');
+    expect(src).toContain('expire_by: Math.floor((Date.now() + PENDING_TTL_MS) / 1000)');
+    expect(src).toContain('pendingRowExpirable(row)');
+    expect(src).toContain('resolveStalePending(');
+  });
+  it('webhook + verify cancel unmatched subscriptions at Razorpay and reconcile crash-before-save', () => {
+    for (const f of ['supabase/functions/razorpay-webhook/index.ts', 'supabase/functions/verify-razorpay-payment/index.ts']) {
+      const src = read(f);
+      expect(src).toContain('cancelSubscriptionNow(');
+      expect(src).toContain('reconcilesPendingRow(');
+    }
+  });
+  it('cancel-now helper is idempotent (never throws, cancel_at_cycle_end 0)', () => {
+    const src = read('supabase/functions/_shared/razorpay.ts');
+    expect(src).toContain('cancel_at_cycle_end: 0');
+    expect(src).toMatch(/catch \(e\)/);
+  });
+  it('verify treats 0 updated rows as failure; webhook error body is generic', () => {
+    expect(read('supabase/functions/verify-razorpay-payment/index.ts')).toContain('!updated?.length');
+    expect(read('supabase/functions/razorpay-webhook/index.ts')).toContain('error: "processing_failed"');
+  });
+  it('migrations: dedupe precedes unique/open index; cron guarded; paused/halted open; cron expiry skips rows with sub id', () => {
+    const files = ['20261014040000_billing_cancel_and_trial_reminders.sql', '20261014045000_payments_dedupe.sql', '20261014050000_payments_replay_protection.sql', '20261014060000_payments_pending_checkout_guard.sql'];
+    expect([...files].sort()).toEqual(files);
+    const dedupe = read('supabase/migrations/20261014045000_payments_dedupe.sql');
+    expect(dedupe).toContain("status = 'superseded'");
+    expect(dedupe).not.toMatch(/\bdelete\s+from\b/i);
+    for (const f of [files[0], files[3]]) {
+      const m = read(`supabase/migrations/${f}`);
+      expect(m).toContain("IF EXISTS (SELECT 1 FROM pg_extension WHERE extname = 'pg_cron')");
+      expect(m).not.toMatch(/^select cron\.schedule/m);
+    }
+    const m60 = read('supabase/migrations/20261014060000_payments_pending_checkout_guard.sql');
+    expect(m60).toContain("where status in ('pending', 'active', 'authenticated', 'paused', 'halted');");
+    expect(m60).toContain('razorpay_subscription_id is null');
+  });
+  it('customer-portal cancel routes through planCancel', () => {
+    const src = read('supabase/functions/customer-portal/index.ts');
+    expect(src).toContain('planCancel(');
+    expect(src).not.toContain('cancel_at_cycle_end: true');
+  });
+  it('051000 fails closed on undated rows except explicit lifetime', () => {
+    expect(read('supabase/migrations/20261014051000_entitlement_honours_billing_dates.sql')).toContain("THEN p.tier = 'lifetime'");
   });
 });

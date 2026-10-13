@@ -59,7 +59,7 @@ export async function hasPaidAccess(userId: string): Promise<boolean> {
   const sb = serviceClient();
   const nowIso = new Date().toISOString();
   const [{ data: pay }, { data: ov }] = await Promise.all([
-    sb.from("payments").select("status,trial_end_at,current_period_end,cancel_at_period_end").eq("user_id", userId).eq("status", "active"),
+    sb.from("payments").select("status,tier,trial_end_at,current_period_end,cancel_at_period_end").eq("user_id", userId).eq("status", "active"),
     sb.from("manual_overrides").select("id, expires_at").eq("user_id", userId),
   ]);
   // Honour stored trial / period end / cancel-at-period-end (same rule as check-subscription).

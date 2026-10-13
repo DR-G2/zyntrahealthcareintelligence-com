@@ -116,6 +116,7 @@ export const RENEWAL_GRACE_HOURS = 48;
 
 export interface EntitlementRow {
   status: string;
+  tier?: string | null;
   trial_end_at?: string | null;
   current_period_end?: string | null;
   cancel_at_period_end?: boolean | null;
@@ -129,9 +130,14 @@ export function entitlementFromRow(row: EntitlementRow | null, now: Date = new D
   const periodEnd = row.current_period_end ? new Date(row.current_period_end).getTime() : null;
   const trialEnd = row.trial_end_at ? new Date(row.trial_end_at).getTime() : null;
   const end = periodEnd ?? trialEnd;
-  // Rows created before date columns existed: status alone decides (same as before this change).
-  // check-subscription backfills current_period_end from Razorpay on the next check.
-  if (end === null) return { entitled: true, endsAt: null, reason: 'legacy_no_dates' };
+  // No dates: FAIL CLOSED, except the explicit legacy one-time 'lifetime' tier (no new code path sells it).
+  // Subscription rows get current_period_end backfilled from Razorpay by check-subscription; see
+  // migration 20261014045000 for the backfill/audit query.
+  if (end === null) {
+    return row.tier === 'lifetime'
+      ? { entitled: true, endsAt: null, reason: 'legacy_lifetime' }
+      : { entitled: false, endsAt: null, reason: 'no_period_recorded' };
+  }
   if (row.cancel_at_period_end) {
     return t < end ? { entitled: true, endsAt: new Date(end).toISOString(), reason: 'cancelled_until_period_end' } : { entitled: false, endsAt: new Date(end).toISOString(), reason: 'cancelled_expired' };
   }
@@ -142,7 +148,8 @@ export function entitlementFromRow(row: EntitlementRow | null, now: Date = new D
 
 // ---- Checkout eligibility (Gus L2 / race) ----
 export const PENDING_TTL_MS = 60 * 60 * 1000; // abandoned checkout rows expire after 1h
-export const OPEN_STATUSES = ['pending', 'active', 'authenticated'] as const;
+// paused/halted = card failed, Razorpay still retrying: still open (N2), blocks a parallel resubscribe.
+export const OPEN_STATUSES = ['pending', 'active', 'authenticated', 'paused', 'halted'] as const;
 
 export interface HistoryRow { status: string; trial_end_at?: string | null; razorpay_subscription_id?: string | null }
 export type CheckoutDecision = { ok: true; trial: boolean } | { ok: false; error: string };
@@ -159,12 +166,69 @@ export function checkoutDecision(rows: HistoryRow[]): CheckoutDecision {
       ? 'A checkout or subscription is already in progress for this account.'
       : 'You already have an active subscription.' };
   }
-  // 'expired' = abandoned checkout (pending row timed out, never authorized): does not use up the trial.
-  const hadTrial = rows.some((r) => !!r.trial_end_at || (!!r.razorpay_subscription_id && r.status !== 'expired'));
+  // Any row that reached Razorpay (has a subscription id), in ANY status incl. expired, uses up the trial (N1).
+  const hadTrial = rows.some((r) => !!r.trial_end_at || !!r.razorpay_subscription_id);
   return { ok: true, trial: !hadTrial };
 }
 
 /** Verify/webhook: an authorized subscription is accepted only against the caller's own pending row for it. */
 export function matchesPendingRow(userId: string, subscriptionId: string, row: { user_id: string; status: string; razorpay_subscription_id: string | null } | null): boolean {
   return !!row && row.user_id === userId && row.status === 'pending' && row.razorpay_subscription_id === subscriptionId;
+}
+
+// ---- Orphan / mismatched subscriptions (Hank B1) ----
+export const RAZORPAY_TERMINAL = ['cancelled', 'completed', 'expired'] as const;
+export const RAZORPAY_LIVE = ['created', 'authenticated', 'active', 'pending', 'halted'] as const;
+
+export type OrphanAction = 'none' | 'cancel' | 'cancel_and_refund';
+/**
+ * What to do with a Razorpay subscription event that does not map to a valid reserved row.
+ * - no row, or row expired/cancelled/superseded/orphan: cancel the subscription NOW at Razorpay;
+ *   if the event carries a captured payment, also flag it for manual refund.
+ * - valid row (pending/active/authenticated/paused): none.
+ */
+export function orphanAction(row: { status: string } | null, eventGrantsAccess: boolean, hasCapture: boolean): OrphanAction {
+  const invalid = !row || ['expired', 'cancelled', 'superseded', 'orphan'].includes(row.status);
+  if (!invalid || !eventGrantsAccess) return 'none';
+  return hasCapture ? 'cancel_and_refund' : 'cancel';
+}
+
+/** Which of a user's pending rows may be expired: only those with NO Razorpay subscription id. */
+export function pendingRowExpirable(row: { status: string; razorpay_subscription_id: string | null; created_at: string }, now: Date = new Date()): boolean {
+  return row.status === 'pending' && !row.razorpay_subscription_id && Date.parse(row.created_at) < now.getTime() - PENDING_TTL_MS;
+}
+
+/**
+ * A stale pending row WITH a subscription id is resolved by asking Razorpay:
+ * terminal -> expire row; 'created' (never authorised) -> cancel at Razorpay then expire row;
+ * authenticated/active/etc. -> keep (the user has a live subscription; webhook/verify will promote it).
+ */
+export function resolveStalePending(rzStatus: string | null): 'expire' | 'cancel_then_expire' | 'keep' {
+  if (rzStatus && (RAZORPAY_TERMINAL as readonly string[]).includes(rzStatus)) return 'expire';
+  if (rzStatus === 'created') return 'cancel_then_expire';
+  return 'keep';
+}
+
+/** check-subscription / hasPaidAccess: the same row selection — any entitled row wins. */
+export function pickEntitledRow<T extends EntitlementRow>(rows: T[], now: Date = new Date()): { row: T | null; entitlement: Entitlement } {
+  for (const r of rows) {
+    const e = entitlementFromRow(r, now);
+    if (e.entitled) return { row: r, entitlement: e };
+  }
+  return { row: rows[0] ?? null, entitlement: entitlementFromRow(rows[0] ?? null, now) };
+}
+
+/** Crash-safe reconcile (N1): a pending row whose subscription id was never saved can be matched by the
+ *  pending_payment_id that create-razorpay-order put in the subscription notes. */
+export function reconcilesPendingRow(userId: string, notes: { user_id?: string; pending_payment_id?: string } | null | undefined,
+  row: { id: string; user_id: string; status: string; razorpay_subscription_id: string | null } | null): boolean {
+  return !!row && !!notes && notes.user_id === userId && notes.pending_payment_id === row.id
+    && row.user_id === userId && row.status === 'pending' && !row.razorpay_subscription_id;
+}
+
+/** No-trial resubscribe verified before Razorpay reports current_end: provisional paid-through = now + interval. */
+export function provisionalPeriodEnd(interval: 'monthly' | 'quarterly', now: Date = new Date()): string {
+  const d = new Date(now.getTime());
+  d.setUTCMonth(d.getUTCMonth() + (interval === 'quarterly' ? 3 : 1));
+  return d.toISOString();
 }

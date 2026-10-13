@@ -11,12 +11,17 @@ create index if not exists payments_trial_reminder_due_idx
   on public.payments (trial_end_at)
   where trial_reminder_sent_at is null and status = 'active';
 
-create extension if not exists pg_cron;
+-- pg_cron / pg_net must be enabled in the dashboard (Database > Extensions) for the schedule below.
 create extension if not exists pg_net;
 
 -- Requires Vault secrets: 'project_url' (https://<ref>.supabase.co) and 'trial_reminder_cron_secret'
 -- (same value as the edge function env TRIAL_REMINDER_CRON_SECRET).
-select cron.schedule(
+-- Guarded: only schedules when pg_cron is actually installed (otherwise this migration still applies;
+-- schedule the job manually once pg_cron is enabled).
+DO $guard$
+BEGIN
+  IF EXISTS (SELECT 1 FROM pg_extension WHERE extname = 'pg_cron') THEN
+    PERFORM cron.schedule(
   'trial-reminder-email-hourly',
   '7 * * * *',
   $$
@@ -30,3 +35,8 @@ select cron.schedule(
   );
   $$
 );
+  ELSE
+    RAISE NOTICE 'pg_cron not installed: trial-reminder-email-hourly NOT scheduled';
+  END IF;
+END
+$guard$;

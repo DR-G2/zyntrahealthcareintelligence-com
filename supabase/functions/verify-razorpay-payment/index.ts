@@ -1,7 +1,8 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
 import { verifyHmacSignature } from "../_shared/signature.ts";
-import { matchesPendingRow } from "../_shared/billing-lifecycle.ts";
+import { matchesPendingRow, provisionalPeriodEnd, reconcilesPendingRow } from "../_shared/billing-lifecycle.ts";
+import { cancelSubscriptionNow } from "../_shared/razorpay.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -88,23 +89,49 @@ serve(async (req) => {
       trial_end_at: rz?.start_at && rz?.notes?.trial === "yes" ? new Date(rz.start_at * 1000).toISOString() : null,
       // Paid-through: Razorpay current_end once billed; during trial, access runs to trial end.
       current_period_end: rz?.current_end ? new Date(rz.current_end * 1000).toISOString()
-        : rz?.start_at ? new Date(rz.start_at * 1000).toISOString() : null,
+        : rz?.start_at && rz?.notes?.trial === "yes" ? new Date(rz.start_at * 1000).toISOString()
+        // No-trial resubscribe before current_end exists: provisional now + interval (never undated/unlimited).
+        : provisionalPeriodEnd(rz?.notes?.interval === "quarterly" ? "quarterly" : "monthly"),
     };
 
     let insertError: unknown = null;
     if (razorpay_subscription_id) {
       // RACE GUARD: only accept a subscription that matches this user's own pending row
       // (reserved by create-razorpay-order before Razorpay was called).
-      const { data: pend } = await supabase.from("payments")
+      let { data: pend } = await supabase.from("payments")
         .select("id,user_id,status,razorpay_subscription_id")
         .eq("razorpay_subscription_id", razorpay_subscription_id).maybeSingle();
-      if (!matchesPendingRow(userId, razorpay_subscription_id, pend)) {
-        throw new ClientError("This checkout is no longer valid. Please start again.", 409);
+      if (!pend && rz?.notes?.pending_payment_id) {
+        // N1 crash-safety: create died before saving sub.id -> reconcile via notes.pending_payment_id.
+        const { data: cand } = await supabase.from("payments")
+          .select("id,user_id,status,razorpay_subscription_id").eq("id", rz.notes.pending_payment_id).maybeSingle();
+        if (reconcilesPendingRow(userId, rz.notes, cand)) {
+          await supabase.from("payments").update({ razorpay_subscription_id }).eq("id", cand!.id).is("razorpay_subscription_id", null);
+          pend = { ...cand!, razorpay_subscription_id };
+        }
       }
-      const { error } = await supabase.from("payments").update({
+      if (!matchesPendingRow(userId, razorpay_subscription_id, pend)) {
+        // Hank B1: authorised at Razorpay but no valid reservation -> stop it charging NOW and flag the
+        // authorisation payment (e.g. A$1 card check) for manual refund. No access is granted.
+        await cancelSubscriptionNow(razorpay_subscription_id, `verify:${pend ? pend.status : "no"}-row`);
+        if (pend && pend.user_id === userId) {
+          await supabase.from("payments").update({ needs_refund: true, refund_payment_id: razorpay_payment_id }).eq("id", pend.id);
+        } else if (!pend) {
+          await supabase.from("payments").insert({
+            user_id: userId, razorpay_subscription_id, tier, status: "orphan", needs_refund: true, refund_payment_id: razorpay_payment_id,
+          });
+        }
+        throw new ClientError("This checkout is no longer valid and has been cancelled. Any charge will be refunded.", 409);
+      }
+      const { data: updated, error } = await supabase.from("payments").update({
         razorpay_payment_id, status: "active", ...dates,
-      }).eq("id", pend!.id).eq("status", "pending");
+      }).eq("id", pend!.id).eq("status", "pending").select("id");
       insertError = error;
+      // Follow-up: a concurrent verify/webhook may have promoted the row already; 0 rows is not success.
+      if (!error && !updated?.length) {
+        const { data: now } = await supabase.from("payments").select("status").eq("id", pend!.id).maybeSingle();
+        if (now?.status !== "active") throw new ClientError("Could not activate this checkout. Please contact support.", 409);
+      }
     } else {
       // Legacy one-time order path (follow-up: remove). Upsert ignoreDuplicates covers concurrent verifies.
       const { error } = await supabase.from("payments").upsert({

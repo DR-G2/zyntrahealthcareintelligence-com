@@ -5,7 +5,8 @@ CREATE OR REPLACE FUNCTION public.payment_row_entitled(p public.payments)
 RETURNS boolean LANGUAGE sql STABLE SET search_path = public AS $$
   SELECT p.status = 'active' AND (
     CASE
-      WHEN coalesce(p.current_period_end, p.trial_end_at) IS NULL THEN true -- legacy rows without dates
+      -- No dates: fail closed except the explicit legacy one-time 'lifetime' tier.
+      WHEN coalesce(p.current_period_end, p.trial_end_at) IS NULL THEN p.tier = 'lifetime'
       WHEN p.cancel_at_period_end THEN now() < coalesce(p.current_period_end, p.trial_end_at)
       ELSE now() < coalesce(p.current_period_end, p.trial_end_at) + interval '48 hours'
     END

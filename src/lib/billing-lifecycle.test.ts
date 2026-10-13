@@ -1,6 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import {
-  authorizeCancel, planCancel, checkoutDecision, matchesPendingRow, selectTrialReminders, sendTrialReminders, trialReminderText,
+  authorizeCancel, planCancel, checkoutDecision, matchesPendingRow, orphanAction, pendingRowExpirable, resolveStalePending,
+  pickEntitledRow, entitlementFromRow, reconcilesPendingRow, provisionalPeriodEnd, selectTrialReminders, sendTrialReminders, trialReminderText,
   type PaymentRow, type RazorpaySub, type ReminderStore,
 } from '../../supabase/functions/_shared/billing-lifecycle';
 
@@ -90,7 +91,7 @@ describe('trial reminder selection + idempotency', () => {
 describe('checkout eligibility (L2) and pending-row matching (race)', () => {
   it('new customer gets a trial', () => expect(checkoutDecision([])).toEqual({ ok: true, trial: true }));
   it('open pending/active/authenticated row -> 409', () => {
-    for (const status of ['pending', 'active', 'authenticated']) expect(checkoutDecision([{ status }]).ok).toBe(false);
+    for (const status of ['pending', 'active', 'authenticated', 'paused', 'halted']) expect(checkoutDecision([{ status }]).ok).toBe(false);
   });
   it('lapsed/cancelled/expired paid customer resubscribes WITHOUT trial', () => {
     expect(checkoutDecision([{ status: 'cancelled', razorpay_subscription_id: 'sub_1', trial_end_at: '2026-01-01T00:00:00Z' }])).toEqual({ ok: true, trial: false });
@@ -101,7 +102,7 @@ describe('checkout eligibility (L2) and pending-row matching (race)', () => {
   });
   it('abandoned (expired, never subscribed) checkout keeps trial eligibility', () => {
     expect(checkoutDecision([{ status: 'expired', razorpay_subscription_id: null, trial_end_at: null }])).toEqual({ ok: true, trial: true });
-    expect(checkoutDecision([{ status: 'expired', razorpay_subscription_id: 'sub_abandoned', trial_end_at: null }])).toEqual({ ok: true, trial: true });
+    expect(checkoutDecision([{ status: 'expired', razorpay_subscription_id: 'sub_abandoned', trial_end_at: null }])).toEqual({ ok: true, trial: false }); // N1: reached Razorpay => trial used
   });
   it('matchesPendingRow', () => {
     const r = { user_id: ME, status: 'pending', razorpay_subscription_id: 'sub_1' };
@@ -110,5 +111,60 @@ describe('checkout eligibility (L2) and pending-row matching (race)', () => {
     expect(matchesPendingRow(ME, 'sub_2', r)).toBe(false);
     expect(matchesPendingRow(ME, 'sub_1', { ...r, status: 'active' })).toBe(false);
     expect(matchesPendingRow(ME, 'sub_1', null)).toBe(false);
+  });
+});
+
+describe('orphan handling (Hank B1 / Gus N1)', () => {
+  it('orphanAction', () => {
+    expect(orphanAction(null, true, true)).toBe('cancel_and_refund');
+    expect(orphanAction(null, true, false)).toBe('cancel');
+    for (const status of ['expired', 'cancelled', 'superseded', 'orphan']) expect(orphanAction({ status }, true, true)).toBe('cancel_and_refund');
+    expect(orphanAction({ status: 'pending' }, true, true)).toBe('none');
+    expect(orphanAction({ status: 'active' }, true, true)).toBe('none');
+    expect(orphanAction(null, false, false)).toBe('none'); // e.g. cancelled event for unknown sub
+  });
+  it('only pending rows WITHOUT a subscription id expire blindly', () => {
+    const now = new Date('2026-10-14T12:00:00Z');
+    const old = '2026-10-14T10:00:00Z', fresh = '2026-10-14T11:30:00Z';
+    expect(pendingRowExpirable({ status: 'pending', razorpay_subscription_id: null, created_at: old }, now)).toBe(true);
+    expect(pendingRowExpirable({ status: 'pending', razorpay_subscription_id: 'sub_1', created_at: old }, now)).toBe(false);
+    expect(pendingRowExpirable({ status: 'pending', razorpay_subscription_id: null, created_at: fresh }, now)).toBe(false);
+  });
+  it('stale pending with sub id resolved by Razorpay state', () => {
+    expect(resolveStalePending('cancelled')).toBe('expire');
+    expect(resolveStalePending('expired')).toBe('expire');
+    expect(resolveStalePending('created')).toBe('cancel_then_expire');
+    expect(resolveStalePending('authenticated')).toBe('keep');
+    expect(resolveStalePending('active')).toBe('keep');
+    expect(resolveStalePending(null)).toBe('keep'); // provider unreachable: never orphan a possibly-live sub
+  });
+  it('reconcile crash-before-save via notes.pending_payment_id', () => {
+    const row = { id: 'p9', user_id: ME, status: 'pending', razorpay_subscription_id: null };
+    expect(reconcilesPendingRow(ME, { user_id: ME, pending_payment_id: 'p9' }, row)).toBe(true);
+    expect(reconcilesPendingRow(ME, { user_id: OTHER, pending_payment_id: 'p9' }, row)).toBe(false);
+    expect(reconcilesPendingRow(ME, { user_id: ME, pending_payment_id: 'p9' }, { ...row, razorpay_subscription_id: 'sub_x' })).toBe(false);
+    expect(reconcilesPendingRow(ME, { user_id: ME, pending_payment_id: 'p9' }, { ...row, status: 'expired' })).toBe(false);
+  });
+});
+
+describe('fail-closed entitlement + aligned row selection', () => {
+  const now = new Date('2026-10-14T00:00:00Z');
+  it('undated subscription row is NOT entitled; explicit legacy lifetime is', () => {
+    expect(entitlementFromRow({ status: 'active', tier: 'full_access' }, now)).toMatchObject({ entitled: false, reason: 'no_period_recorded' });
+    expect(entitlementFromRow({ status: 'active', tier: 'lifetime' }, now)).toMatchObject({ entitled: true, reason: 'legacy_lifetime' });
+  });
+  it('no-trial resubscribe gets a provisional dated period (not unlimited)', () => {
+    const end = provisionalPeriodEnd('monthly', now);
+    expect(end).toBe('2026-11-14T00:00:00.000Z');
+    expect(provisionalPeriodEnd('quarterly', now)).toBe('2027-01-14T00:00:00.000Z');
+    expect(entitlementFromRow({ status: 'active', tier: 'full_access', current_period_end: end }, new Date('2026-12-01T00:00:00Z')).entitled).toBe(false);
+  });
+  it('pickEntitledRow: any entitled row wins over a newer expired one', () => {
+    const rows = [
+      { status: 'active', tier: 'full_access', current_period_end: '2026-01-01T00:00:00Z' },
+      { status: 'active', tier: 'full_access', current_period_end: '2026-12-01T00:00:00Z' },
+    ];
+    expect(pickEntitledRow(rows, now).row).toBe(rows[1]);
+    expect(pickEntitledRow([rows[0]], now).entitlement.entitled).toBe(false);
   });
 });
