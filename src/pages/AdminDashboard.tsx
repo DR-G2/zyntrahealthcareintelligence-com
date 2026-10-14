@@ -522,7 +522,7 @@ function UsersTab({ currentUserEmail }: { currentUserEmail: string }) {
                     <TableCell>{u.name || '—'}</TableCell>
                     <TableCell>
                       <div className="flex items-center gap-1">
-                        <Badge variant={t.label === 'free' ? 'secondary' : 'default'}>{t.label}</Badge>
+                        <Badge variant={t.label === 'free' ? 'secondary' : 'default'}>{t.label === 'free' ? 'Not subscribed' : t.label}</Badge>
                         {t.isManual && <Badge variant="outline" className="text-xs border-primary text-primary">Manual</Badge>}
                       </div>
                     </TableCell>
