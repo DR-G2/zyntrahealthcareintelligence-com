@@ -88,13 +88,38 @@ serve(async (req) => {
     }
 
     if (action === "reset_password") {
-      const { data, error } = await supabase.auth.admin.generateLink({
-        type: "recovery",
-        email: targetEmail,
+      // P2-R1: never return or log a recovery/action link. Email-only reset, super_admin only.
+      if (adminRole.role !== "super_admin") {
+        return new Response(JSON.stringify({ error: "Only Super Admin can reset passwords" }), { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      }
+      const fail500 = (stage: string, err: unknown) => {
+        // Logged without any email address or link.
+        console.error("[admin-user-actions] reset_password failed at", stage, "code:", (err as { code?: string; status?: number })?.code ?? (err as { status?: number })?.status ?? "unknown");
+        return new Response(JSON.stringify({ error: "Password reset could not be sent" }), { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      };
+      // Refuse if the TARGET is a super_admin (same source as is_super_admin(): pie.security_admin_allowlist).
+      const { data: superRows, error: superErr } = await supabase
+        .schema("pie")
+        .from("security_admin_allowlist")
+        .select("user_id")
+        .eq("user_id", user_id)
+        .eq("role", "super_admin")
+        .limit(1);
+      if (superErr) return fail500("target_super_check", superErr); // fail closed
+      if ((superRows ?? []).length > 0) {
+        return new Response(JSON.stringify({ error: "Cannot reset a Super Admin password" }), { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      }
+      // Authoritative email from auth.users (not the editable profiles row).
+      const { data: target, error: targetErr } = await supabase.auth.admin.getUserById(user_id);
+      if (targetErr || !target?.user?.email) return fail500("target_lookup", targetErr);
+      const siteUrl = (Deno.env.get("SITE_URL") || "").replace(/\/+$/, "");
+      if (!siteUrl) return fail500("site_url", { code: "SITE_URL unset" });
+      const { error: resetErr } = await supabase.auth.resetPasswordForEmail(target.user.email, {
+        redirectTo: `${siteUrl}/reset-password`,
       });
-      if (error) throw error;
-      await logAction("RESET_PASSWORD");
-      return new Response(JSON.stringify({ success: true, recovery_link: data?.properties?.action_link }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      if (resetErr) return fail500("send", resetErr);
+      await logAction("RESET_PASSWORD", { delivery: "email" });
+      return new Response(JSON.stringify({ success: true, sent: "email" }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
     if (action === "delete_user") {
