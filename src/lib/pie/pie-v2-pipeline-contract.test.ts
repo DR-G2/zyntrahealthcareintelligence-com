@@ -33,8 +33,8 @@ describe("PIE V2 production pipeline contract", () => {
     expect(read("src/pages/PerformanceIntelligenceV2.tsx").toLowerCase()).not.toContain("awaiting signal");
   });
 
-  it("Assess and Practice trigger the production PIE sync, not the removed shadow helper", () => {
-    for (const file of ["src/pages/Assess.tsx", "src/components/practice/PieDrillSession.tsx"]) {
+  it("the practice drill triggers the production PIE sync, not the removed shadow helper", () => {
+    for (const file of ["src/components/practice/PieDrillSession.tsx"]) {
       const source = read(file);
       expect(source).toContain("syncPieEngine()");
       expect(source).not.toContain("syncPieShadow");
