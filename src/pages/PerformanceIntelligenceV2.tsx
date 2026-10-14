@@ -18,7 +18,7 @@ import { loadPieEngineView } from '@/lib/pie/pie-engine-client';
 import { describePieStatus, PIE_MIN_OBSERVATIONS, type PieState, type PieView } from '@/lib/pie/pie-state';
 import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils';
-import { fetchLegacyShapedHistory } from '@/lib/pie/pie-history-client';
+import { fetchAttemptSummary } from '@/lib/pie/pie-paid-history-client';
 import { type P13ShadowView } from '@/lib/pie/p13-shadow-client';
 import { loadP14ShadowInference } from '@/lib/pie/p14-shadow-client';
 import { P13ShadowInferencePanel } from '@/components/pie/P13ShadowInferencePanel';
@@ -580,7 +580,8 @@ export default function PerformanceIntelligence() {
           .select('readiness_score, clinical_accuracy, answer_stability, time_management')
           .eq('user_id', user.id)
           .maybeSingle(),
-        fetchLegacyShapedHistory(2000).then((data) => ({ data, error: null })).catch((error) => ({ data: null, error })), // P5: PIE attempts only
+        // Paid lock: get_my_attempt_summary (no question content, no answers/keys).
+        fetchAttemptSummary(2000).then((rows) => rows.map((r) => ({ ...r, questions: { category: r.subject_name, subtopic: r.subtopic_name } }))).then((data) => ({ data, error: null })).catch((error) => ({ data: null, error })),
         (supabase.rpc as any)('get_confidence_intelligence'),
       ]);
 
