@@ -2,6 +2,7 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
 import { checkoutDecision, entitlementFromRow, pickEntitledRow, razorpaySyncUpdate, syncOwnershipOk } from "../_shared/billing-lifecycle.ts";
 import { fetchSubscription } from "../_shared/razorpay.ts";
+import { parseCustomId } from "../_shared/paypal.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -122,6 +123,11 @@ serve(async (req) => {
           });
           if (!subRes.ok) throw new Error(`PayPal subscription lookup failed (${subRes.status})`);
           const sub = await subRes.json();
+          // Hank nit 5: same ownership rule for PayPal (sub id + custom_id "<userId>|<tierKey>").
+          if (!syncOwnershipOk(userId, { user_id: payment.user_id, razorpay_subscription_id: payment.paypal_subscription_id },
+            { id: sub?.id, notes: { user_id: parseCustomId(sub?.custom_id)?.userId } })) {
+            throw new Error("PayPal subscription ownership mismatch");
+          }
           if (sub.status === "ACTIVE") {
             return new Response(JSON.stringify({
               subscribed: true,
@@ -163,8 +169,11 @@ serve(async (req) => {
             `https://api.razorpay.com/v1/subscriptions/${encodeURIComponent(payment.razorpay_subscription_id)}`,
             { headers: { "Authorization": `Basic ${btoa(`${keyId}:${keySecret}`)}` } },
           );
-          if (subRes.ok) {
-            const sub = await subRes.json();
+          const sub = subRes.ok ? await subRes.json() : null;
+          // Hank nit 5: refresh only from a sub that IS this row's sub and was created for this caller.
+          if (sub && !syncOwnershipOk(userId, payment, sub)) {
+            logStep("Razorpay refresh refused: subscription ownership mismatch", { id: payment.id });
+          } else if (sub) {
             if (["cancelled", "completed", "expired"].includes(sub.status) && !payment.cancel_at_period_end) {
               logStep("Subscription ended at provider", { status: sub.status });
               await supabaseClient.from("payments").update({ status: "cancelled" }).eq("id", payment.id).eq("user_id", userId);

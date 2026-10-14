@@ -424,4 +424,27 @@ describe('Hank CHANGES_REQUESTED @631d84e', () => {
     }
     expect(n).toBeGreaterThanOrEqual(5);
   });
+  it('Hank nit 3/4: is_admin matches allowlist user_id AND confirmed JWT email; self-check covers DEFINER + search_path', () => {
+    const s = mig('20261014051000');
+    expect(s).toContain('a.enabled = true AND a.user_id = u.id AND lower(a.email) = v_email');
+    expect(s).toContain('WHERE u.id = auth.uid() AND lower(u.email) = v_email AND u.email_confirmed_at IS NOT NULL');
+    expect(s).toContain("oid = 'public.is_admin(text)'::regprocedure)");
+    expect(s).toContain(`proconfig @> ARRAY['search_path=""']::text[]`);
+    expect(s).toContain("has_function_privilege('anon', 'public.is_admin(text)', 'EXECUTE')");
+  });
+  it('Hank nit 5: Razorpay refresh and PayPal paths use syncOwnershipOk', () => {
+    const s = read('supabase/functions/check-subscription/index.ts');
+    expect(s.match(/syncOwnershipOk\(userId,/g)?.length).toBe(3);
+    expect(s).toContain('!syncOwnershipOk(userId, payment, sub)');
+    expect(s).toContain('parseCustomId(sub?.custom_id)?.userId');
+    expect(s).toContain('throw new Error("PayPal subscription ownership mismatch")');
+    // ownership check happens before any ACTIVE grant or cancel write
+    expect(s.indexOf('PayPal subscription ownership mismatch')).toBeLessThan(s.indexOf('if (sub.status === "ACTIVE")'));
+    expect(s.indexOf('!syncOwnershipOk(userId, payment, sub)')).toBeLessThan(s.indexOf('if (["cancelled", "completed", "expired"].includes(sub.status)'));
+  });
+  it('Hank nit 2: track-presence logs the screenshot event even when admin lookup errors', () => {
+    const s = read('supabase/functions/track-presence/index.ts');
+    expect(s).not.toContain('} else if (!adminRole) {');
+    expect(s).toContain('if (!adminRole) {');
+  });
 });

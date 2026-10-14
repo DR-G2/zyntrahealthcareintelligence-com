@@ -29,7 +29,7 @@ BEGIN
   END IF;
   RETURN EXISTS (
     SELECT 1 FROM auth.users u
-    JOIN pie.security_admin_allowlist a ON a.enabled AND lower(a.email) = v_email
+    JOIN pie.security_admin_allowlist a ON a.enabled = true AND a.user_id = u.id AND lower(a.email) = v_email
     WHERE u.id = auth.uid() AND lower(u.email) = v_email AND u.email_confirmed_at IS NOT NULL
   );
 END
@@ -57,6 +57,9 @@ BEGIN
      OR has_function_privilege('anon', 'public.is_admin(text)', 'EXECUTE')
      OR NOT (SELECT prosecdef FROM pg_proc WHERE oid = 'public.payment_row_entitled(public.payments)'::regprocedure)
      OR NOT (SELECT prosecdef FROM pg_proc WHERE oid = 'public.current_user_can_read_questions()'::regprocedure)
+     OR NOT (SELECT prosecdef FROM pg_proc WHERE oid = 'public.is_admin(text)'::regprocedure)
+     OR NOT EXISTS (SELECT 1 FROM pg_proc WHERE oid = 'public.is_admin(text)'::regprocedure
+                    AND proconfig @> ARRAY['search_path=""']::text[])
      OR EXISTS (SELECT 1 FROM pg_proc p, aclexplode(p.proacl) a
                 WHERE p.oid IN ('public.payment_row_entitled(public.payments)'::regprocedure,
                                 'public.current_user_can_read_questions()'::regprocedure,

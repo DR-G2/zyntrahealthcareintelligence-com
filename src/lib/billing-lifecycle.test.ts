@@ -302,3 +302,14 @@ describe('Hank B3: syncOwnershipOk', () => {
     expect(syncOwnershipOk('u1', row, null)).toBe(false);
   });
 });
+
+describe('Hank nit 5: PayPal ownership via syncOwnershipOk mapping', () => {
+  const row = { user_id: 'u1', razorpay_subscription_id: 'I-PP1' };
+  it('accepts matching PayPal id + custom_id user', () => {
+    expect(syncOwnershipOk('u1', row, { id: 'I-PP1', notes: { user_id: 'u1' } })).toBe(true);
+  });
+  it('rejects other PayPal id or other custom_id user', () => {
+    expect(syncOwnershipOk('u1', row, { id: 'I-PP2', notes: { user_id: 'u1' } })).toBe(false);
+    expect(syncOwnershipOk('u1', row, { id: 'I-PP1', notes: { user_id: undefined } })).toBe(false);
+  });
+});
