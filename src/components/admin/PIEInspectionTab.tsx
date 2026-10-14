@@ -92,6 +92,37 @@ export function PIEInspectionTab() {
 
       {data && (
         <>
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="flex items-center gap-2 text-sm"><Brain className="h-4 w-4" /> Shadow inference · Admin only</CardTitle>
+              <p className="text-xs text-muted-foreground">Diagnostic shadow estimates only. They do not change candidate scoring, question selection, readiness, or adaptation.</p>
+            </CardHeader>
+            <CardContent>
+              {data.shadow_inference ? (
+                <>
+                  <div className="mb-3 flex flex-wrap gap-2 text-xs">
+                    <Badge variant="outline">{data.shadow_inference.authoritative === false ? "Not authoritative" : "Authority flag requires review"}</Badge>
+                    <Badge variant="outline">{data.shadow_inference.influences_adaptation === false ? "No adaptation influence" : "Influence flag requires review"}</Badge>
+                    <span className="text-muted-foreground">Model: {data.shadow_inference.model_version || "—"}</span>
+                    <span className="text-muted-foreground">Evidence: {data.shadow_inference.observation_count ?? "—"}</span>
+                    <span className="text-muted-foreground">Signal quality: {data.shadow_inference.signal_quality ?? "—"}</span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+                    {(Array.isArray(data.shadow_inference.dimensions) ? data.shadow_inference.dimensions : []).map((item: any) => (
+                      <div key={item.dimension} className="rounded-xl border p-3">
+                        <p className="text-xs capitalize text-muted-foreground">{String(item.dimension || "Unknown").replaceAll("_", " ")}</p>
+                        <p className="mt-1 text-lg font-semibold">{typeof item.estimate === "number" ? Math.round(item.estimate * 100) + "%" : "—"}</p>
+                        <p className="mt-1 text-xs text-muted-foreground">Evidence: {item.evidence_count ?? "—"}</p>
+                        <p className="text-xs text-muted-foreground">Quality: {typeof item.evidence_quality === "number" ? (item.evidence_quality >= 0.75 ? "High" : item.evidence_quality >= 0.5 ? "Medium" : "Low") : "—"}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <p className="mt-3 break-all text-xs text-muted-foreground">Hash: {data.shadow_inference.inference_hash || "—"} · Inferred: {data.shadow_inference.inferred_at ? new Date(data.shadow_inference.inferred_at).toLocaleString() : "—"}</p>
+                </>
+              ) : <p className="text-sm text-muted-foreground">No saved shadow inference projection exists for this candidate.</p>}
+            </CardContent>
+          </Card>
+
           <div className="grid grid-cols-2 gap-3 lg:grid-cols-6">
             <Card><CardContent className="p-4"><div className="text-xs text-muted-foreground">Capability</div><div className="text-xl font-semibold">{pct(state?.capability_estimate)}</div></CardContent></Card>
             <Card><CardContent className="p-4"><div className="text-xs text-muted-foreground">Decision</div><div className="text-xl font-semibold">{pct(state?.decision_estimate)}</div></CardContent></Card>
