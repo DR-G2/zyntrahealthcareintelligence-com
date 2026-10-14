@@ -15,4 +15,4 @@
 | PH-09 | 16 | 4 | 4.0 | 4 |
 | PH-10 | 16 | 4 | 4.0 | 4 |
 
-Status: draft. Reviewed by Dr Heisenberg. Not activated.
+Status: approved by owner and loaded into the live question bank on 2026-10-14. Reviewed by Dr Heisenberg.
