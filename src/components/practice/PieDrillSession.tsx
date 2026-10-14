@@ -231,7 +231,7 @@ export function PieDrillSession({ config, resumeSessionId, onFinish }: {
   useEffect(() => {
     if (loading || error) return;
     const t = setInterval(() => setRemaining(r => {
-      if (r <= 1) { clearInterval(t); void finish(); return 0; }
+      if (r <= 1) { clearInterval(t); void finish(true); return 0; }
       return r - 1;
     }), 1000);
     return () => clearInterval(t);
@@ -271,22 +271,41 @@ export function PieDrillSession({ config, resumeSessionId, onFinish }: {
               {options.map((opt, i) => {
                 const letter = LETTERS[i];
                 const active = selected[index] === letter;
+                const out = (ruledOut[index] || []).includes(letter);
                 return (
-                  <button key={letter} type="button" disabled={saved[index] || busy}
-                    onClick={() => choose(letter)}
-                    className={cn('w-full rounded-md border p-3 text-left text-sm', active ? 'border-primary bg-primary/10' : 'border-border')}>
-                    <span className="mr-2 font-semibold">{letter}.</span>{opt}
-                  </button>
+                  <div key={letter} className="flex items-stretch gap-2">
+                    <button type="button" disabled={saved[index] || busy || active}
+                      aria-pressed={out} aria-label={out ? `Restore option ${letter}` : `Rule out option ${letter}`}
+                      onClick={() => toggleRuleOut(letter)}
+                      className={cn('flex w-9 shrink-0 items-center justify-center rounded-md border text-xs',
+                        out ? 'border-muted-foreground bg-muted text-muted-foreground' : 'border-border text-muted-foreground')}>
+                      {out ? '↺' : '✕'}
+                    </button>
+                    <button type="button" disabled={saved[index] || busy || out} aria-pressed={active}
+                      onClick={() => choose(letter)}
+                      className={cn('w-full rounded-md border p-3 text-left text-sm',
+                        active ? 'border-primary bg-primary/10' : 'border-border',
+                        out && 'line-through opacity-50')}>
+                      <span className="mr-2 font-semibold">{letter}.</span>{opt}
+                    </button>
+                  </div>
                 );
               })}
             </div>
             {!saved[index] && (
-              <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
-                Confidence:
-                {[1, 2, 3, 4, 5].map(v => (
-                  <Button key={v} size="sm" variant={confidence[index] === v ? 'default' : 'outline'}
-                    aria-label={`Confidence ${v} of 5`} onClick={() => setConfidence(c => ({ ...c, [index]: v }))}>{v}</Button>
-                ))}
+              <div className="space-y-1">
+                <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground" role="radiogroup" aria-label="Confidence">
+                  Confidence (required):
+                  {[1, 2, 3, 4, 5].map(v => (
+                    <Button key={v} size="sm" role="radio" aria-checked={confidence[index] === v}
+                      variant={confidence[index] === v ? 'default' : 'outline'}
+                      aria-label={`Confidence ${v} of 5`}
+                      onClick={() => { setConfidence(c => ({ ...c, [index]: v })); setConfidenceError(false); }}>{v}</Button>
+                  ))}
+                </div>
+                {confidenceError && !confidence[index] && (
+                  <p role="alert" className="text-xs text-destructive">Select your confidence level to continue.</p>
+                )}
               </div>
             )}
             {saved[index] && <p className="flex items-center gap-1 text-xs text-muted-foreground"><CheckCircle className="h-3 w-3" />Answer saved. Results and explanations appear when you finish.</p>}
