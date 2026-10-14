@@ -121,7 +121,7 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
         const catalog = await fetchV2PracticeCatalog();
         const subjects = catalog.subjects as DBSubject[];
         const subtopics = catalog.subtopics as DBSubtopic[];
-        const questionMeta = catalog.questions;
+        const totalActive = catalog.total;
         const { categoryCounts: catCounts, subtopicCounts: stCounts } = countV2Catalog(catalog);
 
         setDbSubjects(subjects);
@@ -131,13 +131,11 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
 
         // Build status counts from the user's latest attempt for each question.
         // This is intentionally independent of the nested questions relationship.
-        if (user && questionMeta.length) {
-          const questionIds = questionMeta.map(q => q.id);
+        if (user && totalActive) {
           // P5: status counts come from the learner's PIE history (no legacy user_attempts read).
-          const idSet = new Set(questionIds);
+          // V2 history only contains V2 questions, so no per-question id filter is needed.
           const attempts: Array<{ question_id: string; is_correct: boolean; created_at: string }> =
             (await fetchLegacyShapedHistory(5000).catch(() => []))
-              .filter((a) => idSet.has(a.question_id))
               .map((a) => ({ question_id: a.question_id, is_correct: a.is_correct, created_at: a.created_at }));
 
           const latest = new Map<string, { is_correct: boolean; created_at: string }>();
@@ -148,9 +146,9 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
             });
 
           const counts: Record<QuestionStatusFilter, number> = {
-            all: questionMeta.length,
+            all: totalActive,
             attempted: latest.size,
-            'not-attempted': questionMeta.length - latest.size,
+            'not-attempted': Math.max(0, totalActive - latest.size),
             correct: 0,
             incorrect: 0,
           };
@@ -161,9 +159,9 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
           setStatusCounts(counts);
         } else {
           setStatusCounts({
-            all: questionMeta.length,
+            all: totalActive,
             attempted: 0,
-            'not-attempted': questionMeta.length,
+            'not-attempted': totalActive,
             correct: 0,
             incorrect: 0,
           });
