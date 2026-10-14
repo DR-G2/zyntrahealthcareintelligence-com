@@ -6,7 +6,6 @@ import { SecurityOverlay } from '@/components/SecurityOverlay';
 import { useIsMobile, useIsTablet } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
 import { LegalFooter } from '@/components/LegalFooter';
-import { PracticeSecurityEnforcementV2 } from '@/components/security/PracticeSecurityEnforcementV2';
 
 export interface AppLayoutProps {
   children: ReactNode;
@@ -85,7 +84,6 @@ function LayoutInner({ children }: AppLayoutProps) {
       </div>
 
       <AppSidebar isMobile={isMobile} />
-      <PracticeSecurityEnforcementV2 active={securityPractice} />
 
       {isMobile && (
         <header className="fixed inset-x-0 top-0 z-30 flex h-14 items-center justify-between border-b border-white/10 bg-[#040812]/85 px-4 backdrop-blur-xl">
