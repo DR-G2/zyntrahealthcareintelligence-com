@@ -100,18 +100,27 @@ async function fetchAllQuestionTopicMeta(): Promise<QuestionTopicMeta[]> {
   let from = 0;
 
   while (true) {
+    // Match the current production schema. The question table stores canonical
+    // subject/subtopic foreign keys and uses stem/difficulty_tier, not legacy labels.
     const { data, error } = await supabase
       .from('questions')
-      .select('id, zyntra_id, category, subtopic, question_text, difficulty')
+      .select('id, zyntra_id, stem, difficulty_tier, subjects(name), subtopics(name)')
       .range(from, from + QUESTION_META_PAGE_SIZE - 1);
 
     if (error) throw error;
     if (!data?.length) break;
 
-    rows.push(...(data as QuestionTopicMeta[]));
+    rows.push(...data.map((row: any) => ({
+      id: row.id,
+      zyntra_id: row.zyntra_id,
+      category: row.subjects?.name ?? null,
+      subtopic: row.subtopics?.name ?? null,
+      question_text: row.stem ?? null,
+      difficulty: row.difficulty_tier ?? null,
+    })));
 
     if (data.length < QUESTION_META_PAGE_SIZE) break;
-    from += QUESTION_META_PAGE_SIZE;
+    from += data.length;
   }
 
   return rows;
@@ -149,8 +158,8 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
     const fetchAll = async () => {
       try {
         const [subjectsRes, subtopicsRes, questionMeta] = await Promise.all([
-          supabase.from('subjects').select('id, name, display_order').order('display_order'),
-          supabase.from('subtopics').select('id, name, subject_id, display_order').order('display_order'),
+          supabase.from('subjects').select('id, name, display_order:sort_order').order('sort_order'),
+          supabase.from('subtopics').select('id, name, subject_id, display_order:sort_order').order('sort_order'),
           fetchAllQuestionTopicMeta(),
         ]);
 
