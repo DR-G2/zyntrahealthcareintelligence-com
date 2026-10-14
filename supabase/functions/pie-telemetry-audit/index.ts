@@ -26,7 +26,10 @@ Deno.serve(async (req) => {
   const userClient = createClient(supabaseUrl, anonKey, { global: { headers: { Authorization: authorization } } });
   const serviceClient = createClient(supabaseUrl, serviceKey);
 
-  const { data: { user }, error: authError } = await userClient.auth.getUser();
+  // Edge Functions receive the caller JWT in the request header, not in this
+  // stateless client's persisted auth session. Pass it explicitly to getUser().
+  const accessToken = authorization.slice("Bearer ".length).trim();
+  const { data: { user }, error: authError } = await userClient.auth.getUser(accessToken);
   if (authError || !user) return json({ error: "unauthorized" }, 401);
 
   const { data: attempts, error: attemptError } = await serviceClient
