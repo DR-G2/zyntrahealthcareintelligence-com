@@ -132,6 +132,7 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
   const [dbSubjects, setDbSubjects] = useState<DBSubject[]>([]);
   const [dbSubtopics, setDbSubtopics] = useState<DBSubtopic[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const { user } = useAuth();
   const isAdmin = Boolean(user?.email && ADMIN_EMAILS.includes(user.email));
 
@@ -248,6 +249,7 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
         setSelectedBareSubjects(bareSubjects);
       } catch (error: any) {
         console.error('Failed to load practice filters', error);
+        setLoadError(error?.message || 'Practice filters could not be loaded. Please refresh and try again.');
       } finally {
         setLoading(false);
       }
@@ -408,6 +410,14 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
           title="Welcome to Practice Drills"
           description="Choose Recharge mode to revisit questions you got wrong, or No Change mode for fresh questions. Use the topic filters below to focus on your weak areas."
         />
+
+        {loadError && (
+          <div role="alert" className="rounded-xl border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm text-destructive">
+            <p className="font-semibold">Practice filters failed to load</p>
+            <p className="mt-1">{loadError}</p>
+            <Button variant="outline" size="sm" className="mt-3" onClick={() => window.location.reload()}>Retry</Button>
+          </div>
+        )}
 
         <div className="rounded-2xl border border-cyan-400/20 bg-cyan-400/[0.04] px-4 py-3" data-testid="pie-selection-notice">
           <p className="text-xs font-medium text-cyan-200">Adaptive selection</p>
