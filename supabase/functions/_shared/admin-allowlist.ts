@@ -1,31 +1,32 @@
 // Pure admin check core (no Deno globals / npm imports: also runs under vitest).
-// Admin = public.is_admin() (PR #87): SECURITY DEFINER over pie.security_admin_allowlist, matching
-// user_id = auth.uid() AND the caller's confirmed, lower-cased JWT email, enabled = true.
-// The allowlist has no role tier, so "super_admin" = admin AND email listed in env SUPER_ADMIN_EMAILS
-// (comma-separated). Unset/empty SUPER_ADMIN_EMAILS => nobody is super_admin (fail CLOSED).
-// ANY error (no bearer, rpc error, throw, non-true result) => not admin.
+// Admin = public.is_admin(); super_admin = public.is_super_admin() (role column on pie.security_admin_allowlist).
+// Both are SECURITY DEFINER and match user_id = auth.uid() + confirmed lower-cased JWT email + enabled.
+// ANY error (no bearer, rpc error, throw, non-true result) => not admin / not super_admin (fail CLOSED).
 import { normaliseEmail } from "./admin-gate.ts";
 
 export interface AdminRowResult {
   data: { email: string; role: "super_admin" | "admin" } | null;
   error: unknown;
 }
-export type IsAdminRpc = () => Promise<{ data: unknown; error: unknown }>;
+export type BoolRpc = () => Promise<{ data: unknown; error: unknown }>;
 
-export function superAdminEmails(raw: string | null | undefined): string[] {
-  return (raw ?? "").split(",").map((s) => normaliseEmail(s)).filter((s): s is string => !!s);
-}
-
-/** Drop-in for the old `admin_roles` `{ data, error }` lookup: data is null unless is_admin() returned exactly true. */
-export async function resolveAdminRow(rpc: IsAdminRpc, email: unknown, superEmails: readonly string[]): Promise<AdminRowResult> {
-  const e = normaliseEmail(email);
-  if (!e) return { data: null, error: null };
+async function strictTrue(rpc: BoolRpc): Promise<{ ok: boolean; error: unknown }> {
   try {
     const { data, error } = await rpc();
-    if (error) return { data: null, error };
-    if (data !== true) return { data: null, error: null };
-    return { data: { email: e, role: superEmails.includes(e) ? "super_admin" : "admin" }, error: null };
+    if (error) return { ok: false, error };
+    return { ok: data === true, error: null };
   } catch (err) {
-    return { data: null, error: err };
+    return { ok: false, error: err };
   }
+}
+
+/** Drop-in for the old `admin_roles` `{ data, error }` lookup. Role comes from the DB; data null unless is_admin() is true. */
+export async function resolveAdminRow(isAdminRpc: BoolRpc, isSuperAdminRpc: BoolRpc, email: unknown): Promise<AdminRowResult> {
+  const e = normaliseEmail(email);
+  if (!e) return { data: null, error: null };
+  const admin = await strictTrue(isAdminRpc);
+  if (!admin.ok) return { data: null, error: admin.error };
+  // A failed super check degrades to plain admin (never escalates).
+  const sup = await strictTrue(isSuperAdminRpc);
+  return { data: { email: e, role: sup.ok ? "super_admin" : "admin" }, error: null };
 }

@@ -740,7 +740,7 @@ function QuestionBankBrowser() {
 /**
  * P5: the bank browser shows every question's correct answer and explanation, so it is
  * SUPER-ADMIN-ONLY, enforced SERVER-SIDE by the admin-question-bank edge function (exact,
- * is_admin() allowlist check + SUPER_ADMIN_EMAILS super-admin match); this browser check is only UX and
+ * lower-cased admin_roles email match + role super_admin); this browser check is only UX and
  * mirrors it so plain admins see this notice instead of a 403. (Admin-only is the safer option: a stems-only learner view would still let learners
  * pre-read the live bank and break first-exposure evidence). Learners are sent to PIE
  * Practice; the browser component (and its question fetch) never mounts for them.
@@ -749,26 +749,21 @@ export function canBrowseQuestionBank(email: string | null | undefined): boolean
   return Boolean(email && email.trim().toLowerCase() === SUPER_ADMIN_EMAIL.toLowerCase());
 }
 
-/** UX gate: super-admin email AND server-side is_admin() RPC (pie.security_admin_allowlist). Any error => deny. */
-export function useCanBrowseQuestionBank(email: string | null | undefined): 'checking' | 'ok' | 'denied' {
-  const [state, setState] = useState<'checking' | 'ok' | 'denied'>('checking');
-  useEffect(() => {
-    let cancelled = false;
-    if (!canBrowseQuestionBank(email)) { setState('denied'); return; }
-    setState('checking');
-    supabase.rpc('is_admin', { _email: email as string })
-      .then(({ data, error }) => { if (!cancelled) setState(!error && data === true ? 'ok' : 'denied'); },
-            () => { if (!cancelled) setState('denied'); });
-    return () => { cancelled = true; };
-  }, [email]);
-  return state;
-}
-
 export default function Questions() {
   const { user } = useAuth();
-  const access = useCanBrowseQuestionBank(user?.email);
-  if (access === 'checking') return <AppLayout><div className="py-16 text-center text-sm text-muted-foreground">Checking access…</div></AppLayout>;
-  if (access !== 'ok') {
+  // Server-side super-admin check (role on pie.security_admin_allowlist); any error => deny.
+  const [isSuperAdmin, setIsSuperAdmin] = useState<boolean | null>(null);
+  useEffect(() => {
+    let cancelled = false;
+    if (!canBrowseQuestionBank(user?.email)) { setIsSuperAdmin(false); return; }
+    supabase.rpc('is_super_admin').then(
+      ({ data, error }) => { if (!cancelled) setIsSuperAdmin(!error && data === true); },
+      () => { if (!cancelled) setIsSuperAdmin(false); },
+    );
+    return () => { cancelled = true; };
+  }, [user?.email]);
+  if (isSuperAdmin === null) return null;
+  if (!canBrowseQuestionBank(user?.email) || !isSuperAdmin) {
     return (
       <AppLayout>
         <div className="mx-auto max-w-xl py-16 text-center space-y-4">

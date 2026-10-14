@@ -1,5 +1,5 @@
 import { createClient, type SupabaseClient } from "npm:@supabase/supabase-js@2.57.2";
-import { callerIsAdminRpc } from "../../_shared/admin-rpc.ts";
+import { callerRpc } from "../../_shared/admin-rpc.ts";
 import { resolveAdminRow } from "../../_shared/admin-allowlist.ts";
 import { entitlementFromRow } from "../../_shared/billing-lifecycle.ts";
 
@@ -45,7 +45,7 @@ export async function requireUser(req: Request): Promise<Caller | Response> {
 /** Admin via public.is_admin() as the caller (pie.security_admin_allowlist, PR #87). Fails CLOSED on any error. */
 export async function isAdmin(email: string | null, authHeader: string | null): Promise<boolean> {
   if (!email || !authHeader) return false;
-  const { data } = await resolveAdminRow(callerIsAdminRpc(authHeader), email, []);
+  const { data } = await resolveAdminRow(callerRpc(authHeader, "is_admin"), async () => ({ data: false, error: null }), email);
   return !!data;
 }
 

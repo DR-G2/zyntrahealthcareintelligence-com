@@ -7,7 +7,7 @@ import { adminRoleRow } from "../_shared/admin-rpc.ts";
 /**
  * P5 (Hank B1): the ONLY data path for the /questions bank browser. The admin check is done
  * here, server-side: the caller's JWT is verified, the email is trimmed + lower-cased and matched
- * EXACTLY (.eq, no LIKE wildcards) against is_admin() (pie.security_admin_allowlist via _shared/admin-rpc.ts; super_admin = SUPER_ADMIN_EMAILS), the returned row's email is lower-cased and
+ * EXACTLY (.eq, no LIKE wildcards) against is_admin() (pie.security_admin_allowlist via _shared/admin-rpc.ts; super_admin = is_super_admin()), the returned row's email is lower-cased and
  * re-checked, and the role must be super_admin (follow-up: no broader access is needed, see
  * policy.ts). Only then are questions (with keys/explanations) read with the service role.
  */

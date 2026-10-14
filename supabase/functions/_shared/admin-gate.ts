@@ -1,7 +1,7 @@
 // Pure admin-gate helpers shared by admin edge functions (no Deno globals: also run under vitest).
 //
 // Admin rows now come from _shared/admin-rpc.ts adminRoleRow() (public.is_admin() over
-// pie.security_admin_allowlist; super_admin = SUPER_ADMIN_EMAILS). Email comparison stays lower-case on
+// pie.security_admin_allowlist; super_admin = is_super_admin(), role column on the allowlist). Email comparison stays lower-case on
 // BOTH sides: the returned row email is trimmed + lower-cased and re-checked against the caller.
 // Any mismatch fails CLOSED. No LIKE/ilike anywhere.
 
