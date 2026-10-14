@@ -186,11 +186,15 @@ export function PieDrillSession({ config, resumeSessionId, onFinish }: {
     return 'ok';
   };
 
-  const finish = useCallback(async () => {
+  const finish = useCallback(async (forced = false) => {
     if (finishingRef.current || !sessionRef.current) return;
     finishingRef.current = true; setBusy(true);
     try {
-      if (selected[index] && !saved[index]) await saveCurrent();
+      if (selected[index] && !saved[index]) {
+        const status = await saveCurrent();
+        // Manual finish never drops an answer silently; on timer expiry an answer without confidence is not saved.
+        if (status === 'no-confidence' && !forced) { finishingRef.current = false; return; }
+      }
       const results = await finishPieSession(sessionRef.current);
       if (user) await supabase.from('active_sessions').delete().eq('session_id', localIdRef.current);
       // PIE state refresh is downstream and never blocks completion; failures are surfaced.
@@ -199,18 +203,20 @@ export function PieDrillSession({ config, resumeSessionId, onFinish }: {
         if (failure) toast({ ...describePieFailure(failure), variant: 'destructive' });
       });
       const r = resultsToQuestions(results);
-      onFinish(r.questions, r.answers, r.changes, r.times, {});
+      onFinish(r.questions, r.answers, r.changes, r.times, ruledOut);
     } catch (e) {
       finishingRef.current = false;
       toast({ title: 'Session not completed', description: (e as Error).message, variant: 'destructive' });
     } finally { setBusy(false); }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [index, selected, saved, user, onFinish]);
+  }, [index, selected, saved, confidence, ruledOut, user, onFinish]);
 
   const next = async () => {
     setBusy(true);
     try {
-      if (!(await saveCurrent())) { toast({ title: 'Choose an answer first' }); return; }
+      const status = await saveCurrent();
+      if (status === 'no-answer') { toast({ title: 'Choose an answer first' }); return; }
+      if (status === 'no-confidence') return;
       if (index + 1 < questions.length) { setIndex(index + 1); shownAtRef.current = Date.now(); return; }
       if (questions.length < target && sessionRef.current) {
         const q = await nextPieQuestion(sessionRef.current);
