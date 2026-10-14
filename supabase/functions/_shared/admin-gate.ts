@@ -1,10 +1,9 @@
 // Pure admin-gate helpers shared by admin edge functions (no Deno globals: also run under vitest).
 //
-// Email comparison is lower-case on BOTH sides: the caller's JWT email is trimmed + lower-cased
-// before the exact .eq lookup, and the returned admin_roles.email is trimmed + lower-cased again
-// before comparing. The stored side is kept lower-case by the legacy CHECK constraint
-// admin_roles_email_lowercase (supabase/legacy_pending/20261007_legacy_admin_roles_email_lowercase.sql);
-// a mixed-case row that predates it fails CLOSED (no match), never open. No LIKE/ilike anywhere.
+// P2 cutover: edge functions NO LONGER read the legacy admin table. Every admin gate calls the DB RPCs
+// public.is_admin() / public.is_super_admin() with the caller's JWT via ./admin-rpc.ts and fails closed
+// on any RPC error. The row helpers below (exact lower-cased email match + role) are kept only for
+// policy unit tests / any row-shaped data; they are not an authorization source.
 
 export type AdminRole = "super_admin" | "admin";
 export interface AdminRow { email?: unknown; role?: unknown }

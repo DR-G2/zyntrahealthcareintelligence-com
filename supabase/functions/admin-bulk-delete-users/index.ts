@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
+import { adminRpc } from "../_shared/admin-rpc.ts";
 
 const SUPER_ADMIN_EMAIL = "gopalrock.naren@gmail.com";
 
@@ -30,9 +31,13 @@ serve(async (req) => {
     }
     const callerEmail = userData.user.email;
 
-    // Only super_admin can bulk delete
-    const { data: adminRole } = await supabase.from("admin_roles").select("role").eq("email", callerEmail).maybeSingle();
-    if (!adminRole || adminRole.role !== "super_admin") {
+    // Admin gate via public.is_super_admin() RPC with the caller's JWT; fail closed on ANY error (42883/42P01/null/...).
+    const { data: adminRoleOk, error: adminGateErr } = await adminRpc(token, "is_super_admin");
+    if (adminGateErr) {
+      console.error("[admin-bulk-delete-users] is_super_admin RPC failed (denying):", adminGateErr.code, adminGateErr.message);
+      return new Response(JSON.stringify({ error: "Only Super Admin can bulk delete users" }), { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+    if (adminRoleOk !== true) {
       return new Response(JSON.stringify({ error: "Only Super Admin can bulk delete users" }), { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 

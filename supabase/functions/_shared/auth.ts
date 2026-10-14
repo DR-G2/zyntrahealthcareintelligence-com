@@ -1,4 +1,5 @@
 import { createClient, type SupabaseClient } from "npm:@supabase/supabase-js@2.57.2";
+import { adminRpc } from "./admin-rpc.ts";
 import { entitlementFromRow } from "../_shared/billing-lifecycle.ts";
 
 export const corsHeaders = {
@@ -40,17 +41,25 @@ export async function requireUser(req: Request): Promise<Caller | Response> {
   return { userId: sub, email: (data.claims.email as string | undefined) ?? null };
 }
 
-export async function isAdmin(email: string | null): Promise<boolean> {
-  if (!email) return false;
-  const { data } = await serviceClient().from("admin_roles").select("id").eq("email", email).maybeSingle();
-  return !!data;
+/**
+ * Admin check via public.is_admin() RPC, called with the CALLER's JWT (the RPC reads auth.uid() + the
+ * JWT email). Fails closed: any RPC error (42883/42P01/null/...) is logged and returns false (=> 403).
+ */
+export async function isAdmin(authHeader: string | null): Promise<boolean> {
+  if (!authHeader) return false;
+  const { data, error } = await adminRpc(authHeader, "is_admin");
+  if (error) {
+    console.error("[auth] is_admin RPC failed (denying):", error.code, error.message);
+    return false;
+  }
+  return data === true;
 }
 
-/** Validates the bearer token and requires an admin_roles entry. */
+/** Validates the bearer token and requires public.is_admin() to be true. */
 export async function requireAdmin(req: Request): Promise<Caller | Response> {
   const caller = await requireUser(req);
   if (caller instanceof Response) return caller;
-  if (!(await isAdmin(caller.email))) return json({ error: "Forbidden" }, 403);
+  if (!(await isAdmin(req.headers.get("Authorization")))) return json({ error: "Forbidden" }, 403);
   return caller;
 }
 

@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { adminRpc } from "../_shared/admin-rpc.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -70,16 +71,14 @@ serve(async (req) => {
       if (serviceRoleKey) {
         const serviceClient = createClient(supabaseUrl, serviceRoleKey);
 
-        // Check if user is an admin — if so, skip logging entirely
-        const { data: adminRole, error: adminRoleError } = await serviceClient
-          .from("admin_roles")
-          .select("role")
-          .eq("email", userEmail || "")
-          .maybeSingle();
-
+        // Check if user is an admin (public.is_admin() RPC with the caller's JWT) — if so, skip logging.
+        // Not an access gate: on ANY RPC error (42883/42P01/null/...) treat the caller as NON-admin,
+        // i.e. fail toward logging (Hank nit 2: a failed admin lookup must not drop the event).
+        const { data: isAdminOk, error: adminRoleError } = await adminRpc(token, "is_admin");
         if (adminRoleError) {
-          console.error("track-presence admin lookup failed; logging event anyway:", adminRoleError);
+          console.error("track-presence is_admin RPC failed; logging event anyway:", adminRoleError.code, adminRoleError.message);
         }
+        const adminRole = !adminRoleError && isAdminOk === true;
         // Hank nit 2: a failed admin lookup must not drop the event (fail toward logging).
         if (!adminRole) {
           const { error: logError } = await serviceClient.from("system_error_logs").insert({

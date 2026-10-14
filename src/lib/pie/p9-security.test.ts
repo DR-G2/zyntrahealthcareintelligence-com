@@ -16,12 +16,13 @@ describe("PIE P9 production safety contracts", () => {
     }
   });
 
-  it("uses exact, case-insensitive admin authorization (no LIKE wildcards)", () => {
+  it("uses server-side is_admin RPC authorization (no LIKE wildcards, no admin_roles reads)", () => {
     for (const f of ["supabase/functions/admin-pie-inspect-user/index.ts", "supabase/functions/admin-pie-certification/index.ts"]) {
       const source = readFileSync(resolve(root, f), "utf8");
       expect(source, f).not.toContain(".ilike(");
       expect(source, f).toContain("userData.user.email.trim().toLowerCase()");
-      expect(source, f).toContain('.eq("email", callerEmail)');
+      expect(source, f).toContain('adminRpc(token, "is_admin")');
+      expect(source, f).not.toContain('.from("admin_roles")');
     }
   });
 
