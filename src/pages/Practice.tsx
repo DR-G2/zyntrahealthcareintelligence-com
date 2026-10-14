@@ -540,7 +540,8 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
 
         {mode === 'full-mock' && (
           <div className="rounded-lg border border-destructive/30 bg-destructive/5 p-4">
-            <p className="text-sm font-medium">Full Mock Exam: <span className="text-destructive">150 questions • 210 minutes (3h 30m)</span></p>
+            <p className="text-sm font-medium">Full Mock Exam: <span className="text-destructive">210 minutes (3h 30m)</span></p>
+            <p className="text-xs text-muted-foreground mt-1">Sessions currently hold up to 50 questions; the full 150-question exam is not available yet.</p>
             <p className="text-xs text-muted-foreground mt-1">Answers lock immediately on selection. You cannot go back to previous questions.</p>
           </div>
         )}
