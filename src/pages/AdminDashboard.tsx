@@ -1663,19 +1663,26 @@ export default function AdminDashboard() {
 
   return (
     <AppLayout>
-      <div className="mx-auto max-w-6xl py-8 space-y-6">
-        <h1 className="text-2xl font-display font-bold">Admin Dashboard</h1>
+      <div className="mx-auto max-w-7xl min-w-0 space-y-5 py-5 sm:space-y-6 sm:py-8">
+        <header className="flex flex-col gap-3 border-b border-white/10 pb-5 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="mb-2 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-cyan-300"><span className="h-1.5 w-1.5 rounded-full bg-cyan-300" /> ZYNTRA · OPERATIONS</p>
+            <h1 className="text-2xl font-display font-bold tracking-tight text-white sm:text-3xl">Command Centre</h1>
+            <p className="mt-1 max-w-2xl text-sm text-slate-400">Monitor activity, manage candidates, and operate your learning platform.</p>
+          </div>
+          <Badge variant="outline" className="w-fit border-cyan-400/25 bg-cyan-400/[0.06] px-3 py-1 text-cyan-100">Admin workspace</Badge>
+        </header>
 
         {/* Admins Online Panel */}
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Admins Online</CardTitle>
+        <Card className="overflow-hidden border-white/10 bg-slate-950/55 shadow-lg shadow-black/10">
+          <CardHeader className="pb-3">
+            <CardTitle className="flex items-center gap-2 text-sm font-semibold text-slate-100"><Radio className="h-4 w-4 text-cyan-300" /> Admin presence <span className="ml-auto text-xs font-normal text-slate-500">Live status</span></CardTitle>
           </CardHeader>
-          <CardContent className="flex flex-wrap gap-3 pt-0">
+          <CardContent className="flex flex-wrap gap-2 pt-0">
             {adminOnline.map(a => (
-              <div key={a.email} className="flex items-center gap-2 text-sm">
+              <div key={a.email} className="flex min-w-0 items-center gap-2 rounded-xl border border-white/[0.08] bg-white/[0.025] px-3 py-2 text-sm">
                 <span className={`h-2.5 w-2.5 rounded-full ${a.online ? 'bg-green-500' : 'bg-muted-foreground/30'}`} />
-                <span className="font-mono text-xs">{a.email}</span>
+                <span className="max-w-full break-all font-mono text-[11px] text-slate-300 sm:text-xs">{a.email}</span>
                 <Badge variant="outline" className="text-[10px]">{a.role}</Badge>
               </div>
             ))}
@@ -1715,19 +1722,19 @@ export default function AdminDashboard() {
         {isSuperAdmin && <SiteSettingsCard />}
 
         <Tabs defaultValue="live">
-          <TabsList className={`grid w-full ${isSuperAdmin ? 'grid-cols-13' : 'grid-cols-5'}`}>
-            <TabsTrigger value="live" className="gap-1 text-xs"><Radio className="h-3.5 w-3.5" /> Activity</TabsTrigger>
-            <TabsTrigger value="users" className="gap-1 text-xs"><Users className="h-3.5 w-3.5" /> Users</TabsTrigger>
-            <TabsTrigger value="messages" className="gap-1 text-xs"><MessageCircle className="h-3.5 w-3.5" /> Messages</TabsTrigger>
-            <TabsTrigger value="qns" className="gap-1 text-xs"><Database className="h-3.5 w-3.5" /> QNS</TabsTrigger>
-            <TabsTrigger value="strikes" className="gap-1 text-xs"><ShieldAlert className="h-3.5 w-3.5" /> Strikes</TabsTrigger>
-            {isSuperAdmin && <TabsTrigger value="visitors" className="gap-1 text-xs"><Globe className="h-3.5 w-3.5" /> Visitors</TabsTrigger>}
-            {isSuperAdmin && <TabsTrigger value="screenshots" className="gap-1 text-xs"><Camera className="h-3.5 w-3.5" /> Screenshots</TabsTrigger>}
-            {isSuperAdmin && <TabsTrigger value="ai-core" className="gap-1 text-xs"><Brain className="h-3.5 w-3.5" /> AI Core</TabsTrigger>}
-            {isSuperAdmin && <TabsTrigger value="data-port" className="gap-1 text-xs"><Download className="h-3.5 w-3.5" /> Data</TabsTrigger>}
-            {isSuperAdmin && <TabsTrigger value="system" className="gap-1 text-xs"><Zap className="h-3.5 w-3.5" /> System</TabsTrigger>}
-            {isSuperAdmin && <TabsTrigger value="logs" className="gap-1 text-xs"><FileText className="h-3.5 w-3.5" /> Logs</TabsTrigger>}
-            {isSuperAdmin && <TabsTrigger value="pie" className="gap-1 text-xs"><Brain className="h-3.5 w-3.5" /> PIE</TabsTrigger>}
+          <TabsList className="flex h-auto w-full justify-start gap-1 overflow-x-auto rounded-xl border border-white/10 bg-slate-950/70 p-1.5 [scrollbar-width:thin]">
+            <TabsTrigger value="live" className="shrink-0 gap-1 whitespace-nowrap rounded-lg px-3 py-2 text-xs data-[state=active]:bg-cyan-400/10 data-[state=active]:text-cyan-100"><Radio className="h-3.5 w-3.5" /> Activity</TabsTrigger>
+            <TabsTrigger value="users" className="shrink-0 gap-1 whitespace-nowrap rounded-lg px-3 py-2 text-xs data-[state=active]:bg-cyan-400/10 data-[state=active]:text-cyan-100"><Users className="h-3.5 w-3.5" /> Users</TabsTrigger>
+            <TabsTrigger value="messages" className="shrink-0 gap-1 whitespace-nowrap rounded-lg px-3 py-2 text-xs data-[state=active]:bg-cyan-400/10 data-[state=active]:text-cyan-100"><MessageCircle className="h-3.5 w-3.5" /> Messages</TabsTrigger>
+            <TabsTrigger value="qns" className="shrink-0 gap-1 whitespace-nowrap rounded-lg px-3 py-2 text-xs data-[state=active]:bg-cyan-400/10 data-[state=active]:text-cyan-100"><Database className="h-3.5 w-3.5" /> QNS</TabsTrigger>
+            <TabsTrigger value="strikes" className="shrink-0 gap-1 whitespace-nowrap rounded-lg px-3 py-2 text-xs data-[state=active]:bg-cyan-400/10 data-[state=active]:text-cyan-100"><ShieldAlert className="h-3.5 w-3.5" /> Strikes</TabsTrigger>
+            {isSuperAdmin && <TabsTrigger value="visitors" className="shrink-0 gap-1 whitespace-nowrap rounded-lg px-3 py-2 text-xs data-[state=active]:bg-cyan-400/10 data-[state=active]:text-cyan-100"><Globe className="h-3.5 w-3.5" /> Visitors</TabsTrigger>}
+            {isSuperAdmin && <TabsTrigger value="screenshots" className="shrink-0 gap-1 whitespace-nowrap rounded-lg px-3 py-2 text-xs data-[state=active]:bg-cyan-400/10 data-[state=active]:text-cyan-100"><Camera className="h-3.5 w-3.5" /> Screenshots</TabsTrigger>}
+            {isSuperAdmin && <TabsTrigger value="ai-core" className="shrink-0 gap-1 whitespace-nowrap rounded-lg px-3 py-2 text-xs data-[state=active]:bg-cyan-400/10 data-[state=active]:text-cyan-100"><Brain className="h-3.5 w-3.5" /> AI Core</TabsTrigger>}
+            {isSuperAdmin && <TabsTrigger value="data-port" className="shrink-0 gap-1 whitespace-nowrap rounded-lg px-3 py-2 text-xs data-[state=active]:bg-cyan-400/10 data-[state=active]:text-cyan-100"><Download className="h-3.5 w-3.5" /> Data</TabsTrigger>}
+            {isSuperAdmin && <TabsTrigger value="system" className="shrink-0 gap-1 whitespace-nowrap rounded-lg px-3 py-2 text-xs data-[state=active]:bg-cyan-400/10 data-[state=active]:text-cyan-100"><Zap className="h-3.5 w-3.5" /> System</TabsTrigger>}
+            {isSuperAdmin && <TabsTrigger value="logs" className="shrink-0 gap-1 whitespace-nowrap rounded-lg px-3 py-2 text-xs data-[state=active]:bg-cyan-400/10 data-[state=active]:text-cyan-100"><FileText className="h-3.5 w-3.5" /> Logs</TabsTrigger>}
+            {isSuperAdmin && <TabsTrigger value="pie" className="shrink-0 gap-1 whitespace-nowrap rounded-lg px-3 py-2 text-xs data-[state=active]:bg-cyan-400/10 data-[state=active]:text-cyan-100"><Brain className="h-3.5 w-3.5" /> PIE</TabsTrigger>}
           </TabsList>
           <TabsContent value="live"><LiveActivityTab /></TabsContent>
           <TabsContent value="users"><UsersTab currentUserEmail={currentUserEmail} /></TabsContent>
