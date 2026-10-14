@@ -79,8 +79,8 @@ if (sessionId) {
   questionPosition = typeof q?.question_position === "number" ? q.question_position : null;
   check("P21.1-11 server-selected question is available", !qs.error && !!questionId);
 
-  async function auditWithDiagnostics() {
-    let result = await A.db.functions.invoke("pie-telemetry-audit", { body: {} });
+  async function auditWithDiagnostics(body: Record<string, unknown> = {}) {
+    let result = await A.db.functions.invoke("pie-telemetry-audit", { body });
     let context = (result.error as unknown as { context?: Response } | null)?.context;
 
     // The audit is read-only. If a request is rejected with 401 while the
@@ -89,7 +89,7 @@ if (sessionId) {
     if (result.error && context?.status === 401) {
       const refreshed = await A.db.auth.refreshSession();
       if (!refreshed.error && refreshed.data.session) {
-        result = await A.db.functions.invoke("pie-telemetry-audit", { body: {} });
+        result = await A.db.functions.invoke("pie-telemetry-audit", { body });
         context = (result.error as unknown as { context?: Response } | null)?.context;
       }
     }
@@ -131,7 +131,7 @@ if (sessionId) {
   const attemptId = saved.data?.id as string | undefined;
   check("P21.1-13 authoritative attempt persists", !saved.error && !!attemptId, saved.error?.message ?? "");
 
-  const after = await auditWithDiagnostics();
+  const after = await auditWithDiagnostics(attemptId ? { attempt_id: attemptId } : {});
   const afterPayload = (after.data ?? {}) as Record<string, unknown>;
   const afterCount = Number(afterPayload.observation_count_for_attempts ?? 0);
   check("P21.1-14 saved attempt has exactly one matching PIE observation",
@@ -145,7 +145,7 @@ if (sessionId) {
     Number(afterPayload.duplicate_attempt_observation_rows ?? -1) === 0,
     JSON.stringify({ error: after.diagnostic ?? null, saved_attempt_id: attemptId, data: afterPayload }));
 
-  const repeat = await auditWithDiagnostics();
+  const repeat = await auditWithDiagnostics(attemptId ? { attempt_id: attemptId } : {});
   const repeatPayload = (repeat.data ?? {}) as Record<string, unknown>;
   check("P21.1-15 repeated telemetry audit does not create a duplicate observation",
     !repeat.error &&
