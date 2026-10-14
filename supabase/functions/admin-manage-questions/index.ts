@@ -2,6 +2,7 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
 import { adminCorsHeaders, hasAdminRole, normaliseEmail, parseAllowedOrigins } from "../_shared/admin-gate.ts";
 import { attemptDeletionConfirmed, deleteQuestionsGuarded } from "../_shared/question-delete-guard.ts";
+import { adminRoleRow } from "../_shared/admin-rpc.ts";
 
 // CORS: app origins only (ADMIN_ALLOWED_ORIGINS, comma-separated; default www + apex app domain).
 const allowedOrigins = parseAllowedOrigins(Deno.env.get("ADMIN_ALLOWED_ORIGINS") ?? Deno.env.get("ADMIN_ALLOWED_ORIGIN"));
@@ -32,7 +33,12 @@ serve(async (req) => {
 
     // Exact admin match, lower-case on both sides (no LIKE); admin or super_admin (unchanged scope).
     const callerEmail = normaliseEmail(userData.user.email);
-    const { data: adminRole } = await supabase.from("admin_roles").select("role, email").eq("email", callerEmail ?? "").maybeSingle();
+    const { data: adminRole, error: adminGateErr } = await adminRoleRow(req, callerEmail ?? "");
+    // P2: explicit fail-closed on ANY RPC error (42883/42P01/missing bearer/throw/...).
+    if (adminGateErr) {
+      console.error("[admin-manage-questions] admin RPC check failed (denying):", adminGateErr);
+      return new Response(JSON.stringify({ error: "Forbidden" }), { status: 403, headers: corsHeaders });
+    }
     if (!hasAdminRole(adminRole, callerEmail, ["super_admin", "admin"])) {
       return new Response(JSON.stringify({ error: "Forbidden" }), { status: 403, headers: corsHeaders });
     }

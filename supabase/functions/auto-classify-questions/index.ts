@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { adminRoleRow } from "../_shared/admin-rpc.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -68,7 +69,12 @@ serve(async (req) => {
     if (userError || !userData.user?.email) {
       return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
-    const { data: adminRole } = await supabase.from("admin_roles").select("role").eq("email", userData.user.email).maybeSingle();
+    const { data: adminRole, error: adminGateErr } = await adminRoleRow(req, userData.user.email);
+    // P2: explicit fail-closed on ANY RPC error (42883/42P01/missing bearer/throw/...).
+    if (adminGateErr) {
+      console.error("[auto-classify-questions] admin RPC check failed (denying):", adminGateErr);
+      return new Response(JSON.stringify({ error: "Forbidden" }), { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
     if (!adminRole) {
       return new Response(JSON.stringify({ error: "Forbidden" }), { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
