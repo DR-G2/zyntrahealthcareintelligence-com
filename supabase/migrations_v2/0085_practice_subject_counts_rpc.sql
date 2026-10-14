@@ -27,3 +27,19 @@ end $function$;
 
 revoke all on function public.get_practice_subject_counts() from public, anon;
 grant execute on function public.get_practice_subject_counts() to authenticated;
+
+-- Self-check: abort if the grant/definer posture is wrong.
+do $$
+declare fn constant regprocedure := 'public.get_practice_subject_counts()'::regprocedure;
+begin
+  if not (select p.prosecdef from pg_catalog.pg_proc p where p.oid = fn) then
+    raise exception '0085 self-check: get_practice_subject_counts must be SECURITY DEFINER';
+  end if;
+  if has_function_privilege('anon', fn, 'EXECUTE') then
+    raise exception '0085 self-check: anon has EXECUTE on get_practice_subject_counts';
+  end if;
+  if exists (select 1 from pg_catalog.pg_proc p, aclexplode(coalesce(p.proacl, acldefault('f', p.proowner))) a
+              where p.oid = fn and a.grantee = 0 and a.privilege_type = 'EXECUTE') then
+    raise exception '0085 self-check: PUBLIC has EXECUTE on get_practice_subject_counts';
+  end if;
+end $$;

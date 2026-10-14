@@ -25,13 +25,13 @@ import { Progress } from '@/components/ui/progress';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { normalizeTopicLabel } from '@/lib/practice-topic-mapping';
-import { countV2Catalog, fetchV2PracticeCatalog } from '@/lib/practice-v2-catalog';
+import { countV2Catalog, fetchMyPracticeStatusCounts, fetchV2PracticeCatalog } from '@/lib/practice-v2-catalog';
+import { ensureV2Session } from '@/lib/migration/v2-practice-session';
 import { emitBehaviorEvent } from '@/lib/telemetry';
 import { syncPieEngine } from '@/lib/pie/pie-engine-client';
 import { PieDiagnosticError, describePieFailure, pieSyncFailure, reportPieFailure, requireV2SessionId } from '@/lib/pie/pie-diagnostics';
 import { PieDrillSession } from '@/components/practice/PieDrillSession';
 import { ADMIN_EMAILS } from '@/lib/admin-emails';
-import { fetchLegacyShapedHistory } from '@/lib/pie/pie-history-client';
 
 interface Question {
   id: string;
@@ -107,10 +107,10 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
   const [questionCount, setQuestionCount] = useState(25);
   const [searchQuery, setSearchQuery] = useState('');
   const [categoryCounts, setCategoryCounts] = useState<Record<string, number>>({});
-  const [subtopicCounts, setSubtopicCounts] = useState<Record<string, number>>({});
   const [dbSubjects, setDbSubjects] = useState<DBSubject[]>([]);
   const [dbSubtopics, setDbSubtopics] = useState<DBSubtopic[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const { user } = useAuth();
   const isAdmin = Boolean(user?.email && ADMIN_EMAILS.includes(user.email));
 
@@ -122,41 +122,24 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
         const subjects = catalog.subjects as DBSubject[];
         const subtopics = catalog.subtopics as DBSubtopic[];
         const totalActive = catalog.total;
-        const { categoryCounts: catCounts, subtopicCounts: stCounts } = countV2Catalog(catalog);
+        const { categoryCounts: catCounts } = countV2Catalog(catalog);
 
         setDbSubjects(subjects);
         setDbSubtopics(subtopics);
         setCategoryCounts(catCounts);
-        setSubtopicCounts(stCounts);
 
-        // Build status counts from the user's latest attempt for each question.
-        // This is intentionally independent of the nested questions relationship.
+        // Status counts from get_my_practice_status_counts() (counts only; no attempt content).
+        // 0s only if the RPC is not deployed yet (PGRST202/42883); other errors surface.
         if (user && totalActive) {
-          // P5: status counts come from the learner's PIE history (no legacy user_attempts read).
-          // V2 history only contains V2 questions, so no per-question id filter is needed.
-          const attempts: Array<{ question_id: string; is_correct: boolean; created_at: string }> =
-            (await fetchLegacyShapedHistory(5000).catch(() => []))
-              .map((a) => ({ question_id: a.question_id, is_correct: a.is_correct, created_at: a.created_at }));
-
-          const latest = new Map<string, { is_correct: boolean; created_at: string }>();
-          attempts
-            .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
-            .forEach(a => {
-              if (!latest.has(a.question_id)) latest.set(a.question_id, a);
-            });
-
-          const counts: Record<QuestionStatusFilter, number> = {
+          await ensureV2Session();
+          const sc = await fetchMyPracticeStatusCounts();
+          setStatusCounts({
             all: totalActive,
-            attempted: latest.size,
-            'not-attempted': Math.max(0, totalActive - latest.size),
-            correct: 0,
-            incorrect: 0,
-          };
-          latest.forEach(a => {
-            if (a.is_correct) counts.correct += 1;
-            else counts.incorrect += 1;
+            attempted: sc.attempted,
+            'not-attempted': Math.max(0, totalActive - sc.attempted),
+            correct: sc.correct,
+            incorrect: sc.incorrect,
           });
-          setStatusCounts(counts);
         } else {
           setStatusCounts({
             all: totalActive,
@@ -198,6 +181,7 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
         setSelectedBareSubjects(bareSubjects);
       } catch (error: any) {
         console.error('Failed to load practice filters', error);
+        setLoadError(error?.message || 'Practice filters could not be loaded.');
       } finally {
         setLoading(false);
       }
@@ -329,6 +313,11 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
         
       <div className="mx-auto max-w-6xl space-y-6">
         <RoomHeader kind="practice" className="mb-1" />
+        {loadError && (
+          <div role="alert" className="rounded-md border border-destructive/50 bg-destructive/10 p-3 text-sm text-destructive">
+            Could not load practice catalogue: {loadError}
+          </div>
+        )}
         <div className="flex flex-wrap justify-end gap-2">
           {onShowReviewQueue && (
             <Button variant="outline" size="sm" onClick={onShowReviewQueue} className="gap-1.5">
@@ -627,11 +616,6 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
                                   onClick={(e) => e.stopPropagation()}
                                 />
                                 <span>{st.name}</span>
-                                {subtopicCounts[st.name] ? (
-                                  <Badge variant="outline" className="text-[10px] ml-auto">
-                                    {subtopicCounts[st.name]}
-                                  </Badge>
-                                ) : null}
                               </label>
                             ))}
                           </div>

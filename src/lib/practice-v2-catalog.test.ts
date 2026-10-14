@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
-import { countV2Catalog, fetchV2PracticeCatalog } from './practice-v2-catalog';
+import { countV2Catalog, fetchMyPracticeStatusCounts, fetchV2PracticeCatalog } from './practice-v2-catalog';
 
 type Call = { table: string; cols: string; filters: string[] };
 function fakeClient(tables: Record<string, unknown[]>, rpc: { data?: unknown; error?: unknown }, calls: Call[], rpcCalls: string[]) {
@@ -33,21 +33,29 @@ describe('V2 practice catalog', () => {
     const cat = await fetchV2PracticeCatalog(fakeClient(tables, { data: [{ subject_id: 's1', question_count: 414 }, { subject_id: 's2', question_count: 25 }] }, calls, rpcCalls));
     expect(rpcCalls).toEqual(['get_practice_subject_counts']);
     expect(calls.some((c) => c.table === 'questions')).toBe(false);
-    expect(cat.countSource).toBe('rpc');
     expect(cat.total).toBe(439);
     expect(countV2Catalog(cat)).toEqual({ categoryCounts: { 'Population Health & Ethics': 414, Anatomy: 25 }, subtopicCounts: {} });
     expect(cat.subtopics.map((s) => s.name)).toEqual(['Screening']);
   });
 
-  it('falls back to a direct id/subject_id read only when the RPC is missing', async () => {
-    const calls: Call[] = []; const rpcCalls: string[] = [];
-    const cat = await fetchV2PracticeCatalog(fakeClient(tables, { error: { code: 'PGRST202', message: 'Could not find the function' } }, calls, rpcCalls));
-    expect(cat.countSource).toBe('direct_select');
-    expect(countV2Catalog(cat).categoryCounts).toEqual({ 'Population Health & Ethics': 2, Anatomy: 1 });
-    const q = calls.find((c) => c.table === 'questions')!;
-    expect(q.cols).toBe('id, subject_id');
-    expect(q.filters).toContain('status=active');
-    for (const c of calls) expect(c.cols).not.toMatch(/explanation|stem|correct_answer|options/);
+  it('missing RPC is a hard error: no fallback read of questions', async () => {
+    const calls: Call[] = [];
+    await expect(fetchV2PracticeCatalog(fakeClient(tables, { error: { code: 'PGRST202', message: 'Could not find the function' } }, calls, []))).rejects.toMatchObject({ code: 'PGRST202' });
+    expect(calls.some((c) => c.table === 'questions')).toBe(false);
+  });
+
+  it('status counts via get_my_practice_status_counts; 0s only on PGRST202/42883', async () => {
+    const rpc = (r: any) => ({ rpc: (fn: string) => { expect(fn).toBe('get_my_practice_status_counts'); return Promise.resolve(r); } }) as any;
+    expect(await fetchMyPracticeStatusCounts(rpc({ data: [{ attempted: 5, correct: 3, incorrect: 2 }], error: null }))).toEqual({ attempted: 5, correct: 3, incorrect: 2 });
+    for (const code of ['PGRST202', '42883'])
+      expect(await fetchMyPracticeStatusCounts(rpc({ data: null, error: { code } }))).toEqual({ attempted: 0, correct: 0, incorrect: 0 });
+    await expect(fetchMyPracticeStatusCounts(rpc({ data: null, error: { code: '42501', message: 'permission denied' } }))).rejects.toMatchObject({ code: '42501' });
+  });
+
+  it('Practice.tsx no longer uses attempt history for counts nor subtopic counts', () => {
+    const src = readFileSync('src/pages/Practice.tsx', 'utf8');
+    expect(src).not.toMatch(/fetchLegacyShapedHistory|get_my_attempt_history|subtopicCounts\[/);
+    expect(src).toContain('fetchMyPracticeStatusCounts()');
   });
 
   it('surfaces other RPC errors (e.g. 42501) instead of silently falling back', async () => {
@@ -69,5 +77,8 @@ describe('V2 practice catalog', () => {
     expect(m).toMatch(/set search_path to ''/);
     expect(m).toMatch(/revoke all on function public\.get_practice_subject_counts\(\) from public, anon;/);
     expect(m).toMatch(/grant execute on function public\.get_practice_subject_counts\(\) to authenticated;/);
+    expect(m).toMatch(/0085 self-check: anon has EXECUTE/);
+    expect(m).toMatch(/0085 self-check: PUBLIC has EXECUTE/);
+    expect(m).toMatch(/must be SECURITY DEFINER/);
   });
 });
