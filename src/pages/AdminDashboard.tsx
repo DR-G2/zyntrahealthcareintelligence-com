@@ -10,6 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
+import { BULK_DELETE_DISABLED, BULK_DELETE_DISABLED_MESSAGE, bulkDeleteErrorMessage } from '@/lib/bulk-delete';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -145,16 +146,19 @@ function UsersTab({ currentUserEmail }: { currentUserEmail: string }) {
       const { data, error } = await supabase.functions.invoke('admin-bulk-delete-users', {
         body: { user_ids: Array.from(selectedIds) }
       });
-      if (error) throw error;
-      if (data?.error) throw new Error(data.error);
+      if (error || data?.error) {
+        toast({ title: 'Delete Error', description: bulkDeleteErrorMessage(error, data), variant: 'destructive' });
+        setBulkDeleting(false);
+        return;
+      }
       setBulkDeleteResults(data.results || []);
       const deleted = data.results?.filter((r: any) => r.status === 'deleted').length || 0;
       const errors = data.results?.filter((r: any) => r.status === 'error').length || 0;
       toast({ title: 'Bulk Delete Complete', description: `Deleted: ${deleted}, Errors: ${errors}` });
       setSelectedIds(new Set());
       fetchUsers();
-    } catch (e: any) {
-      toast({ title: 'Delete Error', description: e.message, variant: 'destructive' });
+    } catch (e: unknown) {
+      toast({ title: 'Delete Error', description: bulkDeleteErrorMessage(e), variant: 'destructive' });
     }
     setBulkDeleting(false);
   };
@@ -326,7 +330,7 @@ function UsersTab({ currentUserEmail }: { currentUserEmail: string }) {
         </Button>
         <AlertDialog>
           <AlertDialogTrigger asChild>
-            <Button variant="destructive" size="default" disabled={bulkDeleting}>
+            <Button variant="destructive" size="default" disabled={BULK_DELETE_DISABLED || bulkDeleting} title={BULK_DELETE_DISABLED ? BULK_DELETE_DISABLED_MESSAGE : undefined}>
               <Trash2 className="h-4 w-4 mr-2" /> Delete Synthetic
             </Button>
           </AlertDialogTrigger>
@@ -354,13 +358,16 @@ function UsersTab({ currentUserEmail }: { currentUserEmail: string }) {
                     const { data, error } = await supabase.functions.invoke('admin-bulk-delete-users', {
                       body: { user_ids: synthIds }
                     });
-                    if (error) throw error;
-                    if (data?.error) throw new Error(data.error);
+                    if (error || data?.error) {
+                      toast({ title: 'Delete Error', description: bulkDeleteErrorMessage(error, data), variant: 'destructive' });
+                      setBulkDeleting(false);
+                      return;
+                    }
                     const deleted = data.results?.filter((r: any) => r.status === 'deleted').length || 0;
                     toast({ title: 'Synthetic Users Deleted', description: `Removed ${deleted} synthetic accounts` });
                     fetchUsers();
-                  } catch (e: any) {
-                    toast({ title: 'Delete Error', description: e.message, variant: 'destructive' });
+                  } catch (e: unknown) {
+                    toast({ title: 'Delete Error', description: bulkDeleteErrorMessage(e), variant: 'destructive' });
                   }
                   setBulkDeleting(false);
                 }}
@@ -370,6 +377,7 @@ function UsersTab({ currentUserEmail }: { currentUserEmail: string }) {
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
+        {BULK_DELETE_DISABLED && <span className="text-xs text-muted-foreground">{BULK_DELETE_DISABLED_MESSAGE}</span>}
       </div>
 
       {/* Date Filter & Bulk Delete Controls */}
@@ -409,7 +417,7 @@ function UsersTab({ currentUserEmail }: { currentUserEmail: string }) {
         {selectedIds.size > 0 && (
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button variant="destructive" size="sm" disabled={bulkDeleting}>
+              <Button variant="destructive" size="sm" disabled={BULK_DELETE_DISABLED || bulkDeleting} title={BULK_DELETE_DISABLED ? BULK_DELETE_DISABLED_MESSAGE : undefined}>
                 {bulkDeleting ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Trash2 className="h-4 w-4 mr-2" />}
                 Delete Selected ({selectedIds.size})
               </Button>

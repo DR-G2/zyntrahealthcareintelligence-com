@@ -10,6 +10,10 @@ const walk = (d: string): string[] => readdirSync(d).flatMap((n) => {
   return statSync(p).isDirectory() ? walk(p) : /\.(ts|tsx)$/.test(n) ? [p] : [];
 });
 const read = (p: string) => readFileSync(p, "utf8");
+const walkAll = (d: string): string[] => readdirSync(d).flatMap((n) => {
+  const p = join(d, n);
+  return statSync(p).isDirectory() ? walkAll(p) : [p];
+});
 
 describe("P2c audit: pure helpers", () => {
   it("keeps non-PII keys (incl. allowlisted *_name) and never redacts bare digit strings", () => {
@@ -164,5 +168,53 @@ describe("B2: command schema only via public SECURITY INVOKER RPCs (service_role
     const a = read(join(FN, "_shared/command-audit.ts"));
     for (const fn of Object.keys(RPCS)) expect(a).toContain(`sb.rpc("${fn}"`);
     expect(read(join(FN, "admin-user-actions/index.ts"))).toContain("auditList(supabase, 500)");
+  });
+});
+
+describe("P2c round 4: write_audit lockdown + single inserters + finish only from pending", () => {
+  const m = read(resolve(process.cwd(), "supabase/migrations_v2/0087_command_audit_log_status.sql"));
+  it("0087 revokes write_audit EXECUTE from public/anon/authenticated (static stand-in for has_function_privilege)", () => {
+    expect(m).toContain("revoke execute on function command.write_audit(text, text, text, text, jsonb, jsonb, uuid) from public, anon, authenticated;");
+    expect(m).not.toMatch(/grant execute on function command\.write_audit/i);
+    // smoke SQL for Gus is present
+    expect(m).toContain("has_function_privilege(r, 'command.write_audit(text,text,text,text,jsonb,jsonb,uuid)', 'EXECUTE')");
+  });
+  it("only command_audit_begin and write_audit insert into command.admin_activity_logs", () => {
+    const sqlDirs = ["supabase/migrations", "supabase/migrations_v2"].map((d) => resolve(process.cwd(), d));
+    const sql = sqlDirs.flatMap((d) => walkAll(d).filter((f) => f.endsWith(".sql")));
+    const owners: string[] = [];
+    for (const f of sql) {
+      const src = read(f);
+      for (const mm of src.matchAll(/insert\s+into\s+command\.admin_activity_logs/gi)) {
+        const before = src.slice(0, mm.index);
+        const fn = [...before.matchAll(/create\s+or\s+replace\s+function\s+([\w.]+)\s*\(/gi)].pop()?.[1] ?? "<top-level>";
+        owners.push(fn.toLowerCase());
+      }
+    }
+    expect([...new Set(owners)].sort()).toEqual(["command.write_audit", "public.command_audit_begin"]);
+    // edge functions: no direct table insert at all (only RPCs)
+    for (const f of walk(FN)) expect(read(f), f).not.toMatch(/admin_activity_logs"\)\s*\.insert/);
+  });
+  it("command_audit_finish only updates a pending row", () => {
+    const def = m.slice(m.indexOf("create or replace function public.command_audit_finish("), m.indexOf("create or replace function public.command_admin_target_status("));
+    expect(def).toMatch(/where id = p_id and status = 'pending'/);
+    expect(def).toMatch(/if p_status not in \('done', 'failed'\)/);
+    expect(def).toContain("return v_n = 1;");
+  });
+});
+
+describe("B1 UI: bulk delete disabled until P5", () => {
+  it("both dashboard call sites are disabled and map 410 to a safe message", async () => {
+    const { bulkDeleteErrorMessage, BULK_DELETE_DISABLED, BULK_DELETE_DISABLED_MESSAGE } = await import("./bulk-delete");
+    expect(BULK_DELETE_DISABLED).toBe(true);
+    expect(bulkDeleteErrorMessage({ context: { status: 410 } })).toBe(BULK_DELETE_DISABLED_MESSAGE);
+    expect(bulkDeleteErrorMessage(null, { error: "disabled_until_p5" })).toBe(BULK_DELETE_DISABLED_MESSAGE);
+    expect(bulkDeleteErrorMessage(new Error("raw a@b.com 42P01"))).not.toMatch(/a@b|42P01|raw/);
+    const d = read(resolve(process.cwd(), "src/pages/AdminDashboard.tsx"));
+    expect((d.match(/invoke\('admin-bulk-delete-users'/g) ?? []).length).toBe(2);
+    expect((d.match(/disabled=\{BULK_DELETE_DISABLED \|\| bulkDeleting\}/g) ?? []).length).toBe(2);
+    expect((d.match(/bulkDeleteErrorMessage\(/g) ?? []).length).toBe(4);
+    expect(d).toContain("{BULK_DELETE_DISABLED_MESSAGE}");
+    expect(d).not.toMatch(/Delete Error', description: e\.message/);
   });
 });

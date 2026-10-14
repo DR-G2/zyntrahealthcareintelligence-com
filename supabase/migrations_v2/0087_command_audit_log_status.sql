@@ -91,3 +91,16 @@ grant execute on function public.command_audit_list(integer) to service_role;
 
 -- No client role may touch the audit log (no anon/authenticated grants anywhere in this file).
 revoke all on table command.admin_activity_logs from anon, authenticated;
+
+-- write_audit (0016) is a plain SECURITY DEFINER function returning uuid (not a trigger fn; live 2026-10-14:
+-- no triggers use it; ACL was postgres + authenticated). Clients must not write the audit log: REVOKE is idempotent.
+revoke execute on function command.write_audit(text, text, text, text, jsonb, jsonb, uuid) from public, anon, authenticated;
+
+-- Smoke for Gus after apply (expect: all false):
+--   select r, has_function_privilege(r, 'command.write_audit(text,text,text,text,jsonb,jsonb,uuid)', 'EXECUTE')
+--     from unnest(array['anon','authenticated']) r;
+--   select r, f, has_function_privilege(r, f, 'EXECUTE') from unnest(array['anon','authenticated']) r,
+--     unnest(array['public.command_audit_begin(uuid,text,text,text,text,text,jsonb)',
+--                  'public.command_audit_finish(uuid,text,jsonb)',
+--                  'public.command_admin_target_status(uuid)',
+--                  'public.command_audit_list(integer)']) f;
