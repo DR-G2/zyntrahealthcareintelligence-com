@@ -20,7 +20,12 @@ create extension if not exists pg_net;
 -- schedule the job manually once pg_cron is enabled).
 DO $guard$
 BEGIN
-  IF EXISTS (SELECT 1 FROM pg_extension WHERE extname = 'pg_cron') THEN
+  IF NOT EXISTS (SELECT 1 FROM pg_extension WHERE extname = 'pg_cron') THEN
+    RAISE NOTICE 'pg_cron not installed: trial-reminder-email-hourly NOT scheduled';
+  ELSIF NOT EXISTS (SELECT 1 FROM vault.decrypted_secrets WHERE name = 'project_url' AND coalesce(decrypted_secret, '') <> '')
+     OR NOT EXISTS (SELECT 1 FROM vault.decrypted_secrets WHERE name = 'trial_reminder_cron_secret' AND coalesce(decrypted_secret, '') <> '') THEN
+    RAISE WARNING 'Vault secret project_url and/or trial_reminder_cron_secret is MISSING: trial-reminder-email-hourly NOT scheduled. Create both, then re-run this block.';
+  ELSE
     PERFORM cron.schedule(
   'trial-reminder-email-hourly',
   '7 * * * *',
@@ -35,8 +40,6 @@ BEGIN
   );
   $$
 );
-  ELSE
-    RAISE NOTICE 'pg_cron not installed: trial-reminder-email-hourly NOT scheduled';
   END IF;
 END
 $guard$;

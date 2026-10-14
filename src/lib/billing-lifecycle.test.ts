@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import {
   authorizeCancel, planCancel, checkoutDecision, matchesPendingRow, orphanAction, pendingRowExpirable, resolveStalePending,
-  pickEntitledRow, entitlementFromRow, reconcilesPendingRow, provisionalPeriodEnd, verifyDecision, pickSubscriptionRow, cancelAlreadyDone, isUniqueViolation, cancelMessage, planCancel, selectTrialReminders, sendTrialReminders, trialReminderText,
+  pickEntitledRow, entitlementFromRow, reconcilesPendingRow, provisionalPeriodEnd, verifyDecision, pickSubscriptionRow, cancelAlreadyDone, isUniqueViolation, isExpectedUniqueViolation, violatedConstraint, razorpaySyncUpdate, REFUND_PAYMENT_ID_KEY, RAZORPAY_PAYMENT_ID_KEY, cancelMessage, planCancel, selectTrialReminders, sendTrialReminders, trialReminderText,
   type PaymentRow, type RazorpaySub, type ReminderStore,
 } from '../../supabase/functions/_shared/billing-lifecycle';
 
@@ -255,5 +255,35 @@ describe('Gus Retest 5', () => {
     expect(isUniqueViolation({ code: '23505' })).toBe(true);
     expect(isUniqueViolation({ code: '23503' })).toBe(false);
     expect(isUniqueViolation(null)).toBe(false);
+  });
+});
+
+describe('Hank: 23505 constraint-name match', () => {
+  const dup = (c: string) => ({ code: '23505', message: `duplicate key value violates unique constraint "${c}"` });
+  it('expected constraints are no-ops', () => {
+    expect(isExpectedUniqueViolation(dup(REFUND_PAYMENT_ID_KEY), [REFUND_PAYMENT_ID_KEY])).toBe(true);
+    expect(isExpectedUniqueViolation(dup(RAZORPAY_PAYMENT_ID_KEY), [REFUND_PAYMENT_ID_KEY, RAZORPAY_PAYMENT_ID_KEY])).toBe(true);
+    expect(isExpectedUniqueViolation({ code: '23505', constraint: REFUND_PAYMENT_ID_KEY }, [REFUND_PAYMENT_ID_KEY])).toBe(true);
+  });
+  it('other 23505s still error', () => {
+    expect(isExpectedUniqueViolation(dup('payments_one_open_per_user'), [REFUND_PAYMENT_ID_KEY, RAZORPAY_PAYMENT_ID_KEY])).toBe(false);
+    expect(isExpectedUniqueViolation(dup(RAZORPAY_PAYMENT_ID_KEY), [REFUND_PAYMENT_ID_KEY])).toBe(false);
+    expect(isExpectedUniqueViolation({ code: '23505' }, [REFUND_PAYMENT_ID_KEY])).toBe(false);
+    expect(isExpectedUniqueViolation({ code: '23503', message: dup(REFUND_PAYMENT_ID_KEY).message }, [REFUND_PAYMENT_ID_KEY])).toBe(false);
+    expect(violatedConstraint(null)).toBeNull();
+  });
+});
+
+describe('V2 port: razorpaySyncUpdate', () => {
+  it('active with current_end -> active + period end', () => {
+    expect(razorpaySyncUpdate({ status: 'active', current_end: 1800000000 })).toEqual({ status: 'active', current_period_end: new Date(1800000000000).toISOString() });
+  });
+  it('authenticated (trial) -> active + trial_end_at', () => {
+    expect(razorpaySyncUpdate({ status: 'authenticated', start_at: 1800000000 })).toEqual({ status: 'active', trial_end_at: new Date(1800000000000).toISOString() });
+  });
+  it('never writes an undated active row; terminal -> cancelled; created -> null', () => {
+    expect(razorpaySyncUpdate({ status: 'active' })).toBeNull();
+    expect(razorpaySyncUpdate({ status: 'cancelled' })).toEqual({ status: 'cancelled' });
+    expect(razorpaySyncUpdate({ status: 'created' })).toBeNull();
   });
 });

@@ -1,7 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
 import { verifyHmacSignature } from "../_shared/signature.ts";
-import { isUniqueViolation, orphanAction, pickSubscriptionRow, reconcilesPendingRow } from "../_shared/billing-lifecycle.ts";
+import { isExpectedUniqueViolation, RAZORPAY_PAYMENT_ID_KEY, REFUND_PAYMENT_ID_KEY, orphanAction, pickSubscriptionRow, reconcilesPendingRow } from "../_shared/billing-lifecycle.ts";
 import { cancelSubscriptionNow } from "../_shared/razorpay.ts";
 
 const corsHeaders = {
@@ -143,7 +143,12 @@ serve(async (req) => {
         if (existing) {
           // Replays land on the same row (incl. an existing orphan row) -> no stacking.
           const { error } = await supabase.from("payments").update(flags).eq("id", existing.id);
-          if (error && !isUniqueViolation(error)) throw error;
+          if (error && !isExpectedUniqueViolation(error, [REFUND_PAYMENT_ID_KEY])) throw error;
+          // Gus R6 N1: the duplicate refund_payment_id skipped the WHOLE update, so persist needs_cancel separately.
+          if (error && !cancelled) {
+            const { error: ncErr } = await supabase.from("payments").update({ needs_cancel: true }).eq("id", existing.id);
+            if (ncErr) throw ncErr;
+          }
         } else {
           // Audit row (status 'orphan' is not an open/entitling status). Only reached when no row
           // with this sub id exists, so replays update the row above instead of inserting again.
@@ -152,7 +157,16 @@ serve(async (req) => {
           });
           // Gus R5: a concurrent/redelivered event already recorded this payment id -> no-op success (200),
           // so Razorpay stops redelivering.
-          if (error && !isUniqueViolation(error)) throw error;
+          if (error && !isExpectedUniqueViolation(error, [REFUND_PAYMENT_ID_KEY, RAZORPAY_PAYMENT_ID_KEY])) throw error;
+          // Gus R6 N1: the audit row already exists (same payment id) -> flag it for the hourly cancel retry.
+          if (error && !cancelled) {
+            const bySub = await supabase.from("payments").update({ needs_cancel: true }).eq("razorpay_subscription_id", subscriptionId);
+            if (bySub.error) throw bySub.error;
+            if (paymentId) {
+              const byPay = await supabase.from("payments").update({ needs_cancel: true }).eq("refund_payment_id", paymentId);
+              if (byPay.error) throw byPay.error;
+            }
+          }
           if (error) log("Duplicate payment id already recorded; no-op", { event, subscriptionId, paymentId });
         }
         log(action === "cancel_and_refund" ? "NEEDS_REFUND: charge on unknown/ended subscription; cancelled at provider" : "Cancelled unknown/ended subscription at provider", { event, subscriptionId, userId, row: existing?.id ?? null });

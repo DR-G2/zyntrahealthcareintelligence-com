@@ -268,7 +268,47 @@ export function cancelAlreadyDone(status: string | null | undefined): boolean {
   return !!status && (RAZORPAY_TERMINAL_STATUSES as readonly string[]).includes(status);
 }
 
-/** Postgres unique_violation (23505), e.g. a duplicate razorpay_payment_id / refund_payment_id on webhook redelivery. */
+/** Postgres unique_violation (23505) of ANY constraint. Prefer isExpectedUniqueViolation for no-op decisions. */
 export function isUniqueViolation(e: { code?: string } | null | undefined): boolean {
   return e?.code === '23505';
+}
+
+/** Unique indexes whose 23505 means "already recorded" (idempotent replay), never a real failure. */
+export const RAZORPAY_PAYMENT_ID_KEY = 'payments_razorpay_payment_id_key';
+export const REFUND_PAYMENT_ID_KEY = 'payments_refund_payment_id_key';
+export const PAYPAL_ORDER_ID_KEY = 'idx_payments_paypal_order_id';
+export const PAYPAL_SUBSCRIPTION_ID_KEY = 'idx_payments_paypal_subscription_id';
+
+/** Name of the violated constraint from a PostgREST/pg error ("... violates unique constraint \"x\""). */
+export function violatedConstraint(e: { code?: string; message?: string; details?: string; constraint?: string } | null | undefined): string | null {
+  if (!e || e.code !== '23505') return null;
+  if (e.constraint) return e.constraint;
+  const m = /unique constraint "([^"]+)"/.exec(`${e.message ?? ''} ${e.details ?? ''}`);
+  return m ? m[1] : null;
+}
+
+/** Hank: 23505 is a no-op ONLY when the violated constraint is one of the expected unique indexes. */
+export function isExpectedUniqueViolation(
+  e: { code?: string; message?: string; details?: string; constraint?: string } | null | undefined,
+  expected: readonly string[],
+): boolean {
+  const c = violatedConstraint(e);
+  return !!c && expected.includes(c);
+}
+
+/** V2 port: the payments update to write from a Razorpay subscription for a pending/authenticated row, or null. */
+export function razorpaySyncUpdate(sub: { status?: string; start_at?: unknown; current_end?: unknown; charge_at?: unknown; [k: string]: unknown }):
+  { status: string; trial_end_at?: string; current_period_end?: string } | null {
+  const iso = (v: unknown) => (typeof v === 'number' ? new Date(v * 1000).toISOString() : undefined);
+  if (sub.status === 'active') {
+    const end = iso(sub.current_end) ?? iso(sub.charge_at);
+    return end ? { status: 'active', current_period_end: end } : null; // no date -> do not write an undated active row
+  }
+  if (sub.status === 'authenticated') {
+    // Trial: authenticated with a future start_at; entitled until trial end.
+    const trial = iso(sub.start_at) ?? iso(sub.charge_at);
+    return trial ? { status: 'active', trial_end_at: trial } : null;
+  }
+  if (sub.status && (RAZORPAY_TERMINAL_STATUSES as readonly string[]).includes(sub.status)) return { status: 'cancelled' };
+  return null;
 }

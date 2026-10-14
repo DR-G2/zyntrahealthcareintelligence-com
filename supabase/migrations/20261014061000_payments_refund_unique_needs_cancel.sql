@@ -26,8 +26,13 @@ create unique index if not exists payments_refund_payment_id_key
 -- CANCEL_RETRY_CRON_SECRET (create it before applying). Uses Vault 'project_url' from 20261014040000. Guarded.
 DO $guard$
 BEGIN
-  IF EXISTS (SELECT 1 FROM pg_extension WHERE extname = 'pg_cron')
-     AND EXISTS (SELECT 1 FROM pg_extension WHERE extname = 'pg_net') THEN
+  IF NOT (EXISTS (SELECT 1 FROM pg_extension WHERE extname = 'pg_cron')
+          AND EXISTS (SELECT 1 FROM pg_extension WHERE extname = 'pg_net')) THEN
+    RAISE NOTICE 'pg_cron/pg_net not installed: retry-razorpay-cancels-hourly NOT scheduled';
+  ELSIF NOT EXISTS (SELECT 1 FROM vault.decrypted_secrets WHERE name = 'project_url' AND coalesce(decrypted_secret, '') <> '')
+     OR NOT EXISTS (SELECT 1 FROM vault.decrypted_secrets WHERE name = 'cancel_retry_cron_secret' AND coalesce(decrypted_secret, '') <> '') THEN
+    RAISE WARNING 'Vault secret project_url and/or cancel_retry_cron_secret is MISSING: retry-razorpay-cancels-hourly NOT scheduled. Create both (cancel_retry_cron_secret == edge env CANCEL_RETRY_CRON_SECRET), then re-run this block.';
+  ELSE
     PERFORM cron.schedule(
   'retry-razorpay-cancels-hourly',
   '23 * * * *',
@@ -42,8 +47,6 @@ BEGIN
   );
   $$
 );
-  ELSE
-    RAISE NOTICE 'pg_cron/pg_net not installed: retry-razorpay-cancels-hourly NOT scheduled';
   END IF;
 END
 $guard$;

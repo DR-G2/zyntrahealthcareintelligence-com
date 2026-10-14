@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
-import { checkoutDecision, entitlementFromRow, pickEntitledRow } from "../_shared/billing-lifecycle.ts";
+import { checkoutDecision, entitlementFromRow, pickEntitledRow, razorpaySyncUpdate } from "../_shared/billing-lifecycle.ts";
+import { fetchSubscription } from "../_shared/razorpay.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -59,6 +60,28 @@ serve(async (req) => {
           status: 200,
         });
       }
+    }
+
+    // 1b. V2 port (Hank): upsert from Razorpay. If the user's newest Razorpay row is not yet 'active'
+    // (pending/authenticated: webhook missed or not yet delivered on V2), pull the subscription and
+    // write status + dates back. Never grants by itself: entitlement still comes from stored dates below.
+    try {
+      const { data: openRows } = await supabaseClient.from("payments")
+        .select("id,status,razorpay_subscription_id,trial_end_at,current_period_end")
+        .eq("user_id", userId).in("status", ["pending", "authenticated"])
+        .not("razorpay_subscription_id", "is", null)
+        .order("created_at", { ascending: false }).limit(1);
+      const open = openRows?.[0];
+      if (open) {
+        const sub = await fetchSubscription(open.razorpay_subscription_id);
+        const upd = sub ? razorpaySyncUpdate(sub) : null;
+        if (upd) {
+          await supabaseClient.from("payments").update(upd).eq("id", open.id).in("status", ["pending", "authenticated"]);
+          logStep("Synced payment row from Razorpay", { id: open.id, status: upd.status });
+        }
+      }
+    } catch (e) {
+      logStep("Razorpay sync skipped", { error: String(e) });
     }
 
     // 2. Check local payments table for active payments

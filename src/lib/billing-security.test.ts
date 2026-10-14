@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { timingSafeEqual, hmacSha256Hex, verifyHmacSignature } from '../../supabase/functions/_shared/signature';
 import { entitlementFromRow, RENEWAL_GRACE_HOURS } from '../../supabase/functions/_shared/billing-lifecycle';
@@ -154,7 +154,7 @@ describe('Gus retest 2', () => {
   it('migrations: duplicate guard precedes unique; REVOKE on helper; pending partial unique index', () => {
     const m50 = read('supabase/migrations/20261014050000_payments_replay_protection.sql');
     expect(m50.indexOf('RAISE EXCEPTION')).toBeLessThan(m50.indexOf('add constraint'));
-    expect(read('supabase/migrations/20261014051000_entitlement_honours_billing_dates.sql')).toMatch(/REVOKE EXECUTE ON FUNCTION public\.payment_row_entitled\(public\.payments\) FROM anon, public/);
+    expect(read('supabase/migrations/20261014051000_entitlement_honours_billing_dates.sql')).toMatch(/REVOKE EXECUTE ON FUNCTION public\.payment_row_entitled\(public\.payments\) FROM PUBLIC, anon/);
     const m60 = read('supabase/migrations/20261014060000_payments_pending_checkout_guard.sql');
     expect(m60).toMatch(/create unique index if not exists payments_one_open_per_user\s+on public\.payments \(user_id\)\s+where status in \('pending', 'active', 'authenticated', 'paused', 'halted'\) and tier is distinct from 'lifetime'/);
     expect(m60).toContain("interval '1 hour'");
@@ -202,7 +202,7 @@ describe('Hank B1/B2 + Gus retest 3 wiring', () => {
     expect(dedupe).not.toMatch(/\bdelete\s+from\b/i);
     for (const f of [files[0], files[3]]) {
       const m = read(`supabase/migrations/${f}`);
-      expect(m).toContain("IF EXISTS (SELECT 1 FROM pg_extension WHERE extname = 'pg_cron')");
+      expect(m).toMatch(/IF (NOT )?EXISTS \(SELECT 1 FROM pg_extension WHERE extname = 'pg_cron'\)/);
       expect(m).not.toMatch(/^select cron\.schedule/m);
     }
     const m60 = read('supabase/migrations/20261014060000_payments_pending_checkout_guard.sql');
@@ -300,8 +300,66 @@ describe('Gus Retest 5 wiring', () => {
     expect(s).toContain('fetchSubscription(subscriptionId)');
     expect(s).toContain('cancelAlreadyDone(sub?.status)');
   });
-  it('webhook treats 23505 as no-op success', () => {
+  it('webhook treats ONLY expected-constraint 23505 as no-op success', () => {
     const s = read('supabase/functions/razorpay-webhook/index.ts');
-    expect(s.match(/!isUniqueViolation\(error\)/g)?.length).toBeGreaterThanOrEqual(2);
+    expect(s).not.toMatch(/isUniqueViolation\(/);
+    expect(s).toContain('!isExpectedUniqueViolation(error, [REFUND_PAYMENT_ID_KEY])');
+    expect(s).toContain('!isExpectedUniqueViolation(error, [REFUND_PAYMENT_ID_KEY, RAZORPAY_PAYMENT_ID_KEY])');
+  });
+});
+
+describe('Retest 6 / Hank nits', () => {
+  const mig = (prefix: string) => {
+    const dir = 'supabase/migrations';
+    const f = readdirSync(resolve(process.cwd(), dir)).find((n: string) => n.startsWith(prefix))!;
+    return read(`${dir}/${f}`);
+  };
+  it('N1: duplicate refund_payment_id still persists needs_cancel in a separate update', () => {
+    const s = read('supabase/functions/razorpay-webhook/index.ts');
+    expect(s.match(/update\(\{ needs_cancel: true \}\)/g)?.length).toBeGreaterThanOrEqual(2);
+    expect(s).toContain('if (error && !cancelled)');
+  });
+  it('N2: cancel-retry cron is skipped with a WARNING when Vault project_url / cancel_retry_cron_secret is missing', () => {
+    const s = mig('20261014061000');
+    expect(s).toContain("name = 'project_url'");
+    expect(s).toContain("name = 'cancel_retry_cron_secret' AND coalesce(decrypted_secret, '') <> ''");
+    expect(s).toMatch(/RAISE WARNING 'Vault secret .*cancel_retry_cron_secret is MISSING: retry-razorpay-cancels-hourly NOT scheduled/);
+    expect(s.indexOf('RAISE WARNING')).toBeLessThan(s.indexOf('PERFORM cron.schedule'));
+  });
+  it('trial reminder cron has the same Vault guard', () => {
+    const s = mig('20261014040000');
+    expect(s).toContain("name = 'trial_reminder_cron_secret' AND coalesce(decrypted_secret, '') <> ''");
+    expect(s.indexOf('RAISE WARNING')).toBeLessThan(s.indexOf('PERFORM cron.schedule'));
+  });
+  it('config.toml points at live V2', () => {
+    expect(read('supabase/config.toml')).toContain('project_id = "hkowvjazuwebmibssdut"');
+  });
+  it('verify-paypal only no-ops on PayPal unique indexes', () => {
+    const s = read('supabase/functions/verify-paypal-payment/index.ts');
+    expect(s).not.toContain('=== "23505"');
+    expect(s).toContain('isExpectedUniqueViolation(insertError, [PAYPAL_ORDER_ID_KEY, PAYPAL_SUBSCRIPTION_ID_KEY])');
+  });
+  it('V2 port: payments columns, RLS and grants', () => {
+    const s = mig('20261014035000');
+    for (const c of ['razorpay_payment_id', 'razorpay_subscription_id', 'tier', 'paypal_subscription_id']) expect(s).toContain(`add column if not exists ${c}`);
+    expect(s).toContain('ALTER COLUMN external_transaction_id DROP NOT NULL');
+    expect(s).toContain('alter table public.payments enable row level security');
+    expect(s).toContain('revoke all on table public.payments from anon, authenticated, public');
+    expect(s).toContain('grant select on table public.payments to authenticated');
+    expect(s).not.toMatch(/grant (insert|update|delete)[^;]*to authenticated/i);
+    expect(s).toContain('create table if not exists public.manual_overrides');
+    expect(s).toContain('create table if not exists public.admin_roles');
+  });
+  it('V2 port: entitlement helpers have empty search_path and no anon/PUBLIC execute', () => {
+    const s = mig('20261014051000');
+    expect(s.match(/SET search_path = ''/g)?.length).toBe(2);
+    expect(s).toContain('REVOKE EXECUTE ON FUNCTION public.payment_row_entitled(public.payments) FROM PUBLIC, anon');
+    expect(s).toContain('REVOKE EXECUTE ON FUNCTION public.current_user_can_read_questions() FROM PUBLIC, anon');
+    expect(s).toContain("has_function_privilege('anon'");
+  });
+  it('check-subscription syncs pending/authenticated rows from Razorpay', () => {
+    const s = read('supabase/functions/check-subscription/index.ts');
+    expect(s).toContain('razorpaySyncUpdate(sub)');
+    expect(s.indexOf('razorpaySyncUpdate(sub)')).toBeLessThan(s.indexOf('// 2. Check local payments'));
   });
 });
