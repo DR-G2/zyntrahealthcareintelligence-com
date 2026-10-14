@@ -80,9 +80,21 @@ if (sessionId) {
   check("P21.1-11 server-selected question is available", !qs.error && !!questionId);
 
   async function auditWithDiagnostics() {
-    const result = await A.db.functions.invoke("pie-telemetry-audit", { body: {} });
+    let result = await A.db.functions.invoke("pie-telemetry-audit", { body: {} });
+    let context = (result.error as unknown as { context?: Response } | null)?.context;
+
+    // The audit is read-only. If a request is rejected with 401 while the
+    // session is being refreshed, refresh the caller session once and retry.
+    // Do not retry other errors or weaken server-side JWT validation.
+    if (result.error && context?.status === 401) {
+      const refreshed = await A.db.auth.refreshSession();
+      if (!refreshed.error && refreshed.data.session) {
+        result = await A.db.functions.invoke("pie-telemetry-audit", { body: {} });
+        context = (result.error as unknown as { context?: Response } | null)?.context;
+      }
+    }
+
     let diagnostic = result.error?.message ?? null;
-    const context = (result.error as unknown as { context?: Response } | null)?.context;
     if (context && typeof context.clone === "function") {
       try {
         diagnostic = JSON.stringify({ message: diagnostic, http_status: context.status, response_body: await context.clone().text() });
