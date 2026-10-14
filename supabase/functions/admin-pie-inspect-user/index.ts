@@ -69,6 +69,7 @@ Deno.serve(async (req) => {
     const stateId = stateError ? undefined : stateRes.data?.id;
 
     const [
+      shadowInferenceRes,
       uncertaintyRes,
       dynamicRes,
       readinessRes,
@@ -79,6 +80,7 @@ Deno.serve(async (req) => {
       validationRes,
       inferenceRes,
     ] = await Promise.all([
+      admin.schema("pie").from("inference_projection").select("inference_hash,observation_count,dimensions,model_version,source_state_version,evidence_maturity,signal_quality,explanation,inferred_at,shadow_only,authoritative,influences_adaptation").eq("user_id", user_id).maybeSingle(),
       stateId
         ? admin.from("pie_state_uncertainty").select("*").eq("candidate_state_id", stateId)
         : Promise.resolve({ data: [], error: null }),
@@ -94,7 +96,7 @@ Deno.serve(async (req) => {
 
     const optionalErrors = [
       stateError,
-      uncertaintyRes.error, dynamicRes.error, readinessRes.error,
+      shadowInferenceRes.error, uncertaintyRes.error, dynamicRes.error, readinessRes.error,
       compatibilityRes.error, hypothesesRes.error, dwigRes.error,
       decisionRes.error, validationRes.error, inferenceRes.error,
     ].filter(Boolean);
@@ -107,6 +109,7 @@ Deno.serve(async (req) => {
     return new Response(JSON.stringify({
       inspected_user_id: user_id,
       candidate_state: stateError ? null : stateRes.data,
+      shadow_inference: shadowInferenceRes.data || null,
       state_uncertainty: uncertaintyRes.data || [],
       dynamic_state: dynamicRes.data || null,
       exam_readiness: readinessRes.data || [],
