@@ -11,7 +11,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Target, Clock, Shield, Brain, ArrowRight, TrendingUp, Stethoscope, Activity } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { ProfileSkeleton } from '@/components/skeletons/PageSkeleton';
-import { fetchLegacyShapedHistory } from '@/lib/pie/pie-history-client';
+import { fetchTrustGutAttempts, isPaywallError } from '@/lib/pie/pie-paid-history-client';
+import { PaywallNotice } from '@/components/PaywallNotice';
 
 interface PerformanceData {
   answer_stability: number | null;
@@ -76,6 +77,7 @@ export default function Profile() {
   const [loading, setLoading] = useState(!stateData);
   const [stationAttempts, setStationAttempts] = useState<StationAttempt[]>([]);
   const [mcqAttempts, setMcqAttempts] = useState<any[]>([]);
+  const [gutPaywalled, setGutPaywalled] = useState(false);
 
   useEffect(() => {
     if (!user) return;
@@ -87,11 +89,13 @@ export default function Profile() {
         supabase.from('station_attempts')
           .select('id, subject, scores, time_taken_seconds, mode, created_at')
           .eq('user_id', user.id).order('created_at', { ascending: false }).limit(100),
-        fetchLegacyShapedHistory(500).then((data) => ({ data, error: null })), // P5: PIE attempts only
+        // Paid lock: get_my_trust_gut_attempts (paid, no content; first-instinct correctness computed server-side).
+        fetchTrustGutAttempts(500).then((data) => ({ data, error: null as unknown })).catch((error) => ({ data: [], error })),
       ]);
       if (profileRes.data) setData(profileRes.data as any);
       setStationAttempts(stationsRes.data || []);
       setMcqAttempts(mcqRes.data || []);
+      setGutPaywalled(isPaywallError(mcqRes.error));
       setLoading(false);
     };
     fetchAll();
@@ -122,11 +126,9 @@ export default function Profile() {
     let firstCorrect = 0;
     let correctToWrong = 0;
     withChanges.forEach(a => {
-      const first = a.change_sequence[0];
-      const correct = a.questions?.correct_answer;
-      if (first === correct) {
+      if (a.first_answer_correct === true) {
         firstCorrect++;
-        if (a.selected_answer !== correct) correctToWrong++;
+        if (!a.is_correct) correctToWrong++;
       }
     });
     return {
@@ -418,6 +420,8 @@ export default function Profile() {
                   </Button>
                 </CardContent>
               </Card>
+            ) : gutPaywalled ? (
+              <PaywallNotice />
             ) : (
               <Card>
                 <CardContent className="py-12 text-center space-y-4">

@@ -32,60 +32,20 @@ export interface V2PracticeQuestion {
   version: number | null;
 }
 
+/**
+ * P3 cutover: the main client IS the hkow (V2) client, so there is no auth bridge any more. This only
+ * asserts the main client has a live session; the v2-auth-bridge edge function is no longer called.
+ */
 export async function ensureV2Session(): Promise<void> {
-  const v2 = getSupabaseV2();
-  const { data: legacySession } = await supabase.auth.getSession();
-  const legacyAccessToken = legacySession.session?.access_token;
-  const legacyEmail = legacySession.session?.user?.email?.toLowerCase() ?? '';
-
-  const { data: existing } = await v2.auth.getSession();
-  const existingEmail = existing.session?.user?.email?.toLowerCase() ?? '';
-
-  if (!legacyAccessToken) {
-    // Never keep acting as a V2 identity once the Zyntra session is gone.
-    if (existing.session) await v2.auth.signOut({ scope: 'local' }).catch(() => undefined);
+  const { data } = await supabase.auth.getSession();
+  if (!data.session?.access_token) {
     throw new Error('Your current Zyntra session has expired. Please sign in again.');
   }
-
-  // The persisted V2 session must belong to the currently signed-in Zyntra user.
-  // A stale V2 session from another account on the same browser is discarded.
-  if (existingEmail && legacyEmail && existingEmail === legacyEmail) return;
-  if (existing.session) await v2.auth.signOut({ scope: 'local' }).catch(() => undefined);
-
-  const response = await fetch(
-    `${import.meta.env.VITE_SUPABASE_V2_URL}/functions/v1/v2-auth-bridge`,
-    {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${legacyAccessToken}`,
-        apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
-        'Content-Type': 'application/json',
-      },
-    },
-  );
-
-  const payload = await response.json().catch(() => ({}));
-  if (!response.ok || !payload?.token_hash) {
-    throw new Error(payload?.error || 'V2 admin authentication could not be established.');
-  }
-
-  const { error } = await v2.auth.verifyOtp({
-    token_hash: payload.token_hash,
-    type: 'email',
-  });
-  if (error) throw new Error(error.message || 'V2 admin authentication could not be established.');
-
-  const { data: verified } = await v2.auth.getSession();
-  if (!verified.session) throw new Error('V2 authentication completed without an active session.');
 }
 
-/** Best-effort local V2 sign-out, used when the Zyntra session ends. Never throws. */
+/** Kept for callers: with a single client there is no separate V2 session to clear. Never throws. */
 export async function signOutV2Local(): Promise<void> {
-  try {
-    await getSupabaseV2().auth.signOut({ scope: 'local' });
-  } catch {
-    // V2 may be unconfigured in this build; nothing to clear.
-  }
+  // no-op: signing out the main client (AuthContext) is the only sign-out.
 }
 
 // P5: the client-chosen-ids session creator (create_practice_session) was

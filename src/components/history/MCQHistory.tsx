@@ -12,7 +12,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
-import { fetchLegacyShapedHistory } from '@/lib/pie/pie-history-client';
+import { fetchPracticeResultsHistory, isPaywallError } from '@/lib/pie/pie-paid-history-client';
+import { PaywallNotice } from '@/components/PaywallNotice';
 
 interface AttemptRow {
   id: string;
@@ -64,9 +65,10 @@ export function MCQHistory() {
     queryKey: ['mcq-history', user?.id],
     queryFn: async () => {
       if (!user) return [];
-      // P5: PIE attempts only; keys only for answered questions (get_my_attempt_history).
-      return (await fetchLegacyShapedHistory(2000)) as unknown as AttemptRow[];
+      // Paid lock: practice results only via get_practice_session_results (completed pie_adaptive sessions).
+      return (await fetchPracticeResultsHistory(100)) as unknown as AttemptRow[];
     },
+    retry: (n, e) => !isPaywallError(e) && n < 2,
     enabled: !!user,
   });
 
@@ -166,6 +168,8 @@ export function MCQHistory() {
   if (isLoading) {
     return <div className="space-y-3">{[1, 2, 3].map(i => <div key={i} className="h-24 rounded-lg bg-muted animate-pulse" />)}</div>;
   }
+
+  if (isPaywallError(error)) return <PaywallNotice />;
 
   if (isError) {
     return (

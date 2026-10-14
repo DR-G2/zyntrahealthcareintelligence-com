@@ -60,3 +60,19 @@ export function supabaseForUser(ctx: ToolContext) {
     auth: { persistSession: false, autoRefreshToken: false },
   });
 }
+
+/**
+ * P3 single-client cutover: hkow IS the main project, so the paid history RPCs (supabase/migrations_v2/0086)
+ * use the same env-configured client as everything else (SUPABASE_URL / VITE_SUPABASE_URL; throws if unset).
+ * Bearer token forwarded, publishable key only, never a service key; non-paid callers get SQLSTATE 42501.
+ */
+export function supabaseV2ForUser(ctx: ToolContext) {
+  if (!ctx.getToken()) throw new Error("supabaseV2ForUser requires a verified OAuth token");
+  return supabaseForUser(ctx);
+}
+
+/** Generic paywall error for MCP tools: never reveals which server check failed. */
+export const MCP_PAYWALL_MESSAGE = "This is available on paid plans. Upgrade to continue.";
+export function paidRpcErrorMessage(error: { code?: string } | null, what: string): string {
+  return error?.code === "42501" ? MCP_PAYWALL_MESSAGE : `${what} could not be loaded.`;
+}

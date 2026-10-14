@@ -67,7 +67,9 @@ describe("P5 learner history (PIE attempts only)", () => {
       expect(src, f).not.toMatch(/from\(['"]user_attempts['"]\)/);
       expect(src, f).not.toMatch(/from\(['"]questions['"]\)/);
       expect(src, f).not.toMatch(/questions\([^)]*correct_answer/);
-      expect(src, f).toContain("fetchLegacyShapedHistory");
+      // Paid lock: get_my_attempt_history is revoked; pages use pie-paid-history-client RPCs only.
+      expect(src, f).not.toContain("fetchLegacyShapedHistory");
+      expect(src, f).toContain("@/lib/pie/pie-paid-history-client");
     }
   });
 

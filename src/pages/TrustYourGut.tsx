@@ -26,22 +26,10 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Link } from 'react-router-dom';
 import { useFeatureGate } from '@/hooks/useFeatureGate';
 import { UpgradePrompt } from '@/components/UpgradePrompt';
-import { fetchLegacyShapedHistory } from '@/lib/pie/pie-history-client';
+import { fetchTrustGutAttempts, isPaywallError, type TrustGutRow } from '@/lib/pie/pie-paid-history-client';
+import { PaywallNotice } from '@/components/PaywallNotice';
 
-interface AttemptWithQuestion {
-  id: string;
-  question_id: string;
-  selected_answer: string;
-  is_correct: boolean;
-  answer_changes_count: number;
-  change_sequence: string[];
-  created_at: string;
-  session_id: string;
-  questions: {
-    correct_answer: string;
-    category: string;
-  };
-}
+type AttemptWithQuestion = TrustGutRow & { change_sequence: string[] };
 
 interface ChangeAnalysis {
   correctToWrong: number;
@@ -61,18 +49,15 @@ export default function TrustYourGut() {
   const { user } = useAuth();
   const gate = useFeatureGate();
   // Fetch user attempts with questions
-  const { data: attempts = [], isLoading } = useQuery({
+  const { data: attempts = [], isLoading, error } = useQuery({
     queryKey: ['trust-gut-attempts', user?.id],
     queryFn: async () => {
       if (!user) return [];
-      // P5: PIE attempts only; keys only for answered questions (get_my_attempt_history).
-      const data = await fetchLegacyShapedHistory(5000, 'asc');
-      return (data || []).map(a => ({
-        ...a,
-        change_sequence: Array.isArray(a.change_sequence) ? a.change_sequence : [],
-        questions: a.questions || { correct_answer: '', category: '' }
-      })) as AttemptWithQuestion[];
+      // Paid lock: get_my_trust_gut_attempts (paid RPC). First-instinct correctness is computed
+      // server-side; no answer key or question content reaches the client. Oldest first.
+      return (await fetchTrustGutAttempts(5000)).reverse() as AttemptWithQuestion[];
     },
+    retry: (n, e) => !isPaywallError(e) && n < 2,
     enabled: !!user
   });
 
@@ -87,19 +72,15 @@ export default function TrustYourGut() {
     let wrongToWrong = 0;
     
     attemptsWithChanges.forEach(a => {
-      const firstAnswer = a.change_sequence[0];
-      const correctAnswer = a.questions?.correct_answer;
-      const finalAnswer = a.selected_answer;
+      const firstWasCorrect = a.first_answer_correct === true;
+      const finalIsCorrect = a.is_correct;
       
-      if (firstAnswer === correctAnswer) firstInstinctCorrect++;
-      if (finalAnswer === correctAnswer) finalCorrect++;
-      
-      const firstWasCorrect = firstAnswer === correctAnswer;
-      const finalIsCorrect = finalAnswer === correctAnswer;
+      if (firstWasCorrect) firstInstinctCorrect++;
+      if (finalIsCorrect) finalCorrect++;
       
       if (firstWasCorrect && !finalIsCorrect) correctToWrong++;
       else if (!firstWasCorrect && finalIsCorrect) wrongToCorrect++;
-      else if (!firstWasCorrect && !finalIsCorrect && firstAnswer !== finalAnswer) wrongToWrong++;
+      else if (!firstWasCorrect && !finalIsCorrect && a.first_differs_from_final) wrongToWrong++;
     });
 
     const firstInstinctAccuracy = attemptsWithChanges.length > 0 
@@ -136,7 +117,7 @@ export default function TrustYourGut() {
     const categoryMap = new Map<string, { pointsLost: number; changes: number; attempts: number }>();
     
     attempts.forEach(a => {
-      const category = a.questions?.category || 'Unknown';
+      const category = a.subject_name || 'Unknown';
       if (!categoryMap.has(category)) {
         categoryMap.set(category, { pointsLost: 0, changes: 0, attempts: 0 });
       }
@@ -145,9 +126,7 @@ export default function TrustYourGut() {
       
       if (a.answer_changes_count > 0 && a.change_sequence.length > 0) {
         entry.changes++;
-        const firstAnswer = a.change_sequence[0];
-        const correctAnswer = a.questions?.correct_answer;
-        if (firstAnswer === correctAnswer && a.selected_answer !== correctAnswer) {
+        if (a.first_answer_correct === true && !a.is_correct) {
           entry.pointsLost++;
         }
       }
@@ -169,16 +148,16 @@ export default function TrustYourGut() {
     const sessionMap = new Map<string, { firstCorrect: number; finalCorrect: number; total: number; date: string }>();
     
     attempts.forEach(a => {
-      if (!sessionMap.has(a.session_id)) {
-        sessionMap.set(a.session_id, { firstCorrect: 0, finalCorrect: 0, total: 0, date: a.created_at.split('T')[0] });
+      const sid = a.session_id ?? 'no-session';
+      if (!sessionMap.has(sid)) {
+        sessionMap.set(sid, { firstCorrect: 0, finalCorrect: 0, total: 0, date: a.created_at.split('T')[0] });
       }
-      const session = sessionMap.get(a.session_id)!;
+      const session = sessionMap.get(sid)!;
       session.total++;
       
       if (a.is_correct) session.finalCorrect++;
       if (a.change_sequence.length > 0) {
-        const firstAnswer = a.change_sequence[0];
-        if (firstAnswer === a.questions?.correct_answer) session.firstCorrect++;
+        if (a.first_answer_correct === true) session.firstCorrect++;
       } else if (a.is_correct) {
         // No changes, so first = final
         session.firstCorrect++;
@@ -203,6 +182,14 @@ export default function TrustYourGut() {
     return (
       <div className="mx-auto max-w-2xl py-12">
         <UpgradePrompt feature="Trust Your Gut" description="Train your first-instinct accuracy and reduce harmful answer changes. This advanced analytics feature requires an eligible plan." />
+      </div>
+    );
+  }
+
+  if (isPaywallError(error)) {
+    return (
+      <div className="mx-auto max-w-2xl py-12">
+        <PaywallNotice />
       </div>
     );
   }

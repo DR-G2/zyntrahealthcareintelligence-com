@@ -156,7 +156,7 @@ export function useFeatureGate(): FeatureGate {
     };
   }
 
-  // Free tier — diagnostic only, no question banks
+  // Not subscribed (internal tier value 'free') — diagnostic only, no question banks
   return {
     ...base, isPaid: false, tier: 'free',
     mcqDailyLimit: FREE_MCQ_LIMIT, canUseMCQ: mcqUsedToday < FREE_MCQ_LIMIT,

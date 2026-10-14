@@ -1,7 +1,8 @@
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import { readFileSync, readdirSync, statSync } from "node:fs";
 import { join, resolve } from "node:path";
-import { startPieDiagnostic, pieSessionErrorMessage, type PieDeps } from "./pie-practice-client";
+import * as pieClient from "./pie-practice-client";
+import { pieSessionErrorMessage } from "./pie-practice-client";
 
 const root = process.cwd();
 const read = (p: string) => readFileSync(resolve(root, p), "utf8");
@@ -13,31 +14,14 @@ function walk(dir: string): string[] {
   });
 }
 
-function deps(rpcImpl: PieDeps["rpc"]): PieDeps {
-  return {
-    ensureSession: vi.fn(async () => undefined), rpc: vi.fn(rpcImpl),
-    saveAttempt: vi.fn(async () => ({}) as never), complete: vi.fn(async () => ({})),
-    results: vi.fn(async () => []), resume: vi.fn(async () => ({})),
-  };
-}
-
 describe("P5: every attempt/selection path is PIE", () => {
-  it("diagnostic is created by the server in pie_diagnostic mode, clamped to 10..50, no ids sent", async () => {
-    const d = deps(async (fn) => fn === "pie_create_session"
-      ? { data: [{ session_id: "d1", question_count: 10 }], error: null }
-      : { data: [{ question_id: "q0", question_position: 0, stem: "s", options: [], correct_answer: "A", explanation: "x" }], error: null });
-    const r = await startPieDiagnostic(3, d);
-    expect(d.rpc).toHaveBeenCalledWith("pie_create_session", { p_count: 10, p_blueprint_key: "AMC_CAT_MCQ", p_mode: "pie_diagnostic" });
-    expect(JSON.stringify((d.rpc as ReturnType<typeof vi.fn>).mock.calls)).not.toContain("p_question_ids");
-    expect(r.questions[0]).not.toHaveProperty("correct_answer");
-    expect(r.questions[0]).not.toHaveProperty("explanation");
-    await startPieDiagnostic(500, d);
-    expect(d.rpc).toHaveBeenCalledWith("pie_create_session", expect.objectContaining({ p_count: 50 }));
+  it("paid lock: the pie_diagnostic entry is removed; no source starts a non-adaptive PIE session", () => {
+    expect((pieClient as Record<string, unknown>).startPieDiagnostic).toBeUndefined();
+    const hits = walk(resolve(root, "src")).filter((f) => /p_mode:\s*['"](?!pie_adaptive)/.test(readFileSync(f, "utf8")));
+    expect(hits).toEqual([]);
   });
 
-  it("server refusals are surfaced, not swallowed", async () => {
-    const d = deps(async () => ({ data: null, error: { message: "PIE_DIAGNOSTIC_RATE_LIMITED: one diagnostic per 24 hours" } }));
-    await expect(startPieDiagnostic(20, d)).rejects.toThrow(/PIE_DIAGNOSTIC_RATE_LIMITED/);
+  it("server refusals are mapped to readable messages", () => {
     expect(pieSessionErrorMessage("PIE_DIAGNOSTIC_ACTIVE: x")).toMatch(/in progress/);
     expect(pieSessionErrorMessage("PIE_DIAGNOSTIC_RATE_LIMITED: x")).toMatch(/24 hours/);
   });
