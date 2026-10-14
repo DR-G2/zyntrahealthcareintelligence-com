@@ -26,10 +26,23 @@ Deno.serve(async (req) => {
   const userClient = createClient(supabaseUrl, anonKey, { global: { headers: { Authorization: authorization } } });
   const serviceClient = createClient(supabaseUrl, serviceKey);
 
-  const { data: { user }, error: authError } = await userClient.auth.getUser();
+  // Edge Functions receive the caller JWT in the request header, not in this
+  // stateless client's persisted auth session. Pass it explicitly to getUser().
+  const accessToken = authorization.slice("Bearer ".length).trim();
+  const { data: { user }, error: authError } = await userClient.auth.getUser(accessToken);
   if (authError || !user) return json({ error: "unauthorized" }, 401);
 
-  const { data: attempts, error: attemptError } = await serviceClient
+  let requestedAttemptId: string | null = null;
+  try {
+    const body = await req.json();
+    if (body && typeof body.attempt_id === "string" && body.attempt_id.trim()) {
+      requestedAttemptId = body.attempt_id.trim();
+    }
+  } catch {
+    // An empty or non-JSON body is equivalent to an aggregate audit request.
+  }
+
+  const { data: recentAttempts, error: attemptError } = await serviceClient
     .from("user_attempts")
     .select("id,user_id,question_id,session_id,created_at")
     .eq("user_id", user.id)
@@ -38,7 +51,26 @@ Deno.serve(async (req) => {
 
   if (attemptError) return json({ error: "attempt_query_failed" }, 500);
 
-  const attemptIds = (attempts ?? []).map((x) => x.id);
+  // created_at is not a unique ordering key. A just-saved attempt can share a
+  // timestamp with existing rows or fall outside the 100-row window, so allow
+  // the caller to ask about one exact attempt without weakening user scoping.
+  let attempts = recentAttempts ?? [];
+  if (requestedAttemptId) {
+    const { data: targetAttempt, error: targetError } = await serviceClient
+      .from("user_attempts")
+      .select("id,user_id,question_id,session_id,created_at")
+      .eq("user_id", user.id)
+      .eq("id", requestedAttemptId)
+      .maybeSingle();
+
+    if (targetError) return json({ error: "target_attempt_query_failed" }, 500);
+    if (!targetAttempt) return json({ error: "attempt_not_found" }, 404);
+    if (!attempts.some((attempt) => attempt.id === targetAttempt.id)) {
+      attempts = [...attempts, targetAttempt];
+    }
+  }
+
+  const attemptIds = attempts.map((x) => x.id);
   let observations: Array<Record<string, unknown>> = [];
 
   if (attemptIds.length) {
@@ -70,7 +102,9 @@ Deno.serve(async (req) => {
   const missing = (attempts ?? []).filter((a) => !observationByAttempt.has(a.id)).length;
   const duplicateAttemptIds = observations.length - observationByAttempt.size;
 
-  const latestAttempt = attempts?.[0] ?? null;
+  const latestAttempt = requestedAttemptId
+    ? attempts.find((attempt) => attempt.id === requestedAttemptId) ?? null
+    : attempts[0] ?? null;
   const latestObservation = latestAttempt ? observationByAttempt.get(latestAttempt.id) ?? null : null;
 
   return json({
