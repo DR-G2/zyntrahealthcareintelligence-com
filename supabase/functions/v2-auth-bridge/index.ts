@@ -12,6 +12,13 @@ const allowedOrigins = new Set([
   "https://zyntrahealthcareintelligence-com-rite4hire-9533s-projects.vercel.app",
   "https://zyntrahealthcareintelligence.netlify.app",
   "https://deploy-preview-53--zyntrahealthcareintelligence.netlify.app",
+  // Lovable preview + published app and remaining custom domains
+  "https://id-preview--6ac44dc8-fe0a-4032-b431-157c5b421031.lovable.app",
+  "https://zyntrahealthcareintelligence-com.lovable.app",
+  "https://zyntrahealthcareintelligence.store",
+  "https://www.zyntrahealthcareintelligence.store",
+  "https://zyntrahealthcareintelligence.info",
+  "https://www.zyntrahealthcareintelligence.info",
 ]);
 
 function isAllowedOrigin(origin: string | null): boolean {
