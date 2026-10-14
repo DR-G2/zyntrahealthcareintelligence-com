@@ -111,7 +111,7 @@ function AdminBroadcastPanel() {
             <SelectTrigger><SelectValue placeholder="Target" /></SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All Users</SelectItem>
-              <SelectItem value="free">Free Users</SelectItem>
+              <SelectItem value="free">Not subscribed users</SelectItem>
               <SelectItem value="paid">Paid Users</SelectItem>
             </SelectContent>
           </Select>

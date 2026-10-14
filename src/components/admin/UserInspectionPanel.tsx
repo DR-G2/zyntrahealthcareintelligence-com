@@ -207,12 +207,12 @@ export function UserInspectionPanel({ userId, email, open, onOpenChange, current
                     <div className="flex justify-between text-sm items-center">
                       <span className="text-muted-foreground">Status</span>
                       <Badge variant={sub?.status === 'active' ? 'default' : 'secondary'}>
-                        {sub?.status === 'active' ? 'Active' : 'Free'}
+                        {sub?.status === 'active' ? 'Active' : 'Not subscribed'}
                       </Badge>
                     </div>
                     <div className="flex justify-between text-sm items-center">
                       <span className="text-muted-foreground">Tier</span>
-                      <Badge variant="outline" className="capitalize">{sub?.tier || 'free'}</Badge>
+                      <Badge variant="outline" className="capitalize">{!sub?.tier || sub.tier === 'free' ? 'Not subscribed' : sub.tier}</Badge>
                     </div>
                     {sub?.subscription_end && (
                       <>
