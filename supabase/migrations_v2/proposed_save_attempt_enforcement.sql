@@ -1,0 +1,33 @@
+-- PROPOSED (NOT APPLIED) — awaiting owner approval.
+-- Adds three server-side checks to public.save_attempt in V2. Signature, return type
+-- and every other behaviour stay identical (body replaced in place).
+--
+--  1. Confidence is mandatory: NULL confidence is rejected (1-5 range check already exists).
+--  2. Locked answer mode: if the session config has answer_change_mode = 'locked',
+--     an attempt whose change_sequence contains more than one selection is rejected.
+--     Sessions without that setting (all existing ones) behave as today.
+--  3. One submitted attempt per question per session: a second save for the same
+--     (session, question) is rejected, so attempts cannot be overwritten by resubmission.
+--     Audit before approval: 0 existing duplicates found on 2026-10-14.
+--
+-- Inserted right after the existing session-ownership check:
+--
+--  if p_confidence_level is null then
+--    raise exception 'confidence_required' using errcode = '22023';
+--  end if;
+--  if p_session_id is not null then
+--    if exists (select 1 from public.practice_sessions ps
+--               where ps.id = p_session_id
+--                 and ps.config->>'answer_change_mode' = 'locked')
+--       and jsonb_typeof(coalesce(p_change_sequence,'[]'::jsonb)) = 'array'
+--       and jsonb_array_length(coalesce(p_change_sequence,'[]'::jsonb)) > 1 then
+--      raise exception 'answer_locked' using errcode = '22023';
+--    end if;
+--    if exists (select 1 from public.user_attempts ua
+--               where ua.session_id = p_session_id and ua.question_id = p_question_id
+--                 and ua.user_id = v_user) then
+--      raise exception 'attempt_already_submitted' using errcode = '23505';
+--    end if;
+--  end if;
+--
+-- Rollback: re-run the previous function definition (saved alongside on apply).
