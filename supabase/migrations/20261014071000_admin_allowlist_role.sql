@@ -1,15 +1,24 @@
+-- RUNBOOK (Mr. G, REQUIRED after apply): this migration sets every allowlist row to role='admin'.
+-- Until one row is manually promoted, is_super_admin() returns false for EVERYONE and every super-admin
+-- function denies all callers. The promotion below is a SEPARATE live write that needs Mr. G's own
+-- explicit OK (not implied by approving this migration); run it only with that OK:
+--   update pie.security_admin_allowlist set role = 'super_admin' where user_id = '<chosen user id>';
 -- Admin tiers in the DB (Mr. G): role on pie.security_admin_allowlist + public.is_super_admin(). NOT applied live.
 -- Requires 20261014051000 (is_admin) and 20261014070000 (user_id NOT NULL).
 -- No row is promoted automatically: every existing row becomes 'admin'. At apply time Mr. G picks the super_admin:
 --   update pie.security_admin_allowlist set role = 'super_admin' where user_id = '<chosen user id>';
 DO $pre$
+DECLARE bad boolean;
 BEGIN
   IF to_regclass('pie.security_admin_allowlist') IS NULL THEN
     RAISE EXCEPTION 'pie.security_admin_allowlist does not exist';
   END IF;
-  IF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema = 'pie' AND table_name = 'security_admin_allowlist' AND column_name = 'role')
-     AND EXISTS (SELECT 1 FROM pie.security_admin_allowlist WHERE role IS NULL OR role NOT IN ('admin', 'super_admin')) THEN
-    RAISE EXCEPTION 'pie.security_admin_allowlist.role already exists with values outside (admin, super_admin); fix before applying';
+  -- Nested + dynamic SQL: the role query must not be parsed/planned when the column is absent (live).
+  IF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_schema = 'pie' AND table_name = 'security_admin_allowlist' AND column_name = 'role') THEN
+    EXECUTE 'SELECT EXISTS (SELECT 1 FROM pie.security_admin_allowlist WHERE role IS NULL OR role NOT IN (''admin'', ''super_admin''))' INTO bad;
+    IF bad THEN
+      RAISE EXCEPTION 'pie.security_admin_allowlist.role already exists with values outside (admin, super_admin); fix before applying';
+    END IF;
   END IF;
 END
 $pre$;
