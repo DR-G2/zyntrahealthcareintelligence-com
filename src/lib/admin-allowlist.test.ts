@@ -86,7 +86,11 @@ describe('no edge function reads public.admin_roles any more', () => {
     return statSync(p).isDirectory() ? walk(p) : p.endsWith('.ts') ? [p] : [];
   });
   it('no .from("admin_roles") in supabase/functions', () => {
-    const hits = walk(resolve(process.cwd(), 'supabase/functions')).filter((f) => /from\(\s*["']admin_roles["']\s*\)/.test(readFileSync(f, 'utf8')));
+    // Exempt only the P2c destructive-action guard on command.admin_roles (explicit .schema("command")): it refuses, never grants.
+    const hits = walk(resolve(process.cwd(), 'supabase/functions')).filter((f) => {
+      const src = readFileSync(f, 'utf8');
+      return [...src.matchAll(/from\(\s*["']admin_roles["']\s*\)/g)].some((m) => !src.slice(Math.max(0, m.index! - 30), m.index).includes('schema("command")'));
+    });
     expect(hits).toEqual([]);
   });
   it('no hard-coded admin email LIST is used for authorization in supabase/functions', () => {

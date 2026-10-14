@@ -51,12 +51,8 @@ serve(async (req) => {
     }
 
     // Log activity
-    await supabase.from("admin_activity_logs").insert({
-      admin_email: "system",
-      action_type: "contact_form_received",
-      target_user_email: email,
-      details: { name, category, message: message.substring(0, 200) },
-    });
+    // P2c: no audit row: command.admin_activity_logs needs a real admin actor, and this would store the
+    // submitter's email/name. The submission itself is the record (contact_submissions).
 
     return new Response(JSON.stringify({ success: true }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },

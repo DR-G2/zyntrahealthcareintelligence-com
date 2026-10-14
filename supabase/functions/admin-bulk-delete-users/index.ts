@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
 import { adminRoleRow } from "../_shared/admin-rpc.ts";
+import { auditRecord } from "../_shared/command-audit.ts";
 
 const SUPER_ADMIN_EMAIL = "gopalrock.naren@gmail.com";
 
@@ -91,10 +92,14 @@ serve(async (req) => {
     }
 
     // Log the bulk action
-    await supabase.from("admin_activity_logs").insert({
-      admin_email: callerEmail,
-      action_type: "BULK_DELETE_USERS",
-      details: {
+    // P2c: command.admin_activity_logs (HMAC target, PII-stripped snapshot); errors logged as stage+code.
+    await auditRecord(supabase, {
+      actorUserId: userData.user.id,
+      actorRole: adminRole?.role ?? "admin",
+      action: "BULK_DELETE_USERS",
+      targetType: "system",
+      target: null,
+      after: {
         total: user_ids.length,
         deleted: results.filter(r => r.status === "deleted").length,
         skipped: results.filter(r => r.status === "skipped").length,

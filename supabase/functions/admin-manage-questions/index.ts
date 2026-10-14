@@ -3,6 +3,7 @@ import { createClient } from "npm:@supabase/supabase-js@2.57.2";
 import { adminCorsHeaders, hasAdminRole, normaliseEmail, parseAllowedOrigins } from "../_shared/admin-gate.ts";
 import { attemptDeletionConfirmed, deleteQuestionsGuarded } from "../_shared/question-delete-guard.ts";
 import { adminRoleRow } from "../_shared/admin-rpc.ts";
+import { auditRecord } from "../_shared/command-audit.ts";
 
 // CORS: app origins only (ADMIN_ALLOWED_ORIGINS, comma-separated; default www + apex app domain).
 const allowedOrigins = parseAllowedOrigins(Deno.env.get("ADMIN_ALLOWED_ORIGINS") ?? Deno.env.get("ADMIN_ALLOWED_ORIGIN"));
@@ -73,10 +74,14 @@ serve(async (req) => {
       if (!question_data) throw new Error("Missing question_data");
       const { data, error } = await supabase.from("questions").insert(pickQuestion(question_data)).select("id").single();
       if (error) throw error;
-      await supabase.from("admin_activity_logs").insert({
-        admin_email: userData.user.email,
-        action_type: "create_question",
-        details: { question_id: data.id },
+      // P2c: command.admin_activity_logs (HMAC target, PII-stripped snapshot); errors logged as stage+code.
+      await auditRecord(supabase, {
+        actorUserId: userData.user.id,
+        actorRole: adminRole?.role ?? "admin",
+        action: "create_question",
+        targetType: "system",
+        target: null,
+        after: { question_id: data.id },
       });
       return new Response(JSON.stringify({ success: true, id: data.id }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -88,10 +93,14 @@ serve(async (req) => {
       if (!question_id || !question_data) throw new Error("Missing question_id or question_data");
       const { error } = await supabase.from("questions").update(pickQuestion(question_data)).eq("id", question_id);
       if (error) throw error;
-      await supabase.from("admin_activity_logs").insert({
-        admin_email: userData.user.email,
-        action_type: "update_question",
-        details: { question_id, fields: Object.keys(question_data) },
+      // P2c: command.admin_activity_logs (HMAC target, PII-stripped snapshot); errors logged as stage+code.
+      await auditRecord(supabase, {
+        actorUserId: userData.user.id,
+        actorRole: adminRole?.role ?? "admin",
+        action: "update_question",
+        targetType: "system",
+        target: null,
+        after: { question_id, fields: Object.keys(question_data) },
       });
       return new Response(JSON.stringify({ success: true }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -105,10 +114,14 @@ serve(async (req) => {
       if (guarded.retained_with_attempts.length) {
         return json({ error: "Question has learner attempts; refusing to delete (attempts would be lost).", retained_with_attempts: guarded.retained_with_attempts }, 409);
       }
-      await supabase.from("admin_activity_logs").insert({
-        admin_email: userData.user.email,
-        action_type: "delete_question",
-        details: { question_id, attempts_deleted: guarded.attempts_deleted },
+      // P2c: command.admin_activity_logs (HMAC target, PII-stripped snapshot); errors logged as stage+code.
+      await auditRecord(supabase, {
+        actorUserId: userData.user.id,
+        actorRole: adminRole?.role ?? "admin",
+        action: "delete_question",
+        targetType: "system",
+        target: null,
+        after: { question_id, attempts_deleted: guarded.attempts_deleted },
       });
       return json({ success: true, attempts_deleted: guarded.attempts_deleted });
     }
@@ -202,10 +215,14 @@ serve(async (req) => {
       // Guarded: questions with learner attempts are retained unless explicitly confirmed.
       const guarded = await deleteQuestionsGuarded(supabase, allIds, allowAttemptDeletion);
 
-      await supabase.from("admin_activity_logs").insert({
-        admin_email: userData.user.email,
-        action_type: "delete_by_subject",
-        details: { subject_name, deleted_count: guarded.deleted.length, retained_with_attempts: guarded.retained_with_attempts.length, attempts_deleted: guarded.attempts_deleted },
+      // P2c: command.admin_activity_logs (HMAC target, PII-stripped snapshot); errors logged as stage+code.
+      await auditRecord(supabase, {
+        actorUserId: userData.user.id,
+        actorRole: adminRole?.role ?? "admin",
+        action: "delete_by_subject",
+        targetType: "system",
+        target: null,
+        after: { subject_name, deleted_count: guarded.deleted.length, retained_with_attempts: guarded.retained_with_attempts.length, attempts_deleted: guarded.attempts_deleted },
       });
 
       return json({ success: true, deleted_count: guarded.deleted.length, retained_with_attempts: guarded.retained_with_attempts.length, attempts_deleted: guarded.attempts_deleted });
@@ -229,10 +246,14 @@ serve(async (req) => {
       // Guarded: questions with learner attempts are retained unless explicitly confirmed.
       const guarded = await deleteQuestionsGuarded(supabase, allIds, allowAttemptDeletion);
 
-      await supabase.from("admin_activity_logs").insert({
-        admin_email: userData.user.email,
-        action_type: "delete_by_subtopic",
-        details: { subtopic_name, deleted_count: guarded.deleted.length, retained_with_attempts: guarded.retained_with_attempts.length, attempts_deleted: guarded.attempts_deleted },
+      // P2c: command.admin_activity_logs (HMAC target, PII-stripped snapshot); errors logged as stage+code.
+      await auditRecord(supabase, {
+        actorUserId: userData.user.id,
+        actorRole: adminRole?.role ?? "admin",
+        action: "delete_by_subtopic",
+        targetType: "system",
+        target: null,
+        after: { subtopic_name, deleted_count: guarded.deleted.length, retained_with_attempts: guarded.retained_with_attempts.length, attempts_deleted: guarded.attempts_deleted },
       });
 
       return json({ success: true, deleted_count: guarded.deleted.length, retained_with_attempts: guarded.retained_with_attempts.length, attempts_deleted: guarded.attempts_deleted });
@@ -256,10 +277,14 @@ serve(async (req) => {
       // Guarded: questions with learner attempts are retained unless explicitly confirmed.
       const guarded = await deleteQuestionsGuarded(supabase, allIds, allowAttemptDeletion);
 
-      await supabase.from("admin_activity_logs").insert({
-        admin_email: userData.user.email,
-        action_type: "delete_all_by_type",
-        details: { question_type, deleted_count: guarded.deleted.length, retained_with_attempts: guarded.retained_with_attempts.length, attempts_deleted: guarded.attempts_deleted },
+      // P2c: command.admin_activity_logs (HMAC target, PII-stripped snapshot); errors logged as stage+code.
+      await auditRecord(supabase, {
+        actorUserId: userData.user.id,
+        actorRole: adminRole?.role ?? "admin",
+        action: "delete_all_by_type",
+        targetType: "system",
+        target: null,
+        after: { question_type, deleted_count: guarded.deleted.length, retained_with_attempts: guarded.retained_with_attempts.length, attempts_deleted: guarded.attempts_deleted },
       });
 
       return json({ success: true, deleted_count: guarded.deleted.length, retained_with_attempts: guarded.retained_with_attempts.length, attempts_deleted: guarded.attempts_deleted });

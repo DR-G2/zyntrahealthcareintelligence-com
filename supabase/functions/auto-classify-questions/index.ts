@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { adminRoleRow } from "../_shared/admin-rpc.ts";
+import { auditRecord } from "../_shared/command-audit.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -211,10 +212,14 @@ serve(async (req) => {
     }
 
     // Log the action
-    await supabase.from("admin_activity_logs").insert({
-      admin_email: userData.user.email,
-      action_type: "auto_classify_questions",
-      details: { total: allQuestions.length, categoryUpdated, subtopicUpdated, unchanged, failedUpdates },
+    // P2c: command.admin_activity_logs (HMAC target, PII-stripped snapshot); errors logged as stage+code.
+    await auditRecord(supabase, {
+      actorUserId: userData.user.id,
+      actorRole: adminRole?.role ?? "admin",
+      action: "auto_classify_questions",
+      targetType: "system",
+      target: null,
+      after: { total: allQuestions.length, categoryUpdated, subtopicUpdated, unchanged, failedUpdates },
     });
 
     return new Response(JSON.stringify({

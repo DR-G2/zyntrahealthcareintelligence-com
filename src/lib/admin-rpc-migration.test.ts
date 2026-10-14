@@ -13,7 +13,10 @@ const files = walk(FN_DIR);
 
 describe("P2: admin edge functions use is_admin RPCs", () => {
   it("has 0 occurrences of .from(\"admin_roles\") under supabase/functions", () => {
-    const hits = files.filter((f) => /\.from\(\s*["'`]admin_roles["'`]\s*\)/.test(readFileSync(f, "utf8")));
+    // Authorization never reads admin_roles. The only allowed read is the P2c destructive-action guard on
+    // command.admin_roles (explicit .schema("command")), which only REFUSES actions on admins.
+    const hits = files.filter((f) => [...readFileSync(f, "utf8").matchAll(/\.from\(\s*["'`]admin_roles["'`]\s*\)/g)]
+      .some((m) => !readFileSync(f, "utf8").slice(Math.max(0, m.index! - 30), m.index).includes('schema("command")')));
     expect(hits).toEqual([]);
   });
 

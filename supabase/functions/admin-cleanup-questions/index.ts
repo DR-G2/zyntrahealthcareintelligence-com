@@ -3,6 +3,7 @@ import { createClient } from "npm:@supabase/supabase-js@2.57.2";
 import { adminCorsHeaders, hasAdminRole, normaliseEmail, parseAllowedOrigins } from "../_shared/admin-gate.ts";
 import { attemptDeletionConfirmed, deleteQuestionsGuarded } from "../_shared/question-delete-guard.ts";
 import { adminRoleRow } from "../_shared/admin-rpc.ts";
+import { auditRecord } from "../_shared/command-audit.ts";
 
 // CORS: app origins only (ADMIN_ALLOWED_ORIGINS, comma-separated; default www + apex app domain).
 const allowedOrigins = parseAllowedOrigins(Deno.env.get("ADMIN_ALLOWED_ORIGINS") ?? Deno.env.get("ADMIN_ALLOWED_ORIGIN"));
@@ -230,10 +231,14 @@ serve(async (req) => {
     const catDist: Record<string, number> = {};
     finalQs?.forEach(q => { catDist[q.category] = (catDist[q.category] || 0) + 1; });
 
-    await supabase.from("admin_activity_logs").insert({
-      admin_email: userData.user.email,
-      action_type: "full_data_cleanup",
-      details: { summary, retained_question_ids: guarded.retained_with_attempts.slice(0, 500) },
+    // P2c: command.admin_activity_logs (HMAC target, PII-stripped snapshot); errors logged as stage+code.
+    await auditRecord(supabase, {
+      actorUserId: userData.user.id,
+      actorRole: adminRole?.role ?? "admin",
+      action: "full_data_cleanup",
+      targetType: "system",
+      target: null,
+      after: { summary, retained_question_ids: guarded.retained_with_attempts.slice(0, 500) },
     });
 
     return new Response(JSON.stringify({

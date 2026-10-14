@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
 import { adminRoleRow } from "../_shared/admin-rpc.ts";
+import { auditRecord } from "../_shared/command-audit.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": Deno.env.get("ADMIN_ALLOWED_ORIGIN") ?? "https://www.zyntrahealthcareintelligence.com",
@@ -191,10 +192,14 @@ serve(async (req) => {
     const subjectDist: Record<string, number> = {};
     finalStations?.forEach(s => { subjectDist[s.subject] = (subjectDist[s.subject] || 0) + 1; });
 
-    await supabase.from("admin_activity_logs").insert({
-      admin_email: userData.user.email,
-      action_type: "cleanup_stations",
-      details: { summary, total_before: allStations.length, total_after: finalCount, total_deleted: idsToDelete.size },
+    // P2c: command.admin_activity_logs (HMAC target, PII-stripped snapshot); errors logged as stage+code.
+    await auditRecord(supabase, {
+      actorUserId: userData.user.id,
+      actorRole: adminRole?.role ?? "admin",
+      action: "cleanup_stations",
+      targetType: "system",
+      target: null,
+      after: { summary, total_before: allStations.length, total_after: finalCount, total_deleted: idsToDelete.size },
     });
 
     return new Response(JSON.stringify({

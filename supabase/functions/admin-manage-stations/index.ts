@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
 import { adminRoleRow } from "../_shared/admin-rpc.ts";
+import { auditRecord } from "../_shared/command-audit.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": Deno.env.get("ADMIN_ALLOWED_ORIGIN") ?? "https://www.zyntrahealthcareintelligence.com",
@@ -58,10 +59,14 @@ serve(async (req) => {
       if (!station_id || !station_data) throw new Error("Missing station_id or station_data");
       const { error } = await supabase.from("clinical_stations").update(pickStation(station_data)).eq("id", station_id);
       if (error) throw error;
-      await supabase.from("admin_activity_logs").insert({
-        admin_email: userData.user.email,
-        action_type: "update_station",
-        details: { station_id, fields: Object.keys(station_data) },
+      // P2c: command.admin_activity_logs (HMAC target, PII-stripped snapshot); errors logged as stage+code.
+      await auditRecord(supabase, {
+        actorUserId: userData.user.id,
+        actorRole: adminRole?.role ?? "admin",
+        action: "update_station",
+        targetType: "system",
+        target: null,
+        after: { station_id, fields: Object.keys(station_data) },
       });
       return new Response(JSON.stringify({ success: true }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -72,10 +77,14 @@ serve(async (req) => {
       if (!station_id) throw new Error("Missing station_id");
       const { error } = await supabase.from("clinical_stations").delete().eq("id", station_id);
       if (error) throw error;
-      await supabase.from("admin_activity_logs").insert({
-        admin_email: userData.user.email,
-        action_type: "delete_station",
-        details: { station_id },
+      // P2c: command.admin_activity_logs (HMAC target, PII-stripped snapshot); errors logged as stage+code.
+      await auditRecord(supabase, {
+        actorUserId: userData.user.id,
+        actorRole: adminRole?.role ?? "admin",
+        action: "delete_station",
+        targetType: "system",
+        target: null,
+        after: { station_id },
       });
       return new Response(JSON.stringify({ success: true }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },

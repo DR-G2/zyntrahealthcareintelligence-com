@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
 import { adminRoleRow } from "../_shared/admin-rpc.ts";
+import { auditRecord } from "../_shared/command-audit.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": Deno.env.get("ADMIN_ALLOWED_ORIGIN") ?? "https://www.zyntrahealthcareintelligence.com",
@@ -58,11 +59,14 @@ serve(async (req) => {
 
       if (error) throw error;
 
-      await supabase.from("admin_activity_logs").insert({
-        admin_email: userData.user.email,
-        action_type: "grant_access",
-        target_user_id: user_id,
-        details: { tier: tier || "full_access", duration_days, expires_at },
+      // P2c: command.admin_activity_logs (HMAC target, PII-stripped snapshot); errors logged as stage+code.
+      await auditRecord(supabase, {
+        actorUserId: userData.user.id,
+        actorRole: adminRole?.role ?? "admin",
+        action: "grant_access",
+        targetType: "user",
+        target: user_id,
+        after: { tier: tier || "full_access", duration_days, expires_at },
       });
 
       return new Response(JSON.stringify({ success: true }), {
@@ -74,10 +78,14 @@ serve(async (req) => {
       const { error } = await supabase.from("manual_overrides").delete().eq("user_id", user_id);
       if (error) throw error;
 
-      await supabase.from("admin_activity_logs").insert({
-        admin_email: userData.user.email,
-        action_type: "revoke_access",
-        target_user_id: user_id,
+      // P2c: command.admin_activity_logs (HMAC target, PII-stripped snapshot); errors logged as stage+code.
+      await auditRecord(supabase, {
+        actorUserId: userData.user.id,
+        actorRole: adminRole?.role ?? "admin",
+        action: "revoke_access",
+        targetType: "user",
+        target: user_id,
+        after: {},
       });
 
       return new Response(JSON.stringify({ success: true }), {
