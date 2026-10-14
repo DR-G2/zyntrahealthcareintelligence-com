@@ -622,7 +622,7 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
           {/* Subject list with subtopics */}
           <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
             {dbSubjects
-              .sort((a, b) => (a.display_order || 0) - (b.display_order || 0))
+              .sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0))
               .filter((subject) => {
                 if (!searchQuery.trim()) return true;
                 const q = searchQuery.toLowerCase();
