@@ -47,7 +47,7 @@ serve(async (req) => {
 
     if (type === "mcq" && Array.isArray(questions) && questions.length > 0) {
       // Only admins may add questions to the shared bank
-      if (!(await isAdmin(authHeader))) {
+      if (!(await isAdmin((claimsData.claims.email as string | undefined) ?? null, req.headers.get("Authorization")))) {
         return new Response(JSON.stringify({ error: "Only admins can save questions to the shared bank." }), {
           status: 403,
           headers: { ...corsHeaders, "Content-Type": "application/json" },

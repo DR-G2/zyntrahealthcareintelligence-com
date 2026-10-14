@@ -1,5 +1,5 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-import { adminRpc } from "../_shared/admin-rpc.ts";
+import { adminRoleRow } from "../_shared/admin-rpc.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -46,17 +46,15 @@ Deno.serve(async (req) => {
       { auth: { persistSession: false } }
     );
 
-    // Admin gate via public.is_admin() RPC with the caller's JWT; fail closed on ANY error (42883/42P01/null/...).
-    const { data: roleRowOk, error: adminGateErr } = await adminRpc(token, "is_admin");
-    if (adminGateErr) {
-      console.error("[export-learning-data] is_admin RPC failed (denying):", adminGateErr.code, adminGateErr.message);
-      return fail("Admin access required", 403, step);
-    }
-    if (roleRowOk !== true) {
-      return fail("Admin access required", 403, step);
-    }
+    const { data: roleRow, error: roleErr } = await adminRoleRow(req, callerEmail);
 
-    console.log(`[export] Admin verified: ${callerEmail} (is_admin RPC)`);
+    if (roleErr) {
+      console.error("[export] is_admin check error:", String((roleErr as { message?: string })?.message ?? roleErr));
+      return fail("Failed to verify admin role", 403, step);
+    }
+    if (!roleRow) return fail("Admin access required", 403, step);
+
+    console.log(`[export] Admin verified: ${callerEmail} (${roleRow.role})`);
 
     // ── Parse request ──
     step = "parse";

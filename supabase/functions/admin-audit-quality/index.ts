@@ -1,11 +1,11 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { adminRoleRow } from "../_shared/admin-rpc.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": Deno.env.get("ADMIN_ALLOWED_ORIGIN") ?? "https://www.zyntrahealthcareintelligence.com",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-const ADMIN_EMAILS = ["gopalrock.naren@gmail.com", "amc.osce.2026@gmail.com", "testuser123@zyntr.website"];
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
@@ -28,8 +28,14 @@ Deno.serve(async (req) => {
       return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401, headers: corsHeaders });
     }
 
-    const email = claims.claims.email as string;
-    if (!ADMIN_EMAILS.includes(email)) {
+    // Server-side admin check: is_admin() as the caller (pie.security_admin_allowlist); fails CLOSED.
+    const { data: adminRole, error: adminGateErr } = await adminRoleRow(req, claims.claims.email);
+    // P2: explicit fail-closed on ANY RPC error (42883/42P01/missing bearer/throw/...).
+    if (adminGateErr) {
+      console.error("[admin-audit-quality] admin RPC check failed (denying):", adminGateErr);
+      return new Response(JSON.stringify({ error: "Forbidden" }), { status: 403, headers: corsHeaders });
+    }
+    if (!adminRole) {
       return new Response(JSON.stringify({ error: "Forbidden" }), { status: 403, headers: corsHeaders });
     }
 

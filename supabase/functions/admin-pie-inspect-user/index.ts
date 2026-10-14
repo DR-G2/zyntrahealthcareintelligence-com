@@ -1,5 +1,5 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-import { adminRpc } from "../_shared/admin-rpc.ts";
+import { adminRoleRow } from "../_shared/admin-rpc.ts";
 
 const allowedOrigin = Deno.env.get("PIE_ALLOWED_ORIGIN") ?? "https://www.zyntrahealthcareintelligence.com";
 
@@ -34,13 +34,14 @@ Deno.serve(async (req) => {
 
     // Exact, case-insensitive admin match (no LIKE wildcards): both sides normalised to lower case.
     const callerEmail = userData.user.email.trim().toLowerCase();
-    // Admin gate via public.is_admin() RPC with the caller's JWT; fail closed on ANY error (42883/42P01/null/...).
-    const { data: adminRoleOk, error: adminGateErr } = await adminRpc(token, "is_admin");
+    const { data: adminRole, error: adminGateErr } = await adminRoleRow(req, callerEmail);
+    // P2: explicit fail-closed on ANY RPC error (42883/42P01/missing bearer/throw/...).
     if (adminGateErr) {
-      console.error("[admin-pie-inspect-user] is_admin RPC failed (denying):", adminGateErr.code, adminGateErr.message);
+      console.error("[admin-pie-inspect-user] admin RPC check failed (denying):", adminGateErr);
       return new Response(JSON.stringify({ error: "Forbidden" }), { status: 403, headers: { ...headers, "Content-Type": "application/json" } });
     }
-    if (adminRoleOk !== true) {
+
+    if (!adminRole || String(adminRole.email).trim().toLowerCase() !== callerEmail) {
       return new Response(JSON.stringify({ error: "Forbidden" }), { status: 403, headers: { ...headers, "Content-Type": "application/json" } });
     }
 

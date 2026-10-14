@@ -2,7 +2,7 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 import { requireAdminOrService } from "../_shared/auth.ts";
-import { adminRpc } from "../_shared/admin-rpc.ts";
+import { adminRoleRow } from "../_shared/admin-rpc.ts";
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
@@ -61,15 +61,15 @@ serve(async (req) => {
         });
       }
 
-      // Admin gate via public.is_admin() RPC with the caller's JWT; fail closed on ANY error (42883/42P01/null/...).
-      const { data: adminRoleOk, error: adminGateErr } = await adminRpc(token, "is_admin");
+      const { data: adminRole, error: adminGateErr } = await adminRoleRow(req, user.email);
+      // P2: explicit fail-closed on ANY RPC error (42883/42P01/missing bearer/throw/...).
       if (adminGateErr) {
-        console.error("[system-health-check] is_admin RPC failed (denying):", adminGateErr.code, adminGateErr.message);
+        console.error("[system-health-check] admin RPC check failed (denying):", adminGateErr);
         return new Response(JSON.stringify({ error: "Forbidden" }), {
           status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
-      if (adminRoleOk !== true) {
+      if (!adminRole) {
         return new Response(JSON.stringify({ error: "Forbidden" }), {
           status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" },
         });

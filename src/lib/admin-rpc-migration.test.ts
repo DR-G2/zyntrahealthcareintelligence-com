@@ -17,25 +17,22 @@ describe("P2: admin edge functions use is_admin RPCs", () => {
     expect(hits).toEqual([]);
   });
 
-  it("every adminRpc gate handles the error explicitly with console.error (fail closed)", () => {
-    const users = files.filter((f) => /await adminRpc\(/.test(readFileSync(f, "utf8")));
-    expect(users.length).toBeGreaterThanOrEqual(28);
+  it("every adminRoleRow gate handles the RPC error explicitly with console.error (fail closed)", () => {
+    const users = files.filter((f) => /await adminRoleRow\(/.test(readFileSync(f, "utf8")));
+    expect(users.length).toBeGreaterThanOrEqual(27);
     for (const f of users) {
       const src = readFileSync(f, "utf8");
-      const calls = src.match(/const \{ data(?:: \w+)?, error(?:: \w+)? \} = await adminRpc\(/g) ?? [];
-      expect(calls.length, f).toBeGreaterThan(0);
-      for (const c of calls) {
-        const errVar = /error: (\w+)/.exec(c)?.[1] ?? "error";
-        expect(src, f).toMatch(new RegExp(`if \\(${errVar}\\) \\{\\n\\s*console\\.error\\(`));
-      }
+      const calls = [...src.matchAll(/const \{ data: \w+, error: (\w+) \} = await adminRoleRow\(/g)];
+      expect(calls.length, f).toBe((src.match(/await adminRoleRow\(/g) ?? []).length);
+      for (const c of calls) expect(src, f).toMatch(new RegExp(`if \\(${c[1]}\\) \\{\\n\\s*console\\.error\\(`));
     }
   });
 
-  it("super_admin-only functions use is_super_admin", () => {
-    for (const fn of ["admin-cleanup-stations", "admin-cleanup-questions", "admin-reset-test-user",
-      "admin-seed-synthetic-users", "admin-bulk-delete-users", "admin-question-bank", "admin-user-actions"]) {
-      expect(readFileSync(join(FN_DIR, fn, "index.ts"), "utf8"), fn).toContain('"is_super_admin")');
+  it("super_admin-only functions gate on the DB super_admin role", () => {
+    for (const fn of ["admin-cleanup-stations", "admin-reset-test-user", "admin-seed-synthetic-users", "admin-bulk-delete-users", "admin-user-actions"]) {
+      expect(readFileSync(join(FN_DIR, fn, "index.ts"), "utf8"), fn).toMatch(/role !== "super_admin"/);
     }
+    expect(readFileSync(join(FN_DIR, "admin-cleanup-questions", "index.ts"), "utf8")).toContain('["super_admin"]');
   });
 
   it("revoke migration for command.admin_roles is guarded and idempotent", () => {

@@ -89,16 +89,18 @@ async function buildContext(sb: ReturnType<typeof serviceClient>, userId: string
     accuracy_pct: r1(x.accuracy), attempts: Number(x.evidence_window?.attempt_count ?? 0), avg_seconds: r1(x.timing_profile?.avg_time_seconds), stability_pct: r1(x.dimensions?.stability),
   }));
   const weakest = subjects[0];
-  const objective = !r.data || Number(r.data.evidence_window?.attempt_count ?? 0) < 10
+  // Type-only: the select() narrows r.data, but these legacy fields are read defensively (runtime unchanged).
+  const rd = r.data as any;
+  const objective = !r.data || Number(rd.evidence_window?.attempt_count ?? 0) < 10
     ? "Insufficient recorded practice for a reliable focus; use a broad mixed review."
     : weakest && (weakest.accuracy_pct ?? 100) < 65
       ? `Strengthen clinical reasoning in ${weakest.subject}.`
       : "Maintain breadth and work on decision stability under time pressure.";
   return {
     performance: r.data ? {
-      attempts: Number(r.data.evidence_window?.attempt_count ?? 0),
-      accuracy_pct: r1(r.data.dimensions?.clinical_accuracy ?? r.data.readiness_score), answer_stability_pct: r1(r.data.dimensions?.answer_stability),
-      avg_seconds_per_question: r1(r.data.dimensions?.time_management), confidence_calibration_pct: r1(r.data.dimensions?.confidence_calibration),
+      attempts: Number(rd.evidence_window?.attempt_count ?? 0),
+      accuracy_pct: r1(rd.dimensions?.clinical_accuracy ?? rd.readiness_score), answer_stability_pct: r1(rd.dimensions?.answer_stability),
+      avg_seconds_per_question: r1(rd.dimensions?.time_management), confidence_calibration_pct: r1(rd.dimensions?.confidence_calibration),
     } : null,
     weakest_subjects: subjects,
     behaviour: b.data ? { rush_pct: r1(b.data.rush_index), hesitation_pct: r1(b.data.hesitation_index), fatigue_pct: r1(b.data.fatigue_index) } : null,

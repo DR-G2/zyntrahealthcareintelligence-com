@@ -1,14 +1,14 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-import { normaliseEmail, clampPage } from "./policy.ts";
+import { normaliseEmail, canReadQuestionBank, clampPage } from "./policy.ts";
 import { adminCorsHeaders, parseAllowedOrigins } from "../_shared/admin-gate.ts";
-import { adminRpc } from "../_shared/admin-rpc.ts";
+import { adminRoleRow } from "../_shared/admin-rpc.ts";
 
 /**
  * P5 (Hank B1): the ONLY data path for the /questions bank browser. The admin check is done
  * here, server-side: the caller's JWT is verified, the email is trimmed + lower-cased and matched
- * via the public.is_super_admin() RPC (called with the caller JWT, fail-closed on any error); the
- * role must be super_admin (follow-up: no broader access is needed, see
+ * EXACTLY (.eq, no LIKE wildcards) against is_admin() (pie.security_admin_allowlist via _shared/admin-rpc.ts; super_admin = is_super_admin()), the returned row's email is lower-cased and
+ * re-checked, and the role must be super_admin (follow-up: no broader access is needed, see
  * policy.ts). Only then are questions (with keys/explanations) read with the service role.
  */
 const allowedOrigins = parseAllowedOrigins(Deno.env.get("ADMIN_ALLOWED_ORIGINS") ?? Deno.env.get("ADMIN_ALLOWED_ORIGIN"));
@@ -24,15 +24,13 @@ serve(async (req) => {
     const { data: u, error: uErr } = await admin.auth.getUser(auth.slice(7));
     const email = normaliseEmail(u?.user?.email);
     if (uErr || !email) return reply({ error: "Unauthorized" }, 401);
-    // Admin gate via public.is_super_admin() RPC with the caller's JWT; fail closed on ANY error (42883/42P01/null/...).
-    const { data: roleOk, error: adminGateErr } = await adminRpc(auth, "is_super_admin");
+    const { data: role, error: adminGateErr } = await adminRoleRow(req, email);
+    // P2: explicit fail-closed on ANY RPC error (42883/42P01/missing bearer/throw/...).
     if (adminGateErr) {
-      console.error("[admin-question-bank] is_super_admin RPC failed (denying):", adminGateErr.code, adminGateErr.message);
+      console.error("[admin-question-bank] admin RPC check failed (denying):", adminGateErr);
       return reply({ error: "Forbidden - Super Admin only" }, 403);
     }
-    if (roleOk !== true) {
-      return reply({ error: "Forbidden - Super Admin only" }, 403);
-    }
+    if (!canReadQuestionBank(role, email)) return reply({ error: "Forbidden - Super Admin only" }, 403);
 
     const body = await req.json().catch(() => ({}));
     const { from, to } = clampPage(body?.offset, body?.limit);

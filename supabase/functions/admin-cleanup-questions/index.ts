@@ -1,8 +1,8 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
-import { adminCorsHeaders, normaliseEmail, parseAllowedOrigins } from "../_shared/admin-gate.ts";
+import { adminCorsHeaders, hasAdminRole, normaliseEmail, parseAllowedOrigins } from "../_shared/admin-gate.ts";
 import { attemptDeletionConfirmed, deleteQuestionsGuarded } from "../_shared/question-delete-guard.ts";
-import { adminRpc } from "../_shared/admin-rpc.ts";
+import { adminRoleRow } from "../_shared/admin-rpc.ts";
 
 // CORS: app origins only (ADMIN_ALLOWED_ORIGINS, comma-separated; default www + apex app domain).
 const allowedOrigins = parseAllowedOrigins(Deno.env.get("ADMIN_ALLOWED_ORIGINS") ?? Deno.env.get("ADMIN_ALLOWED_ORIGIN"));
@@ -53,13 +53,13 @@ serve(async (req) => {
 
     // Exact admin match, lower-case on both sides (no LIKE), super_admin only.
     const callerEmail = normaliseEmail(userData.user.email);
-    // Admin gate via public.is_super_admin() RPC with the caller's JWT; fail closed on ANY error (42883/42P01/null/...).
-    const { data: adminRoleOk, error: adminGateErr } = await adminRpc(token, "is_super_admin");
+    const { data: adminRole, error: adminGateErr } = await adminRoleRow(req, callerEmail ?? "");
+    // P2: explicit fail-closed on ANY RPC error (42883/42P01/missing bearer/throw/...).
     if (adminGateErr) {
-      console.error("[admin-cleanup-questions] is_super_admin RPC failed (denying):", adminGateErr.code, adminGateErr.message);
+      console.error("[admin-cleanup-questions] admin RPC check failed (denying):", adminGateErr);
       return new Response(JSON.stringify({ error: "Forbidden - Super Admin only" }), { status: 403, headers: corsHeaders });
     }
-    if (adminRoleOk !== true) {
+    if (!hasAdminRole(adminRole, callerEmail, ["super_admin"])) {
       return new Response(JSON.stringify({ error: "Forbidden - Super Admin only" }), { status: 403, headers: corsHeaders });
     }
 

@@ -1,5 +1,5 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-import { adminRpc } from "../_shared/admin-rpc.ts";
+import { adminRoleRow } from "../_shared/admin-rpc.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": Deno.env.get("ADMIN_ALLOWED_ORIGIN") ?? "https://www.zyntrahealthcareintelligence.com",
@@ -39,16 +39,17 @@ Deno.serve(async (req) => {
 
     // Check admin role
     const supabase = createClient(supabaseUrl, serviceKey);
-    // Admin gate via public.is_admin() RPC with the caller's JWT; fail closed on ANY error (42883/42P01/null/...).
-    const { data: adminRoleOk, error: adminGateErr } = await adminRpc(authHeader, "is_admin");
+    const { data: adminRole, error: adminGateErr } = await adminRoleRow(req, user.email);
+    // P2: explicit fail-closed on ANY RPC error (42883/42P01/missing bearer/throw/...).
     if (adminGateErr) {
-      console.error("[admin-send-notification] is_admin RPC failed (denying):", adminGateErr.code, adminGateErr.message);
+      console.error("[admin-send-notification] admin RPC check failed (denying):", adminGateErr);
       return new Response(JSON.stringify({ error: "Not an admin" }), {
         status: 403,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
-    if (adminRoleOk !== true) {
+
+    if (!adminRole) {
       return new Response(JSON.stringify({ error: "Not an admin" }), {
         status: 403,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -148,7 +149,7 @@ Deno.serve(async (req) => {
     );
   } catch (err) {
     console.error("admin-send-notification error:", err);
-    return new Response(JSON.stringify({ error: err.message }), {
+    return new Response(JSON.stringify({ error: (err as Error).message }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });

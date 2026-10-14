@@ -1,9 +1,9 @@
 // Pure admin-gate helpers shared by admin edge functions (no Deno globals: also run under vitest).
 //
-// P2 cutover: edge functions NO LONGER read the legacy admin table. Every admin gate calls the DB RPCs
-// public.is_admin() / public.is_super_admin() with the caller's JWT via ./admin-rpc.ts and fails closed
-// on any RPC error. The row helpers below (exact lower-cased email match + role) are kept only for
-// policy unit tests / any row-shaped data; they are not an authorization source.
+// Admin rows now come from _shared/admin-rpc.ts adminRoleRow() (public.is_admin() over
+// pie.security_admin_allowlist; super_admin = is_super_admin(), role column on the allowlist). Email comparison stays lower-case on
+// BOTH sides: the returned row email is trimmed + lower-cased and re-checked against the caller.
+// Any mismatch fails CLOSED. No LIKE/ilike anywhere.
 
 export type AdminRole = "super_admin" | "admin";
 export interface AdminRow { email?: unknown; role?: unknown }

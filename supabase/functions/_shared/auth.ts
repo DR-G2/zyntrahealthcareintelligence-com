@@ -1,5 +1,6 @@
 import { createClient, type SupabaseClient } from "npm:@supabase/supabase-js@2.57.2";
-import { adminRpc } from "./admin-rpc.ts";
+import { callerRpc } from "./admin-rpc.ts";
+import { resolveAdminRow } from "./admin-allowlist.ts";
 import { entitlementFromRow } from "../_shared/billing-lifecycle.ts";
 
 export const corsHeaders = {
@@ -41,25 +42,23 @@ export async function requireUser(req: Request): Promise<Caller | Response> {
   return { userId: sub, email: (data.claims.email as string | undefined) ?? null };
 }
 
-/**
- * Admin check via public.is_admin() RPC, called with the CALLER's JWT (the RPC reads auth.uid() + the
- * JWT email). Fails closed: any RPC error (42883/42P01/null/...) is logged and returns false (=> 403).
- */
-export async function isAdmin(authHeader: string | null): Promise<boolean> {
-  if (!authHeader) return false;
-  const { data, error } = await adminRpc(authHeader, "is_admin");
+/** Admin via public.is_admin() as the caller (pie.security_admin_allowlist, PR #87). Fails CLOSED on any error. */
+export async function isAdmin(email: string | null, authHeader: string | null): Promise<boolean> {
+  if (!email || !authHeader) return false;
+  const { data, error } = await resolveAdminRow(callerRpc(authHeader, "is_admin"), async () => ({ data: false, error: null }), email);
+  // P2: explicit fail-closed + log on ANY RPC error.
   if (error) {
-    console.error("[auth] is_admin RPC failed (denying):", error.code, error.message);
+    console.error("[auth] is_admin RPC check failed (denying):", error);
     return false;
   }
-  return data === true;
+  return !!data;
 }
 
-/** Validates the bearer token and requires public.is_admin() to be true. */
+/** Validates the bearer token and requires an is_admin() allowlist entry. */
 export async function requireAdmin(req: Request): Promise<Caller | Response> {
   const caller = await requireUser(req);
   if (caller instanceof Response) return caller;
-  if (!(await isAdmin(req.headers.get("Authorization")))) return json({ error: "Forbidden" }, 403);
+  if (!(await isAdmin(caller.email, req.headers.get("Authorization")))) return json({ error: "Forbidden" }, 403);
   return caller;
 }
 
