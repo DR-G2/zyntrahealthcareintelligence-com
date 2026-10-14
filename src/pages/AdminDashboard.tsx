@@ -36,7 +36,6 @@ import { QNSTab } from '@/components/admin/QNSTab';
 import { DataPortabilityTab } from '@/components/admin/DataPortabilityTab';
 import { VisitorIntelligenceTab } from '@/components/admin/VisitorIntelligenceTab';
 import { PIEInspectionTab } from '@/components/admin/PIEInspectionTab';
-import { SecurityConsoleTab } from '@/components/admin/SecurityConsoleTab';
 import { Download, Globe } from 'lucide-react';
 
 import { ADMIN_EMAILS, SUPER_ADMIN_EMAIL } from '@/lib/admin-emails';
@@ -1729,7 +1728,6 @@ export default function AdminDashboard() {
             {isSuperAdmin && <TabsTrigger value="system" className="gap-1 text-xs"><Zap className="h-3.5 w-3.5" /> System</TabsTrigger>}
             {isSuperAdmin && <TabsTrigger value="logs" className="gap-1 text-xs"><FileText className="h-3.5 w-3.5" /> Logs</TabsTrigger>}
             {isSuperAdmin && <TabsTrigger value="pie" className="gap-1 text-xs"><Brain className="h-3.5 w-3.5" /> PIE</TabsTrigger>}
-            {isSuperAdmin && <TabsTrigger value="security" className="gap-1 text-xs"><ShieldAlert className="h-3.5 w-3.5" /> Security</TabsTrigger>}
           </TabsList>
           <TabsContent value="live"><LiveActivityTab /></TabsContent>
           <TabsContent value="users"><UsersTab currentUserEmail={currentUserEmail} /></TabsContent>
@@ -1743,7 +1741,6 @@ export default function AdminDashboard() {
           {isSuperAdmin && <TabsContent value="system"><SystemMonitorTab /></TabsContent>}
           {isSuperAdmin && <TabsContent value="logs"><ActivityLogsTab /></TabsContent>}
           {isSuperAdmin && <TabsContent value="pie"><PIEInspectionTab /></TabsContent>}
-          {isSuperAdmin && <TabsContent value="security"><SecurityConsoleTab /></TabsContent>}
         </Tabs>
       </div>
     </AppLayout>

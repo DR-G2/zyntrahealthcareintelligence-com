@@ -28,7 +28,7 @@ describe("PIE hard-failure diagnostics (no silent legacy fallback)", () => {
     expect(src).toContain("syncPieEngine().then((result)");
     expect(src).toContain("This session cannot be resumed. Please start a new one.");
     expect(src).not.toMatch(/startPieSession\([^)]*\)[^;]*catch/);
-    expect(read("src/pages/Assess.tsx")).toContain("syncPieEngine().then(pieSyncFailure)");
+    expect(src).toContain("pieSyncFailure(result)");
   });
 });
 

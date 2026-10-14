@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { readFileSync, readdirSync, statSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { startPieDiagnostic, pieSessionErrorMessage, type PieDeps } from "./pie-practice-client";
 
@@ -42,14 +42,9 @@ describe("P5: every attempt/selection path is PIE", () => {
     expect(pieSessionErrorMessage("PIE_DIAGNOSTIC_RATE_LIMITED: x")).toMatch(/24 hours/);
   });
 
-  it("Assess uses the PIE diagnostic only: no client pool, sequencing, grading or key", () => {
-    const src = read("src/pages/Assess.tsx");
-    expect(src).toContain("startPieDiagnostic");
-    expect(src).toContain("submitPieAnswer");
-    expect(src).toContain("finishPieSession");
-    expect(src).not.toMatch(/from\(['"]questions['"]\)/);
-    expect(src).not.toMatch(/correct_answer/);
-    expect(src).not.toMatch(/selectNextQuestion|persistAttemptsViaV2|@\/lib\/supabase/);
+  it("the removed Assess page stays removed and /assess redirects to Practice", () => {
+    expect(existsSync(resolve(root, "src/pages/Assess.tsx"))).toBe(false);
+    expect(read("src/App.tsx")).toContain('<Route path="/assess" element={<Navigate to="/practice" replace />} />');
   });
 
   it("no source file uses a legacy selection/attempt RPC or client-chosen session", () => {
