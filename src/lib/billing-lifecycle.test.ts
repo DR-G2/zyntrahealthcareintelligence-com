@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import {
   authorizeCancel, planCancel, checkoutDecision, matchesPendingRow, orphanAction, pendingRowExpirable, resolveStalePending,
-  pickEntitledRow, entitlementFromRow, reconcilesPendingRow, provisionalPeriodEnd, verifyDecision, pickSubscriptionRow, cancelAlreadyDone, isUniqueViolation, isExpectedUniqueViolation, violatedConstraint, razorpaySyncUpdate, REFUND_PAYMENT_ID_KEY, RAZORPAY_PAYMENT_ID_KEY, cancelMessage, planCancel, selectTrialReminders, sendTrialReminders, trialReminderText,
+  pickEntitledRow, entitlementFromRow, reconcilesPendingRow, provisionalPeriodEnd, verifyDecision, pickSubscriptionRow, cancelAlreadyDone, isUniqueViolation, isExpectedUniqueViolation, violatedConstraint, razorpaySyncUpdate, syncOwnershipOk, REFUND_PAYMENT_ID_KEY, RAZORPAY_PAYMENT_ID_KEY, cancelMessage, planCancel, selectTrialReminders, sendTrialReminders, trialReminderText,
   type PaymentRow, type RazorpaySub, type ReminderStore,
 } from '../../supabase/functions/_shared/billing-lifecycle';
 
@@ -285,5 +285,20 @@ describe('V2 port: razorpaySyncUpdate', () => {
     expect(razorpaySyncUpdate({ status: 'active' })).toBeNull();
     expect(razorpaySyncUpdate({ status: 'cancelled' })).toEqual({ status: 'cancelled' });
     expect(razorpaySyncUpdate({ status: 'created' })).toBeNull();
+  });
+});
+
+describe('Hank B3: syncOwnershipOk', () => {
+  const row = { user_id: 'u1', razorpay_subscription_id: 'sub_1' };
+  it('accepts matching sub id + notes.user_id', () => {
+    expect(syncOwnershipOk('u1', row, { id: 'sub_1', notes: { user_id: 'u1' } })).toBe(true);
+  });
+  it('rejects mismatched sub id, foreign notes.user_id, missing notes, foreign row', () => {
+    expect(syncOwnershipOk('u1', row, { id: 'sub_2', notes: { user_id: 'u1' } })).toBe(false);
+    expect(syncOwnershipOk('u1', row, { id: 'sub_1', notes: { user_id: 'u2' } })).toBe(false);
+    expect(syncOwnershipOk('u1', row, { id: 'sub_1' })).toBe(false);
+    expect(syncOwnershipOk('u2', row, { id: 'sub_1', notes: { user_id: 'u2' } })).toBe(false);
+    expect(syncOwnershipOk('u1', null, { id: 'sub_1', notes: { user_id: 'u1' } })).toBe(false);
+    expect(syncOwnershipOk('u1', row, null)).toBe(false);
   });
 });

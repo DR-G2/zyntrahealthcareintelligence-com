@@ -312,3 +312,15 @@ export function razorpaySyncUpdate(sub: { status?: string; start_at?: unknown; c
   if (sub.status && (RAZORPAY_TERMINAL_STATUSES as readonly string[]).includes(sub.status)) return { status: 'cancelled' };
   return null;
 }
+
+/** Hank B3: a Razorpay sub may only update a row when it IS that row's sub and was created for this caller
+ *  (same id + notes.user_id checks as authorizeCancel). */
+export function syncOwnershipOk(
+  callerId: string,
+  row: { user_id?: string | null; razorpay_subscription_id?: string | null } | null,
+  sub: { id?: unknown; notes?: unknown } | null,
+): boolean {
+  if (!row || !row.razorpay_subscription_id || row.user_id !== callerId || !sub) return false;
+  const notes = (sub.notes ?? {}) as { user_id?: unknown };
+  return sub.id === row.razorpay_subscription_id && notes.user_id === callerId;
+}

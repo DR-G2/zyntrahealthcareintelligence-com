@@ -29,6 +29,8 @@ BEGIN
   IF NOT (EXISTS (SELECT 1 FROM pg_extension WHERE extname = 'pg_cron')
           AND EXISTS (SELECT 1 FROM pg_extension WHERE extname = 'pg_net')) THEN
     RAISE NOTICE 'pg_cron/pg_net not installed: retry-razorpay-cancels-hourly NOT scheduled';
+  ELSIF NOT EXISTS (SELECT 1 FROM pg_extension WHERE extname = 'supabase_vault') THEN
+    RAISE WARNING 'supabase_vault not installed: retry-razorpay-cancels-hourly NOT scheduled';
   ELSIF NOT EXISTS (SELECT 1 FROM vault.decrypted_secrets WHERE name = 'project_url' AND coalesce(decrypted_secret, '') <> '')
      OR NOT EXISTS (SELECT 1 FROM vault.decrypted_secrets WHERE name = 'cancel_retry_cron_secret' AND coalesce(decrypted_secret, '') <> '') THEN
     RAISE WARNING 'Vault secret project_url and/or cancel_retry_cron_secret is MISSING: retry-razorpay-cancels-hourly NOT scheduled. Create both (cancel_retry_cron_secret == edge env CANCEL_RETRY_CRON_SECRET), then re-run this block.';

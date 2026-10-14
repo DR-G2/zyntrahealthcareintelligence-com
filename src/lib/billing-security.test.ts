@@ -154,7 +154,7 @@ describe('Gus retest 2', () => {
   it('migrations: duplicate guard precedes unique; REVOKE on helper; pending partial unique index', () => {
     const m50 = read('supabase/migrations/20261014050000_payments_replay_protection.sql');
     expect(m50.indexOf('RAISE EXCEPTION')).toBeLessThan(m50.indexOf('add constraint'));
-    expect(read('supabase/migrations/20261014051000_entitlement_honours_billing_dates.sql')).toMatch(/REVOKE EXECUTE ON FUNCTION public\.payment_row_entitled\(public\.payments\) FROM PUBLIC, anon/);
+    expect(read('supabase/migrations/20261014051000_entitlement_honours_billing_dates.sql')).toMatch(/REVOKE ALL ON FUNCTION public\.payment_row_entitled\(public\.payments\) FROM PUBLIC, anon, authenticated/);
     const m60 = read('supabase/migrations/20261014060000_payments_pending_checkout_guard.sql');
     expect(m60).toMatch(/create unique index if not exists payments_one_open_per_user\s+on public\.payments \(user_id\)\s+where status in \('pending', 'active', 'authenticated', 'paused', 'halted'\) and tier is distinct from 'lifetime'/);
     expect(m60).toContain("interval '1 hour'");
@@ -343,23 +343,85 @@ describe('Retest 6 / Hank nits', () => {
     const s = mig('20261014035000');
     for (const c of ['razorpay_payment_id', 'razorpay_subscription_id', 'tier', 'paypal_subscription_id']) expect(s).toContain(`add column if not exists ${c}`);
     expect(s).toContain('ALTER COLUMN external_transaction_id DROP NOT NULL');
-    expect(s).toContain('alter table public.payments enable row level security');
-    expect(s).toContain('revoke all on table public.payments from anon, authenticated, public');
+    expect(s).toContain("ENABLE ROW LEVEL SECURITY");
+    expect(s).toContain("REVOKE ALL ON TABLE public.%I FROM anon, authenticated, PUBLIC");
+    expect(s).toContain("REVOKE ALL (%I) ON TABLE public.%I FROM anon, authenticated, PUBLIC");
     expect(s).toContain('grant select on table public.payments to authenticated');
-    expect(s).not.toMatch(/grant (insert|update|delete)[^;]*to authenticated/i);
+    expect(s).not.toMatch(/grant [^;]*(insert|update|delete)[^;]*to (anon|authenticated)/i);
+    expect(s).toContain("SET DEFAULT 'AUD'");
     expect(s).toContain('create table if not exists public.manual_overrides');
-    expect(s).toContain('create table if not exists public.admin_roles');
+    expect(s).not.toContain('create table if not exists public.admin_roles');
   });
   it('V2 port: entitlement helpers have empty search_path and no anon/PUBLIC execute', () => {
     const s = mig('20261014051000');
-    expect(s.match(/SET search_path = ''/g)?.length).toBe(2);
-    expect(s).toContain('REVOKE EXECUTE ON FUNCTION public.payment_row_entitled(public.payments) FROM PUBLIC, anon');
-    expect(s).toContain('REVOKE EXECUTE ON FUNCTION public.current_user_can_read_questions() FROM PUBLIC, anon');
-    expect(s).toContain("has_function_privilege('anon'");
+    expect(s.match(/SET search_path = ''/g)?.length).toBe(3);
+    expect(s).toMatch(/payment_row_entitled\(p public\.payments\)\nRETURNS boolean LANGUAGE sql STABLE SECURITY DEFINER SET search_path = ''/);
+    expect(s).toContain('REVOKE ALL ON FUNCTION public.payment_row_entitled(public.payments) FROM PUBLIC, anon, authenticated');
+    expect(s).toContain('REVOKE ALL ON FUNCTION public.current_user_can_read_questions() FROM PUBLIC, anon');
+    expect(s).toContain("has_function_privilege('authenticated', 'public.payment_row_entitled(public.payments)', 'EXECUTE')");
+    expect(s).toContain('a.grantee = 0');
   });
   it('check-subscription syncs pending/authenticated rows from Razorpay', () => {
     const s = read('supabase/functions/check-subscription/index.ts');
     expect(s).toContain('razorpaySyncUpdate(sub)');
     expect(s.indexOf('razorpaySyncUpdate(sub)')).toBeLessThan(s.indexOf('// 2. Check local payments'));
+  });
+});
+
+describe('Hank CHANGES_REQUESTED @631d84e', () => {
+  const mig = (prefix: string) => read(`supabase/migrations/${readdirSync(resolve(process.cwd(), 'supabase/migrations')).find((n: string) => n.startsWith(prefix))}`);
+  it('B1: self-check covers all 7 privileges for anon+authenticated, plus column ACLs and RLS', () => {
+    const s = mig('20261014035000');
+    for (const p of ['SELECT', 'INSERT', 'UPDATE', 'DELETE', 'TRUNCATE', 'REFERENCES', 'TRIGGER']) expect(s).toContain(`'${p}'`);
+    expect(s).toContain("ARRAY['payments', 'manual_overrides']");
+    expect(s).toContain("unnest(ARRAY['anon', 'authenticated'])");
+    expect(s).toContain('aclexplode(a.attacl)');
+    expect(s).toContain("RAISE EXCEPTION 'unexpected privileges on billing tables");
+  });
+  it('B1: single payments_select_own policy TO authenticated; aborts on any other policy', () => {
+    const s = mig('20261014035000');
+    expect(s).toContain('drop policy if exists payments_select_own on public.payments');
+    expect(s).toContain('create policy payments_select_own on public.payments for select to authenticated using (auth.uid() = user_id)');
+    expect(s.match(/create policy/gi)?.length).toBe(1);
+    expect(s).toContain("RAISE EXCEPTION 'public.payments has unexpected RLS policies");
+  });
+  it('is_admin: DEFINER over pie.security_admin_allowlist, JWT email, confirmed email, no anon', () => {
+    const s = mig('20261014051000');
+    expect(s).toMatch(/FUNCTION public\.is_admin\(_email text DEFAULT NULL\)\nRETURNS boolean LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path = ''/);
+    expect(s).toContain("auth.jwt() ->> 'email'");
+    expect(s).toContain('pie.security_admin_allowlist a ON a.enabled');
+    expect(s).toContain('u.email_confirmed_at IS NOT NULL');
+    expect(s).toContain('REVOKE ALL ON FUNCTION public.is_admin(text) FROM PUBLIC, anon');
+    expect(s).toContain('OR public.is_admin(NULL)');
+    expect(s).not.toMatch(/FROM public\.admin_roles/);
+  });
+  it('NIT: crons check supabase_vault (+ pg_net) before reading Vault', () => {
+    for (const p of ['20261014040000', '20261014061000']) {
+      const s = mig(p);
+      expect(s.indexOf("extname = 'supabase_vault'")).toBeGreaterThan(0);
+      expect(s.indexOf("extname = 'supabase_vault'")).toBeLessThan(s.indexOf('vault.decrypted_secrets'));
+      expect(s).toContain("extname = 'pg_net'");
+    }
+  });
+  it('B3: every check-subscription payments update is scoped to user_id; sync checks ownership', () => {
+    const s = read('supabase/functions/check-subscription/index.ts');
+    const updates = s.split('.update(').slice(1).map((x) => x.slice(0, 200));
+    expect(updates.length).toBeGreaterThanOrEqual(4);
+    for (const u of updates) expect(u).toContain('.eq("user_id", userId)');
+    expect(s).toContain('syncOwnershipOk(userId, open, sub)');
+  });
+  it('Gus R7 O2: status default is pending (not active) and every payments insert/upsert sets status explicitly', () => {
+    expect(mig('20261014035000')).toContain("ALTER COLUMN status SET DEFAULT 'pending'");
+    expect(mig('20261014035000')).not.toContain("SET DEFAULT 'active'");
+    const files = ['verify-paypal-payment', 'verify-razorpay-payment', 'razorpay-webhook', 'create-razorpay-order'];
+    let n = 0;
+    for (const f of files) {
+      const src = read(`supabase/functions/${f}/index.ts`);
+      for (const part of src.split(/from\("payments"\)\.(?:insert|upsert)\(/).slice(1)) {
+        n++;
+        expect(part.slice(0, part.indexOf('}'))).toMatch(/status: "/);
+      }
+    }
+    expect(n).toBeGreaterThanOrEqual(5);
   });
 });

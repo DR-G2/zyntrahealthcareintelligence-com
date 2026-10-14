@@ -22,6 +22,9 @@ DO $guard$
 BEGIN
   IF NOT EXISTS (SELECT 1 FROM pg_extension WHERE extname = 'pg_cron') THEN
     RAISE NOTICE 'pg_cron not installed: trial-reminder-email-hourly NOT scheduled';
+  ELSIF NOT EXISTS (SELECT 1 FROM pg_extension WHERE extname = 'supabase_vault')
+     OR NOT EXISTS (SELECT 1 FROM pg_extension WHERE extname = 'pg_net') THEN
+    RAISE WARNING 'supabase_vault and/or pg_net not installed: trial-reminder-email-hourly NOT scheduled';
   ELSIF NOT EXISTS (SELECT 1 FROM vault.decrypted_secrets WHERE name = 'project_url' AND coalesce(decrypted_secret, '') <> '')
      OR NOT EXISTS (SELECT 1 FROM vault.decrypted_secrets WHERE name = 'trial_reminder_cron_secret' AND coalesce(decrypted_secret, '') <> '') THEN
     RAISE WARNING 'Vault secret project_url and/or trial_reminder_cron_secret is MISSING: trial-reminder-email-hourly NOT scheduled. Create both, then re-run this block.';

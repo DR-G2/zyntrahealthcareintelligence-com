@@ -1,6 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
-import { checkoutDecision, entitlementFromRow, pickEntitledRow, razorpaySyncUpdate } from "../_shared/billing-lifecycle.ts";
+import { checkoutDecision, entitlementFromRow, pickEntitledRow, razorpaySyncUpdate, syncOwnershipOk } from "../_shared/billing-lifecycle.ts";
 import { fetchSubscription } from "../_shared/razorpay.ts";
 
 const corsHeaders = {
@@ -67,16 +67,18 @@ serve(async (req) => {
     // write status + dates back. Never grants by itself: entitlement still comes from stored dates below.
     try {
       const { data: openRows } = await supabaseClient.from("payments")
-        .select("id,status,razorpay_subscription_id,trial_end_at,current_period_end")
+        .select("id,user_id,status,razorpay_subscription_id,trial_end_at,current_period_end")
         .eq("user_id", userId).in("status", ["pending", "authenticated"])
         .not("razorpay_subscription_id", "is", null)
         .order("created_at", { ascending: false }).limit(1);
       const open = openRows?.[0];
       if (open) {
         const sub = await fetchSubscription(open.razorpay_subscription_id);
-        const upd = sub ? razorpaySyncUpdate(sub) : null;
+        // Hank B3: same ownership rule as authorizeCancel: provider sub id must match the row AND notes.user_id == caller.
+        const upd = sub && syncOwnershipOk(userId, open, sub) ? razorpaySyncUpdate(sub) : null;
+        if (sub && !upd) logStep("Razorpay sync refused or nothing to write", { id: open.id });
         if (upd) {
-          await supabaseClient.from("payments").update(upd).eq("id", open.id).in("status", ["pending", "authenticated"]);
+          await supabaseClient.from("payments").update(upd).eq("id", open.id).eq("user_id", userId).in("status", ["pending", "authenticated"]);
           logStep("Synced payment row from Razorpay", { id: open.id, status: upd.status });
         }
       }
@@ -135,7 +137,8 @@ serve(async (req) => {
           await supabaseClient
             .from("payments")
             .update({ status: "cancelled" })
-            .eq("id", payment.id);
+            .eq("id", payment.id)
+            .eq("user_id", userId);
         } catch (e) {
           logStep("PayPal API check failed; failing closed", { error: String(e) });
           // Fail closed: a provider outage must not grant access (PayPal checkout is disabled anyway).
@@ -164,13 +167,13 @@ serve(async (req) => {
             const sub = await subRes.json();
             if (["cancelled", "completed", "expired"].includes(sub.status) && !payment.cancel_at_period_end) {
               logStep("Subscription ended at provider", { status: sub.status });
-              await supabaseClient.from("payments").update({ status: "cancelled" }).eq("id", payment.id);
+              await supabaseClient.from("payments").update({ status: "cancelled" }).eq("id", payment.id).eq("user_id", userId);
               row = { ...payment, status: "cancelled" };
             } else if (typeof (sub.current_end ?? sub.charge_at) === "number") {
               // current_end once billed; during trial charge_at (= trial end) backfills null-date rows.
               const fresh = new Date((sub.current_end ?? sub.charge_at) * 1000).toISOString();
               if (!payment.current_period_end || fresh > payment.current_period_end) {
-                await supabaseClient.from("payments").update({ current_period_end: fresh }).eq("id", payment.id);
+                await supabaseClient.from("payments").update({ current_period_end: fresh }).eq("id", payment.id).eq("user_id", userId);
                 row = { ...payment, current_period_end: fresh };
               }
             }
