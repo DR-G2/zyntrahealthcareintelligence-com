@@ -1,5 +1,8 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
+import { verifyHmacSignature } from "../_shared/signature.ts";
+import { isExpectedUniqueViolation, RAZORPAY_PAYMENT_ID_KEY, REFUND_PAYMENT_ID_KEY, orphanAction, pickSubscriptionRow, reconcilesPendingRow } from "../_shared/billing-lifecycle.ts";
+import { cancelSubscriptionNow } from "../_shared/razorpay.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -10,21 +13,6 @@ const log = (step: string, details?: unknown) => {
   console.log(`[RAZORPAY-WEBHOOK] ${step}${details ? ` - ${JSON.stringify(details)}` : ""}`);
 };
 
-async function verifyWebhookSignature(body: string, signature: string, secret: string): Promise<boolean> {
-  const encoder = new TextEncoder();
-  const key = await crypto.subtle.importKey(
-    "raw",
-    encoder.encode(secret),
-    { name: "HMAC", hash: "SHA-256" },
-    false,
-    ["sign"]
-  );
-  const sig = await crypto.subtle.sign("HMAC", key, encoder.encode(body));
-  const hex = Array.from(new Uint8Array(sig))
-    .map((b) => b.toString(16).padStart(2, "0"))
-    .join("");
-  return hex === signature;
-}
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -54,7 +42,7 @@ serve(async (req) => {
       });
     }
 
-    const isValid = await verifyWebhookSignature(rawBody, signature, webhookSecret);
+    const isValid = await verifyHmacSignature(rawBody, signature, webhookSecret);
     if (!isValid) {
       log("ERROR", "Invalid webhook signature");
       return new Response(JSON.stringify({ error: "Invalid signature" }), {
@@ -96,10 +84,15 @@ serve(async (req) => {
 
       let status: string;
       switch (event) {
+        // authenticated = mandate approved, trial running (promotes the reserved pending row if verify never ran)
+        case "subscription.authenticated":
         case "subscription.activated":
         case "subscription.charged":
           status = "active";
           break;
+        // completed = all total_count cycles billed (~10y horizon, see create-razorpay-order); the
+        // last paid period has already ended at that point, so ending entitlement is correct.
+        // cancelled fires at cycle end for user cancels (cancel_at_cycle_end=1) or immediately in trial.
         case "subscription.completed":
         case "subscription.cancelled":
         case "subscription.expired":
@@ -117,31 +110,87 @@ serve(async (req) => {
           });
       }
 
-      // Upsert: update existing record by subscription_id or insert new
-      const { data: existing } = await supabase
+      // Only rows reserved by create-razorpay-order (pending -> active) are ever updated; unknown
+      // subscriptions are rejected (logged), never inserted.
+      // Retest 4 nit: several rows can share a sub id (real + audit orphan); never maybeSingle (it errors on >1).
+      const { data: foundRows } = await supabase
         .from("payments")
-        .select("id")
+        .select("id,status,razorpay_payment_id")
         .eq("user_id", userId)
         .eq("razorpay_subscription_id", subscriptionId)
-        .maybeSingle();
+        .order("created_at", { ascending: true })
+        .limit(10);
+      let existing = pickSubscriptionRow(foundRows);
+      if (!existing && notes.pending_payment_id) {
+        // N1 crash-safety: reconcile a pending row whose subscription id was never saved.
+        const { data: cand } = await supabase.from("payments")
+          .select("id,user_id,status,razorpay_subscription_id,razorpay_payment_id").eq("id", notes.pending_payment_id).maybeSingle();
+        if (reconcilesPendingRow(userId, notes, cand)) {
+          await supabase.from("payments").update({ razorpay_subscription_id: subscriptionId }).eq("id", cand!.id).is("razorpay_subscription_id", null);
+          existing = { id: cand!.id, status: cand!.status, razorpay_payment_id: cand!.razorpay_payment_id };
+        }
+      }
 
-      if (existing) {
+      const action = orphanAction(existing, status === "active", !!paymentId);
+      if (action !== "none") {
+        // Hank B1: unknown / expired / cancelled row but Razorpay is live -> stop it charging NOW,
+        // and flag any captured money for manual refund. Never grant access.
+        const cancelled = await cancelSubscriptionNow(subscriptionId, existing ? `webhook:${existing.status}-row` : "webhook:no-row");
+        // Retest 4 #1: a failed cancel is flagged and retried hourly by retry-razorpay-cancels.
+        const flags: Record<string, unknown> = { needs_cancel: !cancelled };
+        if (action === "cancel_and_refund") { flags.needs_refund = true; flags.refund_payment_id = paymentId; }
+        if (!cancelled) log("ALERT NEEDS_CANCEL: Razorpay cancel failed; queued for hourly retry", { event, subscriptionId, userId });
+        if (existing) {
+          // Replays land on the same row (incl. an existing orphan row) -> no stacking.
+          const { error } = await supabase.from("payments").update(flags).eq("id", existing.id);
+          if (error && !isExpectedUniqueViolation(error, [REFUND_PAYMENT_ID_KEY])) throw error;
+          // Gus R6 N1: the duplicate refund_payment_id skipped the WHOLE update, so persist needs_cancel separately.
+          if (error && !cancelled) {
+            const { error: ncErr } = await supabase.from("payments").update({ needs_cancel: true }).eq("id", existing.id);
+            if (ncErr) throw ncErr;
+          }
+        } else {
+          // Audit row (status 'orphan' is not an open/entitling status). Only reached when no row
+          // with this sub id exists, so replays update the row above instead of inserting again.
+          const { error } = await supabase.from("payments").insert({
+            user_id: userId, razorpay_subscription_id: subscriptionId, tier, status: "orphan", ...flags,
+          });
+          // Gus R5: a concurrent/redelivered event already recorded this payment id -> no-op success (200),
+          // so Razorpay stops redelivering.
+          if (error && !isExpectedUniqueViolation(error, [REFUND_PAYMENT_ID_KEY, RAZORPAY_PAYMENT_ID_KEY])) throw error;
+          // Gus R6 N1: the audit row already exists (same payment id) -> flag it for the hourly cancel retry.
+          if (error && !cancelled) {
+            const bySub = await supabase.from("payments").update({ needs_cancel: true }).eq("razorpay_subscription_id", subscriptionId);
+            if (bySub.error) throw bySub.error;
+            if (paymentId) {
+              const byPay = await supabase.from("payments").update({ needs_cancel: true }).eq("refund_payment_id", paymentId);
+              if (byPay.error) throw byPay.error;
+            }
+          }
+          if (error) log("Duplicate payment id already recorded; no-op", { event, subscriptionId, paymentId });
+        }
+        log(action === "cancel_and_refund" ? "NEEDS_REFUND: charge on unknown/ended subscription; cancelled at provider" : "Cancelled unknown/ended subscription at provider", { event, subscriptionId, userId, row: existing?.id ?? null });
+      } else if (!existing) {
+        log("Ignored non-granting event for unknown subscription", { event, subscriptionId });
+      } else {
         const { error } = await supabase
           .from("payments")
-          .update({ status, razorpay_payment_id: paymentId || undefined })
+          .update({
+            status,
+            // Keep the first payment id (replay key); renewals go to last_razorpay_payment_id.
+            ...(paymentId && !existing.razorpay_payment_id ? { razorpay_payment_id: paymentId } : {}),
+            ...(paymentId ? { last_razorpay_payment_id: paymentId } : {}),
+            ...(existing.status === "pending" ? {
+              trial_end_at: typeof entity.start_at === "number" && notes.trial === "yes" ? new Date(entity.start_at * 1000).toISOString() : null,
+            } : {}),
+            ...(typeof entity.current_end === "number"
+              ? { current_period_end: new Date(entity.current_end * 1000).toISOString() }
+              : existing.status === "pending" && typeof entity.start_at === "number"
+                ? { current_period_end: new Date(entity.start_at * 1000).toISOString() } : {}),
+          })
           .eq("id", existing.id);
         if (error) throw error;
         log("Updated payment", { id: existing.id, status });
-      } else {
-        const { error } = await supabase.from("payments").insert({
-          user_id: userId,
-          razorpay_subscription_id: subscriptionId,
-          razorpay_payment_id: paymentId,
-          tier,
-          status,
-        });
-        if (error) throw error;
-        log("Inserted payment", { subscriptionId, status });
       }
     }
 
@@ -152,32 +201,17 @@ serve(async (req) => {
       const paymentId = payment.id;
       const amount = payment.amount ? Math.round(payment.amount / 100) : null;
 
-      // Only process order-based (non-subscription) payments
+      // Legacy one-time order path is retired (no code creates orders). A capture here is unexpected:
+      // never grant access; record an audit row flagged for manual refund (replay-safe on payment id).
       if (orderId && !payment.subscription_id) {
-        const { data: existing } = await supabase
-          .from("payments")
-          .select("id")
-          .eq("user_id", userId)
-          .eq("razorpay_order_id", orderId)
-          .maybeSingle();
-
-        if (existing) {
-          await supabase
-            .from("payments")
-            .update({ status: "active", razorpay_payment_id: paymentId })
-            .eq("id", existing.id);
-          log("Updated one-time payment", { id: existing.id });
-        } else {
+        const { data: seen } = await supabase.from("payments").select("id").eq("refund_payment_id", paymentId).limit(1);
+        if (!seen?.length) {
           await supabase.from("payments").insert({
-            user_id: userId,
-            razorpay_order_id: orderId,
-            razorpay_payment_id: paymentId,
-            tier,
-            status: "active",
-            amount,
+            user_id: userId, razorpay_order_id: orderId, refund_payment_id: paymentId, tier, status: "orphan",
+            needs_refund: true, amount,
           });
-          log("Inserted one-time payment", { orderId });
         }
+        log("NEEDS_REFUND: unexpected one-time order capture (legacy path retired)", { orderId, paymentId, userId });
       }
     }
 
@@ -195,8 +229,8 @@ serve(async (req) => {
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : String(error);
     log("ERROR", { message });
-    // Return 200 to prevent Razorpay from retrying on our errors
-    return new Response(JSON.stringify({ error: message }), {
+    // Return 200 to prevent Razorpay from retrying on our errors; no internal detail in the body.
+    return new Response(JSON.stringify({ error: "processing_failed" }), {
       status: 200,
       headers: { "Content-Type": "application/json" },
     });

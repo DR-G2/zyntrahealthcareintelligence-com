@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
+import { isExpectedUniqueViolation, PAYPAL_ORDER_ID_KEY, PAYPAL_SUBSCRIPTION_ID_KEY } from "../_shared/billing-lifecycle.ts";
 import {
   PAYPAL_PLANS,
   parseCustomId,
@@ -124,7 +125,7 @@ serve(async (req) => {
 
     if (insertError) {
       // Unique index hit by a concurrent request -> already processed
-      if ((insertError as { code?: string }).code === "23505") return json({ success: true, tier, already_processed: true });
+      if (isExpectedUniqueViolation(insertError, [PAYPAL_ORDER_ID_KEY, PAYPAL_SUBSCRIPTION_ID_KEY])) return json({ success: true, tier, already_processed: true });
       throw insertError;
     }
 

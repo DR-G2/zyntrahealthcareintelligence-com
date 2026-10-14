@@ -1,54 +1,38 @@
-// Razorpay product/plan configuration for Zyntra tiers
+// Razorpay configuration — Zyntra sells ONE plan: Full Access (AUD).
+//   - A$39/month, or A$99 per 3 months; 7-day free trial on both; A$1 card check at trial signup.
+// The client never holds plan IDs. It sends only { interval } and the create-razorpay-order edge
+// function maps it to the live AUD plan IDs from env:
+//   RAZORPAY_PLAN_FULL_MONTHLY_AUD  (A$39 / month)
+//   RAZORPAY_PLAN_FULL_3M_AUD       (A$99 / 3 months)
+// TODO(owner): create both plans in the Razorpay dashboard (AUD) and set those env vars.
+// Old USD plan IDs (plan_SOsMQofBcfw3BU, plan_SOsNlReb9DLlAw, plan_SOsQDhBQkgyFfr, plan_SOsR9Hjy6UHpNG) are retired.
+// SAFE DEFAULT: checkout is OFF ("Coming soon") unless the build sets VITE_CHECKOUT_ENABLED=true.
+// Pre-launch note: nothing in this repository records existing paying subscribers on the old plans;
+// this was not verified against the production database.
+import { CARD_CHECK_AMOUNT, CURRENCY, TRIAL_DAYS } from './billing';
+
+export const CHECKOUT_ENABLED = import.meta.env.VITE_CHECKOUT_ENABLED === 'true';
+export const CHECKOUT_DISABLED = !CHECKOUT_ENABLED;
+
 export const RAZORPAY_TIERS = {
-  mcq_only: {
-    plan_id: 'plan_SOsMQofBcfw3BU',
-    mode: 'subscription' as const,
-    name: 'Clinical Starter',
-    price: 39,
-    currency: 'USD',
-    interval: 'month',
-  },
-  mcq_only_3m: {
-    plan_id: 'plan_SOsNlReb9DLlAw',
-    mode: 'subscription' as const,
-    name: 'Clinical Starter (3 months)',
-    price: 100,
-    currency: 'USD',
-    interval: '3 months',
-  },
-  // Internal key 'full_access' kept for backend/Razorpay compatibility; displayed as "Exam Master".
   full_access: {
-    plan_id: 'plan_SOsQDhBQkgyFfr',
     mode: 'subscription' as const,
-    name: 'Exam Master',
-    price: 59,
-    currency: 'USD',
-    interval: 'month',
+    name: 'Full Access (monthly)',
+    interval: 'monthly' as const,
+    price: 39,
+    currency: CURRENCY,
+    trial_days: TRIAL_DAYS,
+    card_check_amount: CARD_CHECK_AMOUNT,
   },
   full_access_3m: {
-    plan_id: 'plan_SOsR9Hjy6UHpNG',
     mode: 'subscription' as const,
-    name: 'Exam Master (6 months)',
-    price: 159,
-    currency: 'USD',
-    interval: '6 months',
-  },
-  lifetime: {
-    plan_id: '',
-    mode: 'payment' as const,
-    name: 'Lifetime',
-    price: 349,
-    currency: 'USD',
-    interval: 'once',
+    name: 'Full Access (3 months)',
+    interval: 'quarterly' as const,
+    price: 99,
+    currency: CURRENCY,
+    trial_days: TRIAL_DAYS,
+    card_check_amount: CARD_CHECK_AMOUNT,
   },
 } as const;
-
-// Plan ID → tier mapping (for subscription verification)
-export const PLAN_TIER_MAP: Record<string, string> = {
-  'plan_SOsMQofBcfw3BU': 'mcq_only',
-  'plan_SOsNlReb9DLlAw': 'mcq_only',
-  'plan_SOsQDhBQkgyFfr': 'full_access',
-  'plan_SOsR9Hjy6UHpNG': 'full_access',
-};
 
 export type TierKey = keyof typeof RAZORPAY_TIERS;

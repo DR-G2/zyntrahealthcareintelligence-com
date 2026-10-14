@@ -78,8 +78,10 @@ serve(async (req) => {
           .maybeSingle();
 
         if (adminRoleError) {
-          console.error("track-presence admin lookup failed:", adminRoleError);
-        } else if (!adminRole) {
+          console.error("track-presence admin lookup failed; logging event anyway:", adminRoleError);
+        }
+        // Hank nit 2: a failed admin lookup must not drop the event (fail toward logging).
+        if (!adminRole) {
           const { error: logError } = await serviceClient.from("system_error_logs").insert({
             error_type: "screenshot_attempt",
             user_id: userId,

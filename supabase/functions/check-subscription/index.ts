@@ -1,5 +1,8 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
+import { checkoutDecision, entitlementFromRow, pickEntitledRow, razorpaySyncUpdate, syncOwnershipOk } from "../_shared/billing-lifecycle.ts";
+import { fetchSubscription } from "../_shared/razorpay.ts";
+import { parseCustomId } from "../_shared/paypal.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -60,21 +63,45 @@ serve(async (req) => {
       }
     }
 
+    // 1b. V2 port (Hank): upsert from Razorpay. If the user's newest Razorpay row is not yet 'active'
+    // (pending/authenticated: webhook missed or not yet delivered on V2), pull the subscription and
+    // write status + dates back. Never grants by itself: entitlement still comes from stored dates below.
+    try {
+      const { data: openRows } = await supabaseClient.from("payments")
+        .select("id,user_id,status,razorpay_subscription_id,trial_end_at,current_period_end")
+        .eq("user_id", userId).in("status", ["pending", "authenticated"])
+        .not("razorpay_subscription_id", "is", null)
+        .order("created_at", { ascending: false }).limit(1);
+      const open = openRows?.[0];
+      if (open) {
+        const sub = await fetchSubscription(open.razorpay_subscription_id);
+        // Hank B3: same ownership rule as authorizeCancel: provider sub id must match the row AND notes.user_id == caller.
+        const upd = sub && syncOwnershipOk(userId, open, sub) ? razorpaySyncUpdate(sub) : null;
+        if (sub && !upd) logStep("Razorpay sync refused or nothing to write", { id: open.id });
+        if (upd) {
+          await supabaseClient.from("payments").update(upd).eq("id", open.id).eq("user_id", userId).in("status", ["pending", "authenticated"]);
+          logStep("Synced payment row from Razorpay", { id: open.id, status: upd.status });
+        }
+      }
+    } catch (e) {
+      logStep("Razorpay sync skipped", { error: String(e) });
+    }
+
     // 2. Check local payments table for active payments
     const { data: payments, error: paymentsError } = await supabaseClient
       .from("payments")
       .select("*")
       .eq("user_id", userId)
       .eq("status", "active")
-      .order("created_at", { ascending: false })
-      .limit(1);
+      .order("created_at", { ascending: false });
 
     if (paymentsError) {
       logStep("Payments query error", { message: paymentsError.message });
     }
 
     if (payments && payments.length > 0) {
-      const payment = payments[0];
+      // Same selection rule as hasPaidAccess: any entitled row wins (else newest, for refresh).
+      const payment = pickEntitledRow(payments).row!;
       logStep("Active payment found", { tier: payment.tier, subscription_id: payment.razorpay_subscription_id });
 
       // PayPal subscriptions: verify with PayPal API that it's still active
@@ -96,6 +123,11 @@ serve(async (req) => {
           });
           if (!subRes.ok) throw new Error(`PayPal subscription lookup failed (${subRes.status})`);
           const sub = await subRes.json();
+          // Hank nit 5: same ownership rule for PayPal (sub id + custom_id "<userId>|<tierKey>").
+          if (!syncOwnershipOk(userId, { user_id: payment.user_id, razorpay_subscription_id: payment.paypal_subscription_id },
+            { id: sub?.id, notes: { user_id: parseCustomId(sub?.custom_id)?.userId } })) {
+            throw new Error("PayPal subscription ownership mismatch");
+          }
           if (sub.status === "ACTIVE") {
             return new Response(JSON.stringify({
               subscribed: true,
@@ -111,14 +143,15 @@ serve(async (req) => {
           await supabaseClient
             .from("payments")
             .update({ status: "cancelled" })
-            .eq("id", payment.id);
+            .eq("id", payment.id)
+            .eq("user_id", userId);
         } catch (e) {
-          logStep("PayPal API check failed, using local data", { error: String(e) });
-          // Fallback to local data
+          logStep("PayPal API check failed; failing closed", { error: String(e) });
+          // Fail closed: a provider outage must not grant access (PayPal checkout is disabled anyway).
           return new Response(JSON.stringify({
-            subscribed: true,
-            tier: payment.tier,
-            subscription_end: null,
+            subscribed: false,
+            tier: "free",
+            verification_unavailable: true,
           }), {
             headers: { ...corsHeaders, "Content-Type": "application/json" },
             status: 200,
@@ -126,58 +159,51 @@ serve(async (req) => {
         }
       // For subscriptions, verify with Razorpay API that it's still active
       } else if (payment.razorpay_subscription_id) {
+        // Entitlement comes from STORED dates (trial_end_at / current_period_end / cancel_at_period_end).
+        // Razorpay is consulted only to refresh those dates; an API failure never extends access.
+        let row = payment;
         const keyId = Deno.env.get("RAZORPAY_KEY_ID") || "";
         const keySecret = Deno.env.get("RAZORPAY_KEY_SECRET") || "";
-        const authString = btoa(`${keyId}:${keySecret}`);
-
         try {
           const subRes = await fetch(
-            `https://api.razorpay.com/v1/subscriptions/${payment.razorpay_subscription_id}`,
-            {
-              headers: { "Authorization": `Basic ${authString}` },
-            }
+            `https://api.razorpay.com/v1/subscriptions/${encodeURIComponent(payment.razorpay_subscription_id)}`,
+            { headers: { "Authorization": `Basic ${btoa(`${keyId}:${keySecret}`)}` } },
           );
-
-          if (subRes.ok) {
-            const sub = await subRes.json();
-            if (sub.status === "active" || sub.status === "authenticated") {
-              const endAt = sub.current_end ? new Date(sub.current_end * 1000).toISOString() : null;
-              return new Response(JSON.stringify({
-                subscribed: true,
-                tier: payment.tier,
-                subscription_end: endAt,
-              }), {
-                headers: { ...corsHeaders, "Content-Type": "application/json" },
-                status: 200,
-              });
-            } else {
-              // Subscription expired/cancelled — mark payment inactive
-              logStep("Subscription no longer active", { status: sub.status });
-              await supabaseClient
-                .from("payments")
-                .update({ status: "cancelled" })
-                .eq("id", payment.id);
+          const sub = subRes.ok ? await subRes.json() : null;
+          // Hank nit 5: refresh only from a sub that IS this row's sub and was created for this caller.
+          if (sub && !syncOwnershipOk(userId, payment, sub)) {
+            logStep("Razorpay refresh refused: subscription ownership mismatch", { id: payment.id });
+          } else if (sub) {
+            if (["cancelled", "completed", "expired"].includes(sub.status) && !payment.cancel_at_period_end) {
+              logStep("Subscription ended at provider", { status: sub.status });
+              await supabaseClient.from("payments").update({ status: "cancelled" }).eq("id", payment.id).eq("user_id", userId);
+              row = { ...payment, status: "cancelled" };
+            } else if (typeof (sub.current_end ?? sub.charge_at) === "number") {
+              // current_end once billed; during trial charge_at (= trial end) backfills null-date rows.
+              const fresh = new Date((sub.current_end ?? sub.charge_at) * 1000).toISOString();
+              if (!payment.current_period_end || fresh > payment.current_period_end) {
+                await supabaseClient.from("payments").update({ current_period_end: fresh }).eq("id", payment.id).eq("user_id", userId);
+                row = { ...payment, current_period_end: fresh };
+              }
             }
           }
         } catch (e) {
-          logStep("Razorpay API check failed, using local data", { error: String(e) });
-          // Fallback to local data
-          return new Response(JSON.stringify({
-            subscribed: true,
-            tier: payment.tier,
-            subscription_end: null,
-          }), {
-            headers: { ...corsHeaders, "Content-Type": "application/json" },
-            status: 200,
-          });
+          logStep("Razorpay refresh failed; using stored dates only", { error: String(e) });
         }
+        const ent = entitlementFromRow(row);
+        logStep("Entitlement", ent);
+        return new Response(JSON.stringify(ent.entitled
+          ? { subscribed: true, tier: payment.tier, plan_amount: payment.amount ?? null, plan_interval: payment.plan_interval ?? null, subscription_end: ent.endsAt, cancel_at_period_end: !!row.cancel_at_period_end, in_trial: ent.reason === "trial" }
+          : { subscribed: false, tier: "free", subscription_end: ent.endsAt }), {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+          status: 200,
+        });
       } else {
-        // One-time payment (lifetime) — always active
-        return new Response(JSON.stringify({
-          subscribed: true,
-          tier: payment.tier,
-          subscription_end: null,
-        }), {
+        // One-time / no-subscription rows: fail closed unless the explicit legacy 'lifetime' tier.
+        const ent = entitlementFromRow(payment);
+        return new Response(JSON.stringify(ent.entitled
+          ? { subscribed: true, tier: payment.tier, subscription_end: ent.endsAt }
+          : { subscribed: false, tier: "free" }), {
           headers: { ...corsHeaders, "Content-Type": "application/json" },
           status: 200,
         });
@@ -185,14 +211,19 @@ serve(async (req) => {
     }
 
     logStep("No active subscription or payment found");
-    return new Response(JSON.stringify({ subscribed: false, tier: "free" }), {
+    // trial_eligible: never trialled/subscribed before (returning customers resubscribe without a trial).
+    const { data: hist } = await supabaseClient.from("payments")
+      .select("status,trial_end_at,razorpay_subscription_id").eq("user_id", userId);
+    const decision = checkoutDecision(hist ?? []);
+    const trialEligible = decision.ok && decision.trial;
+    return new Response(JSON.stringify({ subscribed: false, tier: "free", trial_eligible: trialEligible }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 200,
     });
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
     logStep("ERROR", { message: errorMessage });
-    return new Response(JSON.stringify({ error: errorMessage }), {
+    return new Response(JSON.stringify({ error: "Could not check subscription" }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 500,
     });
