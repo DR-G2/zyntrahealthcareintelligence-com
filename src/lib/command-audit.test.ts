@@ -23,13 +23,14 @@ describe("P2c audit: pure helpers", () => {
   it("strips PII keys by token / whole key, at any depth", () => {
     const out = stripPii({
       user_email: 1, emailAddress: 1, first_name: 1, lastName: 1, ip_addr: 1, ip_address: 1, user_agent: 1,
-      dob: 1, display_name: 1, username: 1, Name: 1, phone: 1, mobile: 1, keep: 1,
+      dob: 1, display_name: 1, username: 1, userAgent: 1, ipAddress: 1, firstName: 1, Name: 1, phone: 1, mobile: 1, keep: 1,
       nested: { full_name: "f", ok: true, deeper: [{ birth_date: "x", userAgent: "ua", v: 2 }] },
     });
     expect(out).toEqual({ keep: 1, nested: { ok: true, deeper: [{ v: 2 }] } });
     expect(isPiiKey("display_name")).toBe(true);
     expect(isPiiKey("subject_name")).toBe(false);
     expect(keyTokens("emailAddress")).toEqual(["email", "address"]);
+    for (const k of ["userAgent", "ipAddress", "firstName"]) expect(isPiiKey(k), k).toBe(true);
   });
   it("redacts email/phone values under generic keys and in arrays; reason redacted too", () => {
     const out = stripPii({
@@ -91,24 +92,77 @@ describe("P2c audit: static checks", () => {
   it("audit module: key from env, fail closed, pending status, logs stage+code only", () => {
     const s = read(join(FN, "_shared/command-audit.ts"));
     expect(s).toContain('Deno.env.get("AUDIT_HMAC_KEY")');
-    expect(s).toContain('status: "pending"');
-    expect(s).toContain("reason: redactReason(input.reason)");
+    expect(s).toContain('sb.rpc("command_audit_begin"');
+    expect(s).toContain("p_reason: redactReason(input.reason)");
     expect(s).toMatch(/if \(!key\) return \{ error:/);
-    expect(s).toContain("security_admin_allowlist");
-    expect(s).toContain('from("admin_roles")');
-    expect(s).toContain('eq("actor_user_id", userId)');
+    expect(s).toContain('sb.rpc("command_admin_target_status"');
+    expect(s).toContain('sb.rpc("command_audit_finish"');
     for (const line of s.split("\n").filter((l) => l.includes("console."))) {
       expect(line).not.toMatch(/key\b|email|target\b|input\.|message/i);
     }
   });
-  it("status migration exists, is idempotent and constrained", () => {
+  it("status migration: default 'done' (backfill + write_audit path), explicit pending in edge, service_role grants only", () => {
     const m = read(resolve(process.cwd(), "supabase/migrations_v2/0087_command_audit_log_status.sql"));
     const add = m.indexOf("add column if not exists status text not null default 'done'");
-    const setDefault = m.indexOf("alter column status set default 'pending'");
+    const def = m.indexOf("alter column status set default 'done'");
+    const chk = m.indexOf("admin_activity_logs_status_check");
     expect(add).toBeGreaterThan(0);
-    expect(setDefault).toBeGreaterThan(add);
-    expect(m.indexOf("admin_activity_logs_status_check")).toBeGreaterThan(setDefault);
-    expect(m).toContain("revoke all on table command.admin_activity_logs from anon, authenticated");
+    expect(def).toBeGreaterThan(add);
+    expect(chk).toBeGreaterThan(def);
+    expect(m).not.toMatch(/set default 'pending'/);
     expect(m).toContain("check (status in ('pending', 'done', 'failed'))");
+    expect(m).toContain("grant usage on schema command to service_role;");
+    expect(m).toContain("grant select, insert, update on table command.admin_activity_logs to service_role;");
+    expect(m).not.toMatch(/grant[^;]*\bto\b[^;]*\b(anon|authenticated|public)\b/i);
+    expect(m).toContain("revoke all on table command.admin_activity_logs from anon, authenticated");
+    // write_audit() (0016) never names status, so its rows take the 'done' default.
+    const wa = read(resolve(process.cwd(), "supabase/migrations_v2/0016_privileged_functions_and_views.sql"));
+    const ins = wa.slice(wa.indexOf("insert into command.admin_activity_logs"), wa.indexOf("returning id into v_id"));
+    expect(ins).not.toMatch(/status/);
+    // the two-phase writer (command_audit_begin) sets pending explicitly
+    expect(m).toMatch(/values \(p_actor_user_id[^;]*'pending'\)/);
+  });
+
+});
+
+describe("B1: admin-bulk-delete-users disabled until P5", () => {
+  const src = read(join(FN, "admin-bulk-delete-users/index.ts"));
+  it("returns 410 disabled_until_p5 with no auth/DB/email code paths", () => {
+    expect(src).toContain('{ error: "disabled_until_p5" }');
+    expect(src).toContain("status: 410");
+    expect(src).not.toMatch(/console\./);
+    for (const bad of ["createClient", "Authorization", "adminRoleRow", ".from(", "email", "user_id", "listUsers", "deleteUser", "req.json", "req.url"]) {
+      expect(src, bad).not.toContain(bad);
+    }
+  });
+});
+
+describe("B2: command schema only via public SECURITY INVOKER RPCs (service_role only)", () => {
+  const m = read(resolve(process.cwd(), "supabase/migrations_v2/0087_command_audit_log_status.sql"));
+  const RPCS = {
+    command_audit_begin: "uuid, text, text, text, text, text, jsonb",
+    command_audit_finish: "uuid, text, jsonb",
+    command_admin_target_status: "uuid",
+    command_audit_list: "integer",
+  };
+  it("0 .schema('command') anywhere in supabase/functions", () => {
+    const hits = walk(FN).filter((f) => /\.schema\(\s*["'`]command["'`]\s*\)/.test(read(f)));
+    expect(hits).toEqual([]);
+  });
+  it("each RPC is SECURITY INVOKER, search_path '', EXECUTE revoked from public/anon/authenticated, granted to service_role", () => {
+    for (const [fn, sig] of Object.entries(RPCS)) {
+      const def = m.slice(m.indexOf(`create or replace function public.${fn}(`));
+      expect(def.slice(0, 600), fn).toMatch(/security invoker set search_path = ''/);
+      expect(m, fn).toContain(`revoke execute on function public.${fn}(${sig}) from public, anon, authenticated;`);
+      expect(m, fn).toContain(`grant execute on function public.${fn}(${sig}) to service_role;`);
+    }
+    const code = m.split("\n").filter((l) => !l.trim().startsWith("--")).join("\n");
+    expect(code).not.toMatch(/security definer/i);
+    expect(m).not.toMatch(/grant[^;]*\bto\b[^;]*\b(anon|authenticated|public)\b/i);
+  });
+  it("edge code calls the RPCs", () => {
+    const a = read(join(FN, "_shared/command-audit.ts"));
+    for (const fn of Object.keys(RPCS)) expect(a).toContain(`sb.rpc("${fn}"`);
+    expect(read(join(FN, "admin-user-actions/index.ts"))).toContain("auditList(supabase, 500)");
   });
 });

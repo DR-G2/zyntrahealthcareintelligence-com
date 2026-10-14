@@ -22,7 +22,7 @@ describe("P2: admin edge functions use is_admin RPCs", () => {
 
   it("every adminRoleRow gate handles the RPC error explicitly with console.error (fail closed)", () => {
     const users = files.filter((f) => /await adminRoleRow\(/.test(readFileSync(f, "utf8")));
-    expect(users.length).toBeGreaterThanOrEqual(27);
+    expect(users.length).toBeGreaterThanOrEqual(26); // admin-bulk-delete-users is a 410 stub (B1)
     for (const f of users) {
       const src = readFileSync(f, "utf8");
       const calls = [...src.matchAll(/const \{ data: \w+, error: (\w+) \} = await adminRoleRow\(/g)];
@@ -32,7 +32,7 @@ describe("P2: admin edge functions use is_admin RPCs", () => {
   });
 
   it("super_admin-only functions gate on the DB super_admin role", () => {
-    for (const fn of ["admin-cleanup-stations", "admin-reset-test-user", "admin-seed-synthetic-users", "admin-bulk-delete-users", "admin-user-actions"]) {
+    for (const fn of ["admin-cleanup-stations", "admin-reset-test-user", "admin-seed-synthetic-users", "admin-user-actions"]) {
       expect(readFileSync(join(FN_DIR, fn, "index.ts"), "utf8"), fn).toMatch(/role !== "super_admin"/);
     }
     expect(readFileSync(join(FN_DIR, "admin-cleanup-questions", "index.ts"), "utf8")).toContain('["super_admin"]');

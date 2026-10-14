@@ -115,7 +115,7 @@ describe('no edge function reads public.admin_roles any more', () => {
     expect(v2).toContain('isAdmin(caller.email, req.headers.get("Authorization"))');
   });
   it('every super_admin edge function gates on the DB role from adminRoleRow (caller JWT)', () => {
-    for (const f of ['admin-bulk-delete-users', 'admin-cleanup-stations', 'admin-cleanup-questions', 'admin-reset-test-user', 'admin-seed-synthetic-users', 'admin-question-bank', 'admin-user-actions']) {
+    for (const f of ['admin-cleanup-stations', 'admin-cleanup-questions', 'admin-reset-test-user', 'admin-seed-synthetic-users', 'admin-question-bank', 'admin-user-actions']) {
       const src = readFileSync(resolve(process.cwd(), `supabase/functions/${f}/index.ts`), 'utf8');
       expect(src, f).toMatch(/await adminRoleRow\(req, /);
       expect(src, f).toMatch(/super_admin|canReadQuestionBank\(role/);

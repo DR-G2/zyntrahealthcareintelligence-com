@@ -1,8 +1,9 @@
-// Two-phase admin audit into command.admin_activity_logs (V2/hkow). Service-role client only.
+// Two-phase admin audit into command.admin_activity_logs (V2/hkow) via public SECURITY INVOKER RPCs
+// (0087; the command schema is NOT exposed). Service-role client only.
 // Usage: const a = await auditBegin(...); if ("error" in a) return 500; <action>; await auditFinish(...).
 // Structural client type so callers using npm: or esm.sh supabase-js both type-check.
 // deno-lint-ignore no-explicit-any
-type SupabaseClient = { schema: (s: string) => any };
+type SupabaseClient = { rpc: (fn: string, args?: Record<string, unknown>) => any };
 import { errCode, hmacTarget, redactReason, stripPii, type AuditStatus } from "./audit-pure.ts";
 export { hmacTarget, stripPii } from "./audit-pure.ts";
 
@@ -25,7 +26,7 @@ export async function auditTargetId(target: string | null): Promise<{ id: string
   return { id: await hmacTarget(key, target) };
 }
 
-/** Inserts status='pending' BEFORE the action. Any error => { error } and the caller must not act. */
+/** Inserts status='pending' BEFORE the action (RPC command_audit_begin). Any error => { error }; caller must not act. */
 export async function auditBegin(sb: SupabaseClient, input: AuditBeginInput): Promise<{ id: string } | { error: string }> {
   try {
     const t = await auditTargetId(input.target);
@@ -33,35 +34,34 @@ export async function auditBegin(sb: SupabaseClient, input: AuditBeginInput): Pr
       console.error("[audit] begin failed stage=hmac_secret code=missing");
       return { error: t.error };
     }
-    const { data, error } = await sb.schema("command").from("admin_activity_logs").insert({
-      actor_user_id: input.actorUserId,
-      actor_role: input.actorRole,
-      action: input.action,
-      target_type: input.targetType,
-      target_id: t.id,
-      reason: redactReason(input.reason),
-      before_snapshot: input.before === undefined ? null : stripPii(input.before),
-      status: "pending",
-    }).select("id").single();
-    if (error || !data?.id) {
-      console.error("[audit] begin failed stage=insert code=", errCode(error));
+    const { data, error } = await sb.rpc("command_audit_begin", {
+      p_actor_user_id: input.actorUserId,
+      p_actor_role: input.actorRole,
+      p_action: input.action,
+      p_target_type: input.targetType,
+      p_target_id: t.id,
+      p_reason: redactReason(input.reason),
+      p_before: input.before === undefined ? null : stripPii(input.before),
+    });
+    if (error || typeof data !== "string") {
+      console.error("[audit] begin failed stage=rpc code=", errCode(error));
       return { error: "audit_insert_failed" };
     }
-    return { id: data.id as string };
+    return { id: data };
   } catch (e) {
     console.error("[audit] begin failed stage=exception code=", errCode(e));
     return { error: "audit_exception" };
   }
 }
 
-/** Marks the pending row done/failed. Never throws; returns false (and logs stage+code) on error. */
+/** Marks the pending row done/failed (RPC command_audit_finish). Never throws; false (logged stage+code) on error. */
 export async function auditFinish(sb: SupabaseClient, id: string, status: Exclude<AuditStatus, "pending">, after?: unknown): Promise<boolean> {
   try {
-    const { error } = await sb.schema("command").from("admin_activity_logs")
-      .update({ status, after_snapshot: after === undefined ? null : stripPii(after) })
-      .eq("id", id);
-    if (error) {
-      console.error("[audit] finish failed stage=update code=", errCode(error));
+    const { data, error } = await sb.rpc("command_audit_finish", {
+      p_id: id, p_status: status, p_after: after === undefined ? null : stripPii(after),
+    });
+    if (error || data !== true) {
+      console.error("[audit] finish failed stage=rpc code=", errCode(error ?? { code: "not_pending" }));
       return false;
     }
     return true;
@@ -72,31 +72,35 @@ export async function auditFinish(sb: SupabaseClient, id: string, status: Exclud
 }
 
 /**
- * Destructive-action guard: the target must not be (or have been) an admin.
- * 'admin' if in pie.security_admin_allowlist, command.admin_roles, or an actor in command.admin_activity_logs.
- * Any lookup error => 'error' (callers fail closed).
+ * Destructive-action guard (RPC command_admin_target_status): 'admin' if the target is in
+ * pie.security_admin_allowlist, command.admin_roles, or an actor in command.admin_activity_logs.
+ * Any error / unexpected value => 'error' (callers fail closed).
  */
 export async function adminTargetStatus(sb: SupabaseClient, userId: string): Promise<"clear" | "admin" | "error"> {
   try {
-    const [allow, roles, acted] = await Promise.all([
-      sb.schema("pie").from("security_admin_allowlist").select("user_id").eq("user_id", userId).limit(1),
-      sb.schema("command").from("admin_roles").select("user_id").eq("user_id", userId).limit(1),
-      sb.schema("command").from("admin_activity_logs").select("id").eq("actor_user_id", userId).limit(1),
-    ]);
-    for (const [stage, r] of [["allowlist", allow], ["admin_roles", roles], ["activity", acted]] as const) {
-      if (r.error) {
-        console.error("[audit] admin-guard check failed stage=", stage, "code=", errCode(r.error));
-        return "error";
-      }
+    const { data, error } = await sb.rpc("command_admin_target_status", { p_user_id: userId });
+    if (error) {
+      console.error("[audit] admin-guard check failed stage=rpc code=", errCode(error));
+      return "error";
     }
-    return [allow, roles, acted].some((r) => (r.data ?? []).length > 0) ? "admin" : "clear";
+    return data === "clear" || data === "admin" ? data : "error";
   } catch (e) {
     console.error("[audit] admin-guard check failed stage=exception code=", errCode(e));
     return "error";
   }
 }
 
-/** Single-shot record for non-destructive actions already performed (status done/failed). Never throws. */
+/** Read path for get_logs (RPC command_audit_list). */
+export async function auditList(sb: SupabaseClient, limit = 500): Promise<{ data: unknown[] } | { error: string }> {
+  const { data, error } = await sb.rpc("command_audit_list", { p_limit: limit });
+  if (error) {
+    console.error("[audit] list failed stage=rpc code=", errCode(error));
+    return { error: "audit_list_failed" };
+  }
+  return { data: (data ?? []) as unknown[] };
+}
+
+/** Single-shot record for non-destructive actions already performed (begin + finish). Never throws. */
 export async function auditRecord(sb: SupabaseClient, input: AuditBeginInput & { after?: unknown; status?: "done" | "failed" }): Promise<boolean> {
   const b = await auditBegin(sb, input);
   if ("error" in b) return false;

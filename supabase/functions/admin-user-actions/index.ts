@@ -1,7 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
 import { adminRoleRow } from "../_shared/admin-rpc.ts";
-import { adminTargetStatus, auditBegin, auditFinish } from "../_shared/command-audit.ts";
+import { adminTargetStatus, auditBegin, auditFinish, auditList } from "../_shared/command-audit.ts";
 import { errCode } from "../_shared/audit-pure.ts";
 
 const SUPER_ADMIN_EMAIL = "gopalrock.naren@gmail.com";
@@ -77,14 +77,11 @@ serve(async (req) => {
       if (adminRole.role !== "super_admin") {
         return new Response(JSON.stringify({ error: "Only Super Admin can view activity logs" }), { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } });
       }
-      const { data, error } = await supabase
-        .schema("command")
-        .from("admin_activity_logs")
-        .select("*")
-        .order("created_at", { ascending: false })
-        .limit(500);
-      if (error) throw error;
-      return new Response(JSON.stringify({ logs: data }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      const logs = await auditList(supabase, 500);
+      if ("error" in logs) {
+        return new Response(JSON.stringify({ error: "Activity logs unavailable" }), { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      }
+      return new Response(JSON.stringify({ logs: logs.data }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
     const auditAction = AUDIT_ACTIONS[action];
