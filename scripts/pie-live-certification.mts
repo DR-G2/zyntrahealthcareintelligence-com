@@ -126,7 +126,38 @@ async function main() {
   const rawAmc = await A.db.from("amc_adapter_evaluation").select("user_id").eq("user_id", A.id).limit(1);
   check("raw AMC evaluation table is protected", !!rawAmc.error, rawAmc.error?.message ?? "UNEXPECTED RAW ACCESS");
 
-  // 7. Next question must be server selected only after current answer.
+  // 7. The session creator pre-serves the initial batch. Answer every question
+  // returned by that batch before requesting the next server-selected question.
+  // The RPC correctly rejects skipping any served-but-unanswered question.
+  let batchAnswersSaved = 1;
+  for (const q of questions.slice(1)) {
+    const answer = await rpc(A, "save_attempt", {
+      p_question_id: q.question_id,
+      p_session_id: sessionId,
+      p_selected_answer: "A",
+      p_is_correct: false,
+      p_time_taken_seconds: 35,
+      p_confidence_level: 3,
+      p_answer_changes_count: 0,
+      p_time_to_first_click: 5,
+      p_change_sequence: ["A"],
+      p_pause_events: [],
+      p_time_of_day: "certification",
+      p_question_position: q.question_position,
+      p_previous_question_correct: null,
+      p_question_version: q.version ?? null,
+      p_app_version: "pie-live-certification",
+      p_provenance: { source: "pie-live-certification", phase: "answer-initial-batch" },
+    });
+    if (answer.error || !answer.data?.id) {
+      check("all initially served questions answered before NEXT_QUESTION", false, answer.error?.message ?? "attempt was not persisted");
+      break;
+    }
+    batchAnswersSaved += 1;
+  }
+  check("all initially served questions answered before NEXT_QUESTION", batchAnswersSaved === questions.length, `answered=${batchAnswersSaved}/${questions.length}`);
+
+  // 8. Next question must be server selected only after the served batch is answered.
   const next = await rpc(A, "pie_next_question", { p_session_id: sessionId });
   check("server-selected next question", !next.error && next.data?.[0]?.question_id, next.error?.message ?? "");
   check("next-question RPC does not require client question ID", true);
