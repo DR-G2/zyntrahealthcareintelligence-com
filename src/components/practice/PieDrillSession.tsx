@@ -75,6 +75,9 @@ export function PieDrillSession({ config, resumeSessionId, onFinish }: {
   const [selected, setSelected] = useState<Record<number, string>>({});
   const [sequence, setSequence] = useState<Record<number, string[]>>({});
   const [confidence, setConfidence] = useState<Record<number, number>>({});
+  const [confidenceError, setConfidenceError] = useState(false);
+  const [ruledOut, setRuledOut] = useState<Record<number, string[]>>({});
+  const ruleEventsRef = useRef<Record<number, { option: string; action: string; at_ms: number }[]>>({});
   const [saved, setSaved] = useState<Record<number, boolean>>({});
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
@@ -140,36 +143,58 @@ export function PieDrillSession({ config, resumeSessionId, onFinish }: {
 
   const choose = (letter: string) => {
     if (saved[index]) return;
+    if ((ruledOut[index] || []).includes(letter)) return; // must un-rule explicitly first
     if (firstClickRef.current[index] == null) firstClickRef.current[index] = Date.now() - shownAtRef.current;
     if (config.mode !== 'recharge' && selected[index]) return; // no-change / mock: first choice is final
     setSelected(s => ({ ...s, [index]: letter }));
     setSequence(s => ({ ...s, [index]: [...(s[index] || []), letter] }));
   };
 
-  const saveCurrent = async (): Promise<boolean> => {
+  const toggleRuleOut = (letter: string) => {
+    if (saved[index]) return;
+    const current = ruledOut[index] || [];
+    const on = !current.includes(letter);
+    if (on && selected[index] === letter) return; // cannot rule out the selected answer
+    setRuledOut(r => ({ ...r, [index]: on ? [...current, letter] : current.filter(l => l !== letter) }));
+    ruleEventsRef.current[index] = [...(ruleEventsRef.current[index] || []),
+      { option: letter, action: on ? 'ruled_out' : 'restored', at_ms: Date.now() - shownAtRef.current }];
+  };
+
+  /** Returns 'ok' | 'no-answer' | 'no-confidence'. Throws if saving fails (caller must not advance). */
+  const saveCurrent = async (): Promise<'ok' | 'no-answer' | 'no-confidence'> => {
     const q = questions[index];
-    if (!q || saved[index] || !sessionRef.current) return true;
+    if (!q || saved[index] || !sessionRef.current) return 'ok';
     const answer = selected[index];
-    if (!answer) return false;
+    if (!answer) return 'no-answer';
+    const conf = confidence[index];
+    if (!conf || conf < 1 || conf > 5) { setConfidenceError(true); return 'no-confidence'; }
     recordTime();
     await submitPieAnswer({
       questionId: q.question_id, sessionId: sessionRef.current, selectedAnswer: answer,
-      timeTakenSeconds: timesRef.current[index] || 0, confidenceLevel: confidence[index] ?? null,
+      timeTakenSeconds: timesRef.current[index] || 0, confidenceLevel: conf,
       timeToFirstClick: firstClickRef.current[index] ?? null, changeSequence: sequence[index] || [answer],
       timeOfDay: new Date().toISOString(), questionPosition: q.question_position,
-      questionVersion: q.version ?? null, provenance: { source: 'practice-pie', mode: config.mode },
+      questionVersion: q.version ?? null,
+      provenance: {
+        source: 'practice-pie', mode: config.mode, entry: 'mcq_drill',
+        ruled_out_final: ruledOut[index] || [], rule_out_events: ruleEventsRef.current[index] || [],
+      },
     });
     setSaved(s => ({ ...s, [index]: true }));
     // One answer is evidence, but PIE stays "building" until 6 observations.
     void syncPieEngine().catch((error) => console.warn('[PIE] sync after answer failed', error));
-    return true;
+    return 'ok';
   };
 
-  const finish = useCallback(async () => {
+  const finish = useCallback(async (forced = false) => {
     if (finishingRef.current || !sessionRef.current) return;
     finishingRef.current = true; setBusy(true);
     try {
-      if (selected[index] && !saved[index]) await saveCurrent();
+      if (selected[index] && !saved[index]) {
+        const status = await saveCurrent();
+        // Manual finish never drops an answer silently; on timer expiry an answer without confidence is not saved.
+        if (status === 'no-confidence' && !forced) { finishingRef.current = false; return; }
+      }
       const results = await finishPieSession(sessionRef.current);
       if (user) await supabase.from('active_sessions').delete().eq('session_id', localIdRef.current);
       // PIE state refresh is downstream and never blocks completion; failures are surfaced.
@@ -178,18 +203,20 @@ export function PieDrillSession({ config, resumeSessionId, onFinish }: {
         if (failure) toast({ ...describePieFailure(failure), variant: 'destructive' });
       });
       const r = resultsToQuestions(results);
-      onFinish(r.questions, r.answers, r.changes, r.times, {});
+      onFinish(r.questions, r.answers, r.changes, r.times, ruledOut);
     } catch (e) {
       finishingRef.current = false;
       toast({ title: 'Session not completed', description: (e as Error).message, variant: 'destructive' });
     } finally { setBusy(false); }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [index, selected, saved, user, onFinish]);
+  }, [index, selected, saved, confidence, ruledOut, user, onFinish]);
 
   const next = async () => {
     setBusy(true);
     try {
-      if (!(await saveCurrent())) { toast({ title: 'Choose an answer first' }); return; }
+      const status = await saveCurrent();
+      if (status === 'no-answer') { toast({ title: 'Choose an answer first' }); return; }
+      if (status === 'no-confidence') return;
       if (index + 1 < questions.length) { setIndex(index + 1); shownAtRef.current = Date.now(); return; }
       if (questions.length < target && sessionRef.current) {
         const q = await nextPieQuestion(sessionRef.current);
@@ -201,10 +228,12 @@ export function PieDrillSession({ config, resumeSessionId, onFinish }: {
     } finally { setBusy(false); }
   };
 
+  useEffect(() => { setConfidenceError(false); }, [index]);
+
   useEffect(() => {
     if (loading || error) return;
     const t = setInterval(() => setRemaining(r => {
-      if (r <= 1) { clearInterval(t); void finish(); return 0; }
+      if (r <= 1) { clearInterval(t); void finish(true); return 0; }
       return r - 1;
     }), 1000);
     return () => clearInterval(t);
@@ -244,22 +273,41 @@ export function PieDrillSession({ config, resumeSessionId, onFinish }: {
               {options.map((opt, i) => {
                 const letter = LETTERS[i];
                 const active = selected[index] === letter;
+                const out = (ruledOut[index] || []).includes(letter);
                 return (
-                  <button key={letter} type="button" disabled={saved[index] || busy}
-                    onClick={() => choose(letter)}
-                    className={cn('w-full rounded-md border p-3 text-left text-sm', active ? 'border-primary bg-primary/10' : 'border-border')}>
-                    <span className="mr-2 font-semibold">{letter}.</span>{opt}
-                  </button>
+                  <div key={letter} className="flex items-stretch gap-2">
+                    <button type="button" disabled={saved[index] || busy || active}
+                      aria-pressed={out} aria-label={out ? `Restore option ${letter}` : `Rule out option ${letter}`}
+                      onClick={() => toggleRuleOut(letter)}
+                      className={cn('flex w-9 shrink-0 items-center justify-center rounded-md border text-xs',
+                        out ? 'border-muted-foreground bg-muted text-muted-foreground' : 'border-border text-muted-foreground')}>
+                      {out ? '↺' : '✕'}
+                    </button>
+                    <button type="button" disabled={saved[index] || busy || out} aria-pressed={active}
+                      onClick={() => choose(letter)}
+                      className={cn('w-full rounded-md border p-3 text-left text-sm',
+                        active ? 'border-primary bg-primary/10' : 'border-border',
+                        out && 'line-through opacity-50')}>
+                      <span className="mr-2 font-semibold">{letter}.</span>{opt}
+                    </button>
+                  </div>
                 );
               })}
             </div>
             {!saved[index] && (
-              <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
-                Confidence:
-                {[1, 2, 3, 4, 5].map(v => (
-                  <Button key={v} size="sm" variant={confidence[index] === v ? 'default' : 'outline'}
-                    aria-label={`Confidence ${v} of 5`} onClick={() => setConfidence(c => ({ ...c, [index]: v }))}>{v}</Button>
-                ))}
+              <div className="space-y-1">
+                <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground" role="radiogroup" aria-label="Confidence">
+                  Confidence (required):
+                  {[1, 2, 3, 4, 5].map(v => (
+                    <Button key={v} size="sm" role="radio" aria-checked={confidence[index] === v}
+                      variant={confidence[index] === v ? 'default' : 'outline'}
+                      aria-label={`Confidence ${v} of 5`}
+                      onClick={() => { setConfidence(c => ({ ...c, [index]: v })); setConfidenceError(false); }}>{v}</Button>
+                  ))}
+                </div>
+                {confidenceError && !confidence[index] && (
+                  <p role="alert" className="text-xs text-destructive">Select your confidence level to continue.</p>
+                )}
               </div>
             )}
             {saved[index] && <p className="flex items-center gap-1 text-xs text-muted-foreground"><CheckCircle className="h-3 w-3" />Answer saved. Results and explanations appear when you finish.</p>}
