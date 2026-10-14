@@ -1,4 +1,5 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { adminRoleRow } from "../_shared/admin-rpc.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -46,14 +47,10 @@ Deno.serve(async (req) => {
       { auth: { persistSession: false } }
     );
 
-    const { data: roleRow, error: roleErr } = await supabase
-      .from("admin_roles")
-      .select("role")
-      .eq("email", callerEmail)
-      .maybeSingle();
+    const { data: roleRow, error: roleErr } = await adminRoleRow(req, callerEmail);
 
     if (roleErr) {
-      console.error("[import] admin_roles query error:", roleErr.message);
+      console.error("[import] is_admin check error:", String((roleErr as { message?: string })?.message ?? roleErr));
       return fail("Failed to verify admin role", 500, step);
     }
     if (!roleRow) return fail("Admin access required", 403, step);

@@ -2,6 +2,7 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 import { requireAdminOrService } from "../_shared/auth.ts";
+import { adminRoleRow } from "../_shared/admin-rpc.ts";
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
@@ -60,7 +61,7 @@ serve(async (req) => {
         });
       }
 
-      const { data: adminRole } = await supabase.from("admin_roles").select("role").eq("email", user.email).maybeSingle();
+      const { data: adminRole } = await adminRoleRow(req, user.email);
       if (!adminRole) {
         return new Response(JSON.stringify({ error: "Forbidden" }), {
           status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" },

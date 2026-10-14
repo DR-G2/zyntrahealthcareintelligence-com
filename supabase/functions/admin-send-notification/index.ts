@@ -1,4 +1,5 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { adminRoleRow } from "../_shared/admin-rpc.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": Deno.env.get("ADMIN_ALLOWED_ORIGIN") ?? "https://www.zyntrahealthcareintelligence.com",
@@ -38,11 +39,7 @@ Deno.serve(async (req) => {
 
     // Check admin role
     const supabase = createClient(supabaseUrl, serviceKey);
-    const { data: adminRole } = await supabase
-      .from("admin_roles")
-      .select("role")
-      .eq("email", user.email)
-      .maybeSingle();
+    const { data: adminRole } = await adminRoleRow(req, user.email);
 
     if (!adminRole) {
       return new Response(JSON.stringify({ error: "Not an admin" }), {

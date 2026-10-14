@@ -36,9 +36,9 @@ describe("Hank B1/B2: server-checked admin paths", () => {
     expect(clampPage(2000, 10)).toEqual({ from: 2000, to: 2009 });
   });
 
-  it("admin-question-bank checks admin_roles server-side with .eq before reading questions", () => {
+  it("admin-question-bank checks is_admin() server-side before reading questions", () => {
     const src = read("supabase/functions/admin-question-bank/index.ts");
-    expect(src).toContain('.from("admin_roles").select("role, email").eq("email", email)');
+    expect(src).toContain('await adminRoleRow(req, email)');
     expect(src.indexOf("canReadQuestionBank(role, email)")).toBeLessThan(src.indexOf('.from("questions")'));
     expect(src).not.toContain(".ilike(");
     expect(src).not.toContain('"Access-Control-Allow-Origin": "*"');
@@ -89,7 +89,7 @@ describe("Hank B1/B2: server-checked admin paths", () => {
       expect(src, f).toContain("deleteQuestionsGuarded(supabase");
       expect(src, f).toContain("attemptDeletionConfirmed(body)");
       expect(src, f).not.toContain(".ilike(");
-      expect(src, f).toContain('select("role, email").eq("email", callerEmail');
+      expect(src, f).toContain('await adminRoleRow(req, callerEmail');
     }
     expect(read("supabase/functions/admin-cleanup-questions/index.ts")).toContain('hasAdminRole(adminRole, callerEmail, ["super_admin"])');
     expect(read("supabase/functions/admin-manage-questions/index.ts")).toMatch(/\}, 409\);/);

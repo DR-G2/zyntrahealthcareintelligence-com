@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
+import { adminRoleRow } from "../_shared/admin-rpc.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": Deno.env.get("ADMIN_ALLOWED_ORIGIN") ?? "https://www.zyntrahealthcareintelligence.com",
@@ -30,11 +31,7 @@ serve(async (req) => {
     }
 
     // Check admin role
-    const { data: adminRole } = await supabase
-      .from("admin_roles")
-      .select("role")
-      .eq("email", userData.user.email)
-      .maybeSingle();
+    const { data: adminRole } = await adminRoleRow(req, userData.user.email);
     if (!adminRole) {
       return new Response(JSON.stringify({ error: "Forbidden" }), { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }

@@ -1,10 +1,9 @@
 // Pure admin-gate helpers shared by admin edge functions (no Deno globals: also run under vitest).
 //
-// Email comparison is lower-case on BOTH sides: the caller's JWT email is trimmed + lower-cased
-// before the exact .eq lookup, and the returned admin_roles.email is trimmed + lower-cased again
-// before comparing. The stored side is kept lower-case by the legacy CHECK constraint
-// admin_roles_email_lowercase (supabase/legacy_pending/20261007_legacy_admin_roles_email_lowercase.sql);
-// a mixed-case row that predates it fails CLOSED (no match), never open. No LIKE/ilike anywhere.
+// Admin rows now come from _shared/admin-rpc.ts adminRoleRow() (public.is_admin() over
+// pie.security_admin_allowlist; super_admin = SUPER_ADMIN_EMAILS). Email comparison stays lower-case on
+// BOTH sides: the returned row email is trimmed + lower-cased and re-checked against the caller.
+// Any mismatch fails CLOSED. No LIKE/ilike anywhere.
 
 export type AdminRole = "super_admin" | "admin";
 export interface AdminRow { email?: unknown; role?: unknown }

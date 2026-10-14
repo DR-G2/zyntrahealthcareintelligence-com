@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { adminRoleRow } from "../_shared/admin-rpc.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -71,11 +72,7 @@ serve(async (req) => {
         const serviceClient = createClient(supabaseUrl, serviceRoleKey);
 
         // Check if user is an admin — if so, skip logging entirely
-        const { data: adminRole, error: adminRoleError } = await serviceClient
-          .from("admin_roles")
-          .select("role")
-          .eq("email", userEmail || "")
-          .maybeSingle();
+        const { data: adminRole, error: adminRoleError } = await adminRoleRow(req, userEmail || "");
 
         if (adminRoleError) {
           console.error("track-presence admin lookup failed; logging event anyway:", adminRoleError);
