@@ -10,7 +10,8 @@ import { cn } from '@/lib/utils';
 import { differenceInDays } from 'date-fns';
 import { toast } from 'sonner';
 import { Calendar, CheckCircle2, Clock, Lightbulb, Loader2, Sparkles, Target, TrendingUp, ArrowRight } from 'lucide-react';
-import { fetchLegacyShapedHistory } from '@/lib/pie/pie-history-client';
+import { fetchAttemptSummary, isPaywallError } from '@/lib/pie/pie-paid-history-client';
+import { PaywallNotice } from '@/components/PaywallNotice';
 
 interface PerformanceProfile { readiness_score: number | null; clinical_accuracy: number | null; stability_score: number | null; time_sensitivity: number | null; confidence_gap: number | null; }
 interface CategoryStat { category: string; correct: number; total: number; accuracy: number; priority: 'high' | 'medium' | 'maintain'; }
@@ -34,6 +35,7 @@ export default function StudyPlan() {
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
   const [generationLocked, setGenerationLocked] = useState(false);
+  const [summaryPaywalled, setSummaryPaywalled] = useState(false);
   const [generationDaysRemaining, setGenerationDaysRemaining] = useState<number | null>(null);
 
   useEffect(() => {
@@ -41,9 +43,11 @@ export default function StudyPlan() {
     const fetchData = async () => {
       const [perfRes, attemptsRes, planRes] = await Promise.all([
         supabase.from('performance_profiles').select('readiness_score, clinical_accuracy, stability_score, time_sensitivity, confidence_gap').eq('user_id', user.id).maybeSingle(),
-        fetchLegacyShapedHistory(5000).then((data) => ({ data, error: null })), // P5: PIE attempts only
+        // Paid lock: get_my_attempt_summary (paid; no question content, no answers/keys). 42501 -> PaywallNotice.
+        fetchAttemptSummary(5000).then((rows) => rows.map((r) => ({ ...r, questions: { category: r.subject_name, subtopic: r.subtopic_name } }))).then((data) => ({ data, error: null })).catch((error) => ({ data: [], error })),
         supabase.from('study_plans').select('tasks, generated_at').eq('user_id', user.id).order('generated_at', { ascending: false }).limit(1).maybeSingle(),
       ]);
+      setSummaryPaywalled(isPaywallError(attemptsRes.error));
       if (perfRes.data) setPerfProfile(perfRes.data);
       if (planRes.data?.tasks) {
         const cached = planRes.data.tasks as unknown as AIPlan;
@@ -121,6 +125,7 @@ export default function StudyPlan() {
     <AppLayout>
       <div className="mx-auto max-w-6xl space-y-6">
         <SubscriptionTimer />
+        {summaryPaywalled && <PaywallNotice variant="banner" />}
 
         <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-[#081224]/70 p-6 backdrop-blur-xl sm:p-7">
           <div className="relative z-10 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">

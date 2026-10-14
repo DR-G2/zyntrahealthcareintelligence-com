@@ -9,7 +9,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
-import { fetchLegacyShapedHistory } from '@/lib/pie/pie-history-client';
+import { fetchReviewQueueAttempts, isPaywallError } from '@/lib/pie/pie-paid-history-client';
+import { PaywallNotice } from '@/components/PaywallNotice';
 
 interface Attempt {
   id: string;
@@ -47,16 +48,17 @@ export function MCQReviewQueue() {
   const [search, setSearch] = useState('');
   const [expanded, setExpanded] = useState<string | null>(null);
 
-  const { data: attempts = [], isLoading } = useQuery({
+  const { data: attempts = [], isLoading, error } = useQuery({
     queryKey: ['mcq-review-queue', user?.id],
     queryFn: async () => {
       if (!user) return [];
       // Fetch attempts independently from question metadata. This avoids relying on
       // PostgREST's nested `questions(...)` relationship, which can fail when the
       // relationship metadata is stale or ambiguous after schema changes.
-      // P5: PIE attempts only; keys only for answered questions (get_my_attempt_history).
-      return (await fetchLegacyShapedHistory(2000)) as unknown as Attempt[];
+      // Paid lock: get_my_review_queue_attempts (paid RPC; completed pie_adaptive sessions only).
+      return (await fetchReviewQueueAttempts(2000)) as unknown as Attempt[];
     },
+    retry: (n, e) => !isPaywallError(e) && n < 2,
     enabled: !!user,
   });
 
@@ -126,6 +128,7 @@ export function MCQReviewQueue() {
     subjects: new Set(queue.map(r => r.latest.questions?.category).filter(Boolean)).size,
   }), [queue]);
 
+  if (isPaywallError(error)) return <PaywallNotice />;
   if (isLoading) return <div className="space-y-3">{[1, 2, 3].map(i => <div key={i} className="h-28 rounded-xl bg-muted animate-pulse" />)}</div>;
 
   if (!attempts.length) {

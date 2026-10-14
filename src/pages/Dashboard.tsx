@@ -132,7 +132,7 @@ export default function Dashboard() {
               </div>
             ))}
             <Button variant="link" asChild className="h-auto p-0 text-xs">
-              <Link to="/pricing">Upgrade for unlimited →</Link>
+              <Link to="/pricing">Not subscribed — subscribe for unlimited →</Link>
             </Button>
           </CardContent>
         </Card>

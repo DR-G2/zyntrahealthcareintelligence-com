@@ -283,27 +283,8 @@ export default function Pricing() {
             whileInView="show"
             viewport={{ once: true }}
             variants={stagger}
-            className="mx-auto grid max-w-6xl gap-5 md:grid-cols-3"
+            className="mx-auto grid max-w-4xl gap-5 md:grid-cols-2"
           >
-            {/* FREE */}
-            <motion.div variants={fadeUp}>
-              <Card className="h-full flex flex-col border-border">
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-lg">Free</CardTitle>
-                  <p className="text-xs text-muted-foreground">Explore the platform</p>
-                  <p className="mt-3 text-3xl font-bold font-display">A$0</p>
-                </CardHeader>
-                <CardContent className="flex-1 flex flex-col">
-                  <ul className="mb-6 space-y-2 flex-1">
-                    {['Diagnostic MCQ test', 'Diagnostic OSCE station', 'Basic performance results', 'AI study companion (limited)'].map((f) => (
-                      <li key={f} className="flex gap-2 text-xs"><Check className="h-3.5 w-3.5 mt-0.5 text-secondary shrink-0" /><span>{f}</span></li>
-                    ))}
-                  </ul>
-                  <Button variant="outline" size="sm" className="w-full" asChild><Link to="/dashboard">Start Free</Link></Button>
-                </CardContent>
-              </Card>
-            </motion.div>
-
             {/* FULL ACCESS — the only paid plan */}
             {(['full_access', 'full_access_3m'] as const).map((tierKey) => {
               const cfg = RAZORPAY_TIERS[tierKey];

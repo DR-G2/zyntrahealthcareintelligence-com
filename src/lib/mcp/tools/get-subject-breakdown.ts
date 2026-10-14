@@ -1,12 +1,12 @@
 import { defineTool, ToolError } from "@lovable.dev/mcp-js";
 import { z } from "zod";
-import { supabaseForUser } from "../supabase";
+import { paidRpcErrorMessage, supabaseV2ForUser } from "../supabase";
 
 export default defineTool({
   name: "get_subject_breakdown",
   title: "Get subject-by-subject accuracy",
   description:
-    "Summarise the signed-in candidate's MCQ accuracy and average answer time per AMC subject, weakest subject first.",
+    "Summarise the signed-in candidate's MCQ accuracy and average answer time per AMC subject, weakest subject first (paid plans).",
   inputSchema: {
     sample_size: z
       .number()
@@ -19,21 +19,14 @@ export default defineTool({
   annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
   handler: async ({ sample_size }, ctx) => {
     if (!ctx.isAuthenticated()) throw new ToolError("Not authenticated");
-    const supabase = supabaseForUser(ctx);
-
-    const { data, error } = await supabase
-      .from("user_attempts")
-      .select("is_correct, time_taken_seconds, questions(category)")
-      .eq("user_id", ctx.getUserId() ?? "")
-      .order("created_at", { ascending: false })
-      .limit(sample_size);
-
-    if (error) throw new ToolError(error.message);
+    // Paid only: 0086 get_my_attempt_summary (no question content). Non-paid -> generic paywall error.
+    const supabase = supabaseV2ForUser(ctx);
+    const { data, error } = await supabase.rpc("get_my_attempt_summary", { p_limit: sample_size });
+    if (error) throw new ToolError(paidRpcErrorMessage(error, "Subject breakdown"));
 
     const buckets = new Map<string, { attempts: number; correct: number; totalTime: number }>();
-    for (const row of data ?? []) {
-      const question = row.questions as unknown as { category: string } | null;
-      const subject = question?.category ?? "Unclassified";
+    for (const row of (data ?? []) as { subject_name: string | null; is_correct: boolean; time_taken_seconds: number | null }[]) {
+      const subject = row.subject_name ?? "Unclassified";
       const bucket = buckets.get(subject) ?? { attempts: 0, correct: 0, totalTime: 0 };
       bucket.attempts += 1;
       if (row.is_correct) bucket.correct += 1;
