@@ -274,6 +274,13 @@ describe('Hank follow-ups + Gus Retest 4', () => {
     const s = read('supabase/functions/retry-razorpay-cancels/index.ts');
     expect(s).toContain('timingSafeEqual');
     expect(s).toContain('needs_cancel: false');
+    // Gus R5 / Hank: oldest first, own secret
+    expect(s).toMatch(/\.order\("created_at", \{ ascending: true \}\)[\s\S]*\.limit\(100\)/);
+    expect(s).toContain('CANCEL_RETRY_CRON_SECRET');
+    expect(s).not.toContain('TRIAL_REMINDER_CRON_SECRET');
+    const m = read('supabase/migrations/20261014061000_payments_refund_unique_needs_cancel.sql');
+    expect(m).toContain("name = 'cancel_retry_cron_secret'");
+    expect(m).not.toContain("name = 'trial_reminder_cron_secret'");
     expect(read('supabase/config.toml')).toMatch(/\[functions\.retry-razorpay-cancels\]\s*verify_jwt = false/);
   });
   it('customer-portal states immediate vs end-of-cycle via cancelMessage', () => {
@@ -284,5 +291,17 @@ describe('Hank follow-ups + Gus Retest 4', () => {
   it('no raw JS month arithmetic in billing code (use renewalDate)', () => {
     for (const f of ['supabase/functions/_shared/billing-lifecycle.ts', 'supabase/functions/_shared/billing-dates.ts', 'src/lib/billing.ts'])
       expect(read(f)).not.toMatch(/set(UTC)?Month\(/);
+  });
+});
+
+describe('Gus Retest 5 wiring', () => {
+  it('cancelSubscriptionNow checks sub status on failure and treats terminal as success', () => {
+    const s = read('supabase/functions/_shared/razorpay.ts');
+    expect(s).toContain('fetchSubscription(subscriptionId)');
+    expect(s).toContain('cancelAlreadyDone(sub?.status)');
+  });
+  it('webhook treats 23505 as no-op success', () => {
+    const s = read('supabase/functions/razorpay-webhook/index.ts');
+    expect(s.match(/!isUniqueViolation\(error\)/g)?.length).toBeGreaterThanOrEqual(2);
   });
 });

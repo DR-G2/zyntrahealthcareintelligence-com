@@ -1,7 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
 import { verifyHmacSignature } from "../_shared/signature.ts";
-import { orphanAction, pickSubscriptionRow, reconcilesPendingRow } from "../_shared/billing-lifecycle.ts";
+import { isUniqueViolation, orphanAction, pickSubscriptionRow, reconcilesPendingRow } from "../_shared/billing-lifecycle.ts";
 import { cancelSubscriptionNow } from "../_shared/razorpay.ts";
 
 const corsHeaders = {
@@ -143,14 +143,17 @@ serve(async (req) => {
         if (existing) {
           // Replays land on the same row (incl. an existing orphan row) -> no stacking.
           const { error } = await supabase.from("payments").update(flags).eq("id", existing.id);
-          if (error) throw error;
+          if (error && !isUniqueViolation(error)) throw error;
         } else {
           // Audit row (status 'orphan' is not an open/entitling status). Only reached when no row
           // with this sub id exists, so replays update the row above instead of inserting again.
           const { error } = await supabase.from("payments").insert({
             user_id: userId, razorpay_subscription_id: subscriptionId, tier, status: "orphan", ...flags,
           });
-          if (error) throw error;
+          // Gus R5: a concurrent/redelivered event already recorded this payment id -> no-op success (200),
+          // so Razorpay stops redelivering.
+          if (error && !isUniqueViolation(error)) throw error;
+          if (error) log("Duplicate payment id already recorded; no-op", { event, subscriptionId, paymentId });
         }
         log(action === "cancel_and_refund" ? "NEEDS_REFUND: charge on unknown/ended subscription; cancelled at provider" : "Cancelled unknown/ended subscription at provider", { event, subscriptionId, userId, row: existing?.id ?? null });
       } else if (!existing) {

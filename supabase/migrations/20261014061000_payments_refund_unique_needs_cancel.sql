@@ -22,8 +22,8 @@ $pre$;
 create unique index if not exists payments_refund_payment_id_key
   on public.payments (refund_payment_id) where refund_payment_id is not null;
 
--- Hourly retry of failed cancels. Reuses the vault secrets from 20261014040000
--- (project_url, trial_reminder_cron_secret == env TRIAL_REMINDER_CRON_SECRET). Guarded like the others.
+-- Hourly retry of failed cancels. Own secret (Hank): Vault 'cancel_retry_cron_secret' == edge env
+-- CANCEL_RETRY_CRON_SECRET (create it before applying). Uses Vault 'project_url' from 20261014040000. Guarded.
 DO $guard$
 BEGIN
   IF EXISTS (SELECT 1 FROM pg_extension WHERE extname = 'pg_cron')
@@ -36,7 +36,7 @@ BEGIN
     url := (select decrypted_secret from vault.decrypted_secrets where name = 'project_url') || '/functions/v1/retry-razorpay-cancels',
     headers := jsonb_build_object(
       'Content-Type', 'application/json',
-      'x-cron-secret', (select decrypted_secret from vault.decrypted_secrets where name = 'trial_reminder_cron_secret')
+      'x-cron-secret', (select decrypted_secret from vault.decrypted_secrets where name = 'cancel_retry_cron_secret')
     ),
     body := '{}'::jsonb
   );

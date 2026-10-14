@@ -261,3 +261,14 @@ export function pickSubscriptionRow<T extends { status: string }>(rows: T[] | nu
   if (!rows || rows.length === 0) return null;
   return rows.find((r) => r.status !== 'orphan') ?? rows[0];
 }
+
+/** Razorpay statuses after which a subscription can never charge again: a failed cancel on these IS done. */
+export const RAZORPAY_TERMINAL_STATUSES = ['cancelled', 'completed', 'expired'] as const;
+export function cancelAlreadyDone(status: string | null | undefined): boolean {
+  return !!status && (RAZORPAY_TERMINAL_STATUSES as readonly string[]).includes(status);
+}
+
+/** Postgres unique_violation (23505), e.g. a duplicate razorpay_payment_id / refund_payment_id on webhook redelivery. */
+export function isUniqueViolation(e: { code?: string } | null | undefined): boolean {
+  return e?.code === '23505';
+}

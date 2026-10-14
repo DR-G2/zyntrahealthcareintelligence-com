@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import {
   authorizeCancel, planCancel, checkoutDecision, matchesPendingRow, orphanAction, pendingRowExpirable, resolveStalePending,
-  pickEntitledRow, entitlementFromRow, reconcilesPendingRow, provisionalPeriodEnd, verifyDecision, pickSubscriptionRow, cancelMessage, planCancel, selectTrialReminders, sendTrialReminders, trialReminderText,
+  pickEntitledRow, entitlementFromRow, reconcilesPendingRow, provisionalPeriodEnd, verifyDecision, pickSubscriptionRow, cancelAlreadyDone, isUniqueViolation, cancelMessage, planCancel, selectTrialReminders, sendTrialReminders, trialReminderText,
   type PaymentRow, type RazorpaySub, type ReminderStore,
 } from '../../supabase/functions/_shared/billing-lifecycle';
 
@@ -242,5 +242,18 @@ describe('portal cancel message (Retest 4 nit)', () => {
     expect(cancelMessage(planCancel({ paid_count: 0 } as any))).toMatch(/cancelled immediately/);
     const m = cancelMessage(planCancel({ paid_count: 2, current_end: Date.parse('2026-11-13T23:00:00Z') / 1000 } as any));
     expect(m).toMatch(/end of the billing cycle/); expect(m).toMatch(/14 November 2026/);
+  });
+});
+
+describe('Gus Retest 5', () => {
+  it('cancel refused on an already-terminal sub counts as done (clears needs_cancel)', () => {
+    for (const st of ['cancelled', 'completed', 'expired']) expect(cancelAlreadyDone(st)).toBe(true);
+    for (const st of ['active', 'authenticated', 'paused', 'halted', 'pending', 'created', null, undefined, ''])
+      expect(cancelAlreadyDone(st as any)).toBe(false);
+  });
+  it('23505 is recognised as a duplicate (webhook no-op success)', () => {
+    expect(isUniqueViolation({ code: '23505' })).toBe(true);
+    expect(isUniqueViolation({ code: '23503' })).toBe(false);
+    expect(isUniqueViolation(null)).toBe(false);
   });
 });
