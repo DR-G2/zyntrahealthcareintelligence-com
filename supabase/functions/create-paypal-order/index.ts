@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
+import { checkoutEnabled, CHECKOUT_DISABLED_BODY } from "../_shared/checkout-flag.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
 import {
   PAYPAL_PLANS,
@@ -32,6 +33,10 @@ function resolveSiteUrl(req: Request): string {
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
+  }
+  // Kill switch (fail closed): no order/subscription unless CHECKOUT_ENABLED === "true".
+  if (!checkoutEnabled(Deno.env.get("CHECKOUT_ENABLED"))) {
+    return new Response(JSON.stringify(CHECKOUT_DISABLED_BODY), { status: 503, headers: { ...corsHeaders, "Content-Type": "application/json" } });
   }
 
   const supabaseClient = createClient(
