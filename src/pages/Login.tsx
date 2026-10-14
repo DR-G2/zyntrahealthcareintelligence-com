@@ -199,13 +199,9 @@ function AuthForm({ mode }: { mode: 'login' | 'signup' }) {
   }
 
   const handleGoogleSignIn = async () => {
-    const { lovable } = await import('@/integrations/lovable/index');
-    const nextPath = sanitizeNextPath(new URLSearchParams(window.location.search).get('next'));
-    const redirectUri = nextPath
-      ? `${window.location.origin}/login?next=${encodeURIComponent(nextPath)}`
-      : window.location.origin;
-    const { error } = await lovable.auth.signInWithOAuth('google', {
-      redirect_uri: redirectUri,
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: { redirectTo: window.location.origin },
     });
     if (error) {
       toast({ title: 'Error', description: error.message, variant: 'destructive' });

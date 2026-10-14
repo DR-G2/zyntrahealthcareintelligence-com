@@ -28,7 +28,7 @@ export default function V2AuthDiagnostic() {
       if (!accessToken) throw new Error("No active Zyntra session. Please sign in again.");
 
       const response = await fetch(
-        `${import.meta.env.VITE_SUPABASE_V2_URL}/functions/v1/v2-admin-auth-bridge`,
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/v2-admin-auth-bridge`,
         {
           method: "POST",
           headers: {
