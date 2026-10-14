@@ -75,6 +75,9 @@ export function PieDrillSession({ config, resumeSessionId, onFinish }: {
   const [selected, setSelected] = useState<Record<number, string>>({});
   const [sequence, setSequence] = useState<Record<number, string[]>>({});
   const [confidence, setConfidence] = useState<Record<number, number>>({});
+  const [confidenceError, setConfidenceError] = useState(false);
+  const [ruledOut, setRuledOut] = useState<Record<number, string[]>>({});
+  const ruleEventsRef = useRef<Record<number, { option: string; action: string; at_ms: number }[]>>({});
   const [saved, setSaved] = useState<Record<number, boolean>>({});
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
@@ -140,29 +143,47 @@ export function PieDrillSession({ config, resumeSessionId, onFinish }: {
 
   const choose = (letter: string) => {
     if (saved[index]) return;
+    if ((ruledOut[index] || []).includes(letter)) return; // must un-rule explicitly first
     if (firstClickRef.current[index] == null) firstClickRef.current[index] = Date.now() - shownAtRef.current;
     if (config.mode !== 'recharge' && selected[index]) return; // no-change / mock: first choice is final
     setSelected(s => ({ ...s, [index]: letter }));
     setSequence(s => ({ ...s, [index]: [...(s[index] || []), letter] }));
   };
 
-  const saveCurrent = async (): Promise<boolean> => {
+  const toggleRuleOut = (letter: string) => {
+    if (saved[index]) return;
+    const current = ruledOut[index] || [];
+    const on = !current.includes(letter);
+    if (on && selected[index] === letter) return; // cannot rule out the selected answer
+    setRuledOut(r => ({ ...r, [index]: on ? [...current, letter] : current.filter(l => l !== letter) }));
+    ruleEventsRef.current[index] = [...(ruleEventsRef.current[index] || []),
+      { option: letter, action: on ? 'ruled_out' : 'restored', at_ms: Date.now() - shownAtRef.current }];
+  };
+
+  /** Returns 'ok' | 'no-answer' | 'no-confidence'. Throws if saving fails (caller must not advance). */
+  const saveCurrent = async (): Promise<'ok' | 'no-answer' | 'no-confidence'> => {
     const q = questions[index];
-    if (!q || saved[index] || !sessionRef.current) return true;
+    if (!q || saved[index] || !sessionRef.current) return 'ok';
     const answer = selected[index];
-    if (!answer) return false;
+    if (!answer) return 'no-answer';
+    const conf = confidence[index];
+    if (!conf || conf < 1 || conf > 5) { setConfidenceError(true); return 'no-confidence'; }
     recordTime();
     await submitPieAnswer({
       questionId: q.question_id, sessionId: sessionRef.current, selectedAnswer: answer,
-      timeTakenSeconds: timesRef.current[index] || 0, confidenceLevel: confidence[index] ?? null,
+      timeTakenSeconds: timesRef.current[index] || 0, confidenceLevel: conf,
       timeToFirstClick: firstClickRef.current[index] ?? null, changeSequence: sequence[index] || [answer],
       timeOfDay: new Date().toISOString(), questionPosition: q.question_position,
-      questionVersion: q.version ?? null, provenance: { source: 'practice-pie', mode: config.mode },
+      questionVersion: q.version ?? null,
+      provenance: {
+        source: 'practice-pie', mode: config.mode, entry: 'mcq_drill',
+        ruled_out_final: ruledOut[index] || [], rule_out_events: ruleEventsRef.current[index] || [],
+      },
     });
     setSaved(s => ({ ...s, [index]: true }));
     // One answer is evidence, but PIE stays "building" until 6 observations.
     void syncPieEngine().catch((error) => console.warn('[PIE] sync after answer failed', error));
-    return true;
+    return 'ok';
   };
 
   const finish = useCallback(async () => {
