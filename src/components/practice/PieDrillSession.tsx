@@ -228,6 +228,8 @@ export function PieDrillSession({ config, resumeSessionId, onFinish }: {
     } finally { setBusy(false); }
   };
 
+  useEffect(() => { setConfidenceError(false); }, [index]);
+
   useEffect(() => {
     if (loading || error) return;
     const t = setInterval(() => setRemaining(r => {
