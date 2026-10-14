@@ -33,7 +33,7 @@ serve(async (req) => {
       });
     }
 
-    if (!(await isAdmin(user.email ?? null)) && !(await hasPaidAccess(user.id))) {
+    if (!(await isAdmin(user.email ?? null, req.headers.get("Authorization"))) && !(await hasPaidAccess(user.id))) {
       return new Response(JSON.stringify({ error: "Model-answer coaching is available on paid plans." }), {
         status: 403,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -117,7 +117,7 @@ For each checklist item, provide:
     if (station_id) {
       const supabase = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
       const { data: st } = await supabase.from("clinical_stations").select("id, user_id").eq("id", station_id).maybeSingle();
-      const canCache = st && (st.user_id === user.id || (await isAdmin(user.email ?? null)));
+      const canCache = st && (st.user_id === user.id || (await isAdmin(user.email ?? null, req.headers.get("Authorization"))));
       if (canCache) await supabase.from("model_answers").insert({
         station_id,
         subject: subject || "General",

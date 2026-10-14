@@ -1,4 +1,6 @@
 import { createClient, type SupabaseClient } from "npm:@supabase/supabase-js@2.57.2";
+import { callerRpc } from "./admin-rpc.ts";
+import { resolveAdminRow } from "./admin-allowlist.ts";
 import { entitlementFromRow } from "../_shared/billing-lifecycle.ts";
 
 export const corsHeaders = {
@@ -40,17 +42,18 @@ export async function requireUser(req: Request): Promise<Caller | Response> {
   return { userId: sub, email: (data.claims.email as string | undefined) ?? null };
 }
 
-export async function isAdmin(email: string | null): Promise<boolean> {
-  if (!email) return false;
-  const { data } = await serviceClient().from("admin_roles").select("id").eq("email", email).maybeSingle();
+/** Admin via public.is_admin() as the caller (pie.security_admin_allowlist, PR #87). Fails CLOSED on any error. */
+export async function isAdmin(email: string | null, authHeader: string | null): Promise<boolean> {
+  if (!email || !authHeader) return false;
+  const { data } = await resolveAdminRow(callerRpc(authHeader, "is_admin"), async () => ({ data: false, error: null }), email);
   return !!data;
 }
 
-/** Validates the bearer token and requires an admin_roles entry. */
+/** Validates the bearer token and requires an is_admin() allowlist entry. */
 export async function requireAdmin(req: Request): Promise<Caller | Response> {
   const caller = await requireUser(req);
   if (caller instanceof Response) return caller;
-  if (!(await isAdmin(caller.email))) return json({ error: "Forbidden" }, 403);
+  if (!(await isAdmin(caller.email, req.headers.get("Authorization")))) return json({ error: "Forbidden" }, 403);
   return caller;
 }
 

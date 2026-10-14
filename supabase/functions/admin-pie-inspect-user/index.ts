@@ -1,4 +1,5 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { adminRoleRow } from "../_shared/admin-rpc.ts";
 
 const allowedOrigin = Deno.env.get("PIE_ALLOWED_ORIGIN") ?? "https://www.zyntrahealthcareintelligence.com";
 
@@ -33,11 +34,7 @@ Deno.serve(async (req) => {
 
     // Exact, case-insensitive admin match (no LIKE wildcards): both sides normalised to lower case.
     const callerEmail = userData.user.email.trim().toLowerCase();
-    const { data: adminRole } = await admin
-      .from("admin_roles")
-      .select("role, email")
-      .eq("email", callerEmail)
-      .maybeSingle();
+    const { data: adminRole } = await adminRoleRow(req, callerEmail);
 
     if (!adminRole || String(adminRole.email).trim().toLowerCase() !== callerEmail) {
       return new Response(JSON.stringify({ error: "Forbidden" }), { status: 403, headers: { ...headers, "Content-Type": "application/json" } });

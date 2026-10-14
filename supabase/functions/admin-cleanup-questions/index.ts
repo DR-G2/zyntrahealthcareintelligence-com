@@ -2,6 +2,7 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
 import { adminCorsHeaders, hasAdminRole, normaliseEmail, parseAllowedOrigins } from "../_shared/admin-gate.ts";
 import { attemptDeletionConfirmed, deleteQuestionsGuarded } from "../_shared/question-delete-guard.ts";
+import { adminRoleRow } from "../_shared/admin-rpc.ts";
 
 // CORS: app origins only (ADMIN_ALLOWED_ORIGINS, comma-separated; default www + apex app domain).
 const allowedOrigins = parseAllowedOrigins(Deno.env.get("ADMIN_ALLOWED_ORIGINS") ?? Deno.env.get("ADMIN_ALLOWED_ORIGIN"));
@@ -52,7 +53,7 @@ serve(async (req) => {
 
     // Exact admin match, lower-case on both sides (no LIKE), super_admin only.
     const callerEmail = normaliseEmail(userData.user.email);
-    const { data: adminRole } = await supabase.from("admin_roles").select("role, email").eq("email", callerEmail ?? "").maybeSingle();
+    const { data: adminRole } = await adminRoleRow(req, callerEmail ?? "");
     if (!hasAdminRole(adminRole, callerEmail, ["super_admin"])) {
       return new Response(JSON.stringify({ error: "Forbidden - Super Admin only" }), { status: 403, headers: corsHeaders });
     }

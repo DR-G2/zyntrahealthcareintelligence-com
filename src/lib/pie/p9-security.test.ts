@@ -21,7 +21,8 @@ describe("PIE P9 production safety contracts", () => {
       const source = readFileSync(resolve(root, f), "utf8");
       expect(source, f).not.toContain(".ilike(");
       expect(source, f).toContain("userData.user.email.trim().toLowerCase()");
-      expect(source, f).toContain('.eq("email", callerEmail)');
+      expect(source, f).toMatch(/adminRoleRow\(req, callerEmail\)/);
+      expect(source, f).not.toContain('from("admin_roles")');
     }
   });
 

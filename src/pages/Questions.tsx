@@ -751,7 +751,19 @@ export function canBrowseQuestionBank(email: string | null | undefined): boolean
 
 export default function Questions() {
   const { user } = useAuth();
-  if (!canBrowseQuestionBank(user?.email)) {
+  // Server-side super-admin check (role on pie.security_admin_allowlist); any error => deny.
+  const [isSuperAdmin, setIsSuperAdmin] = useState<boolean | null>(null);
+  useEffect(() => {
+    let cancelled = false;
+    if (!canBrowseQuestionBank(user?.email)) { setIsSuperAdmin(false); return; }
+    supabase.rpc('is_super_admin').then(
+      ({ data, error }) => { if (!cancelled) setIsSuperAdmin(!error && data === true); },
+      () => { if (!cancelled) setIsSuperAdmin(false); },
+    );
+    return () => { cancelled = true; };
+  }, [user?.email]);
+  if (isSuperAdmin === null) return null;
+  if (!canBrowseQuestionBank(user?.email) || !isSuperAdmin) {
     return (
       <AppLayout>
         <div className="mx-auto max-w-xl py-16 text-center space-y-4">
