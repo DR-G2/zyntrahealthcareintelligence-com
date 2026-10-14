@@ -1,5 +1,5 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
-import { createClient } from "npm:@supabase/supabase-js@2.57.2";
+import { createClient } from "npm:@supabase/supabase-js@2";
 import { checkoutDecision, entitlementFromRow, pickEntitledRow, razorpaySyncUpdate, syncOwnershipOk } from "../_shared/billing-lifecycle.ts";
 import { fetchSubscription } from "../_shared/razorpay.ts";
 import { parseCustomId } from "../_shared/paypal.ts";

@@ -1,4 +1,4 @@
-import { createClient, type SupabaseClient } from "npm:@supabase/supabase-js@2.57.2";
+import { createClient, type SupabaseClient } from "npm:@supabase/supabase-js@2";
 import { entitlementFromRow } from "../../_shared/billing-lifecycle.ts";
 
 export const corsHeaders = {

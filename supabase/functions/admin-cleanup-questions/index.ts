@@ -1,5 +1,5 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
-import { createClient } from "npm:@supabase/supabase-js@2.57.2";
+import { createClient } from "npm:@supabase/supabase-js@2";
 import { adminCorsHeaders, hasAdminRole, normaliseEmail, parseAllowedOrigins } from "../_shared/admin-gate.ts";
 import { attemptDeletionConfirmed, deleteQuestionsGuarded } from "../_shared/question-delete-guard.ts";
 
