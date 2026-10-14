@@ -417,70 +417,79 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
           <p className="mt-1 text-xs text-slate-400">Zyntra chooses each question for you across all topics, with due reviews first. Topic filters are used for browsing only and do not limit the drill. Each answer is final once you move on; explanations appear in your results.</p>
         </div>
 
-        {/* Mode Selection */}
-        <div className="space-y-3 rounded-2xl border border-white/10 bg-white/[0.02] p-5 backdrop-blur-xl">
+        {/* Three primary entry points */}
+        <div className="space-y-3 rounded-2xl border border-white/10 bg-white/[0.02] p-5 backdrop-blur-xl" role="radiogroup" aria-label="Practice type">
           <div className="flex items-start gap-3">
             <div className="mt-0.5 rounded-lg bg-primary/10 p-2 text-primary"><Zap className="h-4 w-4" /></div>
-            <div><h2 className="text-sm font-semibold uppercase tracking-wider text-foreground">Choose Your Training Mode</h2><p className="mt-1 text-xs text-muted-foreground">Set how you want to approach decisions before the questions begin.</p></div>
+            <div><h2 className="text-sm font-semibold uppercase tracking-wider text-foreground">Choose how to practise</h2><p className="mt-1 text-xs text-muted-foreground">Three ways to train. Confidence is required on every answer, and you can rule out options in all of them.</p></div>
           </div>
-          <div className="grid gap-4 sm:grid-cols-3">
-            <button
-              onClick={() => setMode('recharge')}
+          <div className="grid gap-4 md:grid-cols-3">
+            {/* 1. MCQ Drill */}
+            <div
               className={cn(
-                'rounded-2xl border border-white/10 bg-[#081224]/70 p-5 text-left backdrop-blur-xl transition-all hover:border-cyan-400/25 hover:bg-[#0a1629]',
-                mode === 'recharge'
-                  ? 'border-cyan-300/80 bg-cyan-400/[0.06] ring-1 ring-cyan-400/20 shadow-[0_0_35px_rgba(34,211,238,0.08)]'
-                  : 'border-white/10 hover:border-cyan-400/25'
+                'rounded-2xl border bg-[#081224]/70 p-5 text-left backdrop-blur-xl transition-all',
+                mode === 'recharge' || mode === 'no-change'
+                  ? 'border-cyan-300/80 ring-1 ring-cyan-400/20'
+                  : 'border-white/10'
               )}
             >
               <div className="flex items-center gap-3 mb-2">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-chart-3/10 text-chart-3">
-                  <RefreshCw className="h-5 w-5" />
-                </div>
-                <span className="font-display font-semibold">Recharge Answer</span>
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-chart-3/10 text-chart-3"><Target className="h-5 w-5" /></div>
+                <span className="font-display font-semibold">MCQ Drill</span>
               </div>
-              <p className="text-sm text-muted-foreground">
-                Change your answer as many times as you want before moving to the next question.
-              </p>
-            </button>
+              <p className="mb-3 text-sm text-muted-foreground">Question by question. Pick how answers behave:</p>
+              <div className="grid gap-2">
+                <button
+                  role="radio" aria-checked={mode === 'recharge'}
+                  onClick={() => setMode('recharge')}
+                  className={cn('flex items-start gap-2 rounded-xl border px-3 py-2 text-left text-xs transition-colors',
+                    mode === 'recharge' ? 'border-cyan-300/70 bg-cyan-400/10 text-foreground' : 'border-white/10 text-muted-foreground hover:border-cyan-400/30')}
+                >
+                  <RefreshCw className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+                  <span><span className="font-semibold">With option change</span><br />Change your answer before you move on. Every change is recorded.</span>
+                </button>
+                <button
+                  role="radio" aria-checked={mode === 'no-change'}
+                  onClick={() => setMode('no-change')}
+                  className={cn('flex items-start gap-2 rounded-xl border px-3 py-2 text-left text-xs transition-colors',
+                    mode === 'no-change' ? 'border-cyan-300/70 bg-cyan-400/10 text-foreground' : 'border-white/10 text-muted-foreground hover:border-cyan-400/30')}
+                >
+                  <Lock className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+                  <span><span className="font-semibold">Without option change</span><br />Your first choice is final.</span>
+                </button>
+              </div>
+            </div>
 
-            <button
-              onClick={() => setMode('no-change')}
-              className={cn(
-                'rounded-2xl border border-white/10 bg-[#081224]/70 p-5 text-left backdrop-blur-xl transition-all hover:border-cyan-400/25 hover:bg-[#0a1629]',
-                mode === 'no-change'
-                  ? 'border-cyan-300/80 bg-cyan-400/[0.06] ring-1 ring-cyan-400/20 shadow-[0_0_35px_rgba(34,211,238,0.08)]'
-                  : 'border-white/10 hover:border-cyan-400/25'
-              )}
+            {/* 2. Nudge */}
+            <a
+              href="/intelligence"
+              className="rounded-2xl border border-white/10 bg-[#081224]/70 p-5 text-left backdrop-blur-xl transition-all hover:border-cyan-400/25"
             >
               <div className="flex items-center gap-3 mb-2">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-chart-1/10 text-chart-1">
-                  <Lock className="h-5 w-5" />
-                </div>
-                <span className="font-display font-semibold">No Change</span>
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-chart-1/10 text-chart-1"><TrendingUp className="h-5 w-5" /></div>
+                <span className="font-display font-semibold">Nudge</span>
+                <Badge variant="outline" className="ml-auto text-[10px]">Coming soon</Badge>
               </div>
               <p className="text-sm text-muted-foreground">
-                Once you select an answer, it's locked. No going back.
+                Practice aimed at the one learning objective your answers show you need most. Not switched on yet — see your recommended next step in Intelligence.
               </p>
-            </button>
+            </a>
 
+            {/* 3. Full Mock Exam */}
             <button
+              role="radio" aria-checked={mode === 'full-mock'}
               onClick={() => { setMode('full-mock'); setQuestionCount(150); }}
               className={cn(
-                'rounded-2xl border border-white/10 bg-[#081224]/70 p-5 text-left backdrop-blur-xl transition-all hover:border-cyan-400/25 hover:bg-[#0a1629]',
-                mode === 'full-mock'
-                  ? 'border-cyan-300/80 bg-cyan-400/[0.06] ring-1 ring-cyan-400/20 shadow-[0_0_35px_rgba(34,211,238,0.08)]'
-                  : 'border-white/10 hover:border-cyan-400/25'
+                'rounded-2xl border bg-[#081224]/70 p-5 text-left backdrop-blur-xl transition-all hover:border-cyan-400/25',
+                mode === 'full-mock' ? 'border-cyan-300/80 ring-1 ring-cyan-400/20' : 'border-white/10'
               )}
             >
               <div className="flex items-center gap-3 mb-2">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-destructive/10 text-destructive">
-                  <Shield className="h-5 w-5" />
-                </div>
-                <span className="font-display font-semibold">Full Mock</span>
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-destructive/10 text-destructive"><Shield className="h-5 w-5" /></div>
+                <span className="font-display font-semibold">Full Mock Exam</span>
               </div>
               <p className="text-sm text-muted-foreground">
-                150 questions in 210 minutes. Answers lock on selection. No going back.
+                Exam conditions: 210-minute timer, answers lock on selection, no going back.
               </p>
             </button>
           </div>
