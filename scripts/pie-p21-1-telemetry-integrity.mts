@@ -79,36 +79,12 @@ if (sessionId) {
   questionPosition = typeof q?.question_position === "number" ? q.question_position : null;
   check("P21.1-11 server-selected question is available", !qs.error && !!questionId);
 
-  async function auditWithDiagnostics(body: Record<string, unknown> = {}) {
-    let result = await A.db.functions.invoke("pie-telemetry-audit", { body });
-    let context = (result.error as unknown as { context?: Response } | null)?.context;
-
-    // The audit is read-only. If a request is rejected with 401 while the
-    // session is being refreshed, refresh the caller session once and retry.
-    // Do not retry other errors or weaken server-side JWT validation.
-    if (result.error && context?.status === 401) {
-      const refreshed = await A.db.auth.refreshSession();
-      if (!refreshed.error && refreshed.data.session) {
-        result = await A.db.functions.invoke("pie-telemetry-audit", { body });
-        context = (result.error as unknown as { context?: Response } | null)?.context;
-      }
-    }
-
-    let diagnostic = result.error?.message ?? null;
-    if (context && typeof context.clone === "function") {
-      try {
-        diagnostic = JSON.stringify({ message: diagnostic, http_status: context.status, response_body: await context.clone().text() });
-      } catch {
-        diagnostic = JSON.stringify({ message: diagnostic, http_status: context.status, response_body: "unreadable" });
-      }
-    }
-    return { ...result, diagnostic };
-  }
-
-  const pre = await auditWithDiagnostics();
+  const pre = await A.db.functions.invoke("pie-telemetry-audit", { body: {} });
   const prePayload = (pre.data ?? {}) as Record<string, unknown>;
+  const beforeCount = Number(prePayload.observation_count_for_attempts ?? 0);
+  const beforeAttempts = Number(prePayload.attempt_count ?? 0);
   const beforeMissing = Number(prePayload.attempts_missing_observation ?? 0);
-  check("P21.1-12 pre-attempt telemetry audit is readable", !pre.error && prePayload.status === "ready", pre.diagnostic ?? "");
+  check("P21.1-12 pre-attempt telemetry audit is readable", !pre.error && prePayload.status === "ready");
 
   const saved = await A.db.rpc("save_attempt", {
     p_question_id: questionId,
@@ -131,27 +107,29 @@ if (sessionId) {
   const attemptId = saved.data?.id as string | undefined;
   check("P21.1-13 authoritative attempt persists", !saved.error && !!attemptId, saved.error?.message ?? "");
 
-  const after = await auditWithDiagnostics(attemptId ? { attempt_id: attemptId } : {});
+  const after = await A.db.functions.invoke("pie-telemetry-audit", { body: {} });
   const afterPayload = (after.data ?? {}) as Record<string, unknown>;
   const afterCount = Number(afterPayload.observation_count_for_attempts ?? 0);
-  check("P21.1-14 saved attempt has exactly one matching PIE observation",
+  const afterAttempts = Number(afterPayload.attempt_count ?? 0);
+  check("P21.1-14 exactly one PIE observation is produced for the new attempt",
     !after.error &&
-    !!attemptId &&
+    afterCount === beforeCount + 1 &&
+    afterAttempts === beforeAttempts + 1 &&
     afterPayload.latest_attempt_id === attemptId &&
     afterPayload.latest_attempt_has_observation === true &&
     afterPayload.latest_attempt_observation_identity_match === true &&
-    Number(afterPayload.attempts_missing_observation ?? -1) <= beforeMissing &&
+    Number(afterPayload.attempts_missing_observation ?? -1) === beforeMissing &&
     Number(afterPayload.identity_mismatches ?? -1) === 0 &&
     Number(afterPayload.duplicate_attempt_observation_rows ?? -1) === 0,
-    JSON.stringify({ error: after.diagnostic ?? null, saved_attempt_id: attemptId, data: afterPayload }));
+    JSON.stringify({ error: after.error?.message ?? null, data: afterPayload }));
 
-  const repeat = await auditWithDiagnostics(attemptId ? { attempt_id: attemptId } : {});
+  const repeat = await A.db.functions.invoke("pie-telemetry-audit", { body: {} });
   const repeatPayload = (repeat.data ?? {}) as Record<string, unknown>;
   check("P21.1-15 repeated telemetry audit does not create a duplicate observation",
     !repeat.error &&
     Number(repeatPayload.observation_count_for_attempts ?? -1) === afterCount &&
     repeatPayload.latest_observation_id === afterPayload.latest_observation_id,
-    JSON.stringify({ error: repeat.diagnostic ?? null, data: repeatPayload }));
+    JSON.stringify({ error: repeat.error?.message ?? null, data: repeatPayload }));
 
   check("P21.1-16 telemetry audit is user-scoped and reports a healthy state",
     !after.error &&
