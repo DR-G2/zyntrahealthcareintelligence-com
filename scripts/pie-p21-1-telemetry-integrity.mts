@@ -79,10 +79,24 @@ if (sessionId) {
   questionPosition = typeof q?.question_position === "number" ? q.question_position : null;
   check("P21.1-11 server-selected question is available", !qs.error && !!questionId);
 
-  const pre = await A.db.functions.invoke("pie-telemetry-audit", { body: {} });
+  async function auditWithDiagnostics() {
+    const result = await A.db.functions.invoke("pie-telemetry-audit", { body: {} });
+    let diagnostic = result.error?.message ?? null;
+    const context = (result.error as unknown as { context?: Response } | null)?.context;
+    if (context && typeof context.clone === "function") {
+      try {
+        diagnostic = JSON.stringify({ message: diagnostic, http_status: context.status, response_body: await context.clone().text() });
+      } catch {
+        diagnostic = JSON.stringify({ message: diagnostic, http_status: context.status, response_body: "unreadable" });
+      }
+    }
+    return { ...result, diagnostic };
+  }
+
+  const pre = await auditWithDiagnostics();
   const prePayload = (pre.data ?? {}) as Record<string, unknown>;
   const beforeMissing = Number(prePayload.attempts_missing_observation ?? 0);
-  check("P21.1-12 pre-attempt telemetry audit is readable", !pre.error && prePayload.status === "ready");
+  check("P21.1-12 pre-attempt telemetry audit is readable", !pre.error && prePayload.status === "ready", pre.diagnostic ?? "");
 
   const saved = await A.db.rpc("save_attempt", {
     p_question_id: questionId,
@@ -105,7 +119,7 @@ if (sessionId) {
   const attemptId = saved.data?.id as string | undefined;
   check("P21.1-13 authoritative attempt persists", !saved.error && !!attemptId, saved.error?.message ?? "");
 
-  const after = await A.db.functions.invoke("pie-telemetry-audit", { body: {} });
+  const after = await auditWithDiagnostics();
   const afterPayload = (after.data ?? {}) as Record<string, unknown>;
   const afterCount = Number(afterPayload.observation_count_for_attempts ?? 0);
   check("P21.1-14 saved attempt has exactly one matching PIE observation",
@@ -117,15 +131,15 @@ if (sessionId) {
     Number(afterPayload.attempts_missing_observation ?? -1) <= beforeMissing &&
     Number(afterPayload.identity_mismatches ?? -1) === 0 &&
     Number(afterPayload.duplicate_attempt_observation_rows ?? -1) === 0,
-    JSON.stringify({ error: after.error?.message ?? null, saved_attempt_id: attemptId, data: afterPayload }));
+    JSON.stringify({ error: after.diagnostic ?? null, saved_attempt_id: attemptId, data: afterPayload }));
 
-  const repeat = await A.db.functions.invoke("pie-telemetry-audit", { body: {} });
+  const repeat = await auditWithDiagnostics();
   const repeatPayload = (repeat.data ?? {}) as Record<string, unknown>;
   check("P21.1-15 repeated telemetry audit does not create a duplicate observation",
     !repeat.error &&
     Number(repeatPayload.observation_count_for_attempts ?? -1) === afterCount &&
     repeatPayload.latest_observation_id === afterPayload.latest_observation_id,
-    JSON.stringify({ error: repeat.error?.message ?? null, data: repeatPayload }));
+    JSON.stringify({ error: repeat.diagnostic ?? null, data: repeatPayload }));
 
   check("P21.1-16 telemetry audit is user-scoped and reports a healthy state",
     !after.error &&
