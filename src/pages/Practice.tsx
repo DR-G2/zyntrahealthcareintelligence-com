@@ -151,27 +151,24 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
 
         const subjects = (subjectsRes.data || []) as DBSubject[];
         const subtopics = (subtopicsRes.data || []) as DBSubtopic[];
-        const resolver = buildPracticeTopicResolver(subjects, subtopics);
         const catCounts: Record<string, number> = {};
         const stCounts: Record<string, number> = {};
 
         const subjectById = new Map(subjects.map((subject) => [subject.id, subject]));
         const subtopicById = new Map(subtopics.map((subtopic) => [subtopic.id, subtopic]));
 
+        // V2 already stores normalized taxonomy foreign keys. Count by those
+        // relationships directly rather than guessing from legacy text labels.
         questionMeta.forEach((question) => {
           const subject = question.subject_id ? subjectById.get(question.subject_id) : undefined;
           const subtopic = question.subtopic_id ? subtopicById.get(question.subtopic_id) : undefined;
-          const placement = resolvePracticeQuestionPlacement({
-            category: subject?.name || null,
-            subtopic: subtopic?.name || null,
-          }, resolver);
 
-          if (placement.subjectName) {
-            catCounts[placement.subjectName] = (catCounts[placement.subjectName] || 0) + 1;
+          if (subject) {
+            catCounts[subject.name] = (catCounts[subject.name] || 0) + 1;
           }
 
-          if (placement.subtopicName) {
-            stCounts[placement.subtopicName] = (stCounts[placement.subtopicName] || 0) + 1;
+          if (subtopic) {
+            stCounts[subtopic.name] = (stCounts[subtopic.name] || 0) + 1;
           }
         });
 
