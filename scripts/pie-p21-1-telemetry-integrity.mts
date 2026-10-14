@@ -58,8 +58,19 @@ check(
   !(await readFile("supabase/migrations_v2/0051_pie_p3_candidate_pool.sql", "utf8")).includes("p21")
 );
 
-const [A, B] = await Promise.all([login(emailA), login(emailB)]);
+const [loginA, loginB] = await Promise.all([login(emailA), login(emailB)]);
+const [attemptCountA, attemptCountB] = await Promise.all([
+  loginA.db.from("user_attempts").select("id", { count: "exact", head: true }),
+  loginB.db.from("user_attempts").select("id", { count: "exact", head: true }),
+]);
+if (attemptCountA.error || attemptCountB.error || attemptCountA.count == null || attemptCountB.count == null) {
+  throw new Error("Unable to select a candidate with an uncapped telemetry audit window");
+}
+const A = attemptCountA.count <= attemptCountB.count ? loginA : loginB;
+const B = A === loginA ? loginB : loginA;
+const selectedCount = Math.min(attemptCountA.count, attemptCountB.count);
 check("P21.1-09 two authenticated production test identities are distinct", A.id !== B.id);
+check("P21.1-09b certification selects the candidate with fewer historical attempts", selectedCount < 100, JSON.stringify({ selected_attempt_count: selectedCount }));
 
 const before = await A.db.rpc("pie_create_session", {
   p_count: 1,

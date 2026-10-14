@@ -52,8 +52,12 @@ export async function ensureV2Session(): Promise<void> {
   if (existingEmail && legacyEmail && existingEmail === legacyEmail) return;
   if (existing.session) await v2.auth.signOut({ scope: 'local' }).catch(() => undefined);
 
+  // Keep the auth-bridge endpoint aligned with the V2 client fallback. Preview
+  // deployments may not define VITE_SUPABASE_V2_URL even though the client has
+  // a safe, approved V2 project fallback.
+  const v2Url = import.meta.env.VITE_SUPABASE_V2_URL || 'https://hkowvjazuwebmibssdut.supabase.co';
   const response = await fetch(
-    `${import.meta.env.VITE_SUPABASE_V2_URL}/functions/v1/v2-auth-bridge`,
+    `${v2Url}/functions/v1/v2-auth-bridge`,
     {
       method: 'POST',
       headers: {
