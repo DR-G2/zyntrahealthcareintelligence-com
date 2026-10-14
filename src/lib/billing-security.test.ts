@@ -449,3 +449,26 @@ describe('Hank CHANGES_REQUESTED @631d84e', () => {
     expect(s).toContain('if (!adminRole) {');
   });
 });
+
+describe('Checkout kill switch is fail-closed in FE and server', () => {
+  it('checkoutEnabled: only exact "true" enables', async () => {
+    const { checkoutEnabled } = await import('../../supabase/functions/_shared/checkout-flag');
+    expect(checkoutEnabled('true')).toBe(true);
+    for (const v of [undefined, null, '', 'TRUE', 'True', '1', 'yes', ' true', 'true ', 'false']) expect(checkoutEnabled(v as string | undefined)).toBe(false);
+  });
+  it('create-razorpay-order and create-paypal-order reject (503) before any work when CHECKOUT_ENABLED is not "true"', () => {
+    for (const f of ['create-razorpay-order', 'create-paypal-order']) {
+      const s = read(`supabase/functions/${f}/index.ts`);
+      const gate = s.indexOf('checkoutEnabled(Deno.env.get("CHECKOUT_ENABLED"))');
+      expect(gate, f).toBeGreaterThan(0);
+      expect(gate, f).toBeLessThan(s.indexOf('createClient(', s.indexOf('serve(')));
+      expect(s.slice(gate, gate + 250), f).toMatch(/503/);
+    }
+  });
+  it('FE: VITE_CHECKOUT_ENABLED must be exactly "true"; both Pricing handlers bail when disabled', () => {
+    expect(read('src/lib/razorpay-config.ts')).toContain("import.meta.env.VITE_CHECKOUT_ENABLED === 'true'");
+    const p = read('src/pages/Pricing.tsx');
+    expect(p).toMatch(/const handleCheckout = async \(tierKey: TierKey\) => \{\n\s+if \(CHECKOUT_DISABLED\) return;/);
+    expect(p).toMatch(/const choosePayment = \(tierKey: TierKey\) => \{\n\s+if \(CHECKOUT_DISABLED\) return;/);
+  });
+});

@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
+import { checkoutEnabled, CHECKOUT_DISABLED_BODY } from "../_shared/checkout-flag.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
 import { firstChargeUnix, PLAN_PRICES, type PlanInterval } from "../_shared/billing-dates.ts";
 import { checkoutDecision, pendingRowExpirable, resolveStalePending, PENDING_TTL_MS } from "../_shared/billing-lifecycle.ts";
@@ -27,6 +28,8 @@ const reply = (body: unknown, status = 200) =>
 
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
+  // Kill switch (fail closed): no order/subscription unless CHECKOUT_ENABLED === "true".
+  if (!checkoutEnabled(Deno.env.get("CHECKOUT_ENABLED"))) return reply(CHECKOUT_DISABLED_BODY, 503);
 
   const supabaseClient = createClient(Deno.env.get("SUPABASE_URL") ?? "", Deno.env.get("SUPABASE_ANON_KEY") ?? "");
 

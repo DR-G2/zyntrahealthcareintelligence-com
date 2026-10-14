@@ -79,6 +79,7 @@ export default function Pricing() {
   };
 
   const handleCheckout = async (tierKey: TierKey) => {
+    if (CHECKOUT_DISABLED) return; // fail closed: VITE_CHECKOUT_ENABLED must be exactly 'true'
     if (!user) {
       navigate('/login');
       return;
@@ -150,6 +151,7 @@ export default function Pricing() {
   // Show the payment-method choice (Razorpay or PayPal) for a plan.
   // PayPal is behind VITE_PAYPAL_ENABLED (off by default): when off, go straight to Razorpay.
   const choosePayment = (tierKey: TierKey) => {
+    if (CHECKOUT_DISABLED) return; // fail closed: VITE_CHECKOUT_ENABLED must be exactly 'true'
     if (!user) {
       navigate('/login');
       return;
