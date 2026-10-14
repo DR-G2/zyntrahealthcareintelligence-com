@@ -3,6 +3,7 @@ import { Zap, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { CURRENT_TERMS_VERSION, LEGAL_EMAIL } from '@/lib/legal';
 import { SEO } from '@/components/SEO';
+import { COPY_ACL, COPY_CANCEL, COPY_CARD_CHECK } from '@/lib/billing';
 import { PublicFooter } from '@/components/PublicFooter';
 
 const sectionClass = 'space-y-3';
@@ -60,6 +61,8 @@ export default function Terms() {
 
         <section className={sectionClass}><h2 className={headingClass}>9. Subscription, Billing and Cancellation</h2>
           <p className={textClass}>Subscription fees, billing periods, renewals, taxes, plan features, refunds and plan changes are governed by the SaaS Pricing Architecture &amp; Commercial Billing Policy, which forms part of these Terms. Unless stated otherwise at checkout, recurring subscriptions renew automatically for the same billing period until cancelled. Cancellation ordinarily prevents future renewal and does not reverse a completed billing period.</p>
+          <p className={textClass}>Zyntra offers one paid plan, Full Access, priced in Australian dollars: A$39 per month or A$99 per 3 months, each with a 7-day free trial. {COPY_CARD_CHECK} Your first charge is made when your free trial ends, and your subscription renews on that same date each billing period (Australia/Sydney time) until cancelled. {COPY_CANCEL}</p>
+          <p className={textClass}>{COPY_ACL}</p>
         </section>
 
         <section className={sectionClass}><h2 className={headingClass}>10. Refunds and Mandatory Consumer Rights</h2>

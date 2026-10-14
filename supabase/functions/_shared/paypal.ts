@@ -1,23 +1,21 @@
 // Shared PayPal helpers for create-paypal-order / verify-paypal-payment.
 // Env: PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET, PAYPAL_ENV (sandbox|live),
-//      PAYPAL_PLAN_MCQ_1M, PAYPAL_PLAN_MCQ_3M, PAYPAL_PLAN_PASS_1M, PAYPAL_PLAN_PASS_3M
+//      (plan env vars to be defined when the AUD Full Access PayPal plans exist)
 
 export type PayPalPlan = {
-  tier: "mcq_only" | "full_access" | "lifetime"; // tier stored in payments (same as Razorpay flow)
+  tier: "full_access"; // tier stored in payments (same as Razorpay flow)
   name: string;
-  price: string; // USD, server-side source of truth
+  price: string; // AUD, server-side source of truth
   kind: "order" | "subscription";
   planEnv?: string; // env var holding the PayPal Billing Plan ID
 };
 
-// Keys match the frontend RAZORPAY_TIERS keys. Prices match the site (USD).
-export const PAYPAL_PLANS: Record<string, PayPalPlan> = {
-  mcq_only: { tier: "mcq_only", name: "Clinical Starter", price: "39.00", kind: "subscription", planEnv: "PAYPAL_PLAN_MCQ_1M" },
-  mcq_only_3m: { tier: "mcq_only", name: "Clinical Starter (3 months)", price: "109.00", kind: "subscription", planEnv: "PAYPAL_PLAN_MCQ_3M" },
-  full_access: { tier: "full_access", name: "Exam Master", price: "59.00", kind: "subscription", planEnv: "PAYPAL_PLAN_PASS_1M" },
-  full_access_3m: { tier: "full_access", name: "Exam Master (3 months)", price: "169.00", kind: "subscription", planEnv: "PAYPAL_PLAN_PASS_3M" },
-  lifetime: { tier: "lifetime", name: "Lifetime", price: "349.00", kind: "order" },
-};
+// PayPal is HARD-DISABLED until rewritten for the single AUD Full Access plan
+// (A$39/month, A$99/3 months, 7-day trial, A$1 card check). The old USD MCQ/Exam Master/Lifetime
+// catalogue was removed. An empty catalogue makes create-paypal-order reject every request.
+// TODO(owner): re-add full_access / full_access_3m in AUD with trial + card check before enabling.
+export const PAYPAL_DISABLED = true;
+export const PAYPAL_PLANS: Record<string, PayPalPlan> = {};
 
 export function paypalBaseUrl(): string {
   return (Deno.env.get("PAYPAL_ENV") || "sandbox").toLowerCase() === "live"

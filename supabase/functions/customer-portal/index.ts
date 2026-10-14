@@ -1,5 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2.57.2";
+import { cancelMessage, planCancel, type RazorpaySub } from "../_shared/billing-lifecycle.ts";
+import { fetchSubscription, razorpayAuth } from "../_shared/razorpay.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -46,35 +48,38 @@ serve(async (req) => {
       }
 
       const payment = payments[0];
-      const keyId = Deno.env.get("RAZORPAY_KEY_ID") || "";
-      const keySecret = Deno.env.get("RAZORPAY_KEY_SECRET") || "";
-      const authString = btoa(`${keyId}:${keySecret}`);
-
-      // Cancel subscription on Razorpay
+      // Same rule as cancel-razorpay-subscription (planCancel): unpaid (trial / first charge retrying)
+      // => cancel immediately; paid => cancel at cycle end and keep access to current_end.
+      const sub = await fetchSubscription(payment.razorpay_subscription_id);
+      if (!sub || (sub as { notes?: { user_id?: string } }).notes?.user_id !== payment.user_id) {
+        throw new Error("Subscription not found");
+      }
+      const plan = planCancel(sub as RazorpaySub);
       const cancelRes = await fetch(
-        `https://api.razorpay.com/v1/subscriptions/${payment.razorpay_subscription_id}/cancel`,
+        `https://api.razorpay.com/v1/subscriptions/${encodeURIComponent(payment.razorpay_subscription_id)}/cancel`,
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Basic ${authString}`,
-          },
-          body: JSON.stringify({ cancel_at_cycle_end: true }),
+          headers: { "Content-Type": "application/json", "Authorization": razorpayAuth() },
+          body: JSON.stringify({ cancel_at_cycle_end: plan.cancelAtCycleEnd }),
         }
       );
 
       if (!cancelRes.ok) {
-        const err = await cancelRes.text();
-        throw new Error(`Failed to cancel subscription: ${err}`);
+        console.error("[CUSTOMER-PORTAL] cancel failed", cancelRes.status, await cancelRes.text());
+        throw new Error("Failed to cancel subscription");
       }
 
-      // Mark as cancelled locally
       await supabaseClient
         .from("payments")
-        .update({ status: "cancelled" })
+        .update({
+          cancel_at_period_end: true,
+          cancelled_at: new Date().toISOString(),
+          current_period_end: plan.accessEndsAt.toISOString(),
+          ...(plan.inTrial ? { status: "cancelled" } : {}),
+        })
         .eq("id", payment.id);
 
-      return new Response(JSON.stringify({ success: true, message: "Subscription will be cancelled at end of billing cycle" }), {
+      return new Response(JSON.stringify({ success: true, message: cancelMessage(plan) }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
         status: 200,
       });

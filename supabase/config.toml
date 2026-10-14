@@ -1,4 +1,4 @@
-project_id = "yudkfmgilucyhukfggij"
+project_id = "hkowvjazuwebmibssdut"
 
 [functions]
   [functions.auth-email-hook]
@@ -84,4 +84,9 @@ project_id = "yudkfmgilucyhukfggij"
     verify_jwt = false
 
   [functions.admin-pie-inspect-user]
+    verify_jwt = false
+  [functions.trial-reminder-email]
+    verify_jwt = false
+
+  [functions.retry-razorpay-cancels]
     verify_jwt = false

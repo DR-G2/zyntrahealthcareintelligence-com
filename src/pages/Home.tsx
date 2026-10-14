@@ -30,10 +30,13 @@ const trainingItems = [
   ["Study Plan","Current plan, weak areas, practice priorities and exam timeline where a date is set."],
 ] as const;
 
+import { COPY_CARD_CHECK, COPY_CANCEL } from '@/lib/billing';
+
 const faqs = [
   ["What is Zyntra?","Zyntra is an AI-powered AMC exam preparation platform. It records the answer and the way the answer was reached."],
   ["Who is it for?","Medical students, medical graduates and doctors, including IMGs, preparing for AMC examinations."],
   ["Is Zyntra a question bank?","MCQ practice is the live training room. The difference is that timing, confidence and answer changes are kept with the score."],
+  ["How much does it cost?","One plan, Full Access: A$39/month or A$99 for 3 months (AUD). Both include a 7-day free trial and you can cancel anytime."],
   ["What does Zyntra track?","Accuracy, timing, confidence, answer changes, consistency and recurring mistakes, where those signals are collected."],
 ] as const;
 
@@ -197,8 +200,8 @@ const Index: React.FC = () => {
 
         <section id="pricing" className="py-20 bg-[#07101c] border-t border-white/5">
           <div className="max-w-7xl mx-auto px-6"><p className="text-xs font-bold tracking-[.2em] text-cyan-400 uppercase">Pricing</p><h2 className="mt-3 text-3xl font-extrabold text-white">Pricing</h2><div className="mt-10 divide-y divide-white/5 border-y border-white/5">
-            <div className="grid md:grid-cols-[280px_1fr] gap-8 py-8"><div><h3 className="font-bold">Free account</h3><div className="text-4xl font-extrabold mt-2">$0</div><p className="text-xs text-slate-500 mt-2">Create an account</p></div><div><p className="text-slate-400 text-sm leading-7">Create an account to access available Zyntra features and practice tools.</p><Link to="/login" className="inline-flex mt-4 px-4 py-2 border border-cyan-500/30 rounded text-sm text-cyan-300 hover:bg-cyan-500/10">Create account / Log in</Link></div></div>
-            <div className="grid md:grid-cols-[280px_1fr] gap-8 py-8"><div><h3 className="font-bold">Practice</h3><div className="text-4xl font-extrabold mt-2">$39</div><p className="text-xs text-slate-500 mt-2">AUD / month</p></div><div><p className="text-slate-400 text-sm leading-7">MCQ practice, Performance Intelligence and Study Plan.</p><Link to="/login" className="inline-flex mt-4 px-4 py-2 border border-cyan-500/30 rounded text-sm text-cyan-300 hover:bg-cyan-500/10">Log in to subscribe</Link></div></div>
+            <div className="grid md:grid-cols-[280px_1fr] gap-8 py-8"><div><h3 className="font-bold">Free account</h3><div className="text-4xl font-extrabold mt-2">A$0</div><p className="text-xs text-slate-500 mt-2">Create an account</p></div><div><p className="text-slate-400 text-sm leading-7">Create an account to access available Zyntra features and practice tools.</p><Link to="/login" className="inline-flex mt-4 px-4 py-2 border border-cyan-500/30 rounded text-sm text-cyan-300 hover:bg-cyan-500/10">Create account / Log in</Link></div></div>
+            <div className="grid md:grid-cols-[280px_1fr] gap-8 py-8"><div><h3 className="font-bold">Full Access</h3><div className="text-4xl font-extrabold mt-2">A$39</div><p className="text-xs text-slate-500 mt-2">AUD / month, or A$99 for 3 months</p></div><div><p className="text-slate-400 text-sm leading-7">One plan with everything: MCQ practice, Performance Intelligence and Study Plan. 7-day free trial on both options, cancel anytime. A$1 card check at trial signup.</p><p className="text-slate-500 text-xs leading-6 mt-2">{COPY_CARD_CHECK} {COPY_CANCEL}</p><Link to="/login" className="inline-flex mt-4 px-4 py-2 border border-cyan-500/30 rounded text-sm text-cyan-300 hover:bg-cyan-500/10">Start 7-day free trial</Link></div></div>
           </div></div>
         </section>
 

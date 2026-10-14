@@ -31,6 +31,7 @@ import { ReferralCard } from '@/components/settings/ReferralCard';
 import { StrikeWarning } from '@/components/settings/StrikeWarning';
 import { LEGAL_EMAIL } from '@/lib/legal';
 import { SubscriptionTimer } from '@/components/SubscriptionTimer';
+import { BillingCard } from '@/components/settings/BillingCard';
 import { eraseMyLearningDataV2 } from '@/lib/migration/v2-practice-session';
 
 export default function Settings() {
@@ -146,6 +147,9 @@ export default function Settings() {
             <SubscriptionTimer />
           </CardContent>
         </Card>
+
+        {/* Billing: one-click cancel */}
+        <BillingCard />
 
         {/* Profile Info */}
         <Card>

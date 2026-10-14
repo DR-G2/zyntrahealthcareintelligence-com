@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 const plans = [
   {
     name: 'Free',
-    price: '$0',
+    price: 'A$0',
     note: 'APPE diagnostic only',
     points: [
       'One diagnostic. It records timing, answer changes and confidence.',
@@ -15,30 +15,17 @@ const plans = [
     live: true,
   },
   {
-    name: 'Clinical Starter',
-    price: '$39/month',
-    note: 'or $100 for 3 months',
+    name: 'Full Access',
+    price: 'A$39/month',
+    note: 'or A$99 for 3 months · AUD · 7-day free trial',
     points: [
       'MCQ practice, Performance Intelligence and Study Plan.',
-      'Three months at the monthly rate is $117. You pay $100.',
-      'That is $17 off, 15% off the monthly price.',
+      'Cancel anytime. Cancel during your trial and you won\'t be charged A$39.',
+      'A$1 card check at trial signup (not refunded, except where required by law).',
     ],
-    cta: 'Log in to subscribe',
+    cta: 'Start 7-day free trial',
     to: '/login',
     live: true,
-  },
-  {
-    name: 'Exam Master',
-    price: 'Building',
-    note: 'Available under a separate commercial agreement',
-    points: [
-      'Follow a set daily load: questions done, revision queue cleared, weak topics first.',
-      'Progress and performance signals are available within the applicable account features.',
-      'Professional features are subject to the applicable plan terms; Zyntra does not guarantee examination outcomes.',
-    ],
-    cta: 'Not open yet',
-    to: '/login',
-    live: false,
   },
 ];
 
@@ -48,10 +35,10 @@ export function PricingScroll() {
       <div className="mx-auto max-w-6xl">
         <div className="mx-auto mb-10 max-w-2xl text-center">
           <div className="text-xs font-bold uppercase tracking-[.18em] text-[#16858c]">Pricing</div>
-          <h2 className="mt-2 font-display text-3xl font-bold tracking-tight sm:text-4xl">Three ways to train</h2>
-          <p className="mt-3 text-slate-600">Free is the diagnostic. Practice is the live room. Exam Master extends the training stack with deeper simulation and analytics.</p>
+          <h2 className="mt-2 font-display text-3xl font-bold tracking-tight sm:text-4xl">One plan. Everything included.</h2>
+          <p className="mt-3 text-slate-600">Free is the diagnostic. Full Access is everything else. Prices in AUD.</p>
         </div>
-        <div className="grid gap-4 md:grid-cols-3">
+        <div className="grid gap-4 md:grid-cols-2">
           {plans.map((plan) => (
             <article key={plan.name} className="flex flex-col rounded-2xl border border-slate-200 p-5">
               <h3 className="font-display text-xl font-bold">{plan.name}</h3>

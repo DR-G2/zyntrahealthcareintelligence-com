@@ -1,4 +1,4 @@
-import { lazy, Suspense, type ReactNode } from "react";
+import { lazy, Suspense, useEffect, useState, type ReactNode } from "react";
 import { Zap } from "lucide-react";
 import { Navigate } from "react-router-dom";
 import { Toaster } from "@/components/ui/toaster";
@@ -8,6 +8,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/lib/supabase";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { SEO } from "@/components/SEO";
@@ -27,6 +28,7 @@ const AILab = lazy(() => import("./pages/AILab"));
 const Questions = lazy(() => import("./pages/Questions"));
 const Plan = lazy(() => import("./pages/Plan"));
 const Settings = lazy(() => import("./pages/Settings"));
+// Admin chunk is only requested after the server confirms admin (see AdminGate).
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const QuestionsMCQ = lazy(() => import("./pages/QuestionsMCQ"));
 const CompanionChat = lazy(() => import("./pages/CompanionChat"));
@@ -61,6 +63,24 @@ function LazyFallback() {
 
 import { ADMIN_EMAILS } from "@/lib/admin-emails";
 
+/** Verifies admin server-side (is_admin RPC) before the AdminDashboard chunk is ever requested. */
+function AdminGate() {
+  const { user } = useAuth();
+  const [state, setState] = useState<"checking" | "ok" | "denied">("checking");
+  useEffect(() => {
+    let cancelled = false;
+    const email = user?.email;
+    if (!email || !ADMIN_EMAILS.includes(email)) { setState("denied"); return; }
+    supabase.rpc("is_admin", { _email: email }).then(({ data, error }) => {
+      if (!cancelled) setState(!error && data === true ? "ok" : "denied");
+    });
+    return () => { cancelled = true; };
+  }, [user?.email]);
+  if (state === "checking") return <LazyFallback />;
+  if (state === "denied") return <Navigate to="/practice" replace />;
+  return <ErrorBoundary><Suspense fallback={<LazyFallback />}><AdminDashboard /></Suspense></ErrorBoundary>;
+}
+
 function MaintenancePage() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background p-4">
@@ -85,7 +105,7 @@ function MaintenanceGate({ children }: { children: ReactNode }) {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/oauth/consent" element={<Suspense fallback={<LazyFallback />}><OAuthConsent /></Suspense>} />
-        <Route path="/admin" element={<ProtectedRoute><ErrorBoundary><Suspense fallback={<LazyFallback />}><AdminDashboard /></Suspense></ErrorBoundary></ProtectedRoute>} />
+        <Route path="/admin" element={<ProtectedRoute><AdminGate /></ProtectedRoute>} />
         <Route path="*" element={<MaintenancePage />} />
       </Routes>
     );
@@ -138,7 +158,8 @@ function AppRoutes() {
           <Route path="/history" element={<Navigate to="/practice" replace />} />
           <Route path="/inbox" element={<ProtectedRoute><ErrorBoundary><InboxPage /></ErrorBoundary></ProtectedRoute>} />
           <Route path="/notifications" element={<Navigate to="/inbox" replace />} />
-          <Route path="/admin" element={<ProtectedRoute><ErrorBoundary><AdminDashboard /></ErrorBoundary></ProtectedRoute>} />\n          <Route path="/v2-auth-diagnostic" element={<ProtectedRoute><ErrorBoundary><V2AuthDiagnostic /></ErrorBoundary></ProtectedRoute>} />
+          <Route path="/admin" element={<ProtectedRoute><AdminGate /></ProtectedRoute>} />
+          <Route path="/v2-auth-diagnostic" element={<ProtectedRoute><ErrorBoundary><V2AuthDiagnostic /></ErrorBoundary></ProtectedRoute>} />
           <Route path="/settings" element={<ProtectedRoute><ErrorBoundary><Settings /></ErrorBoundary></ProtectedRoute>} />
           <Route path="*" element={<NotFound />} />
         </Routes>
