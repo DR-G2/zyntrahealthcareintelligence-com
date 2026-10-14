@@ -60,7 +60,7 @@ BEGIN
      OR NOT (SELECT prosecdef FROM pg_proc WHERE oid = 'public.is_admin(text)'::regprocedure)
      OR NOT EXISTS (SELECT 1 FROM pg_proc WHERE oid = 'public.is_admin(text)'::regprocedure
                     AND proconfig @> ARRAY['search_path=""']::text[])
-     OR EXISTS (SELECT 1 FROM pg_proc p, aclexplode(p.proacl) a
+     OR EXISTS (SELECT 1 FROM pg_proc p, aclexplode(coalesce(p.proacl, acldefault('f', p.proowner))) a
                 WHERE p.oid IN ('public.payment_row_entitled(public.payments)'::regprocedure,
                                 'public.current_user_can_read_questions()'::regprocedure,
                                 'public.is_admin(text)'::regprocedure)

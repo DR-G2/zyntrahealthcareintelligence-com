@@ -360,6 +360,7 @@ describe('Retest 6 / Hank nits', () => {
     expect(s).toContain('REVOKE ALL ON FUNCTION public.current_user_can_read_questions() FROM PUBLIC, anon');
     expect(s).toContain("has_function_privilege('authenticated', 'public.payment_row_entitled(public.payments)', 'EXECUTE')");
     expect(s).toContain('a.grantee = 0');
+    expect(s).toContain("aclexplode(coalesce(p.proacl, acldefault('f', p.proowner)))");
   });
   it('check-subscription syncs pending/authenticated rows from Razorpay', () => {
     const s = read('supabase/functions/check-subscription/index.ts');
