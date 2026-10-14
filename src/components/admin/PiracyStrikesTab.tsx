@@ -205,6 +205,7 @@ export function PiracyStrikesTab() {
                 placeholder="Describe the piracy violation..."
                 className="mt-1"
               />
+              <p className="mt-1 text-xs text-muted-foreground">No names, emails or health details.</p>
             </div>
             <p className="text-xs text-muted-foreground">
               This will increase the user's watermark opacity. At 3 strikes, the account will be automatically suspended.

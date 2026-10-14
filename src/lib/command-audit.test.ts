@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { createHmac } from "node:crypto";
 import { readFileSync, readdirSync, statSync } from "node:fs";
 import { join, resolve } from "node:path";
-import { hmacTarget, normaliseTarget, stripPii } from "../../supabase/functions/_shared/audit-pure";
+import { hmacTarget, isPiiKey, keyTokens, normaliseTarget, redactReason, stripPii } from "../../supabase/functions/_shared/audit-pure";
 
 const FN = resolve(process.cwd(), "supabase/functions");
 const walk = (d: string): string[] => readdirSync(d).flatMap((n) => {
@@ -12,14 +12,40 @@ const walk = (d: string): string[] => readdirSync(d).flatMap((n) => {
 const read = (p: string) => readFileSync(p, "utf8");
 
 describe("P2c audit: pure helpers", () => {
-  it("strips PII keys recursively (objects + arrays, case-insensitive)", () => {
+  it("keeps non-PII keys (incl. allowlisted *_name) and never redacts bare digit strings", () => {
+    const keep = {
+      description: "d", explanation_tip: "t", membership: "m", recipient: "r", subject_name: "Anatomy",
+      topic_name: "Cardio", lo_name: "LO", file_name: "a.csv", filename: "b.csv",
+      created_ms: "1791950000000", epoch: 1791950000000, order_ref: "9876543210123", razorpay_ref: "pay_N7xYz123AbC",
+    };
+    expect(stripPii(keep)).toEqual(keep);
+  });
+  it("strips PII keys by token / whole key, at any depth", () => {
     const out = stripPii({
-      email: "a@x.test", Name: "A", keep: 1,
-      nested: { display_name: "d", full_name: "f", phone: "1", ok: true, deeper: [{ ip: "1.1.1.1", ip_address: "x", user_agent: "ua", v: 2 }] },
+      user_email: 1, emailAddress: 1, first_name: 1, lastName: 1, ip_addr: 1, ip_address: 1, user_agent: 1,
+      dob: 1, display_name: 1, username: 1, Name: 1, phone: 1, mobile: 1, keep: 1,
+      nested: { full_name: "f", ok: true, deeper: [{ birth_date: "x", userAgent: "ua", v: 2 }] },
     });
     expect(out).toEqual({ keep: 1, nested: { ok: true, deeper: [{ v: 2 }] } });
+    expect(isPiiKey("display_name")).toBe(true);
+    expect(isPiiKey("subject_name")).toBe(false);
+    expect(keyTokens("emailAddress")).toEqual(["email", "address"]);
+  });
+  it("redacts email/phone values under generic keys and in arrays; reason redacted too", () => {
+    const out = stripPii({
+      note: "contact a.b+x@example.com now", list: ["x@y.io", "fine"], deep: { v: [{ msg: "ping z@q.org" }] },
+      au: "+61 412 345 678", in: "+91-98765-43210", local: "0412 345 678", bare: "61412345678",
+    }) as Record<string, unknown>;
+    expect(out.note).toBe("contact [redacted] now");
+    expect(out.list).toEqual(["[redacted]", "fine"]);
+    expect(out.deep).toEqual({ v: [{ msg: "ping [redacted]" }] });
+    expect(out.au).toBe("[redacted]");
+    expect(out.in).toBe("[redacted]");
+    expect(out.local).toBe("[redacted]");
+    expect(out.bare).toBe("61412345678");
     expect(stripPii(null)).toBeNull();
-    expect(stripPii("s")).toBe("s");
+    expect(redactReason("refund for jane@doe.com")).toBe("refund for [redacted]");
+    expect(redactReason(null)).toBeNull();
   });
   it("HMAC normalises case/whitespace and matches HMAC-SHA256 hex", async () => {
     expect(normaliseTarget("  A@X.Test ")).toBe("a@x.test");
@@ -66,6 +92,7 @@ describe("P2c audit: static checks", () => {
     const s = read(join(FN, "_shared/command-audit.ts"));
     expect(s).toContain('Deno.env.get("AUDIT_HMAC_KEY")');
     expect(s).toContain('status: "pending"');
+    expect(s).toContain("reason: redactReason(input.reason)");
     expect(s).toMatch(/if \(!key\) return \{ error:/);
     expect(s).toContain("security_admin_allowlist");
     expect(s).toContain('from("admin_roles")');
@@ -76,7 +103,12 @@ describe("P2c audit: static checks", () => {
   });
   it("status migration exists, is idempotent and constrained", () => {
     const m = read(resolve(process.cwd(), "supabase/migrations_v2/0087_command_audit_log_status.sql"));
-    expect(m).toContain("add column if not exists status text not null default 'pending'");
+    const add = m.indexOf("add column if not exists status text not null default 'done'");
+    const setDefault = m.indexOf("alter column status set default 'pending'");
+    expect(add).toBeGreaterThan(0);
+    expect(setDefault).toBeGreaterThan(add);
+    expect(m.indexOf("admin_activity_logs_status_check")).toBeGreaterThan(setDefault);
+    expect(m).toContain("revoke all on table command.admin_activity_logs from anon, authenticated");
     expect(m).toContain("check (status in ('pending', 'done', 'failed'))");
   });
 });

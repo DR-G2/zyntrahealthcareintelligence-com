@@ -3,7 +3,7 @@
 // Structural client type so callers using npm: or esm.sh supabase-js both type-check.
 // deno-lint-ignore no-explicit-any
 type SupabaseClient = { schema: (s: string) => any };
-import { errCode, hmacTarget, stripPii, type AuditStatus } from "./audit-pure.ts";
+import { errCode, hmacTarget, redactReason, stripPii, type AuditStatus } from "./audit-pure.ts";
 export { hmacTarget, stripPii } from "./audit-pure.ts";
 
 export interface AuditBeginInput {
@@ -39,7 +39,7 @@ export async function auditBegin(sb: SupabaseClient, input: AuditBeginInput): Pr
       action: input.action,
       target_type: input.targetType,
       target_id: t.id,
-      reason: input.reason ?? null,
+      reason: redactReason(input.reason),
       before_snapshot: input.before === undefined ? null : stripPii(input.before),
       status: "pending",
     }).select("id").single();
