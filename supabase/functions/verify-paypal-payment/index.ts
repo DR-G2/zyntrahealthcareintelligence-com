@@ -1,5 +1,5 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
-import { createClient } from "npm:@supabase/supabase-js@2.57.2";
+import { createClient } from "npm:@supabase/supabase-js@2";
 import { isExpectedUniqueViolation, PAYPAL_ORDER_ID_KEY, PAYPAL_SUBSCRIPTION_ID_KEY } from "../_shared/billing-lifecycle.ts";
 import {
   PAYPAL_PLANS,

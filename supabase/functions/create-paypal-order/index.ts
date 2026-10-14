@@ -1,6 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { checkoutEnabled, CHECKOUT_DISABLED_BODY } from "../_shared/checkout-flag.ts";
-import { createClient } from "npm:@supabase/supabase-js@2.57.2";
+import { createClient } from "npm:@supabase/supabase-js@2";
 import {
   PAYPAL_PLANS,
   makeCustomId,
