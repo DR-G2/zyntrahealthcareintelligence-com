@@ -64,4 +64,6 @@ jobs:
           PIE_TEST_USER_A_EMAIL: ${{ secrets.PIE_TEST_USER_A_EMAIL }}
           PIE_TEST_USER_B_EMAIL: ${{ secrets.PIE_TEST_USER_B_EMAIL }}
           PIE_TEST_PASSWORD: ${{ secrets.PIE_TEST_PASSWORD }}
-        run: npx vite-node scripts/pie-p21-1-telemetry-integrity.mts
+        run: |
+          git show origin/main:scripts/pie-p21-1-telemetry-integrity.mts > scripts/pie-p21-1-telemetry-integrity-runtime.mts
+          npx vite-node scripts/pie-p21-1-telemetry-integrity-runtime.mts
