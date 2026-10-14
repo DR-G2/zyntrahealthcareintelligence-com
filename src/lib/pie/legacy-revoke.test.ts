@@ -124,11 +124,14 @@ describe("legacy revoke: frontend audit", () => {
     const reads: { file: string; cols: string[] }[] = [];
     for (const f of walk(SRC)) {
       const s = stripComments(readFileSync(f, "utf8"));
+      // V2-only modules (import the V2 client, never the legacy one) are not legacy reads.
+      if (/v2-client['"]/.test(s) && !/@\/lib\/supabase['"]|integrations\/supabase\/client['"]/.test(s)) continue;
       for (const m of s.matchAll(/from\(\s*['"`]questions['"`]\s*\)\s*\.select\(\s*['"`]([^'"`]*)['"`]/g)) reads.push({ file: relative(ROOT, f), cols: m[1].split(",").map((c) => c.trim()) });
       for (const m of s.matchAll(/\bquestions\(\s*([a-z_*][a-z_,\s*]*)\)/g)) reads.push({ file: relative(ROOT, f), cols: m[1].split(",").map((c) => c.trim()) });
       expect(LEGACY_Q_READ.test(s) ? reads.some((r) => r.file === relative(ROOT, f)) : true, `unparsed legacy read in ${f}`).toBe(true);
     }
-    expect(reads.map((r) => r.file).sort()).toEqual(["src/lib/mcp/tools/get-subject-breakdown.ts", "src/lib/mcp/tools/list-recent-attempts.ts", "src/pages/Practice.tsx"]);
+    // Practice setup now reads its catalogue from V2 (src/lib/practice-v2-catalog.ts, ids only), not legacy.
+    expect(reads.map((r) => r.file).sort()).toEqual(["src/lib/mcp/tools/get-subject-breakdown.ts", "src/lib/mcp/tools/list-recent-attempts.ts"]);
     for (const r of reads) for (const c of r.cols) expect(ALLOW, `${r.file} reads ${c}`).toContain(c);
   });
 });

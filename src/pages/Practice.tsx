@@ -24,7 +24,8 @@ import { parseExplanation } from '@/lib/explanation-layout';
 import { Progress } from '@/components/ui/progress';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
-import { buildPracticeTopicResolver, normalizeTopicLabel, resolvePracticeQuestionPlacement } from '@/lib/practice-topic-mapping';
+import { normalizeTopicLabel } from '@/lib/practice-topic-mapping';
+import { countV2Catalog, fetchV2PracticeCatalog } from '@/lib/practice-v2-catalog';
 import { emitBehaviorEvent } from '@/lib/telemetry';
 import { syncPieEngine } from '@/lib/pie/pie-engine-client';
 import { PieDiagnosticError, describePieFailure, pieSyncFailure, reportPieFailure, requireV2SessionId } from '@/lib/pie/pie-diagnostics';
@@ -80,41 +81,9 @@ interface DBSubtopic {
   display_order: number | null;
 }
 
-interface QuestionTopicMeta {
-  id: string;
-  category: string;
-  subtopic: string | null;
-  question_text: string;
-  difficulty?: string | null;
-  zyntra_id?: string | null;
-}
-
-const QUESTION_META_PAGE_SIZE = 1000;
 
 function createSelectedSubtopicKey(subjectName: string, subtopicName: string): string {
   return `${normalizeTopicLabel(subjectName)}::${normalizeTopicLabel(subtopicName)}`;
-}
-
-async function fetchAllQuestionTopicMeta(): Promise<QuestionTopicMeta[]> {
-  const rows: QuestionTopicMeta[] = [];
-  let from = 0;
-
-  while (true) {
-    const { data, error } = await supabase
-      .from('questions')
-      .select('id, zyntra_id, category, subtopic, question_text, difficulty')
-      .range(from, from + QUESTION_META_PAGE_SIZE - 1);
-
-    if (error) throw error;
-    if (!data?.length) break;
-
-    rows.push(...(data as QuestionTopicMeta[]));
-
-    if (data.length < QUESTION_META_PAGE_SIZE) break;
-    from += QUESTION_META_PAGE_SIZE;
-  }
-
-  return rows;
 }
 
 // ─── Setup Screen ───────────────────────────────────────────────
@@ -148,32 +117,12 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
   useEffect(() => {
     const fetchAll = async () => {
       try {
-        const [subjectsRes, subtopicsRes, questionMeta] = await Promise.all([
-          supabase.from('subjects').select('id, name, display_order').order('display_order'),
-          supabase.from('subtopics').select('id, name, subject_id, display_order').order('display_order'),
-          fetchAllQuestionTopicMeta(),
-        ]);
-
-        if (subjectsRes.error) throw subjectsRes.error;
-        if (subtopicsRes.error) throw subtopicsRes.error;
-
-        const subjects = (subjectsRes.data || []) as DBSubject[];
-        const subtopics = (subtopicsRes.data || []) as DBSubtopic[];
-        const resolver = buildPracticeTopicResolver(subjects, subtopics);
-        const catCounts: Record<string, number> = {};
-        const stCounts: Record<string, number> = {};
-
-        questionMeta.forEach((question) => {
-          const placement = resolvePracticeQuestionPlacement(question, resolver);
-
-          if (placement.subjectName) {
-            catCounts[placement.subjectName] = (catCounts[placement.subjectName] || 0) + 1;
-          }
-
-          if (placement.subtopicName) {
-            stCounts[placement.subtopicName] = (stCounts[placement.subtopicName] || 0) + 1;
-          }
-        });
+        // V2 is the project the PIE drill serves from; the legacy project has none of these questions.
+        const catalog = await fetchV2PracticeCatalog();
+        const subjects = catalog.subjects as DBSubject[];
+        const subtopics = catalog.subtopics as DBSubtopic[];
+        const questionMeta = catalog.questions;
+        const { categoryCounts: catCounts, subtopicCounts: stCounts } = countV2Catalog(catalog);
 
         setDbSubjects(subjects);
         setDbSubtopics(subtopics);
