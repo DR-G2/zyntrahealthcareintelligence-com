@@ -131,7 +131,8 @@ describe("legacy revoke: frontend audit", () => {
       expect(LEGACY_Q_READ.test(s) ? reads.some((r) => r.file === relative(ROOT, f)) : true, `unparsed legacy read in ${f}`).toBe(true);
     }
     // Practice setup now reads its catalogue from V2 (src/lib/practice-v2-catalog.ts, ids only), not legacy.
-    expect(reads.map((r) => r.file).sort()).toEqual(["src/lib/mcp/tools/get-subject-breakdown.ts", "src/lib/mcp/tools/list-recent-attempts.ts"]);
+    // MCP tools (list_recent_attempts, get_subject_breakdown) now read via the paid 0086 V2 RPCs, not legacy tables.
+    expect(reads.map((r) => r.file).sort()).toEqual([]);
     for (const r of reads) for (const c of r.cols) expect(ALLOW, `${r.file} reads ${c}`).toContain(c);
   });
 });

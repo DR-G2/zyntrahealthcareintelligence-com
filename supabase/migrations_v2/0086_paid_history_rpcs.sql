@@ -9,9 +9,9 @@
 --                                              server-side (no stem/options/explanation/key).
 --     get_my_review_queue_attempts(p_limit)    review queue content; only attempts in the caller's own
 --                                              COMPLETED pie_adaptive sessions.
---   AUTH ONLY, no content, no answers/keys:
---     get_my_attempt_summary(p_limit)          subject/subtopic/difficulty + correctness/timing per attempt
---                                              (Profile / StudyPlan / Performance Intelligence).
+--     get_my_attempt_summary(p_limit)          no content, no answers/keys: subject/subtopic/difficulty +
+--                                              correctness/timing per attempt (Profile / StudyPlan / PI / MCP).
+--                                              Paid-only per Mr. G decision 14 Oct 2026.
 -- All: SECURITY DEFINER, SET search_path = '', REVOKE from PUBLIC/anon, GRANT EXECUTE to authenticated only.
 -- Rollback: drop the four functions.
 begin;
@@ -103,6 +103,7 @@ language plpgsql stable security definer set search_path = '' as $$
 declare v_uid uuid := auth.uid();
 begin
   if v_uid is null then raise exception 'Authentication required' using errcode = '28000'; end if;
+  perform public._assert_paid_pie_session(null);  -- PAID_PIE_GUARD (42501 when not paid)
   if p_limit is null or p_limit < 1 or p_limit > 5000 then raise exception 'p_limit must be 1..5000' using errcode = '22023'; end if;
   return query
     select ua.id, ua.session_id, ua.created_at, s.name, coalesce(st.name, lo.title), q.difficulty_tier,
@@ -140,7 +141,7 @@ begin
     if not has_function_privilege('authenticated', f, 'EXECUTE') then raise exception '0086: authenticated cannot execute %', f; end if;
   end loop;
   foreach f in array array['public.get_my_practice_sessions(integer)','public.get_my_trust_gut_attempts(integer)',
-      'public.get_my_review_queue_attempts(integer)'] loop
+      'public.get_my_review_queue_attempts(integer)','public.get_my_attempt_summary(integer)'] loop
     if pg_catalog.pg_get_functiondef(f::regprocedure) not like '%public._assert_paid_pie_session(null)%'
     then raise exception '0086: % lacks the paid guard', f; end if;
   end loop;

@@ -18,7 +18,8 @@ import { loadPieEngineView } from '@/lib/pie/pie-engine-client';
 import { describePieStatus, PIE_MIN_OBSERVATIONS, type PieState, type PieView } from '@/lib/pie/pie-state';
 import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils';
-import { fetchAttemptSummary } from '@/lib/pie/pie-paid-history-client';
+import { fetchAttemptSummary, isPaywallError } from '@/lib/pie/pie-paid-history-client';
+import { PaywallNotice } from '@/components/PaywallNotice';
 import { type P13ShadowView } from '@/lib/pie/p13-shadow-client';
 import { loadP14ShadowInference } from '@/lib/pie/p14-shadow-client';
 import { P13ShadowInferencePanel } from '@/components/pie/P13ShadowInferencePanel';
@@ -547,6 +548,7 @@ export default function PerformanceIntelligence() {
   const [priorities, setPriorities] = useState<PriorityStat[]>([]);
   const [trend, setTrend] = useState<number[]>([]);
   const [pieView, setPieView] = useState<PieView | null>(null);
+  const [summaryPaywalled, setSummaryPaywalled] = useState(false);
   const [p13ShadowView, setP13ShadowView] = useState<P13ShadowView>({ status: "loading" });
   const [confidence, setConfidence] = useState<ConfidenceIntelligence>({
     confidence_attempts: 0, calibration: 0, average_confidence: 0, accuracy: 0, bias: 0,
@@ -580,13 +582,14 @@ export default function PerformanceIntelligence() {
           .select('readiness_score, clinical_accuracy, answer_stability, time_management')
           .eq('user_id', user.id)
           .maybeSingle(),
-        // Paid lock: get_my_attempt_summary (no question content, no answers/keys).
+        // Paid lock: get_my_attempt_summary (paid; no question content, no answers/keys). 42501 -> PaywallNotice.
         fetchAttemptSummary(2000).then((rows) => rows.map((r) => ({ ...r, questions: { category: r.subject_name, subtopic: r.subtopic_name } }))).then((data) => ({ data, error: null })).catch((error) => ({ data: null, error })),
         (supabase.rpc as any)('get_confidence_intelligence'),
       ]);
 
       if (cancelled) return;
 
+      setSummaryPaywalled(isPaywallError(attemptsRes.error));
       setPieView(v2PieView);
       setP13ShadowView(nextP13ShadowView);
 
@@ -732,6 +735,7 @@ export default function PerformanceIntelligence() {
     <AppLayout>
       <div className="mx-auto max-w-6xl space-y-5">
         <RoomHeader kind="intelligence" />
+        {summaryPaywalled && <PaywallNotice variant="banner" />}
 
         <section className="sticky top-2 z-20 rounded-2xl border border-white/10 bg-[#050b14]/90 p-1.5 shadow-2xl backdrop-blur-xl">
           <div className="grid grid-cols-3 gap-1">

@@ -1,12 +1,15 @@
 import { describe, expect, it, vi } from "vitest";
-import { readFileSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { fetchAttemptSummary, fetchPracticeResultsHistory, fetchReviewQueueAttempts, fetchTrustGutAttempts, isPaywallError, PAYWALL_MESSAGE, type PaidHistoryDeps } from "./pie-paid-history-client";
 
 const read = (p: string) => readFileSync(resolve(process.cwd(), p), "utf8");
 const PAGES = ["src/pages/Questions.tsx", "src/pages/QuestionHistory.tsx", "src/pages/MistakeReview.tsx", "src/pages/TrustYourGut.tsx",
   "src/pages/StudyPlan.tsx", "src/pages/Profile.tsx", "src/pages/PerformanceIntelligenceV2.tsx",
-  "src/components/history/MCQHistory.tsx", "src/components/history/MCQReviewQueue.tsx"];
+  "src/components/history/MCQHistory.tsx", "src/components/history/MCQReviewQueue.tsx",
+  // MCP tools: must go through the paid 0086 RPCs with the user's bearer token.
+  ...readdirSync(resolve(process.cwd(), "src/lib/mcp"), { recursive: true, encoding: "utf8" })
+    .filter((f) => /\.tsx?$/.test(f) && !/\.test\./.test(f)).map((f) => `src/lib/mcp/${f}`)];
 
 function deps(impl: (fn: string, args: Record<string, unknown>) => { data: unknown; error: { message?: string; code?: string } | null }): PaidHistoryDeps {
   return { ensureSession: vi.fn(async () => undefined), rpc: vi.fn(async (fn, args) => impl(fn, args)) };
@@ -49,11 +52,31 @@ describe("paid history client (post paid-practice lock)", () => {
     }
   });
 
+  it("MCP history tools use the paid RPCs via the user's V2 bearer client", () => {
+    for (const [f, fn] of [["src/lib/mcp/tools/list-recent-attempts.ts", "get_my_trust_gut_attempts"], ["src/lib/mcp/tools/get-subject-breakdown.ts", "get_my_attempt_summary"]]) {
+      const src = read(f);
+      expect(src, f).toContain(`rpc("${fn}"`);
+      expect(src, f).toContain("supabaseV2ForUser(ctx)");
+      expect(src, f).toContain("paidRpcErrorMessage(");
+    }
+    const lib = read("src/lib/mcp/supabase.ts");
+    expect(lib).toMatch(/code === "42501" \? MCP_PAYWALL_MESSAGE/);
+    expect(lib).toContain("Authorization: `Bearer ${token}`");
+  });
+
+  it("StudyPlan and Performance Intelligence show PaywallNotice when the summary is refused", () => {
+    for (const f of ["src/pages/StudyPlan.tsx", "src/pages/PerformanceIntelligenceV2.tsx"]) {
+      const src = read(f);
+      expect(src, f).toContain("isPaywallError(attemptsRes.error)");
+      expect(src, f).toContain("<PaywallNotice");
+    }
+  });
+
   it("0086 RPCs: definer, empty search_path, authenticated-only, paid guard reused from the lock", () => {
     const m = read("supabase/migrations_v2/0086_paid_history_rpcs.sql");
     for (const fn of ["get_my_practice_sessions", "get_my_trust_gut_attempts", "get_my_review_queue_attempts", "get_my_attempt_summary"]) expect(m).toContain(`function public.${fn}(`);
     expect(m.match(/security definer set search_path = ''/g)?.length).toBe(4);
-    expect(m.match(/perform public\._assert_paid_pie_session\(null\)/g)?.length).toBe(3);
+    expect(m.match(/perform public\._assert_paid_pie_session\(null\)/g)?.length).toBe(4);
     expect(m).toMatch(/from public, anon;/);
     expect(m).toMatch(/to authenticated;/);
     expect(m).not.toMatch(/to (anon|public)\b/);

@@ -60,3 +60,28 @@ export function supabaseForUser(ctx: ToolContext) {
     auth: { persistSession: false, autoRefreshToken: false },
   });
 }
+
+// V2 project (paid history RPCs from supabase/migrations_v2/0086). Same default as src/integrations/supabase/v2-client.ts.
+const V2_DEFAULT_URL = "https://hkowvjazuwebmibssdut.supabase.co";
+const V2_DEFAULT_PUBLISHABLE_KEY = "sb_publishable_7K6qFgHEEkaXOFz58cYE3g_l6XBW1tN";
+
+/**
+ * V2 client acting as the signed-in user (bearer token forwarded, publishable key only, never a service key).
+ * Used for the paid history RPCs; non-paid callers get SQLSTATE 42501.
+ */
+export function supabaseV2ForUser(ctx: ToolContext) {
+  const token = ctx.getToken();
+  if (!token) throw new Error("supabaseV2ForUser requires a verified OAuth token");
+  const url = configuredEnv(["SUPABASE_V2_URL", "VITE_SUPABASE_V2_URL"]) ?? V2_DEFAULT_URL;
+  const key = configuredEnv(["SUPABASE_V2_PUBLISHABLE_KEY", "VITE_SUPABASE_V2_PUBLISHABLE_KEY"]) ?? V2_DEFAULT_PUBLISHABLE_KEY;
+  return createClient(url, key, {
+    global: { headers: { Authorization: `Bearer ${token}` } },
+    auth: { persistSession: false, autoRefreshToken: false },
+  });
+}
+
+/** Generic paywall error for MCP tools: never reveals which server check failed. */
+export const MCP_PAYWALL_MESSAGE = "This is available on paid plans. Upgrade to continue.";
+export function paidRpcErrorMessage(error: { code?: string } | null, what: string): string {
+  return error?.code === "42501" ? MCP_PAYWALL_MESSAGE : `${what} could not be loaded.`;
+}

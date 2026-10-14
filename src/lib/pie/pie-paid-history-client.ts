@@ -3,7 +3,7 @@ import { defaultHistoryDeps, toLegacyAttempt, type HistoryDeps, type LegacyAttem
 /**
  * Post-lock learner history (questions_paid_practice_only.sql + 0086).
  * Question content only via paid RPCs: practice results via get_practice_session_results,
- * review queue via get_my_review_queue_attempts. Analytics pages use get_my_attempt_summary (no content).
+ * review queue via get_my_review_queue_attempts. Analytics pages use get_my_attempt_summary (no content, paid).
  * No direct table reads, no fallback on refusal.
  */
 export const PAYWALL_MESSAGE = 'This is available on paid plans. Upgrade to continue.';
@@ -34,7 +34,7 @@ export interface AttemptSummaryRow {
   attempt_id: string; session_id: string | null; created_at: string; subject_name: string | null; subtopic_name: string | null;
   difficulty_tier: string | null; is_correct: boolean; confidence_level: number | null; time_taken_seconds: number | null; answer_changes_count: number;
 }
-/** No question content, no answers/keys. Authenticated only. */
+/** Paid. No question content, no answers/keys. */
 export function fetchAttemptSummary(limit = 5000, deps: PaidHistoryDeps = deps0) {
   return call<AttemptSummaryRow>(deps, 'get_my_attempt_summary', { p_limit: clamp(limit, 5000) }, 'Performance summary');
 }

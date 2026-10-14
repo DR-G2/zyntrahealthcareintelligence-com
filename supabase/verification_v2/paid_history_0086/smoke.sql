@@ -13,15 +13,15 @@ select stem from public.questions limit 1;
 select * from public.get_my_attempt_history(10);
 \echo '--- other user session results (expect 42501)'
 select * from public.get_practice_session_results('40000000-0000-0000-0000-000000000003');
-\echo '--- UNPAID user B (paid RPCs expect 42501; summary ok)'
+\echo '--- UNPAID user B (all paid RPCs incl. summary expect 42501)'
 select set_config('request.jwt.claim.sub','00000000-0000-0000-0000-00000000000b',false);
 \set VERBOSITY verbose
 select * from public.get_my_practice_sessions(10);
 select * from public.get_my_trust_gut_attempts(10);
 select * from public.get_my_review_queue_attempts(10);
 select * from public.get_practice_session_results('40000000-0000-0000-0000-000000000003');
-\set VERBOSITY default
 select subject_name, is_correct from public.get_my_attempt_summary(10);
+\set VERBOSITY default
 \echo '--- anon (expect permission denied)'
 reset role; set role anon;
 select * from public.get_my_attempt_summary(10);
