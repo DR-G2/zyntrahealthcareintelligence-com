@@ -169,17 +169,22 @@ export function PieDrillSession({ config, resumeSessionId, onFinish }: {
     const conf = confidence[index];
     if (!conf || conf < 1 || conf > 5) { setConfidenceError(true); return 'no-confidence'; }
     recordTime();
-    await submitPieAnswer({
-      questionId: q.question_id, sessionId: sessionRef.current, selectedAnswer: answer,
-      timeTakenSeconds: timesRef.current[index] || 0, confidenceLevel: conf,
-      timeToFirstClick: firstClickRef.current[index] ?? null, changeSequence: sequence[index] || [answer],
-      timeOfDay: new Date().toISOString(), questionPosition: q.question_position,
-      questionVersion: q.version ?? null,
-      provenance: {
-        source: 'practice-pie', mode: config.mode, entry: 'mcq_drill',
-        ruled_out_final: ruledOut[index] || [], rule_out_events: ruleEventsRef.current[index] || [],
-      },
-    });
+    try {
+      await submitPieAnswer({
+        questionId: q.question_id, sessionId: sessionRef.current, selectedAnswer: answer,
+        timeTakenSeconds: timesRef.current[index] || 0, confidenceLevel: conf,
+        timeToFirstClick: firstClickRef.current[index] ?? null, changeSequence: sequence[index] || [answer],
+        timeOfDay: new Date().toISOString(), questionPosition: q.question_position,
+        questionVersion: q.version ?? null,
+        provenance: {
+          source: 'practice-pie', mode: config.mode, entry: 'mcq_drill',
+          ruled_out_final: ruledOut[index] || [], rule_out_events: ruleEventsRef.current[index] || [],
+        },
+      });
+    } catch (e) {
+      // A retry after a lost response: the server already holds this answer, so it is saved.
+      if (!/attempt_already_submitted/.test((e as Error)?.message ?? '')) throw e;
+    }
     setSaved(s => ({ ...s, [index]: true }));
     // One answer is evidence, but PIE stays "building" until 6 observations.
     void syncPieEngine().catch((error) => console.warn('[PIE] sync after answer failed', error));
