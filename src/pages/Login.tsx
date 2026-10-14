@@ -199,9 +199,17 @@ function AuthForm({ mode }: { mode: 'login' | 'signup' }) {
   }
 
   const handleGoogleSignIn = async () => {
+    // Deep link: only a sanitizeNextPath()-approved relative path, resolved against our own origin
+    // (and re-checked to still be same-origin). The raw ?next= value is never used.
+    const nextPath = sanitizeNextPath(new URLSearchParams(window.location.search).get('next'));
+    let redirectTo = window.location.origin;
+    if (nextPath) {
+      const target = new URL(nextPath, window.location.origin);
+      if (target.origin === window.location.origin) redirectTo = window.location.origin + target.pathname + target.search + target.hash;
+    }
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
-      options: { redirectTo: window.location.origin },
+      options: { redirectTo },
     });
     if (error) {
       toast({ title: 'Error', description: error.message, variant: 'destructive' });

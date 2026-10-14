@@ -13,7 +13,8 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useFeatureGate } from '@/hooks/useFeatureGate';
 import { UpgradePrompt } from '@/components/UpgradePrompt';
-import { fetchLegacyShapedHistory } from '@/lib/pie/pie-history-client';
+import { fetchPracticeResultsHistory, isPaywallError } from '@/lib/pie/pie-paid-history-client';
+import { PaywallNotice } from '@/components/PaywallNotice';
 
 interface AttemptRow {
   id: string;
@@ -105,13 +106,14 @@ export default function MistakeReview() {
   const gate = useFeatureGate();
   const [activeTab, setActiveTab] = useState('incorrect');
 
-  const { data: attempts = [], isLoading } = useQuery({
+  const { data: attempts = [], isLoading, error } = useQuery({
     queryKey: ['mistake-review', user?.id],
     queryFn: async () => {
       if (!user) return [];
-      // P5: PIE attempts only; keys only for answered questions (get_my_attempt_history).
-      return (await fetchLegacyShapedHistory(1000)) as unknown as AttemptRow[];
+      // Paid lock: practice results only via get_practice_session_results (completed pie_adaptive sessions).
+      return (await fetchPracticeResultsHistory(50)) as unknown as AttemptRow[];
     },
+    retry: (n, e) => !isPaywallError(e) && n < 2,
     enabled: !!user,
   });
 
@@ -142,6 +144,8 @@ export default function MistakeReview() {
 
         {!gate.canAccessHistory ? (
           <UpgradePrompt feature="Mistake Review" description="Upgrade to a paid plan to review past mistakes, changed answers, and guesses." variant="card" />
+        ) : isPaywallError(error) ? (
+          <PaywallNotice />
         ) : isLoading ? (
           <div className="space-y-3">
             {[1, 2, 3].map(i => <div key={i} className="h-24 rounded-lg bg-muted animate-pulse" />)}

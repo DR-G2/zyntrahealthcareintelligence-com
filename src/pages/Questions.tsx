@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { Search, Filter, Bookmark, BookmarkCheck, StickyNote, ChevronDown, ChevronUp, X } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/contexts/AuthContext';
-import { fetchLegacyShapedHistory } from '@/lib/pie/pie-history-client';
+import { fetchTrustGutAttempts } from '@/lib/pie/pie-paid-history-client';
 import { SUPER_ADMIN_EMAIL } from '@/lib/admin-emails';
 import { Link as RouterLink } from 'react-router-dom';
 import { AppLayout } from '@/components/AppLayout';
@@ -116,8 +116,8 @@ function QuestionBankBrowser() {
     const [allQuestions, bData, aData, nData] = await Promise.all([
       fetchQuestionBankViaAdminFunction(),
       user ? fetchAllRows('bookmarks', 'question_id', { column: 'user_id', value: user.id }) : Promise.resolve([]),
-      // P5: the admin's own attempts come from PIE history, never the legacy table.
-      user ? fetchLegacyShapedHistory(5000).then((rows) => rows.map((r) => ({ question_id: r.question_id, selected_answer: r.selected_answer, is_correct: r.is_correct, time_taken_seconds: r.time_taken_seconds, created_at: r.created_at }))).catch(() => []) : Promise.resolve([]),
+      // Paid lock: own attempt outcomes via get_my_trust_gut_attempts (paid RPC, no content). Oldest first.
+      user ? fetchTrustGutAttempts(5000).then((rows) => rows.reverse().map((r) => ({ question_id: r.question_id, selected_answer: r.selected_answer, is_correct: r.is_correct, time_taken_seconds: r.time_taken_seconds, created_at: r.created_at }))).catch(() => []) : Promise.resolve([]),
       user ? fetchAllRows('user_notes', 'question_id, note_text', { column: 'user_id', value: user.id }) : Promise.resolve([]),
     ]);
 
