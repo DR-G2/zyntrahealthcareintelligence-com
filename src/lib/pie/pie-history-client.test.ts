@@ -67,7 +67,12 @@ describe("P5 learner history (PIE attempts only)", () => {
       expect(src, f).not.toMatch(/from\(['"]user_attempts['"]\)/);
       expect(src, f).not.toMatch(/from\(['"]questions['"]\)/);
       expect(src, f).not.toMatch(/questions\([^)]*correct_answer/);
-      expect(src, f).toContain("fetchLegacyShapedHistory");
+      if (f.endsWith('PerformanceIntelligenceV2.tsx')) {
+        expect(src, f).toContain('loadIntelligenceEvidence');
+        expect(read('src/lib/pie/intelligence-evidence.ts')).toContain('fetchPieAttemptHistory');
+      } else {
+        expect(src, f).toContain("fetchLegacyShapedHistory");
+      }
     }
   });
 

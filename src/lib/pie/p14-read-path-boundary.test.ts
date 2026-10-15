@@ -19,7 +19,9 @@ describe("PIE P14 production read-path boundary", () => {
     expect(page).not.toContain("SERVICE_ROLE");
     expect(client).not.toContain("inference_shadow");
     expect(page).not.toContain("inference_shadow");
-    expect(page).toContain("loadP14ShadowInference()");
+    expect(page).not.toContain("loadP14ShadowInference");
+    expect(page).not.toContain("P13ShadowInferencePanel");
+    expect(page).toContain("loadIntelligenceEvidence()");
   });
 
   it("uses a protected projection and never implements a second inference engine", () => {
