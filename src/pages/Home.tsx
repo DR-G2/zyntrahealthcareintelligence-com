@@ -12,6 +12,20 @@ const signals = [
   { title: "Consistency", icon: BarChart3, desc: "How performance varies across practice sessions." },
 ];
 
+const why = [
+  "A conventional question bank marks the option. Zyntra can also keep timing, confidence and answer changes.",
+  "Those signals feed Performance Intelligence and the Study Plan, so preparation can consider how you reach an answer, not only whether it was correct.",
+  "Built for medical students, medical graduates and doctors, including IMGs, preparing for AMC examinations.",
+];
+
+const mcqOptions = [
+  "Oral amoxicillin and review in 48 hours",
+  "Intravenous benzylpenicillin and urgent hospital transfer",
+  "Lumbar puncture in the clinic before any antibiotic",
+  "Paracetamol and safety-netting advice only",
+  "Await blood culture results before treating",
+];
+
 const loop = [
   ["Observe", "Timing, confidence and answer changes are captured as you practise."],
   ["Diagnose", "Patterns can help reveal the kind of mistake that keeps recurring."],
@@ -170,6 +184,33 @@ const Home: React.FC = () => {
         </section>
 
         <BrushDivider />
+
+        <BrushDivider />
+
+        <section id="example-question" className="q-section q-example" aria-labelledby="q-example-title">
+          <div className="q-wrap q-example-grid">
+            <div className="q-section-intro q-reveal">
+              <Kicker>Why Zyntra</Kicker>
+              <h2 id="q-example-title" className="q-title">Beyond the correct answer.</h2>
+              <div className="q-why-list">
+                {why.map((point, index) => <p key={point}><span className="q-index">{String(index + 1).padStart(2, "0")}</span><span>{point}</span></p>)}
+              </div>
+              <p className="q-muted mt-5 text-xs">Zyntra is independent of, and not affiliated with, the Australian Medical Council.</p>
+            </div>
+            <figure className="q-example-card q-reveal" aria-labelledby="q-example-caption">
+              <figcaption id="q-example-caption" className="q-card-label">Example question</figcaption>
+              <p className="q-example-stem">A 19-year-old presents to a rural general practice with fever, headache and a non-blanching petechial rash on the legs. She is alert, with a heart rate of 118 and blood pressure of 100/60 mmHg. What is the most appropriate immediate step?</p>
+              <ol className="q-option-list">
+                {mcqOptions.map((option, index) => <li key={option}><span>{String.fromCharCode(65 + index)}</span><p>{option}</p></li>)}
+              </ol>
+              <div className="q-example-observes">
+                <strong>What Zyntra can observe</strong>
+                <p>Your first and final answer, confidence level, time to decide, answer changes and options ruled out, where those signals are collected.</p>
+              </div>
+              <p className="q-illustrative">Static example. No candidate response or score is shown.</p>
+            </figure>
+          </div>
+        </section>
 
         <section id="next-step" className="q-section q-next" aria-labelledby="q-next-title">
           <div className="q-wrap q-next-grid">
