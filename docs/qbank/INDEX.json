@@ -1,0 +1,12 @@
+{
+  "qbank": "AMC V8 PIE v2 production draft",
+  "subjects": {
+    "population_health": "docs/qbank/population_health/ (10 phases)",
+    "adult_medicine": "docs/qbank/adult_medicine/ (19 phases)",
+    "adult_surgery": "docs/qbank/adult_surgery/ (10 phases)",
+    "womens_health": "docs/qbank/womens_health/ (9 phases)"
+  },
+  "status": "draft",
+  "note": "Phase JSON files contain full PIE v2 production layer (question_id, lo_id, lo_role, irt_b, AMC context, blueprint eligible). Not activated for learner delivery until clinical sign-off.",
+  "total_phases": 48
+}
