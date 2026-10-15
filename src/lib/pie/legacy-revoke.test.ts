@@ -128,7 +128,7 @@ describe("legacy revoke: frontend audit", () => {
       for (const m of s.matchAll(/\bquestions\(\s*([a-z_*][a-z_,\s*]*)\)/g)) reads.push({ file: relative(ROOT, f), cols: m[1].split(",").map((c) => c.trim()) });
       expect(LEGACY_Q_READ.test(s) ? reads.some((r) => r.file === relative(ROOT, f)) : true, `unparsed legacy read in ${f}`).toBe(true);
     }
-    expect(reads.map((r) => r.file).sort()).toEqual(["src/lib/mcp/tools/get-subject-breakdown.ts", "src/lib/mcp/tools/list-recent-attempts.ts", "src/pages/Practice.tsx"]);
+    expect(reads.map((r) => r.file).sort()).toEqual(["src/lib/mcp/tools/get-subject-breakdown.ts", "src/lib/mcp/tools/list-recent-attempts.ts"]);
     for (const r of reads) for (const c of r.cols) expect(ALLOW, `${r.file} reads ${c}`).toContain(c);
   });
 });
