@@ -30,9 +30,9 @@ const faqGroups = [
   {
     title: 'Pricing & Billing',
     questions: [
-      { q: 'How much is Zyntra?', a: 'One plan, Full Access: A$39/month or A$99 for 3 months. Prices are in Australian dollars (AUD). Both start with a 7-day free trial.' },
+      { q: 'How much is Zyntra?', a: 'There is no free plan. Clinical Starter is A$99 AUD every 3 months; Monthly is A$39 AUD per month. Both start with a 7-day free trial and renew until you cancel.' },
       { q: 'Why is there an A$1 charge?', a: COPY_CARD_CHECK },
-      { q: 'How does billing work?', a: 'Your first charge is on the day your 7-day trial ends. Monthly renews on that same date each month; the 3-month plan renews every 3 months on that date. Times are Sydney time.' },
+      { q: 'How does billing work?', a: 'Your first charge is on the day your 7-day trial ends. Monthly renews on that same date each month; Clinical Starter renews every 3 months on that date. Dates are calculated in Sydney time.' },
       { q: 'Can I cancel?', a: COPY_CANCEL },
       { q: 'A$39 is still hard for me.', a: 'Use the contact form with the subject "Hardship" and tell us your situation.' },
     ],
@@ -224,7 +224,7 @@ export default function Pricing() {
     <div className="min-h-screen bg-background">
       <SEO
         title="Zyntra Pricing — Full Access in AUD"
-        description="One plan, Full Access: A$39/month or A$99 for 3 months (AUD), with a 7-day free trial. Cancel anytime."
+        description="Clinical Starter A$99 AUD every 3 months, or A$39 AUD per month, with a 7-day free trial and A$1 card check. Renews until cancelled."
         path="/pricing"
       />
       {/* Nav */}
@@ -283,38 +283,24 @@ export default function Pricing() {
             whileInView="show"
             viewport={{ once: true }}
             variants={stagger}
-            className="mx-auto grid max-w-6xl gap-5 md:grid-cols-3"
+            className="mx-auto grid max-w-4xl gap-5 md:grid-cols-2"
           >
-            {/* FREE */}
-            <motion.div variants={fadeUp}>
-              <Card className="h-full flex flex-col border-border">
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-lg">Free</CardTitle>
-                  <p className="text-xs text-muted-foreground">Explore the platform</p>
-                  <p className="mt-3 text-3xl font-bold font-display">A$0</p>
-                </CardHeader>
-                <CardContent className="flex-1 flex flex-col">
-                  <ul className="mb-6 space-y-2 flex-1">
-                    {['Diagnostic MCQ test', 'Diagnostic OSCE station', 'Basic performance results', 'AI study companion (limited)'].map((f) => (
-                      <li key={f} className="flex gap-2 text-xs"><Check className="h-3.5 w-3.5 mt-0.5 text-secondary shrink-0" /><span>{f}</span></li>
-                    ))}
-                  </ul>
-                  <Button variant="outline" size="sm" className="w-full" asChild><Link to="/dashboard">Start Free</Link></Button>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            {/* FULL ACCESS — the only paid plan */}
-            {(['full_access', 'full_access_3m'] as const).map((tierKey) => {
+            {CHECKOUT_DISABLED && (
+              <p role="status" className="md:col-span-2 rounded-lg border border-border bg-card px-4 py-3 text-center text-sm text-muted-foreground" data-testid="checkout-unavailable">
+                Checkout is not open yet. No card details are collected and no trial can be started until it opens.
+              </p>
+            )}
+            {/* No free tier. Two billing options for the single paid product. */}
+            {(['full_access_3m', 'full_access'] as const).map((tierKey) => {
               const cfg = RAZORPAY_TIERS[tierKey];
+              const quarterly = tierKey === 'full_access_3m';
               return (
               <motion.div key={tierKey} variants={fadeUp}>
-                <Card className={`h-full flex flex-col ${tierKey === 'full_access_3m' ? 'border-2 border-primary' : 'border-border'}`}>
+                <Card className={`h-full flex flex-col ${quarterly ? 'border-2 border-primary' : 'border-border'}`}>
                   <CardHeader className="pb-3">
-                    <CardTitle className="text-lg">Full Access {tierKey === 'full_access_3m' ? '· 3 months' : '· Monthly'}</CardTitle>
-                    <p className="text-xs text-muted-foreground">7-day free trial · cancel anytime</p>
-                    <div className="mt-3"><span className="text-3xl font-bold font-display">A${cfg.price}</span><span className="text-muted-foreground text-sm">{tierKey === 'full_access_3m' ? ' / 3 months' : ' / month'}</span></div>
-                    <p className="text-xs text-muted-foreground">AUD</p>
+                    <CardTitle className="text-lg">{quarterly ? 'Clinical Starter · 3 months' : 'Monthly'}</CardTitle>
+                    <p className="text-xs text-muted-foreground">7-day free trial · A$1 card check at signup · renews until cancelled</p>
+                    <div className="mt-3"><span className="text-3xl font-bold font-display">A${cfg.price}</span><span className="text-muted-foreground text-sm">{quarterly ? ' AUD every 3 months' : ' AUD per month'}</span></div>
                   </CardHeader>
                   <CardContent className="flex-1 flex flex-col">
                     <ul className="mb-4 space-y-2 flex-1">
@@ -325,7 +311,7 @@ export default function Pricing() {
                     <p className="mb-2 text-xs text-foreground" data-testid={`checkout-summary-${tierKey}`}>{returning ? resubscribeSummary(cfg.interval) : checkoutSummary(cfg.interval)}</p>
                     <p className="mb-4 text-xs text-muted-foreground">{returning ? COPY_CANCEL_RESUBSCRIBE : <>{COPY_CARD_CHECK} {cancelCopy(cfg.interval)}</>}</p>
                     <Button size="sm" className="w-full" onClick={() => choosePayment(tierKey)} disabled={CHECKOUT_DISABLED || loadingTier === tierKey || isCurrentTier(tierKey)}>
-                      {isCurrentTier(tierKey) ? 'Current' : loadingTier === tierKey ? <Loader2 className="h-4 w-4 animate-spin" /> : CHECKOUT_DISABLED ? 'Coming soon' : returning ? 'Resubscribe' : 'Start 7-day free trial'}
+                      {isCurrentTier(tierKey) ? 'Current' : loadingTier === tierKey ? <Loader2 className="h-4 w-4 animate-spin" /> : CHECKOUT_DISABLED ? 'Checkout not open yet' : returning ? `Resubscribe · A$${cfg.price}` : 'Start 7-day free trial'}
                     </Button>
                   </CardContent>
                 </Card>
