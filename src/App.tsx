@@ -28,6 +28,7 @@ const AILab = lazy(() => import("./pages/AILab"));
 const Questions = lazy(() => import("./pages/Questions"));
 const Plan = lazy(() => import("./pages/Plan"));
 const Settings = lazy(() => import("./pages/Settings"));
+const Pricing = lazy(() => import("./pages/Pricing"));
 // Admin chunk is only requested after the server confirms admin (see AdminGate).
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const QuestionsMCQ = lazy(() => import("./pages/QuestionsMCQ"));
@@ -44,6 +45,7 @@ const OAuthConsent = lazy(() => import("./pages/OAuthConsent"));
 const Blog = lazy(() => import("./pages/Blog"));
 const BlogArticle = lazy(() => import("./pages/BlogArticle"));
 const V2AuthDiagnostic = lazy(() => import("./pages/V2AuthDiagnostic"));
+const Dashboard = lazy(() => import("./pages/Dashboard"));
 
 const queryClient = new QueryClient();
 
@@ -121,8 +123,8 @@ function AppRoutes() {
           <Route path="/" element={<ErrorBoundary><SEO title="Zyntra | AMC Exam Preparation That Learns How You Think" description="Adaptive AMC MCQ and Clinical exam preparation for IMGs: clinical reasoning practice, performance analytics and personalised next steps." path="/" /><Home /></ErrorBoundary>} />
           <Route path="/check" element={<Navigate to="/login" replace />} />
           <Route path="/about" element={<Navigate to="/#about" replace />} />
-          <Route path="/pricing" element={<Navigate to="/#pricing" replace />} />
-          <Route path="/login" element={<ErrorBoundary><SEO title="Sign In or Create Account | Zyntra" description="Sign in to Zyntra to continue your AMC exam preparation, or create a free account to start practising." path="/login" /><Login /></ErrorBoundary>} />
+          <Route path="/pricing" element={<ErrorBoundary><Pricing /></ErrorBoundary>} />
+          <Route path="/login" element={<ErrorBoundary><SEO title="Sign In or Create Account | Zyntra" description="Sign in to Zyntra to manage your subscription and continue AMC exam preparation." path="/login" /><Login /></ErrorBoundary>} />
           <Route path="/oauth/consent" element={<ErrorBoundary><OAuthConsent /></ErrorBoundary>} />
           <Route path="/reset-password" element={<ErrorBoundary><ResetPassword /></ErrorBoundary>} />
           <Route path="/terms" element={<ErrorBoundary><Terms /></ErrorBoundary>} />
@@ -133,7 +135,7 @@ function AppRoutes() {
           <Route path="/osce-in-surgery" element={<Navigate to="/practice/osce" replace />} />
           <Route path="/amc-clinical-osce" element={<Navigate to="/practice/osce" replace />} />
           <Route path="/onboarding" element={<ErrorBoundary><Onboarding /></ErrorBoundary>} />
-          <Route path="/dashboard" element={<Navigate to="/practice" replace />} />
+          <Route path="/dashboard" element={<ProtectedRoute><ErrorBoundary><Dashboard /></ErrorBoundary></ProtectedRoute>} />
           <Route path="/assess" element={<Navigate to="/practice" replace />} />
           <Route path="/intelligence" element={<ProtectedRoute><ErrorBoundary><Intelligence /></ErrorBoundary></ProtectedRoute>} />
           <Route path="/profile" element={<Navigate to="/intelligence?tab=performance" replace />} />
