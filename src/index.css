@@ -187,3 +187,54 @@
 @media (prefers-reduced-motion: reduce) {
   .gj-signal-dot { animation: none; display: none; }
 }
+
+/* Opt-in training theme. Never inherit into Home or candidate Intelligence. */
+.training-genjutsu {
+  --background: 216 60% 4.9%;
+  --foreground: 210 35% 96%;
+  --card: 207 57% 9.22%;
+  --card-foreground: 210 35% 96%;
+  --popover: 207 52% 13.14%;
+  --popover-foreground: 210 35% 96%;
+  --secondary: 217 62% 7.25%;
+  --secondary-foreground: 210 35% 96%;
+  --muted: 207 52% 13.14%;
+  --muted-foreground: 211 22% 74%;
+  --primary: 189 89% 61%;
+  --primary-foreground: 216 60% 4.9%;
+  --accent: 207 52% 13.14%;
+  --accent-foreground: 173 67% 72%;
+  --ring: 189 89% 61%;
+  --border: 207 28% 25%;
+  --input: 207 28% 34%;
+  --success: 158 64% 61%;
+  --success-foreground: 216 60% 4.9%;
+  --warning: 40 92% 65%;
+  --warning-foreground: 216 60% 4.9%;
+  --destructive: 0 80% 71%;
+  --destructive-foreground: 216 60% 4.9%;
+  --sidebar-background: 217 62% 7.25%;
+  --sidebar-foreground: 211 22% 74%;
+  --sidebar-primary: 189 89% 61%;
+  --sidebar-accent: 207 52% 13.14%;
+  --sidebar-border: 207 28% 25%;
+  --radius: .5rem;
+  color: hsl(var(--foreground));
+  background: hsl(var(--background));
+  letter-spacing: 0;
+}
+.training-genjutsu :where(h1, h2, h3, p, span, button, a) { letter-spacing: 0; }
+.training-genjutsu :where(input, textarea, select, button) { min-width: 0; }
+.training-genjutsu :where(button, a, input, textarea, summary):focus-visible {
+  outline-color: hsl(var(--ring));
+}
+.training-genjutsu :where(p, h1, h2, h3, label) { overflow-wrap: anywhere; }
+.training-genjutsu section { scroll-margin-top: 5rem; }
+.training-genjutsu .training-band { border-top: 1px solid hsl(var(--border) / .6); padding-top: 1.5rem; }
+@media (prefers-reduced-motion: reduce) {
+  .training-genjutsu *, .training-genjutsu *::before, .training-genjutsu *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

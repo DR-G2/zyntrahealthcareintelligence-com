@@ -66,9 +66,16 @@ function Motif({ kind }: { kind: RoomHeaderKind }) {
   );
 }
 
-export function RoomHeader({ kind, className }: { kind: RoomHeaderKind; className?: string }) {
+export function RoomHeader({ kind, className, compact = false }: { kind: RoomHeaderKind; className?: string; compact?: boolean }) {
   const c = CONFIG[kind];
   const Icon = c.icon;
+  if (compact) return (
+    <header className={cn('border-b border-border/60 pb-6', className)}>
+      <p className="mb-3 flex items-center gap-2 text-sm font-medium text-primary"><Icon className="h-4 w-4" aria-hidden="true" />{c.eyebrow}</p>
+      <h1 className="font-display text-3xl font-semibold leading-tight">{c.title}</h1>
+      <p className="mt-3 max-w-2xl text-sm leading-6 text-muted-foreground">{c.subtitle}</p>
+    </header>
+  );
   return (
     <section data-zyntra-room-header="true" className={cn(
       'relative overflow-hidden rounded-3xl border border-white/10 bg-[#081224]/70 p-6 shadow-[0_20px_80px_rgba(0,0,0,0.25)] backdrop-blur-xl transition-all hover:border-cyan-400/20 sm:p-7',

@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { Clock, Lock, RefreshCw, ChevronLeft, ChevronRight, CheckCircle, XCircle, Zap, TrendingUp, TrendingDown, ChevronDown, ChevronUp, Minus, Plus, Search, X, BookOpen, Target, Stethoscope, Shield } from 'lucide-react';
 import { MCQHistory } from '@/components/history/MCQHistory';
 import { MCQReviewQueue } from '@/components/history/MCQReviewQueue';
@@ -13,6 +13,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import { useFeatureGate } from '@/hooks/useFeatureGate';
@@ -407,7 +408,7 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
     <AppLayout>
         
       <div className="mx-auto max-w-6xl space-y-6">
-        <RoomHeader kind="practice" className="mb-1" />
+        <RoomHeader kind="practice" compact className="mb-1" />
         <div className="flex flex-wrap justify-end gap-2">
           {onShowReviewQueue && (
             <Button variant="outline" size="sm" onClick={onShowReviewQueue} className="gap-1.5">
@@ -446,25 +447,23 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
         </section>
 
         {primary === 'drill' && (
-          <section aria-label="MCQ Drill settings" className="space-y-6 rounded-2xl border border-border/60 bg-card/50 p-5 backdrop-blur-xl">
+          <section aria-label="MCQ Drill settings" className="training-band space-y-6">
             <div className="space-y-3">
-              <h3 className="text-sm font-semibold uppercase tracking-wider">Answer behaviour</h3>
-              <div role="radiogroup" aria-label="Answer behaviour" className="grid gap-2 sm:grid-cols-2">
+              <h3 className="text-base font-semibold">Answer behaviour</h3>
+              <RadioGroup value={mode} onValueChange={(value) => setMode(value as 'recharge' | 'no-change')} aria-label="Answer behaviour" className="grid gap-3 sm:grid-cols-2">
                 {([
-                  ['recharge', RefreshCw, 'With option change', 'Change your answer before you move on. Every change is recorded.'],
-                  ['no-change', Lock, 'No option change', 'Your first choice is final on this device.'],
+                  ['recharge', RefreshCw, 'With option change', 'Changes are recorded before you move on.'],
+                  ['no-change', Lock, 'No option change', 'First selection locks on this device.'],
                 ] as const).map(([value, Icon, title, desc]) => (
-                  <button key={value} type="button" role="radio" aria-checked={mode === value} onClick={() => setMode(value)}
-                    className={cn('flex min-h-14 items-start gap-3 rounded-xl border px-4 py-3 text-left text-sm transition-colors motion-reduce:transition-none',
-                      mode === value ? 'border-primary/70 bg-accent/40 text-foreground' : 'border-border/60 text-muted-foreground hover:border-primary/40')}>
-                    <Icon className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
-                    <span><span className="font-semibold text-foreground">{title}</span><br /><span className="text-xs">{desc}</span></span>
-                  </button>
+                  <label key={value} className={cn('flex min-h-20 cursor-pointer items-start gap-3 rounded-lg border p-4', mode === value ? 'border-primary/60 bg-accent' : 'border-border/60 bg-secondary')}>
+                    <RadioGroupItem value={value} aria-label={title} className="mt-1 shrink-0" />
+                    <span className="min-w-0"><span className="flex items-center gap-2 text-sm font-semibold"><Icon className="h-4 w-4 text-primary" />{title}</span><span className="mt-1 block text-sm leading-6 text-muted-foreground">{desc}</span></span>
+                  </label>
                 ))}
-              </div>
+              </RadioGroup>
             </div>
             <div className="space-y-3">
-              <h3 className="text-sm font-semibold uppercase tracking-wider">Question load</h3>
+              <h3 className="text-base font-semibold">Question load</h3>
               <div className="flex flex-wrap items-center gap-2">
                 {quickPresets.map((preset) => (
                   <Button key={preset} variant={questionCount === preset ? 'default' : 'outline'} size="sm" onClick={() => setQuestionCount(preset)} className="min-h-10 min-w-12">{preset}</Button>
@@ -475,13 +474,13 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
                   <Button variant="outline" size="icon" aria-label="One more question" onClick={incrementCount} disabled={questionCount >= MAX_SESSION_QUESTIONS}><Plus className="h-4 w-4" /></Button>
                 </div>
               </div>
-              <p className="text-xs text-muted-foreground">Up to {MAX_SESSION_QUESTIONS} questions per session · about {questionCount} minutes. Zyntra chooses each question for you, with due reviews first.</p>
+              <p className="text-xs text-muted-foreground">Up to {MAX_SESSION_QUESTIONS} questions · {questionCount}-minute browser timer. Questions are selected by the existing training engine.</p>
             </div>
           </section>
         )}
 
         {primary === 'nudge' && (
-          <section aria-label="Nudge" className="rounded-2xl border border-border/60 bg-card/50 p-5 backdrop-blur-xl">
+          <section aria-label="Nudge" className="training-band pb-5">
             <h3 className="font-display text-lg font-semibold">Nudge is not available yet</h3>
             <p className="mt-2 max-w-2xl text-sm leading-6 text-muted-foreground">Nudge will pick the one learning objective your answers show you need most, then give you questions mapped to it. That selection isn't switched on yet, so there's nothing to start here. Your current next step is shown in Performance Intelligence.</p>
             <Button asChild variant="outline" className="mt-4"><Link to="/intelligence">See your next step <ChevronRight className="h-4 w-4" /></Link></Button>
@@ -489,7 +488,7 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
         )}
 
         {primary === 'mock' && (
-          <section aria-label="Full Mock Exam rules" className="rounded-2xl border border-border/60 bg-card/50 p-5 backdrop-blur-xl">
+          <section aria-label="Full Mock Exam rules" className="training-band pb-5">
             <h3 className="font-display text-lg font-semibold">Exam conditions</h3>
             <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
               <li><span className="font-medium text-foreground">{MAX_SESSION_QUESTIONS} questions</span> — the current session limit. The full 150-question exam isn't available yet.</li>
@@ -500,13 +499,15 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
           </section>
         )}
 
-        {primary === 'drill' && (<>
+        {primary === 'drill' && (<details className="training-band group">
+          <summary className="flex min-h-11 cursor-pointer items-center justify-between text-sm font-semibold">Browse question coverage <ChevronDown className="h-4 w-4 text-muted-foreground" /></summary>
+          <div className="mt-4 space-y-6">
         {/* Question Status Filter */}
-        <div className="space-y-3 rounded-2xl border border-white/10 bg-card/50 p-5 backdrop-blur-xl">
+        <div className="space-y-3">
           <div className="flex items-start gap-3">
             <div className="mt-0.5 rounded-lg bg-primary/10 p-2 text-primary"><Target className="h-4 w-4" /></div>
             <div>
-              <h2 className="text-sm font-semibold uppercase tracking-wider text-foreground">Question status <span className="ml-1 font-normal normal-case tracking-normal text-muted-foreground">· browse only</span></h2>
+              <h2 className="text-sm font-semibold text-foreground">Question status <span className="ml-1 font-normal normal-case tracking-normal text-muted-foreground">· browse only</span></h2>
               <p className="mt-1 text-xs text-muted-foreground">Counts from your own answers. This view does not limit the drill.</p>
               {historyError && (
                 <p className="mt-1 text-xs text-destructive" role="status">Your answer history couldn't load, so Attempted, Correct and Incorrect counts aren't shown accurately.</p>
@@ -542,13 +543,13 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
                 <Badge
                   variant="outline"
                   className={cn(
-                    "text-[10px] font-semibold",
+                    "text-xs font-semibold",
                     statusFilter === value
                       ? "border-primary-foreground/40 bg-primary-foreground/15 text-primary-foreground"
                       : "border-border bg-muted/50 text-muted-foreground"
                   )}
                 >
-                  {statusCounts[value]}
+                  {historyError && value !== 'all' ? '—' : statusCounts[value]}
                 </Badge>
               </ToggleGroupItem>
             ))}
@@ -556,11 +557,11 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
         </div>
 
         {/* Topic Filters — Subject → Subtopics */}
-        <div className="space-y-4 rounded-2xl border border-white/10 bg-card/50 p-5 backdrop-blur-xl">
+        <div className="training-band space-y-4">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
             <div className="flex items-start gap-3">
               <div className="mt-0.5 rounded-lg bg-primary/10 p-2 text-primary"><BookOpen className="h-4 w-4" /></div>
-              <div><h2 className="text-sm font-semibold uppercase tracking-wider text-foreground">Topics <span className="ml-1 font-normal normal-case tracking-normal text-muted-foreground">· browse only</span></h2><p className="mt-1 text-xs text-muted-foreground">Question counts by subject and subtopic. Selections here do not limit the drill.</p></div>
+              <div><h2 className="text-sm font-semibold text-foreground">Topics <span className="ml-1 font-normal normal-case tracking-normal text-muted-foreground">· browse only</span></h2><p className="mt-1 text-xs text-muted-foreground">Question counts by subject and subtopic. Selections here do not limit the drill.</p></div>
             </div>
             <div className="flex flex-wrap gap-2 sm:shrink-0">
               <Button variant="ghost" size="sm" onClick={selectAll}>Select All</Button>
@@ -572,18 +573,13 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Search subjects or subtopics..."
+              aria-label="Search subjects or subtopics" placeholder="Search subjects or subtopics..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-9 pr-9"
             />
             {searchQuery && (
-              <button
-                onClick={() => setSearchQuery('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <X className="h-4 w-4" />
-              </button>
+              <Button variant="ghost" size="icon" aria-label="Clear topic search" onClick={() => setSearchQuery('')} className="absolute right-0 top-1/2 -translate-y-1/2"><X className="h-4 w-4" /></Button>
             )}
           </div>
 
@@ -614,13 +610,10 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
                       'rounded-lg border transition-colors',
                       isSelected ? 'border-primary/40 bg-primary/5' : 'border-border'
                     )}>
-                      <CollapsibleTrigger className="flex w-full items-center justify-between px-4 py-3 text-left">
-                        <div className="flex items-center gap-3">
-                          <Checkbox
-                            checked={isIndeterminate ? 'indeterminate' : isSelected}
-                            onCheckedChange={() => toggleSubject(subject.name, subject.id)}
-                            onClick={(e) => e.stopPropagation()}
-                          />
+                      <div className="flex items-center gap-3 px-4">
+                        <Checkbox aria-label={`Select ${subject.name}`} checked={isIndeterminate ? 'indeterminate' : isSelected} onCheckedChange={() => toggleSubject(subject.name, subject.id)} />
+                        <CollapsibleTrigger className="flex min-h-12 min-w-0 flex-1 items-center justify-between py-3 text-left">
+                        <div className="flex min-w-0 flex-wrap items-center gap-2">
                           <span className="font-medium text-sm">{subject.name}</span>
                           <Badge variant="secondary" className="text-xs">
                             {subjectCounts[subject.name] || 0}
@@ -633,6 +626,7 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
                           )} />
                         )}
                       </CollapsibleTrigger>
+                      </div>
                       {subtopics.length > 0 && (
                         <CollapsibleContent>
                           <div className="border-t border-border/50 px-4 py-3 space-y-2">
@@ -640,16 +634,16 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
                               <label
                                 key={st.id}
                                 onClick={(e) => e.stopPropagation()}
-                                className="flex items-center gap-2 cursor-pointer text-sm text-muted-foreground hover:text-foreground transition-colors"
+                                className="flex min-h-11 items-center gap-2 cursor-pointer text-sm text-muted-foreground hover:text-foreground transition-colors"
                               >
                                 <Checkbox
-                                  checked={selectedSubtopics.has(createSelectedSubtopicKey(subject.name, st.name))}
+                                  aria-label={`Select ${st.name}`} checked={selectedSubtopics.has(createSelectedSubtopicKey(subject.name, st.name))}
                                   onCheckedChange={() => toggleSubtopic(subject.name, st.name)}
                                   onClick={(e) => e.stopPropagation()}
                                 />
                                 <span>{st.name}</span>
                                 {subtopicCounts[st.id] ? (
-                                  <Badge variant="outline" className="text-[10px] ml-auto">
+                                  <Badge variant="outline" className="text-xs ml-auto">
                                     {subtopicCounts[st.id]}
                                   </Badge>
                                 ) : null}
@@ -665,7 +659,7 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
           </div>
 
         </div>
-        </>)}
+        </div></details>)}
 
         {/* Start Button */}
         <Button
@@ -680,7 +674,7 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
               statusFilter,
             });
           }}
-          className={cn('w-full gap-2 sm:w-auto', primary === 'nudge' && 'hidden')}
+          className={cn('sticky bottom-4 z-10 min-h-12 w-full gap-2 sm:static sm:w-auto', primary === 'nudge' && 'hidden')}
         >
           <Zap className="h-4 w-4" /> {primary === 'mock' ? 'Start mock exam' : 'Start drill'}
         </Button>
@@ -712,6 +706,7 @@ function ResultsScreen({
   onNewDrill: () => void;
 }) {
   const { user } = useAuth();
+  const reduceMotion = useReducedMotion();
   const [dnaUpdated, setDnaUpdated] = useState(false);
   const [expandedQuestions, setExpandedQuestions] = useState<Set<number>>(new Set());
   const [ruleOutMode, setRuleOutMode] = useState<Record<number, boolean>>({});
@@ -848,7 +843,7 @@ function ResultsScreen({
         
       <div className="mx-auto max-w-3xl py-6 space-y-6">
         {/* ── SECTION 1: Summary Header ── */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+        <motion.div initial={reduceMotion ? false : { opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
           <Card className="overflow-hidden">
             <div className={cn('h-2', accuracy >= 80 ? 'bg-success' : accuracy >= 60 ? 'bg-warning' : 'bg-destructive')} />
             <CardContent className="pt-6 pb-4 space-y-5">
@@ -915,7 +910,7 @@ function ResultsScreen({
                     <div className="flex items-center gap-2">
                       <TrendingUp className="h-4 w-4 text-success" />
                       <div className="flex flex-wrap gap-1">
-                        {strengths.map(s => <Badge key={s} variant="outline" className="text-[10px] border-success/30 text-success">{s}</Badge>)}
+                        {strengths.map(s => <Badge key={s} variant="outline" className="text-xs border-success/30 text-success">{s}</Badge>)}
                       </div>
                     </div>
                   )}
@@ -923,7 +918,7 @@ function ResultsScreen({
                     <div className="flex items-center gap-2">
                       <TrendingDown className="h-4 w-4 text-destructive" />
                       <div className="flex flex-wrap gap-1">
-                        {weaknesses.map(w => <Badge key={w} variant="outline" className="text-[10px] border-destructive/30 text-destructive">{w}</Badge>)}
+                        {weaknesses.map(w => <Badge key={w} variant="outline" className="text-xs border-destructive/30 text-destructive">{w}</Badge>)}
                       </div>
                     </div>
                   )}
@@ -937,17 +932,17 @@ function ResultsScreen({
                   <div className="grid grid-cols-3 gap-3 text-center">
                     <div>
                       <p className="text-lg font-bold text-success">{eliminationStats.totalCorrectElim}</p>
-                      <p className="text-[10px] text-muted-foreground">Correct Eliminations</p>
+                      <p className="text-xs text-muted-foreground">Correct Eliminations</p>
                     </div>
                     <div>
                       <p className="text-lg font-bold text-destructive">{eliminationStats.totalWrongElim}</p>
-                      <p className="text-[10px] text-muted-foreground">Wrong Eliminations</p>
+                      <p className="text-xs text-muted-foreground">Wrong Eliminations</p>
                     </div>
                     <div>
                       <p className="text-lg font-bold text-primary">
                         {eliminationStats.totalPossible > 0 ? Math.round((eliminationStats.totalCorrectElim / eliminationStats.totalPossible) * 100) : 0}%
                       </p>
-                      <p className="text-[10px] text-muted-foreground">Elimination Accuracy</p>
+                      <p className="text-xs text-muted-foreground">Elimination Accuracy</p>
                     </div>
                   </div>
                 </div>
@@ -957,7 +952,7 @@ function ResultsScreen({
         </motion.div>
 
         {/* Actions */}
-        <div className="flex gap-3 justify-center">
+        <div className="flex flex-wrap gap-3 justify-center">
           <Button variant="outline" onClick={onNewDrill}>New Drill</Button>
           <Button variant="outline" size="sm" onClick={expandAll}>Expand All</Button>
           <Button variant="outline" size="sm" onClick={collapseAll}>Collapse All</Button>
@@ -984,22 +979,22 @@ function ResultsScreen({
             return (
               <motion.div
                 key={q.id}
-                initial={{ opacity: 0, y: 10 }}
+                initial={reduceMotion ? false : { opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: Math.min(i * 0.03, 0.5) }}
+                transition={{ duration: reduceMotion ? 0 : 0.2, delay: reduceMotion ? 0 : Math.min(i * 0.03, 0.5) }}
               >
                 <Card className={cn('border-l-4 overflow-hidden', isCorrect ? 'border-l-success' : 'border-l-destructive')}>
                   {/* Question header - always visible */}
-                  <button
+                  <Button variant="ghost" aria-expanded={isExpanded}
                     onClick={() => toggleExpand(i)}
-                    className="w-full text-left px-4 py-3 flex items-start justify-between gap-3 hover:bg-muted/30 transition-colors"
+                    className="h-auto w-full whitespace-normal text-left px-4 py-3 flex items-start justify-between gap-3 hover:bg-muted/30 transition-colors"
                   >
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-1">
+                      <div className="flex flex-wrap items-center gap-2 mb-1">
                         <span className="text-xs font-mono text-muted-foreground">Q{i + 1}</span>
-                        <Badge variant="outline" className="text-[10px]">{q.category}</Badge>
-                        {changeCount > 0 && <Badge variant="secondary" className="text-[10px]">{changeCount} change{changeCount > 1 ? 's' : ''}</Badge>}
-                        <span className="text-[10px] text-muted-foreground font-mono">{timeTaken}s</span>
+                        <Badge variant="outline" className="text-xs">{q.category}</Badge>
+                        {changeCount > 0 && <Badge variant="secondary" className="text-xs">{changeCount} change{changeCount > 1 ? 's' : ''}</Badge>}
+                        <span className="text-xs text-muted-foreground font-mono">{timeTaken}s</span>
                       </div>
                       <p className="text-sm font-medium leading-relaxed">{q.question_text}</p>
                       <p className="text-xs text-muted-foreground mt-1">
@@ -1015,7 +1010,7 @@ function ResultsScreen({
                         ? <ChevronUp className="h-4 w-4 text-muted-foreground" />
                         : <ChevronDown className="h-4 w-4 text-muted-foreground" />}
                     </div>
-                  </button>
+                  </Button>
 
                   {/* Expanded content */}
                   <AnimatePresence>
@@ -1024,7 +1019,7 @@ function ResultsScreen({
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: 'auto', opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.2 }}
+                        transition={{ duration: reduceMotion ? 0 : 0.2 }}
                         className="overflow-hidden"
                       >
                         <div className="px-4 pb-4 space-y-4 border-t border-border/50 pt-3">
@@ -1036,10 +1031,11 @@ function ResultsScreen({
                               onClick={(e) => { e.stopPropagation(); toggleRuleOut(i); }}
                               className="gap-1.5 text-xs"
                             >
-                              🧠 {isRuleOut ? 'Exit Rule-Out' : 'Rule-Out Mode'}
+                              {isRuleOut ? 'Exit review rule-out' : 'Review rule-out'}
                             </Button>
                           </div>
 
+                          {isRuleOut && <p className="text-xs text-muted-foreground">Review-only changes are not saved to your training record.</p>}
                           {/* Options display */}
                           <div className="space-y-2">
                             {options.map((opt, oi) => {
@@ -1063,7 +1059,7 @@ function ResultsScreen({
                                     <button
                                       onClick={(e) => { e.stopPropagation(); toggleEliminateOption(i, letter); }}
                                       className={cn(
-                                        'shrink-0 h-5 w-5 rounded border-2 flex items-center justify-center text-[10px] font-bold transition-colors',
+                                        'shrink-0 h-5 w-5 rounded border-2 flex items-center justify-center text-xs font-bold transition-colors',
                                         isEliminated ? 'border-destructive bg-destructive text-destructive-foreground' : 'border-muted-foreground/30 hover:border-destructive/50'
                                       )}
                                     >
@@ -1089,7 +1085,7 @@ function ResultsScreen({
                             <div className="rounded-lg bg-muted p-3 space-y-2">
                               <div className="flex items-center justify-between">
                                 <p className="text-xs font-semibold">Elimination Score: {ruleOutScore.correctEliminations}/{ruleOutScore.total}</p>
-                                <Badge variant={ruleOutScore.wrongEliminations > 0 ? 'destructive' : 'default'} className="text-[10px]">
+                                <Badge variant={ruleOutScore.wrongEliminations > 0 ? 'destructive' : 'default'} className="text-xs">
                                   {ruleOutScore.wrongEliminations > 0 ? 'Eliminated correct answer!' : 'Good elimination'}
                                 </Badge>
                               </div>
@@ -1140,19 +1136,19 @@ function ResultsScreen({
                               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                                 {q.first_line_investigation && (
                                   <div className="rounded bg-muted p-2">
-                                    <p className="text-[10px] text-muted-foreground">1st Line Ix</p>
+                                    <p className="text-xs text-muted-foreground">1st Line Ix</p>
                                     <p className="text-xs font-medium">{q.first_line_investigation}</p>
                                   </div>
                                 )}
                                 {q.gold_standard_investigation && (
                                   <div className="rounded bg-muted p-2">
-                                    <p className="text-[10px] text-muted-foreground">Gold Standard</p>
+                                    <p className="text-xs text-muted-foreground">Gold Standard</p>
                                     <p className="text-xs font-medium">{q.gold_standard_investigation}</p>
                                   </div>
                                 )}
                                 {q.best_treatment && (
                                   <div className="rounded bg-muted p-2">
-                                    <p className="text-[10px] text-muted-foreground">Best Treatment</p>
+                                    <p className="text-xs text-muted-foreground">Best Treatment</p>
                                     <p className="text-xs font-medium">{q.best_treatment}</p>
                                   </div>
                                 )}
@@ -1186,9 +1182,9 @@ function ResultsScreen({
         </div>
 
         {/* Bottom actions */}
-        <div className="flex gap-3 justify-center pb-8">
+        <div className="flex flex-wrap gap-3 justify-center pb-8">
           <Button variant="outline" onClick={onNewDrill}>Start New Drill</Button>
-          <Button asChild><a href="/intelligence">View Intelligence</a></Button>
+          <Button asChild><Link to="/intelligence">View Intelligence</Link></Button>
         </div>
       </div>
     </AppLayout>
@@ -1233,7 +1229,7 @@ export default function Practice() {
       <AppLayout>
         
         <div className="mx-auto max-w-5xl space-y-6">
-          <div className="flex items-center justify-between gap-4">
+          <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
               <h1 className="text-3xl font-bold font-display">MCQ History</h1>
               <p className="text-muted-foreground">Review all your past attempts</p>
@@ -1257,7 +1253,7 @@ export default function Practice() {
       <AppLayout>
         
         <div className="mx-auto max-w-5xl space-y-6">
-          <div className="flex items-center justify-between gap-4">
+          <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
               <h1 className="text-3xl font-bold font-display">Review Queue</h1>
               <p className="text-muted-foreground">Questions Zyntra has identified as needing another look</p>
