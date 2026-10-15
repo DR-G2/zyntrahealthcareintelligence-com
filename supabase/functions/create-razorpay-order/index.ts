@@ -99,8 +99,8 @@ serve(async (req) => {
     const keySecret = Deno.env.get("RAZORPAY_KEY_SECRET") || "";
     const authString = btoa(`${keyId}:${keySecret}`);
 
-    // New customers: 7-day trial, first charge at trial-end Sydney date 10:00 (same helper as the copy)
-    // plus A$1 card check. Returning (lapsed/cancelled) customers: no trial, no A$1, charged now.
+    // New customers: 7-calendar-day trial (signup date is day 1), first charge at 00:01 IST on day 7
+    // (same helper as checkout copy), plus A$1 card verification. Returning customers: no trial, no A$1.
     const startAt = withTrial ? firstChargeUnix(new Date()) : null;
 
     const subRes = await fetch("https://api.razorpay.com/v1/subscriptions", {
