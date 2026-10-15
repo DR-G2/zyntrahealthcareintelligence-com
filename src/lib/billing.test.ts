@@ -25,7 +25,7 @@ describe('billing schedule (anniversary)', () => {
     expect(checkoutSummary('monthly', signup)).toBe("A$1 card verification today. Your 7-calendar-day trial (signup date counts as day 1) ends on 19 October 2026 at 00:01 IST. If you don't cancel before then, we'll charge A$39 on 19 October 2026, then A$39 every month on that date until you cancel.");
   });
   it('3-month copy', () => {
-    expect(checkoutSummary('quarterly', signup)).toBe("A$1 card verification today. Your 7-calendar-day trial (signup date counts as day 1) ends on 19 October 2026. If you don't cancel before then, we'll charge A$99 on 19 October 2026, then A$99 every 3 months until you cancel.");
+    expect(checkoutSummary('quarterly', signup)).toBe("A$1 card verification today. Your 7-calendar-day trial (signup date counts as day 1) ends on 19 October 2026 at 00:01 IST. If you don't cancel before then, we'll charge A$99 on 19 October 2026, then A$99 every 3 months until you cancel.");
   });
   it('days 29/30/31 use the ordinal clamp line; 28 and earlier do not', () => {
     // signup 23:00Z = next day 10:00 IST; trial end = that IST date + 6
