@@ -38,6 +38,8 @@ import { VisitorIntelligenceTab } from '@/components/admin/VisitorIntelligenceTa
 import { PIEInspectionTab } from '@/components/admin/PIEInspectionTab';
 import { Download, Globe } from 'lucide-react';
 
+import { getAdminSections } from '@/components/admin/admin-navigation';
+import { ArrowUpRight, Settings2, ShieldCheck, RefreshCw } from 'lucide-react';
 import { ADMIN_EMAILS, SUPER_ADMIN_EMAIL } from '@/lib/admin-emails';
 
 const CATEGORIES = [
@@ -283,7 +285,7 @@ function UsersTab({ currentUserEmail }: { currentUserEmail: string }) {
       <div className="flex flex-wrap items-center gap-3">
         <div className="relative flex-1 min-w-[200px] max-w-sm">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input placeholder="Search users..." value={search} onChange={e => setSearch(e.target.value)} className="pl-9" />
+          <Input aria-label="Search candidates" placeholder="Search candidates..." value={search} onChange={e => setSearch(e.target.value)} className="pl-9" />
         </div>
         <Button variant="outline" onClick={downloadCSV}>
           <FileUp className="h-4 w-4 mr-2" /> Export CSV
@@ -371,6 +373,7 @@ function UsersTab({ currentUserEmail }: { currentUserEmail: string }) {
         </AlertDialog>
       </div>
 
+      <h2 className="text-lg font-semibold">Candidate Directory</h2>
       {/* Date Filter & Bulk Delete Controls */}
       <div className="flex flex-wrap items-center gap-3">
         <Popover>
@@ -489,13 +492,14 @@ function UsersTab({ currentUserEmail }: { currentUserEmail: string }) {
       )}
 
       <Card>
-        <CardContent className="p-0">
-           <Table>
+        <CardContent className="admin-candidate-table p-0">
+           <Table className="min-w-[1000px]">
             <TableHeader>
               <TableRow>
                 <TableHead className="w-10">
                   <Checkbox
                     checked={filtered.length > 0 && selectedIds.size === filtered.length}
+                    aria-label="Select all filtered candidates"
                     onCheckedChange={toggleSelectAll}
                   />
                 </TableHead>
@@ -514,30 +518,30 @@ function UsersTab({ currentUserEmail }: { currentUserEmail: string }) {
                 const t = getUserTier(u);
                 return (
                   <TableRow key={u.id} className={cn("cursor-pointer hover:bg-muted/50", selectedIds.has(u.id) && "bg-muted/30")} onClick={() => setInspectUser({ id: u.id, email: u.email })}>
-                    <TableCell onClick={e => e.stopPropagation()}>
-                      <Checkbox checked={selectedIds.has(u.id)} onCheckedChange={() => toggleSelect(u.id)} />
+                    <TableCell data-label="Select" onClick={e => e.stopPropagation()}>
+                      <Checkbox aria-label={`Select ${u.email}`} checked={selectedIds.has(u.id)} onCheckedChange={() => toggleSelect(u.id)} />
                     </TableCell>
-                    <TableCell className="font-mono text-xs">{u.email}</TableCell>
-                    <TableCell>{u.name || '—'}</TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-1">
+                    <TableCell data-label="Email" className="text-xs"><Button variant="link" className="h-auto justify-start p-0 text-xs" onClick={() => setInspectUser({ id: u.id, email: u.email })}>{u.email}</Button></TableCell>
+                    <TableCell data-label="Name">{u.name || '—'}</TableCell>
+                    <TableCell data-label="Tier">
+                      <div className="flex flex-wrap items-center gap-1">
                         <Badge variant={t.label === 'free' ? 'secondary' : 'default'}>{t.label}</Badge>
                         {t.isManual && <Badge variant="outline" className="text-xs border-primary text-primary">Manual</Badge>}
                       </div>
                     </TableCell>
-                    <TableCell>
+                    <TableCell data-label="Account status">
                       {u.is_banned ? (
                         <Badge variant="destructive">Banned</Badge>
                       ) : (
                         <Badge variant="outline" className="text-primary border-primary">Active</Badge>
                       )}
                     </TableCell>
-                    <TableCell className="text-xs">
+                    <TableCell data-label="Last login" className="text-xs">
                       {u.presence?.last_seen_at ? new Date(u.presence.last_seen_at).toLocaleString() : '—'}
                     </TableCell>
-                    <TableCell className="font-mono text-[10px] text-muted-foreground max-w-[100px] truncate">{u.id}</TableCell>
-                    <TableCell className="text-xs">{new Date(u.created_at).toLocaleDateString()}</TableCell>
-                    <TableCell>
+                    <TableCell data-label="User ID" className="font-mono text-[10px] text-muted-foreground max-w-[100px] truncate">{u.id}</TableCell>
+                    <TableCell data-label="Joined" className="text-xs">{new Date(u.created_at).toLocaleDateString()}</TableCell>
+                    <TableCell data-label="Actions">
                       <div className="flex gap-1" onClick={e => e.stopPropagation()}>
                         {t.isManual ? (
                           <Button variant="destructive" size="sm" onClick={() => handleRevoke(u.id)}>Revoke</Button>
@@ -558,7 +562,7 @@ function UsersTab({ currentUserEmail }: { currentUserEmail: string }) {
       </Card>
 
       {/* Pagination */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <p className="text-sm text-muted-foreground">
           Showing {Math.min((page - 1) * pageSize + 1, totalCount)}–{Math.min(page * pageSize, totalCount)} of {totalCount} users
         </p>
@@ -1574,12 +1578,14 @@ function SiteSettingsCard() {
     <Card className="border-border">
       <CardContent className="p-4 space-y-4">
         {SITE_SETTINGS_CONFIG.map(s => (
-          <div key={s.key} className="flex items-center justify-between">
-            <div>
+          <div key={s.key} className="flex items-center justify-between gap-4 border-b border-border/40 pb-4 last:border-0 last:pb-0">
+            <div className="min-w-0">
               <h3 className="font-semibold text-sm">{s.label}</h3>
               <p className="text-xs text-muted-foreground">{s.description}</p>
             </div>
             <Switch
+              aria-label={s.label}
+              className="shrink-0"
               checked={settings[s.key] ?? s.defaultValue}
               onCheckedChange={(v) => handleToggle(s.key, v)}
               disabled={loading || toggling === s.key}
@@ -1594,6 +1600,8 @@ function SiteSettingsCard() {
 // ─── Main Dashboard ──────────────────────────────────────────
 
 export default function AdminDashboard() {
+  const [activeTab, setActiveTab] = useState('live');
+  const sections = getAdminSections(useCurrentUserEmail() === SUPER_ADMIN_EMAIL);
   const [fullCleaning, setFullCleaning] = useState(false);
   const [cleanupReport, setCleanupReport] = useState<CleanupReport>({ mcq: null, osce: null });
   const [reportOpen, setReportOpen] = useState(false);
@@ -1663,8 +1671,21 @@ export default function AdminDashboard() {
 
   return (
     <AppLayout>
-      <div className="mx-auto max-w-6xl py-8 space-y-6">
-        <h1 className="text-2xl font-display font-bold">Admin Dashboard</h1>
+      <div className="admin-workspace mx-auto w-full min-w-0 max-w-7xl space-y-6 py-2">
+        <header className="flex flex-wrap items-start justify-between gap-4 border-b border-border/60 pb-6">
+          <div><p className="mb-2 text-xs font-semibold text-primary">ADMIN DASHBOARD</p><h1 className="text-3xl font-bold">Command Centre</h1><p className="mt-2 text-sm text-muted-foreground">Candidate operations, platform settings and intelligence oversight.</p></div>
+          <div className="flex max-w-full items-center gap-3 rounded-lg border border-border/60 bg-secondary px-4 py-3"><ShieldCheck className="h-5 w-5 shrink-0 text-primary" /><div className="min-w-0"><p className="break-all text-xs font-medium">{currentUserEmail}</p><p className="mt-1 text-xs text-muted-foreground">{isSuperAdmin ? 'Super administrator' : 'Administrator'}</p></div></div>
+        </header>
+        <section aria-label="Quick actions" className="space-y-3">
+          <h2 className="flex items-center gap-2 text-sm font-semibold"><Zap className="h-4 w-4 text-primary" /> Quick Actions</h2>
+          <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+            {(isSuperAdmin ? ['users', 'qns', 'system', 'logs'] : ['users', 'qns', 'messages', 'strikes']).map(value => {
+              const section = sections.find(s => s.value === value);
+              if (!section) return null;
+              return <Button key={value} variant="outline" className="h-auto min-h-16 justify-start gap-3 whitespace-normal bg-card px-4 py-3 text-left" onClick={() => { setActiveTab(value); document.getElementById('admin-sections')?.scrollIntoView({ block: 'start' }); }}><section.icon className="h-5 w-5 shrink-0 text-primary" /><span className="flex-1">{section.label}</span><ArrowUpRight className="h-4 w-4 shrink-0 text-muted-foreground" /></Button>;
+            })}
+          </div>
+        </section>
 
         {/* Admins Online Panel */}
         <Card>
@@ -1673,9 +1694,9 @@ export default function AdminDashboard() {
           </CardHeader>
           <CardContent className="flex flex-wrap gap-3 pt-0">
             {adminOnline.map(a => (
-              <div key={a.email} className="flex items-center gap-2 text-sm">
-                <span className={`h-2.5 w-2.5 rounded-full ${a.online ? 'bg-green-500' : 'bg-muted-foreground/30'}`} />
-                <span className="font-mono text-xs">{a.email}</span>
+              <div key={a.email} className="flex min-w-0 flex-wrap items-center gap-2 text-sm">
+                <span className={`h-2.5 w-2.5 rounded-full ${a.online ? 'bg-success' : 'bg-muted-foreground/30'}`} />
+                <span className="break-all text-xs">{a.email}</span>
                 <Badge variant="outline" className="text-[10px]">{a.role}</Badge>
               </div>
             ))}
@@ -1685,7 +1706,7 @@ export default function AdminDashboard() {
         {/* Full Cleanup Card — Super Admin only */}
         {isSuperAdmin && (
           <Card className="border-primary/20 bg-primary/5">
-            <CardContent className="flex items-center justify-between p-4">
+            <CardContent className="flex flex-wrap items-center justify-between gap-4 p-4">
               <div>
                 <h3 className="font-semibold flex items-center gap-2"><Zap className="h-4 w-4 text-primary" /> Run Full Cleanup</h3>
                 <p className="text-sm text-muted-foreground">Clean & normalize both MCQ questions and OSCE stations in one go.</p>
@@ -1712,23 +1733,18 @@ export default function AdminDashboard() {
         <CleanupReportDialog report={cleanupReport} open={reportOpen} onOpenChange={setReportOpen} />
 
         {/* Site Settings — Super Admin only */}
-        {isSuperAdmin && <SiteSettingsCard />}
+        {isSuperAdmin && <section aria-label="Feature settings" className="space-y-3"><h2 className="flex items-center gap-2 text-sm font-semibold"><Settings2 className="h-4 w-4 text-primary" /> Feature Settings</h2><SiteSettingsCard /></section>}
+        {isSuperAdmin && <section aria-label="PIE intelligence boundary" className="grid gap-4 border-y border-border/60 py-5 sm:grid-cols-2">
+          <div className="flex items-start gap-3"><ShieldCheck className="mt-1 h-5 w-5 shrink-0 text-primary" /><div><h2 className="text-sm font-semibold">Authoritative readiness</h2><p className="mt-1 text-xs text-muted-foreground">Readiness DNA remains the source of candidate training readiness.</p></div></div>
+          <div className="flex items-start gap-3"><Brain className="mt-1 h-5 w-5 shrink-0 text-warning" /><div><div className="flex flex-wrap items-center gap-2"><h2 className="text-sm font-semibold">PIE shadow inference</h2><Badge variant="outline" className="border-warning/40 text-warning">Not authoritative</Badge></div><p className="mt-1 text-xs text-muted-foreground">Experimental inspection; does not determine candidate training decisions.</p><Button variant="link" className="h-auto px-0 py-2" onClick={() => setActiveTab('pie')}>Open PIE inspection <ArrowUpRight className="ml-1 h-3 w-3" /></Button></div></div>
+        </section>}
 
-        <Tabs defaultValue="live">
-          <TabsList className={`grid w-full ${isSuperAdmin ? 'grid-cols-13' : 'grid-cols-5'}`}>
-            <TabsTrigger value="live" className="gap-1 text-xs"><Radio className="h-3.5 w-3.5" /> Activity</TabsTrigger>
-            <TabsTrigger value="users" className="gap-1 text-xs"><Users className="h-3.5 w-3.5" /> Users</TabsTrigger>
-            <TabsTrigger value="messages" className="gap-1 text-xs"><MessageCircle className="h-3.5 w-3.5" /> Messages</TabsTrigger>
-            <TabsTrigger value="qns" className="gap-1 text-xs"><Database className="h-3.5 w-3.5" /> QNS</TabsTrigger>
-            <TabsTrigger value="strikes" className="gap-1 text-xs"><ShieldAlert className="h-3.5 w-3.5" /> Strikes</TabsTrigger>
-            {isSuperAdmin && <TabsTrigger value="visitors" className="gap-1 text-xs"><Globe className="h-3.5 w-3.5" /> Visitors</TabsTrigger>}
-            {isSuperAdmin && <TabsTrigger value="screenshots" className="gap-1 text-xs"><Camera className="h-3.5 w-3.5" /> Screenshots</TabsTrigger>}
-            {isSuperAdmin && <TabsTrigger value="ai-core" className="gap-1 text-xs"><Brain className="h-3.5 w-3.5" /> AI Core</TabsTrigger>}
-            {isSuperAdmin && <TabsTrigger value="data-port" className="gap-1 text-xs"><Download className="h-3.5 w-3.5" /> Data</TabsTrigger>}
-            {isSuperAdmin && <TabsTrigger value="system" className="gap-1 text-xs"><Zap className="h-3.5 w-3.5" /> System</TabsTrigger>}
-            {isSuperAdmin && <TabsTrigger value="logs" className="gap-1 text-xs"><FileText className="h-3.5 w-3.5" /> Logs</TabsTrigger>}
-            {isSuperAdmin && <TabsTrigger value="pie" className="gap-1 text-xs"><Brain className="h-3.5 w-3.5" /> PIE</TabsTrigger>}
-          </TabsList>
+        <Tabs id="admin-sections" value={activeTab} onValueChange={setActiveTab} className="min-w-0 scroll-mt-20">
+          <div className="min-w-0 max-w-full overflow-x-auto rounded-lg border border-border/60 bg-secondary p-1">
+            <TabsList aria-label="Admin sections" className="flex h-auto w-max min-w-full justify-start gap-1 border-0 bg-transparent p-0">
+              {sections.map(section => <TabsTrigger key={section.value} value={section.value} className="min-h-11 shrink-0 gap-2 px-4 text-xs data-[state=active]:bg-accent data-[state=active]:text-primary" onFocus={event => event.currentTarget.scrollIntoView({ block: 'nearest', inline: 'nearest' })}><section.icon className="h-4 w-4" />{section.label}</TabsTrigger>)}
+            </TabsList>
+          </div>
           <TabsContent value="live"><LiveActivityTab /></TabsContent>
           <TabsContent value="users"><UsersTab currentUserEmail={currentUserEmail} /></TabsContent>
           <TabsContent value="messages"><MessagesTab /></TabsContent>
