@@ -1,10 +1,11 @@
 // SINGLE SOURCE OF TRUTH for trial / billing dates. Imported by the web client (src/lib/billing.ts)
 // and by edge functions (create-razorpay-order), so checkout copy and the real first charge always agree.
 // Pure TS, no imports, no Deno/browser APIs beyond Intl.
-export const BILLING_TIMEZONE = 'Australia/Sydney';
+export const BILLING_TIMEZONE = 'Asia/Kolkata';
+// Signup date is day 1; billing starts at 00:01 IST on calendar day 7.
 export const TRIAL_DAYS = 7;
-/** Sydney local hour at which the first charge (subscription start_at) is scheduled on the trial-end date. */
-export const CHARGE_HOUR_SYDNEY = 10;
+export const CHARGE_HOUR_IST = 0;
+export const CHARGE_MINUTE_IST = 1;
 
 export type PlanInterval = 'monthly' | 'quarterly';
 export const PLAN_PRICES: Record<PlanInterval, { price: number; months: number }> = {
@@ -14,8 +15,8 @@ export const PLAN_PRICES: Record<PlanInterval, { price: number; months: number }
 
 export interface YMD { y: number; m: number; d: number } // m: 1-12
 
-/** Calendar date of an instant in Sydney time. */
-export function sydneyDate(instant: Date): YMD {
+/** Calendar date of an instant in IST time. */
+export function billingDate(instant: Date): YMD {
   const parts = new Intl.DateTimeFormat('en-CA', { timeZone: BILLING_TIMEZONE, year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(instant);
   const get = (t: string) => Number(parts.find((p) => p.type === t)!.value);
   return { y: get('year'), m: get('month'), d: get('day') };
@@ -30,31 +31,31 @@ export function addMonths(a: YMD, n: number): { y: number; m: number } {
   return { y: Math.floor(idx / 12), m: (idx % 12) + 1 };
 }
 
-/** Offset (ms) of Sydney from UTC at a given instant. */
-function sydneyOffsetMs(instant: Date): number {
+/** Offset (ms) of IST from UTC at a given instant. */
+function billingOffsetMs(instant: Date): number {
   const p = new Intl.DateTimeFormat('en-US', { timeZone: BILLING_TIMEZONE, hourCycle: 'h23', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' }).formatToParts(instant);
   const g = (t: string) => Number(p.find((x) => x.type === t)!.value);
   return Date.UTC(g('year'), g('month') - 1, g('day'), g('hour'), g('minute'), g('second')) - Math.floor(instant.getTime() / 1000) * 1000;
 }
 
-/** UTC instant for a Sydney local wall-clock time (DST-aware). */
-export function sydneyLocalToUtc(a: YMD, hour: number): Date {
-  const naive = Date.UTC(a.y, a.m - 1, a.d, hour);
-  let t = naive - sydneyOffsetMs(new Date(naive));
-  t = naive - sydneyOffsetMs(new Date(t));
+/** UTC instant for a IST local wall-clock time (DST-aware). */
+export function billingLocalToUtc(a: YMD, hour: number, minute = 0): Date {
+  const naive = Date.UTC(a.y, a.m - 1, a.d, hour, minute);
+  let t = naive - billingOffsetMs(new Date(naive));
+  t = naive - billingOffsetMs(new Date(t));
   return new Date(t);
 }
 
 export function trialEndDate(signup: Date = new Date()): YMD {
-  return addDays(sydneyDate(signup), TRIAL_DAYS);
+  return addDays(billingDate(signup), TRIAL_DAYS - 1);
 }
 
-/** Unix seconds for Razorpay subscription start_at: trial-end Sydney date at CHARGE_HOUR_SYDNEY local. */
+/** Unix seconds for Razorpay subscription start_at: trial-end IST date at CHARGE_HOUR_IST local. */
 export function firstChargeUnix(signup: Date = new Date()): number {
-  return Math.floor(sydneyLocalToUtc(trialEndDate(signup), CHARGE_HOUR_SYDNEY).getTime() / 1000);
+  return Math.floor(billingLocalToUtc(trialEndDate(signup), CHARGE_HOUR_IST, CHARGE_MINUTE_IST).getTime() / 1000);
 }
 
-/** End (inclusive Sydney date) of the first paid period, anniversary billing. */
+/** End (inclusive IST date) of the first paid period, anniversary billing. */
 export function firstPeriodEnd(interval: PlanInterval, signup: Date = new Date()): YMD {
   return periodEnd(trialEndDate(signup), 0, interval);
 }
