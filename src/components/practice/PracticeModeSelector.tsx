@@ -1,6 +1,7 @@
 import { useRef, type KeyboardEvent } from 'react';
 import { Compass, Shield, Target } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
 
 export type PracticePrimaryMode = 'drill' | 'nudge' | 'mock';
 
@@ -26,7 +27,7 @@ export function PracticeModeSelector({ value, onChange }: { value: PracticePrima
       {MODES.map((m, i) => {
         const active = value === m.id;
         return (
-          <button
+          <Button variant="ghost"
             key={m.id}
             ref={el => { refs.current[i] = el; }}
             type="button"
@@ -36,20 +37,20 @@ export function PracticeModeSelector({ value, onChange }: { value: PracticePrima
             onClick={() => onChange(m.id)}
             onKeyDown={e => onKey(e, i)}
             className={cn(
-              'practice-mode-tile group relative min-w-0 rounded-2xl border p-5 text-left transition-colors motion-reduce:transition-none',
-              active ? 'border-primary/70 bg-accent/40' : 'border-border/60 bg-card/50 hover:border-primary/40',
+              'practice-mode-tile group relative block h-auto min-w-0 whitespace-normal rounded-lg border p-4 text-left transition-colors motion-reduce:transition-none sm:p-5',
+              active ? 'border-primary/70 bg-accent' : 'border-border/60 bg-secondary hover:border-primary/40',
             )}
           >
-            <div className="flex items-center gap-3">
-              <span className={cn('flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border', active ? 'border-primary/60 text-primary' : 'border-border/60 text-muted-foreground')}>
+            <div className="flex flex-wrap items-center gap-3">
+              <span className={cn('flex h-9 w-9 shrink-0 items-center justify-center rounded-md', active ? 'bg-primary/10 text-primary' : 'bg-muted text-muted-foreground')}>
                 <m.icon className="h-5 w-5" aria-hidden="true" />
               </span>
               <span className="font-display text-base font-semibold text-foreground">{m.title}</span>
-              {m.tag && <span className="ml-auto rounded-full border border-border/70 px-2 py-0.5 text-[10px] text-muted-foreground">{m.tag}</span>}
+              {m.tag && <span className="text-xs text-muted-foreground">{m.tag}</span>}
             </div>
             <p className="mt-3 text-sm leading-6 text-muted-foreground">{m.line}</p>
             {active && <span className="absolute inset-x-6 -bottom-px h-px bg-primary" aria-hidden="true" />}
-          </button>
+          </Button>
         );
       })}
     </div>
