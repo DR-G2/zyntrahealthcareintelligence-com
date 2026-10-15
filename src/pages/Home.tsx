@@ -108,7 +108,7 @@ const Home: React.FC = () => {
           <span className="q-nav-note">Healthcare intelligence for IMGs</span>
           <div className="q-nav-links">
             <Link to="/blog" className="q-nav-link">Journal</Link>
-            <Link to="/login" className="q-nav-link q-nav-cta">Get started <span aria-hidden="true">↗</span></Link>
+            <Link to="/pricing" className="q-nav-link q-nav-cta">View plans <span aria-hidden="true">↗</span></Link>
           </div>
         </nav>
       </header>
@@ -130,7 +130,7 @@ const Home: React.FC = () => {
                 <h1 id="q-hero-title">Less noise.<br /><em>Better decisions.</em></h1>
                 <p className="q-hero-description">A clearer way for international medical graduates to prepare for the AMC, understand their patterns, and focus on what matters next.</p>
                 <div className="q-hero-actions">
-                  <Link to="/login" className="q-button">Join Zyntra <ArrowRight aria-hidden="true" /></Link>
+                  <Link to="/pricing" className="q-button">Choose a plan <ArrowRight aria-hidden="true" /></Link>
                   <Link to="/amc-part-1-mcq" className="q-button-ghost">AMC MCQ preparation <ChevronRight aria-hidden="true" /></Link>
                 </div>
                 <button type="button" className="q-button-ghost mt-3" aria-pressed={noiseCleared} onClick={() => { setNoiseCleared(true); setNoiseStatus("One clear next step. That is enough for now."); }}>
@@ -291,14 +291,14 @@ const Home: React.FC = () => {
         <section id="pricing" className="q-section q-bordered">
           <div className="q-wrap"><Kicker>Pricing, without the noise</Kicker><h2 className="q-title mt-3">Straightforward access.</h2>
             <div className="q-principles mt-8">
-              <article className="q-principle q-pricing-row q-reveal"><div><h3>Free account</h3><p>Create an account to access available Zyntra features and practice tools.</p></div><div><p className="q-mono">A$0</p><Link to="/login" className="q-text-link">Create account / Log in <ArrowRight aria-hidden="true" /></Link></div></article>
-              <article className="q-principle q-pricing-row q-reveal"><div><h3>Full Access</h3><p>MCQ practice, Performance Intelligence and Study Plan, subject to current feature availability.</p></div><div><p className="q-price">A$39 <span>/ month</span></p><p className="q-muted text-sm">or A$99 for 3 months (AUD)</p><p className="q-muted mt-2 text-sm">7-day free trial on both options. Review checkout details before subscribing.</p><p className="q-muted mt-2 text-xs">{COPY_CARD_CHECK} {COPY_CANCEL}</p><Link to="/login" className="q-text-link mt-3">Start your trial <ArrowRight aria-hidden="true" /></Link></div></article>
+              
+              <article className="q-principle q-pricing-row q-reveal"><div><h3>Full Access</h3><p>MCQ practice, Performance Intelligence and Study Plan, subject to current feature availability.</p></div><div><p className="q-price">A$39 <span>/ month</span></p><p className="q-muted text-sm">or A$99 for 3 months (AUD)</p><p className="q-muted mt-2 text-sm">A$1 to start your 7-day trial. Then A$39/month or A$99 every 3 months unless cancelled before the trial ends.</p><p className="q-muted mt-2 text-xs">{COPY_CARD_CHECK} {COPY_CANCEL}</p><Link to="/pricing?plan=monthly" className="q-text-link mt-3">Choose monthly <ArrowRight aria-hidden="true" /></Link> <Link to="/pricing?plan=quarterly" className="q-text-link mt-3">Choose 3 months <ArrowRight aria-hidden="true" /></Link></div></article>
             </div>
           </div>
         </section>
 
         <section className="q-closing" aria-labelledby="q-closing-title">
-          <div className="q-wrap q-closing-inner"><div className="q-reveal"><Kicker>For international medical graduates</Kicker><h2 id="q-closing-title">Make room to think.</h2><p className="q-closing-copy">Prepare for the AMC with a clearer view of your practice, your patterns and your next step.</p></div><Link to="/login" className="q-button q-reveal">Join Zyntra <ArrowRight aria-hidden="true" /></Link></div>
+          <div className="q-wrap q-closing-inner"><div className="q-reveal"><Kicker>For international medical graduates</Kicker><h2 id="q-closing-title">Make room to think.</h2><p className="q-closing-copy">Prepare for the AMC with a clearer view of your practice, your patterns and your next step.</p></div><Link to="/pricing" className="q-button q-reveal">Choose a plan <ArrowRight aria-hidden="true" /></Link></div>
         </section>
 
         <section id="faq" className="q-section">
