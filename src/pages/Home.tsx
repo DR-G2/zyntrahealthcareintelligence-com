@@ -65,9 +65,7 @@ const BrushDivider = () => (
 );
 
 const Home: React.FC = () => {
-  const [noiseCleared, setNoiseCleared] = useState(false);
-  const [noiseStatus, setNoiseStatus] = useState("");
-
+  
   useEffect(() => {
     const root = document.querySelector(".home-quiet");
     if (!root) return;
@@ -100,7 +98,7 @@ const Home: React.FC = () => {
   }, []);
 
   return (
-    <div data-zyntra-home="canonical" className={noiseCleared ? "home-quiet q-quiet-mode relative min-h-screen" : "home-quiet relative min-h-screen"}>
+    <div data-zyntra-home="canonical" className="home-quiet relative min-h-screen">
       <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-white focus:px-4 focus:py-2">Skip to content</a>
       <header className="q-header">
         <nav className="q-wrap q-nav" aria-label="Main navigation">
@@ -117,47 +115,49 @@ const Home: React.FC = () => {
       </header>
 
       <main id="main">
-        <section id="top" className={noiseCleared ? "q-hero q-quiet-mode" : "q-hero"} aria-labelledby="q-hero-title">
+        <section id="top" className="q-hero" aria-labelledby="q-hero-title">
           <div className="q-hero-paper" aria-hidden="true" /><div className="q-wash q-wash-one" aria-hidden="true" /><div className="q-wash q-wash-two" aria-hidden="true" />
-          <div className="q-noise-field" aria-hidden="true">
-            <span className="q-noise-fragment q-noise-1"><strong>+ more questions</strong>keep going / keep going</span>
-            <span className="q-noise-fragment q-noise-2"><strong>rank #?</strong>another comparison</span>
-            <span className="q-noise-fragment q-noise-3"><strong>time is running</strong>streak · score · repeat</span>
-            <span className="q-noise-fragment q-noise-4"><strong>too many tabs open</strong>where to start?</span>
-            <span className="q-noise-fragment q-noise-5"><strong>one more metric</strong>one more thing</span>
-          </div>
           <div className="q-wrap q-hero-inner">
             <div className="q-hero-grid">
               <div className="q-hero-copy">
                 <Kicker>For the long road to clinical confidence</Kicker>
                 <h1 id="q-hero-title">Less noise.<br /><em>Better decisions.</em></h1>
-                <p className="q-hero-description">A clearer way for international medical graduates to prepare for the AMC, understand their patterns, and focus on what matters next.</p>
+                <p className="q-hero-description">A clearer way to prepare for the AMC. Understand your patterns, strengthen your reasoning, and focus on what matters next.</p>
                 <div className="q-hero-actions">
                   <Link to="/login" className="q-button">Join Zyntra <ArrowRight aria-hidden="true" /></Link>
                   <Link to="/amc-part-1-mcq" className="q-button-ghost">AMC MCQ preparation <ChevronRight aria-hidden="true" /></Link>
                 </div>
-                <button type="button" className="q-button-ghost mt-3" aria-pressed={noiseCleared} onClick={() => { setNoiseCleared(true); setNoiseStatus("One clear next step. That is enough for now."); }}>
-                  {noiseCleared ? "Noise cleared ✓" : "Clear the noise"} {!noiseCleared && <span aria-hidden="true">↗</span>}
-                </button>
-                <p className="q-clear-status" aria-live="polite">{noiseStatus}</p>
-                <p className="q-hero-caption">A little less noise. A little more room to think.</p>
+                <div className="q-trust-points"><span>◉ Evidence driven</span><span>◉ Adaptive practice</span><span>△ Personalised insights</span></div>
               </div>
-              <aside className="q-hero-aside q-anatomy-plate" aria-label="Hand-drawn anatomical illustration">
-                <svg className="q-anatomy-art" viewBox="0 0 430 520" role="img" aria-labelledby="q-anatomy-title">
-                  <title id="q-anatomy-title">Hand-drawn brain, neural pathways and spinal cord</title>
-                  <defs><linearGradient id="q-neural-wash" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#50D6E5" stopOpacity=".18"/><stop offset="1" stopColor="#167E8A" stopOpacity=".04"/></linearGradient></defs>
-                  <path d="M205 65 C161 30 112 52 99 91 C65 103 65 148 83 169 C62 202 87 234 119 235 C145 266 184 251 203 228 C229 247 268 237 279 207 C315 195 318 158 299 137 C311 103 279 73 249 77 C237 58 219 56 205 65Z" fill="url(#q-neural-wash)" stroke="#167E8A" strokeWidth="2.1" strokeLinecap="round"/>
-                  <path d="M202 68 C188 88 193 108 207 122 C189 139 192 163 207 178 C190 197 197 216 203 228 M207 83 C229 91 237 107 226 123 C246 137 244 157 226 169 C243 186 232 205 218 221 M111 106 C135 94 154 108 152 126 C172 134 172 155 155 165 C168 182 156 199 133 198 M253 91 C266 107 260 123 247 132 C265 148 261 168 245 177 C255 192 248 204 233 211 M90 151 C110 143 124 156 120 174 M273 145 C291 154 287 172 271 180" fill="none" stroke="#167E8A" strokeWidth="1.7" strokeLinecap="round"/>
-                  <path d="M208 229 C209 267 199 287 210 314 C219 339 204 358 213 382 C220 402 207 421 214 446" fill="none" stroke="#167E8A" strokeWidth="8" strokeLinecap="round" opacity=".22"/>
-                  <path d="M208 228 C211 255 203 280 213 303 S205 349 215 371 S207 414 215 446" fill="none" stroke="#167E8A" strokeWidth="2.4" strokeLinecap="round"/>
-<path d="M198 258 C178 268 170 283 164 300 M216 276 C238 287 246 301 249 319 M209 322 C189 335 183 351 182 366 M216 368 C236 379 241 394 241 409 M213 406 C196 417 193 431 194 443" fill="none" stroke="#50D6E5" strokeWidth="2" strokeLinecap="round"/>
-                  <path d="M79 267 C115 280 133 305 145 334 M287 255 C260 278 255 301 267 327 M95 359 C127 366 143 389 150 415 M292 354 C270 374 266 397 274 423" fill="none" stroke="#167E8A" strokeWidth="1.2" strokeDasharray="3 6" strokeLinecap="round" opacity=".65"/>
-                  <circle cx="211" cy="303" r="5" fill="#50D6E5"/><circle cx="215" cy="371" r="4" fill="#50D6E5"/>
-                  <path d="M66 472 C126 456 163 479 213 466 S315 457 365 474" fill="none" stroke="#167E8A" strokeWidth="1" opacity=".45"/>
-                  <text x="67" y="496" fill="#167E8A" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">Observe · Understand · Act</text>
+              <aside className="q-hero-aside q-anatomy-plate" aria-label="Hand-drawn anatomical profile illustration with Japanese ink landscape">
+                <svg className="q-anatomy-art" viewBox="0 0 560 570" role="img" aria-labelledby="q-anatomy-title">
+                  <title id="q-anatomy-title">Hand-drawn anatomical head with visible brain, neural pathways and ink landscape</title>
+                  <defs><linearGradient id="q-neural-wash" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#B9DFDF" stopOpacity=".82"/><stop offset=".7" stopColor="#50D6E5" stopOpacity=".2"/><stop offset="1" stopColor="#167E8A" stopOpacity=".05"/></linearGradient></defs>
+                  <g fill="none" stroke="#24343B" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M5 505 Q55 481 102 500 T196 496 T288 505 T388 493 T555 503 M4 520 Q72 507 138 520 T254 516 T377 520 T555 516" strokeWidth="1.1"/>
+                    <path d="M20 493 l18 -37 13 21 16 -43 17 33 14 -17 17 42 M400 492 l16 -31 11 17 16 -39 13 29 14 -14 17 35" strokeWidth="1.1"/>
+                    <path d="M458 275 Q452 229 465 190 Q474 168 465 144 M465 190 Q443 174 435 151 M466 170 Q488 156 498 133 M461 209 Q437 199 422 179 M472 154 Q475 131 490 115" strokeWidth="1.1"/>
+                    <path d="M480 119 q-14 -13 -22 0 q-2 10 9 14 q11 -3 13 -14 M498 135 q-10 -13 -19 -5 q-5 9 4 15 q10 0 15 -10 M435 152 q-12 -9 -18 1 q0 10 10 12 q8 -4 8 -13" strokeWidth=".8"/>
+                    <path d="M40 225 Q19 198 36 173 Q51 154 70 166 Q82 178 72 196 M36 174 Q12 165 19 145 Q30 129 46 141 M67 168 Q71 145 90 145 Q109 147 105 168" strokeWidth="1"/>
+                    <path d="M12 450 Q54 423 83 445 T142 446 M381 451 Q427 428 457 448 T548 448" strokeWidth=".8"/>
+                  </g>
+                  <g>
+                    <path d="M316 69 C294 43 256 46 239 68 C212 59 183 80 185 105 C156 117 153 148 172 169 C154 197 173 224 199 231 C203 259 235 274 261 257 C282 280 312 265 326 245 C353 256 382 236 384 211 C410 193 404 163 386 147 C394 119 371 95 346 94 C343 72 329 64 316 69Z" fill="url(#q-neural-wash)" stroke="#24343B" strokeWidth="2.2"/>
+                    <path d="M315 72 C300 93 307 109 321 121 C301 139 305 160 321 173 C304 190 309 211 323 223 C308 238 313 250 326 245 M315 79 C285 77 272 97 281 116 C256 122 251 143 270 159 C247 174 254 195 274 204 C260 225 274 242 293 245 M239 77 C220 93 225 113 241 123 C222 141 229 160 247 168 C227 187 235 205 255 211 M346 99 C369 96 379 113 371 132 C393 143 390 164 370 175 C385 192 373 210 354 215 M191 142 C213 132 226 149 217 165 M201 194 C220 182 235 198 230 214 M357 82 C375 76 387 90 381 104" fill="none" stroke="#167E8A" strokeWidth="1.8"/>
+                    <path d="M192 160 C155 155 130 173 126 202 C121 226 136 245 157 255 L170 278 L165 307 Q160 325 180 332 L198 338 L203 382 Q222 399 249 382 L259 339 Q286 326 299 296 C312 267 302 241 281 226" fill="#F4F1E8" fillOpacity=".72" stroke="#24343B" strokeWidth="2.2" strokeLinejoin="round"/>
+                    <path d="M128 206 L110 215 L130 226 L117 237 L139 243 M158 255 L180 258 L195 249 M170 278 Q184 270 197 278 M164 307 Q183 314 199 305 M180 332 Q198 341 213 329 M203 382 Q229 393 249 382" fill="none" stroke="#24343B" strokeWidth="1.2"/>
+                    <path d="M169 190 Q177 170 195 178 M178 210 Q194 199 209 211 M174 229 Q195 222 209 237 M181 250 Q201 244 218 258 M185 276 Q207 268 221 282 M189 301 Q208 293 225 306 M201 326 Q220 316 236 329 M209 349 Q230 340 249 349" fill="none" stroke="#167E8A" strokeWidth="1.4" strokeLinecap="round"/>
+                    <path d="M244 258 Q250 287 242 311 Q238 336 252 361 Q264 386 267 419" fill="none" stroke="#167E8A" strokeWidth="10" opacity=".18" strokeLinecap="round"/>
+                    <path d="M244 258 Q250 287 242 311 Q238 336 252 361 Q264 386 267 419" fill="none" stroke="#167E8A" strokeWidth="2.1" strokeLinecap="round"/>
+                    <path d="M243 290 Q222 299 215 318 M244 326 Q266 336 271 352 M253 365 Q233 376 232 392 M264 396 Q282 407 283 423" fill="none" stroke="#50D6E5" strokeWidth="2" strokeLinecap="round"/>
+                    <path d="M270 418 Q309 435 347 422 M272 429 Q316 450 358 432 M275 441 Q320 462 366 444" fill="none" stroke="#167E8A" strokeWidth="1.2" opacity=".7"/>
+                  </g>
+                  <g fill="#24343B" fontFamily="Georgia,serif" fontStyle="italic">
+                    <text x="385" y="290" fontSize="17">Observe</text><text x="385" y="315" fontSize="17">Understand</text><text x="385" y="340" fontSize="17">Act</text>
+                  </g>
+                  <g fill="none" stroke="#167E8A" strokeWidth="1" strokeDasharray="3 5"><path d="M380 296 Q352 292 332 250"/><path d="M380 320 Q344 329 270 340"/><path d="M380 345 Q348 380 315 432"/></g>
+                  <g fill="#24343B" opacity=".9"><text x="475" y="85" fontSize="16" fontFamily="serif">東北風</text><rect x="472" y="96" width="22" height="28" rx="2" fill="none" stroke="#B24F47" strokeWidth="1.5"/><path d="M478 103 L488 117 M488 103 L478 117" stroke="#B24F47" strokeWidth="1.5"/></g>
                 </svg>
-                <strong>One thing at a time.</strong>
-                Zyntra looks beyond the answer to help make practice more considered.
               </aside>
             </div>
           </div>
