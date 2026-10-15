@@ -187,6 +187,3 @@
 @media (prefers-reduced-motion: reduce) {
   .gj-signal-dot { animation: none; display: none; }
 }
-@media (prefers-reduced-motion: reduce) {
-  .gj-signal { animation: none; display: none; }
-}
