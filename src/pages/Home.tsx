@@ -230,7 +230,7 @@ const Home: React.FC = () => {
                 <p className="q-card-label">Illustrative practice idea</p>
                 <div className="q-task-row"><span className="q-task-mark" aria-hidden="true"><Target /></span><div><h3>Practise reasoning under time pressure</h3><p className="q-why">Explain why the best option fits the clinical picture, and why plausible alternatives do not.</p></div></div>
                 <div className="q-tags"><span>Clinical reasoning</span><span>Focused practice</span></div>
-                <Link to="/login" className="q-text-link">Explore Zyntra <ArrowRight aria-hidden="true" /></Link>
+                <Link to="/pricing" className="q-text-link">Explore Zyntra <ArrowRight aria-hidden="true" /></Link>
                 <p className="q-illustrative">Illustrative, no live candidate data.</p>
               </article>
             </div>
