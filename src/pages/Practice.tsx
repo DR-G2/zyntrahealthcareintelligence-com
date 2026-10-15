@@ -24,13 +24,15 @@ import { parseExplanation } from '@/lib/explanation-layout';
 import { Progress } from '@/components/ui/progress';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
-import { buildPracticeTopicResolver, normalizeTopicLabel, resolvePracticeQuestionPlacement } from '@/lib/practice-topic-mapping';
+import { normalizeTopicLabel } from '@/lib/practice-topic-mapping';
 import { emitBehaviorEvent } from '@/lib/telemetry';
 import { syncPieEngine } from '@/lib/pie/pie-engine-client';
 import { PieDiagnosticError, describePieFailure, pieSyncFailure, reportPieFailure, requireV2SessionId } from '@/lib/pie/pie-diagnostics';
 import { PieDrillSession } from '@/components/practice/PieDrillSession';
 import { ADMIN_EMAILS } from '@/lib/admin-emails';
 import { fetchLegacyShapedHistory } from '@/lib/pie/pie-history-client';
+import { getSupabaseV2 } from '@/integrations/supabase/v2-client';
+import { ensureV2Session } from '@/lib/migration/v2-practice-session';
 
 interface Question {
   id: string;
@@ -70,23 +72,22 @@ type FilterMode = 'subject';
 interface DBSubject {
   id: string;
   name: string;
-  display_order: number | null;
+  sort_order: number | null;
 }
 
 interface DBSubtopic {
   id: string;
   name: string;
   subject_id: string;
-  display_order: number | null;
+  sort_order: number | null;
 }
 
 interface QuestionTopicMeta {
   id: string;
-  category: string;
-  subtopic: string | null;
-  question_text: string;
-  difficulty?: string | null;
-  zyntra_id?: string | null;
+  zyntra_id: string | null;
+  subject_id: string | null;
+  subtopic_id: string | null;
+  difficulty_tier: string | null;
 }
 
 const QUESTION_META_PAGE_SIZE = 1000;
@@ -96,24 +97,21 @@ function createSelectedSubtopicKey(subjectName: string, subtopicName: string): s
 }
 
 async function fetchAllQuestionTopicMeta(): Promise<QuestionTopicMeta[]> {
+  await ensureV2Session();
+  const v2 = getSupabaseV2();
   const rows: QuestionTopicMeta[] = [];
-  let from = 0;
-
+  let offset = 0;
   while (true) {
-    const { data, error } = await supabase
-      .from('questions')
-      .select('id, zyntra_id, category, subtopic, question_text, difficulty')
-      .range(from, from + QUESTION_META_PAGE_SIZE - 1);
-
+    const { data, error } = await (v2 as any).rpc('get_practice_question_metadata', {
+      p_limit: QUESTION_META_PAGE_SIZE,
+      p_offset: offset,
+    });
     if (error) throw error;
-    if (!data?.length) break;
-
-    rows.push(...(data as QuestionTopicMeta[]));
-
-    if (data.length < QUESTION_META_PAGE_SIZE) break;
-    from += QUESTION_META_PAGE_SIZE;
+    const page = (data || []) as QuestionTopicMeta[];
+    rows.push(...page);
+    if (page.length < QUESTION_META_PAGE_SIZE) break;
+    offset += page.length;
   }
-
   return rows;
 }
 
@@ -148,9 +146,11 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
   useEffect(() => {
     const fetchAll = async () => {
       try {
+        await ensureV2Session();
+        const v2 = getSupabaseV2();
         const [subjectsRes, subtopicsRes, questionMeta] = await Promise.all([
-          supabase.from('subjects').select('id, name, display_order').order('display_order'),
-          supabase.from('subtopics').select('id, name, subject_id, display_order').order('display_order'),
+          v2.from('subjects').select('id, name, sort_order').order('sort_order'),
+          v2.from('subtopics').select('id, name, subject_id, sort_order').order('sort_order'),
           fetchAllQuestionTopicMeta(),
         ]);
 
@@ -159,20 +159,15 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
 
         const subjects = (subjectsRes.data || []) as DBSubject[];
         const subtopics = (subtopicsRes.data || []) as DBSubtopic[];
-        const resolver = buildPracticeTopicResolver(subjects, subtopics);
         const catCounts: Record<string, number> = {};
         const stCounts: Record<string, number> = {};
-
+        const subjectById = new Map(subjects.map((subject) => [subject.id, subject]));
+        const subtopicById = new Map(subtopics.map((subtopic) => [subtopic.id, subtopic]));
         questionMeta.forEach((question) => {
-          const placement = resolvePracticeQuestionPlacement(question, resolver);
-
-          if (placement.subjectName) {
-            catCounts[placement.subjectName] = (catCounts[placement.subjectName] || 0) + 1;
-          }
-
-          if (placement.subtopicName) {
-            stCounts[placement.subtopicName] = (stCounts[placement.subtopicName] || 0) + 1;
-          }
+          const subject = question.subject_id ? subjectById.get(question.subject_id) : undefined;
+          const subtopic = question.subtopic_id ? subtopicById.get(question.subtopic_id) : undefined;
+          if (subject) catCounts[subject.name] = (catCounts[subject.name] || 0) + 1;
+          if (subtopic) stCounts[subtopic.name] = (stCounts[subtopic.name] || 0) + 1;
         });
 
         setDbSubjects(subjects);
@@ -265,7 +260,7 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
     dbSubjects.forEach(s => {
       map[s.id] = dbSubtopics
         .filter(st => st.subject_id === s.id)
-        .sort((a, b) => (a.display_order || 0) - (b.display_order || 0));
+        .sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0));
     });
     return map;
   }, [dbSubjects, dbSubtopics]);
@@ -632,7 +627,7 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
           {/* Subject list with subtopics */}
           <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
             {dbSubjects
-              .sort((a, b) => (a.display_order || 0) - (b.display_order || 0))
+              .sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0))
               .filter((subject) => {
                 if (!searchQuery.trim()) return true;
                 const q = searchQuery.toLowerCase();
