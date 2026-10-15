@@ -32,13 +32,14 @@ check(
   frontendV2Config.url === URL,
   "resolved frontend URL: " + frontendV2Config.url,
 );
-const [practiceSource, adapterSource, netlify, selectorSource] = await Promise.all([
+const [v2ClientSource, practiceSource, adapterSource, netlify, selectorSource] = await Promise.all([
+  readFile("src/integrations/supabase/v2-client.ts", "utf8"),
   readFile("src/lib/migration/v2-practice-session.ts", "utf8"),
   readFile("src/lib/migration/v2-practice-adapter.ts", "utf8"),
   readFile("netlify.toml", "utf8"),
   readFile("supabase/migrations_v2/0051_pie_p3_candidate_pool.sql", "utf8"),
 ]);
-check("P20-03 frontend uses publishable key path only", !frontendV2Config.publishableKey.includes("service_role") && !frontendV2Config.publishableKey.includes("SUPABASE_SERVICE_ROLE_KEY"));
+check("P20-03 frontend uses publishable key path only", !v2ClientSource.includes("service_role") && !v2ClientSource.includes("SUPABASE_SERVICE_ROLE_KEY") && !frontendV2Config.publishableKey.includes("service_role"));
 check("P20-04 V2 auth bridge uses caller session, not privileged client credentials", practiceSource.includes("legacyAccessToken") && practiceSource.includes("v2-auth-bridge") && !practiceSource.includes("service_role"));
 check("P20-05 client practice path creates sessions only through authoritative RPC", practiceSource.includes("pie_create_session") || practiceSource.includes("only by the PIE server RPC"));
 check("P20-06 V2 practice remains an explicit migration gate", adapterSource.includes("VITE_SUPABASE_V2_PRACTICE_ENABLED === 'true'"));
