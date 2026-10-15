@@ -382,6 +382,24 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
     );
   }
 
+  if (loadError) {
+    return (
+      <AppLayout>
+        <Card className="max-w-lg mx-auto mt-10" role="alert">
+          <CardHeader>
+            <CardTitle>Practice topics couldn't load</CardTitle>
+            <CardDescription>{loadError}</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Button onClick={() => setReloadKey((k) => k + 1)}>
+              <RefreshCw className="w-4 h-4 mr-2" /> Retry
+            </Button>
+          </CardContent>
+        </Card>
+      </AppLayout>
+    );
+  }
+
   return (
     <AppLayout>
         
