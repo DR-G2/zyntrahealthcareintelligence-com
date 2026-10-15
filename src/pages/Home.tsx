@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ArrowLeftRight, ArrowRight, BarChart3, Brain, ChevronRight, Clock, Target } from "lucide-react";
+import { ArrowLeftRight, ArrowRight, BarChart3, Brain, ChevronRight, Clock, Focus your study } from "lucide-react";
 import { Link } from "react-router-dom";
 import { BrandMark } from "@/components/BrandMark";
 import { COPY_CARD_CHECK, COPY_CANCEL } from "@/lib/billing";
@@ -31,25 +31,25 @@ const loop = [
   ["Diagnose", "Patterns can help reveal the kind of mistake that keeps recurring."],
   ["Intervene", "Training can focus on the area that needs more work."],
   ["Measure", "Later practice helps show whether the pattern changed."],
-  ["Adapt", "Performance Intelligence and the Study Plan help guide the next step."],
+  ["Improve with practice", "Performance Intelligence and the Study Plan help guide the next step."],
 ] as const;
 
 const trainingItems = [
   ["Practice · MCQ", "The current practice room for questions, explanations, timing, confidence and answer changes."],
   ["OSCE", "A clinical practice direction being developed. Availability depends on the current release."],
   ["Flashcards", "A focused review approach for revisiting mistakes and weak areas as supported by the product."],
-  ["Performance", "Understand accuracy and how performance varies across practice."],
+  ["Performance", "Find your patterns accuracy and how performance varies across practice."],
   ["Behaviour", "Explore timing, hesitation, answer changes, consistency and confidence where recorded."],
   ["Trust Your Gut", "Examine what happens when an initial answer is changed."],
   ["Study Plan", "Review available priorities, weak areas and an exam timeline when one is set."],
 ] as const;
 
 const faqs = [
-  ["What is Zyntra?", "Zyntra is an AI-powered AMC exam preparation platform. It is designed to consider both the answer and signals about how the answer was reached."],
-  ["Who is it for?", "Medical students, medical graduates and doctors, including international medical graduates, preparing for AMC examinations."],
-  ["Is Zyntra a question bank?", "MCQ practice is the training foundation. Zyntra also aims to use timing, confidence and answer changes to add context to the result."],
+  ["What is Zyntra?", "Zyntra is an AMC exam preparation platform for medical graduates and international medical graduates (IMGs)."],
+  ["Who is it for?", "For medical graduates and IMGs preparing for AMC exams."],
+  ["Is Zyntra a question bank?", "It combines MCQ practice with performance insights such as timing, confidence and answer changes."],
   ["How much does it cost?", "Full Access is listed at A$39 per month or A$99 for 3 months (AUD). Both options include a 7-day free trial. Review the checkout details before subscribing."],
-  ["What does Zyntra track?", "Accuracy, timing, confidence, answer changes, consistency and recurring mistakes where those signals are collected."],
+  ["What does Zyntra track?", "Accuracy, timing, confidence and answer changes, where available."],
 ] as const;
 
 
@@ -120,18 +120,18 @@ const Home: React.FC = () => {
           <div className="q-wrap q-hero-inner">
             <div className="q-hero-grid">
               <div className="q-hero-copy">
-                <Kicker>For the long road to clinical confidence</Kicker>
+                <Kicker>AMC exam preparation for IMGs</Kicker>
                 <h1 id="q-hero-title">Less noise.<br /><em>Better decisions.</em></h1>
-                <p className="q-hero-description">A clearer way to prepare for the AMC. Understand your patterns, strengthen your reasoning, and focus on what matters next.</p>
+                <p className="q-hero-description">Prepare for the Australian Medical Council (AMC) exams with focused MCQ practice and insights into your clinical reasoning, confidence and answer patterns.</p>
                 <div className="q-hero-actions">
-                  <Link to="/login" className="q-button">Join Zyntra <ArrowRight aria-hidden="true" /></Link>
-                  <Link to="/amc-part-1-mcq" className="q-button-ghost">AMC MCQ preparation <ChevronRight aria-hidden="true" /></Link>
+                  <Link to="/login" className="q-button">Start practising <ArrowRight aria-hidden="true" /></Link>
+                  <Link to="/amc-part-1-mcq" className="q-button-ghost">AMC exam preparation <ChevronRight aria-hidden="true" /></Link>
                 </div>
-                <div className="q-trust-points"><span>◉ Evidence driven</span><span>◉ Adaptive practice</span><span>△ Personalised insights</span></div>
+                <div className="q-trust-points"><span>Evidence-led insights</span><span>Focused MCQ practice</span><span>Personalised study</span></div>
               </div>
-              <aside className="q-hero-aside q-anatomy-plate" aria-label="Hand-drawn anatomical profile illustration with Japanese ink landscape">
+              <aside className="q-hero-aside q-anatomy-plate" aria-label="Illustrated anatomical profile showing the brain, neural pathways and spinal cord, with Japanese ink landscape accents">
                 <svg className="q-anatomy-art" viewBox="0 0 560 570" role="img" aria-labelledby="q-anatomy-title">
-                  <title id="q-anatomy-title">Hand-drawn anatomical head with visible brain, neural pathways and ink landscape</title>
+                  <title id="q-anatomy-title">Editorial anatomical illustration of a human profile, exposed brain, neural pathways and spinal cord with ink landscape accents</title>
                   <defs><linearGradient id="q-neural-wash" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#B9DFDF" stopOpacity=".82"/><stop offset=".7" stopColor="#50D6E5" stopOpacity=".2"/><stop offset="1" stopColor="#167E8A" stopOpacity=".05"/></linearGradient></defs>
                   <g fill="none" stroke="#24343B" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M5 505 Q55 481 102 500 T196 496 T288 505 T388 493 T555 503 M4 520 Q72 507 138 520 T254 516 T377 520 T555 516" strokeWidth="1.1"/>
@@ -153,7 +153,7 @@ const Home: React.FC = () => {
                     <path d="M270 418 Q309 435 347 422 M272 429 Q316 450 358 432 M275 441 Q320 462 366 444" fill="none" stroke="#167E8A" strokeWidth="1.2" opacity=".7"/>
                   </g>
                   <g fill="#24343B" fontFamily="Georgia,serif" fontStyle="italic">
-                    <text x="385" y="290" fontSize="17">Observe</text><text x="385" y="315" fontSize="17">Understand</text><text x="385" y="340" fontSize="17">Act</text>
+                    <text x="385" y="290" fontSize="17">Observe</text><text x="385" y="315" fontSize="17">Find your patterns</text><text x="385" y="340" fontSize="17">Act</text>
                   </g>
                   <g fill="none" stroke="#167E8A" strokeWidth="1" strokeDasharray="3 5"><path d="M380 296 Q352 292 332 250"/><path d="M380 320 Q344 329 270 340"/><path d="M380 345 Q348 380 315 432"/></g>
                   <g fill="#24343B" opacity=".9"><text x="475" y="85" fontSize="16" fontFamily="serif">東北風</text><rect x="472" y="96" width="22" height="28" rx="2" fill="none" stroke="#B24F47" strokeWidth="1.5"/><path d="M478 103 L488 117 M488 103 L478 117" stroke="#B24F47" strokeWidth="1.5"/></g>
@@ -168,15 +168,15 @@ const Home: React.FC = () => {
         <section id="about" className="q-section">
           <div className="q-wrap q-split">
             <div className="q-section-intro q-reveal">
-              <Kicker>A different kind of preparation</Kicker>
-              <h2 className="q-title">Not more noise. More understanding.</h2>
-              <p className="q-body">Practice matters. So does understanding what happens while you practise. Zyntra is designed to help make that work more focused.</p>
-              <span className="q-margin-note">Less scatter, more signal.</span>
+              <Kicker>Smarter AMC preparation</Kicker>
+              <h2 className="q-title">Prepare with purpose.</h2>
+              <p className="q-body">Zyntra combines AMC-style question practice with performance insights, helping you identify knowledge gaps and choose what to revise next.</p>
+              <span className="q-margin-note">Built for IMGs preparing for the AMC.</span>
             </div>
             <div className="q-principles">
-              <article className="q-principle q-reveal"><span className="q-index">01</span><div><h3>Understand</h3><p>Look beyond right and wrong answers to explore patterns in how you approach clinical questions.</p></div></article>
-              <article className="q-principle q-reveal"><span className="q-index">02</span><div><h3>Target</h3><p>Use the available evidence to decide which skills and topics deserve your attention next.</p></div></article>
-              <article className="q-principle q-reveal"><span className="q-index">03</span><div><h3>Adapt</h3><p>Let what you learn from each session help shape a more considered approach to the next one.</p></div></article>
+              <article className="q-principle q-reveal"><span className="q-index">01</span><div><h3>Find your patterns</h3><p>Review accuracy, confidence, timing and answer changes where recorded.</p></div></article>
+              <article className="q-principle q-reveal"><span className="q-index">02</span><div><h3>Focus your study</h3><p>Prioritise topics and clinical skills that need more practice.</p></div></article>
+              <article className="q-principle q-reveal"><span className="q-index">03</span><div><h3>Improve with practice</h3><p>Use performance trends to guide your next study session.</p></div></article>
             </div>
           </div>
         </section>
@@ -186,16 +186,16 @@ const Home: React.FC = () => {
         <section id="how" className="q-section" aria-labelledby="q-signals-title">
           <div className="q-wrap q-split">
             <div className="q-section-intro q-reveal">
-              <Kicker>Look beyond the score</Kicker>
-              <h2 id="q-signals-title" className="q-title">The answer is one signal. The process adds context.</h2>
-              <p className="q-body">When these details are collected, they can help explain the story behind a practice result. They are evidence to examine, not a verdict on a candidate.</p>
+              <Kicker>Performance insights</Kicker>
+              <h2 id="q-signals-title" className="q-title">More than a score.</h2>
+              <p className="q-body">Track accuracy, confidence, timing and answer changes to understand how you approach AMC-style clinical questions.</p>
             </div>
             <div className="q-signal-list">
               {signals.map(({ title, icon: Icon, desc }) => <div className="q-signal q-reveal" key={title}><Icon aria-hidden="true" /><div><strong>{title}</strong><span>{desc}</span></div></div>)}
             </div>
           </div>
           <div className="q-wrap mt-16">
-            <Kicker>The learning loop</Kicker><h2 className="q-title mt-3">Observe. Understand. Adjust.</h2>
+            <Kicker>How Zyntra supports learning</Kicker><h2 className="q-title mt-3">Observe. Find your patterns. Adjust.</h2>
             <ol className="q-principles mt-8 grid gap-x-8 md:grid-cols-5">
               {loop.map(([title, desc], index) => <li className="q-principle q-reveal" key={title} style={{ display: "block" }}><span className="q-index">{String(index + 1).padStart(2, "0")}</span><h3 className="mt-2">{title}</h3><p>{desc}</p></li>)}
             </ol>
@@ -209,8 +209,8 @@ const Home: React.FC = () => {
         <section id="example-question" className="q-section q-example" aria-labelledby="q-example-title">
           <div className="q-wrap q-example-grid">
             <div className="q-section-intro q-reveal">
-              <Kicker>Why Zyntra</Kicker>
-              <h2 id="q-example-title" className="q-title">Beyond the correct answer.</h2>
+              <Kicker>AMC practice, with context</Kicker>
+              <h2 id="q-example-title" className="q-title">Understand every attempt.</h2>
               <div className="q-why-list">
                 {why.map((point, index) => <p key={point}><span className="q-index">{String(index + 1).padStart(2, "0")}</span><span>{point}</span></p>)}
               </div>
@@ -247,7 +247,7 @@ const Home: React.FC = () => {
               </div>
               <article className="q-recommendation">
                 <p className="q-card-label">Illustrative practice idea</p>
-                <div className="q-task-row"><span className="q-task-mark" aria-hidden="true"><Target /></span><div><h3>Practise reasoning under time pressure</h3><p className="q-why">Explain why the best option fits the clinical picture, and why plausible alternatives do not.</p></div></div>
+                <div className="q-task-row"><span className="q-task-mark" aria-hidden="true"><Focus your study /></span><div><h3>Practise reasoning under time pressure</h3><p className="q-why">Explain why the best option fits the clinical picture, and why plausible alternatives do not.</p></div></div>
                 <div className="q-tags"><span>Clinical reasoning</span><span>Focused practice</span></div>
                 <Link to="/login" className="q-text-link">Explore Zyntra <ArrowRight aria-hidden="true" /></Link>
                 <p className="q-illustrative">Illustrative, no live candidate data.</p>
@@ -288,7 +288,7 @@ const Home: React.FC = () => {
             <div className="q-principles mt-8">
               {trainingItems.map(([title, desc], index) => <article className="q-principle q-reveal" key={title}><span className="q-index">{String(index + 1).padStart(2, "0")}</span><div><h3>{title}</h3><p>{desc}</p></div></article>)}
             </div>
-            <div className="mt-6 flex flex-wrap gap-x-6 gap-y-3"><Link to="/amc-part-1-mcq" className="q-text-link">AMC MCQ preparation <ArrowRight aria-hidden="true" /></Link><Link to="/blog" className="q-text-link">Read the Journal <ArrowRight aria-hidden="true" /></Link></div>
+            <div className="mt-6 flex flex-wrap gap-x-6 gap-y-3"><Link to="/amc-part-1-mcq" className="q-text-link">AMC exam preparation <ArrowRight aria-hidden="true" /></Link><Link to="/blog" className="q-text-link">Read the Journal <ArrowRight aria-hidden="true" /></Link></div>
           </div>
         </section>
 
@@ -301,7 +301,7 @@ const Home: React.FC = () => {
               <Link to="/blog" className="q-text-link">Explore the Journal <ArrowRight aria-hidden="true" /></Link>
             </div>
             <div className="q-principles mt-8">
-              <Link to="/blog/amc-part-1-mcq" className="q-principle q-reveal q-row-link"><span className="q-index">01</span><div><h3>AMC MCQ preparation</h3><p>Build a more deliberate approach to the one-way exam.</p></div><ChevronRight aria-hidden="true" /></Link>
+              <Link to="/blog/amc-part-1-mcq" className="q-principle q-reveal q-row-link"><span className="q-index">01</span><div><h3>AMC exam preparation</h3><p>Build a more deliberate approach to the one-way exam.</p></div><ChevronRight aria-hidden="true" /></Link>
               <Link to="/blog/amc-part-2-osce" className="q-principle q-reveal q-row-link"><span className="q-index">02</span><div><h3>AMC Clinical exam preparation</h3><p>Think clearly when the station clock is running.</p></div><ChevronRight aria-hidden="true" /></Link>
             </div>
           </div>
@@ -317,7 +317,7 @@ const Home: React.FC = () => {
         </section>
 
         <section className="q-closing" aria-labelledby="q-closing-title">
-          <div className="q-wrap q-closing-inner"><div className="q-reveal"><Kicker>For international medical graduates</Kicker><h2 id="q-closing-title">Make room to think.</h2><p className="q-closing-copy">Prepare for the AMC with a clearer view of your practice, your patterns and your next step.</p></div><Link to="/login" className="q-button q-reveal">Join Zyntra <ArrowRight aria-hidden="true" /></Link></div>
+          <div className="q-wrap q-closing-inner"><div className="q-reveal"><Kicker>For international medical graduates</Kicker><h2 id="q-closing-title">Make room to think.</h2><p className="q-closing-copy">Prepare for the AMC with a clearer view of your practice, your patterns and your next step.</p></div><Link to="/login" className="q-button q-reveal">Start practising <ArrowRight aria-hidden="true" /></Link></div>
         </section>
 
         <section id="faq" className="q-section">
