@@ -80,16 +80,30 @@ if (sessionId) {
   check("P21.1-11 server-selected question is available", !qs.error && !!questionId);
 
   async function auditWithDiagnostics(body: Record<string, unknown> = {}) {
-    let result = await A.db.functions.invoke("pie-telemetry-audit", { body });
+    // The client was created with a static Authorization header at login.
+    // Always pass the current session token explicitly so a refreshed token
+    // is not shadowed by that original header on subsequent function calls.
+    async function invokeAudit() {
+      const { data: { session }, error } = await A.db.auth.getSession();
+      if (error || !session?.access_token) {
+        return { data: null, error: error ?? new Error("No active caller session") };
+      }
+      return A.db.functions.invoke("pie-telemetry-audit", {
+        body,
+        headers: { Authorization: `Bearer ${session.access_token}` },
+      });
+    }
+
+    let result = await invokeAudit();
     let context = (result.error as unknown as { context?: Response } | null)?.context;
 
-    // The audit is read-only. If a request is rejected with 401 while the
-    // session is being refreshed, refresh the caller session once and retry.
+    // The audit is read-only. If a request is rejected with 401, refresh the
+    // caller session once and retry with the refreshed access token.
     // Do not retry other errors or weaken server-side JWT validation.
     if (result.error && context?.status === 401) {
       const refreshed = await A.db.auth.refreshSession();
       if (!refreshed.error && refreshed.data.session) {
-        result = await A.db.functions.invoke("pie-telemetry-audit", { body });
+        result = await invokeAudit();
         context = (result.error as unknown as { context?: Response } | null)?.context;
       }
     }
