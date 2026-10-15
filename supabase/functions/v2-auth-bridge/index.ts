@@ -14,6 +14,8 @@ const allowedOrigins = new Set([
   "https://deploy-preview-53--zyntrahealthcareintelligence.netlify.app",
   // Lovable preview + published app and remaining custom domains
   "https://id-preview--6ac44dc8-fe0a-4032-b431-157c5b421031.lovable.app",
+  "https://6ac44dc8-fe0a-4032-b431-157c5b421031.lovableproject.com",
+  "http://localhost:8080",
   "https://zyntrahealthcareintelligence-com.lovable.app",
   "https://zyntrahealthcareintelligence.store",
   "https://www.zyntrahealthcareintelligence.store",
