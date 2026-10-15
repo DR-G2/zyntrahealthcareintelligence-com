@@ -576,6 +576,9 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
             <div>
               <h2 className="text-sm font-semibold uppercase tracking-wider text-foreground">Question Status</h2>
               <p className="mt-1 text-xs text-muted-foreground">Control whether Zyntra gives you questions you have seen before, mastered, or missed.</p>
+              {historyError && (
+                <p className="mt-1 text-xs text-destructive" role="status">Your answer history couldn't load, so Attempted, Correct and Incorrect counts aren't shown accurately.</p>
+              )}
             </div>
           </div>
           <ToggleGroup
