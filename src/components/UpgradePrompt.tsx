@@ -38,7 +38,7 @@ export function UpgradePrompt({ feature, description, variant = 'card', stage }:
           </div>
           <h3 className="font-display font-semibold text-lg">{feature}</h3>
           <p className="text-sm text-muted-foreground">
-            {effectiveDescription || 'Start your 7-day free trial of Full Access to unlock this feature'}
+            {effectiveDescription || 'Start your 7-calendar-day trial of Full Access to unlock this feature'}
           </p>
           <Button asChild className="gap-1">
             <Link to="/pricing">View Plans <ArrowRight className="h-4 w-4" /></Link>
@@ -65,7 +65,7 @@ export function UpgradePrompt({ feature, description, variant = 'card', stage }:
           Full Access A$39/month or A$99/3 months · 7-day free trial
         </div>
         <Button asChild size="lg" className="gap-2">
-          <Link to="/pricing">Start free trial <ArrowRight className="h-4 w-4" /></Link>
+          <Link to="/pricing">Start trial <ArrowRight className="h-4 w-4" /></Link>
         </Button>
       </CardContent>
     </Card>
