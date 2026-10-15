@@ -40,7 +40,7 @@ describe('Study Plan evidence states', () => {
     render(<MemoryRouter><Plan /></MemoryRouter>);
     expect(await screen.findByText('Monday')).toBeInTheDocument();
     expect(screen.getByText('Review recorded errors')).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Open practice', exact: true })).toHaveAttribute('href', '/practice');
+    expect(screen.getAllByRole('link', { name: 'Open practice' }).map(link => link.getAttribute('href'))).toEqual(['/practice', '/practice?subject=Medicine']);
     expect(screen.queryByRole('checkbox')).toBeNull();
   });
 });
