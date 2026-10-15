@@ -40,6 +40,7 @@ interface AIScheduleDay {
   topics: { category: string; count: number; focus_note: string }[];
 }
 interface AIPlan {
+  generated_at?: string;
   focus_areas: StudyTask[];
   weekly_schedule: AIScheduleDay[];
   recommendations: { tip: string; reason: string }[];
@@ -271,7 +272,7 @@ export default function Plan() {
                     {tasks.map((task, i) => (
                       <div key={task.category + i} className="grid gap-4 rounded-lg border border-border/60 bg-secondary p-4 sm:grid-cols-[1fr_auto_auto] sm:items-center">
                         <div className="min-w-0"><div className="flex flex-wrap items-center gap-2"><span className={cn('rounded-full border px-2 py-0.5 text-xs font-semibold ', priorityTone(task.priority))}>{task.priority}</span><p className="truncate text-sm font-medium text-foreground">{task.category}</p></div>{task.study_tip && <p className="mt-2 text-xs leading-5 text-muted-foreground">{task.study_tip}</p>}</div>
-                        <div><p className="text-sm font-semibold text-foreground">{task.daily_questions || 0} q/day</p>{task.accuracy != null && <p className="text-xs font-mono text-muted-foreground">{task.accuracy}% accuracy</p>}</div>
+                        <div>{task.daily_questions != null && <p className="text-sm font-semibold text-foreground">{task.daily_questions} q/day</p>}{task.accuracy != null && <p className="text-xs font-mono text-muted-foreground">{task.accuracy}% accuracy</p>}</div>
                         <Button asChild variant="outline"><Link to={`/practice?subject=${encodeURIComponent(task.category)}`}>Open practice <ArrowRight className="h-4 w-4" /></Link></Button>
                       </div>
                     ))}
