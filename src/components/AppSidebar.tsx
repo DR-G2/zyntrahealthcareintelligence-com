@@ -35,6 +35,7 @@ export function AppSidebar({ isMobile }: { isMobile?: boolean }) {
   const close = () => { if (isMobile) setMobileOpen(false); };
   const training = ['/practice', '/practice/osce', '/plan'].includes(location.pathname);
   const mobileNavRef = useRef<HTMLElement | null>(null);
+  useEffect(() => { mobileNavRef.current?.toggleAttribute('inert', training && !mobileOpen); }, [training, mobileOpen]);
   useEffect(() => {
     if (!training || !isMobile || !mobileOpen) return;
     const previous = document.activeElement instanceof HTMLElement ? document.activeElement : null;
@@ -99,7 +100,7 @@ export function AppSidebar({ isMobile }: { isMobile?: boolean }) {
     return (
       <TooltipProvider>
         {mobileOpen && <div className={cn('fixed inset-0 z-40', training ? 'bg-background/80' : 'bg-black/60')} onClick={() => setMobileOpen(false)} />}
-        <aside ref={mobileNavRef} role={training && mobileOpen ? 'dialog' : undefined} aria-modal={training && mobileOpen ? true : undefined} aria-label="Navigation" inert={training && !mobileOpen ? '' : undefined} className={cn('fixed left-0 top-0 z-50 flex h-dvh w-72 flex-col border-r bg-sidebar text-sidebar-foreground transition-transform', mobileOpen ? 'translate-x-0' : '-translate-x-full')}>
+        <aside ref={mobileNavRef} role={training && mobileOpen ? 'dialog' : undefined} aria-modal={training && mobileOpen ? true : undefined} aria-label="Navigation" className={cn('fixed left-0 top-0 z-50 flex h-dvh w-72 flex-col border-r bg-sidebar text-sidebar-foreground transition-transform', mobileOpen ? 'translate-x-0' : '-translate-x-full')}>
           {training && mobileOpen && <Button variant="ghost" size="icon" aria-label="Close navigation" onClick={() => setMobileOpen(false)} className="absolute right-3 top-4 min-h-11 min-w-11"><PanelLeftClose /></Button>}
           {inner}
         </aside>
