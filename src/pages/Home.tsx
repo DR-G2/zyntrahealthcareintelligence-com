@@ -38,13 +38,6 @@ const faqs = [
   ["What does Zyntra track?", "Accuracy, timing, confidence, answer changes, consistency and recurring mistakes where those signals are collected."],
 ] as const;
 
-const options = [
-  "Oral amoxicillin and review in 48 hours",
-  "Intravenous benzylpenicillin and urgent hospital transfer",
-  "Lumbar puncture in the clinic before any antibiotic",
-  "Paracetamol and safety-netting advice only",
-  "Await blood culture results before treating",
-];
 
 const Kicker = ({ children }: { children: React.ReactNode }) => <p className="q-eyebrow">{children}</p>;
 
