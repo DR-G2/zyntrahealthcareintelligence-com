@@ -61,18 +61,20 @@ export function PIEInspectionTab() {
         <CardHeader className="pb-3">
           <CardTitle className="flex items-center gap-2 text-base">
             <Brain className="h-4 w-4 text-primary" /> PIE Inspection
+            <Badge variant="outline" className="border-warning/40 text-warning">Not authoritative</Badge>
           </CardTitle>
           <p className="text-xs text-muted-foreground">
             Admin-only view of the PIE state, uncertainty, dynamics, readiness, DWIG and decision trail.
           </p>
         </CardHeader>
         <CardContent>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             <Input
               value={userId}
               onChange={e => setUserId(e.target.value)}
               placeholder="Candidate user ID"
-              className="font-mono text-xs"
+              aria-label="Candidate user ID"
+              className="min-w-0 flex-1 font-mono text-xs"
             />
             <Button onClick={inspect} disabled={loading || !userId.trim()}>
               {loading ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <RefreshCw className="h-4 w-4 mr-2" />}
@@ -125,7 +127,7 @@ export function PIEInspectionTab() {
           </Card>
 
           <Card>
-            <CardHeader className="pb-2"><CardTitle className="flex items-center gap-2 text-sm"><Target className="h-4 w-4" /> Exam readiness</CardTitle></CardHeader>
+            <CardHeader className="pb-2"><CardTitle className="flex items-center gap-2 text-sm"><Target className="h-4 w-4" /> Experimental readiness estimate</CardTitle></CardHeader>
             <CardContent className="grid grid-cols-2 gap-3 md:grid-cols-6 text-xs">
               <div><span className="text-muted-foreground">Target probability</span><div>{pct(readiness?.target_probability)}</div></div>
               <div><span className="text-muted-foreground">Lower</span><div>{pct(readiness?.lower_bound)}</div></div>

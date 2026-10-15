@@ -231,6 +231,20 @@
 .training-genjutsu :where(p, h1, h2, h3, label) { overflow-wrap: anywhere; }
 .training-genjutsu section { scroll-margin-top: 5rem; }
 .training-genjutsu .training-band { border-top: 1px solid hsl(var(--border) / .6); padding-top: 1.5rem; }
+.admin-workspace { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; }
+.admin-workspace [role="tabpanel"] { min-width: 0; margin-top: 1.5rem; }
+.admin-workspace [role="tablist"] { flex-wrap: nowrap; }
+@media (max-width: 767px) {
+  .admin-candidate-table > div { overflow: visible; }
+  .admin-candidate-table table { display: block; min-width: 0; }
+  .admin-candidate-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .admin-candidate-table tbody { display: grid; gap: 1rem; padding: .75rem; }
+  .admin-candidate-table tr { display: grid; min-width: 0; border: 1px solid hsl(var(--border) / .6); border-radius: .5rem; background: hsl(var(--card)); padding: .5rem; }
+  .admin-candidate-table td { display: grid; grid-template-columns: 5.5rem minmax(0, 1fr); gap: .75rem; min-width: 0; max-width: none; padding: .5rem; white-space: normal; overflow-wrap: anywhere; }
+  .admin-candidate-table td::before { content: attr(data-label); color: hsl(var(--muted-foreground)); font-family: 'Plus Jakarta Sans', sans-serif; font-size: .7rem; }
+  .admin-candidate-table td button { white-space: normal; text-align: left; overflow-wrap: anywhere; }
+  .admin-candidate-table td[colspan] { display: block; }
+}
 @media (prefers-reduced-motion: reduce) {
   .training-genjutsu *, .training-genjutsu *::before, .training-genjutsu *::after {
     animation: none !important;
