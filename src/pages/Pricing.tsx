@@ -81,7 +81,7 @@ export default function Pricing() {
   const handleCheckout = async (tierKey: TierKey) => {
     if (CHECKOUT_DISABLED) return; // fail closed: VITE_CHECKOUT_ENABLED must be exactly 'true'
     if (!user) {
-      navigate('/login');
+      navigate(`/login?next=${encodeURIComponent(`/pricing?plan=${tierKey}`)}`);
       return;
     }
     setLoadingTier(tierKey);
@@ -162,6 +162,18 @@ export default function Pricing() {
     }
     setPaymentChoiceTier(tierKey);
   };
+
+  // Resume the selected plan after authentication; never discard the visitor's plan choice.
+  useEffect(() => {
+    const plan = new URLSearchParams(location.search).get('plan');
+    if (!user || subscription.loading || subscription.subscribed || CHECKOUT_DISABLED || !plan) return;
+    const tierKey: TierKey | null = plan === 'monthly' || plan === 'full_access'
+      ? 'full_access'
+      : plan === 'quarterly' || plan === 'full_access_3m' ? 'full_access_3m' : null;
+    if (!tierKey) return;
+    const timer = window.setTimeout(() => choosePayment(tierKey), 0);
+    return () => window.clearTimeout(timer);
+  }, [user, subscription.loading, subscription.subscribed, location.search]);
 
   // PayPal: redirect approval flow. The server looks up the price/plan for the tier.
   const handlePayPalCheckout = async (tierKey: TierKey) => {
