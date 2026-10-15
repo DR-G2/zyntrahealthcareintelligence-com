@@ -155,14 +155,35 @@
 .gj-nerve { background: linear-gradient(90deg, transparent, hsl(var(--gj-cyan) / .5), transparent); }
 .gj-nerve-v { background: linear-gradient(180deg, transparent, hsl(var(--gj-cyan) / .5), transparent); }
 .gj-hero:focus-visible { outline: 2px solid hsl(var(--gj-cyan)); outline-offset: 6px; border-radius: 1rem; }
-.gj-label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: .22em; }
-.gj-signal { animation: gj-signal 4.4s ease-in infinite; offset-rotate: 0deg; }
+.gj-art { mix-blend-mode: screen; -webkit-mask-image: radial-gradient(75% 70% at 50% 48%, #000 62%, transparent 100%); mask-image: radial-gradient(75% 70% at 50% 48%, #000 62%, transparent 100%); }
+.gj-signal-dot {
+  position: absolute; left: 50%; width: 10px; height: 10px; margin-left: -5px; border-radius: 9999px;
+  background: hsl(var(--gj-cyan)); box-shadow: 0 0 14px 4px hsl(var(--gj-cyan) / .8);
+  animation: gj-signal 4.4s ease-in infinite;
+}
 @keyframes gj-signal {
-  0% { offset-distance: 0%; opacity: 0; }
-  8% { opacity: 1; }
-  66% { offset-distance: 100%; opacity: .9; }
-  72%, 100% { offset-distance: 100%; opacity: 0; }
+  0% { top: 30%; opacity: 0; }
+  10% { opacity: 1; }
+  62% { top: 80%; opacity: .9; }
+  70%, 100% { top: 80%; opacity: 0; }
+}
+.gj-ring {
+  position: absolute; left: 50%; height: 3%; border-radius: 50%;
+  border: 1px solid hsl(var(--gj-cyan)); box-shadow: 0 0 16px hsl(var(--gj-cyan) / .6);
+  transition: opacity .35s ease, transform .35s ease; pointer-events: none;
+}
+.gj-stage {
+  position: absolute; left: 80%; display: flex; align-items: center; gap: .5rem; transform: translateY(-50%);
+  font-family: 'Space Grotesk', sans-serif; font-size: .7rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+  color: hsl(var(--gj-text)); white-space: nowrap;
+}
+.gj-stage-line { width: 1.25rem; height: 1px; background: hsl(var(--gj-cyan) / .7); box-shadow: 0 0 6px hsl(var(--gj-cyan)); }
+.gj-nba {
+  position: absolute; left: 50%; bottom: 3%; transform: translateX(-50%); white-space: nowrap;
+  font-family: 'DM Mono', monospace; font-size: .72rem; letter-spacing: .24em; text-transform: uppercase;
+  color: hsl(var(--gj-cyan)); padding: .45rem 1rem; border-radius: 9999px;
+  background: hsl(var(--gj-base) / .7); border: 1px solid hsl(var(--gj-cyan) / .45); box-shadow: 0 0 20px hsl(var(--gj-cyan) / .35);
 }
 @media (prefers-reduced-motion: reduce) {
-  .gj-signal { animation: none; display: none; }
+  .gj-signal-dot { animation: none; display: none; }
 }

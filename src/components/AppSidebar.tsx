@@ -1,5 +1,6 @@
+import { BrandMark } from '@/components/BrandMark';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { Zap, Shield, PanelLeftClose, PanelLeft, Brain, Network, Route, Settings, Bell, LogOut } from 'lucide-react';
+import { Shield, PanelLeftClose, PanelLeft, Brain, Network, Route, Settings, Bell, LogOut } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils';
 import { TooltipProvider } from '@/components/ui/tooltip';
@@ -35,7 +36,7 @@ export function AppSidebar({ isMobile }: { isMobile?: boolean }) {
   const inner = (
     <>
       <NavLink to="/" onClick={close} className={cn('flex items-center gap-2 py-5', effectiveCollapsed ? 'justify-center px-2' : 'px-6')}>
-        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg gradient-primary"><Zap className="h-4 w-4 text-primary-foreground" /></div>
+        <BrandMark />
         {!effectiveCollapsed && <span className="text-lg font-bold font-display tracking-tight">Zyntra</span>}
       </NavLink>
       <nav className={cn('flex flex-1 flex-col justify-center space-y-1 py-2', effectiveCollapsed ? 'px-1.5' : 'px-3')}>

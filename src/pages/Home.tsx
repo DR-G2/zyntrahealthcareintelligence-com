@@ -1,6 +1,7 @@
 import React from "react";
 import { ArrowLeftRight, BarChart3, Brain, ChevronRight, Clock, Layers } from "lucide-react";
 import { Link } from "react-router-dom";
+import { BrandMark } from "@/components/BrandMark";
 import { NeuralHero } from "@/components/home/NeuralHero";
 import { COPY_CARD_CHECK, COPY_CANCEL } from "@/lib/billing";
 
@@ -61,7 +62,7 @@ const Home: React.FC = () => (
     <header className="sticky top-0 z-20 border-b gj-rule backdrop-blur-md" style={{ background: "hsl(var(--gj-base) / .75)" }}>
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:h-20 sm:px-6">
         <a href="#top" className="flex items-center gap-3" aria-label="Zyntra home">
-          <span className="flex h-10 w-10 items-center justify-center rounded-xl gj-panel"><span className="font-black italic text-xl gj-accent">Z</span></span>
+          <BrandMark className="h-10 w-10" />
           <span className="text-lg font-extrabold uppercase tracking-widest">Zyntra</span>
         </a>
         <nav className="flex items-center gap-2 sm:gap-3" aria-label="Main">
