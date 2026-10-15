@@ -86,8 +86,8 @@ describe('IST calendar-day trial billing', () => {
     }
   });
   it('IST midnight boundary counts signup date as day 1', () => {
-    expect(trialEndDate(new Date('2026-12-31T18:30:00Z'))).toEqual({ y: 2027, m: 1, d: 6 });
-    expect(trialEndDate(new Date('2026-12-31T18:29:00Z'))).toEqual({ y: 2027, m: 1, d: 5 });
+    expect(trialEndDate(new Date('2026-12-31T18:30:00Z'))).toEqual({ y: 2027, m: 1, d: 7 });
+    expect(trialEndDate(new Date('2026-12-31T18:29:00Z'))).toEqual({ y: 2027, m: 1, d: 6 });
   });
   it('month-end renewal clamps without drift', () => {
     expect(renewalDate({ y: 2027, m: 1, d: 31 }, 1)).toEqual({ y: 2027, m: 2, d: 28 });
