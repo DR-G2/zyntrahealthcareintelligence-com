@@ -53,7 +53,7 @@ export default function Login() {
                 <AuthForm mode="login" />
               </TabsContent>
               <TabsContent value="signup">
-                <AuthForm mode="signup" />
+                <AuthForm mode="signup" redirectTo={nextPath} />
               </TabsContent>
             </Tabs>
           ) : (
@@ -71,7 +71,7 @@ export default function Login() {
   );
 }
 
-function AuthForm({ mode }: { mode: 'login' | 'signup' }) {
+function AuthForm({ mode, redirectTo }: { mode: 'login' | 'signup'; redirectTo?: string }) {
   const { signIn, signUp } = useAuth();
   const { toast } = useToast();
   const [email, setEmail] = useState('');
@@ -91,7 +91,7 @@ function AuthForm({ mode }: { mode: 'login' | 'signup' }) {
     try {
       if (mode === 'signup') {
         localStorage.setItem('zyntra_remember_me', 'true');
-        await signUp(email, password);
+        await signUp(email, password, redirectTo ? `${window.location.origin}/login?next=${encodeURIComponent(redirectTo)}` : undefined);
         // Log legal acceptance
         const { data: { user } } = await supabase.auth.getUser();
         if (user) {
