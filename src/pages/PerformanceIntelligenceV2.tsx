@@ -18,6 +18,7 @@ const TABS = [
 
 export default function PerformanceIntelligence() {
   const { user } = useAuth();
+  const userId = user?.id;
   const [params, setParams] = useSearchParams();
   const tab = TABS.find(item => item.id === params.get('tab'))?.id ?? 'performance';
   const [evidence, setEvidence] = useState<IntelligenceEvidence | null>(null);
@@ -28,16 +29,16 @@ export default function PerformanceIntelligence() {
     let cancelled = false;
     setEvidence(null);
     setOwner(null);
-    if (!user) { setLoading(false); return; }
+    if (!userId) { setLoading(false); return; }
     setLoading(true);
     // Existing caller-owned read contracts only. Never rebuild or fetch shadow diagnostics.
     loadIntelligenceEvidence().then(result => {
       if (cancelled) return;
-      setEvidence(result); setOwner(user.id); setLoading(false);
+      setEvidence(result); setOwner(userId); setLoading(false);
     });
     return () => { cancelled = true; };
-  }, [user?.id, retry]);
-  const ownEvidence = user?.id === owner ? evidence : null;
+  }, [userId, retry]);
+  const ownEvidence = userId === owner ? evidence : null;
   return <AppLayout><div className="mx-auto max-w-6xl space-y-6">
     <header className="flex flex-wrap items-end justify-between gap-4 border-b border-border/60 pb-5">
       <div><p className="mb-2 font-mono text-xs uppercase text-primary">Zyntra · Candidate intelligence</p><h1 className="font-display text-3xl font-medium leading-tight">Performance Intelligence</h1></div>

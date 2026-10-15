@@ -81,3 +81,37 @@
  * Zyntra Home is intentionally styled by Home.tsx + Tailwind utilities.
  * Do not add legacy landing-page selectors here.
  */
+
+/* Intelligence-only neural continuity; no inference activity is implied. */
+.intelligence-overview {
+  position: relative;
+  isolation: isolate;
+  letter-spacing: 0;
+}
+.intelligence-overview::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+  top: 18rem;
+  bottom: 8rem;
+  left: 50%;
+  width: 1px;
+  background: linear-gradient(to bottom, hsl(var(--primary) / .25), hsl(var(--border) / .08));
+}
+.intelligence-overview > section,
+.intelligence-overview > div {
+  position: relative;
+}
+@media (max-width: 767px) {
+  .intelligence-overview::before { left: 0; opacity: .5; }
+  .intelligence-overview > section:first-child img { opacity: .25; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .intelligence-overview *,
+  .intelligence-overview *::before,
+  .intelligence-overview *::after {
+    animation: none;
+    transition: none;
+  }
+}
