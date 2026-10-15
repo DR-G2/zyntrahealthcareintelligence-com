@@ -91,6 +91,13 @@ interface QuestionTopicMeta {
 
 const QUESTION_META_PAGE_SIZE = 1000;
 
+const DRAFT_QBANK_SUBJECTS = [
+  { name: 'Adult Medicine', code: 'AM', topics: ['Cardiovascular', 'Respiratory', 'Gastroenterology', 'Endocrinology', 'Neurology', 'Nephrology', 'Infectious Diseases', 'Haematology', 'Oncology', 'Rheumatology', 'Geriatrics', 'Dermatology', 'Addiction', 'Immunology', 'Ophthalmology', 'Pain Medicine', 'Palliative Care', 'Rehabilitation', 'Sexual Health'] },
+  { name: 'Adult Surgery', code: 'AS', topics: ['Acute Abdomen', 'Trauma', 'Perioperative Care', 'Hepatobiliary', 'Colorectal', 'Breast and Endocrine Surgery', 'Urology', 'Vascular Surgery', 'Upper GI Surgery', 'ENT, Eye and Skin'] },
+  { name: "Women's Health", code: 'WH', topics: ['Antenatal Care', 'Labour', 'Early Pregnancy', 'Gynaecological Emergencies', 'Abnormal Bleeding', 'Cervical Health', 'Contraception', 'Fertility', 'Menopause'] },
+  { name: 'Population Health', code: 'PH', topics: ['Screening', 'Immunisation', 'First Nations Health', 'Epidemiology', 'Consent', 'Medicolegal', 'Professionalism', 'Health Systems', 'Occupational Health', 'Disclosure'] },
+] as const;
+
 function createSelectedSubtopicKey(subjectName: string, subtopicName: string): string {
   return `${normalizeTopicLabel(subjectName)}::${normalizeTopicLabel(subtopicName)}`;
 }
@@ -416,6 +423,42 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
           <p className="text-xs font-medium text-cyan-200">Adaptive selection</p>
           <p className="mt-1 text-xs text-slate-400">Zyntra chooses each question for you across all topics, with due reviews first. Topic filters are used for browsing only and do not limit the drill. Each answer is final once you move on; explanations appear in your results.</p>
         </div>
+
+        {isAdmin && (
+          <section
+            aria-labelledby="draft-qbank-heading"
+            data-testid="draft-qbank-inventory"
+            className="space-y-3 rounded-2xl border border-amber-400/25 bg-amber-400/[0.035] p-5"
+          >
+            <div className="flex flex-wrap items-start justify-between gap-2">
+              <div>
+                <h2 id="draft-qbank-heading" className="text-sm font-semibold uppercase tracking-wider text-foreground">QBank build inventory</h2>
+                <p className="mt-1 text-xs text-muted-foreground">Draft-only catalogue, grouped under the intended Practice subject headings.</p>
+              </div>
+              <span className="rounded-full border border-amber-300/30 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-amber-200">Admin preview</span>
+            </div>
+            <p className="text-xs leading-relaxed text-muted-foreground">
+              These source files are not loaded into live drills, do not affect learner counts, and have not been imported into Supabase. Clinical sign-off is still required before activation.
+            </p>
+            <div className="grid gap-3 md:grid-cols-2">
+              {DRAFT_QBANK_SUBJECTS.map((subject) => (
+                <details key={subject.code} className="group rounded-xl border border-white/10 bg-[#081224]/60 p-3">
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-3">
+                    <span className="text-sm font-medium">{subject.name}</span>
+                    <span className="text-xs text-muted-foreground">{subject.topics.length} subheadings</span>
+                  </summary>
+                  <ul className="mt-3 grid grid-cols-1 gap-1.5 sm:grid-cols-2">
+                    {subject.topics.map((topic) => (
+                      <li key={topic} className="rounded-md border border-white/5 px-2.5 py-1.5 text-xs text-muted-foreground">
+                        {topic}
+                      </li>
+                    ))}
+                  </ul>
+                </details>
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* Three primary entry points */}
         <div className="space-y-3 rounded-2xl border border-white/10 bg-white/[0.02] p-5 backdrop-blur-xl" role="radiogroup" aria-label="Practice type">
