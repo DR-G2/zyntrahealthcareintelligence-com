@@ -47,7 +47,7 @@ export function MCQReviewQueue() {
   const [search, setSearch] = useState('');
   const [expanded, setExpanded] = useState<string | null>(null);
 
-  const { data: attempts = [], isLoading } = useQuery({
+  const { data: attempts = [], isLoading, isError, refetch } = useQuery({
     queryKey: ['mcq-review-queue', user?.id],
     queryFn: async () => {
       if (!user) return [];
@@ -126,7 +126,9 @@ export function MCQReviewQueue() {
     subjects: new Set(queue.map(r => r.latest.questions?.category).filter(Boolean)).size,
   }), [queue]);
 
-  if (isLoading) return <div className="space-y-3">{[1, 2, 3].map(i => <div key={i} className="h-28 rounded-xl bg-muted animate-pulse" />)}</div>;
+  if (isLoading) return <div className="space-y-3">{[1, 2, 3].map(i => <div key={i} className="h-28 rounded-lg bg-muted animate-pulse" />)}</div>;
+
+  if (isError) return <section role="alert" className="py-10"><h2 className="text-xl font-semibold">Review Queue could not load</h2><p className="mt-3 text-sm text-muted-foreground">Your saved attempts are unavailable. Please retry.</p><Button variant="outline" className="mt-4" onClick={() => void refetch()}>Retry</Button></section>;
 
   if (!attempts.length) {
     return <Card><CardContent className="py-14 text-center space-y-3"><Target className="h-10 w-10 mx-auto text-muted-foreground/50" /><h2 className="font-display text-xl font-bold">Review Queue is empty</h2><p className="text-sm text-muted-foreground">Complete some MCQs and Zyntra will surface questions that need another look.</p></CardContent></Card>;
@@ -134,7 +136,7 @@ export function MCQReviewQueue() {
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
         {[
           ['Needs Review', stats.queue],
           ['Repeated Misses', stats.repeated],
@@ -151,7 +153,7 @@ export function MCQReviewQueue() {
           <div className="flex flex-col lg:flex-row gap-3">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search QN, question, subject or subtopic…" className="pl-9" />
+              <Input aria-label="Search review questions" value={search} onChange={e => setSearch(e.target.value)} placeholder="Search QN, question, subject or subtopic…" className="pl-9" />
             </div>
             <Select value={reason} onValueChange={(v: Reason) => setReason(v)}>
               <SelectTrigger className="w-full lg:w-[170px]"><SelectValue /></SelectTrigger>
@@ -191,7 +193,7 @@ export function MCQReviewQueue() {
                       {row.unstable && <Badge variant="outline">Answer changed</Badge>}
                       {row.spacedDue && <Badge variant="outline" className="gap-1"><CalendarClock className="h-3 w-3" /> Due</Badge>}
                     </div>
-                    <p className="font-medium text-sm leading-relaxed">{q?.question_text || 'Question unavailable'}</p>
+                    <p className="font-medium text-sm leading-7">{q?.question_text || 'Question unavailable'}</p>
                     <div className="flex flex-wrap items-center gap-3 mt-2 text-xs text-muted-foreground">
                       <span className="flex items-center gap-1"><Clock3 className="h-3 w-3" /> {row.latest.time_taken_seconds}s</span>
                       <span>{row.history.length} attempt{row.history.length === 1 ? '' : 's'}</span>
@@ -211,7 +213,7 @@ export function MCQReviewQueue() {
                 </div>
 
                 {isOpen && (
-                  <div className="mt-4 rounded-xl border bg-muted/30 p-4 space-y-4">
+                  <div className="mt-4 rounded-lg border bg-muted/30 p-4 space-y-4">
                     <div className="space-y-2">
                       {options.map((option, i) => {
                         const letter = String.fromCharCode(65 + i);

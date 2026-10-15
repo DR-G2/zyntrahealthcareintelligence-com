@@ -213,13 +213,13 @@ export function MCQHistory() {
         ))}
       </div>
 
-      <Card className="border-white/10">
+      <Card className="border-border/60">
         <CardContent className="pt-4 space-y-3">
           <div className="flex flex-col lg:flex-row gap-3">
-            <div className="relative flex-1 min-w-[220px]">
+            <div className="relative flex-1 min-w-0">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
-                placeholder="Search question, subject, subtopic or QN ID…"
+                aria-label="Search attempt history" placeholder="Search question, subject, subtopic or QN ID…"
                 value={searchQuery}
                 onChange={e => { setSearchQuery(e.target.value); setPage(0); }}
                 className="pl-9"
@@ -297,7 +297,7 @@ export function MCQHistory() {
               <CardContent className="p-4">
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium line-clamp-2">{q?.question_text || 'Question unavailable'}</p>
+                    <p className="text-sm font-medium leading-7">{q?.question_text || 'Question unavailable'}</p>
                     <div className="flex items-center gap-2 mt-2 flex-wrap">
                       <Badge variant="outline" className="text-xs">{q?.category || 'Uncategorised'}</Badge>
                       {q?.subtopic && <Badge variant="secondary" className="text-xs">{q.subtopic}</Badge>}
