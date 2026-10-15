@@ -4,7 +4,7 @@
 
 begin;
 
-drop function if exists public.get_practice_question_metadata(integer);
+drop function if exists public.get_practice_question_metadata(integer, integer);
 
 create function public.get_practice_question_metadata(p_limit integer default 1000, p_offset integer default 0)
 returns table (
@@ -41,7 +41,7 @@ begin
 end;
 $function$;
 
-revoke all on function public.get_practice_question_metadata(integer) from public, anon;
-grant execute on function public.get_practice_question_metadata(integer) to authenticated;
+revoke all on function public.get_practice_question_metadata(integer, integer) from public, anon;
+grant execute on function public.get_practice_question_metadata(integer, integer) to authenticated;
 
 commit;
