@@ -115,3 +115,54 @@
     transition: none;
   }
 }
+
+/* Genjutsu homepage — canonical visual tokens for the website-wide system. */
+.home-genjutsu {
+  --gj-base: 211 76% 7%;
+  --gj-surface: 212 60% 10%;
+  --gj-cyan: 187 92% 62%;
+  --gj-teal: 182 70% 34%;
+  --gj-glass: 196 70% 50% / .06;
+  --gj-line: 192 60% 70%;
+  --gj-text: 205 40% 96%;
+  --gj-muted: 208 22% 74%;
+  background: hsl(var(--gj-base));
+  color: hsl(var(--gj-text));
+  overflow-x: clip;
+}
+.home-genjutsu h1, .home-genjutsu h2, .home-genjutsu h3 { font-family: 'Space Grotesk', 'Plus Jakarta Sans', sans-serif; letter-spacing: -0.01em; }
+.home-genjutsu .gj-h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 1.02; }
+.gj-muted { color: hsl(var(--gj-muted)); }
+.gj-accent { color: hsl(var(--gj-cyan)); }
+.gj-panel {
+  background: hsl(var(--gj-surface) / .72);
+  border: 1px solid hsl(var(--gj-cyan) / .16);
+  backdrop-filter: blur(12px);
+}
+.gj-rule { border-color: hsl(var(--gj-cyan) / .12); }
+.gj-button {
+  background: linear-gradient(135deg, hsl(var(--gj-cyan)), hsl(var(--gj-teal)));
+  color: hsl(var(--gj-base));
+  box-shadow: 0 10px 30px -12px hsl(var(--gj-cyan) / .6);
+}
+.gj-button-ghost { border: 1px solid hsl(var(--gj-cyan) / .35); color: hsl(var(--gj-cyan)); }
+.gj-button-ghost:hover { background: hsl(var(--gj-cyan) / .1); }
+.gj-backdrop {
+  background:
+    radial-gradient(40rem 30rem at 75% 10%, hsl(var(--gj-teal) / .22), transparent 70%),
+    radial-gradient(30rem 24rem at 10% 30%, hsl(var(--gj-cyan) / .08), transparent 70%);
+}
+.gj-nerve { background: linear-gradient(90deg, transparent, hsl(var(--gj-cyan) / .5), transparent); }
+.gj-nerve-v { background: linear-gradient(180deg, transparent, hsl(var(--gj-cyan) / .5), transparent); }
+.gj-hero:focus-visible { outline: 2px solid hsl(var(--gj-cyan)); outline-offset: 6px; border-radius: 1rem; }
+.gj-label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: .22em; }
+.gj-signal { animation: gj-signal 4.4s ease-in infinite; offset-rotate: 0deg; }
+@keyframes gj-signal {
+  0% { offset-distance: 0%; opacity: 0; }
+  8% { opacity: 1; }
+  66% { offset-distance: 100%; opacity: .9; }
+  72%, 100% { offset-distance: 100%; opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gj-signal { animation: none; display: none; }
+}
