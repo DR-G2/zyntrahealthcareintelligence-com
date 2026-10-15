@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Clock, Lock, RefreshCw, ChevronLeft, ChevronRight, CheckCircle, XCircle, Zap, TrendingUp, TrendingDown, ChevronDown, ChevronUp, Minus, Plus, Search, X, BookOpen, Target, Stethoscope, Shield } from 'lucide-react';
 import { MCQHistory } from '@/components/history/MCQHistory';
@@ -12,7 +12,6 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
-import { OnboardingTooltip } from '@/components/OnboardingTooltip';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
@@ -29,6 +28,7 @@ import { emitBehaviorEvent } from '@/lib/telemetry';
 import { syncPieEngine } from '@/lib/pie/pie-engine-client';
 import { PieDiagnosticError, describePieFailure, pieSyncFailure, reportPieFailure, requireV2SessionId } from '@/lib/pie/pie-diagnostics';
 import { PieDrillSession } from '@/components/practice/PieDrillSession';
+import { PracticeModeSelector, type PracticePrimaryMode } from '@/components/practice/PracticeModeSelector';
 import { ADMIN_EMAILS } from '@/lib/admin-emails';
 import { fetchLegacyShapedHistory } from '@/lib/pie/pie-history-client';
 import { getSupabaseV2 } from '@/integrations/supabase/v2-client';
@@ -91,6 +91,8 @@ interface QuestionTopicMeta {
 }
 
 const QUESTION_META_PAGE_SIZE = 1000;
+/** Server and session client both cap a session at 50 questions. */
+const MAX_SESSION_QUESTIONS = 50;
 
 function createSelectedSubtopicKey(subjectName: string, subtopicName: string): string {
   return `${normalizeTopicLabel(subjectName)}::${normalizeTopicLabel(subtopicName)}`;
@@ -123,6 +125,7 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
   const focusSubtopic = searchParams.get('focus');
   const focusSubject = searchParams.get('subject');
   const [mode, setMode] = useState<'recharge' | 'no-change' | 'full-mock'>('recharge');
+  const [primary, setPrimary] = useState<PracticePrimaryMode>('drill');
   const [statusFilter, setStatusFilter] = useState<QuestionStatusFilter>('all');
   const [statusCounts, setStatusCounts] = useState<Record<QuestionStatusFilter, number>>({
     all: 0, attempted: 0, 'not-attempted': 0, correct: 0, incorrect: 0,
@@ -133,7 +136,7 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
   // Track subjects with no subtopics that are selected
   const [selectedBareSubjects, setSelectedBareSubjects] = useState<Set<string>>(new Set());
   const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
-  const [questionCount, setQuestionCount] = useState(25);
+  const [questionCount, setQuestionCount] = useState(20);
   const [searchQuery, setSearchQuery] = useState('');
   const [categoryCounts, setCategoryCounts] = useState<Record<string, number>>({});
   const [subtopicCounts, setSubtopicCounts] = useState<Record<string, number>>({});
@@ -360,18 +363,18 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
   const handleQuestionCountChange = (value: string) => {
     const num = parseInt(value, 10);
     if (!isNaN(num) && num >= 1) {
-      setQuestionCount(Math.min(500, num));
+      setQuestionCount(Math.min(MAX_SESSION_QUESTIONS, num));
     } else if (value === '') {
       setQuestionCount(1);
     }
   };
 
-  const incrementCount = () => setQuestionCount(prev => Math.min(500, prev + 1));
+  const incrementCount = () => setQuestionCount(prev => Math.min(MAX_SESSION_QUESTIONS, prev + 1));
   const decrementCount = () => setQuestionCount(prev => Math.max(1, prev - 1));
 
-  const quickPresets = [10, 20, 40, 60, 100];
-  const hasAnySelection = getSelectedSubjectNames().length > 0;
-  const canStart = hasAnySelection;
+  const quickPresets = [10, 20, 30, 40, 50];
+  // Topics are browse-only (the server selects across all topics), so they never block Start.
+  const canStart = primary !== 'nudge';
 
   if (loading) {
     return (
@@ -423,159 +426,88 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
         )}
 
         {focusSubtopic && (
-          <div className="rounded-2xl border border-cyan-400/20 bg-cyan-400/[0.04] px-4 py-3">
-            <p className="text-xs font-medium text-cyan-200">Targeted practice</p>
-            <p className="mt-1 text-xs text-slate-400">Focus is set to <span className="font-medium text-white">{focusSubtopic}</span>{focusSubject ? ` in ${focusSubject}` : ''}. Start the drill when ready.</p>
+          <div className="rounded-2xl border border-border/60 bg-card/50 px-4 py-3" role="status">
+            <p className="text-xs font-medium text-primary">Focus link</p>
+            <p className="mt-1 text-xs text-muted-foreground">You opened Practice for <span className="font-medium text-foreground">{focusSubtopic}</span>{focusSubject ? ` in ${focusSubject}` : ''}. Drills currently choose questions across all topics, so this focus is shown for browsing only.</p>
           </div>
         )}
 
-        <OnboardingTooltip
-          id="practice-intro"
-          title="Welcome to Practice Drills"
-          description="Choose Recharge mode to revisit questions you got wrong, or No Change mode for fresh questions. Use the topic filters below to focus on your weak areas."
-        />
-
-        <div className="rounded-2xl border border-cyan-400/20 bg-cyan-400/[0.04] px-4 py-3" data-testid="pie-selection-notice">
-          <p className="text-xs font-medium text-cyan-200">Adaptive selection</p>
-          <p className="mt-1 text-xs text-slate-400">Zyntra chooses each question for you across all topics, with due reviews first. Topic filters are used for browsing only and do not limit the drill. Each answer is final once you move on; explanations appear in your results.</p>
-        </div>
-
-        {/* Three primary entry points */}
-        <div className="space-y-3 rounded-2xl border border-white/10 bg-white/[0.02] p-5 backdrop-blur-xl" role="radiogroup" aria-label="Practice type">
-          <div className="flex items-start gap-3">
-            <div className="mt-0.5 rounded-lg bg-primary/10 p-2 text-primary"><Zap className="h-4 w-4" /></div>
-            <div><h2 className="text-sm font-semibold uppercase tracking-wider text-foreground">Choose how to practise</h2><p className="mt-1 text-xs text-muted-foreground">Three ways to train. Confidence is required on every answer, and you can rule out options in all of them.</p></div>
+        <section aria-labelledby="practice-mode-heading" className="space-y-4">
+          <div>
+            <p className="font-mono text-xs uppercase tracking-[.2em] text-primary">Choose how to practise</p>
+            <h2 id="practice-mode-heading" className="mt-2 font-display text-xl font-semibold">Three ways to train</h2>
+            <p className="mt-1 text-sm text-muted-foreground">Confidence is required on every answer, and you can rule out options in every session.</p>
           </div>
-          <div className="grid gap-4 md:grid-cols-3">
-            {/* 1. MCQ Drill */}
-            <div
-              className={cn(
-                'rounded-2xl border bg-[#081224]/70 p-5 text-left backdrop-blur-xl transition-all',
-                mode === 'recharge' || mode === 'no-change'
-                  ? 'border-cyan-300/80 ring-1 ring-cyan-400/20'
-                  : 'border-white/10'
-              )}
-            >
-              <div className="flex items-center gap-3 mb-2">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-chart-3/10 text-chart-3"><Target className="h-5 w-5" /></div>
-                <span className="font-display font-semibold">MCQ Drill</span>
-              </div>
-              <p className="mb-3 text-sm text-muted-foreground">Question by question. Pick how answers behave:</p>
-              <div className="grid gap-2">
-                <button
-                  role="radio" aria-checked={mode === 'recharge'}
-                  onClick={() => setMode('recharge')}
-                  className={cn('flex items-start gap-2 rounded-xl border px-3 py-2 text-left text-xs transition-colors',
-                    mode === 'recharge' ? 'border-cyan-300/70 bg-cyan-400/10 text-foreground' : 'border-white/10 text-muted-foreground hover:border-cyan-400/30')}
-                >
-                  <RefreshCw className="mt-0.5 h-3.5 w-3.5 shrink-0" />
-                  <span><span className="font-semibold">With option change</span><br />Change your answer before you move on. Every change is recorded.</span>
-                </button>
-                <button
-                  role="radio" aria-checked={mode === 'no-change'}
-                  onClick={() => setMode('no-change')}
-                  className={cn('flex items-start gap-2 rounded-xl border px-3 py-2 text-left text-xs transition-colors',
-                    mode === 'no-change' ? 'border-cyan-300/70 bg-cyan-400/10 text-foreground' : 'border-white/10 text-muted-foreground hover:border-cyan-400/30')}
-                >
-                  <Lock className="mt-0.5 h-3.5 w-3.5 shrink-0" />
-                  <span><span className="font-semibold">Without option change</span><br />Your first choice is final.</span>
-                </button>
+          <PracticeModeSelector value={primary} onChange={(next) => {
+            setPrimary(next);
+            if (next === 'mock') setMode('full-mock');
+            else if (mode === 'full-mock') setMode('recharge');
+          }} />
+        </section>
+
+        {primary === 'drill' && (
+          <section aria-label="MCQ Drill settings" className="space-y-6 rounded-2xl border border-border/60 bg-card/50 p-5 backdrop-blur-xl">
+            <div className="space-y-3">
+              <h3 className="text-sm font-semibold uppercase tracking-wider">Answer behaviour</h3>
+              <div role="radiogroup" aria-label="Answer behaviour" className="grid gap-2 sm:grid-cols-2">
+                {([
+                  ['recharge', RefreshCw, 'With option change', 'Change your answer before you move on. Every change is recorded.'],
+                  ['no-change', Lock, 'No option change', 'Your first choice is final on this device.'],
+                ] as const).map(([value, Icon, title, desc]) => (
+                  <button key={value} type="button" role="radio" aria-checked={mode === value} onClick={() => setMode(value)}
+                    className={cn('flex min-h-14 items-start gap-3 rounded-xl border px-4 py-3 text-left text-sm transition-colors motion-reduce:transition-none',
+                      mode === value ? 'border-primary/70 bg-accent/40 text-foreground' : 'border-border/60 text-muted-foreground hover:border-primary/40')}>
+                    <Icon className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
+                    <span><span className="font-semibold text-foreground">{title}</span><br /><span className="text-xs">{desc}</span></span>
+                  </button>
+                ))}
               </div>
             </div>
-
-            {/* 2. Nudge */}
-            <a
-              href="/intelligence"
-              className="rounded-2xl border border-white/10 bg-[#081224]/70 p-5 text-left backdrop-blur-xl transition-all hover:border-cyan-400/25"
-            >
-              <div className="flex items-center gap-3 mb-2">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-chart-1/10 text-chart-1"><TrendingUp className="h-5 w-5" /></div>
-                <span className="font-display font-semibold">Nudge</span>
-                <Badge variant="outline" className="ml-auto text-[10px]">Coming soon</Badge>
+            <div className="space-y-3">
+              <h3 className="text-sm font-semibold uppercase tracking-wider">Question load</h3>
+              <div className="flex flex-wrap items-center gap-2">
+                {quickPresets.map((preset) => (
+                  <Button key={preset} variant={questionCount === preset ? 'default' : 'outline'} size="sm" onClick={() => setQuestionCount(preset)} className="min-h-10 min-w-12">{preset}</Button>
+                ))}
+                <div className="flex items-center gap-2 sm:ml-3">
+                  <Button variant="outline" size="icon" aria-label="One fewer question" onClick={decrementCount} disabled={questionCount <= 1}><Minus className="h-4 w-4" /></Button>
+                  <Input type="number" aria-label="Number of questions" min={1} max={MAX_SESSION_QUESTIONS} value={questionCount} onChange={(e) => handleQuestionCountChange(e.target.value)} className="w-20 text-center font-mono text-lg" />
+                  <Button variant="outline" size="icon" aria-label="One more question" onClick={incrementCount} disabled={questionCount >= MAX_SESSION_QUESTIONS}><Plus className="h-4 w-4" /></Button>
+                </div>
               </div>
-              <p className="text-sm text-muted-foreground">
-                Practice aimed at the one learning objective your answers show you need most. Not switched on yet — see your recommended next step in Intelligence.
-              </p>
-            </a>
-
-            {/* 3. Full Mock Exam */}
-            <button
-              role="radio" aria-checked={mode === 'full-mock'}
-              onClick={() => { setMode('full-mock'); setQuestionCount(150); }}
-              className={cn(
-                'rounded-2xl border bg-[#081224]/70 p-5 text-left backdrop-blur-xl transition-all hover:border-cyan-400/25',
-                mode === 'full-mock' ? 'border-cyan-300/80 ring-1 ring-cyan-400/20' : 'border-white/10'
-              )}
-            >
-              <div className="flex items-center gap-3 mb-2">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-destructive/10 text-destructive"><Shield className="h-5 w-5" /></div>
-                <span className="font-display font-semibold">Full Mock Exam</span>
-              </div>
-              <p className="text-sm text-muted-foreground">
-                Exam conditions: 210-minute timer, answers lock on selection, no going back.
-              </p>
-            </button>
-          </div>
-        </div>
-
-        {/* Question Count Selector — hidden in full-mock */}
-        {mode !== 'full-mock' && (
-        <div className="space-y-3">
-          <div className="flex items-start gap-3">
-            <div className="mt-0.5 rounded-lg bg-primary/10 p-2 text-primary"><Target className="h-4 w-4" /></div>
-            <div><h2 className="text-sm font-semibold uppercase tracking-wider text-foreground">Question Load</h2><p className="mt-1 text-xs text-muted-foreground">Choose the amount of deliberate practice you want in this session.</p></div>
-          </div>
-          
-          <div className="flex flex-wrap gap-2">
-            {quickPresets.map((preset) => (
-              <Button
-                key={preset}
-                variant={questionCount === preset ? "default" : "outline"}
-                size="sm"
-                onClick={() => setQuestionCount(preset)}
-                className="min-w-[3rem]"
-              >
-                {preset}
-              </Button>
-            ))}
-          </div>
-          
-          <div className="flex items-center gap-3">
-            <Button variant="outline" size="icon" onClick={decrementCount} disabled={questionCount <= 1}>
-              <Minus className="h-4 w-4" />
-            </Button>
-            <Input
-              type="number"
-              min={1}
-              max={500}
-              value={questionCount}
-              onChange={(e) => handleQuestionCountChange(e.target.value)}
-              className="w-20 text-center font-mono text-lg"
-            />
-            <Button variant="outline" size="icon" onClick={incrementCount} disabled={questionCount >= 500}>
-              <Plus className="h-4 w-4" />
-            </Button>
-          </div>
-          
-          <p className="text-sm text-muted-foreground">≈ {questionCount} minutes</p>
-        </div>
+              <p className="text-xs text-muted-foreground">Up to {MAX_SESSION_QUESTIONS} questions per session · about {questionCount} minutes. Zyntra chooses each question for you, with due reviews first.</p>
+            </div>
+          </section>
         )}
 
-        {mode === 'full-mock' && (
-          <div className="rounded-lg border border-destructive/30 bg-destructive/5 p-4">
-            <p className="text-sm font-medium">Full Mock Exam: <span className="text-destructive">210 minutes (3h 30m)</span></p>
-            <p className="text-xs text-muted-foreground mt-1">Sessions currently hold up to 50 questions; the full 150-question exam is not available yet.</p>
-            <p className="text-xs text-muted-foreground mt-1">Answers lock immediately on selection. You cannot go back to previous questions.</p>
-          </div>
+        {primary === 'nudge' && (
+          <section aria-label="Nudge" className="rounded-2xl border border-border/60 bg-card/50 p-5 backdrop-blur-xl">
+            <h3 className="font-display text-lg font-semibold">Nudge is not available yet</h3>
+            <p className="mt-2 max-w-2xl text-sm leading-6 text-muted-foreground">Nudge will pick the one learning objective your answers show you need most, then give you questions mapped to it. That selection isn't switched on yet, so there's nothing to start here. Your current next step is shown in Performance Intelligence.</p>
+            <Button asChild variant="outline" className="mt-4"><Link to="/intelligence">See your next step <ChevronRight className="h-4 w-4" /></Link></Button>
+          </section>
         )}
 
+        {primary === 'mock' && (
+          <section aria-label="Full Mock Exam rules" className="rounded-2xl border border-border/60 bg-card/50 p-5 backdrop-blur-xl">
+            <h3 className="font-display text-lg font-semibold">Exam conditions</h3>
+            <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
+              <li><span className="font-medium text-foreground">{MAX_SESSION_QUESTIONS} questions</span> — the current session limit. The full 150-question exam isn't available yet.</li>
+              <li><span className="font-medium text-foreground">210-minute timer</span>; the session ends when time runs out.</li>
+              <li>Answers lock on selection on this device, and you can't go back.</li>
+              <li>Questions are chosen adaptively, as in the drill; no exam blueprint or exam-style score is applied.</li>
+            </ul>
+          </section>
+        )}
+
+        {primary === 'drill' && (<>
         {/* Question Status Filter */}
-        <div className="space-y-3 rounded-2xl border border-white/10 bg-[#081224]/70 p-5 backdrop-blur-xl">
+        <div className="space-y-3 rounded-2xl border border-white/10 bg-card/50 p-5 backdrop-blur-xl">
           <div className="flex items-start gap-3">
             <div className="mt-0.5 rounded-lg bg-primary/10 p-2 text-primary"><Target className="h-4 w-4" /></div>
             <div>
-              <h2 className="text-sm font-semibold uppercase tracking-wider text-foreground">Question Status</h2>
-              <p className="mt-1 text-xs text-muted-foreground">Control whether Zyntra gives you questions you have seen before, mastered, or missed.</p>
+              <h2 className="text-sm font-semibold uppercase tracking-wider text-foreground">Question status <span className="ml-1 font-normal normal-case tracking-normal text-muted-foreground">· browse only</span></h2>
+              <p className="mt-1 text-xs text-muted-foreground">Counts from your own answers. This view does not limit the drill.</p>
               {historyError && (
                 <p className="mt-1 text-xs text-destructive" role="status">Your answer history couldn't load, so Attempted, Correct and Incorrect counts aren't shown accurately.</p>
               )}
@@ -624,11 +556,11 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
         </div>
 
         {/* Topic Filters — Subject → Subtopics */}
-        <div className="space-y-4 rounded-2xl border border-white/10 bg-[#081224]/70 p-5 backdrop-blur-xl">
+        <div className="space-y-4 rounded-2xl border border-white/10 bg-card/50 p-5 backdrop-blur-xl">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
             <div className="flex items-start gap-3">
               <div className="mt-0.5 rounded-lg bg-primary/10 p-2 text-primary"><BookOpen className="h-4 w-4" /></div>
-              <div><h2 className="text-sm font-semibold uppercase tracking-wider text-foreground">Focus Areas</h2><p className="mt-1 text-xs text-muted-foreground">Target subjects and subtopics instead of spreading practice evenly.</p></div>
+              <div><h2 className="text-sm font-semibold uppercase tracking-wider text-foreground">Topics <span className="ml-1 font-normal normal-case tracking-normal text-muted-foreground">· browse only</span></h2><p className="mt-1 text-xs text-muted-foreground">Question counts by subject and subtopic. Selections here do not limit the drill.</p></div>
             </div>
             <div className="flex flex-wrap gap-2 sm:shrink-0">
               <Button variant="ghost" size="sm" onClick={selectAll}>Select All</Button>
@@ -732,10 +664,8 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
               })}
           </div>
 
-          {!hasAnySelection && (
-            <p className="text-sm text-destructive">Select at least one subject or subtopic</p>
-          )}
         </div>
+        </>)}
 
         {/* Start Button */}
         <Button
@@ -750,9 +680,9 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
               statusFilter,
             });
           }}
-          className="w-full sm:w-auto gap-2"
+          className={cn('w-full gap-2 sm:w-auto', primary === 'nudge' && 'hidden')}
         >
-          <Zap className="h-4 w-4" /> Start Drill
+          <Zap className="h-4 w-4" /> {primary === 'mock' ? 'Start mock exam' : 'Start drill'}
         </Button>
       </div>
     </AppLayout>
@@ -771,6 +701,7 @@ function ResultsScreen({
   times,
   config,
   drillRuleOuts,
+  onNewDrill,
 }: {
   questions: Question[];
   answers: Record<number, string>;
@@ -778,6 +709,7 @@ function ResultsScreen({
   times: Record<number, number>;
   config: SessionConfig;
   drillRuleOuts: Record<number, string[]>;
+  onNewDrill: () => void;
 }) {
   const { user } = useAuth();
   const [dnaUpdated, setDnaUpdated] = useState(false);
@@ -937,7 +869,7 @@ function ResultsScreen({
                 </div>
                 <div className="rounded-lg bg-muted p-3 text-center">
                   <p className="text-xs text-muted-foreground">Mode</p>
-                  <p className="text-sm font-semibold">{config.mode === 'recharge' ? 'Recharge' : 'No Change'}</p>
+                  <p className="text-sm font-semibold">{config.mode === 'full-mock' ? 'Full Mock Exam' : config.mode === 'recharge' ? 'With option change' : 'No option change'}</p>
                 </div>
                 <div className="rounded-lg bg-muted p-3 text-center">
                   <p className="text-xs text-muted-foreground">Total Time</p>
@@ -1026,7 +958,7 @@ function ResultsScreen({
 
         {/* Actions */}
         <div className="flex gap-3 justify-center">
-          <Button variant="outline" onClick={() => window.location.reload()}>New Drill</Button>
+          <Button variant="outline" onClick={onNewDrill}>New Drill</Button>
           <Button variant="outline" size="sm" onClick={expandAll}>Expand All</Button>
           <Button variant="outline" size="sm" onClick={collapseAll}>Collapse All</Button>
         </div>
@@ -1255,7 +1187,7 @@ function ResultsScreen({
 
         {/* Bottom actions */}
         <div className="flex gap-3 justify-center pb-8">
-          <Button variant="outline" onClick={() => window.location.reload()}>Start New Drill</Button>
+          <Button variant="outline" onClick={onNewDrill}>Start New Drill</Button>
           <Button asChild><a href="/intelligence">View Intelligence</a></Button>
         </div>
       </div>
@@ -1379,6 +1311,7 @@ export default function Practice() {
         times={resultData.times}
         config={config}
         drillRuleOuts={resultData.ruledOut}
+        onNewDrill={() => { setResultData(null); setConfig(null); setPhase('setup'); }}
       />
     );
   }

@@ -3,7 +3,8 @@ import { ChevronLeft, ChevronRight, CheckCircle, Clock } from 'lucide-react';
 import { AppLayout } from '@/components/AppLayout';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+import { Progress } from '@/components/ui/progress';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { PracticeSkeleton } from '@/components/skeletons/PageSkeleton';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
@@ -264,17 +265,30 @@ export function PieDrillSession({ config, resumeSessionId, onFinish }: {
   const isLast = index + 1 >= questions.length && questions.length >= target;
   const mm = `${Math.floor(remaining / 60)}:${String(remaining % 60).padStart(2, '0')}`;
 
+  const isMock = config.mode === 'full-mock';
+  const modeLabel = isMock ? 'Full Mock Exam' : config.mode === 'recharge' ? 'MCQ Drill · With option change' : 'MCQ Drill · No option change';
+  const shownTotal = Math.max(questions.length, target);
+  const lowTime = isMock && remaining <= 600;
+
   return (
     <AppLayout>
-      <div className="mx-auto max-w-3xl space-y-4 py-6">
-        <div className="flex items-center justify-between">
-          <Badge variant="outline">Question {index + 1} of {Math.max(questions.length, target)}</Badge>
-          <Badge variant="outline" className="gap-1"><Clock className="h-3 w-3" />{mm}</Badge>
-        </div>
+      <div className="mx-auto max-w-3xl space-y-4 pb-28 pt-2 md:pb-6">
+        <header className="sticky top-14 z-20 -mx-4 border-b border-border/60 bg-background/85 px-4 py-3 backdrop-blur-md md:top-0 md:mx-0 md:rounded-2xl md:border">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <p className="font-mono text-[11px] uppercase tracking-[.18em] text-primary">{modeLabel}</p>
+            <p className={cn('flex items-center gap-1.5 font-mono text-sm', lowTime ? 'text-destructive' : 'text-foreground')} aria-live={lowTime ? 'polite' : 'off'}>
+              <Clock className="h-4 w-4" aria-hidden="true" /><span className="sr-only">Time remaining </span>{mm}
+            </p>
+          </div>
+          <div className="mt-2 flex items-center gap-3">
+            <span className="shrink-0 text-xs text-muted-foreground">Question {index + 1} of {shownTotal}</span>
+            <Progress value={((index + (saved[index] ? 1 : 0)) / shownTotal) * 100} className="h-1" aria-label="Session progress" />
+          </div>
+        </header>
         {q && (
-          <Card><CardContent className="space-y-4 p-6">
-            <p className="whitespace-pre-line text-base leading-relaxed" data-testid="pie-stem">{q.stem}</p>
-            <div className="space-y-2">
+          <Card className="border-border/60 bg-card/60 backdrop-blur-xl"><CardContent className="space-y-5 p-5 sm:p-6">
+            <p className="max-w-[70ch] whitespace-pre-line text-base leading-7" data-testid="pie-stem">{q.stem}</p>
+            <div className="space-y-2" role="group" aria-label="Answer options">
               {options.map((opt, i) => {
                 const letter = LETTERS[i];
                 const active = selected[index] === letter;
@@ -284,32 +298,34 @@ export function PieDrillSession({ config, resumeSessionId, onFinish }: {
                     <button type="button" disabled={saved[index] || busy || active}
                       aria-pressed={out} aria-label={out ? `Restore option ${letter}` : `Rule out option ${letter}`}
                       onClick={() => toggleRuleOut(letter)}
-                      className={cn('flex w-9 shrink-0 items-center justify-center rounded-md border text-xs',
-                        out ? 'border-muted-foreground bg-muted text-muted-foreground' : 'border-border text-muted-foreground')}>
+                      className={cn('flex w-11 shrink-0 items-center justify-center rounded-xl border text-sm transition-colors motion-reduce:transition-none disabled:opacity-40',
+                        out ? 'border-muted-foreground/60 bg-muted text-foreground' : 'border-border/60 text-muted-foreground hover:border-primary/40')}>
                       {out ? '↺' : '✕'}
                     </button>
                     <button type="button" disabled={saved[index] || busy || out} aria-pressed={active}
                       onClick={() => choose(letter)}
-                      className={cn('w-full rounded-md border p-3 text-left text-sm',
-                        active ? 'border-primary bg-primary/10' : 'border-border',
+                      className={cn('flex min-h-12 w-full items-start gap-3 rounded-xl border p-3 text-left text-sm leading-6 transition-colors motion-reduce:transition-none',
+                        active ? 'border-primary bg-accent/50 text-foreground' : 'border-border/60 hover:border-primary/40',
                         out && 'line-through opacity-50')}>
-                      <span className="mr-2 font-semibold">{letter}.</span>{opt}
+                      <span className={cn('flex h-6 w-6 shrink-0 items-center justify-center rounded-md border font-mono text-xs', active ? 'border-primary text-primary' : 'border-border/60 text-muted-foreground')}>{letter}</span>
+                      <span>{opt}</span>
                     </button>
                   </div>
                 );
               })}
             </div>
             {!saved[index] && (
-              <div className="space-y-1">
-                <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground" role="radiogroup" aria-label="Confidence">
-                  Confidence (required):
+              <div className="space-y-2 border-t border-border/60 pt-4">
+                <p id="confidence-label" className="text-xs font-medium text-muted-foreground">How confident are you? <span className="text-foreground">(required)</span></p>
+                <div className="grid grid-cols-5 gap-1.5 sm:max-w-sm" role="radiogroup" aria-labelledby="confidence-label">
                   {[1, 2, 3, 4, 5].map(v => (
                     <Button key={v} size="sm" role="radio" aria-checked={confidence[index] === v}
                       variant={confidence[index] === v ? 'default' : 'outline'}
-                      aria-label={`Confidence ${v} of 5`}
+                      aria-label={`Confidence ${v} of 5`} className="min-h-11"
                       onClick={() => { setConfidence(c => ({ ...c, [index]: v })); setConfidenceError(false); }}>{v}</Button>
                   ))}
                 </div>
+                <div className="flex justify-between text-[11px] text-muted-foreground sm:max-w-sm"><span>Guessing</span><span>Certain</span></div>
                 {confidenceError && !confidence[index] && (
                   <p role="alert" className="text-xs text-destructive">Select your confidence level to continue.</p>
                 )}
@@ -318,15 +334,26 @@ export function PieDrillSession({ config, resumeSessionId, onFinish }: {
             {saved[index] && <p className="flex items-center gap-1 text-xs text-muted-foreground"><CheckCircle className="h-3 w-3" />Answer saved. Results and explanations appear when you finish.</p>}
           </CardContent></Card>
         )}
-        <div className="flex items-center justify-between">
-          <Button variant="ghost" className="gap-1" disabled={index === 0 || config.mode === 'full-mock' || busy}
-            onClick={() => { recordTime(); setIndex(index - 1); }}>
-            <ChevronLeft className="h-4 w-4" />Back
-          </Button>
+        <nav aria-label="Question navigation" className="fixed inset-x-0 bottom-0 z-20 flex items-center justify-between gap-3 border-t border-border/60 bg-background/90 px-4 py-3 backdrop-blur-md md:static md:border-0 md:bg-transparent md:p-0">
+          {isMock ? <span /> : (
+            <Button variant="ghost" className="gap-1" disabled={index === 0 || busy}
+              onClick={() => { recordTime(); setIndex(index - 1); }}>
+              <ChevronLeft className="h-4 w-4" />Back
+            </Button>
+          )}
           {isLast
-            ? <Button className="gap-1" disabled={busy} onClick={() => void finish()}>Finish <CheckCircle className="h-4 w-4" /></Button>
+            ? isMock
+              ? <AlertDialog>
+                  <AlertDialogTrigger asChild><Button className="gap-1" disabled={busy}>Finish exam <CheckCircle className="h-4 w-4" /></Button></AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader><AlertDialogTitle>Finish the mock exam?</AlertDialogTitle>
+                      <AlertDialogDescription>Your answers will be submitted and you won't be able to return to this exam.</AlertDialogDescription></AlertDialogHeader>
+                    <AlertDialogFooter><AlertDialogCancel>Keep going</AlertDialogCancel><AlertDialogAction onClick={() => void finish()}>Finish exam</AlertDialogAction></AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              : <Button className="gap-1" disabled={busy} onClick={() => void finish()}>Finish <CheckCircle className="h-4 w-4" /></Button>
             : <Button className="gap-1" disabled={busy} onClick={() => void next()}>Next <ChevronRight className="h-4 w-4" /></Button>}
-        </div>
+        </nav>
       </div>
     </AppLayout>
   );
