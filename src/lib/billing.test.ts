@@ -6,7 +6,7 @@ const signup = new Date('2026-10-12T23:00:00Z'); // 13 Oct 2026 10:00 IST (AEDT)
 
 describe('billing schedule (anniversary)', () => {
   it('default model is anniversary', () => expect(BILLING_MODEL).toBe('anniversary'));
-  it('monthly: trial ends +7 IST days; period one full month', () => {
+  it('monthly: trial ends on calendar day 7 (signup date is day 1); period one full month', () => {
     const s = computeSchedule('monthly', signup);
     expect(s.trialEnd).toEqual({ y: 2026, m: 10, d: 19 });
     expect(s.periodEnd).toEqual({ y: 2026, m: 11, d: 18 });
@@ -22,15 +22,15 @@ describe('billing schedule (anniversary)', () => {
     expect(computeSchedule('monthly', new Date('2026-10-31T14:00:00Z')).trialEnd).toEqual({ y: 2026, m: 11, d: 6 });
   });
   it('monthly copy', () => {
-    expect(checkoutSummary('monthly', signup)).toBe("A$1 card verification today. Your 7-calendar-day trial (signup date counts as day 1) ends on 19 October 2026. If you don't cancel before then, we'll charge A$39 on 19 October 2026, then A$39 every month on that date until you cancel.");
+    expect(checkoutSummary('monthly', signup)).toBe("A$1 card verification today. Your 7-calendar-day trial (signup date counts as day 1) ends on 19 October 2026 at 00:01 IST. If you don't cancel before then, we'll charge A$39 on 19 October 2026, then A$39 every month on that date until you cancel.");
   });
   it('3-month copy', () => {
     expect(checkoutSummary('quarterly', signup)).toBe("A$1 card verification today. Your 7-calendar-day trial (signup date counts as day 1) ends on 19 October 2026. If you don't cancel before then, we'll charge A$99 on 19 October 2026, then A$99 every 3 months until you cancel.");
   });
   it('days 29/30/31 use the ordinal clamp line; 28 and earlier do not', () => {
-    // signup 23:00Z = next day 10:00 IST; trial end = that IST date + 7
+    // signup 23:00Z = next day 10:00 IST; trial end = that IST date + 6
     const at = (y: number, m: number, d: number) => new Date(Date.UTC(y, m - 1, d - 7, 18, 30)); // IST date d-7
-    expect(checkoutSummary('monthly', at(2027, 1, 31))).toBe("A$1 card verification today. Your 7-calendar-day trial (signup date counts as day 1) ends on 31 January 2027. If you don't cancel before then, we'll charge A$39 on 31 January 2027, then A$39 every month on the 31st (or the last day of the month, in months without a 31st) until you cancel.");
+    expect(checkoutSummary('monthly', at(2027, 1, 31))).toBe("A$1 card verification today. Your 7-calendar-day trial (signup date counts as day 1) ends on 31 January 2027 at 00:01 IST. If you don't cancel before then, we'll charge A$39 on 31 January 2027, then A$39 every month on the 31st (or the last day of the month, in months without a 31st) until you cancel.");
     expect(checkoutSummary('monthly', at(2027, 1, 30))).toContain('every month on the 30th (or the last day of the month, in months without a 30th) until you cancel.');
     expect(checkoutSummary('monthly', at(2027, 1, 29))).toContain('every month on the 29th (or the last day of the month, in months without a 29th) until you cancel.');
     const d28 = checkoutSummary('monthly', at(2027, 1, 28));
@@ -64,7 +64,7 @@ describe('billing schedule (anniversary)', () => {
 });
 
 describe('B2: server start_at equals the IST trial-end date shown in copy (DST sweep)', () => {
-  it('every hour of 2026 and 2027: start_at falls on the copy date at 10:00 IST', () => {
+  it('every hour of 2026 and 2027: start_at falls on the copy date at 00:01 IST', () => {
     let mismatches = 0;
     for (let t = Date.UTC(2026, 0, 1); t < Date.UTC(2028, 0, 1); t += 3600_000) {
       const signupAt = new Date(t);
