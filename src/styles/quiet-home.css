@@ -284,3 +284,35 @@
 @media (max-width: 760px) {
   .home-quiet .q-example-grid { grid-template-columns: minmax(0,1fr); gap: 2rem; }
 }
+
+
+/* Explicit layouts for rows that do not contain the standard numbered index. */
+.home-quiet .q-pricing-row {
+  grid-template-columns: minmax(0, 1fr) minmax(240px, .75fr);
+  align-items: start;
+}
+.home-quiet .q-pricing-row > div {
+  min-width: 0;
+}
+.home-quiet .q-faq-item {
+  display: block;
+}
+.home-quiet .q-faq-item .q-faq-summary {
+  display: block;
+  width: 100%;
+  min-height: 2.75rem;
+  padding: .2rem 2rem .2rem 0;
+  position: relative;
+}
+.home-quiet .q-faq-item .q-faq-summary span {
+  position: absolute;
+  top: .2rem;
+  right: .1rem;
+  float: none;
+}
+@media (max-width: 640px) {
+  .home-quiet .q-pricing-row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: .85rem;
+  }
+}
