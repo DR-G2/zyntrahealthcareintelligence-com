@@ -16,8 +16,9 @@ import { useRegistrationOpen } from '@/hooks/useSiteSettings';
 
 export default function Login() {
   const [searchParams] = useSearchParams();
-  const defaultTab = searchParams.get('tab') === 'signup' ? 'signup' : 'login';
   const nextPath = sanitizeNextPath(searchParams.get('next')) ?? '/dashboard';
+  const allowSignup = nextPath.startsWith('/pricing?plan=');
+  const defaultTab = allowSignup && searchParams.get('tab') === 'signup' ? 'signup' : 'login';
   const { session, loading, subscription } = useAuth();
   const { enabled: registrationOpen, loading: regLoading } = useRegistrationOpen();
 
@@ -44,17 +45,17 @@ export default function Login() {
           {registrationOpen ? (
             <Tabs defaultValue={defaultTab}>
               <CardHeader className="pb-2">
-                <TabsList className="grid w-full grid-cols-2">
+                <TabsList className={`grid w-full ${allowSignup ? "grid-cols-2" : "grid-cols-1"}`}>
                   <TabsTrigger value="login">Log In</TabsTrigger>
-                  <TabsTrigger value="signup">Sign Up</TabsTrigger>
+                  {allowSignup && <TabsTrigger value="signup">Create Account</TabsTrigger>}
                 </TabsList>
               </CardHeader>
               <TabsContent value="login">
                 <AuthForm mode="login" />
               </TabsContent>
-              <TabsContent value="signup">
+              {allowSignup && <TabsContent value="signup">
                 <AuthForm mode="signup" redirectTo={nextPath} />
-              </TabsContent>
+              </TabsContent>}
             </Tabs>
           ) : (
             <>
