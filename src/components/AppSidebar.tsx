@@ -33,7 +33,7 @@ export function AppSidebar({ isMobile }: { isMobile?: boolean }) {
   const { collapsed, setCollapsed, mobileOpen, setMobileOpen } = useSidebarCollapsed();
   const effectiveCollapsed = isMobile ? false : collapsed;
   const close = () => { if (isMobile) setMobileOpen(false); };
-  const training = ['/practice', '/practice/osce', '/plan'].includes(location.pathname);
+  const training = ['/practice', '/practice/osce', '/plan', '/admin'].includes(location.pathname);
   const mobileNavRef = useRef<HTMLElement | null>(null);
   useEffect(() => { mobileNavRef.current?.toggleAttribute('inert', training && !mobileOpen); }, [training, mobileOpen]);
   useEffect(() => {
@@ -77,7 +77,7 @@ export function AppSidebar({ isMobile }: { isMobile?: boolean }) {
         <NavLink to="/settings" onClick={close} title={effectiveCollapsed ? 'Settings' : undefined} className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-sidebar-foreground/70 hover:bg-sidebar-accent">
           <Settings className="h-4 w-4" />{!effectiveCollapsed && 'Settings'}
         </NavLink>
-        {isAdmin && <NavLink to="/admin" onClick={close} title={effectiveCollapsed ? 'Admin' : undefined} className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-sidebar-foreground/70 hover:bg-sidebar-accent"><Shield className="h-4 w-4" />{!effectiveCollapsed && 'Admin'}</NavLink>}
+        {isAdmin && <NavLink to="/admin" onClick={close} title={effectiveCollapsed ? 'Admin' : undefined} className={({ isActive }) => cn('flex items-center gap-2 rounded-lg px-3 py-2 text-sm hover:bg-sidebar-accent', isActive ? 'bg-sidebar-accent text-sidebar-primary' : 'text-sidebar-foreground/70')}><Shield className="h-4 w-4" />{!effectiveCollapsed && 'Admin'}</NavLink>}
         <Button variant="ghost"
           type="button"
           onClick={async () => { close(); await signOut(); navigate('/'); }}

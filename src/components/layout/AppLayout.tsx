@@ -78,7 +78,7 @@ function LayoutInner({ children }: AppLayoutProps) {
   const isMobile = useIsMobile();
   const { pathname } = useLocation();
   // AI Lab remains visually unchanged until its server-side admin gate is approved.
-  const training = ['/practice', '/practice/osce', '/plan'].includes(pathname);
+  const training = ['/practice', '/practice/osce', '/plan', '/admin'].includes(pathname);
   const securityPractice = ['/practice', '/questions', '/assess', '/flashcards'].some(p => pathname === p || pathname.startsWith(p + '/')) || pathname.startsWith('/practice/ai-lab');
 
   return (

@@ -27,6 +27,8 @@ interface UserStats {
 }
 
 export function LiveActivityTab() {
+  const [loadError, setLoadError] = useState(false);
+  const [hasLoaded, setHasLoaded] = useState(false);
   const [stats, setStats] = useState<UserStats[]>([]);
   const [onlineSet, setOnlineSet] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState(false);
@@ -38,16 +40,20 @@ export function LiveActivityTab() {
 
   const fetchAll = async () => {
     setLoading(true);
+    setLoadError(false);
     try {
       const [statsRes, trainingRes] = await Promise.all([
         supabase.functions.invoke('admin-live-stats', { body: {} }),
         supabase.from('ai_training_context').select('updated_at').limit(1).maybeSingle(),
       ]);
       if (statsRes.error) throw statsRes.error;
+      if (statsRes.data?.error) throw new Error(statsRes.data.error);
+      setHasLoaded(true);
       setStats(statsRes.data?.stats || []);
       setOnlineSet(new Set(statsRes.data?.online_user_ids || []));
       if (trainingRes.data) setLastRetrained(trainingRes.data.updated_at);
     } catch (e: any) {
+      setLoadError(true);
       console.error('Failed to fetch user activity', e);
     }
     setLoading(false);
@@ -106,12 +112,17 @@ export function LiveActivityTab() {
 
   return (
     <TooltipProvider>
-      <div className="space-y-4">
+      <div className="min-w-0 space-y-5">
+        <section aria-label="Verified activity summary" className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+          {[{ label: 'Candidates', value: stats.length, detail: 'Activity records returned' }, { label: 'Online now', value: onlineCount, detail: 'Current presence records' }, { label: 'Items requiring review', value: sharedIpCount, detail: 'Shared IP addresses' }].map(item => <Card key={item.label} className="border-primary/20 bg-card"><CardContent className="p-4"><p className="text-xs text-muted-foreground">{item.label}</p><p className="my-2 text-2xl font-semibold">{!hasLoaded || loadError ? '—' : item.value}</p><p className="text-xs text-muted-foreground">{item.detail}</p></CardContent></Card>)}
+          <Card className="border-border/60 bg-card"><CardContent className="p-4"><p className="text-xs text-muted-foreground">System health</p><p className="my-2 text-lg font-semibold">Not checked here</p><p className="text-xs text-muted-foreground">Use the existing System monitor.</p></CardContent></Card>
+        </section>
+        {loadError && <Alert variant="destructive"><AlertDescription role="alert">Candidate activity could not be loaded. Refresh to retry; any displayed records are from the last successful read.</AlertDescription></Alert>}
         <div className="flex items-center justify-between flex-wrap gap-2">
           <div className="flex items-center gap-3">
-            <h2 className="text-lg font-semibold">{stats.length} Users · {onlineCount} Online</h2>
+            <h2 className="text-lg font-semibold">Candidate Directory</h2>
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             <Button variant="outline" size="sm" onClick={fetchAll} disabled={loading}>
               <RefreshCw className={`h-4 w-4 mr-1 ${loading ? 'animate-spin' : ''}`} /> Refresh
             </Button>
@@ -127,11 +138,11 @@ export function LiveActivityTab() {
         )}
 
         {sharedIpCount > 0 && (
-          <Alert variant="destructive" className="cursor-pointer" onClick={() => setShowSharedOnly(v => !v)}>
+          <Alert variant="destructive">
             <AlertTriangle className="h-4 w-4" />
-            <AlertDescription className="flex items-center gap-2">
+            <AlertDescription className="flex flex-wrap items-center gap-2">
               <span className="font-medium">{sharedIpCount} IP {sharedIpCount === 1 ? 'address' : 'addresses'} shared by multiple accounts</span>
-              <Badge variant="outline" className="text-xs">{showSharedOnly ? 'Click to show all' : 'Click to filter'}</Badge>
+              <Button variant="outline" size="sm" aria-pressed={showSharedOnly} onClick={() => setShowSharedOnly(v => !v)}>{showSharedOnly ? 'Show all' : 'Filter shared IPs'}</Button>
             </AlertDescription>
           </Alert>
         )}
@@ -139,7 +150,7 @@ export function LiveActivityTab() {
         <div className="flex items-center gap-2">
           <div className="relative max-w-sm flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input placeholder="Search by name or email..." value={search} onChange={e => setSearch(e.target.value)} className="pl-9" />
+            <Input aria-label="Search candidate activity" placeholder="Search by name or email..." value={search} onChange={e => setSearch(e.target.value)} className="pl-9" />
           </div>
           {showSharedOnly && (
             <Button variant="secondary" size="sm" onClick={() => setShowSharedOnly(false)}>
@@ -151,8 +162,8 @@ export function LiveActivityTab() {
         {loading && stats.length === 0 ? (
           <Card><CardContent className="py-12 text-center text-muted-foreground"><Loader2 className="h-5 w-5 animate-spin mx-auto mb-2" />Loading user activity...</CardContent></Card>
         ) : (
-          <div className="rounded-md border">
-            <Table>
+          <div className="admin-candidate-table min-w-0 rounded-lg border border-border/60 bg-card">
+            <Table className="min-w-[1100px]">
               <TableHeader>
                 <TableRow>
                   <TableHead>User</TableHead>
@@ -173,31 +184,31 @@ export function LiveActivityTab() {
                   <TableRow><TableCell colSpan={11} className="text-center text-muted-foreground py-8">No users found</TableCell></TableRow>
                 ) : filtered.map(s => {
                   const isShared = s.ip_address && sharedIpMap[s.ip_address];
-                  const sharedUsers = isShared ? sharedIpMap[s.ip_address!].filter(u => u.user_id !== s.user_id) : [];
+                  const sharedUsers = s.ip_address && isShared ? sharedIpMap[s.ip_address].filter(u => u.user_id !== s.user_id) : [];
 
                   return (
                     <TableRow key={s.user_id} className={isShared ? 'bg-destructive/5' : ''}>
-                      <TableCell className="max-w-[200px]">
-                        <div className="truncate font-medium text-sm">{s.name || s.email || s.user_id.slice(0, 8)}</div>
-                        {s.name && <div className="truncate text-xs text-muted-foreground">{s.email}</div>}
+                      <TableCell data-label="Candidate" className="max-w-[240px]">
+                        <div className="break-words font-medium text-sm">{s.name || s.email || s.user_id.slice(0, 8)}</div>
+                        {s.name && <div className="break-all text-xs text-muted-foreground">{s.email}</div>}
                       </TableCell>
-                      <TableCell className="text-center">
-                        {onlineSet.has(s.user_id) && <span className="inline-block h-2.5 w-2.5 rounded-full bg-green-500 animate-pulse" />}
+                      <TableCell data-label="Online" className="text-center">
+                        <span className="inline-flex items-center gap-2 text-xs"><span className={`inline-block h-2 w-2 shrink-0 rounded-full ${onlineSet.has(s.user_id) ? 'bg-success' : 'bg-muted-foreground/40'}`} />{onlineSet.has(s.user_id) ? 'Online' : 'Offline'}</span>
                       </TableCell>
-                      <TableCell className="text-right font-medium">{s.total_questions}</TableCell>
-                      <TableCell className="text-right">
+                      <TableCell data-label="MCQs" className="text-right font-medium">{s.total_questions}</TableCell>
+                      <TableCell data-label="Accuracy" className="text-right">
                         {s.total_questions > 0 ? (
                           <Badge variant={s.overall_accuracy >= 70 ? 'default' : s.overall_accuracy >= 50 ? 'secondary' : 'destructive'} className="text-xs">
                             {s.overall_accuracy}%
                           </Badge>
                         ) : <span className="text-muted-foreground text-xs">—</span>}
                       </TableCell>
-                      <TableCell className="text-right font-medium">{s.total_osce}</TableCell>
-                      <TableCell className="text-right">{s.streak_days}d</TableCell>
-                      <TableCell className="text-right text-xs">{s.questions_today}</TableCell>
-                      <TableCell className="text-right text-xs">{s.osce_today}</TableCell>
-                      <TableCell className="text-xs text-muted-foreground">{s.last_active ? new Date(s.last_active).toLocaleString() : '—'}</TableCell>
-                      <TableCell className="text-xs font-mono">
+                      <TableCell data-label="OSCE" className="text-right font-medium">{s.total_osce}</TableCell>
+                      <TableCell data-label="Streak" className="text-right">{s.streak_days}d</TableCell>
+                      <TableCell data-label="Today MCQ" className="text-right text-xs">{s.questions_today}</TableCell>
+                      <TableCell data-label="Today OSCE" className="text-right text-xs">{s.osce_today}</TableCell>
+                      <TableCell data-label="Last active" className="text-xs text-muted-foreground">{s.last_active ? new Date(s.last_active).toLocaleString() : '—'}</TableCell>
+                      <TableCell data-label="IP address" className="text-xs font-mono">
                         {s.ip_address ? (
                           <div className="flex items-center gap-1.5">
                             <span className="text-muted-foreground">{s.ip_address}</span>
@@ -205,7 +216,7 @@ export function LiveActivityTab() {
                               <Tooltip>
                                 <TooltipTrigger asChild>
                                   <span className="inline-flex items-center gap-1 cursor-help">
-                                    <AlertTriangle className="h-3.5 w-3.5 text-amber-500" />
+                                    <AlertTriangle className="h-3.5 w-3.5 text-warning" />
                                     <Badge variant="destructive" className="text-[10px] px-1.5 py-0">Shared</Badge>
                                   </span>
                                 </TooltipTrigger>
@@ -220,7 +231,7 @@ export function LiveActivityTab() {
                           </div>
                         ) : <span className="text-muted-foreground">—</span>}
                       </TableCell>
-                      <TableCell className="text-xs text-muted-foreground">{new Date(s.joined_at).toLocaleDateString()}</TableCell>
+                      <TableCell data-label="Joined" className="text-xs text-muted-foreground">{new Date(s.joined_at).toLocaleDateString()}</TableCell>
                     </TableRow>
                   );
                 })}
