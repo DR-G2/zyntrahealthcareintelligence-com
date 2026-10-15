@@ -1,4 +1,12 @@
 # Performance Intelligence revamp
+# Admin Genjutsu redesign
+
+- [ ] Inspect PR #96/current implementation and reuse existing admin controls.
+- [ ] Correct navigation containment and modernise existing admin presentation only.
+- [ ] Verify signed-in read-only workflows at 1440/768/390 and run regression tests.
+- [ ] Report exact changed files, verification and remaining limitations; do not publish.
+
+# Performance Intelligence revamp
 
 - [x] Implement scoped, read-only intelligence evidence adapter and regressions.
 - [x] Replace learner overview with neural pathway, evidence signals and accessible interactions.
