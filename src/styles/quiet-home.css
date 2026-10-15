@@ -267,3 +267,20 @@
   .home-quiet .q-row-link { grid-template-columns: 32px minmax(0,1fr) auto; gap: .7rem; }
   .home-quiet .q-principle.q-row-link { gap: .7rem; }
 }
+
+
+.home-quiet .q-example-grid { display: grid; grid-template-columns: minmax(0,.9fr) minmax(0,1.1fr); align-items: start; gap: clamp(2.5rem,8vw,7rem); }
+.home-quiet .q-why-list { margin-top: 1.7rem; border-top: 1px solid var(--q-line); }
+.home-quiet .q-why-list p { display: grid; grid-template-columns: 34px minmax(0,1fr); gap: .7rem; margin: 0; padding: 1rem 0; border-bottom: 1px solid var(--q-line-soft); color: var(--q-body); font-size: .86rem; line-height: 1.75; }
+.home-quiet .q-example-card { margin: 0; padding: clamp(1.2rem,3vw,1.8rem); border: 1px solid var(--q-line); border-radius: 10px; background: var(--q-raised); }
+.home-quiet .q-example-stem { margin: 0 0 1.2rem; color: var(--q-ink); font-size: .87rem; line-height: 1.8; }
+.home-quiet .q-option-list { display: grid; gap: .5rem; margin: 0; padding: 0; list-style: none; }
+.home-quiet .q-option-list li { display: grid; grid-template-columns: 24px minmax(0,1fr); gap: .7rem; align-items: start; padding: .65rem .7rem; border: 1px solid var(--q-line-soft); border-radius: 5px; }
+.home-quiet .q-option-list li > span { color: var(--q-terracotta); font-family: "DM Mono", monospace; font-size: .74rem; padding-top: .1rem; }
+.home-quiet .q-option-list p { margin: 0; color: var(--q-body); font-size: .78rem; line-height: 1.6; }
+.home-quiet .q-example-observes { margin-top: 1.2rem; padding-top: 1rem; border-top: 1px solid var(--q-line); }
+.home-quiet .q-example-observes strong { font-size: .82rem; }
+.home-quiet .q-example-observes p { margin: .4rem 0 0; color: var(--q-body); font-size: .77rem; line-height: 1.7; }
+@media (max-width: 760px) {
+  .home-quiet .q-example-grid { grid-template-columns: minmax(0,1fr); gap: 2rem; }
+}
