@@ -1,6 +1,6 @@
 import { BrandMark } from '@/components/BrandMark';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { Zap, Shield, PanelLeftClose, PanelLeft, Brain, Network, Route, Settings, Bell, LogOut } from 'lucide-react';
+import { Shield, PanelLeftClose, PanelLeft, Brain, Network, Route, Settings, Bell, LogOut } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils';
 import { TooltipProvider } from '@/components/ui/tooltip';

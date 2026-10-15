@@ -1,6 +1,5 @@
 import { BrandMark } from '@/components/BrandMark';
 import { Link } from 'react-router-dom';
-import { Zap } from 'lucide-react';
 import { LEGAL_EMAIL } from '@/lib/legal';
 
 export function PublicFooter() {
