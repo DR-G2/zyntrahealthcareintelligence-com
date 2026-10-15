@@ -1,47 +1,41 @@
-import React from "react";
-import { ArrowLeftRight, BarChart3, Brain, ChevronRight, Clock, Layers } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { ArrowLeftRight, ArrowRight, BarChart3, Brain, ChevronRight, Clock, Target } from "lucide-react";
 import { Link } from "react-router-dom";
 import { BrandMark } from "@/components/BrandMark";
-import { NeuralHero } from "@/components/home/NeuralHero";
 import { COPY_CARD_CHECK, COPY_CANCEL } from "@/lib/billing";
+import "@/styles/quiet-home.css";
 
 const signals = [
-  { title: "Confidence", status: "Observed", icon: Brain, desc: "How sure you were, recorded with every answer." },
-  { title: "Timing", status: "Measured", icon: Clock, desc: "How long each decision took under the clock." },
-  { title: "Answer changes", status: "Tracked", icon: ArrowLeftRight, desc: "When you changed an answer, and whether it helped." },
-  { title: "Consistency", status: "Analysed", icon: BarChart3, desc: "How performance holds across subjects and sessions." },
+  { title: "Confidence", icon: Brain, desc: "How sure you felt when you chose an answer." },
+  { title: "Timing", icon: Clock, desc: "How long a decision took under the clock." },
+  { title: "Answer changes", icon: ArrowLeftRight, desc: "When an answer changed, and whether it helped." },
+  { title: "Consistency", icon: BarChart3, desc: "How performance varies across practice sessions." },
 ];
 
 const loop = [
   ["Observe", "Timing, confidence and answer changes are captured as you practise."],
-  ["Diagnose", "Patterns across those signals show what kind of mistake is recurring."],
-  ["Intervene", "Training focuses on the area that needs work."],
-  ["Measure", "Later practice shows whether the pattern changed."],
-  ["Adapt", "Performance Intelligence and the Study Plan update the next step."],
+  ["Diagnose", "Patterns can help reveal the kind of mistake that keeps recurring."],
+  ["Intervene", "Training can focus on the area that needs more work."],
+  ["Measure", "Later practice helps show whether the pattern changed."],
+  ["Adapt", "Performance Intelligence and the Study Plan help guide the next step."],
 ] as const;
 
-const why = [
-  "A conventional question bank marks the option. Zyntra also keeps timing, confidence and answer changes.",
-  "Those signals feed Performance Intelligence and the Study Plan, so preparation targets how you reach answers — not only what you got wrong.",
-  "Built for medical students, medical graduates and doctors, including IMGs, preparing for AMC examinations.",
-];
-
 const trainingItems = [
-  ["Practice · MCQ", "The live room. Questions, explanations, timing, confidence, answer changes and difficulty."],
-  ["Surgery: OSCE", "OSCE · not live yet. Stations are not a current training mode."],
-  ["Flashcards", "Targeted review built from mistakes and weak areas. Your review deck will build from your practice."],
-  ["Performance", "What the candidate knows, and how that performance varies."],
-  ["Behaviour", "Timing, hesitation, answer changes, consistency and confidence."],
-  ["Trust Your Gut", "What happens when an initial answer is changed."],
-  ["Study Plan", "Current plan, weak areas, practice priorities and exam timeline where a date is set."],
+  ["Practice · MCQ", "The current practice room for questions, explanations, timing, confidence and answer changes."],
+  ["OSCE", "A clinical practice direction being developed. Availability depends on the current release."],
+  ["Flashcards", "A focused review approach for revisiting mistakes and weak areas as supported by the product."],
+  ["Performance", "Understand accuracy and how performance varies across practice."],
+  ["Behaviour", "Explore timing, hesitation, answer changes, consistency and confidence where recorded."],
+  ["Trust Your Gut", "Examine what happens when an initial answer is changed."],
+  ["Study Plan", "Review available priorities, weak areas and an exam timeline when one is set."],
 ] as const;
 
 const faqs = [
-  ["What is Zyntra?", "Zyntra is an AI-powered AMC exam preparation platform. It records the answer and the way the answer was reached."],
-  ["Who is it for?", "Medical students, medical graduates and doctors, including IMGs, preparing for AMC examinations."],
-  ["Is Zyntra a question bank?", "MCQ practice is the live training room. The difference is that timing, confidence and answer changes are kept with the score."],
-  ["How much does it cost?", "One plan, Full Access: A$39/month or A$99 for 3 months (AUD). Both include a 7-day free trial and you can cancel anytime."],
-  ["What does Zyntra track?", "Accuracy, timing, confidence, answer changes, consistency and recurring mistakes, where those signals are collected."],
+  ["What is Zyntra?", "Zyntra is an AI-powered AMC exam preparation platform. It is designed to consider both the answer and signals about how the answer was reached."],
+  ["Who is it for?", "Medical students, medical graduates and doctors, including international medical graduates, preparing for AMC examinations."],
+  ["Is Zyntra a question bank?", "MCQ practice is the training foundation. Zyntra also aims to use timing, confidence and answer changes to add context to the result."],
+  ["How much does it cost?", "Full Access is listed at A$39 per month or A$99 for 3 months (AUD). Both options include a 7-day free trial. Review the checkout details before subscribing."],
+  ["What does Zyntra track?", "Accuracy, timing, confidence, answer changes, consistency and recurring mistakes where those signals are collected."],
 ] as const;
 
 const options = [
@@ -52,147 +46,238 @@ const options = [
   "Await blood culture results before treating",
 ];
 
-const Kicker = ({ children }: { children: React.ReactNode }) => <p className="font-mono text-xs uppercase tracking-[.22em] gj-accent">{children}</p>;
+const Kicker = ({ children }: { children: React.ReactNode }) => <p className="q-eyebrow">{children}</p>;
 
-const Home: React.FC = () => (
-  <div data-zyntra-home="canonical" className="home-genjutsu relative min-h-screen font-sans">
-    <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md gj-button focus:px-4 focus:py-2">Skip to content</a>
-    <div className="gj-backdrop pointer-events-none absolute inset-x-0 top-0 h-[60rem]" aria-hidden="true" />
-
-    <header className="sticky top-0 z-20 border-b gj-rule backdrop-blur-md" style={{ background: "hsl(var(--gj-base) / .75)" }}>
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:h-20 sm:px-6">
-        <a href="#top" className="flex items-center gap-3" aria-label="Zyntra home">
-          <BrandMark className="h-10 w-10" />
-          <span className="text-lg font-extrabold uppercase tracking-widest">Zyntra</span>
-        </a>
-        <nav className="flex items-center gap-2 sm:gap-3" aria-label="Main">
-          <Link to="/blog" className="hidden rounded-full px-4 py-2.5 text-sm font-semibold gj-muted hover:text-foreground sm:inline-flex">Blog</Link>
-          <Link to="/login" className="rounded-full px-5 py-2.5 text-sm font-semibold gj-button">Get Started</Link>
-        </nav>
-      </div>
-    </header>
-
-    <main id="main" className="relative z-10">
-      <section id="top" className="mx-auto max-w-7xl px-5 pb-16 pt-12 sm:px-6 lg:pt-20">
-        <div className="grid min-w-0 items-center gap-10 md:grid-cols-[1fr_45%] lg:grid-cols-12">
-          <div className="min-w-0 space-y-6 lg:col-span-7">
-            <Kicker>AMC preparation intelligence</Kicker>
-            <h1 className="gj-h1 font-bold">From Questions<br />to Readiness.</h1>
-            <p className="max-w-xl text-base leading-relaxed gj-muted sm:text-lg">
-              Zyntra is an AI-powered AMC exam preparation platform for international medical graduates. It learns how you approach questions — timing, confidence and answer changes — and turns those signals into your next best training action.
-            </p>
-            <p className="text-sm font-medium gj-muted">Your answer is one signal. Your decision process is the dataset.</p>
-            <div className="flex flex-wrap gap-3">
-              <Link to="/login" className="inline-flex items-center gap-2 rounded-xl px-6 py-3.5 font-semibold gj-button">Get Started <ChevronRight className="h-4 w-4" /></Link>
-              <Link to="/amc-part-1-mcq" className="inline-flex items-center gap-2 rounded-xl px-6 py-3.5 font-semibold gj-button-ghost">AMC MCQ preparation</Link>
-            </div>
-          </div>
-          <div className="min-w-0 lg:col-span-5"><NeuralHero /></div>
-        </div>
-
-        <ul className="mt-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-4" aria-label="Signals Zyntra records">
-          {signals.map(({ title, status, icon: Icon, desc }) => (
-            <li key={title} className="min-w-0 rounded-2xl p-5 gj-panel">
-              <div className="flex items-center gap-3"><Icon className="h-5 w-5 gj-accent" aria-hidden="true" /><span className="text-sm gj-muted">{title}</span></div>
-              <p className="mt-3 text-lg font-semibold">{status}</p>
-              <p className="mt-2 text-sm leading-6 gj-muted">{desc}</p>
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      <section id="how" className="border-t gj-rule py-20">
-        <div className="mx-auto max-w-7xl px-5 sm:px-6">
-          <Kicker>The loop</Kicker>
-          <h2 className="mt-3 text-3xl font-bold">How Zyntra works</h2>
-          <ol className="relative mt-12 grid gap-8 md:grid-cols-5">
-            <span className="gj-nerve absolute left-6 right-6 top-5 hidden h-px md:block" aria-hidden="true" />
-            <span className="gj-nerve-v absolute bottom-4 left-5 top-4 w-px md:hidden" aria-hidden="true" />
-            {loop.map(([title, desc], i) => (
-              <li key={title} className="relative flex min-w-0 gap-4 md:block">
-                <span className="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full font-mono text-xs gj-panel gj-accent">{String(i + 1).padStart(2, "0")}</span>
-                <div className="md:mt-5"><h3 className="text-lg font-semibold">{title}</h3><p className="mt-2 text-sm leading-6 gj-muted">{desc}</p></div>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
-
-      <section id="about" className="border-t gj-rule py-20">
-        <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-6 lg:grid-cols-2">
-          <div className="min-w-0">
-            <Kicker>Why Zyntra</Kicker>
-            <h2 className="mt-3 text-3xl font-bold">Beyond the correct answer.</h2>
-            <ul className="mt-8 space-y-5">{why.map(w => <li key={w} className="border-l-2 pl-4 leading-7 gj-muted" style={{ borderColor: "hsl(var(--gj-cyan) / .5)" }}>{w}</li>)}</ul>
-            <p className="mt-6 text-xs gj-muted">Zyntra is independent of, and not affiliated with, the Australian Medical Council.</p>
-          </div>
-          <figure className="min-w-0 rounded-2xl p-5 gj-panel sm:p-6" aria-labelledby="mcq-caption">
-            <figcaption id="mcq-caption" className="font-mono text-xs uppercase tracking-[.2em] gj-accent">Example question</figcaption>
-            <p className="mt-4 text-sm leading-7">A 19-year-old presents to a rural general practice with fever, headache and a non-blanching petechial rash on the legs. She is alert, with a heart rate of 118 and blood pressure of 100/60 mmHg. What is the most appropriate immediate step?</p>
-            <ol className="mt-4 space-y-2">{options.map((o, i) => <li key={o} className="flex gap-3 rounded-lg border gj-rule p-2.5 text-sm gj-muted"><span className="font-mono gj-accent">{String.fromCharCode(65 + i)}</span>{o}</li>)}</ol>
-            <div className="mt-5 border-t gj-rule pt-4">
-              <p className="text-xs font-semibold">What Zyntra records on this question</p>
-              <p className="mt-2 text-xs leading-6 gj-muted">Your first and final answer · confidence level · time to decide · any answer changes · options you ruled out.</p>
-            </div>
-          </figure>
-        </div>
-      </section>
-
-      <section id="trains" className="border-t gj-rule py-20">
-        <div className="mx-auto max-w-7xl px-5 sm:px-6">
-          <div className="mb-8 flex items-center gap-3"><Layers className="h-5 w-5 gj-accent" aria-hidden="true" /><h2 className="text-3xl font-bold">Training system</h2></div>
-          <div className="divide-y gj-rule border-y">{trainingItems.map(([title, desc], i) => <article key={title} className="grid gap-2 py-5 md:grid-cols-[70px_230px_1fr] md:gap-4"><span className="font-mono text-xs gj-accent">{String(i + 1).padStart(2, "0")}</span><h3 className="font-semibold">{title}</h3><p className="text-sm leading-relaxed gj-muted">{desc}</p></article>)}</div>
-        </div>
-      </section>
-
-      <section className="border-t gj-rule py-20">
-        <div className="mx-auto max-w-7xl px-5 sm:px-6">
-          <div className="flex items-end justify-between gap-4">
-            <div><Kicker>Zyntra Intelligence Lab</Kicker><h2 className="mt-3 text-3xl font-bold">From the Intelligence Lab</h2><p className="mt-3 max-w-2xl text-sm leading-7 gj-muted">Practical writing on AMC preparation, clinical reasoning, study strategy and learning intelligence.</p></div>
-            <Link to="/blog" className="hidden items-center gap-2 text-sm font-semibold gj-accent sm:inline-flex">Explore the Blog <ChevronRight className="h-4 w-4" /></Link>
-          </div>
-          <div className="mt-8 grid gap-5 md:grid-cols-2">
-            {[["AMC MCQ Preparation: Train for the One-Way Exam", "/blog/amc-part-1-mcq"], ["AMC Clinical Exam Tips: Train for the 8-Minute Clock", "/blog/amc-part-2-osce"]].map(([title, to]) => (
-              <Link key={to} to={to} className="block rounded-2xl p-6 gj-panel transition-colors hover:border-primary/40">
-                <p className="font-mono text-[11px] uppercase tracking-[.15em] gj-accent">AMC</p>
-                <h3 className="mt-4 text-lg font-semibold leading-snug">{title}</h3>
-                <span className="mt-4 inline-flex items-center gap-1 text-xs font-semibold gj-accent">Read article <ChevronRight className="h-3.5 w-3.5" /></span>
-              </Link>
-            ))}
-          </div>
-          <Link to="/blog" className="mt-6 inline-flex items-center gap-2 text-sm font-semibold gj-accent sm:hidden">Explore the Blog <ChevronRight className="h-4 w-4" /></Link>
-        </div>
-      </section>
-
-      <section id="pricing" className="border-t gj-rule py-20">
-        <div className="mx-auto max-w-7xl px-5 sm:px-6"><Kicker>Pricing</Kicker><h2 className="mt-3 text-3xl font-bold">Pricing</h2>
-          <div className="mt-10 divide-y gj-rule border-y">
-            <div className="grid gap-6 py-8 md:grid-cols-[280px_1fr] md:gap-8"><div><h3 className="font-bold">Free account</h3><div className="mt-2 text-4xl font-extrabold">A$0</div><p className="mt-2 text-xs gj-muted">Create an account</p></div><div><p className="text-sm leading-7 gj-muted">Create an account to access available Zyntra features and practice tools.</p><Link to="/login" className="mt-4 inline-flex rounded-lg px-4 py-2 text-sm gj-button-ghost">Create account / Log in</Link></div></div>
-            <div className="grid gap-6 py-8 md:grid-cols-[280px_1fr] md:gap-8"><div><h3 className="font-bold">Full Access</h3><div className="mt-2 text-4xl font-extrabold">A$39</div><p className="mt-2 text-xs gj-muted">AUD / month, or A$99 for 3 months</p></div><div><p className="text-sm leading-7 gj-muted">One plan with everything: MCQ practice, Performance Intelligence and Study Plan. 7-day free trial on both options, cancel anytime. A$1 card check at trial signup.</p><p className="mt-2 text-xs leading-6 gj-muted">{COPY_CARD_CHECK} {COPY_CANCEL}</p><Link to="/login" className="mt-4 inline-flex rounded-lg px-4 py-2 text-sm gj-button-ghost">Start 7-day free trial</Link></div></div>
-          </div>
-        </div>
-      </section>
-
-      <section className="border-t gj-rule py-20">
-        <div className="mx-auto max-w-3xl px-5 text-center sm:px-6">
-          <h2 className="text-3xl font-bold sm:text-4xl">Start training with evidence.</h2>
-          <p className="mt-4 gj-muted">Sign in or create an account to continue to Zyntra.</p>
-          <Link to="/login" className="mt-8 inline-flex items-center gap-2 rounded-xl px-7 py-3.5 font-semibold gj-button">Log in / Create account <ChevronRight className="h-4 w-4" /></Link>
-        </div>
-      </section>
-
-      <section id="faq" className="border-t gj-rule py-20">
-        <div className="mx-auto max-w-3xl px-5 sm:px-6"><h2 className="text-3xl font-bold">FAQ</h2><div className="mt-8 divide-y gj-rule border-y">{faqs.map(([q, a]) => <details key={q} className="py-5"><summary className="cursor-pointer list-none text-sm font-semibold">{q}<span className="float-right gj-accent" aria-hidden="true">+</span></summary><p className="mt-3 text-sm leading-7 gj-muted">{a}</p></details>)}</div></div>
-      </section>
-    </main>
-
-    <footer className="relative z-10 border-t gj-rule py-8">
-      <div className="mx-auto flex max-w-7xl flex-col gap-4 px-5 text-xs gj-muted sm:px-6 md:flex-row md:items-center md:justify-between">
-        <span>Zyntra Healthcare Intelligence · Independent of the AMC.</span>
-        <div className="flex gap-5"><Link to="/terms" className="hover:text-foreground">Terms</Link><Link to="/privacy" className="hover:text-foreground">Privacy</Link><a href="#faq" className="hover:text-foreground">FAQ</a></div>
-      </div>
-    </footer>
+const BrushDivider = () => (
+  <div className="q-brush-divider" aria-hidden="true">
+    <svg viewBox="0 0 1440 23" preserveAspectRatio="none">
+      <path d="M0 11 C170 8 290 17 455 11 S750 7 915 12 S1210 16 1440 9" fill="none" stroke="currentColor" strokeWidth="1.1" />
+      <path d="M0 15 C240 11 420 19 620 14 S990 11 1190 15 S1370 13 1440 14" fill="none" stroke="currentColor" strokeWidth=".5" />
+    </svg>
   </div>
 );
+
+const Home: React.FC = () => {
+  const [noiseCleared, setNoiseCleared] = useState(false);
+  const [noiseStatus, setNoiseStatus] = useState("");
+
+  useEffect(() => {
+    const root = document.querySelector(".home-quiet");
+    if (!root) return;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const revealItems = Array.from(root.querySelectorAll<HTMLElement>(".q-reveal"));
+    const perception = root.querySelector<HTMLElement>(".q-perception");
+    const progress = root.querySelector<HTMLElement>(".q-progress");
+
+    if (reducedMotion || !("IntersectionObserver" in window)) {
+      revealItems.forEach((el) => el.classList.add("is-visible"));
+      perception?.classList.add("is-visible");
+      progress?.classList.add("is-visible");
+      return;
+    }
+
+    revealItems.forEach((el) => el.classList.add("q-pending"));
+    const observer = new IntersectionObserver((entries, currentObserver) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-visible");
+        entry.target.classList.remove("q-pending");
+        currentObserver.unobserve(entry.target);
+      });
+    }, { threshold: 0.14, rootMargin: "0px 0px -32px 0px" });
+
+    revealItems.forEach((el) => observer.observe(el));
+    if (perception) observer.observe(perception);
+    if (progress) observer.observe(progress);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div data-zyntra-home="canonical" className={noiseCleared ? "home-quiet q-quiet-mode relative min-h-screen" : "home-quiet relative min-h-screen"}>
+      <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-white focus:px-4 focus:py-2">Skip to content</a>
+      <header className="q-header">
+        <nav className="q-wrap q-nav" aria-label="Main navigation">
+          <a className="q-brand" href="#top" aria-label="Zyntra home"><BrandMark className="h-9 w-9" /><span>Zyntra</span></a>
+          <span className="q-nav-note">Healthcare intelligence for IMGs</span>
+          <div className="q-nav-links">
+            <Link to="/blog" className="q-nav-link">Journal</Link>
+            <Link to="/login" className="q-nav-link q-nav-cta">Get started <span aria-hidden="true">↗</span></Link>
+          </div>
+        </nav>
+      </header>
+
+      <main id="main">
+        <section id="top" className={noiseCleared ? "q-hero q-quiet-mode" : "q-hero"} aria-labelledby="q-hero-title">
+          <div className="q-hero-paper" aria-hidden="true" /><div className="q-wash q-wash-one" aria-hidden="true" /><div className="q-wash q-wash-two" aria-hidden="true" />
+          <div className="q-noise-field" aria-hidden="true">
+            <span className="q-noise-fragment q-noise-1"><strong>+ more questions</strong>keep going / keep going</span>
+            <span className="q-noise-fragment q-noise-2"><strong>rank #?</strong>another comparison</span>
+            <span className="q-noise-fragment q-noise-3"><strong>time is running</strong>streak · score · repeat</span>
+            <span className="q-noise-fragment q-noise-4"><strong>too many tabs open</strong>where to start?</span>
+            <span className="q-noise-fragment q-noise-5"><strong>one more metric</strong>one more thing</span>
+          </div>
+          <div className="q-wrap q-hero-inner">
+            <div className="q-hero-grid">
+              <div className="q-hero-copy">
+                <Kicker>For the long road to clinical confidence</Kicker>
+                <h1 id="q-hero-title">Less noise.<br /><em>Better decisions.</em></h1>
+                <p className="q-hero-description">A clearer way for international medical graduates to prepare for the AMC, understand their patterns, and focus on what matters next.</p>
+                <div className="q-hero-actions">
+                  <Link to="/login" className="q-button">Join Zyntra <ArrowRight aria-hidden="true" /></Link>
+                  <Link to="/amc-part-1-mcq" className="q-button-ghost">AMC MCQ preparation <ChevronRight aria-hidden="true" /></Link>
+                </div>
+                <button type="button" className="q-button-ghost mt-3" aria-pressed={noiseCleared} onClick={() => { setNoiseCleared(true); setNoiseStatus("One clear next step. That is enough for now."); }}>
+                  {noiseCleared ? "Noise cleared ✓" : "Clear the noise"} {!noiseCleared && <span aria-hidden="true">↗</span>}
+                </button>
+                <p className="q-clear-status" aria-live="polite">{noiseStatus}</p>
+                <p className="q-hero-caption">A little less noise. A little more room to think.</p>
+              </div>
+              <aside className="q-hero-aside"><strong>One thing at a time.</strong>Zyntra looks beyond the answer to help make practice more considered. No leaderboard needed to tell you what matters.</aside>
+            </div>
+          </div>
+        </section>
+
+        <BrushDivider />
+
+        <section id="about" className="q-section">
+          <div className="q-wrap q-split">
+            <div className="q-section-intro q-reveal">
+              <Kicker>A different kind of preparation</Kicker>
+              <h2 className="q-title">Not more noise. More understanding.</h2>
+              <p className="q-body">Practice matters. So does understanding what happens while you practise. Zyntra is designed to help make that work more focused.</p>
+              <span className="q-margin-note">Less scatter, more signal.</span>
+            </div>
+            <div className="q-principles">
+              <article className="q-principle q-reveal"><span className="q-index">01</span><div><h3>Understand</h3><p>Look beyond right and wrong answers to explore patterns in how you approach clinical questions.</p></div></article>
+              <article className="q-principle q-reveal"><span className="q-index">02</span><div><h3>Target</h3><p>Use the available evidence to decide which skills and topics deserve your attention next.</p></div></article>
+              <article className="q-principle q-reveal"><span className="q-index">03</span><div><h3>Adapt</h3><p>Let what you learn from each session help shape a more considered approach to the next one.</p></div></article>
+            </div>
+          </div>
+        </section>
+
+        <BrushDivider />
+
+        <section id="how" className="q-section" aria-labelledby="q-signals-title">
+          <div className="q-wrap q-split">
+            <div className="q-section-intro q-reveal">
+              <Kicker>Look beyond the score</Kicker>
+              <h2 id="q-signals-title" className="q-title">The answer is one signal. The process adds context.</h2>
+              <p className="q-body">When these details are collected, they can help explain the story behind a practice result. They are evidence to examine, not a verdict on a candidate.</p>
+            </div>
+            <div className="q-signal-list">
+              {signals.map(({ title, icon: Icon, desc }) => <div className="q-signal q-reveal" key={title}><Icon aria-hidden="true" /><div><strong>{title}</strong><span>{desc}</span></div></div>)}
+            </div>
+          </div>
+          <div className="q-wrap mt-16">
+            <Kicker>The learning loop</Kicker><h2 className="q-title mt-3">Observe. Understand. Adjust.</h2>
+            <ol className="q-principles mt-8 grid gap-x-8 md:grid-cols-5">
+              {loop.map(([title, desc], index) => <li className="q-principle q-reveal" key={title} style={{ display: "block" }}><span className="q-index">{String(index + 1).padStart(2, "0")}</span><h3 className="mt-2">{title}</h3><p>{desc}</p></li>)}
+            </ol>
+          </div>
+        </section>
+
+        <BrushDivider />
+
+        <section id="next-step" className="q-section q-next" aria-labelledby="q-next-title">
+          <div className="q-wrap q-next-grid">
+            <div className="q-next-copy q-reveal">
+              <Kicker>One useful next step</Kicker><h2 id="q-next-title" className="q-title">Find the next thing worth your attention.</h2>
+              <p className="q-body">A good recommendation should do more than tell you to keep going. It should explain what to practise and why that work may be useful.</p>
+              <span className="q-hand-note">No crystal ball. Just better questions. ↗</span>
+            </div>
+            <div className="q-perception q-reveal" aria-label="Illustration of a busy dashboard resolving into one focused practice idea">
+              <div className="q-noisy-panels" aria-hidden="true">
+                <div className="q-noise-panel"><strong>Weekly score</strong><div className="q-noise-line mid" /><div className="q-noise-line short" /></div>
+                <div className="q-noise-panel"><strong>Activity streak</strong><div className="q-noise-line" /><div className="q-noise-line mid" /></div>
+                <div className="q-noise-panel"><strong>Topic breakdown</strong><div className="q-noise-line short" /><div className="q-noise-line" /></div>
+                <div className="q-noise-panel"><strong>Rank movement</strong><div className="q-noise-line mid" /><div className="q-noise-line short" /></div>
+              </div>
+              <article className="q-recommendation">
+                <p className="q-card-label">Illustrative practice idea</p>
+                <div className="q-task-row"><span className="q-task-mark" aria-hidden="true"><Target /></span><div><h3>Practise reasoning under time pressure</h3><p className="q-why">Explain why the best option fits the clinical picture, and why plausible alternatives do not.</p></div></div>
+                <div className="q-tags"><span>Clinical reasoning</span><span>Focused practice</span></div>
+                <Link to="/login" className="q-text-link">Explore Zyntra <ArrowRight aria-hidden="true" /></Link>
+                <p className="q-illustrative">Illustrative, no live candidate data.</p>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <BrushDivider />
+
+        <section id="progress" className="q-section q-progress" aria-labelledby="q-progress-title">
+          <div className="q-wrap">
+            <div className="q-progress-heading q-reveal">
+              <div><Kicker>Progress, made clearer</Kicker><h2 id="q-progress-title" className="q-title">A number is a start, not the whole story.</h2></div>
+              <p className="q-body">Useful progress means understanding patterns over time, recognising uncertainty, and checking whether a change in approach actually helps.</p>
+            </div>
+            <div className="q-progress-content">
+              <div className="q-chart-panel q-reveal">
+                <div className="q-chart-heading"><h3>Look for the pattern</h3><span>Conceptual illustration</span></div>
+                <div className="q-chart-wrap">
+                  <svg viewBox="0 0 520 230" role="img" aria-labelledby="q-chart-title q-chart-desc">
+                    <title id="q-chart-title">Illustrative practice trend</title><desc id="q-chart-desc">A conceptual line varies across several practice sessions. This is not real candidate data or a prediction.</desc>
+                    <g className="q-chart-grid"><path d="M20 28H500M20 72H500M20 116H500M20 160H500M20 204H500" /></g>
+                    <path className="q-chart-line" pathLength="420" d="M24 166 C65 155 75 111 120 124 S180 169 222 119 S290 92 326 105 S390 62 424 79 S470 53 496 48" />
+                    <g className="q-chart-dots"><circle cx="24" cy="166" r="4" /><circle cx="120" cy="124" r="4" /><circle cx="222" cy="119" r="4" /><circle cx="326" cy="105" r="4" /><circle cx="424" cy="79" r="4" /><circle cx="496" cy="48" r="4" /></g>
+                  </svg>
+                  <div className="q-chart-labels"><span>Earlier sessions</span><span>Recent sessions</span></div>
+                </div>
+              </div>
+              <aside className="q-progress-note q-reveal"><div className="q-small-rule" aria-hidden="true" /><blockquote>Progress is easier to act on when you can understand it.</blockquote><p>Performance, timing, confidence and consistency can each add context. No single signal tells the whole story, and a trend is not a promise about future results.</p></aside>
+            </div>
+          </div>
+        </section>
+
+        <section id="trains" className="q-section q-bordered">
+          <div className="q-wrap">
+            <div className="q-section-intro q-reveal q-intro-static"><Kicker>Inside Zyntra</Kicker><h2 className="q-title">A considered training system.</h2></div>
+            <div className="q-principles mt-8">
+              {trainingItems.map(([title, desc], index) => <article className="q-principle q-reveal" key={title}><span className="q-index">{String(index + 1).padStart(2, "0")}</span><div><h3>{title}</h3><p>{desc}</p></div></article>)}
+            </div>
+            <div className="mt-6 flex flex-wrap gap-x-6 gap-y-3"><Link to="/amc-part-1-mcq" className="q-text-link">AMC MCQ preparation <ArrowRight aria-hidden="true" /></Link><Link to="/blog" className="q-text-link">Read the Journal <ArrowRight aria-hidden="true" /></Link></div>
+          </div>
+        </section>
+
+        <BrushDivider />
+
+        <section className="q-section" aria-labelledby="q-journal-title">
+          <div className="q-wrap">
+            <div className="q-journal-heading q-reveal">
+              <div><Kicker>Zyntra Journal</Kicker><h2 id="q-journal-title" className="q-title mt-3">A little perspective for the road.</h2><p className="q-muted mt-3 max-w-2xl text-sm">Practical writing on AMC preparation, clinical reasoning, study strategy and learning intelligence.</p></div>
+              <Link to="/blog" className="q-text-link">Explore the Journal <ArrowRight aria-hidden="true" /></Link>
+            </div>
+            <div className="q-principles mt-8">
+              <Link to="/blog/amc-part-1-mcq" className="q-principle q-reveal q-row-link"><span className="q-index">01</span><div><h3>AMC MCQ preparation</h3><p>Build a more deliberate approach to the one-way exam.</p></div><ChevronRight aria-hidden="true" /></Link>
+              <Link to="/blog/amc-part-2-osce" className="q-principle q-reveal q-row-link"><span className="q-index">02</span><div><h3>AMC Clinical exam preparation</h3><p>Think clearly when the station clock is running.</p></div><ChevronRight aria-hidden="true" /></Link>
+            </div>
+          </div>
+        </section>
+
+        <section id="pricing" className="q-section q-bordered">
+          <div className="q-wrap"><Kicker>Pricing, without the noise</Kicker><h2 className="q-title mt-3">Straightforward access.</h2>
+            <div className="q-principles mt-8">
+              <article className="q-principle q-reveal"><div><h3>Free account</h3><p>Create an account to access available Zyntra features and practice tools.</p></div><div><p className="q-mono">A$0</p><Link to="/login" className="q-text-link">Create account / Log in <ArrowRight aria-hidden="true" /></Link></div></article>
+              <article className="q-principle q-reveal"><div><h3>Full Access</h3><p>MCQ practice, Performance Intelligence and Study Plan, subject to current feature availability.</p></div><div><p className="q-price">A$39 <span>/ month</span></p><p className="q-muted text-sm">or A$99 for 3 months (AUD)</p><p className="q-muted mt-2 text-sm">7-day free trial on both options. Review checkout details before subscribing.</p><p className="q-muted mt-2 text-xs">{COPY_CARD_CHECK} {COPY_CANCEL}</p><Link to="/login" className="q-text-link mt-3">Start your trial <ArrowRight aria-hidden="true" /></Link></div></article>
+            </div>
+          </div>
+        </section>
+
+        <section className="q-closing" aria-labelledby="q-closing-title">
+          <div className="q-wrap q-closing-inner"><div className="q-reveal"><Kicker>For international medical graduates</Kicker><h2 id="q-closing-title">Make room to think.</h2><p className="q-closing-copy">Prepare for the AMC with a clearer view of your practice, your patterns and your next step.</p></div><Link to="/login" className="q-button q-reveal">Join Zyntra <ArrowRight aria-hidden="true" /></Link></div>
+        </section>
+
+        <section id="faq" className="q-section">
+          <div className="q-wrap q-faq-wrap"><Kicker>Good questions</Kicker><h2 className="q-title mt-3">FAQ</h2>
+            <div className="q-principles mt-8">{faqs.map(([question, answer]) => <details key={question} className="q-principle"><summary className="q-faq-summary">{question}<span aria-hidden="true">+</span></summary><p>{answer}</p></details>)}</div>
+            <p className="q-muted mt-6 text-xs">Zyntra is independent of, and not affiliated with, the Australian Medical Council.</p>
+          </div>
+        </section>
+      </main>
+
+      <footer className="q-footer"><div className="q-wrap q-footer-inner"><a href="#top" className="q-footer-brand">Zyntra</a><span>Healthcare intelligence for the next step in your journey.</span><div className="q-footer-links"><Link to="/terms">Terms</Link><Link to="/privacy">Privacy</Link><a href="#faq">FAQ</a></div></div></footer>
+    </div>
+  );
+};
 
 export default Home;
