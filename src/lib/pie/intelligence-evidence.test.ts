@@ -30,4 +30,15 @@ describe('Intelligence evidence presentation boundary', () => {
     expect(result.history).toEqual({ status: 'ready', value: [] });
     expect(result.stability.status).toBe('empty');
   });
+  it('does not read candidate evidence after session authentication fails', async () => {
+    let reads = 0;
+    const result = await loadIntelligenceEvidence({ ensure: async () => { throw new Error('expired'); }, history: async () => { reads++; return []; }, read: async () => { reads++; return { data: null, error: null }; } });
+    expect(reads).toBe(0);
+    expect(Object.values(result).every(source => source.status === 'unavailable')).toBe(true);
+  });
+  it('keeps confidence absence separate from an available calibration projection', async () => {
+    const result = await loadIntelligenceEvidence({ ensure: async () => {}, history: async () => [], read: async name => ({ data: name === 'my_confidence_intelligence' ? { calibration_score: 0.75, calculated_at: '2026-10-15T00:00:00Z' } : null, error: null }) });
+    expect(result.confidence.value?.percent).toBe(75);
+    expect(historySummary(result.history.value ?? []).confidenceCount).toBe(0);
+  });
 });
