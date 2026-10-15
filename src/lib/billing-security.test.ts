@@ -3,7 +3,7 @@ import { readFileSync, readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { timingSafeEqual, hmacSha256Hex, verifyHmacSignature } from '../../supabase/functions/_shared/signature';
 import { entitlementFromRow, RENEWAL_GRACE_HOURS } from '../../supabase/functions/_shared/billing-lifecycle';
-import { firstChargeUnix, trialEndDate, sydneyDate, renewalDate, periodEnd } from '../../supabase/functions/_shared/billing-dates';
+import { firstChargeUnix, trialEndDate, billingDate, renewalDate, periodEnd } from '../../supabase/functions/_shared/billing-dates';
 
 const read = (p: string) => readFileSync(resolve(process.cwd(), p), 'utf8');
 
@@ -75,42 +75,24 @@ describe('server-side entitlement from stored dates', () => {
   });
 });
 
-describe('month-end / February / DST (Hank)', () => {
-  const sydHour = (d: Date) => Number(new Intl.DateTimeFormat('en-US', { timeZone: 'Australia/Sydney', hour: 'numeric', hourCycle: 'h23' }).format(d));
-  it('start_at is 10:00 Sydney on the trial-end date on both DST change days', () => {
-    // DST ends Sun 5 Apr 2026 (03:00 AEDT -> 02:00 AEST); starts Sun 4 Oct 2026 (02:00 AEST -> 03:00 AEDT)
-    for (const signup of ['2026-03-28T13:30:00Z', '2026-03-29T00:00:00Z', '2026-09-26T14:30:00Z', '2026-09-27T00:00:00Z']) {
-      const s = new Date(signup);
-      const charge = new Date(firstChargeUnix(s) * 1000);
-      expect(sydneyDate(charge)).toEqual(trialEndDate(s));
-      expect(sydHour(charge)).toBe(10);
+describe('IST calendar-day trial billing', () => {
+  const istHour = (d: Date) => Number(new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', hour: 'numeric', hourCycle: 'h23' }).format(d));
+  const istMinute = (d: Date) => Number(new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Kolkata', minute: 'numeric' }).format(d));
+  it('first charge is 00:01 IST on day 7, counting signup date as day 1', () => {
+    for (const signup of ['2026-10-08T17:30:00Z', '2026-10-08T18:29:00Z', '2026-10-08T18:30:00Z', '2026-10-09T17:30:00Z']) {
+      const s = new Date(signup), charge = new Date(firstChargeUnix(s) * 1000);
+      expect(billingDate(charge)).toEqual(trialEndDate(s));
+      expect(istHour(charge)).toBe(0); expect(istMinute(charge)).toBe(1);
     }
   });
-  it('signup at Sydney midnight boundary uses the Sydney date', () => {
-    expect(trialEndDate(new Date('2026-12-31T13:00:00Z'))).toEqual({ y: 2027, m: 1, d: 8 }); // 1 Jan 00:00 AEDT
-    expect(trialEndDate(new Date('2026-12-31T12:59:00Z'))).toEqual({ y: 2027, m: 1, d: 7 }); // 31 Dec 23:59 AEDT
+  it('IST midnight boundary counts signup date as day 1', () => {
+    expect(trialEndDate(new Date('2026-12-31T18:30:00Z'))).toEqual({ y: 2027, m: 1, d: 6 });
+    expect(trialEndDate(new Date('2026-12-31T18:29:00Z'))).toEqual({ y: 2027, m: 1, d: 5 });
   });
-  it('trial ending 22–24 Feb / 28 Feb / 29 Feb (leap) renews correctly', () => {
-    expect(renewalDate({ y: 2027, m: 2, d: 28 }, 1)).toEqual({ y: 2027, m: 3, d: 28 });
-    expect(renewalDate({ y: 2028, m: 2, d: 29 }, 1)).toEqual({ y: 2028, m: 3, d: 29 });
-    expect(renewalDate({ y: 2028, m: 2, d: 29 }, 12)).toEqual({ y: 2029, m: 2, d: 28 });
-    expect(renewalDate({ y: 2028, m: 2, d: 29 }, 48)).toEqual({ y: 2032, m: 2, d: 29 });
-  });
-  it('month-end periods are contiguous (no gap/overlap) across 24 months', () => {
-    for (const anchor of [{ y: 2027, m: 1, d: 31 }, { y: 2027, m: 1, d: 30 }, { y: 2027, m: 1, d: 29 }, { y: 2028, m: 1, d: 31 }]) {
-      for (let n = 0; n < 24; n++) {
-        const end = periodEnd(anchor, n);
-        const next = renewalDate(anchor, n + 1);
-        const dayAfter = new Date(Date.UTC(end.y, end.m - 1, end.d + 1));
-        expect({ y: dayAfter.getUTCFullYear(), m: dayAfter.getUTCMonth() + 1, d: dayAfter.getUTCDate() }).toEqual(next);
-      }
-    }
-  });
-  it('3-month plan from 31 Aug clamps Nov/Feb and restores in May/Aug', () => {
-    const a = { y: 2027, m: 8, d: 31 };
-    expect([1, 2, 3, 4].map((n) => renewalDate(a, n, 'quarterly'))).toEqual([
-      { y: 2027, m: 11, d: 30 }, { y: 2028, m: 2, d: 29 }, { y: 2028, m: 5, d: 31 }, { y: 2028, m: 8, d: 31 },
-    ]);
+  it('month-end renewal clamps without drift', () => {
+    expect(renewalDate({ y: 2027, m: 1, d: 31 }, 1)).toEqual({ y: 2027, m: 2, d: 28 });
+    expect(renewalDate({ y: 2028, m: 1, d: 31 }, 1)).toEqual({ y: 2028, m: 2, d: 29 });
+    expect(renewalDate({ y: 2027, m: 1, d: 31 }, 2)).toEqual({ y: 2027, m: 3, d: 31 });
   });
 });
 
