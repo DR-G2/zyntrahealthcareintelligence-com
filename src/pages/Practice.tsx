@@ -99,12 +99,23 @@ function createSelectedSubtopicKey(subjectName: string, subtopicName: string): s
 async function fetchAllQuestionTopicMeta(): Promise<QuestionTopicMeta[]> {
   await ensureV2Session();
   const v2 = getSupabaseV2();
-  const { data, error } = await (v2 as any).rpc('get_practice_question_metadata', {
-    p_limit: QUESTION_META_PAGE_SIZE,
-  });
+  const rows: QuestionTopicMeta[] = [];
+  let offset = 0;
 
-  if (error) throw error;
-  return (data || []) as QuestionTopicMeta[];
+  while (true) {
+    const { data, error } = await (v2 as any).rpc('get_practice_question_metadata', {
+      p_limit: QUESTION_META_PAGE_SIZE,
+      p_offset: offset,
+    });
+
+    if (error) throw error;
+    const page = (data || []) as QuestionTopicMeta[];
+    rows.push(...page);
+    if (page.length < QUESTION_META_PAGE_SIZE) break;
+    offset += page.length;
+  }
+
+  return rows;
 }
 
 // ─── Setup Screen ───────────────────────────────────────────────
