@@ -26,7 +26,7 @@ export const RAZORPAY_TIERS = {
   },
   full_access_3m: {
     mode: 'subscription' as const,
-    name: 'Full Access (3 months)',
+    name: 'Clinical Starter (3 months)',
     interval: 'quarterly' as const,
     price: 99,
     currency: CURRENCY,
