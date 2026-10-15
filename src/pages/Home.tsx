@@ -291,8 +291,8 @@ const Home: React.FC = () => {
         <section id="pricing" className="q-section q-bordered">
           <div className="q-wrap"><Kicker>Pricing, without the noise</Kicker><h2 className="q-title mt-3">Straightforward access.</h2>
             <div className="q-principles mt-8">
-              <article className="q-principle q-reveal"><div><h3>Free account</h3><p>Create an account to access available Zyntra features and practice tools.</p></div><div><p className="q-mono">A$0</p><Link to="/login" className="q-text-link">Create account / Log in <ArrowRight aria-hidden="true" /></Link></div></article>
-              <article className="q-principle q-reveal"><div><h3>Full Access</h3><p>MCQ practice, Performance Intelligence and Study Plan, subject to current feature availability.</p></div><div><p className="q-price">A$39 <span>/ month</span></p><p className="q-muted text-sm">or A$99 for 3 months (AUD)</p><p className="q-muted mt-2 text-sm">7-day free trial on both options. Review checkout details before subscribing.</p><p className="q-muted mt-2 text-xs">{COPY_CARD_CHECK} {COPY_CANCEL}</p><Link to="/login" className="q-text-link mt-3">Start your trial <ArrowRight aria-hidden="true" /></Link></div></article>
+              <article className="q-principle q-pricing-row q-reveal"><div><h3>Free account</h3><p>Create an account to access available Zyntra features and practice tools.</p></div><div><p className="q-mono">A$0</p><Link to="/login" className="q-text-link">Create account / Log in <ArrowRight aria-hidden="true" /></Link></div></article>
+              <article className="q-principle q-pricing-row q-reveal"><div><h3>Full Access</h3><p>MCQ practice, Performance Intelligence and Study Plan, subject to current feature availability.</p></div><div><p className="q-price">A$39 <span>/ month</span></p><p className="q-muted text-sm">or A$99 for 3 months (AUD)</p><p className="q-muted mt-2 text-sm">7-day free trial on both options. Review checkout details before subscribing.</p><p className="q-muted mt-2 text-xs">{COPY_CARD_CHECK} {COPY_CANCEL}</p><Link to="/login" className="q-text-link mt-3">Start your trial <ArrowRight aria-hidden="true" /></Link></div></article>
             </div>
           </div>
         </section>
@@ -303,7 +303,7 @@ const Home: React.FC = () => {
 
         <section id="faq" className="q-section">
           <div className="q-wrap q-faq-wrap"><Kicker>Good questions</Kicker><h2 className="q-title mt-3">FAQ</h2>
-            <div className="q-principles mt-8">{faqs.map(([question, answer]) => <details key={question} className="q-principle"><summary className="q-faq-summary">{question}<span aria-hidden="true">+</span></summary><p>{answer}</p></details>)}</div>
+            <div className="q-principles mt-8">{faqs.map(([question, answer]) => <details key={question} className="q-principle q-faq-item"><summary className="q-faq-summary">{question}<span aria-hidden="true">+</span></summary><p>{answer}</p></details>)}</div>
             <p className="q-muted mt-6 text-xs">Zyntra is independent of, and not affiliated with, the Australian Medical Council.</p>
           </div>
         </section>
