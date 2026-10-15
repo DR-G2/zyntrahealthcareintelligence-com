@@ -28,6 +28,7 @@ const AILab = lazy(() => import("./pages/AILab"));
 const Questions = lazy(() => import("./pages/Questions"));
 const Plan = lazy(() => import("./pages/Plan"));
 const Settings = lazy(() => import("./pages/Settings"));
+const Dashboard = lazy(() => import("./pages/Dashboard"));
 // Admin chunk is only requested after the server confirms admin (see AdminGate).
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const QuestionsMCQ = lazy(() => import("./pages/QuestionsMCQ"));
@@ -133,7 +134,7 @@ function AppRoutes() {
           <Route path="/osce-in-surgery" element={<Navigate to="/practice/osce" replace />} />
           <Route path="/amc-clinical-osce" element={<Navigate to="/practice/osce" replace />} />
           <Route path="/onboarding" element={<ErrorBoundary><Onboarding /></ErrorBoundary>} />
-          <Route path="/dashboard" element={<Navigate to="/practice" replace />} />
+          <Route path="/dashboard" element={<ProtectedRoute><ErrorBoundary><Dashboard /></ErrorBoundary></ProtectedRoute>} />
           <Route path="/assess" element={<Navigate to="/practice" replace />} />
           <Route path="/intelligence" element={<ProtectedRoute><ErrorBoundary><Intelligence /></ErrorBoundary></ProtectedRoute>} />
           <Route path="/profile" element={<Navigate to="/intelligence?tab=performance" replace />} />
