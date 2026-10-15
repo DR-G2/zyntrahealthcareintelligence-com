@@ -23,7 +23,7 @@ const plans = [
       'Cancel anytime. Cancel during your trial and you won\'t be charged A$39.',
       'A$1 card verification at signup (not refunded, except where required by law). Billing begins at 00:01 IST on day 7 if not cancelled.',
     ],
-    cta: 'Start 7-day free trial',
+    cta: 'Start 7-calendar-day trial',
     to: '/login',
     live: true,
   },
