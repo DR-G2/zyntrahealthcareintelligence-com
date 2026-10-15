@@ -1,14 +1,14 @@
-/* Zyntra homepage: Terracotta & Parchment. All styles are scoped to .home-quiet. */
+/* Zyntra homepage: Cyan Atelier + Japandi parchment. Scoped to .home-quiet. */
 .home-quiet {
   --q-paper: #F5EEE5;
   --q-raised: #FBF7F1;
   --q-shadow: #EDE1D4;
-  --q-terracotta: #B76E56;
-  --q-wine: #713F3B;
+  --q-terracotta: #167E8A;
+  --q-wine: #0B5662;
   --q-ink: #342725;
   --q-body: #665552;
   --q-muted: #806D67;
-  --q-wash: #DCC5B5;
+  --q-wash: #B9DFDF;
   --q-line: rgba(113,63,59,.2);
   --q-line-soft: rgba(113,63,59,.11);
   background: var(--q-paper);
@@ -25,12 +25,12 @@
     --q-paper: #241D1C;
     --q-raised: #302523;
     --q-shadow: #392C29;
-    --q-terracotta: #D38B70;
+    --q-terracotta: #50D6E5;
     --q-wine: #E4B9A8;
     --q-ink: #F5EEE5;
     --q-body: #D8C5BC;
     --q-muted: #B49A90;
-    --q-wash: #5A3D38;
+    --q-wash: #123B43;
     --q-line: rgba(245,238,229,.2);
     --q-line-soft: rgba(245,238,229,.11);
   }
@@ -72,6 +72,8 @@
 .home-quiet .q-brand { display: inline-flex; align-items: center; gap: .65rem; text-decoration: none; font-weight: 800; font-size: 1.05rem; letter-spacing: -.05em; }
 .home-quiet .q-brand .brand-mark { color: var(--q-terracotta); }
 .home-quiet .q-nav-note { color: var(--q-muted); font-size: .76rem; }
+.home-quiet .q-nav-links { gap: .9rem; }
+@media (max-width: 640px) { .home-quiet .q-nav-note { display: none; } .home-quiet .q-nav-links { gap: .55rem; } .home-quiet .q-nav-link { font-size: .72rem; } .home-quiet .q-nav-cta { padding: .5rem .6rem; } }
 .home-quiet .q-nav-links { display: flex; align-items: center; gap: 1.2rem; }
 .home-quiet .q-nav-link { color: var(--q-wine); font-size: .82rem; font-weight: 800; text-decoration: none; }
 .home-quiet .q-nav-link:hover { text-decoration: underline; text-underline-offset: 4px; }
@@ -110,7 +112,7 @@
 .home-quiet .q-noise-4 { left: 48%; top: 17%; transform: rotate(-3deg); }
 .home-quiet .q-noise-5 { left: 40%; bottom: 12%; transform: rotate(2deg); }
 .home-quiet .q-hero-inner { position: relative; }
-.home-quiet .q-hero-grid { display: grid; grid-template-columns: minmax(0,1fr) minmax(230px,.62fr); align-items: center; gap: clamp(2rem,7vw,7rem); }
+.home-quiet .q-hero-grid { display: grid; grid-template-columns: minmax(0,1fr) minmax(300px,.92fr); align-items: center; gap: clamp(1.5rem,4vw,4rem); }
 .home-quiet .q-hero-copy { max-width: 800px; }
 .home-quiet .q-hero h1 { max-width: 10ch; margin: 0; font-size: clamp(3.6rem,8.7vw,7.6rem); line-height: .97; letter-spacing: -.09em; font-weight: 600; }
 .home-quiet .q-hero h1 span { display: block; }
@@ -118,7 +120,11 @@
 .home-quiet .q-hero-description { max-width: 44ch; margin: 1.6rem 0 1.8rem; color: var(--q-body); font-size: clamp(1rem,1.6vw,1.12rem); line-height: 1.85; }
 .home-quiet .q-hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1.1rem; }
 .home-quiet .q-hero-caption { margin-top: 1rem; color: var(--q-muted); font-size: .75rem; }
-.home-quiet .q-hero-aside { align-self: end; justify-self: end; max-width: 220px; padding: 1rem 0 0 1rem; border-left: 1px solid var(--q-wash); color: var(--q-muted); font-size: .82rem; line-height: 1.8; }
+.home-quiet .q-hero-aside { align-self: center; justify-self: end; width: 100%; max-width: 430px; padding: 0; border: 0; color: var(--q-muted); font-size: .82rem; line-height: 1.8; }
+.home-quiet .q-anatomy-art { display: block; width: min(100%, 410px); height: auto; margin: 0 auto 1rem; filter: drop-shadow(0 12px 18px rgba(22,126,138,.08)); }
+.home-quiet .q-anatomy-plate strong { display: block; margin: .2rem 0 .35rem; color: var(--q-wine); font-family: Georgia, serif; font-size: 1.25rem; font-weight: 600; letter-spacing: -.04em; }
+.home-quiet .q-anatomy-plate { text-align: center; }
+.home-quiet .q-nav-cta { padding: .62rem .9rem; border: 1px solid var(--q-wine); border-radius: 5px; background: var(--q-wine); color: var(--q-paper); }
 .home-quiet .q-hero-aside strong { display: block; margin-bottom: .35rem; color: var(--q-wine); font-size: 1.1rem; font-weight: 600; letter-spacing: -.04em; }
 .home-quiet .q-quiet-mode { transition: background .5s ease; }
 .home-quiet .q-quiet-mode .q-noise-field { opacity: 0; animation: none; }
