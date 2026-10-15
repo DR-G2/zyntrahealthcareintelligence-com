@@ -533,9 +533,9 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
                 variant="outline"
                 aria-label={label}
                 className={cn(
-                  "h-auto min-h-10 justify-between gap-2 rounded-xl border px-3 py-2 text-xs transition-all",
+                  "h-auto min-h-11 justify-between gap-2 rounded-lg border px-3 py-2 text-xs transition-all",
                   statusFilter === value
-                    ? "border-primary bg-primary text-primary-foreground shadow-md ring-2 ring-primary/30 hover:bg-primary/90 hover:text-primary-foreground"
+                    ? "border-primary bg-accent text-primary hover:bg-accent hover:text-primary"
                     : "border-border bg-background/60 text-muted-foreground hover:border-primary/40 hover:bg-primary/5 hover:text-foreground"
                 )}
               >
@@ -545,7 +545,7 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
                   className={cn(
                     "text-xs font-semibold",
                     statusFilter === value
-                      ? "border-primary-foreground/40 bg-primary-foreground/15 text-primary-foreground"
+                      ? "border-primary/40 bg-secondary text-primary"
                       : "border-border bg-muted/50 text-muted-foreground"
                   )}
                 >
