@@ -155,7 +155,7 @@
 .gj-nerve { background: linear-gradient(90deg, transparent, hsl(var(--gj-cyan) / .5), transparent); }
 .gj-nerve-v { background: linear-gradient(180deg, transparent, hsl(var(--gj-cyan) / .5), transparent); }
 .gj-hero:focus-visible { outline: 2px solid hsl(var(--gj-cyan)); outline-offset: 6px; border-radius: 1rem; }
-.gj-art { -webkit-mask-image: radial-gradient(75% 70% at 50% 48%, #000 62%, transparent 100%); mask-image: radial-gradient(75% 70% at 50% 48%, #000 62%, transparent 100%); }
+.gj-art { mix-blend-mode: screen; -webkit-mask-image: radial-gradient(75% 70% at 50% 48%, #000 62%, transparent 100%); mask-image: radial-gradient(75% 70% at 50% 48%, #000 62%, transparent 100%); }
 .gj-signal-dot {
   position: absolute; left: 50%; width: 10px; height: 10px; margin-left: -5px; border-radius: 9999px;
   background: hsl(var(--gj-cyan)); box-shadow: 0 0 14px 4px hsl(var(--gj-cyan) / .8);

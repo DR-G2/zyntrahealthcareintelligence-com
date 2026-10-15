@@ -62,7 +62,7 @@ export function NeuralHero() {
             />
           ))}
 
-          <ol className="pointer-events-none absolute inset-0 hidden sm:block">
+          <ol className="pointer-events-none absolute inset-0 hidden lg:block">
             {STAGES.map(([label, top]) => (
               <li key={label} className="gj-stage" style={{ top: `${top}%` }}>
                 <span className="gj-stage-line" />{label}
