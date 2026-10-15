@@ -18,10 +18,11 @@ export default function Login() {
   const [searchParams] = useSearchParams();
   const defaultTab = searchParams.get('tab') === 'signup' ? 'signup' : 'login';
   const nextPath = sanitizeNextPath(searchParams.get('next')) ?? '/dashboard';
-  const { session, loading } = useAuth();
+  const { session, loading, subscription } = useAuth();
   const { enabled: registrationOpen, loading: regLoading } = useRegistrationOpen();
 
-  if (!loading && session) return <Navigate to={nextPath} replace />;
+  if (!loading && session && subscription.loading) return <div className="flex min-h-screen items-center justify-center bg-background"><div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" /></div>;
+  if (!loading && session) return <Navigate to={subscription.subscribed ? nextPath : (nextPath.startsWith('/pricing') ? nextPath : '/pricing')} replace />;
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background p-4">
@@ -59,7 +60,7 @@ export default function Login() {
             <>
               <CardHeader className="pb-2">
                 <CardTitle className="text-lg">Log In</CardTitle>
-                <CardDescription className="text-xs text-muted-foreground">Registration is currently closed. Existing users can still log in.</CardDescription>
+                <CardDescription className="text-xs text-muted-foreground">Registration is currently closed. Existing subscribers can log in; choose a plan to start Zyntra.</CardDescription>
               </CardHeader>
               <AuthForm mode="login" />
             </>
