@@ -1,3 +1,4 @@
+import { BrandMark } from '@/components/BrandMark';
 import { Link } from 'react-router-dom';
 import { Zap } from 'lucide-react';
 import { LEGAL_EMAIL } from '@/lib/legal';
@@ -9,7 +10,7 @@ export function PublicFooter() {
       <div className="container space-y-4 text-sm text-muted-foreground">
         <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
           <Link to="/" className="flex items-center gap-2" aria-label="Zyntra home">
-            <Zap className="h-4 w-4 text-primary" />
+            <BrandMark className="h-5 w-5" />
             <span className="font-display font-semibold text-foreground">Zyntra Healthcare Intelligence</span>
           </Link>
           <nav aria-label="Footer" className="flex flex-wrap justify-center gap-x-4 gap-y-2">

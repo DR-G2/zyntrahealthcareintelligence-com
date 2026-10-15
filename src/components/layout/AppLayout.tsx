@@ -1,6 +1,7 @@
+import { BrandMark } from '@/components/BrandMark';
 import { ReactNode, useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, UserCircle, Zap } from 'lucide-react';
+import { Menu, UserCircle } from 'lucide-react';
 import { AppSidebar, SidebarContext, useSidebarCollapsed } from '@/components/AppSidebar';
 import { SecurityOverlay } from '@/components/SecurityOverlay';
 import { useIsMobile, useIsTablet } from '@/hooks/use-mobile';
@@ -95,9 +96,7 @@ function LayoutInner({ children }: AppLayoutProps) {
             <Menu className="h-5 w-5" />
           </button>
           <Link to="/" aria-label="Zyntra home" className="flex items-center gap-2">
-            <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-cyan-400/40 bg-cyan-400/10 text-cyan-300">
-              <Zap className="h-3.5 w-3.5" />
-            </span>
+            <BrandMark className="h-7 w-7" />
             <span className="font-display text-sm font-bold tracking-tight">Zyntra</span>
           </Link>
           <Link to="/settings" aria-label="Open account settings" className="rounded-lg p-1.5 text-slate-400 hover:bg-white/5 hover:text-white focus:outline-none focus:ring-2 focus:ring-cyan-400/50">
