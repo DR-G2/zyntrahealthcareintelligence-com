@@ -1,5 +1,6 @@
 import { getSupabaseV2 } from '@/integrations/supabase/v2-client';
 import { supabase } from '@/lib/supabase';
+import { resolveV2Config } from '@/integrations/supabase/v2-config';
 
 export interface V2PracticeSession {
   id: string;
@@ -52,17 +53,21 @@ export async function ensureV2Session(): Promise<void> {
   if (existingEmail && legacyEmail && existingEmail === legacyEmail) return;
   if (existing.session) await v2.auth.signOut({ scope: 'local' }).catch(() => undefined);
 
-  const response = await fetch(
-    `${import.meta.env.VITE_SUPABASE_V2_URL}/functions/v1/v2-auth-bridge`,
-    {
+  const { url: v2Url, publishableKey: v2Key } = resolveV2Config();
+  let response: Response;
+  try {
+    response = await fetch(`${v2Url}/functions/v1/v2-auth-bridge`, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${legacyAccessToken}`,
-        apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+        apikey: v2Key,
+        'x-legacy-apikey': import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
         'Content-Type': 'application/json',
       },
-    },
-  );
+    });
+  } catch {
+    throw new Error('Could not reach the practice server. Check your connection and try again.');
+  }
 
   const payload = await response.json().catch(() => ({}));
   if (!response.ok || !payload?.token_hash) {

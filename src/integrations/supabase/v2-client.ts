@@ -1,4 +1,5 @@
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
+import { resolveV2Config } from './v2-config';
 
 /**
  * V2 Supabase client.
@@ -12,10 +13,7 @@ let client: SupabaseClient | null = null;
 export function getSupabaseV2(): SupabaseClient {
   if (client) return client;
 
-  // Production V2 target. Environment variables may override these values,
-  // but the fallback must remain pointed at the approved V2 production project.
-  const url = import.meta.env.VITE_SUPABASE_V2_URL || 'https://hkowvjazuwebmibssdut.supabase.co';
-  const publishableKey = import.meta.env.VITE_SUPABASE_V2_PUBLISHABLE_KEY || 'sb_publishable_7K6qFgHEEkaXOFz58cYE3g_l6XBW1tN';
+  const { url, publishableKey } = resolveV2Config();
 
   if (!url || !publishableKey) {
     throw new Error(

@@ -1,0 +1,1 @@
+- V2 URL/publishable key come only from src/integrations/supabase/v2-config.ts — one fallback source so the client and auth bridge never disagree.

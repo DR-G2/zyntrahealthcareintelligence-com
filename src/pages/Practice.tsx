@@ -140,11 +140,18 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
   const [dbSubjects, setDbSubjects] = useState<DBSubject[]>([]);
   const [dbSubtopics, setDbSubtopics] = useState<DBSubtopic[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
+  const [historyError, setHistoryError] = useState(false);
+  const [reloadKey, setReloadKey] = useState(0);
   const { user } = useAuth();
   const isAdmin = Boolean(user?.email && ADMIN_EMAILS.includes(user.email));
 
   useEffect(() => {
+    let cancelled = false;
     const fetchAll = async () => {
+      setLoading(true);
+      setLoadError(null);
+      setHistoryError(false);
       try {
         await ensureV2Session();
         const v2 = getSupabaseV2();
@@ -156,6 +163,7 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
 
         if (subjectsRes.error) throw subjectsRes.error;
         if (subtopicsRes.error) throw subtopicsRes.error;
+        if (cancelled) return;
 
         const subjects = (subjectsRes.data || []) as DBSubject[];
         const subtopics = (subtopicsRes.data || []) as DBSubtopic[];
@@ -167,7 +175,7 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
           const subject = question.subject_id ? subjectById.get(question.subject_id) : undefined;
           const subtopic = question.subtopic_id ? subtopicById.get(question.subtopic_id) : undefined;
           if (subject) catCounts[subject.name] = (catCounts[subject.name] || 0) + 1;
-          if (subtopic) stCounts[subtopic.name] = (stCounts[subtopic.name] || 0) + 1;
+          if (subtopic) stCounts[subtopic.id] = (stCounts[subtopic.id] || 0) + 1;
         });
 
         setDbSubjects(subjects);
@@ -182,7 +190,7 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
           // P5: status counts come from the learner's PIE history (no legacy user_attempts read).
           const idSet = new Set(questionIds);
           const attempts: Array<{ question_id: string; is_correct: boolean; created_at: string }> =
-            (await fetchLegacyShapedHistory(5000).catch(() => []))
+            (await fetchLegacyShapedHistory(5000).catch(() => { if (!cancelled) setHistoryError(true); return []; }))
               .filter((a) => idSet.has(a.question_id))
               .map((a) => ({ question_id: a.question_id, is_correct: a.is_correct, created_at: a.created_at }));
 
@@ -246,13 +254,15 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
         setSelectedBareSubjects(bareSubjects);
       } catch (error: any) {
         console.error('Failed to load practice filters', error);
+        if (!cancelled) setLoadError(error?.message || 'Practice topics could not be loaded.');
       } finally {
-        setLoading(false);
+        if (!cancelled) setLoading(false);
       }
     };
 
     fetchAll();
-  }, []);
+    return () => { cancelled = true; };
+  }, [reloadKey]);
 
   // Build subject → subtopics map
   const subjectSubtopicsMap = useMemo(() => {
@@ -368,6 +378,24 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
       <AppLayout>
         
         <PracticeSkeleton />
+      </AppLayout>
+    );
+  }
+
+  if (loadError) {
+    return (
+      <AppLayout>
+        <Card className="max-w-lg mx-auto mt-10" role="alert">
+          <CardHeader>
+            <CardTitle>Practice topics couldn't load</CardTitle>
+            <CardDescription>{loadError}</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Button onClick={() => setReloadKey((k) => k + 1)}>
+              <RefreshCw className="w-4 h-4 mr-2" /> Retry
+            </Button>
+          </CardContent>
+        </Card>
       </AppLayout>
     );
   }
@@ -548,6 +576,9 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
             <div>
               <h2 className="text-sm font-semibold uppercase tracking-wider text-foreground">Question Status</h2>
               <p className="mt-1 text-xs text-muted-foreground">Control whether Zyntra gives you questions you have seen before, mastered, or missed.</p>
+              {historyError && (
+                <p className="mt-1 text-xs text-destructive" role="status">Your answer history couldn't load, so Attempted, Correct and Incorrect counts aren't shown accurately.</p>
+              )}
             </div>
           </div>
           <ToggleGroup
@@ -685,9 +716,9 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
                                   onClick={(e) => e.stopPropagation()}
                                 />
                                 <span>{st.name}</span>
-                                {subtopicCounts[st.name] ? (
+                                {subtopicCounts[st.id] ? (
                                   <Badge variant="outline" className="text-[10px] ml-auto">
-                                    {subtopicCounts[st.name]}
+                                    {subtopicCounts[st.id]}
                                   </Badge>
                                 ) : null}
                               </label>
