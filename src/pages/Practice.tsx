@@ -12,7 +12,6 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
-import { OnboardingTooltip } from '@/components/OnboardingTooltip';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
@@ -870,7 +869,7 @@ function ResultsScreen({
                 </div>
                 <div className="rounded-lg bg-muted p-3 text-center">
                   <p className="text-xs text-muted-foreground">Mode</p>
-                  <p className="text-sm font-semibold">{config.mode === 'recharge' ? 'Recharge' : 'No Change'}</p>
+                  <p className="text-sm font-semibold">{config.mode === 'full-mock' ? 'Full Mock Exam' : config.mode === 'recharge' ? 'With option change' : 'No option change'}</p>
                 </div>
                 <div className="rounded-lg bg-muted p-3 text-center">
                   <p className="text-xs text-muted-foreground">Total Time</p>
