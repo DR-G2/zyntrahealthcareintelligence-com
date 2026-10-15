@@ -1,5 +1,6 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "jsr:@supabase/supabase-js@2";
+import { resolveCaller } from "./caller.ts";
 
 const MODEL = "p21.1-telemetry-audit-v1";
 const corsHeaders = {
@@ -15,22 +16,26 @@ Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { status: 204, headers: corsHeaders });
   if (req.method !== "POST") return json({ error: "method_not_allowed" }, 405);
 
-  const authorization = req.headers.get("Authorization");
-  if (!authorization?.startsWith("Bearer ")) return json({ error: "missing_authorization" }, 401);
-
   const supabaseUrl = Deno.env.get("SUPABASE_URL");
   const anonKey = Deno.env.get("SUPABASE_ANON_KEY");
   const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
   if (!supabaseUrl || !anonKey || !serviceKey) return json({ error: "server_configuration_error" }, 500);
 
-  const userClient = createClient(supabaseUrl, anonKey, { global: { headers: { Authorization: authorization } } });
-  const serviceClient = createClient(supabaseUrl, serviceKey);
-
-  // Edge Functions receive the caller JWT in the request header, not in this
-  // stateless client's persisted auth session. Pass it explicitly to getUser().
-  const accessToken = authorization.slice("Bearer ".length).trim();
-  const { data: { user }, error: authError } = await userClient.auth.getUser(accessToken);
-  if (authError || !user) return json({ error: "unauthorized" }, 401);
+  const authorization = req.headers.get("Authorization");
+  // Stateless verifier: no persisted session or token refresh inside the function.
+  // getClaims() verifies the JWT signature and expiry instead of the previous
+  // getUser() round-trip to the auth server, which could reject a valid repeat call.
+  const userClient = createClient(supabaseUrl, anonKey, {
+    global: { headers: authorization ? { Authorization: authorization } : {} },
+    auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false },
+  });
+  const caller = await resolveCaller(authorization, (t) => userClient.auth.getClaims(t) as never);
+  if (!caller.ok) {
+    console.warn("[pie-telemetry-audit] rejected caller", caller.reason);
+    return json({ error: caller.error }, caller.status);
+  }
+  const user = { id: caller.userId };
+  const serviceClient = createClient(supabaseUrl, serviceKey, { auth: { persistSession: false, autoRefreshToken: false } });
 
   let requestedAttemptId: string | null = null;
   try {
