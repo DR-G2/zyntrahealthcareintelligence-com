@@ -325,7 +325,7 @@ export default function Pricing() {
                     <p className="mb-2 text-xs text-foreground" data-testid={`checkout-summary-${tierKey}`}>{returning ? resubscribeSummary(cfg.interval) : checkoutSummary(cfg.interval)}</p>
                     <p className="mb-4 text-xs text-muted-foreground">{returning ? COPY_CANCEL_RESUBSCRIBE : <>{COPY_CARD_CHECK} {cancelCopy(cfg.interval)}</>}</p>
                     <Button size="sm" className="w-full" onClick={() => choosePayment(tierKey)} disabled={CHECKOUT_DISABLED || loadingTier === tierKey || isCurrentTier(tierKey)}>
-                      {isCurrentTier(tierKey) ? 'Current' : loadingTier === tierKey ? <Loader2 className="h-4 w-4 animate-spin" /> : CHECKOUT_DISABLED ? 'Coming soon' : returning ? 'Resubscribe' : 'Start 7-day free trial'}
+                      {isCurrentTier(tierKey) ? 'Current' : loadingTier === tierKey ? <Loader2 className="h-4 w-4 animate-spin" /> : CHECKOUT_DISABLED ? 'Coming soon' : returning ? 'Resubscribe' : 'Start 7-calendar-day trial'}
                     </Button>
                   </CardContent>
                 </Card>
