@@ -41,7 +41,7 @@ describe('replay protection wiring', () => {
     expect(src).toContain('already_recorded: true');
     expect(src).toContain('onConflict: "razorpay_payment_id", ignoreDuplicates: true');
   });
-  it('create path keeps Sydney start_at (not now + 7*86400)', () => {
+  it('create path uses shared IST calendar-day start_at (not now + 7*86400)', () => {
     const src = read('supabase/functions/create-razorpay-order/index.ts');
     expect(src).toContain('firstChargeUnix(');
     expect(src).not.toMatch(/7\s*\*\s*86400/);
