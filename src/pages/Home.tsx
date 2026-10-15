@@ -108,6 +108,9 @@ const Home: React.FC = () => {
           <span className="q-nav-note">Healthcare intelligence for IMGs</span>
           <div className="q-nav-links">
             <Link to="/blog" className="q-nav-link">Journal</Link>
+            <a href="#pricing" className="q-nav-link">Pricing</a>
+            <a href="#faq" className="q-nav-link">FAQ</a>
+            <Link to="/login" className="q-nav-link">Log in</Link>
             <Link to="/login" className="q-nav-link q-nav-cta">Get started <span aria-hidden="true">↗</span></Link>
           </div>
         </nav>
@@ -139,7 +142,23 @@ const Home: React.FC = () => {
                 <p className="q-clear-status" aria-live="polite">{noiseStatus}</p>
                 <p className="q-hero-caption">A little less noise. A little more room to think.</p>
               </div>
-              <aside className="q-hero-aside"><strong>One thing at a time.</strong>Zyntra looks beyond the answer to help make practice more considered. No leaderboard needed to tell you what matters.</aside>
+              <aside className="q-hero-aside q-anatomy-plate" aria-label="Hand-drawn anatomical illustration">
+                <svg className="q-anatomy-art" viewBox="0 0 430 520" role="img" aria-labelledby="q-anatomy-title">
+                  <title id="q-anatomy-title">Hand-drawn brain, neural pathways and spinal cord</title>
+                  <defs><linearGradient id="q-neural-wash" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#50D6E5" stopOpacity=".18"/><stop offset="1" stopColor="#167E8A" stopOpacity=".04"/></linearGradient></defs>
+                  <path d="M205 65 C161 30 112 52 99 91 C65 103 65 148 83 169 C62 202 87 234 119 235 C145 266 184 251 203 228 C229 247 268 237 279 207 C315 195 318 158 299 137 C311 103 279 73 249 77 C237 58 219 56 205 65Z" fill="url(#q-neural-wash)" stroke="#167E8A" strokeWidth="2.1" strokeLinecap="round"/>
+                  <path d="M202 68 C188 88 193 108 207 122 C189 139 192 163 207 178 C190 197 197 216 203 228 M207 83 C229 91 237 107 226 123 C246 137 244 157 226 169 C243 186 232 205 218 221 M111 106 C135 94 154 108 152 126 C172 134 172 155 155 165 C168 182 156 199 133 198 M253 91 C266 107 260 123 247 132 C265 148 261 168 245 177 C255 192 248 204 233 211 M90 151 C110 143 124 156 120 174 M273 145 C291 154 287 172 271 180" fill="none" stroke="#167E8A" strokeWidth="1.7" strokeLinecap="round"/>
+                  <path d="M208 229 C209 267 199 287 210 314 C219 339 204 358 213 382 C220 402 207 421 214 446" fill="none" stroke="#167E8A" strokeWidth="8" strokeLinecap="round" opacity=".22"/>
+                  <path d="M208 228 C211 255 203 280 213 303 S205 349 215 371 S207 414 215 446" fill="none" stroke="#167E8A" strokeWidth="2.4" strokeLinecap="round"/>
+<path d="M198 258 C178 268 170 283 164 300 M216 276 C238 287 246 301 249 319 M209 322 C189 335 183 351 182 366 M216 368 C236 379 241 394 241 409 M213 406 C196 417 193 431 194 443" fill="none" stroke="#50D6E5" strokeWidth="2" strokeLinecap="round"/>
+                  <path d="M79 267 C115 280 133 305 145 334 M287 255 C260 278 255 301 267 327 M95 359 C127 366 143 389 150 415 M292 354 C270 374 266 397 274 423" fill="none" stroke="#167E8A" strokeWidth="1.2" strokeDasharray="3 6" strokeLinecap="round" opacity=".65"/>
+                  <circle cx="211" cy="303" r="5" fill="#50D6E5"/><circle cx="215" cy="371" r="4" fill="#50D6E5"/>
+                  <path d="M66 472 C126 456 163 479 213 466 S315 457 365 474" fill="none" stroke="#167E8A" strokeWidth="1" opacity=".45"/>
+                  <text x="67" y="496" fill="#167E8A" fontSize="12" fontFamily="Georgia,serif" fontStyle="italic">Observe · Understand · Act</text>
+                </svg>
+                <strong>One thing at a time.</strong>
+                Zyntra looks beyond the answer to help make practice more considered.
+              </aside>
             </div>
           </div>
         </section>
