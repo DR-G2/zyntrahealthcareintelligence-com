@@ -4,6 +4,8 @@ import { resolveV2Config } from './v2-config';
 /**
  * V2 Supabase client.
  * Intentionally separate from the legacy production client.
+ * The certified production target is https://hkowvjazuwebmibssdut.supabase.co;
+ * resolveV2Config() owns the actual URL/key resolution and environment overrides.
  *
  * The client is created lazily so importing migration code never breaks the
  * existing app when V2 environment variables are not configured.

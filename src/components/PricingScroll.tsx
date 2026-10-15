@@ -17,13 +17,13 @@ const plans = [
   {
     name: 'Full Access',
     price: 'A$39/month',
-    note: 'or A$99 for 3 months · AUD · 7-day free trial',
+    note: 'or A$99 for 3 months · AUD · 7-calendar-day trial',
     points: [
       'MCQ practice, Performance Intelligence and Study Plan.',
       'Cancel anytime. Cancel during your trial and you won\'t be charged A$39.',
-      'A$1 card check at trial signup (not refunded, except where required by law).',
+      'A$1 card verification at signup (not refunded, except where required by law). Billing begins at 00:01 IST on day 7 if not cancelled.',
     ],
-    cta: 'Start 7-day free trial',
+    cta: 'Start 7-calendar-day trial',
     to: '/login',
     live: true,
   },

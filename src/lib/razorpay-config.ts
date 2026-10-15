@@ -1,5 +1,5 @@
 // Razorpay configuration — Zyntra sells ONE plan: Full Access (AUD).
-//   - A$39/month, or A$99 per 3 months; 7-day free trial on both; A$1 card check at trial signup.
+//   - A$39/month, or A$99 per 3 months; 7-calendar-day trial (signup date is day 1); A$1 card verification at signup.
 // The client never holds plan IDs. It sends only { interval } and the create-razorpay-order edge
 // function maps it to the live AUD plan IDs from env:
 //   RAZORPAY_PLAN_FULL_MONTHLY_AUD  (A$39 / month)

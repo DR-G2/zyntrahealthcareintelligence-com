@@ -30,9 +30,9 @@ const faqGroups = [
   {
     title: 'Pricing & Billing',
     questions: [
-      { q: 'How much is Zyntra?', a: 'One plan, Full Access: A$39/month or A$99 for 3 months. Prices are in Australian dollars (AUD). Both start with a 7-day free trial.' },
+      { q: 'How much is Zyntra?', a: 'One plan, Full Access: A$39/month or A$99 for 3 months. Prices are in Australian dollars (AUD). Both have a 7-calendar-day trial. Signup date counts as day 1; billing begins at 00:01 IST on day 7.' },
       { q: 'Why is there an A$1 charge?', a: COPY_CARD_CHECK },
-      { q: 'How does billing work?', a: 'Your first charge is on the day your 7-day trial ends. Monthly renews on that same date each month; the 3-month plan renews every 3 months on that date. Times are Sydney time.' },
+      { q: 'How does billing work?', a: 'An A$1 card verification is taken at signup. Signup date counts as day 1 of the 7-calendar-day trial. If you do not cancel before then, the first subscription charge begins at 00:01 IST on day 7: A$39 monthly or A$99 every 3 months. Renewals follow the same IST calendar-day anchor.' },
       { q: 'Can I cancel?', a: COPY_CANCEL },
       { q: 'A$39 is still hard for me.', a: 'Use the contact form with the subject "Hardship" and tell us your situation.' },
     ],
@@ -224,7 +224,7 @@ export default function Pricing() {
     <div className="min-h-screen bg-background">
       <SEO
         title="Zyntra Pricing — Full Access in AUD"
-        description="One plan, Full Access: A$39/month or A$99 for 3 months (AUD), with a 7-day free trial. Cancel anytime."
+        description="One plan, Full Access: A$39/month or A$99 for 3 months (AUD), with a 7-calendar-day trial and A$1 card verification at signup. Cancel before the trial ends to avoid the subscription charge."
         path="/pricing"
       />
       {/* Nav */}
@@ -312,7 +312,7 @@ export default function Pricing() {
                 <Card className={`h-full flex flex-col ${tierKey === 'full_access_3m' ? 'border-2 border-primary' : 'border-border'}`}>
                   <CardHeader className="pb-3">
                     <CardTitle className="text-lg">Full Access {tierKey === 'full_access_3m' ? '· 3 months' : '· Monthly'}</CardTitle>
-                    <p className="text-xs text-muted-foreground">7-day free trial · cancel anytime</p>
+                    <p className="text-xs text-muted-foreground">7-calendar-day trial · A$1 card verification at signup</p>
                     <div className="mt-3"><span className="text-3xl font-bold font-display">A${cfg.price}</span><span className="text-muted-foreground text-sm">{tierKey === 'full_access_3m' ? ' / 3 months' : ' / month'}</span></div>
                     <p className="text-xs text-muted-foreground">AUD</p>
                   </CardHeader>
@@ -325,7 +325,7 @@ export default function Pricing() {
                     <p className="mb-2 text-xs text-foreground" data-testid={`checkout-summary-${tierKey}`}>{returning ? resubscribeSummary(cfg.interval) : checkoutSummary(cfg.interval)}</p>
                     <p className="mb-4 text-xs text-muted-foreground">{returning ? COPY_CANCEL_RESUBSCRIBE : <>{COPY_CARD_CHECK} {cancelCopy(cfg.interval)}</>}</p>
                     <Button size="sm" className="w-full" onClick={() => choosePayment(tierKey)} disabled={CHECKOUT_DISABLED || loadingTier === tierKey || isCurrentTier(tierKey)}>
-                      {isCurrentTier(tierKey) ? 'Current' : loadingTier === tierKey ? <Loader2 className="h-4 w-4 animate-spin" /> : CHECKOUT_DISABLED ? 'Coming soon' : returning ? 'Resubscribe' : 'Start 7-day free trial'}
+                      {isCurrentTier(tierKey) ? 'Current' : loadingTier === tierKey ? <Loader2 className="h-4 w-4 animate-spin" /> : CHECKOUT_DISABLED ? 'Coming soon' : returning ? 'Resubscribe' : 'Start 7-calendar-day trial'}
                     </Button>
                   </CardContent>
                 </Card>

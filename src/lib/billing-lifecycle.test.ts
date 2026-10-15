@@ -155,11 +155,11 @@ describe('fail-closed entitlement + aligned row selection', () => {
   });
   it('no-trial resubscribe gets a provisional dated period (not unlimited)', () => {
     const end = provisionalPeriodEnd('monthly', now);
-    expect(end).toBe('2026-11-13T23:00:00.000Z'); // 14 Nov 10:00 AEDT
-    expect(provisionalPeriodEnd('quarterly', now)).toBe('2027-01-13T23:00:00.000Z');
+    expect(end).toBe('2026-11-13T18:31:00.000Z'); // 14 Nov 00:01 IST
+    expect(provisionalPeriodEnd('quarterly', now)).toBe('2027-01-13T18:31:00.000Z');
     // Retest 4 nit: no JS month overflow (31 Jan + 1 month = 28 Feb, not 3 Mar)
-    expect(provisionalPeriodEnd('monthly', new Date('2027-01-31T00:00:00Z'))).toBe('2027-02-27T23:00:00.000Z');
-    expect(provisionalPeriodEnd('monthly', new Date('2028-01-31T00:00:00Z'))).toBe('2028-02-28T23:00:00.000Z');
+    expect(provisionalPeriodEnd('monthly', new Date('2027-01-31T00:00:00Z'))).toBe('2027-02-27T18:31:00.000Z');
+    expect(provisionalPeriodEnd('monthly', new Date('2028-01-31T00:00:00Z'))).toBe('2028-02-28T18:31:00.000Z');
     expect(entitlementFromRow({ status: 'active', tier: 'full_access', current_period_end: end }, new Date('2026-12-01T00:00:00Z')).entitled).toBe(false);
   });
   it('pickEntitledRow: any entitled row wins over a newer expired one', () => {
