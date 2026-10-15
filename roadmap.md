@@ -6,3 +6,13 @@
 - [x] Report verification, security dependencies and deployment status.
 - [ ] Server-side admin-only diagnostic boundary — blocked: separate approval required.
 - [ ] Isolated drill persistence and cross-candidate security QA — blocked: isolated test environment required.
+
+# Genjutsu four-page redesign
+
+- [ ] Scoped semantic tokens, shell and accessible navigation.
+- [ ] Practice presentation and regression checks; preserve all assessment contracts.
+- [ ] OSCE availability/form presentation and mocked persistence checks.
+- [ ] Study Plan presentation, honest data states and regression checks.
+- [ ] AI Lab redesign — blocked: separately approved server-side admin enforcement required.
+- [ ] Cross-page responsive, reduced-motion, keyboard and regression validation.
+- [ ] Live persistence/security certification — blocked: authorized isolated environment required.

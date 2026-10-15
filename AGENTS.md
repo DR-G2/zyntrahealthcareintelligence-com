@@ -1,2 +1,3 @@
 - V2 URL/publishable key come only from src/integrations/supabase/v2-config.ts — one fallback source so the client and auth bridge never disagree.
 - Performance Intelligence overview uses a page-scoped read-only presentation adapter over existing caller-owned V2 projections; never rebuild inference or consume shadow diagnostics on overview load, so presentation cannot mutate candidate models.
+- The training Genjutsu theme is scoped by AppLayout to the approved training routes, with opt-in compact RoomHeader presentation; keep shared default styles unchanged to isolate other pages.
