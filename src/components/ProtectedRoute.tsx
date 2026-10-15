@@ -8,12 +8,12 @@ import { CURRENT_TERMS_VERSION } from '@/lib/legal';
 import { ProfileCompletionModal } from '@/components/ProfileCompletionModal';
 
 export function ProtectedRoute({ children }: { children: React.ReactNode }) {
-  const { session, profile, loading, termsAccepted, termsLoading, acceptTerms } = useAuth();
+  const { session, profile, loading, subscription, termsAccepted, termsLoading, acceptTerms } = useAuth();
   const location = useLocation();
   const [checked, setChecked] = useState(false);
   const [accepting, setAccepting] = useState(false);
 
-  if (loading || termsLoading) {
+  if (loading || termsLoading || (session && subscription.loading)) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-background">
         <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
@@ -24,6 +24,12 @@ export function ProtectedRoute({ children }: { children: React.ReactNode }) {
   if (!session) return <Navigate to="/login" replace />;
 
   const path = location.pathname;
+  const isAdminRoute = path.startsWith('/admin');
+  if (!subscription.subscribed && !isAdminRoute && path !== '/settings') {
+    const next = `${location.pathname}${location.search}`;
+    return <Navigate to={`/pricing?next=${encodeURIComponent(next)}`} replace />;
+  }
+
   const allowAfterDiagnostic = path.startsWith('/intelligence') || path.startsWith('/practice') || path.startsWith('/plan') || path.startsWith('/settings') || path.startsWith('/inbox');
   if (profile && !profile.onboarding_complete && !allowAfterDiagnostic && path !== '/onboarding') {
     return <Navigate to="/practice" replace />;
