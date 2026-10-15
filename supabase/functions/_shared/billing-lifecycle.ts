@@ -239,7 +239,7 @@ export function reconcilesPendingRow(userId: string, notes: { user_id?: string; 
 export function provisionalPeriodEnd(interval: 'monthly' | 'quarterly', now: Date = new Date()): string {
   // Same anniversary/clamp rule as everything else (31 Jan -> 28/29 Feb, never 3 Mar): IST date anchor,
   // renewalDate(+1 period), at the standard IST charge hour.
-  return billingLocalToUtc(renewalDate(billingDate(now), 1, interval), CHARGE_HOUR_IST).toISOString();
+  return billingLocalToUtc(renewalDate(billingDate(now), 1, interval), CHARGE_HOUR_IST, 1).toISOString();
 }
 
 /**
