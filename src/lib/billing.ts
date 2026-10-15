@@ -1,8 +1,8 @@
 // Client billing helper + checkout copy. Dates come from the shared module that the
 // create-razorpay-order edge function also uses, so copy and actual charge date always match.
-// Confirmed model: ANNIVERSARY billing, Australia/Sydney, no pro-rating.
+// Confirmed model: ANNIVERSARY billing, Asia/Kolkata, no pro-rating.
 import {
-  PLAN_PRICES, TRIAL_DAYS, BILLING_TIMEZONE, firstPeriodEnd, trialEndDate, ordinal, renewalDate, periodEnd, sydneyDate,
+  PLAN_PRICES, TRIAL_DAYS, BILLING_TIMEZONE, firstPeriodEnd, trialEndDate, ordinal, renewalDate, periodEnd, billingDate,
   type PlanInterval, type YMD,
 } from '../../supabase/functions/_shared/billing-dates';
 
@@ -28,19 +28,19 @@ export function checkoutSummary(interval: PlanInterval, signup: Date = new Date(
   const te = trialEndDate(signup);
   const d = formatYMD(te);
   if (interval === 'quarterly') {
-    return `A$1 card check today. Your 7-day free trial ends on ${d}. If you don't cancel before then, we'll charge A$99 on ${d}, then A$99 every 3 months until you cancel.`;
+    return `A$1 card verification today. Your 7-calendar-day trial (signup date counts as day 1) ends on ${d} at 00:01 IST. If you don't cancel before then, we'll charge A$99 on ${d}, then A$99 every 3 months until you cancel.`;
   }
   // Days 29–31 only: name the anniversary day and the short-month clamp (Saul rewrite).
   // renewalDate() restores the original day after a clamped month, so this copy is accurate.
   if (te.d >= 29) {
     const od = ordinal(te.d);
-    return `A$1 card check today. Your 7-day free trial ends on ${d}. If you don't cancel before then, we'll charge A$39 on ${d}, then A$39 every month on the ${od} (or the last day of the month, in months without a ${od}) until you cancel.`;
+    return `A$1 card verification today. Your 7-calendar-day trial (signup date counts as day 1) ends on ${d} at 00:01 IST. If you don't cancel before then, we'll charge A$39 on ${d}, then A$39 every month on the ${od} (or the last day of the month, in months without a ${od}) until you cancel.`;
   }
-  return `A$1 card check today. Your 7-day free trial ends on ${d}. If you don't cancel before then, we'll charge A$39 on ${d}, then A$39 every month on that date until you cancel.`;
+  return `A$1 card verification today. Your 7-calendar-day trial (signup date counts as day 1) ends on ${d} at 00:01 IST. If you don't cancel before then, we'll charge A$39 on ${d}, then A$39 every month on that date until you cancel.`;
 }
 /** Returning customers (already used a trial): no trial, no A$1, charged today. Saul-approved wording. */
 export function resubscribeSummary(interval: PlanInterval, now: Date = new Date()): string {
-  const anchor = sydneyDate(now); // renewals anchor on today's Sydney date (renewalDate logic)
+  const anchor = billingDate(now); // renewals anchor on today's IST date (renewalDate logic)
   const od = ordinal(anchor.d);
   const clamp = anchor.d >= 29 ? ` (or the last day of the month, in months without a ${od})` : '';
   const d = formatYMD(anchor);
@@ -49,18 +49,18 @@ export function resubscribeSummary(interval: PlanInterval, now: Date = new Date(
     : `Welcome back. We'll charge A$39 today (${d}), then A$39 every month on the ${od}${clamp} until you cancel. Free trials are for first-time subscribers only.`;
 }
 
-/** Renewal dates for a resubscribe: anchor = today's Sydney date; same no-drift clamp as trials. */
+/** Renewal dates for a resubscribe: anchor = today's IST date; same no-drift clamp as trials. */
 export function resubscribeRenewal(interval: PlanInterval, n: number, now: Date = new Date()): YMD {
-  return renewalDate(sydneyDate(now), n, interval);
+  return renewalDate(billingDate(now), n, interval);
 }
 export const COPY_CANCEL_RESUBSCRIBE = 'Cancel anytime in Settings > Billing.';
 
-export const COPY_CARD_CHECK = 'The A$1 card check confirms your card. It is not refunded if you cancel, except where required by law.';
-export const COPY_CANCEL = "Cancel anytime in Settings > Billing. Cancel during your trial and you won't be charged A$39.";
+export const COPY_CARD_CHECK = 'The A$1 card verification confirms your card. It is not refunded if you cancel, except where required by law.';
+export const COPY_CANCEL = "Cancel anytime in Settings > Billing. Cancel before the trial ends and you won't be charged A$39.";
 /** Plan-aware variant (nit: 3-month plan charges A$99, not A$39). */
 export function cancelCopy(interval: PlanInterval): string {
   return interval === 'quarterly'
-    ? "Cancel anytime in Settings > Billing. Cancel during your trial and you won't be charged A$99."
+    ? "Cancel anytime in Settings > Billing. Cancel before the trial ends and you won't be charged A$99."
     : COPY_CANCEL;
 }
 export const COPY_ACL = 'Nothing in these terms excludes, restricts or modifies any right or remedy you have under the Australian Consumer Law.';
