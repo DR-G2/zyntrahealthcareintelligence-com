@@ -4,6 +4,7 @@ import { MarketingHeader } from "@/components/public/MarketingHeader";
 import { MarketingFooter } from "@/components/public/MarketingFooter";
 import { publicFeatureList } from "@/data/featureAvailability";
 import "@/styles/zyntra-home.css";
+import "@/styles/zyntra-tokens.css";
 
 const icons = [BookOpen, Brain, FlaskConical, ListChecks, Compass, Target, Eye, Layers3, Sparkles, Clock3, CheckCircle2];
 function Status({ status, tone }: { status: string; tone: string }) {
