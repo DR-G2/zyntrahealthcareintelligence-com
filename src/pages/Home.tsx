@@ -7,6 +7,7 @@ import { featureAvailability } from "@/data/featureAvailability";
 import { COPY_CARD_CHECK, COPY_CANCEL, cancelCopy } from "@/lib/billing";
 import "@/styles/zyntra-home.css";
 import "@/styles/living-brain.css";
+import "@/styles/zyntra-tokens.css";
 import NeuralScene, { INTELLIGENCE_STAGES, type IntelligenceStage } from "@/components/home/NeuralScene";
 
 const features = [

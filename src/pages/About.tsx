@@ -5,6 +5,7 @@ import { MarketingFooter } from "@/components/public/MarketingFooter";
 import { COPY_CARD_CHECK, TRIAL_DAYS, PLAN_PRICES, cancelCopy } from "@/lib/billing";
 import "@/styles/zyntra-home.css";
 import "@/styles/zyntra-about.css";
+import "@/styles/zyntra-tokens.css";
 
 const principles = [
   { icon: Target, title: "The process matters", copy: "A right or wrong answer is one part of the picture. How you reached it can also help guide your next practice step." },

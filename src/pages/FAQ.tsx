@@ -6,6 +6,7 @@ import { MarketingFooter } from "@/components/public/MarketingFooter";
 import { COPY_CARD_CHECK, TRIAL_DAYS, PLAN_PRICES, cancelCopy } from "@/lib/billing";
 import "@/styles/zyntra-home.css";
 import "@/styles/zyntra-faq.css";
+import "@/styles/zyntra-tokens.css";
 
 const faqGroups = [
   { title: "About Zyntra", eyebrow: "THE BASICS", questions: [

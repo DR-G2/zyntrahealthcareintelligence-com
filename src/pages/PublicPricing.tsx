@@ -5,6 +5,7 @@ import { MarketingFooter } from "@/components/public/MarketingFooter";
 import { COPY_CARD_CHECK, TRIAL_DAYS, PLAN_PRICES, cancelCopy } from "@/lib/billing";
 import "@/styles/zyntra-home.css";
 import "@/styles/zyntra-pricing.css";
+import "@/styles/zyntra-tokens.css";
 
 const included = [
  { name:"MCQ practice", detail:"AMC-style question practice, explanations and review tools.", status:"Live", tone:"live" },

@@ -7,6 +7,7 @@ import { MarketingFooter } from "@/components/public/MarketingFooter";
 import { COPY_CARD_CHECK, TRIAL_DAYS } from "@/lib/billing";
 import "@/styles/zyntra-home.css";
 import "@/styles/zyntra-amc-mcq.css";
+import "@/styles/zyntra-tokens.css";
 
 const pageUrl = "https://www.zyntrahealthcareintelligence.org/amc-part-1-mcq";
 
