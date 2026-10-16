@@ -26,6 +26,17 @@ serve(async (req) => {
 
     const supabase = createClient(supabaseUrl, supabaseKey);
 
+    // Paid feature: require active payment, valid manual override, or admin role.
+    const nowIso = new Date().toISOString();
+    const [{ data: paid }, { data: override }, { data: admin }] = await Promise.all([
+      supabase.from("payments").select("id").eq("user_id", user.id).eq("status", "active").limit(1),
+      supabase.from("manual_overrides").select("id").eq("user_id", user.id).or(`expires_at.is.null,expires_at.gt.${nowIso}`).limit(1),
+      supabase.from("admin_roles").select("id").ilike("email", user.email ?? "__none__").limit(1),
+    ]);
+    if (!paid?.length && !override?.length && !admin?.length) {
+      return new Response(JSON.stringify({ error: "subscription_required" }), { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+
     // Fetch MCQ attempts, OSCE station attempts, and psychograph history in parallel
     // P5: MCQ attempts come from V2 PIE (caller's own answered attempts only), not the legacy table.
     const pie = await fetchCallerPieHistory(req, user.email, 1000);
