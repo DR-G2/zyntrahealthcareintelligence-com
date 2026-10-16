@@ -18,6 +18,7 @@ import { useMaintenanceMode } from "@/hooks/useSiteSettings";
 
 import Home from "./pages/Home";
 import HowItWorks from "./pages/HowItWorks";
+import PublicPricing from "./pages/PublicPricing";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 
@@ -124,7 +125,7 @@ function AppRoutes() {
           <Route path="/how-it-works" element={<ErrorBoundary><SEO title="How PIE Works | Zyntra Healthcare Intelligence" description="See how Zyntra’s Performance Intelligence Engine uses practice signals to help you understand your answers and choose what to work on next." path="/how-it-works" /><HowItWorks /></ErrorBoundary>} />
           <Route path="/check" element={<Navigate to="/login" replace />} />
           <Route path="/about" element={<Navigate to="/#about" replace />} />
-          <Route path="/pricing" element={<Navigate to="/#pricing" replace />} />
+          <Route path="/pricing" element={<ErrorBoundary><SEO title="Pricing | Zyntra Healthcare Intelligence" description="Compare Zyntra Full Access monthly and three-month plans, understand the 7-day trial and A$1 card check, and review cancellation terms." path="/pricing" /><PublicPricing /></ErrorBoundary>} />
           <Route path="/login" element={<ErrorBoundary><SEO title="Sign In or Create Account | Zyntra" description="Sign in to Zyntra to continue your AMC exam preparation, or create a free account to start practising." path="/login" /><Login /></ErrorBoundary>} />
           <Route path="/oauth/consent" element={<ErrorBoundary><OAuthConsent /></ErrorBoundary>} />
           <Route path="/reset-password" element={<ErrorBoundary><ResetPassword /></ErrorBoundary>} />
