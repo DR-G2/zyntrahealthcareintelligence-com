@@ -1,20 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { MarketingHeader } from "@/components/public/MarketingHeader";
 import { MarketingFooter } from "@/components/public/MarketingFooter";
-import { ArrowRight, Activity, Brain, BookOpen, CalendarDays, Check, ChevronRight, Clock3, HeartPulse, Play, ShieldCheck, Sparkles, Target, TrendingUp, GitBranch, ClipboardList } from "lucide-react";
+import { ArrowRight, Activity, Brain, BookOpen, CalendarDays, Check, ChevronRight, Clock3, HeartPulse, ShieldCheck, Sparkles, Target, GitBranch, ClipboardList } from "lucide-react";
 import { Link } from "react-router-dom";
 import { featureAvailability } from "@/data/featureAvailability";
 import { COPY_CARD_CHECK, COPY_CANCEL, cancelCopy } from "@/lib/billing";
 import "@/styles/zyntra-home.css";
+import "@/styles/living-brain.css";
+import NeuralScene, { INTELLIGENCE_STAGES, type IntelligenceStage } from "@/components/home/NeuralScene";
 
-const metrics = [
-  { title: "Accuracy", desc: "How often you get it right", icon: Activity },
-  { title: "Timing", desc: "How long you take", icon: Clock3 },
-  { title: "Answer Changes", desc: "When you revise your answer", icon: GitBranch },
-  { title: "Confidence", desc: "How sure you are, where collected", status: featureAvailability.confidence.status, tone: featureAvailability.confidence.tone, icon: Brain },
-  { title: "Behaviour", desc: "Your decision patterns, where available", status: featureAvailability.behaviour.status, tone: featureAvailability.behaviour.tone, icon: Target },
-  { title: "Subject Strengths", desc: "Where you perform well", icon: TrendingUp },
-];
 const features = [
   { title: featureAvailability.mcqPractice.name, desc: featureAvailability.mcqPractice.summary, status: featureAvailability.mcqPractice.status, tone: featureAvailability.mcqPractice.tone, icon: BookOpen, kind: "mcq" },
   { title: featureAvailability.oscePractice.name, desc: featureAvailability.oscePractice.summary, status: featureAvailability.oscePractice.status, tone: featureAvailability.oscePractice.tone, icon: HeartPulse, kind: "osce" },
@@ -41,30 +35,6 @@ const benefits = [
   ["A smarter way to practise", "Focus on what matters next", Target],
 ] as const;
 
-function BrainFunnel() {
-  return <div className="zh-art" aria-label="Illustration of a glowing brain flowing through a funnel to the next best action" role="img">
-    <div className="zh-orbit zh-orbit-a" /><div className="zh-orbit zh-orbit-b" />
-    <div className="zh-neural-lines" aria-hidden="true"><i /><i /><i /><i /><i /><i /></div>
-    <svg className="zh-brain-svg" viewBox="0 0 360 300" aria-hidden="true">
-      <defs>
-        <radialGradient id="zh-brain-fill" cx="50%" cy="40%" r="65%"><stop offset="0%" stopColor="#f7ffff"/><stop offset="38%" stopColor="#74e9ff"/><stop offset="70%" stopColor="#397fda"/><stop offset="100%" stopColor="#132b69"/></radialGradient>
-        <linearGradient id="zh-brain-stroke" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#b7faff"/><stop offset=".45" stopColor="#53cfff"/><stop offset="1" stopColor="#ffbd83"/></linearGradient>
-        <filter id="zh-glow"><feGaussianBlur stdDeviation="7" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-      </defs>
-      <g filter="url(#zh-glow)" fill="url(#zh-brain-fill)" stroke="url(#zh-brain-stroke)" strokeWidth="2.5">
-        <path d="M178 52 C161 25 125 26 112 49 C82 39 62 62 70 86 C43 105 52 137 73 147 C70 173 96 188 117 175 C133 197 163 184 173 165 L180 145 Z"/>
-        <path d="M182 52 C199 25 235 26 248 49 C278 39 298 62 290 86 C317 105 308 137 287 147 C290 173 264 188 243 175 C227 197 197 184 187 165 L180 145 Z"/>
-        <path d="M180 145 L180 224 M167 166 C158 187 165 202 177 208 M193 166 C202 187 195 202 183 208" fill="none"/>
-        <path d="M110 58 C132 63 130 80 117 91 S104 119 130 127 M77 94 C97 92 106 105 99 120 M133 48 C146 65 144 81 160 87 M89 146 C111 136 125 151 124 170 M155 98 C145 117 163 130 155 150 M250 58 C228 63 230 80 243 91 S256 119 230 127 M283 94 C263 92 254 105 261 120 M227 48 C214 65 216 81 200 87 M271 146 C249 136 235 151 236 170 M205 98 C215 117 197 130 205 150" fill="none" strokeWidth="2"/>
-      </g>
-      <path d="M142 194 Q180 218 218 194 L201 246 Q180 262 159 246 Z" fill="rgba(87,223,255,.18)" stroke="#69e8ff" strokeWidth="2" filter="url(#zh-glow)"/>
-      <path d="M159 246 Q180 262 201 246 L193 265 Q180 274 167 265 Z" fill="#5beaff" opacity=".8"/>
-    </svg>
-    <div className="zh-funnel-glow" />
-    <div className="zh-action-orb"><span>NEXT PRACTICE</span><strong>STEP</strong></div>
-  </div>;
-}
-
 function FeaturePreview({ kind }: { kind: string }) {
   return <div className={`zh-preview zh-preview-${kind}`} aria-hidden="true">
     <div className="zh-preview-top"><span /><span /><span /><b>{kind === "mcq" ? "MCQ Practice" : kind === "osce" ? "Clinical station" : kind === "performance" ? "Performance Intelligence" : kind === "lab" ? "AI Study Lab" : "Practice history"}</b></div>
@@ -77,6 +47,8 @@ function FeaturePreview({ kind }: { kind: string }) {
 }
 
 const Home: React.FC = () => {
+  const [activeBrainStage, setActiveBrainStage] = useState<IntelligenceStage>("observe");
+  const activeStage = INTELLIGENCE_STAGES.find((stage) => stage.id === activeBrainStage) ?? INTELLIGENCE_STAGES[0];
   return <div data-zyntra-home="canonical" className="zh-home">
     <a href="#main" className="zh-skip">Skip to content</a>
     <MarketingHeader />
@@ -85,24 +57,29 @@ const Home: React.FC = () => {
         <div className="zh-hero-bg" aria-hidden="true" />
         <div className="zh-container zh-hero-grid">
           <div className="zh-hero-copy">
-            <p className="zh-eyebrow">AMC PREPARATION FOR IMGS</p>
-            <h1>It’s not just<br/>what you know.<br/><em>It’s how you think.</em></h1>
-            <p className="zh-lede">Practise AMC-style questions, review explanations and use the performance signals available in your activity to decide what to work on next.</p>
-            <div className="zh-hero-actions"><Link to="/login" className="zh-button">Start Practising <ArrowRight size={17}/></Link><a href="/how-it-works" className="zh-button-outline"><Play size={17} fill="currentColor"/> See how PIE works</a></div>
+            <p className="zh-eyebrow">PERFORMANCE INTELLIGENCE FOR IMGs</p>
+            <h1>From Questions<br/>to <em>Readiness.</em></h1>
+            <p className="zh-lede">Zyntra studies how you answer, where you hesitate and what changes over time, helping you focus on the next most useful step in your AMC preparation.</p>
+            <div className="zh-hero-actions"><Link to="/features" className="zh-button">Explore Zyntra <ArrowRight size={17}/></Link><a href="#living-loop" className="zh-button-outline">How it works <ArrowRight size={17}/></a></div>
             <div className="zh-trust">{[[BookOpen,"AMC-style","practice"],[Activity,"Performance","intelligence"],[Target,"Personalised","next actions"],[ShieldCheck,"Built for","IMGs"]].map(([Icon,a,b],i)=><div key={i}><Icon size={23}/><span>{a as string}<br/>{b as string}</span></div>)}</div>
           </div>
-          <div className="zh-hero-visual">
-            <BrainFunnel/>
-            {metrics.map(({title,desc,icon:Icon,status,tone},i)=><article key={title} className={`zh-metric zh-metric-${i+1}`}><Icon size={19}/><div><strong>{title}</strong>{status&&<small className={`inline-flex rounded-full border px-1.5 py-0.5 text-[10px] font-semibold ${tone === "beta" ? "border-amber-500/30 text-amber-700" : "border-emerald-500/30 text-emerald-700"}`}>{status}</small>}<span>{desc}</span></div></article>)}
+          <div className="zh-hero-visual zh-living-hero-visual">
+            <NeuralScene activeStage={activeBrainStage} onStageSelect={setActiveBrainStage} />
           </div>
         </div>
       </section>
-      <section id="how-it-works" className="zh-section zh-how">
-        <div className="zh-container zh-how-grid"><div><p className="zh-eyebrow zh-eyebrow-dark">HOW ZYNTRA WORKS</p><h2>From every answer<br/>to your next best action.</h2><p className="zh-section-copy">Zyntra brings question practice together with available performance signals. Review what the current release shows, then choose a focused area to practise again. Behaviour, Confidence, Evidence and Interventions are Beta capabilities; their coverage depends on the release and activity.</p></div>
-          <div className="zh-steps">{steps.map(({no,title,desc,icon:Icon},i)=><React.Fragment key={no}><article><span className="zh-step-icon"><Icon size={25}/></span><b>{no}</b><h3>{title}</h3><p>{desc}</p></article>{i<2&&<ArrowRight className="zh-step-arrow" size={27}/>}</React.Fragment>)}</div>
+      <section id="living-loop" className="zh-section zh-living-loop">
+        <div className="zh-container">
+          <div className="zh-living-heading"><div><p className="zh-eyebrow zh-eyebrow-dark">THE ZYNTRA LEARNING LOOP</p><h2>Evidence in. A better next step out.</h2></div><p className="zh-section-copy">Observe → Diagnose → Intervene → Measure → Adapt. One connected loop, informed by the evidence available from practice.</p></div>
+          <div className="zh-living-stage-list" role="group" aria-label="Choose an intelligence stage">
+            {INTELLIGENCE_STAGES.map((stage, index) => <button type="button" key={stage.id} className={`zh-living-stage ${activeBrainStage === stage.id ? "is-active" : ""}`} aria-pressed={activeBrainStage === stage.id} onClick={() => setActiveBrainStage(activeBrainStage === stage.id ? "observe" : stage.id)}><span className="zh-living-stage-no">0{index + 1}</span><strong>{stage.title}</strong><span className="zh-living-stage-desc">{stage.description}</span></button>)}
+          </div>
+          <div className="zh-living-detail-grid">
+            <article className="zh-living-stage-detail" aria-live="polite"><span className="zh-living-kicker">SELECTED STAGE · {activeStage.regionLabel}</span><h3>{activeStage.title}</h3><p>{activeStage.description}</p><p className="zh-living-detail-note">The highlighted region follows this selection. This is a product explanation, not a live learner assessment.</p></article>
+            <article className="zh-living-action-card"><span className="zh-living-action-label">NEXT BEST ACTION</span><h3>Review your weakest evidenced topic</h3><p>A focused revision session can address an identified learning gap.</p><span className="zh-living-demo-note">Illustrative example · No learner data accessed</span><Link to="/login" className="zh-living-action-link">Explore practice <ArrowRight size={16}/></Link></article>
+          </div>
         </div>
-      </section>
-      <section className="zh-section zh-attempt"><div className="zh-container zh-attempt-grid">
+      </section><section className="zh-section zh-attempt"><div className="zh-container zh-attempt-grid">
         <div><div className="zh-section-label"><b>A QUESTION ATTEMPT</b><span>Example of what PIE looks at</span></div><article className="zh-question-card"><div className="zh-question-head"><b>Example AMC-style question</b><span>Illustrative</span></div><p>A 52-year-old man presents with exertional chest pain. ECG is shown. What is the most likely diagnosis?</p><div className="zh-question-content"><div className="zh-options">{["Stable angina","NSTEMI","STEMI","Pericarditis"].map((v,i)=><div className={i===1?"zh-option selected":"zh-option"} key={v}><b>{String.fromCharCode(65+i)}</b>{v}</div>)}</div><div className="zh-ecg" role="img" aria-label="Illustrative electrocardiogram trace"><svg viewBox="0 0 190 130" aria-hidden="true"><defs><pattern id="ecg-grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M10 0H0V10" fill="none" stroke="#efb4b4" strokeWidth=".55"/></pattern></defs><rect width="190" height="130" fill="url(#ecg-grid)"/><path d="M0 35 H20 L25 30 L30 42 L35 16 L41 66 L47 35 H67 L72 30 L77 42 L82 16 L88 66 L94 35 H114 L119 30 L124 42 L129 16 L135 66 L141 35 H161 L166 30 L171 42 L176 16 L182 66 L190 35" fill="none" stroke="#203c49" strokeWidth="1.6"/><path d="M0 92 H22 L29 87 L35 102 L41 70 L47 114 L53 92 H74 L81 86 L87 101 L93 69 L99 114 L105 92 H126 L133 86 L139 101 L145 69 L151 114 L157 92 H190" fill="none" stroke="#203c49" strokeWidth="1.5"/></svg></div></div><div className="zh-question-footer"><span><Check/> Correct</span><span><Activity/> 78 seconds</span><span><GitBranch/> 1 change</span><span><Brain/> Confidence: High</span></div></article><p className="zh-disclaimer">Static example, no real candidate data.</p></div>
         <div><div className="zh-section-label"><b>PIE TURNS THIS INTO INSIGHTS</b></div><div className="zh-insights">{insights.map(([title,desc,Icon])=><article key={title as string}><span className="zh-insight-icon"><Icon size={17}/></span><b>{title as string}</b><p>{desc as string}</p></article>)}<article className="zh-next-action"><span className="zh-insight-icon"><Target size={17}/></span><b>Illustrative next step</b><small className="inline-flex rounded-full border border-amber-500/30 px-1.5 py-0.5 text-[10px] font-semibold text-amber-700">{featureAvailability.interventions.status}</small><p>Practise related acute chest pain cases and review the reasoning. This is an example, not a live PIE recommendation.</p><ChevronRight/></article></div></div>
       </div></section>
