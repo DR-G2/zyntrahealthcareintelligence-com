@@ -15,6 +15,7 @@ Allow: /
 Disallow: /admin
 Disallow: /dashboard
 Disallow: /settings
+Disallow: /account
 Disallow: /inbox
 Disallow: /notifications
 Disallow: /reset-password

@@ -166,6 +166,7 @@ function AppRoutes() {
           <Route path="/notifications" element={<Navigate to="/inbox" replace />} />
           <Route path="/admin" element={<ProtectedRoute><AdminGate /></ProtectedRoute>} />
           <Route path="/v2-auth-diagnostic" element={<ProtectedRoute><ErrorBoundary><V2AuthDiagnostic /></ErrorBoundary></ProtectedRoute>} />
+          <Route path="/account" element={<ProtectedRoute><ErrorBoundary><Settings /></ErrorBoundary></ProtectedRoute>} />
           <Route path="/settings" element={<ProtectedRoute><ErrorBoundary><Settings /></ErrorBoundary></ProtectedRoute>} />
           <Route path="*" element={<NotFound />} />
         </Routes>
