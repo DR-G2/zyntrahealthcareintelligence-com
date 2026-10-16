@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import {
   Clock, BookOpen, CheckCircle, XCircle, ChevronLeft, ChevronRight,
@@ -49,7 +50,15 @@ function normalizeOptions(value: any): string[] {
   return [];
 }
 
-export function MCQHistory() {
+interface MCQHistoryProps {
+  /** Optional URL-synchronised expansion for the dedicated History route. */
+  expandedAttemptId?: string | null;
+  onExpandedAttemptChange?: (attemptId: string | null) => void;
+  /** Adds a Start Practice action only where requested; Practice keeps its existing UI. */
+  showStartPracticeCta?: boolean;
+}
+
+export function MCQHistory({ expandedAttemptId, onExpandedAttemptChange, showStartPracticeCta = false }: MCQHistoryProps) {
   const { user } = useAuth();
   const [page, setPage] = useState(0);
   const [filter, setFilter] = useState<ResultFilter>('all');
@@ -58,7 +67,9 @@ export function MCQHistory() {
   const [difficultyFilter, setDifficultyFilter] = useState('all');
   const [dateFilter, setDateFilter] = useState<DateFilter>('all');
   const [searchQuery, setSearchQuery] = useState('');
-  const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [localExpandedId, setLocalExpandedId] = useState<string | null>(null);
+  const activeExpandedId = expandedAttemptId === undefined ? localExpandedId : expandedAttemptId;
+  const updateExpandedId = onExpandedAttemptChange ?? setLocalExpandedId;
 
   const { data: attempts = [], isLoading, isError, error, refetch } = useQuery({
     queryKey: ['mcq-history', user?.id],
@@ -187,8 +198,9 @@ export function MCQHistory() {
       <Card>
         <CardContent className="py-12 text-center space-y-4">
           <BookOpen className="h-12 w-12 text-muted-foreground/50 mx-auto" />
-          <h2 className="text-xl font-display font-bold">No Attempts Yet</h2>
+          <h2 className="text-xl font-display font-bold">{showStartPracticeCta ? 'No attempts yet' : 'No Attempts Yet'}</h2>
           <p className="text-muted-foreground">Complete some practice sessions first.</p>
+          {showStartPracticeCta && <Button asChild><Link to="/practice">Start Practice</Link></Button>}
         </CardContent>
       </Card>
     );
@@ -290,7 +302,7 @@ export function MCQHistory() {
           const history = questionTrajectories.get(attempt.question_id) || [attempt];
           const mastery = getMastery(history);
           const trajectory = getTrajectory(history);
-          const isExpanded = expandedId === attempt.id;
+          const isExpanded = activeExpandedId === attempt.id;
 
           return (
             <Card key={attempt.id} className="hover:border-primary/20 transition-colors">
@@ -342,7 +354,7 @@ export function MCQHistory() {
                   <p className="mt-1 text-xs text-muted-foreground">Path: {changeSeq.join(' → ')}</p>
                 )}
 
-                <Button variant="ghost" size="sm" className="mt-2 text-xs" onClick={() => setExpandedId(isExpanded ? null : attempt.id)}>
+                <Button variant="ghost" size="sm" className="mt-2 text-xs" onClick={() => updateExpandedId(isExpanded ? null : attempt.id)}>
                   {isExpanded ? 'Hide Explanation' : 'Show Explanation'}
                 </Button>
 

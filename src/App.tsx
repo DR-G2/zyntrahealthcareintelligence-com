@@ -32,6 +32,7 @@ const AILab = lazy(() => import("./pages/AILab"));
 const Questions = lazy(() => import("./pages/Questions"));
 const Plan = lazy(() => import("./pages/Plan"));
 const Settings = lazy(() => import("./pages/Settings"));
+const HistoryPage = lazy(() => import("./pages/History"));
 // Admin chunk is only requested after the server confirms admin (see AdminGate).
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const QuestionsMCQ = lazy(() => import("./pages/QuestionsMCQ"));
@@ -162,7 +163,7 @@ function AppRoutes() {
           <Route path="/review" element={<Navigate to="/practice" replace />} />
           <Route path="/feed" element={<ProtectedRoute><ErrorBoundary><Feed /></ErrorBoundary></ProtectedRoute>} />
           <Route path="/flashcards" element={<ProtectedRoute><ErrorBoundary><Flashcards /></ErrorBoundary></ProtectedRoute>} />
-          <Route path="/history" element={<Navigate to="/practice" replace />} />
+          <Route path="/history" element={<ProtectedRoute><ErrorBoundary><HistoryPage /></ErrorBoundary></ProtectedRoute>} />
           <Route path="/inbox" element={<ProtectedRoute><ErrorBoundary><InboxPage /></ErrorBoundary></ProtectedRoute>} />
           <Route path="/notifications" element={<Navigate to="/inbox" replace />} />
           <Route path="/admin" element={<ProtectedRoute><AdminGate /></ProtectedRoute>} />
