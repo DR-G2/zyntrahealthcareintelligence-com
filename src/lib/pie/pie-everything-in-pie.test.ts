@@ -44,7 +44,7 @@ describe("P5: every attempt/selection path is PIE", () => {
 
   it("the removed Assess page stays removed and /assess redirects to Practice", () => {
     expect(existsSync(resolve(root, "src/pages/Assess.tsx"))).toBe(false);
-    expect(read("src/App.tsx")).toContain('<Route path="/assess" element={<Navigate to="/practice" replace />} />');
+    expect(read("src/App.tsx")).toContain('<Route path="/assess" element={<LegacyRedirect to="/practice" />} />');
   });
 
   it("no source file uses a legacy selection/attempt RPC or client-chosen session", () => {
