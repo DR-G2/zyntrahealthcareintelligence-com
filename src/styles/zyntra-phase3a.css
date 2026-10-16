@@ -37,8 +37,8 @@
   --sidebar-primary: 187 92% 58%;
   --sidebar-accent: 190 55% 18%;
   --sidebar-border: 207 28% 25%;
-  color: var(--zh-workspace-offwhite);
-  background: var(--zh-workspace-navy);
+  color: var(--zh-workspace-offwhite) !important;
+  background: var(--zh-workspace-navy) !important;
   font-family: inherit;
 }
 .zh-phase3a :is(a, button, input, textarea, select, summary, [role="button"], [role="menuitem"]):focus-visible {
@@ -94,8 +94,8 @@
   min-width: 44px;
   min-height: 44px;
 }
-.zh-phase3a aside[aria-label="Navigation"] a,
-.zh-phase3a aside[aria-label="Navigation"] button {
+.zh-phase3a aside a,
+.zh-phase3a aside button {
   min-height: 44px;
 }
 .zh-phase3a main {
