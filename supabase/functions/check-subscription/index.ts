@@ -38,7 +38,7 @@ serve(async (req) => {
     const userId = claimsData.claims.sub as string;
     const userEmail = claimsData.claims.email as string;
     if (!userEmail) throw new Error("User not authenticated or email not available");
-    logStep("User authenticated", { email: userEmail });
+    logStep("User authenticated");
 
     // 1. Check manual overrides first
     const { data: override } = await supabaseClient

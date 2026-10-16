@@ -14,7 +14,7 @@ Deno.serve(async req=>{
  const mode=b.exam_mode==="CLINICAL"?"CLINICAL":"MCQ", action=b.action;
  const {data:p}=await sc.from("amc_plugin_version").select("id,plugin_code,plugin_version,status,blueprint_version,environment_version").eq("plugin_code","AMC").eq("plugin_version","1.0.0").maybeSingle();
  if(!p)return J({error:"amc_plugin_unavailable"},404);
- if(action==="get_readiness"){const {data,error}=await uc.rpc("rebuild_my_amc_readiness",{p_exam_mode:mode});if(error)return J({error:"readiness_evaluation_failed",detail:error.message},500);return J(data);}
+ if(action==="get_readiness"){const {data,error}=await uc.rpc("rebuild_my_amc_readiness",{p_exam_mode:mode});if(error)return J({error:"readiness_evaluation_failed"},500);return J(data);}
  if(action==="get_summary"){const {data:e}=await sc.from("amc_exam_environment_v1").select("environment_code,environment_version,exam_mode,status").eq("plugin_version_id",p.id).eq("exam_mode",mode).order("created_at",{ascending:false}).limit(1).maybeSingle();return J({plugin:"AMC",pluginVersion:p.plugin_version,status:p.status,environmentCode:e?.environment_code??null,examMode:mode,readiness:{probability:null,index:null,uncertainty:null,status:"INSUFFICIENT_EVIDENCE",probabilityStatus:"NOT_CALIBRATED"}});}
  if(action==="get_blueprint"){const {data,error}=await sc.from("amc_blueprint").select("exam_mode,patient_group,task_domain,proportion,item_target").eq("plugin_version_id",p.id).eq("exam_mode",mode);if(error)return J({error:"blueprint_query_failed"},500);return J({plugin:"AMC",pluginVersion:p.plugin_version,examMode:mode,blueprint:data??[]});}
  return J({error:"unsupported_action"},400);

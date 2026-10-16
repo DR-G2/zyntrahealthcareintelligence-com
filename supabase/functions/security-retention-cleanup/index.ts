@@ -5,7 +5,16 @@ const supabase = createClient(
   Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!,
 );
 
-Deno.serve(async () => {
+Deno.serve(async (req) => {
+  // Only the scheduled job, which presents the service key, may run cleanup.
+  const serviceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '';
+  const auth = req.headers.get('Authorization') ?? '';
+  if (req.method !== 'POST' || !serviceKey || auth !== `Bearer ${serviceKey}`) {
+    return new Response(JSON.stringify({ ok: false, error: 'unauthorized' }), {
+      status: 401,
+      headers: { 'content-type': 'application/json' },
+    });
+  }
   try {
     const { data: policy, error: policyError } = await supabase
       .schema('pie')

@@ -145,7 +145,7 @@ Deno.serve(async (req) => {
     .order("observed_at", { ascending: true })
     .order("id", { ascending: true });
 
-  if (error) return json({ error: "observation_query_failed", detail: error.message }, 500);
+  if (error) { console.error("[pie-infer-state] observation query", error); return json({ error: "observation_query_failed" }, 500); }
 
   if (!rows?.length) {
     return json({
