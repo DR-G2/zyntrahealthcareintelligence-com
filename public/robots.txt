@@ -20,4 +20,4 @@ Disallow: /inbox
 Disallow: /notifications
 Disallow: /reset-password
 
-Sitemap: https://www.zyntrahealthcareintelligence.com/sitemap.xml
+Sitemap: https://www.zyntrahealthcareintelligence.org/sitemap.xml
