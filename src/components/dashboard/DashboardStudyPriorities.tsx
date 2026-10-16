@@ -71,13 +71,12 @@ export function DashboardStudyPriorities() {
           savedPriorities = planRes.data.tasks.focus_areas;
         }
         const recordedPriorities: Priority[] = ((subjectRes.data || []) as SubjectRow[])
-          .map(row => {
+          .flatMap(row => {
             const accuracy = Number(row.accuracy);
             const attempts = Number(row.attempt_count);
-            if (!row.subject || !Number.isFinite(accuracy) || !Number.isFinite(attempts) || attempts <= 0) return null;
-            return { category: row.subject, priority: accuracy < 60 ? 'high' : accuracy < 80 ? 'medium' : 'maintain', accuracy: Math.round(accuracy) };
-          })
-          .filter((row): row is Priority => row !== null);
+            if (!row.subject || !Number.isFinite(accuracy) || !Number.isFinite(attempts) || attempts <= 0) return [];
+            return [{ category: row.subject, priority: accuracy < 60 ? 'high' : accuracy < 80 ? 'medium' : 'maintain', accuracy: Math.round(accuracy) }];
+          });
         setUsingSavedPlan(savedPriorities.length > 0);
         setPriorities(savedPriorities.length > 0 ? savedPriorities : recordedPriorities);
       } catch (cause) {
