@@ -1,0 +1,126 @@
+/* Phase 2 presentation layer. All selectors remain inside .zh-phase2. */
+.zh-phase2 {
+  min-height: 100vh;
+  color: var(--zh-ink);
+  font-family: var(--zh-font-body);
+}
+.zh-phase2 :is(h1, h2, h3, h4) {
+  font-family: var(--zh-font-heading) !important;
+}
+.zh-phase2 :is(a, button, input, select, textarea, summary, [role="button"], [role="checkbox"]):focus-visible {
+  outline: 3px solid #087d7d !important;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 2px #fffefa;
+}
+.zh-phase2-journal {
+  background: var(--zh-navy) !important;
+  color: #f8fbff;
+}
+.zh-phase2-journal .text-slate-500 { color: #aebdca !important; }
+.zh-phase2-journal .text-slate-400 { color: #bdcbd7 !important; }
+.zh-phase2-journal .text-slate-300 { color: #d7e1e9 !important; }
+.zh-phase2-journal main > section,
+.zh-phase2-journal main > article,
+.zh-phase2-journal main > p { max-width: 72rem; margin-left: auto; margin-right: auto; }
+.zh-phase2-journal main article p,
+.zh-phase2-journal main > p { max-width: 68ch; line-height: 1.85; }
+.zh-phase2-journal main article h2 { max-width: 68ch; line-height: 1.3; }
+.zh-phase2-journal main article { overflow-wrap: anywhere; }
+.zh-phase2-legal {
+  background: var(--zh-paper) !important;
+  color: var(--zh-ink) !important;
+}
+.zh-phase2-legal nav.bg-background { background: var(--zh-surface) !important; border-color: var(--zh-line) !important; }
+.zh-phase2-legal main { color: var(--zh-ink); }
+.zh-phase2-legal .text-foreground,
+.zh-phase2-legal .text-foreground\/85 { color: #26363d !important; }
+.zh-phase2-legal .text-muted-foreground { color: #53636a !important; }
+.zh-phase2-legal .text-primary { color: #075e68 !important; }
+.zh-phase2-auth {
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(39, 226, 239, .12), transparent 42%),
+    var(--zh-paper) !important;
+  color: var(--zh-ink);
+}
+.zh-phase2-auth .bg-background { background: transparent !important; }
+.zh-phase2-auth .bg-card,
+.zh-phase2-auth [class~="bg-card"] { background: var(--zh-surface) !important; }
+.zh-phase2-auth .text-foreground { color: #101820 !important; }
+.zh-phase2-auth .text-muted-foreground { color: #53636a !important; }
+.zh-phase2-auth .text-destructive,
+.zh-phase2-auth [aria-invalid="true"] { color: #b42318 !important; }
+.zh-phase2-auth .border-destructive,
+.zh-phase2-auth [aria-invalid="true"] { border-color: #b42318 !important; }
+.zh-phase2-auth .text-green-600,
+.zh-phase2-auth .text-emerald-600,
+.zh-phase2-auth [data-state="success"] { color: #067647 !important; }
+.zh-phase2-auth input:not([type="checkbox"]):not([type="radio"]),
+.zh-phase2-auth select,
+.zh-phase2-auth textarea,
+.zh-phase2-auth [role="combobox"] {
+  min-height: 44px;
+  color: #101820;
+  background-color: #fffefa;
+  border-color: #829197;
+}
+.zh-phase2-auth button,
+.zh-phase2-auth [role="button"],
+.zh-phase2-auth [role="checkbox"] {
+  min-height: 44px;
+}
+.zh-phase2-auth label {
+  color: #26363d;
+  font-weight: 500;
+}
+.zh-phase2-auth .border-border\/50,
+.zh-phase2-auth .border-border { border-color: #d0d9d8; }
+.zh-phase2-auth .gradient-primary {
+  background: linear-gradient(120deg, #0b6875, #087d7d) !important;
+}
+.zh-phase2-footer {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+  padding: 1rem clamp(1rem, 4vw, 2.5rem);
+  border-top: 1px solid var(--zh-line);
+  background: rgba(255, 254, 250, .94);
+  color: var(--zh-muted);
+}
+.zh-phase2-footer .zh-phase2-footer-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  color: var(--zh-ink);
+  font-weight: 700;
+  text-decoration: none;
+}
+.zh-phase2-footer nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .25rem .75rem;
+}
+.zh-phase2-footer nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: .25rem;
+  color: #34484f;
+  text-decoration: underline;
+  text-underline-offset: .2em;
+}
+.zh-phase2-footer nav a:hover { color: #075e68; }
+.zh-phase2-auth .text-primary { color: #075e68 !important; }
+.zh-phase2-auth .bg-primary { background-color: #0b6875 !important; }
+.zh-phase2-auth .text-primary-foreground { color: #fffefa !important; }
+@media (max-width: 640px) {
+  .zh-phase2-footer { align-items: flex-start; flex-direction: column; }
+  .zh-phase2-journal main { padding-left: 1rem; padding-right: 1rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .zh-phase2 *, .zh-phase2 *::before, .zh-phase2 *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+}
