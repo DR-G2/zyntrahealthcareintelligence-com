@@ -1,5 +1,5 @@
 import React from "react";
-import { ArrowLeft, ArrowRight, BookOpen, Clock } from "lucide-react";
+import { ArrowRight, BookOpen, Clock } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import { SEO } from "@/components/SEO";
 import { MarketingHeader } from "@/components/public/MarketingHeader";
