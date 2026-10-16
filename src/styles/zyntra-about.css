@@ -1,0 +1,54 @@
+/* About page styles. Shared marketing primitives live in zyntra-home.css. */
+.za-page { --za-ink:#101820; --za-muted:#52616a; --za-line:#dce3e2; }
+.za-page .za-hero { min-height:440px; display:flex; align-items:center; padding:4.5rem 0; }
+.za-hero-inner { position:relative; z-index:2; max-width:1240px; }
+.za-hero-inner h1 { max-width:850px; margin:0; font:700 clamp(2.45rem,5.4vw,4.7rem)/1.06 'Space Grotesk',Inter,sans-serif; letter-spacing:-.05em; }
+.za-hero-inner h1 em { color:var(--cyan); font-style:normal; }
+.za-hero-inner .zh-lede { max-width:590px; margin:1.25rem 0 1.5rem; }
+.za-hero-mark { position:absolute; right:max(5%,calc((100vw - 1240px)/2)); top:50%; transform:translateY(-50%); width:220px; height:220px; border:1px solid #27e2ef35; border-radius:50%; display:grid; place-items:center; opacity:.78; }
+.za-hero-mark:before,.za-hero-mark:after { content:""; position:absolute; inset:15%; border:1px solid #27e2ef2c; border-radius:50%; }
+.za-hero-mark:after { inset:30%; border-color:#27e2ef50; }
+.za-hero-mark b { font:700 5rem 'Space Grotesk',sans-serif; color:#27e2ef; text-shadow:0 0 35px #27e2ef4f; }
+.za-hero-mark>span { position:absolute; top:18%; left:16%; color:#9eb7c2; font:500 .65rem 'DM Mono',monospace; letter-spacing:.1em; }
+.za-hero-mark i { position:absolute; width:6px; height:6px; border-radius:50%; background:#27e2ef; box-shadow:0 0 12px #27e2ef; }
+.za-hero-mark i:nth-of-type(1) { top:12%; right:30%; }.za-hero-mark i:nth-of-type(2) { bottom:23%; left:8%; }.za-hero-mark i:nth-of-type(3) { bottom:13%; right:31%; }
+.za-founder { padding:clamp(3.5rem,7vw,6.5rem) 0; background:#f7f7f3; }
+.za-founder-grid { display:grid; grid-template-columns:.85fr 1.15fr; gap:clamp(2rem,6vw,6rem); align-items:start; }
+.za-section-intro h2,.za-section-heading h2,.za-boundaries h2,.za-contact h2 { margin:0; font:700 clamp(1.9rem,3.4vw,3rem)/1.1 'Space Grotesk',Inter,sans-serif; letter-spacing:-.045em; color:var(--za-ink); }
+.za-section-intro .zh-section-copy { margin-top:1.1rem; }
+.za-founder-note { position:relative; padding:clamp(1.5rem,3.5vw,2.5rem); border:1px solid #dce3e2; border-radius:20px; background:#fffefa; box-shadow:0 20px 55px #193c4208; }
+.za-quote-mark { display:block; color:#087d7d; font:700 4rem/.7 Georgia,serif; }
+.za-founder-note>p:not(.za-todo) { color:#33444c; font-size:clamp(.95rem,1.3vw,1.08rem); line-height:1.85; }
+.za-todo { padding:.85rem 1rem; border-left:3px solid #087d7d; background:#eaf3f0; color:#25474a; font-size:.8rem; line-height:1.6; }
+.za-founder-byline { display:flex; align-items:center; gap:.7rem; padding-top:1rem; border-top:1px solid #e5e9e7; }
+.za-anonymous-icon { display:grid; place-items:center; width:40px; height:40px; border:1px solid #cbdad7; border-radius:50%; color:#086f79; }
+.za-founder-byline>span:last-child { display:grid; gap:.12rem; }.za-founder-byline strong { font-size:.85rem; color:#14252b; }.za-founder-byline small { color:#617078; font-size:.74rem; }
+.za-founder-photo { margin:1.25rem 0 0; }.za-founder-photo img { display:block; max-width:100%; max-height:360px; border-radius:12px; object-fit:cover; }.za-founder-photo figcaption { margin-top:.4rem; color:#617078; font-size:.75rem; }
+.za-beliefs { background:#fff; padding:clamp(3.5rem,7vw,6rem) 0; }
+.za-section-heading { max-width:720px; margin-bottom:2.2rem; }.za-section-heading .zh-section-copy { max-width:600px; }
+.za-principle-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:1rem; }
+.za-principle { position:relative; min-height:255px; padding:1.35rem; border:1px solid #dfe6e3; border-radius:15px; background:#fbfcf9; }
+.za-principle-number { position:absolute; top:1.15rem; right:1.15rem; color:#829198; font:500 .67rem 'DM Mono',monospace; }
+.za-principle-icon { display:grid; place-items:center; width:45px; height:45px; border-radius:12px; background:#e5f2ef; color:#086f79; }
+.za-principle h3 { margin:1.2rem 0 .55rem; color:#15252b; font:700 1.05rem/1.25 'Space Grotesk',Inter,sans-serif; }
+.za-principle p { margin:0; color:#52616a; font-size:.83rem; line-height:1.7; }
+.za-boundaries { background:#f1f4ef; padding:clamp(3.5rem,7vw,6rem) 0; }
+.za-boundaries-grid { display:grid; grid-template-columns:.85fr 1.15fr; gap:clamp(2rem,6vw,6rem); align-items:start; }
+.za-boundary-list { padding:1.6rem; border:1px solid #d7e1dc; border-radius:18px; background:#fffefa; }
+.za-boundary-list article { display:grid; grid-template-columns:36px minmax(0,1fr); gap:.8rem; padding:.65rem 0 1.1rem; }
+.za-boundary-check,.za-boundary-no { display:grid; place-items:center; width:34px; height:34px; border-radius:50%; background:#e2f2eb; color:#08745f; font-size:1.4rem; }
+.za-boundary-no { background:#f5e8df; color:#8a4b2f; }
+.za-boundary-list h3 { margin:.15rem 0 .35rem; font-size:.95rem; color:#17272c; }.za-boundary-list article p { margin:0; color:#52616a; font-size:.83rem; line-height:1.65; }
+.za-independent { border-top:1px solid #e0e6e1; padding-top:1rem; margin:0; color:#455a5d; font-size:.76rem; line-height:1.6; }
+.za-beta { padding:clamp(3rem,6vw,5rem) 0; background:#fff; }
+.za-beta-card { display:grid; grid-template-columns:70px minmax(0,1fr) auto; align-items:center; gap:1.5rem; padding:clamp(1.5rem,4vw,3rem); border-radius:20px; background:#061523; color:#f5fbff; }
+.za-beta-symbol { width:60px; height:60px; border:1px solid #27e2ef45; border-radius:16px; display:flex; align-items:center; justify-content:center; gap:4px; }.za-beta-symbol span { display:block; width:5px; border-radius:4px; background:#27e2ef; }.za-beta-symbol span:nth-child(1) { height:19px; }.za-beta-symbol span:nth-child(2) { height:34px; }.za-beta-symbol span:nth-child(3) { height:25px; }
+.za-beta-card h2 { margin:0 0 .55rem; font:700 clamp(1.6rem,3vw,2.35rem)/1.12 'Space Grotesk',Inter,sans-serif; letter-spacing:-.04em; }.za-beta-card>div:nth-child(2)>p:last-child { max-width:680px; margin:0; color:#c2d0d8; font-size:.87rem; line-height:1.75; }
+.za-beta-status { display:inline-flex; align-items:center; gap:.5rem; padding:.55rem .75rem; border:1px solid #4c6876; border-radius:999px; color:#d4e1e6; white-space:nowrap; font-size:.72rem; }.za-beta-status i { width:7px; height:7px; border-radius:50%; background:#27e2a7; }
+.za-contact { padding:clamp(3.5rem,7vw,6rem) 0; background:#f7f7f3; }.za-contact-inner { display:grid; grid-template-columns:1fr 1fr; align-items:center; gap:3rem; }
+.za-contact-link { display:flex; align-items:center; gap:.85rem; padding:1.2rem; border:1px solid #d8e2df; border-radius:15px; background:#fffefa; min-width:0; }.za-contact-link>span:first-child { display:grid; place-items:center; width:44px; height:44px; border-radius:12px; background:#e5f2ef; color:#086f79; flex-shrink:0; }.za-contact-link>span:nth-child(2) { display:grid; gap:.2rem; min-width:0; flex:1; }.za-contact-link small { color:#607078; font-size:.62rem; letter-spacing:.12em; }.za-contact-link strong { color:#17272c; font-size:clamp(.7rem,1.1vw,.9rem); overflow-wrap:anywhere; }.za-contact-link>svg { color:#087d7d; flex-shrink:0; }.za-contact-link:hover { border-color:#087d7d; }
+.za-final { padding:clamp(3rem,6vw,5rem) 0 1.4rem; background:#040d18; color:#f8fbff; }.za-final-inner { display:grid; grid-template-columns:1.1fr .9fr; gap:3rem; align-items:center; }.za-final h2 { margin:0 0 .75rem; font:700 clamp(1.9rem,3.7vw,3rem)/1.1 'Space Grotesk',Inter,sans-serif; letter-spacing:-.045em; }.za-final-inner>div:first-child>p:last-child { margin:0; color:#c3d0d8; font-size:.9rem; line-height:1.7; }.za-final-action .zh-button { margin-bottom:.7rem; }.za-final-action p,.za-final-action small { display:block; margin:.35rem 0; color:#c3d0d8; font-size:.72rem; line-height:1.65; }.za-final-action small { color:#9fb1ba; }.za-final-independent { margin:2rem auto 0; padding:1rem 1.5rem 0; max-width:1240px; border-top:1px solid #1b3040; text-align:center; color:#a7bac4; font-size:.72rem; line-height:1.6; }
+.za-mobile-cta { display:none; }
+@media (max-width:900px) { .za-hero-mark { right:3%; width:160px; height:160px; opacity:.35; }.za-principle-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }.za-founder-grid,.za-boundaries-grid { grid-template-columns:1fr; gap:2rem; }.za-founder-grid { max-width:850px; }.za-beta-card { grid-template-columns:58px minmax(0,1fr); }.za-beta-status { grid-column:2; justify-self:start; }.za-contact-inner,.za-final-inner { grid-template-columns:1fr; gap:1.6rem; } }
+@media (max-width:600px) { .za-page { padding-bottom:84px; }.za-page .za-hero { min-height:420px; padding:3.5rem 0; }.za-hero-mark { top:auto; bottom:1rem; right:1rem; transform:none; width:95px; height:95px; opacity:.22; }.za-hero-mark b { font-size:2.8rem; }.za-hero-inner h1 { font-size:clamp(2.25rem,10vw,3.2rem); max-width:100%; }.za-hero-inner .zh-lede { max-width:95%; font-size:.9rem; }.za-founder,.za-beliefs,.za-boundaries,.za-contact { padding:3.2rem 0; }.za-principle-grid { grid-template-columns:1fr; gap:.8rem; }.za-principle { min-height:0; padding:1.2rem; }.za-principle h3 { margin-top:.8rem; }.za-beta { padding:2.5rem 0; }.za-beta-card { grid-template-columns:1fr; gap:1rem; }.za-beta-status { grid-column:auto; }.za-contact-link { padding:.9rem; }.za-final { padding:3rem 0 1rem; }.za-mobile-cta { position:fixed; z-index:45; left:0; right:0; bottom:0; display:flex; align-items:center; justify-content:center; gap:.65rem; padding:.7rem 1rem calc(.7rem + env(safe-area-inset-bottom)); border-top:1px solid #24404b; background:rgba(4,13,24,.97); backdrop-filter:blur(14px); }.za-mobile-cta .zh-button { min-height:42px; padding:.65rem 1rem; font-size:.76rem; }.za-mobile-cta>span { color:#d0dce1; font-size:.66rem; } }
+@media (prefers-reduced-motion:reduce) { .za-page *, .za-page *::before, .za-page *::after { animation:none!important; transition:none!important; scroll-behavior:auto!important; } }

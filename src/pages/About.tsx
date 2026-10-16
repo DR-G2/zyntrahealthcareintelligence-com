@@ -1,232 +1,91 @@
-import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { Zap, ArrowRight } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { ThemeToggle } from '@/components/ThemeToggle';
-import { SEO } from '@/components/SEO';
-import { PublicFooter } from '@/components/PublicFooter';
-import { useAuth } from '@/contexts/AuthContext';
+import { ArrowRight, CheckCircle2, EyeOff, Mail, ShieldCheck, Target } from "lucide-react";
+import { Link } from "react-router-dom";
+import { MarketingHeader } from "@/components/public/MarketingHeader";
+import { MarketingFooter } from "@/components/public/MarketingFooter";
+import { COPY_CARD_CHECK, TRIAL_DAYS, PLAN_PRICES, cancelCopy } from "@/lib/billing";
+import "@/styles/zyntra-home.css";
+import "@/styles/zyntra-about.css";
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 24 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-};
+type FounderPhotoProps = { src?: string; alt?: string };
+function FounderPhoto({ src, alt = "Zyntra founder" }: FounderPhotoProps) {
+  if (!src) return null;
+  return <figure className="za-founder-photo"><img src={src} alt={alt} loading="lazy" /><figcaption>Zyntra founder</figcaption></figure>;
+}
+
+// TODO: Add a real image URL only if the anonymous founder chooses to share a photo.
+const founderPhoto: string | undefined = undefined;
+// TODO: Replace or refine the founder note below with the founder's own final wording.
+const principles = [
+  { icon: Target, title: "The process matters", copy: "A right or wrong answer is one part of the picture. How you reached it can also help guide your next practice step." },
+  { icon: CheckCircle2, title: "Honest feedback comes first", copy: "We aim to show what the available evidence supports, and to be clear when it does not tell the whole story." },
+  { icon: EyeOff, title: "Patterns are not verdicts", copy: "Practice signals can offer useful clues. They are not a diagnosis, a prediction or a measure of your worth as a doctor." },
+  { icon: ShieldCheck, title: "No promises about outcomes", copy: "Preparation takes work, and exam results depend on many factors. Zyntra does not guarantee a pass." },
+];
 
 export default function About() {
-  const { user } = useAuth();
   return (
-    <div className="min-h-screen bg-background">
-      <SEO
-        title="About Zyntra — Reasoning-First AMC Training"
-        description="Why Zyntra trains clinical reasoning instead of recall: the APPE engine, behavioural analytics, and original AMC-style content built by clinicians."
-        path="/about"
-        jsonLd={{ '@context': 'https://schema.org', '@type': 'WebPage', name: 'About Zyntra', url: 'https://www.zyntrahealthcareintelligence.com/about' }}
-      />
-      {/* Nav */}
-      <nav className="fixed top-0 z-50 w-full border-b border-border/50 glass">
-        <div className="container flex h-16 items-center justify-between">
-          <Link to="/" className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg gradient-primary">
-              <Zap className="h-4 w-4 text-primary-foreground" />
-            </div>
-            <span className="text-lg font-bold font-display">Zyntra</span>
-          </Link>
-          <div className="flex items-center gap-3">
-            <Button variant="ghost" asChild className="text-sm">
-              <Link to="/about">About</Link>
-            </Button>
-            <Button variant="ghost" asChild className="text-sm">
-              <Link to="/pricing">Pricing</Link>
-            </Button>
-            <ThemeToggle />
-            {!user && (
-              <Button variant="ghost" asChild className="hidden text-sm sm:inline-flex">
-                <Link to="/login">Log in</Link>
-              </Button>
-            )}
-            <Button asChild>
-              <Link to="/dashboard">{user ? 'Dashboard' : 'Get Started'}</Link>
-            </Button>
+    <div className="zh-home za-page" data-zyntra-about="canonical">
+      <a href="#main" className="zh-skip">Skip to content</a>
+      <MarketingHeader />
+      <main id="main">
+        <section className="zh-hero za-hero">
+          <div className="zh-hero-bg" aria-hidden="true" />
+          <div className="zh-container za-hero-inner">
+            <p className="zh-eyebrow">ABOUT ZYNTRA</p>
+            <h1>Built by a doctor, for doctors preparing for the <em>AMC.</em></h1>
+            <p className="zh-lede">A more deliberate way to practise, review your decisions and understand where to focus next.</p>
+            <a className="zh-button" href="#why-zyntra">Why Zyntra exists <ArrowRight size={17} aria-hidden="true" /></a>
           </div>
-        </div>
-      </nav>
-
-      {/* Hero */}
-      <section className="relative pt-32 pb-16 overflow-hidden">
-        <div className="absolute inset-0 -z-10">
-          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 h-[500px] w-[800px] rounded-full bg-primary/10 blur-[120px]" />
-        </div>
-        <div className="container">
-          <motion.div initial="hidden" animate="show" variants={fadeUp} className="mx-auto max-w-3xl text-center">
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-muted px-4 py-1.5 text-sm text-muted-foreground">
-              <Zap className="h-3.5 w-3.5 text-primary" />
-              About Zyntra
+          <div className="za-hero-mark" aria-hidden="true"><span>01</span><i /><i /><i /><b>Z</b></div>
+        </section>
+        <section className="zh-section za-founder" id="why-zyntra">
+          <div className="zh-container za-founder-grid">
+            <div className="za-section-intro">
+              <p className="zh-eyebrow zh-eyebrow-dark">WHY ZYNTRA EXISTS</p>
+              <h2>Making a difficult process more considered.</h2>
+              <p className="zh-section-copy">The purpose is simple: make it easier to practise with intention, learn from each attempt and decide what to work on next.</p>
             </div>
-            <h1 className="mb-6 text-4xl font-bold font-display leading-tight tracking-tight lg:text-5xl">
-              Built by an IMG who struggled through the{' '}
-              <span className="gradient-text">same AMC journey</span>{' '}
-              you're on right now.
-            </h1>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Intro */}
-      <section className="pb-16">
-        <div className="container">
-          <motion.div initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp} className="mx-auto max-w-2xl space-y-6 text-base leading-relaxed text-muted-foreground">
-            <p className="text-xl text-foreground font-display font-semibold">
-              I didn't pass AMC because I'm unusually smart.
-            </p>
-            <p>
-              I passed because I eventually figured out how to study properly.
-            </p>
-            <p>
-              And it took longer than I expected.
-            </p>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* The Turning Point */}
-      <section className="py-16 border-t border-border/50">
-        <div className="container">
-          <motion.div initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp} className="mx-auto max-w-2xl">
-            <h2 className="mb-8 text-3xl font-bold font-display">The Turning Point</h2>
-            <div className="space-y-6 text-base leading-relaxed text-muted-foreground">
-              <p>I started preparing for the AMC MCQ in early 2024.</p>
-              <p>At first, I was doing what most candidates do:</p>
-              <ul className="list-disc pl-6 space-y-1">
-                <li>solving random MCQs</li>
-                <li>jumping between resources</li>
-                <li>reading explanations without a real system</li>
-              </ul>
-              <p>Months passed, but honestly, I wasn't improving.</p>
-              <p>My scores stayed roughly the same. My confidence wasn't getting better. It felt like I was studying a lot but moving nowhere.</p>
-              <p className="text-foreground font-semibold">Then I changed two things.</p>
+            <div className="za-founder-note">
+              <span className="za-quote-mark" aria-hidden="true">“</span>
+              <p>I have taken a harder route through this process than I would want others to need. I started Zyntra to help make AMC preparation more structured, so doctors can spend less time trying to work out the process alone and more time practising with purpose.</p>
+              <p>I prefer to keep my identity private. The focus here is on the work and the people it is intended to support, rather than on the person behind it.</p>
+              <p className="za-todo"><strong>TODO:</strong> Replace or refine this first-person note with your own final words before publishing.</p>
+              <div className="za-founder-byline"><span className="za-anonymous-icon"><EyeOff size={17} aria-hidden="true" /></span><span><strong>Zyntra founder</strong><small>Identity intentionally private</small></span></div>
+              <FounderPhoto src={founderPhoto} />
             </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* 1. Fixing the Foundation */}
-      <section className="py-16 bg-muted/50">
-        <div className="container">
-          <motion.div initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp} className="mx-auto max-w-2xl">
-            <h2 className="mb-6 text-2xl font-bold font-display">1️⃣ Fixing the Foundation</h2>
-            <div className="space-y-4 text-base leading-relaxed text-muted-foreground">
-              <p><p>I started following Arimgsas approach, which helped rebuild my core clinical reasoning.</p></p>
-              <p>Instead of memorizing answers, I started focusing on:</p>
-              <ul className="list-disc pl-6 space-y-1">
-                <li>why a diagnosis makes sense</li>
-                <li>what feature in the stem actually matters</li>
-                <li>what the examiners are really testing</li>
-              </ul>
-              <p className="text-foreground font-medium">That fixed my base knowledge.</p>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* 2. Fixing Exam Behaviour */}
-      <section className="py-16">
-        <div className="container">
-          <motion.div initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp} className="mx-auto max-w-2xl">
-            <h2 className="mb-6 text-2xl font-bold font-display">2️⃣ Fixing My Exam Behaviour</h2>
-            <div className="space-y-4 text-base leading-relaxed text-muted-foreground">
-              <p>The second change was something most platforms ignore.</p>
-              <p>I started analysing:</p>
-              <ul className="list-disc pl-6 space-y-1">
-                <li>the questions I got wrong</li>
-                <li>the ones I changed from correct → wrong</li>
-                <li>when my first instinct was actually right</li>
-              </ul>
-              <p>That's where the idea behind Zyntra started forming.</p>
-              <p>Tracking mistakes, patterns, and gut decisions helped me see something important:</p>
-              <p className="text-foreground font-semibold">
-                A lot of my errors weren't knowledge gaps. They were decision mistakes during the exam.
-              </p>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* The Result */}
-      <section className="py-16 bg-muted/50">
-        <div className="container">
-          <motion.div initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp} className="mx-auto max-w-2xl">
-            <h2 className="mb-6 text-3xl font-bold font-display">The Result</h2>
-            <div className="space-y-4 text-base leading-relaxed text-muted-foreground">
-              <p>Once I combined:</p>
-              <ul className="list-disc pl-6 space-y-1">
-                <li>strong clinical foundations</li>
-                <li>structured wrong-question analysis</li>
-                <li>tracking instinct vs overthinking</li>
-              </ul>
-              <p>my progress changed dramatically.</p>
-              <p>Within two months, I was finally ready.</p>
-              <p>I sat the exam in May 2025.</p>
-              <p className="text-3xl font-bold font-display text-primary">AMC MCQ Score: 321 / 500</p>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Why Zyntra Exists */}
-      <section className="py-16">
-        <div className="container">
-          <motion.div initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp} className="mx-auto max-w-2xl">
-            <h2 className="mb-6 text-3xl font-bold font-display">Why Zyntra Exists</h2>
-            <div className="space-y-4 text-base leading-relaxed text-muted-foreground">
-              <p>While preparing, I realised something frustrating.</p>
-              <p>Most platforms only help you practice questions.</p>
-              <p>Very few help you understand:</p>
-              <ul className="list-disc pl-6 space-y-1">
-                <li>why you keep making the same mistakes</li>
-                <li>when you overthink</li>
-                <li>when your first instinct is actually correct</li>
-              </ul>
-              <p className="text-foreground font-semibold">
-                Zyntra was built around those ideas.
-              </p>
-              <p>Not just more questions. But better feedback on how you think during exams.</p>
-            </div>
-
-            <div className="mt-10 flex items-center justify-center gap-4">
-              <Button size="lg" asChild className="gap-2 text-base px-8">
-                <Link to="/pricing">
-                  View Plans <ArrowRight className="h-4 w-4" />
-                </Link>
-              </Button>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Founder Footer */}
-      <section className="py-12 border-t border-border/50 bg-muted/50">
-        <div className="container">
-          <div className="mx-auto max-w-2xl text-center">
-            <h3 className="mb-2 font-display font-bold text-lg">About the Founder</h3>
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              IMG · AMC MCQ 321/500
-            </p>
-            <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-              Started preparing seriously in 2024<br />
-              Cleared AMC MCQ in May 2025
-            </p>
-            <p className="mt-4 text-sm text-muted-foreground">
-              Currently preparing for AMC Clinical and beginning PGY1 in Sydney.
-            </p>
-            <p className="mt-2 text-xs text-muted-foreground italic">
-              Zyntra is built alongside work and exam preparation, so responses may take a few hours.
-            </p>
           </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <PublicFooter />
+        </section>
+        <section className="zh-section za-beliefs">
+          <div className="zh-container">
+            <div className="za-section-heading"><p className="zh-eyebrow zh-eyebrow-dark">WHAT WE BELIEVE</p><h2>Useful practice starts with honest signals.</h2><p className="zh-section-copy">These principles guide how we describe Zyntra and the feedback it provides.</p></div>
+            <div className="za-principle-grid">
+              {principles.map(({ icon: Icon, title, copy }, index) => <article className="za-principle" key={title}><span className="za-principle-number">0{index + 1}</span><span className="za-principle-icon"><Icon size={22} aria-hidden="true" /></span><h3>{title}</h3><p>{copy}</p></article>)}
+            </div>
+          </div>
+        </section>
+        <section className="zh-section za-boundaries">
+          <div className="zh-container za-boundaries-grid">
+            <div><p className="zh-eyebrow zh-eyebrow-dark">WHAT ZYNTRA IS AND IS NOT</p><h2>A practice tool, not a promise.</h2><p className="zh-section-copy">Zyntra is designed to support learning and reflection during AMC exam preparation. It does not replace official guidance, professional judgement or independent study.</p></div>
+            <div className="za-boundary-list">
+              <article><span className="za-boundary-check"><CheckCircle2 size={19} aria-hidden="true" /></span><div><h3>What it is</h3><p>A practice and insight tool to help you review answers, consider patterns and identify areas to revisit.</p></div></article>
+              <article><span className="za-boundary-no" aria-hidden="true">×</span><div><h3>What it is not</h3><p>Not a pass guarantee, not medical advice, and not a substitute for official AMC requirements or guidance.</p></div></article>
+              <p className="za-independent">Zyntra is independent of, and not affiliated with, the Australian Medical Council.</p>
+            </div>
+          </div>
+        </section>
+        <section className="zh-section za-beta">
+          <div className="zh-container za-beta-card"><div className="za-beta-symbol" aria-hidden="true"><span /><span /><span /></div><div><p className="zh-eyebrow">WHERE WE ARE NOW</p><h2>Zyntra is in beta.</h2><p>We are improving the product as we learn what helps candidates practise and review their decisions. Features and availability may change between releases. We will describe what is available as clearly as we can.</p></div><span className="za-beta-status"><i aria-hidden="true" /> In beta</span></div>
+        </section>
+        <section className="zh-section za-contact">
+          <div className="zh-container za-contact-inner"><div><p className="zh-eyebrow zh-eyebrow-dark">CONTACT</p><h2>Have a question or feedback?</h2><p className="zh-section-copy">For questions about Zyntra, send us a note. We welcome clear feedback about the product.</p></div><a className="za-contact-link" href="mailto:hello@zyntrahealthcareintelligence.com"><span><Mail size={20} aria-hidden="true" /></span><span><small>EMAIL ZYNTRA</small><strong>hello@zyntrahealthcareintelligence.com</strong></span><ArrowRight size={18} aria-hidden="true" /></a></div>
+        </section>
+        <section className="za-final">
+          <div className="zh-container za-final-inner"><div><p className="zh-eyebrow">YOUR NEXT STEP</p><h2>Make your practice more deliberate.</h2><p>Explore the current release and decide whether Zyntra fits the way you prepare.</p></div><div className="za-final-action"><Link className="zh-button" to="/login">Start {TRIAL_DAYS}-day trial <ArrowRight size={17} aria-hidden="true" /></Link><p>{COPY_CARD_CHECK}</p><small>After the trial, A${PLAN_PRICES.monthly.price} monthly or A${PLAN_PRICES.quarterly.price} every 3 months, unless cancelled. {cancelCopy("monthly")} {cancelCopy("quarterly")}</small></div></div>
+          <p className="za-final-independent">Zyntra is independent of, and not affiliated with, the Australian Medical Council.</p>
+        </section>
+      </main>
+      <MarketingFooter />
+      <div className="za-mobile-cta"><Link className="zh-button" to="/login">Start {TRIAL_DAYS}-day trial <ArrowRight size={16} aria-hidden="true" /></Link><span>A$1 card check today</span></div>
     </div>
   );
 }
