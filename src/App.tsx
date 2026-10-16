@@ -11,6 +11,8 @@ import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/lib/supabase";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { LegacySettingsRedirect } from "@/components/LegacySettingsRedirect";
+import { LegacyRedirect } from "@/components/LegacyRedirect";
+import { AdminGate } from "@/components/AdminGate";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { SEO } from "@/components/SEO";
 import { usePresence } from "@/hooks/usePresence";
@@ -67,26 +69,6 @@ function LazyFallback() {
   );
 }
 
-import { ADMIN_EMAILS } from "@/lib/admin-emails";
-
-/** Verifies admin server-side (is_admin RPC) before the AdminDashboard chunk is ever requested. */
-function AdminGate() {
-  const { user } = useAuth();
-  const [state, setState] = useState<"checking" | "ok" | "denied">("checking");
-  useEffect(() => {
-    let cancelled = false;
-    const email = user?.email;
-    if (!email || !ADMIN_EMAILS.includes(email)) { setState("denied"); return; }
-    supabase.rpc("is_admin", { _email: email }).then(({ data, error }) => {
-      if (!cancelled) setState(!error && data === true ? "ok" : "denied");
-    });
-    return () => { cancelled = true; };
-  }, [user?.email]);
-  if (state === "checking") return <LazyFallback />;
-  if (state === "denied") return <Navigate to="/practice" replace />;
-  return <ErrorBoundary><Suspense fallback={<LazyFallback />}><AdminDashboard /></Suspense></ErrorBoundary>;
-}
-
 function MaintenancePage() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background p-4">
@@ -111,7 +93,7 @@ function MaintenanceGate({ children }: { children: ReactNode }) {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/oauth/consent" element={<Suspense fallback={<LazyFallback />}><OAuthConsent /></Suspense>} />
-        <Route path="/admin" element={<ProtectedRoute><AdminGate /></ProtectedRoute>} />
+        <Route path="/admin" element={<ProtectedRoute><AdminGate><ErrorBoundary><Suspense fallback={<LazyFallback />}><AdminDashboard /></Suspense></ErrorBoundary></AdminGate></ProtectedRoute>} />
         <Route path="*" element={<MaintenancePage />} />
       </Routes>
     );
@@ -126,7 +108,7 @@ function AppRoutes() {
         <Routes>
           <Route path="/" element={<ErrorBoundary><SEO title="Zyntra | AMC Exam Preparation That Learns How You Think" description="Adaptive AMC MCQ and Clinical exam preparation for IMGs: clinical reasoning practice, performance analytics and personalised next steps." path="/" /><Home /></ErrorBoundary>} />
           <Route path="/how-it-works" element={<ErrorBoundary><SEO title="How PIE Works | Zyntra Healthcare Intelligence" description="See how Zyntra’s Performance Intelligence Engine uses practice signals to help you understand your answers and choose what to work on next." path="/how-it-works" /><HowItWorks /></ErrorBoundary>} />
-          <Route path="/check" element={<Navigate to="/login" replace />} />
+          <Route path="/check" element={<LegacyRedirect to="/login" />} />
           <Route path="/about" element={<ErrorBoundary><SEO title="About Zyntra | Built for Doctors Preparing for the AMC" description="Learn why Zyntra exists, the principles behind its AMC exam preparation tools, and what to expect from a product in beta. Independent of the Australian Medical Council." path="/about" /><About /></ErrorBoundary>} />
           <Route path="/faq" element={<ErrorBoundary><SEO title="FAQ | Zyntra Healthcare Intelligence" description="Clear answers about Zyntra, Performance Intelligence, pricing, the 7-day trial, feature availability and privacy." path="/faq" /><FAQ /></ErrorBoundary>} />
           <Route path="/pricing" element={<ErrorBoundary><SEO title="Pricing | Zyntra Healthcare Intelligence" description="Compare Zyntra Full Access monthly and three-month plans, understand the 7-day trial and A$1 card check, and review cancellation terms." path="/pricing" /><PublicPricing /></ErrorBoundary>} />
@@ -135,39 +117,39 @@ function AppRoutes() {
           <Route path="/reset-password" element={<ErrorBoundary><ResetPassword /></ErrorBoundary>} />
           <Route path="/terms" element={<ErrorBoundary><Terms /></ErrorBoundary>} />
           <Route path="/privacy" element={<ErrorBoundary><Privacy /></ErrorBoundary>} />
-          <Route path="/amc-part-1-mcq" element={<Navigate to="/blog/amc-part-1-mcq" replace />} />
+          <Route path="/amc-part-1-mcq" element={<LegacyRedirect to="/blog/amc-part-1-mcq" />} />
           <Route path="/blog" element={<ErrorBoundary><Blog /></ErrorBoundary>} />
           <Route path="/blog/:slug" element={<ErrorBoundary><BlogArticle /></ErrorBoundary>} />
-          <Route path="/osce-in-surgery" element={<Navigate to="/practice/osce" replace />} />
-          <Route path="/amc-clinical-osce" element={<Navigate to="/practice/osce" replace />} />
+          <Route path="/osce-in-surgery" element={<LegacyRedirect to="/practice/osce" />} />
+          <Route path="/amc-clinical-osce" element={<LegacyRedirect to="/practice/osce" />} />
           <Route path="/onboarding" element={<ErrorBoundary><Onboarding /></ErrorBoundary>} />
           <Route path="/dashboard" element={<ProtectedRoute><ErrorBoundary><Dashboard /></ErrorBoundary></ProtectedRoute>} />
-          <Route path="/assess" element={<Navigate to="/practice" replace />} />
+          <Route path="/assess" element={<LegacyRedirect to="/practice" />} />
           <Route path="/intelligence" element={<ProtectedRoute><ErrorBoundary><Intelligence /></ErrorBoundary></ProtectedRoute>} />
-          <Route path="/profile" element={<Navigate to="/intelligence?tab=performance" replace />} />
-          <Route path="/behavior" element={<Navigate to="/intelligence?tab=behavior" replace />} />
-          <Route path="/trust-your-gut" element={<Navigate to="/intelligence?tab=trust-your-gut" replace />} />
+          <Route path="/profile" element={<LegacyRedirect to="/intelligence" tab="performance" />} />
+          <Route path="/behavior" element={<LegacyRedirect to="/intelligence" tab="behavior" />} />
+          <Route path="/trust-your-gut" element={<LegacyRedirect to="/intelligence" tab="trust-your-gut" />} />
           <Route path="/practice" element={<ProtectedRoute><ErrorBoundary><Practice /></ErrorBoundary></ProtectedRoute>} />
           <Route path="/practice/osce" element={<ProtectedRoute><ErrorBoundary><PracticeOsce /></ErrorBoundary></ProtectedRoute>} />
           <Route path="/practice/ai-lab" element={<ProtectedRoute><ErrorBoundary><AILab /></ErrorBoundary></ProtectedRoute>} />
           <Route path="/questions" element={<ProtectedRoute><ErrorBoundary><Questions /></ErrorBoundary></ProtectedRoute>} />
           <Route path="/questions/mcq" element={<ProtectedRoute><ErrorBoundary><QuestionsMCQ /></ErrorBoundary></ProtectedRoute>} />
-          <Route path="/questions/osce" element={<Navigate to="/practice/osce" replace />} />
-          <Route path="/assess/osce" element={<Navigate to="/practice/osce" replace />} />
+          <Route path="/questions/osce" element={<LegacyRedirect to="/practice/osce" />} />
+          <Route path="/assess/osce" element={<LegacyRedirect to="/practice/osce" />} />
           <Route path="/plan" element={<ProtectedRoute><ErrorBoundary><Plan /></ErrorBoundary></ProtectedRoute>} />
-          <Route path="/stations" element={<Navigate to="/practice/osce" replace />} />
+          <Route path="/stations" element={<LegacyRedirect to="/practice/osce" />} />
           <Route path="/companion/chat" element={<ProtectedRoute><ErrorBoundary><CompanionChat /></ErrorBoundary></ProtectedRoute>} />
-          <Route path="/companion/groups" element={<Navigate to="/practice" replace />} />
-          <Route path="/companion/shared-tests" element={<Navigate to="/practice" replace />} />
+          <Route path="/companion/groups" element={<LegacyRedirect to="/practice" />} />
+          <Route path="/companion/shared-tests" element={<LegacyRedirect to="/practice" />} />
           <Route path="/companion/ai-core" element={<ProtectedRoute><ErrorBoundary><ZyntraAICore /></ErrorBoundary></ProtectedRoute>} />
-          <Route path="/review" element={<Navigate to="/practice" replace />} />
+          <Route path="/review" element={<LegacyRedirect to="/practice" />} />
           <Route path="/feed" element={<ProtectedRoute><ErrorBoundary><Feed /></ErrorBoundary></ProtectedRoute>} />
           <Route path="/flashcards" element={<ProtectedRoute><ErrorBoundary><Flashcards /></ErrorBoundary></ProtectedRoute>} />
           <Route path="/history" element={<ProtectedRoute><ErrorBoundary><HistoryPage /></ErrorBoundary></ProtectedRoute>} />
           <Route path="/inbox" element={<ProtectedRoute><ErrorBoundary><InboxPage /></ErrorBoundary></ProtectedRoute>} />
-          <Route path="/notifications" element={<Navigate to="/inbox" replace />} />
+          <Route path="/notifications" element={<LegacyRedirect to="/inbox" />} />
           <Route path="/admin" element={<ProtectedRoute><AdminGate /></ProtectedRoute>} />
-          <Route path="/v2-auth-diagnostic" element={<ProtectedRoute><ErrorBoundary><V2AuthDiagnostic /></ErrorBoundary></ProtectedRoute>} />
+          <Route path="/v2-auth-diagnostic" element={<ProtectedRoute><AdminGate><ErrorBoundary><V2AuthDiagnostic /></ErrorBoundary></AdminGate></ProtectedRoute>} />
           <Route path="/account" element={<ProtectedRoute><ErrorBoundary><Settings /></ErrorBoundary></ProtectedRoute>} />
           <Route path="/settings" element={<LegacySettingsRedirect />} />
           <Route path="*" element={<NotFound />} />
