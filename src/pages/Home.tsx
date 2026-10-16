@@ -77,7 +77,6 @@ function FeaturePreview({ kind }: { kind: string }) {
 
 const Home: React.FC = () => {
   const [email, setEmail] = useState("");
-  const nav = [["Why Zyntra", "#why"], ["How it works", "#how-it-works"], ["Features", "#features"], ["For IMGs", "#imgs"], ["Pricing", "#pricing"], ["About", "#about"]];
   return <div data-zyntra-home="canonical" className="zh-home">
     <a href="#main" className="zh-skip">Skip to content</a>
     <MarketingHeader />
