@@ -58,7 +58,7 @@ Deno.serve(async (req) => {
     }
     if (!roleRow) return fail("Admin access required", 403, step);
 
-    console.log(`[import] Admin verified: ${callerEmail} (${roleRow.role})`);
+    console.log(`[import] Admin verified (${roleRow.role})`);
 
     // ── Step 3: Parse body ──
     step = "parse_body";
