@@ -34,7 +34,7 @@
   background: var(--zh-paper);
   font-family: var(--zh-font-body);
 }
-.zh-home :is(h1, h2, h3, h4, .zh-brand b) { font-family: var(--zh-font-heading); }
+.zh-home :is(h1, h2, h3, h4, .zh-brand b) { font-family: var(--zh-font-heading) !important; }
 .zh-home :is(a, button, input, select, textarea, summary):focus-visible {
   outline: 3px solid var(--zh-focus);
   outline-offset: 3px;
