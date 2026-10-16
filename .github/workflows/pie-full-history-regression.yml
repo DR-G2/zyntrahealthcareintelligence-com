@@ -33,7 +33,7 @@ jobs:
       PGHOST: 127.0.0.1
       PGPORT: 5432
       PGUSER: supabase_admin
-      PGPASSWORD: regression-only-password
+      PGPASSFILE: /home/runner/.pgpass
       OWNER_ROLE: postgres
     steps:
       - name: Checkout PR
@@ -42,6 +42,14 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install --yes postgresql-client
+      - name: Configure isolated database authentication
+        run: |
+          printf '%s\\n' \
+            '127.0.0.1:5432:*:supabase_admin:regression-only-password' \
+            '127.0.0.1:5432:*:postgres:regression-owner-password' > "$PGPASSFILE"
+          chmod 600 "$PGPASSFILE"
+          psql -X -v ON_ERROR_STOP=1 -U supabase_admin -d postgres \\
+            -c "ALTER ROLE postgres WITH PASSWORD 'regression-owner-password'"
       - name: Replay live schema and run uncapped-history tests
         working-directory: supabase/verification_v2/live_replica
         run: bash run_0088.sh
