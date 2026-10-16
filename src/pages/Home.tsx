@@ -117,7 +117,8 @@ const Home: React.FC = () => {
       <main id="main">
         <section id="top" className="q-hero" aria-labelledby="q-hero-title">
           <div className="q-hero-paper" aria-hidden="true" /><div className="q-wash q-wash-one" aria-hidden="true" /><div className="q-wash q-wash-two" aria-hidden="true" />
-          <div className="q-wrap q-hero-inner">            <div className="q-hero-grid">
+          <div className="q-wrap q-hero-inner">
+            <div className="q-hero-grid">
               <div className="q-hero-copy">
                 <Kicker>AMC exam preparation for IMGs</Kicker>
                 <h1 id="q-hero-title">Less noise.<br /><em>Better decisions.</em></h1>
@@ -236,7 +237,8 @@ const Home: React.FC = () => {
               <Kicker>One useful next step</Kicker><h2 id="q-next-title" className="q-title">Find the next thing worth your attention.</h2>
               <p className="q-body">A good recommendation should do more than tell you to keep going. It should explain what to practise and why that work may be useful.</p>
               <span className="q-hand-note">No crystal ball. Just better questions. ↗</span>
-            </div>            <div className="q-perception q-reveal" aria-label="Illustration of a busy dashboard resolving into one focused practice idea">
+            </div>
+            <div className="q-perception q-reveal" aria-label="Illustration of a busy dashboard resolving into one focused practice idea">
               <div className="q-noisy-panels" aria-hidden="true">
                 <div className="q-noise-panel"><strong>Weekly score</strong><div className="q-noise-line mid" /><div className="q-noise-line short" /></div>
                 <div className="q-noise-panel"><strong>Activity streak</strong><div className="q-noise-line" /><div className="q-noise-line mid" /></div>
