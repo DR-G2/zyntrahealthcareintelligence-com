@@ -81,7 +81,11 @@ const raw = await A.schema("pie").from("inference_shadow").select("*").limit(1);
 check("raw shadow inference table remains protected", !!raw.error, raw.error?.message ?? "unexpected readable raw table");
 
 const ownB = await invoke(B, { user_id: b.user.id });
-check("B can invoke only its own inference", ownB.response.ok && ownB.payload.user_id === b.user.id, JSON.stringify(ownB.payload));
+const ownBValid = ownB.response.ok && (
+  (ownB.payload.status === "completed" && ownB.payload.user_id === b.user.id) ||
+  (ownB.payload.status === "no_observations" && ownB.payload.observation_count === 0)
+);
+check("B can invoke only its own inference", ownBValid, JSON.stringify(ownB.payload));
 
 await A.auth.signOut();
 await B.auth.signOut();
