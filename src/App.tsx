@@ -146,7 +146,7 @@ function AppRoutes() {
           <Route path="/history" element={<ProtectedRoute><ErrorBoundary><HistoryPage /></ErrorBoundary></ProtectedRoute>} />
           <Route path="/inbox" element={<ProtectedRoute><ErrorBoundary><InboxPage /></ErrorBoundary></ProtectedRoute>} />
           <Route path="/notifications" element={<LegacyRedirect to="/inbox" />} />
-          <Route path="/admin" element={<ProtectedRoute><AdminGate /></ProtectedRoute>} />
+          <Route path="/admin" element={<ProtectedRoute><AdminGate><ErrorBoundary><Suspense fallback={<LazyFallback />}><AdminDashboard /></Suspense></ErrorBoundary></AdminGate></ProtectedRoute>} />
           <Route path="/v2-auth-diagnostic" element={<ProtectedRoute><AdminGate><ErrorBoundary><V2AuthDiagnostic /></ErrorBoundary></AdminGate></ProtectedRoute>} />
           <Route path="/account" element={<ProtectedRoute><ErrorBoundary><Settings /></ErrorBoundary></ProtectedRoute>} />
           <Route path="/settings" element={<LegacySettingsRedirect />} />
