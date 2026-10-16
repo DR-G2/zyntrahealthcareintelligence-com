@@ -9,9 +9,14 @@ export function StandaloneFooter() {
         <span>Zyntra</span>
       </Link>
       <nav aria-label="Footer navigation">
+        <Link to="/features">Features</Link>
+        <Link to="/pricing">Pricing</Link>
+        <Link to="/about">About</Link>
+        <Link to="/faq">FAQ</Link>
         <Link to="/blog">Journal</Link>
         <Link to="/terms">Terms</Link>
         <Link to="/privacy">Privacy</Link>
+        <a href="mailto:hello@zyntrahealthcareintelligence.com">Contact</a>
       </nav>
     </footer>
   );
