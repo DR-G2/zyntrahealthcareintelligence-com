@@ -30,7 +30,10 @@ serve(async (req) => {
     const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabase = createClient(supabaseUrl, supabaseKey);
 
-    const selectedCategory = typeof category === "string" && category.trim() ? safeLabel(category, "General Medicine") : AMC_CATEGORIES[Math.floor(Math.random() * AMC_CATEGORIES.length)];
+    if (typeof category === "string" && category.trim() && !allowedClinicalLabel(category)) {
+      return new Response(JSON.stringify({ error: "Unsupported category" }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+    const selectedCategory = allowedClinicalLabel(category) ?? AMC_CATEGORIES[Math.floor(Math.random() * AMC_CATEGORIES.length)];
     const selectedDifficulty = ["easy", "moderate", "difficult"].includes(difficulty) ? difficulty : "moderate";
 
     // Fetch AI training context for population-level insights

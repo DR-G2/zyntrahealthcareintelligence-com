@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
 import { requireUser, sanitizeChat, safeLabel } from "../_shared/auth.ts";
+import { allowedClinicalLabel } from "../_shared/clinical-labels.ts";
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
@@ -13,7 +14,7 @@ serve(async (req) => {
     const __caller = await requireUser(req);
     if (__caller instanceof Response) return __caller;
     const { subject: rawSubject, mode } = await req.json();
-    const subject = safeLabel(rawSubject, "General Medicine");
+    const subject = allowedClinicalLabel(rawSubject) ?? "General Medicine";
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY not configured");
 
