@@ -62,7 +62,7 @@ export default function Dashboard() {
             ) : actionSnapshot.recommendation ? (
               <div className="space-y-2">
                 {actionSnapshot.recommendation.evidence_level && <p className="text-xs font-medium uppercase tracking-wider text-cyan-200">Evidence level: {actionSnapshot.recommendation.evidence_level}</p>}
-                <p className="text-sm leading-6 text-slate-300">{actionSnapshot.recommendation.reason || 'The recommendation did not include an explanation. Treat it as a suggested next step, not a prediction.'}</p>
+                <p className="text-sm leading-6 text-slate-300">{actionSnapshot.recommendation.reason || 'The recommendation did not include an explanation, so no rationale is inferred.'}</p>
                 <p className="text-xs leading-5 text-slate-500">This is a training suggestion, not an exam pass prediction or guarantee.</p>
               </div>
             ) : (
