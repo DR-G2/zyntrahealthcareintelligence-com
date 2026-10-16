@@ -1,9 +1,8 @@
-import { ArrowDown, ArrowRight, Brain, Check, ChevronRight, Clock3, GitBranch, ShieldCheck, Target, Activity, LockKeyhole, CircleHelp, Sparkles } from "lucide-react";
+import { ArrowDown, ArrowRight, Brain, Check, ChevronRight, Clock3, GitBranch, ShieldCheck, Target, Activity, CircleHelp, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
 import { COPY_CARD_CHECK, COPY_CANCEL } from "@/lib/billing";
 import { MarketingHeader } from "@/components/public/MarketingHeader";
 import { MarketingFooter } from "@/components/public/MarketingFooter";
-import { SEO } from "@/components/SEO";
 import "@/styles/zyntra-home.css";
 import "@/styles/zyntra-how-it-works.css";
 
@@ -48,7 +47,6 @@ function QuestionExample() {
 }
 export default function HowItWorks() {
   return <div data-zyntra-how-it-works="canonical" className="zh-home zh-how-page">
-    <SEO title="How PIE Works | Zyntra Healthcare Intelligence" description="Learn how Zyntra's Performance Intelligence Engine interprets practice signals, recognises tentative patterns and helps you choose a focused next action." path="/how-it-works"/>
     <a href="#main" className="zh-skip">Skip to content</a><MarketingHeader/>
     <main id="main">
       <section className="zh-hero zh-how-hero"><div className="zh-hero-bg" aria-hidden="true"/><div className="zh-container zh-how-hero-grid"><div className="zh-hero-copy"><p className="zh-eyebrow">HOW PIE WORKS</p><h1>A question bank marks the answer.<br/><em>PIE studies how you got there.</em></h1><p className="zh-lede">A correct or incorrect mark tells you the result. The Performance Intelligence Engine adds context from your practice, then helps you decide what to work on next. Its signals are clues, not a verdict.</p><div className="zh-hero-actions"><Link to="/login" className="zh-button">Start 7-day trial <ArrowRight size={17}/></Link><a href="#attempt-example" className="zh-button-outline">See an example <ArrowDown size={17}/></a></div><p className="zh-how-hero-note">Built for reflection and focused practice, not exam predictions.</p></div><div className="zh-how-art-wrap"><BrainMark/></div></div></section>
