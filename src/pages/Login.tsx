@@ -1,6 +1,10 @@
 import { useState } from 'react';
 import { Link, Navigate, useSearchParams } from 'react-router-dom';
-import { Zap, Mail, Lock, Eye, EyeOff, ArrowLeft, MailCheck } from 'lucide-react';
+import { BrandMark } from '@/components/BrandMark';
+import { StandaloneFooter } from '@/components/public/StandaloneFooter';
+import '@/styles/zyntra-tokens.css';
+import '@/styles/zyntra-phase2.css';
+import { Mail, Lock, Eye, EyeOff, ArrowLeft, MailCheck } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { sanitizeNextPath } from '@/lib/post-auth-redirect';
 import { Button } from '@/components/ui/button';
@@ -24,16 +28,14 @@ export default function Login() {
   if (!loading && session) return <Navigate to={nextPath} replace />;
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background p-4">
+    <div className="zh-phase2 zh-phase2-auth min-h-screen flex flex-col"><div className="flex flex-1 items-center justify-center bg-background p-4">
       <div className="absolute inset-0 -z-10">
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 h-[400px] w-[600px] rounded-full bg-primary/8 blur-[100px]" />
       </div>
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
           <Link to="/" className="inline-flex items-center gap-2 mb-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg gradient-primary">
-              <Zap className="h-4 w-4 text-primary-foreground" />
-            </div>
+            <BrandMark className="h-8 w-8" />
             <span className="text-xl font-bold font-display">Zyntra</span>
           </Link>
           <p className="text-sm text-muted-foreground">AI-Powered AMC Exam Preparation</p>
@@ -66,6 +68,8 @@ export default function Login() {
           )}
         </Card>
       </div>
+    </div>
+      <StandaloneFooter />
     </div>
   );
 }

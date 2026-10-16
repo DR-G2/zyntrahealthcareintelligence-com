@@ -1,6 +1,10 @@
 import { useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { Zap, ArrowRight, ArrowLeft, Check } from 'lucide-react';
+import { BrandMark } from '@/components/BrandMark';
+import { StandaloneFooter } from '@/components/public/StandaloneFooter';
+import '@/styles/zyntra-tokens.css';
+import '@/styles/zyntra-phase2.css';
+import { ArrowRight, ArrowLeft, Check } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/lib/supabase';
@@ -243,12 +247,10 @@ export default function Onboarding() {
   ];
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background p-4">
+    <div className="zh-phase2 zh-phase2-auth min-h-screen flex flex-col bg-background"><div className="flex flex-1 items-center justify-center p-4">
       <div className="w-full max-w-lg">
         <div className="mb-8 text-center">
-          <div className="mx-auto mb-4 flex h-10 w-10 items-center justify-center rounded-xl gradient-primary">
-            <Zap className="h-5 w-5 text-primary-foreground" />
-          </div>
+          <BrandMark className="mx-auto mb-4 h-10 w-10" />
           <h1 className="text-2xl font-bold font-display">Welcome to Zyntra</h1>
           <p className="text-muted-foreground">Let's personalize your experience</p>
         </div>
@@ -306,6 +308,8 @@ export default function Onboarding() {
           </CardContent>
         </Card>
       </div>
+    </div>
+      <StandaloneFooter />
     </div>
   );
 }

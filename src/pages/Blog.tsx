@@ -2,7 +2,11 @@ import React, { useMemo, useState } from "react";
 import { ArrowRight, BookOpen, Brain, Clock, Search, Sparkles, Target } from "lucide-react";
 import { Link } from "react-router-dom";
 import { SEO } from "@/components/SEO";
-import { articles, articleReadTime, NOT_AFFILIATED } from "@/data/blogPosts";
+import { MarketingHeader } from "@/components/public/MarketingHeader";
+import { MarketingFooter } from "@/components/public/MarketingFooter";
+import "@/styles/zyntra-tokens.css";
+import "@/styles/zyntra-phase2.css";
+import { articles, articleReadTime } from "@/data/blogPosts";
 
 const categories = ["All", "AMC"];
 
@@ -31,29 +35,14 @@ export default function Blog() {
           url: "https://www.zyntrahealthcareintelligence.org/blog",
         }}
       />
-    <div className="min-h-screen bg-[#040812] text-slate-100 overflow-x-hidden">
+    <div className="zh-phase2 zh-phase2-journal min-h-screen bg-[#040812] text-slate-100 overflow-x-hidden">
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute -top-40 left-1/4 w-[600px] h-[600px] bg-cyan-600/10 rounded-full blur-[140px]" />
         <div className="absolute top-1/3 -right-20 w-[500px] h-[500px] bg-indigo-600/10 rounded-full blur-[140px]" />
         <div className="absolute bottom-10 left-1/3 w-[500px] h-[500px] bg-teal-600/10 rounded-full blur-[140px]" />
       </div>
 
-      <header className="relative z-20 border-b border-white/5 backdrop-blur-md bg-[#040812]/70 sticky top-0">
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 via-blue-600 to-indigo-500 p-[1.5px] shadow-lg shadow-cyan-500/25">
-              <div className="w-full h-full bg-[#070e1e] rounded-[10px] flex items-center justify-center">
-                <span className="font-black italic text-xl bg-gradient-to-r from-cyan-400 via-blue-400 to-indigo-300 bg-clip-text text-transparent">Z</span>
-              </div>
-            </div>
-            <span className="text-xl font-extrabold tracking-widest text-white uppercase group-hover:text-cyan-400 transition-colors">Zyntra</span>
-          </Link>
-          <div className="flex items-center gap-3">
-            <span className="hidden sm:inline text-xs uppercase tracking-[.18em] text-cyan-400">Intelligence Lab</span>
-            <Link to="/login" className="px-5 py-2.5 rounded-full text-sm font-semibold border border-cyan-500/30 text-cyan-300 hover:bg-cyan-500/10 transition-colors">Get Started</Link>
-          </div>
-        </div>
-      </header>
+      <MarketingHeader />
 
       <main className="relative z-10">
         <section className="max-w-7xl mx-auto px-6 pt-16 pb-14">
@@ -127,12 +116,7 @@ export default function Blog() {
         </section>
       </main>
 
-      <footer className="relative z-10 border-t border-white/5 bg-[#02050b] py-8">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4 text-xs text-slate-500">
-          <span>Zyntra Healthcare Intelligence · {NOT_AFFILIATED}</span>
-          <div className="flex gap-5"><Link to="/terms" className="hover:text-cyan-300">Terms</Link><Link to="/privacy" className="hover:text-cyan-300">Privacy</Link><Link to="/" className="hover:text-cyan-300">Zyntra</Link></div>
-        </div>
-      </footer>
+      <MarketingFooter />
     </div>
     </>
   );

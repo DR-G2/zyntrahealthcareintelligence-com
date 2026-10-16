@@ -3,6 +3,8 @@ import { Zap, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { LEGAL_EMAIL } from '@/lib/legal';
 import { SEO } from '@/components/SEO';
+import '@/styles/zyntra-tokens.css';
+import '@/styles/zyntra-phase2.css';
 import { PublicFooter } from '@/components/PublicFooter';
 
 const sectionClass = 'space-y-3';
@@ -11,7 +13,7 @@ const textClass = 'text-sm leading-6 text-foreground/85';
 
 export default function Privacy() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="zh-phase2 zh-phase2-legal min-h-screen bg-background">
       <SEO title="Privacy & Data Governance Policy — Zyntra" description="How Zyntra collects, uses, protects, transfers, retains and deletes personal information." path="/privacy" />
       <nav className="border-b border-border/50 bg-background">
         <div className="container flex h-14 items-center gap-3">
