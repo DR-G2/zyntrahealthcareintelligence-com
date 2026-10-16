@@ -24,7 +24,7 @@ const faqs = [
   },
   {
     q: "How does Zyntra support AMC MCQ preparation?",
-    a: "Zyntra provides AMC-style practice and explanations, with available performance features that can help you review timing, confidence and answer changes. Feature availability can vary by release.",
+    a: "Zyntra provides AMC-style practice and explanations, with available performance features that can help you review timing, confidence and answer changes. Some features require an account, and availability can vary by release.",
   },
   {
     q: "Are Zyntra questions recalled from the AMC exam?",
@@ -168,7 +168,7 @@ export default function AmcPart1Mcq() {
               <div>
                 <p className="zh-eyebrow zh-eyebrow-dark">PRACTISE WITH PURPOSE</p>
                 <h2 id="zam-features-title">How Zyntra helps you prepare</h2>
-                <p className="zh-section-copy">Question practice is the starting point. Available performance signals can help you review how you reached an answer.</p>
+                <p className="zh-section-copy">Question practice is the starting point. Available performance signals can help you review how you reached an answer. Build a repeatable loop: practise, review explanations, target a weak area and return to it later.</p>
               </div>
             </div>
             <div className="zam-feature-grid">
