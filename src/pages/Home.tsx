@@ -131,9 +131,9 @@ const Home: React.FC = () => {
           <div className="q-wrap q-hero-inner">
             <div className="q-hero-grid">
               <div className="q-hero-copy">
-                <Kicker>AMC exam preparation for IMGs</Kicker>
-                <h1 id="q-hero-title">Less noise.<br /><em>Better decisions.</em></h1>
-                <p className="q-hero-description">Prepare for the Australian Medical Council (AMC) exams with focused MCQ practice and insights into your clinical reasoning, confidence and answer patterns.</p>
+                <Kicker>AMC preparation, with more insight</Kicker>
+                <h1 id="q-hero-title">It's not just what you know.<br /><em>It's how you think.</em></h1>
+                <p className="q-hero-description">From every answer to your next best action. Zyntra helps you practise AMC-style questions, notice patterns in accuracy, timing, confidence and answer changes, then focus your next study session.</p>
                 <div className="q-hero-actions">
                   <Link to="/login" className="q-button">Start practising <ArrowRight aria-hidden="true" /></Link>
                   <Link to="/amc-part-1-mcq" className="q-button-ghost">AMC exam preparation <ChevronRight aria-hidden="true" /></Link>
@@ -141,10 +141,10 @@ const Home: React.FC = () => {
                 <div className="q-trust-points"><span>Evidence-led insights</span><span>Focused MCQ practice</span><span>Personalised study</span></div>
               </div>
               <aside className="q-hero-aside q-anatomy-plate q-living-brain" aria-label="Interactive anatomical brain, spinal cord and next best action illustration">
-                <div className="q-living-brain-heading"><span>THE LIVING BRAIN</span><span>01 / 05</span></div>
+                <div className="q-living-brain-heading"><span>INSIDE THE ANSWER</span><span>01 / 05</span></div>
                 <svg className="q-anatomy-art q-brain-art" viewBox="0 0 560 590" role="img" aria-labelledby="q-brain-title q-brain-desc">
-                  <title id="q-brain-title">Zyntra Living Brain: anatomical hemispheres connected to a spinal cord and glass funnel</title>
-                  <desc id="q-brain-desc">A hand-drawn graphite brain narrows through the brainstem and spinal cord into a slate-blue glass funnel labelled Next Best Action. Select a stage below to explore the learning loop.</desc>
+                  <title id="q-brain-title">Inside the answer: Zyntra connects practice evidence to a next learning action</title>
+                  <desc id="q-brain-desc">A hand-drawn brain connects through a spinal cord to a glass funnel labelled Next Best Action. Select each stage to see how practice observations can inform learning.</desc>
                   <defs>
                     <linearGradient id="q-funnel-glass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#8298AD" stopOpacity=".16"/><stop offset=".48" stopColor="#8298AD" stopOpacity=".48"/><stop offset="1" stopColor="#526879" stopOpacity=".18"/></linearGradient>
                     <linearGradient id="q-cord-wash" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#A7B5A0" stopOpacity=".7"/><stop offset="1" stopColor="#8298AD" stopOpacity=".3"/></linearGradient>
@@ -205,8 +205,8 @@ const Home: React.FC = () => {
           <div className="q-wrap q-split">
             <div className="q-section-intro q-reveal">
               <Kicker>Smarter AMC preparation</Kicker>
-              <h2 className="q-title">Prepare with purpose.</h2>
-              <p className="q-body">Zyntra combines AMC-style question practice with performance insights, helping you identify knowledge gaps and choose what to revise next.</p>
+              <h2 className="q-title">From an answer to a clearer next step.</h2>
+              <p className="q-body">A question bank tells you whether an answer was correct. Zyntra also helps you examine the process around it, using recorded signals to guide what you practise next.</p>
               <span className="q-margin-note">Built for IMGs preparing for the AMC.</span>
             </div>
             <div className="q-principles">
@@ -223,8 +223,8 @@ const Home: React.FC = () => {
           <div className="q-wrap q-split">
             <div className="q-section-intro q-reveal">
               <Kicker>Performance insights</Kicker>
-              <h2 id="q-signals-title" className="q-title">More than a score.</h2>
-              <p className="q-body">Track accuracy, confidence, timing and answer changes to understand how you approach AMC-style clinical questions.</p>
+              <h2 id="q-signals-title" className="q-title">The answer is the beginning.</h2>
+              <p className="q-body">PIE brings together the signals available from your practice, looks for patterns over time and helps make your next learning action more deliberate.</p>
             </div>
             <div className="q-signal-list">
               {signals.map(({ title, icon: Icon, desc }) => <div className="q-signal q-reveal" key={title}><Icon aria-hidden="true" /><div><strong>{title}</strong><span>{desc}</span></div></div>)}
@@ -353,7 +353,7 @@ const Home: React.FC = () => {
         </section>
 
         <section className="q-closing" aria-labelledby="q-closing-title">
-          <div className="q-wrap q-closing-inner"><div className="q-reveal"><Kicker>For international medical graduates</Kicker><h2 id="q-closing-title">Make room to think.</h2><p className="q-closing-copy">Prepare for the AMC with a clearer view of your practice, your patterns and your next step.</p></div><Link to="/login" className="q-button q-reveal">Start practising <ArrowRight aria-hidden="true" /></Link></div>
+          <div className="q-wrap q-closing-inner"><div className="q-reveal"><Kicker>For international medical graduates</Kicker><h2 id="q-closing-title">It's not just what you know.</h2><p className="q-closing-copy">Understand your practice patterns. Choose your next best action.</p></div><Link to="/login" className="q-button q-reveal">Start practising <ArrowRight aria-hidden="true" /></Link></div>
         </section>
 
         <section id="faq" className="q-section">
