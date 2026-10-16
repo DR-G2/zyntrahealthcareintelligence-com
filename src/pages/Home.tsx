@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { MarketingHeader } from "@/components/public/MarketingHeader";
 import { MarketingFooter } from "@/components/public/MarketingFooter";
-import { ArrowRight, Activity, Brain, BookOpen, CalendarDays, Check, ChevronRight, Clock3, HeartPulse, Play, ShieldCheck, Sparkles, Target, TrendingUp, GitBranch, ClipboardList } from "lucide-react";
+import { ArrowRight, Activity, Brain, BookOpen, CalendarDays, Check, ChevronRight, Clock3, HeartPulse, ShieldCheck, Sparkles, Target, GitBranch, ClipboardList } from "lucide-react";
 import { Link } from "react-router-dom";
 import { featureAvailability } from "@/data/featureAvailability";
 import { COPY_CARD_CHECK, COPY_CANCEL, cancelCopy } from "@/lib/billing";
