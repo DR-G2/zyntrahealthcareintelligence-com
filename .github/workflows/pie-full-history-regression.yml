@@ -48,7 +48,7 @@ jobs:
             '127.0.0.1:5432:*:supabase_admin:regression-only-password' \
             '127.0.0.1:5432:*:postgres:regression-owner-password' > "$PGPASSFILE"
           chmod 600 "$PGPASSFILE"
-          psql -X -v ON_ERROR_STOP=1 -U supabase_admin -d postgres -c "ALTER ROLE postgres WITH PASSWORD 'regression-owner-password'"
+          psql -X -v ON_ERROR_STOP=1 -U supabase_admin -d postgres -c "CREATE ROLE postgres LOGIN NOSUPERUSER CREATEROLE BYPASSRLS INHERIT PASSWORD 'regression-owner-password'"
       - name: Replay live schema and run uncapped-history tests
         working-directory: supabase/verification_v2/live_replica
         run: bash run_0088.sh
