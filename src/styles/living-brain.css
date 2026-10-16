@@ -33,3 +33,18 @@
 @media(max-width:1023px){.zh-home .zh-living-heading{grid-template-columns:1fr;gap:.5rem}.zh-home .zh-living-stage-list{gap:.4rem}.zh-home .zh-living-stage{padding:.75rem}.zh-home .zh-living-stage-desc{font-size:.68rem}}
 @media(max-width:767px){.zh-home .zh-living-scene{padding:.7rem .65rem;border-radius:14px}.zh-home .zh-living-svg{max-height:350px}.zh-home .zh-living-stage-list{grid-template-columns:repeat(5,minmax(130px,1fr));overflow-x:auto;padding:.15rem .1rem .6rem;scroll-snap-type:x proximity}.zh-home .zh-living-stage{min-height:128px;scroll-snap-align:start}.zh-home .zh-living-detail-grid{grid-template-columns:1fr}.zh-home .zh-living-stage-detail,.zh-home .zh-living-action-card{padding:1rem}.zh-home .zh-living-scene-caption,.zh-home .zh-living-scene-footer{font-size:.56rem}}
 @media(prefers-reduced-motion:reduce){.zh-home .zh-living-assembly,.zh-home .lb-signal{animation:none!important}.zh-home .zh-living-assembly{transform:none!important;transition:none!important}.zh-home .lb-region,.zh-home .zh-living-stage{transition:none!important}}
+
+/* Bring the hero into the same editorial medical-plate palette. */
+.zh-home .zh-hero{background:#f3efe5;color:#343A38;min-height:520px}
+.zh-home .zh-hero-bg{background:radial-gradient(ellipse at 76% 38%,rgba(167,181,160,.24),transparent 42%),linear-gradient(110deg,#f3efe5,#fbf9f4 72%,#ece9df)}
+.zh-home .zh-hero h1{color:#343A38}
+.zh-home .zh-hero h1 em{color:#526879;text-shadow:none}
+.zh-home .zh-hero .zh-eyebrow{color:#526879}
+.zh-home .zh-hero .zh-lede{color:#52605a}
+.zh-home .zh-hero .zh-button{background:#526879;color:#fff!important;border:1px solid #526879}
+.zh-home .zh-hero .zh-button:hover{background:#343A38;border-color:#343A38}
+.zh-home .zh-hero .zh-button-outline{border-color:#aeb7b2;color:#343A38!important;background:rgba(255,255,255,.35)}
+.zh-home .zh-hero .zh-trust>div{color:#52605a}
+.zh-home .zh-hero .zh-trust svg{color:#667b6b}
+.zh-home .zh-hero-visual{min-height:0}
+@media(max-width:767px){.zh-home .zh-hero{padding-top:1.5rem;min-height:0}.zh-home .zh-living-scene-wrap{max-width:460px}}
