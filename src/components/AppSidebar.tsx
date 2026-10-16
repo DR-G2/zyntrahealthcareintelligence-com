@@ -24,7 +24,7 @@ const ROOMS = [
   { to: '/practice', label: 'Practice', icon: Brain, match: ['/practice', '/questions', '/assess', '/flashcards', '/osce-in-surgery', '/stations'] },
   { to: '/intelligence', label: 'PIE', icon: Network, match: ['/intelligence', '/profile', '/behavior', '/trust-your-gut'] },
   { to: '/practice/ai-lab', label: 'AI Lab', icon: FlaskConical, match: ['/practice/ai-lab'] },
-  { to: null, label: 'History', icon: History, match: [] },
+  { to: '/history', label: 'History', icon: History, match: ['/history'] },
   { to: '/account', label: 'Account', icon: UserRound, match: ['/account', '/settings'] },
 ];
 
@@ -67,14 +67,6 @@ export function AppSidebar({ isMobile }: { isMobile?: boolean }) {
       </NavLink>
       <nav className={cn('flex flex-1 flex-col justify-center space-y-1 py-2', effectiveCollapsed ? 'px-1.5' : 'px-3')}>
         {ROOMS.map((room) => {
-          if (!room.to) {
-            return (
-              <div key={room.label} title={effectiveCollapsed ? 'History · Coming soon' : undefined} aria-disabled="true" className={cn('flex cursor-not-allowed items-center gap-2 rounded-lg text-sm font-medium opacity-55', effectiveCollapsed ? 'justify-center py-3' : 'px-3 py-2.5')}>
-                <room.icon className="h-4 w-4 shrink-0" aria-hidden="true" />
-                {!effectiveCollapsed && <span className="flex min-w-0 flex-1 items-center justify-between gap-2"><span>{room.label}</span><span className="text-[10px] text-sidebar-foreground/55">Coming soon</span></span>}
-              </div>
-            );
-          }
           const active = room.match.some((p) => location.pathname === p || location.pathname.startsWith(p + '/'));
           return (
             <NavLink key={room.to} title={effectiveCollapsed ? room.label : undefined} aria-label={room.label} to={room.to} onClick={close} className={cn('flex items-center gap-2 rounded-lg text-sm font-medium transition-colors', effectiveCollapsed ? 'justify-center py-3' : 'px-3 py-2.5', active ? 'bg-sidebar-accent text-sidebar-primary' : 'text-sidebar-foreground/70 hover:bg-sidebar-accent')}>

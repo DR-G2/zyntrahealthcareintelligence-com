@@ -80,7 +80,7 @@ function MobileBottomNav({ isMobile, moreOpen, setMoreOpen }: { isMobile: boolea
     'flex min-h-14 min-w-0 flex-col items-center justify-center gap-1 px-1 py-2 text-[10px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-300',
     active ? 'text-cyan-200' : 'text-slate-400 hover:text-slate-100'
   );
-  const moreActive = pathname.startsWith('/practice/ai-lab') || ['/account', '/settings', '/inbox'].includes(pathname);
+  const moreActive = pathname.startsWith('/practice/ai-lab') || ['/account', '/settings', '/inbox', '/history'].includes(pathname);
   return (
     <>
       {moreOpen && <button type="button" aria-label="Close More menu" className="fixed inset-0 z-30 cursor-default bg-black/35" onClick={() => setMoreOpen(false)} />}
@@ -90,10 +90,9 @@ function MobileBottomNav({ isMobile, moreOpen, setMoreOpen }: { isMobile: boolea
             <Link role="menuitem" to="/practice/ai-lab" onClick={() => setMoreOpen(false)} className="flex min-h-11 items-center gap-3 rounded-lg px-3 text-sm text-slate-200 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300">
               <FlaskConical className="h-4 w-4 text-cyan-300" /> AI Lab
             </Link>
-            <div role="menuitem" aria-disabled="true" className="flex min-h-11 cursor-not-allowed items-center justify-between gap-3 rounded-lg px-3 text-sm text-slate-500">
-              <span className="flex items-center gap-3"><History className="h-4 w-4" /> History</span>
-              <span className="text-[10px]">Coming soon</span>
-            </div>
+            <Link role="menuitem" to="/history" onClick={() => setMoreOpen(false)} className="flex min-h-11 items-center gap-3 rounded-lg px-3 text-sm text-slate-200 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300">
+              <History className="h-4 w-4 text-cyan-300" /> History
+            </Link>
             <Link role="menuitem" to="/account" onClick={() => setMoreOpen(false)} className="flex min-h-11 items-center gap-3 rounded-lg px-3 text-sm text-slate-200 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300">
               <UserCircle className="h-4 w-4 text-cyan-300" /> Account
             </Link>
