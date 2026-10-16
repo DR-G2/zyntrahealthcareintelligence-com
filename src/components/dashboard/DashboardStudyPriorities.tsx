@@ -13,6 +13,7 @@ interface Priority {
   category: string;
   priority: string;
   accuracy?: number;
+  attempt_count?: number;
   daily_questions?: number;
   study_tip?: string;
 }
@@ -75,7 +76,7 @@ export function DashboardStudyPriorities() {
             const accuracy = Number(row.accuracy);
             const attempts = Number(row.attempt_count);
             if (!row.subject || !Number.isFinite(accuracy) || !Number.isFinite(attempts) || attempts <= 0) return [];
-            return [{ category: row.subject, priority: accuracy < 60 ? 'high' : accuracy < 80 ? 'medium' : 'maintain', accuracy: Math.round(accuracy) }];
+            return [{ category: row.subject, priority: accuracy < 60 ? 'high' : accuracy < 80 ? 'medium' : 'maintain', accuracy: Math.round(accuracy), attempt_count: attempts }];
           });
         setUsingSavedPlan(savedPriorities.length > 0);
         setPriorities(savedPriorities.length > 0 ? savedPriorities : recordedPriorities);
@@ -141,7 +142,8 @@ export function DashboardStudyPriorities() {
                   {priority.study_tip && <p className="mt-1 text-sm leading-5 text-slate-400">{priority.study_tip}</p>}
                 </div>
                 <div className="flex items-center justify-between gap-3 sm:justify-end">
-                  {priority.accuracy != null && <span className="text-sm tabular-nums text-slate-400">{priority.accuracy}% recorded accuracy</span>}
+                  {priority.accuracy != null && <span className="text-sm tabular-nums text-slate-400">{priority.attempt_count != null ? priority.attempt_count + ' attempts · ' : ''}{priority.accuracy}% recorded accuracy</span>}
+                  {priority.attempt_count != null && priority.attempt_count < 5 && <Badge variant="outline" className="border-amber-300/25 text-amber-200">Small sample</Badge>}
                   {priority.daily_questions != null && <span className="text-sm tabular-nums text-slate-400">{priority.daily_questions} q/day</span>}
                   <Button asChild size="sm" variant="outline" className="min-h-10 shrink-0"><Link to={'/practice?subject=' + encodeURIComponent(priority.category)}>Practice <ArrowRight className="ml-1 h-3.5 w-3.5" /></Link></Button>
                 </div>
