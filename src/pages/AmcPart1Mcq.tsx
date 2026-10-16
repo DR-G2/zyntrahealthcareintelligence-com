@@ -50,7 +50,7 @@ const features = [
     title: "Explanations and review",
     body: "Use explanations to revisit the clinical reasoning and strengthen topic knowledge.",
     status: featureAvailability.mcqPractice.status,
-    tone: featureAvailability.performanceIntelligence.tone,
+    tone: featureAvailability.mcqPractice.tone,
   },
   {
     icon: Clock3,
