@@ -34,6 +34,15 @@ const loop = [
   ["Improve with practice", "Performance Intelligence and the Study Plan help guide the next step."],
 ] as const;
 
+
+const brainStages = [
+  { id: "observe", title: "Observe", desc: "Capture answers, timing, confidence and answer changes.", region: "hemispheres" },
+  { id: "diagnose", title: "Diagnose", desc: "Identify recurring performance and decision-making patterns.", region: "hemispheres" },
+  { id: "intervene", title: "Intervene", desc: "Choose a focused learning action.", region: "cord" },
+  { id: "measure", title: "Measure", desc: "Check whether later practice changes the pattern.", region: "cord" },
+  { id: "adapt", title: "Adapt", desc: "Use new evidence to guide the next training step.", region: "funnel" },
+] as const;
+
 const trainingItems = [
   ["Practice · MCQ", "The current practice room for questions, explanations, timing, confidence and answer changes."],
   ["OSCE", "A clinical practice direction being developed. Availability depends on the current release."],
@@ -65,7 +74,9 @@ const BrushDivider = () => (
 );
 
 const Home: React.FC = () => {
-  
+  const [activeBrainStage, setActiveBrainStage] = useState<(typeof brainStages)[number]["id"]>("observe");
+  const activeStage = brainStages.find((stage) => stage.id === activeBrainStage) ?? brainStages[0];
+
   useEffect(() => {
     const root = document.querySelector(".home-quiet");
     if (!root) return;
@@ -129,35 +140,60 @@ const Home: React.FC = () => {
                 </div>
                 <div className="q-trust-points"><span>Evidence-led insights</span><span>Focused MCQ practice</span><span>Personalised study</span></div>
               </div>
-              <aside className="q-hero-aside q-anatomy-plate" aria-label="Illustrated anatomical profile showing the brain, neural pathways and spinal cord, with Japanese ink landscape accents">
-                <svg className="q-anatomy-art" viewBox="0 0 560 570" role="img" aria-labelledby="q-anatomy-title">
-                  <title id="q-anatomy-title">Editorial anatomical illustration of a human profile, exposed brain, neural pathways and spinal cord with ink landscape accents</title>
-                  <defs><linearGradient id="q-neural-wash" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#B9DFDF" stopOpacity=".82"/><stop offset=".7" stopColor="#50D6E5" stopOpacity=".2"/><stop offset="1" stopColor="#167E8A" stopOpacity=".05"/></linearGradient></defs>
-                  <g fill="none" stroke="#24343B" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M5 505 Q55 481 102 500 T196 496 T288 505 T388 493 T555 503 M4 520 Q72 507 138 520 T254 516 T377 520 T555 516" strokeWidth="1.1"/>
-                    <path d="M20 493 l18 -37 13 21 16 -43 17 33 14 -17 17 42 M400 492 l16 -31 11 17 16 -39 13 29 14 -14 17 35" strokeWidth="1.1"/>
-                    <path d="M458 275 Q452 229 465 190 Q474 168 465 144 M465 190 Q443 174 435 151 M466 170 Q488 156 498 133 M461 209 Q437 199 422 179 M472 154 Q475 131 490 115" strokeWidth="1.1"/>
-                    <path d="M480 119 q-14 -13 -22 0 q-2 10 9 14 q11 -3 13 -14 M498 135 q-10 -13 -19 -5 q-5 9 4 15 q10 0 15 -10 M435 152 q-12 -9 -18 1 q0 10 10 12 q8 -4 8 -13" strokeWidth=".8"/>
-                    <path d="M40 225 Q19 198 36 173 Q51 154 70 166 Q82 178 72 196 M36 174 Q12 165 19 145 Q30 129 46 141 M67 168 Q71 145 90 145 Q109 147 105 168" strokeWidth="1"/>
-                    <path d="M12 450 Q54 423 83 445 T142 446 M381 451 Q427 428 457 448 T548 448" strokeWidth=".8"/>
+              <aside className="q-hero-aside q-anatomy-plate q-living-brain" aria-label="Interactive anatomical brain, spinal cord and next best action illustration">
+                <div className="q-living-brain-heading"><span>THE LIVING BRAIN</span><span>01 / 05</span></div>
+                <svg className="q-anatomy-art q-brain-art" viewBox="0 0 560 590" role="img" aria-labelledby="q-brain-title q-brain-desc">
+                  <title id="q-brain-title">Zyntra Living Brain: anatomical hemispheres connected to a spinal cord and glass funnel</title>
+                  <desc id="q-brain-desc">A hand-drawn graphite brain narrows through the brainstem and spinal cord into a slate-blue glass funnel labelled Next Best Action. Select a stage below to explore the learning loop.</desc>
+                  <defs>
+                    <linearGradient id="q-funnel-glass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#8298AD" stopOpacity=".16"/><stop offset=".48" stopColor="#8298AD" stopOpacity=".48"/><stop offset="1" stopColor="#526879" stopOpacity=".18"/></linearGradient>
+                    <linearGradient id="q-cord-wash" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#A7B5A0" stopOpacity=".7"/><stop offset="1" stopColor="#8298AD" stopOpacity=".3"/></linearGradient>
+                  </defs>
+                  <g className={activeBrainStage === "observe" || activeBrainStage === "diagnose" ? "q-brain-region is-active" : "q-brain-region"} fill="#E9E4D8" stroke="#343A38" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M278 54 C255 34 224 43 211 62 C185 51 159 70 162 95 C136 111 139 139 157 155 C141 180 158 207 181 214 C184 241 212 256 237 242 C251 258 269 256 279 241 L279 69Z"/>
+                    <path d="M282 54 C305 34 336 43 349 62 C375 51 401 70 398 95 C424 111 421 139 403 155 C419 180 402 207 379 214 C376 241 348 256 323 242 C309 258 291 256 281 241 L281 69Z"/>
                   </g>
-                  <g>
-                    <path d="M316 69 C294 43 256 46 239 68 C212 59 183 80 185 105 C156 117 153 148 172 169 C154 197 173 224 199 231 C203 259 235 274 261 257 C282 280 312 265 326 245 C353 256 382 236 384 211 C410 193 404 163 386 147 C394 119 371 95 346 94 C343 72 329 64 316 69Z" fill="url(#q-neural-wash)" stroke="#24343B" strokeWidth="2.2"/>
-                    <path d="M315 72 C300 93 307 109 321 121 C301 139 305 160 321 173 C304 190 309 211 323 223 C308 238 313 250 326 245 M315 79 C285 77 272 97 281 116 C256 122 251 143 270 159 C247 174 254 195 274 204 C260 225 274 242 293 245 M239 77 C220 93 225 113 241 123 C222 141 229 160 247 168 C227 187 235 205 255 211 M346 99 C369 96 379 113 371 132 C393 143 390 164 370 175 C385 192 373 210 354 215 M191 142 C213 132 226 149 217 165 M201 194 C220 182 235 198 230 214 M357 82 C375 76 387 90 381 104" fill="none" stroke="#167E8A" strokeWidth="1.8"/>
-                    <path d="M192 160 C155 155 130 173 126 202 C121 226 136 245 157 255 L170 278 L165 307 Q160 325 180 332 L198 338 L203 382 Q222 399 249 382 L259 339 Q286 326 299 296 C312 267 302 241 281 226" fill="#F4F1E8" fillOpacity=".72" stroke="#24343B" strokeWidth="2.2" strokeLinejoin="round"/>
-                    <path d="M128 206 L110 215 L130 226 L117 237 L139 243 M158 255 L180 258 L195 249 M170 278 Q184 270 197 278 M164 307 Q183 314 199 305 M180 332 Q198 341 213 329 M203 382 Q229 393 249 382" fill="none" stroke="#24343B" strokeWidth="1.2"/>
-                    <path d="M169 190 Q177 170 195 178 M178 210 Q194 199 209 211 M174 229 Q195 222 209 237 M181 250 Q201 244 218 258 M185 276 Q207 268 221 282 M189 301 Q208 293 225 306 M201 326 Q220 316 236 329 M209 349 Q230 340 249 349" fill="none" stroke="#167E8A" strokeWidth="1.4" strokeLinecap="round"/>
-                    <path d="M244 258 Q250 287 242 311 Q238 336 252 361 Q264 386 267 419" fill="none" stroke="#167E8A" strokeWidth="10" opacity=".18" strokeLinecap="round"/>
-                    <path d="M244 258 Q250 287 242 311 Q238 336 252 361 Q264 386 267 419" fill="none" stroke="#167E8A" strokeWidth="2.1" strokeLinecap="round"/>
-                    <path d="M243 290 Q222 299 215 318 M244 326 Q266 336 271 352 M253 365 Q233 376 232 392 M264 396 Q282 407 283 423" fill="none" stroke="#50D6E5" strokeWidth="2" strokeLinecap="round"/>
-                    <path d="M270 418 Q309 435 347 422 M272 429 Q316 450 358 432 M275 441 Q320 462 366 444" fill="none" stroke="#167E8A" strokeWidth="1.2" opacity=".7"/>
+                  <g fill="none" stroke="#667B6B" strokeWidth="1.65" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M272 63 C247 50 229 65 235 84 C211 83 199 100 211 118 C190 132 198 151 219 156 C203 177 219 195 240 190 C230 211 247 226 267 215"/>
+                    <path d="M268 76 C249 84 252 101 268 107 C249 119 251 135 268 142 C250 157 257 175 271 180 M226 72 C208 81 213 98 229 103 M176 119 C193 110 207 123 201 139 M177 164 C194 153 210 169 204 183 M221 224 C239 216 250 229 246 240"/>
+                    <path d="M288 63 C313 50 331 65 325 84 C349 83 361 100 349 118 C370 132 362 151 341 156 C357 177 341 195 320 190 C330 211 313 226 293 215"/>
+                    <path d="M292 76 C311 84 308 101 292 107 C311 119 309 135 292 142 C310 157 303 175 289 180 M334 72 C352 81 347 98 331 103 M384 119 C367 110 353 123 359 139 M383 164 C366 153 350 169 356 183 M339 224 C321 216 310 229 314 240"/>
                   </g>
-                  <g fill="#24343B" fontFamily="Georgia,serif" fontStyle="italic">
-                    <text x="385" y="290" fontSize="17">Observe</text><text x="385" y="315" fontSize="17">Find your patterns</text><text x="385" y="340" fontSize="17">Act</text>
+                  <path d="M280 60 L280 239" stroke="#343A38" strokeWidth="1.2" strokeDasharray="3 5" opacity=".8"/>
+                  <g className={activeBrainStage === "intervene" || activeBrainStage === "measure" ? "q-cord-region is-active" : "q-cord-region"} fill="none" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M262 235 C262 257 270 265 270 282 C270 309 263 326 273 348 C279 365 278 385 280 405" stroke="url(#q-cord-wash)" strokeWidth="23"/>
+                    <path d="M298 235 C298 257 290 265 290 282 C290 309 297 326 287 348 C281 365 282 385 280 405" stroke="url(#q-cord-wash)" strokeWidth="23"/>
+                    <path d="M280 241 C280 265 280 283 280 307 C280 339 280 365 280 405" stroke="#526879" strokeWidth="2.1"/>
+                    <path d="M270 278 Q250 286 244 302 M290 278 Q310 286 316 302 M273 322 Q253 333 250 350 M287 322 Q307 333 310 350 M278 363 Q262 373 262 388 M282 363 Q298 373 298 388" stroke="#667B6B" strokeWidth="1.4"/>
                   </g>
-                  <g fill="none" stroke="#167E8A" strokeWidth="1" strokeDasharray="3 5"><path d="M380 296 Q352 292 332 250"/><path d="M380 320 Q344 329 270 340"/><path d="M380 345 Q348 380 315 432"/></g>
-                  <g fill="#24343B" opacity=".9"><text x="475" y="85" fontSize="16" fontFamily="serif">東北風</text><rect x="472" y="96" width="22" height="28" rx="2" fill="none" stroke="#B24F47" strokeWidth="1.5"/><path d="M478 103 L488 117 M488 103 L478 117" stroke="#B24F47" strokeWidth="1.5"/></g>
+                  <g className={activeBrainStage === "adapt" ? "q-funnel-region is-active" : "q-funnel-region"}>
+                    <path d="M226 403 Q280 420 334 403 L313 450 Q303 468 296 480 L296 495 L264 495 L264 480 Q257 468 247 450Z" fill="url(#q-funnel-glass)" stroke="#526879" strokeWidth="2.1" strokeLinejoin="round"/>
+                    <path d="M237 412 Q280 425 323 412 M251 445 Q280 454 309 445 M265 479 L295 479" fill="none" stroke="#8298AD" strokeWidth="1.4"/>
+                    <path d="M280 405 L280 465" stroke="#667B6B" strokeWidth="2" strokeDasharray="4 5"/>
+                    <rect x="214" y="496" width="132" height="43" rx="4" fill="#526879"/>
+                    <text x="280" y="513" textAnchor="middle" fill="#FBF9F4" fontSize="10" fontWeight="700" letterSpacing="1.1">NEXT BEST</text>
+                    <text x="280" y="527" textAnchor="middle" fill="#FBF9F4" fontSize="10" fontWeight="700" letterSpacing="1.1">ACTION</text>
+                  </g>
+                  <g fill="none" stroke="#8298AD" strokeWidth="1.1" opacity=".9">
+                    <path d="M110 111 H147 L168 127"/><path d="M414 111 H393 L375 127"/>
+                    <path d="M94 306 H224 L253 322"/><path d="M466 306 H336 L307 322"/>
+                  </g>
+                  <g fill="#526879" fontFamily="ui-monospace, monospace" fontSize="10" letterSpacing="1.1">
+                    <text x="42" y="105">OBSERVE</text><text x="414" y="105">DIAGNOSE</text><text x="28" y="300">EVIDENCE</text><text x="414" y="300">ADAPT</text>
+                  </g>
+                  <g fill="none" stroke="#A7B5A0" strokeWidth="1" opacity=".85">
+                    <path d="M25 555 Q105 548 185 555 T345 555 T535 555"/><path d="M42 563 Q122 556 202 563 T362 563 T520 563"/>
+                  </g>
+                  <text x="280" y="579" textAnchor="middle" fill="#526879" fontFamily="ui-monospace, monospace" fontSize="9" letterSpacing="2">EVIDENCE → DECISION → ACTION</text>
                 </svg>
+                <div className="q-brain-stage-picker" role="group" aria-label="Explore the Zyntra learning loop">
+                  {brainStages.map((stage, index) => <button key={stage.id} type="button" className={activeBrainStage === stage.id ? "q-brain-stage is-selected" : "q-brain-stage"} aria-pressed={activeBrainStage === stage.id} onClick={() => setActiveBrainStage(stage.id)}><span>{String(index + 1).padStart(2, "0")}</span>{stage.title}</button>)}
+                </div>
+                <div className="q-brain-stage-detail" aria-live="polite" aria-atomic="true">
+                  <span className="q-brain-detail-kicker">THE LEARNING LOOP / {String(brainStages.findIndex((stage) => stage.id === activeBrainStage) + 1).padStart(2, "0")}</span>
+                  <strong>{activeStage.title}</strong>
+                  <p>{activeStage.desc}</p>
+                </div>
               </aside>
             </div>
           </div>
