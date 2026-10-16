@@ -140,54 +140,19 @@ const Home: React.FC = () => {
                 </div>
                 <div className="q-trust-points"><span>Evidence-led insights</span><span>Focused MCQ practice</span><span>Personalised study</span></div>
               </div>
-              <aside className="q-hero-aside q-anatomy-plate q-living-brain" aria-label="Interactive anatomical brain, spinal cord and next best action illustration">
-                <div className="q-living-brain-heading"><span>THE LIVING BRAIN</span><span>01 / 05</span></div>
-                <svg className="q-anatomy-art q-brain-art" viewBox="0 0 560 590" role="img" aria-labelledby="q-brain-title q-brain-desc">
-                  <title id="q-brain-title">Zyntra Living Brain: anatomical hemispheres connected to a spinal cord and glass funnel</title>
-                  <desc id="q-brain-desc">A hand-drawn graphite brain narrows through the brainstem and spinal cord into a slate-blue glass funnel labelled Next Best Action. Select a stage below to explore the learning loop.</desc>
-                  <defs>
-                    <linearGradient id="q-funnel-glass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#8298AD" stopOpacity=".16"/><stop offset=".48" stopColor="#8298AD" stopOpacity=".48"/><stop offset="1" stopColor="#526879" stopOpacity=".18"/></linearGradient>
-                    <linearGradient id="q-cord-wash" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#A7B5A0" stopOpacity=".7"/><stop offset="1" stopColor="#8298AD" stopOpacity=".3"/></linearGradient>
-                  </defs>
-                  <g className={activeBrainStage === "observe" || activeBrainStage === "diagnose" ? "q-brain-region is-active" : "q-brain-region"} fill="#E9E4D8" stroke="#343A38" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M278 54 C255 34 224 43 211 62 C185 51 159 70 162 95 C136 111 139 139 157 155 C141 180 158 207 181 214 C184 241 212 256 237 242 C251 258 269 256 279 241 L279 69Z"/>
-                    <path d="M282 54 C305 34 336 43 349 62 C375 51 401 70 398 95 C424 111 421 139 403 155 C419 180 402 207 379 214 C376 241 348 256 323 242 C309 258 291 256 281 241 L281 69Z"/>
-                  </g>
-                  <g fill="none" stroke="#667B6B" strokeWidth="1.65" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M272 63 C247 50 229 65 235 84 C211 83 199 100 211 118 C190 132 198 151 219 156 C203 177 219 195 240 190 C230 211 247 226 267 215"/>
-                    <path d="M268 76 C249 84 252 101 268 107 C249 119 251 135 268 142 C250 157 257 175 271 180 M226 72 C208 81 213 98 229 103 M176 119 C193 110 207 123 201 139 M177 164 C194 153 210 169 204 183 M221 224 C239 216 250 229 246 240"/>
-                    <path d="M288 63 C313 50 331 65 325 84 C349 83 361 100 349 118 C370 132 362 151 341 156 C357 177 341 195 320 190 C330 211 313 226 293 215"/>
-                    <path d="M292 76 C311 84 308 101 292 107 C311 119 309 135 292 142 C310 157 303 175 289 180 M334 72 C352 81 347 98 331 103 M384 119 C367 110 353 123 359 139 M383 164 C366 153 350 169 356 183 M339 224 C321 216 310 229 314 240"/>
-                  </g>
-                  <path d="M280 60 L280 239" stroke="#343A38" strokeWidth="1.2" strokeDasharray="3 5" opacity=".8"/>
-                  <g className={activeBrainStage === "intervene" || activeBrainStage === "measure" ? "q-cord-region is-active" : "q-cord-region"} fill="none" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M262 235 C262 257 270 265 270 282 C270 309 263 326 273 348 C279 365 278 385 280 405" stroke="url(#q-cord-wash)" strokeWidth="23"/>
-                    <path d="M298 235 C298 257 290 265 290 282 C290 309 297 326 287 348 C281 365 282 385 280 405" stroke="url(#q-cord-wash)" strokeWidth="23"/>
-                    <path d="M280 241 C280 265 280 283 280 307 C280 339 280 365 280 405" stroke="#526879" strokeWidth="2.1"/>
-                    <path d="M270 278 Q250 286 244 302 M290 278 Q310 286 316 302 M273 322 Q253 333 250 350 M287 322 Q307 333 310 350 M278 363 Q262 373 262 388 M282 363 Q298 373 298 388" stroke="#667B6B" strokeWidth="1.4"/>
-                  </g>
-                  <g className={activeBrainStage === "adapt" ? "q-funnel-region is-active" : "q-funnel-region"}>
-                    <path d="M226 403 Q280 420 334 403 L313 450 Q303 468 296 480 L296 495 L264 495 L264 480 Q257 468 247 450Z" fill="url(#q-funnel-glass)" stroke="#526879" strokeWidth="2.1" strokeLinejoin="round"/>
-                    <path d="M237 412 Q280 425 323 412 M251 445 Q280 454 309 445 M265 479 L295 479" fill="none" stroke="#8298AD" strokeWidth="1.4"/>
-                    <path d="M280 405 L280 465" stroke="#667B6B" strokeWidth="2" strokeDasharray="4 5"/>
-                    <rect x="214" y="496" width="132" height="43" rx="4" fill="#526879"/>
-                    <text x="280" y="513" textAnchor="middle" fill="#FBF9F4" fontSize="10" fontWeight="700" letterSpacing="1.1">NEXT BEST</text>
-                    <text x="280" y="527" textAnchor="middle" fill="#FBF9F4" fontSize="10" fontWeight="700" letterSpacing="1.1">ACTION</text>
-                  </g>
-                  <g fill="none" stroke="#8298AD" strokeWidth="1.1" opacity=".9">
-                    <path d="M110 111 H147 L168 127"/><path d="M414 111 H393 L375 127"/>
-                    <path d="M94 306 H224 L253 322"/><path d="M466 306 H336 L307 322"/>
-                  </g>
-                  <g fill="#526879" fontFamily="ui-monospace, monospace" fontSize="10" letterSpacing="1.1">
-                    <text x="42" y="105">OBSERVE</text><text x="414" y="105">DIAGNOSE</text><text x="28" y="300">EVIDENCE</text><text x="414" y="300">ADAPT</text>
-                  </g>
-                  <g fill="none" stroke="#A7B5A0" strokeWidth="1" opacity=".85">
-                    <path d="M25 555 Q105 548 185 555 T345 555 T535 555"/><path d="M42 563 Q122 556 202 563 T362 563 T520 563"/>
-                  </g>
-                  <text x="280" y="579" textAnchor="middle" fill="#526879" fontFamily="ui-monospace, monospace" fontSize="9" letterSpacing="2">EVIDENCE → DECISION → ACTION</text>
-                </svg>
-                <div className="q-brain-stage-picker" role="group" aria-label="Explore the Zyntra learning loop">
-                  {brainStages.map((stage, index) => <button key={stage.id} type="button" className={activeBrainStage === stage.id ? "q-brain-stage is-selected" : "q-brain-stage"} aria-pressed={activeBrainStage === stage.id} onClick={() => setActiveBrainStage(stage.id)}><span>{String(index + 1).padStart(2, "0")}</span>{stage.title}</button>)}
+              <aside className="q-hero-aside q-anatomy-plate q-living-brain" aria-label="Interactive overview of the Zyntra learning loop">
+                <div className="q-living-brain-heading"><span>HOW PIE WORKS</span><span>01 / 05</span></div>
+                <div className="q-loop-visual" aria-label="Observe, diagnose, intervene, measure and adapt">
+                  <p className="q-card-label">From each attempt to a better next step</p>
+                  <div className="q-brain-stage-picker">
+                    {brainStages.map((stage, index) => (
+                      <button key={stage.id} type="button" className={activeBrainStage === stage.id ? "q-brain-stage is-selected" : "q-brain-stage"} aria-pressed={activeBrainStage === stage.id} onClick={() => setActiveBrainStage(stage.id)}>
+                        <span>{String(index + 1).padStart(2, "0")}</span>
+                        <strong>{stage.title}</strong>
+                        <small>{stage.desc}</small>
+                      </button>
+                    ))}
+                  </div>
                 </div>
                 <div className="q-brain-stage-detail" aria-live="polite" aria-atomic="true">
                   <span className="q-brain-detail-kicker">THE LEARNING LOOP / {String(brainStages.findIndex((stage) => stage.id === activeBrainStage) + 1).padStart(2, "0")}</span>
@@ -237,8 +202,6 @@ const Home: React.FC = () => {
             </ol>
           </div>
         </section>
-
-        <BrushDivider />
 
         <BrushDivider />
 

@@ -22,6 +22,7 @@ import NotFound from "./pages/NotFound";
 
 const ResetPassword = lazy(() => import("./pages/ResetPassword"));
 const Onboarding = lazy(() => import("./pages/Onboarding"));
+const Dashboard = lazy(() => import("./pages/Dashboard"));
 const Practice = lazy(() => import("./pages/Practice"));
 const PracticeOsce = lazy(() => import("./pages/PracticeOsce"));
 const AILab = lazy(() => import("./pages/AILab"));
@@ -133,7 +134,7 @@ function AppRoutes() {
           <Route path="/osce-in-surgery" element={<Navigate to="/practice/osce" replace />} />
           <Route path="/amc-clinical-osce" element={<Navigate to="/practice/osce" replace />} />
           <Route path="/onboarding" element={<ErrorBoundary><Onboarding /></ErrorBoundary>} />
-          <Route path="/dashboard" element={<Navigate to="/practice" replace />} />
+          <Route path="/dashboard" element={<ProtectedRoute><ErrorBoundary><Dashboard /></ErrorBoundary></ProtectedRoute>} />
           <Route path="/assess" element={<Navigate to="/practice" replace />} />
           <Route path="/intelligence" element={<ProtectedRoute><ErrorBoundary><Intelligence /></ErrorBoundary></ProtectedRoute>} />
           <Route path="/profile" element={<Navigate to="/intelligence?tab=performance" replace />} />
