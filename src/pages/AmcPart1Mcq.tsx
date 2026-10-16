@@ -49,7 +49,7 @@ const features = [
     icon: Check,
     title: "Explanations and review",
     body: "Use explanations to revisit the clinical reasoning and strengthen topic knowledge.",
-    status: featureAvailability.performanceIntelligence.status,
+    status: featureAvailability.mcqPractice.status,
     tone: featureAvailability.performanceIntelligence.tone,
   },
   {
