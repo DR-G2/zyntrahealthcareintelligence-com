@@ -46,6 +46,7 @@ const OAuthConsent = lazy(() => import("./pages/OAuthConsent"));
 const Blog = lazy(() => import("./pages/Blog"));
 const BlogArticle = lazy(() => import("./pages/BlogArticle"));
 const About = lazy(() => import("./pages/About"));
+const FAQ = lazy(() => import("./pages/FAQ"));
 const V2AuthDiagnostic = lazy(() => import("./pages/V2AuthDiagnostic"));
 
 const queryClient = new QueryClient();
@@ -125,6 +126,7 @@ function AppRoutes() {
           <Route path="/how-it-works" element={<ErrorBoundary><SEO title="How PIE Works | Zyntra Healthcare Intelligence" description="See how Zyntra’s Performance Intelligence Engine uses practice signals to help you understand your answers and choose what to work on next." path="/how-it-works" /><HowItWorks /></ErrorBoundary>} />
           <Route path="/check" element={<Navigate to="/login" replace />} />
           <Route path="/about" element={<ErrorBoundary><SEO title="About Zyntra | Built for Doctors Preparing for the AMC" description="Learn why Zyntra exists, the principles behind its AMC exam preparation tools, and what to expect from a product in beta. Independent of the Australian Medical Council." path="/about" /><About /></ErrorBoundary>} />
+          <Route path="/faq" element={<ErrorBoundary><SEO title="FAQ | Zyntra Healthcare Intelligence" description="Clear answers about Zyntra, Performance Intelligence, pricing, the 7-day trial, feature availability and privacy." path="/faq" /><FAQ /></ErrorBoundary>} />
           <Route path="/pricing" element={<ErrorBoundary><SEO title="Pricing | Zyntra Healthcare Intelligence" description="Compare Zyntra Full Access monthly and three-month plans, understand the 7-day trial and A$1 card check, and review cancellation terms." path="/pricing" /><PublicPricing /></ErrorBoundary>} />
           <Route path="/login" element={<ErrorBoundary><SEO title="Sign In or Create Account | Zyntra" description="Sign in to Zyntra to continue your AMC exam preparation, or create a free account to start practising." path="/login" /><Login /></ErrorBoundary>} />
           <Route path="/oauth/consent" element={<ErrorBoundary><OAuthConsent /></ErrorBoundary>} />
