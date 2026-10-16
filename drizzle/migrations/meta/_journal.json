@@ -15,6 +15,13 @@
       "when": 1791961016083,
       "tag": "0001_pie_p01_model_version_least_privilege",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1792163662998,
+      "tag": "0002_protect_profile_ban_flag",
+      "breakpoints": true
     }
   ]
 }
