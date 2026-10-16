@@ -122,7 +122,7 @@ begin
   insert into pie.pie_candidate_state as cs
     (user_id, state_version, state, confidence, model_version_id, source_inference_id, calculated_at, updated_at)
   values
-    (p_user_id, 1, v_state, least(1, greatest(0, v_n / greatest(v_n, 1)::numeric)), v_model, v_run, now(), now())
+    (p_user_id, 1, v_state, least(1, greatest(0, v_n / 100.0)), v_model, v_run, now(), now())
   on conflict (user_id) do update
     set state_version = cs.state_version + 1,
         state = excluded.state,
