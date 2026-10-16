@@ -10,7 +10,7 @@ export function MarketingHeader() {
   return (
     <header className={`zh-header ${darkHeader ? "" : "zh-header-light"}`}>
       <div className="zh-header-inner">
-        <a className="zh-brand" href="/" aria-label="Zyntra home"><BrandMark className="h-9 w-9" /><span><b>ZYNTRA</b><small>HEALTHCARE INTELLIGENCE</small></span></a>
+        <a className="zh-brand" href="/#top" aria-label="Zyntra home"><BrandMark className="h-9 w-9" /><span><b>ZYNTRA</b><small>HEALTHCARE INTELLIGENCE</small></span></a>
         <nav className={`zh-nav ${menuOpen ? "is-open" : ""}`} aria-label="Main navigation">
           {nav.map(([label, href])=><a key={label} href={href} onClick={()=>setMenuOpen(false)}>{label}</a>)}
           <button className="zh-theme" type="button" aria-label={darkHeader ? "Switch header to light theme" : "Switch header to dark theme"} onClick={()=>setDarkHeader(v=>!v)}>{darkHeader ? <Sun size={18}/> : <Moon size={18}/>}</button>
