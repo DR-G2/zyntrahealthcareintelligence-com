@@ -20,11 +20,11 @@ const faqGroups = [
     { q: "How many questions do I need before insights are useful?", a: <>There is no single question count that makes every insight reliable. More attempts can provide more context, while a small sample can be misleading. Treat early patterns as tentative and use them alongside your own review.</> },
   ]},
   { title: "Pricing and trial", eyebrow: "BILLING, CLEARLY", questions: [
-    { q: "How much does it cost?", a: <>Full Access is A$\{PLAN_PRICES.monthly.price} AUD per month or A$\{PLAN_PRICES.quarterly.price} AUD every 3 months, after the {TRIAL_DAYS}-day trial unless cancelled. See <Link to="/pricing">full pricing details</Link>.</> },
+    { q: "How much does it cost?", a: <>Full Access is A$${PLAN_PRICES.monthly.price} AUD per month or A$${PLAN_PRICES.quarterly.price} AUD every 3 months, after the {TRIAL_DAYS}-day trial unless cancelled. See <Link to="/pricing">full pricing details</Link>.</> },
     { q: "What is the 7-day trial?", a: <>The trial gives you {TRIAL_DAYS} days before the first subscription charge. An A$1 card check is taken today. If you do not cancel before the trial ends, your selected plan is charged on the trial-end date. The exact terms are shown in checkout.</> },
     { q: "What is the A$1 card check?", a: <>{COPY_CARD_CHECK}</> },
     { q: "How do I cancel?", a: <>{cancelCopy("monthly")} {cancelCopy("quarterly")}</> },
-    { q: "What happens after the trial?", a: <>If you do not cancel before the trial ends, the selected plan begins billing on the trial-end date. The monthly plan is A$\{PLAN_PRICES.monthly.price} each month. The three-month plan is A$\{PLAN_PRICES.quarterly.price} every 3 months. {cancelCopy("monthly")} {cancelCopy("quarterly")}</> },
+    { q: "What happens after the trial?", a: <>If you do not cancel before the trial ends, the selected plan begins billing on the trial-end date. The monthly plan is A$${PLAN_PRICES.monthly.price} each month. The three-month plan is A$${PLAN_PRICES.quarterly.price} every 3 months. {cancelCopy("monthly")} {cancelCopy("quarterly")}</> },
   ]},
   { title: "Features and availability", eyebrow: "WHAT IS AVAILABLE", questions: [
     { q: "What is live today?", a: <>The current public feature list marks MCQ practice and Performance Intelligence as live. AI Study Lab and Study Plan are in beta, and some intelligence tools depend on the current release. Check <Link to="/features">features</Link> for the latest status.</> },
@@ -49,15 +49,15 @@ export default function FAQ() {
       </div><div className="zf-hero-mark" aria-hidden="true"><CircleHelp /><span>ANSWERS, NOT ASSUMPTIONS</span></div></section>
       <section className="zh-section zf-content" id="faq-answers"><div className="zh-container">
         <div className="zf-intro"><p className="zh-eyebrow zh-eyebrow-dark">HELP BEFORE YOU START</p><h2>Find the answer you need.</h2><p>Choose a question to open its answer. Answers describe the current product and published terms. Features can change while Zyntra is in beta.</p></div>
-        <div className="zf-groups">{faqGroups.map((group, groupIndex) => <section className="zf-group" key={group.title} aria-labelledby={`zf-group-\{groupIndex}`}>
-          <header className="zf-group-heading"><span className="zf-group-number">0{groupIndex + 1}</span><div><p className="zh-eyebrow zh-eyebrow-dark">{group.eyebrow}</p><h2 id={`zf-group-\{groupIndex}`}>{group.title}</h2></div></header>
+        <div className="zf-groups">{faqGroups.map((group, groupIndex) => <section className="zf-group" key={group.title} aria-labelledby={`zf-group-${groupIndex}`}>
+          <header className="zf-group-heading"><span className="zf-group-number">0{groupIndex + 1}</span><div><p className="zh-eyebrow zh-eyebrow-dark">{group.eyebrow}</p><h2 id={`zf-group-${groupIndex}`}>{group.title}</h2></div></header>
           <div className="zf-accordion">{group.questions.map((item) => <details className="zf-item" key={item.q}><summary><span>{item.q}</span><ChevronDown size={19} aria-hidden="true" /></summary><div className="zf-answer"><p>{item.a}</p></div></details>)}</div>
         </section>)}</div>
       </div></section>
       <section className="zh-cta zf-final"><div className="zh-container zf-final-inner">
         <div><p className="zh-eyebrow">READY WHEN YOU ARE</p><h2>Start with a clearer picture.</h2><p>Try the current release and see whether Zyntra fits your preparation.</p></div>
         <div className="zf-final-action"><Link to="/login" className="zh-button">Start {TRIAL_DAYS}-day trial <ArrowRight size={17} aria-hidden="true" /></Link>
-          <p>A$1 card check today. Then A$\{PLAN_PRICES.monthly.price} monthly or A$\{PLAN_PRICES.quarterly.price} every 3 months, unless cancelled.</p>
+          <p>A$1 card check today. Then A$${PLAN_PRICES.monthly.price} monthly or A$${PLAN_PRICES.quarterly.price} every 3 months, unless cancelled.</p>
           <small>{COPY_CARD_CHECK} {cancelCopy("monthly")} {cancelCopy("quarterly")}</small><Link to="/pricing" className="zf-pricing-link">Review pricing and terms <ArrowRight size={14} aria-hidden="true" /></Link>
         </div>
       </div><p className="zf-independent">Zyntra is independent of, and not affiliated with, the Australian Medical Council.</p></section>
