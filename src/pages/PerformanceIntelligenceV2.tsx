@@ -3,7 +3,7 @@ import { Activity, Brain, Target } from 'lucide-react';
 import { useSearchParams } from 'react-router-dom';
 import { AppLayout } from '@/components/AppLayout';
 import { Button } from '@/components/ui/button';
-import { IntelligenceOverview } from '@/components/intelligence/IntelligenceOverview';
+import { ReadinessPrism } from '@/components/intelligence/ReadinessPrism';
 import { loadIntelligenceEvidence, type IntelligenceEvidence } from '@/lib/pie/intelligence-evidence';
 import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils';
@@ -54,7 +54,7 @@ export default function PerformanceIntelligence() {
       document.getElementById(`tab-${target.id}`)?.focus();
     }} tabIndex={tab === item.id ? 0 : -1}><item.icon className="hidden sm:block" />{item.label}</Button>)}</div>
     <div id={`panel-${tab}`} role="tabpanel" aria-labelledby={`tab-${tab}`}>
-      {tab === 'performance' ? <IntelligenceOverview evidence={ownEvidence} loading={loading} retry={() => setRetry(value => value + 1)} /> : <Suspense fallback={<p role="status" className="py-12 text-muted-foreground">Loading your evidence…</p>}>{tab === 'behavior' ? <BehaviorContent /> : <TrustYourGutContent />}</Suspense>}
+      {tab === 'performance' ? <ReadinessPrism evidence={ownEvidence} loading={loading} retry={() => setRetry(value => value + 1)} /> : <Suspense fallback={<p role="status" className="py-12 text-muted-foreground">Loading your evidence…</p>}>{tab === 'behavior' ? <BehaviorContent /> : <TrustYourGutContent />}</Suspense>}
     </div>
   </div></AppLayout>;
 }
