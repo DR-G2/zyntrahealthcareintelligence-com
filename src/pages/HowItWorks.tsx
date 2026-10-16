@@ -6,6 +6,7 @@ import { MarketingHeader } from "@/components/public/MarketingHeader";
 import { MarketingFooter } from "@/components/public/MarketingFooter";
 import "@/styles/zyntra-home.css";
 import "@/styles/zyntra-how-it-works.css";
+import "@/styles/zyntra-tokens.css";
 
 const signals = [
   { title: "Accuracy", icon: Check, what: "Whether your selected answer matches the answer key.", why: "A correct answer shows the outcome, but not the whole reasoning process." },
