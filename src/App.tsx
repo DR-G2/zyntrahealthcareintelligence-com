@@ -17,6 +17,7 @@ import { VisitorTracker } from "@/components/VisitorTracker";
 import { useMaintenanceMode } from "@/hooks/useSiteSettings";
 
 import Home from "./pages/Home";
+import HowItWorks from "./pages/HowItWorks";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 
@@ -120,6 +121,7 @@ function AppRoutes() {
       <Suspense fallback={<LazyFallback />}>
         <Routes>
           <Route path="/" element={<ErrorBoundary><SEO title="Zyntra | AMC Exam Preparation That Learns How You Think" description="Adaptive AMC MCQ and Clinical exam preparation for IMGs: clinical reasoning practice, performance analytics and personalised next steps." path="/" /><Home /></ErrorBoundary>} />
+          <Route path="/how-it-works" element={<ErrorBoundary><SEO title="How PIE Works | Zyntra Healthcare Intelligence" description="See how Zyntra’s Performance Intelligence Engine uses practice signals to help you understand your answers and choose what to work on next." path="/how-it-works" /><HowItWorks /></ErrorBoundary>} />
           <Route path="/check" element={<Navigate to="/login" replace />} />
           <Route path="/about" element={<Navigate to="/#about" replace />} />
           <Route path="/pricing" element={<Navigate to="/#pricing" replace />} />
