@@ -6,15 +6,6 @@ import { COPY_CARD_CHECK, TRIAL_DAYS, PLAN_PRICES, cancelCopy } from "@/lib/bill
 import "@/styles/zyntra-home.css";
 import "@/styles/zyntra-about.css";
 
-type FounderPhotoProps = { src?: string; alt?: string };
-function FounderPhoto({ src, alt = "Zyntra founder" }: FounderPhotoProps) {
-  if (!src) return null;
-  return <figure className="za-founder-photo"><img src={src} alt={alt} loading="lazy" /><figcaption>Zyntra founder</figcaption></figure>;
-}
-
-// TODO: Add a real image URL only if the anonymous founder chooses to share a photo.
-const founderPhoto: string | undefined = undefined;
-// TODO: Replace or refine the founder note below with the founder's own final wording.
 const principles = [
   { icon: Target, title: "The process matters", copy: "A right or wrong answer is one part of the picture. How you reached it can also help guide your next practice step." },
   { icon: CheckCircle2, title: "Honest feedback comes first", copy: "We aim to show what the available evidence supports, and to be clear when it does not tell the whole story." },
@@ -46,12 +37,9 @@ export default function About() {
               <p className="zh-section-copy">The purpose is simple: make it easier to practise with intention, learn from each attempt and decide what to work on next.</p>
             </div>
             <div className="za-founder-note">
-              <span className="za-quote-mark" aria-hidden="true">“</span>
-              <p>I have taken a harder route through this process than I would want others to need. I started Zyntra to help make AMC preparation more structured, so doctors can spend less time trying to work out the process alone and more time practising with purpose.</p>
-              <p>I prefer to keep my identity private. The focus here is on the work and the people it is intended to support, rather than on the person behind it.</p>
-              <p className="za-todo"><strong>TODO:</strong> Replace or refine this first-person note with your own final words before publishing.</p>
-              <div className="za-founder-byline"><span className="za-anonymous-icon"><EyeOff size={17} aria-hidden="true" /></span><span><strong>Zyntra founder</strong><small>Identity intentionally private</small></span></div>
-              <FounderPhoto src={founderPhoto} />
+              <h3>A more structured way to prepare.</h3>
+              <p>Zyntra brings practice and available performance insights together to help candidates review their decisions, recognise areas to revisit and choose a focused next step.</p>
+              <p>We aim to describe the product and its limits clearly, especially while features are in beta.</p>
             </div>
           </div>
         </section>
