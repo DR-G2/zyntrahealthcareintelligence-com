@@ -2,7 +2,11 @@ import React from "react";
 import { ArrowLeft, ArrowRight, BookOpen, Clock } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import { SEO } from "@/components/SEO";
-import { articles, articleBody, articleReadTime, NOT_AFFILIATED } from "@/data/blogPosts";
+import { MarketingHeader } from "@/components/public/MarketingHeader";
+import { MarketingFooter } from "@/components/public/MarketingFooter";
+import "@/styles/zyntra-tokens.css";
+import "@/styles/zyntra-phase2.css";
+import { articles, articleBody, articleReadTime } from "@/data/blogPosts";
 import { formatIsoDate, parseInlineLinks } from "@/lib/blogText";
 
 const SITE_URL = "https://www.zyntrahealthcareintelligence.org";
@@ -30,12 +34,11 @@ export default function BlogArticle() {
 
   if (!article) {
     return (
-      <div className="min-h-screen bg-[#040812] text-white grid place-items-center p-6">
+      <div className="zh-phase2 zh-phase2-journal min-h-screen bg-[#040812] text-white flex flex-col"><MarketingHeader /><main className="flex flex-1 items-center justify-center p-6">
         <div className="text-center">
           <h1 className="text-2xl font-bold">Article not found</h1>
           <Link to="/blog" className="mt-4 inline-flex text-cyan-300">Back to the Intelligence Lab</Link>
-        </div>
-      </div>
+        </div></main><MarketingFooter /></div>
     );
   }
 
@@ -64,13 +67,8 @@ export default function BlogArticle() {
           mainEntityOfPage: SITE_URL + "/blog/" + article.slug,
         }}
       />
-      <div className="min-h-screen bg-[#040812] text-slate-100 overflow-x-hidden">
-        <header className="border-b border-white/5 backdrop-blur-md bg-[#040812]/80 sticky top-0 z-20">
-          <div className="max-w-5xl mx-auto px-6 h-20 flex items-center justify-between">
-            <Link to="/" className="text-xl font-extrabold tracking-widest text-white uppercase hover:text-cyan-400">Zyntra</Link>
-            <Link to="/blog" className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-cyan-300"><ArrowLeft className="w-4 h-4" /> Intelligence Lab</Link>
-          </div>
-        </header>
+      <div className="zh-phase2 zh-phase2-journal min-h-screen bg-[#040812] text-slate-100 overflow-x-hidden">
+        <MarketingHeader />
         <main className="max-w-4xl mx-auto px-6 py-14 sm:py-20">
           <div className="text-xs font-bold uppercase tracking-[.18em] text-cyan-400">{article.category}</div>
           <h1 className="mt-4 text-3xl sm:text-5xl font-extrabold leading-tight tracking-tight text-white">{article.title}</h1>
@@ -91,12 +89,7 @@ export default function BlogArticle() {
             <Link to="/login" className="mt-5 inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-teal-500 to-cyan-600 px-5 py-3 text-sm font-semibold text-white">Get started <ArrowRight className="w-4 h-4" /></Link>
           </div>
         </main>
-        <footer className="border-t border-white/5 bg-[#02050b] py-8">
-          <div className="max-w-4xl mx-auto px-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4 text-xs text-slate-500">
-            <span>{NOT_AFFILIATED}</span>
-            <div className="flex gap-5"><Link to="/terms" className="hover:text-cyan-300">Terms</Link><Link to="/privacy" className="hover:text-cyan-300">Privacy</Link><Link to="/blog" className="hover:text-cyan-300">Blog</Link></div>
-          </div>
-        </footer>
+        <MarketingFooter />
       </div>
     </>
   );
