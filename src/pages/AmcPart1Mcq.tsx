@@ -75,8 +75,8 @@ const features = [
   },
   {
     icon: Compass,
-    title: "Expanded clinical tools",
-    body: "Additional clinical station and intelligence features are released separately.",
+    title: featureAvailability.oscePractice.name,
+    body: featureAvailability.oscePractice.summary,
     status: featureAvailability.oscePractice.status,
     tone: featureAvailability.oscePractice.tone,
   },
