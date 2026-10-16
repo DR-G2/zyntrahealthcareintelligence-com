@@ -68,7 +68,7 @@ const Home: React.FC = () => {
           </div>
         </div>
       </section>
-      <section id="living-loop" className="zh-section zh-living-loop">
+      <section id="living-loop" className="zh-section zh-living-loop"><span id="why" className="sr-only">Why Zyntra</span>
         <div className="zh-container">
           <div className="zh-living-heading"><div><p className="zh-eyebrow zh-eyebrow-dark">THE ZYNTRA LEARNING LOOP</p><h2>Evidence in. A better next step out.</h2></div><p className="zh-section-copy">Observe → Diagnose → Intervene → Measure → Adapt. One connected loop, informed by the evidence available from practice.</p></div>
           <div className="zh-living-stage-list" role="group" aria-label="Choose an intelligence stage">
