@@ -29,7 +29,7 @@ const faqs = [
   { q: "What data does PIE use?", a: "PIE can use practice signals such as correctness, response timing, answer changes and reported confidence when those signals are collected. The available signals depend on the activity and current product release." },
   { q: "Does PIE predict my result?", a: "No. PIE does not promise or predict an exam outcome. It is intended to help you reflect on practice and choose what to work on next." },
   { q: "Do I need many questions before it is useful?", a: "More attempts can provide more context, but a small sample can be misleading. Treat early patterns as tentative, not as a firm conclusion." },
-  { q: "Is my data private?", a: "TODO: Confirm the current production data collection, retention, access controls and privacy-policy wording before publishing a definitive answer. Read the current Privacy Policy for the published terms." },
+  { q: "Is my data private?", a: "The published Privacy Policy describes the information Zyntra may process and the safeguards it says it uses. The policy is not independent confirmation of every production data flow or configuration. Do not submit real patient records or identifiable patient information. Read the Privacy Policy for the published terms." },
 ];
 function BrainMark() {
   return <div className="zh-art zh-how-art" role="img" aria-label="Illustrative brain and funnel leading to a next best action">
