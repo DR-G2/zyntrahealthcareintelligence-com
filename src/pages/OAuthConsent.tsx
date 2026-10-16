@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Zap, ShieldCheck } from 'lucide-react';
+import { BrandMark } from '@/components/BrandMark';
+import { StandaloneFooter } from '@/components/public/StandaloneFooter';
+import '@/styles/zyntra-tokens.css';
+import '@/styles/zyntra-phase2.css';
+import { ShieldCheck } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -82,13 +86,11 @@ export default function OAuthConsent() {
   const clientName = details?.client?.name ?? 'this app';
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background p-4">
+    <div className="zh-phase2 zh-phase2-auth min-h-screen flex flex-col bg-background"><div className="flex flex-1 items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
           <div className="inline-flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg gradient-primary">
-              <Zap className="h-4 w-4 text-primary-foreground" />
-            </div>
+            <BrandMark className="h-8 w-8" />
             <span className="text-xl font-bold font-display">Zyntra</span>
           </div>
         </div>
@@ -137,6 +139,8 @@ export default function OAuthConsent() {
           )}
         </Card>
       </div>
+    </div>
+      <StandaloneFooter />
     </div>
   );
 }
