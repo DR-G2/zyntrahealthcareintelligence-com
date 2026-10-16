@@ -1,0 +1,47 @@
+name: PIE full-history regression
+
+on:
+  pull_request:
+    paths:
+      - "supabase/migrations_v2/**"
+      - "supabase/verification_v2/live_replica/**"
+      - ".github/workflows/pie-full-history-regression.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  full-history-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: supabase_admin
+          POSTGRES_PASSWORD: regression-only-password
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U supabase_admin -d postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 20
+    env:
+      PGHOST: 127.0.0.1
+      PGPORT: 5432
+      PGUSER: supabase_admin
+      PGPASSWORD: regression-only-password
+      OWNER_ROLE: postgres
+    steps:
+      - name: Checkout PR
+        uses: actions/checkout@v4
+      - name: Install PostgreSQL client
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes postgresql-client
+      - name: Replay live schema and run uncapped-history tests
+        working-directory: supabase/verification_v2/live_replica
+        run: bash run_0088.sh
