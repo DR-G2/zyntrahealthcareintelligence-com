@@ -1,6 +1,5 @@
 import { lazy, Suspense, useEffect, useState, type ReactNode } from "react";
 import { Zap } from "lucide-react";
-import { Navigate } from "react-router-dom";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -8,7 +7,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
-import { supabase } from "@/lib/supabase";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { LegacySettingsRedirect } from "@/components/LegacySettingsRedirect";
 import { LegacyRedirect } from "@/components/LegacyRedirect";
