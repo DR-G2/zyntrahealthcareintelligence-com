@@ -16,4 +16,4 @@ Zyntra is an independent preparation platform for people studying for the Austra
 ## Optional
 
 - Zyntra is not affiliated with, endorsed by, or connected to the Australian Medical Council or the Medical Board of Australia.
-- All questions and OSCE stations are original content, not recalled exam material.
+- All published questions are original content, not recalled exam material. Clinical-station practice is not live in the current public release.
