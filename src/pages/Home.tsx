@@ -24,20 +24,20 @@ const steps = [
   { no: "01", title: "Practise", desc: "Answer AMC-style questions.", icon: ClipboardList },
   { no: "02", title: "Understand", desc: "PIE analyses your responses and patterns.", icon: Brain },
   { no: "03", title: "Improve", desc: "Get a targeted next action.", icon: Target },
-];
+] as const;
 const insights = [
   ["Accuracy", "You got this right.", Check],
   ["Timing", "You took 78 seconds (slightly longer than your usual time).", Clock3],
   ["Answer Changes", "You changed your answer 1 time.", GitBranch],
   ["Confidence", "Your confidence was high and aligned with a correct answer.", Brain],
   ["Possible Pattern", "Similar questions show increased hesitation under time pressure.", Activity],
-];
+] as const;
 const benefits = [
   ["AMC-focused content", "Aligned with the AMC blueprint", ClipboardList],
   ["Clear explanations", "Learn from every question", Brain],
   ["Flexible study", "Fit your preparation around life", CalendarDays],
   ["A smarter way to practise", "Focus on what matters next", Target],
-];
+] as const;
 
 function BrainFunnel() {
   return <div className="zh-art" aria-label="Illustration of a glowing brain flowing through a funnel to the next best action" role="img">
