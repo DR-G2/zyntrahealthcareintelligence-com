@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useState, type ReactNode } from "react";
+import { lazy, Suspense, useEffect, type ReactNode } from "react";
 import { Zap } from "lucide-react";
 import { Navigate } from "react-router-dom";
 import { Toaster } from "@/components/ui/toaster";
@@ -8,7 +8,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
-import { supabase } from "@/lib/supabase";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { LegacySettingsRedirect } from "@/components/LegacySettingsRedirect";
 import { LegacyRedirect } from "@/components/LegacyRedirect";
@@ -35,8 +34,6 @@ const Questions = lazy(() => import("./pages/Questions"));
 const Plan = lazy(() => import("./pages/Plan"));
 const Settings = lazy(() => import("./pages/Settings"));
 const HistoryPage = lazy(() => import("./pages/History"));
-// Admin chunk is only requested after the server confirms admin (see AdminGate).
-const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const QuestionsMCQ = lazy(() => import("./pages/QuestionsMCQ"));
 const CompanionChat = lazy(() => import("./pages/CompanionChat"));
 const Feed = lazy(() => import("./pages/Feed"));
