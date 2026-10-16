@@ -8,6 +8,7 @@ import { useIsMobile, useIsTablet } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
 import { LegalFooter } from '@/components/LegalFooter';
 import { Button } from '@/components/ui/button';
+import '@/styles/zyntra-phase3a.css';
 
 export interface AppLayoutProps {
   children: ReactNode;
@@ -133,10 +134,11 @@ function LayoutInner({ children }: AppLayoutProps) {
   }, [moreOpen]);
   // AI Lab remains visually unchanged until its server-side admin gate is approved.
   const training = ['/practice', '/practice/osce', '/plan', '/admin'].includes(pathname);
+  const phase3a = pathname === '/dashboard' || ['/history', '/account', '/settings', '/inbox'].some((path) => pathname === path || pathname.startsWith(path + '/'));
   const securityPractice = ['/practice', '/questions', '/assess', '/flashcards'].some(p => pathname === p || pathname.startsWith(p + '/')) || pathname.startsWith('/practice/ai-lab');
 
   return (
-    <div data-zyntra-security-viewport className={cn('relative min-h-screen overflow-x-hidden', training ? 'training-genjutsu bg-background text-foreground' : 'bg-[#040812] text-slate-100')}>
+    <div data-zyntra-security-viewport className={cn('relative min-h-screen overflow-x-hidden', phase3a && 'zh-phase3a', training ? 'training-genjutsu bg-background text-foreground' : 'bg-[#040812] text-slate-100')}>
       {!training && <div className="pointer-events-none fixed inset-0 overflow-hidden">
         <div className="absolute -left-32 top-0 h-[32rem] w-[32rem] rounded-full bg-cyan-500/10 blur-[120px]" />
         <div className="absolute right-[-10rem] top-[20%] h-[34rem] w-[34rem] rounded-full bg-indigo-500/10 blur-[120px]" />
