@@ -27,11 +27,14 @@ export function AdminGate({ children }: { children?: ReactNode }) {
       setState("denied");
       return;
     }
-    supabase.rpc("is_admin", { _email: email }).then(({ data, error }) => {
-      if (!cancelled) setState(!error && data === true ? "ok" : "denied");
-    }).catch(() => {
-      if (!cancelled) setState("denied");
-    });
+    void (async () => {
+      try {
+        const { data, error } = await supabase.rpc("is_admin", { _email: email });
+        if (!cancelled) setState(!error && data === true ? "ok" : "denied");
+      } catch {
+        if (!cancelled) setState("denied");
+      }
+    })();
     return () => { cancelled = true; };
   }, [user?.email]);
 
