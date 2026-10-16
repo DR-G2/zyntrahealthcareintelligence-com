@@ -24,7 +24,7 @@ export function ProtectedRoute({ children }: { children: React.ReactNode }) {
   if (!session) return <Navigate to="/login" replace />;
 
   const path = location.pathname;
-  const allowAfterDiagnostic = path.startsWith('/intelligence') || path.startsWith('/practice') || path.startsWith('/plan') || path.startsWith('/settings') || path.startsWith('/inbox');
+  const allowAfterDiagnostic = path.startsWith('/intelligence') || path.startsWith('/practice') || path.startsWith('/plan') || path.startsWith('/settings') || path.startsWith('/account') || path.startsWith('/inbox');
   if (profile && !profile.onboarding_complete && !allowAfterDiagnostic && path !== '/onboarding') {
     return <Navigate to="/practice" replace />;
   }

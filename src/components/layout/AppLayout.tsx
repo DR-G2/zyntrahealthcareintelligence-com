@@ -1,7 +1,7 @@
 import { BrandMark } from '@/components/BrandMark';
 import { ReactNode, useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, UserCircle } from 'lucide-react';
+import { Menu, UserCircle, LayoutDashboard, Brain, Network, MoreHorizontal, FlaskConical, History, Inbox } from 'lucide-react';
 import { AppSidebar, SidebarContext, useSidebarCollapsed } from '@/components/AppSidebar';
 import { SecurityOverlay } from '@/components/SecurityOverlay';
 import { useIsMobile, useIsTablet } from '@/hooks/use-mobile';
@@ -62,7 +62,7 @@ function TopHeader({ training = false }: { training?: boolean }) {
         Session active
       </div>
       <Link
-        to="/settings"
+        to="/account"
         aria-label="Open account settings"
         className={cn('flex min-h-11 items-center gap-2 rounded-md border px-3 py-1.5 text-xs transition-colors focus:outline-none focus:ring-2', training ? 'border-border text-muted-foreground hover:bg-accent hover:text-foreground focus:ring-ring' : 'border-white/10 bg-white/[0.035] text-slate-300 hover:border-cyan-400/30 hover:bg-white/[0.06] hover:text-white focus:ring-cyan-400/50')}
       >
@@ -73,10 +73,65 @@ function TopHeader({ training = false }: { training?: boolean }) {
   );
 }
 
+function MobileBottomNav({ isMobile, moreOpen, setMoreOpen }: { isMobile: boolean; moreOpen: boolean; setMoreOpen: (open: boolean) => void }) {
+  const { pathname } = useLocation();
+  if (!isMobile) return null;
+  const itemClass = (active: boolean) => cn(
+    'flex min-h-14 min-w-0 flex-col items-center justify-center gap-1 px-1 py-2 text-[10px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-300',
+    active ? 'text-cyan-200' : 'text-slate-400 hover:text-slate-100'
+  );
+  const moreActive = pathname.startsWith('/practice/ai-lab') || ['/account', '/settings', '/inbox'].includes(pathname);
+  return (
+    <>
+      {moreOpen && <button type="button" aria-label="Close More menu" className="fixed inset-0 z-30 cursor-default bg-black/35" onClick={() => setMoreOpen(false)} />}
+      <nav aria-label="Primary mobile navigation" className="fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-[#07101e]/95 pb-[env(safe-area-inset-bottom)] shadow-[0_-12px_40px_rgba(0,0,0,0.28)] backdrop-blur-xl md:hidden">
+        {moreOpen && (
+          <div id="mobile-more-menu" role="menu" aria-label="More destinations" className="absolute bottom-[calc(100%+0.5rem)] right-3 z-50 min-w-52 rounded-xl border border-white/10 bg-[#0b1628] p-2 shadow-2xl">
+            <Link role="menuitem" to="/practice/ai-lab" onClick={() => setMoreOpen(false)} className="flex min-h-11 items-center gap-3 rounded-lg px-3 text-sm text-slate-200 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300">
+              <FlaskConical className="h-4 w-4 text-cyan-300" /> AI Lab
+            </Link>
+            <div role="menuitem" aria-disabled="true" className="flex min-h-11 cursor-not-allowed items-center justify-between gap-3 rounded-lg px-3 text-sm text-slate-500">
+              <span className="flex items-center gap-3"><History className="h-4 w-4" /> History</span>
+              <span className="text-[10px]">Coming soon</span>
+            </div>
+            <Link role="menuitem" to="/account" onClick={() => setMoreOpen(false)} className="flex min-h-11 items-center gap-3 rounded-lg px-3 text-sm text-slate-200 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300">
+              <UserCircle className="h-4 w-4 text-cyan-300" /> Account
+            </Link>
+            <Link role="menuitem" to="/inbox" onClick={() => setMoreOpen(false)} className="flex min-h-11 items-center gap-3 rounded-lg px-3 text-sm text-slate-200 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300">
+              <Inbox className="h-4 w-4 text-cyan-300" /> Inbox
+            </Link>
+          </div>
+        )}
+        <div className="grid grid-cols-4">
+          <Link to="/dashboard" onClick={() => setMoreOpen(false)} aria-current={pathname === '/dashboard' ? 'page' : undefined} className={itemClass(pathname === '/dashboard')}>
+            <LayoutDashboard className="h-5 w-5" aria-hidden="true" /><span>Dashboard</span>
+          </Link>
+          <Link to="/practice" onClick={() => setMoreOpen(false)} aria-current={pathname === '/practice' ? 'page' : undefined} className={itemClass(pathname === '/practice' || pathname === '/practice/osce')}>
+            <Brain className="h-5 w-5" aria-hidden="true" /><span>Practice</span>
+          </Link>
+          <Link to="/intelligence" onClick={() => setMoreOpen(false)} aria-current={pathname.startsWith('/intelligence') ? 'page' : undefined} className={itemClass(pathname.startsWith('/intelligence') || ['/profile', '/behavior', '/trust-your-gut'].includes(pathname))}>
+            <Network className="h-5 w-5" aria-hidden="true" /><span>PIE</span>
+          </Link>
+          <button type="button" aria-haspopup="menu" aria-controls="mobile-more-menu" aria-expanded={moreOpen} onClick={() => setMoreOpen(!moreOpen)} className={itemClass(moreOpen || moreActive)}>
+            <MoreHorizontal className="h-5 w-5" aria-hidden="true" /><span>More</span>
+          </button>
+        </div>
+      </nav>
+    </>
+  );
+}
+
 function LayoutInner({ children }: AppLayoutProps) {
   const { collapsed, mobileOpen, setMobileOpen } = useSidebarCollapsed();
   const isMobile = useIsMobile();
   const { pathname } = useLocation();
+  const [moreOpen, setMoreOpen] = useState(false);
+  useEffect(() => {
+    if (!moreOpen) return;
+    const closeOnEscape = (event: KeyboardEvent) => { if (event.key === 'Escape') setMoreOpen(false); };
+    document.addEventListener('keydown', closeOnEscape);
+    return () => document.removeEventListener('keydown', closeOnEscape);
+  }, [moreOpen]);
   // AI Lab remains visually unchanged until its server-side admin gate is approved.
   const training = ['/practice', '/practice/osce', '/plan', '/admin'].includes(pathname);
   const securityPractice = ['/practice', '/questions', '/assess', '/flashcards'].some(p => pathname === p || pathname.startsWith(p + '/')) || pathname.startsWith('/practice/ai-lab');
@@ -104,7 +159,7 @@ function LayoutInner({ children }: AppLayoutProps) {
             <BrandMark className="h-7 w-7" />
             <span className="font-display text-sm font-bold tracking-tight">Zyntra</span>
           </Link>
-          <Link to="/settings" aria-label="Open account settings" className={cn('flex h-11 w-11 items-center justify-center rounded-lg focus:outline-none focus:ring-2', training ? 'text-muted-foreground hover:bg-accent focus:ring-ring' : 'text-slate-400 hover:bg-white/5 hover:text-white focus:ring-cyan-400/50')}>
+          <Link to="/account" aria-label="Open account settings" className={cn('flex h-11 w-11 items-center justify-center rounded-lg focus:outline-none focus:ring-2', training ? 'text-muted-foreground hover:bg-accent focus:ring-ring' : 'text-slate-400 hover:bg-white/5 hover:text-white focus:ring-cyan-400/50')}>
             <UserCircle className="h-5 w-5" />
           </Link>
         </header>
@@ -113,7 +168,7 @@ function LayoutInner({ children }: AppLayoutProps) {
       <main
         className={cn(
           'relative z-10 min-h-screen min-w-0 transition-[margin] duration-300',
-          isMobile ? 'ml-0 px-4 pb-10 pt-20' : collapsed ? 'ml-16 px-6 pb-10 pt-6' : 'ml-64 px-8 pb-10 pt-6'
+          isMobile ? 'ml-0 px-4 pb-32 pt-20' : collapsed ? 'ml-16 px-6 pb-10 pt-6' : 'ml-64 px-8 pb-10 pt-6'
         )}
       >
         <div className="mx-auto w-full max-w-7xl min-w-0">
@@ -123,6 +178,7 @@ function LayoutInner({ children }: AppLayoutProps) {
           <LegalFooter />
         </div>
       </main>
+      <MobileBottomNav isMobile={isMobile} moreOpen={moreOpen} setMoreOpen={setMoreOpen} />
     </div>
   );
 }

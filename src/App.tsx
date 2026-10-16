@@ -10,6 +10,7 @@ import { ThemeProvider } from "next-themes";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/lib/supabase";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
+import { LegacySettingsRedirect } from "@/components/LegacySettingsRedirect";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { SEO } from "@/components/SEO";
 import { usePresence } from "@/hooks/usePresence";
@@ -166,7 +167,8 @@ function AppRoutes() {
           <Route path="/notifications" element={<Navigate to="/inbox" replace />} />
           <Route path="/admin" element={<ProtectedRoute><AdminGate /></ProtectedRoute>} />
           <Route path="/v2-auth-diagnostic" element={<ProtectedRoute><ErrorBoundary><V2AuthDiagnostic /></ErrorBoundary></ProtectedRoute>} />
-          <Route path="/settings" element={<ProtectedRoute><ErrorBoundary><Settings /></ErrorBoundary></ProtectedRoute>} />
+          <Route path="/account" element={<ProtectedRoute><ErrorBoundary><Settings /></ErrorBoundary></ProtectedRoute>} />
+          <Route path="/settings" element={<LegacySettingsRedirect />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>

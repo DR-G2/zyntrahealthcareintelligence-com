@@ -1,6 +1,6 @@
 import { BrandMark } from '@/components/BrandMark';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { Shield, PanelLeftClose, PanelLeft, Brain, Network, Route, Settings, Bell, LogOut } from 'lucide-react';
+import { Shield, PanelLeftClose, PanelLeft, Brain, Network, Bell, LogOut, LayoutDashboard, FlaskConical, History, UserRound } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils';
 import { TooltipProvider } from '@/components/ui/tooltip';
@@ -20,9 +20,12 @@ export const SidebarContext = createContext<SidebarContextType>({
 export const useSidebarCollapsed = () => useContext(SidebarContext);
 
 const ROOMS = [
+  { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard, match: ['/dashboard'] },
   { to: '/practice', label: 'Practice', icon: Brain, match: ['/practice', '/questions', '/assess', '/flashcards', '/osce-in-surgery', '/stations'] },
-  { to: '/intelligence', label: 'Performance Intelligence', icon: Network, match: ['/intelligence', '/profile', '/behavior'] },
-  { to: '/plan', label: 'Study Plan', icon: Route, match: ['/plan'] },
+  { to: '/intelligence', label: 'PIE', icon: Network, match: ['/intelligence', '/profile', '/behavior', '/trust-your-gut'] },
+  { to: '/practice/ai-lab', label: 'AI Lab', icon: FlaskConical, match: ['/practice/ai-lab'] },
+  { to: null, label: 'History', icon: History, match: [] },
+  { to: '/account', label: 'Account', icon: UserRound, match: ['/account', '/settings'] },
 ];
 
 export function AppSidebar({ isMobile }: { isMobile?: boolean }) {
@@ -64,18 +67,26 @@ export function AppSidebar({ isMobile }: { isMobile?: boolean }) {
       </NavLink>
       <nav className={cn('flex flex-1 flex-col justify-center space-y-1 py-2', effectiveCollapsed ? 'px-1.5' : 'px-3')}>
         {ROOMS.map((room) => {
+          if (!room.to) {
+            return (
+              <div key={room.label} title={effectiveCollapsed ? 'History · Coming soon' : undefined} aria-disabled="true" className={cn('flex cursor-not-allowed items-center gap-2 rounded-lg text-sm font-medium opacity-55', effectiveCollapsed ? 'justify-center py-3' : 'px-3 py-2.5')}>
+                <room.icon className="h-4 w-4 shrink-0" aria-hidden="true" />
+                {!effectiveCollapsed && <span className="flex min-w-0 flex-1 items-center justify-between gap-2"><span>{room.label}</span><span className="text-[10px] text-sidebar-foreground/55">Coming soon</span></span>}
+              </div>
+            );
+          }
           const active = room.match.some((p) => location.pathname === p || location.pathname.startsWith(p + '/'));
           return (
-            <NavLink key={room.to} title={effectiveCollapsed ? room.label : undefined} aria-label={room.label} to={room.to} onClick={close} className={cn('flex items-center rounded-lg text-sm font-medium transition-colors', effectiveCollapsed ? 'justify-center py-3' : 'px-3 py-2.5', active ? 'bg-sidebar-accent text-sidebar-primary' : 'text-sidebar-foreground/70 hover:bg-sidebar-accent')}>{effectiveCollapsed ? <room.icon className="h-4 w-4" aria-hidden="true" /> : room.label}</NavLink>
+            <NavLink key={room.to} title={effectiveCollapsed ? room.label : undefined} aria-label={room.label} to={room.to} onClick={close} className={cn('flex items-center gap-2 rounded-lg text-sm font-medium transition-colors', effectiveCollapsed ? 'justify-center py-3' : 'px-3 py-2.5', active ? 'bg-sidebar-accent text-sidebar-primary' : 'text-sidebar-foreground/70 hover:bg-sidebar-accent')}>
+              <room.icon className="h-4 w-4 shrink-0" aria-hidden="true" />
+              {!effectiveCollapsed && room.label}
+            </NavLink>
           );
         })}
       </nav>
       <div className={cn('border-t border-sidebar-border py-3', effectiveCollapsed ? 'px-1.5' : 'px-3')}>
-        <NavLink to="/inbox" onClick={close} title={effectiveCollapsed ? 'Notifications' : undefined} className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-sidebar-foreground/70 hover:bg-sidebar-accent">
-          <Bell className="h-4 w-4" />{!effectiveCollapsed && 'Notifications'}
-        </NavLink>
-        <NavLink to="/settings" onClick={close} title={effectiveCollapsed ? 'Settings' : undefined} className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-sidebar-foreground/70 hover:bg-sidebar-accent">
-          <Settings className="h-4 w-4" />{!effectiveCollapsed && 'Settings'}
+        <NavLink to="/inbox" onClick={close} title={effectiveCollapsed ? 'Inbox' : undefined} className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-sidebar-foreground/70 hover:bg-sidebar-accent">
+          <Bell className="h-4 w-4" />{!effectiveCollapsed && 'Inbox'}
         </NavLink>
         {isAdmin && <NavLink to="/admin" onClick={close} title={effectiveCollapsed ? 'Admin' : undefined} className={({ isActive }) => cn('flex items-center gap-2 rounded-lg px-3 py-2 text-sm hover:bg-sidebar-accent', isActive ? 'bg-sidebar-accent text-sidebar-primary' : 'text-sidebar-foreground/70')}><Shield className="h-4 w-4" />{!effectiveCollapsed && 'Admin'}</NavLink>}
         <Button variant="ghost"
