@@ -2,6 +2,8 @@ import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 import { resolveV2Config } from './v2-config';
 
 /**
+ * Certified V2 project default: https://hkowvjazuwebmibssdut.supabase.co
+ * Runtime URL and publishable key are resolved centrally by v2-config.ts.
  * V2 Supabase client.
  * Intentionally separate from the legacy production client.
  *

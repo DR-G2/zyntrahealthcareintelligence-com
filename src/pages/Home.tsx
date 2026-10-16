@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ArrowLeftRight, ArrowRight, BarChart3, Brain, ChevronRight, Clock, Focus your study } from "lucide-react";
+import { ArrowLeftRight, ArrowRight, BarChart3, Brain, ChevronRight, Clock, Focus } from "lucide-react";
 import { Link } from "react-router-dom";
 import { BrandMark } from "@/components/BrandMark";
 import { COPY_CARD_CHECK, COPY_CANCEL } from "@/lib/billing";
@@ -247,7 +247,7 @@ const Home: React.FC = () => {
               </div>
               <article className="q-recommendation">
                 <p className="q-card-label">Illustrative practice idea</p>
-                <div className="q-task-row"><span className="q-task-mark" aria-hidden="true"><Focus your study /></span><div><h3>Practise reasoning under time pressure</h3><p className="q-why">Explain why the best option fits the clinical picture, and why plausible alternatives do not.</p></div></div>
+                <div className="q-task-row"><span className="q-task-mark" aria-hidden="true"><Focus aria-hidden="true" /></span><div><h3>Practise reasoning under time pressure</h3><p className="q-why">Explain why the best option fits the clinical picture, and why plausible alternatives do not.</p></div></div>
                 <div className="q-tags"><span>Clinical reasoning</span><span>Focused practice</span></div>
                 <Link to="/login" className="q-text-link">Explore Zyntra <ArrowRight aria-hidden="true" /></Link>
                 <p className="q-illustrative">Illustrative, no live candidate data.</p>
