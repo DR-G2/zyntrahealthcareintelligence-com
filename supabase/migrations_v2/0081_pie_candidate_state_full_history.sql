@@ -1,7 +1,9 @@
 -- 0081: use the full eligible candidate evidence history for authoritative PIE state.
 -- Additive replacement for pie.rebuild_candidate_state; does not rewrite prior migrations.
--- Evidence remains restricted to first exposure in registered adaptive sessions and
--- completed sessions. No learner-facing grants or RLS policies are changed.
+-- Preserves the eligibility semantics of the currently deployed 0044 pipeline: all
+-- observations belonging to the candidate. Adaptive-session/first-exposure filtering is
+-- NOT added here because migration 0052 is not deployed to the live schema. No learner-facing
+-- grants or RLS policies are changed.
 
 create or replace function pie.rebuild_candidate_state(p_user_id uuid)
 returns uuid
@@ -46,7 +48,7 @@ begin
     'active',
     jsonb_build_object(
       'method', 'deterministic_full_history_state',
-      'evidence_scope', 'all_eligible_first_exposure_completed_adaptive_attempts',
+      'evidence_scope', 'all_observations_current_live_semantics',
       'window', 'full_history'
     )
   )
@@ -56,16 +58,11 @@ begin
   from pie.pie_model_version
   where model_key = 'candidate-state' and version = 'v2.1';
 
-  -- Full eligible history: deliberately no LIMIT. Eligibility remains unchanged.
+  -- Full history using the exact evidence source used by the live pipeline. Deliberately
+  -- no LIMIT and no references to schema objects that are absent from live production.
   with eligible as (
     select o.payload
     from pie.pie_observation o
-    join public.user_attempts ua on ua.id = o.attempt_id
-    join public.practice_sessions ps
-      on ps.id = ua.session_id
-     and ps.user_id = p_user_id
-     and ps.status = 'completed'
-    join pie.first_exposure_attempt_ids(p_user_id) fe on fe.id = ua.id
     where o.user_id = p_user_id
   )
   select
@@ -109,7 +106,7 @@ begin
     'REBUILD',
     jsonb_build_object(
       'observation_count', v_n,
-      'evidence_scope', 'all_eligible_first_exposure_completed_adaptive_attempts',
+      'evidence_scope', 'all_observations_current_live_semantics',
       'window', 'full_history'
     ),
     v_state,
