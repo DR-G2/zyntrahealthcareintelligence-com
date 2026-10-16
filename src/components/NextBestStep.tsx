@@ -120,7 +120,7 @@ export function NextBestStep({ onSnapshotChange, showEvidence = true, refreshKey
 
   const meta = actionMeta[rec.action];
   const Icon = meta?.icon ?? Compass;
-  const title = meta?.title ?? rec.action.toLowerCase().replace(/_/g, ' ').replace(/\b\w/g, letter => letter.toUpperCase());
+  const title = meta?.title ?? rec.action.replace(/_/g, ' ');
   const label = meta?.label ?? 'Open Practice';
 
   return (
