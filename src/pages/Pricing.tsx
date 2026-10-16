@@ -15,7 +15,7 @@ const included = [
  { name:"Expanded intelligence tools", detail:"Some Behaviour, Confidence, Evidence and Interventions capabilities may not be available in every release.", status:"Availability depends on the current release", tone:"soon" },
 ];
 const faqs = [
- { q:"How does the 7-day trial work?", a:"A A$1 card check is taken today to confirm your card. Your 7-day trial then begins. If you do not cancel before the trial ends, your selected plan is charged on the trial-end date." },
+ { q:"How does the 7-day trial work?", a:"An A$1 card check is taken today to confirm your card. Your 7-day trial then begins. If you do not cancel before the trial ends, your selected plan is charged on the trial-end date." },
  { q:"What happens after the trial?", a:"The monthly plan charges A$39 each month. The 3-month plan charges A$99 every three months. Renewals follow the billing schedule shown in checkout." },
  { q:"Can I cancel during the trial?", a:"Yes. Cancel in Settings > Billing before the trial ends and you will not be charged the subscription price. The A$1 card check is not refunded if you cancel, except where required by law." },
  { q:"Does Zyntra guarantee an AMC result?", a:"No. Zyntra is an independent preparation tool. It does not predict or guarantee an exam result and is not affiliated with the Australian Medical Council." },

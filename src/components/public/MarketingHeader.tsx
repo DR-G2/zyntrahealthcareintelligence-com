@@ -6,7 +6,7 @@ import { BrandMark } from "@/components/BrandMark";
 export function MarketingHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [darkHeader, setDarkHeader] = useState(true);
-  const nav = [["Why Zyntra", "/#why"], ["How it works", "/how-it-works"], ["Features", "/features"], ["For IMGs", "/#imgs"], ["Pricing", "/pricing"], ["About", "/#about"]];
+  const nav = [["Why Zyntra", "/#why"], ["How it works", "/how-it-works"], ["Features", "/#features"], ["For IMGs", "/#imgs"], ["Pricing", "/pricing"], ["About", "/#about"]];
   return (
     <header className={`zh-header ${darkHeader ? "" : "zh-header-light"}`}>
       <div className="zh-header-inner">
