@@ -144,7 +144,7 @@ const Home: React.FC = () => {
                 <div className="q-living-brain-heading"><span>HOW PIE WORKS</span><span>01 / 05</span></div>
                 <div className="q-loop-visual" aria-label="Observe, diagnose, intervene, measure and adapt">
                   <p className="q-card-label">From each attempt to a better next step</p>
-                  <div className="q-loop-steps">
+                  <div className="q-brain-stage-picker">
                     {brainStages.map((stage, index) => (
                       <button key={stage.id} type="button" className={activeBrainStage === stage.id ? "q-brain-stage is-selected" : "q-brain-stage"} aria-pressed={activeBrainStage === stage.id} onClick={() => setActiveBrainStage(stage.id)}>
                         <span>{String(index + 1).padStart(2, "0")}</span>
