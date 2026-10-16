@@ -1,5 +1,6 @@
 import { ArrowRight, ChevronDown, CircleHelp } from "lucide-react";
 import { Link } from "react-router-dom";
+import { featureAvailability } from "@/data/featureAvailability";
 import { MarketingHeader } from "@/components/public/MarketingHeader";
 import { MarketingFooter } from "@/components/public/MarketingFooter";
 import { COPY_CARD_CHECK, TRIAL_DAYS, PLAN_PRICES, cancelCopy } from "@/lib/billing";
@@ -11,7 +12,7 @@ const faqGroups = [
     { q: "What is Zyntra?", a: <>Zyntra is an independent AMC exam preparation platform. It combines MCQ practice with available performance insights to help you review attempts and decide what to practise next. Read <Link to="/how-it-works">how it works</Link>.</> },
     { q: "Who is it for?", a: <>Zyntra is designed for international medical graduates and other doctors preparing for the Australian Medical Council exams. The available tools depend on the current release.</> },
     { q: "Is Zyntra affiliated with the AMC?", a: <>No. Zyntra is independent of, and not affiliated with, the Australian Medical Council. Always use the AMC's official guidance for exam requirements.</> },
-    { q: "Is it a question bank?", a: <>MCQ practice is part of Zyntra, but the aim is broader than marking an answer right or wrong. The platform also presents available practice signals, such as timing and answer changes, to help you reflect. See <Link to="/#features">the current features</Link>.</> },
+    { q: "Is it a question bank?", a: <>MCQ practice is part of Zyntra, but the aim is broader than marking an answer right or wrong. The platform also presents available practice signals, such as timing and answer changes, to help you reflect. See <Link to="/features">the current feature list</Link>.</> },
   ]},
   { title: "How it works", eyebrow: "PRACTICE AND INSIGHT", questions: [
     { q: "What is PIE?", a: <>PIE means Performance Intelligence Engine. It is designed to interpret available practice signals and help you consider a useful next step. Its insights are clues for reflection, not a diagnosis or a verdict. Explore <Link to="/how-it-works">how PIE works</Link>.</> },
@@ -27,9 +28,9 @@ const faqGroups = [
     { q: "What happens after the trial?", a: <>If you do not cancel before the trial ends, the selected plan begins billing on the trial-end date. The monthly plan is A$${PLAN_PRICES.monthly.price} each month. The three-month plan is A$${PLAN_PRICES.quarterly.price} every 3 months. {cancelCopy("monthly")} {cancelCopy("quarterly")}</> },
   ]},
   { title: "Features and availability", eyebrow: "WHAT IS AVAILABLE", questions: [
-    { q: "What is live today?", a: <>The current public feature list marks MCQ practice and Performance Intelligence as live. AI Study Lab and Study Plan are in beta, and some intelligence tools depend on the current release. Check <Link to="/#features">features</Link> for the latest status.</> },
-    { q: "Is OSCE available?", a: <>OSCE station practice is not live yet. Availability may change as the product develops.</> },
-    { q: "What is in beta?", a: <>AI Study Lab and Study Plan are currently labelled beta in the public feature list. Some Behaviour, Confidence, Evidence and Interventions capabilities may not be available in every release.</> },
+    { q: "What is live today?", a: <><Link to="/features">The feature list</Link> marks MCQ practice and core Performance Intelligence as {featureAvailability.mcqPractice.status} and {featureAvailability.performanceIntelligence.status}. AI Study Lab and Study Plan are {featureAvailability.aiStudyLab.status}. Other intelligence views are marked individually because availability varies by capability.</> },
+    { q: "Is OSCE available?", a: <>{featureAvailability.oscePractice.name} is marked {featureAvailability.oscePractice.status}. Clinical station practice is not live in the current public release.</> },
+    { q: "What is in beta?", a: <>{featureAvailability.aiStudyLab.name}, {featureAvailability.studyPlan.name}, {featureAvailability.behaviour.name}, {featureAvailability.confidence.name}, {featureAvailability.evidence.name}, {featureAvailability.interventions.name}, and {featureAvailability.historyProgress.name} are marked {featureAvailability.aiStudyLab.status}. See <Link to="/features">all feature statuses</Link> for capability-specific notes.</> },
   ]},
   { title: "Data and privacy", eyebrow: "YOUR INFORMATION", questions: [
     { q: "What data does Zyntra store?", a: <>The published <Link to="/privacy">Privacy Policy</Link> describes account and profile data; learning and diagnostic data; technical and security data; payment tokens and transaction metadata; support communications; and information associated with AI Lab and voice practice. The information involved can depend on the feature you use. The policy describes the published terms, but is not independent confirmation of every production data flow.</> },

@@ -1,5 +1,6 @@
 import { ArrowRight, BookOpen, Brain, Check, Clock3, Compass, ShieldCheck, Sparkles, Target } from "lucide-react";
 import { Link } from "react-router-dom";
+import { featureAvailability } from "@/data/featureAvailability";
 import { SEO } from "@/components/SEO";
 import { MarketingHeader } from "@/components/public/MarketingHeader";
 import { MarketingFooter } from "@/components/public/MarketingFooter";
@@ -41,43 +42,43 @@ const features = [
     icon: BookOpen,
     title: "AMC-style MCQ practice",
     body: "Work through clinical questions and review the reasoning behind an answer.",
-    status: "Live",
-    tone: "live",
+    status: featureAvailability.mcqPractice.status,
+    tone: featureAvailability.mcqPractice.tone,
   },
   {
     icon: Check,
     title: "Explanations and review",
     body: "Use explanations to revisit the clinical reasoning and strengthen topic knowledge.",
-    status: "Live",
-    tone: "live",
+    status: featureAvailability.mcqPractice.status,
+    tone: featureAvailability.mcqPractice.tone,
   },
   {
     icon: Clock3,
     title: "Timing and answer changes",
     body: "Review available signals such as time spent and whether you changed your answer.",
-    status: "Live",
-    tone: "live",
+    status: featureAvailability.performanceIntelligence.status,
+    tone: featureAvailability.performanceIntelligence.tone,
   },
   {
     icon: Brain,
     title: "Confidence signals",
     body: "Where enabled, compare confidence with performance to find areas worth reviewing.",
-    status: "Beta",
-    tone: "beta",
+    status: featureAvailability.confidence.status,
+    tone: featureAvailability.confidence.tone,
   },
   {
     icon: Target,
     title: "Study Plan",
     body: "Use the available planning tools to organise your next areas of practice.",
-    status: "Beta",
-    tone: "beta",
+    status: featureAvailability.studyPlan.status,
+    tone: featureAvailability.studyPlan.tone,
   },
   {
     icon: Compass,
-    title: "Expanded clinical tools",
-    body: "Additional clinical station and intelligence features are released separately.",
-    status: "Coming soon",
-    tone: "soon",
+    title: featureAvailability.oscePractice.name,
+    body: featureAvailability.oscePractice.summary,
+    status: featureAvailability.oscePractice.status,
+    tone: featureAvailability.oscePractice.tone,
   },
 ] as const;
 
@@ -168,7 +169,7 @@ export default function AmcPart1Mcq() {
               <div>
                 <p className="zh-eyebrow zh-eyebrow-dark">PRACTISE WITH PURPOSE</p>
                 <h2 id="zam-features-title">How Zyntra helps you prepare</h2>
-                <p className="zh-section-copy">Question practice is the starting point. Available performance signals can help you review how you reached an answer. Build a repeatable loop: practise, review explanations, target a weak area and return to it later.</p>
+                <p className="zh-section-copy">Question practice is the starting point. Review explanations and the performance signals available in your activity, then choose an area to revisit. Automated next-action and broader intelligence capabilities vary by release.</p>
               </div>
             </div>
             <div className="zam-feature-grid">

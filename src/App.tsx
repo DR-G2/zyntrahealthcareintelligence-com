@@ -22,6 +22,8 @@ import { ADMIN_EMAILS } from "@/lib/admin-emails";
 import Home from "./pages/Home";
 import HowItWorks from "./pages/HowItWorks";
 import PublicPricing from "./pages/PublicPricing";
+import Features from "./pages/Features";
+import AmcPart1Mcq from "./pages/AmcPart1Mcq";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 
@@ -106,7 +108,8 @@ function AppRoutes() {
       <Suspense fallback={<LazyFallback />}>
         <Routes>
           <Route path="/" element={<ErrorBoundary><SEO title="Zyntra | AMC Exam Preparation That Learns How You Think" description="Adaptive AMC MCQ and Clinical exam preparation for IMGs: clinical reasoning practice, performance analytics and personalised next steps." path="/" /><Home /></ErrorBoundary>} />
-          <Route path="/how-it-works" element={<ErrorBoundary><SEO title="How PIE Works | Zyntra Healthcare Intelligence" description="See how Zyntra’s Performance Intelligence Engine uses practice signals to help you understand your answers and choose what to work on next." path="/how-it-works" /><HowItWorks /></ErrorBoundary>} />
+          <Route path="/how-it-works" element={<ErrorBoundary><SEO title="How PIE Works | Zyntra Healthcare Intelligence" description="See how Zyntra uses available practice signals and explanations to help you choose what to work on next." path="/how-it-works" /><HowItWorks /></ErrorBoundary>} />
+          <Route path="/features" element={<ErrorBoundary><SEO title="Zyntra Features | What Is Live, in Beta and Coming Soon" description="Explore Zyntra's AMC preparation features and their current availability, with clear labels for live, beta and coming-soon capabilities." path="/features" /><Features /></ErrorBoundary>} />
           <Route path="/check" element={<LegacyRedirect to="/login" />} />
           <Route path="/about" element={<ErrorBoundary><SEO title="About Zyntra | Built for Doctors Preparing for the AMC" description="Learn why Zyntra exists, the principles behind its AMC exam preparation tools, and what to expect from a product in beta. Independent of the Australian Medical Council." path="/about" /><About /></ErrorBoundary>} />
           <Route path="/faq" element={<ErrorBoundary><SEO title="FAQ | Zyntra Healthcare Intelligence" description="Clear answers about Zyntra, Performance Intelligence, pricing, the 7-day trial, feature availability and privacy." path="/faq" /><FAQ /></ErrorBoundary>} />
@@ -116,7 +119,7 @@ function AppRoutes() {
           <Route path="/reset-password" element={<ErrorBoundary><ResetPassword /></ErrorBoundary>} />
           <Route path="/terms" element={<ErrorBoundary><Terms /></ErrorBoundary>} />
           <Route path="/privacy" element={<ErrorBoundary><Privacy /></ErrorBoundary>} />
-          <Route path="/amc-part-1-mcq" element={<LegacyRedirect to="/blog/amc-part-1-mcq" />} />
+          <Route path="/amc-part-1-mcq" element={<ErrorBoundary><AmcPart1Mcq /></ErrorBoundary>} />
           <Route path="/blog" element={<ErrorBoundary><Blog /></ErrorBoundary>} />
           <Route path="/blog/:slug" element={<ErrorBoundary><BlogArticle /></ErrorBoundary>} />
           <Route path="/osce-in-surgery" element={<LegacyRedirect to="/practice/osce" />} />
