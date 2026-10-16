@@ -13,11 +13,11 @@ export function PublicFooter() {
             <span className="font-display font-semibold text-foreground">Zyntra Healthcare Intelligence</span>
           </Link>
           <nav aria-label="Footer" className="flex flex-wrap justify-center gap-x-4 gap-y-2">
-            <a href="/#faq" className={linkClass}>FAQ</a>
+            <Link to="/faq" className={linkClass}>FAQ</Link>
             <Link to="/terms" className={linkClass}>Terms</Link>
             <Link to="/privacy" className={linkClass}>Privacy</Link>
-            <a href="/#contact" className={linkClass}>Contact</a>
-            <a href="/#contact" className={linkClass}>Get in touch</a>
+            <Link to="/about" className={linkClass}>Contact</Link>
+            <Link to="/about" className={linkClass}>Get in touch</Link>
           </nav>
         </div>
         <p className="text-center text-xs">Zyntra is an independent exam preparation platform and is not affiliated with or endorsed by the Australian Medical Council. Clinical stations are not live.</p>

@@ -8,7 +8,7 @@ import { COPY_CARD_CHECK, TRIAL_DAYS } from "@/lib/billing";
 import "@/styles/zyntra-home.css";
 import "@/styles/zyntra-amc-mcq.css";
 
-const pageUrl = "https://www.zyntrahealthcareintelligence.com/amc-part-1-mcq";
+const pageUrl = "https://www.zyntrahealthcareintelligence.org/amc-part-1-mcq";
 
 const faqs = [
   {
@@ -110,7 +110,7 @@ export default function AmcPart1Mcq() {
             provider: {
               "@type": "Organization",
               name: "Zyntra Healthcare Intelligence",
-              url: "https://www.zyntrahealthcareintelligence.com/",
+              url: "https://www.zyntrahealthcareintelligence.org/",
             },
             hasCourseInstance: { "@type": "CourseInstance", courseMode: "online" },
           },

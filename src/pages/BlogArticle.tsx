@@ -5,7 +5,7 @@ import { SEO } from "@/components/SEO";
 import { articles, articleBody, articleReadTime, NOT_AFFILIATED } from "@/data/blogPosts";
 import { formatIsoDate, parseInlineLinks } from "@/lib/blogText";
 
-const SITE_URL = "https://www.zyntrahealthcareintelligence.com";
+const SITE_URL = "https://www.zyntrahealthcareintelligence.org";
 const AUTHOR_NAME = "Zyntra Healthcare Intelligence";
 
 /** Renders body text, turning [label](url) into links (internal routes via the router). */
@@ -87,8 +87,8 @@ export default function BlogArticle() {
           </article>
           <div className="mt-16 rounded-2xl border border-cyan-500/20 bg-[#081224]/80 p-6">
             <p className="text-xs uppercase tracking-[.18em] text-cyan-400">Continue with Zyntra</p>
-            <p className="mt-2 text-sm leading-6 text-slate-400">Experience the free six-question adaptive diagnostic, then decide whether you want to continue into the authenticated training environment.</p>
-            <Link to="/check" className="mt-5 inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-teal-500 to-cyan-600 px-5 py-3 text-sm font-semibold text-white">Start diagnostic <ArrowRight className="w-4 h-4" /></Link>
+            <p className="mt-2 text-sm leading-6 text-slate-400">Continue into Zyntra’s authenticated training environment.</p>
+            <Link to="/login" className="mt-5 inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-teal-500 to-cyan-600 px-5 py-3 text-sm font-semibold text-white">Get started <ArrowRight className="w-4 h-4" /></Link>
           </div>
         </main>
         <footer className="border-t border-white/5 bg-[#02050b] py-8">
