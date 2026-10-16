@@ -1,14 +1,13 @@
 # Zyntra Healthcare Intelligence
 
-> AI-powered AMC exam preparation: MCQ drills, AI OSCE stations, and behavioural analytics that train clinical reasoning under exam pressure.
+ > AMC exam preparation for IMGs: MCQ practice, available performance insights, and clinical-station preparation notes.
 
-Zyntra is an independent preparation platform for the Australian Medical Council (AMC) MCQ and clinical examinations. Its APPE engine tracks behavioural signals such as answer changes, hesitation, and composure under time pressure, then adapts training to each candidate.
+Zyntra is an independent preparation platform for people studying for the Australian Medical Council (AMC) examinations. Its Performance Intelligence Engine (PIE) presents available practice evidence such as correctness, timing, and answer changes. Automated Nudge selection and live clinical-station practice are not available in the current public release.
 
 ## Pages
 
 - [Home](/): Overview of the platform, MCQ practice, and Performance Intelligence.
 - [AMC Part 1 MCQ](/amc-part-1-mcq): Independent CAT MCQ preparation track, learning objectives and FAQs.
-- [AMC Clinical OSCE](/amc-clinical-osce): Independent clinical-station preparation track and staged OSCE practice notes.
 - [About](/about): Who builds Zyntra and the philosophy behind reasoning-first training.
 - [Pricing](/pricing): One plan in AUD: Full Access A$39/month or A$99 for 3 months, 7-day free trial on both, cancel anytime (A$1 card check at trial signup). Free diagnostic account A$0.
 - [Terms of Service](/terms): Acceptable use, content originality, and account rules.
