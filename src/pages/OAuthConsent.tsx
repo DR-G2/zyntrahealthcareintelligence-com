@@ -100,7 +100,7 @@ export default function OAuthConsent() {
             <>
               <CardHeader>
                 <CardTitle className="text-lg">We couldn't load this request</CardTitle>
-                <CardDescription>{error}</CardDescription>
+                <CardDescription className="text-destructive">{error}</CardDescription>
               </CardHeader>
               <CardContent>
                 <Button variant="outline" className="w-full" onClick={() => window.location.assign('/dashboard')}>
