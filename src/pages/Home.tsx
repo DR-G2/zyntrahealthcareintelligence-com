@@ -194,7 +194,7 @@ const Home: React.FC = () => {
                   <strong>{activeStage.title}</strong>
                   <p>{activeStage.desc}</p>
                 </div>
-              </aside>      </aside>
+              </aside>
             </div>
           </div>
         </section>
