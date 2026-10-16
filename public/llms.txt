@@ -1,6 +1,6 @@
 # Zyntra Healthcare Intelligence
 
- > AMC exam preparation for IMGs: MCQ practice, available performance insights, and clinical-station preparation notes.
+> AMC exam preparation for IMGs: MCQ practice, available performance insights, and clinical-station preparation notes.
 
 Zyntra is an independent preparation platform for people studying for the Australian Medical Council (AMC) examinations. Its Performance Intelligence Engine (PIE) presents available practice evidence such as correctness, timing, and answer changes. Automated Nudge selection and live clinical-station practice are not available in the current public release.
 
