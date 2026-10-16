@@ -1,0 +1,48 @@
+/* Public FAQ page. Shared marketing primitives are defined in zyntra-home.css. */
+.zf-page { --zf-ink:#101820; --zf-muted:#52616a; --zf-line:#dce3e2; }
+.zf-page .zf-hero { min-height:330px; display:flex; align-items:center; padding:3.5rem 0; }
+.zf-hero-inner { position:relative; z-index:2; max-width:1240px; }
+.zf-hero-inner h1 { max-width:790px; margin:0; font:700 clamp(2.4rem,5.2vw,4.25rem)/1.07 'Space Grotesk',Inter,sans-serif; letter-spacing:-.05em; }
+.zf-hero-inner h1 em { color:var(--cyan); font-style:normal; }
+.zf-hero-inner .zh-lede { max-width:590px; margin:1rem 0 1.35rem; }
+.zf-hero-mark { position:absolute; right:max(6%,calc((100vw - 1240px)/2)); top:50%; transform:translateY(-50%); width:190px; height:190px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.8rem; border:1px solid #27e2ef45; border-radius:50%; color:#27e2ef; background:radial-gradient(circle,#0b344344,transparent 68%); }
+.zf-hero-mark:before,.zf-hero-mark:after { content:""; position:absolute; inset:12%; border:1px solid #27e2ef26; border-radius:50%; pointer-events:none; }
+.zf-hero-mark:after { inset:25%; border-color:#27e2ef35; }
+.zf-hero-mark svg { width:48px; height:48px; stroke-width:1.2; }
+.zf-hero-mark span { max-width:115px; text-align:center; font:500 .55rem/1.5 'DM Mono',monospace; letter-spacing:.1em; }
+.zf-content { background:#f7f7f3; padding:clamp(3rem,6vw,5.5rem) 0; }
+.zf-intro { max-width:760px; margin-bottom:2.5rem; }
+.zf-intro h2 { margin:0; color:#101820; font:700 clamp(1.9rem,3.4vw,2.8rem)/1.12 'Space Grotesk',Inter,sans-serif; letter-spacing:-.045em; }
+.zf-intro>p:last-child { max-width:660px; margin:.8rem 0 0; color:#52616a; font-size:.9rem; line-height:1.75; }
+.zf-groups { display:grid; gap:2.1rem; }
+.zf-group { display:grid; grid-template-columns:minmax(180px,.65fr) minmax(0,1.35fr); gap:clamp(1.25rem,4vw,3.5rem); align-items:start; padding-top:1.8rem; border-top:1px solid #d7e0dc; }
+.zf-group-heading { display:flex; align-items:flex-start; gap:1rem; }
+.zf-group-number { padding-top:.2rem; color:#087d7d; font:500 .75rem 'DM Mono',monospace; }
+.zf-group-heading .zh-eyebrow { margin:0 0 .5rem; font-size:.58rem; }
+.zf-group-heading h2 { margin:0; color:#15242a; font:700 clamp(1.25rem,2.3vw,1.75rem)/1.2 'Space Grotesk',Inter,sans-serif; letter-spacing:-.035em; }
+.zf-accordion { border-top:1px solid #dce3e0; }
+.zf-item { border-bottom:1px solid #dce3e0; background:transparent; }
+.zf-item summary { list-style:none; display:flex; align-items:center; justify-content:space-between; gap:1rem; min-height:62px; padding:1rem .15rem; color:#17272d; cursor:pointer; font-size:.9rem; font-weight:700; line-height:1.45; }
+.zf-item summary::-webkit-details-marker { display:none; }
+.zf-item summary svg { flex-shrink:0; color:#087d7d; transition:transform .18s ease; }
+.zf-item[open] summary svg { transform:rotate(180deg); }
+.zf-item summary:focus-visible { outline:3px solid #087d7d; outline-offset:3px; border-radius:4px; }
+.zf-answer { padding:0 2.1rem 1.15rem .15rem; color:#46565d; font-size:.84rem; line-height:1.8; overflow-wrap:anywhere; }
+.zf-answer p { margin:0; }
+.zf-answer a,.zf-pricing-link { color:#086f79!important; text-decoration:underline!important; text-underline-offset:3px; font-weight:700; }
+.zf-answer a:focus-visible,.zf-pricing-link:focus-visible { outline:3px solid #087d7d; outline-offset:3px; border-radius:3px; }
+.zf-todo { display:block; margin-top:.85rem; padding:.7rem .85rem; border-left:3px solid #a76b22; background:#fff0d8; color:#573a16; font-size:.78rem; line-height:1.65; }
+.zf-final { padding:clamp(2.5rem,5vw,4rem) 0 1.2rem; }
+.zf-final-inner { display:grid; grid-template-columns:1fr minmax(300px,.8fr); align-items:center; gap:3rem; }
+.zf-final h2 { margin:0 0 .65rem; font:700 clamp(1.8rem,3.4vw,2.65rem)/1.12 'Space Grotesk',Inter,sans-serif; letter-spacing:-.045em; }
+.zf-final-inner>div:first-child>p:last-child { margin:0; color:#c3d0d8; font-size:.88rem; line-height:1.7; }
+.zf-final-action { display:grid; justify-items:start; gap:.55rem; }
+.zf-final-action .zh-button { min-height:46px; }
+.zf-final-action p,.zf-final-action small { margin:0; color:#c3d0d8; font-size:.72rem; line-height:1.7; }
+.zf-final-action small { color:#a6b9c2; }
+.zf-pricing-link { display:inline-flex; align-items:center; gap:.4rem; color:#8deaf0!important; font-size:.76rem; }
+.zf-independent { max-width:1240px; margin:2rem auto 0; padding:1rem 1.5rem 0; border-top:1px solid #1b3040; text-align:center; color:#a7bac4; font-size:.72rem; line-height:1.6; }
+.zf-page .zf-mobile-cta { display:none; }
+@media(max-width:850px) { .zf-hero-mark { right:3%; width:145px; height:145px; opacity:.4; } .zf-group { grid-template-columns:1fr; gap:1rem; } .zf-group-heading { align-items:center; } .zf-final-inner { grid-template-columns:1fr; gap:1.5rem; } }
+@media(max-width:600px) { .zf-page { padding-bottom:84px; } .zf-page .zf-hero { min-height:330px; padding:3rem 0; } .zf-hero-mark { width:86px; height:86px; right:1rem; top:auto; bottom:.75rem; transform:none; opacity:.25; } .zf-hero-mark svg { width:26px; height:26px; } .zf-hero-mark span { display:none; } .zf-hero-inner h1 { max-width:100%; font-size:clamp(2.25rem,10vw,3.1rem); } .zf-hero-inner .zh-lede { max-width:88%; font-size:.88rem; } .zf-content { padding:3rem 0; } .zf-intro { margin-bottom:1.8rem; } .zf-groups { gap:1.8rem; } .zf-group { padding-top:1.3rem; } .zf-item summary { min-height:58px; font-size:.86rem; } .zf-answer { padding-right:.2rem; font-size:.82rem; } .zf-final-inner { gap:1.4rem; } .zf-page .zf-mobile-cta { display:block; } }
+@media(prefers-reduced-motion:reduce) { .zf-page *, .zf-page *::before, .zf-page *::after { animation:none!important; transition:none!important; scroll-behavior:auto!important; } }
