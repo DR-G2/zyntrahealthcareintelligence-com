@@ -17,6 +17,7 @@ import { SEO } from "@/components/SEO";
 import { usePresence } from "@/hooks/usePresence";
 import { VisitorTracker } from "@/components/VisitorTracker";
 import { useMaintenanceMode } from "@/hooks/useSiteSettings";
+import { ADMIN_EMAILS } from "@/lib/admin-emails";
 
 import Home from "./pages/Home";
 import HowItWorks from "./pages/HowItWorks";
