@@ -47,16 +47,21 @@ begin
 
     -- Same inputs should produce same estimates on repeated rebuilds.
     perform pie.rebuild_candidate_state('aaaaaaaa-0000-0000-0000-00000000000a');
-    select state->>'capability', state->>'decision', state->>'timing',
-           state->>'calibration', state->>'evidence_count'
+    select jsonb_build_object(
+             'capability', state->'capability',
+             'decision', state->'decision',
+             'timing', state->'timing',
+             'calibration', state->'calibration',
+             'evidence_count', state->'evidence_count'
+           )
       into v_second_state
       from pie.pie_candidate_state
      where user_id = 'aaaaaaaa-0000-0000-0000-00000000000a';
-    if (v_first_state->>'capability') is distinct from (v_second_state->>'capability')
-       or (v_first_state->>'decision') is distinct from (v_second_state->>'decision')
-       or (v_first_state->>'timing') is distinct from (v_second_state->>'timing')
-       or (v_first_state->>'calibration') is distinct from (v_second_state->>'calibration')
-       or (v_first_state->>'evidence_count') is distinct from (v_second_state->>'evidence_count') then
+    if (v_first_state->'capability') is distinct from (v_second_state->'capability')
+       or (v_first_state->'decision') is distinct from (v_second_state->'decision')
+       or (v_first_state->'timing') is distinct from (v_second_state->'timing')
+       or (v_first_state->'calibration') is distinct from (v_second_state->'calibration')
+       or (v_first_state->'evidence_count') is distinct from (v_second_state->'evidence_count') then
       raise exception 'FAIL determinism case %: estimates changed on repeat rebuild', v_n;
     end if;
 
