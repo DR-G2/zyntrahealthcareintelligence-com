@@ -36,6 +36,13 @@
 .zh-phase2-legal .text-foreground\/85 { color: #26363d !important; }
 .zh-phase2-legal .text-muted-foreground { color: #53636a !important; }
 .zh-phase2-legal .text-primary { color: #075e68 !important; }
+.zh-phase2-legal footer {
+  background: var(--zh-surface) !important;
+  border-color: var(--zh-line) !important;
+  color: var(--zh-muted) !important;
+}
+.zh-phase2-legal footer a { color: #34484f; }
+.zh-phase2-legal footer a:hover { color: #075e68; }
 .zh-phase2-auth {
   background:
     radial-gradient(ellipse at 50% 0%, rgba(39, 226, 239, .12), transparent 42%),
@@ -54,6 +61,9 @@
 .zh-phase2-auth .text-green-600,
 .zh-phase2-auth .text-emerald-600,
 .zh-phase2-auth [data-state="success"] { color: #067647 !important; }
+.zh-phase2-auth .lucide-mail-check,
+.zh-phase2-auth .lucide-circle-check { color: #067647 !important; }
+.zh-phase2-auth [role="alert"] { color: #b42318 !important; }
 .zh-phase2-auth input:not([type="checkbox"]):not([type="radio"]),
 .zh-phase2-auth select,
 .zh-phase2-auth textarea,
