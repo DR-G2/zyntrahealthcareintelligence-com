@@ -1,6 +1,5 @@
 import { ArrowRight, BookOpen, Brain, CheckCircle2, Clock3, Compass, Eye, FlaskConical, Layers3, ListChecks, Sparkles, Target } from "lucide-react";
 import { Link } from "react-router-dom";
-import { SEO } from "@/components/SEO";
 import { MarketingHeader } from "@/components/public/MarketingHeader";
 import { MarketingFooter } from "@/components/public/MarketingFooter";
 import { publicFeatureList } from "@/data/featureAvailability";
@@ -13,7 +12,6 @@ function Status({ status, tone }: { status: string; tone: string }) {
 }
 export default function Features() {
  return <div className="zh-home min-h-screen" data-zyntra-features="canonical">
-  <SEO title="Zyntra Features | What Is Live, in Beta and Coming Soon" description="Explore Zyntra's AMC preparation features and their current availability, with clear labels for live, beta and coming-soon capabilities." path="/features" />
   <a href="#main" className="zh-skip">Skip to content</a><MarketingHeader />
   <main id="main">
    <section className="zh-hero"><div className="zh-hero-bg" aria-hidden="true"/><div className="zh-container py-16 md:py-24">
