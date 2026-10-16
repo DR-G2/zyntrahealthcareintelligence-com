@@ -3,6 +3,8 @@ import { Zap, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { CURRENT_TERMS_VERSION, LEGAL_EMAIL } from '@/lib/legal';
 import { SEO } from '@/components/SEO';
+import '@/styles/zyntra-tokens.css';
+import '@/styles/zyntra-phase2.css';
 import { COPY_ACL, COPY_CANCEL, COPY_CARD_CHECK } from '@/lib/billing';
 import { PublicFooter } from '@/components/PublicFooter';
 
@@ -12,7 +14,7 @@ const textClass = 'text-sm leading-6 text-foreground/85';
 
 export default function Terms() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="zh-phase2 zh-phase2-legal min-h-screen bg-background">
       <SEO title="Terms of Service — Zyntra" description="Terms governing use of the Zyntra Healthcare Intelligence educational SaaS platform." path="/terms" />
       <nav className="border-b border-border/50 bg-background">
         <div className="container flex h-14 items-center gap-3">
