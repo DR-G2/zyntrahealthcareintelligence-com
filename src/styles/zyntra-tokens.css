@@ -98,10 +98,10 @@
 .zh-home .zh-features,
 .zh-home .zh-imgs,
 .zh-home .zh-benefits,
-.zh-home .za-page,
-.zh-home .zf-page,
-.zh-home .zp-page,
-.zh-home .zam-page { background: var(--zh-paper); color: var(--zh-ink); }
+.zh-home.za-page,
+.zh-home.zf-page,
+.zh-home.zp-page,
+.zh-home.zam-page { background: var(--zh-paper); color: var(--zh-ink); }
 .zh-home .zh-attempt,
 .zh-home .zp-trial,
 .zh-home .zam-faq { background: var(--zh-surface-soft); }
@@ -206,22 +206,22 @@
 .zh-home .zh-how-loop-grid article,
 .zh-home .zh-how-reading > article { background: var(--zh-surface); }
 .zh-home .zh-how-loop-arrow { color: var(--zh-teal); background: var(--zh-surface); }
-.zh-home .za-page .za-hero,
-.zh-home .zf-page .zf-hero,
-.zh-home .zp-page .zp-hero,
-.zh-home .zam-page .zam-hero { background: var(--zh-navy); color: #f8fbff; }
-.zh-home .za-page .za-hero h1,
-.zh-home .zf-page .zf-hero h1,
-.zh-home .zp-page .zp-hero h1,
-.zh-home .zam-page .zam-hero h1 { color: #f8fbff; }
-.zh-home .za-page .za-hero h1 em,
-.zh-home .zf-page .zf-hero h1 em,
-.zh-home .zp-page .zp-hero h1 em,
-.zh-home .zam-page .zam-hero h1 em { color: var(--zh-cyan); }
-.zh-home .za-page .za-hero .zh-lede,
-.zh-home .zf-page .zf-hero .zh-lede,
-.zh-home .zp-page .zp-hero .zh-lede,
-.zh-home .zam-page .zam-hero .zh-lede { color: var(--zh-muted-on-dark); }
+.zh-home.za-page .za-hero,
+.zh-home.zf-page .zf-hero,
+.zh-home.zp-page .zp-hero,
+.zh-home.zam-page .zam-hero { background: var(--zh-navy); color: #f8fbff; }
+.zh-home.za-page .za-hero h1,
+.zh-home.zf-page .zf-hero h1,
+.zh-home.zp-page .zp-hero h1,
+.zh-home.zam-page .zam-hero h1 { color: #f8fbff; }
+.zh-home.za-page .za-hero h1 em,
+.zh-home.zf-page .zf-hero h1 em,
+.zh-home.zp-page .zp-hero h1 em,
+.zh-home.zam-page .zam-hero h1 em { color: var(--zh-cyan); }
+.zh-home.za-page .za-hero .zh-lede,
+.zh-home.zf-page .zf-hero .zh-lede,
+.zh-home.zp-page .zp-hero .zh-lede,
+.zh-home.zam-page .zam-hero .zh-lede { color: var(--zh-muted-on-dark); }
 .zh-home .za-hero-mark,
 .zh-home .zf-hero-mark { opacity: .24; }
 .zh-home .zp-plan-featured { border-color: var(--zh-teal); }
