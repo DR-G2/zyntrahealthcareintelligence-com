@@ -11,8 +11,8 @@ const metrics = [
   { title: "Accuracy", desc: "How often you get it right", icon: Activity },
   { title: "Timing", desc: "How long you take", icon: Clock3 },
   { title: "Answer Changes", desc: "When you revise your answer", icon: GitBranch },
-  { title: "Confidence", desc: "How sure you are", icon: Brain },
-  { title: "Behaviour", desc: "Your decision patterns", icon: Target },
+  { title: "Confidence", desc: "How sure you are, where collected", status: featureAvailability.confidence.status, tone: featureAvailability.confidence.tone, icon: Brain },
+  { title: "Behaviour", desc: "Your decision patterns, where available", status: featureAvailability.behaviour.status, tone: featureAvailability.behaviour.tone, icon: Target },
   { title: "Subject Strengths", desc: "Where you perform well", icon: TrendingUp },
 ];
 const features = [
@@ -93,12 +93,12 @@ const Home: React.FC = () => {
           </div>
           <div className="zh-hero-visual">
             <BrainFunnel/>
-            {metrics.map(({title,desc,icon:Icon},i)=><article key={title} className={`zh-metric zh-metric-${i+1}`}><Icon size={19}/><div><strong>{title}</strong><span>{desc}</span></div></article>)}
+            {metrics.map(({title,desc,icon:Icon,status,tone},i)=><article key={title} className={`zh-metric zh-metric-${i+1}`}><Icon size={19}/><div><strong>{title}</strong>{status&&<small className={`inline-flex rounded-full border px-1.5 py-0.5 text-[10px] font-semibold ${tone === "beta" ? "border-amber-500/30 text-amber-700" : "border-emerald-500/30 text-emerald-700"}`}>{status}</small>}<span>{desc}</span></div></article>)}
           </div>
         </div>
       </section>
       <section id="how-it-works" className="zh-section zh-how">
-        <div className="zh-container zh-how-grid"><div><p className="zh-eyebrow zh-eyebrow-dark">HOW ZYNTRA WORKS</p><h2>From every answer<br/>to your next best action.</h2><p className="zh-section-copy">Zyntra brings question practice together with available performance signals. Review what the current release shows, then choose a focused area to practise again. Some intelligence capabilities remain in beta.</p></div>
+        <div className="zh-container zh-how-grid"><div><p className="zh-eyebrow zh-eyebrow-dark">HOW ZYNTRA WORKS</p><h2>From every answer<br/>to your next best action.</h2><p className="zh-section-copy">Zyntra brings question practice together with available performance signals. Review what the current release shows, then choose a focused area to practise again. Behaviour, Confidence, Evidence and Interventions are Beta capabilities; their coverage depends on the release and activity.</p></div>
           <div className="zh-steps">{steps.map(({no,title,desc,icon:Icon},i)=><React.Fragment key={no}><article><span className="zh-step-icon"><Icon size={25}/></span><b>{no}</b><h3>{title}</h3><p>{desc}</p></article>{i<2&&<ArrowRight className="zh-step-arrow" size={27}/>}</React.Fragment>)}</div>
         </div>
       </section>
