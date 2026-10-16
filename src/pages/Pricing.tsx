@@ -1,391 +1,59 @@
-import { useState, useEffect } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { Zap, Check, MessageCircle, Loader2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ThemeToggle } from '@/components/ThemeToggle';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { useAuth } from '@/contexts/AuthContext';
-import { useToast } from '@/hooks/use-toast';
-import { supabase } from '@/lib/supabase';
-import { RAZORPAY_TIERS, CHECKOUT_DISABLED, type TierKey } from '@/lib/razorpay-config';
-import { checkoutSummary, resubscribeSummary, COPY_CANCEL_RESUBSCRIBE, cancelCopy, COPY_CARD_CHECK, COPY_CANCEL } from '@/lib/billing';
-import { SEO } from '@/components/SEO';
-import { PublicFooter } from '@/components/PublicFooter';
-import { PAYPAL_ENABLED } from '@/lib/payment-flags';
+import { ArrowRight, Check, CircleHelp, ShieldCheck, Sparkles } from "lucide-react";
+import { Link } from "react-router-dom";
+import { MarketingHeader } from "@/components/public/MarketingHeader";
+import { MarketingFooter } from "@/components/public/MarketingFooter";
+import { COPY_CARD_CHECK, TRIAL_DAYS, PLAN_PRICES, cancelCopy } from "@/lib/billing";
+import "@/styles/zyntra-home.css";
+import "@/styles/zyntra-pricing.css";
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 24 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-};
-
-const stagger = {
-  hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { staggerChildren: 0.12 } },
-};
-
-const faqGroups = [
-  {
-    title: 'Pricing & Billing',
-    questions: [
-      { q: 'How much is Zyntra?', a: 'There is no free plan. Clinical Starter is A$99 AUD every 3 months; Monthly is A$39 AUD per month. Both start with a 7-day free trial and renew until you cancel.' },
-      { q: 'Why is there an A$1 charge?', a: COPY_CARD_CHECK },
-      { q: 'How does billing work?', a: 'Your first charge is on the day your 7-day trial ends. Monthly renews on that same date each month; Clinical Starter renews every 3 months on that date. Dates are calculated in Sydney time.' },
-      { q: 'Can I cancel?', a: COPY_CANCEL },
-      { q: 'A$39 is still hard for me.', a: 'Use the contact form with the subject "Hardship" and tell us your situation.' },
-    ],
-  },
-  {
-    title: 'Product & Features',
-    questions: [
-      { q: 'Do you have actual AMC recalls?', a: "No. Sharing real exam questions is copyright violation. All questions are original, written against the blueprint and candidate feedback." },
-      { q: 'How is this different from a question bank?', a: 'Zyntra records timing, confidence and answer changes alongside your score, so you can see whether a weak area is a knowledge gap or a pressure pattern.' },
-      { q: 'Mobile app?', a: "Not yet. The website works on mobile browsers." },
-    ],
-  },
+const included = [
+ { name:"MCQ practice", detail:"AMC-style question practice, explanations and review tools.", status:"Live", tone:"live" },
+ { name:"Performance Intelligence", detail:"Review available performance evidence from practice.", status:"Live", tone:"live" },
+ { name:"AI Study Lab", detail:"AI-assisted study tools. Availability depends on the current release and provider setup.", status:"Beta", tone:"beta" },
+ { name:"Study Plan", detail:"Build a focused plan from recorded practice signals when available.", status:"Beta", tone:"beta" },
+ { name:"OSCE stations", detail:"Clinical station practice is not live yet.", status:"Coming soon", tone:"soon" },
+ { name:"Expanded intelligence tools", detail:"Some Behaviour, Confidence, Evidence and Interventions capabilities may not be available in every release.", status:"Availability depends on the current release", tone:"soon" },
 ];
-
+const faqs = [
+ { q:"How does the 7-day trial work?", a:"A A$1 card check is taken today to confirm your card. Your 7-day trial then begins. If you do not cancel before the trial ends, your selected plan is charged on the trial-end date." },
+ { q:"What happens after the trial?", a:"The monthly plan charges A$39 each month. The 3-month plan charges A$99 every three months. Renewals follow the billing schedule shown in checkout." },
+ { q:"Can I cancel during the trial?", a:"Yes. Cancel in Settings > Billing before the trial ends and you will not be charged the subscription price. The A$1 card check is not refunded if you cancel, except where required by law." },
+ { q:"Does Zyntra guarantee an AMC result?", a:"No. Zyntra is an independent preparation tool. It does not predict or guarantee an exam result and is not affiliated with the Australian Medical Council." },
+];
+function StatusBadge({status,tone}:{status:string;tone:string}) { return <span className={`zp-status zp-status-${tone}`}><span aria-hidden="true"/>{status}</span>; }
+function PlanCard({interval}:{interval:"monthly"|"quarterly"}) {
+ const quarterly=interval==="quarterly", price=PLAN_PRICES[interval].price;
+ return <article className={`zp-plan-card ${quarterly?"zp-plan-featured":""}`}>
+  {quarterly&&<span className="zp-plan-kicker">Three-month plan</span>}
+  <p className="zp-plan-name">Full Access</p><p className="zp-plan-intro">{quarterly?"One payment for three months of access.":"Flexible monthly billing."}</p>
+  <p className="zp-price"><span className="zp-currency">A$</span>{price}<span className="zp-period">/{quarterly?"3 months":"month"}</span></p>
+  <p className="zp-trial"><Sparkles size={16} aria-hidden="true"/>{TRIAL_DAYS}-day trial</p>
+  <ul className="zp-plan-points"><li><Check size={17} aria-hidden="true"/>Full Access subscription plan</li><li><Check size={17} aria-hidden="true"/>A$1 card check today</li><li><Check size={17} aria-hidden="true"/>Cancel during trial to avoid the plan charge</li></ul>
+  <Link className={`zh-button zp-plan-cta ${quarterly?"":"zp-plan-cta-secondary"}`} to="/login">Start {TRIAL_DAYS}-day trial <ArrowRight size={17}/></Link>
+  <p className="zp-plan-legal">After the trial, A${price} {quarterly?"every 3 months":"per month"}, renewing until cancelled.</p><p className="zp-plan-legal">{cancelCopy(interval)}</p>
+ </article>;
+}
 export default function Pricing() {
-  const { user, subscription } = useAuth();
-  const { toast } = useToast();
-  const navigate = useNavigate();
-  const [loadingTier, setLoadingTier] = useState<TierKey | null>(null);
-  const [paymentChoiceTier, setPaymentChoiceTier] = useState<TierKey | null>(null);
-  const location = useLocation();
-
-  // Support deep links such as /pricing#faq from the site footer
-  useEffect(() => {
-    if (!location.hash) return;
-    const id = location.hash.slice(1);
-    const t = window.setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }), 100);
-    return () => window.clearTimeout(t);
-  }, [location.hash]);
-
-
-  const loadRazorpayScript = (): Promise<void> => {
-    return new Promise((resolve, reject) => {
-      if (document.querySelector('script[src="https://checkout.razorpay.com/v1/checkout.js"]')) {
-        resolve();
-        return;
-      }
-      const script = document.createElement('script');
-      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
-      script.onload = () => resolve();
-      script.onerror = () => reject(new Error('Failed to load Razorpay SDK'));
-      document.body.appendChild(script);
-    });
-  };
-
-  const handleCheckout = async (tierKey: TierKey) => {
-    if (CHECKOUT_DISABLED) return; // fail closed: VITE_CHECKOUT_ENABLED must be exactly 'true'
-    if (!user) {
-      navigate('/login');
-      return;
-    }
-    setLoadingTier(tierKey);
-    try {
-      await loadRazorpayScript();
-      const config = RAZORPAY_TIERS[tierKey];
-
-      // Determine the tier name for storage (strip _3m suffix)
-      const baseTier = tierKey.replace('_3m', '');
-
-      const { data, error } = await supabase.functions.invoke('create-razorpay-order', {
-        // Server owns plan IDs, price and trial dates; the client sends the interval only.
-        body: { interval: config.interval },
-      });
-      if (error) throw error;
-      if (data?.error) throw new Error(data.error);
-
-      const options: any = {
-        key: data.key_id,
-        name: 'Zyntra',
-        description: config.name,
-        handler: async (response: any) => {
-          // Verify payment
-          try {
-            const verifyBody: any = {
-              razorpay_payment_id: response.razorpay_payment_id,
-              razorpay_signature: response.razorpay_signature,
-              tier: baseTier,
-              amount: config.price,
-            };
-            if (data.order_id) {
-              verifyBody.razorpay_order_id = data.order_id;
-            }
-            if (data.subscription_id) {
-              verifyBody.razorpay_subscription_id = response.razorpay_subscription_id || data.subscription_id;
-            }
-            const { error: verifyError } = await supabase.functions.invoke('verify-razorpay-payment', {
-              body: verifyBody,
-            });
-            if (verifyError) throw verifyError;
-            toast({ title: 'Payment successful!', description: 'Your subscription is now active.' });
-            navigate('/dashboard?payment=success');
-          } catch (vErr: any) {
-            toast({ title: 'Payment verification failed', description: vErr.message, variant: 'destructive' });
-          }
-        },
-        prefill: { email: user.email },
-        theme: { color: '#6366f1' },
-      };
-
-      if (data.subscription_id) {
-        options.subscription_id = data.subscription_id;
-      } else if (data.order_id) {
-        options.order_id = data.order_id;
-        options.amount = data.amount;
-        options.currency = data.currency;
-      }
-
-      const rzp = new (window as any).Razorpay(options);
-      rzp.open();
-    } catch (e: any) {
-      toast({ title: 'Checkout failed', description: e.message || 'Please try again', variant: 'destructive' });
-    }
-    setLoadingTier(null);
-  };
-
-  // Show the payment-method choice (Razorpay or PayPal) for a plan.
-  // PayPal is behind VITE_PAYPAL_ENABLED (off by default): when off, go straight to Razorpay.
-  const choosePayment = (tierKey: TierKey) => {
-    if (CHECKOUT_DISABLED) return; // fail closed: VITE_CHECKOUT_ENABLED must be exactly 'true'
-    if (!user) {
-      navigate('/login');
-      return;
-    }
-    if (!PAYPAL_ENABLED) {
-      handleCheckout(tierKey);
-      return;
-    }
-    setPaymentChoiceTier(tierKey);
-  };
-
-  // PayPal: redirect approval flow. The server looks up the price/plan for the tier.
-  const handlePayPalCheckout = async (tierKey: TierKey) => {
-    if (!PAYPAL_ENABLED) return;
-    if (!user) {
-      navigate('/login');
-      return;
-    }
-    setLoadingTier(tierKey);
-    try {
-      const { data, error } = await supabase.functions.invoke('create-paypal-order', {
-        body: { tierKey },
-      });
-      if (error) throw error;
-      if (data?.error) throw new Error(data.error);
-      if (!data?.approve_url) throw new Error('PayPal did not return an approval link');
-      window.location.href = data.approve_url;
-      return;
-    } catch (e) {
-      toast({ title: 'Checkout failed', description: (e instanceof Error && e.message) || 'Please try again', variant: 'destructive' });
-    }
-    setLoadingTier(null);
-  };
-
-  // PayPal return: /pricing?paypal=return&token=ORDER_ID or &subscription_id=I-XXXX
-  useEffect(() => {
-    if (!PAYPAL_ENABLED || !user) return;
-    const params = new URLSearchParams(window.location.search);
-    const paypalState = params.get('paypal');
-    if (!paypalState) return;
-    const subscriptionId = params.get('subscription_id');
-    const orderId = params.get('token');
-    window.history.replaceState({}, '', window.location.pathname);
-    if (paypalState === 'cancel') {
-      toast({ title: 'PayPal checkout cancelled' });
-      return;
-    }
-    if (paypalState !== 'return' || (!subscriptionId && !orderId)) return;
-    (async () => {
-      try {
-        const { data, error } = await supabase.functions.invoke('verify-paypal-payment', {
-          body: subscriptionId ? { subscription_id: subscriptionId } : { order_id: orderId },
-        });
-        if (error) throw error;
-        if (data?.error) throw new Error(data.error);
-        toast({ title: 'Payment successful!', description: 'Your subscription is now active.' });
-        navigate('/dashboard?payment=success');
-      } catch (vErr) {
-        toast({ title: 'Payment verification failed', description: vErr instanceof Error ? vErr.message : String(vErr), variant: 'destructive' });
-      }
-    })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
-
-  // Returning customers (already used a trial) resubscribe without a trial; server enforces the same rule.
-  const returning = !!user && subscription.trial_eligible === false;
-  const isCurrentTier = (_tierKey: string) => subscription.subscribed && subscription.tier === 'full_access';
-
-  return (
-    <div className="min-h-screen bg-background">
-      <SEO
-        title="Zyntra Pricing — Full Access in AUD"
-        description="Clinical Starter A$99 AUD every 3 months, or A$39 AUD per month, with a 7-day free trial and A$1 card check. Renews until cancelled."
-        path="/pricing"
-      />
-      {/* Nav */}
-      <nav className="fixed top-0 z-50 w-full border-b border-border/50 glass">
-        <div className="container flex h-16 items-center justify-between">
-          <Link to="/" className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg gradient-primary">
-              <Zap className="h-4 w-4 text-primary-foreground" />
-            </div>
-            <span className="text-lg font-bold font-display">Zyntra</span>
-          </Link>
-          <div className="flex items-center gap-3">
-            <Button variant="ghost" asChild className="text-sm">
-              <Link to="/about">About</Link>
-            </Button>
-            <Button variant="ghost" asChild className="text-sm">
-              <Link to="/pricing">Pricing</Link>
-            </Button>
-            <ThemeToggle />
-            {!user && (
-              <Button variant="ghost" asChild className="hidden text-sm sm:inline-flex">
-                <Link to="/login">Log in</Link>
-              </Button>
-            )}
-            <Button asChild>
-              <Link to="/dashboard">{user ? 'Dashboard' : 'Get Started'}</Link>
-            </Button>
-          </div>
-        </div>
-      </nav>
-
-      {/* Hero */}
-      <section className="relative pt-32 pb-16 overflow-hidden">
-        <div className="absolute inset-0 -z-10">
-          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 h-[500px] w-[800px] rounded-full bg-primary/10 blur-[120px]" />
-        </div>
-        <div className="container">
-          <motion.div initial="hidden" animate="show" variants={fadeUp} className="mx-auto max-w-3xl text-center">
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-muted px-4 py-1.5 text-sm text-muted-foreground">
-              <Zap className="h-3.5 w-3.5 text-primary" />
-              Pricing
-            </div>
-            <h1 className="mb-4 text-4xl font-bold font-display leading-tight tracking-tight lg:text-5xl">
-              Choose Your <span className="gradient-text">Plan</span>
-            </h1>
-            <p className="text-lg text-muted-foreground">Simple pricing designed for IMGs. One plan. All prices in Australian dollars (AUD).</p>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Pricing Tiers */}
-      <section className="py-20 bg-muted/50">
-        <div className="container">
-          <motion.div
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
-            variants={stagger}
-            className="mx-auto grid max-w-4xl gap-5 md:grid-cols-2"
-          >
-            {CHECKOUT_DISABLED && (
-              <p role="status" className="md:col-span-2 rounded-lg border border-border bg-card px-4 py-3 text-center text-sm text-muted-foreground" data-testid="checkout-unavailable">
-                Checkout is not open yet. No card details are collected and no trial can be started until it opens.
-              </p>
-            )}
-            {/* No free tier. Two billing options for the single paid product. */}
-            {(['full_access_3m', 'full_access'] as const).map((tierKey) => {
-              const cfg = RAZORPAY_TIERS[tierKey];
-              const quarterly = tierKey === 'full_access_3m';
-              return (
-              <motion.div key={tierKey} variants={fadeUp}>
-                <Card className={`h-full flex flex-col ${quarterly ? 'border-2 border-primary' : 'border-border'}`}>
-                  <CardHeader className="pb-3">
-                    <CardTitle className="text-lg">{quarterly ? 'Clinical Starter · 3 months' : 'Monthly'}</CardTitle>
-                    <p className="text-xs text-muted-foreground">7-day free trial · A$1 card check at signup · renews until cancelled</p>
-                    <div className="mt-3"><span className="text-3xl font-bold font-display">A${cfg.price}</span><span className="text-muted-foreground text-sm">{quarterly ? ' AUD every 3 months' : ' AUD per month'}</span></div>
-                  </CardHeader>
-                  <CardContent className="flex-1 flex flex-col">
-                    <ul className="mb-4 space-y-2 flex-1">
-                      {['Full MCQ question bank', 'Clinical / OSCE practice as available', 'Performance analytics', 'AI study companion', 'Study plan generator'].map((f) => (
-                        <li key={f} className="flex gap-2 text-xs"><Check className="h-3.5 w-3.5 mt-0.5 text-secondary shrink-0" /><span>{f}</span></li>
-                      ))}
-                    </ul>
-                    <p className="mb-2 text-xs text-foreground" data-testid={`checkout-summary-${tierKey}`}>{returning ? resubscribeSummary(cfg.interval) : checkoutSummary(cfg.interval)}</p>
-                    <p className="mb-4 text-xs text-muted-foreground">{returning ? COPY_CANCEL_RESUBSCRIBE : <>{COPY_CARD_CHECK} {cancelCopy(cfg.interval)}</>}</p>
-                    <Button size="sm" className="w-full" onClick={() => choosePayment(tierKey)} disabled={CHECKOUT_DISABLED || loadingTier === tierKey || isCurrentTier(tierKey)}>
-                      {isCurrentTier(tierKey) ? 'Current' : loadingTier === tierKey ? <Loader2 className="h-4 w-4 animate-spin" /> : CHECKOUT_DISABLED ? 'Checkout not open yet' : returning ? `Resubscribe · A$${cfg.price}` : 'Start 7-day free trial'}
-                    </Button>
-                  </CardContent>
-                </Card>
-              </motion.div>
-              );
-            })}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* FAQ */}
-      <section id="faq" className="scroll-mt-20 py-20 bg-muted/50">
-        <div className="container">
-          <motion.div initial="hidden" whileInView="show" viewport={{ once: true }} variants={fadeUp}>
-            <h2 className="mb-4 text-3xl font-bold font-display text-center">Frequently Asked Questions</h2>
-            <p className="mb-12 text-center text-muted-foreground">The real answers, not marketing ones</p>
-
-            <div className="mx-auto max-w-3xl space-y-8">
-              {faqGroups.map((group) => (
-                <div key={group.title}>
-                  <h3 className="mb-4 text-lg font-semibold font-display flex items-center gap-2">
-                    <MessageCircle className="h-4 w-4 text-primary" />
-                    {group.title}
-                  </h3>
-                  <Accordion type="single" collapsible className="rounded-lg border border-border bg-card">
-                    {group.questions.map((faq, i) => (
-                      <AccordionItem key={i} value={`${group.title}-${i}`} className="border-border">
-                        <AccordionTrigger className="px-4 text-left text-sm hover:no-underline">
-                          {faq.q}
-                        </AccordionTrigger>
-                        <AccordionContent className="px-4 text-sm text-muted-foreground leading-relaxed">
-                          {faq.a}
-                        </AccordionContent>
-                      </AccordionItem>
-                    ))}
-                  </Accordion>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Payment method choice (only rendered when PayPal is enabled) */}
-      {PAYPAL_ENABLED && (
-      <Dialog open={paymentChoiceTier !== null} onOpenChange={(open) => { if (!open) setPaymentChoiceTier(null); }}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle>Choose payment method</DialogTitle>
-            <DialogDescription>
-              {paymentChoiceTier ? `${RAZORPAY_TIERS[paymentChoiceTier].name} — A$${RAZORPAY_TIERS[paymentChoiceTier].price} AUD` : ''}
-            </DialogDescription>
-          </DialogHeader>
-          <div className="space-y-3">
-            <Button
-              className="w-full"
-              onClick={() => { const t = paymentChoiceTier; setPaymentChoiceTier(null); if (t) handleCheckout(t); }}
-            >
-              Pay with Razorpay
-            </Button>
-            <Button
-              variant="outline"
-              className="w-full"
-              onClick={() => { const t = paymentChoiceTier; setPaymentChoiceTier(null); if (t) handlePayPalCheckout(t); }}
-            >
-              Pay with PayPal
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
-      )}
-
-      {/* Footer */}
-      <PublicFooter />
-    </div>
-  );
+ return <div className="zh-home zp-page" data-zyntra-pricing="canonical">
+  <a href="#main" className="zh-skip">Skip to content</a><MarketingHeader/>
+  <main id="main">
+   <section className="zp-hero"><div className="zh-hero-bg" aria-hidden="true"/><div className="zh-container zp-hero-inner">
+    <p className="zh-eyebrow">CLEAR PRICING. NO SURPRISES.</p><h1>Choose your plan.<br/><em>Start with seven days.</em></h1>
+    <p className="zh-lede">Explore Zyntra with a 7-day trial, then continue on the billing plan you choose. Your price and cancellation terms are shown before checkout.</p>
+    <a className="zh-button" href="#plans">Compare plans <ArrowRight size={17}/></a><p className="zp-hero-note"><ShieldCheck size={16} aria-hidden="true"/>A$1 card check today. Subscription charge after the trial unless you cancel.</p>
+   </div></section>
+   <section id="plans" className="zh-section zp-plans-section"><div className="zh-container">
+    <div className="zh-section-heading zp-heading"><div><p className="zh-eyebrow zh-eyebrow-dark">FULL ACCESS</p><h2>One product. Two billing options.</h2><p className="zh-section-copy">Both plans include the same 7-day trial. Choose the billing interval that suits you.</p></div></div>
+    <div className="zp-plan-grid"><PlanCard interval="monthly"/><PlanCard interval="quarterly"/></div><p className="zp-card-check"><CircleHelp size={17} aria-hidden="true"/>{COPY_CARD_CHECK}</p>
+   </div></section>
+   <section className="zh-section zp-included"><div className="zh-container"><div className="zh-section-heading"><div><p className="zh-eyebrow zh-eyebrow-dark">WHAT'S INCLUDED</p><h2>Know what is ready today.</h2><p className="zh-section-copy">Availability can vary by release. We label features plainly rather than presenting planned work as live.</p></div></div>
+    <div className="zp-included-list">{included.map(item=><article className="zp-included-item" key={item.name}><div className="zp-included-copy"><h3>{item.name}</h3><p>{item.detail}</p></div><StatusBadge status={item.status} tone={item.tone}/></article>)}</div>
+   </div></section>
+   <section className="zh-section zp-trial"><div className="zh-container zp-trial-grid"><div><p className="zh-eyebrow zh-eyebrow-dark">HOW BILLING WORKS</p><h2>Seven days to explore. You stay in control.</h2><p className="zh-section-copy">The checkout page confirms the schedule for your chosen plan before you subscribe.</p></div>
+    <ol className="zp-timeline"><li><span>01</span><div><h3>Start your trial</h3><p>A A$1 card check is taken today to confirm your card. It is not a subscription payment.</p></div></li><li><span>02</span><div><h3>Use Zyntra for 7 days</h3><p>Explore the features available in the current release during your trial.</p></div></li><li><span>03</span><div><h3>Continue or cancel</h3><p>If you do not cancel before the trial ends, the selected plan is charged: A$39 monthly or A$99 every three months. Cancel in Settings &gt; Billing to avoid that subscription charge.</p></div></li></ol>
+   </div></section>
+   <section id="pricing-faq" className="zh-section zp-faq"><div className="zh-container zp-faq-grid"><div><p className="zh-eyebrow zh-eyebrow-dark">PRICING FAQ</p><h2>Good to know before you start.</h2></div><div className="zp-faq-list">{faqs.map((faq,i)=><details key={faq.q} open={i===0}><summary>{faq.q}<span aria-hidden="true">+</span></summary><p>{faq.a}</p></details>)}</div></div></section>
+   <section className="zp-final"><div className="zh-container zp-final-inner"><div><p className="zh-eyebrow">YOUR NEXT STEP</p><h2>Make your practice more deliberate.</h2><p>Start with the trial, check the plan terms, and decide whether Zyntra fits your preparation.</p></div><Link className="zh-button" to="/login">Start the 7-day trial <ArrowRight size={17}/></Link></div><p className="zp-independent">Zyntra is independent of, and not affiliated with, the Australian Medical Council.</p></section>
+  </main><MarketingFooter/><div className="zp-mobile-cta"><Link className="zh-button" to="/login">Start 7-day trial <ArrowRight size={16}/></Link><span>A$1 card check today</span></div>
+ </div>;
 }
