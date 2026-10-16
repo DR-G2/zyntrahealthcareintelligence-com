@@ -11,7 +11,7 @@ const faqGroups = [
     { q: "What is Zyntra?", a: <>Zyntra is an independent AMC exam preparation platform. It combines MCQ practice with available performance insights to help you review attempts and decide what to practise next. Read <Link to="/how-it-works">how it works</Link>.</> },
     { q: "Who is it for?", a: <>Zyntra is designed for international medical graduates and other doctors preparing for the Australian Medical Council exams. The available tools depend on the current release.</> },
     { q: "Is Zyntra affiliated with the AMC?", a: <>No. Zyntra is independent of, and not affiliated with, the Australian Medical Council. Always use the AMC's official guidance for exam requirements.</> },
-    { q: "Is it a question bank?", a: <>MCQ practice is part of Zyntra, but the aim is broader than marking an answer right or wrong. The platform also presents available practice signals, such as timing and answer changes, to help you reflect. See <Link to="/features">the current features</Link>.</> },
+    { q: "Is it a question bank?", a: <>MCQ practice is part of Zyntra, but the aim is broader than marking an answer right or wrong. The platform also presents available practice signals, such as timing and answer changes, to help you reflect. See <Link to="/#features">the current features</Link>.</> },
   ]},
   { title: "How it works", eyebrow: "PRACTICE AND INSIGHT", questions: [
     { q: "What is PIE?", a: <>PIE means Performance Intelligence Engine. It is designed to interpret available practice signals and help you consider a useful next step. Its insights are clues for reflection, not a diagnosis or a verdict. Explore <Link to="/how-it-works">how PIE works</Link>.</> },
@@ -27,7 +27,7 @@ const faqGroups = [
     { q: "What happens after the trial?", a: <>If you do not cancel before the trial ends, the selected plan begins billing on the trial-end date. The monthly plan is A$${PLAN_PRICES.monthly.price} each month. The three-month plan is A$${PLAN_PRICES.quarterly.price} every 3 months. {cancelCopy("monthly")} {cancelCopy("quarterly")}</> },
   ]},
   { title: "Features and availability", eyebrow: "WHAT IS AVAILABLE", questions: [
-    { q: "What is live today?", a: <>The current public feature list marks MCQ practice and Performance Intelligence as live. AI Study Lab and Study Plan are in beta, and some intelligence tools depend on the current release. Check <Link to="/features">features</Link> for the latest status.</> },
+    { q: "What is live today?", a: <>The current public feature list marks MCQ practice and Performance Intelligence as live. AI Study Lab and Study Plan are in beta, and some intelligence tools depend on the current release. Check <Link to="/#features">features</Link> for the latest status.</> },
     { q: "Is OSCE available?", a: <>OSCE station practice is not live yet. Availability may change as the product develops.</> },
     { q: "What is in beta?", a: <>AI Study Lab and Study Plan are currently labelled beta in the public feature list. Some Behaviour, Confidence, Evidence and Interventions capabilities may not be available in every release.</> },
   ]},
