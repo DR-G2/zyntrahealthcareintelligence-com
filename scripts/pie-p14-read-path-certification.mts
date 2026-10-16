@@ -77,8 +77,17 @@ const forged = await invoke(A, { user_id: b.user.id });
 check("P14-09 foreign user_id cannot change authenticated scope", forged.response.ok && forged.payload.inference_hash === aSecond.payload.inference_hash);
 
 const bRead = await invoke(B);
-check("P14-10 second authenticated candidate gets own inference", bRead.response.ok && bRead.payload.status === "ready");
-check("P14-11 cross-user inference is isolated", bRead.payload.inference_hash !== aSecond.payload.inference_hash || b.user.id === a.user.id);
+const bHasInference = bRead.response.ok && bRead.payload.status === "ready" &&
+  Array.isArray(bRead.payload.dimensions) && bRead.payload.dimensions.length === 6 &&
+  typeof bRead.payload.inference_hash === "string";
+const bHasNoInference = bRead.response.ok && bRead.payload.status === "no_inference" &&
+  !("dimensions" in bRead.payload) && bRead.payload.shadow_only === true &&
+  bRead.payload.authoritative === false && bRead.payload.influences_adaptation === false;
+check("P14-10 second authenticated candidate receives only their own inference or explicit empty state",
+  bHasInference || bHasNoInference, bHasInference ? "own inference" : bHasNoInference ? "no observations; explicit no_inference" : JSON.stringify(bRead.payload));
+check("P14-11 cross-user inference is isolated",
+  bHasNoInference || (bHasInference && bRead.payload.inference_hash !== aSecond.payload.inference_hash),
+  bHasNoInference ? "empty candidate state exposes no inference" : "candidate inference hashes differ");
 
 const directProjection = await A.schema("pie").from("inference_projection").select("user_id").limit(1);
 check("P14-12 authenticated browser cannot directly read projection table", !!directProjection.error);
