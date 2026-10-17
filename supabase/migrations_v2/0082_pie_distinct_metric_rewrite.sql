@@ -26,6 +26,7 @@ declare
   v_learning numeric;
   v_learning_slope numeric;
   v_confidence numeric;
+  v_mean_seconds numeric;
   v_state jsonb;
 begin
   if p_user_id is null then
@@ -81,7 +82,7 @@ begin
       end as correct,
       case
         when payload ? 'confidence_normalized'
-          and (payload->>'confidence_normalized') ~ '^(0(\\.[0-9]+)?|1(\\.0+)?)$'
+          and (payload->>'confidence_normalized') ~ '^(0([.][0-9]+)?|1([.]0+)?)$'
         then (payload->>'confidence_normalized')::numeric
         when payload ? 'confidence_level'
           and (payload->>'confidence_level') ~ '^[1-5]$'
@@ -89,10 +90,10 @@ begin
         else null
       end as confidence,
       case
-        when payload ? 'time_total_ms' and (payload->>'time_total_ms') ~ '^[0-9]+(\\.[0-9]+)?$'
+        when payload ? 'time_total_ms' and (payload->>'time_total_ms') ~ '^[0-9]+([.][0-9]+)?$'
           and (payload->>'time_total_ms')::numeric > 0
           then (payload->>'time_total_ms')::numeric / 1000.0
-        when payload ? 'time_taken_seconds' and (payload->>'time_taken_seconds') ~ '^[0-9]+(\\.[0-9]+)?$'
+        when payload ? 'time_taken_seconds' and (payload->>'time_taken_seconds') ~ '^[0-9]+([.][0-9]+)?$'
           and (payload->>'time_taken_seconds')::numeric >= 0
           then (payload->>'time_taken_seconds')::numeric
         else null
@@ -128,16 +129,17 @@ begin
     (select avg(correct) from eligible),
     (select avg(case when changes = 0 then 1.0 when changes > 0 then 0.0 end)
       from parsed where changes is not null),
-    (select avg(1.0 / (1.0 + ln(1.0 + seconds / 30.0)) from parsed where seconds is not null),
+    (select avg(1.0 / (1.0 + ln(1.0 + seconds / 30.0))) from parsed where seconds is not null),
     (select avg(1.0 - abs(confidence - correct))
       from parsed where confidence is not null and correct is not null),
     (select greatest(0.0, least(1.0, 1.0 - coalesce(block_sd, 0.5)))
       from block_stats where block_count >= 3),
     (select accuracy_slope from block_stats where block_count >= 3),
-    (select avg(confidence) from parsed where confidence is not null)
+    (select avg(confidence) from parsed where confidence is not null),
+    (select avg(seconds) from parsed where seconds is not null)
   into v_n, v_accuracy_n, v_change_n, v_time_n, v_confidence_n,
        v_accuracy, v_decision, v_timing, v_calibration, v_sustained,
-       v_learning_slope, v_confidence;
+       v_learning_slope, v_confidence, v_mean_seconds;
 
   -- Learning is a trend, not a duplicated accuracy score. Neutral means no
   -- estimated trend; the separate slope and block evidence are retained.
@@ -167,14 +169,7 @@ begin
     'timing', jsonb_build_object(
       'estimate', case when v_time_n >= 6 then round(v_timing, 4) else null end,
       'evidence_count', v_time_n,
-      'mean_seconds', (select avg(
-        case
-          when payload ? 'time_total_ms' and (payload->>'time_total_ms') ~ '^[0-9]+(\\.[0-9]+)?$'
-            and (payload->>'time_total_ms')::numeric > 0 then (payload->>'time_total_ms')::numeric / 1000.0
-          when payload ? 'time_taken_seconds' and (payload->>'time_taken_seconds') ~ '^[0-9]+(\\.[0-9]+)?$'
-            and (payload->>'time_taken_seconds')::numeric >= 0 then (payload->>'time_taken_seconds')::numeric
-          else null end)
-        from pie.pie_observation o where o.user_id = p_user_id),
+      'mean_seconds', v_mean_seconds,
       'definition', 'Descriptive response-pace index; not a measure of competence or exam readiness',
       'formula_version', 'pace-log30-v1'
     ),
