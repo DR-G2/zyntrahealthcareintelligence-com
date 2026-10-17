@@ -252,6 +252,15 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
             setSelectedBareSubjects(new Set(targetSubtopics.length ? [] : [targetSubject.name]));
             setExpandedItems(new Set([targetSubject.id]));
             setSearchQuery('');
+            if (autoStart) {
+              onStart({
+                mode: 'recharge',
+                topics: [targetSubject.name],
+                subtopics: targetSubtopics.map(subtopic => subtopic.name),
+                questionCount: initialQuestionCount,
+                statusFilter: 'all',
+              });
+            }
             return;
           }
         }
@@ -266,6 +275,15 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
             setSelectedBareSubjects(new Set(targetSubtopics.length ? [] : [targetSubject.name]));
             setExpandedItems(new Set([targetSubject.id]));
             setSearchQuery('');
+            if (autoStart) {
+              onStart({
+                mode: 'recharge',
+                topics: [targetSubject.name],
+                subtopics: targetSubtopics.map(subtopic => subtopic.name),
+                questionCount: initialQuestionCount,
+                statusFilter: 'all',
+              });
+            }
             return;
           }
         }
@@ -282,6 +300,15 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
             setSelectedBareSubjects(new Set());
             setExpandedItems(new Set(subject ? [subject.id] : []));
             setSearchQuery(focusSubtopic);
+            if (autoStart) {
+              onStart({
+                mode: 'recharge',
+                topics: subject ? [subject.name] : [],
+                subtopics: [matchingSubtopic.name],
+                questionCount: initialQuestionCount,
+                statusFilter: 'all',
+              });
+            }
             return;
           }
         }
