@@ -145,7 +145,7 @@ serve(async (req) => {
     // ── OSCE Metrics ──
     const osceCount = stationAttempts.length;
     let osceAvgScore = 0;
-    let osceAvgTime = 0;
+    let osceAvgTime: number | null = null;
     const osceSubjectMap: Record<string, { totalScore: number; count: number; avgTime: number; times: number[] }> = {};
     const osceBehavioralSignals: any[] = [];
 
@@ -153,7 +153,7 @@ serve(async (req) => {
       const scores = sa.scores as any;
       const totalScore = typeof scores?.total === "number" ? scores.total : 0;
       osceAvgScore += totalScore;
-      if (typeof sa.time_taken_seconds === 'number' && Number.isFinite(sa.time_taken_seconds) && sa.time_taken_seconds >= 0) osceAvgTime += sa.time_taken_seconds;
+      if (typeof sa.time_taken_seconds === 'number' && Number.isFinite(sa.time_taken_seconds) && sa.time_taken_seconds >= 0) osceAvgTime = (osceAvgTime ?? 0) + sa.time_taken_seconds;
 
       const subj = sa.subject || "Unknown";
       if (!osceSubjectMap[subj]) osceSubjectMap[subj] = { totalScore: 0, count: 0, avgTime: 0, times: [] };
@@ -168,7 +168,8 @@ serve(async (req) => {
 
     if (osceCount > 0) {
       osceAvgScore = Math.round(osceAvgScore / osceCount);
-      osceAvgTime = Math.round(osceAvgTime / Math.max(1, stationAttempts.filter(sa => typeof sa.time_taken_seconds === 'number' && Number.isFinite(sa.time_taken_seconds) && sa.time_taken_seconds >= 0).length));
+      const timedStations = stationAttempts.filter(sa => typeof sa.time_taken_seconds === 'number' && Number.isFinite(sa.time_taken_seconds) && sa.time_taken_seconds >= 0).length;
+      osceAvgTime = timedStations ? Math.round((osceAvgTime ?? 0) / timedStations) : null;
     }
     Object.values(osceSubjectMap).forEach(s => {
       s.avgTime = s.times.length ? s.times.reduce((a, b) => a + b, 0) / s.times.length : null;
@@ -246,7 +247,7 @@ serve(async (req) => {
         subject: subj,
         avgScore: Math.round(s.totalScore / s.count),
         count: s.count,
-        avgTime: Math.round(s.avgTime),
+        avgTime: s.avgTime === null ? null : Math.round(s.avgTime),
       })),
       osceBehavioralSignalsSample: osceBehavioralSignals.slice(0, 5),
       // Trust Your Gut
