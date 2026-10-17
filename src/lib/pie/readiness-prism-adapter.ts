@@ -9,6 +9,7 @@ export type PrismDimensionValue = {
   upper: number | null;
   evidenceCount: number | null;
   evidenceQuality: number | null;
+  estimateAligned?: boolean | null;
 };
 export type PrismLayerModel = {
   layer: PrismLayer;
@@ -22,7 +23,7 @@ export type PrismLayerModel = {
 };
 
 const EMPTY_DIMENSIONS = (): PrismDimensionValue[] => DIMENSIONS.map(dimension => ({
-  dimension, estimate: null, uncertainty: null, lower: null, upper: null, evidenceCount: null, evidenceQuality: null,
+  dimension, estimate: null, uncertainty: null, lower: null, upper: null, evidenceCount: null, evidenceQuality: null, estimateAligned: null,
 }));
 
 function validFraction(value: unknown): number | null {
@@ -62,11 +63,14 @@ function statePrismLayer(state: StateEvidence): PrismLayerModel {
       upper: validFraction(metadata?.upper),
       evidenceCount: validCount(metadata?.evidenceCount),
       evidenceQuality: validFraction(metadata?.evidenceQuality),
+      estimateAligned: typeof metadata?.estimateAligned === "boolean" ? metadata.estimateAligned : null,
     };
   });
   const complete = dimensions.every(item => item.estimate !== null);
   const metadataComplete = dimensions.every(item => item.evidenceCount !== null
-    && (item.evidenceCount === 0 || (item.uncertainty !== null && item.lower !== null && item.upper !== null && item.evidenceQuality !== null)));
+    && (item.evidenceCount === 0 || item.evidenceQuality !== null)
+    && ((item.uncertainty === null && item.lower === null && item.upper === null)
+      || (item.uncertainty !== null && item.lower !== null && item.upper !== null)));
   const sufficient = state.sufficient && complete && metadataComplete
     && dimensions.every(item => (item.evidenceCount ?? 0) > 0 && (item.evidenceQuality ?? 0) > 0);
   return {
