@@ -77,20 +77,23 @@ serve(async (req) => {
     const timedAttempts = attempts.filter(a => typeof a.time_taken_seconds === 'number' && Number.isFinite(a.time_taken_seconds) && a.time_taken_seconds >= 0);
     const avgTime = timedAttempts.length ? timedAttempts.reduce((s, a) => s + a.time_taken_seconds, 0) / timedAttempts.length : null;
     const totalChanges = attempts.reduce((s, a) => s + (a.answer_changes_count || 0), 0);
-    const changeRate = totalAttempts > 0 ? totalChanges / totalAttempts : 0;
+    const changedAttemptCount = attempts.filter(a => (a.answer_changes_count || 0) > 0).length;
+    const changeRate = totalAttempts > 0 ? changedAttemptCount / totalAttempts : 0;
+    const averageChangesPerAttempt = totalAttempts > 0 ? totalChanges / totalAttempts : 0;
     const correctRate = totalAttempts > 0 ? attempts.filter(a => a.is_correct).length / totalAttempts : 0;
     const avgPauses = totalAttempts > 0 ? attempts.reduce((s, a) => s + (a.pause_events || 0), 0) / totalAttempts : 0;
     const firstClickAttempts = attempts.filter(a => typeof a.time_to_first_click === 'number' && Number.isFinite(a.time_to_first_click) && a.time_to_first_click >= 0);
     const avgFirstClick = firstClickAttempts.length ? firstClickAttempts.reduce((s, a) => s + a.time_to_first_click, 0) / firstClickAttempts.length : null;
 
     // Per-subject MCQ stats
-    const subjectMap: Record<string, { correct: number; total: number; changes: number; avgTime: number | null; times: number[] }> = {};
+    const subjectMap: Record<string, { correct: number; total: number; changes: number; changedAttempts: number; avgTime: number | null; times: number[] }> = {};
     attempts.forEach(a => {
       const cat = (a.questions as any)?.category || "Unknown";
-      if (!subjectMap[cat]) subjectMap[cat] = { correct: 0, total: 0, changes: 0, avgTime: null, times: [] };
+      if (!subjectMap[cat]) subjectMap[cat] = { correct: 0, total: 0, changes: 0, changedAttempts: 0, avgTime: null, times: [] };
       subjectMap[cat].total++;
       if (a.is_correct) subjectMap[cat].correct++;
       subjectMap[cat].changes += a.answer_changes_count || 0;
+      if ((a.answer_changes_count || 0) > 0) subjectMap[cat].changedAttempts++;
       if (typeof a.time_taken_seconds === 'number' && Number.isFinite(a.time_taken_seconds) && a.time_taken_seconds >= 0) subjectMap[cat].times.push(a.time_taken_seconds);
     });
     Object.values(subjectMap).forEach(s => {
@@ -211,6 +214,7 @@ serve(async (req) => {
       totalAttempts,
       avgTime: avgTime === null ? null : Math.round(avgTime),
       changeRate: Math.round(changeRate * 100) / 100,
+      averageChangesPerAttempt: Math.round(averageChangesPerAttempt * 100) / 100,
       correctRate: Math.round(correctRate * 100) / 100,
       avgPauses: Math.round(avgPauses * 100) / 100,
       avgFirstClick: avgFirstClick === null ? null : Math.round(avgFirstClick),
@@ -234,7 +238,7 @@ serve(async (req) => {
       subjectStats: Object.entries(subjectMap).map(([cat, s]) => ({
         category: cat,
         accuracy: Math.round((s.correct / s.total) * 100),
-        changeRate: Math.round((s.changes / s.total) * 100),
+        changeRate: Math.round((s.changedAttempts / s.total) * 100),
         avgTime: s.avgTime === null ? null : Math.round(s.avgTime),
         total: s.total,
       })),
@@ -389,7 +393,7 @@ Do not predict an AMC score, pass probability, or readiness-to-pass from these u
       classification = JSON.parse(toolCall.function.arguments);
     } catch {
       classification = {
-        archetype: changeRate > 2 ? "panic_changer" : avgTime !== null && avgTime < 45 ? "rusher" : avgTime !== null && avgTime > 300 ? "paralyzer" : fatigueIncrease !== null && fatigueIncrease > 1.4 ? "fatigue_victim" : "strategist",
+        archetype: averageChangesPerAttempt > 2 ? "panic_changer" : avgTime !== null && avgTime < 45 ? "rusher" : avgTime !== null && avgTime > 300 ? "paralyzer" : fatigueIncrease !== null && fatigueIncrease > 1.4 ? "fatigue_victim" : "strategist",
         trap_flags: [],
         predicted_score_low: null,
         predicted_score_high: null,
@@ -411,7 +415,7 @@ Do not predict an AMC score, pass probability, or readiness-to-pass from these u
           changeRate: Math.round((s.changes / s.total) * 100),
           avgTime: Math.round(s.avgTime),
           total: s.total,
-          type: (s.changes / s.total) > 0.5 ? "behavioral" : (s.correct / s.total) < 0.5 ? "knowledge" : "stable",
+          type: (s.changedAttempts / s.total) > 0.5 ? "behavioral" : (s.correct / s.total) < 0.5 ? "knowledge" : "stable",
         }])
       ),
       trap_flags: classification.trap_flags,
