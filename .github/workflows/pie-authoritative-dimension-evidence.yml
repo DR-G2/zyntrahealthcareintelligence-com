@@ -46,9 +46,8 @@ jobs:
           sudo apt-get install --yes postgresql-client
       - name: Configure isolated database authentication
         run: |
-          printf '%s\\n' \\
-            '127.0.0.1:5432:*:supabase_admin:regression-only-password' \\
-            '127.0.0.1:5432:*:postgres:regression-owner-password' > "$PGPASSFILE"
+          echo '127.0.0.1:5432:*:supabase_admin:regression-only-password' > "$PGPASSFILE"
+          echo '127.0.0.1:5432:*:postgres:regression-owner-password' >> "$PGPASSFILE"
           chmod 600 "$PGPASSFILE"
           psql -X -v ON_ERROR_STOP=1 -U supabase_admin -d postgres -c "CREATE ROLE postgres LOGIN NOSUPERUSER CREATEROLE BYPASSRLS INHERIT PASSWORD 'regression-owner-password'"
       - name: Replay schema and test both migrations
