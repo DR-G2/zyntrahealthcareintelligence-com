@@ -21,12 +21,15 @@ describe("authoritative PIE dimension evidence migration contract", () => {
     }
     expect(migration).toContain("ln(40::numeric)");
     expect(migration).toContain("ln(80::numeric)");
+    expect(migration).toContain("'estimate_aligned'");
+    expect(migration).toContain("p_estimate = v_estimator");
+    expect(migration).not.toMatch(/order by o\.observed_at desc[\s\S]{0,100}limit 100/i);
     expect(migration).toContain("greatest(0::numeric, p_estimate - v_radius)");
     expect(migration).toContain("least(1::numeric, p_estimate + v_radius)");
   });
 
   it("preserves existing estimates and keeps internal helper functions private", () => {
-    expect(migration).toContain("Existing estimates remain unchanged");
+    expect(migration).toContain("Estimates are never changed");
     expect(migration).toContain("revoke all on function pie._authoritative_dimension_evidence(uuid,text,numeric) from public, anon, authenticated, service_role");
     expect(migration).toContain("revoke all on function pie._attach_authoritative_dimension_evidence() from public, anon, authenticated, service_role");
     expect(migration).toContain("update pie.pie_candidate_state set state = state");
