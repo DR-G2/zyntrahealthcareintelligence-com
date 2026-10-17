@@ -10,7 +10,6 @@ do $test$
 declare
   v_rush numeric;
   v_calibration numeric;
-  v_fatigue numeric;
   v_first_instinct numeric;
   v_changed_count integer;
   v_eligible_changed_count integer;
@@ -33,13 +32,6 @@ begin
   where confidence between 1 and 5;
   if v_calibration is not null then
     raise exception 'PIE-REG-02 failed: absent confidence must yield NULL; got %', v_calibration;
-  end if;
-
-  -- A response-time increase is not, by itself, a validated fatigue measurement.
-  -- The producer must name the signal descriptively, not infer a latent cause.
-  v_fatigue := null;
-  if v_fatigue is not null then
-    raise exception 'PIE-REG-03 failed: unvalidated fatigue label must not be emitted';
   end if;
 
   -- Only changed attempts with a usable first choice and answer key belong in
