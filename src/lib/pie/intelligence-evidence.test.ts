@@ -10,15 +10,15 @@ describe('Intelligence evidence presentation boundary', () => {
   });
   it('maps authoritative per-dimension uncertainty, interval, count and quality without substitution', () => {
     const result = mapState({ state: {
-      capability: { estimate: 0.8, uncertainty: 0.2, lower: 0.6, upper: 1, evidence_count: 12, evidence_quality: 0.9 },
-      decision: { estimate: 0.7, uncertainty: null, lower: null, upper: null, evidence_count: 0, evidence_quality: null },
+      capability: { estimate: 0.8, uncertainty: 0.2, lower: 0.6, upper: 1, evidence_count: 12, evidence_quality: 0.9, estimate_aligned: true },
+      decision: { estimate: 0.7, uncertainty: null, lower: null, upper: null, evidence_count: 0, evidence_quality: null, estimate_aligned: false },
       evidence_count: 12, evidence_level: 'PRELIMINARY',
     } });
     expect(result?.dimensionEvidence?.capability).toEqual({
-      uncertainty: 0.2, lower: 0.6, upper: 1, evidenceCount: 12, evidenceQuality: 0.9, estimateAligned: null,
+      uncertainty: 0.2, lower: 0.6, upper: 1, evidenceCount: 12, evidenceQuality: 0.9, estimateAligned: true,
     });
     expect(result?.dimensionEvidence?.decision).toEqual({
-      uncertainty: null, lower: null, upper: null, evidenceCount: 0, evidenceQuality: null, estimateAligned: null,
+      uncertainty: null, lower: null, upper: null, evidenceCount: 0, evidenceQuality: null, estimateAligned: false,
     });
     expect(result?.dimensionEvidence?.timing).toEqual({
       uncertainty: null, lower: null, upper: null, evidenceCount: null, evidenceQuality: null, estimateAligned: null,
