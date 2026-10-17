@@ -63,7 +63,7 @@ export default function Terms() {
 
         <section className={sectionClass}><h2 className={headingClass}>9. Subscription, Billing and Cancellation</h2>
           <p className={textClass}>Subscription fees, billing periods, renewals, taxes, plan features, refunds and plan changes are governed by the SaaS Pricing Architecture &amp; Commercial Billing Policy, which forms part of these Terms. Unless stated otherwise at checkout, recurring subscriptions renew automatically for the same billing period until cancelled. Cancellation ordinarily prevents future renewal and does not reverse a completed billing period.</p>
-          <p className={textClass}>Zyntra offers one paid plan, Full Access, priced in Australian dollars: A$39 per month or A$99 per 3 months, each with a 7-day free trial. {COPY_CARD_CHECK} Your first charge is made when your free trial ends, and your subscription renews on that same date each billing period (Australia/Sydney time) until cancelled. {COPY_CANCEL}</p>
+          <p className={textClass}>Zyntra offers one paid plan, Full Access, priced in Australian dollars: A$39 per month or A$99 per 3 months, each with a 7-calendar-day trial; the signup date counts as day 1. {COPY_CARD_CHECK} An A$1 card verification is taken at signup. If you do not cancel before the trial ends, the first subscription charge begins at 00:01 IST on day 7: A$39 monthly or A$99 every 3 months. Renewals follow the same IST calendar-day anchor until cancelled. {COPY_CANCEL}</p>
           <p className={textClass}>{COPY_ACL}</p>
         </section>
 

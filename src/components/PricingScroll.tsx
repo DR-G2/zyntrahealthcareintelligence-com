@@ -8,7 +8,7 @@ const plans = [
     name: 'Clinical Starter',
     price: 'A$99 AUD every 3 months',
     points: [
-      '7-day free trial, then A$99 every 3 months until you cancel.',
+      '7-calendar-day trial, then A$99 every 3 months until you cancel. Signup date is day 1; billing starts at 00:01 IST on day 7.',
       'MCQ practice, Performance Intelligence and Study Plan.',
     ],
   },
@@ -16,7 +16,7 @@ const plans = [
     name: 'Monthly',
     price: 'A$39 AUD per month',
     points: [
-      '7-day free trial, then A$39 every month until you cancel.',
+      '7-calendar-day trial, then A$39 every month until you cancel. Signup date is day 1; billing starts at 00:01 IST on day 7.',
       'MCQ practice, Performance Intelligence and Study Plan.',
     ],
   },
@@ -29,7 +29,7 @@ export function PricingScroll() {
         <div className="mx-auto mb-10 max-w-2xl text-center">
           <div className="text-xs font-bold uppercase tracking-[.18em] text-[#16858c]">Pricing</div>
           <h2 className="mt-2 font-display text-3xl font-bold tracking-tight sm:text-4xl">One product. Two billing options.</h2>
-          <p className="mt-3 text-slate-600">No free plan. A$1 card check at signup. Cancel anytime in Settings &gt; Billing. Prices in AUD.</p>
+          <p className="mt-3 text-slate-600">No free plan. A$1 card verification at signup. Signup date counts as day 1; first charge is at 00:01 IST on calendar day 7 unless cancelled. Cancel anytime in Settings &gt; Billing. Prices in AUD.</p>
         </div>
         <div className="grid gap-4 md:grid-cols-2">
           {plans.map((plan) => (

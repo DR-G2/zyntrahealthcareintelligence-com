@@ -6,6 +6,8 @@ import { resolveV2Config } from './v2-config';
  * Runtime URL and publishable key are resolved centrally by v2-config.ts.
  * V2 Supabase client.
  * Intentionally separate from the legacy production client.
+ * Approved production fallback URL: https://hkowvjazuwebmibssdut.supabase.co
+ * The actual URL/key resolution lives in ./v2-config and still supports explicit VITE overrides.
  *
  * The client is created lazily so importing migration code never breaks the
  * existing app when V2 environment variables are not configured.

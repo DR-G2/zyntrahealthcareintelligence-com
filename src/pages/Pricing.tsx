@@ -30,9 +30,9 @@ const faqGroups = [
   {
     title: 'Pricing & Billing',
     questions: [
-      { q: 'How much is Zyntra?', a: 'There is no free plan. Clinical Starter is A$99 AUD every 3 months; Monthly is A$39 AUD per month. Both start with a 7-day free trial and renew until you cancel.' },
+      { q: 'How much is Zyntra?', a: 'There is no free plan. Clinical Starter is A$99 AUD every 3 months; Monthly is A$39 AUD per month. The 7-calendar-day trial counts signup as day 1. An A$1 card verification is taken at signup; if you do not cancel, billing begins at 00:01 IST on calendar day 7.' },
       { q: 'Why is there an A$1 charge?', a: COPY_CARD_CHECK },
-      { q: 'How does billing work?', a: 'Your first charge is on the day your 7-day trial ends. Monthly renews on that same date each month; Clinical Starter renews every 3 months on that date. Dates are calculated in Sydney time.' },
+      { q: 'How does billing work?', a: 'Signup date counts as day 1 of the 7-calendar-day trial. If you do not cancel before the trial ends, the first subscription charge is at 00:01 India Standard Time (Asia/Kolkata) on calendar day 7: A$39 monthly or A$99 every 3 months. Renewals follow the same IST calendar-day anchor.' },
       { q: 'Can I cancel?', a: COPY_CANCEL },
       { q: 'A$39 is still hard for me.', a: 'Use the contact form with the subject "Hardship" and tell us your situation.' },
     ],
@@ -223,7 +223,7 @@ export default function Pricing() {
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title="Zyntra Pricing — Full Access in AUD"
+        title="Zyntra Pricing — Clinical Starter in AUD"
         description="Clinical Starter A$99 AUD every 3 months, or A$39 AUD per month, with a 7-day free trial and A$1 card check. Renews until cancelled."
         path="/pricing"
       />
@@ -270,7 +270,7 @@ export default function Pricing() {
             <h1 className="mb-4 text-4xl font-bold font-display leading-tight tracking-tight lg:text-5xl">
               Choose Your <span className="gradient-text">Plan</span>
             </h1>
-            <p className="text-lg text-muted-foreground">Simple pricing designed for IMGs. One plan. All prices in Australian dollars (AUD).</p>
+            <p className="text-lg text-muted-foreground">Simple pricing designed for IMGs. Two billing options. All prices in Australian dollars (AUD).</p>
           </motion.div>
         </div>
       </section>
