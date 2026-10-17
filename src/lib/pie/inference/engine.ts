@@ -184,7 +184,7 @@ export function updateCandidateState(
       sustainedSignal(observation),
       config.defaultMeasurementVariance.SUSTAINED_PERFORMANCE ?? 0.15,
       config.processVariance.SUSTAINED_PERFORMANCE ?? 0.004,
-      quality * (observation.interruptionActive ? 0.25 : 1),
+      quality,
     ),
     learning: updateScalar(
       base.learning,
@@ -207,7 +207,11 @@ export function updateCandidateState(
         base.capability.evidenceCount, base.decision.evidenceCount, base.timing.evidenceCount,
         base.calibration.evidenceCount, base.sustainedPerformance.evidenceCount, base.learning.evidenceCount,
       ].reduce((sum, count) => sum + count, 0);
-      return clamp01((base.dataQuality * priorEvidence + quality) / (priorEvidence + 1));
+      const validSignalCount = validSignals.length;
+      return clamp01(
+        (base.dataQuality * priorEvidence + quality * validSignalCount) /
+        (priorEvidence + validSignalCount),
+      );
     })(),
   } satisfies CandidateState;
 
