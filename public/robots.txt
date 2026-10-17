@@ -19,5 +19,8 @@ Disallow: /account
 Disallow: /inbox
 Disallow: /notifications
 Disallow: /reset-password
+Disallow: /practice
+Disallow: /plan
+Disallow: /intelligence
 
-Sitemap: https://www.zyntrahealthcareintelligence.org/sitemap.xml
+Sitemap: https://www.zyntrahealthcareintelligence.com/sitemap.xml

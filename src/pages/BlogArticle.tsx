@@ -9,7 +9,7 @@ import "@/styles/zyntra-phase2.css";
 import { articles, articleBody, articleReadTime } from "@/data/blogPosts";
 import { formatIsoDate, parseInlineLinks } from "@/lib/blogText";
 
-const SITE_URL = "https://www.zyntrahealthcareintelligence.org";
+const SITE_URL = "https://www.zyntrahealthcareintelligence.com";
 const AUTHOR_NAME = "Zyntra Healthcare Intelligence";
 
 /** Renders body text, turning [label](url) into links (internal routes via the router). */
