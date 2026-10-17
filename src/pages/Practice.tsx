@@ -125,6 +125,7 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
   const [searchParams] = useSearchParams();
   const focusSubtopic = searchParams.get('focus');
   const focusSubject = searchParams.get('subject');
+  const focusSubjectId = searchParams.get('subjectId');
   const [mode, setMode] = useState<'recharge' | 'no-change' | 'full-mock'>('recharge');
   const [primary, setPrimary] = useState<PracticePrimaryMode>('drill');
   const [statusFilter, setStatusFilter] = useState<QuestionStatusFilter>('all');
@@ -238,6 +239,18 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
             bareSubjects.add(s.name);
           }
         });
+        if (focusSubjectId) {
+          const targetSubject = subjects.find(s => s.id === focusSubjectId);
+          if (targetSubject) {
+            const targetSubtopics = subtopics.filter(st => st.subject_id === targetSubject.id);
+            setSelectedSubtopics(new Set(targetSubtopics.map(st => createSelectedSubtopicKey(targetSubject.name, st.name))));
+            setSelectedBareSubjects(new Set(targetSubtopics.length ? [] : [targetSubject.name]));
+            setExpandedItems(new Set([targetSubject.id]));
+            setSearchQuery('');
+            return;
+          }
+        }
+
         if (focusSubtopic) {
           const matchingSubject = subjects.find(s => s.name.toLowerCase() === (focusSubject || '').toLowerCase());
           const matchingSubtopic = subtopics.find(st =>
