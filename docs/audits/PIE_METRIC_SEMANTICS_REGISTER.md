@@ -59,3 +59,17 @@ Phase 2 working contract. This document defines what the product may claim befor
 - Tests exercise the actual producer functions, not just a duplicate formula in a fixture.
 - Known conflicts have a proposed migration plan and backward-compatibility strategy.
 - No formula is labelled verified solely because CI passed.
+
+
+### PIE state-model rewrite v2.2 (PR #155, source-only)
+The new migration `0082_pie_distinct_metric_rewrite.sql` rewrites the separate `pie.rebuild_candidate_state(uuid)` producer rather than removing the six dimensions:
+- **Capability:** observed accuracy from graded, deduplicated attempts.
+- **Decision:** share of attempts with known change telemetry that did not change the answer. This is decision stability, not decision quality.
+- **Timing:** a descriptive response-pace index plus mean seconds and timed count. The 30-second transform anchor is provisional and must not be interpreted as skill or used in a readiness composite.
+- **Calibration:** mean per-attempt agreement between recorded normalized confidence and correctness, only with at least 10 valid observations. It is descriptive alignment, not a validated calibration curve.
+- **Sustained performance:** consistency across chronological accuracy blocks, available only when at least three blocks exist.
+- **Learning:** chronological accuracy slope across blocks, available only with at least 12 graded attempts. This is association over time, not causal proof that an intervention worked.
+- Each dimension carries its own evidence count and definition. Missing estimates stay null. The state confidence field is null because evidence count alone is not a calibrated uncertainty estimate.
+- Duplicate observation events are deduplicated by attempt ID before aggregation.
+
+This migration has only been parsed/executed inside a transaction that was rolled back. It has **not** been persistently applied, and the function still needs disposable-fixture execution tests and UI consumer validation before release.
