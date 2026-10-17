@@ -24,10 +24,15 @@ describe('Intelligence evidence presentation boundary', () => {
       uncertainty: null, lower: null, upper: null, evidenceCount: null, evidenceQuality: null, estimateAligned: null,
     });
   });
-  it('requires six observations and non-insufficient evidence', () => {
+  it('requires global and per-dimension evidence before declaring the model sufficient', () => {
     expect(mapState({ state: { evidence_count: 5, evidence_level: 'PRELIMINARY' } })?.sufficient).toBe(false);
     expect(mapState({ state: { evidence_count: 6, evidence_level: 'INSUFFICIENT' } })?.sufficient).toBe(false);
-    expect(mapState({ state: { evidence_count: 6, evidence_level: 'PRELIMINARY' } })?.sufficient).toBe(true);
+    const state = { evidence_count: 12, evidence_level: 'PRELIMINARY', ...Object.fromEntries(
+      ['capability', 'decision', 'timing', 'calibration', 'sustained_performance', 'learning'].map(key => [key, { estimate: 0.7, evidence_count: 12 }]),
+    ) };
+    expect(mapState({ state })?.sufficient).toBe(true);
+    expect(mapState({ state: { ...state, decision: { estimate: 0.7, evidence_count: 2 } } })?.sufficient).toBe(false);
+    expect(mapState({ state: { ...state, calibration: { estimate: 0.7 } } })?.sufficient).toBe(false);
   });
   it('keeps no attempts distinct from true zero accuracy and deduplicates identities', () => {
     expect(historySummary([]).accuracy).toBeNull();
