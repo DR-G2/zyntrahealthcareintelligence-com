@@ -116,7 +116,7 @@ export async function loadIntelligenceEvidence(deps: EvidenceDeps = defaultDeps)
     read(async () => mapState(await row('my_pie_state', 'state,calculated_at,updated_at'))),
     read(async () => (await deps.history()).map(safeAttempt)),
     read(async () => { const data = object(await row('my_readiness', 'dimensions,calculated_at')); const percent = percentage(object(data.dimensions).answer_stability); return percent === null ? null : { percent, at: timestamp(data.calculated_at) }; }),
-    read(async () => { const data = object(await row('my_confidence_intelligence', 'calibration_score,calculated_at')); const score = fraction(data.calibration_score); return score === null ? null : { percent: score * 100, at: timestamp(data.calculated_at) }; }),
+    read(async () => { const data = object(await row('my_confidence_intelligence', 'dimensions,evidence_window,calculated_at')); const score = fraction(object(data.dimensions).confidence_alignment); const count = dimensionCount(object(data.evidence_window).confidence_count); return score === null || count === null || count < 10 ? null : { percent: score * 100, at: timestamp(data.calculated_at) }; }),
     read(async () => mapAction(await row('my_next_best_actions', 'action_type,action_data,expires_at,created_at,updated_at'))),
   ]);
   return { pie, history, stability, confidence, action };
