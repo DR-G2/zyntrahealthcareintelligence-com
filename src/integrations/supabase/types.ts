@@ -488,6 +488,48 @@ export type Database = {
         }
         Relationships: []
       }
+      behavior_events: {
+        Row: {
+          created_at: string
+          event_type: string
+          event_version: number
+          id: string
+          occurred_at: string
+          payload: Json
+          question_id: string | null
+          question_position: number | null
+          sequence_no: number | null
+          session_id: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          event_type: string
+          event_version?: number
+          id?: string
+          occurred_at?: string
+          payload?: Json
+          question_id?: string | null
+          question_position?: number | null
+          sequence_no?: number | null
+          session_id?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          event_type?: string
+          event_version?: number
+          id?: string
+          occurred_at?: string
+          payload?: Json
+          question_id?: string | null
+          question_position?: number | null
+          sequence_no?: number | null
+          session_id?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       bookmarks: {
         Row: {
           created_at: string
@@ -1484,6 +1526,7 @@ export type Database = {
           answer_stability: number | null
           attempt_count: number | null
           clinical_accuracy: number | null
+          confidence_attempt_count: number
           confidence_calibration: number | null
           distance_from_ideal: number | null
           id: string
@@ -1496,6 +1539,7 @@ export type Database = {
           answer_stability?: number | null
           attempt_count?: number | null
           clinical_accuracy?: number | null
+          confidence_attempt_count?: number
           confidence_calibration?: number | null
           distance_from_ideal?: number | null
           id?: string
@@ -1508,6 +1552,7 @@ export type Database = {
           answer_stability?: number | null
           attempt_count?: number | null
           clinical_accuracy?: number | null
+          confidence_attempt_count?: number
           confidence_calibration?: number | null
           distance_from_ideal?: number | null
           id?: string
@@ -2018,6 +2063,7 @@ export type Database = {
         Row: {
           answer_changes_count: number
           change_sequence: Json | null
+          confidence_level: number | null
           created_at: string
           id: string
           is_correct: boolean
@@ -2035,6 +2081,7 @@ export type Database = {
         Insert: {
           answer_changes_count?: number
           change_sequence?: Json | null
+          confidence_level?: number | null
           created_at?: string
           id?: string
           is_correct: boolean
@@ -2344,6 +2391,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_confidence_intelligence: {
+        Args: Record<PropertyKey, never>
+        Returns: Json
+      }
       compute_distance_from_ideal: {
         Args: {
           p_accuracy: number

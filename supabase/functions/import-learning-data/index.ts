@@ -187,9 +187,6 @@ Deno.serve(async (req) => {
         fatigue_index: bp.fatigue_index ?? 0,
         archetype_signals: bp.archetype_signals ?? {},
         trap_flags: bp.trap_flags ?? [],
-        predicted_score_low: bp.predicted_score?.low ?? null,
-        predicted_score_high: bp.predicted_score?.high ?? null,
-        predicted_score_potential: bp.predicted_score?.potential ?? null,
         updated_at: new Date().toISOString(),
       };
 
