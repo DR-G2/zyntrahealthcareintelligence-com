@@ -12,6 +12,7 @@ export interface DimensionEvidence {
   upper: number | null;
   evidenceCount: number | null;
   evidenceQuality: number | null;
+  estimateAligned?: boolean | null;
 }
 export interface StateEvidence {
   dimensions: Record<Dimension, number | null>;
@@ -60,6 +61,7 @@ export function mapState(value: unknown): StateEvidence | null {
       upper: fraction(raw.upper),
       evidenceCount: dimensionCount(raw.evidence_count),
       evidenceQuality: fraction(raw.evidence_quality),
+      estimateAligned: typeof raw.estimate_aligned === 'boolean' ? raw.estimate_aligned : null,
     }];
   })) as Record<Dimension, DimensionEvidence>;
   const count = typeof state.evidence_count === 'number' && Number.isFinite(state.evidence_count) ? Math.max(0, Math.floor(state.evidence_count)) : 0;
