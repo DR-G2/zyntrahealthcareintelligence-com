@@ -21,9 +21,28 @@ describe("Readiness Prism presentation adapter", () => {
     expect(layer.dimensions.find(item => item.dimension === "timing")?.estimate).toBeNull();
     expect(layer.status).toBe("empty");
   });
-  it("does not fabricate uncertainty, interval or per-dimension evidence counts", () => {
+  it("does not fabricate uncertainty, interval, quality or per-dimension evidence counts", () => {
     const layer = authoritativePrismLayer(evidence().pie);
-    expect(layer.dimensions.every(item => item.uncertainty === null && item.lower === null && item.upper === null && item.evidenceCount === null)).toBe(true);
+    expect(layer.dimensions.every(item => item.uncertainty === null && item.lower === null && item.upper === null && item.evidenceCount === null && item.evidenceQuality === null)).toBe(true);
+  });
+  it("passes through authoritative metadata only when the projection supplies it", () => {
+    const input = evidence().pie;
+    if (input.status !== "ready" || !input.value) throw new Error("test fixture must be ready");
+    input.value.dimensionEvidence = {
+      capability: { uncertainty: 0.2, lower: 0.6, upper: 1, evidenceCount: 12, evidenceQuality: 0.9 },
+      decision: { uncertainty: 0.3, lower: 0.4, upper: 1, evidenceCount: 9, evidenceQuality: 0.75 },
+      timing: { uncertainty: null, lower: null, upper: null, evidenceCount: 0, evidenceQuality: null },
+      calibration: { uncertainty: 0.25, lower: 0.35, upper: 0.85, evidenceCount: 8, evidenceQuality: 0.8 },
+      sustained_performance: { uncertainty: 0.2, lower: 0.55, upper: 0.95, evidenceCount: 12, evidenceQuality: 0.9 },
+      learning: { uncertainty: 0.2, lower: 0.3, upper: 0.7, evidenceCount: 12, evidenceQuality: 0.9 },
+    };
+    const layer = authoritativePrismLayer(input);
+    expect(layer.dimensions.find(item => item.dimension === "capability")).toMatchObject({
+      uncertainty: 0.2, lower: 0.6, upper: 1, evidenceCount: 12, evidenceQuality: 0.9,
+    });
+    expect(layer.dimensions.find(item => item.dimension === "timing")).toMatchObject({
+      uncertainty: null, lower: null, upper: null, evidenceCount: 0, evidenceQuality: null,
+    });
   });
   it("distinguishes an unavailable authoritative read from empty state", () => {
     expect(authoritativePrismLayer({ status: "unavailable", value: null }).status).toBe("unavailable");
