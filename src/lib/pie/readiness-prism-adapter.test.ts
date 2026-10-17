@@ -44,6 +44,24 @@ describe("Readiness Prism presentation adapter", () => {
       uncertainty: null, lower: null, upper: null, evidenceCount: 0, evidenceQuality: null,
     });
   });
+  it("keeps valid estimates visible while withholding intervals for a misaligned stored estimate", () => {
+    const input = evidence().pie;
+    if (input.status !== "ready" || !input.value) throw new Error("test fixture must be ready");
+    input.value.dimensions.timing = 0.65;
+    input.value.dimensionEvidence = {
+      capability: { uncertainty: 0.2, lower: 0.6, upper: 1, evidenceCount: 12, evidenceQuality: 0.9, estimateAligned: true },
+      decision: { uncertainty: 0.2, lower: 0.5, upper: 0.9, evidenceCount: 12, evidenceQuality: 0.9, estimateAligned: true },
+      timing: { uncertainty: null, lower: null, upper: null, evidenceCount: 10, evidenceQuality: 0.8, estimateAligned: false },
+      calibration: { uncertainty: 0.3, lower: 0.3, upper: 0.9, evidenceCount: 8, evidenceQuality: 0.8, estimateAligned: true },
+      sustained_performance: { uncertainty: 0.2, lower: 0.6, upper: 1, evidenceCount: 12, evidenceQuality: 0.9, estimateAligned: true },
+      learning: { uncertainty: 0.2, lower: 0.6, upper: 1, evidenceCount: 12, evidenceQuality: 0.9, estimateAligned: true },
+    };
+    const layer = authoritativePrismLayer(input);
+    expect(layer.status).toBe("ready");
+    expect(layer.dimensions.find(item => item.dimension === "timing")).toMatchObject({
+      estimate: 0.65, uncertainty: null, lower: null, upper: null, estimateAligned: false,
+    });
+  });
   it("distinguishes an unavailable authoritative read from empty state", () => {
     expect(authoritativePrismLayer({ status: "unavailable", value: null }).status).toBe("unavailable");
     expect(authoritativePrismLayer({ status: "empty", value: null }).status).toBe("empty");
