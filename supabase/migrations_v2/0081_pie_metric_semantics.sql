@@ -31,7 +31,7 @@ begin
     count(*) filter (where answer_changes_count is not null)::int,
     avg(case when is_correct then 1.0 else 0.0 end),
     avg(case when answer_changes_count is null then null
-      else least(1.0,greatest(0.0,1.0-answer_changes_count/3.0)) end),
+      when answer_changes_count = 0 then 1.0 else 0.0 end),
     avg(time_taken_seconds) filter (where time_taken_seconds is not null and time_taken_seconds >= 0),
     avg(case when confidence_level between 1 and 5
       then 1.0 - abs((confidence_level-1)/4.0 - (case when is_correct then 1.0 else 0.0 end)) end),
@@ -63,8 +63,10 @@ begin
       avg(case when rn > n/2.0 then case when is_correct then 1.0 else 0.0 end end) as late_accuracy,
       avg(time_taken_seconds) filter (where rn <= n/2.0 and time_taken_seconds > 0) as early_time,
       avg(time_taken_seconds) filter (where rn > n/2.0 and time_taken_seconds > 0) as late_time,
-      avg(answer_changes_count) filter (where rn <= n/2.0 and answer_changes_count is not null) as early_changes,
-      avg(answer_changes_count) filter (where rn > n/2.0 and answer_changes_count is not null) as late_changes,
+      avg(case when answer_changes_count = 0 then 0.0 when answer_changes_count > 0 then 1.0 end)
+        filter (where rn <= n/2.0 and answer_changes_count is not null) as early_change_rate,
+      avg(case when answer_changes_count = 0 then 0.0 when answer_changes_count > 0 then 1.0 end)
+        filter (where rn > n/2.0 and answer_changes_count is not null) as late_change_rate,
       count(*) filter (where rn <= n/2.0) as early_n,
       count(*) filter (where rn > n/2.0) as late_n,
       count(time_taken_seconds) filter (where rn <= n/2.0 and time_taken_seconds > 0) as early_timed,
@@ -77,13 +79,13 @@ begin
     where early_n >= 10 and late_n >= 10 and early_timed >= 8 and late_timed >= 8
       and early_accuracy-late_accuracy >= 0.15
       and late_time >= early_time*1.20
-      and late_changes > early_changes
+      and early_change_rate is not null and late_change_rate > early_change_rate
   )
   select avg(signal) into v_fatigue from eligible;
 
-  -- Never impute a neutral confidence score. Readiness requires observed accuracy,
-  -- stability and at least 10 valid confidence observations. Timing is descriptive
-  -- only until a question-difficulty-adjusted target model is validated.
+  -- Confidence alignment is unavailable without at least 10 valid confidence
+  -- observations. Timing is descriptive only until a question-difficulty-adjusted
+  -- target model is validated. The score below is observed accuracy, not readiness.
   if v_confidence_count < 10 then
     v_calibration := null;
     v_over := null;
@@ -97,7 +99,7 @@ begin
       when v_readiness < 0.70 then 'PROGRESSING'
       else 'STRONG' end;
   else
-    v_readiness := 0;
+    v_readiness := null;
     v_band := 'INSUFFICIENT';
   end if;
 
@@ -148,7 +150,7 @@ begin
       'timed_attempt_count',count(ua.time_taken_seconds) filter (where ua.time_taken_seconds is not null and ua.time_taken_seconds >= 0)),
     jsonb_build_object('avg_confidence',avg(case when ua.confidence_level between 1 and 5 then (ua.confidence_level-1)/4.0 end),
       'confidence_count',count(ua.confidence_level) filter (where ua.confidence_level between 1 and 5)),
-    jsonb_build_object('stability',avg(case when ua.answer_changes_count is null then null else least(1.0,greatest(0.0,1.0-ua.answer_changes_count/3.0)) end)),
+    jsonb_build_object('answer_stability',avg(case when ua.answer_changes_count is null then null when ua.answer_changes_count = 0 then 1.0 else 0.0 end)),
     jsonb_build_object('attempt_count',count(*)),
     'v2-canonical-1.1',now(),now()
   from (
