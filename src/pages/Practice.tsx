@@ -130,6 +130,7 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
   const initialQuestionCount = Number.isFinite(requestedQuestionCount) && requestedQuestionCount > 0
     ? Math.min(MAX_SESSION_QUESTIONS, Math.max(1, Math.floor(requestedQuestionCount)))
     : 20;
+  const autoStart = searchParams.get('autostart') === '1';
   const [mode, setMode] = useState<'recharge' | 'no-change' | 'full-mock'>('recharge');
   const [primary, setPrimary] = useState<PracticePrimaryMode>('drill');
   const [statusFilter, setStatusFilter] = useState<QuestionStatusFilter>('all');
@@ -287,6 +288,15 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
 
         setSelectedSubtopics(allSt);
         setSelectedBareSubjects(bareSubjects);
+        if (autoStart) {
+          onStart({
+            mode: 'recharge',
+            topics: subjects.map(subject => subject.name),
+            subtopics: subtopics.map(subtopic => subtopic.name),
+            questionCount: initialQuestionCount,
+            statusFilter: 'all',
+          });
+        }
       } catch (error: any) {
         console.error('Failed to load practice filters', error);
         if (!cancelled) setLoadError(error?.message || 'Practice topics could not be loaded.');

@@ -21,6 +21,18 @@ import {
 } from 'recharts';
 import { pieV2AuthHeaders } from '@/lib/pie/pie-history-client';
 
+const RECOMMENDATION_QUESTION_COUNT = 10;
+
+function buildRecommendationPracticeUrl(_actionLink?: string): string {
+  // AI-generated links are untrusted. Keep the action inside Practice and
+  // launch a small adaptive drill without an extra setup step.
+  const params = new URLSearchParams({
+    count: String(RECOMMENDATION_QUESTION_COUNT),
+    autostart: '1',
+  });
+  return `/practice?${params.toString()}`;
+}
+
 const ARCHETYPE_META: Record<string, { label: string; icon: typeof Brain; color: string; description: string; risk?: string }> = {
   panic_changer: {
     label: 'Frequent Answer Changes',
@@ -330,11 +342,9 @@ export default function BehaviorProfile() {
                       <p className="text-sm font-medium">{rec.title}</p>
                       <p className="text-xs text-muted-foreground mt-0.5">{rec.description}</p>
                     </div>
-                    {rec.action_link && (
-                      <Button size="sm" variant="outline" asChild>
-                        <Link to={rec.action_link}>Go</Link>
-                      </Button>
-                    )}
+                    <Button size="sm" variant="outline" asChild>
+                      <Link to={buildRecommendationPracticeUrl(rec.action_link)}>Go · {RECOMMENDATION_QUESTION_COUNT} questions</Link>
+                    </Button>
                   </div>
                 ))}
               </CardContent>
