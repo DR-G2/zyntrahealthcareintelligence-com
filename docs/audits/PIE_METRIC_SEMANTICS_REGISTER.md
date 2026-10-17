@@ -73,3 +73,14 @@ The new migration `0082_pie_distinct_metric_rewrite.sql` rewrites the separate `
 - Duplicate observation events are deduplicated by attempt ID before aggregation.
 
 The migration was executed against the live database inside a transaction with a disposable auth user, 12 synthetic attempts, and a duplicate observation. Assertions passed for deduplication, per-dimension availability, missing-confidence behavior, learning/sustained metrics, and null model confidence. The transaction was rolled back; a follow-up read-only query confirmed zero fixture users, attempts, states, or inference runs remain. This migration has **not** been persistently applied. Full CI and UI consumer validation are still required before release.
+
+
+### Missing and invalid observation contract (PR #155)
+- Null, non-finite, negative-duration, out-of-range confidence/pressure, out-of-range difficulty, and non-positive/non-finite discrimination do not produce metric signals.
+- Missing or invalid signals leave that dimension's posterior estimate, variance, and evidence count unchanged. They do not create neutral 0.5 evidence or increase uncertainty merely because an unusable row arrived.
+- `UNUSABLE` and `CONTRADICTORY` observations do not update posterior metrics. `SUSPICIOUS` observations are retained with reduced quality.
+- Confidence alignment requires a normalized confidence in [0,1] and a graded outcome. It is unavailable when no valid confidence evidence exists.
+- Learning is not inferred from a correct/incorrect transition. The shadow path requires a separately labelled learning context and explicit bounded learning signal; absent those, learning stays unavailable.
+- Shadow output uses null estimates/interval bounds when a dimension has zero valid observations, plus `available` and `unavailable_reason`. The P12 contract test now allows null only when evidence_count is zero.
+- The dashboard adapter preserves invalid/missing values as null and tracks evidence per dimension. A missing secondary dimension no longer suppresses an otherwise supported capability profile; that individual metric remains unavailable.
+- This is source-level remediation. The Edge Function must be deployed and P12 recertified before production behaviour changes.
