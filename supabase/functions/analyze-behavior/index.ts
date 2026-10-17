@@ -84,10 +84,10 @@ serve(async (req) => {
     const avgFirstClick = firstClickAttempts.length ? firstClickAttempts.reduce((s, a) => s + a.time_to_first_click, 0) / firstClickAttempts.length : null;
 
     // Per-subject MCQ stats
-    const subjectMap: Record<string, { correct: number; total: number; changes: number; avgTime: number; times: number[] }> = {};
+    const subjectMap: Record<string, { correct: number; total: number; changes: number; avgTime: number | null; times: number[] }> = {};
     attempts.forEach(a => {
       const cat = (a.questions as any)?.category || "Unknown";
-      if (!subjectMap[cat]) subjectMap[cat] = { correct: 0, total: 0, changes: 0, avgTime: 0, times: [] };
+      if (!subjectMap[cat]) subjectMap[cat] = { correct: 0, total: 0, changes: 0, avgTime: null, times: [] };
       subjectMap[cat].total++;
       if (a.is_correct) subjectMap[cat].correct++;
       subjectMap[cat].changes += a.answer_changes_count || 0;
@@ -104,7 +104,7 @@ serve(async (req) => {
       sessions[a.session_id].push(a);
     });
 
-    const blockPerf: Record<string, { accuracy: number; avgTime: number; changeRate: number }> = {};
+    const blockPerf: Record<string, { accuracy: number; avgTime: number | null; changeRate: number }> = {};
     const latestSession = Object.values(sessions).sort((a, b) =>
       new Date(b[0].created_at).getTime() - new Date(a[0].created_at).getTime()
     )[0]?.slice().sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime());
@@ -153,13 +153,13 @@ serve(async (req) => {
       const scores = sa.scores as any;
       const totalScore = typeof scores?.total === "number" ? scores.total : 0;
       osceAvgScore += totalScore;
-      osceAvgTime += sa.time_taken_seconds || 0;
+      if (typeof sa.time_taken_seconds === 'number' && Number.isFinite(sa.time_taken_seconds) && sa.time_taken_seconds >= 0) osceAvgTime += sa.time_taken_seconds;
 
       const subj = sa.subject || "Unknown";
       if (!osceSubjectMap[subj]) osceSubjectMap[subj] = { totalScore: 0, count: 0, avgTime: 0, times: [] };
       osceSubjectMap[subj].totalScore += totalScore;
       osceSubjectMap[subj].count++;
-      osceSubjectMap[subj].times.push(sa.time_taken_seconds || 0);
+      if (typeof sa.time_taken_seconds === 'number' && Number.isFinite(sa.time_taken_seconds) && sa.time_taken_seconds >= 0) osceSubjectMap[subj].times.push(sa.time_taken_seconds);
 
       if (sa.behavioral_signals && Object.keys(sa.behavioral_signals as any).length > 0) {
         osceBehavioralSignals.push(sa.behavioral_signals);
@@ -168,10 +168,10 @@ serve(async (req) => {
 
     if (osceCount > 0) {
       osceAvgScore = Math.round(osceAvgScore / osceCount);
-      osceAvgTime = Math.round(osceAvgTime / osceCount);
+      osceAvgTime = Math.round(osceAvgTime / Math.max(1, stationAttempts.filter(sa => typeof sa.time_taken_seconds === 'number' && Number.isFinite(sa.time_taken_seconds) && sa.time_taken_seconds >= 0).length));
     }
     Object.values(osceSubjectMap).forEach(s => {
-      s.avgTime = s.times.reduce((a, b) => a + b, 0) / s.times.length;
+      s.avgTime = s.times.length ? s.times.reduce((a, b) => a + b, 0) / s.times.length : null;
     });
 
     // ── Trust Your Gut Metrics (from change_sequence in user_attempts) ──
@@ -208,12 +208,12 @@ serve(async (req) => {
     // Build unified signals
     const signals = {
       totalAttempts,
-      avgTime: Math.round(avgTime),
+      avgTime: avgTime === null ? null : Math.round(avgTime),
       changeRate: Math.round(changeRate * 100) / 100,
       correctRate: Math.round(correctRate * 100) / 100,
       avgPauses: Math.round(avgPauses * 100) / 100,
-      avgFirstClick: Math.round(avgFirstClick),
-      fatigueIncrease: Math.round(fatigueIncrease * 100) / 100,
+      avgFirstClick: avgFirstClick === null ? null : Math.round(avgFirstClick),
+      fatigueIncrease: fatigueIncrease === null ? null : Math.round(fatigueIncrease * 100) / 100,
       canonicalBehaviorDna: behaviorDna ? {
         sampleSize: behaviorDna.sample_size,
         evidenceLevel: behaviorDna.evidence_level,
@@ -234,7 +234,7 @@ serve(async (req) => {
         category: cat,
         accuracy: Math.round((s.correct / s.total) * 100),
         changeRate: Math.round((s.changes / s.total) * 100),
-        avgTime: Math.round(s.avgTime),
+        avgTime: s.avgTime === null ? null : Math.round(s.avgTime),
         total: s.total,
       })),
       blockPerformance: blockPerf,
@@ -389,7 +389,7 @@ Predict AMC score range (out of 300, pass is ~230):
       classification = JSON.parse(toolCall.function.arguments);
     } catch {
       classification = {
-        archetype: changeRate > 2 ? "panic_changer" : avgTime < 45 ? "rusher" : avgTime > 300 ? "paralyzer" : fatigueIncrease > 1.4 ? "fatigue_victim" : "strategist",
+        archetype: changeRate > 2 ? "panic_changer" : avgTime !== null && avgTime < 45 ? "rusher" : avgTime !== null && avgTime > 300 ? "paralyzer" : fatigueIncrease !== null && fatigueIncrease > 1.4 ? "fatigue_victim" : "strategist",
         trap_flags: [],
         predicted_score_low: Math.round(correctRate * 300 * 0.8),
         predicted_score_high: Math.round(correctRate * 300 * 1.1),
