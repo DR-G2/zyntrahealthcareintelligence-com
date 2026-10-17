@@ -32,8 +32,7 @@ begin
     avg(case when is_correct then 1.0 else 0.0 end),
     avg(case when answer_changes_count is null then null
       else least(1.0,greatest(0.0,1.0-answer_changes_count/3.0)) end),
-    avg(case when time_taken_seconds is not null and time_taken_seconds >= 0
-      then case when time_taken_seconds between 15 and 180 then 1.0 else 0.0 end end),
+    avg(time_taken_seconds) filter (where time_taken_seconds is not null and time_taken_seconds >= 0),
     avg(case when confidence_level between 1 and 5
       then 1.0 - abs((confidence_level-1)/4.0 - (case when is_correct then 1.0 else 0.0 end)) end),
     avg(case when confidence_level between 1 and 5
@@ -85,8 +84,15 @@ begin
   -- Never impute a neutral confidence score. Readiness requires observed accuracy,
   -- stability and at least 10 valid confidence observations. Timing is descriptive
   -- only until a question-difficulty-adjusted target model is validated.
-  if v_count >= 30 and v_accuracy is not null and v_stability is not null and v_confidence_count >= 10 and v_calibration is not null then
-    v_readiness := greatest(0.0,least(1.0,0.65*v_accuracy + 0.20*v_stability + 0.15*v_calibration));
+  if v_confidence_count < 10 then
+    v_calibration := null;
+    v_over := null;
+    v_under := null;
+  end if;
+  -- Until a validated multidimensional model exists, the displayed score is
+  -- observed accuracy only. It is not a pass probability or exam-readiness claim.
+  if v_count >= 30 and v_accuracy is not null then
+    v_readiness := v_accuracy;
     v_band := case when v_readiness < 0.50 then 'DEVELOPING'
       when v_readiness < 0.70 then 'PROGRESSING'
       else 'STRONG' end;
@@ -125,10 +131,10 @@ begin
 
   insert into intelligence.readiness_dna(user_id,readiness_score,readiness_band,dimensions,evidence_window,model_version,calculated_at,updated_at)
   values(p_user_id,v_readiness*100,v_band,
-    jsonb_build_object('clinical_accuracy',v_accuracy*100,'answer_stability',v_stability*100,
-      'time_management',v_timing*100,'confidence_calibration',v_calibration*100),
+    jsonb_build_object('observed_accuracy',v_accuracy*100,'answer_change_stability_unvalidated',v_stability*100,
+      'mean_response_time_seconds',v_timing,'confidence_alignment',v_calibration*100),
     jsonb_build_object('attempt_count',v_count,'timed_count',v_timed_count,'confidence_count',v_confidence_count,
-      'required_confidence_observations',10,'readiness_inputs',jsonb_build_array('clinical_accuracy','answer_stability','confidence_alignment'),
+      'score_definition','observed accuracy only; not validated exam readiness or pass probability',
       'is_exam_pass_probability',false),
     'v2-canonical-1.1',now(),now())
   on conflict(user_id) do update set
@@ -167,4 +173,4 @@ begin
 end $$;
 
 comment on function intelligence.rebuild_candidate(uuid) is
-'PIE v2 canonical metric producer v1.1. Readiness is a training signal, not an AMC pass prediction; missing confidence is unavailable, not neutral.';
+'PIE v2 canonical metric producer v1.1. Readiness score is observed accuracy only after 30 attempts; it is not validated exam readiness or an AMC pass prediction. Confidence alignment is unavailable until 10 valid observations.';
