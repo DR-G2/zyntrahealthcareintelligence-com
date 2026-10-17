@@ -121,10 +121,10 @@ describe("PIE UI state mapping", () => {
     });
   });
 
-  it("clamps malformed estimates instead of rendering NaN", () => {
+  it("preserves malformed or absent estimates as unavailable instead of inventing zero", () => {
     const pie = mapPieStateRow({ state_version: 1, confidence: "x", state: { capability: { estimate: "bad" }, evidence_count: 10, evidence_level: "PRELIMINARY" } });
-    expect(pie?.capability).toBe(0);
-    expect(pie?.data_quality).toBe(0);
+    expect(pie?.capability).toBeNull();
+    expect(pie?.data_quality).toBeNull();
   });
 
   it("never uses Awaiting Signal for any state", () => {
