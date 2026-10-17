@@ -95,6 +95,11 @@ export function ReadinessPrism({ evidence, loading, retry }: { evidence: Intelli
     </div>
     {layer === "shadow" && <div className="rounded-lg border border-amber-500/30 bg-amber-500/5 p-3"><p className="text-sm font-semibold">Non-authoritative diagnostic only</p><p className="mt-1 text-sm text-muted-foreground">Shadow values are not fetched or shown in this candidate-facing view. Server-side diagnostic exposure must be approved before that read path is enabled.</p></div>}
     {loading ? <div role="status" className="grid gap-3 md:grid-cols-2"><div className="h-64 animate-pulse rounded-xl bg-muted/40"/><div className="h-64 animate-pulse rounded-xl bg-muted/40"/></div> : <LayerStatus model={model} />}
+    {layer === "observed" && observedReady && <div className="grid gap-3 sm:grid-cols-3">
+      {metric("Recorded attempts", String(summary.count), "Unique attempts in returned history")}
+      {metric("Observed accuracy", summary.accuracy === null ? "Unavailable" : `${Math.round(summary.accuracy)}%`, "Correct / recorded attempts")}
+      {metric("Timed attempts", String(summary.timedCount), "Attempts with recorded duration")}
+    </div>}
     {layer !== "shadow" && !loading && <div className="rounded-xl border border-border p-4">
       <div className="flex flex-wrap items-start justify-between gap-2"><div><h3 className="font-medium">{layer === "observed" ? "Observed evidence" : "Authoritative PIE dimensions"}</h3><p className="mt-1 text-xs text-muted-foreground">{model.provenance}</p></div><div className="text-right text-xs text-muted-foreground"><p>{model.evidenceCount === null ? "Evidence count unavailable" : `${model.evidenceCount} observations/attempts`}</p><p className="mt-1">{formatDate(model.timestamp)}</p></div></div>
       {layer === "authoritative" && <div className="mt-4"><PrismPlot model={model} selected={selected} onSelect={setSelected}/></div>}
