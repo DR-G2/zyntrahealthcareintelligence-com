@@ -83,3 +83,15 @@
 }
 
 /* Phase 3B visual state cues are CSS-only and preserve control geometry. */
+
+/* Accessible boundaries for unselected answer and confidence controls. */
+.zh-phase3b [role="group"][aria-label="Answer options"] button[aria-pressed="false"]:not([aria-label^="Rule out option"]):not([aria-label^="Restore option"]) {
+  border-color: #6b8799 !important;
+}
+.zh-phase3b button[role="radio"][aria-checked="false"] {
+  border-color: #6b8799 !important;
+}
+/* Locked answers keep a patterned border as well as the existing dimming. */
+.zh-phase3b [role="group"][aria-label="Answer options"] button:disabled:not([aria-label^="Rule out option"]):not([aria-label^="Restore option"]) {
+  border-style: dashed !important;
+}
