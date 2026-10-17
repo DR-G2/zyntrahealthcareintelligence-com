@@ -124,7 +124,7 @@ serve(async (req) => {
           blockPerf[seg.key] = {
             accuracy: Math.round((slice.filter(a => a.is_correct).length / slice.length) * 100),
             avgTime: (() => { const timed = slice.filter(a => typeof a.time_taken_seconds === 'number' && Number.isFinite(a.time_taken_seconds) && a.time_taken_seconds >= 0); return timed.length ? Math.round(timed.reduce((s, a) => s + a.time_taken_seconds, 0) / timed.length) : null; })(),
-            changeRate: Math.round((slice.reduce((s, a) => s + (a.answer_changes_count || 0), 0) / slice.length) * 100),
+            changeRate: Math.round((slice.filter(a => (a.answer_changes_count || 0) > 0).length / slice.length) * 100),
           };
         }
       });
@@ -412,7 +412,7 @@ Do not predict an AMC score, pass probability, or readiness-to-pass from these u
       subject_patterns: Object.fromEntries(
         Object.entries(subjectMap).map(([cat, s]) => [cat, {
           accuracy: Math.round((s.correct / s.total) * 100),
-          changeRate: Math.round((s.changes / s.total) * 100),
+          changeRate: Math.round((s.changedAttempts / s.total) * 100),
           avgTime: Math.round(s.avgTime),
           total: s.total,
           type: (s.changedAttempts / s.total) > 0.5 ? "behavioral" : (s.correct / s.total) < 0.5 ? "knowledge" : "stable",
