@@ -82,7 +82,7 @@ describe('PieDrillSession rules', () => {
   it('hides Back in the mock and asks for confirmation before finishing', async () => {
     await setup('full-mock', 1);
     expect(screen.queryByRole('button', { name: /back/i })).toBeNull();
-    fireEvent.click(screen.getByRole('button', { name: /finish exam/i }));
+    fireEvent.click(screen.getByRole('button', { name: /finish test/i }));
     expect(await screen.findByText('Finish the mock exam?')).toBeInTheDocument();
   });
 

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { ChevronLeft, ChevronRight, CheckCircle, Clock } from 'lucide-react';
 import { AppLayout } from '@/components/AppLayout';
 import { Button } from '@/components/ui/button';
@@ -8,6 +9,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { PracticeSkeleton } from '@/components/skeletons/PageSkeleton';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { supabase } from '@/lib/supabase';
 import { cn } from '@/lib/utils';
 import {
@@ -69,6 +71,7 @@ export function PieDrillSession({ config, resumeSessionId, onFinish }: {
 }) {
   const { user } = useAuth();
   const { toast } = useToast();
+  const isMobile = useIsMobile();
   const target = Math.max(1, Math.min(50, config.questionCount));
   const totalSeconds = config.mode === 'full-mock' ? 210 * 60 : target * 60;
   const [questions, setQuestions] = useState<PieSessionQuestion[]>([]);
@@ -270,9 +273,41 @@ export function PieDrillSession({ config, resumeSessionId, onFinish }: {
   const shownTotal = Math.max(questions.length, target);
   const lowTime = isMock && remaining <= 600;
 
+  const questionNavigation = (className: string) => (
+    <nav aria-label="Question navigation" className={className}>
+      <div className="mx-auto w-full max-w-3xl">
+        {!saved[index] && (!selected[index] || !confidence[index]) && (
+          <p id="answer-action-hint" role="status" aria-live="polite" className="mb-2 text-xs text-muted-foreground">
+            Select an answer and a confidence level to continue.
+          </p>
+        )}
+        <div className="flex items-center justify-between gap-3">
+          {isMock ? <span /> : (
+            <Button variant="ghost" className="min-h-11 gap-1" disabled={index === 0 || busy}
+              onClick={() => { recordTime(); setIndex(index - 1); }}>
+              <ChevronLeft className="h-4 w-4" />Back
+            </Button>
+          )}
+          {isLast
+            ? isMock
+              ? <AlertDialog>
+                  <AlertDialogTrigger asChild><Button className="min-h-11 gap-1" disabled={busy}>Finish test <CheckCircle className="h-4 w-4" /></Button></AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader><AlertDialogTitle>Finish the mock exam?</AlertDialogTitle>
+                      <AlertDialogDescription>Your answers will be submitted and you won't be able to return to this exam.</AlertDialogDescription></AlertDialogHeader>
+                    <AlertDialogFooter><AlertDialogCancel>Keep going</AlertDialogCancel><AlertDialogAction className="min-h-11" onClick={() => void finish()}>Finish test</AlertDialogAction></AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              : <Button className="min-h-11 gap-1" disabled={busy} onClick={() => void finish()}>Finish test <CheckCircle className="h-4 w-4" /></Button>
+            : <Button className="min-h-11 gap-1" disabled={busy} onClick={() => void next()}>Next question <ChevronRight className="h-4 w-4" /></Button>}
+        </div>
+      </div>
+    </nav>
+  );
+
   return (
     <AppLayout>
-      <div className="mx-auto max-w-3xl space-y-4 pb-28 pt-2 md:pb-6">
+      <div className="mx-auto max-w-3xl space-y-4 pb-[calc(10rem+env(safe-area-inset-bottom))] pt-2 md:pb-6">
         <header className="sticky top-14 z-20 -mx-4 border-b border-border/60 bg-background/95 px-4 py-3 backdrop-blur-md md:top-0 md:mx-0">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <h1 className="text-sm font-semibold text-primary">{modeLabel}</h1>
@@ -342,26 +377,14 @@ export function PieDrillSession({ config, resumeSessionId, onFinish }: {
             {saved[index] && <p className="flex items-center gap-1 text-xs text-muted-foreground"><CheckCircle className="h-3 w-3" />Answer saved. Results and explanations appear when you finish.</p>}
           </section>
         )}
-        <nav aria-label="Question navigation" className="fixed inset-x-0 bottom-0 z-20 flex items-center justify-between gap-3 border-t border-border/60 bg-background/90 px-4 py-3 backdrop-blur-md md:static md:border-0 md:bg-transparent md:p-0">
-          {isMock ? <span /> : (
-            <Button variant="ghost" className="gap-1" disabled={index === 0 || busy}
-              onClick={() => { recordTime(); setIndex(index - 1); }}>
-              <ChevronLeft className="h-4 w-4" />Back
-            </Button>
-          )}
-          {isLast
-            ? isMock
-              ? <AlertDialog>
-                  <AlertDialogTrigger asChild><Button className="gap-1" disabled={busy}>Finish exam <CheckCircle className="h-4 w-4" /></Button></AlertDialogTrigger>
-                  <AlertDialogContent>
-                    <AlertDialogHeader><AlertDialogTitle>Finish the mock exam?</AlertDialogTitle>
-                      <AlertDialogDescription>Your answers will be submitted and you won't be able to return to this exam.</AlertDialogDescription></AlertDialogHeader>
-                    <AlertDialogFooter><AlertDialogCancel>Keep going</AlertDialogCancel><AlertDialogAction onClick={() => void finish()}>Finish exam</AlertDialogAction></AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
-              : <Button className="gap-1" disabled={busy} onClick={() => void finish()}>Finish <CheckCircle className="h-4 w-4" /></Button>
-            : <Button className="gap-1" disabled={busy} onClick={() => void next()}>Next <ChevronRight className="h-4 w-4" /></Button>}
-        </nav>
+        {isMobile && typeof document !== 'undefined'
+          ? createPortal(
+              questionNavigation('zh-phase3b training-genjutsu fixed inset-x-0 bottom-[calc(3.5rem+env(safe-area-inset-bottom))] z-50 border-t border-border/60 bg-background/95 px-4 py-2 shadow-[0_-12px_40px_rgba(0,0,0,0.24)] backdrop-blur-md'),
+              document.body,
+            )
+          : !isMobile
+            ? questionNavigation('flex items-center justify-between gap-3 border-t border-border/60 bg-background/90 px-4 py-3 md:border-0 md:bg-transparent md:p-0')
+            : null}
       </div>
     </AppLayout>
   );
