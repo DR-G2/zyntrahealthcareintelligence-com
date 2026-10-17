@@ -126,6 +126,10 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
   const focusSubtopic = searchParams.get('focus');
   const focusSubject = searchParams.get('subject');
   const focusSubjectId = searchParams.get('subjectId');
+  const requestedQuestionCount = Number(searchParams.get('count'));
+  const initialQuestionCount = Number.isFinite(requestedQuestionCount) && requestedQuestionCount > 0
+    ? Math.min(MAX_SESSION_QUESTIONS, Math.max(1, Math.floor(requestedQuestionCount)))
+    : 20;
   const [mode, setMode] = useState<'recharge' | 'no-change' | 'full-mock'>('recharge');
   const [primary, setPrimary] = useState<PracticePrimaryMode>('drill');
   const [statusFilter, setStatusFilter] = useState<QuestionStatusFilter>('all');
@@ -138,7 +142,7 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
   // Track subjects with no subtopics that are selected
   const [selectedBareSubjects, setSelectedBareSubjects] = useState<Set<string>>(new Set());
   const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
-  const [questionCount, setQuestionCount] = useState(20);
+  const [questionCount, setQuestionCount] = useState(initialQuestionCount);
   const [searchQuery, setSearchQuery] = useState('');
   const [categoryCounts, setCategoryCounts] = useState<Record<string, number>>({});
   const [subtopicCounts, setSubtopicCounts] = useState<Record<string, number>>({});
