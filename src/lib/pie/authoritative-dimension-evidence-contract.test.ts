@@ -1,8 +1,9 @@
 import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 
 const migration = readFileSync(
-  new URL("../../../supabase/migrations_v2/0094_authoritative_pie_dimension_evidence.sql", import.meta.url),
+  join(process.cwd(), "supabase/migrations_v2/0094_authoritative_pie_dimension_evidence.sql"),
   "utf8",
 );
 
