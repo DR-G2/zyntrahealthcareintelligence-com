@@ -23,15 +23,14 @@ import { pieV2AuthHeaders } from '@/lib/pie/pie-history-client';
 
 const RECOMMENDATION_QUESTION_COUNT = 10;
 
-function buildRecommendationPracticeUrl(actionLink?: string): string {
-  // AI-generated links are untrusted. Keep the action inside Practice and apply
-  // a small, fixed question count so the recommendation is immediately actionable.
-  const url = new URL(actionLink || '/practice', window.location.origin);
-  const path = url.pathname === '/practice' ? url.pathname : '/practice';
-  const params = new URLSearchParams(url.pathname === '/practice' ? url.search : '');
-  params.set('count', String(RECOMMENDATION_QUESTION_COUNT));
-  params.set('autostart', '1');
-  return `${path}?${params.toString()}`;
+function buildRecommendationPracticeUrl(_actionLink?: string): string {
+  // AI-generated links are untrusted. Keep the action inside Practice and
+  // launch a small adaptive drill without an extra setup step.
+  const params = new URLSearchParams({
+    count: String(RECOMMENDATION_QUESTION_COUNT),
+    autostart: '1',
+  });
+  return `/practice?${params.toString()}`;
 }
 
 const ARCHETYPE_META: Record<string, { label: string; icon: typeof Brain; color: string; description: string; risk?: string }> = {
