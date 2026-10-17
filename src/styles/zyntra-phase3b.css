@@ -61,3 +61,23 @@
     transition-duration: .01ms !important;
   }
 }
+
+/* Answer state is reinforced by outline style, not colour alone. */
+.zh-phase3b button[aria-pressed="true"]:not([aria-label^="Restore option"]) {
+  outline: 2px solid var(--zh-workspace-focus);
+  outline-offset: 1px;
+}
+.zh-phase3b button[aria-label^="Restore option"][aria-pressed="true"] {
+  outline: 2px dashed var(--zh-workspace-focus);
+  outline-offset: 1px;
+}
+.zh-phase3b button[role="radio"][aria-checked="true"] {
+  outline: 2px solid var(--zh-workspace-focus);
+  outline-offset: 1px;
+}
+/* Timer warning keeps a non-colour cue without changing text metrics or layout. */
+.zh-phase3b p[aria-live="polite"].text-destructive {
+  text-decoration-line: underline;
+  text-decoration-style: double;
+  text-underline-offset: 3px;
+}
