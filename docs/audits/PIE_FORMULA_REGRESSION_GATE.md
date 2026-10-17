@@ -1,6 +1,6 @@
 # PIE formula regression gate
 
-Status: **deployed V2 producer smoke test executed; formula defects reproduced; remediation pending**.
+Status: **remediation branch created; CI and isolated producer verification pending**
 
 ## Why this gate exists
 
@@ -52,3 +52,22 @@ Do not merge a production formula change until:
 - candidate-facing labels and denominator definitions are updated in the same change.
 
 No persistent candidate records or schema were modified by the smoke test. The separate existing finding that `public.question_retirement_backup_20261014` has RLS disabled remains unresolved and should be reviewed independently.
+
+
+## Remediation branch: `fix/pie-metric-semantics`
+
+Implemented in source, pending CI and database migration verification:
+
+- Added V2 migration `0081_pie_metric_semantics.sql` to exclude missing timing from timing denominators, use explicitly named rapid-incorrect and slow-response observations, stop deriving fatigue from answer instability, and require same-session accuracy decline + timing increase + change-rate increase before emitting a fatigue signal.
+- Confidence alignment is unavailable until at least 10 valid confidence observations; missing confidence is no longer assigned 0.5. It is explicitly named confidence alignment in JSON, not presented as a validated calibration model.
+- Removed the unvalidated composite readiness calculation. The score now represents observed accuracy only after 30 attempts, with no `EXAM_READY` output. It is explicitly not an AMC pass probability. Fewer attempts return `INSUFFICIENT`.
+- Edge-function analysis now excludes missing timing from averages, orders the selected session chronologically, gates fatigue on same-session multi-signal deterioration, and excludes invalid first-choice/key pairs from Trust Your Gut denominators.
+- PIE state mapping now requires per-dimension evidence counts and estimates, not only a global evidence count.
+
+### Important remaining work
+
+- This branch has not yet passed CI or a local PostgreSQL migration run.
+- Legacy `public.rebuild_behavior_dna` and other old producers need a deployed-schema inventory before replacing them; source migrations alone do not prove those functions exist in production.
+- Existing candidate rows have not been rewritten. New semantics take effect only after the migration is applied and the producer is run for a candidate.
+- The label `confidence_miscalibration` in the legacy schema remains semantically misleading and needs a coordinated schema/API/UI migration if that producer is found deployed.
+- `public.question_retirement_backup_20261014` RLS-disabled finding remains independent and unresolved.
