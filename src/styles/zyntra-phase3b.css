@@ -81,3 +81,5 @@
   text-decoration-style: double;
   text-underline-offset: 3px;
 }
+
+/* Phase 3B visual state cues are CSS-only and preserve control geometry. */
