@@ -12,7 +12,6 @@ const allowedOrigins = new Set([
   "https://zyntrahealthcareintelligence-com-rite4hire-9533s-projects.vercel.app",
   "https://zyntrahealthcareintelligence.netlify.app",
   "https://deploy-preview-53--zyntrahealthcareintelligence.netlify.app",
-  // Lovable preview + published app and remaining custom domains
   "https://id-preview--6ac44dc8-fe0a-4032-b431-157c5b421031.lovable.app",
   "https://6ac44dc8-fe0a-4032-b431-157c5b421031.lovableproject.com",
   "http://localhost:8080",
@@ -99,6 +98,16 @@ Deno.serve(async (req) => {
       status: "active",
     }, { onConflict: "id" });
     if (profileError) throw profileError;
+
+    // Persist a server-verified mapping. The legacy UUID comes only from the
+    // verified legacy /auth/v1/user response, never from the request body or metadata.
+    const { error: identityError } = await admin.from("pie_identity_map").upsert({
+      legacy_user_id: legacyUser.id,
+      v2_user_id: v2User.id,
+      email,
+      updated_at: new Date().toISOString(),
+    }, { onConflict: "legacy_user_id" });
+    if (identityError) throw identityError;
 
     const { data: linkData, error: linkError } = await admin.auth.admin.generateLink({
       type: "magiclink",
