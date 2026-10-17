@@ -59,8 +59,6 @@ function infer(rows: any[]) {
     learning: make(),
   };
 
-  let previousOutcome: number | null = null;
-
   for (const row of rows) {
     const payload = row.payload ?? {};
 
@@ -108,7 +106,6 @@ function infer(rows: any[]) {
     s.sustained_performance = update(s.sustained_performance, outcome, 0.15, quality);
     s.learning = update(s.learning, learning, 0.18, quality);
 
-    if (outcome != null) previousOutcome = outcome;
   }
 
   return s;
