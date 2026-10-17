@@ -15,13 +15,13 @@ describe('Intelligence evidence presentation boundary', () => {
       evidence_count: 12, evidence_level: 'PRELIMINARY',
     } });
     expect(result?.dimensionEvidence?.capability).toEqual({
-      uncertainty: 0.2, lower: 0.6, upper: 1, evidenceCount: 12, evidenceQuality: 0.9,
+      uncertainty: 0.2, lower: 0.6, upper: 1, evidenceCount: 12, evidenceQuality: 0.9, estimateAligned: null,
     });
     expect(result?.dimensionEvidence?.decision).toEqual({
-      uncertainty: null, lower: null, upper: null, evidenceCount: 0, evidenceQuality: null,
+      uncertainty: null, lower: null, upper: null, evidenceCount: 0, evidenceQuality: null, estimateAligned: null,
     });
     expect(result?.dimensionEvidence?.timing).toEqual({
-      uncertainty: null, lower: null, upper: null, evidenceCount: null, evidenceQuality: null,
+      uncertainty: null, lower: null, upper: null, evidenceCount: null, evidenceQuality: null, estimateAligned: null,
     });
   });
   it('requires six observations and non-insufficient evidence', () => {
