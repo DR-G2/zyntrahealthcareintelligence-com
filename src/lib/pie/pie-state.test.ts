@@ -106,6 +106,15 @@ describe("PIE UI state mapping", () => {
     expect(resolvePieView(row(8, "INSUFFICIENT")).status).toBe("building");
   });
 
+  it("keeps the overall profile building while any dimension is unavailable", () => {
+    const incomplete = row(30);
+    const state = incomplete.state as Record<string, unknown>;
+    state.calibration = { estimate: null };
+    const view = resolvePieView(incomplete);
+    expect(view.status).toBe("building");
+    if (view.status === "building") expect(view.pie?.calibration).toBeNull();
+  });
+
   it("maps a valid state to the actual PIE state", () => {
     const view = resolvePieView(row(7));
     expect(view.status).toBe("ready");
