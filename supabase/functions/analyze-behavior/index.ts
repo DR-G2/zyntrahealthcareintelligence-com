@@ -74,12 +74,14 @@ serve(async (req) => {
 
     // ── MCQ Metrics ──
     const totalAttempts = attempts.length;
-    const avgTime = totalAttempts > 0 ? attempts.reduce((s, a) => s + (a.time_taken_seconds || 0), 0) / totalAttempts : 0;
+    const timedAttempts = attempts.filter(a => typeof a.time_taken_seconds === 'number' && Number.isFinite(a.time_taken_seconds) && a.time_taken_seconds >= 0);
+    const avgTime = timedAttempts.length ? timedAttempts.reduce((s, a) => s + a.time_taken_seconds, 0) / timedAttempts.length : null;
     const totalChanges = attempts.reduce((s, a) => s + (a.answer_changes_count || 0), 0);
     const changeRate = totalAttempts > 0 ? totalChanges / totalAttempts : 0;
     const correctRate = totalAttempts > 0 ? attempts.filter(a => a.is_correct).length / totalAttempts : 0;
     const avgPauses = totalAttempts > 0 ? attempts.reduce((s, a) => s + (a.pause_events || 0), 0) / totalAttempts : 0;
-    const avgFirstClick = totalAttempts > 0 ? attempts.reduce((s, a) => s + (a.time_to_first_click || 0), 0) / totalAttempts : 0;
+    const firstClickAttempts = attempts.filter(a => typeof a.time_to_first_click === 'number' && Number.isFinite(a.time_to_first_click) && a.time_to_first_click >= 0);
+    const avgFirstClick = firstClickAttempts.length ? firstClickAttempts.reduce((s, a) => s + a.time_to_first_click, 0) / firstClickAttempts.length : null;
 
     // Per-subject MCQ stats
     const subjectMap: Record<string, { correct: number; total: number; changes: number; avgTime: number; times: number[] }> = {};
@@ -89,10 +91,10 @@ serve(async (req) => {
       subjectMap[cat].total++;
       if (a.is_correct) subjectMap[cat].correct++;
       subjectMap[cat].changes += a.answer_changes_count || 0;
-      subjectMap[cat].times.push(a.time_taken_seconds || 0);
+      if (typeof a.time_taken_seconds === 'number' && Number.isFinite(a.time_taken_seconds) && a.time_taken_seconds >= 0) subjectMap[cat].times.push(a.time_taken_seconds);
     });
     Object.values(subjectMap).forEach(s => {
-      s.avgTime = s.times.reduce((a, b) => a + b, 0) / s.times.length;
+      s.avgTime = s.times.length ? s.times.reduce((a, b) => a + b, 0) / s.times.length : null;
     });
 
     // Block segmented performance
@@ -105,7 +107,7 @@ serve(async (req) => {
     const blockPerf: Record<string, { accuracy: number; avgTime: number; changeRate: number }> = {};
     const latestSession = Object.values(sessions).sort((a, b) =>
       new Date(b[0].created_at).getTime() - new Date(a[0].created_at).getTime()
-    )[0];
+    )[0]?.slice().sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime());
 
     if (latestSession) {
       const segments = [
@@ -118,7 +120,7 @@ serve(async (req) => {
         if (slice.length > 0) {
           blockPerf[seg.key] = {
             accuracy: Math.round((slice.filter(a => a.is_correct).length / slice.length) * 100),
-            avgTime: Math.round(slice.reduce((s, a) => s + (a.time_taken_seconds || 0), 0) / slice.length),
+            avgTime: (() => { const timed = slice.filter(a => typeof a.time_taken_seconds === 'number' && Number.isFinite(a.time_taken_seconds) && a.time_taken_seconds >= 0); return timed.length ? Math.round(timed.reduce((s, a) => s + a.time_taken_seconds, 0) / timed.length) : null; })(),
             changeRate: Math.round((slice.reduce((s, a) => s + (a.answer_changes_count || 0), 0) / slice.length) * 100),
           };
         }
@@ -126,10 +128,19 @@ serve(async (req) => {
     }
 
     // Fatigue detection
-    const halfPoint = Math.floor(totalAttempts / 2);
-    const firstHalfAvgTime = halfPoint > 0 ? attempts.slice(0, halfPoint).reduce((s, a) => s + (a.time_taken_seconds || 0), 0) / halfPoint : 0;
-    const secondHalfAvgTime = halfPoint > 0 ? attempts.slice(halfPoint).reduce((s, a) => s + (a.time_taken_seconds || 0), 0) / (totalAttempts - halfPoint) : 0;
-    const fatigueIncrease = firstHalfAvgTime > 0 ? secondHalfAvgTime / firstHalfAvgTime : 1;
+    const fatigueSession = latestSession ?? [];
+    const halfPoint = Math.floor(fatigueSession.length / 2);
+    const early = fatigueSession.slice(0, halfPoint);
+    const late = fatigueSession.slice(halfPoint);
+    const earlyTimed = early.filter(a => typeof a.time_taken_seconds === 'number' && Number.isFinite(a.time_taken_seconds) && a.time_taken_seconds > 0);
+    const lateTimed = late.filter(a => typeof a.time_taken_seconds === 'number' && Number.isFinite(a.time_taken_seconds) && a.time_taken_seconds > 0);
+    const earlyTime = earlyTimed.length ? earlyTimed.reduce((sum, a) => sum + a.time_taken_seconds, 0) / earlyTimed.length : null;
+    const lateTime = lateTimed.length ? lateTimed.reduce((sum, a) => sum + a.time_taken_seconds, 0) / lateTimed.length : null;
+    const earlyAccuracy = early.length ? early.filter(a => a.is_correct).length / early.length : null;
+    const lateAccuracy = late.length ? late.filter(a => a.is_correct).length / late.length : null;
+    const earlyChangeRate = early.length ? early.reduce((sum, a) => sum + (a.answer_changes_count || 0), 0) / early.length : null;
+    const lateChangeRate = late.length ? late.reduce((sum, a) => sum + (a.answer_changes_count || 0), 0) / late.length : null;
+    const fatigueIncrease = fatigueSession.length >= 20 && early.length >= 10 && late.length >= 10 && earlyTimed.length >= 8 && lateTimed.length >= 8 && earlyTime !== null && lateTime !== null && earlyAccuracy !== null && lateAccuracy !== null && earlyChangeRate !== null && lateChangeRate !== null && earlyAccuracy - lateAccuracy >= 0.15 && lateTime / earlyTime >= 1.2 && lateChangeRate > earlyChangeRate ? lateTime / earlyTime : null;
 
     // ── OSCE Metrics ──
     const osceCount = stationAttempts.length;
@@ -164,7 +175,7 @@ serve(async (req) => {
     });
 
     // ── Trust Your Gut Metrics (from change_sequence in user_attempts) ──
-    const attemptsWithChanges = attempts.filter(a => a.answer_changes_count > 0 && Array.isArray(a.change_sequence) && (a.change_sequence as any[]).length > 0);
+    const attemptsWithChanges = attempts.filter(a => a.answer_changes_count > 0 && Array.isArray(a.change_sequence) && (a.change_sequence as any[]).length > 0 && typeof (a.change_sequence as any[])[0] === 'string' && (a.change_sequence as any[])[0].trim() !== '' && typeof (a.questions as any)?.correct_answer === 'string' && (a.questions as any).correct_answer.trim() !== '' && typeof a.selected_answer === 'string' && a.selected_answer.trim() !== '');
     let firstInstinctCorrect = 0;
     let correctToWrong = 0;
     attemptsWithChanges.forEach(a => {
