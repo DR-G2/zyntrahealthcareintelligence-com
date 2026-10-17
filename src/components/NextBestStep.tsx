@@ -66,6 +66,8 @@ export function NextBestStep({ onSnapshotChange, showEvidence = true, refreshKey
         // auth.uid()-scoped projection. Never query recommendations by a
         // client-supplied user ID.
         await ensureV2Session();
+        const { error: refreshError } = await getSupabaseV2().rpc('refresh_candidate_intelligence');
+        if (refreshError) throw refreshError;
         const { data, error } = await getSupabaseV2()
           .from('my_next_best_actions')
           .select('action_type,action_data,expires_at,created_at,updated_at,priority')
