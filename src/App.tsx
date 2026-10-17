@@ -24,6 +24,9 @@ import HowItWorks from "./pages/HowItWorks";
 import PublicPricing from "./pages/PublicPricing";
 import Features from "./pages/Features";
 import AmcPart1Mcq from "./pages/AmcPart1Mcq";
+import AmcClinicalOsce from "./pages/AmcClinicalOsce";
+import AmcExamPreparation from "./pages/AmcExamPreparation";
+import AmcPreparationForImgs from "./pages/AmcPreparationForImgs";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 
@@ -107,7 +110,7 @@ function AppRoutes() {
     <MaintenanceGate>
       <Suspense fallback={<LazyFallback />}>
         <Routes>
-          <Route path="/" element={<ErrorBoundary><SEO title="Zyntra | AMC Exam Preparation That Learns How You Think" description="Adaptive AMC MCQ and Clinical exam preparation for IMGs: clinical reasoning practice, performance analytics and personalised next steps." path="/" /><Home /></ErrorBoundary>} />
+          <Route path="/" element={<ErrorBoundary><SEO title="Zyntra | AMC Exam Preparation for International Medical Graduates" description="Prepare for the AMC exams with Zyntra. Practise clinical questions, analyse your answer patterns and build a clearer picture of your exam readiness." path="/" /><Home /></ErrorBoundary>} />
           <Route path="/how-it-works" element={<ErrorBoundary><SEO title="How PIE Works | Zyntra Healthcare Intelligence" description="See how Zyntra uses available practice signals and explanations to help you choose what to work on next." path="/how-it-works" /><HowItWorks /></ErrorBoundary>} />
           <Route path="/features" element={<ErrorBoundary><SEO title="Zyntra Features | What Is Live, in Beta and Coming Soon" description="Explore Zyntra's AMC preparation features and their current availability, with clear labels for live, beta and coming-soon capabilities." path="/features" /><Features /></ErrorBoundary>} />
           <Route path="/check" element={<LegacyRedirect to="/login" />} />
@@ -123,7 +126,9 @@ function AppRoutes() {
           <Route path="/blog" element={<ErrorBoundary><Blog /></ErrorBoundary>} />
           <Route path="/blog/:slug" element={<ErrorBoundary><BlogArticle /></ErrorBoundary>} />
           <Route path="/osce-in-surgery" element={<LegacyRedirect to="/practice/osce" />} />
-          <Route path="/amc-clinical-osce" element={<LegacyRedirect to="/practice/osce" />} />
+          <Route path="/amc-clinical-osce" element={<ErrorBoundary><AmcClinicalOsce /></ErrorBoundary>} />
+          <Route path="/amc-exam-preparation" element={<ErrorBoundary><AmcExamPreparation /></ErrorBoundary>} />
+          <Route path="/amc-preparation-for-imgs" element={<ErrorBoundary><AmcPreparationForImgs /></ErrorBoundary>} />
           <Route path="/onboarding" element={<ErrorBoundary><Onboarding /></ErrorBoundary>} />
           <Route path="/dashboard" element={<ProtectedRoute><ErrorBoundary><Dashboard /></ErrorBoundary></ProtectedRoute>} />
           <Route path="/assess" element={<LegacyRedirect to="/practice" />} />
