@@ -1,0 +1,56 @@
+name: PIE authoritative dimension evidence regression
+
+on:
+  pull_request:
+    paths:
+      - "supabase/migrations_v2/0088_pie_candidate_state_full_history.sql"
+      - "supabase/migrations_v2/0094_authoritative_pie_dimension_evidence.sql"
+      - "supabase/verification_v2/live_replica/run_0094.sh"
+      - "supabase/verification_v2/live_replica/verify_0094.sql"
+      - ".github/workflows/pie-authoritative-dimension-evidence.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  authoritative-dimension-evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: supabase_admin
+          POSTGRES_PASSWORD: regression-only-password
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U supabase_admin -d postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 20
+    env:
+      PGHOST: 127.0.0.1
+      PGPORT: 5432
+      PGUSER: supabase_admin
+      PGPASSFILE: /home/runner/.pgpass
+      OWNER_ROLE: postgres
+    steps:
+      - name: Checkout PR
+        uses: actions/checkout@v4
+      - name: Install PostgreSQL client
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes postgresql-client
+      - name: Configure isolated database authentication
+        run: |
+          printf '%s\\n' \\
+            '127.0.0.1:5432:*:supabase_admin:regression-only-password' \\
+            '127.0.0.1:5432:*:postgres:regression-owner-password' > "$PGPASSFILE"
+          chmod 600 "$PGPASSFILE"
+          psql -X -v ON_ERROR_STOP=1 -U supabase_admin -d postgres -c "CREATE ROLE postgres LOGIN NOSUPERUSER CREATEROLE BYPASSRLS INHERIT PASSWORD 'regression-owner-password'"
+      - name: Replay schema and test both migrations
+        working-directory: supabase/verification_v2/live_replica
+        run: bash run_0094.sh
