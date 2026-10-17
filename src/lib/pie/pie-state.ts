@@ -15,15 +15,15 @@ export const PIE_MIN_OBSERVATIONS = 6;
 export interface PieState {
   state_timestamp: string | null;
   state_sequence: number;
-  capability: number;
-  decision: number;
-  timing: number;
-  calibration: number;
-  sustained_performance: number;
-  learning: number;
+  capability: number | null;
+  decision: number | null;
+  timing: number | null;
+  calibration: number | null;
+  sustained_performance: number | null;
+  learning: number | null;
   identification_status: string;
   evidence_level: string;
-  data_quality: number;
+  data_quality: number | null;
   observation_count: number;
   model_version: string;
 }
@@ -72,10 +72,11 @@ export interface PieDeps {
   getClient: () => PieClient;
 }
 
-function clamp01(value: unknown): number {
+function clamp01(value: unknown): number | null {
+  if (value === null || value === undefined || value === '') return null;
   const n = Number(value);
-  if (!Number.isFinite(n)) return 0;
-  return Math.max(0, Math.min(1, n));
+  if (!Number.isFinite(n) || n < 0 || n > 1) return null;
+  return n;
 }
 
 export function toPieDiagnostic(stage: PieStage, error: unknown): PieDiagnostic {
@@ -104,7 +105,7 @@ export function mapPieStateRow(row: PieStateRow | null | undefined): PieState | 
   const state = row.state as Record<string, unknown>;
   const estimate = (dimension: string) => {
     const value = state[dimension];
-    return clamp01(value && typeof value === 'object' ? (value as { estimate?: unknown }).estimate : undefined);
+    return clamp01(value && typeof value === 'object' ? (value as { estimate?: unknown }).estimate : null);
   };
   const evidenceLevel = typeof state.evidence_level === 'string' && state.evidence_level
     ? state.evidence_level
