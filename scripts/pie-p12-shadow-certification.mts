@@ -56,12 +56,13 @@ const dimensionContractOk =
   expectedDimensions.every((name) =>
     dimensions.some((d: any) =>
       d?.dimension === name &&
-      typeof d?.estimate === "number" &&
-      typeof d?.uncertainty === "number" &&
-      typeof d?.lower === "number" &&
-      typeof d?.upper === "number" &&
+      (typeof d?.estimate === "number" || (d?.estimate === null && d?.evidence_count === 0)) &&
+      (typeof d?.uncertainty === "number" || (d?.uncertainty === null && d?.evidence_count === 0)) &&
+      (typeof d?.lower === "number" || (d?.lower === null && d?.evidence_count === 0)) &&
+      (typeof d?.upper === "number" || (d?.upper === null && d?.evidence_count === 0)) &&
       typeof d?.evidence_count === "number" &&
-      typeof d?.evidence_quality === "number"
+      typeof d?.evidence_quality === "number" &&
+      (d?.evidence_count > 0 ? d?.available === true : d?.available === false && d?.unavailable_reason === "NO_VALID_OBSERVATIONS")
     )
   );
 check("P12 returns six-dimensional inference contract", dimensionContractOk, `dimensions=${first.payload.dimension_count}, rows=${dimensions.length}`);
