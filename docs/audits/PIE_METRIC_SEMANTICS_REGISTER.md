@@ -83,4 +83,4 @@ The migration was executed against the live database inside a transaction with a
 - Learning is not inferred from a correct/incorrect transition. The shadow path requires a separately labelled learning context and explicit bounded learning signal; absent those, learning stays unavailable.
 - Shadow output uses null estimates/interval bounds when a dimension has zero valid observations, plus `available` and `unavailable_reason`. The P12 contract test now allows null only when evidence_count is zero.
 - The dashboard adapter preserves invalid/missing values as null and tracks evidence per dimension. A missing secondary dimension no longer suppresses an otherwise supported capability profile; that individual metric remains unavailable.
-- This is source-level remediation. The Edge Function must be deployed and P12 recertified before production behaviour changes.
+- The main PIE state producer and application inference engine are source-level remediation. The protected P12 shadow implementation remains unchanged until a versioned recertification is designed. No production behaviour changes until the relevant migrations/functions are deployed.
