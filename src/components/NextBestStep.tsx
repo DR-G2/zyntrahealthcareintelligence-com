@@ -66,8 +66,12 @@ export function NextBestStep({ onSnapshotChange, showEvidence = true, refreshKey
         // auth.uid()-scoped projection. Never query recommendations by a
         // client-supplied user ID.
         await ensureV2Session();
+
+        // Refresh is best-effort: a failed analytics rebuild must not prevent
+        // the dashboard from loading any existing valid recommendation.
         const { error: refreshError } = await getSupabaseV2().rpc('refresh_candidate_intelligence');
-        if (refreshError) throw refreshError;
+        if (refreshError) console.warn('[PIE] Dashboard intelligence refresh failed:', refreshError.message);
+
         const { data, error } = await getSupabaseV2()
           .from('my_next_best_actions')
           .select('action_type,action_data,expires_at,created_at,updated_at,priority')
