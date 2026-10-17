@@ -42,6 +42,10 @@ The smoke test did **not** validate legacy SQL producers or the Trust Your Gut e
 
 `supabase/verification_v2/pie_formula_regression_contract.sql` is a fixture-only semantic contract. It is not a substitute for tests of the actual producer functions.
 
+## PIE state-model v2.2 fixture test
+
+The proposed `0082_pie_distinct_metric_rewrite.sql` was executed inside a transaction using one disposable auth identity, 12 synthetic attempts, and one duplicate observation. Assertions passed for attempt deduplication, distinct dimension outputs, confidence remaining unavailable below 10 valid ratings, learning/sustained metrics at the configured sample size, and null model confidence. The transaction was rolled back; read-only cleanup verification found zero fixture users, attempts, states, or inference runs. This does not replace the remaining CI and consumer checks.
+
 ## Merge gate
 
 Do not merge a production formula change until:
