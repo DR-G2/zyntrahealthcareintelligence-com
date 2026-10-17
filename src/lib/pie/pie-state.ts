@@ -148,7 +148,9 @@ export function mapPieStateRow(row: PieStateRow | null | undefined): PieState | 
     evidence_level: evidenceLevel,
     data_quality: clamp01(row.confidence),
     observation_count: observations,
-    model_version: 'v2-candidate-state',
+    model_version: typeof state.model_version === 'string' && state.model_version
+      ? state.model_version
+      : 'unknown-model-version',
   };
 }
 
