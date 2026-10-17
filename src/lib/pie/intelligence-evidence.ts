@@ -6,8 +6,16 @@ import { PIE_MIN_OBSERVATIONS } from './pie-state';
 export const DIMENSIONS = ['capability', 'decision', 'timing', 'calibration', 'sustained_performance', 'learning'] as const;
 export type Dimension = typeof DIMENSIONS[number];
 export type EvidenceRead<T> = { status: 'ready'; value: T } | { status: 'empty' | 'unavailable'; value: null };
+export interface DimensionEvidence {
+  uncertainty: number | null;
+  lower: number | null;
+  upper: number | null;
+  evidenceCount: number | null;
+  evidenceQuality: number | null;
+}
 export interface StateEvidence {
   dimensions: Record<Dimension, number | null>;
+  dimensionEvidence?: Record<Dimension, DimensionEvidence>;
   count: number;
   level: string;
   timestamp: string | null;
@@ -37,13 +45,26 @@ function percentage(value: unknown): number | null {
 function timestamp(value: unknown): string | null {
   return typeof value === 'string' && Number.isFinite(Date.parse(value)) ? value : null;
 }
+function dimensionCount(value: unknown): number | null {
+  return typeof value === 'number' && Number.isSafeInteger(value) && value >= 0 ? value : null;
+}
 export function mapState(value: unknown): StateEvidence | null {
   const row = object(value), state = object(row.state);
   if (!Object.keys(state).length) return null;
   const dimensions = Object.fromEntries(DIMENSIONS.map(key => [key, fraction(object(state[key]).estimate)])) as Record<Dimension, number | null>;
+  const dimensionEvidence = Object.fromEntries(DIMENSIONS.map(key => {
+    const raw = object(state[key]);
+    return [key, {
+      uncertainty: fraction(raw.uncertainty),
+      lower: fraction(raw.lower),
+      upper: fraction(raw.upper),
+      evidenceCount: dimensionCount(raw.evidence_count),
+      evidenceQuality: fraction(raw.evidence_quality),
+    }];
+  })) as Record<Dimension, DimensionEvidence>;
   const count = typeof state.evidence_count === 'number' && Number.isFinite(state.evidence_count) ? Math.max(0, Math.floor(state.evidence_count)) : 0;
   const level = typeof state.evidence_level === 'string' ? state.evidence_level : 'INSUFFICIENT';
-  return { dimensions, count, level, timestamp: timestamp(row.calculated_at ?? row.updated_at), sufficient: count >= PIE_MIN_OBSERVATIONS && level !== 'INSUFFICIENT' };
+  return { dimensions, dimensionEvidence, count, level, timestamp: timestamp(row.calculated_at ?? row.updated_at), sufficient: count >= PIE_MIN_OBSERVATIONS && level !== 'INSUFFICIENT' };
 }
 export function safeAttempt(row: PieHistoryRow): SafeAttempt {
   return { id: row.attempt_id, subjectId: row.subject_id, subject: row.subject_name ?? 'Uncategorised', correct: row.is_correct,
