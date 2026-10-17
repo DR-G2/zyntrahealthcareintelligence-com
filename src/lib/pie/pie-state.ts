@@ -140,7 +140,11 @@ export function mapPieStateRow(row: PieStateRow | null | undefined): PieState | 
 export function resolvePieView(row: PieStateRow | null | undefined): PieView {
   const pie = mapPieStateRow(row);
   if (!pie) return { status: 'building', observations: 0, pie: null };
-  if (pie.observation_count < PIE_MIN_OBSERVATIONS || pie.evidence_level === 'INSUFFICIENT') {
+  const completeDimensions = [
+    pie.capability, pie.decision, pie.timing, pie.calibration,
+    pie.sustained_performance, pie.learning,
+  ].every(value => value !== null);
+  if (pie.observation_count < PIE_MIN_OBSERVATIONS || pie.evidence_level === 'INSUFFICIENT' || !completeDimensions) {
     return { status: 'building', observations: pie.observation_count, pie };
   }
   return { status: 'ready', pie };
