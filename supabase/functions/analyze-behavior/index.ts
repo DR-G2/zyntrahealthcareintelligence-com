@@ -74,25 +74,30 @@ serve(async (req) => {
 
     // ── MCQ Metrics ──
     const totalAttempts = attempts.length;
-    const avgTime = totalAttempts > 0 ? attempts.reduce((s, a) => s + (a.time_taken_seconds || 0), 0) / totalAttempts : 0;
+    const timedAttempts = attempts.filter(a => typeof a.time_taken_seconds === 'number' && Number.isFinite(a.time_taken_seconds) && a.time_taken_seconds >= 0);
+    const avgTime = timedAttempts.length ? timedAttempts.reduce((s, a) => s + a.time_taken_seconds, 0) / timedAttempts.length : null;
     const totalChanges = attempts.reduce((s, a) => s + (a.answer_changes_count || 0), 0);
-    const changeRate = totalAttempts > 0 ? totalChanges / totalAttempts : 0;
+    const changedAttemptCount = attempts.filter(a => (a.answer_changes_count || 0) > 0).length;
+    const changeRate = totalAttempts > 0 ? changedAttemptCount / totalAttempts : 0;
+    const averageChangesPerAttempt = totalAttempts > 0 ? totalChanges / totalAttempts : 0;
     const correctRate = totalAttempts > 0 ? attempts.filter(a => a.is_correct).length / totalAttempts : 0;
     const avgPauses = totalAttempts > 0 ? attempts.reduce((s, a) => s + (a.pause_events || 0), 0) / totalAttempts : 0;
-    const avgFirstClick = totalAttempts > 0 ? attempts.reduce((s, a) => s + (a.time_to_first_click || 0), 0) / totalAttempts : 0;
+    const firstClickAttempts = attempts.filter(a => typeof a.time_to_first_click === 'number' && Number.isFinite(a.time_to_first_click) && a.time_to_first_click >= 0);
+    const avgFirstClick = firstClickAttempts.length ? firstClickAttempts.reduce((s, a) => s + a.time_to_first_click, 0) / firstClickAttempts.length : null;
 
     // Per-subject MCQ stats
-    const subjectMap: Record<string, { correct: number; total: number; changes: number; avgTime: number; times: number[] }> = {};
+    const subjectMap: Record<string, { correct: number; total: number; changes: number; changedAttempts: number; avgTime: number | null; times: number[] }> = {};
     attempts.forEach(a => {
       const cat = (a.questions as any)?.category || "Unknown";
-      if (!subjectMap[cat]) subjectMap[cat] = { correct: 0, total: 0, changes: 0, avgTime: 0, times: [] };
+      if (!subjectMap[cat]) subjectMap[cat] = { correct: 0, total: 0, changes: 0, changedAttempts: 0, avgTime: null, times: [] };
       subjectMap[cat].total++;
       if (a.is_correct) subjectMap[cat].correct++;
       subjectMap[cat].changes += a.answer_changes_count || 0;
-      subjectMap[cat].times.push(a.time_taken_seconds || 0);
+      if ((a.answer_changes_count || 0) > 0) subjectMap[cat].changedAttempts++;
+      if (typeof a.time_taken_seconds === 'number' && Number.isFinite(a.time_taken_seconds) && a.time_taken_seconds >= 0) subjectMap[cat].times.push(a.time_taken_seconds);
     });
     Object.values(subjectMap).forEach(s => {
-      s.avgTime = s.times.reduce((a, b) => a + b, 0) / s.times.length;
+      s.avgTime = s.times.length ? s.times.reduce((a, b) => a + b, 0) / s.times.length : null;
     });
 
     // Block segmented performance
@@ -102,10 +107,10 @@ serve(async (req) => {
       sessions[a.session_id].push(a);
     });
 
-    const blockPerf: Record<string, { accuracy: number; avgTime: number; changeRate: number }> = {};
+    const blockPerf: Record<string, { accuracy: number; avgTime: number | null; changeRate: number }> = {};
     const latestSession = Object.values(sessions).sort((a, b) =>
       new Date(b[0].created_at).getTime() - new Date(a[0].created_at).getTime()
-    )[0];
+    )[0]?.slice().sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime());
 
     if (latestSession) {
       const segments = [
@@ -118,23 +123,32 @@ serve(async (req) => {
         if (slice.length > 0) {
           blockPerf[seg.key] = {
             accuracy: Math.round((slice.filter(a => a.is_correct).length / slice.length) * 100),
-            avgTime: Math.round(slice.reduce((s, a) => s + (a.time_taken_seconds || 0), 0) / slice.length),
-            changeRate: Math.round((slice.reduce((s, a) => s + (a.answer_changes_count || 0), 0) / slice.length) * 100),
+            avgTime: (() => { const timed = slice.filter(a => typeof a.time_taken_seconds === 'number' && Number.isFinite(a.time_taken_seconds) && a.time_taken_seconds >= 0); return timed.length ? Math.round(timed.reduce((s, a) => s + a.time_taken_seconds, 0) / timed.length) : null; })(),
+            changeRate: Math.round((slice.filter(a => (a.answer_changes_count || 0) > 0).length / slice.length) * 100),
           };
         }
       });
     }
 
     // Fatigue detection
-    const halfPoint = Math.floor(totalAttempts / 2);
-    const firstHalfAvgTime = halfPoint > 0 ? attempts.slice(0, halfPoint).reduce((s, a) => s + (a.time_taken_seconds || 0), 0) / halfPoint : 0;
-    const secondHalfAvgTime = halfPoint > 0 ? attempts.slice(halfPoint).reduce((s, a) => s + (a.time_taken_seconds || 0), 0) / (totalAttempts - halfPoint) : 0;
-    const fatigueIncrease = firstHalfAvgTime > 0 ? secondHalfAvgTime / firstHalfAvgTime : 1;
+    const fatigueSession = latestSession ?? [];
+    const halfPoint = Math.floor(fatigueSession.length / 2);
+    const early = fatigueSession.slice(0, halfPoint);
+    const late = fatigueSession.slice(halfPoint);
+    const earlyTimed = early.filter(a => typeof a.time_taken_seconds === 'number' && Number.isFinite(a.time_taken_seconds) && a.time_taken_seconds > 0);
+    const lateTimed = late.filter(a => typeof a.time_taken_seconds === 'number' && Number.isFinite(a.time_taken_seconds) && a.time_taken_seconds > 0);
+    const earlyTime = earlyTimed.length ? earlyTimed.reduce((sum, a) => sum + a.time_taken_seconds, 0) / earlyTimed.length : null;
+    const lateTime = lateTimed.length ? lateTimed.reduce((sum, a) => sum + a.time_taken_seconds, 0) / lateTimed.length : null;
+    const earlyAccuracy = early.length ? early.filter(a => a.is_correct).length / early.length : null;
+    const lateAccuracy = late.length ? late.filter(a => a.is_correct).length / late.length : null;
+    const earlyChangeRate = early.length ? early.reduce((sum, a) => sum + (a.answer_changes_count || 0), 0) / early.length : null;
+    const lateChangeRate = late.length ? late.reduce((sum, a) => sum + (a.answer_changes_count || 0), 0) / late.length : null;
+    const fatigueIncrease = fatigueSession.length >= 20 && early.length >= 10 && late.length >= 10 && earlyTimed.length >= 8 && lateTimed.length >= 8 && earlyTime !== null && lateTime !== null && earlyAccuracy !== null && lateAccuracy !== null && earlyChangeRate !== null && lateChangeRate !== null && earlyAccuracy - lateAccuracy >= 0.15 && lateTime / earlyTime >= 1.2 && lateChangeRate > earlyChangeRate ? lateTime / earlyTime : null;
 
     // ── OSCE Metrics ──
     const osceCount = stationAttempts.length;
     let osceAvgScore = 0;
-    let osceAvgTime = 0;
+    let osceAvgTime: number | null = null;
     const osceSubjectMap: Record<string, { totalScore: number; count: number; avgTime: number; times: number[] }> = {};
     const osceBehavioralSignals: any[] = [];
 
@@ -142,13 +156,13 @@ serve(async (req) => {
       const scores = sa.scores as any;
       const totalScore = typeof scores?.total === "number" ? scores.total : 0;
       osceAvgScore += totalScore;
-      osceAvgTime += sa.time_taken_seconds || 0;
+      if (typeof sa.time_taken_seconds === 'number' && Number.isFinite(sa.time_taken_seconds) && sa.time_taken_seconds >= 0) osceAvgTime = (osceAvgTime ?? 0) + sa.time_taken_seconds;
 
       const subj = sa.subject || "Unknown";
       if (!osceSubjectMap[subj]) osceSubjectMap[subj] = { totalScore: 0, count: 0, avgTime: 0, times: [] };
       osceSubjectMap[subj].totalScore += totalScore;
       osceSubjectMap[subj].count++;
-      osceSubjectMap[subj].times.push(sa.time_taken_seconds || 0);
+      if (typeof sa.time_taken_seconds === 'number' && Number.isFinite(sa.time_taken_seconds) && sa.time_taken_seconds >= 0) osceSubjectMap[subj].times.push(sa.time_taken_seconds);
 
       if (sa.behavioral_signals && Object.keys(sa.behavioral_signals as any).length > 0) {
         osceBehavioralSignals.push(sa.behavioral_signals);
@@ -157,14 +171,15 @@ serve(async (req) => {
 
     if (osceCount > 0) {
       osceAvgScore = Math.round(osceAvgScore / osceCount);
-      osceAvgTime = Math.round(osceAvgTime / osceCount);
+      const timedStations = stationAttempts.filter(sa => typeof sa.time_taken_seconds === 'number' && Number.isFinite(sa.time_taken_seconds) && sa.time_taken_seconds >= 0).length;
+      osceAvgTime = timedStations ? Math.round((osceAvgTime ?? 0) / timedStations) : null;
     }
     Object.values(osceSubjectMap).forEach(s => {
-      s.avgTime = s.times.reduce((a, b) => a + b, 0) / s.times.length;
+      s.avgTime = s.times.length ? s.times.reduce((a, b) => a + b, 0) / s.times.length : null;
     });
 
     // ── Trust Your Gut Metrics (from change_sequence in user_attempts) ──
-    const attemptsWithChanges = attempts.filter(a => a.answer_changes_count > 0 && Array.isArray(a.change_sequence) && (a.change_sequence as any[]).length > 0);
+    const attemptsWithChanges = attempts.filter(a => a.answer_changes_count > 0 && Array.isArray(a.change_sequence) && (a.change_sequence as any[]).length > 0 && typeof (a.change_sequence as any[])[0] === 'string' && (a.change_sequence as any[])[0].trim() !== '' && typeof (a.questions as any)?.correct_answer === 'string' && (a.questions as any).correct_answer.trim() !== '' && typeof a.selected_answer === 'string' && a.selected_answer.trim() !== '');
     let firstInstinctCorrect = 0;
     let correctToWrong = 0;
     attemptsWithChanges.forEach(a => {
@@ -197,12 +212,13 @@ serve(async (req) => {
     // Build unified signals
     const signals = {
       totalAttempts,
-      avgTime: Math.round(avgTime),
+      avgTime: avgTime === null ? null : Math.round(avgTime),
       changeRate: Math.round(changeRate * 100) / 100,
+      averageChangesPerAttempt: Math.round(averageChangesPerAttempt * 100) / 100,
       correctRate: Math.round(correctRate * 100) / 100,
       avgPauses: Math.round(avgPauses * 100) / 100,
-      avgFirstClick: Math.round(avgFirstClick),
-      fatigueIncrease: Math.round(fatigueIncrease * 100) / 100,
+      avgFirstClick: avgFirstClick === null ? null : Math.round(avgFirstClick),
+      fatigueIncrease: fatigueIncrease === null ? null : Math.round(fatigueIncrease * 100) / 100,
       canonicalBehaviorDna: behaviorDna ? {
         sampleSize: behaviorDna.sample_size,
         evidenceLevel: behaviorDna.evidence_level,
@@ -222,8 +238,8 @@ serve(async (req) => {
       subjectStats: Object.entries(subjectMap).map(([cat, s]) => ({
         category: cat,
         accuracy: Math.round((s.correct / s.total) * 100),
-        changeRate: Math.round((s.changes / s.total) * 100),
-        avgTime: Math.round(s.avgTime),
+        changeRate: Math.round((s.changedAttempts / s.total) * 100),
+        avgTime: s.avgTime === null ? null : Math.round(s.avgTime),
         total: s.total,
       })),
       blockPerformance: blockPerf,
@@ -235,7 +251,7 @@ serve(async (req) => {
         subject: subj,
         avgScore: Math.round(s.totalScore / s.count),
         count: s.count,
-        avgTime: Math.round(s.avgTime),
+        avgTime: s.avgTime === null ? null : Math.round(s.avgTime),
       })),
       osceBehavioralSignalsSample: osceBehavioralSignals.slice(0, 5),
       // Trust Your Gut
@@ -299,8 +315,7 @@ Trust Your Gut signals:
 - Points lost from correct-to-wrong changes
 - Whether the candidate should trust their gut more
 
-Predict AMC score range (out of 300, pass is ~230):
-- Use correctRate, OSCE performance, behavioral patterns, and subject coverage to estimate`,
+Do not predict an AMC score, pass probability, or readiness-to-pass from these unvalidated signals. Set predicted_score_low, predicted_score_high, and predicted_score_potential to null. Describe only observed practice patterns and evidence limitations.`,
           },
           {
             role: "user",
@@ -332,9 +347,9 @@ Predict AMC score range (out of 300, pass is ~230):
                       required: ["trap", "description", "severity"],
                     },
                   },
-                  predicted_score_low: { type: "integer" },
-                  predicted_score_high: { type: "integer" },
-                  predicted_score_potential: { type: "integer" },
+                  predicted_score_low: { type: ["integer", "null"] },
+                  predicted_score_high: { type: ["integer", "null"] },
+                  predicted_score_potential: { type: ["integer", "null"] },
                   recommendations: {
                     type: "array",
                     items: {
@@ -378,11 +393,11 @@ Predict AMC score range (out of 300, pass is ~230):
       classification = JSON.parse(toolCall.function.arguments);
     } catch {
       classification = {
-        archetype: changeRate > 2 ? "panic_changer" : avgTime < 45 ? "rusher" : avgTime > 300 ? "paralyzer" : fatigueIncrease > 1.4 ? "fatigue_victim" : "strategist",
+        archetype: averageChangesPerAttempt > 2 ? "panic_changer" : avgTime !== null && avgTime < 45 ? "rusher" : avgTime !== null && avgTime > 300 ? "paralyzer" : fatigueIncrease !== null && fatigueIncrease > 1.4 ? "fatigue_victim" : "strategist",
         trap_flags: [],
-        predicted_score_low: Math.round(correctRate * 300 * 0.8),
-        predicted_score_high: Math.round(correctRate * 300 * 1.1),
-        predicted_score_potential: Math.round(correctRate * 300 * 1.2),
+        predicted_score_low: null,
+        predicted_score_high: null,
+        predicted_score_potential: null,
         recommendations: [{ title: "Continue practicing", description: "Keep up your current routine", priority: "medium" }],
         critical_finding: `Your overall accuracy is ${Math.round(correctRate * 100)}%.`,
       };
@@ -397,10 +412,10 @@ Predict AMC score range (out of 300, pass is ~230):
       subject_patterns: Object.fromEntries(
         Object.entries(subjectMap).map(([cat, s]) => [cat, {
           accuracy: Math.round((s.correct / s.total) * 100),
-          changeRate: Math.round((s.changes / s.total) * 100),
+          changeRate: Math.round((s.changedAttempts / s.total) * 100),
           avgTime: Math.round(s.avgTime),
           total: s.total,
-          type: (s.changes / s.total) > 0.5 ? "behavioral" : (s.correct / s.total) < 0.5 ? "knowledge" : "stable",
+          type: (s.changedAttempts / s.total) > 0.5 ? "behavioral" : (s.correct / s.total) < 0.5 ? "knowledge" : "stable",
         }])
       ),
       trap_flags: classification.trap_flags,

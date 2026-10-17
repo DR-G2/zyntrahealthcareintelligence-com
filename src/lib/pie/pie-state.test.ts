@@ -20,12 +20,12 @@ function row(evidenceCount: number, level?: string): PieStateRow {
     calculated_at: "2026-10-06T11:00:00Z",
     updated_at: "2026-10-06T11:00:00Z",
     state: {
-      capability: { estimate: 0.5714 },
-      decision: { estimate: 0.8 },
-      timing: { estimate: 0.7 },
-      calibration: { estimate: 0.66 },
-      sustained_performance: { estimate: 0.5714 },
-      learning: { estimate: 0.5714 },
+      capability: { estimate: 0.5714, evidence_count: evidenceCount },
+      decision: { estimate: 0.8, evidence_count: evidenceCount },
+      timing: { estimate: 0.7, evidence_count: evidenceCount },
+      calibration: { estimate: 0.66, evidence_count: evidenceCount },
+      sustained_performance: { estimate: 0.5714, evidence_count: evidenceCount },
+      learning: { estimate: 0.5714, evidence_count: evidenceCount },
       evidence_count: evidenceCount,
       evidence_level: level ?? (evidenceCount < 6 ? "INSUFFICIENT" : "PRELIMINARY"),
     },
@@ -106,6 +106,19 @@ describe("PIE UI state mapping", () => {
     expect(resolvePieView(row(8, "INSUFFICIENT")).status).toBe("building");
   });
 
+  it("keeps a supported overall profile while an individual metric remains unavailable", () => {
+    const incomplete = row(30);
+    const state = incomplete.state as Record<string, unknown>;
+    state.calibration = { estimate: null, evidence_count: 0 };
+    const view = resolvePieView(incomplete);
+    expect(view.status).toBe("ready");
+    if (view.status === "ready") {
+      expect(view.pie.calibration).toBeNull();
+      expect(view.pie.dimension_evidence.calibration).toBe(0);
+      expect(view.pie.capability).not.toBeNull();
+    }
+  });
+
   it("maps a valid state to the actual PIE state", () => {
     const view = resolvePieView(row(7));
     expect(view.status).toBe("ready");
@@ -121,10 +134,10 @@ describe("PIE UI state mapping", () => {
     });
   });
 
-  it("clamps malformed estimates instead of rendering NaN", () => {
+  it("preserves malformed or absent estimates as unavailable instead of inventing zero", () => {
     const pie = mapPieStateRow({ state_version: 1, confidence: "x", state: { capability: { estimate: "bad" }, evidence_count: 10, evidence_level: "PRELIMINARY" } });
-    expect(pie?.capability).toBe(0);
-    expect(pie?.data_quality).toBe(0);
+    expect(pie?.capability).toBeNull();
+    expect(pie?.data_quality).toBeNull();
   });
 
   it("never uses Awaiting Signal for any state", () => {
