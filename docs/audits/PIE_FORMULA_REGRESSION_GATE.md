@@ -63,6 +63,8 @@ Implemented in source, pending CI and database migration verification:
 - Removed the unvalidated composite readiness calculation. The score now represents observed accuracy only after 30 attempts, with no `EXAM_READY` output. It is explicitly not an AMC pass probability. Fewer attempts return `INSUFFICIENT`.
 - Edge-function analysis now excludes missing timing from averages, orders the selected session chronologically, gates fatigue on same-session multi-signal deterioration, and excludes invalid first-choice/key pairs from Trust Your Gut denominators.
 - PIE state mapping now requires per-dimension evidence counts and estimates, not only a global evidence count.
+- Confidence presentation now requires an explicit `confidence_alignment` value and at least 10 observations in the evidence window; legacy `calibration_score` alone is not presented as validated calibration.
+- Removed AI-generated AMC score-range estimates from the behavior-analysis prompt and fallback. Those estimates were not validated against outcomes.
 
 ### Important remaining work
 
