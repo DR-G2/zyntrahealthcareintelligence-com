@@ -343,7 +343,7 @@ export default function BehaviorProfile() {
                       <p className="text-xs text-muted-foreground mt-0.5">{rec.description}</p>
                     </div>
                     <Button size="sm" variant="outline" asChild>
-                      <Link to={buildRecommendationPracticeUrl(rec.action_link)}>Go</Link>
+                      <Link to={buildRecommendationPracticeUrl(rec.action_link)}>Go · {RECOMMENDATION_QUESTION_COUNT} questions</Link>
                     </Button>
                   </div>
                 ))}
