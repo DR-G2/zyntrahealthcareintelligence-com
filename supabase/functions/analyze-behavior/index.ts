@@ -311,8 +311,7 @@ Trust Your Gut signals:
 - Points lost from correct-to-wrong changes
 - Whether the candidate should trust their gut more
 
-Predict AMC score range (out of 300, pass is ~230):
-- Use correctRate, OSCE performance, behavioral patterns, and subject coverage to estimate`,
+Do not predict an AMC score, pass probability, or readiness-to-pass from these unvalidated signals. Set predicted_score_low, predicted_score_high, and predicted_score_potential to null. Describe only observed practice patterns and evidence limitations.`,
           },
           {
             role: "user",
@@ -344,9 +343,9 @@ Predict AMC score range (out of 300, pass is ~230):
                       required: ["trap", "description", "severity"],
                     },
                   },
-                  predicted_score_low: { type: "integer" },
-                  predicted_score_high: { type: "integer" },
-                  predicted_score_potential: { type: "integer" },
+                  predicted_score_low: { type: ["integer", "null"] },
+                  predicted_score_high: { type: ["integer", "null"] },
+                  predicted_score_potential: { type: ["integer", "null"] },
                   recommendations: {
                     type: "array",
                     items: {
@@ -392,9 +391,9 @@ Predict AMC score range (out of 300, pass is ~230):
       classification = {
         archetype: changeRate > 2 ? "panic_changer" : avgTime !== null && avgTime < 45 ? "rusher" : avgTime !== null && avgTime > 300 ? "paralyzer" : fatigueIncrease !== null && fatigueIncrease > 1.4 ? "fatigue_victim" : "strategist",
         trap_flags: [],
-        predicted_score_low: Math.round(correctRate * 300 * 0.8),
-        predicted_score_high: Math.round(correctRate * 300 * 1.1),
-        predicted_score_potential: Math.round(correctRate * 300 * 1.2),
+        predicted_score_low: null,
+        predicted_score_high: null,
+        predicted_score_potential: null,
         recommendations: [{ title: "Continue practicing", description: "Keep up your current routine", priority: "medium" }],
         critical_finding: `Your overall accuracy is ${Math.round(correctRate * 100)}%.`,
       };
