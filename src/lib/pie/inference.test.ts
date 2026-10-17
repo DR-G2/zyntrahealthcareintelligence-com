@@ -38,6 +38,50 @@ describe("PIE P3 state inference engine", () => {
     expect(state.calibration.evidenceCount).toBe(0);
   });
 
+  test("invalid confidence and timing are unavailable, not clamped into evidence", () => {
+    const before = initialCandidateState();
+    const after = updateCandidateState(before, {
+      outcome: "CORRECT",
+      confidenceNormalized: 1.4,
+      timeTotalMs: Number.NaN,
+      timePressure: 1.5,
+      difficulty: 1.8,
+    });
+    expect(after.calibration.evidenceCount).toBe(0);
+    expect(after.timing.evidenceCount).toBe(0);
+    expect(after.capability.evidenceCount).toBe(0);
+    expect(after.capability.estimate).toBe(before.capability.estimate);
+    expect(after.capability.variance).toBe(before.capability.variance);
+  });
+
+  test("an observation with no valid signals cannot increase evidence or data quality", () => {
+    const before = initialCandidateState();
+    const after = updateCandidateState(before, {
+      outcome: "UNKNOWN",
+      confidenceNormalized: null,
+      timeTotalMs: -100,
+      timePressure: Number.POSITIVE_INFINITY,
+    });
+    expect(after.capability.evidenceCount).toBe(0);
+    expect(after.timing.evidenceCount).toBe(0);
+    expect(after.calibration.evidenceCount).toBe(0);
+    expect(after.dataQuality).toBe(before.dataQuality);
+  });
+
+  test("unusable and contradictory observations do not update posterior estimates", () => {
+    const before = initialCandidateState();
+    const after = updateCandidateState(before, {
+      outcome: "CORRECT",
+      confidenceNormalized: 0.9,
+      timeTotalMs: 5000,
+      observationQuality: "CONTRADICTORY",
+    });
+    expect(after.capability.evidenceCount).toBe(0);
+    expect(after.calibration.evidenceCount).toBe(0);
+    expect(after.timing.evidenceCount).toBe(0);
+    expect(after.capability.estimate).toBe(before.capability.estimate);
+  });
+
   test("technical interruption reduces observation quality rather than capability directly", () => {
     const before = initialCandidateState();
     const after = updateCandidateState(before, {
