@@ -17,5 +17,14 @@ BEGIN
 END $$;
 
 -- STEP 2: full UNIQUE constraint (NULLs stay distinct) so upsert onConflict can target it.
-alter table public.payments
-  add constraint payments_razorpay_payment_id_key unique (razorpay_payment_id);
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint
+    WHERE conname = 'payments_razorpay_payment_id_key'
+      AND conrelid = 'public.payments'::regclass
+  ) THEN
+    ALTER TABLE public.payments
+      ADD CONSTRAINT payments_razorpay_payment_id_key UNIQUE (razorpay_payment_id);
+  END IF;
+END $$;
