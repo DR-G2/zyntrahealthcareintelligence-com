@@ -1,6 +1,14 @@
 import { DEFAULT_INFERENCE_CONFIG, initialCandidateState } from "./types.ts";
 import type { CandidateState, InferenceConfig, PieObservation, StatePosterior } from "./types.ts";
 
+function isFiniteNumber(x: unknown): x is number {
+  return typeof x === "number" && Number.isFinite(x);
+}
+
+function unitInterval(x: unknown): x is number {
+  return isFiniteNumber(x) && x >= 0 && x <= 1;
+}
+
 function clamp01(x: number): number {
   return Math.max(0, Math.min(1, x));
 }
@@ -15,26 +23,28 @@ function logit(p: number): number {
 }
 
 function qualityOf(o: PieObservation): number {
-  if (o.observationQuality === "UNUSABLE") return 0;
-  if (o.observationQuality === "CONTRADICTORY") return 0.15;
+  if (o.observationQuality === "UNUSABLE" || o.observationQuality === "CONTRADICTORY") return 0;
   if (o.observationQuality === "SUSPICIOUS") return 0.5;
   return o.interruptionActive ? 0.25 : 1;
 }
 
 function normaliseTiming(o: PieObservation): number | null {
-  if (o.timeTotalMs == null || o.timeTotalMs <= 0) return null;
-  if (o.timePressure != null) return clamp01(1 - o.timePressure);
+  if (!isFiniteNumber(o.timeTotalMs) || o.timeTotalMs <= 0) return null;
+  if (o.timePressure != null) {
+    if (!unitInterval(o.timePressure)) return null;
+    return 1 - o.timePressure;
+  }
   return clamp01(1 / (1 + Math.log1p(o.timeTotalMs / 1000) / 10));
 }
 
 function decisionSignal(o: PieObservation): number | null {
-  if (o.firstAnswerCorrect == null || o.finalAnswerCorrect == null) return null;
+  if (typeof o.firstAnswerCorrect !== "boolean" || typeof o.finalAnswerCorrect !== "boolean") return null;
   if (o.firstAnswerCorrect === o.finalAnswerCorrect) return 0.5;
   return o.finalAnswerCorrect ? 0.75 : 0.25;
 }
 
 function calibrationSignal(o: PieObservation): number | null {
-  if (o.confidenceNormalized == null || o.outcome === "UNANSWERED" || o.outcome === "INVALID") return null;
+  if (!unitInterval(o.confidenceNormalized) || (o.outcome !== "CORRECT" && o.outcome !== "INCORRECT")) return null;
   const y = o.outcome === "CORRECT" ? 1 : 0;
   const error = Math.abs(o.confidenceNormalized - y);
   return clamp01(1 - error);
@@ -42,11 +52,14 @@ function calibrationSignal(o: PieObservation): number | null {
 
 function capabilitySignal(o: PieObservation, prior: StatePosterior): number | null {
   if (o.outcome !== "CORRECT" && o.outcome !== "INCORRECT") return null;
-  const difficulty = o.difficulty ?? 0.5;
-  const discrimination = Math.max(0.25, o.discrimination ?? 1);
+  const difficulty = o.difficulty == null ? 0.5 : o.difficulty;
+  if (!unitInterval(difficulty)) return null;
+  const discrimination = o.discrimination == null ? 1 : o.discrimination;
+  if (!isFiniteNumber(discrimination) || discrimination <= 0) return null;
+  const effectiveDiscrimination = Math.max(0.25, discrimination);
   const y = o.outcome === "CORRECT" ? 1 : 0;
   const targetLogit = logit(clamp01(prior.estimate));
-  const observationLogit = targetLogit + (y - sigmoid(discrimination * (prior.estimate - difficulty))) / discrimination;
+  const observationLogit = targetLogit + (y - sigmoid(effectiveDiscrimination * (prior.estimate - difficulty))) / effectiveDiscrimination;
   return clamp01(sigmoid(observationLogit));
 }
 
@@ -69,13 +82,10 @@ function updateScalar(
   processVariance: number,
   quality: number,
 ): StatePosterior {
-  if (signal == null || quality <= 0) {
-    return {
-      ...prior,
-      variance: prior.variance + processVariance,
-      lower: clamp01(prior.estimate - 1.96 * Math.sqrt(prior.variance + processVariance)),
-      upper: clamp01(prior.estimate + 1.96 * Math.sqrt(prior.variance + processVariance)),
-    };
+  // Missing or invalid signals are not observations. Do not move the estimate,
+  // shrink uncertainty, or manufacture evidence from absent data.
+  if (signal == null || !Number.isFinite(signal) || signal < 0 || signal > 1 || quality <= 0) {
+    return prior;
   }
 
   const predictedVariance = prior.variance + processVariance;
@@ -176,9 +186,22 @@ export function updateCandidateState(
       config.processVariance.LEARNING ?? 0.004,
       quality,
     ),
-    dataQuality: clamp01(
-      (base.dataQuality * base.sequence + quality) / (base.sequence + 1),
-    ),
+    dataQuality: (() => {
+      const validSignals = [
+        capabilitySignal(observation, base.capability),
+        decisionSignal(observation),
+        normaliseTiming(observation),
+        calibrationSignal(observation),
+        sustainedSignal(observation),
+        learningSignal(observation),
+      ].filter(signal => signal !== null);
+      if (quality <= 0 || validSignals.length === 0) return base.dataQuality;
+      const priorEvidence = [
+        base.capability.evidenceCount, base.decision.evidenceCount, base.timing.evidenceCount,
+        base.calibration.evidenceCount, base.sustainedPerformance.evidenceCount, base.learning.evidenceCount,
+      ].reduce((sum, count) => sum + count, 0);
+      return clamp01((base.dataQuality * priorEvidence + quality) / (priorEvidence + 1));
+    })(),
   } satisfies CandidateState;
 
   const totalEvidence = [
