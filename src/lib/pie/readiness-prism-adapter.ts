@@ -1,4 +1,4 @@
-import { DIMENSIONS, type Dimension, type IntelligenceEvidence, type StateEvidence } from "./intelligence-evidence";
+import { DIMENSIONS, type Dimension, type DimensionEvidence, type IntelligenceEvidence, type StateEvidence } from "./intelligence-evidence";
 
 export type PrismLayer = "observed" | "authoritative" | "shadow";
 export type PrismDimensionValue = {
@@ -29,6 +29,10 @@ function validFraction(value: unknown): number | null {
   return typeof value === "number" && Number.isFinite(value) && value >= 0 && value <= 1 ? value : null;
 }
 
+function validCount(value: unknown): number | null {
+  return typeof value === "number" && Number.isSafeInteger(value) && value >= 0 ? value : null;
+}
+
 function validTimestamp(value: unknown): string | null {
   return typeof value === "string" && Number.isFinite(Date.parse(value)) ? value : null;
 }
@@ -48,17 +52,23 @@ export function authoritativePrismLayer(read: IntelligenceEvidence["pie"]): Pris
 }
 
 function statePrismLayer(state: StateEvidence): PrismLayerModel {
-  const dimensions = DIMENSIONS.map(dimension => ({
-    dimension,
-    estimate: validFraction(state.dimensions[dimension]),
-    uncertainty: null,
-    lower: null,
-    upper: null,
-    evidenceCount: null,
-    evidenceQuality: null,
-  }));
+  const dimensions = DIMENSIONS.map(dimension => {
+    const metadata: DimensionEvidence | undefined = state.dimensionEvidence?.[dimension];
+    return {
+      dimension,
+      estimate: validFraction(state.dimensions[dimension]),
+      uncertainty: validFraction(metadata?.uncertainty),
+      lower: validFraction(metadata?.lower),
+      upper: validFraction(metadata?.upper),
+      evidenceCount: validCount(metadata?.evidenceCount),
+      evidenceQuality: validFraction(metadata?.evidenceQuality),
+    };
+  });
   const complete = dimensions.every(item => item.estimate !== null);
-  const sufficient = state.sufficient && complete;
+  const metadataComplete = dimensions.every(item => item.evidenceCount !== null
+    && (item.evidenceCount === 0 || (item.uncertainty !== null && item.lower !== null && item.upper !== null && item.evidenceQuality !== null)));
+  const sufficient = state.sufficient && complete && metadataComplete
+    && dimensions.every(item => (item.evidenceCount ?? 0) > 0 && (item.evidenceQuality ?? 0) > 0);
   return {
     layer: "authoritative",
     status: sufficient ? "ready" : "empty",
@@ -67,7 +77,7 @@ function statePrismLayer(state: StateEvidence): PrismLayerModel {
     provenance: "public.my_pie_state application projection",
     evidenceCount: Number.isFinite(state.count) && state.count >= 0 ? state.count : null,
     evidenceLevel: typeof state.level === "string" ? state.level : null,
-    message: sufficient ? null : "Authoritative dimension values are incomplete or evidence is still building. Missing values remain unavailable.",
+    message: sufficient ? null : "Authoritative dimension evidence is incomplete or still building. Missing metadata remains unavailable.",
   };
 }
 
