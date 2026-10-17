@@ -1,5 +1,6 @@
 import { lazy, Suspense, useEffect, type ReactNode } from "react";
 import { Zap } from "lucide-react";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 import { Navigate } from "react-router-dom";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -176,6 +177,7 @@ const App = () => (
           <BrowserRouter>
             <PresenceTracker />
             <VisitorTracker />
+            <SpeedInsights />
             <AppRoutes />
           </BrowserRouter>
         </TooltipProvider>
