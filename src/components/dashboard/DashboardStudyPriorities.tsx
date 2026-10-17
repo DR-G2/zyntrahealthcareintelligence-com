@@ -145,7 +145,7 @@ export function DashboardStudyPriorities() {
                   {priority.accuracy != null && <span className="text-sm tabular-nums text-slate-400">{priority.attempt_count != null ? priority.attempt_count + ' attempts · ' : ''}{priority.accuracy}% recorded accuracy</span>}
                   {priority.attempt_count != null && priority.attempt_count < 5 && <Badge variant="outline" className="border-amber-300/25 text-amber-200">Small sample</Badge>}
                   {priority.daily_questions != null && <span className="text-sm tabular-nums text-slate-400">{priority.daily_questions} q/day</span>}
-                  <Button asChild size="sm" variant="outline" className="min-h-10 shrink-0"><Link to={'/practice?subject=' + encodeURIComponent(priority.category)}>Practice <ArrowRight className="ml-1 h-3.5 w-3.5" /></Link></Button>
+                  <Button asChild size="sm" variant="outline" className="min-h-10 shrink-0"><Link to={'/practice?subject=' + encodeURIComponent(priority.category) + '&count=' + encodeURIComponent(String(priority.daily_questions ?? 20))}>Practice <ArrowRight className="ml-1 h-3.5 w-3.5" /></Link></Button>
                 </div>
               </div>
             ))}
