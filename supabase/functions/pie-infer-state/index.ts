@@ -64,7 +64,7 @@ function infer(rows: any[]) {
 
     const quality =
       payload.observation_quality === "UNUSABLE" ? 0 :
-      payload.observation_quality === "CONTRADICTORY" ? 0.15 :
+      payload.observation_quality === "CONTRADICTORY" ? 0 :
       payload.observation_quality === "SUSPICIOUS" ? 0.5 :
       payload.interaction_state === "INTERRUPTED" ? 0.25 :
       1;
@@ -95,7 +95,8 @@ function infer(rows: any[]) {
     // A correct/incorrect transition is not evidence of learning by itself.
     // Only a separately labelled learning-context observation can update this dimension.
     const learning =
-      unitInterval(payload.learning_signal) && payload.learning_context != null
+      unitInterval(payload.learning_signal) &&
+      ["PRE", "INTERVENTION", "IMMEDIATE_TRANSFER", "DELAYED_TRANSFER", "NOVEL"].includes(payload.learning_context)
         ? payload.learning_signal
         : null;
 
