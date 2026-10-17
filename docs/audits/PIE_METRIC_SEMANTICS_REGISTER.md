@@ -39,7 +39,7 @@ Phase 2 working contract. This document defines what the product may claim befor
 
 ### intelligence.rebuild_candidate(uuid) remediation in PR #155
 - Improvements: missing confidence becomes null after a minimum count; timing is excluded from the proposed readiness index; score is observed accuracy after 30 attempts; no EXAM_READY band; timing missingness is excluded from time means; fatigue requires multi-signal within-session deterioration.
-- Still requires correction/verification: readiness comments currently mention confidence/stability requirements although implementation uses only attempt count + accuracy; fatigue compares mean answer_changes_count, not the rate of attempts with changes; difficulty adjustment is not implemented; rush/hesitation column names can still be mistaken for psychological traits; subject/action thresholds are not enforced.
+- Still requires correction/verification: the database field remains named readiness_score and existing UI consumers may still present it as readiness although it is observed accuracy only; difficulty adjustment is not implemented; rush/hesitation column names can still be mistaken for psychological traits; subject/action thresholds are not enforced. Fatigue now gates on change-rate increase, but the heuristic remains unvalidated and is not difficulty-adjusted.
 - SQL migration has not been persistently applied.
 
 ### pie.rebuild_candidate_state(uuid) currently deployed
