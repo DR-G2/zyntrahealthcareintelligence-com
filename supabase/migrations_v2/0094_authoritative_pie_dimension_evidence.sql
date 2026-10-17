@@ -67,19 +67,19 @@ begin
         else null::numeric
       end as outcome_signal,
       case
-        when coalesce(payload->>'confidence_normalized','') ~ '^[0-9]+(\\.[0-9]+)?$'
+        when coalesce(payload->>'confidence_normalized','') ~ '^[0-9]+([.][0-9]+)?$'
           and (payload->>'confidence_normalized')::numeric between 0 and 1
         then (payload->>'confidence_normalized')::numeric
         else null::numeric
       end as confidence_signal,
       case
-        when coalesce(payload->>'time_total_ms','') ~ '^[0-9]+(\\.[0-9]+)?$'
+        when coalesce(payload->>'time_total_ms','') ~ '^[0-9]+([.][0-9]+)?$'
           and (payload->>'time_total_ms')::numeric > 0
         then 1 / (1 + ln(1 + (payload->>'time_total_ms')::numeric / 1000) / 10)
         else null::numeric
       end as timing_signal,
       case
-        when coalesce(payload->>'answer_changes','') ~ '^[0-9]+(\\.[0-9]+)?$'
+        when coalesce(payload->>'answer_changes','') ~ '^[0-9]+([.][0-9]+)?$'
           and (payload->>'answer_changes')::numeric >= 0
         then least(1::numeric, greatest(0::numeric, 1 - (payload->>'answer_changes')::numeric / 3))
         else null::numeric
@@ -176,7 +176,7 @@ begin
   ] loop
     v_dimension_state := coalesce(new.state->v_dimension, '{}'::jsonb);
     v_estimate := null;
-    if coalesce(v_dimension_state->>'estimate','') ~ '^[0-9]+(\\.[0-9]+)?$'
+    if coalesce(v_dimension_state->>'estimate','') ~ '^[0-9]+([.][0-9]+)?$'
       and (v_dimension_state->>'estimate')::numeric between 0 and 1 then
       v_estimate := (v_dimension_state->>'estimate')::numeric;
     end if;
