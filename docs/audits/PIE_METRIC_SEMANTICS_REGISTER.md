@@ -72,4 +72,4 @@ The new migration `0082_pie_distinct_metric_rewrite.sql` rewrites the separate `
 - Each dimension carries its own evidence count and definition. Missing estimates stay null. The state confidence field is null because evidence count alone is not a calibrated uncertainty estimate.
 - Duplicate observation events are deduplicated by attempt ID before aggregation.
 
-This migration has only been parsed/executed inside a transaction that was rolled back. It has **not** been persistently applied, and the function still needs disposable-fixture execution tests and UI consumer validation before release.
+The migration was executed against the live database inside a transaction with a disposable auth user, 12 synthetic attempts, and a duplicate observation. Assertions passed for deduplication, per-dimension availability, missing-confidence behavior, learning/sustained metrics, and null model confidence. The transaction was rolled back; a follow-up read-only query confirmed zero fixture users, attempts, states, or inference runs remain. This migration has **not** been persistently applied. Full CI and UI consumer validation are still required before release.
