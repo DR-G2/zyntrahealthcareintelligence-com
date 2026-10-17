@@ -11,6 +11,8 @@ const corsHeaders = {
 const json = (body: unknown, status = 200) =>
   new Response(JSON.stringify(body), { status, headers: { ...corsHeaders, "Content-Type": "application/json" } });
 
+const isFiniteNumber = (x: unknown): x is number => typeof x === "number" && Number.isFinite(x);
+const unitInterval = (x: unknown): x is number => isFiniteNumber(x) && x >= 0 && x <= 1;
 const clamp01 = (x: number) => Math.max(0, Math.min(1, x));
 
 async function sha256(value: string): Promise<string> {
@@ -25,8 +27,8 @@ function update(
   quality: number,
 ) {
   const predicted = prior.variance + 0.0025;
-  if (signal == null || quality <= 0) {
-    return { ...prior, variance: predicted };
+  if (signal == null || !Number.isFinite(signal) || signal < 0 || signal > 1 || quality <= 0) {
+    return prior;
   }
   const effective = measurementVariance / Math.max(quality, 0.05);
   const gain = predicted / (predicted + effective);
@@ -75,7 +77,7 @@ function infer(rows: any[]) {
       null;
 
     const timing =
-      typeof payload.time_total_ms === "number" && payload.time_total_ms > 0
+      isFiniteNumber(payload.time_total_ms) && payload.time_total_ms > 0
         ? clamp01(1 / (1 + Math.log1p(payload.time_total_ms / 1000) / 10))
         : null;
 
@@ -88,14 +90,16 @@ function infer(rows: any[]) {
         : null;
 
     const calibration =
-      typeof payload.confidence_normalized === "number" && outcome != null
-        ? clamp01(1 - Math.abs(payload.confidence_normalized - outcome))
+      unitInterval(payload.confidence_normalized) && outcome != null
+        ? 1 - Math.abs(payload.confidence_normalized - outcome)
         : null;
 
+    // A correct/incorrect transition is not evidence of learning by itself.
+    // Only a separately labelled learning-context observation can update this dimension.
     const learning =
-      outcome == null || previousOutcome == null
-        ? null
-        : clamp01(0.5 + 0.5 * (outcome - previousOutcome));
+      unitInterval(payload.learning_signal) && payload.learning_context != null
+        ? payload.learning_signal
+        : null;
 
     s.capability = update(s.capability, outcome, 0.08, quality);
     s.decision = update(s.decision, decision, 0.12, quality);
@@ -170,11 +174,13 @@ Deno.serve(async (req) => {
 
   const canonical = dimensions.map(([dimension, p]) => ({
     dimension,
-    estimate: Number(p.estimate.toFixed(10)),
-    uncertainty: Number(Math.sqrt(p.variance).toFixed(10)),
-    lower: Number(clamp01(p.estimate - 1.96 * Math.sqrt(p.variance)).toFixed(10)),
-    upper: Number(clamp01(p.estimate + 1.96 * Math.sqrt(p.variance)).toFixed(10)),
+    estimate: p.evidence_count > 0 ? Number(p.estimate.toFixed(10)) : null,
+    uncertainty: p.evidence_count > 0 ? Number(Math.sqrt(p.variance).toFixed(10)) : null,
+    lower: p.evidence_count > 0 ? Number(clamp01(p.estimate - 1.96 * Math.sqrt(p.variance)).toFixed(10)) : null,
+    upper: p.evidence_count > 0 ? Number(clamp01(p.estimate + 1.96 * Math.sqrt(p.variance)).toFixed(10)) : null,
     evidence_count: p.evidence_count,
+    available: p.evidence_count > 0,
+    unavailable_reason: p.evidence_count > 0 ? null : "NO_VALID_OBSERVATIONS",
     evidence_quality: Number(p.evidence_quality.toFixed(10)),
   }));
 
