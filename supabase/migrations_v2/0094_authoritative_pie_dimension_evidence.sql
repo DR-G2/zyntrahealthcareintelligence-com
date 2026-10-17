@@ -87,23 +87,24 @@ begin
     from recent
   )
   select jsonb_build_object(
+    'total_count', count(*),
     'outcome_count', count(*) filter (where outcome_signal is not null),
-    'outcome_quality', avg(quality) filter (where outcome_signal is not null),
+    'outcome_quality', coalesce(sum(quality) filter (where outcome_signal is not null), 0) / nullif(count(*), 0),
     'outcome_sum_q', coalesce(sum(quality) filter (where outcome_signal is not null), 0),
     'outcome_sum_q2', coalesce(sum(quality * quality) filter (where outcome_signal is not null), 0),
     'confidence_count', count(*) filter (where confidence_signal is not null),
     'confidence_sum_q', coalesce(sum(quality) filter (where confidence_signal is not null), 0),
     'confidence_sum_q2', coalesce(sum(quality * quality) filter (where confidence_signal is not null), 0),
     'decision_count', count(*) filter (where decision_signal is not null),
-    'decision_quality', avg(quality) filter (where decision_signal is not null),
+    'decision_quality', coalesce(sum(quality) filter (where decision_signal is not null), 0) / nullif(count(*), 0),
     'decision_sum_q', coalesce(sum(quality) filter (where decision_signal is not null), 0),
     'decision_sum_q2', coalesce(sum(quality * quality) filter (where decision_signal is not null), 0),
     'timing_count', count(*) filter (where timing_signal is not null),
-    'timing_quality', avg(quality) filter (where timing_signal is not null),
+    'timing_quality', coalesce(sum(quality) filter (where timing_signal is not null), 0) / nullif(count(*), 0),
     'timing_sum_q', coalesce(sum(quality) filter (where timing_signal is not null), 0),
     'timing_sum_q2', coalesce(sum(quality * quality) filter (where timing_signal is not null), 0),
     'calibration_count', count(*) filter (where confidence_signal is not null and outcome_signal is not null),
-    'calibration_quality', avg(quality) filter (where confidence_signal is not null and outcome_signal is not null)
+    'calibration_quality', coalesce(sum(quality) filter (where confidence_signal is not null and outcome_signal is not null), 0) / nullif(count(*), 0)
   )
   into v_stats
   from signals;
