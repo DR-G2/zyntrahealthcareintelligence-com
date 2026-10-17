@@ -14,6 +14,7 @@ export interface NextBestAction {
   action: string;
   title?: string;
   subject?: string | null;
+  subjectId?: string | null;
   priority?: number;
   diagnosis_code?: string;
   evidence_level?: string;
@@ -82,11 +83,22 @@ export function NextBestStep({ onSnapshotChange, showEvidence = true, refreshKey
         if (error) throw error;
 
         const action = mapAction(data);
+        let subjectName: string | null = null;
+        if (action?.subjectId) {
+          const { data: subjectRow, error: subjectError } = await getSupabaseV2()
+            .from('subjects')
+            .select('name')
+            .eq('id', action.subjectId)
+            .maybeSingle();
+          if (!subjectError && subjectRow?.name) subjectName = subjectRow.name;
+        }
         if (!cancelled) {
           setRec(action ? {
             action: 'FOCUS_WEAK_SUBJECT',
             title: action.title,
             reason: action.reason,
+            subject: subjectName,
+            subjectId: action.subjectId,
           } : null);
         }
       } catch {
@@ -155,10 +167,11 @@ export function NextBestStep({ onSnapshotChange, showEvidence = true, refreshKey
             {showEvidence && <p className="text-sm leading-relaxed text-muted-foreground">{rec.reason || 'An explanation was not provided for this recommendation.'}</p>}
             <Button asChild size="sm" className="min-h-11 gap-1">
               <Link
-                to="/practice"
+                to={rec.subjectId ? `/practice?subjectId=${encodeURIComponent(rec.subjectId)}` : '/practice'}
                 state={{
                   action: rec.action,
                   subject: rec.subject,
+                  subjectId: rec.subjectId,
                 }}
               >
                 {label} <ArrowRight className="h-3.5 w-3.5" />
