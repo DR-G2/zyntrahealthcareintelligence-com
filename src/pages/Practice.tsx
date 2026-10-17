@@ -251,6 +251,20 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
           }
         }
 
+        // A subject-only deep link (used by dashboard and Study Plan priorities)
+        // must narrow the drill instead of silently falling back to all subjects.
+        if (focusSubject && !focusSubtopic) {
+          const targetSubject = subjects.find(s => s.name.trim().toLowerCase() === focusSubject.trim().toLowerCase());
+          if (targetSubject) {
+            const targetSubtopics = subtopics.filter(st => st.subject_id === targetSubject.id);
+            setSelectedSubtopics(new Set(targetSubtopics.map(st => createSelectedSubtopicKey(targetSubject.name, st.name))));
+            setSelectedBareSubjects(new Set(targetSubtopics.length ? [] : [targetSubject.name]));
+            setExpandedItems(new Set([targetSubject.id]));
+            setSearchQuery('');
+            return;
+          }
+        }
+
         if (focusSubtopic) {
           const matchingSubject = subjects.find(s => s.name.toLowerCase() === (focusSubject || '').toLowerCase());
           const matchingSubtopic = subtopics.find(st =>
