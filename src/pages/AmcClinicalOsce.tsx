@@ -55,16 +55,12 @@ export default function AmcClinicalOsce() {
           },
           {
             '@context': 'https://schema.org',
-            '@type': 'Course',
-            name: 'AMC Clinical OSCE preparation',
-            description: 'Self-paced online preparation for AMC-style clinical stations. Not an official AMC course. Voice practice is enabled in stages.',
-            url: pageUrl,
-            provider: {
-              '@type': 'Organization',
-              name: 'Zyntra Healthcare Intelligence',
-              url: 'https://www.zyntrahealthcareintelligence.com/',
-            },
-            hasCourseInstance: { '@type': 'CourseInstance', courseMode: 'online' },
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.zyntrahealthcareintelligence.com/' },
+              { '@type': 'ListItem', position: 2, name: 'AMC exam preparation', item: 'https://www.zyntrahealthcareintelligence.com/amc-exam-preparation' },
+              { '@type': 'ListItem', position: 3, name: 'AMC Clinical OSCE', item: pageUrl },
+            ],
           },
           {
             '@context': 'https://schema.org',
