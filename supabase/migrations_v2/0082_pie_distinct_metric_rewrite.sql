@@ -222,7 +222,7 @@ begin
     (user_id, state_version, state, confidence, model_version_id, source_inference_id, calculated_at, updated_at)
   values
     (p_user_id, 1, v_state,
-      case when v_accuracy_n >= 6 then least(1.0, v_accuracy_n / 40.0) else null end,
+      null, -- No validated uncertainty estimator yet; evidence count is not confidence.
       v_model, v_run, now(), now())
   on conflict (user_id) do update
     set state_version = cs.state_version + 1,
