@@ -66,7 +66,13 @@ export function mapState(value: unknown): StateEvidence | null {
   })) as Record<Dimension, DimensionEvidence>;
   const count = typeof state.evidence_count === 'number' && Number.isFinite(state.evidence_count) ? Math.max(0, Math.floor(state.evidence_count)) : 0;
   const level = typeof state.evidence_level === 'string' ? state.evidence_level : 'INSUFFICIENT';
-  return { dimensions, dimensionEvidence, count, level, timestamp: timestamp(row.calculated_at ?? row.updated_at), sufficient: count >= PIE_MIN_OBSERVATIONS && level !== 'INSUFFICIENT' };
+  const required = ['capability', 'decision', 'timing', 'calibration', 'sustained_performance', 'learning'] as const;
+  const dimensionMinimum = PIE_MIN_OBSERVATIONS;
+  const dimensionEvidenceSufficient = required.every(key => {
+    const item = dimensionEvidence[key];
+    return item.evidenceCount !== null && item.evidenceCount >= dimensionMinimum && dimensions[key] !== null;
+  });
+  return { dimensions, dimensionEvidence, count, level, timestamp: timestamp(row.calculated_at ?? row.updated_at), sufficient: count >= PIE_MIN_OBSERVATIONS && level !== 'INSUFFICIENT' && dimensionEvidenceSufficient };
 }
 export function safeAttempt(row: PieHistoryRow): SafeAttempt {
   return { id: row.attempt_id, subjectId: row.subject_id, subject: row.subject_name ?? 'Uncategorised', correct: row.is_correct,
