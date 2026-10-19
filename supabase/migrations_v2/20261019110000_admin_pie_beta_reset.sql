@@ -142,7 +142,7 @@ begin
   if p_mode is null or p_mode not in ('pie_only', 'full_candidate') then
     raise exception 'Unsupported reset mode';
   end if;
-  if p_lock_mode not in ('SHARE', 'SHARE ROW EXCLUSIVE') then
+  if p_lock_mode is null or p_lock_mode not in ('SHARE', 'SHARE ROW EXCLUSIVE') then
     raise exception 'Unsupported reset lock mode';
   end if;
   if not exists (
