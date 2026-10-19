@@ -34,14 +34,16 @@ function buildRecommendationPracticeUrl(_actionLink?: string): string {
   return `/practice?${params.toString()}`;
 }
 
-const UNKNOWN_ARCHETYPE = {
+type ArchetypeMeta = { label: string; icon: typeof Brain; color: string; description: string; risk?: string };
+
+const UNKNOWN_ARCHETYPE: ArchetypeMeta = {
   label: 'Pattern unavailable',
   icon: CircleHelp,
   color: 'hsl(var(--muted-foreground))',
   description: 'The stored profile does not match a supported behaviour pattern. No interpretation has been substituted.',
 };
 
-const ARCHETYPE_META: Record<string, { label: string; icon: typeof Brain; color: string; description: string; risk?: string }> = {
+const ARCHETYPE_META: Record<string, ArchetypeMeta> = {
   panic_changer: {
     label: 'Frequent Answer Changes',
     icon: RefreshCw,
@@ -198,7 +200,7 @@ export default function BehaviorProfile() {
     );
   }
 
-  const meta = ARCHETYPE_META[data.archetype] || UNKNOWN_ARCHETYPE;
+  const meta: ArchetypeMeta = ARCHETYPE_META[data.archetype] || UNKNOWN_ARCHETYPE;
   const ArchIcon = meta.icon;
 
   // Prepare block chart data
