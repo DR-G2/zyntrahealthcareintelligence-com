@@ -387,7 +387,7 @@ export default function TrustYourGut() {
                         </div>
                         <span className="text-sm text-slate-300">{item.label}</span>
                       </div>
-                      <span className="font-mono text-lg font-semibold text-white">{item.value}</span>
+                      <span className="font-mono text-lg font-semibold text-white">{item.value === null ? 'Unavailable' : item.value}</span>
                     </div>
                   );
                 })}
