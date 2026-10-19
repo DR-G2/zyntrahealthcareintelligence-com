@@ -40,6 +40,29 @@ const runOrThrow = (sql: string) => {
   if (result.status !== 0) throw new Error(result.stderr || result.stdout || 'psql failed');
   return result.stdout;
 };
+const psqlValue = (sql: string) => {
+  const result = spawnSync(
+    join(BIN!, 'psql'),
+    ['-h', dir, '-p', String(port), '-U', 'postgres', '-d', 'postgres', '-v', 'ON_ERROR_STOP=1', '-X', '-q', '-t', '-A'],
+    { input: sql, encoding: 'utf8' },
+  );
+  if (result.status !== 0) throw new Error(result.stderr || result.stdout || 'psql value query failed');
+  const lines = result.stdout.trim().split(/\\r?\\n/).filter(Boolean);
+  if (!lines.length) throw new Error('psql value query returned no rows');
+  return lines[lines.length - 1];
+};
+const previewFor = (mode: 'pie_only' | 'full_candidate') => {
+  const raw = psqlValue(
+    `select set_config('test.uid', '${ADMIN}', false);
+     select set_config('test.email', 'gopalrock.naren@gmail.com', false);
+     select public.admin_preview_pie_beta_reset('${mode}')::text;`,
+  );
+  const preview = JSON.parse(raw) as { mode: string; total_rows: number; confirmation_phrase: string; preview_token: string };
+  if (preview.mode !== mode || Number(preview.total_rows) <= 0 || !preview.preview_token || !preview.confirmation_phrase) {
+    throw new Error('preview returned an invalid mode, count, phrase, or fingerprint');
+  }
+  return preview;
+};
 
 const baseSchema = `
 create role anon nologin;
@@ -178,11 +201,12 @@ insert into pie.learning_objective values ('${uuid(8105)}');
 insert into pie.pie_model_version values ('${uuid(8106)}');
 `;
 
-const runResetAssertions = (mode: 'pie_only' | 'full_candidate') => `
+const runResetAssertions = (mode: 'pie_only' | 'full_candidate') => {
+  const preview = previewFor(mode);
+  return `
 begin;
 do $test$
 declare
-  p jsonb;
   result jsonb;
   target record;
   predicate text;
@@ -191,10 +215,9 @@ declare
 begin
   perform set_config('test.uid', '${ADMIN}', true);
   perform set_config('test.email', 'gopalrock.naren@gmail.com', true);
-  p := public.admin_preview_pie_beta_reset(mode_name);
-  if (p ->> 'mode') <> mode_name then raise exception 'preview returned wrong mode'; end if;
-  if coalesce((p ->> 'total_rows')::bigint, 0) <= 0 then raise exception 'preview count was empty'; end if;
-  result := public.admin_execute_pie_beta_reset(mode_name, p ->> 'confirmation_phrase', p ->> 'preview_token');
+  result := public.admin_execute_pie_beta_reset(
+    mode_name, '${preview.confirmation_phrase}', '${preview.preview_token}'
+  );
   if (result ->> 'success')::boolean is distinct from true then raise exception 'reset did not report success'; end if;
 
   for target in
@@ -237,20 +260,23 @@ end
 $test$;
 rollback;
 `;
+};
 
-const crossOwnerGuardTest = `
+const crossOwnerGuardTest = () => {
+  // Commit the deliberately cross-owned link before preview, just as it would
+  // exist in a database before the RPC starts. This test runs last on a disposable DB.
+  runOrThrow(`update public.user_attempts set session_id = '${SYN_SESSION}' where id = '${REAL_ATTEMPT}';`);
+  const preview = previewFor('full_candidate');
+  return `
 begin;
-update public.user_attempts set session_id = '${SYN_SESSION}' where id = '${REAL_ATTEMPT}';
 do $test$
 declare
-  p jsonb;
   blocked boolean := false;
 begin
   perform set_config('test.uid', '${ADMIN}', true);
   perform set_config('test.email', 'gopalrock.naren@gmail.com', true);
-  p := public.admin_preview_pie_beta_reset('full_candidate');
   begin
-    perform public.admin_execute_pie_beta_reset('full_candidate', p ->> 'confirmation_phrase', p ->> 'preview_token');
+    perform public.admin_execute_pie_beta_reset('full_candidate', '${preview.confirmation_phrase}', '${preview.preview_token}');
   exception when others then
     if sqlerrm not like 'Reset blocked: a non-synthetic attempt references a synthetic practice session.%' then
       raise;
@@ -264,70 +290,7 @@ end
 $test$;
 rollback;
 `;
-
-const cohortFingerprintTest = `
-begin;
-do $test$
-declare
-  p jsonb;
-  blocked boolean := false;
-begin
-  perform set_config('test.uid', '${ADMIN}', true);
-  perform set_config('test.email', 'gopalrock.naren@gmail.com', true);
-  p := public.admin_preview_pie_beta_reset('pie_only');
-
-  -- Swap the synthetic marker to a different candidate while keeping the
-  -- per-table row counts identical. The preview token must still become stale.
-  update public.profiles set is_synthetic = false where id = '${SYN}';
-  update public.profiles set is_synthetic = true where id = '${REAL}';
-
-  begin
-    perform public.admin_execute_pie_beta_reset('pie_only', p ->> 'confirmation_phrase', p ->> 'preview_token');
-  exception when others then
-    if sqlerrm <> 'Data changed since preview. Run preview again.' then raise; end if;
-    blocked := true;
-  end;
-  if not blocked then raise exception 'candidate cohort change was not detected'; end if;
-  if (select count(*) from pie.pie_observation) <> 2 then raise exception 'stale preview partially deleted PIE observations'; end if;
-  if (select count(*) from public.user_attempts) <> 2 then raise exception 'stale preview partially deleted attempts'; end if;
-  if (select count(*) from pie.beta_reset_audit) <> 0 then raise exception 'stale preview wrote a success audit row'; end if;
-end
-$test$;
-rollback;
-`;
-
-const authorizationGuardTest = `
-begin;
-do $test$
-declare
-  blocked boolean := false;
-begin
-  perform set_config('test.uid', '${REAL}', true);
-  perform set_config('test.email', 'candidate@example.com', true);
-  begin
-    perform public.admin_preview_pie_beta_reset('pie_only');
-  exception when others then
-    if sqlerrm <> 'Super-administrator access required' then raise; end if;
-    blocked := true;
-  end;
-  if not blocked then raise exception 'non-super-admin preview was not blocked'; end if;
-
-  perform set_config('test.uid', '${ADMIN}', true);
-  perform set_config('test.email', 'gopalrock.naren@gmail.com', true);
-  blocked := false;
-  begin
-    perform public.admin_preview_pie_beta_reset(null);
-  exception when others then
-    if sqlerrm <> 'Unsupported reset mode' then raise; end if;
-    blocked := true;
-  end;
-  if not blocked then raise exception 'NULL reset mode was not blocked'; end if;
-  if (select count(*) from public.user_attempts) <> 2 then raise exception 'authorization guard changed attempts'; end if;
-  if (select count(*) from pie.beta_reset_audit) <> 0 then raise exception 'blocked preview/reset wrote an audit row'; end if;
-end
-$test$;
-rollback;
-`;
+};
 
 describe.skipIf(!BIN)('PIE beta reset RPCs on a disposable local PostgreSQL instance', () => {
   beforeAll(() => {
@@ -355,7 +318,7 @@ describe.skipIf(!BIN)('PIE beta reset RPCs on a disposable local PostgreSQL inst
   });
 
   it('rejects stale previews when the synthetic candidate cohort changes without changing counts', () => {
-    expect(() => runOrThrow(cohortFingerprintTest)).not.toThrow();
+    expect(() => runOrThrow(cohortFingerprintTest())).not.toThrow();
   });
 
   it('rejects non-super-admin access and NULL reset modes', () => {
@@ -363,6 +326,6 @@ describe.skipIf(!BIN)('PIE beta reset RPCs on a disposable local PostgreSQL inst
   });
 
   it('aborts atomically if deleting a synthetic session could mutate a real candidate attempt', () => {
-    expect(() => runOrThrow(crossOwnerGuardTest)).not.toThrow();
+    expect(() => runOrThrow(crossOwnerGuardTest())).not.toThrow();
   });
 });
