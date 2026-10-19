@@ -44,22 +44,13 @@ jobs:
         run: npm run typecheck
       - name: Production build
         run: npm run build
-      - name: P17 failure isolation
+      - name: P16 regression certification
         env: &cert_env
           V2_URL: ${{ secrets.ZYNTRA_V2_URL }}
           V2_PUBLISHABLE_KEY: ${{ secrets.ZYNTRA_V2_PUBLISHABLE_KEY }}
           PIE_TEST_USER_A_EMAIL: ${{ secrets.PIE_TEST_USER_A_EMAIL }}
           PIE_TEST_USER_B_EMAIL: ${{ secrets.PIE_TEST_USER_B_EMAIL }}
           PIE_TEST_PASSWORD: ${{ secrets.PIE_TEST_PASSWORD }}
-        run: npx vite-node scripts/pie-p17-failure-isolation-certification.mts
-      - name: P18 authoritative adaptation boundary
-        env: *cert_env
-        run: npx vite-node scripts/pie-p18-authoritative-adaptation-certification.mts
-      - name: P19 final end-to-end certification
-        env: *cert_env
-        run: npx vite-node scripts/pie-p19-final-production-certification.mts
-      - name: P16 regression certification
-        env: *cert_env
         run: npx vite-node scripts/pie-p16-production-contract-audit.mts
       - name: P15 regression certification
         env: *cert_env
@@ -73,6 +64,15 @@ jobs:
       - name: P12 regression certification
         env: *cert_env
         run: npx vite-node scripts/pie-p12-shadow-certification.mts
+      - name: P17 failure isolation
+        env: *cert_env
+        run: npx vite-node scripts/pie-p17-failure-isolation-certification.mts
+      - name: P18 authoritative adaptation boundary
+        env: *cert_env
+        run: npx vite-node scripts/pie-p18-authoritative-adaptation-certification.mts
+      - name: P19 final end-to-end certification
+        env: *cert_env
+        run: npx vite-node scripts/pie-p19-final-production-certification.mts
       - name: P20 production deployment gate
         env: *cert_env
         run: npx vite-node scripts/pie-p20-production-deployment-gate.mts
