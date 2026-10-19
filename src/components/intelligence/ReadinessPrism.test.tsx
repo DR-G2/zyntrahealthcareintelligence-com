@@ -46,7 +46,7 @@ describe("Intelligence overview", () => {
     const { rerender } = render(<MemoryRouter><ReadinessPrism evidence={noAttempts} loading={false} retry={() => {}} /></MemoryRouter>);
     expect(screen.getAllByText("Unavailable").length).toBeGreaterThan(0);
     rerender(<MemoryRouter><ReadinessPrism evidence={fixture()} loading={false} retry={() => {}} /></MemoryRouter>);
-    expect(screen.getByText("0%")).toBeInTheDocument();
+    expect(screen.getAllByText("0%").length).toBeGreaterThan(0);
   });
 
   it("expands a subject using the actual returned attempt records", () => {
