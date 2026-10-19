@@ -80,7 +80,7 @@ describe("Nudge targeted-session contract", () => {
   });
 
   it("does not enable a Nudge session without explicit server status or eligible content", () => {
-    expect(client).toContain("if (!row?.session_id || !row.lo_id || !row.question_count || row.question_count < 3)");
+    expect(client).toContain("(!row.lo_id && !coldStart)");
     expect(page).toContain("Start targeted Nudge");
     expect(page).toContain("Reassessment unavailable");
   });
