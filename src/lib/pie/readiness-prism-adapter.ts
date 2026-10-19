@@ -77,7 +77,9 @@ function statePrismLayer(state: StateEvidence, selectedMode: PracticeMode | null
       lower: eligible ? validFraction(metadata?.lower) : null,
       upper: eligible ? validFraction(metadata?.upper) : null,
       evidenceCount,
-      evidenceQuality,
+      // Quality is itself an estimate-quality signal; do not surface it before
+      // the dimension has met the fixed evidence gate.
+      evidenceQuality: eligible ? evidenceQuality : null,
       estimateAligned: typeof metadata?.estimateAligned === "boolean" ? metadata.estimateAligned : null,
     };
   });
