@@ -91,6 +91,7 @@ function buildSubjectRows(rows: SafeAttempt[]) {
   rows.forEach(row => { const key=row.subjectId ?? row.subject; groups.set(key,[...(groups.get(key)??[]),row]); });
   return [...groups.entries()].map(([key,attempts]) => ({
     key, subject: attempts[0]?.subject ?? "Uncategorised", attempts, count: attempts.length,
+    scoredCount: attempts.filter(row => row.answerKeyAvailable === true).length,
     correct: attempts.filter(row=>row.answerKeyAvailable === true && row.correct).length,
     accuracy: attempts.some(row => row.answerKeyAvailable === true) ? attempts.filter(row=>row.answerKeyAvailable === true && row.correct).length/attempts.filter(row=>row.answerKeyAvailable === true).length*100 : null,
     latest: attempts.reduce<string|null>((latest,row)=>!latest||Date.parse(row.at)>Date.parse(latest)?row.at:latest,null),
@@ -180,7 +181,7 @@ export function ReadinessPrism({ evidence, loading, retry }: { evidence: Intelli
       :subjects.length===0?<div className="border-y border-dashed border-border py-7"><p className="text-sm font-medium">Your evidence starts with practice.</p><p className="mt-1 text-sm text-muted-foreground">Complete an MCQ session to populate subject-level observations. No sample data is displayed.</p><Button asChild variant="outline" className="mt-4 min-h-11"><Link to="/practice">Open Practice <ArrowRight className="ml-2 h-4 w-4"/></Link></Button></div>
       :<div className="divide-y divide-border/60 border-y border-border/60">{subjects.slice(0,8).map(row=><div key={row.key}>
         <button type="button" onClick={()=>setExpandedSubject(expandedSubject===row.key?null:row.key)} aria-expanded={expandedSubject===row.key} className="flex min-h-[64px] w-full items-center gap-3 py-3 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
-          <span className="min-w-0 flex-1"><span className="block truncate text-sm font-medium">{row.subject}</span><span className="mt-1 block text-xs text-muted-foreground">{row.count} recorded {row.count===1?"attempt":"attempts"} · {row.correct} correct</span></span>
+          <span className="min-w-0 flex-1"><span className="block truncate text-sm font-medium">{row.subject}</span><span className="mt-1 block text-xs text-muted-foreground">{row.count} recorded {row.count===1?"attempt":"attempts"} · {row.scoredCount} scored · {row.correct} correct</span></span>
           <span className="w-14 text-right font-mono text-sm">{percent(row.accuracy)}</span><span className="h-1.5 w-16 overflow-hidden rounded-full bg-muted"><span className="block h-full rounded-full bg-primary" style={{width:(row.accuracy??0)+"%"}}/></span>
           <ChevronDown className={"h-4 w-4 shrink-0 text-muted-foreground transition-transform "+(expandedSubject===row.key?"rotate-180":"")}/>
         </button>
