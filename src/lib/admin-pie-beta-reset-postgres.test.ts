@@ -324,6 +324,22 @@ begin
     blocked := true;
   end;
   if not blocked then raise exception 'NULL reset mode was not blocked'; end if;
+
+  -- The explicit registration RPC accepts a documented learner account but
+  -- refuses to place an administrative account in the reset cohort.
+  perform public.admin_register_synthetic_candidate('${REAL}', 'disposable registry RPC test');
+  if (select count(*) from pie.synthetic_candidate_registry) <> 2 then
+    raise exception 'super-admin could not register an explicit synthetic candidate';
+  end if;
+  blocked := false;
+  begin
+    perform public.admin_register_synthetic_candidate('${ADMIN}', 'must not register administrator');
+  exception when others then
+    if sqlerrm <> 'Administrative accounts cannot be registered as synthetic candidates.' then raise; end if;
+    blocked := true;
+  end;
+  if not blocked then raise exception 'administrative account registration was not blocked'; end if;
+
   if (select count(*) from public.user_attempts) <> 2 then raise exception 'authorization guard changed attempts'; end if;
   if (select count(*) from pie.beta_reset_audit) <> 0 then raise exception 'blocked preview/reset wrote an audit row'; end if;
 end
