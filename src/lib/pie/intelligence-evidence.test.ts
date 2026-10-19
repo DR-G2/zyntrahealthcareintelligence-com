@@ -50,6 +50,10 @@ describe('Intelligence evidence presentation boundary', () => {
     expect(historySummary([row, row])).toMatchObject({ count: 1, scoredCount: 1, accuracy: 0, confidenceCount: 0, meanSeconds: null });
     expect(historySummary([{ ...row, answerKeyAvailable: false }])).toMatchObject({ count: 1, scoredCount: 0, accuracy: null });
   });
+  it('does not treat an empty answer key as valid scored evidence', () => {
+    const row: SafeAttempt = { id: 'a', subjectId: 's', subject: 'Medicine', correct: true, answerKeyAvailable: false, confidence: 5, seconds: 10, changes: 0, at: '' };
+    expect(historySummary([{ ...row, answerKeyAvailable: false }])).toMatchObject({ count: 1, scoredCount: 0, accuracy: null, confidenceCount: 0 });
+  });
   it('keeps missing answer-change counts out of the zero-change denominator', () => {
     const base: SafeAttempt = { id: 'a', subjectId: 's', subject: 'Medicine', correct: false, answerKeyAvailable: true, confidence: null, seconds: null, changes: null, at: '' };
     expect(historySummary([base])).toMatchObject({ count: 1, changeEvidenceCount: 0, changed: 0 });
