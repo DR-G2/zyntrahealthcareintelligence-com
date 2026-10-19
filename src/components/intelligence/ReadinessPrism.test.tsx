@@ -29,6 +29,18 @@ function fixture(overrides: Partial<IntelligenceEvidence> = {}): IntelligenceEvi
 }
 
 describe("Intelligence overview", () => {
+  it("allows evidence refresh and disables duplicate refresh while loading", () => {
+    const retry = vi.fn();
+    const { rerender } = render(<ReadinessPrism evidence={null} loading={false} retry={retry} />);
+    const refresh = screen.getByRole("button", { name: /refresh evidence/i });
+    expect(refresh).toBeEnabled();
+    fireEvent.click(refresh);
+    expect(retry).toHaveBeenCalledTimes(1);
+
+    rerender(<ReadinessPrism evidence={null} loading={true} retry={retry} />);
+    expect(screen.getByRole("button", { name: /refresh evidence/i })).toBeDisabled();
+  });
+
   it("keeps unavailable dimensions missing and does not draw a misleading complete polygon", () => {
     render(<MemoryRouter><ReadinessPrism evidence={fixture()} loading={false} retry={() => {}} /></MemoryRouter>);
     expect(screen.getByText("The map is partial while dimensions build evidence; unsupported values are not plotted.")).toBeInTheDocument();
