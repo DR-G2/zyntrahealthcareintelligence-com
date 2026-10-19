@@ -41,10 +41,10 @@ describe("Intelligence overview", () => {
     expect(screen.getByRole("button", { name: /refresh evidence/i })).toBeDisabled();
   });
 
-  it("keeps unavailable dimensions missing and does not draw a misleading complete polygon", () => {
+  it("removes the radar map from the candidate view and preserves unavailable dimension states", () => {
     render(<MemoryRouter><ReadinessPrism evidence={fixture()} loading={false} retry={() => {}} /></MemoryRouter>);
-    expect(screen.getByText("The map is partial because one or more dimension estimates are unavailable; unsupported values are not plotted.")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /Timing Unavailable/ })).toBeInTheDocument();
+    expect(screen.queryByLabelText(/Six-dimensional PIE map/)).not.toBeInTheDocument();
+    expect(screen.getByText(/Timing requires 50 valid observations for this dimension/)).toBeInTheDocument();
   });
 
   it("explains when a signal is below its evidence threshold versus missing mode-scoped provenance", () => {
@@ -68,13 +68,16 @@ describe("Intelligence overview", () => {
       },
     } } });
     render(<MemoryRouter><ReadinessPrism evidence={input} loading={false} retry={() => {}} /></MemoryRouter>);
-    expect(screen.getByRole("button", { name: /Decision Building/ })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /Timing Building/ })).toBeInTheDocument();
+    expect(screen.getByText("Building, 49 of 50")).toBeInTheDocument();
+    expect(screen.getByText("Building, 8 of 50")).toBeInTheDocument();
     expect(screen.queryByText("97%")).toBeNull();
     expect(screen.queryByText("89%")).toBeNull();
     expect(screen.getAllByText(/49 \/ 50 valid observations/).length).toBeGreaterThan(0);
     expect(screen.getByText("Timing requires 50 valid observations for this dimension")).toBeInTheDocument();
     expect(screen.getByText("Calibration requires 50 valid observations for this dimension and at least 15 valid answers at each confidence level in one practice mode")).toBeInTheDocument();
+    expect(screen.queryByText(/Global PIE observation count/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Authoritative PIE projection/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Building evidence:/)).not.toBeInTheDocument();
   });
 
   it("does not blend Normal MCQ and Nudge attempt accuracy", () => {
