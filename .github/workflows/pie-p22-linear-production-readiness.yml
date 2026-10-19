@@ -96,8 +96,8 @@ jobs:
           echo "Final URL: $final_url"
           echo "HTTP status: $status"
           case "$final_url" in
-            https://*) ;;
-            *) echo "FAIL final URL is not HTTPS: $final_url"; exit 1 ;;
+            https://www.zyntrahealthcareintelligence.com/*) ;;
+            *) echo "FAIL public production domain redirected away from the canonical site: $final_url"; exit 1 ;;
           esac
           if [ "$status" != "200" ]; then
             echo "FAIL expected HTTP 200, got $status"
