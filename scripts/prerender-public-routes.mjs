@@ -64,13 +64,25 @@ function makeHtml(route) {
   html = html.slice(0, rootStart) + '<div id="root">' + body + '</div>' + html.slice(rootClose + '</div>'.length);
   return html;
 }
-for (const route of routes) {
+function writeAndValidate(route) {
   const dir = route.path === "/" ? dist : path.join(dist, route.path.slice(1));
   fs.mkdirSync(dir, { recursive: true });
-  fs.writeFileSync(path.join(dir, "index.html"), makeHtml(route));
+  const outputPath = path.join(dir, "index.html");
+  const html = makeHtml(route);
+  fs.writeFileSync(outputPath, html);
+  const saved = fs.readFileSync(outputPath, "utf8");
+  const checks = [
+    ["route title", saved.includes("<title>" + esc(route.title) + "</title>")],
+    ["route description", saved.includes('name="description" content="' + esc(route.description) + '"')],
+    ["canonical URL", saved.includes('rel="canonical" href="' + esc(origin + route.path) + '"')],
+    ["route heading", saved.includes("<h1>" + esc(route.heading) + "</h1>")],
+    ["root element", saved.includes('<div id="root">')],
+    ["app entry point", saved.includes('<script type="module" src="/src/main.tsx"></script>')],
+  ];
+  const failed = checks.filter((item) => !item[1]).map((item) => item[0]);
+  if (failed.length) throw new Error("Prerender validation failed for " + route.path + ": " + failed.join(", "));
 }
+for (const route of routes) writeAndValidate(route);
 const login = {path:"/login",title:"Sign In or Create Account | Zyntra",description:"Sign in to Zyntra to continue your AMC exam preparation, or create an account to start practising.",heading:"Sign in to Zyntra",paragraphs:["Sign in or create an account to access your preparation workspace. Practice and account features require authentication."],links:[["Pricing","/pricing"],["Privacy","/privacy"],["Terms","/terms"]]};
-const loginDir = path.join(dist, "login");
-fs.mkdirSync(loginDir, {recursive:true});
-fs.writeFileSync(path.join(loginDir,"index.html"), makeHtml(login));
-console.log("Prerendered " + (routes.length + 1) + " public route HTML documents.");
+writeAndValidate(login);
+console.log("Prerendered and validated " + (routes.length + 1) + " public route HTML documents.");
