@@ -176,11 +176,13 @@ export default function QuestionHistory() {
                             <span className="text-xs text-muted-foreground flex items-center gap-1">
                               <Clock className="h-3 w-3" /> {attempt.time_taken_seconds}s
                             </span>
-                            {attempt.answer_changes_count > 0 && (
+                            {attempt.answer_changes_count === null ? (
+                              <span className="text-xs text-muted-foreground">Change count unavailable</span>
+                            ) : attempt.answer_changes_count > 0 ? (
                               <span className="text-xs text-muted-foreground">
                                 {attempt.answer_changes_count} change{attempt.answer_changes_count > 1 ? 's' : ''}
                               </span>
-                            )}
+                            ) : null}
                             <span className="text-xs text-muted-foreground">
                               {new Date(attempt.created_at).toLocaleDateString()} {new Date(attempt.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                             </span>
