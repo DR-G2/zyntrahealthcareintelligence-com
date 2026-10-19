@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Activity, ArrowRight, Brain, ChevronDown, CircleHelp, Clock3, Eye, GitBranch, ShieldCheck, Sparkles, Target } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DIMENSIONS, historySummary, type Dimension, type IntelligenceEvidence, type SafeAttempt } from "@/lib/pie/intelligence-evidence";
-import { authoritativePrismLayer, observedPrismLayer, prismDimensionsAreComplete } from "@/lib/pie/readiness-prism-adapter";
+import { authoritativePrismLayer, observedPrismLayer, prismDimensionsAreComplete, MIN_DIMENSION_OBSERVATIONS } from "@/lib/pie/readiness-prism-adapter";
 import type { PrismDimensionValue } from "@/lib/pie/readiness-prism-adapter";
 
 const LABELS: Record<Dimension, string> = {
@@ -75,14 +75,13 @@ function DimensionMap({ dimensions, selected, onSelect }: {
         {[.25,.5,.75,1].map(level => <polygon key={level} points={DIMENSIONS.map((_,i) => { const p=point(i,radius*level); return p.x + "," + p.y; }).join(" ")} fill="none" stroke="hsl(var(--border))" strokeWidth=".8"/>)}
         {DIMENSIONS.map((dimension,i) => { const p=point(i,radius); return <line key={dimension} x1="100" y1="92" x2={p.x} y2={p.y} stroke="hsl(var(--border))" strokeWidth=".8"/>; })}
         {complete && <polygon points={polygon} fill="hsl(var(--primary) / .15)" stroke="hsl(var(--primary))" strokeWidth="1.8"/>}
-        {dimensions.map((item,index) => { const p=item.estimate===null?point(index,radius+3):point(index,item.estimate*radius); return <circle key={item.dimension} cx={p.x} cy={p.y} r={item.dimension===selected?4:2.7} fill={item.estimate===null?"hsl(var(--muted-foreground))":"hsl(var(--primary))"}/>; })}
-        {!complete && <text x="100" y="95" textAnchor="middle" fontSize="8" fill="hsl(var(--muted-foreground))">Incomplete evidence</text>}
+        {dimensions.map((item,index) => { if (item.estimate === null) return null; const p=point(index,item.estimate*radius); return <circle key={item.dimension} cx={p.x} cy={p.y} r={item.dimension===selected?4:2.7} fill="hsl(var(--primary))"/>; })}
       </svg>
-      <p className="text-center text-[11px] text-muted-foreground">{complete ? "All six estimates are available." : "No polygon drawn: one or more estimates are unavailable."}</p>
+      <p className="text-center text-[11px] text-muted-foreground">{complete ? "All six dimension estimates meet their evidence gates." : "The map is partial while dimensions build evidence; unsupported values are not plotted."}</p>
     </div>
     <div className="grid gap-1.5 sm:grid-cols-2">{dimensions.map(item => <button key={item.dimension} type="button" onClick={() => onSelect(item.dimension)} aria-pressed={selected===item.dimension}
       className={"min-h-14 rounded-md border px-3 py-2 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring " + (selected===item.dimension?"border-primary/50 bg-primary/[.06]":"border-border/60 hover:bg-muted/30")}>
-      <span className="block text-xs text-muted-foreground">{LABELS[item.dimension]}</span><span className="mt-1 block font-mono text-sm">{item.estimate===null?"Unavailable":percent(item.estimate*100)}</span>
+      <span className="block text-xs text-muted-foreground">{LABELS[item.dimension]}</span><span className="mt-1 block font-mono text-sm">{item.estimate!==null?percent(item.estimate*100):item.evidenceCount!==null&&item.evidenceCount<MIN_DIMENSION_OBSERVATIONS?"Building":"Unavailable"}</span><span className="mt-1 block text-[10px] text-muted-foreground">{item.evidenceCount===null?"Valid observation count unavailable":item.evidenceCount+" / "+MIN_DIMENSION_OBSERVATIONS+" valid observations"}</span>
     </button>)}</div>
   </div>;
 }
@@ -107,14 +106,24 @@ export function ReadinessPrism({ evidence, loading, retry }: { evidence: Intelli
   const subjects=useMemo(()=>buildSubjectRows(evidence?.history.value??[]),[evidence]);
   const pieModel=useMemo(()=>evidence?authoritativePrismLayer(evidence.pie):authoritativePrismLayer({status:"unavailable",value:null}),[evidence]);
   const observedModel=useMemo(()=>evidence?observedPrismLayer(evidence):null,[evidence]);
-  const chosenDimension=pieModel.dimensions.find(item=>item.dimension===selectedDimension) ?? pieModel.dimensions[0];
-  const validPie=evidence?.pie.status==="ready" && evidence.pie.value?.sufficient===true;
-  const timingValue=validPie && evidence?.pie.status==="ready" ? evidence.pie.value.dimensions.timing : null;
+  const confidenceCounts = [1,2,3,4,5].map(level => ({
+    level,
+    count: summary.rows.filter(row => row.confidence === level && typeof row.correct === "boolean").length,
+  }));
+  const calibrationEvidenceComplete = confidenceCounts.every(item => item.count >= 15);
+  const displayDimensions = pieModel.dimensions.map(item => item.dimension === "calibration" && !calibrationEvidenceComplete
+    ? { ...item, estimate: null, uncertainty: null, lower: null, upper: null }
+    : item);
+  const chosenDimension=displayDimensions.find(item=>item.dimension===selectedDimension) ?? displayDimensions[0];
+  const decisionDimension = displayDimensions.find(item => item.dimension === "decision");
+  const timingDimension = displayDimensions.find(item => item.dimension === "timing");
+  const calibrationDimension = displayDimensions.find(item => item.dimension === "calibration");
+  const timingValue=timingDimension?.estimate ?? null;
   const signals: Record<SignalId,{value:string;note:string;available:boolean}> = {
     accuracy:{value:summary.accuracy===null?"Unavailable":percent(summary.accuracy),note:summary.count+" unique recorded attempts",available:evidence?.history.status==="ready"&&summary.accuracy!==null},
-    stability:{value:evidence?.stability.status==="ready"?percent(evidence.stability.value.percent):"Unavailable",note:evidence?.stability.status==="ready"?"Existing V2 readiness projection":"No verified stability value available",available:evidence?.stability.status==="ready"},
-    timing:{value:timingValue!=null?percent(timingValue*100):"Unavailable",note:validPie?"PIE timing estimate · normalised score":"Valid PIE timing evidence is not available",available:timingValue!=null},
-    confidence:{value:evidence?.confidence.status==="ready"?percent(evidence.confidence.value.percent):"Unavailable",note:evidence?.confidence.status==="ready"?"Existing V2 calibration projection":"No verified calibration value available",available:evidence?.confidence.status==="ready"},
+    stability:{value:evidence?.stability.status==="ready" && decisionDimension?.estimate!==null && decisionDimension?.estimate!==undefined?percent(evidence.stability.value.percent):"Unavailable",note:evidence?.stability.status==="ready" && decisionDimension?.estimate!==null && decisionDimension?.estimate!==undefined?"Existing V2 readiness projection · decision evidence gate met":"Decision stability requires 50 valid Decision observations",available:evidence?.stability.status==="ready" && decisionDimension?.estimate!==null && decisionDimension?.estimate!==undefined},
+    timing:{value:timingValue!=null?percent(timingValue*100):"Unavailable",note:timingValue!==null?"PIE timing estimate · normalised score":"Timing requires 50 valid observations for this dimension",available:timingValue!==null},
+    confidence:{value:evidence?.confidence.status==="ready" && calibrationDimension?.estimate!==null && calibrationDimension?.estimate!==undefined && calibrationEvidenceComplete?percent(evidence.confidence.value.percent):"Unavailable",note:!calibrationEvidenceComplete?"Calibration requires at least 15 valid answers at each confidence level":calibrationDimension?.estimate==null?"Calibration dimension requires 50 valid observations":"Existing V2 calibration projection",available:evidence?.confidence.status==="ready" && calibrationDimension?.estimate!==null && calibrationDimension?.estimate!==undefined && calibrationEvidenceComplete},
   };
   const chosen=PRIMARY.find(item=>item.id===selectedSignal)!;
   const latestHistory=subjects.reduce<string|null>((latest,row)=>!latest||(row.latest&&Date.parse(row.latest)>Date.parse(latest))?row.latest:latest,null);
@@ -141,16 +150,16 @@ export function ReadinessPrism({ evidence, loading, retry }: { evidence: Intelli
     <section aria-label="Six-dimensional PIE map" className="space-y-4 border-t border-border/50 pt-6">
       <div><p className="text-xs font-medium uppercase tracking-[.14em] text-muted-foreground">02 / PIE state</p><h3 className="mt-1 font-display text-lg font-semibold">Six-dimensional map</h3><p className="mt-1 text-sm text-muted-foreground">Authoritative PIE estimates only. Missing dimensions are not plotted as zero.</p></div>
       <div className="grid gap-4 lg:grid-cols-[1.2fr_.8fr]">
-        <div className="min-w-0 rounded-lg border border-border/70 p-3 sm:p-4"><DimensionMap dimensions={pieModel.dimensions} selected={selectedDimension} onSelect={setSelectedDimension}/></div>
+        <div className="min-w-0 rounded-lg border border-border/70 p-3 sm:p-4"><DimensionMap dimensions={displayDimensions} selected={selectedDimension} onSelect={setSelectedDimension}/></div>
         <div className="flex flex-col justify-between gap-4 border-l border-border/50 pl-4">
           <div><p className="text-xs text-muted-foreground">Selected dimension</p><h4 className="mt-1 font-display text-lg font-semibold">{LABELS[selectedDimension]}</h4><p className="mt-2 text-sm leading-6 text-muted-foreground">{DESCRIPTIONS[selectedDimension]}</p></div>
           <div className="grid grid-cols-2 gap-3">
-            <div><p className="text-xs text-muted-foreground">Estimate</p><p className="mt-1 font-mono text-base">{chosenDimension.estimate===null?"Unavailable":percent(chosenDimension.estimate*100)}</p></div>
-            <div><p className="text-xs text-muted-foreground">Dimension evidence</p><p className="mt-1 font-mono text-base">{chosenDimension.evidenceCount===null?"Unavailable":chosenDimension.evidenceCount}</p></div>
+            <div><p className="text-xs text-muted-foreground">Estimate</p><p className="mt-1 font-mono text-base">{chosenDimension.estimate!==null?percent(chosenDimension.estimate*100):chosenDimension.evidenceCount!==null&&chosenDimension.evidenceCount<MIN_DIMENSION_OBSERVATIONS?"Building":"Unavailable"}</p></div>
+            <div><p className="text-xs text-muted-foreground">Dimension evidence</p><p className="mt-1 font-mono text-base">{chosenDimension.evidenceCount===null?"Unavailable":chosenDimension.evidenceCount+" / "+MIN_DIMENSION_OBSERVATIONS+" valid observations"}</p></div>
             <div><p className="text-xs text-muted-foreground">95% interval</p><p className="mt-1 font-mono text-sm">{chosenDimension.lower===null||chosenDimension.upper===null||chosenDimension.estimateAligned===false?"Unavailable":percent(chosenDimension.lower*100)+"–"+percent(chosenDimension.upper*100)}</p></div>
             <div><p className="text-xs text-muted-foreground">Source timestamp</p><p className="mt-1 text-xs leading-5">{dateLabel(pieModel.timestamp)}</p></div>
           </div>
-          <p role="status" className="text-xs leading-5 text-muted-foreground">{loading?"Loading your PIE projection…":pieModel.message??"PIE projection available. This is not a readiness guarantee."}</p>
+          <p role="status" className="text-xs leading-5 text-muted-foreground">{loading?"Loading your PIE projection…":chosenDimension.estimate===null&&chosenDimension.evidenceCount!==null&&chosenDimension.evidenceCount<MIN_DIMENSION_OBSERVATIONS?"Building evidence: this dimension needs 50 valid observations.":selectedDimension==="calibration"&&!calibrationEvidenceComplete?"Building calibration evidence: "+confidenceCounts.map(item=>"C"+item.level+" "+item.count+"/15").join(" · "):pieModel.message??"PIE projection available. This is not a readiness guarantee."}</p>
         </div>
       </div>
     </section>
