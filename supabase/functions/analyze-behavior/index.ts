@@ -84,7 +84,7 @@ serve(async (req) => {
     const avgFirstClick = firstClickAttempts.length ? firstClickAttempts.reduce((s, a) => s + a.time_to_first_click, 0) / firstClickAttempts.length : null;
 
     // Per-subject MCQ stats
-    const subjectMap: Record<string, { correct: number; total: number; changes: number; avgTime: number; times: number[] }> = {};
+    const subjectMap: Record<string, { correct: number; total: number; changes: number; avgTime: number | null; times: number[] }> = {};
     attempts.forEach(a => {
       const cat = (a.questions as any)?.category || "Unknown";
       if (!subjectMap[cat]) subjectMap[cat] = { correct: 0, total: 0, changes: 0, avgTime: 0, times: [] };
@@ -104,7 +104,7 @@ serve(async (req) => {
       sessions[a.session_id].push(a);
     });
 
-    const blockPerf: Record<string, { accuracy: number; avgTime: number; changeRate: number }> = {};
+    const blockPerf: Record<string, { accuracy: number; avgTime: number | null; changeRate: number }> = {};
     const latestSession = Object.values(sessions).sort((a, b) =>
       new Date(b[0].created_at).getTime() - new Date(a[0].created_at).getTime()
     )[0];
@@ -233,7 +233,7 @@ serve(async (req) => {
         messages: [
           {
             role: "system",
-            content: `You are an MCQ practice behaviour analyst. Describe patterns supported by explicitly labelled Normal MCQ attempts only. Do not combine OSCE, Nudge, AMC Exam mode, or Trust Your Gut aggregates. Do not predict exam scores, pass likelihood, or clinical readiness.${populationPrompt}
+            content: `You are an MCQ practice behaviour analyst. Describe patterns supported by explicitly labelled Normal MCQ attempts only. Do not combine OSCE, Nudge, AMC Exam mode, or Trust Your Gut aggregates. If a metric is null or unavailable, do not infer or replace it. Do not predict exam scores, pass likelihood, or clinical readiness.${populationPrompt}
 
 Archetypes:
 - panic_changer: 3+ avg changes, final answer different from first instinct, time >3 min avg
