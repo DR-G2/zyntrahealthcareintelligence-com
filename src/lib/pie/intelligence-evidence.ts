@@ -12,7 +12,10 @@ export function normalizePracticeMode(value: unknown): PracticeMode | null {
   const mode = value.trim().toLowerCase().replace(/[ -]+/g, '_');
   if (mode === 'nudge') return 'nudge';
   if (mode === 'exam' || mode === 'amc_exam' || mode === 'amc_exam_mode') return 'amc_exam';
-  if (['normal', 'normal_mcq', 'mcq', 'drill', 'adaptive', 'pie_adaptive'].includes(mode)) return 'normal_mcq';
+  // Only explicit mode labels are safe. Generic/legacy session types such as
+  // pie_adaptive can contain Nudge in config.mode, and legacy_orphan has no
+  // reliable mode provenance, so neither may be silently classified as Normal MCQ.
+  if (mode === 'normal' || mode === 'normal_mcq') return 'normal_mcq';
   return null;
 }
 export type EvidenceRead<T> = { status: 'ready'; value: T } | { status: 'empty' | 'unavailable'; value: null };
