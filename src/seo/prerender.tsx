@@ -1,5 +1,5 @@
 import { renderToString } from 'react-dom/server';
-import { HelmetProvider } from 'react-helmet-async';
+import { HelmetProvider, type HelmetServerState } from 'react-helmet-async';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import { SEO } from '@/components/SEO';
 import Home from '@/pages/Home';
@@ -18,7 +18,7 @@ import Terms from '@/pages/Terms';
 import Privacy from '@/pages/Privacy';
 
 export function renderPublicPage(route: string, metadata?: { title: string; description: string }) {
-  const context: { helmet?: { title: { toString(): string }; meta: { toString(): string }; link: { toString(): string }; script: { toString(): string } } } = {};
+  const context: { helmet?: HelmetServerState } = {};
   const body = renderToString(
     <HelmetProvider context={context}>
       <MemoryRouter initialEntries={[route]}>
