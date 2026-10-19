@@ -88,6 +88,6 @@ describe('PieDrillSession rules', () => {
 
   it('starts sessions with the question count only (topics are not sent)', async () => {
     await setup('recharge', 2);
-    expect(startPieSession).toHaveBeenCalledWith(2);
+    expect(startPieSession).toHaveBeenCalledWith(2, undefined, 'normal_mcq');
   });
 });
