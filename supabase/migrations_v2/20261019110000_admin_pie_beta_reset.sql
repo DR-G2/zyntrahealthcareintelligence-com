@@ -159,7 +159,7 @@ begin
   for r in
     select distinct schema_name, table_name
     from public._admin_beta_reset_targets()
-    where p_mode = 'full_candidate' or min_mode = 'pie_only'
+    where (p_mode = 'full_candidate' or min_mode = 'pie_only')
       and to_regclass(format('%I.%I', schema_name, table_name)) is not null
     order by schema_name, table_name
   loop
