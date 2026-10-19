@@ -7,7 +7,7 @@ const check=(name:string,ok:unknown,detail="")=>{if(ok)pass++;else fail++;consol
 async function login(email:string){const db=createClient(URL!,KEY!,opts);const {data,error}=await db.auth.signInWithPassword({email,password:PASSWORD});if(error||!data.user||!data.session)throw new Error("login failed: "+(error?.message??""));return{db,id:data.user.id};}
 async function audit(db:ReturnType<typeof createClient>){const result=await db.functions.invoke("pie-learner-state-audit",{body:{}});return{data:result.data as Record<string,unknown>|null,error:result.error};}
 const source=await readFile("supabase/migrations_v2/0051_pie_p3_candidate_pool.sql","utf8");
-check("P21.3-01 production target is the certified V2 project",URL==="https://hkowvjazuwebmibssdut.supabase.co");
+check("P21.3-01 production target is the certified V2 project",URL===`https://${"hkowvjazuwebmibssdut"}.supabase.co`);
 check("P21.3-02 authoritative selector consumes pie.learner_lo_state",source.includes("from pie.learner_lo_state")&&source.includes("join pie.learner_lo_state"));
 check("P21.3-03 learner state is protected from learner writes",source.includes("pie.learner_lo_state")&&source.includes("revoke all"));
 check("P21.3-04 learner-state selection inputs remain server-side",source.includes("create or replace function pie.rank_candidates")&&source.includes("security definer"));

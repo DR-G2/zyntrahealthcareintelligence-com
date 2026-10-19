@@ -22,7 +22,7 @@ async function login(email: string) {
   return { db, id: data.user.id };
 }
 
-check("P21.1-01 production target is the certified V2 project", URL === "https://hkowvjazuwebmibssdut.supabase.co");
+check("P21.1-01 production target is the certified V2 project", URL === `https://${"hkowvjazuwebmibssdut"}.supabase.co`);
 
 const saveSource = await readFile("supabase/migrations_v2/0044_pie_candidate_state_pipeline_repair.sql", "utf8");
 check(

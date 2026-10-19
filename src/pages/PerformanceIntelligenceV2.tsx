@@ -35,6 +35,12 @@ export default function PerformanceIntelligence() {
     loadIntelligenceEvidence().then(result => {
       if (cancelled) return;
       setEvidence(result); setOwner(userId); setLoading(false);
+    }).catch(() => {
+      if (cancelled) return;
+      const unavailable = { status: 'unavailable', value: null } as const;
+      setEvidence({ pie: unavailable, history: unavailable, stability: unavailable, confidence: unavailable, action: unavailable });
+      setOwner(userId);
+      setLoading(false);
     });
     return () => { cancelled = true; };
   }, [userId, retry]);
