@@ -47,6 +47,12 @@ describe("Intelligence overview", () => {
     expect(screen.getByRole("button", { name: /Timing Unavailable/ })).toBeInTheDocument();
   });
 
+  it("explains when a signal is below its evidence threshold versus missing mode-scoped provenance", () => {
+    render(<MemoryRouter><ReadinessPrism evidence={fixture()} loading={false} retry={() => {}} /></MemoryRouter>);
+    expect(screen.getByText("Decision stability requires 50 valid observations for this dimension")).toBeInTheDocument();
+    expect(screen.getByText("Verified mode-specific timing evidence is unavailable; no cross-mode estimate is shown")).toBeInTheDocument();
+  });
+
   it("shows Building and the per-dimension count below 50, even when global count is high", () => {
     const input = fixture({ pie: { status: "ready", value: {
       ...fixture().pie.value!,
@@ -67,6 +73,8 @@ describe("Intelligence overview", () => {
     expect(screen.queryByText("97%")).toBeNull();
     expect(screen.queryByText("89%")).toBeNull();
     expect(screen.getAllByText(/49 \/ 50 valid observations/).length).toBeGreaterThan(0);
+    expect(screen.getByText("Timing requires 50 valid observations for this dimension")).toBeInTheDocument();
+    expect(screen.getByText("Calibration requires 50 valid observations for this dimension and at least 15 valid answers at each confidence level in one practice mode")).toBeInTheDocument();
   });
 
   it("does not blend Normal MCQ and Nudge attempt accuracy", () => {
