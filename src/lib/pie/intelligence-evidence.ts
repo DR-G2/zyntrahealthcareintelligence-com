@@ -37,7 +37,7 @@ export interface StateEvidence {
   sessionMode?: string | null;
 }
 export interface SafeAttempt {
-  id: string; subjectId: string | null; subject: string; correct: boolean;
+  id: string; subjectId: string | null; subject: string; correct: boolean; answerKeyAvailable?: boolean;
   confidence: number | null; seconds: number | null; changes: number; at: string; sessionMode?: string | null;
 }
 export interface ActionEvidence { title: string; reason: string; subjectId: string | null; at: string | null; sessionMode?: string | null; }
@@ -92,9 +92,10 @@ export function safeAttempt(row: PieHistoryRow): SafeAttempt {
 }
 export function historySummary(rows: SafeAttempt[]) {
   const unique = [...new Map(rows.map(row => [row.id, row])).values()];
-  const confidenceRows = unique.filter(row => row.confidence !== null);
+  const scored = unique.filter(row => row.answerKeyAvailable === true);
+  const confidenceRows = scored.filter(row => row.confidence !== null);
   const timed = unique.filter(row => row.seconds !== null);
-  return { rows: unique, count: unique.length, accuracy: unique.length ? unique.filter(row => row.correct).length / unique.length * 100 : null,
+  return { rows: unique, count: unique.length, scoredCount: scored.length, accuracy: scored.length ? scored.filter(row => row.correct).length / scored.length * 100 : null,
     confidenceCount: confidenceRows.length, changed: unique.filter(row => row.changes > 0).length,
     highConfidenceErrors: confidenceRows.filter(row => Number(row.confidence) >= 4 && !row.correct).length,
     lowConfidenceCorrect: confidenceRows.filter(row => Number(row.confidence) <= 2 && row.correct).length,
