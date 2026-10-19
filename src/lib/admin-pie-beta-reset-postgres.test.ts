@@ -265,6 +265,37 @@ $test$;
 rollback;
 `;
 
+const cohortFingerprintTest = `
+begin;
+do $test$
+declare
+  p jsonb;
+  blocked boolean := false;
+begin
+  perform set_config('test.uid', '${ADMIN}', true);
+  perform set_config('test.email', 'gopalrock.naren@gmail.com', true);
+  p := public.admin_preview_pie_beta_reset('pie_only');
+
+  -- Swap the synthetic marker to a different candidate while keeping the
+  -- per-table row counts identical. The preview token must still become stale.
+  update public.profiles set is_synthetic = false where id = '${SYN}';
+  update public.profiles set is_synthetic = true where id = '${REAL}';
+
+  begin
+    perform public.admin_execute_pie_beta_reset('pie_only', p ->> 'confirmation_phrase', p ->> 'preview_token');
+  exception when others then
+    if sqlerrm <> 'Data changed since preview. Run preview again.' then raise; end if;
+    blocked := true;
+  end;
+  if not blocked then raise exception 'candidate cohort change was not detected'; end if;
+  if (select count(*) from pie.pie_observation) <> 2 then raise exception 'stale preview partially deleted PIE observations'; end if;
+  if (select count(*) from public.user_attempts) <> 2 then raise exception 'stale preview partially deleted attempts'; end if;
+  if (select count(*) from pie.beta_reset_audit) <> 0 then raise exception 'stale preview wrote a success audit row'; end if;
+end
+$test$;
+rollback;
+`;
+
 const authorizationGuardTest = `
 begin;
 do $test$
@@ -321,6 +352,10 @@ describe.skipIf(!BIN)('PIE beta reset RPCs on a disposable local PostgreSQL inst
 
   it('full-candidate mode clears synthetic attempts and sessions while preserving real candidate data', () => {
     expect(() => runOrThrow(runResetAssertions('full_candidate'))).not.toThrow();
+  });
+
+  it('rejects stale previews when the synthetic candidate cohort changes without changing counts', () => {
+    expect(() => runOrThrow(cohortFingerprintTest)).not.toThrow();
   });
 
   it('rejects non-super-admin access and NULL reset modes', () => {
