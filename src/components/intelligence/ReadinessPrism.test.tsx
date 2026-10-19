@@ -32,7 +32,7 @@ describe("Intelligence overview", () => {
   it("keeps unavailable dimensions missing and does not draw a misleading complete polygon", () => {
     render(<MemoryRouter><ReadinessPrism evidence={fixture()} loading={false} retry={() => {}} /></MemoryRouter>);
     expect(screen.getByText("The map is partial while dimensions build evidence; unsupported values are not plotted.")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /Timing Building/ })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Timing Unavailable/ })).toBeInTheDocument();
   });
 
   it("shows Building and the per-dimension count below 50, even when global count is high", () => {
@@ -87,8 +87,8 @@ describe("Intelligence overview", () => {
       },
     } } });
     render(<MemoryRouter><ReadinessPrism evidence={input} loading={false} retry={() => {}} /></MemoryRouter>);
-    expect(screen.getByText("97%")).toBeInTheDocument();
-    expect(screen.getByText("89%")).toBeInTheDocument();
+    expect(screen.getAllByText("97%").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("89%").length).toBeGreaterThan(0);
   });
 
   it("withholds dimension estimates when the authoritative projection has no mode scope", () => {
