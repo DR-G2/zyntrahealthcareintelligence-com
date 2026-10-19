@@ -4,7 +4,7 @@ Last updated: 2026-10-19
 Repository: DR-G2/zyntrahealthcareintelligence-com
 Working PR: #168, Fix PIE Intelligence evidence gates and mode isolation
 Branch: fix/pie-intelligence-evidence-gates
-Latest HEAD at checkpoint update: 6d50e0a5cd8995852a089af626a3d05502577930
+Code checkpoint before this log update: 00c7435250e430e3c3e4d80ed70fe4d294b8f725
 Base: main at 1be79d37602e83cf68728e3e98084e91ffcfe932
 
 ## Non-negotiable rules
@@ -18,7 +18,7 @@ Base: main at 1be79d37602e83cf68728e3e98084e91ffcfe932
 
 ## Verified current state
 - PR #168 is open, not merged; GitHub reports mergeable=true.
-- 17 files changed after execution-log and P7 backend/test updates; current branch HEAD at latest inspection: 6d50e0a5cd8995852a089af626a3d05502577930.
+- PR head before this log update: 00c7435250e430e3c3e4d80ed70fe4d294b8f725; 17 files changed.
 - CI workflow run 39244106934 (Zyntra CI #1551): completed, success.
 - PIE live certification workflow run 39244106885 (#489): workflow conclusion success, but its actual "Run PIE live certification" step was SKIPPED because workflow only runs authenticated certification outside pull_request events.
 - Nudge live certification workflow run 39244106821 (#125): workflow conclusion success, but its actual "Run authenticated Nudge runtime certification" step was SKIPPED for the same pull-request guard.
@@ -47,7 +47,7 @@ Base: main at 1be79d37602e83cf68728e3e98084e91ffcfe932
 | P4 Calibration gating | IMPLEMENTED, REGRESSION EVIDENCE INCOMPLETE | Coverage gate exists; mode scope of authoritative calibration projection remains unavailable, so estimate is withheld. |
 | P5 Map/banner | PARTIAL | Map omits unsupported plotted points and labels partial state. Need complete combinations/responsive verification. |
 | P6 Missing-data handling | PARTIAL | Several fixes present; full audit of all tiles, subject metrics, actions, provenance, refresh and timestamps pending. |
-| P7 Behaviour | IMPLEMENTED, VALIDATION PENDING | Backend now filters to explicitly labelled Normal MCQ sessions; removes OSCE, Trust Your Gut and unscoped psychograph/population context from AI signals; removes score prediction fields/prompt and clears historical prediction fields to null; malformed AI output returns an unavailable error instead of a fabricated archetype; missing timing values remain null and timing averages use observed timing only. Added contract assertions. CI/check statuses for latest head were not available at last query, so do not mark PASS yet. |
+| P7 Behaviour | CODE VALIDATION PASS; AUTHORITATIVE MODE PROVENANCE BLOCKED | Backend accepts only explicit `normal` / `normal_mcq` labels; removes unused OSCE, psychograph and behaviour-DNA reads; constrains AI descriptions to supplied signals; validates AI output before persistence; returns errors if profile lookup/write fails; unsupported score predictions are removed/cleared; missing timing remains null end-to-end. Zyntra CI run 39247028497 passed lint, unit tests and production build on code checkpoint 00c7435. P21.2 workflow run 39247028479 passed unit tests, typecheck and build; its runtime integrity steps were skipped by PR guard. V2 history currently emits `adaptive` for the relevant RPC contract and does not expose verified Normal MCQ vs Nudge provenance. Do not treat `adaptive` as Normal MCQ; fail closed until authoritative mode scope is available. |
 | P8 Trust Your Gut | PARTIAL | Mode filtering and null-safe denominators added; verify query provenance, answer sequence consistency, category and session calculations. |
 | P9 Security/provenance | NOT VERIFIED | Client-side checks do not prove server authorization. Review edge function auth, own-candidate data boundaries and admin guard. |
 | P10 Public claims | PARTIAL | Metadata copy revised to avoid readiness claims; inspect all feature cards/status declarations and route promises. |
@@ -55,7 +55,7 @@ Base: main at 1be79d37602e83cf68728e3e98084e91ffcfe932
 | P12 Handoff | NOT STARTED | Do not merge/release until exit criteria and authorized runtime verification are met. |
 
 ## Immediate next action
-Finish P7 verification before P8. Backend and test changes are committed, but latest-head CI/test results have not been observed. Obtain the actual CI run/status for head 6d50e0a5cd8995852a089af626a3d05502577930, inspect failures, fix regressions, and rerun. Confirm type safety for nullable timing fields and ensure the candidate UI handles null timing/prediction fields. Do not move to P8 until the focused tests, typecheck, lint and build are observed passing. Do not alter database schema or PIE inference formulas.
+Proceed to P8 Trust Your Gut using the same strict mode-provenance rules. P7's lint, unit tests, typecheck, and build have passed on the code checkpoint above. P7's runtime Normal MCQ analysis remains fail-closed because the authoritative V2 history contract reports `adaptive` without distinguishing Normal MCQ from Nudge. Do not guess that mapping or change schema/migrations without explicit approval. Runtime PIE/Nudge certification steps were skipped on PR triggers and remain unverified.
 
 ## Resume protocol
 On resumption, fetch this file and the live PR metadata/HEAD again before editing. Confirm no newer commits supersede this checkpoint. Update this log after each phase with exact files, commit SHA, test command/run ID and observed result. Never mark PASS without evidence.
@@ -63,5 +63,7 @@ On resumption, fetch this file and the live PR metadata/HEAD again before editin
 
 ## P7 change evidence (2026-10-19)
 - Commits on the PR branch: `fc58a861` (preserve session_mode in history mapping), `a33a3b5f` and `ad7922a5` (Normal MCQ-only behavior analysis and no schema field write), `5e321cf3` (contract tests), `3333033e` and `c46b945e` (exclude unscoped behavior DNA, psychograph and population context), `3c4b2306` and `6d50e0a5` (nullable timing evidence; no missing-time-to-zero aggregation).
-- `analyze-behavior` is still not certified. `get_commit_combined_status` returned no statuses for head `6d50e0a5...`; `fetch_commit_workflow_runs` returned no runs for that head. This is unavailable verification, not a pass.
+- Subsequent P7 fixes: `9da0f450` preserved missing subject timing as null and added a contract assertion; `0d6678bb` removed unused cross-mode reads; `b7e11463` constrained AI classifications to supplied Normal MCQ signals; `df8f0571` added regression assertions; `d33f45fc` aligned nullable timing types in the UI; `c9aa0f62` made profile lookup/write errors fail closed; `a81b7731` added persistence error assertions; `f0c752c2` validates AI classification structure before persistence; `00c74352` adds regression assertions for invalid AI output.
+- Zyntra CI run 39247028497 on `00c7435` passed lint, unit tests, and production build. P21.2 workflow run 39247028479 passed unit tests, typecheck, and build; its protected runtime-integrity certification steps were skipped for pull-request events. P21.1 and other current-head workflow results must be inspected separately; workflow success alone does not imply runtime certification.
+- The authoritative V2 history contract is evidenced by `supabase/verification_v2/pie_p5/verify_0060.sql`, which asserts `session_mode = 'adaptive'`; the current history projection does not supply the separate config mode required to identify Normal MCQ vs Nudge. This is a real source-contract limitation, not a reason to relabel `adaptive`.
 - No schema/migration, production data, auth/RLS or PIE inference formula was changed. PR #168 remains open and unmerged.
