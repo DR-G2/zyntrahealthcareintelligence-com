@@ -33,6 +33,7 @@ describe("PIE runtime query hardening contract", () => {
     expect(migration).toContain("'decision_type', d.decision_type");
     expect(migration).toContain("grant execute on function public.get_my_pie_decision_traces_for_session(uuid) to authenticated;");
     expect(migration).not.toContain("to authenticated, service_role");
+    expect(migration).toContain("revoke all on function public.get_my_pie_decision_traces_for_session(uuid) from public, anon, service_role;");
     expect(migration).toContain("notify pgrst, 'reload schema';");
   });
 
