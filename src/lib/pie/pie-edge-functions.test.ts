@@ -116,6 +116,8 @@ describe("P5 edge functions read PIE attempts on V2", () => {
     expect(behaviorFn).toContain("const latestSessionTimedAttempts = (latestSession ?? []).filter");
     expect(behaviorFn).toContain("lateBlock.meanChangesPerAttempt > earlyBlock.meanChangesPerAttempt");
     expect(behaviorFn).toContain("classification.recommendations.length === 0");
+    expect(behaviorFn).toContain("const unsupportedClaimPattern =");
+    expect(behaviorFn).toContain("&& visibleClaimsSupported");
     expect(behaviorFn).toContain("No completed, verified Normal MCQ attempts found");
     expect(behaviorFn).not.toContain("Predict AMC score range");
     expect(behaviorFn).not.toContain("osceBehavioralSignalsSample");
