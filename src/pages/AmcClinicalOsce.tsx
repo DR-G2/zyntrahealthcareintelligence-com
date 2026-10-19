@@ -22,7 +22,7 @@ const FAQS = [
   },
   {
     q: 'Is Zyntra OSCE practice available right now?',
-    a: 'The OSCE module, including voice practice, is being rebuilt and is switched on in stages. Some accounts will see a “coming soon” state. A public demo station link may still be offered from the homepage when that route is enabled.',
+    a: 'Interactive OSCE station practice, including voice practice, is not available in the current public release. This page is an educational overview of the exam structure and communication goals; it is not a live station or assessment.',
   },
   {
     q: 'Does voice practice record my microphone?',
@@ -108,13 +108,13 @@ export default function AmcClinicalOsce() {
         </h1>
         <p className="mt-6 max-w-2xl text-lg leading-8 text-muted-foreground">
           Clinical stations reward a clear task, a safe plan and calm communication in a short
-          time box. Zyntra offers station-style rehearsal as an educational tool. The OSCE module
-          is being rebuilt and enabled in stages. Zyntra is not affiliated with or endorsed by
-          the Australian Medical Council.
+          time box. This page explains the exam format and communication goals. Interactive Zyntra
+          OSCE station practice is not available in the current public release and is being rebuilt
+          for a staged rollout. Zyntra is not affiliated with or endorsed by the Australian Medical Council.
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
           <Button asChild size="lg">
-            <Link to="/stations?demo=true">Try a demo station <Stethoscope className="ml-1 h-4 w-4" aria-hidden="true" /></Link>
+            <Link to="/amc-part-1-mcq">Explore AMC Part 1 MCQ <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" /></Link>
           </Button>
           <Button asChild size="lg" variant="outline">
             <Link to="/amc-part-1-mcq">AMC Part 1 MCQ track <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" /></Link>
