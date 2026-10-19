@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Activity, ArrowRight, Brain, ChevronDown, CircleHelp, Clock3, Eye, GitBranch, ShieldCheck, Sparkles, Target } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { DIMENSIONS, historySummary, type Dimension, type IntelligenceEvidence, type SafeAttempt } from "@/lib/pie/intelligence-evidence";
+import { DIMENSIONS, historySummary, normalizePracticeMode, type Dimension, type IntelligenceEvidence, type PracticeMode, type SafeAttempt } from "@/lib/pie/intelligence-evidence";
 import { authoritativePrismLayer, observedPrismLayer, prismDimensionsAreComplete, MIN_DIMENSION_OBSERVATIONS } from "@/lib/pie/readiness-prism-adapter";
 import type { PrismDimensionValue } from "@/lib/pie/readiness-prism-adapter";
 
@@ -98,14 +98,16 @@ function buildSubjectRows(rows: SafeAttempt[]) {
 }
 
 export function ReadinessPrism({ evidence, loading, retry }: { evidence: IntelligenceEvidence | null; loading: boolean; retry: () => void }) {
+  const [selectedMode,setSelectedMode]=useState<PracticeMode>("normal_mcq");
   const [selectedSignal,setSelectedSignal]=useState<SignalId>("accuracy");
   const [selectedDimension,setSelectedDimension]=useState<Dimension>("capability");
   const [expandedSubject,setExpandedSubject]=useState<string|null>(null);
   const [showEvidence,setShowEvidence]=useState(false);
-  const summary=useMemo(()=>historySummary(evidence?.history.value??[]),[evidence]);
-  const subjects=useMemo(()=>buildSubjectRows(evidence?.history.value??[]),[evidence]);
-  const pieModel=useMemo(()=>evidence?authoritativePrismLayer(evidence.pie):authoritativePrismLayer({status:"unavailable",value:null}),[evidence]);
-  const observedModel=useMemo(()=>evidence?observedPrismLayer(evidence):null,[evidence]);
+  const modeRows=useMemo(()=>(evidence?.history.value??[]).filter(row=>normalizePracticeMode(row.sessionMode)===selectedMode),[evidence,selectedMode]);
+  const summary=useMemo(()=>historySummary(modeRows),[modeRows]);
+  const subjects=useMemo(()=>buildSubjectRows(modeRows),[modeRows]);
+  const pieModel=useMemo(()=>evidence?authoritativePrismLayer(evidence.pie,selectedMode):authoritativePrismLayer({status:"unavailable",value:null},selectedMode),[evidence,selectedMode]);
+  const observedModel=useMemo(()=>evidence?observedPrismLayer({...evidence,history:evidence.history.status==="ready"?{status:"ready",value:modeRows}:evidence.history}):null,[evidence,modeRows]);
   const confidenceCounts = [1,2,3,4,5].map(level => ({
     level,
     count: summary.rows.filter(row => row.confidence === level && typeof row.correct === "boolean").length,
@@ -121,20 +123,28 @@ export function ReadinessPrism({ evidence, loading, retry }: { evidence: Intelli
   const timingValue=timingDimension?.estimate ?? null;
   const signals: Record<SignalId,{value:string;note:string;available:boolean}> = {
     accuracy:{value:summary.accuracy===null?"Unavailable":percent(summary.accuracy),note:summary.count+" unique recorded attempts",available:evidence?.history.status==="ready"&&summary.accuracy!==null},
-    stability:{value:evidence?.stability.status==="ready" && decisionDimension?.estimate!==null && decisionDimension?.estimate!==undefined?percent(evidence.stability.value.percent):"Unavailable",note:evidence?.stability.status==="ready" && decisionDimension?.estimate!==null && decisionDimension?.estimate!==undefined?"Existing V2 readiness projection · decision evidence gate met":"Decision stability requires 50 valid Decision observations",available:evidence?.stability.status==="ready" && decisionDimension?.estimate!==null && decisionDimension?.estimate!==undefined},
+    stability:{value:evidence?.stability.status==="ready" && normalizePracticeMode(evidence.stability.value.sessionMode)===selectedMode && decisionDimension?.estimate!==null && decisionDimension?.estimate!==undefined?percent(evidence.stability.value.percent):"Unavailable",note:evidence?.stability.status==="ready" && normalizePracticeMode(evidence.stability.value.sessionMode)===selectedMode && decisionDimension?.estimate!==null && decisionDimension?.estimate!==undefined?"Mode-specific V2 readiness projection":"Mode-specific Decision evidence is unavailable; no cross-mode estimate is shown",available:evidence?.stability.status==="ready" && normalizePracticeMode(evidence.stability.value.sessionMode)===selectedMode && decisionDimension?.estimate!==null && decisionDimension?.estimate!==undefined},
     timing:{value:timingValue!=null?percent(timingValue*100):"Unavailable",note:timingValue!==null?"PIE timing estimate · normalised score":"Timing requires 50 valid observations for this dimension",available:timingValue!==null},
-    confidence:{value:evidence?.confidence.status==="ready" && calibrationDimension?.estimate!==null && calibrationDimension?.estimate!==undefined && calibrationEvidenceComplete?percent(evidence.confidence.value.percent):"Unavailable",note:!calibrationEvidenceComplete?"Calibration requires at least 15 valid answers at each confidence level":calibrationDimension?.estimate==null?"Calibration dimension requires 50 valid observations":"Existing V2 calibration projection",available:evidence?.confidence.status==="ready" && calibrationDimension?.estimate!==null && calibrationDimension?.estimate!==undefined && calibrationEvidenceComplete},
+    confidence:{value:evidence?.confidence.status==="ready" && normalizePracticeMode(evidence.confidence.value.sessionMode)===selectedMode && calibrationDimension?.estimate!==null && calibrationDimension?.estimate!==undefined && calibrationEvidenceComplete?percent(evidence.confidence.value.percent):"Unavailable",note:!calibrationEvidenceComplete?"Calibration requires at least 15 valid answers at each confidence level in one practice mode":normalizePracticeMode(evidence?.confidence.status==="ready"?evidence.confidence.value.sessionMode:null)!==selectedMode?"Mode-specific calibration projection is unavailable":"Existing mode-specific calibration projection",available:evidence?.confidence.status==="ready" && normalizePracticeMode(evidence.confidence.value.sessionMode)===selectedMode && calibrationDimension?.estimate!==null && calibrationDimension?.estimate!==undefined && calibrationEvidenceComplete},
   };
   const chosen=PRIMARY.find(item=>item.id===selectedSignal)!;
   const latestHistory=subjects.reduce<string|null>((latest,row)=>!latest||(row.latest&&Date.parse(row.latest)>Date.parse(latest))?row.latest:latest,null);
   const evidenceUnavailable=evidence?Object.values(evidence).some(source=>source.status==="unavailable"):false;
-  const action=evidence?.action.status==="ready"?evidence.action.value:null;
+  const action=evidence?.action.status==="ready" && normalizePracticeMode(evidence.action.value.sessionMode)===selectedMode?evidence.action.value:null;
 
   return <section className="space-y-8" aria-busy={loading}>
     <header className="grid gap-4 border-b border-border/60 pb-6 sm:grid-cols-[1fr_auto] sm:items-end">
       <div><p className="mb-2 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[.18em] text-primary"><Activity className="h-3.5 w-3.5"/>Performance Intelligence Engine</p><h2 className="font-display text-2xl font-semibold tracking-tight sm:text-3xl">Your decisions, made visible.</h2><p className="mt-2 max-w-xl text-sm leading-6 text-muted-foreground">A measured view of your practice evidence: what is observed, what PIE estimates, and what is still unknown.</p></div>
       <Button variant="outline" size="sm" onClick={retry} disabled={loading} className="min-h-11"><Activity className="mr-2 h-4 w-4"/>Refresh evidence</Button>
     </header>
+
+    <section aria-label="Practice mode" className="space-y-2">
+      <p className="text-xs font-medium uppercase tracking-[.14em] text-muted-foreground">Practice mode · kept separate</p>
+      <div role="group" aria-label="Choose practice mode" className="flex flex-wrap gap-2">
+        {([{id:"normal_mcq",label:"Normal MCQ"},{id:"amc_exam",label:"AMC Exam mode"},{id:"nudge",label:"Nudge"}] as const).map(mode=><Button key={mode.id} type="button" variant={selectedMode===mode.id?"default":"outline"} aria-pressed={selectedMode===mode.id} className="min-h-11" onClick={()=>setSelectedMode(mode.id)}>{mode.label}</Button>)}
+      </div>
+      {evidence?.history.status==="ready"&&modeRows.length===0&&<p role="status" className="text-xs text-muted-foreground">No returned attempts are available for this mode. Other modes are not included.</p>}
+    </section>
 
     <section aria-label="Intelligence pathway" className="grid items-center gap-4 border-b border-border/50 pb-6 sm:grid-cols-[1fr_auto]">
       <div><p className="text-xs font-medium uppercase tracking-[.14em] text-muted-foreground">The learning loop</p><h3 className="mt-2 font-display text-xl font-medium">Observe → understand → act</h3><p className="mt-2 max-w-lg text-sm leading-6 text-muted-foreground">Recorded attempts feed evidence. Valid PIE estimates remain distinct from direct measurements. A next step appears only when a supported action is available.</p></div>
@@ -165,7 +175,7 @@ export function ReadinessPrism({ evidence, loading, retry }: { evidence: Intelli
     </section>
 
     <section aria-label="Subject evidence" className="space-y-4 border-t border-border/50 pt-6">
-      <div className="flex items-end justify-between gap-3"><div><p className="text-xs font-medium uppercase tracking-[.14em] text-muted-foreground">03 / Observed evidence</p><h3 className="mt-1 font-display text-lg font-semibold">Subject performance</h3><p className="mt-1 text-sm text-muted-foreground">Calculated from returned, deduplicated attempt history.</p></div><span className="text-xs text-muted-foreground">{summary.count} attempts</span></div>
+      <div className="flex items-end justify-between gap-3"><div><p className="text-xs font-medium uppercase tracking-[.14em] text-muted-foreground">03 / Observed evidence</p><h3 className="mt-1 font-display text-lg font-semibold">Subject performance</h3><p className="mt-1 text-sm text-muted-foreground">Calculated from returned, deduplicated attempt history.</p></div><span className="text-xs text-muted-foreground">{summary.count} attempts in this mode</span></div>
       {evidence?.history.status==="unavailable"?<p role="status" className="rounded-md border border-border p-4 text-sm text-muted-foreground">Attempt history is temporarily unavailable. Other evidence sources remain independent.</p>
       :subjects.length===0?<div className="border-y border-dashed border-border py-7"><p className="text-sm font-medium">Your evidence starts with practice.</p><p className="mt-1 text-sm text-muted-foreground">Complete an MCQ session to populate subject-level observations. No sample data is displayed.</p><Button asChild variant="outline" className="mt-4 min-h-11"><Link to="/practice">Open Practice <ArrowRight className="ml-2 h-4 w-4"/></Link></Button></div>
       :<div className="divide-y divide-border/60 border-y border-border/60">{subjects.slice(0,8).map(row=><div key={row.key}>
@@ -181,8 +191,8 @@ export function ReadinessPrism({ evidence, loading, retry }: { evidence: Intelli
     <section aria-label="Behaviour and calibration insights" className="space-y-4 border-t border-border/50 pt-6">
       <div><p className="text-xs font-medium uppercase tracking-[.14em] text-muted-foreground">04 / Interpretation</p><h3 className="mt-1 font-display text-lg font-semibold">What the evidence can tell you</h3></div>
       <div className="grid gap-4 md:grid-cols-2">
-        <div className="flex gap-3 border-l-2 border-primary/40 py-1 pl-4"><Eye className="mt-0.5 h-4 w-4 shrink-0 text-primary"/><div><h4 className="text-sm font-medium">Observed pattern</h4><p className="mt-1 text-sm leading-6 text-muted-foreground">{summary.count===0?"No attempt history is available to describe a pattern yet.":"In returned history, "+summary.changed+" of "+summary.count+" attempts recorded at least one answer change. This describes records; it does not imply changing is always good or bad."}</p></div></div>
-        <div className="flex gap-3 border-l-2 border-primary/40 py-1 pl-4"><ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-primary"/><div><h4 className="text-sm font-medium">Confidence evidence</h4><p className="mt-1 text-sm leading-6 text-muted-foreground">{summary.confidenceCount===0?"No confidence-rated attempts were returned, so observed confidence alignment cannot be calculated.":summary.confidenceCount+" attempts include a confidence rating. "+summary.highConfidenceErrors+" were high-confidence incorrect responses and "+summary.lowConfidenceCorrect+" were low-confidence correct responses."}</p></div></div>
+        <div className="flex gap-3 border-l-2 border-primary/40 py-1 pl-4"><Eye className="mt-0.5 h-4 w-4 shrink-0 text-primary"/><div><h4 className="text-sm font-medium">Observed pattern</h4><p className="mt-1 text-sm leading-6 text-muted-foreground">{summary.count===0?"No attempt history is available for this mode yet.":"In returned history, "+summary.changed+" of "+summary.count+" attempts recorded at least one answer change. This describes records; it does not imply changing is always good or bad."}</p></div></div>
+        <div className="flex gap-3 border-l-2 border-primary/40 py-1 pl-4"><ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-primary"/><div><h4 className="text-sm font-medium">Confidence evidence</h4><p className="mt-1 text-sm leading-6 text-muted-foreground">{summary.confidenceCount===0?"No confidence-rated attempts were returned for this mode, so observed confidence alignment cannot be calculated.":summary.confidenceCount+" attempts include a confidence rating. "+summary.highConfidenceErrors+" were high-confidence incorrect responses and "+summary.lowConfidenceCorrect+" were low-confidence correct responses."}</p></div></div>
       </div>
     </section>
 
