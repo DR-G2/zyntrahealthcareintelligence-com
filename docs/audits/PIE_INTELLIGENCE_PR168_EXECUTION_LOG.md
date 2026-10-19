@@ -273,3 +273,17 @@ On resumption, fetch this file and the live PR metadata/HEAD again before editin
   - P21.2 `39261662656`: unit tests, typecheck and production build PASS; P21.2/P21.1/P20 live steps SKIPPED on PR.
   - PIE Live Certification `39261662677` and Nudge Live Certification `39261662540`: wrapper workflows succeeded, but authenticated runtime certification steps were SKIPPED on PR.
 - No code edits remain pending at this checkpoint. Log update is documentation-only and will create a new PR head; verify the resulting head's workflow results before declaring the checkpoint current.
+
+
+## Live authoritative-source contract verification (2026-10-19)
+- Read-only active V2 catalog and aggregate checks confirmed `pie.pie_candidate_state` has 6 rows. All 6 contain a global `state.evidence_count` and all six dimension objects with `estimate`; 0/6 contain `state.session_mode`; 0/6 contain per-dimension `evidence_count`, `evidence_quality`, `estimate_aligned`, `uncertainty`, `lower`, or `upper` keys. The current candidate-facing `public.my_pie_state` wrapper simply returns this state via `get_my_pie_state()`. Therefore it is correct for the UI to withhold every authoritative dimension estimate; a global count cannot satisfy the per-dimension gate.
+- `pie.pie_observation` contains 3,213 `MCQ_ATTEMPT` observations. Its payload has answer/correctness/timing/confidence/change fields but no session mode or dimension key; provenance has session/attempt IDs but no session mode. `pie.pie_dynamic_observation` and `pie.pie_state_uncertainty` are empty in the active V2 project.
+- The active `pie-infer-state` Edge Function computes per-dimension count, quality, uncertainty and intervals, but it writes only to `pie.inference_shadow` and explicitly returns `shadow_only=true`, `authoritative=false`, `influences_adaptation=false`. It is not an approved candidate-facing source and does not carry the missing selected-mode provenance. Do not read the shadow table into the candidate UI or promote it to authoritative state under this prompt.
+- Active Edge Function inventory was rechecked: `analyze-behavior` is absent from active V2. `public.behavior_profiles` and `public.is_admin(text)` are absent as previously recorded. No function was deployed and no schema, policy, auth or production data was modified.
+- Current documentation checkpoint `35a286442bf6551154d31f3a7a40c57b6945d948` has completed source CI:
+  - Zyntra CI `39262056526`: lint, unit tests and production build PASS.
+  - Zyntra CI `39262056520`: unit tests, production build and P8-P11 contract gate PASS.
+  - P21.1 `39262056614`: unit tests, typecheck and build PASS; P21.1/P20 authenticated steps SKIPPED on PR.
+  - P21.2 `39262056584`: unit tests, typecheck and build PASS; P21.2/P21.1/P20 authenticated steps SKIPPED on PR.
+  - PIE wrapper `39262056498` and Nudge wrapper `39262056711` succeeded, but authenticated live certification steps were SKIPPED on PR.
+- Hard release gates remain: an explicitly approved source/session contract for mode and per-dimension evidence metadata; an approved V2 Behaviour backend/schema deployment plan; authorization approval before changing the admin email `ILIKE` check; an authorized non-PR runtime certification path; and verified legal entity/contact/arbitration/jurisdiction facts. These are not safe to guess. No merge or production release.
