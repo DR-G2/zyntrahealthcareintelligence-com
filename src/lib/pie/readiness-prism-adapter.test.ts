@@ -38,7 +38,7 @@ describe("Readiness Prism presentation adapter", () => {
     };
     const layer = authoritativePrismLayer(input);
     expect(layer.dimensions.find(item => item.dimension === "capability")).toMatchObject({
-      estimate: null, uncertainty: null, lower: null, upper: null, evidenceCount: 12, evidenceQuality: 0.9,
+      estimate: null, uncertainty: null, lower: null, upper: null, evidenceCount: 12, evidenceQuality: null,
     });
     expect(layer.dimensions.find(item => item.dimension === "timing")).toMatchObject({
       uncertainty: null, lower: null, upper: null, evidenceCount: 0, evidenceQuality: null,
