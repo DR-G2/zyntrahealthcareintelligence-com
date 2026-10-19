@@ -86,7 +86,7 @@ export function mapState(value: unknown): StateEvidence | null {
 }
 export function safeAttempt(row: PieHistoryRow): SafeAttempt {
   return { id: row.attempt_id, subjectId: row.subject_id, subject: row.subject_name ?? 'Uncategorised', correct: row.is_correct, answerKeyAvailable: row.correct_answer !== null && row.correct_answer !== undefined, 
-    confidence: typeof row.confidence_level === 'number' && row.confidence_level >= 1 && row.confidence_level <= 5 ? row.confidence_level : null,
+    confidence: typeof row.confidence_level === 'number' && Number.isSafeInteger(row.confidence_level) && row.confidence_level >= 1 && row.confidence_level <= 5 ? row.confidence_level : null,
     seconds: typeof row.time_taken_seconds === 'number' && Number.isFinite(row.time_taken_seconds) && row.time_taken_seconds >= 0 ? row.time_taken_seconds : null,
     changes: typeof row.answer_changes_count === 'number' && Number.isSafeInteger(row.answer_changes_count) && row.answer_changes_count >= 0 ? row.answer_changes_count : null,
     at: row.created_at, sessionMode: row.session_mode ?? null };
