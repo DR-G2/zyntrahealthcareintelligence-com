@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Suspense, lazy, useState } from "react";
 import { MarketingHeader } from "@/components/public/MarketingHeader";
 import { MarketingFooter } from "@/components/public/MarketingFooter";
 import { ArrowRight, Activity, Brain, BookOpen, CalendarDays, Check, ChevronRight, Clock3, HeartPulse, ShieldCheck, Sparkles, Target, GitBranch, ClipboardList } from "lucide-react";
@@ -6,9 +6,10 @@ import { Link } from "react-router-dom";
 import { featureAvailability } from "@/data/featureAvailability";
 import { COPY_CARD_CHECK, COPY_CANCEL, cancelCopy } from "@/lib/billing";
 import "@/styles/zyntra-home.css";
-import "@/styles/living-brain.css";
 import "@/styles/zyntra-tokens.css";
-import NeuralScene, { INTELLIGENCE_STAGES, type IntelligenceStage } from "@/components/home/NeuralScene";
+import { INTELLIGENCE_STAGES, type IntelligenceStage } from "@/components/home/intelligence-stages";
+
+const NeuralScene = lazy(() => import("@/components/home/NeuralScene"));
 
 const features = [
   { title: featureAvailability.mcqPractice.name, desc: featureAvailability.mcqPractice.summary, status: featureAvailability.mcqPractice.status, tone: featureAvailability.mcqPractice.tone, icon: BookOpen, kind: "mcq" },
@@ -65,7 +66,7 @@ const Home: React.FC = () => {
             <div className="zh-trust">{[[BookOpen,"AMC-style","practice"],[Activity,"Performance","intelligence"],[Target,"Personalised","next actions"],[ShieldCheck,"Built for","IMGs"]].map(([Icon,a,b],i)=><div key={i}><Icon size={23}/><span>{a as string}<br/>{b as string}</span></div>)}</div>
           </div>
           <div className="zh-hero-visual zh-living-hero-visual">
-            <NeuralScene activeStage={activeBrainStage} onStageSelect={setActiveBrainStage} />
+            <Suspense fallback={<div className="zh-living-scene-wrap" style={{ width: "100%", aspectRatio: "560 / 500" }} aria-hidden="true" />}><NeuralScene activeStage={activeBrainStage} onStageSelect={setActiveBrainStage} /></Suspense>
           </div>
         </div>
       </section>
