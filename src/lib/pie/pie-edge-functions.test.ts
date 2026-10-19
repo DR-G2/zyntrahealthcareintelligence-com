@@ -18,6 +18,7 @@ describe("P5 edge functions read PIE attempts on V2", () => {
     expect(a.map((x) => x.id)).toEqual(["a0", "a2"]);
     expect(a[0].questions).toEqual({ category: "Adult Medicine", difficulty: "3", difficulty_tier: "3", correct_answer: "A" });
     expect(a[0].change_sequence).toEqual(["A", "B"]);
+    expect(a[0].session_mode).toBe("adaptive");
   });
 
   it("flashcards use only the learner's own wrong answers, distinct, newest first, capped", () => {
@@ -49,5 +50,11 @@ describe("P5 edge functions read PIE attempts on V2", () => {
     expect(shared).not.toMatch(/SERVICE_ROLE/);
     expect(read("src/pages/Flashcards.tsx")).toContain("pieV2AuthHeaders()");
     expect(read("src/pages/BehaviorProfile.tsx")).toContain("pieV2AuthHeaders()");
+    const behaviorFn = read("supabase/functions/analyze-behavior/index.ts");
+    expect(behaviorFn).toContain('a.session_mode === "normal" || a.session_mode === "normal_mcq"');
+    expect(behaviorFn).not.toContain("Predict AMC score range");
+    expect(behaviorFn).not.toContain("osceBehavioralSignalsSample");
+    expect(behaviorFn).toContain("predicted_score_low: null");
+    expect(behaviorFn).toContain("No verified Normal MCQ attempts found");
   });
 });
