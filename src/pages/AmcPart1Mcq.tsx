@@ -9,7 +9,7 @@ import "@/styles/zyntra-home.css";
 import "@/styles/zyntra-amc-mcq.css";
 import "@/styles/zyntra-tokens.css";
 
-const pageUrl = "https://www.zyntrahealthcareintelligence.com/amc-part-1-mcq";
+const pageUrl = "https://zyntrahealthcareintelligence.app/amc-part-1-mcq";
 
 const faqs = [
   {
@@ -111,7 +111,7 @@ export default function AmcPart1Mcq() {
             provider: {
               "@type": "Organization",
               name: "Zyntra Healthcare Intelligence",
-              url: "https://www.zyntrahealthcareintelligence.com/",
+              url: "https://zyntrahealthcareintelligence.app/",
             },
             hasCourseInstance: { "@type": "CourseInstance", courseMode: "online" },
           },
