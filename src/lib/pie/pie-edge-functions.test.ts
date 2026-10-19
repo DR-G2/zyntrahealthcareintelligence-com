@@ -112,8 +112,6 @@ describe("P5 edge functions read PIE attempts on V2", () => {
     expect(behaviorFn).toContain("signals.avgTime < 45");
     expect(behaviorFn).toContain("signals.fatigueIncrease >= 1.4");
     expect(behaviorFn).toContain("classification.recommendations.length === 0");
-    expect(behaviorFn).toContain("signals.avgTime < 45");
-    expect(behaviorFn).toContain("signals.fatigueIncrease >= 1.4");
     expect(behaviorFn).toContain("No completed, verified Normal MCQ attempts found");
     expect(behaviorFn).not.toContain("Predict AMC score range");
     expect(behaviorFn).not.toContain("osceBehavioralSignalsSample");
@@ -133,7 +131,6 @@ describe("P5 edge functions read PIE attempts on V2", () => {
     expect(behaviorFn).toContain('item?.trap === "rushing_at_end" && hasRushingAtEndEvidence');
     expect(behaviorFn).toContain('case "fatigue_victim": return hasFatigueTrend');
     expect(behaviorFn).toContain("returned evidence was invalid.");
-    expect(behaviorFn).toContain("No completed, verified Normal MCQ attempts found");
     expect(behaviorFn).toContain("Behaviour analysis is temporarily unavailable.");
     expect(behaviorFn).toContain('"Access-Control-Allow-Methods": "POST, OPTIONS"');
     expect(behaviorFn).not.toContain("JSON.stringify({ error: pie.error })");
