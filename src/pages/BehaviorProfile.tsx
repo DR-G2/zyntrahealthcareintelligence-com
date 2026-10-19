@@ -86,8 +86,8 @@ interface BehaviorData {
   session_mode?: string | null;
   archetype: string;
   archetype_signals: any;
-  block_performance: Record<string, { accuracy: number; avgTime: number | null; changeRate: number }>;
-  subject_patterns: Record<string, { accuracy: number; changeRate: number; avgTime: number | null; total: number; type: string }>;
+  block_performance: Record<string, { accuracy: number; avgTime: number | null; changeRate: number | null }>;
+  subject_patterns: Record<string, { accuracy: number; changeRate: number | null; avgTime: number | null; total: number; type: string }>;
   trap_flags: Array<{ trap: string; description: string; severity: string }>;
   recommendations: Array<{ title: string; description: string; priority: string; action_link?: string }>;
 }
@@ -322,7 +322,7 @@ export default function BehaviorProfile() {
                         </div>
                         <span className="text-sm font-mono w-12 text-right">{s.accuracy}%</span>
                         <Badge variant="outline" className="text-xs w-24 justify-center">
-                          {s.type === 'behavioral' ? '🧠 Behavioral' : s.type === 'knowledge' ? '📚 Knowledge' : '✅ Stable'}
+                          {s.type === 'behavioral' ? '🧠 Behavioral' : s.type === 'knowledge' ? '📚 Knowledge' : s.type === 'unavailable' ? 'Evidence unavailable' : '✅ Stable'}
                         </Badge>
                       </div>
                     ))}
