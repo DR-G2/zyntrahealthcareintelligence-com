@@ -375,7 +375,7 @@ The top-level changeRate is a fraction from 0 to 1; subjectStats and blockPerfor
 
     const { data: existingProfile, error: profileLookupError } = await supabase
       .schema("intelligence").from("behavior_profiles")
-      .select("id")
+      .select("user_id")
       .eq("user_id", user.id)
       .maybeSingle();
 
