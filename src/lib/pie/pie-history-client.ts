@@ -19,7 +19,7 @@ export interface PieHistoryRow {
 /** Legacy page shape (user_attempts joined to questions), produced from PIE history. */
 export interface LegacyAttemptShape {
   id: string; question_id: string; session_id: string | null; session_mode: string; selected_answer: string; is_correct: boolean;
-  answer_changes_count: number | null; change_sequence: string[]; time_taken_seconds: number | null; time_to_first_click: number | null;
+  answer_changes_count: number | null; change_sequence: string[]; change_sequence_valid: boolean; time_taken_seconds: number | null; time_to_first_click: number | null;
   confidence_level: number | null; created_at: string;
   questions: { question_text: string; correct_answer: string; category: string; subtopic: string | null; difficulty: string; explanation: string | null; options: string[] };
 }
@@ -46,6 +46,7 @@ export function toLegacyAttempt(r: PieHistoryRow): LegacyAttemptShape {
     id: r.attempt_id, question_id: r.question_id, session_id: r.session_id ?? null, session_mode: r.session_mode, selected_answer: r.selected_answer,
     is_correct: r.is_correct, answer_changes_count: typeof r.answer_changes_count === 'number' && Number.isSafeInteger(r.answer_changes_count) && r.answer_changes_count >= 0 ? r.answer_changes_count : null,
     change_sequence: Array.isArray(r.change_sequence) && r.change_sequence.every((value): value is string => typeof value === 'string' && value.trim().length > 0) ? r.change_sequence : [],
+    change_sequence_valid: r.change_sequence === null || (Array.isArray(r.change_sequence) && r.change_sequence.every((value): value is string => typeof value === 'string' && value.trim().length > 0)),
     time_taken_seconds: r.time_taken_seconds, time_to_first_click: r.time_to_first_click,
     confidence_level: r.confidence_level, created_at: r.created_at,
     questions: {
