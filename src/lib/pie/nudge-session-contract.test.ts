@@ -10,6 +10,11 @@ const coldStartMigration = readFileSync(
   resolve(__dirname, "../../../supabase/migrations_v2/0095_nudge_cold_start_progression.sql"),
   "utf8",
 );
+const v2AlignmentMigration = readFileSync(
+  resolve(__dirname, "../../../supabase/migrations_v2/0098_nudge_v2_session_registry_alignment.sql"),
+  "utf8",
+);
+
 const client = readFileSync(resolve(__dirname, "pie-practice-client.ts"), "utf8");
 const session = readFileSync(resolve(__dirname, "../../components/practice/PieDrillSession.tsx"), "utf8");
 const page = readFileSync(resolve(__dirname, "../../pages/Practice.tsx"), "utf8");
@@ -45,6 +50,13 @@ describe("Nudge targeted-session contract", () => {
     expect(migration).not.toContain("pie.adaptive_session");
     expect(coldStartMigration).toContain("ps.config->>'mode' = 'nudge'");
     expect(coldStartMigration).not.toContain("pie.adaptive_session");
+  });
+
+  it("uses the canonical V2 session registry for Nudge creation", () => {
+    expect(v2AlignmentMigration).toContain("ps.config->>'mode' = 'nudge'");
+    expect(v2AlignmentMigration).toContain("public.practice_sessions");
+    expect(v2AlignmentMigration).not.toContain("pie.adaptive_session");
+    expect(v2AlignmentMigration).toContain("public.get_my_nudge_target()");
   });
 
   it("keeps server grading and PIE telemetry on the existing attempt path", () => {

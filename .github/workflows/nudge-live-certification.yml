@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - scripts/nudge-live-certification.mts
+      - supabase/migrations_v2/0098_nudge_v2_session_registry_alignment.sql
   pull_request:
     branches: [main]
     types: [opened, synchronize, reopened]
