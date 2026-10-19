@@ -20,7 +20,7 @@ interface AttemptRow {
   question_id: string;
   selected_answer: string;
   is_correct: boolean;
-  answer_changes_count: number;
+  answer_changes_count: number | null;
   change_sequence: any;
   time_taken_seconds: number;
   time_to_first_click: number | null;
