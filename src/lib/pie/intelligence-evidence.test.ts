@@ -50,6 +50,15 @@ describe('Intelligence evidence presentation boundary', () => {
     expect(historySummary([row, row])).toMatchObject({ count: 1, scoredCount: 1, accuracy: 0, confidenceCount: 0, meanSeconds: null });
     expect(historySummary([{ ...row, answerKeyAvailable: false }])).toMatchObject({ count: 1, scoredCount: 0, accuracy: null });
   });
+  it('rejects fractional confidence levels as invalid calibration evidence', () => {
+    const row = safeAttempt({
+      attempt_id: 'fractional-confidence', subject_id: 's', subject_name: 'Medicine', is_correct: true,
+      correct_answer: 'A', confidence_level: 2.5, time_taken_seconds: 10, answer_changes_count: 0,
+      created_at: '2026-10-15T00:00:00Z',
+    } as Parameters<typeof safeAttempt>[0]);
+    expect(row.confidence).toBeNull();
+    expect(historySummary([row]).confidenceCount).toBe(0);
+  });
   it('does not treat an empty answer key as valid scored evidence', () => {
     const row = safeAttempt({
       attempt_id: 'a', subject_id: 's', subject_name: 'Medicine', is_correct: true, correct_answer: '   ',
