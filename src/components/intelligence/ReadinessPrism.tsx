@@ -77,7 +77,7 @@ function DimensionMap({ dimensions, selected, onSelect }: {
         {complete && <polygon points={polygon} fill="hsl(var(--primary) / .15)" stroke="hsl(var(--primary))" strokeWidth="1.8"/>}
         {dimensions.map((item,index) => { if (item.estimate === null) return null; const p=point(index,item.estimate*radius); return <circle key={item.dimension} cx={p.x} cy={p.y} r={item.dimension===selected?4:2.7} fill="hsl(var(--primary))"/>; })}
       </svg>
-      <p className="text-center text-[11px] text-muted-foreground">{complete ? "All six dimension estimates meet their evidence gates." : "The map is partial while dimensions build evidence; unsupported values are not plotted."}</p>
+      <p className="text-center text-[11px] text-muted-foreground">{complete ? "All six dimension estimates meet their evidence gates." : "The map is partial because one or more dimension estimates are unavailable; unsupported values are not plotted."}</p>
     </div>
     <div className="grid gap-1.5 sm:grid-cols-2">{dimensions.map(item => <button key={item.dimension} type="button" onClick={() => onSelect(item.dimension)} aria-pressed={selected===item.dimension}
       className={"min-h-14 rounded-md border px-3 py-2 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring " + (selected===item.dimension?"border-primary/50 bg-primary/[.06]":"border-border/60 hover:bg-muted/30")}>
