@@ -16,7 +16,7 @@ revoke all on pie.beta_reset_audit from public, anon, authenticated;
 -- Only explicitly provisioned disposable accounts belong in this registry.
 -- No client role can read or write it; registration is through a guarded RPC.
 create table if not exists pie.synthetic_candidate_registry (
-  user_id uuid primary key references public.profiles(id) on delete restrict,
+  user_id uuid primary key references public.profiles(id) on delete cascade,
   registered_by uuid not null references auth.users(id) on delete restrict,
   reason text not null check (length(btrim(reason)) between 10 and 300),
   registered_at timestamptz not null default now()
