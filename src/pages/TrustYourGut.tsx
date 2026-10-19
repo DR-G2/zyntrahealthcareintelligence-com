@@ -61,7 +61,9 @@ interface CategoryBreakdown {
 }
 
 function hasConsistentChangeSequence(a: AttemptWithQuestion): boolean {
-  return a.change_sequence.length > 0 && a.answer_changes_count === Math.max(0, a.change_sequence.length - 1);
+  return a.change_sequence.length > 0
+    && a.answer_changes_count === Math.max(0, a.change_sequence.length - 1)
+    && a.change_sequence[a.change_sequence.length - 1] === a.selected_answer;
 }
 
 export default function TrustYourGut() {
