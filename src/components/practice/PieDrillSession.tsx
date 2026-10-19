@@ -312,7 +312,14 @@ export function PieDrillSession({ config, resumeSessionId, onFinish }: {
   const mm = `${Math.floor(remaining / 60)}:${String(remaining % 60).padStart(2, '0')}`;
 
   const isMock = config.mode === 'full-mock';
-  const modeLabel = primaryMode === 'nudge' ? (nudgeTarget?.loId ? 'Nudge · PIE-targeted learning' : 'Nudge · Evidence-building mix') : isMock ? 'Full Mock Exam' : config.mode === 'recharge' ? 'MCQ Drill · With option change' : 'MCQ Drill · No option change';
+  const isNudgeFallback = nudgeTarget?.reasonCode === 'MIXED_PRACTICE_NO_SUPPORTED_TARGET';
+  const modeLabel = primaryMode === 'nudge'
+    ? nudgeTarget?.loId
+      ? 'Nudge · PIE-targeted learning'
+      : isNudgeFallback
+        ? 'Nudge · Mixed practice'
+        : 'Nudge · Evidence-building mix'
+    : isMock ? 'Full Mock Exam' : config.mode === 'recharge' ? 'MCQ Drill · With option change' : 'MCQ Drill · No option change';
   const shownTotal = primaryMode === 'nudge' && questions.length > 0 ? questions.length : Math.max(questions.length, target);
   const lowTime = isMock && remaining <= 600;
 
@@ -360,9 +367,15 @@ export function PieDrillSession({ config, resumeSessionId, onFinish }: {
         )}
         {primaryMode === 'nudge' && nudgeTarget && !nudgeTarget.loId && (
           <Card className="border-primary/25 bg-primary/5"><CardContent className="p-4 space-y-1">
-            <p className="text-xs font-semibold uppercase tracking-wide text-primary">Nudge · evidence-building</p>
+            <p className="text-xs font-semibold uppercase tracking-wide text-primary">
+              {isNudgeFallback ? 'Nudge · mixed fallback' : 'Nudge · evidence-building'}
+            </p>
             <p className="font-semibold">Mixed AMC question set</p>
-            <p className="text-sm text-muted-foreground">Your first 50 saved learning-objective interactions build the evidence PIE needs. This session starts at {nudgeTarget.baselineQuestionCount} of 50 mapped interactions. Questions are mixed and blueprint-eligible; no weakness is assumed.</p>
+            <p className="text-sm text-muted-foreground">
+              {isNudgeFallback
+                ? `You have ${nudgeTarget.baselineQuestionCount} mapped interactions, but PIE has no supported target with enough unseen questions right now. Continue mixed practice; targeting resumes when eligible evidence supports it.`
+                : `Your first 50 saved learning-objective interactions build the evidence PIE needs. This session starts at ${nudgeTarget.baselineQuestionCount} of 50 mapped interactions. Questions are mixed and blueprint-eligible; no weakness is assumed.`}
+            </p>
           </CardContent></Card>
         )}
         <header className="sticky top-14 z-20 -mx-4 border-b border-border/60 bg-background/95 px-4 py-3 backdrop-blur-md md:top-0 md:mx-0">
