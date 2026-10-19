@@ -46,9 +46,9 @@ interface AttemptWithQuestion {
 }
 
 interface ChangeAnalysis {
-  correctToWrong: number;
-  wrongToCorrect: number;
-  wrongToWrong: number;
+  correctToWrong: number | null;
+  wrongToCorrect: number | null;
+  wrongToWrong: number | null;
   total: number;
 }
 
@@ -124,16 +124,16 @@ export default function TrustYourGut() {
     return {
       firstInstinctAccuracy,
       finalAccuracy,
-      pointsLost: correctToWrong,
-      pointsGained: wrongToCorrect,
+      pointsLost: attemptsWithChanges.length > 0 ? correctToWrong : null,
+      pointsGained: attemptsWithChanges.length > 0 ? wrongToCorrect : null,
       changeRate,
       totalWithChanges: attemptsWithChangesCount,
       eligibleChangedAttempts: eligibleChangedAttemptsCount,
       totalAttempts,
       changeAnalysis: {
-        correctToWrong,
-        wrongToCorrect,
-        wrongToWrong,
+        correctToWrong: attemptsWithChanges.length > 0 ? correctToWrong : null,
+        wrongToCorrect: attemptsWithChanges.length > 0 ? wrongToCorrect : null,
+        wrongToWrong: attemptsWithChanges.length > 0 ? wrongToWrong : null,
         total: eligibleChangedAttemptsCount
       } as ChangeAnalysis
     };
@@ -289,7 +289,7 @@ export default function TrustYourGut() {
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Points Lost by Changing</p>
-                  <p className="text-2xl font-bold text-red-600 dark:text-red-400">{stats.pointsLost}</p>
+                  <p className="text-2xl font-bold text-red-600 dark:text-red-400">{stats.pointsLost === null ? 'Unavailable' : stats.pointsLost}</p>
                 </div>
               </div>
             </CardContent>
@@ -303,7 +303,7 @@ export default function TrustYourGut() {
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Points Gained by Changing</p>
-                  <p className="text-2xl font-bold text-green-600 dark:text-green-400">{stats.pointsGained}</p>
+                  <p className="text-2xl font-bold text-green-600 dark:text-green-400">{stats.pointsGained === null ? 'Unavailable' : stats.pointsGained}</p>
                 </div>
               </div>
             </CardContent>
@@ -337,21 +337,21 @@ export default function TrustYourGut() {
             <Card className="border-red-500/20 bg-red-500/[0.035]">
               <CardContent className="p-4">
                 <p className="text-[10px] uppercase tracking-[0.12em] text-red-300/80">Correct → Wrong</p>
-                <p className="mt-2 text-2xl font-bold text-white">{stats.changeAnalysis.correctToWrong}</p>
+                <p className="mt-2 text-2xl font-bold text-white">{stats.changeAnalysis.correctToWrong === null ? 'Unavailable' : stats.changeAnalysis.correctToWrong}</p>
                 <p className="mt-1 text-xs text-slate-500">Points lost</p>
               </CardContent>
             </Card>
             <Card className="border-emerald-500/20 bg-emerald-500/[0.035]">
               <CardContent className="p-4">
                 <p className="text-[10px] uppercase tracking-[0.12em] text-emerald-300/80">Wrong → Correct</p>
-                <p className="mt-2 text-2xl font-bold text-white">{stats.changeAnalysis.wrongToCorrect}</p>
+                <p className="mt-2 text-2xl font-bold text-white">{stats.changeAnalysis.wrongToCorrect === null ? 'Unavailable' : stats.changeAnalysis.wrongToCorrect}</p>
                 <p className="mt-1 text-xs text-slate-500">Points gained</p>
               </CardContent>
             </Card>
             <Card className="border-white/10 bg-white/[0.025]">
               <CardContent className="p-4">
                 <p className="text-[10px] uppercase tracking-[0.12em] text-slate-500">Wrong → Wrong</p>
-                <p className="mt-2 text-2xl font-bold text-white">{stats.changeAnalysis.wrongToWrong}</p>
+                <p className="mt-2 text-2xl font-bold text-white">{stats.changeAnalysis.wrongToWrong === null ? 'Unavailable' : stats.changeAnalysis.wrongToWrong}</p>
                 <p className="mt-1 text-xs text-slate-500">Changed, still wrong</p>
               </CardContent>
             </Card>
