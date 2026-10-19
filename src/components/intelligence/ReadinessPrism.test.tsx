@@ -83,6 +83,15 @@ describe("Intelligence overview", () => {
     expect(screen.getByText(/1 recorded attempts in this mode/)).toBeInTheDocument();
   });
 
+  it("explains that unclassified adaptive history is excluded rather than reported as no attempts", () => {
+    const input = fixture({ history: { status: "ready", value: [
+      { id: "legacy-adaptive", subjectId: "medicine", subject: "Medicine", correct: true, answerKeyAvailable: true, confidence: 4, seconds: 30, changes: 0, at: "2026-10-16T07:00:00Z", sessionMode: "pie_adaptive" },
+    ] } });
+    render(<MemoryRouter><ReadinessPrism evidence={input} loading={false} retry={() => {}} /></MemoryRouter>);
+    expect(screen.getByText(/No attempts with verified Normal MCQ provenance are available yet/)).toBeInTheDocument();
+    expect(screen.getByText(/Unclassified sessions are excluded rather than guessed/)).toBeInTheDocument();
+  });
+
   it("permits a dimension value at exactly 50 valid observations", () => {
     const base = fixture().pie.value!;
     const input = fixture({ pie: { status: "ready", value: {
