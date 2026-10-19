@@ -47,7 +47,7 @@ const psqlValue = (sql: string) => {
     { input: sql, encoding: 'utf8' },
   );
   if (result.status !== 0) throw new Error(result.stderr || result.stdout || 'psql value query failed');
-  const lines = result.stdout.trim().split(/\\r?\\n/).filter(Boolean);
+  const lines = result.stdout.trim().split(/\r?\n/).filter(Boolean);
   if (!lines.length) throw new Error('psql value query returned no rows');
   return lines[lines.length - 1];
 };
