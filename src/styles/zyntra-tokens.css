@@ -16,8 +16,8 @@
   --zh-line: #dce3e2;
   --zh-line-dark: #1b3040;
   --zh-focus: #27e2ef;
-  --zh-font-body: Inter, system-ui, sans-serif;
-  --zh-font-heading: "Space Grotesk", Inter, sans-serif;
+  --zh-font-body: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --zh-font-heading: "Space Grotesk", "Plus Jakarta Sans", sans-serif;
   --zh-space-1: .25rem;
   --zh-space-2: .5rem;
   --zh-space-3: .75rem;
