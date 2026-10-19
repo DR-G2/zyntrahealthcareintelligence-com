@@ -1,7 +1,17 @@
 import { describe, expect, it } from 'vitest';
-import { mapState, mapAction, historySummary, loadIntelligenceEvidence, type SafeAttempt } from './intelligence-evidence';
+import { mapState, mapAction, historySummary, loadIntelligenceEvidence, normalizePracticeMode, safeAttempt, type SafeAttempt } from './intelligence-evidence';
 
 describe('Intelligence evidence presentation boundary', () => {
+  it('normalizes only explicit practice-mode labels and rejects ambiguous legacy session types', () => {
+    expect(normalizePracticeMode('normal_mcq')).toBe('normal_mcq');
+    expect(normalizePracticeMode('normal')).toBe('normal_mcq');
+    expect(normalizePracticeMode('amc_exam_mode')).toBe('amc_exam');
+    expect(normalizePracticeMode('nudge')).toBe('nudge');
+    expect(normalizePracticeMode('pie_adaptive')).toBeNull();
+    expect(normalizePracticeMode('legacy_orphan')).toBeNull();
+    expect(normalizePracticeMode('adaptive')).toBeNull();
+    expect(normalizePracticeMode('drill')).toBeNull();
+  });
   it('preserves missing or invalid dimensions rather than inventing zero', () => {
     const result = mapState({ state: { capability: { estimate: 0 }, decision: { estimate: 2 }, evidence_count: 6, evidence_level: 'PRELIMINARY' } });
     expect(result?.dimensions.capability).toBe(0);
@@ -24,6 +34,11 @@ describe('Intelligence evidence presentation boundary', () => {
       uncertainty: null, lower: null, upper: null, evidenceCount: null, evidenceQuality: null, estimateAligned: null,
     });
   });
+  it('preserves a missing global evidence count as unavailable rather than zero', () => {
+    const result = mapState({ state: { evidence_level: 'PRELIMINARY' } });
+    expect(result?.count).toBeNull();
+    expect(result?.sufficient).toBe(false);
+  });
   it('requires six observations and non-insufficient evidence', () => {
     expect(mapState({ state: { evidence_count: 5, evidence_level: 'PRELIMINARY' } })?.sufficient).toBe(false);
     expect(mapState({ state: { evidence_count: 6, evidence_level: 'INSUFFICIENT' } })?.sufficient).toBe(false);
@@ -31,8 +46,32 @@ describe('Intelligence evidence presentation boundary', () => {
   });
   it('keeps no attempts distinct from true zero accuracy and deduplicates identities', () => {
     expect(historySummary([]).accuracy).toBeNull();
-    const row: SafeAttempt = { id: 'a', subjectId: 's', subject: 'Medicine', correct: false, confidence: null, seconds: null, changes: 0, at: '' };
-    expect(historySummary([row, row])).toMatchObject({ count: 1, accuracy: 0, confidenceCount: 0, meanSeconds: null });
+    const row: SafeAttempt = { id: 'a', subjectId: 's', subject: 'Medicine', correct: false, answerKeyAvailable: true, confidence: null, seconds: null, changes: 0, at: '' };
+    expect(historySummary([row, row])).toMatchObject({ count: 1, scoredCount: 1, accuracy: 0, confidenceCount: 0, meanSeconds: null });
+    expect(historySummary([{ ...row, answerKeyAvailable: false }])).toMatchObject({ count: 1, scoredCount: 0, accuracy: null });
+  });
+  it('rejects fractional confidence levels as invalid calibration evidence', () => {
+    const row = safeAttempt({
+      attempt_id: 'fractional-confidence', subject_id: 's', subject_name: 'Medicine', is_correct: true,
+      correct_answer: 'A', confidence_level: 2.5, time_taken_seconds: 10, answer_changes_count: 0,
+      created_at: '2026-10-15T00:00:00Z',
+    } as Parameters<typeof safeAttempt>[0]);
+    expect(row.confidence).toBeNull();
+    expect(historySummary([row]).confidenceCount).toBe(0);
+  });
+  it('does not treat an empty answer key as valid scored evidence', () => {
+    const row = safeAttempt({
+      attempt_id: 'a', subject_id: 's', subject_name: 'Medicine', is_correct: true, correct_answer: '   ',
+      confidence_level: 5, time_taken_seconds: 10, answer_changes_count: 0, created_at: '2026-10-15T00:00:00Z',
+    } as Parameters<typeof safeAttempt>[0]);
+    expect(row.answerKeyAvailable).toBe(false);
+    expect(historySummary([row])).toMatchObject({ count: 1, scoredCount: 0, accuracy: null, confidenceCount: 0 });
+  });
+  it('keeps missing answer-change counts out of the zero-change denominator', () => {
+    const base: SafeAttempt = { id: 'a', subjectId: 's', subject: 'Medicine', correct: false, answerKeyAvailable: true, confidence: null, seconds: null, changes: null, at: '' };
+    expect(historySummary([base])).toMatchObject({ count: 1, changeEvidenceCount: 0, changed: 0 });
+    expect(historySummary([{ ...base, changes: 0 }])).toMatchObject({ count: 1, changeEvidenceCount: 1, changed: 0 });
+    expect(historySummary([{ ...base, changes: 2 }])).toMatchObject({ count: 1, changeEvidenceCount: 1, changed: 1 });
   });
   it('does not invent actions or display expired recommendations', () => {
     expect(mapAction({ action_type: 'NEW_UNKNOWN_MODE', action_data: { reason: 'test' } })).toBeNull();
@@ -56,5 +95,19 @@ describe('Intelligence evidence presentation boundary', () => {
     const result = await loadIntelligenceEvidence({ ensure: async () => {}, history: async () => [], read: async name => ({ data: name === 'my_confidence_intelligence' ? { calibration_score: 0.75, calculated_at: '2026-10-15T00:00:00Z' } : null, error: null }) });
     expect(result.confidence.value?.percent).toBe(75);
     expect(historySummary(result.history.value ?? []).confidenceCount).toBe(0);
+  });
+});
+
+describe("mode-scoped PIE evidence mapping", () => {
+  it("maps only explicit per-mode dimension evidence and confidence-level coverage", () => {
+    const mapped = mapState({ state: { evidence_count: 300, evidence_level: "ESTABLISHED", capability: { estimate: 0.9 }, mode_evidence: {
+      normal_mcq: { capability: { estimate: 0.8, evidence_count: 50, evidence_quality: 1, estimate_aligned: true, uncertainty: 0.2, lower: 0.6, upper: 1 },
+        calibration: { estimate: 0.7, evidence_count: 250, evidence_quality: 1, estimate_aligned: true, calibration_ready: true, confidence_level_counts: { "1":50,"2":50,"3":50,"4":50,"5":50 }, uncertainty: 0.2, lower: 0.5, upper: 0.9 } },
+      nudge: { capability: { estimate: 0.4, evidence_count: 7, evidence_quality: 1, estimate_aligned: true } }
+    } } });
+    expect(mapped?.modeEvidence?.normal_mcq.capability).toMatchObject({ estimate: 0.8, evidenceCount: 50, estimateAligned: true });
+    expect(mapped?.modeEvidence?.normal_mcq.calibration).toMatchObject({ estimate: 0.7, calibrationReady: true, confidenceLevelCounts: { "1":50,"2":50,"3":50,"4":50,"5":50 } });
+    expect(mapped?.modeEvidence?.nudge.capability.evidenceCount).toBe(7);
+    expect(mapped?.modeEvidence?.amc_exam.capability.estimate).toBeNull();
   });
 });

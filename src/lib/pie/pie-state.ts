@@ -14,17 +14,17 @@ export const PIE_MIN_OBSERVATIONS = 6;
 
 export interface PieState {
   state_timestamp: string | null;
-  state_sequence: number;
-  capability: number;
-  decision: number;
-  timing: number;
-  calibration: number;
-  sustained_performance: number;
-  learning: number;
+  state_sequence: number | null;
+  capability: number | null;
+  decision: number | null;
+  timing: number | null;
+  calibration: number | null;
+  sustained_performance: number | null;
+  learning: number | null;
   identification_status: string;
   evidence_level: string;
-  data_quality: number;
-  observation_count: number;
+  data_quality: number | null;
+  observation_count: number | null;
   model_version: string;
 }
 
@@ -47,7 +47,7 @@ export interface PieDiagnostic {
 }
 
 export type PieView =
-  | { status: 'building'; observations: number; pie: PieState | null }
+  | { status: 'building'; observations: number | null; pie: PieState | null }
   | { status: 'ready'; pie: PieState }
   | { status: 'unavailable'; diagnostic: PieDiagnostic };
 
@@ -72,10 +72,12 @@ export interface PieDeps {
   getClient: () => PieClient;
 }
 
-function clamp01(value: unknown): number {
-  const n = Number(value);
-  if (!Number.isFinite(n)) return 0;
-  return Math.max(0, Math.min(1, n));
+function validFraction(value: unknown): number | null {
+  return typeof value === 'number' && Number.isFinite(value) && value >= 0 && value <= 1 ? value : null;
+}
+
+function validCount(value: unknown): number | null {
+  return typeof value === 'number' && Number.isSafeInteger(value) && value >= 0 ? value : null;
 }
 
 export function toPieDiagnostic(stage: PieStage, error: unknown): PieDiagnostic {
@@ -102,29 +104,34 @@ function unavailable(diagnostic: PieDiagnostic): PieView {
 export function mapPieStateRow(row: PieStateRow | null | undefined): PieState | null {
   if (!row || !row.state || typeof row.state !== 'object') return null;
   const state = row.state as Record<string, unknown>;
-  const estimate = (dimension: string) => {
+  const estimate = (dimension: string): number | null => {
     const value = state[dimension];
-    return clamp01(value && typeof value === 'object' ? (value as { estimate?: unknown }).estimate : undefined);
+    if (!value || typeof value !== 'object' || Array.isArray(value)) return null;
+    return validFraction((value as { estimate?: unknown }).estimate);
   };
   const evidenceLevel = typeof state.evidence_level === 'string' && state.evidence_level
     ? state.evidence_level
     : 'INSUFFICIENT';
-  const observations = Math.max(0, Math.floor(Number(state.evidence_count ?? 0)) || 0);
+  const observations = validCount(state.evidence_count);
+  const dimensions = [
+    estimate('capability'), estimate('decision'), estimate('timing'),
+    estimate('calibration'), estimate('sustained_performance'), estimate('learning'),
+  ];
 
   return {
-    state_timestamp: row.calculated_at ?? row.updated_at ?? null,
-    state_sequence: Number(row.state_version ?? 0) || 0,
-    capability: estimate('capability'),
-    decision: estimate('decision'),
-    timing: estimate('timing'),
-    calibration: estimate('calibration'),
-    sustained_performance: estimate('sustained_performance'),
-    learning: estimate('learning'),
-    identification_status: evidenceLevel === 'INSUFFICIENT' || observations < PIE_MIN_OBSERVATIONS
+    state_timestamp: typeof row.calculated_at === 'string' ? row.calculated_at : typeof row.updated_at === 'string' ? row.updated_at : null,
+    state_sequence: validCount(row.state_version),
+    capability: dimensions[0],
+    decision: dimensions[1],
+    timing: dimensions[2],
+    calibration: dimensions[3],
+    sustained_performance: dimensions[4],
+    learning: dimensions[5],
+    identification_status: evidenceLevel === 'INSUFFICIENT' || observations === null || observations < PIE_MIN_OBSERVATIONS
       ? 'BUILDING_EVIDENCE'
-      : 'IDENTIFIED',
+      : dimensions.some(value => value === null) ? 'STATE_INCOMPLETE' : 'IDENTIFIED',
     evidence_level: evidenceLevel,
-    data_quality: clamp01(row.confidence),
+    data_quality: validFraction(typeof row.confidence === 'number' ? row.confidence : null),
     observation_count: observations,
     model_version: 'v2-candidate-state',
   };
@@ -132,15 +139,22 @@ export function mapPieStateRow(row: PieStateRow | null | undefined): PieState | 
 
 /**
  * UI state mapping for a successfully read row (or no row):
- *   no row / 0 observations / < 6 observations / INSUFFICIENT -> building
- *   otherwise                                                 -> ready
- * Backend failures never reach this function; they are "unavailable".
+ *   no row / known 0 observations / < 6 observations / INSUFFICIENT -> building
+ *   missing/invalid count or dimension estimate                      -> unavailable
+ *   otherwise                                                        -> ready
+ * Missing metadata is never converted into a zero-valued score/count.
  */
 export function resolvePieView(row: PieStateRow | null | undefined): PieView {
   const pie = mapPieStateRow(row);
-  if (!pie) return { status: 'building', observations: 0, pie: null };
+  if (!pie) return { status: 'building', observations: null, pie: null };
+  if (pie.observation_count === null) {
+    return { status: 'unavailable', diagnostic: { stage: 'read', message: 'PIE observation count is missing or invalid.' } };
+  }
   if (pie.observation_count < PIE_MIN_OBSERVATIONS || pie.evidence_level === 'INSUFFICIENT') {
     return { status: 'building', observations: pie.observation_count, pie };
+  }
+  if ([pie.capability, pie.decision, pie.timing, pie.calibration, pie.sustained_performance, pie.learning].some(value => value === null)) {
+    return { status: 'unavailable', diagnostic: { stage: 'read', message: 'One or more PIE dimension estimates are missing or invalid.' } };
   }
   return { status: 'ready', pie };
 }
@@ -257,7 +271,9 @@ export function describePieStatus(view: PieView | null, loading: boolean): PieSt
     return {
       tone: 'building',
       headline: 'Building evidence',
-      detail: `${view.observations} of ${PIE_MIN_OBSERVATIONS} observations needed`,
+      detail: view.observations === null
+        ? 'Observation count unavailable; no score is inferred.'
+        : `${view.observations} of ${PIE_MIN_OBSERVATIONS} observations needed`,
     };
   }
   return {

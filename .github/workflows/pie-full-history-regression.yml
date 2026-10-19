@@ -55,3 +55,6 @@ jobs:
       - name: Run Nudge lifecycle against a disposable live-schema replica
         working-directory: supabase/verification_v2/live_replica
         run: bash run_nudge_local.sh
+      - name: Run authoritative PIE evidence and mode-provenance regression on a disposable replica
+        working-directory: supabase/verification_v2/live_replica
+        run: bash run_0094.sh

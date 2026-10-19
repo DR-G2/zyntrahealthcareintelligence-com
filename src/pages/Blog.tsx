@@ -31,8 +31,8 @@ export default function Blog() {
           "@type": "CollectionPage",
           name: "Zyntra Intelligence Lab",
           description: "AMC MCQ and clinical exam preparation for IMGs, checked against official AMC sources.",
-          publisher: { "@type": "Organization", name: "Zyntra Healthcare Intelligence", url: "https://www.zyntrahealthcareintelligence.com" },
-          url: "https://www.zyntrahealthcareintelligence.com/blog",
+          publisher: { "@type": "Organization", name: "Zyntra Healthcare Intelligence", url: "https://zyntrahealthcareintelligence.app" },
+          url: "https://zyntrahealthcareintelligence.app/blog",
         }}
       />
     <div className="zh-phase2 zh-phase2-journal min-h-screen bg-[#040812] text-slate-100 overflow-x-hidden">

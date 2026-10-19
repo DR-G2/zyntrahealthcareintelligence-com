@@ -2,8 +2,8 @@ import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Activity, ArrowRight, Brain, ChevronDown, CircleHelp, Clock3, Eye, GitBranch, ShieldCheck, Sparkles, Target } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { DIMENSIONS, historySummary, type Dimension, type IntelligenceEvidence, type SafeAttempt } from "@/lib/pie/intelligence-evidence";
-import { authoritativePrismLayer, observedPrismLayer, prismDimensionsAreComplete } from "@/lib/pie/readiness-prism-adapter";
+import { DIMENSIONS, historySummary, normalizePracticeMode, type Dimension, type IntelligenceEvidence, type PracticeMode, type SafeAttempt } from "@/lib/pie/intelligence-evidence";
+import { authoritativePrismLayer, observedPrismLayer, prismDimensionsAreComplete, MIN_DIMENSION_OBSERVATIONS } from "@/lib/pie/readiness-prism-adapter";
 import type { PrismDimensionValue } from "@/lib/pie/readiness-prism-adapter";
 
 const LABELS: Record<Dimension, string> = {
@@ -22,7 +22,7 @@ const PRIMARY = [
   { id: "accuracy", label: "Clinical accuracy", icon: Target, detail: "Correct recorded attempts divided by eligible recorded attempts." },
   { id: "stability", label: "Decision stability", icon: GitBranch, detail: "Existing V2 readiness projection; its source window is not inferred here." },
   { id: "timing", label: "Timing control", icon: Clock3, detail: "Existing PIE timing estimate, not an average number of seconds." },
-  { id: "confidence", label: "Confidence alignment", icon: Brain, detail: "Existing V2 confidence-calibration projection." },
+  { id: "confidence", label: "Confidence alignment", icon: Brain, detail: "Mode-scoped authoritative PIE calibration estimate." },
 ] as const;
 type SignalId = typeof PRIMARY[number]["id"];
 const percent = (value: number | null | undefined) => value == null || !Number.isFinite(value) ? "Unavailable" : Math.round(value) + "%";
@@ -68,21 +68,20 @@ function DimensionMap({ dimensions, selected, onSelect }: {
   const complete = prismDimensionsAreComplete(dimensions);
   const radius = 68;
   const point = (index: number, r: number) => ({ x: 100 + Math.cos(-Math.PI / 2 + index * Math.PI / 3) * r, y: 92 + Math.sin(-Math.PI / 2 + index * Math.PI / 3) * r });
-  const polygon = dimensions.map((item,index) => { const p=point(index,(item.estimate ?? 0)*radius); return p.x + "," + p.y; }).join(" ");
+  const polygon = complete ? dimensions.map((item,index) => { const p=point(index,item.estimate! * radius); return p.x + "," + p.y; }).join(" ") : "";
   return <div className="grid items-center gap-4 sm:grid-cols-[minmax(180px,.8fr)_1.2fr]">
     <div className="mx-auto w-full max-w-[250px]">
       <svg viewBox="0 0 200 184" role="img" aria-label={complete ? "Six-dimensional PIE map with all values available" : "Six-dimensional PIE map with incomplete values"} className="w-full">
         {[.25,.5,.75,1].map(level => <polygon key={level} points={DIMENSIONS.map((_,i) => { const p=point(i,radius*level); return p.x + "," + p.y; }).join(" ")} fill="none" stroke="hsl(var(--border))" strokeWidth=".8"/>)}
         {DIMENSIONS.map((dimension,i) => { const p=point(i,radius); return <line key={dimension} x1="100" y1="92" x2={p.x} y2={p.y} stroke="hsl(var(--border))" strokeWidth=".8"/>; })}
         {complete && <polygon points={polygon} fill="hsl(var(--primary) / .15)" stroke="hsl(var(--primary))" strokeWidth="1.8"/>}
-        {dimensions.map((item,index) => { const p=item.estimate===null?point(index,radius+3):point(index,item.estimate*radius); return <circle key={item.dimension} cx={p.x} cy={p.y} r={item.dimension===selected?4:2.7} fill={item.estimate===null?"hsl(var(--muted-foreground))":"hsl(var(--primary))"}/>; })}
-        {!complete && <text x="100" y="95" textAnchor="middle" fontSize="8" fill="hsl(var(--muted-foreground))">Incomplete evidence</text>}
+        {dimensions.map((item,index) => { if (item.estimate === null) return null; const p=point(index,item.estimate*radius); return <circle key={item.dimension} cx={p.x} cy={p.y} r={item.dimension===selected?4:2.7} fill="hsl(var(--primary))"/>; })}
       </svg>
-      <p className="text-center text-[11px] text-muted-foreground">{complete ? "All six estimates are available." : "No polygon drawn: one or more estimates are unavailable."}</p>
+      <p className="text-center text-[11px] text-muted-foreground">{complete ? "All six dimension estimates meet their evidence gates." : "The map is partial because one or more dimension estimates are unavailable; unsupported values are not plotted."}</p>
     </div>
     <div className="grid gap-1.5 sm:grid-cols-2">{dimensions.map(item => <button key={item.dimension} type="button" onClick={() => onSelect(item.dimension)} aria-pressed={selected===item.dimension}
       className={"min-h-14 rounded-md border px-3 py-2 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring " + (selected===item.dimension?"border-primary/50 bg-primary/[.06]":"border-border/60 hover:bg-muted/30")}>
-      <span className="block text-xs text-muted-foreground">{LABELS[item.dimension]}</span><span className="mt-1 block font-mono text-sm">{item.estimate===null?"Unavailable":percent(item.estimate*100)}</span>
+      <span className="block text-xs text-muted-foreground">{LABELS[item.dimension]}</span><span className="mt-1 block font-mono text-sm">{item.estimate!==null?percent(item.estimate*100):item.dimension==="calibration"&&item.evidenceCount!==null&&item.evidenceCount>=MIN_DIMENSION_OBSERVATIONS&&item.calibrationReady===false?"Need C1–C5 coverage":item.evidenceCount!==null&&item.evidenceCount<MIN_DIMENSION_OBSERVATIONS?"Building":"Unavailable"}</span><span className="mt-1 block text-[10px] text-muted-foreground">{item.evidenceCount===null?"Valid observation count unavailable":item.evidenceCount+" / "+MIN_DIMENSION_OBSERVATIONS+" valid observations"}</span>
     </button>)}</div>
   </div>;
 }
@@ -92,40 +91,63 @@ function buildSubjectRows(rows: SafeAttempt[]) {
   rows.forEach(row => { const key=row.subjectId ?? row.subject; groups.set(key,[...(groups.get(key)??[]),row]); });
   return [...groups.entries()].map(([key,attempts]) => ({
     key, subject: attempts[0]?.subject ?? "Uncategorised", attempts, count: attempts.length,
-    correct: attempts.filter(row=>row.correct).length,
-    accuracy: attempts.length ? attempts.filter(row=>row.correct).length/attempts.length*100 : null,
+    scoredCount: attempts.filter(row => row.answerKeyAvailable === true).length,
+    correct: attempts.filter(row=>row.answerKeyAvailable === true && row.correct).length,
+    accuracy: attempts.some(row => row.answerKeyAvailable === true) ? attempts.filter(row=>row.answerKeyAvailable === true && row.correct).length/attempts.filter(row=>row.answerKeyAvailable === true).length*100 : null,
     latest: attempts.reduce<string|null>((latest,row)=>!latest||Date.parse(row.at)>Date.parse(latest)?row.at:latest,null),
-  })).sort((a,b)=>(a.accuracy??0)-(b.accuracy??0)||b.count-a.count);
+  })).sort((a,b)=>a.accuracy===null?(b.accuracy===null?b.count-a.count:1):b.accuracy===null?-1:a.accuracy-b.accuracy||b.count-a.count);
 }
 
 export function ReadinessPrism({ evidence, loading, retry }: { evidence: IntelligenceEvidence | null; loading: boolean; retry: () => void }) {
+  const [selectedMode,setSelectedMode]=useState<PracticeMode>("normal_mcq");
   const [selectedSignal,setSelectedSignal]=useState<SignalId>("accuracy");
   const [selectedDimension,setSelectedDimension]=useState<Dimension>("capability");
   const [expandedSubject,setExpandedSubject]=useState<string|null>(null);
   const [showEvidence,setShowEvidence]=useState(false);
-  const summary=useMemo(()=>historySummary(evidence?.history.value??[]),[evidence]);
-  const subjects=useMemo(()=>buildSubjectRows(evidence?.history.value??[]),[evidence]);
-  const pieModel=useMemo(()=>evidence?authoritativePrismLayer(evidence.pie):authoritativePrismLayer({status:"unavailable",value:null}),[evidence]);
-  const observedModel=useMemo(()=>evidence?observedPrismLayer(evidence):null,[evidence]);
-  const chosenDimension=pieModel.dimensions.find(item=>item.dimension===selectedDimension) ?? pieModel.dimensions[0];
-  const validPie=evidence?.pie.status==="ready" && evidence.pie.value?.sufficient===true;
-  const timingValue=validPie && evidence?.pie.status==="ready" ? evidence.pie.value.dimensions.timing : null;
+  const modeRows=useMemo(()=>(evidence?.history.value??[]).filter(row=>normalizePracticeMode(row.sessionMode)===selectedMode),[evidence,selectedMode]);
+  const summary=useMemo(()=>historySummary(modeRows),[modeRows]);
+  const subjects=useMemo(()=>buildSubjectRows(modeRows),[modeRows]);
+  const pieModel=useMemo(()=>evidence?authoritativePrismLayer(evidence.pie,selectedMode):authoritativePrismLayer({status:"unavailable",value:null},selectedMode),[evidence,selectedMode]);
+  const observedModel=useMemo(()=>evidence?observedPrismLayer({...evidence,history:evidence.history.status==="ready"?{status:"ready",value:modeRows}:evidence.history}):null,[evidence,modeRows]);
+  const confidenceCounts = [1,2,3,4,5].map(level => ({
+    level,
+    count: evidence?.history.status === "ready"
+      ? summary.rows.filter(row => row.answerKeyAvailable === true && row.confidence === level && typeof row.correct === "boolean").length
+      : null,
+  }));
+  const calibrationEvidenceComplete = confidenceCounts.every(item => item.count !== null && item.count >= 15);
+  const displayDimensions = pieModel.dimensions.map(item => item.dimension === "calibration" && !calibrationEvidenceComplete
+    ? { ...item, estimate: null, uncertainty: null, lower: null, upper: null }
+    : item);
+  const chosenDimension=displayDimensions.find(item=>item.dimension===selectedDimension) ?? displayDimensions[0];
+  const decisionDimension = displayDimensions.find(item => item.dimension === "decision");
+  const timingDimension = displayDimensions.find(item => item.dimension === "timing");
+  const calibrationDimension = displayDimensions.find(item => item.dimension === "calibration");
+  const timingValue=timingDimension?.estimate ?? null;
   const signals: Record<SignalId,{value:string;note:string;available:boolean}> = {
-    accuracy:{value:summary.accuracy===null?"Unavailable":percent(summary.accuracy),note:summary.count+" unique recorded attempts",available:evidence?.history.status==="ready"&&summary.accuracy!==null},
-    stability:{value:evidence?.stability.status==="ready"?percent(evidence.stability.value.percent):"Unavailable",note:evidence?.stability.status==="ready"?"Existing V2 readiness projection":"No verified stability value available",available:evidence?.stability.status==="ready"},
-    timing:{value:timingValue!=null?percent(timingValue*100):"Unavailable",note:validPie?"PIE timing estimate · normalised score":"Valid PIE timing evidence is not available",available:timingValue!=null},
-    confidence:{value:evidence?.confidence.status==="ready"?percent(evidence.confidence.value.percent):"Unavailable",note:evidence?.confidence.status==="ready"?"Existing V2 calibration projection":"No verified calibration value available",available:evidence?.confidence.status==="ready"},
+    accuracy:{value:summary.accuracy===null?"Unavailable":percent(summary.accuracy),note:evidence?.history.status==="unavailable"?"Attempt history unavailable; accuracy cannot be assessed":summary.count+" recorded attempts in this mode",available:evidence?.history.status==="ready"&&summary.accuracy!==null},
+    stability:{value:evidence?.stability.status==="ready" && normalizePracticeMode(evidence.stability.value.sessionMode)===selectedMode && decisionDimension?.estimate!==null && decisionDimension?.estimate!==undefined?percent(evidence.stability.value.percent):"Unavailable",note:evidence?.stability.status==="ready" && normalizePracticeMode(evidence.stability.value.sessionMode)===selectedMode && decisionDimension?.estimate!==null && decisionDimension?.estimate!==undefined?"Mode-specific V2 readiness projection":decisionDimension?.evidenceCount!==null && decisionDimension?.evidenceCount!==undefined && decisionDimension.evidenceCount<MIN_DIMENSION_OBSERVATIONS?"Decision stability requires 50 valid observations for this dimension":"Mode-specific Decision evidence is unavailable; no cross-mode estimate is shown",available:evidence?.stability.status==="ready" && normalizePracticeMode(evidence.stability.value.sessionMode)===selectedMode && decisionDimension?.estimate!==null && decisionDimension?.estimate!==undefined},
+    timing:{value:timingValue!=null?percent(timingValue*100):"Unavailable",note:timingValue!==null?"PIE timing estimate · normalised score":timingDimension?.evidenceCount!==null && timingDimension?.evidenceCount!==undefined && timingDimension.evidenceCount<MIN_DIMENSION_OBSERVATIONS?"Timing requires 50 valid observations for this dimension":"Verified mode-specific timing evidence is unavailable; no cross-mode estimate is shown",available:timingValue!==null},
+    confidence:{value:calibrationDimension?.estimate!==null && calibrationDimension?.estimate!==undefined && calibrationEvidenceComplete?percent(calibrationDimension.estimate*100):"Unavailable",note:evidence?.history.status==="unavailable"?"Calibration coverage unavailable because attempt history could not be loaded":evidence?.history.status!=="ready"?"Loading mode-specific calibration evidence":calibrationDimension?.evidenceCount!==null && calibrationDimension?.evidenceCount!==undefined && calibrationDimension.evidenceCount<MIN_DIMENSION_OBSERVATIONS?"Calibration requires 50 valid observations for this dimension and at least 15 valid answers at each confidence level in one practice mode":!calibrationEvidenceComplete?"Calibration requires at least 15 valid answers at each confidence level in one practice mode":calibrationDimension?.estimate!==null && calibrationDimension?.estimate!==undefined?"Mode-scoped authoritative PIE calibration estimate":"Mode-specific calibration evidence remains unavailable",available:calibrationDimension?.estimate!==null && calibrationDimension?.estimate!==undefined && calibrationEvidenceComplete},
   };
   const chosen=PRIMARY.find(item=>item.id===selectedSignal)!;
   const latestHistory=subjects.reduce<string|null>((latest,row)=>!latest||(row.latest&&Date.parse(row.latest)>Date.parse(latest))?row.latest:latest,null);
   const evidenceUnavailable=evidence?Object.values(evidence).some(source=>source.status==="unavailable"):false;
-  const action=evidence?.action.status==="ready"?evidence.action.value:null;
+  const action=evidence?.action.status==="ready" && normalizePracticeMode(evidence.action.value.sessionMode)===selectedMode?evidence.action.value:null;
 
   return <section className="space-y-8" aria-busy={loading}>
     <header className="grid gap-4 border-b border-border/60 pb-6 sm:grid-cols-[1fr_auto] sm:items-end">
       <div><p className="mb-2 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[.18em] text-primary"><Activity className="h-3.5 w-3.5"/>Performance Intelligence Engine</p><h2 className="font-display text-2xl font-semibold tracking-tight sm:text-3xl">Your decisions, made visible.</h2><p className="mt-2 max-w-xl text-sm leading-6 text-muted-foreground">A measured view of your practice evidence: what is observed, what PIE estimates, and what is still unknown.</p></div>
       <Button variant="outline" size="sm" onClick={retry} disabled={loading} className="min-h-11"><Activity className="mr-2 h-4 w-4"/>Refresh evidence</Button>
     </header>
+
+    <section aria-label="Practice mode" className="space-y-2">
+      <p className="text-xs font-medium uppercase tracking-[.14em] text-muted-foreground">Practice mode · kept separate</p>
+      <div role="group" aria-label="Choose practice mode" className="flex flex-wrap gap-2">
+        {([{id:"normal_mcq",label:"Normal MCQ"},{id:"amc_exam",label:"AMC Exam mode"},{id:"nudge",label:"Nudge"}] as const).map(mode=><Button key={mode.id} type="button" variant={selectedMode===mode.id?"default":"outline"} aria-pressed={selectedMode===mode.id} className="min-h-11" onClick={()=>setSelectedMode(mode.id)}>{mode.label}</Button>)}
+      </div>
+      {evidence?.history.status==="ready"&&modeRows.length===0&&<p role="status" className="text-xs text-muted-foreground">No attempts with verified mode labels are available for this mode. Ambiguous legacy sessions are not included.</p>}
+    </section>
 
     <section aria-label="Intelligence pathway" className="grid items-center gap-4 border-b border-border/50 pb-6 sm:grid-cols-[1fr_auto]">
       <div><p className="text-xs font-medium uppercase tracking-[.14em] text-muted-foreground">The learning loop</p><h3 className="mt-2 font-display text-xl font-medium">Observe → understand → act</h3><p className="mt-2 max-w-lg text-sm leading-6 text-muted-foreground">Recorded attempts feed evidence. Valid PIE estimates remain distinct from direct measurements. A next step appears only when a supported action is available.</p></div>
@@ -141,28 +163,30 @@ export function ReadinessPrism({ evidence, loading, retry }: { evidence: Intelli
     <section aria-label="Six-dimensional PIE map" className="space-y-4 border-t border-border/50 pt-6">
       <div><p className="text-xs font-medium uppercase tracking-[.14em] text-muted-foreground">02 / PIE state</p><h3 className="mt-1 font-display text-lg font-semibold">Six-dimensional map</h3><p className="mt-1 text-sm text-muted-foreground">Authoritative PIE estimates only. Missing dimensions are not plotted as zero.</p></div>
       <div className="grid gap-4 lg:grid-cols-[1.2fr_.8fr]">
-        <div className="min-w-0 rounded-lg border border-border/70 p-3 sm:p-4"><DimensionMap dimensions={pieModel.dimensions} selected={selectedDimension} onSelect={setSelectedDimension}/></div>
+        <div className="min-w-0 rounded-lg border border-border/70 p-3 sm:p-4"><DimensionMap dimensions={displayDimensions} selected={selectedDimension} onSelect={setSelectedDimension}/></div>
         <div className="flex flex-col justify-between gap-4 border-l border-border/50 pl-4">
           <div><p className="text-xs text-muted-foreground">Selected dimension</p><h4 className="mt-1 font-display text-lg font-semibold">{LABELS[selectedDimension]}</h4><p className="mt-2 text-sm leading-6 text-muted-foreground">{DESCRIPTIONS[selectedDimension]}</p></div>
           <div className="grid grid-cols-2 gap-3">
-            <div><p className="text-xs text-muted-foreground">Estimate</p><p className="mt-1 font-mono text-base">{chosenDimension.estimate===null?"Unavailable":percent(chosenDimension.estimate*100)}</p></div>
-            <div><p className="text-xs text-muted-foreground">Dimension evidence</p><p className="mt-1 font-mono text-base">{chosenDimension.evidenceCount===null?"Unavailable":chosenDimension.evidenceCount}</p></div>
-            <div><p className="text-xs text-muted-foreground">95% interval</p><p className="mt-1 font-mono text-sm">{chosenDimension.lower===null||chosenDimension.upper===null||chosenDimension.estimateAligned===false?"Unavailable":percent(chosenDimension.lower*100)+"–"+percent(chosenDimension.upper*100)}</p></div>
+            <div><p className="text-xs text-muted-foreground">Estimate</p><p className="mt-1 font-mono text-base">{chosenDimension.estimate!==null?percent(chosenDimension.estimate*100):selectedDimension==="calibration"&&chosenDimension.evidenceCount!==null&&chosenDimension.evidenceCount>=MIN_DIMENSION_OBSERVATIONS&&chosenDimension.calibrationReady===false?"Need C1–C5 coverage":chosenDimension.evidenceCount!==null&&chosenDimension.evidenceCount<MIN_DIMENSION_OBSERVATIONS?"Building":"Unavailable"}</p></div>
+            <div><p className="text-xs text-muted-foreground">Dimension evidence</p><p className="mt-1 font-mono text-base">{chosenDimension.evidenceCount===null?"Unavailable":chosenDimension.evidenceCount+" / "+MIN_DIMENSION_OBSERVATIONS+" valid observations"}</p></div>
+            <div><p className="text-xs text-muted-foreground">Estimate interval</p><p className="mt-1 font-mono text-sm">{chosenDimension.lower===null||chosenDimension.upper===null||chosenDimension.estimateAligned!==true?"Unavailable":percent(chosenDimension.lower*100)+"–"+percent(chosenDimension.upper*100)}</p></div>
+            <div><p className="text-xs text-muted-foreground">Uncertainty bound</p><p className="mt-1 font-mono text-sm">{chosenDimension.uncertainty===null?"Unavailable":percent(chosenDimension.uncertainty*100)}</p></div>
+            <div><p className="text-xs text-muted-foreground">Evidence quality</p><p className="mt-1 font-mono text-sm">{chosenDimension.evidenceQuality===null?"Unavailable":percent(chosenDimension.evidenceQuality*100)}</p></div>
             <div><p className="text-xs text-muted-foreground">Source timestamp</p><p className="mt-1 text-xs leading-5">{dateLabel(pieModel.timestamp)}</p></div>
           </div>
-          <p role="status" className="text-xs leading-5 text-muted-foreground">{loading?"Loading your PIE projection…":pieModel.message??"PIE projection available. This is not a readiness guarantee."}</p>
+          <p role="status" className="text-xs leading-5 text-muted-foreground">{loading?"Loading your PIE projection…":chosenDimension.estimate===null&&chosenDimension.evidenceCount!==null&&chosenDimension.evidenceCount<MIN_DIMENSION_OBSERVATIONS?"Building evidence: this dimension needs 50 valid observations.":selectedDimension==="calibration"?evidence?.history.status==="unavailable"?"Calibration evidence is unavailable because attempt history could not be loaded.":"Calibration evidence for "+selectedMode+": "+confidenceCounts.map(item=>"C"+item.level+" "+(item.count===null?"unavailable":item.count+"/15")).join(" · ")+". The mode-scoped authoritative PIE calibration estimate is unavailable; no cross-mode estimate is shown.":pieModel.message??"PIE projection available. This is not a readiness guarantee."}</p>
         </div>
       </div>
     </section>
 
     <section aria-label="Subject evidence" className="space-y-4 border-t border-border/50 pt-6">
-      <div className="flex items-end justify-between gap-3"><div><p className="text-xs font-medium uppercase tracking-[.14em] text-muted-foreground">03 / Observed evidence</p><h3 className="mt-1 font-display text-lg font-semibold">Subject performance</h3><p className="mt-1 text-sm text-muted-foreground">Calculated from returned, deduplicated attempt history.</p></div><span className="text-xs text-muted-foreground">{summary.count} attempts</span></div>
+      <div className="flex items-end justify-between gap-3"><div><p className="text-xs font-medium uppercase tracking-[.14em] text-muted-foreground">03 / Observed evidence</p><h3 className="mt-1 font-display text-lg font-semibold">Subject performance</h3><p className="mt-1 text-sm text-muted-foreground">Calculated from returned, deduplicated attempt history.</p></div><span className="text-xs text-muted-foreground">{summary.count} attempts in this mode</span></div>
       {evidence?.history.status==="unavailable"?<p role="status" className="rounded-md border border-border p-4 text-sm text-muted-foreground">Attempt history is temporarily unavailable. Other evidence sources remain independent.</p>
-      :subjects.length===0?<div className="border-y border-dashed border-border py-7"><p className="text-sm font-medium">Your evidence starts with practice.</p><p className="mt-1 text-sm text-muted-foreground">Complete an MCQ session to populate subject-level observations. No sample data is displayed.</p><Button asChild variant="outline" className="mt-4 min-h-11"><Link to="/practice">Open Practice <ArrowRight className="ml-2 h-4 w-4"/></Link></Button></div>
+      :subjects.length===0?<div className="border-y border-dashed border-border py-7"><p className="text-sm font-medium">No subject evidence is available for this mode yet.</p><p className="mt-1 text-sm text-muted-foreground">Only attempts with verified mode provenance are included. Unclassified legacy sessions are excluded rather than guessed. No sample data is displayed.</p><Button asChild variant="outline" className="mt-4 min-h-11"><Link to="/practice">Open Practice <ArrowRight className="ml-2 h-4 w-4"/></Link></Button></div>
       :<div className="divide-y divide-border/60 border-y border-border/60">{subjects.slice(0,8).map(row=><div key={row.key}>
         <button type="button" onClick={()=>setExpandedSubject(expandedSubject===row.key?null:row.key)} aria-expanded={expandedSubject===row.key} className="flex min-h-[64px] w-full items-center gap-3 py-3 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
-          <span className="min-w-0 flex-1"><span className="block truncate text-sm font-medium">{row.subject}</span><span className="mt-1 block text-xs text-muted-foreground">{row.count} recorded {row.count===1?"attempt":"attempts"} · {row.correct} correct</span></span>
-          <span className="w-14 text-right font-mono text-sm">{percent(row.accuracy)}</span><span className="h-1.5 w-16 overflow-hidden rounded-full bg-muted"><span className="block h-full rounded-full bg-primary" style={{width:(row.accuracy??0)+"%"}}/></span>
+          <span className="min-w-0 flex-1"><span className="block truncate text-sm font-medium">{row.subject}</span><span className="mt-1 block text-xs text-muted-foreground">{row.count} recorded {row.count===1?"attempt":"attempts"} · {row.scoredCount} scored · {row.correct} correct</span></span>
+          <span className="w-14 text-right font-mono text-sm">{percent(row.accuracy)}</span><span aria-hidden="true" className="h-1.5 w-16 overflow-hidden rounded-full bg-muted">{row.accuracy !== null && <span className="block h-full rounded-full bg-primary" style={{width:row.accuracy+"%"}}/>}</span>
           <ChevronDown className={"h-4 w-4 shrink-0 text-muted-foreground transition-transform "+(expandedSubject===row.key?"rotate-180":"")}/>
         </button>
         {expandedSubject===row.key&&<div className="grid gap-3 pb-4 pl-1 text-xs sm:grid-cols-3"><p><span className="text-muted-foreground">Observed accuracy</span><br/><strong className="mt-1 inline-block font-mono">{percent(row.accuracy)}</strong></p><p><span className="text-muted-foreground">Recorded duration</span><br/><strong className="mt-1 inline-block font-mono">{row.attempts.filter(a=>a.seconds!==null).length} timed attempts</strong></p><p><span className="text-muted-foreground">Latest returned attempt</span><br/><strong className="mt-1 inline-block font-normal">{dateLabel(row.latest)}</strong></p></div>}
@@ -172,8 +196,8 @@ export function ReadinessPrism({ evidence, loading, retry }: { evidence: Intelli
     <section aria-label="Behaviour and calibration insights" className="space-y-4 border-t border-border/50 pt-6">
       <div><p className="text-xs font-medium uppercase tracking-[.14em] text-muted-foreground">04 / Interpretation</p><h3 className="mt-1 font-display text-lg font-semibold">What the evidence can tell you</h3></div>
       <div className="grid gap-4 md:grid-cols-2">
-        <div className="flex gap-3 border-l-2 border-primary/40 py-1 pl-4"><Eye className="mt-0.5 h-4 w-4 shrink-0 text-primary"/><div><h4 className="text-sm font-medium">Observed pattern</h4><p className="mt-1 text-sm leading-6 text-muted-foreground">{summary.count===0?"No attempt history is available to describe a pattern yet.":"In returned history, "+summary.changed+" of "+summary.count+" attempts recorded at least one answer change. This describes records; it does not imply changing is always good or bad."}</p></div></div>
-        <div className="flex gap-3 border-l-2 border-primary/40 py-1 pl-4"><ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-primary"/><div><h4 className="text-sm font-medium">Confidence evidence</h4><p className="mt-1 text-sm leading-6 text-muted-foreground">{summary.confidenceCount===0?"No confidence-rated attempts were returned, so observed confidence alignment cannot be calculated.":summary.confidenceCount+" attempts include a confidence rating. "+summary.highConfidenceErrors+" were high-confidence incorrect responses and "+summary.lowConfidenceCorrect+" were low-confidence correct responses."}</p></div></div>
+        <div className="flex gap-3 border-l-2 border-primary/40 py-1 pl-4"><Eye className="mt-0.5 h-4 w-4 shrink-0 text-primary"/><div><h4 className="text-sm font-medium">Observed pattern</h4><p className="mt-1 text-sm leading-6 text-muted-foreground">{evidence?.history.status==="unavailable"?"Attempt history is temporarily unavailable; answer-change patterns cannot be assessed.":summary.count===0?"No attempts with verified "+(selectedMode==="normal_mcq"?"Normal MCQ":selectedMode==="amc_exam"?"AMC Exam mode":"Nudge")+" provenance are available yet. Unclassified sessions are excluded rather than guessed.":"In returned history, "+summary.changed+" of "+summary.changeEvidenceCount+" attempts with a recorded change count had at least one answer change. "+(summary.changeEvidenceCount<summary.count?(summary.count-summary.changeEvidenceCount)+" attempts have unavailable change-count evidence. ":"")+"This describes records; it does not imply changing is always good or bad."}</p></div></div>
+        <div className="flex gap-3 border-l-2 border-primary/40 py-1 pl-4"><ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-primary"/><div><h4 className="text-sm font-medium">Confidence evidence</h4><p className="mt-1 text-sm leading-6 text-muted-foreground">{evidence?.history.status==="unavailable"?"Confidence evidence is unavailable because attempt history could not be loaded.":summary.confidenceCount===0?"No confidence-rated attempts were returned for this mode, so observed confidence alignment cannot be calculated.":summary.confidenceCount+" attempts include a confidence rating. "+summary.highConfidenceErrors+" were high-confidence incorrect responses and "+summary.lowConfidenceCorrect+" were low-confidence correct responses."}</p></div></div>
       </div>
     </section>
 
@@ -185,8 +209,9 @@ export function ReadinessPrism({ evidence, loading, retry }: { evidence: Intelli
       <button type="button" aria-expanded={showEvidence} onClick={()=>setShowEvidence(value=>!value)} className="flex min-h-11 w-full items-center justify-between gap-3 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"><span className="flex items-center gap-2 text-sm font-medium"><ShieldCheck className="h-4 w-4 text-primary"/>Evidence transparency and limitations</span><ChevronDown className={"h-4 w-4 transition-transform "+(showEvidence?"rotate-180":"")}/></button>
       {showEvidence&&<div className="grid gap-4 border-l border-border py-3 pl-4 text-sm sm:grid-cols-2">
         <div><p className="font-medium">Observed history</p><p className="mt-1 leading-6 text-muted-foreground">{observedModel?.message??"Observed attempt history is not loaded."} {observedModel?.evidenceCount==null?"Count unavailable":observedModel.evidenceCount+" returned attempts"}. Latest timestamp: {dateLabel(latestHistory)}.</p></div>
+        <div><p className="font-medium">Global PIE observation count</p><p className="mt-1 leading-6 text-muted-foreground">{pieModel.evidenceCount===null?"Count unavailable":pieModel.evidenceCount+" total PIE observations"}. This global count is not a per-dimension count and cannot unlock any dimension's 50-observation gate.</p></div>
         <div><p className="font-medium">Authoritative PIE projection</p><p className="mt-1 leading-6 text-muted-foreground">{pieModel.message??"PIE projection available."} Source timestamp: {dateLabel(pieModel.timestamp)}. Readiness DNA is not substituted.</p></div>
-        <div><p className="font-medium">Independent source status</p><p className="mt-1 leading-6 text-muted-foreground">Attempt history: {evidence?.history.status??"unavailable"}. PIE state: {evidence?.pie.status??"unavailable"}. Decision stability: {evidence?.stability.status??"unavailable"}. Confidence calibration: {evidence?.confidence.status??"unavailable"}.</p></div>
+        <div><p className="font-medium">Independent source status</p><p className="mt-1 leading-6 text-muted-foreground">Attempt history: {evidence?.history.status??"unavailable"} for {selectedMode}. PIE state: {pieModel.status==="ready"?"available":pieModel.status==="empty"?"building or unavailable":pieModel.status}. Decision stability: {signals.stability.available?"available for selected mode":"unavailable for selected mode"}. Confidence calibration: {signals.confidence.available?"available for selected mode":"unavailable for selected mode"}.</p></div>
         <div><p className="font-medium">Limitations</p><p className="mt-1 leading-6 text-muted-foreground">This page describes returned evidence and existing projections. It does not promise exam outcomes, create new scores, or claim unavailable signals are zero.</p></div>
       </div>}
       {evidenceUnavailable&&<p role="status" className="mt-2 text-xs text-muted-foreground">At least one source is unavailable. Other successful sources are shown separately.</p>}

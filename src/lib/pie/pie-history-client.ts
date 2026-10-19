@@ -8,18 +8,18 @@ import { ensureV2Session } from '@/lib/migration/v2-practice-session';
  * No page may read keys from the questions table.
  */
 export interface PieHistoryRow {
-  attempt_id: string; session_id: string | null; session_mode: string; question_id: string; zyntra_id: string | null;
+  attempt_id: string; session_id: string | null; session_mode: string | null; question_id: string; zyntra_id: string | null;
   stem: string; options: unknown; subject_id: string | null; subject_name: string | null; subtopic_id: string | null; subtopic_name: string | null;
   difficulty_tier: string | null; lo_id: string | null; lo_title: string | null; concept_title: string | null;
   selected_answer: string; is_correct: boolean; correct_answer: string | null; explanation: string | null;
   confidence_level: number | null; time_taken_seconds: number | null; time_to_first_click: number | null;
-  answer_changes_count: number; change_sequence: unknown; question_position: number | null; created_at: string;
+  answer_changes_count: number | null; change_sequence: unknown; question_position: number | null; created_at: string;
 }
 
 /** Legacy page shape (user_attempts joined to questions), produced from PIE history. */
 export interface LegacyAttemptShape {
-  id: string; question_id: string; session_id: string | null; selected_answer: string; is_correct: boolean;
-  answer_changes_count: number; change_sequence: string[]; time_taken_seconds: number | null; time_to_first_click: number | null;
+  id: string; question_id: string; session_id: string | null; session_mode: string | null; selected_answer: string; is_correct: boolean;
+  answer_changes_count: number | null; change_sequence: string[]; change_sequence_valid: boolean; time_taken_seconds: number | null; time_to_first_click: number | null;
   confidence_level: number | null; created_at: string;
   questions: { question_text: string; correct_answer: string; category: string; subtopic: string | null; difficulty: string; explanation: string | null; options: string[] };
 }
@@ -43,9 +43,10 @@ function optionList(options: unknown): string[] {
 
 export function toLegacyAttempt(r: PieHistoryRow): LegacyAttemptShape {
   return {
-    id: r.attempt_id, question_id: r.question_id, session_id: r.session_id ?? null, selected_answer: r.selected_answer,
-    is_correct: r.is_correct, answer_changes_count: r.answer_changes_count ?? 0,
-    change_sequence: Array.isArray(r.change_sequence) ? (r.change_sequence as unknown[]).map(String) : [],
+    id: r.attempt_id, question_id: r.question_id, session_id: r.session_id ?? null, session_mode: r.session_mode, selected_answer: r.selected_answer,
+    is_correct: r.is_correct, answer_changes_count: typeof r.answer_changes_count === 'number' && Number.isSafeInteger(r.answer_changes_count) && r.answer_changes_count >= 0 ? r.answer_changes_count : null,
+    change_sequence: Array.isArray(r.change_sequence) && r.change_sequence.every((value): value is string => typeof value === 'string' && value.trim().length > 0) ? r.change_sequence : [],
+    change_sequence_valid: r.change_sequence === null || (Array.isArray(r.change_sequence) && r.change_sequence.every((value): value is string => typeof value === 'string' && value.trim().length > 0)),
     time_taken_seconds: r.time_taken_seconds, time_to_first_click: r.time_to_first_click,
     confidence_level: r.confidence_level, created_at: r.created_at,
     questions: {
@@ -53,6 +54,19 @@ export function toLegacyAttempt(r: PieHistoryRow): LegacyAttemptShape {
       subtopic: r.subtopic_name ?? r.lo_title ?? null, difficulty: r.difficulty_tier ?? '', explanation: r.explanation, options: optionList(r.options),
     },
   };
+}
+
+function isHistoryRow(value: unknown): value is PieHistoryRow {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return false;
+  const row = value as Record<string, unknown>;
+  return typeof row.attempt_id === 'string' && row.attempt_id.trim().length > 0
+    && typeof row.question_id === 'string' && row.question_id.trim().length > 0
+    && typeof row.selected_answer === 'string' && row.selected_answer.trim().length > 0
+    && typeof row.is_correct === 'boolean'
+    && typeof row.created_at === 'string' && Number.isFinite(Date.parse(row.created_at))
+    && (row.session_id === null || typeof row.session_id === 'string')
+    && (row.session_mode === null || typeof row.session_mode === 'string')
+    && (row.correct_answer === null || typeof row.correct_answer === 'string' || row.correct_answer === undefined);
 }
 
 export interface HistoryCursor { createdAt: string; attemptId: string; }
@@ -72,7 +86,8 @@ export async function fetchPieAttemptHistory(
   }
   const { data, error } = await deps.rpc('get_my_attempt_history', args);
   if (error) throw new Error(error.message || 'History could not be loaded.');
-  return (data as PieHistoryRow[]) || [];
+  if (!Array.isArray(data) || !data.every(isHistoryRow)) throw new Error('History response malformed.');
+  return data as PieHistoryRow[];
 }
 
 /** Newest first (order: 'asc' for oldest first). */

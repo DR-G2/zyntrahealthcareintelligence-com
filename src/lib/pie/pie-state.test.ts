@@ -87,7 +87,7 @@ afterEach(() => {
 
 describe("PIE UI state mapping", () => {
   it("maps zero observations / no row to Building evidence", () => {
-    expect(resolvePieView(null)).toEqual({ status: "building", observations: 0, pie: null });
+    expect(resolvePieView(null)).toEqual({ status: "building", observations: null, pie: null });
     const zero = resolvePieView(row(0));
     expect(zero.status).toBe("building");
     expect(describePieStatus(zero, false).headline).toBe("Building evidence");
@@ -121,10 +121,23 @@ describe("PIE UI state mapping", () => {
     });
   });
 
-  it("clamps malformed estimates instead of rendering NaN", () => {
+  it("preserves malformed estimates and quality as unavailable instead of coercing them to zero", () => {
     const pie = mapPieStateRow({ state_version: 1, confidence: "x", state: { capability: { estimate: "bad" }, evidence_count: 10, evidence_level: "PRELIMINARY" } });
-    expect(pie?.capability).toBe(0);
-    expect(pie?.data_quality).toBe(0);
+    expect(pie?.capability).toBeNull();
+    expect(pie?.decision).toBeNull();
+    expect(pie?.data_quality).toBeNull();
+    expect(pie?.observation_count).toBe(10);
+    expect(resolvePieView({ state_version: 1, confidence: "x", state: { capability: { estimate: "bad" }, evidence_count: 10, evidence_level: "PRELIMINARY" } }).status).toBe("unavailable");
+  });
+
+  it("does not treat a missing observation count as zero", () => {
+    const view = resolvePieView({ state_version: 1, state: {
+      capability: { estimate: 0.5 }, decision: { estimate: 0.5 }, timing: { estimate: 0.5 },
+      calibration: { estimate: 0.5 }, sustained_performance: { estimate: 0.5 }, learning: { estimate: 0.5 },
+      evidence_level: "PRELIMINARY",
+    } });
+    expect(view.status).toBe("unavailable");
+    if (view.status === "unavailable") expect(view.diagnostic.message).toContain("observation count");
   });
 
   it("never uses Awaiting Signal for any state", () => {

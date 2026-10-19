@@ -59,8 +59,14 @@ export default function PerformanceIntelligence() {
       setParams({ tab: target.id }, { replace: true });
       document.getElementById(`tab-${target.id}`)?.focus();
     }} tabIndex={tab === item.id ? 0 : -1}><item.icon className="hidden sm:block" />{item.label}</Button>)}</div>
-    <div id={`panel-${tab}`} role="tabpanel" aria-labelledby={`tab-${tab}`}>
-      {tab === 'performance' ? <ReadinessPrism evidence={ownEvidence} loading={loading} retry={() => setRetry(value => value + 1)} /> : <Suspense fallback={<p role="status" className="py-12 text-muted-foreground">Loading your evidence…</p>}>{tab === 'behavior' ? <BehaviorContent /> : <TrustYourGutContent />}</Suspense>}
+    <div id="panel-performance" role="tabpanel" aria-labelledby="tab-performance" hidden={tab !== 'performance'}>
+      {tab === 'performance' && <ReadinessPrism evidence={ownEvidence} loading={loading} retry={() => setRetry(value => value + 1)} />}
+    </div>
+    <div id="panel-behavior" role="tabpanel" aria-labelledby="tab-behavior" hidden={tab !== 'behavior'}>
+      {tab === 'behavior' && <Suspense fallback={<p role="status" className="py-12 text-muted-foreground">Loading your evidence…</p>}><BehaviorContent /></Suspense>}
+    </div>
+    <div id="panel-trust-your-gut" role="tabpanel" aria-labelledby="tab-trust-your-gut" hidden={tab !== 'trust-your-gut'}>
+      {tab === 'trust-your-gut' && <Suspense fallback={<p role="status" className="py-12 text-muted-foreground">Loading your evidence…</p>}><TrustYourGutContent /></Suspense>}
     </div>
   </div></AppLayout>;
 }

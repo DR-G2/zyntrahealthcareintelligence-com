@@ -1,10 +1,11 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { fetchCallerPieHistory } from "../_shared/pie-v2.ts";
-import { toAnalyzeAttempts } from "../_shared/pie-v2-history.ts";
+import { toCompletedNormalMcqAttempts } from "../_shared/pie-v2-history.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "POST, OPTIONS",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version, x-pie-v2-authorization",
 };
 
@@ -13,11 +14,15 @@ serve(async (req) => {
 
   try {
     const authHeader = req.headers.get("Authorization");
-    const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
-    const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-    const lovableKey = Deno.env.get("LOVABLE_API_KEY")!;
+    const supabaseUrl = Deno.env.get("SUPABASE_URL");
+    const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+    const anonKey = Deno.env.get("SUPABASE_ANON_KEY");
+    const lovableKey = Deno.env.get("LOVABLE_API_KEY");
+    if (!supabaseUrl || !supabaseKey || !anonKey || !lovableKey) {
+      return new Response(JSON.stringify({ error: "Behaviour analysis is not configured." }), { status: 503, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
 
-    const anonClient = createClient(supabaseUrl, Deno.env.get("SUPABASE_ANON_KEY")!);
+    const anonClient = createClient(supabaseUrl, anonKey);
     const token = authHeader?.replace("Bearer ", "");
     const { data: { user }, error: authError } = await anonClient.auth.getUser(token);
     if (authError || !user) {
@@ -26,73 +31,79 @@ serve(async (req) => {
 
     const supabase = createClient(supabaseUrl, supabaseKey);
 
-    // Paid feature: require active payment, valid manual override, or admin role.
-    const nowIso = new Date().toISOString();
-    const [{ data: paid }, { data: override }, { data: admin }] = await Promise.all([
-      supabase.from("payments").select("id").eq("user_id", user.id).eq("status", "active").limit(1),
-      supabase.from("manual_overrides").select("id").eq("user_id", user.id).or(`expires_at.is.null,expires_at.gt.${nowIso}`).limit(1),
-      supabase.from("admin_roles").select("id").ilike("email", user.email ?? "__none__").limit(1),
+    // Resolve V2 ↔ legacy identity before checking entitlements. Keep both IDs scoped
+    // to this authenticated user; do not infer identity from a caller-supplied email.
+    const { data: identityMap, error: identityMapError } = await supabase
+      .from("pie_identity_map").select("legacy_user_id").eq("v2_user_id", user.id).maybeSingle();
+    if (identityMapError) {
+      console.error("Behaviour identity lookup failed:", identityMapError);
+      return new Response(JSON.stringify({ error: "Behaviour access could not be verified." }), { status: 503, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+    const entitlementUserIds = [...new Set([user.id, identityMap?.legacy_user_id].filter((id): id is string => typeof id === "string"))];
+
+    // Paid feature: use the deployed V2 contracts. Query errors fail closed.
+    const [paidResult, overrideResult, adminResult] = await Promise.all([
+      supabase.from("payments").select("id").in("user_id", entitlementUserIds).eq("status", "active").limit(1),
+      supabase.schema("command").from("manual_overrides").select("id,override_data")
+        .eq("target_type", "user").in("target_id", entitlementUserIds),
+      supabase.schema("command").from("admin_roles").select("id")
+        .in("user_id", entitlementUserIds).eq("active", true).limit(1),
     ]);
-    if (!paid?.length && !override?.length && !admin?.length) {
+    if (paidResult.error || overrideResult.error || adminResult.error) {
+      console.error("Behaviour entitlement lookup failed:", paidResult.error || overrideResult.error || adminResult.error);
+      return new Response(JSON.stringify({ error: "Behaviour access could not be verified." }), { status: 503, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+    const nowMs = Date.now();
+    const hasValidOverride = (overrideResult.data ?? []).some((row: any) => {
+      const data = row?.override_data;
+      if (!data || typeof data !== "object" || Array.isArray(data)) return false;
+      if (data.feature !== "behavior_analysis" || data.enabled !== true) return false;
+      if (data.expires_at == null) return true;
+      return typeof data.expires_at === "string" && Number.isFinite(Date.parse(data.expires_at)) && Date.parse(data.expires_at) > nowMs;
+    });
+    if (!paidResult.data?.length && !hasValidOverride && !adminResult.data?.length) {
       return new Response(JSON.stringify({ error: "subscription_required" }), { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
-    // Fetch MCQ attempts, OSCE station attempts, and psychograph history in parallel
-    // P5: MCQ attempts come from V2 PIE (caller's own answered attempts only), not the legacy table.
-    const pie = await fetchCallerPieHistory(req, user.email, 1000);
+    // Only explicitly mode-labelled Normal MCQ attempts may enter this analysis.
+    const pie = await fetchCallerPieHistory(req, user.email, 1000, { url: supabaseUrl, anonKey });
     if ("error" in pie) {
-      return new Response(JSON.stringify({ error: pie.error }), { status: pie.status, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      const publicError = pie.status === 401 ? "Practice session unavailable. Please sign in again." : pie.status === 403 ? "Practice history is unavailable for this account." : "Practice history is temporarily unavailable.";
+      return new Response(JSON.stringify({ error: publicError }), { status: pie.status, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
-    const [stationRes, psychRes, behaviorDnaRes] = await Promise.all([
-      supabase
-        .from("station_attempts")
-        .select("*")
-        .eq("user_id", user.id)
-        .order("created_at", { ascending: true })
-        .limit(500),
-      supabase
-        .from("psychograph_history")
-        .select("*")
-        .eq("user_id", user.id)
-        .order("created_at", { ascending: false })
-        .limit(20),
-      supabase
-        .from("behavior_dna")
-        .select("*")
-        .eq("user_id", user.id)
-        .maybeSingle(),
-    ]);
+    // The shared selector excludes ambiguous modes and attempts without a completed answer key.
+    const attempts = toCompletedNormalMcqAttempts(pie.rows);
 
-    const attempts = toAnalyzeAttempts(pie.rows);
-    const stationAttempts = stationRes.data || [];
-    const psychographs = psychRes.data || [];
-    const behaviorDna = behaviorDnaRes.data || null;
-
-    if (attempts.length === 0 && stationAttempts.length === 0) {
-      return new Response(JSON.stringify({ error: "No attempts found" }), { status: 404, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    if (attempts.length === 0) {
+      return new Response(JSON.stringify({ error: "No completed, verified Normal MCQ attempts found" }), { status: 404, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
     // ── MCQ Metrics ──
     const totalAttempts = attempts.length;
-    const avgTime = totalAttempts > 0 ? attempts.reduce((s, a) => s + (a.time_taken_seconds || 0), 0) / totalAttempts : 0;
-    const totalChanges = attempts.reduce((s, a) => s + (a.answer_changes_count || 0), 0);
-    const changeRate = totalAttempts > 0 ? totalChanges / totalAttempts : 0;
+    const timedAttempts = attempts.filter((a) => typeof a.time_taken_seconds === "number" && Number.isFinite(a.time_taken_seconds) && a.time_taken_seconds >= 0);
+    const avgTime = timedAttempts.length ? timedAttempts.reduce((s, a) => s + a.time_taken_seconds, 0) / timedAttempts.length : null;
+    const changeEvidence = attempts.filter((a) => a.answer_changes_count !== null);
+    const changedAttempts = changeEvidence.filter((a) => a.answer_changes_count > 0).length;
+    const changeRate = changeEvidence.length > 0 ? changedAttempts / changeEvidence.length : null;
+    const totalRecordedChanges = changeEvidence.reduce((sum, a) => sum + (a.answer_changes_count as number), 0);
+    const meanChangesPerAttempt = changeEvidence.length > 0 ? totalRecordedChanges / changeEvidence.length : null;
     const correctRate = totalAttempts > 0 ? attempts.filter(a => a.is_correct).length / totalAttempts : 0;
-    const avgPauses = totalAttempts > 0 ? attempts.reduce((s, a) => s + (a.pause_events || 0), 0) / totalAttempts : 0;
-    const avgFirstClick = totalAttempts > 0 ? attempts.reduce((s, a) => s + (a.time_to_first_click || 0), 0) / totalAttempts : 0;
+    
+    const firstClickAttempts = attempts.filter((a) => typeof a.time_to_first_click === "number" && Number.isFinite(a.time_to_first_click) && a.time_to_first_click >= 0);
+    const avgFirstClick = firstClickAttempts.length ? firstClickAttempts.reduce((s, a) => s + a.time_to_first_click, 0) / firstClickAttempts.length : null;
 
     // Per-subject MCQ stats
-    const subjectMap: Record<string, { correct: number; total: number; changes: number; avgTime: number; times: number[] }> = {};
+    const subjectMap: Record<string, { correct: number; total: number; changedAttempts: number; totalChanges: number; changeEvidenceCount: number; avgTime: number | null; times: number[] }> = {};
     attempts.forEach(a => {
       const cat = (a.questions as any)?.category || "Unknown";
-      if (!subjectMap[cat]) subjectMap[cat] = { correct: 0, total: 0, changes: 0, avgTime: 0, times: [] };
+      if (!subjectMap[cat]) subjectMap[cat] = { correct: 0, total: 0, changedAttempts: 0, totalChanges: 0, changeEvidenceCount: 0, avgTime: 0, times: [] };
       subjectMap[cat].total++;
       if (a.is_correct) subjectMap[cat].correct++;
-      subjectMap[cat].changes += a.answer_changes_count || 0;
-      subjectMap[cat].times.push(a.time_taken_seconds || 0);
+      if (a.answer_changes_count !== null) { subjectMap[cat].changeEvidenceCount++; subjectMap[cat].totalChanges += a.answer_changes_count; if (a.answer_changes_count > 0) subjectMap[cat].changedAttempts++; }
+      if (typeof a.time_taken_seconds === "number" && Number.isFinite(a.time_taken_seconds) && a.time_taken_seconds >= 0) subjectMap[cat].times.push(a.time_taken_seconds);
     });
     Object.values(subjectMap).forEach(s => {
-      s.avgTime = s.times.reduce((a, b) => a + b, 0) / s.times.length;
+      s.avgTime = s.times.length ? s.times.reduce((a, b) => a + b, 0) / s.times.length : null;
     });
 
     // Block segmented performance
@@ -102,7 +113,7 @@ serve(async (req) => {
       sessions[a.session_id].push(a);
     });
 
-    const blockPerf: Record<string, { accuracy: number; avgTime: number; changeRate: number }> = {};
+    const blockPerf: Record<string, { accuracy: number; avgTime: number | null; changeRate: number | null; meanChangesPerAttempt: number | null }> = {};
     const latestSession = Object.values(sessions).sort((a, b) =>
       new Date(b[0].created_at).getTime() - new Date(a[0].created_at).getTime()
     )[0];
@@ -118,146 +129,48 @@ serve(async (req) => {
         if (slice.length > 0) {
           blockPerf[seg.key] = {
             accuracy: Math.round((slice.filter(a => a.is_correct).length / slice.length) * 100),
-            avgTime: Math.round(slice.reduce((s, a) => s + (a.time_taken_seconds || 0), 0) / slice.length),
-            changeRate: Math.round((slice.reduce((s, a) => s + (a.answer_changes_count || 0), 0) / slice.length) * 100),
+            avgTime: (() => { const validTimes = slice.map((a) => a.time_taken_seconds).filter((v): v is number => typeof v === "number" && Number.isFinite(v) && v >= 0); return validTimes.length ? Math.round(validTimes.reduce((sum, v) => sum + v, 0) / validTimes.length) : null; })(),
+            changeRate: (() => { const validChanges = slice.filter((a) => a.answer_changes_count !== null); return validChanges.length ? Math.round((validChanges.filter((a) => a.answer_changes_count > 0).length / validChanges.length) * 100) : null; })(),
+            meanChangesPerAttempt: (() => { const validChanges = slice.filter((a) => a.answer_changes_count !== null); return validChanges.length ? validChanges.reduce((sum, a) => sum + (a.answer_changes_count as number), 0) / validChanges.length : null; })(),
           };
         }
       });
     }
 
     // Fatigue detection
-    const halfPoint = Math.floor(totalAttempts / 2);
-    const firstHalfAvgTime = halfPoint > 0 ? attempts.slice(0, halfPoint).reduce((s, a) => s + (a.time_taken_seconds || 0), 0) / halfPoint : 0;
-    const secondHalfAvgTime = halfPoint > 0 ? attempts.slice(halfPoint).reduce((s, a) => s + (a.time_taken_seconds || 0), 0) / (totalAttempts - halfPoint) : 0;
-    const fatigueIncrease = firstHalfAvgTime > 0 ? secondHalfAvgTime / firstHalfAvgTime : 1;
-
-    // ── OSCE Metrics ──
-    const osceCount = stationAttempts.length;
-    let osceAvgScore = 0;
-    let osceAvgTime = 0;
-    const osceSubjectMap: Record<string, { totalScore: number; count: number; avgTime: number; times: number[] }> = {};
-    const osceBehavioralSignals: any[] = [];
-
-    stationAttempts.forEach(sa => {
-      const scores = sa.scores as any;
-      const totalScore = typeof scores?.total === "number" ? scores.total : 0;
-      osceAvgScore += totalScore;
-      osceAvgTime += sa.time_taken_seconds || 0;
-
-      const subj = sa.subject || "Unknown";
-      if (!osceSubjectMap[subj]) osceSubjectMap[subj] = { totalScore: 0, count: 0, avgTime: 0, times: [] };
-      osceSubjectMap[subj].totalScore += totalScore;
-      osceSubjectMap[subj].count++;
-      osceSubjectMap[subj].times.push(sa.time_taken_seconds || 0);
-
-      if (sa.behavioral_signals && Object.keys(sa.behavioral_signals as any).length > 0) {
-        osceBehavioralSignals.push(sa.behavioral_signals);
-      }
-    });
-
-    if (osceCount > 0) {
-      osceAvgScore = Math.round(osceAvgScore / osceCount);
-      osceAvgTime = Math.round(osceAvgTime / osceCount);
-    }
-    Object.values(osceSubjectMap).forEach(s => {
-      s.avgTime = s.times.reduce((a, b) => a + b, 0) / s.times.length;
-    });
-
-    // ── Trust Your Gut Metrics (from change_sequence in user_attempts) ──
-    const attemptsWithChanges = attempts.filter(a => a.answer_changes_count > 0 && Array.isArray(a.change_sequence) && (a.change_sequence as any[]).length > 0);
-    let firstInstinctCorrect = 0;
-    let correctToWrong = 0;
-    attemptsWithChanges.forEach(a => {
-      const seq = a.change_sequence as any[];
-      const firstAnswer = seq[0];
-      const correctAnswer = (a.questions as any)?.correct_answer;
-      if (firstAnswer === correctAnswer) {
-        firstInstinctCorrect++;
-        if (a.selected_answer !== correctAnswer) correctToWrong++;
-      }
-    });
-    const firstInstinctAccuracy = attemptsWithChanges.length > 0 ? Math.round((firstInstinctCorrect / attemptsWithChanges.length) * 100) : null;
-    const pointsLostFromChanges = correctToWrong;
-
-    // ── Psychograph summary ──
-    let psychographSummary: any = null;
-    if (psychographs.length > 0) {
-      const latest = psychographs[0];
-      psychographSummary = {
-        archetype: latest.archetype,
-        cognitive_stability: latest.cognitive_stability,
-        emotional_reactivity: latest.emotional_reactivity,
-        silence_tolerance: latest.silence_tolerance,
-        delegation_confidence: latest.delegation_confidence,
-        structure_integrity: latest.structure_integrity,
-        time_compression_vulnerability: latest.time_compression_vulnerability,
-      };
-    }
+    // Fatigue is a within-session comparison, never a comparison across separate sessions.
+    const latestSessionTimedAttempts = (latestSession ?? []).filter((a) =>
+      typeof a.time_taken_seconds === "number" && Number.isFinite(a.time_taken_seconds) && a.time_taken_seconds >= 0
+    );
+    const halfPoint = Math.floor(latestSessionTimedAttempts.length / 2);
+    const firstHalfTimes = latestSessionTimedAttempts.slice(0, halfPoint).map((a) => a.time_taken_seconds as number);
+    const secondHalfTimes = latestSessionTimedAttempts.slice(halfPoint).map((a) => a.time_taken_seconds as number);
+    const firstHalfAvgTime = firstHalfTimes.length ? firstHalfTimes.reduce((sum, value) => sum + value, 0) / firstHalfTimes.length : null;
+    const secondHalfAvgTime = secondHalfTimes.length ? secondHalfTimes.reduce((sum, value) => sum + value, 0) / secondHalfTimes.length : null;
+    const fatigueIncrease = firstHalfAvgTime !== null && firstHalfAvgTime > 0 && secondHalfAvgTime !== null ? secondHalfAvgTime / firstHalfAvgTime : null;
 
     // Build unified signals
     const signals = {
       totalAttempts,
-      avgTime: Math.round(avgTime),
-      changeRate: Math.round(changeRate * 100) / 100,
+      avgTime: avgTime === null ? null : Math.round(avgTime),
+      changeRate: changeRate === null ? null : Math.round(changeRate * 100) / 100,
+      meanChangesPerAttempt: meanChangesPerAttempt === null ? null : Math.round(meanChangesPerAttempt * 100) / 100,
       correctRate: Math.round(correctRate * 100) / 100,
-      avgPauses: Math.round(avgPauses * 100) / 100,
-      avgFirstClick: Math.round(avgFirstClick),
-      fatigueIncrease: Math.round(fatigueIncrease * 100) / 100,
-      canonicalBehaviorDna: behaviorDna ? {
-        sampleSize: behaviorDna.sample_size,
-        evidenceLevel: behaviorDna.evidence_level,
-        dataQuality: behaviorDna.data_quality,
-        rushIndex: behaviorDna.rush_index,
-        hesitationIndex: behaviorDna.hesitation_index,
-        fatigueIndex: behaviorDna.fatigue_index,
-        answerInstabilityIndex: behaviorDna.answer_instability_index,
-        prematureCommitmentIndex: behaviorDna.premature_commitment_index,
-        ruleOutRate: behaviorDna.rule_out_rate,
-        confidenceMiscalibration: behaviorDna.confidence_miscalibration,
-        firstInstinctAccuracy: behaviorDna.first_instinct_accuracy,
-        correctToWrongChangeRate: behaviorDna.correct_to_wrong_change_rate,
-        difficultyBehavior: behaviorDna.difficulty_behavior,
-        subjectBehavior: behaviorDna.subject_behavior,
-      } : null,
+      
+      avgFirstClick: avgFirstClick === null ? null : Math.round(avgFirstClick),
+      fatigueIncrease: fatigueIncrease === null ? null : Math.round(fatigueIncrease * 100) / 100,
       subjectStats: Object.entries(subjectMap).map(([cat, s]) => ({
         category: cat,
         accuracy: Math.round((s.correct / s.total) * 100),
-        changeRate: Math.round((s.changes / s.total) * 100),
-        avgTime: Math.round(s.avgTime),
+        changeRate: s.changeEvidenceCount > 0 ? Math.round((s.changedAttempts / s.changeEvidenceCount) * 100) : null,
+        meanChangesPerAttempt: s.changeEvidenceCount > 0 ? Math.round((s.totalChanges / s.changeEvidenceCount) * 100) / 100 : null,
+        avgTime: s.avgTime === null ? null : Math.round(s.avgTime),
         total: s.total,
       })),
       blockPerformance: blockPerf,
       // OSCE
-      osceStationsCompleted: osceCount,
-      osceAvgScore,
-      osceAvgTime,
-      osceSubjectStats: Object.entries(osceSubjectMap).map(([subj, s]) => ({
-        subject: subj,
-        avgScore: Math.round(s.totalScore / s.count),
-        count: s.count,
-        avgTime: Math.round(s.avgTime),
-      })),
-      osceBehavioralSignalsSample: osceBehavioralSignals.slice(0, 5),
       // Trust Your Gut
-      firstInstinctAccuracy,
-      pointsLostFromChanges,
-      totalAttemptsWithChanges: attemptsWithChanges.length,
-      // Psychograph
-      psychographSummary,
     };
-
-    // Fetch AI training context for population comparison
-    let populationPrompt = "";
-    const { data: trainingCtx } = await supabase.from("ai_training_context").select("aggregate_data, candidate_count").limit(1).maybeSingle();
-    if (trainingCtx?.aggregate_data) {
-      const d = trainingCtx.aggregate_data as any;
-      populationPrompt = `\n\nPOPULATION BENCHMARKS (${trainingCtx.candidate_count} candidates):
-- Population accuracy: ${d.mcq?.overall_accuracy}%, avg time: ${d.mcq?.avg_time_seconds}s
-- Archetype distribution: ${Object.entries(d.behavior?.archetype_distribution || {}).map(([k, v]) => `${k}: ${v}`).join(", ")}
-- Top traps: ${d.behavior?.common_traps?.slice(0, 5).map((t: any) => `${t.trap} (${t.percent}%)`).join(", ")}
-- OSCE avg score: ${d.osce?.avg_score}%
-Compare this candidate against these benchmarks.`;
-    }
 
     // AI classification
     const aiResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
@@ -271,40 +184,24 @@ Compare this candidate against these benchmarks.`;
         messages: [
           {
             role: "system",
-            content: `You are an AMC exam behavior analyst. Analyze candidate behavioral data from MCQ practice, OSCE clinical stations, and Trust Your Gut first-instinct data to produce a UNIFIED behavior profile.${populationPrompt}
+            content: `You are an MCQ practice behaviour analyst. Describe patterns supported by explicitly labelled Normal MCQ attempts only. Do not combine OSCE, Nudge, AMC Exam mode, or Trust Your Gut aggregates. If a metric is null or unavailable, do not infer or replace it. Change rates use only valid recorded change-count observations; null means unavailable, not zero. The top-level changeRate is a fraction from 0 to 1; subjectStats and blockPerformance changeRate values are percentages from 0 to 100. meanChangesPerAttempt is the mean recorded change count per attempt with valid count evidence; null means unavailable. Do not predict exam scores, pass likelihood, or clinical readiness.\n\nArchetypes:
+- panic_changer: only when meanChangesPerAttempt is greater than 2 and avgTime is available; first-instinct correctness is not supplied
+- rusher: only when avgTime is under 45 seconds and correctRate is available; question difficulty is not supplied, so do not claim hard-question errors
+- paralyzer: only when avgTime is greater than 300 seconds and correctRate is available; pause data is unavailable
+- strategist: only when changeRate and avgTime are available and at least two blocks have valid timing and change-rate evidence; elimination behaviour is not supplied, and do not label this optimal
+- fatigue_victim: only when fatigueIncrease is at least 1.4 (a 40% increase over baseline) and later-block meanChangesPerAttempt is greater than the early block; if those signals are unavailable, do not classify
+- subject_avoider: only when at least two subjectStats entries show an observed accuracy or timing difference; stress markers are not supplied
+- unavailable: use when the required signals for a supported archetype are absent; return no trap flags or recommendations because no pattern-specific intervention is supported
 
-Archetypes:
-- panic_changer: 3+ avg changes, final answer different from first instinct, time >3 min avg
-- rusher: Time <45 seconds avg, no changes, often incorrect on hard questions
-- paralyzer: Time >5 min avg, multiple pauses, very slow decisions
-- strategist: Systematic elimination, 1-2 deliberate changes, consistent timing (optimal)
-- fatigue_victim: Time per question increases 40%+ in later questions, more changes later
-- subject_avoider: Fast incorrect on specific topics, visible stress markers in certain subjects
+Trap flags:
+- rushing_at_end is the only supported trap flag, and only when Q1-20 and Q41-60 both have valid timing and accuracy, with the later block faster and less accurate
+- first-instinct correctness, question-stem subtype, eliminated options, pauses, and re-reads are not supplied; do not emit any trap flag that requires those observations
 
-AMC Traps to detect:
-- most_appropriate_paralysis: Long time, multiple changes on "most appropriate" questions
-- second_guessing_success: Changed from correct to wrong repeatedly
-- rushing_at_end: Last questions much faster with lower accuracy
-- distractor_fixation: Spending time on wrong options
-- stem_overload: Multiple pauses, re-reads on complex stems
-
-OSCE-specific signals to consider:
-- Communication quality from station behavioral signals
-- Clinical reasoning from station scores
-- Time management in clinical stations
-- Psychograph dimensions (if available): cognitive stability, emotional reactivity, silence tolerance, delegation confidence
-
-Trust Your Gut signals:
-- First-instinct accuracy rate
-- Points lost from correct-to-wrong changes
-- Whether the candidate should trust their gut more
-
-Predict AMC score range (out of 300, pass is ~230):
-- Use correctRate, OSCE performance, behavioral patterns, and subject coverage to estimate`,
+The top-level changeRate is a fraction from 0 to 1; subjectStats and blockPerformance changeRate values are percentages from 0 to 100. meanChangesPerAttempt is the mean recorded change count per attempt with valid count evidence; null means unavailable. Do not infer personality, motivation, clinical competence, causation, exam score, pass likelihood, or clinical readiness from these behavioural signals.`,
           },
           {
             role: "user",
-            content: `Analyze this candidate's unified behavioral data (MCQ + OSCE + Trust Your Gut):\n${JSON.stringify(signals, null, 2)}`,
+            content: `Analyze this candidate's Normal MCQ behavioural evidence:\n${JSON.stringify(signals, null, 2)}`,
           },
         ],
         tools: [
@@ -312,29 +209,26 @@ Predict AMC score range (out of 300, pass is ~230):
             type: "function",
             function: {
               name: "classify_behavior",
-              description: "Classify the candidate's behavioral archetype and generate predictions from unified MCQ + OSCE + TYG data",
+              description: "Summarize observed Normal MCQ behaviour only; do not generate exam-score or pass predictions.",
               parameters: {
                 type: "object",
                 properties: {
                   archetype: {
                     type: "string",
-                    enum: ["panic_changer", "rusher", "paralyzer", "strategist", "fatigue_victim", "subject_avoider"],
+                    enum: ["panic_changer", "rusher", "paralyzer", "strategist", "fatigue_victim", "subject_avoider", "unavailable"],
                   },
                   trap_flags: {
                     type: "array",
                     items: {
                       type: "object",
                       properties: {
-                        trap: { type: "string" },
+                        trap: { type: "string", enum: ["rushing_at_end"] },
                         description: { type: "string" },
                         severity: { type: "string", enum: ["low", "medium", "high"] },
                       },
                       required: ["trap", "description", "severity"],
                     },
                   },
-                  predicted_score_low: { type: "integer" },
-                  predicted_score_high: { type: "integer" },
-                  predicted_score_potential: { type: "integer" },
                   recommendations: {
                     type: "array",
                     items: {
@@ -350,7 +244,7 @@ Predict AMC score range (out of 300, pass is ~230):
                   },
                   critical_finding: { type: "string" },
                 },
-                required: ["archetype", "trap_flags", "predicted_score_low", "predicted_score_high", "predicted_score_potential", "recommendations", "critical_finding"],
+                required: ["archetype", "trap_flags", "recommendations", "critical_finding"],
               },
             },
           },
@@ -375,52 +269,134 @@ Predict AMC score range (out of 300, pass is ~230):
     const toolCall = aiData.choices?.[0]?.message?.tool_calls?.[0];
     let classification;
     try {
+      if (!toolCall?.function?.arguments) throw new Error("Missing classification arguments");
       classification = JSON.parse(toolCall.function.arguments);
     } catch {
-      classification = {
-        archetype: changeRate > 2 ? "panic_changer" : avgTime < 45 ? "rusher" : avgTime > 300 ? "paralyzer" : fatigueIncrease > 1.4 ? "fatigue_victim" : "strategist",
-        trap_flags: [],
-        predicted_score_low: Math.round(correctRate * 300 * 0.8),
-        predicted_score_high: Math.round(correctRate * 300 * 1.1),
-        predicted_score_potential: Math.round(correctRate * 300 * 1.2),
-        recommendations: [{ title: "Continue practicing", description: "Keep up your current routine", priority: "medium" }],
-        critical_finding: `Your overall accuracy is ${Math.round(correctRate * 100)}%.`,
-      };
+      return new Response(JSON.stringify({ error: "Behaviour classification unavailable; no unsupported pattern was substituted." }), {
+        status: 502,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    const allowedArchetypes = new Set(["panic_changer", "rusher", "paralyzer", "strategist", "fatigue_victim", "subject_avoider", "unavailable"]);
+    const finiteMetric = (value: unknown): value is number => typeof value === "number" && Number.isFinite(value);
+    const blocks = signals.blockPerformance && typeof signals.blockPerformance === "object" ? signals.blockPerformance : {};
+    const earlyBlock = (blocks as Record<string, any>)["Q1-20"];
+    const lateBlock = (blocks as Record<string, any>)["Q41-60"];
+    const hasRushingAtEndEvidence = finiteMetric(earlyBlock?.avgTime) && finiteMetric(lateBlock?.avgTime)
+      && finiteMetric(earlyBlock?.accuracy) && finiteMetric(lateBlock?.accuracy)
+      && lateBlock.avgTime < earlyBlock.avgTime && lateBlock.accuracy < earlyBlock.accuracy;
+    const subjectStats = Array.isArray(signals.subjectStats) ? signals.subjectStats : [];
+    const hasSubjectDifference = subjectStats.some((subject: any, index: number) => subjectStats.slice(index + 1).some((other: any) =>
+      (finiteMetric(subject.accuracy) && finiteMetric(other.accuracy) && subject.accuracy !== other.accuracy)
+      || (finiteMetric(subject.avgTime) && finiteMetric(other.avgTime) && subject.avgTime !== other.avgTime)));
+    const hasBlockTimingAndChangeEvidence = Object.values(blocks as Record<string, any>).filter((block: any) =>
+      finiteMetric(block?.avgTime) && finiteMetric(block?.meanChangesPerAttempt)).length >= 2;
+    const hasFatigueTrend = finiteMetric(signals.fatigueIncrease) && signals.fatigueIncrease >= 1.4
+      && finiteMetric(signals.meanChangesPerAttempt) && signals.meanChangesPerAttempt > 0
+      && finiteMetric(earlyBlock?.meanChangesPerAttempt) && finiteMetric(lateBlock?.meanChangesPerAttempt)
+      && lateBlock.meanChangesPerAttempt > earlyBlock.meanChangesPerAttempt;
+    const archetypeHasEvidence = (archetype: string): boolean => {
+      switch (archetype) {
+        case "panic_changer": return finiteMetric(signals.meanChangesPerAttempt) && signals.meanChangesPerAttempt > 2 && finiteMetric(signals.avgTime);
+        case "rusher": return finiteMetric(signals.avgTime) && signals.avgTime < 45 && finiteMetric(signals.correctRate);
+        case "paralyzer": return finiteMetric(signals.avgTime) && signals.avgTime > 300 && finiteMetric(signals.correctRate);
+        case "strategist": return finiteMetric(signals.meanChangesPerAttempt) && signals.meanChangesPerAttempt > 0 && finiteMetric(signals.avgTime) && hasBlockTimingAndChangeEvidence;
+        case "fatigue_victim": return hasFatigueTrend;
+        case "subject_avoider": return hasSubjectDifference;
+        case "unavailable": return true;
+        default: return false;
+      }
+    };
+    const trapFlagsSupported = Array.isArray(classification?.trap_flags) && classification.trap_flags.every((item: any) =>
+      item?.trap === "rushing_at_end" && hasRushingAtEndEvidence);
+    const unsupportedClaimPattern = /\b(?:predict(?:ed|ion)?\s+(?:(?:your|an?)\s+)?(?:(?:AMC|exam)\s+)?score|score\s+(?:range|prediction|estimate)|pass\s+(?:score|rate|likelihood|probability|chance|prediction|percentage)|guarantee(?:d)?\s+(?:you\s+)?(?:will\s+)?pass|you\s+will\s+pass|you\s+should\s+pass|readiness|out\s+of\s+300)\b/i;
+    const visibleClaimsSupported = classification
+      && typeof classification.critical_finding === "string"
+      && !unsupportedClaimPattern.test(classification.critical_finding)
+      && Array.isArray(classification.trap_flags)
+      && classification.trap_flags.every((item: any) => typeof item?.description === "string" && !unsupportedClaimPattern.test(item.description))
+      && Array.isArray(classification.recommendations)
+      && classification.recommendations.every((item: any) =>
+        typeof item?.title === "string" && typeof item?.description === "string"
+        && !unsupportedClaimPattern.test(item.title) && !unsupportedClaimPattern.test(item.description));
+    const validClassification = classification
+      && typeof classification === "object"
+      && allowedArchetypes.has(classification.archetype)
+      && archetypeHasEvidence(classification.archetype)
+      && typeof classification.critical_finding === "string"
+      && Array.isArray(classification.trap_flags)
+      && trapFlagsSupported
+      && visibleClaimsSupported
+      && (classification.archetype !== "unavailable" || (classification.trap_flags.length === 0 && classification.recommendations.length === 0))
+      && classification.trap_flags.every((item: any) => item
+        && typeof item.trap === "string"
+        && typeof item.description === "string"
+        && ["low", "medium", "high"].includes(item.severity))
+      && Array.isArray(classification.recommendations)
+      && classification.recommendations.every((item: any) => item
+        && typeof item.title === "string"
+        && typeof item.description === "string"
+        && ["high", "medium", "low"].includes(item.priority));
+
+    if (!validClassification) {
+      return new Response(JSON.stringify({ error: "Behaviour classification unavailable; returned evidence was invalid." }), {
+        status: 502,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     // Upsert behavior_profiles
     const profileData = {
       user_id: user.id,
+      session_mode: "normal_mcq",
+      evidence_count: totalAttempts,
+      model_version: "behavior-v1",
       archetype: classification.archetype,
       archetype_signals: signals,
       block_performance: blockPerf,
       subject_patterns: Object.fromEntries(
         Object.entries(subjectMap).map(([cat, s]) => [cat, {
           accuracy: Math.round((s.correct / s.total) * 100),
-          changeRate: Math.round((s.changes / s.total) * 100),
-          avgTime: Math.round(s.avgTime),
+          changeRate: s.changeEvidenceCount > 0 ? Math.round((s.changedAttempts / s.changeEvidenceCount) * 100) : null,
+          avgTime: s.avgTime === null ? null : Math.round(s.avgTime),
           total: s.total,
-          type: (s.changes / s.total) > 0.5 ? "behavioral" : (s.correct / s.total) < 0.5 ? "knowledge" : "stable",
+          type: s.changeEvidenceCount === 0 ? "unavailable" : (s.totalChanges / s.changeEvidenceCount) > 0.5 ? "behavioral" : (s.correct / s.total) < 0.5 ? "knowledge" : "stable",
         }])
       ),
       trap_flags: classification.trap_flags,
-      predicted_score_low: classification.predicted_score_low,
-      predicted_score_high: classification.predicted_score_high,
-      predicted_score_potential: classification.predicted_score_potential,
+      // Historical score prediction fields are deliberately cleared; no validated score model exists.
+      predicted_score_low: null,
+      predicted_score_high: null,
+      predicted_score_potential: null,
       recommendations: classification.recommendations,
       updated_at: new Date().toISOString(),
     };
 
-    const { data: existingProfile } = await supabase
-      .from("behavior_profiles")
-      .select("id")
+    const { data: existingProfile, error: profileLookupError } = await supabase
+      .schema("intelligence").from("behavior_profiles")
+      .select("user_id")
       .eq("user_id", user.id)
       .maybeSingle();
 
-    if (existingProfile) {
-      await supabase.from("behavior_profiles").update(profileData).eq("user_id", user.id);
-    } else {
-      await supabase.from("behavior_profiles").insert(profileData);
+    if (profileLookupError) {
+      console.error("Behaviour profile lookup failed:", profileLookupError);
+      return new Response(JSON.stringify({ error: "Behaviour profile could not be saved." }), {
+        status: 500,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    const { error: profileWriteError } = existingProfile
+      ? await supabase.schema("intelligence").from("behavior_profiles").update(profileData).eq("user_id", user.id)
+      : await supabase.schema("intelligence").from("behavior_profiles").insert(profileData);
+
+    if (profileWriteError) {
+      console.error("Behaviour profile write failed:", profileWriteError);
+      return new Response(JSON.stringify({ error: "Behaviour profile could not be saved." }), {
+        status: 500,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     return new Response(JSON.stringify({
@@ -433,7 +409,7 @@ Predict AMC score range (out of 300, pass is ~230):
     });
   } catch (e) {
     console.error("analyze-behavior error:", e);
-    return new Response(JSON.stringify({ error: e instanceof Error ? e.message : "Unknown error" }), {
+    return new Response(JSON.stringify({ error: "Behaviour analysis is temporarily unavailable." }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });

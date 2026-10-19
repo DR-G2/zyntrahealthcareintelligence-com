@@ -88,6 +88,11 @@ describe('PieDrillSession rules', () => {
 
   it('starts sessions with the question count only (topics are not sent)', async () => {
     await setup('recharge', 2);
-    expect(startPieSession).toHaveBeenCalledWith(2);
+    expect(startPieSession).toHaveBeenCalledWith(2, undefined, 'normal_mcq');
+  });
+
+  it('registers full-mock sessions as AMC Exam evidence', async () => {
+    await setup('full-mock', 2);
+    expect(startPieSession).toHaveBeenCalledWith(2, undefined, 'amc_exam');
   });
 });

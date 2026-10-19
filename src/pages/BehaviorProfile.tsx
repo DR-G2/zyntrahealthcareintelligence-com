@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { supabase } from '@/lib/supabase';
+import { getSupabaseV2 } from '@/integrations/supabase/v2-client';
+import { ensureV2Session } from '@/lib/migration/v2-practice-session';
 import { useAuth } from '@/contexts/AuthContext';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -10,7 +11,7 @@ import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import { BehaviorSkeleton } from '@/components/skeletons/PageSkeleton';
 import { Activity,
-  Brain, AlertTriangle, Zap, Clock, Shield, Target,
+  Brain, AlertTriangle, Zap, Clock, Shield, Target, CircleHelp,
   TrendingUp, TrendingDown, ArrowRight, RefreshCw, Loader2
 } from 'lucide-react';
 import { useFeatureGate } from '@/hooks/useFeatureGate';
@@ -20,6 +21,7 @@ import {
   ResponsiveContainer, Legend
 } from 'recharts';
 import { pieV2AuthHeaders } from '@/lib/pie/pie-history-client';
+import { normalizePracticeMode } from '@/lib/pie/intelligence-evidence';
 
 const RECOMMENDATION_QUESTION_COUNT = 10;
 
@@ -33,12 +35,21 @@ function buildRecommendationPracticeUrl(_actionLink?: string): string {
   return `/practice?${params.toString()}`;
 }
 
-const ARCHETYPE_META: Record<string, { label: string; icon: typeof Brain; color: string; description: string; risk?: string }> = {
+type ArchetypeMeta = { label: string; icon: typeof Brain; color: string; description: string; risk?: string };
+
+const UNKNOWN_ARCHETYPE: ArchetypeMeta = {
+  label: 'Pattern unavailable',
+  icon: CircleHelp,
+  color: 'hsl(var(--muted-foreground))',
+  description: 'The stored profile does not match a supported behaviour pattern. No interpretation has been substituted.',
+};
+
+const ARCHETYPE_META: Record<string, ArchetypeMeta> = {
   panic_changer: {
-    label: 'Frequent Answer Changes',
+    label: 'Answer Changes Observed',
     icon: RefreshCw,
     color: 'hsl(var(--destructive))',
-    description: 'The recorded attempts show a higher rate of answer changes. This is an observation of response behaviour, not a personality label.',
+    description: 'The eligible sample contains recorded answer changes. This describes the telemetry and does not establish why an answer changed.',
   },
   rusher: {
     label: 'Fast Response Pattern',
@@ -53,10 +64,10 @@ const ARCHETYPE_META: Record<string, { label: string; icon: typeof Brain; color:
     description: 'Recorded response times show longer decisions. This may matter when working under a fixed exam clock.',
   },
   strategist: {
-    label: 'Stable Response Pattern',
+    label: 'Observed Response Pattern',
     icon: Target,
-    color: 'hsl(var(--success))',
-    description: 'Recorded attempts show comparatively stable decision behaviour across the available sample.',
+    color: 'hsl(var(--primary))',
+    description: 'The supplied timing, change-rate and block evidence supports a response pattern; it does not establish that the strategy is optimal or consistently stable.',
   },
   fatigue_victim: {
     label: 'Late-Session Change',
@@ -73,10 +84,11 @@ const ARCHETYPE_META: Record<string, { label: string; icon: typeof Brain; color:
 };
 
 interface BehaviorData {
+  session_mode?: string | null;
   archetype: string;
   archetype_signals: any;
-  block_performance: Record<string, { accuracy: number; avgTime: number; changeRate: number }>;
-  subject_patterns: Record<string, { accuracy: number; changeRate: number; avgTime: number; total: number; type: string }>;
+  block_performance: Record<string, { accuracy: number; avgTime: number | null; changeRate: number | null }>;
+  subject_patterns: Record<string, { accuracy: number; changeRate: number | null; avgTime: number | null; total: number; type: string }>;
   trap_flags: Array<{ trap: string; description: string; severity: string }>;
   recommendations: Array<{ title: string; description: string; priority: string; action_link?: string }>;
 }
@@ -88,36 +100,53 @@ export default function BehaviorProfile() {
   const [data, setData] = useState<BehaviorData | null>(null);
   const [loading, setLoading] = useState(true);
   const [analyzing, setAnalyzing] = useState(false);
+  const [profileRetry, setProfileRetry] = useState(0);
+  const [loadError, setLoadError] = useState(false);
 
   useEffect(() => {
-    if (!user) return;
+    if (!user) { setLoading(false); return; }
+    let cancelled = false;
+    setLoading(true);
+    setLoadError(false);
     const fetchProfile = async () => {
-      const { data: profile } = await supabase
-        .from('behavior_profiles')
-        .select('*')
-        .eq('user_id', user.id)
-        .maybeSingle();
-      if (profile) setData(profile as any);
-      setLoading(false);
+      try {
+        await ensureV2Session();
+        const { data: profile, error } = await getSupabaseV2()
+          .from('my_behavior_profile')
+          .select('*')
+          .maybeSingle();
+        if (cancelled) return;
+        if (error) { setLoadError(true); setData(null); }
+        else setData(profile as any);
+      } catch {
+        if (!cancelled) { setLoadError(true); setData(null); }
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
     };
-    fetchProfile();
-  }, [user]);
+    void fetchProfile();
+    return () => { cancelled = true; };
+  }, [user, profileRetry]);
 
   const runAnalysis = async () => {
     setAnalyzing(true);
     try {
-      const { error } = await supabase.functions.invoke('analyze-behavior', { headers: await pieV2AuthHeaders() }); // P5: PIE attempts on V2
+      if (!user) throw new Error('Authentication required.');
+      await ensureV2Session();
+      const { error } = await getSupabaseV2().functions.invoke('analyze-behavior', { headers: await pieV2AuthHeaders() }); // V2 caller JWT + V2 PIE history
       if (error) throw error;
-      // Refetch profile
-      const { data: profile } = await supabase
-        .from('behavior_profiles')
+      // Refetch must succeed and return a profile before reporting completion.
+      const { data: profile, error: profileError } = await getSupabaseV2()
+        .from('my_behavior_profile')
         .select('*')
-        .eq('user_id', user!.id)
         .maybeSingle();
-      if (profile) setData(profile as any);
+      if (profileError) throw profileError;
+      if (!profile) throw new Error('Behaviour profile was not returned.');
+      setData(profile as any);
+      setLoadError(false);
       toast({ title: 'Analysis complete', description: 'Your behavior profile has been updated.' });
-    } catch (e: any) {
-      toast({ title: 'Analysis failed', description: e.message || 'Try again later', variant: 'destructive' });
+    } catch {
+      toast({ title: 'Analysis failed', description: 'Behaviour analysis is temporarily unavailable. Please try again later.', variant: 'destructive' });
     }
     setAnalyzing(false);
   };
@@ -134,6 +163,18 @@ export default function BehaviorProfile() {
     return <BehaviorSkeleton />;
   }
 
+  if (loadError) {
+    return (
+      <div className="mx-auto max-w-2xl py-12 text-center">
+        <Card><CardContent className="space-y-4 py-10">
+          <h2 className="text-lg font-semibold">Behaviour evidence is unavailable</h2>
+          <p className="text-sm text-muted-foreground">The profile could not be loaded. This is not a zero-performance result.</p>
+          <Button variant="outline" onClick={() => setProfileRetry(value => value + 1)}>Retry evidence</Button>
+        </CardContent></Card>
+      </div>
+    );
+  }
+
   if (!data) {
     return (
       <div className="mx-auto max-w-2xl py-12 text-center">
@@ -141,15 +182,9 @@ export default function BehaviorProfile() {
           <CardContent className="py-12 space-y-4">
             <Brain className="h-12 w-12 text-muted-foreground/50 mx-auto" />
             <h2 className="text-xl font-display font-bold">No Behavior Profile Yet</h2>
-            <p className="text-muted-foreground">Complete some practice sessions, then run the analysis.</p>
-            <div className="flex gap-3 justify-center">
-              <Button asChild variant="outline">
-                <Link to="/practice">Start Practice</Link>
-              </Button>
-              <Button onClick={runAnalysis} disabled={analyzing} className="gap-2">
-                {analyzing ? <Loader2 className="h-4 w-4 animate-spin" /> : <Activity className="h-4 w-4" />}
-                Run Analysis
-              </Button>
+            <p className="text-muted-foreground">A mode-specific profile is required before a behaviour score can be shown. The current analysis path does not establish that separation.</p>
+            <div className="flex justify-center">
+              <Button asChild variant="outline"><Link to="/practice">Start Practice</Link></Button>
             </div>
           </CardContent>
         </Card>
@@ -157,7 +192,20 @@ export default function BehaviorProfile() {
     );
   }
 
-  const meta = ARCHETYPE_META[data.archetype] || ARCHETYPE_META.strategist;
+  if (!normalizePracticeMode(data.session_mode)) {
+    return (
+      <div className="mx-auto max-w-2xl py-12 text-center">
+        <Card><CardContent className="space-y-4 py-10">
+          <Brain className="mx-auto h-10 w-10 text-muted-foreground" />
+          <h2 className="text-lg font-semibold">Mode-specific behaviour evidence is not available</h2>
+          <p className="text-sm leading-6 text-muted-foreground">The current stored profile does not identify one practice mode. To avoid blending Normal MCQ, AMC Exam mode and Nudge, its scores and labels are withheld until the source can provide mode-specific evidence.</p>
+          <Button asChild variant="outline"><Link to="/practice">Open Practice</Link></Button>
+        </CardContent></Card>
+      </div>
+    );
+  }
+
+  const meta: ArchetypeMeta = ARCHETYPE_META[data.archetype] || UNKNOWN_ARCHETYPE;
   const ArchIcon = meta.icon;
 
   // Prepare block chart data
@@ -212,10 +260,10 @@ export default function BehaviorProfile() {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
-              { label: 'Avg Time/Q', value: `${signals.avgTime || 0}s`, icon: Clock },
-              { label: 'Change Rate', value: `${Math.round((signals.changeRate || 0) * 100)}%`, icon: RefreshCw },
-              { label: 'Accuracy', value: `${Math.round((signals.correctRate || 0) * 100)}%`, icon: Target },
-              { label: 'Fatigue Factor', value: `${Math.round((signals.fatigueIncrease || 1) * 100 - 100)}%`, icon: TrendingDown },
+              { label: 'Avg Time/Q', value: typeof signals.avgTime === 'number' && Number.isFinite(signals.avgTime) ? `${signals.avgTime}s` : 'Unavailable', icon: Clock },
+              { label: 'Change Rate', value: typeof signals.changeRate === 'number' && Number.isFinite(signals.changeRate) ? `${Math.round(signals.changeRate * 100)}%` : 'Unavailable', icon: RefreshCw },
+              { label: 'Accuracy', value: typeof signals.correctRate === 'number' && Number.isFinite(signals.correctRate) ? `${Math.round(signals.correctRate * 100)}%` : 'Unavailable', icon: Target },
+              { label: 'Late-session time change', value: typeof signals.fatigueIncrease === 'number' && Number.isFinite(signals.fatigueIncrease) ? `${signals.fatigueIncrease > 1 ? '+' : ''}${Math.round((signals.fatigueIncrease - 1) * 100)}%` : 'Unavailable', icon: TrendingDown },
             ].map(stat => (
               <Card key={stat.label}>
                 <CardContent className="pt-4 pb-4 text-center">
@@ -226,6 +274,7 @@ export default function BehaviorProfile() {
               </Card>
             ))}
           </div>
+          <p className="mt-2 text-xs text-muted-foreground">Compares recorded response time in the later half with the earlier half of the latest eligible Normal MCQ session. Positive means slower later responses; negative means faster. This timing change alone does not establish fatigue.</p>
         </motion.div>
 
         {/* Block Performance Chart */}
@@ -279,7 +328,7 @@ export default function BehaviorProfile() {
                         </div>
                         <span className="text-sm font-mono w-12 text-right">{s.accuracy}%</span>
                         <Badge variant="outline" className="text-xs w-24 justify-center">
-                          {s.type === 'behavioral' ? '🧠 Behavioral' : s.type === 'knowledge' ? '📚 Knowledge' : '✅ Stable'}
+                          {s.type === 'behavioral' ? '🧠 Behavioral' : s.type === 'knowledge' ? '📚 Knowledge' : s.type === 'stable' ? '✅ Stable' : 'Pattern unavailable'}
                         </Badge>
                       </div>
                     ))}

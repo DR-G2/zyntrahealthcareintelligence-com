@@ -2,6 +2,7 @@ import { describe, expect, it, vi } from "vitest";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { fetchLegacyShapedHistory, fetchPieAttemptHistory, fetchReviewDue, toLegacyAttempt, type HistoryDeps, type PieHistoryRow } from "./pie-history-client";
+import { safeAttempt } from "./intelligence-evidence";
 import { canBrowseQuestionBank } from "@/pages/Questions";
 import { ADMIN_EMAILS, SUPER_ADMIN_EMAIL } from "@/lib/admin-emails";
 
@@ -32,9 +33,23 @@ describe("P5 learner history (PIE attempts only)", () => {
     });
   });
 
+  it("treats a malformed non-array history response as unavailable, not an empty history", async () => {
+    await expect(fetchPieAttemptHistory(10, deps(null))).rejects.toThrow("History response malformed.");
+  });
+
+  it("treats malformed rows in a successful history response as unavailable", async () => {
+    await expect(fetchPieAttemptHistory(10, deps([{}]))).rejects.toThrow("History response malformed.");
+  });
+
   it("rejects incomplete history cursors", async () => {
     await expect(fetchPieAttemptHistory(25, deps([]), { createdAt: "", attemptId: "attempt-id" }))
       .rejects.toThrow("Both history cursor fields are required.");
+  });
+
+  it("rejects fractional confidence levels and non-finite timing as unavailable evidence", () => {
+    expect(safeAttempt(row(0, { confidence_level: 2.5 })).confidence).toBeNull();
+    expect(safeAttempt(row(0, { time_taken_seconds: Number.POSITIVE_INFINITY })).seconds).toBeNull();
+    expect(safeAttempt(row(0, { time_taken_seconds: Number.NaN })).seconds).toBeNull();
   });
 
   it("maps to the legacy page shape, keeping answered-only key and telemetry", () => {
@@ -45,6 +60,22 @@ describe("P5 learner history (PIE attempts only)", () => {
     expect(l.questions.subtopic).toBe("LO title");
     expect(l.change_sequence).toEqual(["B", "A"]);
     expect(l.confidence_level).toBe(2);
+  });
+
+  it("preserves missing or invalid answer-change counts instead of coercing them to zero", () => {
+    expect(toLegacyAttempt(row(0, { answer_changes_count: null })).answer_changes_count).toBeNull();
+    expect(toLegacyAttempt(row(0, { answer_changes_count: -1 })).answer_changes_count).toBeNull();
+    expect(toLegacyAttempt(row(0, { answer_changes_count: 0 })).answer_changes_count).toBe(0);
+  });
+
+  it("does not coerce malformed answer-change entries into fake answer strings", () => {
+    expect(toLegacyAttempt(row(0, { change_sequence: [{ option: "A" }, "B"] })).change_sequence).toEqual([]);
+    expect(toLegacyAttempt(row(0, { change_sequence: [{ option: "A" }, "B"] })).change_sequence_valid).toBe(false);
+    expect(toLegacyAttempt(row(0, { change_sequence: null })).change_sequence).toEqual([]);
+    expect(toLegacyAttempt(row(0, { change_sequence: null, answer_changes_count: 0 })).change_sequence_valid).toBe(true);
+    expect(toLegacyAttempt(row(0, { change_sequence: ["", "A"] })).change_sequence).toEqual([]);
+    expect(toLegacyAttempt(row(0, { change_sequence: ["B", "A"] })).change_sequence).toEqual(["B", "A"]);
+    expect(toLegacyAttempt(row(0, { change_sequence: ["B", "A"] })).change_sequence_valid).toBe(true);
   });
 
   it("supports deployed V2 session_type values and surfaces RPC errors", async () => {
@@ -87,6 +118,7 @@ describe("P5 learner history (PIE attempts only)", () => {
   it("maps legacy attempts without a session and withholds answer keys", () => {
     const legacy = toLegacyAttempt(row(0, { session_id: null, correct_answer: null, explanation: null }));
     expect(legacy.session_id).toBeNull();
+    expect(legacy.session_mode).toBe("pie_adaptive");
     expect(legacy.questions.correct_answer).toBe("");
     expect(legacy.questions.explanation).toBeNull();
   });

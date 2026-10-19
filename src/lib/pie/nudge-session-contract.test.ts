@@ -14,6 +14,14 @@ const v2AlignmentMigration = readFileSync(
   resolve(__dirname, "../../../supabase/migrations_v2/0098_nudge_v2_session_registry_alignment.sql"),
   "utf8",
 );
+const currentNudgeMigration = readFileSync(
+  resolve(__dirname, "../../../supabase/migrations_v2/0103_nudge_cold_start_mixed_fallback.sql"),
+  "utf8",
+);
+const liveCertification = readFileSync(
+  resolve(__dirname, "../../../scripts/nudge-live-certification.mts"),
+  "utf8",
+);
 
 const client = readFileSync(resolve(__dirname, "pie-practice-client.ts"), "utf8");
 const session = readFileSync(resolve(__dirname, "../../components/practice/PieDrillSession.tsx"), "utf8");
@@ -83,6 +91,14 @@ describe("Nudge targeted-session contract", () => {
   });
 
   it("uses mixed approved questions for the first 50 mapped interactions and falls back when PIE has no supported target", () => {
+    expect(currentNudgeMigration).toContain("v_mapped_interactions >= 50");
+    expect(currentNudgeMigration).toContain("'nudge-cold-start-v1'");
+    expect(currentNudgeMigration).toContain("'MIXED_PRACTICE_NO_SUPPORTED_TARGET'");
+    expect(currentNudgeMigration).toContain("'mixed_fallback'");
+    expect(currentNudgeMigration).not.toContain("v_target.status <> 'READY'");
+    expect(currentNudgeMigration).toContain("public.get_my_nudge_target()");
+    expect(currentNudgeMigration).toContain("pie.pie_question_quarantine");
+    expect(currentNudgeMigration).toContain("b.blueprint_key = 'AMC_CAT_MCQ'");
     expect(coldStartMigration).toContain("v_mapped_interactions >= 50");
     expect(coldStartMigration).toContain("'nudge-cold-start-v1'");
     expect(coldStartMigration).toContain("'MIXED_PRACTICE_NO_SUPPORTED_TARGET'");
@@ -105,4 +121,15 @@ describe("Nudge targeted-session contract", () => {
     expect(page).toContain("Start Nudge");
     expect(page).toContain("Reassessment unavailable");
   });
+  it("certifies mixed fallback without forcing READY or repeatedly seeding evidence", () => {
+    expect(liveCertification).toContain("const maxSessions = 1");
+    expect(liveCertification).toContain("if (seed.fallback)");
+    expect(liveCertification).toContain("validEvidenceBuilding");
+    expect(liveCertification).toContain("validMixedFallback");
+    expect(liveCertification).toContain("no unsupported target is invented");
+    expect(liveCertification).toContain("A cannot read B's Nudge session questions");
+    expect(liveCertification).not.toContain("const maxSessions = 20");
+    expect(liveCertification).not.toContain("did not establish a READY target within the bounded seed budget");
+  });
+
 });

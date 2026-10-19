@@ -29,10 +29,18 @@ describe("P5 Practice data path (PIE, server-selected, no client key)", () => {
       ? { data: [{ session_id: "s1", question_count: 2 }], error: null }
       : { data: [row(1), row(0)], error: null });
     const r = await startPieSession(500, d);
-    expect(d.rpc).toHaveBeenCalledWith("pie_create_session", { p_count: 50 });
+    expect(d.rpc).toHaveBeenCalledWith("pie_create_practice_session", { p_count: 50, p_practice_mode: 'normal_mcq' });
     expect(JSON.stringify((d.rpc as ReturnType<typeof vi.fn>).mock.calls)).not.toContain("p_question_ids");
     expect(r.sessionId).toBe("s1");
     expect(r.questions.map((q) => q.question_position)).toEqual([0, 1]);
+  });
+
+  it("creates an explicitly scoped AMC Exam session without changing server-side selection", async () => {
+    const d = deps(async (fn) => fn === "pie_create_practice_session"
+      ? { data: [{ session_id: "s1", question_count: 1 }], error: null }
+      : { data: [row(0)], error: null });
+    await startPieSession(1, d, 'amc_exam');
+    expect(d.rpc).toHaveBeenCalledWith("pie_create_practice_session", { p_count: 1, p_practice_mode: 'amc_exam' });
   });
 
   it("strips any key-like field even if a server ever returned one", async () => {
@@ -85,7 +93,7 @@ describe("P5 Practice data path (PIE, server-selected, no client key)", () => {
       expect(src).not.toContain("persistAttemptsViaV2");
     }
     expect(practice).toContain("<PieDrillSession");
-    expect(read("src/lib/pie/pie-practice-client.ts")).toContain("'pie_create_session'");
+    expect(read("src/lib/pie/pie-practice-client.ts")).toContain("'pie_create_practice_session'");
   });
 
   it("migrations: F1 revoke, scheduler/C1/C3 policy, bank swap retires (never deletes) ZYNTRA-BS", () => {

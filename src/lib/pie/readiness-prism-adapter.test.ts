@@ -25,26 +25,27 @@ describe("Readiness Prism presentation adapter", () => {
     const layer = authoritativePrismLayer(evidence().pie);
     expect(layer.dimensions.every(item => item.uncertainty === null && item.lower === null && item.upper === null && item.evidenceCount === null && item.evidenceQuality === null)).toBe(true);
   });
-  it("passes through authoritative metadata only when the projection supplies it", () => {
+  it("preserves dimension counts but withholds estimates and intervals below the evidence threshold", () => {
     const input = evidence().pie;
     if (input.status !== "ready" || !input.value) throw new Error("test fixture must be ready");
+    input.value.sessionMode = "normal_mcq";
     input.value.dimensionEvidence = {
       capability: { uncertainty: 0.2, lower: 0.6, upper: 1, evidenceCount: 12, evidenceQuality: 0.9 },
       decision: { uncertainty: 0.3, lower: 0.4, upper: 1, evidenceCount: 9, evidenceQuality: 0.75 },
       timing: { uncertainty: null, lower: null, upper: null, evidenceCount: 0, evidenceQuality: null },
-      calibration: { uncertainty: 0.25, lower: 0.35, upper: 0.85, evidenceCount: 8, evidenceQuality: 0.8 },
+      calibration: { calibrationReady: true, confidenceLevelCounts: { '1': 15, '2': 15, '3': 15, '4': 15, '5': 15 }, uncertainty: 0.25, lower: 0.35, upper: 0.85, evidenceCount: 8, evidenceQuality: 0.8 },
       sustained_performance: { uncertainty: 0.2, lower: 0.55, upper: 0.95, evidenceCount: 12, evidenceQuality: 0.9 },
       learning: { uncertainty: 0.2, lower: 0.3, upper: 0.7, evidenceCount: 12, evidenceQuality: 0.9 },
     };
-    const layer = authoritativePrismLayer(input);
+    const layer = authoritativePrismLayer(input, "normal_mcq");
     expect(layer.dimensions.find(item => item.dimension === "capability")).toMatchObject({
-      uncertainty: 0.2, lower: 0.6, upper: 1, evidenceCount: 12, evidenceQuality: 0.9,
+      estimate: null, uncertainty: null, lower: null, upper: null, evidenceCount: 12, evidenceQuality: null,
     });
     expect(layer.dimensions.find(item => item.dimension === "timing")).toMatchObject({
       uncertainty: null, lower: null, upper: null, evidenceCount: 0, evidenceQuality: null,
     });
   });
-  it("keeps valid estimates visible while withholding intervals for a misaligned stored estimate", () => {
+  it("withholds dimension estimates below 50 observations and without mode scope", () => {
     const input = evidence().pie;
     if (input.status !== "ready" || !input.value) throw new Error("test fixture must be ready");
     input.value.dimensions.timing = 0.65;
@@ -52,16 +53,92 @@ describe("Readiness Prism presentation adapter", () => {
       capability: { uncertainty: 0.2, lower: 0.6, upper: 1, evidenceCount: 12, evidenceQuality: 0.9, estimateAligned: true },
       decision: { uncertainty: 0.2, lower: 0.5, upper: 0.9, evidenceCount: 12, evidenceQuality: 0.9, estimateAligned: true },
       timing: { uncertainty: null, lower: null, upper: null, evidenceCount: 10, evidenceQuality: 0.8, estimateAligned: false },
-      calibration: { uncertainty: 0.3, lower: 0.3, upper: 0.9, evidenceCount: 8, evidenceQuality: 0.8, estimateAligned: true },
+      calibration: { calibrationReady: true, confidenceLevelCounts: { '1': 15, '2': 15, '3': 15, '4': 15, '5': 15 }, uncertainty: 0.3, lower: 0.3, upper: 0.9, evidenceCount: 8, evidenceQuality: 0.8, estimateAligned: true },
       sustained_performance: { uncertainty: 0.2, lower: 0.6, upper: 1, evidenceCount: 12, evidenceQuality: 0.9, estimateAligned: true },
       learning: { uncertainty: 0.2, lower: 0.6, upper: 1, evidenceCount: 12, evidenceQuality: 0.9, estimateAligned: true },
     };
-    const layer = authoritativePrismLayer(input);
-    expect(layer.status).toBe("ready");
+    const layer = authoritativePrismLayer(input, "normal_mcq");
+    expect(layer.status).toBe("empty");
     expect(layer.dimensions.find(item => item.dimension === "timing")).toMatchObject({
-      estimate: 0.65, uncertainty: null, lower: null, upper: null, estimateAligned: false,
+      estimate: null, uncertainty: null, lower: null, upper: null, evidenceCount: null, estimateAligned: null,
+    });
+    expect(layer.dimensions.find(item => item.dimension === "capability")?.estimate).toBeNull();
+
+    input.value.sessionMode = "nudge";
+    const mismatchedMode = authoritativePrismLayer(input, "normal_mcq");
+    expect(mismatchedMode.dimensions.find(item => item.dimension === "timing")).toMatchObject({
+      estimate: null, evidenceCount: null,
     });
   });
+
+  it("withholds estimates when estimate-alignment provenance is missing", () => {
+    const input = evidence().pie;
+    if (input.status !== "ready" || !input.value) throw new Error("test fixture must be ready");
+    input.value.sessionMode = "normal_mcq";
+    input.value.dimensions.timing = 0.65;
+    input.value.dimensionEvidence = {
+      capability: { uncertainty: 0.2, lower: 0.6, upper: 1, evidenceCount: 50, evidenceQuality: 0.9 },
+      decision: { uncertainty: 0.2, lower: 0.5, upper: 0.9, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
+      timing: { uncertainty: 0.1, lower: 0.4, upper: 0.8, evidenceCount: 50, evidenceQuality: 0.8, estimateAligned: true },
+      calibration: { calibrationReady: true, confidenceLevelCounts: { '1': 15, '2': 15, '3': 15, '4': 15, '5': 15 }, uncertainty: 0.3, lower: 0.3, upper: 0.9, evidenceCount: 50, evidenceQuality: 0.8, estimateAligned: true },
+      sustained_performance: { uncertainty: 0.2, lower: 0.6, upper: 1, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
+      // Keep the interval valid for the fixture estimate (0.5); production interval validation remains unchanged.
+      learning: { uncertainty: 0.2, lower: 0.3, upper: 0.7, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
+    };
+    const layer = authoritativePrismLayer(input, "normal_mcq");
+    expect(layer.status).toBe("empty");
+    expect(layer.dimensions.find(item => item.dimension === "capability")).toMatchObject({
+      estimate: null, estimateAligned: null, evidenceCount: 50,
+    });
+    expect(layer.dimensions.find(item => item.dimension === "decision")?.estimate).toBe(0.7);
+  });
+
+  it("allows values only at 50+ per-dimension observations with matching mode scope", () => {
+    const input = evidence().pie;
+    if (input.status !== "ready" || !input.value) throw new Error("test fixture must be ready");
+    input.value.sessionMode = "normal_mcq";
+    input.value.dimensions.timing = 0.65;
+    input.value.dimensionEvidence = {
+      capability: { uncertainty: 0.2, lower: 0.6, upper: 1, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
+      decision: { uncertainty: 0.2, lower: 0.5, upper: 0.9, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
+      timing: { uncertainty: 0.1, lower: 0.4, upper: 0.8, evidenceCount: 50, evidenceQuality: 0.8, estimateAligned: true },
+      calibration: { calibrationReady: true, confidenceLevelCounts: { '1': 15, '2': 15, '3': 15, '4': 15, '5': 15 }, uncertainty: 0.3, lower: 0.3, upper: 0.9, evidenceCount: 50, evidenceQuality: 0.8, estimateAligned: true },
+      sustained_performance: { uncertainty: 0.2, lower: 0.6, upper: 1, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
+      learning: { uncertainty: 0.2, lower: 0.3, upper: 0.7, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
+    };
+    const layer = authoritativePrismLayer(input, "normal_mcq");
+    expect(layer.dimensions.map(({ dimension, estimate, uncertainty, lower, upper, evidenceCount, evidenceQuality, estimateAligned }) => ({
+      dimension, estimate, uncertainty, lower, upper, evidenceCount, evidenceQuality, estimateAligned,
+    }))).toEqual([
+      { dimension: "capability", estimate: 0.8, uncertainty: 0.2, lower: 0.6, upper: 1, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
+      { dimension: "decision", estimate: 0.7, uncertainty: 0.2, lower: 0.5, upper: 0.9, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
+      { dimension: "timing", estimate: 0.65, uncertainty: 0.1, lower: 0.4, upper: 0.8, evidenceCount: 50, evidenceQuality: 0.8, estimateAligned: true },
+      { dimension: "calibration", estimate: 0.6, uncertainty: 0.3, lower: 0.3, upper: 0.9, evidenceCount: 50, evidenceQuality: 0.8, estimateAligned: true },
+      { dimension: "sustained_performance", estimate: 0.75, uncertainty: 0.2, lower: 0.6, upper: 1, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
+      { dimension: "learning", estimate: 0.5, uncertainty: 0.2, lower: 0.3, upper: 0.7, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
+    ]);
+    expect(layer.status).toBe("ready");
+    expect(layer.dimensions.find(item => item.dimension === "timing")?.estimate).toBe(0.65);
+  });
+  it("withholds malformed interval bounds without discarding a supported estimate", () => {
+    const input = evidence().pie;
+    if (input.status !== "ready" || !input.value) throw new Error("test fixture must be ready");
+    input.value.sessionMode = "normal_mcq";
+    input.value.dimensions.timing = 0.65;
+    input.value.dimensionEvidence = {
+      capability: { uncertainty: 0.2, lower: 0.9, upper: 0.7, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
+      decision: { uncertainty: 0.2, lower: 0.5, upper: 0.9, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
+      timing: { uncertainty: 0.1, lower: 0.4, upper: 0.8, evidenceCount: 50, evidenceQuality: 0.8, estimateAligned: true },
+      calibration: { calibrationReady: true, confidenceLevelCounts: { '1': 15, '2': 15, '3': 15, '4': 15, '5': 15 }, uncertainty: 0.3, lower: 0.3, upper: 0.9, evidenceCount: 50, evidenceQuality: 0.8, estimateAligned: true },
+      sustained_performance: { uncertainty: 0.2, lower: 0.6, upper: 1, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
+      learning: { uncertainty: 0.2, lower: 0.3, upper: 0.7, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
+    };
+    const layer = authoritativePrismLayer(input, "normal_mcq");
+    expect(layer.dimensions.find(item => item.dimension === "capability")).toMatchObject({
+      estimate: 0.8, lower: null, upper: null, estimateAligned: true,
+    });
+  });
+
   it("distinguishes an unavailable authoritative read from empty state", () => {
     expect(authoritativePrismLayer({ status: "unavailable", value: null }).status).toBe("unavailable");
     expect(authoritativePrismLayer({ status: "empty", value: null }).status).toBe("empty");

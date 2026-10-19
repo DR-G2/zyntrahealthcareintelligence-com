@@ -27,16 +27,19 @@ import { Link } from 'react-router-dom';
 import { useFeatureGate } from '@/hooks/useFeatureGate';
 import { UpgradePrompt } from '@/components/UpgradePrompt';
 import { fetchLegacyShapedHistory } from '@/lib/pie/pie-history-client';
+import { normalizePracticeMode, type PracticeMode } from '@/lib/pie/intelligence-evidence';
 
 interface AttemptWithQuestion {
   id: string;
   question_id: string;
   selected_answer: string;
   is_correct: boolean;
-  answer_changes_count: number;
+  answer_changes_count: number | null;
   change_sequence: string[];
+  change_sequence_valid: boolean;
   created_at: string;
-  session_id: string;
+  session_id: string | null;
+  session_mode: string;
   questions: {
     correct_answer: string;
     category: string;
@@ -44,24 +47,46 @@ interface AttemptWithQuestion {
 }
 
 interface ChangeAnalysis {
-  correctToWrong: number;
-  wrongToCorrect: number;
-  wrongToWrong: number;
+  correctToWrong: number | null;
+  wrongToCorrect: number | null;
+  wrongToWrong: number | null;
   total: number;
 }
 
 interface CategoryBreakdown {
   category: string;
-  pointsLost: number;
-  changeRate: number;
+  pointsLost: number | null;
+  changeRate: number | null;
   attempts: number;
+  changeEvidenceCount: number;
+  eligibleAttempts: number;
+}
+
+function answersMatch(left: string | null | undefined, right: string | null | undefined): boolean {
+  return typeof left === 'string' && typeof right === 'string'
+    && left.trim().toUpperCase() === right.trim().toUpperCase();
+}
+
+function hasConsistentChangeSequence(a: AttemptWithQuestion): boolean {
+  return a.change_sequence_valid
+    && a.change_sequence.length > 1
+    && a.answer_changes_count !== null
+    && a.answer_changes_count === a.change_sequence.length - 1
+    && answersMatch(a.change_sequence[a.change_sequence.length - 1], a.selected_answer);
+}
+
+function hasValidChangeEvidence(a: AttemptWithQuestion): boolean {
+  if (!a.change_sequence_valid || a.answer_changes_count === null) return false;
+  if (a.answer_changes_count === 0) return a.change_sequence.length === 0 || (a.change_sequence.length === 1 && answersMatch(a.change_sequence[0], a.selected_answer));
+  return hasConsistentChangeSequence(a);
 }
 
 export default function TrustYourGut() {
   const { user } = useAuth();
   const gate = useFeatureGate();
+  const [selectedMode, setSelectedMode] = useState<PracticeMode>('normal_mcq');
   // Fetch user attempts with questions
-  const { data: attempts = [], isLoading } = useQuery({
+  const { data: attempts = [], isLoading, isError, refetch } = useQuery({
     queryKey: ['trust-gut-attempts', user?.id],
     queryFn: async () => {
       if (!user) return [];
@@ -70,15 +95,20 @@ export default function TrustYourGut() {
       return (data || []).map(a => ({
         ...a,
         change_sequence: Array.isArray(a.change_sequence) ? a.change_sequence : [],
+        change_sequence_valid: a.change_sequence_valid === true,
         questions: a.questions || { correct_answer: '', category: '' }
       })) as AttemptWithQuestion[];
     },
     enabled: !!user
   });
 
-  // Compute stats
+  const modeAttempts = useMemo(() => attempts.filter(a => normalizePracticeMode(a.session_mode) === selectedMode), [attempts, selectedMode]);
+
+  // Compute stats within the selected practice mode only.
   const stats = useMemo(() => {
-    const attemptsWithChanges = attempts.filter(a => a.answer_changes_count > 0 && a.change_sequence.length > 0);
+    const changeEvidenceCount = modeAttempts.filter(hasValidChangeEvidence).length;
+    const recordedChangedAttempts = modeAttempts.filter(a => a.answer_changes_count !== null && a.answer_changes_count > 0 && hasConsistentChangeSequence(a));
+    const attemptsWithChanges = recordedChangedAttempts.filter(a => !!a.questions?.correct_answer && answersMatch(a.selected_answer, a.questions.correct_answer) === a.is_correct);
     
     let firstInstinctCorrect = 0;
     let finalCorrect = 0;
@@ -91,64 +121,71 @@ export default function TrustYourGut() {
       const correctAnswer = a.questions?.correct_answer;
       const finalAnswer = a.selected_answer;
       
-      if (firstAnswer === correctAnswer) firstInstinctCorrect++;
-      if (finalAnswer === correctAnswer) finalCorrect++;
+      if (answersMatch(firstAnswer, correctAnswer)) firstInstinctCorrect++;
+      if (answersMatch(finalAnswer, correctAnswer)) finalCorrect++;
       
-      const firstWasCorrect = firstAnswer === correctAnswer;
-      const finalIsCorrect = finalAnswer === correctAnswer;
+      const firstWasCorrect = answersMatch(firstAnswer, correctAnswer);
+      const finalIsCorrect = answersMatch(finalAnswer, correctAnswer);
       
       if (firstWasCorrect && !finalIsCorrect) correctToWrong++;
       else if (!firstWasCorrect && finalIsCorrect) wrongToCorrect++;
-      else if (!firstWasCorrect && !finalIsCorrect && firstAnswer !== finalAnswer) wrongToWrong++;
+      else if (!firstWasCorrect && !finalIsCorrect && !answersMatch(firstAnswer, finalAnswer)) wrongToWrong++;
     });
 
-    const firstInstinctAccuracy = attemptsWithChanges.length > 0 
-      ? (firstInstinctCorrect / attemptsWithChanges.length) * 100 
-      : 0;
-    const finalAccuracy = attemptsWithChanges.length > 0 
-      ? (finalCorrect / attemptsWithChanges.length) * 100 
-      : 0;
+    const firstInstinctAccuracy = attemptsWithChanges.length > 0
+      ? (firstInstinctCorrect / attemptsWithChanges.length) * 100
+      : null;
+    const finalAccuracy = attemptsWithChanges.length > 0
+      ? (finalCorrect / attemptsWithChanges.length) * 100
+      : null;
 
     // Overall stats
-    const totalAttempts = attempts.length;
-    const attemptsWithChangesCount = attemptsWithChanges.length;
-    const changeRate = totalAttempts > 0 ? (attemptsWithChangesCount / totalAttempts) * 100 : 0;
+    const totalAttempts = modeAttempts.length;
+    const attemptsWithChangesCount = recordedChangedAttempts.length;
+    const eligibleChangedAttemptsCount = attemptsWithChanges.length;
+    const changeRate = changeEvidenceCount > 0 ? (attemptsWithChangesCount / changeEvidenceCount) * 100 : null;
 
     return {
       firstInstinctAccuracy,
       finalAccuracy,
-      pointsLost: correctToWrong,
-      pointsGained: wrongToCorrect,
+      pointsLost: attemptsWithChanges.length > 0 ? correctToWrong : null,
+      pointsGained: attemptsWithChanges.length > 0 ? wrongToCorrect : null,
       changeRate,
       totalWithChanges: attemptsWithChangesCount,
+      changeEvidenceCount,
+      missingChangeEvidenceCount: totalAttempts - changeEvidenceCount,
+      eligibleChangedAttempts: eligibleChangedAttemptsCount,
       totalAttempts,
       changeAnalysis: {
-        correctToWrong,
-        wrongToCorrect,
-        wrongToWrong,
-        total: attemptsWithChangesCount
+        correctToWrong: attemptsWithChanges.length > 0 ? correctToWrong : null,
+        wrongToCorrect: attemptsWithChanges.length > 0 ? wrongToCorrect : null,
+        wrongToWrong: attemptsWithChanges.length > 0 ? wrongToWrong : null,
+        total: eligibleChangedAttemptsCount
       } as ChangeAnalysis
     };
-  }, [attempts]);
+  }, [modeAttempts]);
 
   // Category breakdown
   const categoryBreakdown = useMemo((): CategoryBreakdown[] => {
-    const categoryMap = new Map<string, { pointsLost: number; changes: number; attempts: number }>();
+    const categoryMap = new Map<string, { pointsLost: number; changes: number; attempts: number; changeEvidenceCount: number; eligibleAttempts: number }>();
     
-    attempts.forEach(a => {
+    modeAttempts.forEach(a => {
       const category = a.questions?.category || 'Unknown';
       if (!categoryMap.has(category)) {
-        categoryMap.set(category, { pointsLost: 0, changes: 0, attempts: 0 });
+        categoryMap.set(category, { pointsLost: 0, changes: 0, attempts: 0, changeEvidenceCount: 0, eligibleAttempts: 0 });
       }
       const entry = categoryMap.get(category)!;
       entry.attempts++;
       
-      if (a.answer_changes_count > 0 && a.change_sequence.length > 0) {
-        entry.changes++;
-        const firstAnswer = a.change_sequence[0];
-        const correctAnswer = a.questions?.correct_answer;
-        if (firstAnswer === correctAnswer && a.selected_answer !== correctAnswer) {
-          entry.pointsLost++;
+      if (hasValidChangeEvidence(a)) entry.changeEvidenceCount++;
+      const hasRecordedChange = a.answer_changes_count !== null && a.answer_changes_count > 0 && hasConsistentChangeSequence(a);
+      if (hasRecordedChange) entry.changes++;
+      if (a.questions?.correct_answer && answersMatch(a.selected_answer, a.questions.correct_answer) === a.is_correct) {
+        entry.eligibleAttempts++;
+        if (hasRecordedChange) {
+          const firstAnswer = a.change_sequence[0];
+          const correctAnswer = a.questions.correct_answer;
+          if (answersMatch(firstAnswer, correctAnswer) && !answersMatch(a.selected_answer, correctAnswer)) entry.pointsLost++;
         }
       }
     });
@@ -156,32 +193,35 @@ export default function TrustYourGut() {
     return Array.from(categoryMap.entries())
       .map(([category, data]) => ({
         category,
-        pointsLost: data.pointsLost,
-        changeRate: data.attempts > 0 ? (data.changes / data.attempts) * 100 : 0,
-        attempts: data.attempts
+        pointsLost: data.eligibleAttempts > 0 ? data.pointsLost : null,
+        changeRate: data.changeEvidenceCount > 0 ? (data.changes / data.changeEvidenceCount) * 100 : null,
+        attempts: data.attempts,
+        changeEvidenceCount: data.changeEvidenceCount,
+        eligibleAttempts: data.eligibleAttempts
       }))
-      .filter(c => c.attempts >= 3)
-      .sort((a, b) => b.pointsLost - a.pointsLost);
-  }, [attempts]);
+      .filter(c => c.attempts >= 3 && c.changeRate !== null && c.changeRate > 0)
+      .sort((a, b) => (b.pointsLost ?? -1) - (a.pointsLost ?? -1));
+  }, [modeAttempts]);
 
   // Trend data (last 10 sessions)
   const trendData = useMemo(() => {
-    const sessionMap = new Map<string, { firstCorrect: number; finalCorrect: number; total: number; date: string }>();
+    const sessionMap = new Map<string, { firstCorrect: number; firstTotal: number; finalCorrect: number; total: number; date: string }>();
     
-    attempts.forEach(a => {
-      if (!sessionMap.has(a.session_id)) {
-        sessionMap.set(a.session_id, { firstCorrect: 0, finalCorrect: 0, total: 0, date: a.created_at.split('T')[0] });
+    modeAttempts.filter(a => !!a.session_id && !!a.questions?.correct_answer && answersMatch(a.selected_answer, a.questions.correct_answer) === a.is_correct).forEach(a => {
+      if (!sessionMap.has(a.session_id!)) {
+        sessionMap.set(a.session_id!, { firstCorrect: 0, firstTotal: 0, finalCorrect: 0, total: 0, date: a.created_at.split('T')[0] });
       }
-      const session = sessionMap.get(a.session_id)!;
+      const session = sessionMap.get(a.session_id!)!;
       session.total++;
       
       if (a.is_correct) session.finalCorrect++;
-      if (a.change_sequence.length > 0) {
-        const firstAnswer = a.change_sequence[0];
-        if (firstAnswer === a.questions?.correct_answer) session.firstCorrect++;
-      } else if (a.is_correct) {
-        // No changes, so first = final
-        session.firstCorrect++;
+      if (hasConsistentChangeSequence(a)) {
+        session.firstTotal++;
+        if (answersMatch(a.change_sequence[0], a.questions?.correct_answer)) session.firstCorrect++;
+      } else if (a.answer_changes_count === 0 && hasValidChangeEvidence(a)) {
+        // No recorded changes and no sequence, so first = final.
+        session.firstTotal++;
+        if (a.is_correct) session.firstCorrect++;
       }
     });
 
@@ -189,10 +229,10 @@ export default function TrustYourGut() {
       .slice(-10)
       .map((s, i) => ({
         session: `S${i + 1}`,
-        firstInstinct: s.total > 0 ? Math.round((s.firstCorrect / s.total) * 100) : 0,
+        firstInstinct: s.firstTotal > 0 ? Math.round((s.firstCorrect / s.firstTotal) * 100) : null,
         final: s.total > 0 ? Math.round((s.finalCorrect / s.total) * 100) : 0
       }));
-  }, [attempts]);
+  }, [modeAttempts]);
 
   const chartConfig = {
     firstInstinct: { label: 'First Instinct', color: 'hsl(var(--primary))' },
@@ -202,7 +242,19 @@ export default function TrustYourGut() {
   if (!gate.canAccessTrustGut) {
     return (
       <div className="mx-auto max-w-2xl py-12">
-        <UpgradePrompt feature="Trust Your Gut" description="Train your first-instinct accuracy and reduce harmful answer changes. This advanced analytics feature requires an eligible plan." />
+        <UpgradePrompt feature="Trust Your Gut" description="Review first and final answers and recorded change outcomes where completed attempt history supports comparison. This analytics feature requires an eligible plan." />
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="mx-auto max-w-2xl py-12 text-center">
+        <Card><CardContent className="space-y-4 py-10">
+          <h2 className="text-lg font-semibold">Trust Your Gut evidence is unavailable</h2>
+          <p className="text-sm text-muted-foreground">The attempt history could not be loaded. This is not a zero-performance result.</p>
+          <Button variant="outline" onClick={() => void refetch()}>Retry evidence</Button>
+        </CardContent></Card>
       </div>
     );
   }
@@ -217,6 +269,13 @@ export default function TrustYourGut() {
 
   return (
     <div className="space-y-6">
+        <section aria-label="Practice mode" className="space-y-2">
+          <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Practice mode · kept separate</p>
+          <div role="group" aria-label="Choose practice mode" className="flex flex-wrap gap-2">
+            {([{id:'normal_mcq',label:'Normal MCQ'},{id:'amc_exam',label:'AMC Exam mode'},{id:'nudge',label:'Nudge'}] as const).map(mode => <Button key={mode.id} type="button" variant={selectedMode===mode.id?'default':'outline'} aria-pressed={selectedMode===mode.id} className="min-h-11" onClick={() => setSelectedMode(mode.id)}>{mode.label}</Button>)}
+          </div>
+          {modeAttempts.length===0 && <p role="status" className="text-xs text-muted-foreground">No attempts with verified mode labels are available for this mode. Ambiguous legacy sessions are not included.</p>}
+        </section>
         {/* P5: the old client-graded "training" retake was removed (it read answer keys in the
             browser and recorded nothing). First-instinct training now happens in PIE Practice,
             where every answer is server-graded and counts as evidence. */}
@@ -234,7 +293,7 @@ export default function TrustYourGut() {
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">First Instinct Accuracy</p>
-                  <p className="text-2xl font-bold">{stats.firstInstinctAccuracy.toFixed(1)}%</p>
+                  <p className="text-2xl font-bold">{stats.firstInstinctAccuracy === null ? 'Unavailable' : `${stats.firstInstinctAccuracy.toFixed(1)}%`}</p>
                 </div>
               </div>
             </CardContent>
@@ -248,7 +307,7 @@ export default function TrustYourGut() {
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Final Answer Accuracy</p>
-                  <p className="text-2xl font-bold">{stats.finalAccuracy.toFixed(1)}%</p>
+                  <p className="text-2xl font-bold">{stats.finalAccuracy === null ? 'Unavailable' : `${stats.finalAccuracy.toFixed(1)}%`}</p>
                 </div>
               </div>
             </CardContent>
@@ -262,7 +321,7 @@ export default function TrustYourGut() {
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Points Lost by Changing</p>
-                  <p className="text-2xl font-bold text-red-600 dark:text-red-400">{stats.pointsLost}</p>
+                  <p className="text-2xl font-bold text-red-600 dark:text-red-400">{stats.pointsLost === null ? 'Unavailable' : stats.pointsLost}</p>
                 </div>
               </div>
             </CardContent>
@@ -276,7 +335,7 @@ export default function TrustYourGut() {
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Points Gained by Changing</p>
-                  <p className="text-2xl font-bold text-green-600 dark:text-green-400">{stats.pointsGained}</p>
+                  <p className="text-2xl font-bold text-green-600 dark:text-green-400">{stats.pointsGained === null ? 'Unavailable' : stats.pointsGained}</p>
                 </div>
               </div>
             </CardContent>
@@ -293,15 +352,15 @@ export default function TrustYourGut() {
               <div className="mt-6 grid grid-cols-2 gap-3">
                 <div className="rounded-2xl border border-cyan-400/15 bg-cyan-400/[0.045] p-4">
                   <p className="text-[10px] font-medium uppercase tracking-[0.14em] text-cyan-300/80">First instinct</p>
-                  <p className="mt-2 text-3xl font-bold text-white">{stats.firstInstinctAccuracy.toFixed(1)}%</p>
+                  <p className="mt-2 text-3xl font-bold text-white">{stats.firstInstinctAccuracy === null ? 'Unavailable' : `${stats.firstInstinctAccuracy.toFixed(1)}%`}</p>
                 </div>
                 <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
                   <p className="text-[10px] font-medium uppercase tracking-[0.14em] text-slate-500">Final answer</p>
-                  <p className="mt-2 text-3xl font-bold text-white">{stats.finalAccuracy.toFixed(1)}%</p>
+                  <p className="mt-2 text-3xl font-bold text-white">{stats.finalAccuracy === null ? 'Unavailable' : `${stats.finalAccuracy.toFixed(1)}%`}</p>
                 </div>
               </div>
               <p className="mt-4 text-xs leading-5 text-slate-500">
-                Based on attempts where an answer change was recorded. This shows what happened after changing, not whether you should always keep your first answer.
+                Outcome classification uses {stats.eligibleChangedAttempts} of {stats.totalWithChanges} changed attempts with a completed answer key; {Math.max(0, stats.totalWithChanges - stats.eligibleChangedAttempts)} changed attempts are excluded because answer-key evidence is unavailable or inconsistent. This describes what happened after changing, not whether you should always keep your first answer.
               </p>
             </CardContent>
           </Card>
@@ -310,29 +369,29 @@ export default function TrustYourGut() {
             <Card className="border-red-500/20 bg-red-500/[0.035]">
               <CardContent className="p-4">
                 <p className="text-[10px] uppercase tracking-[0.12em] text-red-300/80">Correct → Wrong</p>
-                <p className="mt-2 text-2xl font-bold text-white">{stats.changeAnalysis.correctToWrong}</p>
+                <p className="mt-2 text-2xl font-bold text-white">{stats.changeAnalysis.correctToWrong === null ? 'Unavailable' : stats.changeAnalysis.correctToWrong}</p>
                 <p className="mt-1 text-xs text-slate-500">Points lost</p>
               </CardContent>
             </Card>
             <Card className="border-emerald-500/20 bg-emerald-500/[0.035]">
               <CardContent className="p-4">
                 <p className="text-[10px] uppercase tracking-[0.12em] text-emerald-300/80">Wrong → Correct</p>
-                <p className="mt-2 text-2xl font-bold text-white">{stats.changeAnalysis.wrongToCorrect}</p>
+                <p className="mt-2 text-2xl font-bold text-white">{stats.changeAnalysis.wrongToCorrect === null ? 'Unavailable' : stats.changeAnalysis.wrongToCorrect}</p>
                 <p className="mt-1 text-xs text-slate-500">Points gained</p>
               </CardContent>
             </Card>
             <Card className="border-white/10 bg-white/[0.025]">
               <CardContent className="p-4">
                 <p className="text-[10px] uppercase tracking-[0.12em] text-slate-500">Wrong → Wrong</p>
-                <p className="mt-2 text-2xl font-bold text-white">{stats.changeAnalysis.wrongToWrong}</p>
+                <p className="mt-2 text-2xl font-bold text-white">{stats.changeAnalysis.wrongToWrong === null ? 'Unavailable' : stats.changeAnalysis.wrongToWrong}</p>
                 <p className="mt-1 text-xs text-slate-500">Changed, still wrong</p>
               </CardContent>
             </Card>
             <Card className="border-purple-400/15 bg-purple-400/[0.035]">
               <CardContent className="p-4">
                 <p className="text-[10px] uppercase tracking-[0.12em] text-purple-300/80">Change rate</p>
-                <p className="mt-2 text-2xl font-bold text-white">{stats.changeRate.toFixed(1)}%</p>
-                <p className="mt-1 text-xs text-slate-500">{stats.totalWithChanges} changed attempts</p>
+                <p className="mt-2 text-2xl font-bold text-white">{stats.changeRate === null ? 'Unavailable' : `${stats.changeRate.toFixed(1)}%`}</p>
+                <p className="mt-1 text-xs text-slate-500">{stats.totalWithChanges} / {stats.changeEvidenceCount} with recorded change counts</p>{stats.missingChangeEvidenceCount > 0 && <p className="mt-1 text-[10px] text-amber-500">{stats.missingChangeEvidenceCount} attempts have unavailable change-count evidence</p>}
               </CardContent>
             </Card>
           </div>
@@ -360,7 +419,7 @@ export default function TrustYourGut() {
                         </div>
                         <span className="text-sm text-slate-300">{item.label}</span>
                       </div>
-                      <span className="font-mono text-lg font-semibold text-white">{item.value}</span>
+                      <span className="font-mono text-lg font-semibold text-white">{item.value === null ? 'Unavailable' : item.value}</span>
                     </div>
                   );
                 })}
@@ -375,7 +434,7 @@ export default function TrustYourGut() {
             </CardHeader>
             <CardContent className="space-y-5">
               <div className="rounded-2xl border border-cyan-400/10 bg-cyan-400/[0.035] p-5 text-center">
-                <p className="text-4xl font-bold text-white">{Math.abs(stats.firstInstinctAccuracy - stats.finalAccuracy).toFixed(1)}%</p>
+                <p className="text-4xl font-bold text-white">{stats.firstInstinctAccuracy === null || stats.finalAccuracy === null ? 'Unavailable' : `${Math.abs(stats.firstInstinctAccuracy - stats.finalAccuracy).toFixed(1)}%`}</p>
                 <p className="mt-2 text-sm text-slate-400">
                   difference between first-instinct and final-answer accuracy
                 </p>
@@ -412,12 +471,12 @@ export default function TrustYourGut() {
                     <div key={row.category} className="rounded-2xl border border-white/8 bg-white/[0.02] p-3">
                       <div className="flex items-center justify-between gap-3">
                         <span className="truncate text-sm text-slate-300">{row.category}</span>
-                        <span className="font-mono text-xs text-slate-400">{row.changeRate.toFixed(1)}%</span>
+                        <span className="font-mono text-xs text-slate-400">{row.changeRate === null ? 'Unavailable' : `${row.changeRate.toFixed(1)}%`}</span>
                       </div>
                       <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/[0.06]">
-                        <div className="h-full rounded-full bg-gradient-to-r from-purple-400 to-cyan-300" style={{ width: `${Math.min(100, row.changeRate)}%` }} />
+                        {row.changeRate !== null && <div className="h-full rounded-full bg-gradient-to-r from-purple-400 to-cyan-300" style={{ width: `${Math.min(100, row.changeRate)}%` }} />}
                       </div>
-                      <p className="mt-1 text-[10px] text-slate-600">{row.attempts} attempts · {row.pointsLost} correct-to-wrong</p>
+                      <p className="mt-1 text-[10px] text-slate-600">{row.attempts} attempts · {row.changeEvidenceCount} with recorded change counts · {row.pointsLost === null ? 'correct-to-wrong unavailable' : `${row.pointsLost} correct-to-wrong`} · {row.eligibleAttempts} with completed answer keys</p>
                     </div>
                   ))}
                 </div>

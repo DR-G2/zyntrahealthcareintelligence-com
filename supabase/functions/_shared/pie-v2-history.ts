@@ -11,21 +11,31 @@ export interface PieHistoryRow {
   difficulty_tier: string | null; lo_title: string | null;
   selected_answer: string; is_correct: boolean; correct_answer: string | null; explanation: string | null;
   confidence_level: number | null; time_taken_seconds: number | null; time_to_first_click: number | null;
-  answer_changes_count: number; change_sequence: unknown; question_position: number | null; created_at: string;
+  answer_changes_count: number | null; change_sequence: unknown; question_position: number | null; created_at: string;
 }
 
 /** analyze-behavior shape: legacy user_attempts row + questions(category, difficulty, difficulty_tier, correct_answer), oldest first. */
 export function toAnalyzeAttempts(rows: PieHistoryRow[]) {
   return [...rows].sort((a, b) => a.created_at.localeCompare(b.created_at)).map((r) => ({
-    id: r.attempt_id, question_id: r.question_id, session_id: r.session_id,
+    id: r.attempt_id, question_id: r.question_id, session_id: r.session_id, session_mode: r.session_mode,
     selected_answer: r.selected_answer, is_correct: r.is_correct,
     time_taken_seconds: r.time_taken_seconds, time_to_first_click: r.time_to_first_click,
-    answer_changes_count: r.answer_changes_count ?? 0,
+    answer_changes_count: typeof r.answer_changes_count === "number" && Number.isSafeInteger(r.answer_changes_count) && r.answer_changes_count >= 0 ? r.answer_changes_count : null,
     change_sequence: Array.isArray(r.change_sequence) ? r.change_sequence : [],
     pause_events: null, confidence_level: r.confidence_level, question_position: r.question_position,
     created_at: r.created_at,
     questions: { category: r.subject_name ?? "Uncategorised", difficulty: r.difficulty_tier, difficulty_tier: r.difficulty_tier, correct_answer: r.correct_answer },
   }));
+}
+
+/** Behaviour classification may use only explicit Normal MCQ labels and completed answer-key evidence. */
+export function toCompletedNormalMcqAttempts(rows: PieHistoryRow[]) {
+  return toAnalyzeAttempts(rows).filter((attempt) =>
+    (attempt.session_mode === "normal" || attempt.session_mode === "normal_mcq")
+    && typeof attempt.questions?.correct_answer === "string"
+    && attempt.questions.correct_answer.trim().length > 0
+    && typeof attempt.is_correct === "boolean"
+  );
 }
 
 /** generate-flashcards: the learner's most recent wrong answers, distinct questions, newest first. */
