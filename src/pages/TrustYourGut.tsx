@@ -61,7 +61,7 @@ export default function TrustYourGut() {
   const { user } = useAuth();
   const gate = useFeatureGate();
   // Fetch user attempts with questions
-  const { data: attempts = [], isLoading } = useQuery({
+  const { data: attempts = [], isLoading, isError, refetch } = useQuery({
     queryKey: ['trust-gut-attempts', user?.id],
     queryFn: async () => {
       if (!user) return [];
@@ -102,17 +102,17 @@ export default function TrustYourGut() {
       else if (!firstWasCorrect && !finalIsCorrect && firstAnswer !== finalAnswer) wrongToWrong++;
     });
 
-    const firstInstinctAccuracy = attemptsWithChanges.length > 0 
-      ? (firstInstinctCorrect / attemptsWithChanges.length) * 100 
-      : 0;
-    const finalAccuracy = attemptsWithChanges.length > 0 
-      ? (finalCorrect / attemptsWithChanges.length) * 100 
-      : 0;
+    const firstInstinctAccuracy = attemptsWithChanges.length > 0
+      ? (firstInstinctCorrect / attemptsWithChanges.length) * 100
+      : null;
+    const finalAccuracy = attemptsWithChanges.length > 0
+      ? (finalCorrect / attemptsWithChanges.length) * 100
+      : null;
 
     // Overall stats
     const totalAttempts = attempts.length;
     const attemptsWithChangesCount = attemptsWithChanges.length;
-    const changeRate = totalAttempts > 0 ? (attemptsWithChangesCount / totalAttempts) * 100 : 0;
+    const changeRate = totalAttempts > 0 ? (attemptsWithChangesCount / totalAttempts) * 100 : null;
 
     return {
       firstInstinctAccuracy,
@@ -207,6 +207,18 @@ export default function TrustYourGut() {
     );
   }
 
+  if (isError) {
+    return (
+      <div className="mx-auto max-w-2xl py-12 text-center">
+        <Card><CardContent className="space-y-4 py-10">
+          <h2 className="text-lg font-semibold">Trust Your Gut evidence is unavailable</h2>
+          <p className="text-sm text-muted-foreground">The attempt history could not be loaded. This is not a zero-performance result.</p>
+          <Button variant="outline" onClick={() => void refetch()}>Retry evidence</Button>
+        </CardContent></Card>
+      </div>
+    );
+  }
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
@@ -234,7 +246,7 @@ export default function TrustYourGut() {
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">First Instinct Accuracy</p>
-                  <p className="text-2xl font-bold">{stats.firstInstinctAccuracy.toFixed(1)}%</p>
+                  <p className="text-2xl font-bold">{stats.firstInstinctAccuracy === null ? 'Unavailable' : `${stats.firstInstinctAccuracy.toFixed(1)}%`}</p>
                 </div>
               </div>
             </CardContent>
@@ -248,7 +260,7 @@ export default function TrustYourGut() {
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Final Answer Accuracy</p>
-                  <p className="text-2xl font-bold">{stats.finalAccuracy.toFixed(1)}%</p>
+                  <p className="text-2xl font-bold">{stats.finalAccuracy === null ? 'Unavailable' : `${stats.finalAccuracy.toFixed(1)}%`}</p>
                 </div>
               </div>
             </CardContent>
@@ -301,7 +313,7 @@ export default function TrustYourGut() {
                 </div>
               </div>
               <p className="mt-4 text-xs leading-5 text-slate-500">
-                Based on attempts where an answer change was recorded. This shows what happened after changing, not whether you should always keep your first answer.
+                Based on {stats.totalWithChanges} attempts with a recorded answer change. This describes what happened after changing, not whether you should always keep your first answer.
               </p>
             </CardContent>
           </Card>
@@ -331,7 +343,7 @@ export default function TrustYourGut() {
             <Card className="border-purple-400/15 bg-purple-400/[0.035]">
               <CardContent className="p-4">
                 <p className="text-[10px] uppercase tracking-[0.12em] text-purple-300/80">Change rate</p>
-                <p className="mt-2 text-2xl font-bold text-white">{stats.changeRate.toFixed(1)}%</p>
+                <p className="mt-2 text-2xl font-bold text-white">{stats.changeRate === null ? 'Unavailable' : `${stats.changeRate.toFixed(1)}%`}</p>
                 <p className="mt-1 text-xs text-slate-500">{stats.totalWithChanges} changed attempts</p>
               </CardContent>
             </Card>
