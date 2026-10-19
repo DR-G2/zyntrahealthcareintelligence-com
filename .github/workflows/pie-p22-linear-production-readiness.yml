@@ -85,7 +85,12 @@ jobs:
           esac
           html="$(mktemp)"
           headers="$(mktemp)"
-          meta="$(curl --silent --show-error --location --retry 3 --retry-all-errors --max-time 30 --dump-header "$headers" --output "$html" --write-out '%{http_code} %{url_effective}' "$PRODUCTION_URL")"
+          meta="$(curl --silent --show-error --location --retry 3 --retry-all-errors --max-time 30 \
+            --user-agent 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36' \
+            --header 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8' \
+            --header 'Accept-Language: en-US,en;q=0.9' \
+            --header 'Upgrade-Insecure-Requests: 1' \
+            --dump-header "$headers" --output "$html" --write-out '%{http_code} %{url_effective}' "$PRODUCTION_URL")"
           status="${meta%% *}"
           final_url="${meta#* }"
           echo "Final URL: $final_url"
