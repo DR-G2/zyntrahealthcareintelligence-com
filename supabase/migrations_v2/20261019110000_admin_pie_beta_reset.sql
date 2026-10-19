@@ -327,7 +327,7 @@ begin
     'total_rows', (select coalesce(sum(value::text::bigint), 0) from jsonb_each(counts)),
     'preview_token', public._admin_beta_reset_fingerprint(p_mode, counts),
     'confirmation_phrase', case when p_mode = 'pie_only' then 'RESET PIE BETA DATA' else 'RESET ALL CANDIDATE DATA' end,
-    'warning', 'Only rows belonging to explicitly marked synthetic candidates are eligible. Real candidate records, accounts, questions, LO mappings, global question state, model configuration and global certification evidence are excluded.'
+    'warning', 'Only rows belonging to explicitly registered synthetic candidates are eligible. Real candidate records, accounts, questions, LO mappings, global question state, model configuration and global certification evidence are excluded.'
   );
 end;
 $$;
