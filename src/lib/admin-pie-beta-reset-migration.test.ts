@@ -34,6 +34,7 @@ describe('PIE beta reset migration source contract', () => {
   it('uses an explicit supported ownership key for every target', () => {
     const requiredColumn: Record<string, string> = {
       user_id: 'user_id',
+      trace_owner: 'learner_id or user_id (runtime schema guard)',
       attempt_user: 'attempt_id',
       session_user: 'session_id',
       intervention_user: 'candidate_intervention_id',
