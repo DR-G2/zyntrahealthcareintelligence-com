@@ -74,7 +74,7 @@ export function PIEBetaResetPanel() {
           <Badge variant="outline" className="border-warning/40 text-warning">Destructive · Super admin</Badge>
         </CardTitle>
         <p className="text-xs text-muted-foreground">
-          Preview row counts first. The server checks administrator access, requires a typed phrase, rechecks the preview fingerprint, and writes an audit record. This does not delete user accounts or question-bank content.
+          Preview row counts first. The server checks administrator access, requires a typed phrase, rechecks the preview fingerprint, and writes an audit record. Only profiles explicitly marked is_synthetic=true are eligible; missing synthetic markers block the reset. User accounts and question-bank content are preserved.
         </p>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -95,7 +95,7 @@ export function PIEBetaResetPanel() {
         <div className="rounded-md border border-border/70 bg-muted/30 p-3 text-sm">
           <div className="mb-2 flex items-center gap-2 font-medium"><ShieldCheck className="h-4 w-4 text-primary" />{mode === 'pie_only' ? 'PIE-only reset' : 'Full candidate-data reset'}</div>
           {mode === 'pie_only'
-            ? 'Clears PIE observations, decision traces, derived candidate state and intelligence telemetry. Canonical MCQ attempts and practice sessions are preserved.'
+            ? 'Clears PIE observations, decision traces, derived candidate state and intelligence telemetry for explicitly marked synthetic candidates only. Canonical MCQ attempts and practice sessions are preserved.'
             : 'Clears PIE evidence, canonical MCQ attempts, practice-session membership and practice sessions for explicitly marked synthetic candidates only. Real candidates and accounts are excluded.'}
         </div>
 
