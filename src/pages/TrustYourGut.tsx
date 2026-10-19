@@ -54,9 +54,10 @@ interface ChangeAnalysis {
 
 interface CategoryBreakdown {
   category: string;
-  pointsLost: number;
+  pointsLost: number | null;
   changeRate: number;
   attempts: number;
+  eligibleAttempts: number;
 }
 
 export default function TrustYourGut() {
@@ -141,22 +142,24 @@ export default function TrustYourGut() {
 
   // Category breakdown
   const categoryBreakdown = useMemo((): CategoryBreakdown[] => {
-    const categoryMap = new Map<string, { pointsLost: number; changes: number; attempts: number }>();
+    const categoryMap = new Map<string, { pointsLost: number; changes: number; attempts: number; eligibleAttempts: number }>();
     
     modeAttempts.forEach(a => {
       const category = a.questions?.category || 'Unknown';
       if (!categoryMap.has(category)) {
-        categoryMap.set(category, { pointsLost: 0, changes: 0, attempts: 0 });
+        categoryMap.set(category, { pointsLost: 0, changes: 0, attempts: 0, eligibleAttempts: 0 });
       }
       const entry = categoryMap.get(category)!;
       entry.attempts++;
       
-      if (a.answer_changes_count > 0 && a.change_sequence.length > 0 && !!a.questions?.correct_answer) {
-        entry.changes++;
-        const firstAnswer = a.change_sequence[0];
-        const correctAnswer = a.questions?.correct_answer;
-        if (firstAnswer === correctAnswer && a.selected_answer !== correctAnswer) {
-          entry.pointsLost++;
+      const hasRecordedChange = a.answer_changes_count > 0 && a.change_sequence.length > 0;
+      if (hasRecordedChange) entry.changes++;
+      if (a.questions?.correct_answer) {
+        entry.eligibleAttempts++;
+        if (hasRecordedChange) {
+          const firstAnswer = a.change_sequence[0];
+          const correctAnswer = a.questions.correct_answer;
+          if (firstAnswer === correctAnswer && a.selected_answer !== correctAnswer) entry.pointsLost++;
         }
       }
     });
@@ -164,11 +167,12 @@ export default function TrustYourGut() {
     return Array.from(categoryMap.entries())
       .map(([category, data]) => ({
         category,
-        pointsLost: data.pointsLost,
+        pointsLost: data.eligibleAttempts > 0 ? data.pointsLost : null,
         changeRate: data.attempts > 0 ? (data.changes / data.attempts) * 100 : 0,
-        attempts: data.attempts
+        attempts: data.attempts,
+        eligibleAttempts: data.eligibleAttempts
       }))
-      .filter(c => c.attempts >= 3)
+      .filter(c => c.attempts >= 3 && c.changes > 0)
       .sort((a, b) => b.pointsLost - a.pointsLost);
   }, [modeAttempts]);
 
@@ -444,7 +448,7 @@ export default function TrustYourGut() {
                       <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/[0.06]">
                         <div className="h-full rounded-full bg-gradient-to-r from-purple-400 to-cyan-300" style={{ width: `${Math.min(100, row.changeRate)}%` }} />
                       </div>
-                      <p className="mt-1 text-[10px] text-slate-600">{row.attempts} attempts · {row.pointsLost} correct-to-wrong</p>
+                      <p className="mt-1 text-[10px] text-slate-600">{row.attempts} attempts · {row.pointsLost === null ? 'correct-to-wrong unavailable' : `${row.pointsLost} correct-to-wrong`} · {row.eligibleAttempts} with completed answer keys</p>
                     </div>
                   ))}
                 </div>
