@@ -8,7 +8,7 @@ import { ensureV2Session } from '@/lib/migration/v2-practice-session';
  * No page may read keys from the questions table.
  */
 export interface PieHistoryRow {
-  attempt_id: string; session_id: string | null; session_mode: string; question_id: string; zyntra_id: string | null;
+  attempt_id: string; session_id: string | null; session_mode: string | null; question_id: string; zyntra_id: string | null;
   stem: string; options: unknown; subject_id: string | null; subject_name: string | null; subtopic_id: string | null; subtopic_name: string | null;
   difficulty_tier: string | null; lo_id: string | null; lo_title: string | null; concept_title: string | null;
   selected_answer: string; is_correct: boolean; correct_answer: string | null; explanation: string | null;
@@ -18,7 +18,7 @@ export interface PieHistoryRow {
 
 /** Legacy page shape (user_attempts joined to questions), produced from PIE history. */
 export interface LegacyAttemptShape {
-  id: string; question_id: string; session_id: string | null; session_mode: string; selected_answer: string; is_correct: boolean;
+  id: string; question_id: string; session_id: string | null; session_mode: string | null; selected_answer: string; is_correct: boolean;
   answer_changes_count: number | null; change_sequence: string[]; change_sequence_valid: boolean; time_taken_seconds: number | null; time_to_first_click: number | null;
   confidence_level: number | null; created_at: string;
   questions: { question_text: string; correct_answer: string; category: string; subtopic: string | null; difficulty: string; explanation: string | null; options: string[] };
@@ -56,6 +56,19 @@ export function toLegacyAttempt(r: PieHistoryRow): LegacyAttemptShape {
   };
 }
 
+function isHistoryRow(value: unknown): value is PieHistoryRow {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return false;
+  const row = value as Record<string, unknown>;
+  return typeof row.attempt_id === 'string' && row.attempt_id.trim().length > 0
+    && typeof row.question_id === 'string' && row.question_id.trim().length > 0
+    && typeof row.selected_answer === 'string' && row.selected_answer.trim().length > 0
+    && typeof row.is_correct === 'boolean'
+    && typeof row.created_at === 'string' && Number.isFinite(Date.parse(row.created_at))
+    && (row.session_id === null || typeof row.session_id === 'string')
+    && (row.session_mode === null || typeof row.session_mode === 'string')
+    && (row.correct_answer === null || typeof row.correct_answer === 'string' || row.correct_answer === undefined);
+}
+
 export interface HistoryCursor { createdAt: string; attemptId: string; }
 
 export async function fetchPieAttemptHistory(
@@ -73,7 +86,7 @@ export async function fetchPieAttemptHistory(
   }
   const { data, error } = await deps.rpc('get_my_attempt_history', args);
   if (error) throw new Error(error.message || 'History could not be loaded.');
-  if (!Array.isArray(data)) throw new Error('History response malformed.');
+  if (!Array.isArray(data) || !data.every(isHistoryRow)) throw new Error('History response malformed.');
   return data as PieHistoryRow[];
 }
 
