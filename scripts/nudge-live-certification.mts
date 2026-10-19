@@ -197,7 +197,7 @@ async function seedMappedEvidence(u: User) {
       throw new Error("Target was already READY but no provenance-tagged seed batch was created in this run.");
     }
 
-    const created = await rpc(u, "create_my_nudge_session", { p_count: 3 });
+    const created = await rpc(u, "create_my_nudge_session", { p_count: 10 });
     const session = Array.isArray(created.data) ? created.data[0] : created.data;
     if (created.error || !session?.session_id) {
       // A selector rejection is a candidate-state outcome, not a failed assertion.
