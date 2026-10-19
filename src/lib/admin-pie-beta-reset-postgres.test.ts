@@ -175,11 +175,6 @@ insert into pie.learning_objective values ('${uuid(8105)}');
 insert into pie.pie_model_version values ('${uuid(8106)}');
 `;
 
-const authSetup = `
-select set_config('test.uid', '${ADMIN}', false);
-select set_config('test.email', 'gopalrock.naren@gmail.com', false);
-`;
-
 const runResetAssertions = (mode: 'pie_only' | 'full_candidate') => `
 begin;
 do $test$
