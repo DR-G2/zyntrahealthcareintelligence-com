@@ -67,10 +67,25 @@ export interface NudgeSessionTarget {
 export async function startNudgeSession(count: number, deps: PieDeps = defaultPieDeps): Promise<{ sessionId: string; questions: PieSessionQuestion[]; target: NudgeSessionTarget }> {
   await deps.ensureSession();
   const n = Math.max(3, Math.min(20, Math.floor(count)));
-  const rows = await call<{
+  let rows: {
     session_id: string; question_count: number; lo_id: string; lo_key: string; lo_title: string;
     baseline_accuracy: number; baseline_question_count: number; reason_code: string;
-  }[]>(deps, 'create_my_nudge_session', { p_count: n }, 'Preparing your targeted Nudge session');
+  }[];
+  try {
+    rows = await call(deps, 'create_my_nudge_session', { p_count: n }, 'Preparing your targeted Nudge session');
+  } catch (error) {
+    const message = (error as Error).message || '';
+    if (/NO_MAPPED_ATTEMPTS|FEWER_THAN_THREE_DISTINCT_MAPPED_QUESTIONS/.test(message)) {
+      throw new Error('Nudge needs at least three distinct questions with verified learning-objective mappings. Continue MCQ Drill until more evidence is available.');
+    }
+    if (/NO_OBJECTIVE_MEETS_EVIDENCE_THRESHOLD/.test(message)) {
+      throw new Error('Your saved attempts do not yet demonstrate a sufficiently supported learning gap. Nudge will become available when the evidence supports a target.');
+    }
+    if (/FEWER_THAN_THREE_UNSEEN_MAPPED_QUESTIONS|NUDGE_NO_ELIGIBLE_QUESTIONS/.test(message)) {
+      throw new Error('A learning gap may exist, but there are not enough unseen, mapped questions to run a reliable Nudge session.');
+    }
+    throw error;
+  }
   const row = rows?.[0];
   if (!row?.session_id || !row.lo_id || !row.question_count || row.question_count < 3) {
     throw new Error('Nudge could not create a sufficiently supported targeted session.');
