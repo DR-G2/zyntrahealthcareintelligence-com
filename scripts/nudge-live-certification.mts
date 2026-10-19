@@ -270,11 +270,16 @@ async function seedMappedEvidence(u: User) {
     const sr = await u.db.from("practice_sessions").select("id,config,status").eq("id", lastSeed.session.session_id).eq("user_id", u.id).maybeSingle();
     if (sr.error || !sr.data) throw new Error("Cannot verify Nudge fallback session: " + (sr.error?.message ?? "session missing"));
     const config = sr.data.config ?? {};
+    const validEvidenceBuilding = config.nudge_stage === "evidence_building" &&
+      Number(config.mapped_interactions_at_start) < 50 &&
+      config.nudge_reason_code === "COLD_START_FIRST_50";
+    const validMixedFallback = config.nudge_stage === "mixed_fallback" &&
+      Number(config.mapped_interactions_at_start) >= 50 &&
+      config.nudge_reason_code === "MIXED_PRACTICE_NO_SUPPORTED_TARGET";
     const validFallback = sr.data.status === "completed" && config.mode === "nudge" &&
       ["nudge-cold-start-v1", "nudge-gap-v1"].includes(config.selector) &&
-      ["evidence_building", "mixed_fallback"].includes(config.nudge_stage) &&
-      config.nudge_lo_id == null && config.nudge_lo_key == null &&
-      config.nudge_reason_code === "MIXED_PRACTICE_NO_SUPPORTED_TARGET";
+      (validEvidenceBuilding || validMixedFallback) &&
+      config.nudge_lo_id == null && config.nudge_lo_key == null;
     check(u.label + ": mixed fallback is valid when PIE has no supported target", validFallback,
       "status=" + sr.data.status + "; selector=" + config.selector + "; stage=" + config.nudge_stage + "; reason=" + config.nudge_reason_code);
     if (!validFallback) throw new Error("Nudge fallback session did not preserve the expected contract.");
