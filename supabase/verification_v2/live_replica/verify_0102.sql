@@ -44,6 +44,7 @@ begin
 
   select
     (state->'mode_evidence'->'normal_mcq'->'calibration'->>'estimate')::numeric,
+    (state->'mode_evidence'->'normal_mcq'->'calibration'->>'uncertainty')::numeric,
     (state->'mode_evidence'->'normal_mcq'->'calibration'->>'evidence_count')::integer,
     state->'mode_evidence'->'normal_mcq'->'calibration'->'confidence_level_counts'
   into v_after_estimate, v_after_uncertainty, v_after_count, v_after_levels
