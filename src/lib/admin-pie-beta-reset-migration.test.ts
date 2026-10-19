@@ -98,6 +98,8 @@ describe('PIE beta reset migration source contract', () => {
     expect(migration).toContain('email_confirmed_at is not null');
     expect(migration).toContain('lock table public.profiles in share row exclusive mode');
     expect(migration).toContain('Data changed since preview. Run preview again.');
+    expect(migration).toContain('public._admin_beta_reset_fingerprint(p_mode, counts)');
+    expect(migration).toContain('string_agg(id::text');
     expect(migration).toContain('Confirmation phrase does not match');
     expect(migration).toContain("p_mode is null or p_mode not in ('pie_only', 'full_candidate')");
     expect(migration).toContain('a non-synthetic attempt references a synthetic practice session');
