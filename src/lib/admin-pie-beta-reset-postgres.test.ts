@@ -78,12 +78,12 @@ create function auth.jwt() returns jsonb language sql stable as $fn$
   select jsonb_build_object('email', current_setting('test.email', true))
 $fn$;
 create table auth.users (id uuid primary key, email text not null, email_confirmed_at timestamptz);
-create table public.profiles (id uuid primary key, is_synthetic boolean not null);
+create table public.profiles (id uuid primary key, role text);
 insert into auth.users values
   ('${ADMIN}', 'gopalrock.naren@gmail.com', now()),
   ('${SYN}', 'synthetic@example.test', now()),
   ('${REAL}', 'real@example.test', now());
-insert into public.profiles values ('${SYN}', true), ('${REAL}', false), ('${ADMIN}', false);
+insert into public.profiles values ('${SYN}', 'learner'), ('${REAL}', 'learner'), ('${ADMIN}', 'super_admin');
 
 create table public.practice_sessions (id uuid primary key, user_id uuid not null);
 create table public.user_attempts (
@@ -233,7 +233,7 @@ begin
     predicate := public._admin_beta_reset_predicate(target.scope_kind);
     execute format('select count(*) from %I.%I t where %s', target.schema_name, target.table_name, predicate) into n;
     if n <> 0 then raise exception 'synthetic rows remain in %.%: %', target.schema_name, target.table_name, n; end if;
-    predicate := replace(predicate, 'is true', 'is false');
+    predicate := 'not (' || predicate || ')';
     execute format('select count(*) from %I.%I t where %s', target.schema_name, target.table_name, predicate) into n;
     if n <> 1 then raise exception 'real-candidate rows changed in %.%: expected 1, got %', target.schema_name, target.table_name, n; end if;
   end loop;
@@ -277,10 +277,10 @@ begin
   perform set_config('test.uid', '${ADMIN}', true);
   perform set_config('test.email', 'gopalrock.naren@gmail.com', true);
 
-  -- Swap the synthetic marker to a different candidate while keeping the
-  -- per-table row counts identical. The preview token must still become stale.
-  update public.profiles set is_synthetic = false where id = '${SYN}';
-  update public.profiles set is_synthetic = true where id = '${REAL}';
+  -- Swap the explicit registry membership while keeping counts identical.
+  delete from pie.synthetic_candidate_registry where user_id = '${SYN}';
+  insert into pie.synthetic_candidate_registry(user_id, registered_by, reason)
+    values ('${REAL}', '${ADMIN}', 'disposable cohort fingerprint test');
 
   begin
     perform public.admin_execute_pie_beta_reset('pie_only', '${preview.confirmation_phrase}', '${preview.preview_token}');
@@ -369,6 +369,7 @@ describe.skipIf(!BIN)('PIE beta reset RPCs on a disposable local PostgreSQL inst
     execFileSync(join(BIN!, 'pg_ctl'), ['-D', join(dir, 'data'), '-o', `-k ${dir} -p ${port} -c listen_addresses=''`, '-w', 'start', '-l', join(dir, 'log')], { stdio: 'ignore' });
     runOrThrow(baseSchema + '\n' + genericDdl + '\n' + globalSeed + '\n' + specialSeed + '\n' + genericSeed);
     runOrThrow(migration);
+    runOrThrow(`insert into pie.synthetic_candidate_registry(user_id, registered_by, reason) values ('${SYN}', '${ADMIN}', 'disposable synthetic beta test candidate');`);
   }, 60000);
 
   afterAll(() => {
@@ -386,7 +387,7 @@ describe.skipIf(!BIN)('PIE beta reset RPCs on a disposable local PostgreSQL inst
     expect(() => runOrThrow(runResetAssertions('full_candidate'))).not.toThrow();
   });
 
-  it('rejects stale previews when the synthetic candidate cohort changes without changing counts', () => {
+  it('rejects stale previews when registry membership changes without changing counts', () => {
     expect(() => runOrThrow(cohortFingerprintTest())).not.toThrow();
   });
 
