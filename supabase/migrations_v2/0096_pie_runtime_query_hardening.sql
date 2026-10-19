@@ -64,4 +64,7 @@ as $function$
 $function$;
 
 revoke all on function public.get_my_pie_decision_traces_for_session(uuid) from public, anon;
-grant execute on function public.get_my_pie_decision_traces_for_session(uuid) to authenticated, service_role;
+grant execute on function public.get_my_pie_decision_traces_for_session(uuid) to authenticated;
+
+-- Make the newly created RPC visible to PostgREST without waiting for a periodic cache refresh.
+notify pgrst, 'reload schema';
