@@ -63,6 +63,8 @@ describe("P5 edge functions read PIE attempts on V2", () => {
     expect(behaviorFn).not.toContain("visible stress markers");
     expect(behaviorFn).toContain("Behaviour profile lookup failed:");
     expect(behaviorFn).toContain("Behaviour profile write failed:");
+    expect(behaviorFn).toContain("const validClassification = classification");
+    expect(behaviorFn).toContain("returned evidence was invalid.");
     expect(behaviorFn).toContain("No verified Normal MCQ attempts found");
   });
 });
