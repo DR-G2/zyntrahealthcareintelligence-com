@@ -82,6 +82,7 @@ describe("Readiness Prism presentation adapter", () => {
       timing: { uncertainty: 0.1, lower: 0.4, upper: 0.8, evidenceCount: 50, evidenceQuality: 0.8, estimateAligned: true },
       calibration: { uncertainty: 0.3, lower: 0.3, upper: 0.9, evidenceCount: 50, evidenceQuality: 0.8, estimateAligned: true },
       sustained_performance: { uncertainty: 0.2, lower: 0.6, upper: 1, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
+      // Keep the interval valid for the fixture estimate (0.5); production interval validation remains unchanged.
       learning: { uncertainty: 0.2, lower: 0.3, upper: 0.7, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
     };
     const layer = authoritativePrismLayer(input, "normal_mcq");
