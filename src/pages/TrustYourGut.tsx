@@ -36,6 +36,7 @@ interface AttemptWithQuestion {
   is_correct: boolean;
   answer_changes_count: number | null;
   change_sequence: string[];
+  change_sequence_valid: boolean;
   created_at: string;
   session_id: string | null;
   session_mode: string;
@@ -67,14 +68,15 @@ function answersMatch(left: string | null | undefined, right: string | null | un
 }
 
 function hasConsistentChangeSequence(a: AttemptWithQuestion): boolean {
-  return a.change_sequence.length > 1
+  return a.change_sequence_valid
+    && a.change_sequence.length > 1
     && a.answer_changes_count !== null
     && a.answer_changes_count === a.change_sequence.length - 1
     && answersMatch(a.change_sequence[a.change_sequence.length - 1], a.selected_answer);
 }
 
 function hasValidChangeEvidence(a: AttemptWithQuestion): boolean {
-  if (a.answer_changes_count === null) return false;
+  if (!a.change_sequence_valid || a.answer_changes_count === null) return false;
   if (a.answer_changes_count === 0) return a.change_sequence.length === 0 || (a.change_sequence.length === 1 && answersMatch(a.change_sequence[0], a.selected_answer));
   return hasConsistentChangeSequence(a);
 }
@@ -93,6 +95,7 @@ export default function TrustYourGut() {
       return (data || []).map(a => ({
         ...a,
         change_sequence: Array.isArray(a.change_sequence) ? a.change_sequence : [],
+        change_sequence_valid: a.change_sequence_valid === true,
         questions: a.questions || { correct_answer: '', category: '' }
       })) as AttemptWithQuestion[];
     },
