@@ -26,6 +26,7 @@ declare
   v_decision_mean numeric;
   v_timing_mean numeric;
   v_confidence_mean numeric;
+  v_calibration_outcome_mean numeric;
   v_outcome_quality numeric;
   v_decision_quality numeric;
   v_timing_quality numeric;
@@ -94,6 +95,7 @@ begin
   select
     count(*) filter (where outcome_signal is not null),
     avg(outcome_signal),
+    avg(outcome_signal) filter (where confidence_signal is not null and outcome_signal is not null),
     avg(quality) filter (where outcome_signal is not null),
     count(*) filter (where decision_signal is not null),
     avg(decision_signal),
@@ -111,7 +113,7 @@ begin
     count(*) filter (where confidence_level = 4 and confidence_signal is not null and outcome_signal is not null),
     count(*) filter (where confidence_level = 5 and confidence_signal is not null and outcome_signal is not null)
   into
-    v_outcome_count, v_outcome_mean, v_outcome_quality,
+    v_outcome_count, v_outcome_mean, v_calibration_outcome_mean, v_outcome_quality,
     v_decision_count, v_decision_mean, v_decision_quality,
     v_timing_count, v_timing_mean, v_timing_quality,
     v_confidence_count, v_confidence_mean,
@@ -138,7 +140,7 @@ begin
     else
       v_count := v_calibration_count; v_quality := v_calibration_quality;
       if v_calibration_ready then
-        v_mean := 1 - abs(coalesce(v_confidence_mean, 0.5::numeric) - coalesce(v_outcome_mean, 0::numeric));
+        v_mean := 1 - abs(coalesce(v_confidence_mean, 0.5::numeric) - coalesce(v_calibration_outcome_mean, 0::numeric));
       end if;
     end if;
 
@@ -153,7 +155,7 @@ begin
       if v_dimension = 'calibration' then
         v_radius := least(1::numeric,
           sqrt(ln(80::numeric) / (2 * v_calibration_count))
-          + sqrt(ln(80::numeric) / (2 * v_outcome_count)));
+          + sqrt(ln(80::numeric) / (2 * v_calibration_count)));
       else
         v_radius := least(1::numeric, sqrt(ln(40::numeric) / (2 * v_count)));
       end if;

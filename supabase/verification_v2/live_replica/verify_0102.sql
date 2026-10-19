@@ -29,6 +29,14 @@ begin
     jsonb_build_object('source','verify_0102_unscored_confidence','synthetic',true,'practice_mode','normal_mcq')
   from generate_series(1,5) g;
 
+  -- Outcome-only observations must not distort calibration either.
+  insert into pie.pie_observation(user_id,observation_type,observed_at,payload,provenance)
+  select 'aaaaaaaa-0000-0000-0000-00000000000a','MCQ_ATTEMPT',
+    now()+g*interval '1 second',
+    jsonb_build_object('outcome','CORRECT'),
+    jsonb_build_object('source','verify_0102_unscored_outcome','synthetic',true,'practice_mode','normal_mcq')
+  from generate_series(1,7) g;
+
   perform pie.rebuild_candidate_state('aaaaaaaa-0000-0000-0000-00000000000a');
 
   select
