@@ -37,7 +37,7 @@ const FAQS = [
 export default function AmcClinicalOsce() {
   const { user } = useAuth();
   const { show: showAboutPricing } = useShowAboutPricing();
-  const pageUrl = 'https://www.zyntrahealthcareintelligence.com/amc-clinical-osce';
+  const pageUrl = 'https://zyntrahealthcareintelligence.app/amc-clinical-osce';
 
   return (
     <div className="min-h-screen bg-background">
@@ -57,8 +57,8 @@ export default function AmcClinicalOsce() {
             '@context': 'https://schema.org',
             '@type': 'BreadcrumbList',
             itemListElement: [
-              { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.zyntrahealthcareintelligence.com/' },
-              { '@type': 'ListItem', position: 2, name: 'AMC exam preparation', item: 'https://www.zyntrahealthcareintelligence.com/amc-exam-preparation' },
+              { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://zyntrahealthcareintelligence.app/' },
+              { '@type': 'ListItem', position: 2, name: 'AMC exam preparation', item: 'https://zyntrahealthcareintelligence.app/amc-exam-preparation' },
               { '@type': 'ListItem', position: 3, name: 'AMC Clinical OSCE', item: pageUrl },
             ],
           },
