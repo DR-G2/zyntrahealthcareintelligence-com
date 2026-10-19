@@ -27,14 +27,27 @@ serve(async (req) => {
 
     const supabase = createClient(supabaseUrl, supabaseKey);
 
-    // Paid feature: require active payment, valid manual override, or admin role.
-    const nowIso = new Date().toISOString();
-    const [{ data: paid }, { data: override }, { data: admin }] = await Promise.all([
+    // Paid feature: use the deployed V2 contracts. Query errors fail closed.
+    const [paidResult, overrideResult, adminResult] = await Promise.all([
       supabase.from("payments").select("id").eq("user_id", user.id).eq("status", "active").limit(1),
-      supabase.from("manual_overrides").select("id").eq("user_id", user.id).or(`expires_at.is.null,expires_at.gt.${nowIso}`).limit(1),
-      supabase.from("admin_roles").select("id").ilike("email", user.email ?? "__none__").limit(1),
+      supabase.schema("command").from("manual_overrides").select("id,override_data")
+        .eq("target_type", "user").eq("target_id", user.id),
+      supabase.schema("command").from("admin_roles").select("id")
+        .eq("user_id", user.id).eq("active", true).limit(1),
     ]);
-    if (!paid?.length && !override?.length && !admin?.length) {
+    if (paidResult.error || overrideResult.error || adminResult.error) {
+      console.error("Behaviour entitlement lookup failed:", paidResult.error || overrideResult.error || adminResult.error);
+      return new Response(JSON.stringify({ error: "Behaviour access could not be verified." }), { status: 503, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+    const nowMs = Date.now();
+    const hasValidOverride = (overrideResult.data ?? []).some((row: any) => {
+      const data = row?.override_data;
+      if (!data || typeof data !== "object" || Array.isArray(data)) return false;
+      if (data.feature !== "behavior_analysis" || data.enabled !== true) return false;
+      if (data.expires_at == null) return true;
+      return typeof data.expires_at === "string" && Number.isFinite(Date.parse(data.expires_at)) && Date.parse(data.expires_at) > nowMs;
+    });
+    if (!paidResult.data?.length && !hasValidOverride && !adminResult.data?.length) {
       return new Response(JSON.stringify({ error: "subscription_required" }), { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
@@ -322,6 +335,9 @@ The top-level changeRate is a fraction from 0 to 1; subjectStats and blockPerfor
     // Upsert behavior_profiles
     const profileData = {
       user_id: user.id,
+      session_mode: "normal_mcq",
+      evidence_count: totalAttempts,
+      model_version: "behavior-v1",
       archetype: classification.archetype,
       archetype_signals: signals,
       block_performance: blockPerf,
@@ -344,7 +360,7 @@ The top-level changeRate is a fraction from 0 to 1; subjectStats and blockPerfor
     };
 
     const { data: existingProfile, error: profileLookupError } = await supabase
-      .from("behavior_profiles")
+      .schema("intelligence").from("behavior_profiles")
       .select("id")
       .eq("user_id", user.id)
       .maybeSingle();
@@ -358,8 +374,8 @@ The top-level changeRate is a fraction from 0 to 1; subjectStats and blockPerfor
     }
 
     const { error: profileWriteError } = existingProfile
-      ? await supabase.from("behavior_profiles").update(profileData).eq("user_id", user.id)
-      : await supabase.from("behavior_profiles").insert(profileData);
+      ? await supabase.schema("intelligence").from("behavior_profiles").update(profileData).eq("user_id", user.id)
+      : await supabase.schema("intelligence").from("behavior_profiles").insert(profileData);
 
     if (profileWriteError) {
       console.error("Behaviour profile write failed:", profileWriteError);

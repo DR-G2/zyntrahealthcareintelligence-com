@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { supabase } from '@/lib/supabase';
+import { getSupabaseV2 } from '@/integrations/supabase/v2-client';
+import { ensureV2Session } from '@/lib/migration/v2-practice-session';
 import { useAuth } from '@/contexts/AuthContext';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -109,10 +110,10 @@ export default function BehaviorProfile() {
     setLoadError(false);
     const fetchProfile = async () => {
       try {
-        const { data: profile, error } = await supabase
-          .from('behavior_profiles')
+        await ensureV2Session();
+        const { data: profile, error } = await getSupabaseV2()
+          .from('my_behavior_profile')
           .select('*')
-          .eq('user_id', user.id)
           .maybeSingle();
         if (cancelled) return;
         if (error) { setLoadError(true); setData(null); }
@@ -131,13 +132,13 @@ export default function BehaviorProfile() {
     setAnalyzing(true);
     try {
       if (!user) throw new Error('Authentication required.');
-      const { error } = await supabase.functions.invoke('analyze-behavior', { headers: await pieV2AuthHeaders() }); // P5: PIE attempts on V2
+      await ensureV2Session();
+      const { error } = await getSupabaseV2().functions.invoke('analyze-behavior', { headers: await pieV2AuthHeaders() }); // V2 caller JWT + V2 PIE history
       if (error) throw error;
       // Refetch must succeed and return a profile before reporting completion.
-      const { data: profile, error: profileError } = await supabase
-        .from('behavior_profiles')
+      const { data: profile, error: profileError } = await getSupabaseV2()
+        .from('my_behavior_profile')
         .select('*')
-        .eq('user_id', user.id)
         .maybeSingle();
       if (profileError) throw profileError;
       if (!profile) throw new Error('Behaviour profile was not returned.');
