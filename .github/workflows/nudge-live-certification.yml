@@ -6,6 +6,7 @@ on:
     paths:
       - scripts/nudge-live-certification.mts
       - supabase/migrations_v2/0098_nudge_v2_session_registry_alignment.sql
+      - supabase/migrations_v2/0103_nudge_cold_start_mixed_fallback.sql
   pull_request:
     branches: [main]
     types: [opened, synchronize, reopened]
