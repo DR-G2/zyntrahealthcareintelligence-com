@@ -19,7 +19,7 @@ function fixture(overrides: Partial<IntelligenceEvidence> = {}): IntelligenceEvi
       count: 8, level: "PRELIMINARY", timestamp: "2026-10-16T08:00:00Z", sufficient: true, sessionMode: "normal_mcq",
     } },
     history: { status: "ready", value: [
-      { id: "a1", subjectId: "medicine", subject: "Medicine", correct: false, confidence: null, seconds: 40, changes: 1, at: "2026-10-16T07:00:00Z", sessionMode: "normal_mcq" },
+      { id: "a1", subjectId: "medicine", subject: "Medicine", correct: false, answerKeyAvailable: true, confidence: null, seconds: 40, changes: 1, at: "2026-10-16T07:00:00Z", sessionMode: "normal_mcq" },
     ] },
     stability: { status: "ready", value: { percent: 65, at: "2026-10-16T08:00:00Z" } },
     confidence: { status: "empty", value: null },
@@ -61,7 +61,7 @@ describe("Intelligence overview", () => {
     const base = fixture();
     const input = fixture({ history: { status: "ready", value: [
       ...(base.history.status === "ready" ? base.history.value : []),
-      { id: "nudge-1", subjectId: "medicine", subject: "Medicine", correct: true, confidence: null, seconds: 20, changes: 0, at: "2026-10-16T07:30:00Z", sessionMode: "nudge" },
+      { id: "nudge-1", subjectId: "medicine", subject: "Medicine", correct: true, answerKeyAvailable: true, confidence: null, seconds: 20, changes: 0, at: "2026-10-16T07:30:00Z", sessionMode: "nudge" },
     ] } });
     render(<MemoryRouter><ReadinessPrism evidence={input} loading={false} retry={() => {}} /></MemoryRouter>);
     expect(screen.getAllByText("0%").length).toBeGreaterThan(0);
@@ -111,7 +111,7 @@ describe("Intelligence overview", () => {
   it("does not display a cross-mode calibration projection even when one mode has 15 answers per confidence level", () => {
     const base = fixture().pie.value!;
     const confidenceAttempts = Array.from({ length: 75 }, (_, index) => ({
-      id: `cal-${index}`, subjectId: "medicine", subject: "Medicine", correct: index % 2 === 0,
+      id: `cal-${index}`, subjectId: "medicine", subject: "Medicine", correct: index % 2 === 0, answerKeyAvailable: true,
       confidence: (Math.floor(index / 15) + 1) as 1 | 2 | 3 | 4 | 5, seconds: 30, changes: 0,
       at: "2026-10-16T07:00:00Z", sessionMode: "normal_mcq",
     }));
