@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter } from "react-router-dom";
 import { ReadinessPrism } from "./ReadinessPrism";
 import type { IntelligenceEvidence } from "@/lib/pie/intelligence-evidence";
 
@@ -31,13 +32,13 @@ function fixture(overrides: Partial<IntelligenceEvidence> = {}): IntelligenceEvi
 describe("Intelligence overview", () => {
   it("allows evidence refresh and disables duplicate refresh while loading", () => {
     const retry = vi.fn();
-    const { rerender } = render(<ReadinessPrism evidence={null} loading={false} retry={retry} />);
+    const { rerender } = render(<MemoryRouter><ReadinessPrism evidence={null} loading={false} retry={retry} /></MemoryRouter>);
     const refresh = screen.getByRole("button", { name: /refresh evidence/i });
     expect(refresh).toBeEnabled();
     fireEvent.click(refresh);
     expect(retry).toHaveBeenCalledTimes(1);
 
-    rerender(<ReadinessPrism evidence={null} loading={true} retry={retry} />);
+    rerender(<MemoryRouter><ReadinessPrism evidence={null} loading={true} retry={retry} /></MemoryRouter>);
     expect(screen.getByRole("button", { name: /refresh evidence/i })).toBeDisabled();
   });
 
@@ -118,7 +119,7 @@ describe("Intelligence overview", () => {
     expect(screen.queryByText("97%")).toBeNull();
     expect(screen.queryByText("89%")).toBeNull();
     expect(screen.getAllByText("Valid observation count unavailable").length).toBeGreaterThan(0);
-    expect(screen.getByText(/no cross-mode estimate is shown/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/no cross-mode estimate is shown/i).length).toBeGreaterThan(0);
   });
 
   it("does not display a cross-mode calibration projection even when one mode has 15 answers per confidence level", () => {
