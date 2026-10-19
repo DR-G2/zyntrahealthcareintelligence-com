@@ -99,6 +99,7 @@ describe('PIE beta reset migration source contract', () => {
     expect(migration).toContain('lock table public.profiles in share row exclusive mode');
     expect(migration).toContain('Data changed since preview. Run preview again.');
     expect(migration).toContain('Confirmation phrase does not match');
+    expect(migration).toContain("p_mode is null or p_mode not in ('pie_only', 'full_candidate')");
     expect(migration).toContain('a non-synthetic attempt references a synthetic practice session');
     expect(migration).toContain('a non-synthetic PIE observation references a synthetic attempt');
     expect(migration).toContain('a non-synthetic AMC evaluation references a synthetic candidate state');
