@@ -33,6 +33,8 @@ declare
   v_recent_misses integer := 0;
   v_eligible_count integer := 0;
   v_any_evidence boolean := false;
+  v_total_distinct integer := 0;
+  v_total_attempts integer := 0;
   v_evidence jsonb := '{}'::jsonb;
 begin
   if v_user is null then
@@ -49,11 +51,21 @@ begin
     where ua.user_id = v_user
   ) into v_any_evidence;
 
-  if not v_any_evidence then
+  select count(*)::integer, count(distinct ua.question_id)::integer
+    into v_total_attempts, v_total_distinct
+  from public.user_attempts ua
+  join pie.question_lo ql on ql.question_id = ua.question_id and ql.is_primary
+  join pie.learning_objective lo on lo.id = ql.lo_id and lo.status = 'active'
+  where ua.user_id = v_user;
+
+  if not v_any_evidence or v_total_distinct < 3 then
     return query select
-      'INSUFFICIENT_EVIDENCE'::text, 'NO_MAPPED_ATTEMPTS'::text,
-      null::uuid, null::text, null::text, 0, 0, 0, null::numeric, 0, 0,
-      jsonb_build_object('minimum_distinct_questions', 3);
+      'INSUFFICIENT_EVIDENCE'::text,
+      case when not v_any_evidence then 'NO_MAPPED_ATTEMPTS' else 'FEWER_THAN_THREE_DISTINCT_MAPPED_QUESTIONS' end,
+      null::uuid, null::text, null::text, v_total_attempts, v_total_distinct, 0, null::numeric, 0, 0,
+      jsonb_build_object('minimum_distinct_questions', 3,
+                         'saved_mapped_attempts', v_total_attempts,
+                         'distinct_mapped_questions', v_total_distinct);
     return;
   end if;
 
