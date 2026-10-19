@@ -20,7 +20,7 @@ interface AttemptRow {
   question_id: string;
   selected_answer: string;
   is_correct: boolean;
-  answer_changes_count: number;
+  answer_changes_count: number | null;
   change_sequence: any;
   time_taken_seconds: number;
   time_to_first_click: number | null;
@@ -151,11 +151,12 @@ export function MCQHistory({ expandedAttemptId, onExpandedAttemptChange, showSta
     const recent = ordered.slice(-3);
     const accuracy = ordered.filter(a => a.is_correct).length / ordered.length;
     const recentAccuracy = recent.filter(a => a.is_correct).length / recent.length;
-    const avgChanges = recent.reduce((s, a) => s + (a.answer_changes_count || 0), 0) / recent.length;
-    if (ordered.length >= 3 && recentAccuracy >= 0.67 && accuracy >= 0.7 && avgChanges < 2) return 'Reinforced';
-    if (ordered.length >= 2 && recentAccuracy === 1 && avgChanges < 2) return 'Improving';
+    const changeCountsComplete = recent.length > 0 && recent.every(a => a.answer_changes_count !== null);
+    const avgChanges = changeCountsComplete ? recent.reduce((s, a) => s + (a.answer_changes_count ?? 0), 0) / recent.length : null;
+    if (ordered.length >= 3 && recentAccuracy >= 0.67 && accuracy >= 0.7 && avgChanges !== null && avgChanges < 2) return 'Reinforced';
+    if (ordered.length >= 2 && recentAccuracy === 1 && avgChanges !== null && avgChanges < 2) return 'Improving';
     if (ordered.length >= 2 && recentAccuracy < 0.5) return 'Needs Work';
-    if (avgChanges >= 2) return 'Unstable';
+    if (avgChanges !== null && avgChanges >= 2) return 'Unstable';
     return ordered[ordered.length - 1].is_correct ? 'Developing' : 'Needs Review';
   };
 
