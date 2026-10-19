@@ -77,6 +77,8 @@ as $$
     (340, 'pie',          'lo_misconception_state',      'user_id',             'pie_only'),
     (350, 'pie',          'lo_focus',                    'user_id',             'pie_only'),
     (360, 'pie',          'learner_lo_state',            'user_id',             'pie_only'),
+    (365, 'pie',          'lo_review',                    'user_id',             'pie_only'),
+    (366, 'pie',          'lo_working_set',               'user_id',             'pie_only'),
     (370, 'pie',          'adaptive_policy_shadow',      'user_id',             'pie_only'),
     (380, 'pie',          'beta_serving_gate',            'user_id',             'pie_only'),
     (390, 'pie',          'pie_exam_environment',         'user_id',             'pie_only'),
