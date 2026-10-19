@@ -63,13 +63,13 @@ serve(async (req) => {
         .maybeSingle(),
     ]);
 
-    const attempts = toAnalyzeAttempts(pie.rows);
+    const attempts = toAnalyzeAttempts(pie.rows).filter((a) => a.session_mode === "normal" || a.session_mode === "normal_mcq");
     const stationAttempts = stationRes.data || [];
     const psychographs = psychRes.data || [];
     const behaviorDna = behaviorDnaRes.data || null;
 
-    if (attempts.length === 0 && stationAttempts.length === 0) {
-      return new Response(JSON.stringify({ error: "No attempts found" }), { status: 404, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    if (attempts.length === 0) {
+      return new Response(JSON.stringify({ error: "No verified Normal MCQ attempts found" }), { status: 404, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
     // ── MCQ Metrics ──
@@ -228,20 +228,7 @@ serve(async (req) => {
       })),
       blockPerformance: blockPerf,
       // OSCE
-      osceStationsCompleted: osceCount,
-      osceAvgScore,
-      osceAvgTime,
-      osceSubjectStats: Object.entries(osceSubjectMap).map(([subj, s]) => ({
-        subject: subj,
-        avgScore: Math.round(s.totalScore / s.count),
-        count: s.count,
-        avgTime: Math.round(s.avgTime),
-      })),
-      osceBehavioralSignalsSample: osceBehavioralSignals.slice(0, 5),
       // Trust Your Gut
-      firstInstinctAccuracy,
-      pointsLostFromChanges,
-      totalAttemptsWithChanges: attemptsWithChanges.length,
       // Psychograph
       psychographSummary,
     };
@@ -255,7 +242,6 @@ serve(async (req) => {
 - Population accuracy: ${d.mcq?.overall_accuracy}%, avg time: ${d.mcq?.avg_time_seconds}s
 - Archetype distribution: ${Object.entries(d.behavior?.archetype_distribution || {}).map(([k, v]) => `${k}: ${v}`).join(", ")}
 - Top traps: ${d.behavior?.common_traps?.slice(0, 5).map((t: any) => `${t.trap} (${t.percent}%)`).join(", ")}
-- OSCE avg score: ${d.osce?.avg_score}%
 Compare this candidate against these benchmarks.`;
     }
 
@@ -271,7 +257,7 @@ Compare this candidate against these benchmarks.`;
         messages: [
           {
             role: "system",
-            content: `You are an AMC exam behavior analyst. Analyze candidate behavioral data from MCQ practice, OSCE clinical stations, and Trust Your Gut first-instinct data to produce a UNIFIED behavior profile.${populationPrompt}
+            content: `You are an MCQ practice behaviour analyst. Describe patterns supported by explicitly labelled Normal MCQ attempts only. Do not combine OSCE, Nudge, AMC Exam mode, or Trust Your Gut aggregates. Do not predict exam scores, pass likelihood, or clinical readiness.${populationPrompt}
 
 Archetypes:
 - panic_changer: 3+ avg changes, final answer different from first instinct, time >3 min avg
@@ -288,23 +274,11 @@ AMC Traps to detect:
 - distractor_fixation: Spending time on wrong options
 - stem_overload: Multiple pauses, re-reads on complex stems
 
-OSCE-specific signals to consider:
-- Communication quality from station behavioral signals
-- Clinical reasoning from station scores
-- Time management in clinical stations
-- Psychograph dimensions (if available): cognitive stability, emotional reactivity, silence tolerance, delegation confidence
-
-Trust Your Gut signals:
-- First-instinct accuracy rate
-- Points lost from correct-to-wrong changes
-- Whether the candidate should trust their gut more
-
-Predict AMC score range (out of 300, pass is ~230):
-- Use correctRate, OSCE performance, behavioral patterns, and subject coverage to estimate`,
+Do not infer personality, motivation, clinical competence, causation, exam score, pass likelihood, or clinical readiness from these behavioural signals.`,
           },
           {
             role: "user",
-            content: `Analyze this candidate's unified behavioral data (MCQ + OSCE + Trust Your Gut):\n${JSON.stringify(signals, null, 2)}`,
+            content: `Analyze this candidate's Normal MCQ behavioural evidence:\n${JSON.stringify(signals, null, 2)}`,
           },
         ],
         tools: [
@@ -312,7 +286,7 @@ Predict AMC score range (out of 300, pass is ~230):
             type: "function",
             function: {
               name: "classify_behavior",
-              description: "Classify the candidate's behavioral archetype and generate predictions from unified MCQ + OSCE + TYG data",
+              description: "Summarize observed Normal MCQ behaviour only; do not generate exam-score or pass predictions.",
               parameters: {
                 type: "object",
                 properties: {
@@ -332,9 +306,6 @@ Predict AMC score range (out of 300, pass is ~230):
                       required: ["trap", "description", "severity"],
                     },
                   },
-                  predicted_score_low: { type: "integer" },
-                  predicted_score_high: { type: "integer" },
-                  predicted_score_potential: { type: "integer" },
                   recommendations: {
                     type: "array",
                     items: {
@@ -350,7 +321,7 @@ Predict AMC score range (out of 300, pass is ~230):
                   },
                   critical_finding: { type: "string" },
                 },
-                required: ["archetype", "trap_flags", "predicted_score_low", "predicted_score_high", "predicted_score_potential", "recommendations", "critical_finding"],
+                required: ["archetype", "trap_flags", "recommendations", "critical_finding"],
               },
             },
           },
@@ -375,17 +346,13 @@ Predict AMC score range (out of 300, pass is ~230):
     const toolCall = aiData.choices?.[0]?.message?.tool_calls?.[0];
     let classification;
     try {
+      if (!toolCall?.function?.arguments) throw new Error("Missing classification arguments");
       classification = JSON.parse(toolCall.function.arguments);
     } catch {
-      classification = {
-        archetype: changeRate > 2 ? "panic_changer" : avgTime < 45 ? "rusher" : avgTime > 300 ? "paralyzer" : fatigueIncrease > 1.4 ? "fatigue_victim" : "strategist",
-        trap_flags: [],
-        predicted_score_low: Math.round(correctRate * 300 * 0.8),
-        predicted_score_high: Math.round(correctRate * 300 * 1.1),
-        predicted_score_potential: Math.round(correctRate * 300 * 1.2),
-        recommendations: [{ title: "Continue practicing", description: "Keep up your current routine", priority: "medium" }],
-        critical_finding: `Your overall accuracy is ${Math.round(correctRate * 100)}%.`,
-      };
+      return new Response(JSON.stringify({ error: "Behaviour classification unavailable; no unsupported pattern was substituted." }), {
+        status: 502,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     // Upsert behavior_profiles
@@ -404,9 +371,11 @@ Predict AMC score range (out of 300, pass is ~230):
         }])
       ),
       trap_flags: classification.trap_flags,
-      predicted_score_low: classification.predicted_score_low,
-      predicted_score_high: classification.predicted_score_high,
-      predicted_score_potential: classification.predicted_score_potential,
+      // Historical score prediction fields are deliberately cleared; no validated score model exists.
+      predicted_score_low: null,
+      predicted_score_high: null,
+      predicted_score_potential: null,
+      session_mode: "normal_mcq",
       recommendations: classification.recommendations,
       updated_at: new Date().toISOString(),
     };
