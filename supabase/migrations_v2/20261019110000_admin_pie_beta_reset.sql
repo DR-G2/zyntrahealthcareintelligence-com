@@ -1,5 +1,5 @@
 -- Admin-only, preview-first, synthetic-candidate-scoped PIE beta reset.
--- Fail closed unless public.profiles.is_synthetic is a BOOLEAN and synthetic candidates exist.
+-- Synthetic eligibility comes only from an explicit, server-controlled registry.
 -- Deliberately not applied to any database by this change.
 
 create table if not exists pie.beta_reset_audit (
@@ -12,6 +12,17 @@ create table if not exists pie.beta_reset_audit (
 );
 alter table pie.beta_reset_audit enable row level security;
 revoke all on pie.beta_reset_audit from public, anon, authenticated;
+
+-- Only explicitly provisioned disposable accounts belong in this registry.
+-- No client role can read or write it; registration is through a guarded RPC.
+create table if not exists pie.synthetic_candidate_registry (
+  user_id uuid primary key references public.profiles(id) on delete restrict,
+  registered_by uuid not null references auth.users(id) on delete restrict,
+  reason text not null check (length(btrim(reason)) between 10 and 300),
+  registered_at timestamptz not null default now()
+);
+alter table pie.synthetic_candidate_registry enable row level security;
+revoke all on pie.synthetic_candidate_registry from public, anon, authenticated;
 
 -- One source of truth for both preview and execution. Global question state,
 -- runtime gates, compatibility mappings, LO taxonomy and model configuration
@@ -84,23 +95,23 @@ as $$
 begin
   return case p_scope_kind
     when 'user_id' then
-      't.user_id in (select p.id from public.profiles p where p.is_synthetic is true)'
+      't.user_id in (select p.id from public.profiles p where exists (select 1 from pie.synthetic_candidate_registry scr where scr.user_id = p.id))'
     when 'attempt_user' then
-      'exists (select 1 from public.user_attempts ua join public.profiles p on p.id = ua.user_id where ua.id = t.attempt_id and p.is_synthetic is true)'
+      'exists (select 1 from public.user_attempts ua join public.profiles p on p.id = ua.user_id where ua.id = t.attempt_id and exists (select 1 from pie.synthetic_candidate_registry scr where scr.user_id = p.id))'
     when 'session_user' then
-      'exists (select 1 from public.practice_sessions ps join public.profiles p on p.id = ps.user_id where ps.id = t.session_id and p.is_synthetic is true)'
+      'exists (select 1 from public.practice_sessions ps join public.profiles p on p.id = ps.user_id where ps.id = t.session_id and exists (select 1 from pie.synthetic_candidate_registry scr where scr.user_id = p.id))'
     when 'intervention_user' then
-      'exists (select 1 from intelligence.candidate_interventions ci join public.profiles p on p.id = ci.user_id where ci.id = t.candidate_intervention_id and p.is_synthetic is true)'
+      'exists (select 1 from intelligence.candidate_interventions ci join public.profiles p on p.id = ci.user_id where ci.id = t.candidate_intervention_id and exists (select 1 from pie.synthetic_candidate_registry scr where scr.user_id = p.id))'
     when 'decision_candidate' then
-      'exists (select 1 from pie.pie_decision_candidate dc join public.profiles p on p.id = dc.user_id where dc.id = t.decision_candidate_id and p.is_synthetic is true)'
+      'exists (select 1 from pie.pie_decision_candidate dc join public.profiles p on p.id = dc.user_id where dc.id = t.decision_candidate_id and exists (select 1 from pie.synthetic_candidate_registry scr where scr.user_id = p.id))'
     when 'decision_parent' then
-      'exists (select 1 from pie.pie_decision d join pie.pie_decision_candidate dc on dc.id = d.decision_candidate_id join public.profiles p on p.id = dc.user_id where d.id = t.decision_id and p.is_synthetic is true)'
+      'exists (select 1 from pie.pie_decision d join pie.pie_decision_candidate dc on dc.id = d.decision_candidate_id join public.profiles p on p.id = dc.user_id where d.id = t.decision_id and exists (select 1 from pie.synthetic_candidate_registry scr where scr.user_id = p.id))'
     when 'dwig_candidate' then
-      'exists (select 1 from pie.pie_dwig_candidate dw join public.profiles p on p.id = dw.user_id where dw.id = t.dwig_candidate_id and p.is_synthetic is true)'
+      'exists (select 1 from pie.pie_dwig_candidate dw join public.profiles p on p.id = dw.user_id where dw.id = t.dwig_candidate_id and exists (select 1 from pie.synthetic_candidate_registry scr where scr.user_id = p.id))'
     when 'dwig_selection' then
-      'exists (select 1 from pie.pie_dwig_selection ds join pie.pie_dwig_candidate dw on dw.id = ds.dwig_candidate_id join public.profiles p on p.id = dw.user_id where ds.id = t.dwig_selection_id and p.is_synthetic is true)'
+      'exists (select 1 from pie.pie_dwig_selection ds join pie.pie_dwig_candidate dw on dw.id = ds.dwig_candidate_id join public.profiles p on p.id = dw.user_id where ds.id = t.dwig_selection_id and exists (select 1 from pie.synthetic_candidate_registry scr where scr.user_id = p.id))'
     when 'candidate_state' then
-      'exists (select 1 from pie.pie_candidate_state cs join public.profiles p on p.id = cs.user_id where cs.id = t.candidate_state_id and p.is_synthetic is true)'
+      'exists (select 1 from pie.pie_candidate_state cs join public.profiles p on p.id = cs.user_id where cs.id = t.candidate_state_id and exists (select 1 from pie.synthetic_candidate_registry scr where scr.user_id = p.id))'
     else null
   end;
 end;
@@ -115,19 +126,13 @@ as $$
 declare
   candidate_ids text;
 begin
-  if not exists (
-    select 1 from information_schema.columns
-    where table_schema = 'public' and table_name = 'profiles'
-      and column_name = 'is_synthetic' and data_type = 'boolean'
-  ) then
-    raise exception 'Reset blocked: public.profiles.is_synthetic BOOLEAN is missing.';
+  if to_regclass('pie.synthetic_candidate_registry') is null then
+    raise exception 'Reset blocked: synthetic-candidate registry is missing.';
   end if;
 
-  execute format(
-    'select coalesce(string_agg(id::text, %L order by id), %L) from public.profiles where is_synthetic is true',
-    ',',
-    ''
-  ) into candidate_ids;
+  select coalesce(string_agg(user_id::text, ',' order by user_id), '')
+  into candidate_ids
+  from pie.synthetic_candidate_registry;
 
   return md5(p_mode || ':' || p_counts::text || ':' || candidate_ids);
 end;
@@ -148,17 +153,13 @@ begin
   if p_lock_mode is null or p_lock_mode not in ('SHARE', 'SHARE ROW EXCLUSIVE') then
     raise exception 'Unsupported reset lock mode';
   end if;
-  if not exists (
-    select 1 from information_schema.columns
-    where table_schema = 'public' and table_name = 'profiles'
-      and column_name = 'is_synthetic' and data_type = 'boolean'
-  ) then
-    raise exception 'Reset blocked: public.profiles.is_synthetic BOOLEAN is missing.';
+  if to_regclass('pie.synthetic_candidate_registry') is null then
+    raise exception 'Reset blocked: synthetic-candidate registry is missing.';
   end if;
 
   -- A short-lived table lock makes the preview counts, target rows, and
   -- synthetic-candidate cohort stable for the duration of this RPC transaction.
-  execute format('lock table public.profiles in %s mode', p_lock_mode);
+  execute format('lock table pie.synthetic_candidate_registry in %s mode', p_lock_mode);
   for r in
     with lock_targets as (
       select schema_name, table_name
@@ -197,15 +198,11 @@ begin
   if p_mode is null or p_mode not in ('pie_only', 'full_candidate') then
     raise exception 'Unsupported reset mode';
   end if;
-  if not exists (
-    select 1 from information_schema.columns
-    where table_schema = 'public' and table_name = 'profiles'
-      and column_name = 'is_synthetic' and data_type = 'boolean'
-  ) then
-    raise exception 'Reset blocked: public.profiles.is_synthetic BOOLEAN is missing; cannot prove production-candidate exclusion.';
+  if to_regclass('pie.synthetic_candidate_registry') is null then
+    raise exception 'Reset blocked: synthetic-candidate registry is missing; cannot prove production-candidate exclusion.';
   end if;
-  if not exists (select 1 from public.profiles where is_synthetic is true) then
-    raise exception 'Reset blocked: no explicitly marked synthetic candidates exist.';
+  if not exists (select 1 from pie.synthetic_candidate_registry) then
+    raise exception 'Reset blocked: no explicitly registered synthetic candidates exist.';
   end if;
 
   for r in
@@ -275,6 +272,41 @@ as $$
         and u.email_confirmed_at is not null
     )
 $$;
+
+create or replace function public.admin_register_synthetic_candidate(p_user_id uuid, p_reason text)
+returns jsonb
+language plpgsql
+security definer
+set search_path = pg_catalog, public, auth, pie
+as $
+declare target_role text;
+begin
+  if not public._admin_beta_reset_is_super_admin() then
+    raise exception 'Super-administrator access required' using errcode = '42501';
+  end if;
+  if p_user_id is null or p_user_id = auth.uid() then
+    raise exception 'Register a separate, explicitly provisioned disposable account.';
+  end if;
+  if p_reason is null or length(btrim(p_reason)) < 10 or length(btrim(p_reason)) > 300 then
+    raise exception 'Provide a reason between 10 and 300 characters.';
+  end if;
+  if not exists (select 1 from auth.users u where u.id = p_user_id)
+     or not exists (select 1 from public.profiles p where p.id = p_user_id) then
+    raise exception 'The supplied user ID must exist in auth.users and public.profiles.';
+  end if;
+  select lower(coalesce(p.role, '')) into target_role
+  from public.profiles p where p.id = p_user_id;
+  if target_role in ('admin', 'super_admin', 'super-admin') then
+    raise exception 'Administrative accounts cannot be registered as synthetic candidates.';
+  end if;
+  insert into pie.synthetic_candidate_registry(user_id, registered_by, reason)
+  values (p_user_id, auth.uid(), btrim(p_reason));
+  return jsonb_build_object('success', true, 'user_id', p_user_id);
+exception
+  when unique_violation then
+    raise exception 'This account is already registered as a synthetic candidate.';
+end;
+$;
 
 create or replace function public.admin_preview_pie_beta_reset(p_mode text)
 returns jsonb
@@ -346,8 +378,8 @@ begin
          join public.practice_sessions ps on ps.id = ua.session_id
          join public.profiles session_owner on session_owner.id = ps.user_id
          left join public.profiles attempt_owner on attempt_owner.id = ua.user_id
-         where session_owner.is_synthetic is true
-           and attempt_owner.is_synthetic is distinct from true
+         where exists (select 1 from pie.synthetic_candidate_registry scr where scr.user_id = session_owner.id)
+           and not exists (select 1 from pie.synthetic_candidate_registry scr where scr.user_id = attempt_owner.id)
        ) then
       raise exception 'Reset blocked: a non-synthetic attempt references a synthetic practice session.';
     end if;
@@ -359,8 +391,8 @@ begin
          join public.practice_sessions ps on ps.id = be.session_id
          join public.profiles session_owner on session_owner.id = ps.user_id
          left join public.profiles event_owner on event_owner.id = be.user_id
-         where session_owner.is_synthetic is true
-           and event_owner.is_synthetic is distinct from true
+         where exists (select 1 from pie.synthetic_candidate_registry scr where scr.user_id = session_owner.id)
+           and not exists (select 1 from pie.synthetic_candidate_registry scr where scr.user_id = event_owner.id)
        ) then
       raise exception 'Reset blocked: a non-synthetic behaviour event references a synthetic practice session.';
     end if;
@@ -372,8 +404,8 @@ begin
          join public.user_attempts ua on ua.id = po.attempt_id
          join public.profiles attempt_owner on attempt_owner.id = ua.user_id
          left join public.profiles observation_owner on observation_owner.id = po.user_id
-         where attempt_owner.is_synthetic is true
-           and observation_owner.is_synthetic is distinct from true
+         where exists (select 1 from pie.synthetic_candidate_registry scr where scr.user_id = attempt_owner.id)
+           and not exists (select 1 from pie.synthetic_candidate_registry scr where scr.user_id = observation_owner.id)
        ) then
       raise exception 'Reset blocked: a non-synthetic PIE observation references a synthetic attempt.';
     end if;
@@ -385,8 +417,8 @@ begin
          join pie.pie_candidate_state cs on cs.id = ae.candidate_state_id
          join public.profiles state_owner on state_owner.id = cs.user_id
          left join public.profiles evaluation_owner on evaluation_owner.id = ae.user_id
-         where state_owner.is_synthetic is true
-           and evaluation_owner.is_synthetic is distinct from true
+         where exists (select 1 from pie.synthetic_candidate_registry scr where scr.user_id = state_owner.id)
+           and not exists (select 1 from pie.synthetic_candidate_registry scr where scr.user_id = evaluation_owner.id)
        ) then
       raise exception 'Reset blocked: a non-synthetic AMC evaluation references a synthetic candidate state.';
     end if;
@@ -399,8 +431,8 @@ begin
          join pie.pie_decision_candidate dc on dc.id = d.decision_candidate_id
          join public.profiles decision_owner on decision_owner.id = dc.user_id
          left join public.profiles runtime_owner on runtime_owner.id = rd.user_id
-         where decision_owner.is_synthetic is true
-           and runtime_owner.is_synthetic is distinct from true
+         where exists (select 1 from pie.synthetic_candidate_registry scr where scr.user_id = decision_owner.id)
+           and not exists (select 1 from pie.synthetic_candidate_registry scr where scr.user_id = runtime_owner.id)
        ) then
       raise exception 'Reset blocked: a non-synthetic runtime decision references a synthetic PIE decision.';
     end if;
@@ -412,8 +444,8 @@ begin
          join pie.pie_inference_run ir on ir.id = cs.source_inference_id
          join public.profiles run_owner on run_owner.id = ir.user_id
          left join public.profiles state_owner on state_owner.id = cs.user_id
-         where run_owner.is_synthetic is true
-           and state_owner.is_synthetic is distinct from true
+         where exists (select 1 from pie.synthetic_candidate_registry scr where scr.user_id = run_owner.id)
+           and not exists (select 1 from pie.synthetic_candidate_registry scr where scr.user_id = state_owner.id)
        ) then
       raise exception 'Reset blocked: a non-synthetic candidate state references a synthetic inference run.';
     end if;
@@ -450,7 +482,9 @@ revoke all on function public._admin_beta_reset_counts(text) from public, anon, 
 revoke all on function public._admin_beta_reset_lock_targets(text,text) from public, anon, authenticated;
 revoke all on function public._admin_beta_reset_fingerprint(text,jsonb) from public, anon, authenticated;
 revoke all on function public._admin_beta_reset_is_super_admin() from public, anon, authenticated;
+revoke all on function public.admin_register_synthetic_candidate(uuid,text) from public, anon, authenticated;
 revoke all on function public.admin_preview_pie_beta_reset(text) from public, anon, authenticated;
 revoke all on function public.admin_execute_pie_beta_reset(text,text,text) from public, anon, authenticated;
+grant execute on function public.admin_register_synthetic_candidate(uuid,text) to authenticated;
 grant execute on function public.admin_preview_pie_beta_reset(text) to authenticated;
 grant execute on function public.admin_execute_pie_beta_reset(text,text,text) to authenticated;
