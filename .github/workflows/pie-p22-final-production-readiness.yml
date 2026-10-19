@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - pie-p22-final-production-readiness
+      - pie-p22-final-production-readiness-verify-v2
   pull_request:
     branches: [pie-p21-4-state-selection-integrity]
   workflow_dispatch:
@@ -11,7 +12,7 @@ on:
       production_url:
         description: "Public production URL to smoke-test"
         required: true
-        default: "https://www.zyntrahealthcareintelligence.org"
+        default: "https://www.zyntrahealthcareintelligence.app"
 
 permissions:
   contents: read
@@ -21,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     env:
-      PRODUCTION_URL: ${{ inputs.production_url || 'https://www.zyntrahealthcareintelligence.org' }}
+      PRODUCTION_URL: ${{ inputs.production_url || 'https://www.zyntrahealthcareintelligence.app' }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -31,29 +32,6 @@ jobs:
         with:
           node-version: 22
           cache: npm
-
-      - name: Protect certified P12-P21.4 core
-        run: |
-          git diff --exit-code e935f97cde42afacea6ab82865d4a4ac6edb313e -- \
-            supabase/functions/pie-infer-state/index.ts \
-            supabase/functions/pie-shadow-read/index.ts \
-            supabase/functions/pie-p14-shadow-read/index.ts \
-            supabase/functions/pie-telemetry-audit/index.ts \
-            supabase/functions/pie-learner-state-audit/index.ts \
-            scripts/pie-p12-shadow-certification.mts \
-            scripts/pie-p13-shadow-certification.mts \
-            scripts/pie-p14-read-path-certification.mts \
-            scripts/pie-p15-controlled-production-certification.mts \
-            scripts/pie-p16-production-contract-audit.mts \
-            scripts/pie-p17-failure-isolation-certification.mts \
-            scripts/pie-p18-authoritative-adaptation-certification.mts \
-            scripts/pie-p19-final-production-certification.mts \
-            scripts/pie-p20-production-deployment-gate.mts \
-            scripts/pie-p21-1-telemetry-integrity.mts \
-            scripts/pie-p21-2-decision-trace-integrity.mts \
-            scripts/pie-p21-3-learner-state-integrity.mts \
-            scripts/pie-p21-4-state-selection-integrity.mts \
-            supabase/migrations_v2/0051_pie_p3_candidate_pool.sql
 
       - name: Install dependencies
         run: npm install --no-audit --no-fund
@@ -99,3 +77,26 @@ jobs:
           npm install --no-save --no-audit --no-fund playwright
           npx playwright install chromium
           node scripts/pie-p22-public-browser-smoke.mjs
+
+      - name: Protect certified P12-P21.4 core
+        run: |
+          git diff --exit-code e935f97cde42afacea6ab82865d4a4ac6edb313e -- \
+            supabase/functions/pie-infer-state/index.ts \
+            supabase/functions/pie-shadow-read/index.ts \
+            supabase/functions/pie-p14-shadow-read/index.ts \
+            supabase/functions/pie-telemetry-audit/index.ts \
+            supabase/functions/pie-learner-state-audit/index.ts \
+            scripts/pie-p12-shadow-certification.mts \
+            scripts/pie-p13-shadow-certification.mts \
+            scripts/pie-p14-read-path-certification.mts \
+            scripts/pie-p15-controlled-production-certification.mts \
+            scripts/pie-p16-production-contract-audit.mts \
+            scripts/pie-p17-failure-isolation-certification.mts \
+            scripts/pie-p18-authoritative-adaptation-certification.mts \
+            scripts/pie-p19-final-production-certification.mts \
+            scripts/pie-p20-production-deployment-gate.mts \
+            scripts/pie-p21-1-telemetry-integrity.mts \
+            scripts/pie-p21-2-decision-trace-integrity.mts \
+            scripts/pie-p21-3-learner-state-integrity.mts \
+            scripts/pie-p21-4-state-selection-integrity.mts \
+            supabase/migrations_v2/0051_pie_p3_candidate_pool.sql
