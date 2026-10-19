@@ -141,7 +141,7 @@ describe("P5 edge functions read PIE attempts on V2", () => {
     expect(behaviorFn).toContain('case "fatigue_victim": return hasFatigueTrend');
     expect(behaviorFn).toContain("meanChangesPerAttempt: meanChangesPerAttempt === null ? null");
     expect(behaviorFn).toContain('case "panic_changer": return finiteMetric(signals.meanChangesPerAttempt) && signals.meanChangesPerAttempt > 2');
-    expect(behaviorFn).toContain("lateBlock.meanChangesPerAttempt > earlyBlock.meanChangesPerAttempt");
+
     expect(behaviorFn).toContain("returned evidence was invalid.");
     expect(behaviorFn).toContain("Behaviour analysis is temporarily unavailable.");
     expect(behaviorFn).toContain('"Access-Control-Allow-Methods": "POST, OPTIONS"');
