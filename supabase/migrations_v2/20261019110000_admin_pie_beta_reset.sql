@@ -48,6 +48,7 @@ as $$
     (170, 'pie',          'pie_decision_outcome',        'decision_parent',     'pie_only'),
     (180, 'pie',          'pie_decision',                'decision_candidate',  'pie_only'),
     (190, 'pie',          'pie_dwig_evaluation',         'dwig_candidate',      'pie_only'),
+    (195, 'pie',          'pie_dwig_outcome',             'dwig_selection',      'pie_only'),
     (200, 'pie',          'pie_dwig_selection',          'dwig_candidate',      'pie_only'),
     (210, 'intelligence', 'intervention_outcomes',       'intervention_user',   'pie_only'),
     (220, 'intelligence', 'candidate_interventions',     'user_id',             'pie_only'),
@@ -96,6 +97,8 @@ begin
       'exists (select 1 from pie.pie_decision d join pie.pie_decision_candidate dc on dc.id = d.decision_candidate_id join public.profiles p on p.id = dc.user_id where d.id = t.decision_id and p.is_synthetic is true)'
     when 'dwig_candidate' then
       'exists (select 1 from pie.pie_dwig_candidate dw join public.profiles p on p.id = dw.user_id where dw.id = t.dwig_candidate_id and p.is_synthetic is true)'
+    when 'dwig_selection' then
+      'exists (select 1 from pie.pie_dwig_selection ds join pie.pie_dwig_candidate dw on dw.id = ds.dwig_candidate_id join public.profiles p on p.id = dw.user_id where ds.id = t.dwig_selection_id and p.is_synthetic is true)'
     when 'candidate_state' then
       'exists (select 1 from pie.pie_candidate_state cs join public.profiles p on p.id = cs.user_id where cs.id = t.candidate_state_id and p.is_synthetic is true)'
     else null
@@ -222,6 +225,7 @@ begin
       when 'decision_candidate' then 'decision_candidate_id'
       when 'decision_parent' then 'decision_id'
       when 'dwig_candidate' then 'dwig_candidate_id'
+      when 'dwig_selection' then 'dwig_selection_id'
       when 'candidate_state' then 'candidate_state_id'
       else null
     end;
@@ -241,6 +245,8 @@ begin
       raise exception 'Reset blocked: missing decision ownership relation.';
     elsif r.scope_kind = 'dwig_candidate' and to_regclass('pie.pie_dwig_candidate') is null then
       raise exception 'Reset blocked: missing DWIG ownership relation.';
+    elsif r.scope_kind = 'dwig_selection' and (to_regclass('pie.pie_dwig_selection') is null or to_regclass('pie.pie_dwig_candidate') is null) then
+      raise exception 'Reset blocked: missing DWIG selection ownership relation.';
     elsif r.scope_kind = 'candidate_state' and to_regclass('pie.pie_candidate_state') is null then
       raise exception 'Reset blocked: missing candidate-state ownership relation.';
     end if;
