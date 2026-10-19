@@ -56,7 +56,10 @@ create function auth.jwt() returns jsonb language sql stable as $fn$
 $fn$;
 create table auth.users (id uuid primary key, email text not null, email_confirmed_at timestamptz);
 create table public.profiles (id uuid primary key, is_synthetic boolean not null);
-insert into auth.users values ('${ADMIN}', 'gopalrock.naren@gmail.com', now());
+insert into auth.users values
+  ('${ADMIN}', 'gopalrock.naren@gmail.com', now()),
+  ('${SYN}', 'synthetic@example.test', now()),
+  ('${REAL}', 'real@example.test', now());
 insert into public.profiles values ('${SYN}', true), ('${REAL}', false), ('${ADMIN}', false);
 
 create table public.practice_sessions (id uuid primary key, user_id uuid not null);
@@ -219,6 +222,8 @@ begin
   end if;
 
   if (select count(*) from public.questions) <> 1 then raise exception 'question bank was changed'; end if;
+  if (select count(*) from public.profiles) <> 3 then raise exception 'candidate profiles were deleted'; end if;
+  if (select count(*) from auth.users) <> 3 then raise exception 'auth accounts were deleted'; end if;
   if (select count(*) from pie.pie_question_state) <> 1
      or (select count(*) from pie.pie_question_uncertainty) <> 1
      or (select count(*) from pie.pie_runtime_gate) <> 1
