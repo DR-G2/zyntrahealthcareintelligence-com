@@ -193,7 +193,7 @@ async function main() {
   const accessToken = authSession.data.session?.access_token;
   check("advanced inference test has authenticated disposable session", !!accessToken);
   if (!accessToken) throw new Error("missing authenticated access token for pie-infer-state runtime test");
-  const inferUrl = URL.replace(/\\/$/, "") + "/functions/v1/pie-infer-state";
+  const inferUrl = URL.replace(/\/$/, "") + "/functions/v1/pie-infer-state";
   const inferResponse = await fetch(inferUrl, {
     method: "POST",
     headers: { apikey: KEY, Authorization: `Bearer ${accessToken}`, "Content-Type": "application/json" },
