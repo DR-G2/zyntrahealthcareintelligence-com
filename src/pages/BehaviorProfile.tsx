@@ -63,10 +63,10 @@ const ARCHETYPE_META: Record<string, ArchetypeMeta> = {
     description: 'Recorded response times show longer decisions. This may matter when working under a fixed exam clock.',
   },
   strategist: {
-    label: 'Stable Response Pattern',
+    label: 'Observed Response Pattern',
     icon: Target,
-    color: 'hsl(var(--success))',
-    description: 'Recorded attempts show comparatively stable decision behaviour across the available sample.',
+    color: 'hsl(var(--primary))',
+    description: 'The supplied timing, change-rate and block evidence supports a response pattern; it does not establish that the strategy is optimal or consistently stable.',
   },
   fatigue_victim: {
     label: 'Late-Session Change',
