@@ -4,7 +4,7 @@ Last updated: 2026-10-19
 Repository: DR-G2/zyntrahealthcareintelligence-com
 Working PR: #168, Fix PIE Intelligence evidence gates and mode isolation
 Branch: fix/pie-intelligence-evidence-gates
-Inspected HEAD: 01ea340a722246ccf9d87ece927f91578715bd3a
+Latest HEAD at checkpoint update: 6d50e0a5cd8995852a089af626a3d05502577930
 Base: main at 1be79d37602e83cf68728e3e98084e91ffcfe932
 
 ## Non-negotiable rules
@@ -18,7 +18,7 @@ Base: main at 1be79d37602e83cf68728e3e98084e91ffcfe932
 
 ## Verified current state
 - PR #168 is open, not merged; GitHub reports mergeable=true.
-- 13 files changed; branch HEAD at inspection: 01ea340a722246ccf9d87ece927f91578715bd3a.
+- 17 files changed after execution-log and P7 backend/test updates; current branch HEAD at latest inspection: 6d50e0a5cd8995852a089af626a3d05502577930.
 - CI workflow run 39244106934 (Zyntra CI #1551): completed, success.
 - PIE live certification workflow run 39244106885 (#489): workflow conclusion success, but its actual "Run PIE live certification" step was SKIPPED because workflow only runs authenticated certification outside pull_request events.
 - Nudge live certification workflow run 39244106821 (#125): workflow conclusion success, but its actual "Run authenticated Nudge runtime certification" step was SKIPPED for the same pull-request guard.
@@ -47,7 +47,7 @@ Base: main at 1be79d37602e83cf68728e3e98084e91ffcfe932
 | P4 Calibration gating | IMPLEMENTED, REGRESSION EVIDENCE INCOMPLETE | Coverage gate exists; mode scope of authoritative calibration projection remains unavailable, so estimate is withheld. |
 | P5 Map/banner | PARTIAL | Map omits unsupported plotted points and labels partial state. Need complete combinations/responsive verification. |
 | P6 Missing-data handling | PARTIAL | Several fixes present; full audit of all tiles, subject metrics, actions, provenance, refresh and timestamps pending. |
-| P7 Behaviour | BLOCKED / FIX REQUIRED | analyze-behavior combines MCQ + OSCE + Trust Your Gut, emits AMC score predictions, and uses zero defaults for missing timing/changes/accuracy. Must isolate MCQ behavioural analysis and suppress unsupported score/pass predictions without schema changes. |
+| P7 Behaviour | IMPLEMENTED, VALIDATION PENDING | Backend now filters to explicitly labelled Normal MCQ sessions; removes OSCE, Trust Your Gut and unscoped psychograph/population context from AI signals; removes score prediction fields/prompt and clears historical prediction fields to null; malformed AI output returns an unavailable error instead of a fabricated archetype; missing timing values remain null and timing averages use observed timing only. Added contract assertions. CI/check statuses for latest head were not available at last query, so do not mark PASS yet. |
 | P8 Trust Your Gut | PARTIAL | Mode filtering and null-safe denominators added; verify query provenance, answer sequence consistency, category and session calculations. |
 | P9 Security/provenance | NOT VERIFIED | Client-side checks do not prove server authorization. Review edge function auth, own-candidate data boundaries and admin guard. |
 | P10 Public claims | PARTIAL | Metadata copy revised to avoid readiness claims; inspect all feature cards/status declarations and route promises. |
@@ -55,7 +55,13 @@ Base: main at 1be79d37602e83cf68728e3e98084e91ffcfe932
 | P12 Handoff | NOT STARTED | Do not merge/release until exit criteria and authorized runtime verification are met. |
 
 ## Immediate next action
-Continue P7 first, in sequence. Inspect the complete analyze-behavior function and its consumer/schema contracts. The AI prompt currently combines MCQ, OSCE, and Trust Your Gut and asks for an AMC score prediction. Correct the backend contract so OSCE is not mixed into MCQ behaviour and no unsupported AMC score/pass prediction is generated or presented. Preserve descriptive MCQ behaviour patterns and existing protected access controls. Do not alter database schema or PIE inference formulas. Add focused tests, run CI, and record exact results before moving to P8.
+Finish P7 verification before P8. Backend and test changes are committed, but latest-head CI/test results have not been observed. Obtain the actual CI run/status for head 6d50e0a5cd8995852a089af626a3d05502577930, inspect failures, fix regressions, and rerun. Confirm type safety for nullable timing fields and ensure the candidate UI handles null timing/prediction fields. Do not move to P8 until the focused tests, typecheck, lint and build are observed passing. Do not alter database schema or PIE inference formulas.
 
 ## Resume protocol
 On resumption, fetch this file and the live PR metadata/HEAD again before editing. Confirm no newer commits supersede this checkpoint. Update this log after each phase with exact files, commit SHA, test command/run ID and observed result. Never mark PASS without evidence.
+
+
+## P7 change evidence (2026-10-19)
+- Commits on the PR branch: `fc58a861` (preserve session_mode in history mapping), `a33a3b5f` and `ad7922a5` (Normal MCQ-only behavior analysis and no schema field write), `5e321cf3` (contract tests), `3333033e` and `c46b945e` (exclude unscoped behavior DNA, psychograph and population context), `3c4b2306` and `6d50e0a5` (nullable timing evidence; no missing-time-to-zero aggregation).
+- `analyze-behavior` is still not certified. `get_commit_combined_status` returned no statuses for head `6d50e0a5...`; `fetch_commit_workflow_runs` returned no runs for that head. This is unavailable verification, not a pass.
+- No schema/migration, production data, auth/RLS or PIE inference formula was changed. PR #168 remains open and unmerged.
