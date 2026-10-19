@@ -50,7 +50,7 @@ function makeHtml(route) {
   const links = route.links.map(([label,href]) => '<li><a href="' + esc(href) + '">' + esc(label) + '</a></li>').join("");
   const paragraphs = route.paragraphs.map(p => "<p>" + esc(p) + "</p>").join("");
   const body = '<div id="crawler-shell"><header><p><strong><a href="/">Zyntra</a></strong></p></header><main><h1>' + esc(route.heading) + "</h1>" + paragraphs + "<nav aria-label=\"Related pages\"><ul>" + links + "</ul></nav></main></div>";
-  html = html.replace(/<div id="root">[\\s\\S]*?<\\/div>(?=\\s*<script type="module")/i, '<div id="root">' + body + '</div>');
+  html = html.replace(/<div id="root">[\s\S]*?<\/div>(?=\s*<script type="module")/i, '<div id="root">' + body + '</div>');
   return html;
 }
 for (const route of routes) {
