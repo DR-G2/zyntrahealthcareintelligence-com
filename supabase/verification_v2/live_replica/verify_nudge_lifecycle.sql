@@ -128,7 +128,7 @@ begin
 
   insert into pie.question_lo(question_id,lo_id,is_primary,weight,mapping_source)
   select md5('nudge-lifecycle-' || gs.n::text)::uuid,
-         case when g <= 60 then v_lo_a else v_lo_b end,
+         case when gs.n <= 60 then v_lo_a else v_lo_b end,
          true,1,'manual'
   from generate_series(1,110) as gs(n)
   on conflict (question_id,lo_id) do update
