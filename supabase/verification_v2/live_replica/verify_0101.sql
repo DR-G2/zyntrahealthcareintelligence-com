@@ -38,7 +38,7 @@ begin
   -- Untagged legacy observations must not be guessed into either mode.
   insert into pie.pie_observation(user_id,observation_type,observed_at,payload,provenance)
   select 'aaaaaaaa-0000-0000-0000-00000000000a','MCQ_ATTEMPT',now()+g*interval '1 second',
-    jsonb_build_object('outcome','CORRECT','confidence_normalized',1,'time_total_ms',10000,'answer_changes',0),
+    jsonb_build_object('practice_mode','normal_mcq','outcome','CORRECT','confidence_normalized',1,'time_total_ms',10000,'answer_changes',0),
     jsonb_build_object('source','verify_0101_ambiguous','synthetic',true)
   from generate_series(1,3) g;
 
