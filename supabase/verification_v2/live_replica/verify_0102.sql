@@ -4,6 +4,8 @@ do $$
 declare
   v_before_estimate numeric;
   v_after_estimate numeric;
+  v_before_uncertainty numeric;
+  v_after_uncertainty numeric;
   v_before_count integer;
   v_after_count integer;
   v_before_levels jsonb;
@@ -11,9 +13,10 @@ declare
 begin
   select
     (state->'mode_evidence'->'normal_mcq'->'calibration'->>'estimate')::numeric,
+    (state->'mode_evidence'->'normal_mcq'->'calibration'->>'uncertainty')::numeric,
     (state->'mode_evidence'->'normal_mcq'->'calibration'->>'evidence_count')::integer,
     state->'mode_evidence'->'normal_mcq'->'calibration'->'confidence_level_counts'
-  into v_before_estimate, v_before_count, v_before_levels
+  into v_before_estimate, v_before_uncertainty, v_before_count, v_before_levels
   from pie.pie_candidate_state
   where user_id='aaaaaaaa-0000-0000-0000-00000000000a';
 
@@ -43,12 +46,15 @@ begin
     (state->'mode_evidence'->'normal_mcq'->'calibration'->>'estimate')::numeric,
     (state->'mode_evidence'->'normal_mcq'->'calibration'->>'evidence_count')::integer,
     state->'mode_evidence'->'normal_mcq'->'calibration'->'confidence_level_counts'
-  into v_after_estimate, v_after_count, v_after_levels
+  into v_after_estimate, v_after_uncertainty, v_after_count, v_after_levels
   from pie.pie_candidate_state
   where user_id='aaaaaaaa-0000-0000-0000-00000000000a';
 
   if v_after_estimate is distinct from v_before_estimate then
     raise exception 'FAIL 0102 unscored confidence changed calibration estimate';
+  end if;
+  if v_after_uncertainty is distinct from v_before_uncertainty then
+    raise exception 'FAIL 0102 unscored observations changed calibration uncertainty';
   end if;
   if v_after_count is distinct from v_before_count then
     raise exception 'FAIL 0102 unscored confidence changed paired calibration count';
