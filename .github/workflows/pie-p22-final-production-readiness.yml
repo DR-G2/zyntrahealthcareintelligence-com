@@ -6,7 +6,7 @@ on:
       - pie-p22-final-production-readiness
       - pie-p22-final-production-readiness-verify
   pull_request:
-    branches: [pie-p21-4-state-selection-integrity]
+    branches: [main, pie-p21-4-state-selection-integrity]
   workflow_dispatch:
     inputs:
       production_url:
