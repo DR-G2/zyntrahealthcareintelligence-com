@@ -135,7 +135,7 @@ returns void
 language plpgsql
 security definer
 set search_path = pg_catalog, public
-as $
+as $$
 declare
   r record;
 begin
@@ -176,7 +176,7 @@ begin
     end if;
   end loop;
 end;
-$;
+$$;
 
 create or replace function public._admin_beta_reset_counts(p_mode text)
 returns jsonb
