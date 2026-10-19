@@ -24,6 +24,8 @@ describe("Nudge ↔ PIE selector contract (static)", () => {
       expect(migration).toContain(status);
     }
     expect(migration).toContain("FEWER_THAN_THREE_UNSEEN_MAPPED_QUESTIONS");
+    expect(migration).toContain("FEWER_THAN_THREE_DISTINCT_MAPPED_QUESTIONS");
+    expect(migration).toContain("v_total_distinct < 3");
     expect(migration).toContain("and ql.is_primary");
   });
 
