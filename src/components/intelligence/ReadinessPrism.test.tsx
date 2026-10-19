@@ -16,10 +16,10 @@ function fixture(overrides: Partial<IntelligenceEvidence> = {}): IntelligenceEvi
         sustained_performance: { uncertainty: null, lower: null, upper: null, evidenceCount: 8, evidenceQuality: 0.8 },
         learning: { uncertainty: null, lower: null, upper: null, evidenceCount: 8, evidenceQuality: 0.8 },
       },
-      count: 8, level: "PRELIMINARY", timestamp: "2026-10-16T08:00:00Z", sufficient: true,
+      count: 8, level: "PRELIMINARY", timestamp: "2026-10-16T08:00:00Z", sufficient: true, sessionMode: "normal_mcq",
     } },
     history: { status: "ready", value: [
-      { id: "a1", subjectId: "medicine", subject: "Medicine", correct: false, confidence: null, seconds: 40, changes: 1, at: "2026-10-16T07:00:00Z" },
+      { id: "a1", subjectId: "medicine", subject: "Medicine", correct: false, confidence: null, seconds: 40, changes: 1, at: "2026-10-16T07:00:00Z", sessionMode: "normal_mcq" },
     ] },
     stability: { status: "ready", value: { percent: 65, at: "2026-10-16T08:00:00Z" } },
     confidence: { status: "empty", value: null },
