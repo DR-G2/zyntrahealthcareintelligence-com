@@ -32,7 +32,7 @@ export default function AmcExamPreparation() {
           heading: "How Zyntra supports AMC preparation",
           paragraphs: [
             "Zyntra provides AMC-style clinical MCQ practice with explanations. While you practise, it records signals such as time spent, the confidence you report, and whether you changed your answer, so you can review accuracy alongside answer stability, timing and confidence calibration.",
-            "These signals feed a training readiness view and a suggested next step. They are training estimates to help you decide what to practise next — not a pass prediction, and not a replacement for official AMC guidance. Clinical station practice is being released in stages; the AMC Clinical page explains what is currently available.",
+            "Available practice signals can help you review performance and choose a suggested next step. They are not a pass prediction or a replacement for official AMC guidance. Clinical station practice is being released in stages; the AMC Clinical page explains what is currently available.",
           ],
         },
       ]}
@@ -46,7 +46,7 @@ export default function AmcExamPreparation() {
         { q: "How long does AMC exam preparation take?", a: "It varies with your clinical background, recent study and available time. Many candidates plan several months for the MCQ. Build a plan around your exam date and adjust it as your practice results show where you need more work." },
         { q: "Should I prepare for the MCQ and Clinical exams together?", a: "Most candidates focus on the MCQ first because it usually comes first on the Standard Pathway. Clinical reasoning practised for the MCQ still helps later, so it is useful to keep station structure in mind." },
         { q: "Does Zyntra use real AMC exam questions?", a: "No. Zyntra's questions are written for education in an AMC style. They are not recalled or official AMC examination material." },
-        { q: "Can Zyntra tell me if I will pass?", a: "No. Zyntra shows training readiness estimates based on your practice data to guide what to study next. It does not predict or guarantee exam results." },
+        { q: "Can Zyntra tell me if I will pass?", a: "No. Zyntra helps you review available practice evidence and decide what to study next. It does not predict or guarantee exam results." },
       ]}
     />
   );
