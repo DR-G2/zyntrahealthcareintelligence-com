@@ -8,6 +8,7 @@ db="${1:-v2_verify_0094}"
 owner="${OWNER_ROLE:-zyntra_owner}"
 
 "$here/replay.sh" "$db" --with-0044
+psql -X -v ON_ERROR_STOP=1 -U "$owner" -d "$db" -1 -f "$mig/0083_pie_subject_session_cap.sql"
 psql -X -v ON_ERROR_STOP=1 -U "$owner" -d "$db" -1 -f "$mig/0088_pie_candidate_state_full_history.sql"
 psql -X -v ON_ERROR_STOP=1 -U "$owner" -d "$db" -1 -f "$mig/0094_authoritative_pie_dimension_evidence.sql"
 psql -X -v ON_ERROR_STOP=1 -U "$owner" -d "$db" -1 -f "$mig/0099_pie_practice_mode_provenance.sql"
