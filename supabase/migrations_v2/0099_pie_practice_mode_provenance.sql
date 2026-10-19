@@ -42,7 +42,7 @@ begin
   if v_uid is null then
     raise exception 'Authentication required' using errcode = '28000';
   end if;
-  if p_practice_mode not in ('normal_mcq', 'mock_practice') then
+  if p_practice_mode not in ('normal_mcq', 'amc_exam', 'mock_practice') then
     raise exception 'Invalid MCQ practice mode' using errcode = '22023';
   end if;
 
