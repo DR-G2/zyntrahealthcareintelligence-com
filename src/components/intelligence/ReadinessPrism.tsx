@@ -144,7 +144,7 @@ export function ReadinessPrism({ evidence, loading, retry }: { evidence: Intelli
       <div role="group" aria-label="Choose practice mode" className="flex flex-wrap gap-2">
         {([{id:"normal_mcq",label:"Normal MCQ"},{id:"amc_exam",label:"AMC Exam mode"},{id:"nudge",label:"Nudge"}] as const).map(mode=><Button key={mode.id} type="button" variant={selectedMode===mode.id?"default":"outline"} aria-pressed={selectedMode===mode.id} className="min-h-11" onClick={()=>setSelectedMode(mode.id)}>{mode.label}</Button>)}
       </div>
-      {evidence?.history.status==="ready"&&modeRows.length===0&&<p role="status" className="text-xs text-muted-foreground">No returned attempts are available for this mode. Other modes are not included.</p>}
+      {evidence?.history.status==="ready"&&modeRows.length===0&&<p role="status" className="text-xs text-muted-foreground">No attempts with verified mode labels are available for this mode. Ambiguous legacy sessions are not included.</p>}
     </section>
 
     <section aria-label="Intelligence pathway" className="grid items-center gap-4 border-b border-border/50 pb-6 sm:grid-cols-[1fr_auto]">
