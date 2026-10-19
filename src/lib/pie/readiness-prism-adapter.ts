@@ -22,6 +22,8 @@ export type PrismLayerModel = {
   message: string | null;
 };
 
+export const MIN_DIMENSION_OBSERVATIONS = 50;
+
 const EMPTY_DIMENSIONS = (): PrismDimensionValue[] => DIMENSIONS.map(dimension => ({
   dimension, estimate: null, uncertainty: null, lower: null, upper: null, evidenceCount: null, evidenceQuality: null, estimateAligned: null,
 }));
@@ -55,14 +57,25 @@ export function authoritativePrismLayer(read: IntelligenceEvidence["pie"]): Pris
 function statePrismLayer(state: StateEvidence): PrismLayerModel {
   const dimensions = DIMENSIONS.map(dimension => {
     const metadata: DimensionEvidence | undefined = state.dimensionEvidence?.[dimension];
+    const evidenceCount = validCount(metadata?.evidenceCount);
+    const evidenceQuality = validFraction(metadata?.evidenceQuality);
+    const sourceEstimate = validFraction(state.dimensions[dimension]);
+    // A global state count cannot unlock a dimension. Missing dimension-specific
+    // counts fail closed; only a verified count of 50+ can expose the estimate.
+    const eligible = evidenceCount !== null
+      && evidenceCount >= MIN_DIMENSION_OBSERVATIONS
+      && evidenceQuality !== null
+      && evidenceQuality > 0
+      && metadata?.estimateAligned !== false
+      && sourceEstimate !== null;
     return {
       dimension,
-      estimate: validFraction(state.dimensions[dimension]),
-      uncertainty: validFraction(metadata?.uncertainty),
-      lower: validFraction(metadata?.lower),
-      upper: validFraction(metadata?.upper),
-      evidenceCount: validCount(metadata?.evidenceCount),
-      evidenceQuality: validFraction(metadata?.evidenceQuality),
+      estimate: eligible ? sourceEstimate : null,
+      uncertainty: eligible ? validFraction(metadata?.uncertainty) : null,
+      lower: eligible ? validFraction(metadata?.lower) : null,
+      upper: eligible ? validFraction(metadata?.upper) : null,
+      evidenceCount,
+      evidenceQuality,
       estimateAligned: typeof metadata?.estimateAligned === "boolean" ? metadata.estimateAligned : null,
     };
   });
@@ -71,8 +84,11 @@ function statePrismLayer(state: StateEvidence): PrismLayerModel {
     && (item.evidenceCount === 0 || item.evidenceQuality !== null)
     && ((item.uncertainty === null && item.lower === null && item.upper === null)
       || (item.uncertainty !== null && item.lower !== null && item.upper !== null)));
-  const sufficient = state.sufficient && complete && metadataComplete
-    && dimensions.every(item => (item.evidenceCount ?? 0) > 0 && (item.evidenceQuality ?? 0) > 0);
+  const sufficient = complete && metadataComplete
+    && dimensions.every(item => item.evidenceCount !== null
+      && item.evidenceCount >= MIN_DIMENSION_OBSERVATIONS
+      && (item.evidenceQuality ?? 0) > 0
+      && item.estimateAligned !== false);
   return {
     layer: "authoritative",
     status: sufficient ? "ready" : "empty",
@@ -81,7 +97,7 @@ function statePrismLayer(state: StateEvidence): PrismLayerModel {
     provenance: "public.my_pie_state application projection",
     evidenceCount: Number.isFinite(state.count) && state.count >= 0 ? state.count : null,
     evidenceLevel: typeof state.level === "string" ? state.level : null,
-    message: sufficient ? null : "Authoritative dimension evidence is incomplete or still building. Missing metadata remains unavailable.",
+    message: sufficient ? null : "Building evidence: each dimension needs at least 50 valid observations. Missing dimension counts remain unavailable.",
   };
 }
 
