@@ -178,11 +178,11 @@ begin
   for g in 1..49 loop
     if g <= 3 then
       v_qid := md5('nudge-lifecycle-' || g::text)::uuid;
-      perform public.save_attempt(v_qid,v_history.id,'B',false,17,3,0,4,'["B"]'::jsonb,'[]'::jsonb,
+      perform public.save_attempt(v_qid,v_history.id,'B',false,17,3::smallint,0,4,'["B"]'::jsonb,'[]'::jsonb,
         'nudge-local-test',g,null,1,'nudge-local-test',jsonb_build_object('synthetic',true,'fixture','nudge-local'));
     else
       v_qid := md5('nudge-lifecycle-' || (g+57)::text)::uuid;
-      perform public.save_attempt(v_qid,v_history.id,'A',true,17,4,0,4,'["A"]'::jsonb,'[]'::jsonb,
+      perform public.save_attempt(v_qid,v_history.id,'A',true,17,4::smallint,0,4,'["A"]'::jsonb,'[]'::jsonb,
         'nudge-local-test',g,null,1,'nudge-local-test',jsonb_build_object('synthetic',true,'fixture','nudge-local'));
     end if;
   end loop;
@@ -195,7 +195,7 @@ begin
   raise notice 'PASS 49 mapped interactions remain in mixed evidence-building mode';
 
   v_qid := md5('nudge-lifecycle-107')::uuid;
-  perform public.save_attempt(v_qid,v_history.id,'A',true,17,4,0,4,'["A"]'::jsonb,'[]'::jsonb,
+  perform public.save_attempt(v_qid,v_history.id,'A',true,17,4::smallint,0,4,'["A"]'::jsonb,'[]'::jsonb,
     'nudge-local-test',50,null,1,'nudge-local-test',jsonb_build_object('synthetic',true,'fixture','nudge-local'));
   perform public.complete_practice_session(v_history.id);
 
@@ -225,7 +225,7 @@ begin
     select question_id from public.practice_session_questions
     where session_id=v_nudge.session_id order by position
   loop
-    perform public.save_attempt(v_qid,v_nudge.session_id,'A',true,15,4,0,3,'["A"]'::jsonb,'[]'::jsonb,
+    perform public.save_attempt(v_qid,v_nudge.session_id,'A',true,15,4::smallint,0,3,'["A"]'::jsonb,'[]'::jsonb,
       'nudge-local-test',0,null,1,'nudge-local-test',jsonb_build_object('synthetic',true,'fixture','nudge-local','phase','followup'));
   end loop;
   perform public.complete_practice_session(v_nudge.session_id);
