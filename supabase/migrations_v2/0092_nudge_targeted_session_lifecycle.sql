@@ -40,9 +40,11 @@ begin
 
   -- Enforce the existing active-session ceiling; this schema has no throttle table.
   if (
-    select count(*) from pie.adaptive_session a
-    join public.practice_sessions ps on ps.id = a.session_id
-    where a.user_id = v_user and ps.status = 'active'
+    select count(*) from public.practice_sessions ps
+    where ps.user_id = v_user
+      and ps.status = 'active'
+      and ps.session_type = 'pie_adaptive'
+      and ps.config->>'mode' = 'nudge'
   ) >= 3 then
     raise exception 'PIE_TOO_MANY_ACTIVE_SESSIONS' using errcode = '53400';
   end if;
@@ -68,9 +70,6 @@ begin
     now(), now()
   )
   returning id into v_session;
-
-  insert into pie.adaptive_session(session_id, user_id, policy_version, blueprint_key)
-  values (v_session, v_user, 'nudge-gap-v1', 'AMC_CAT_MCQ');
 
   for v_question in
     select q.id
