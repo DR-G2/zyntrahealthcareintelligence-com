@@ -108,7 +108,7 @@ returns text
 language plpgsql
 security definer
 set search_path = pg_catalog, public
-as $
+as $$
 declare
   candidate_ids text;
 begin
@@ -128,7 +128,7 @@ begin
 
   return md5(p_mode || ':' || p_counts::text || ':' || candidate_ids);
 end;
-$;
+$$;
 
 create or replace function public._admin_beta_reset_counts(p_mode text)
 returns jsonb
