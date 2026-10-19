@@ -55,21 +55,21 @@ serve(async (req) => {
     const timedAttempts = attempts.filter((a) => typeof a.time_taken_seconds === "number" && Number.isFinite(a.time_taken_seconds) && a.time_taken_seconds >= 0);
     const avgTime = timedAttempts.length ? timedAttempts.reduce((s, a) => s + a.time_taken_seconds, 0) / timedAttempts.length : null;
     const changeEvidence = attempts.filter((a) => a.answer_changes_count !== null);
-    const totalChanges = changeEvidence.reduce((s, a) => s + a.answer_changes_count, 0);
-    const changeRate = changeEvidence.length > 0 ? totalChanges / changeEvidence.length : null;
+    const changedAttempts = changeEvidence.filter((a) => a.answer_changes_count > 0).length;
+    const changeRate = changeEvidence.length > 0 ? changedAttempts / changeEvidence.length : null;
     const correctRate = totalAttempts > 0 ? attempts.filter(a => a.is_correct).length / totalAttempts : 0;
     
     const firstClickAttempts = attempts.filter((a) => typeof a.time_to_first_click === "number" && Number.isFinite(a.time_to_first_click) && a.time_to_first_click >= 0);
     const avgFirstClick = firstClickAttempts.length ? firstClickAttempts.reduce((s, a) => s + a.time_to_first_click, 0) / firstClickAttempts.length : null;
 
     // Per-subject MCQ stats
-    const subjectMap: Record<string, { correct: number; total: number; changes: number; changeEvidenceCount: number; avgTime: number | null; times: number[] }> = {};
+    const subjectMap: Record<string, { correct: number; total: number; changedAttempts: number; changeEvidenceCount: number; avgTime: number | null; times: number[] }> = {};
     attempts.forEach(a => {
       const cat = (a.questions as any)?.category || "Unknown";
-      if (!subjectMap[cat]) subjectMap[cat] = { correct: 0, total: 0, changes: 0, changeEvidenceCount: 0, avgTime: 0, times: [] };
+      if (!subjectMap[cat]) subjectMap[cat] = { correct: 0, total: 0, changedAttempts: 0, changeEvidenceCount: 0, avgTime: 0, times: [] };
       subjectMap[cat].total++;
       if (a.is_correct) subjectMap[cat].correct++;
-      if (a.answer_changes_count !== null) { subjectMap[cat].changes += a.answer_changes_count; subjectMap[cat].changeEvidenceCount++; }
+      if (a.answer_changes_count !== null) { subjectMap[cat].changeEvidenceCount++; if (a.answer_changes_count > 0) subjectMap[cat].changedAttempts++; }
       if (typeof a.time_taken_seconds === "number" && Number.isFinite(a.time_taken_seconds) && a.time_taken_seconds >= 0) subjectMap[cat].times.push(a.time_taken_seconds);
     });
     Object.values(subjectMap).forEach(s => {
@@ -100,7 +100,7 @@ serve(async (req) => {
           blockPerf[seg.key] = {
             accuracy: Math.round((slice.filter(a => a.is_correct).length / slice.length) * 100),
             avgTime: (() => { const validTimes = slice.map((a) => a.time_taken_seconds).filter((v): v is number => typeof v === "number" && Number.isFinite(v) && v >= 0); return validTimes.length ? Math.round(validTimes.reduce((sum, v) => sum + v, 0) / validTimes.length) : null; })(),
-            changeRate: (() => { const validChanges = slice.filter((a) => a.answer_changes_count !== null); return validChanges.length ? Math.round((validChanges.reduce((sum, a) => sum + a.answer_changes_count, 0) / validChanges.length) * 100) : null; })(),
+            changeRate: (() => { const validChanges = slice.filter((a) => a.answer_changes_count !== null); return validChanges.length ? Math.round((validChanges.filter((a) => a.answer_changes_count > 0).length / validChanges.length) * 100) : null; })(),
           };
         }
       });
@@ -126,7 +126,7 @@ serve(async (req) => {
       subjectStats: Object.entries(subjectMap).map(([cat, s]) => ({
         category: cat,
         accuracy: Math.round((s.correct / s.total) * 100),
-        changeRate: s.changeEvidenceCount > 0 ? Math.round((s.changes / s.changeEvidenceCount) * 100) : null,
+        changeRate: s.changeEvidenceCount > 0 ? Math.round((s.changedAttempts / s.changeEvidenceCount) * 100) : null,
         avgTime: s.avgTime === null ? null : Math.round(s.avgTime),
         total: s.total,
       })),
@@ -275,10 +275,10 @@ Do not infer personality, motivation, clinical competence, causation, exam score
       subject_patterns: Object.fromEntries(
         Object.entries(subjectMap).map(([cat, s]) => [cat, {
           accuracy: Math.round((s.correct / s.total) * 100),
-          changeRate: s.changeEvidenceCount > 0 ? Math.round((s.changes / s.changeEvidenceCount) * 100) : null,
+          changeRate: s.changeEvidenceCount > 0 ? Math.round((s.changedAttempts / s.changeEvidenceCount) * 100) : null,
           avgTime: s.avgTime === null ? null : Math.round(s.avgTime),
           total: s.total,
-          type: s.changeEvidenceCount === 0 ? "unavailable" : (s.changes / s.changeEvidenceCount) > 0.5 ? "behavioral" : (s.correct / s.total) < 0.5 ? "knowledge" : "stable",
+          type: s.changeEvidenceCount === 0 ? "unavailable" : (s.changedAttempts / s.changeEvidenceCount) > 0.5 ? "behavioral" : (s.correct / s.total) < 0.5 ? "knowledge" : "stable",
         }])
       ),
       trap_flags: classification.trap_flags,
