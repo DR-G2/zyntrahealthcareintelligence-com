@@ -264,16 +264,30 @@ Do not infer personality, motivation, clinical competence, causation, exam score
       updated_at: new Date().toISOString(),
     };
 
-    const { data: existingProfile } = await supabase
+    const { data: existingProfile, error: profileLookupError } = await supabase
       .from("behavior_profiles")
       .select("id")
       .eq("user_id", user.id)
       .maybeSingle();
 
-    if (existingProfile) {
-      await supabase.from("behavior_profiles").update(profileData).eq("user_id", user.id);
-    } else {
-      await supabase.from("behavior_profiles").insert(profileData);
+    if (profileLookupError) {
+      console.error("Behaviour profile lookup failed:", profileLookupError);
+      return new Response(JSON.stringify({ error: "Behaviour profile could not be saved." }), {
+        status: 500,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    const { error: profileWriteError } = existingProfile
+      ? await supabase.from("behavior_profiles").update(profileData).eq("user_id", user.id)
+      : await supabase.from("behavior_profiles").insert(profileData);
+
+    if (profileWriteError) {
+      console.error("Behaviour profile write failed:", profileWriteError);
+      return new Response(JSON.stringify({ error: "Behaviour profile could not be saved." }), {
+        status: 500,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     return new Response(JSON.stringify({
