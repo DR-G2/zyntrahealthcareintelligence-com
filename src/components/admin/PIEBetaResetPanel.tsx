@@ -31,7 +31,7 @@ export function PIEBetaResetPanel() {
     setPreview(null);
     setConfirmation('');
     try {
-      const { data, error } = await supabase.rpc('admin_preview_pie_beta_reset', { p_mode: mode });
+      const { data, error } = await (supabase as any).rpc('admin_preview_pie_beta_reset', { p_mode: mode });
       if (error) throw error;
       if (!data?.preview_token || !data?.counts) throw new Error('Preview response was incomplete.');
       setPreview(data as Preview);
@@ -46,7 +46,7 @@ export function PIEBetaResetPanel() {
     if (!preview || confirmation !== preview.confirmation_phrase || preview.mode !== mode) return;
     setExecuting(true);
     try {
-      const { data, error } = await supabase.rpc('admin_execute_pie_beta_reset', {
+      const { data, error } = await (supabase as any).rpc('admin_execute_pie_beta_reset', {
         p_mode: mode,
         p_confirmation: confirmation,
         p_preview_token: preview.preview_token,
@@ -83,7 +83,7 @@ export function PIEBetaResetPanel() {
             <SelectTrigger aria-label="Reset scope"><SelectValue /></SelectTrigger>
             <SelectContent>
               <SelectItem value="pie_only">A · PIE-derived evidence only</SelectItem>
-              <SelectItem value="full_candidate">B · All candidate attempts + PIE data</SelectItem>
+              <SelectItem value="full_candidate">B · Synthetic candidate attempts + PIE data</SelectItem>
             </SelectContent>
           </Select>
           <Button variant="outline" onClick={runPreview} disabled={loadingPreview || executing}>
@@ -96,7 +96,7 @@ export function PIEBetaResetPanel() {
           <div className="mb-2 flex items-center gap-2 font-medium"><ShieldCheck className="h-4 w-4 text-primary" />{mode === 'pie_only' ? 'PIE-only reset' : 'Full candidate-data reset'}</div>
           {mode === 'pie_only'
             ? 'Clears PIE observations, decision traces, derived candidate state and intelligence telemetry. Canonical MCQ attempts and practice sessions are preserved.'
-            : 'Clears PIE evidence, canonical MCQ attempts, practice-session membership and practice sessions for all candidates. Accounts, question content, LO mappings, model configuration and security records are preserved.'}
+            : 'Clears PIE evidence, canonical MCQ attempts, practice-session membership and practice sessions for explicitly marked synthetic candidates only. Real candidates and accounts are excluded.'}
         </div>
 
         {preview && (
