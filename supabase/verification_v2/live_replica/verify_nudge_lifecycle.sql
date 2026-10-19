@@ -59,10 +59,10 @@ begin
   insert into pie.question_lo(question_id,lo_id,is_primary,weight,mapping_source)
   select md5('nudge-lifecycle-' || g::text)::uuid,
          case when g <= 60 then v_lo_a else v_lo_b end,
-         true,1,'synthetic_nudge_fixture'
+         true,1,'manual'
   from generate_series(1,110) g
   on conflict (question_id,lo_id) do update
-    set is_primary=true,weight=1,mapping_source='synthetic_nudge_fixture';
+    set is_primary=true,weight=1,mapping_source='manual';
 
   insert into amc.amc_blueprint(blueprint_key,version,content,effective_from,effective_to)
   values ('AMC_CAT_MCQ','nudge-lifecycle-fixture-v1','{}'::jsonb,now()-interval '1 day',now()+interval '1 day')
