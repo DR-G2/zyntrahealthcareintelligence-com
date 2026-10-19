@@ -56,6 +56,8 @@ describe("P5 edge functions read PIE attempts on V2", () => {
     expect(src).toContain("firstTotal > 0 ? Math.round((s.firstCorrect / s.firstTotal) * 100) : null");
     expect(src).not.toContain(">{stats.firstInstinctAccuracy.toFixed(1)}%");
     expect(src).not.toContain(">{stats.finalAccuracy.toFixed(1)}%");
+    expect(src).toContain("row.changeRate !== null && <div");
+    expect(src).not.toContain("row.changeRate ?? 0");
   });
 
   it("V2 identity must match the V1 caller", () => {
