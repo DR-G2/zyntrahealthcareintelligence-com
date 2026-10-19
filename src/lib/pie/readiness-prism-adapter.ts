@@ -1,4 +1,4 @@
-import { DIMENSIONS, type Dimension, type DimensionEvidence, type IntelligenceEvidence, type StateEvidence } from "./intelligence-evidence";
+import { DIMENSIONS, normalizePracticeMode, type Dimension, type DimensionEvidence, type IntelligenceEvidence, type PracticeMode, type StateEvidence } from "./intelligence-evidence";
 
 export type PrismLayer = "observed" | "authoritative" | "shadow";
 export type PrismDimensionValue = {
@@ -40,7 +40,7 @@ function validTimestamp(value: unknown): string | null {
   return typeof value === "string" && Number.isFinite(Date.parse(value)) ? value : null;
 }
 
-export function authoritativePrismLayer(read: IntelligenceEvidence["pie"]): PrismLayerModel {
+export function authoritativePrismLayer(read: IntelligenceEvidence["pie"], selectedMode: PracticeMode | null = null): PrismLayerModel {
   if (read.status === "unavailable") return {
     layer: "authoritative", status: "unavailable", dimensions: EMPTY_DIMENSIONS(), timestamp: null,
     provenance: "public.my_pie_state application projection", evidenceCount: null, evidenceLevel: null,
@@ -51,10 +51,11 @@ export function authoritativePrismLayer(read: IntelligenceEvidence["pie"]): Pris
     provenance: "public.my_pie_state application projection", evidenceCount: null, evidenceLevel: null,
     message: "No authoritative candidate state is available yet.",
   };
-  return statePrismLayer(read.value);
+  return statePrismLayer(read.value, selectedMode);
 }
 
-function statePrismLayer(state: StateEvidence): PrismLayerModel {
+function statePrismLayer(state: StateEvidence, selectedMode: PracticeMode | null): PrismLayerModel {
+  const modeScoped = selectedMode !== null && normalizePracticeMode(state.sessionMode) === selectedMode;
   const dimensions = DIMENSIONS.map(dimension => {
     const metadata: DimensionEvidence | undefined = state.dimensionEvidence?.[dimension];
     const evidenceCount = validCount(metadata?.evidenceCount);
@@ -67,7 +68,8 @@ function statePrismLayer(state: StateEvidence): PrismLayerModel {
       && evidenceQuality !== null
       && evidenceQuality > 0
       && metadata?.estimateAligned !== false
-      && sourceEstimate !== null;
+      && sourceEstimate !== null
+      && modeScoped;
     return {
       dimension,
       estimate: eligible ? sourceEstimate : null,
@@ -84,7 +86,7 @@ function statePrismLayer(state: StateEvidence): PrismLayerModel {
     && (item.evidenceCount === 0 || item.evidenceQuality !== null)
     && ((item.uncertainty === null && item.lower === null && item.upper === null)
       || (item.uncertainty !== null && item.lower !== null && item.upper !== null)));
-  const sufficient = complete && metadataComplete
+  const sufficient = modeScoped && complete && metadataComplete
     && dimensions.every(item => item.evidenceCount !== null
       && item.evidenceCount >= MIN_DIMENSION_OBSERVATIONS
       && (item.evidenceQuality ?? 0) > 0
@@ -97,7 +99,9 @@ function statePrismLayer(state: StateEvidence): PrismLayerModel {
     provenance: "public.my_pie_state application projection",
     evidenceCount: Number.isFinite(state.count) && state.count >= 0 ? state.count : null,
     evidenceLevel: typeof state.level === "string" ? state.level : null,
-    message: sufficient ? null : "Building evidence: each dimension needs at least 50 valid observations. Missing dimension counts remain unavailable.",
+    message: sufficient ? null : !modeScoped
+      ? "Mode-specific PIE evidence is unavailable for this practice mode. No cross-mode estimate is shown."
+      : "Building evidence: each dimension needs at least 50 valid observations. Missing dimension counts remain unavailable.",
   };
 }
 
