@@ -88,6 +88,7 @@ declare
   v_cold record;
   v_nudge record;
   v_progress record;
+  v_trace jsonb;
   v_qid uuid;
   v_n integer;
   v_no_key integer;
@@ -220,6 +221,26 @@ begin
   end if;
   raise notice 'PASS 50 mapped interactions switch to PIE target % with baseline accuracy %',v_nudge.lo_key,v_baseline;
 
+  -- Verify session-scoped decision traces expose the selected question and remain private.
+  select question_id into v_qid
+  from public.practice_session_questions
+  where session_id=v_nudge.session_id order by position limit 1;
+  insert into pie.decision_trace(
+    user_id,session_id,question_id,decision_type,selected_action,
+    policy_version,model_version,source
+  ) values (
+    v_user_a,v_nudge.session_id,v_qid,'SESSION_BUILD',
+    jsonb_build_object('lo_id',v_lo_a,'synthetic_fixture',true),
+    'pie-select/p3.0','pie-select/p3.0-authoritative','authoritative'
+  );
+  select public.get_my_pie_decision_traces_for_session(v_nudge.session_id) into v_trace;
+  if jsonb_array_length(v_trace) <> 1
+     or v_trace->0->>'question_id' <> v_qid::text
+     or v_trace->0->>'decision_type' <> 'SESSION_BUILD' then
+    raise exception 'FAIL session-scoped decision trace payload: %',v_trace;
+  end if;
+  raise notice 'PASS session-scoped trace returns the served question and decision type';
+
   -- Follow-up: answer the three targeted questions correctly through authoritative save_attempt.
   for v_qid in
     select question_id from public.practice_session_questions
@@ -241,6 +262,11 @@ begin
 
   -- Candidate B cannot inspect Candidate A's completed Nudge objective.
   perform set_config('request.jwt.claim.sub',v_user_b::text,true);
+  select public.get_my_pie_decision_traces_for_session(v_nudge.session_id) into v_trace;
+  if jsonb_array_length(v_trace) <> 0 then
+    raise exception 'FAIL cross-user trace isolation: %',v_trace;
+  end if;
+  raise notice 'PASS cross-user session-trace isolation';
   begin
     perform * from public.get_my_nudge_progress(v_lo_a);
     raise exception 'FAIL cross-user isolation: candidate B read candidate A progress';
