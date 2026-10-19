@@ -41,8 +41,9 @@ describe('Intelligence evidence presentation boundary', () => {
   });
   it('keeps no attempts distinct from true zero accuracy and deduplicates identities', () => {
     expect(historySummary([]).accuracy).toBeNull();
-    const row: SafeAttempt = { id: 'a', subjectId: 's', subject: 'Medicine', correct: false, confidence: null, seconds: null, changes: 0, at: '' };
-    expect(historySummary([row, row])).toMatchObject({ count: 1, accuracy: 0, confidenceCount: 0, meanSeconds: null });
+    const row: SafeAttempt = { id: 'a', subjectId: 's', subject: 'Medicine', correct: false, answerKeyAvailable: true, confidence: null, seconds: null, changes: 0, at: '' };
+    expect(historySummary([row, row])).toMatchObject({ count: 1, scoredCount: 1, accuracy: 0, confidenceCount: 0, meanSeconds: null });
+    expect(historySummary([{ ...row, answerKeyAvailable: false }])).toMatchObject({ count: 1, scoredCount: 0, accuracy: null });
   });
   it('does not invent actions or display expired recommendations', () => {
     expect(mapAction({ action_type: 'NEW_UNKNOWN_MODE', action_data: { reason: 'test' } })).toBeNull();
