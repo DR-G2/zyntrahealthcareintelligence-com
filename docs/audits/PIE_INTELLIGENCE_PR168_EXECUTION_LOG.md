@@ -287,3 +287,13 @@ On resumption, fetch this file and the live PR metadata/HEAD again before editin
   - P21.2 `39262056584`: unit tests, typecheck and build PASS; P21.2/P21.1/P20 authenticated steps SKIPPED on PR.
   - PIE wrapper `39262056498` and Nudge wrapper `39262056711` succeeded, but authenticated live certification steps were SKIPPED on PR.
 - Hard release gates remain: an explicitly approved source/session contract for mode and per-dimension evidence metadata; an approved V2 Behaviour backend/schema deployment plan; authorization approval before changing the admin email `ILIKE` check; an authorized non-PR runtime certification path; and verified legal entity/contact/arbitration/jurisdiction facts. These are not safe to guess. No merge or production release.
+
+
+## Final Behaviour authorization-contract verification (2026-10-19)
+- Read-only active-V2 catalog inspection confirms the production authorization contract differs materially from the source function's assumptions:
+  - Production has `command.admin_roles(user_id, role, active, ...)` and `command.manual_overrides(actor_user_id, target_type, target_id, override_data, reason, created_at)`, not `public.admin_roles(email)` and `public.manual_overrides(user_id, expires_at)`.
+  - Production has `command.is_admin(p_user_id uuid)`, SECURITY DEFINER, executable by authenticated and not anon; its body enforces `p_user_id = auth.uid()` when a caller identity exists and checks `command.admin_roles.user_id` with `active=true`.
+  - `command.admin_roles` and `command.manual_overrides` have RLS enabled. Table SELECT is granted to `service_role` only in the inspected grant result.
+  - The repository's `analyze-behavior` source instead queries unqualified public tables and uses `ILIKE(user.email)`; its expected public `is_admin(text)` function and `public.behavior_profiles` table are absent in active V2. The current active V2 function inventory does not include `analyze-behavior`.
+- This is not safe to fix by mechanically renaming tables: the production override data model and role contract are different, and a change would alter paid-feature/admin authorization. Keep the Behaviour runtime deployment blocked until the owner approves the intended entitlement rules and the V2 storage/write contract. No auth, RLS, schema, or production changes were made.
+- Latest PR head before this log update: `9403ac6c62a55ac0adfffcaf1ff5fa52f17959df`; its Zyntra CI, P8-P11 contract gate, typecheck/build workflows all passed. Authenticated PIE/Nudge and P20/P21 live runtime certification steps were skipped by pull_request guards. The new log commit will trigger another CI cycle; verify that head before final handoff.
