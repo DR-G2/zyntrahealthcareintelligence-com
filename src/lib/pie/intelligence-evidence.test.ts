@@ -34,6 +34,11 @@ describe('Intelligence evidence presentation boundary', () => {
       uncertainty: null, lower: null, upper: null, evidenceCount: null, evidenceQuality: null, estimateAligned: null,
     });
   });
+  it('preserves a missing global evidence count as unavailable rather than zero', () => {
+    const result = mapState({ state: { evidence_level: 'PRELIMINARY' } });
+    expect(result?.count).toBeNull();
+    expect(result?.sufficient).toBe(false);
+  });
   it('requires six observations and non-insufficient evidence', () => {
     expect(mapState({ state: { evidence_count: 5, evidence_level: 'PRELIMINARY' } })?.sufficient).toBe(false);
     expect(mapState({ state: { evidence_count: 6, evidence_level: 'INSUFFICIENT' } })?.sufficient).toBe(false);
