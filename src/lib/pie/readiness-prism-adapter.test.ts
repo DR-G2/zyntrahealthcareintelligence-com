@@ -28,6 +28,7 @@ describe("Readiness Prism presentation adapter", () => {
   it("preserves dimension counts but withholds estimates and intervals below the evidence threshold", () => {
     const input = evidence().pie;
     if (input.status !== "ready" || !input.value) throw new Error("test fixture must be ready");
+    input.value.sessionMode = "normal_mcq";
     input.value.dimensionEvidence = {
       capability: { uncertainty: 0.2, lower: 0.6, upper: 1, evidenceCount: 12, evidenceQuality: 0.9 },
       decision: { uncertainty: 0.3, lower: 0.4, upper: 1, evidenceCount: 9, evidenceQuality: 0.75 },
@@ -59,7 +60,7 @@ describe("Readiness Prism presentation adapter", () => {
     const layer = authoritativePrismLayer(input, "normal_mcq");
     expect(layer.status).toBe("empty");
     expect(layer.dimensions.find(item => item.dimension === "timing")).toMatchObject({
-      estimate: null, uncertainty: null, lower: null, upper: null, evidenceCount: 10, estimateAligned: false,
+      estimate: null, uncertainty: null, lower: null, upper: null, evidenceCount: null, estimateAligned: false,
     });
     expect(layer.dimensions.find(item => item.dimension === "capability")?.estimate).toBeNull();
   });
