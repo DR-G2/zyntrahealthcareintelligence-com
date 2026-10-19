@@ -10,7 +10,7 @@ import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import { BehaviorSkeleton } from '@/components/skeletons/PageSkeleton';
 import { Activity,
-  Brain, AlertTriangle, Zap, Clock, Shield, Target,
+  Brain, AlertTriangle, Zap, Clock, Shield, Target, CircleHelp,
   TrendingUp, TrendingDown, ArrowRight, RefreshCw, Loader2
 } from 'lucide-react';
 import { useFeatureGate } from '@/hooks/useFeatureGate';
@@ -32,6 +32,13 @@ function buildRecommendationPracticeUrl(_actionLink?: string): string {
   });
   return `/practice?${params.toString()}`;
 }
+
+const UNKNOWN_ARCHETYPE = {
+  label: 'Pattern unavailable',
+  icon: CircleHelp,
+  color: 'hsl(var(--muted-foreground))',
+  description: 'The stored profile does not match a supported behaviour pattern. No interpretation has been substituted.',
+};
 
 const ARCHETYPE_META: Record<string, { label: string; icon: typeof Brain; color: string; description: string; risk?: string }> = {
   panic_changer: {
@@ -157,7 +164,7 @@ export default function BehaviorProfile() {
     );
   }
 
-  const meta = ARCHETYPE_META[data.archetype] || ARCHETYPE_META.strategist;
+  const meta = ARCHETYPE_META[data.archetype] || UNKNOWN_ARCHETYPE;
   const ArchIcon = meta.icon;
 
   // Prepare block chart data
@@ -212,10 +219,10 @@ export default function BehaviorProfile() {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
-              { label: 'Avg Time/Q', value: `${signals.avgTime || 0}s`, icon: Clock },
-              { label: 'Change Rate', value: `${Math.round((signals.changeRate || 0) * 100)}%`, icon: RefreshCw },
-              { label: 'Accuracy', value: `${Math.round((signals.correctRate || 0) * 100)}%`, icon: Target },
-              { label: 'Fatigue Factor', value: `${Math.round((signals.fatigueIncrease || 1) * 100 - 100)}%`, icon: TrendingDown },
+              { label: 'Avg Time/Q', value: typeof signals.avgTime === 'number' && Number.isFinite(signals.avgTime) ? `${signals.avgTime}s` : 'Unavailable', icon: Clock },
+              { label: 'Change Rate', value: typeof signals.changeRate === 'number' && Number.isFinite(signals.changeRate) ? `${Math.round(signals.changeRate * 100)}%` : 'Unavailable', icon: RefreshCw },
+              { label: 'Accuracy', value: typeof signals.correctRate === 'number' && Number.isFinite(signals.correctRate) ? `${Math.round(signals.correctRate * 100)}%` : 'Unavailable', icon: Target },
+              { label: 'Fatigue Factor', value: typeof signals.fatigueIncrease === 'number' && Number.isFinite(signals.fatigueIncrease) ? `${Math.round(signals.fatigueIncrease * 100 - 100)}%` : 'Unavailable', icon: TrendingDown },
             ].map(stat => (
               <Card key={stat.label}>
                 <CardContent className="pt-4 pb-4 text-center">
