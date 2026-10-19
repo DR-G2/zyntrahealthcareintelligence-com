@@ -262,6 +262,71 @@ rollback;
 `;
 };
 
+const cohortFingerprintTest = () => {
+  const preview = previewFor('pie_only');
+  return `
+begin;
+do $test$
+declare
+  blocked boolean := false;
+begin
+  perform set_config('test.uid', '${ADMIN}', true);
+  perform set_config('test.email', 'gopalrock.naren@gmail.com', true);
+
+  -- Swap the synthetic marker to a different candidate while keeping the
+  -- per-table row counts identical. The preview token must still become stale.
+  update public.profiles set is_synthetic = false where id = '${SYN}';
+  update public.profiles set is_synthetic = true where id = '${REAL}';
+
+  begin
+    perform public.admin_execute_pie_beta_reset('pie_only', '${preview.confirmation_phrase}', '${preview.preview_token}');
+  exception when others then
+    if sqlerrm <> 'Data changed since preview. Run preview again.' then raise; end if;
+    blocked := true;
+  end;
+  if not blocked then raise exception 'candidate cohort change was not detected'; end if;
+  if (select count(*) from pie.pie_observation) <> 2 then raise exception 'stale preview partially deleted PIE observations'; end if;
+  if (select count(*) from public.user_attempts) <> 2 then raise exception 'stale preview partially deleted attempts'; end if;
+  if (select count(*) from pie.beta_reset_audit) <> 0 then raise exception 'stale preview wrote a success audit row'; end if;
+end
+$test$;
+rollback;
+`;
+};
+
+const authorizationGuardTest = `
+begin;
+do $test$
+declare
+  blocked boolean := false;
+begin
+  perform set_config('test.uid', '${REAL}', true);
+  perform set_config('test.email', 'candidate@example.com', true);
+  begin
+    perform public.admin_preview_pie_beta_reset('pie_only');
+  exception when others then
+    if sqlerrm <> 'Super-administrator access required' then raise; end if;
+    blocked := true;
+  end;
+  if not blocked then raise exception 'non-super-admin preview was not blocked'; end if;
+
+  perform set_config('test.uid', '${ADMIN}', true);
+  perform set_config('test.email', 'gopalrock.naren@gmail.com', true);
+  blocked := false;
+  begin
+    perform public.admin_preview_pie_beta_reset(null);
+  exception when others then
+    if sqlerrm <> 'Unsupported reset mode' then raise; end if;
+    blocked := true;
+  end;
+  if not blocked then raise exception 'NULL reset mode was not blocked'; end if;
+  if (select count(*) from public.user_attempts) <> 2 then raise exception 'authorization guard changed attempts'; end if;
+  if (select count(*) from pie.beta_reset_audit) <> 0 then raise exception 'blocked preview/reset wrote an audit row'; end if;
+end
+$test$;
+rollback;
+`;
+
 const crossOwnerGuardTest = () => {
   // Commit the deliberately cross-owned link before preview, just as it would
   // exist in a database before the RPC starts. This test runs last on a disposable DB.
