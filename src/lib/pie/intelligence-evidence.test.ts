@@ -50,6 +50,12 @@ describe('Intelligence evidence presentation boundary', () => {
     expect(historySummary([row, row])).toMatchObject({ count: 1, scoredCount: 1, accuracy: 0, confidenceCount: 0, meanSeconds: null });
     expect(historySummary([{ ...row, answerKeyAvailable: false }])).toMatchObject({ count: 1, scoredCount: 0, accuracy: null });
   });
+  it('keeps missing answer-change counts out of the zero-change denominator', () => {
+    const base: SafeAttempt = { id: 'a', subjectId: 's', subject: 'Medicine', correct: false, answerKeyAvailable: true, confidence: null, seconds: null, changes: null, at: '' };
+    expect(historySummary([base])).toMatchObject({ count: 1, changeEvidenceCount: 0, changed: 0 });
+    expect(historySummary([{ ...base, changes: 0 }])).toMatchObject({ count: 1, changeEvidenceCount: 1, changed: 0 });
+    expect(historySummary([{ ...base, changes: 2 }])).toMatchObject({ count: 1, changeEvidenceCount: 1, changed: 1 });
+  });
   it('does not invent actions or display expired recommendations', () => {
     expect(mapAction({ action_type: 'NEW_UNKNOWN_MODE', action_data: { reason: 'test' } })).toBeNull();
     expect(mapAction({ action_type: 'FOCUS_WEAK_SUBJECT', action_data: { reason: 'test' }, expires_at: '2026-01-01' }, Date.parse('2026-10-15'))).toBeNull();
