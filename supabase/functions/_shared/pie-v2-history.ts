@@ -17,7 +17,7 @@ export interface PieHistoryRow {
 /** analyze-behavior shape: legacy user_attempts row + questions(category, difficulty, difficulty_tier, correct_answer), oldest first. */
 export function toAnalyzeAttempts(rows: PieHistoryRow[]) {
   return [...rows].sort((a, b) => a.created_at.localeCompare(b.created_at)).map((r) => ({
-    id: r.attempt_id, question_id: r.question_id, session_id: r.session_id,
+    id: r.attempt_id, question_id: r.question_id, session_id: r.session_id, session_mode: r.session_mode,
     selected_answer: r.selected_answer, is_correct: r.is_correct,
     time_taken_seconds: r.time_taken_seconds, time_to_first_click: r.time_to_first_click,
     answer_changes_count: r.answer_changes_count ?? 0,
