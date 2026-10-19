@@ -55,6 +55,15 @@ describe('PIE beta reset migration source contract', () => {
     expect(migration).toContain('admin_register_synthetic_candidate(uuid,text)');
   });
 
+  it('includes candidate-specific LO review state in both reset modes', () => {
+    for (const table of ['pie.lo_review', 'pie.lo_working_set']) {
+      const target = targets.find((item) => key(item.schema, item.table) === table);
+      expect(target, `missing reset target ${table}`).toBeDefined();
+      expect(target?.scope).toBe('user_id');
+      expect(target?.mode).toBe('pie_only');
+    }
+  });
+
   it('preserves global question state and configuration tables', () => {
     const preserved = [
       'pie.pie_question_state',
