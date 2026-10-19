@@ -1,4 +1,5 @@
 import { render, screen, waitFor } from "@testing-library/react";
+import type { ReactNode } from "react";
 import { MemoryRouter } from "react-router-dom";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -6,7 +7,7 @@ const { loadMock } = vi.hoisted(() => ({ loadMock: vi.fn() }));
 
 vi.mock("@/lib/pie/intelligence-evidence", () => ({ loadIntelligenceEvidence: loadMock }));
 vi.mock("@/contexts/AuthContext", () => ({ useAuth: () => ({ user: { id: "candidate-1" } }) }));
-vi.mock("@/components/AppLayout", () => ({ AppLayout: ({ children }: { children: React.ReactNode }) => <div>{children}</div> }));
+vi.mock("@/components/AppLayout", () => ({ AppLayout: ({ children }: { children: ReactNode }) => <div>{children}</div> }));
 vi.mock("@/components/intelligence/ReadinessPrism", () => ({ ReadinessPrism: () => <div>Performance pane</div> }));
 vi.mock("./BehaviorProfile", () => ({ default: () => <div>Behaviour pane</div> }));
 vi.mock("./TrustYourGut", () => ({ default: () => <div>Trust Your Gut pane</div> }));
