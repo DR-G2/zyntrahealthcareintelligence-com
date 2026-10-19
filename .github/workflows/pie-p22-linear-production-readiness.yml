@@ -1,0 +1,128 @@
+name: PIE P22 Linear Production Readiness Gate
+
+on:
+  push:
+    branches:
+      - ops/pie-p17-p20-linear-certification-20261019
+  workflow_dispatch:
+    inputs:
+      production_url:
+        description: "Public production URL to smoke-test"
+        required: true
+        default: "https://www.zyntrahealthcareintelligence.com"
+
+permissions:
+  contents: read
+
+jobs:
+  final-readiness:
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    env:
+      PRODUCTION_URL: ${{ inputs.production_url || 'https://www.zyntrahealthcareintelligence.com' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Protect certified P12-P21 sources
+        run: |
+          git diff --exit-code 5de3ebb9e4c5b67e5f232c7396801a782036011c -- \
+            supabase/functions/pie-infer-state/index.ts \
+            supabase/functions/pie-shadow-read/index.ts \
+            supabase/functions/pie-p14-shadow-read/index.ts \
+            supabase/functions/pie-telemetry-audit/index.ts \
+            supabase/functions/pie-learner-state-audit/index.ts \
+            scripts/pie-p12-shadow-certification.mts \
+            scripts/pie-p13-shadow-certification.mts \
+            scripts/pie-p14-read-path-certification.mts \
+            scripts/pie-p15-controlled-production-certification.mts \
+            scripts/pie-p16-production-contract-audit.mts \
+            scripts/pie-p17-failure-isolation-certification.mts \
+            scripts/pie-p18-authoritative-adaptation-certification.mts \
+            scripts/pie-p19-final-production-certification.mts \
+            scripts/pie-p20-production-deployment-gate.mts \
+            scripts/pie-p21-1-telemetry-integrity.mts \
+            scripts/pie-p21-2-decision-trace-integrity.mts \
+            scripts/pie-p21-3-learner-state-integrity.mts \
+            scripts/pie-p21-4-state-selection-integrity.mts \
+            supabase/migrations_v2/0051_pie_p3_candidate_pool.sql
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: Unit tests
+        run: npm test -- --passWithNoTests
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Production build
+        run: npm run build
+      - name: P20 deployment regression
+        env: &cert_env
+          V2_URL: ${{ secrets.ZYNTRA_V2_URL }}
+          V2_PUBLISHABLE_KEY: ${{ secrets.ZYNTRA_V2_PUBLISHABLE_KEY }}
+          PIE_TEST_USER_A_EMAIL: ${{ secrets.PIE_TEST_USER_A_EMAIL }}
+          PIE_TEST_USER_B_EMAIL: ${{ secrets.PIE_TEST_USER_B_EMAIL }}
+          PIE_TEST_PASSWORD: ${{ secrets.PIE_TEST_PASSWORD }}
+        run: npx vite-node scripts/pie-p20-production-deployment-gate.mts
+      - name: P21.1 telemetry regression
+        env: *cert_env
+        run: npx vite-node scripts/pie-p21-1-telemetry-integrity.mts
+      - name: P21.2 decision-trace regression
+        env: *cert_env
+        run: npx vite-node scripts/pie-p21-2-decision-trace-integrity.mts
+      - name: P21.3 learner-state regression
+        env: *cert_env
+        run: npx vite-node scripts/pie-p21-3-learner-state-integrity.mts
+      - name: P21.4 state-to-selection regression
+        env: *cert_env
+        run: npx vite-node scripts/pie-p21-4-state-selection-integrity.mts
+      - name: Public production smoke test
+        shell: bash
+        run: |
+          set -euo pipefail
+          case "$PRODUCTION_URL" in
+            https://*) ;;
+            *) echo "FAIL production URL must use HTTPS: $PRODUCTION_URL"; exit 1 ;;
+          esac
+          html="$(mktemp)"
+          headers="$(mktemp)"
+          meta="$(curl --silent --show-error --location --retry 3 --retry-all-errors --max-time 30 --dump-header "$headers" --output "$html" --write-out '%{http_code} %{url_effective}' "$PRODUCTION_URL")"
+          status="${meta%% *}"
+          final_url="${meta#* }"
+          echo "Final URL: $final_url"
+          echo "HTTP status: $status"
+          case "$final_url" in
+            https://*) ;;
+            *) echo "FAIL final URL is not HTTPS: $final_url"; exit 1 ;;
+          esac
+          if [ "$status" != "200" ]; then
+            echo "FAIL expected HTTP 200, got $status"
+            sed -n '1,20p' "$headers"
+            exit 1
+          fi
+          grep -Fq '<div id="root">' "$html" || { echo 'FAIL app root mount missing'; exit 1; }
+          grep -Eiq '<title>[^<]*Zyntra' "$html" || { echo 'FAIL Zyntra title missing'; exit 1; }
+          js_asset="$(grep -Eo 'src="[^"]+\.js(\?[^"]*)?"' "$html" | head -n 1 | cut -d '"' -f 2 || true)"
+          css_asset="$(grep -Eo 'href="[^"]+\.css(\?[^"]*)?"' "$html" | head -n 1 | cut -d '"' -f 2 || true)"
+          if [ -z "$js_asset" ] || [ -z "$css_asset" ]; then
+            echo "FAIL missing JS or CSS asset reference"
+            exit 1
+          fi
+          for asset in "$js_asset" "$css_asset"; do
+            case "$asset" in
+              http*) asset_url="$asset" ;;
+              /*) asset_url="${final_url%/}$asset" ;;
+              *) asset_url="${final_url%/}/$asset" ;;
+            esac
+            asset_status="$(curl --silent --show-error --location --retry 2 --max-time 30 --output /dev/null --write-out '%{http_code}' "$asset_url")"
+            if [ "$asset_status" != "200" ]; then
+              echo "FAIL asset $asset_url returned $asset_status"
+              exit 1
+            fi
+            echo "PASS asset $asset_status $asset_url"
+          done
+          echo "PASS production HTTPS status 200 at $final_url"
+          echo "PASS app root, Zyntra title, JavaScript and CSS assets"
+          echo "NOTE: This public smoke test complements the authenticated P20/P21 checks; it is not a full candidate-browser E2E test."
