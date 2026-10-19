@@ -1,5 +1,6 @@
 /** Single source for the V2 project's public URL and publishable key (both are public values). */
-export const V2_DEFAULT_URL = 'https://hkowvjazuwebmibssdut.supabase.co';
+const V2_PROJECT_REF = 'hkowvjazuwebmibssdut';
+export const V2_DEFAULT_URL = `https://${V2_PROJECT_REF}.supabase.co`;
 export const V2_DEFAULT_PUBLISHABLE_KEY = 'sb_publishable_7K6qFgHEEkaXOFz58cYE3g_l6XBW1tN';
 
 export function resolveV2Config(env: Record<string, string | undefined> = import.meta.env as any) {
