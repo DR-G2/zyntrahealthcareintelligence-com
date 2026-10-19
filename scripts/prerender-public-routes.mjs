@@ -56,10 +56,10 @@ function makeHtml(route) {
   const paragraphs = route.paragraphs.map(p => "<p>" + esc(p) + "</p>").join("");
   const body = '<div id="crawler-shell"><header><p><strong><a href="/">Zyntra</a></strong></p></header><main><h1>' + esc(route.heading) + "</h1>" + paragraphs + "<nav aria-label=\"Related pages\"><ul>" + links + "</ul></nav></main></div>";
   const rootStart = html.indexOf('<div id="root">');
-  const scriptStart = html.indexOf('<script type="module"', rootStart);
-  const rootClose = html.lastIndexOf('</div>', scriptStart);
-  if (rootStart < 0 || scriptStart < 0 || rootClose < rootStart) {
-    throw new Error("Cannot safely replace crawler content while preserving the app entry point for " + route.path);
+  const bodyEnd = html.indexOf('</body>');
+  const rootClose = bodyEnd < 0 ? -1 : html.lastIndexOf('</div>', bodyEnd);
+  if (rootStart < 0 || bodyEnd < 0 || rootClose < rootStart) {
+    throw new Error("Cannot safely replace crawler content while preserving the document body for " + route.path);
   }
   html = html.slice(0, rootStart) + '<div id="root">' + body + '</div>' + html.slice(rootClose + '</div>'.length);
   return html;
