@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { toAnalyzeAttempts, toFlashcardSources, sameLearner, PIE_V2_AUTH_HEADER, type PieHistoryRow } from "../../../supabase/functions/_shared/pie-v2-history";
+import { toAnalyzeAttempts, toCompletedNormalMcqAttempts, toFlashcardSources, sameLearner, PIE_V2_AUTH_HEADER, type PieHistoryRow } from "../../../supabase/functions/_shared/pie-v2-history";
 import { PIE_V2_AUTH_HEADER as CLIENT_HEADER } from "./pie-history-client";
 
 const read = (p: string) => readFileSync(resolve(process.cwd(), p), "utf8");
@@ -19,6 +19,17 @@ describe("P5 edge functions read PIE attempts on V2", () => {
     expect(a[0].questions).toEqual({ category: "Adult Medicine", difficulty: "3", difficulty_tier: "3", correct_answer: "A" });
     expect(a[0].change_sequence).toEqual(["A", "B"]);
     expect(a[0].session_mode).toBe("adaptive");
+  });
+
+  it("Behaviour classification requires explicit Normal MCQ mode and a non-empty completed answer key", () => {
+    const candidates = [
+      { ...row(0, true), session_mode: "normal_mcq" },
+      { ...row(1, true), session_mode: "normal_mcq", correct_answer: null },
+      { ...row(2, true), session_mode: "normal_mcq", correct_answer: "   " },
+      { ...row(3, true), session_mode: "nudge" },
+      row(4, true),
+    ];
+    expect(toCompletedNormalMcqAttempts(candidates).map(attempt => attempt.id)).toEqual(["a0"]);
   });
 
   it("keeps missing answer-change counts unavailable in Behaviour analysis", () => {
@@ -95,9 +106,7 @@ describe("P5 edge functions read PIE attempts on V2", () => {
     expect(behaviorUi).not.toContain("s.type === 'unavailable' ? 'Evidence unavailable' : '✅ Stable'");
     const behaviorFn = read("supabase/functions/analyze-behavior/index.ts");
     expect(behaviorFn).toContain('a.session_mode === "normal" || a.session_mode === "normal_mcq"');
-    expect(behaviorFn).toContain("const modeAttempts = toAnalyzeAttempts(pie.rows).filter");
-    expect(behaviorFn).toContain("const attempts = modeAttempts.filter((a) =>");
-    expect(behaviorFn).toContain("a.questions.correct_answer.trim().length > 0");
+    expect(behaviorFn).toContain("toCompletedNormalMcqAttempts(pie.rows)");
     expect(behaviorFn).toContain("No completed, verified Normal MCQ attempts found");
     expect(behaviorFn).not.toContain("Predict AMC score range");
     expect(behaviorFn).not.toContain("osceBehavioralSignalsSample");
