@@ -9,7 +9,7 @@ import FAQ from '@/pages/FAQ';
 import HowItWorks from '@/pages/HowItWorks';
 import Pricing from '@/pages/PublicPricing';
 import AmcPart1Mcq from '@/pages/AmcPart1Mcq';
-import AmcClinicalOsce from '@/pages/AmcClinicalOsce';
+import { AmcClinicalOsceContent } from '@/pages/AmcClinicalOsce';
 import AmcExamPreparation from '@/pages/AmcExamPreparation';
 import AmcPreparationForImgs from '@/pages/AmcPreparationForImgs';
 import Blog from '@/pages/Blog';
@@ -31,7 +31,7 @@ export function renderPublicPage(route: string, metadata?: { title: string; desc
           <Route path="/how-it-works" element={<HowItWorks />} />
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/amc-part-1-mcq" element={<AmcPart1Mcq />} />
-          <Route path="/amc-clinical-osce" element={<AmcClinicalOsce />} />
+          <Route path="/amc-clinical-osce" element={<AmcClinicalOsceContent />} />
           <Route path="/amc-exam-preparation" element={<AmcExamPreparation />} />
           <Route path="/amc-preparation-for-imgs" element={<AmcPreparationForImgs />} />
           <Route path="/blog" element={<Blog />} />
