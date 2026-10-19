@@ -1,7 +1,17 @@
 import { describe, expect, it } from 'vitest';
-import { mapState, mapAction, historySummary, loadIntelligenceEvidence, type SafeAttempt } from './intelligence-evidence';
+import { mapState, mapAction, historySummary, loadIntelligenceEvidence, normalizePracticeMode, type SafeAttempt } from './intelligence-evidence';
 
 describe('Intelligence evidence presentation boundary', () => {
+  it('normalizes only explicit practice-mode labels and rejects ambiguous legacy session types', () => {
+    expect(normalizePracticeMode('normal_mcq')).toBe('normal_mcq');
+    expect(normalizePracticeMode('normal')).toBe('normal_mcq');
+    expect(normalizePracticeMode('amc_exam_mode')).toBe('amc_exam');
+    expect(normalizePracticeMode('nudge')).toBe('nudge');
+    expect(normalizePracticeMode('pie_adaptive')).toBeNull();
+    expect(normalizePracticeMode('legacy_orphan')).toBeNull();
+    expect(normalizePracticeMode('adaptive')).toBeNull();
+    expect(normalizePracticeMode('drill')).toBeNull();
+  });
   it('preserves missing or invalid dimensions rather than inventing zero', () => {
     const result = mapState({ state: { capability: { estimate: 0 }, decision: { estimate: 2 }, evidence_count: 6, evidence_level: 'PRELIMINARY' } });
     expect(result?.dimensions.capability).toBe(0);
