@@ -24,6 +24,7 @@ describe("public claim and availability contract", () => {
     const blogPosts = read("src/data/blogPosts.ts");
     const osceGuide = read("src/pages/AmcClinicalOsce.tsx");
     const trustYourGut = read("src/pages/TrustYourGut.tsx");
+    const faq = read("src/pages/FAQ.tsx");
 
     expect(home).not.toContain("to <em>Readiness.</em>");
     expect(home).not.toContain("increased hesitation under time pressure");
@@ -40,5 +41,6 @@ describe("public claim and availability contract", () => {
     expect(osceGuide).not.toContain("/stations?demo=true");
     expect(trustYourGut).toContain("Review first and final answers and recorded change outcomes");
     expect(trustYourGut).not.toContain("reduce harmful answer changes");
+    expect(faq).toContain("{featureAvailability.flashcards.name} are marked");
   });
 });
