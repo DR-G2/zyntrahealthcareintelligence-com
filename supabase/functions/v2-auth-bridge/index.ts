@@ -4,6 +4,7 @@ import { createClient } from "jsr:@supabase/supabase-js@2";
 const LEGACY_AUTH_URL = "https://yudkfmgilucyhukfggij.supabase.co/auth/v1/user";
 
 const allowedOrigins = new Set([
+  "https://zyntrahealthcareintelligence.app",
   "https://www.zyntrahealthcareintelligence.com",
   "https://zyntrahealthcareintelligence.com",
   "https://www.zyntrahealthcareintelligence.org",
