@@ -105,11 +105,11 @@ describe('PIE beta reset migration source contract', () => {
     expect(migration).toContain('email_confirmed_at is not null');
     expect(migration).toContain("public._admin_beta_reset_lock_targets(p_mode, 'SHARE')");
     expect(migration).toContain("public._admin_beta_reset_lock_targets(p_mode, 'SHARE ROW EXCLUSIVE')");
-    expect(migration).toContain('lock table public.profiles in %s mode');
+    expect(migration).toContain('lock table pie.synthetic_candidate_registry in %s mode');
     expect(migration).toContain("select 'public'::text, 'user_attempts'::text where p_mode = 'pie_only'");
     expect(migration).toContain('Data changed since preview. Run preview again.');
     expect(migration).toContain('public._admin_beta_reset_fingerprint(p_mode, counts)');
-    expect(migration).toContain('string_agg(id::text');
+    expect(migration).toContain('string_agg(user_id::text');
     expect(migration).toContain('Confirmation phrase does not match');
     expect(migration).toContain("p_mode is null or p_mode not in ('pie_only', 'full_candidate')");
     expect(migration).toContain('a non-synthetic attempt references a synthetic practice session');
