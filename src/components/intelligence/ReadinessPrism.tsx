@@ -68,7 +68,7 @@ function DimensionMap({ dimensions, selected, onSelect }: {
   const complete = prismDimensionsAreComplete(dimensions);
   const radius = 68;
   const point = (index: number, r: number) => ({ x: 100 + Math.cos(-Math.PI / 2 + index * Math.PI / 3) * r, y: 92 + Math.sin(-Math.PI / 2 + index * Math.PI / 3) * r });
-  const polygon = dimensions.map((item,index) => { const p=point(index,(item.estimate ?? 0)*radius); return p.x + "," + p.y; }).join(" ");
+  const polygon = complete ? dimensions.map((item,index) => { const p=point(index,item.estimate! * radius); return p.x + "," + p.y; }).join(" ") : "";
   return <div className="grid items-center gap-4 sm:grid-cols-[minmax(180px,.8fr)_1.2fr]">
     <div className="mx-auto w-full max-w-[250px]">
       <svg viewBox="0 0 200 184" role="img" aria-label={complete ? "Six-dimensional PIE map with all values available" : "Six-dimensional PIE map with incomplete values"} className="w-full">
