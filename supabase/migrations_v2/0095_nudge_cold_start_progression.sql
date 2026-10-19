@@ -52,9 +52,11 @@ begin
   end if;
 
   if (
-    select count(*) from pie.adaptive_session a
-    join public.practice_sessions ps on ps.id = a.session_id
-    where a.user_id = v_user and ps.status = 'active'
+    select count(*) from public.practice_sessions ps
+    where ps.user_id = v_user
+      and ps.status = 'active'
+      and ps.session_type = 'pie_adaptive'
+      and ps.config->>'mode' = 'nudge'
   ) >= 3 then
     raise exception 'PIE_TOO_MANY_ACTIVE_SESSIONS' using errcode = '53400';
   end if;
@@ -68,7 +70,11 @@ begin
       'selector', case when v_cold_start then 'nudge-cold-start-v1' else 'nudge-gap-v1' end,
       'mode', 'nudge',
       'target_length', p_count,
-      'nudge_stage', case when v_cold_start then 'evidence_building' else 'pie_targeted' end,
+      'nudge_stage', case
+        when v_mapped_interactions < 50 then 'evidence_building'
+        when v_cold_start then 'mixed_fallback'
+        else 'pie_targeted'
+      end,
       'mapped_interactions_at_start', v_mapped_interactions,
       'nudge_lo_id', case when v_cold_start then null else v_target.lo_id end,
       'nudge_lo_key', case when v_cold_start then null else v_target.lo_key end,
@@ -77,13 +83,6 @@ begin
     now(), now()
   )
   returning id into v_session;
-
-  insert into pie.adaptive_session(session_id, user_id, policy_version, blueprint_key)
-  values (
-    v_session, v_user,
-    case when v_cold_start then 'nudge-cold-start-v1' else 'nudge-gap-v1' end,
-    'AMC_CAT_MCQ'
-  );
 
   if v_cold_start then
     for v_question in
