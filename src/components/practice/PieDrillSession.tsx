@@ -261,7 +261,7 @@ export function PieDrillSession({ config, resumeSessionId, onFinish }: {
       toast({ title: 'Session not completed', description: (e as Error).message, variant: 'destructive' });
     } finally { setBusy(false); }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [index, selected, saved, confidence, ruledOut, user, onFinish]);
+  }, [index, selected, saved, confidence, ruledOut, user, onFinish, primaryMode, nudgeTarget]);
 
   const next = async () => {
     setBusy(true);
