@@ -130,15 +130,19 @@ export default function BehaviorProfile() {
   const runAnalysis = async () => {
     setAnalyzing(true);
     try {
+      if (!user) throw new Error('Authentication required.');
       const { error } = await supabase.functions.invoke('analyze-behavior', { headers: await pieV2AuthHeaders() }); // P5: PIE attempts on V2
       if (error) throw error;
-      // Refetch profile
-      const { data: profile } = await supabase
+      // Refetch must succeed and return a profile before reporting completion.
+      const { data: profile, error: profileError } = await supabase
         .from('behavior_profiles')
         .select('*')
-        .eq('user_id', user!.id)
+        .eq('user_id', user.id)
         .maybeSingle();
-      if (profile) setData(profile as any);
+      if (profileError) throw profileError;
+      if (!profile) throw new Error('Behaviour profile was not returned.');
+      setData(profile as any);
+      setLoadError(false);
       toast({ title: 'Analysis complete', description: 'Your behavior profile has been updated.' });
     } catch {
       toast({ title: 'Analysis failed', description: 'Behaviour analysis is temporarily unavailable. Please try again later.', variant: 'destructive' });
