@@ -64,6 +64,8 @@ describe("public claim and availability contract", () => {
     expect(osceGuide).toContain("Interactive Zyntra");
     expect(osceGuide).toContain("not available in the current public release");
     expect(osceGuide).not.toContain("/stations?demo=true");
+    expect(osceGuide).not.toContain("being rebuilt");
+    expect(osceGuide).not.toContain("staged rollout");
     expect(trustYourGut).toContain("Review first and final answers and recorded change outcomes");
     expect(trustYourGut).not.toContain("reduce harmful answer changes");
     expect(faq).toContain("{featureAvailability.flashcards.name} are marked");
