@@ -21,6 +21,16 @@ describe("P5 edge functions read PIE attempts on V2", () => {
     expect(a[0].session_mode).toBe("adaptive");
   });
 
+  it("keeps missing answer-change counts unavailable in Behaviour analysis", () => {
+    const missing = toAnalyzeAttempts([{ ...row(0, true), answer_changes_count: null }]);
+    expect(missing[0].answer_changes_count).toBeNull();
+    const src = read("supabase/functions/analyze-behavior/index.ts");
+    expect(src).toContain("const changeEvidence = attempts.filter((a) => a.answer_changes_count !== null)");
+    expect(src).toContain("changeEvidence.length > 0 ? totalChanges / changeEvidence.length : null");
+    expect(src).toContain("s.changeEvidenceCount > 0 ? Math.round((s.changes / s.changeEvidenceCount) * 100) : null");
+    expect(src).not.toContain("a.answer_changes_count || 0");
+  });
+
   it("flashcards use only the learner's own wrong answers, distinct, newest first, capped", () => {
     const rows = [row(0, false, "qx"), row(1, true, "qy"), row(2, false, "qx"), row(3, false, "qz")];
     const f = toFlashcardSources(rows, 50, 20);
