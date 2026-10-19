@@ -4,7 +4,7 @@ Last updated: 2026-10-19
 Repository: DR-G2/zyntrahealthcareintelligence-com
 Working PR: #168, Fix PIE Intelligence evidence gates and mode isolation
 Branch: fix/pie-intelligence-evidence-gates
-Code checkpoint before this log update: 503546e5f94b9cb0a17e7a9ff7c7d00ec798913e
+Code checkpoint before this log update: fdf6775d8e43e4446fe1e045bed069175399bde2
 Base: main at 1be79d37602e83cf68728e3e98084e91ffcfe932
 
 ## Non-negotiable rules
@@ -18,7 +18,7 @@ Base: main at 1be79d37602e83cf68728e3e98084e91ffcfe932
 
 ## Verified current state
 - PR #168 is open, not merged; GitHub reports mergeable=true.
-- PR head before this log update: 503546e5f94b9cb0a17e7a9ff7c7d00ec798913e; 17 files changed.
+- Latest inspected PR head before this log update: fdf6775d8e43e4446fe1e045bed069175399bde2; 24 files changed. Earlier run evidence below applies only to the listed historical commit checkpoints.
 - P8 current-head CI: run 39247912982 passed lint/unit tests/production build; run 39247912854 passed unit tests/build/P8-P11 contract gate; run 39247912947 passed unit tests/typecheck/build. Runtime certification steps were skipped by pull-request guards.
 - P9 code checkpoint `503546e5`: run 39248401148 passed lint/unit tests/production build; run 39248400959 passed unit tests/build/P8-P11 contract gate; run 39248400921 passed unit tests and typecheck (production build was in progress at last check); run 39248400960 passed unit tests and typecheck (production build was in progress at last check). PIE/Nudge live certification steps were skipped by PR guards.
 - CI workflow run 39244106934 (Zyntra CI #1551): completed, success.
@@ -91,3 +91,11 @@ On resumption, fetch this file and the live PR metadata/HEAD again before editin
 - Found a user-facing Trust Your Gut upgrade claim promising to “reduce harmful answer changes”, which the analytics-only feature cannot substantiate. Replaced it with a neutral description of reviewing first/final answers and recorded change outcomes only where completed history supports comparison. Commit: `d79cd6416e1a024f823211728f82756d4a6e5317`.
 - P10 source review is complete; validation remains pending until CI passes on the stable latest head and regression checks are inspected.
 - Separate public-release issue discovered in Terms: placeholder legal entity, designated contact email, arbitration rules/institution, and jurisdiction/governing-law state remain. This is not silently edited as part of the PIE audit; it requires correct legal details before release.
+
+
+## P10 public-claims audit checkpoint (2026-10-19)
+- Reviewed public availability contract `src/data/featureAvailability.ts`, homepage, feature index, How It Works, AMC exam preparation, AMC Clinical OSCE page, AMC Part 1 page and public educational article copy.
+- Found a concrete contradiction: OSCE availability was labelled `Coming soon` in the canonical feature list, but the AMC Clinical page advertised a `Try a demo station` link to `/stations?demo=true`, while `src/App.tsx` redirects `/stations` to `/practice/osce`. The same page described staged voice/demo availability despite the canonical public status saying the interactive module was not live.
+- Fixed on branch: `src/pages/AmcClinicalOsce.tsx` removes the unsupported demo CTA, links to the live AMC Part 1 MCQ track, states that interactive/voice OSCE practice is not available in the current public release, revises the voice FAQ, and corrects SEO description. `src/pages/AmcExamPreparation.tsx` now states the interactive OSCE module is not available in the current public release rather than implying an active staged rollout.
+- Commits: `6f0d25fc71f344a179d8291305760c244941c3ea`, `3afbcc9b0cc072d2b6cd37262c1bbe9f70fce1f3`, `fdf6775d8e43e4446fe1e045bed069175399bde2`.
+- Latest observed PR head before this log update: `fdf6775d8e43e4446fe1e045bed069175399bde2`; PR remains open and unmerged. Workflow/status lookup returned no current-head runs/statuses. P10 is implemented but NOT validated until CI and source re-fetch checks complete. No production deployment or production data changes.
