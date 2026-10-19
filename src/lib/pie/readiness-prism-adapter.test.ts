@@ -106,6 +106,16 @@ describe("Readiness Prism presentation adapter", () => {
       learning: { uncertainty: 0.2, lower: 0.6, upper: 1, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
     };
     const layer = authoritativePrismLayer(input, "normal_mcq");
+    expect(layer.dimensions.map(({ dimension, estimate, evidenceCount, evidenceQuality, estimateAligned }) => ({
+      dimension, estimate, evidenceCount, evidenceQuality, estimateAligned,
+    }))).toEqual([
+      { dimension: "capability", estimate: 0.8, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
+      { dimension: "decision", estimate: 0.7, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
+      { dimension: "timing", estimate: 0.65, evidenceCount: 50, evidenceQuality: 0.8, estimateAligned: true },
+      { dimension: "calibration", estimate: 0.6, evidenceCount: 50, evidenceQuality: 0.8, estimateAligned: true },
+      { dimension: "sustained_performance", estimate: 0.75, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
+      { dimension: "learning", estimate: 0.5, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
+    ]);
     expect(layer.status).toBe("ready");
     expect(layer.dimensions.find(item => item.dimension === "timing")?.estimate).toBe(0.65);
   });
