@@ -109,10 +109,11 @@ export function ReadinessPrism({ evidence, loading, retry }: { evidence: Intelli
   const observedModel=useMemo(()=>evidence?observedPrismLayer(evidence):null,[evidence]);
   const chosenDimension=pieModel.dimensions.find(item=>item.dimension===selectedDimension) ?? pieModel.dimensions[0];
   const validPie=evidence?.pie.status==="ready" && evidence.pie.value?.sufficient===true;
+  const timingValue=validPie && evidence?.pie.status==="ready" ? evidence.pie.value.dimensions.timing : null;
   const signals: Record<SignalId,{value:string;note:string;available:boolean}> = {
     accuracy:{value:summary.accuracy===null?"Unavailable":percent(summary.accuracy),note:summary.count+" unique recorded attempts",available:evidence?.history.status==="ready"&&summary.accuracy!==null},
     stability:{value:evidence?.stability.status==="ready"?percent(evidence.stability.value.percent):"Unavailable",note:evidence?.stability.status==="ready"?"Existing V2 readiness projection":"No verified stability value available",available:evidence?.stability.status==="ready"},
-    timing:{value:validPie&&evidence?.pie.value?.dimensions.timing!=null?percent(evidence.pie.value.dimensions.timing*100):"Unavailable",note:validPie?"PIE timing estimate · normalised score":"Valid PIE timing evidence is not available",available:validPie&&evidence?.pie.value?.dimensions.timing!=null},
+    timing:{value:timingValue!=null?percent(timingValue*100):"Unavailable",note:validPie?"PIE timing estimate · normalised score":"Valid PIE timing evidence is not available",available:timingValue!=null},
     confidence:{value:evidence?.confidence.status==="ready"?percent(evidence.confidence.value.percent):"Unavailable",note:evidence?.confidence.status==="ready"?"Existing V2 calibration projection":"No verified calibration value available",available:evidence?.confidence.status==="ready"},
   };
   const chosen=PRIMARY.find(item=>item.id===selectedSignal)!;
