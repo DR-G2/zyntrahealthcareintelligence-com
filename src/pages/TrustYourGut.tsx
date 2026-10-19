@@ -27,6 +27,7 @@ import { Link } from 'react-router-dom';
 import { useFeatureGate } from '@/hooks/useFeatureGate';
 import { UpgradePrompt } from '@/components/UpgradePrompt';
 import { fetchLegacyShapedHistory } from '@/lib/pie/pie-history-client';
+import { normalizePracticeMode, type PracticeMode } from '@/lib/pie/intelligence-evidence';
 
 interface AttemptWithQuestion {
   id: string;
@@ -37,6 +38,7 @@ interface AttemptWithQuestion {
   change_sequence: string[];
   created_at: string;
   session_id: string;
+  session_mode: string;
   questions: {
     correct_answer: string;
     category: string;
@@ -60,6 +62,7 @@ interface CategoryBreakdown {
 export default function TrustYourGut() {
   const { user } = useAuth();
   const gate = useFeatureGate();
+  const [selectedMode, setSelectedMode] = useState<PracticeMode>('normal_mcq');
   // Fetch user attempts with questions
   const { data: attempts = [], isLoading, isError, refetch } = useQuery({
     queryKey: ['trust-gut-attempts', user?.id],
@@ -76,9 +79,11 @@ export default function TrustYourGut() {
     enabled: !!user
   });
 
-  // Compute stats
+  const modeAttempts = useMemo(() => attempts.filter(a => normalizePracticeMode(a.session_mode) === selectedMode), [attempts, selectedMode]);
+
+  // Compute stats within the selected practice mode only.
   const stats = useMemo(() => {
-    const attemptsWithChanges = attempts.filter(a => a.answer_changes_count > 0 && a.change_sequence.length > 0);
+    const attemptsWithChanges = modeAttempts.filter(a => a.answer_changes_count > 0 && a.change_sequence.length > 0);
     
     let firstInstinctCorrect = 0;
     let finalCorrect = 0;
@@ -110,7 +115,7 @@ export default function TrustYourGut() {
       : null;
 
     // Overall stats
-    const totalAttempts = attempts.length;
+    const totalAttempts = modeAttempts.length;
     const attemptsWithChangesCount = attemptsWithChanges.length;
     const changeRate = totalAttempts > 0 ? (attemptsWithChangesCount / totalAttempts) * 100 : null;
 
@@ -129,13 +134,13 @@ export default function TrustYourGut() {
         total: attemptsWithChangesCount
       } as ChangeAnalysis
     };
-  }, [attempts]);
+  }, [modeAttempts]);
 
   // Category breakdown
   const categoryBreakdown = useMemo((): CategoryBreakdown[] => {
     const categoryMap = new Map<string, { pointsLost: number; changes: number; attempts: number }>();
     
-    attempts.forEach(a => {
+    modeAttempts.forEach(a => {
       const category = a.questions?.category || 'Unknown';
       if (!categoryMap.has(category)) {
         categoryMap.set(category, { pointsLost: 0, changes: 0, attempts: 0 });
@@ -162,13 +167,13 @@ export default function TrustYourGut() {
       }))
       .filter(c => c.attempts >= 3)
       .sort((a, b) => b.pointsLost - a.pointsLost);
-  }, [attempts]);
+  }, [modeAttempts]);
 
   // Trend data (last 10 sessions)
   const trendData = useMemo(() => {
     const sessionMap = new Map<string, { firstCorrect: number; finalCorrect: number; total: number; date: string }>();
     
-    attempts.forEach(a => {
+    modeAttempts.forEach(a => {
       if (!sessionMap.has(a.session_id)) {
         sessionMap.set(a.session_id, { firstCorrect: 0, finalCorrect: 0, total: 0, date: a.created_at.split('T')[0] });
       }
@@ -192,7 +197,7 @@ export default function TrustYourGut() {
         firstInstinct: s.total > 0 ? Math.round((s.firstCorrect / s.total) * 100) : 0,
         final: s.total > 0 ? Math.round((s.finalCorrect / s.total) * 100) : 0
       }));
-  }, [attempts]);
+  }, [modeAttempts]);
 
   const chartConfig = {
     firstInstinct: { label: 'First Instinct', color: 'hsl(var(--primary))' },
@@ -229,6 +234,13 @@ export default function TrustYourGut() {
 
   return (
     <div className="space-y-6">
+        <section aria-label="Practice mode" className="space-y-2">
+          <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Practice mode · kept separate</p>
+          <div role="group" aria-label="Choose practice mode" className="flex flex-wrap gap-2">
+            {([{id:'normal_mcq',label:'Normal MCQ'},{id:'amc_exam',label:'AMC Exam mode'},{id:'nudge',label:'Nudge'}] as const).map(mode => <Button key={mode.id} type="button" variant={selectedMode===mode.id?'default':'outline'} aria-pressed={selectedMode===mode.id} className="min-h-11" onClick={() => setSelectedMode(mode.id)}>{mode.label}</Button>)}
+          </div>
+          {modeAttempts.length===0 && <p role="status" className="text-xs text-muted-foreground">No returned attempts are available for this mode. Other modes are not included.</p>}
+        </section>
         {/* P5: the old client-graded "training" retake was removed (it read answer keys in the
             browser and recorded nothing). First-instinct training now happens in PIE Practice,
             where every answer is server-graded and counts as evidence. */}
