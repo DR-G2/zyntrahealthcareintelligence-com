@@ -15,6 +15,31 @@ describe("public claim and availability contract", () => {
     expect(featureAvailability.oscePractice.status).toBe("Coming soon");
   });
 
+  it("uses the connected .app domain for public canonical, social and sitemap URLs", () => {
+    const html = read("index.html");
+    const seo = read("src/components/SEO.tsx");
+    const landingSeo = read("src/components/public/SeoLandingPage.tsx");
+    const sitemap = read("public/sitemap.xml");
+    const robots = read("public/robots.txt");
+    const blog = read("src/pages/Blog.tsx");
+    const blogArticle = read("src/pages/BlogArticle.tsx");
+    const osce = read("src/pages/AmcClinicalOsce.tsx");
+    const mcq = read("src/pages/AmcPart1Mcq.tsx");
+
+    expect(html).toContain('<link rel="canonical" href="https://zyntrahealthcareintelligence.app/"');
+    expect(html).toContain('property="og:image" content="https://zyntrahealthcareintelligence.app/og.png"');
+    expect(html).not.toContain("https://www.zyntrahealthcareintelligence.com");
+    expect(seo).toContain("https://zyntrahealthcareintelligence.app");
+    expect(landingSeo).toContain("https://zyntrahealthcareintelligence.app");
+    expect(sitemap).toContain("<loc>https://zyntrahealthcareintelligence.app/</loc>");
+    expect(sitemap).not.toContain("zyntrahealthcareintelligence.com");
+    expect(robots).toContain("Sitemap: https://zyntrahealthcareintelligence.app/sitemap.xml");
+    expect(blog).toContain("https://zyntrahealthcareintelligence.app/blog");
+    expect(blogArticle).toContain("https://zyntrahealthcareintelligence.app");
+    expect(osce).toContain("https://zyntrahealthcareintelligence.app/amc-clinical-osce");
+    expect(mcq).toContain("https://zyntrahealthcareintelligence.app/amc-part-1-mcq");
+  });
+
   it("does not promise a readiness score or live diagnostic on public entry points", () => {
     const home = read("src/pages/Home.tsx");
     const app = read("src/App.tsx");
