@@ -283,7 +283,7 @@ The top-level changeRate is a fraction from 0 to 1; subjectStats and blockPerfor
     };
     const trapFlagsSupported = Array.isArray(classification?.trap_flags) && classification.trap_flags.every((item: any) =>
       item?.trap === "rushing_at_end" && hasRushingAtEndEvidence);
-    const unsupportedClaimPattern = /\b(?:predict(?:ed|ion)?\s+(?:(?:your|an?)\s+)?(?:exam\s+)?score|score\s+range|pass\s+(?:rate|likelihood|probability|chance|prediction)|guarantee(?:d)?\s+(?:you\s+)?(?:will\s+)?pass|you\s+will\s+pass|you\s+should\s+pass|readiness|out\s+of\s+300)\b/i;
+    const unsupportedClaimPattern = /\b(?:predict(?:ed|ion)?\s+(?:(?:your|an?)\s+)?(?:(?:AMC|exam)\s+)?score|score\s+(?:range|prediction|estimate)|pass\s+(?:score|rate|likelihood|probability|chance|prediction|percentage)|guarantee(?:d)?\s+(?:you\s+)?(?:will\s+)?pass|you\s+will\s+pass|you\s+should\s+pass|readiness|out\s+of\s+300)\b/i;
     const visibleClaimsSupported = classification
       && typeof classification.critical_finding === "string"
       && !unsupportedClaimPattern.test(classification.critical_finding)
