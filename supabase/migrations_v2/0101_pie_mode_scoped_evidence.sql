@@ -100,7 +100,7 @@ begin
       end as quality
     from pie.pie_observation o
     where o.user_id = p_user_id
-      and (o.provenance->>'practice_mode' = p_mode or o.payload->>'practice_mode' = p_mode)
+      and o.provenance->>'practice_mode' = p_mode
   )
   select
     count(*) filter (where outcome_signal is not null),
