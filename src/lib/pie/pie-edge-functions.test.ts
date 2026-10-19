@@ -95,6 +95,10 @@ describe("P5 edge functions read PIE attempts on V2", () => {
     expect(behaviorUi).not.toContain("s.type === 'unavailable' ? 'Evidence unavailable' : '✅ Stable'");
     const behaviorFn = read("supabase/functions/analyze-behavior/index.ts");
     expect(behaviorFn).toContain('a.session_mode === "normal" || a.session_mode === "normal_mcq"');
+    expect(behaviorFn).toContain("const modeAttempts = toAnalyzeAttempts(pie.rows).filter");
+    expect(behaviorFn).toContain("const attempts = modeAttempts.filter((a) =>");
+    expect(behaviorFn).toContain("a.questions.correct_answer.trim().length > 0");
+    expect(behaviorFn).toContain("No completed, verified Normal MCQ attempts found");
     expect(behaviorFn).not.toContain("Predict AMC score range");
     expect(behaviorFn).not.toContain("osceBehavioralSignalsSample");
     expect(behaviorFn).toContain("predicted_score_low: null");
@@ -108,7 +112,7 @@ describe("P5 edge functions read PIE attempts on V2", () => {
     expect(behaviorFn).toContain("Behaviour profile write failed:");
     expect(behaviorFn).toContain("const validClassification = classification");
     expect(behaviorFn).toContain("returned evidence was invalid.");
-    expect(behaviorFn).toContain("No verified Normal MCQ attempts found");
+    expect(behaviorFn).toContain("No completed, verified Normal MCQ attempts found");
     expect(behaviorFn).toContain("Behaviour analysis is temporarily unavailable.");
     expect(behaviorFn).toContain('"Access-Control-Allow-Methods": "POST, OPTIONS"');
     expect(behaviorFn).not.toContain("JSON.stringify({ error: pie.error })");
