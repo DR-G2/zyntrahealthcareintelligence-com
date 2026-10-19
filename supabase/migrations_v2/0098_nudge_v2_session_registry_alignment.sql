@@ -1,5 +1,5 @@
 -- Restore Nudge session creation to the deployed V2 schema.
--- The V2 database has no pie.adaptive_session relation; active Nudge sessions
+-- The V2 database has no separate adaptive-session registry; active Nudge sessions
 -- are tracked by public.practice_sessions and config.mode = 'nudge'.
 -- This migration intentionally leaves save_attempt and the P12 inference path untouched.
 
