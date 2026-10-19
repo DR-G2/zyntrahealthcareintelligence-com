@@ -17,7 +17,7 @@ interface Attempt {
   selected_answer: string;
   is_correct: boolean;
   answer_changes_count: number | null;
-  time_taken_seconds: number;
+  time_taken_seconds: number | null;
   created_at: string;
   questions: {
     question_text: string;
@@ -196,7 +196,7 @@ export function MCQReviewQueue() {
                     </div>
                     <p className="font-medium text-sm leading-7">{q?.question_text || 'Question unavailable'}</p>
                     <div className="flex flex-wrap items-center gap-3 mt-2 text-xs text-muted-foreground">
-                      <span className="flex items-center gap-1"><Clock3 className="h-3 w-3" /> {row.latest.time_taken_seconds}s</span>
+                      <span className="flex items-center gap-1"><Clock3 className="h-3 w-3" /> {row.latest.time_taken_seconds === null || !Number.isFinite(row.latest.time_taken_seconds) || row.latest.time_taken_seconds < 0 ? 'Unavailable' : `${row.latest.time_taken_seconds}s`}</span>
                       <span>{row.history.length} attempt{row.history.length === 1 ? '' : 's'}</span>
                       <span>{row.incorrectCount} incorrect</span>
                       <span>Review interval: {row.intervalDays}d</span>
