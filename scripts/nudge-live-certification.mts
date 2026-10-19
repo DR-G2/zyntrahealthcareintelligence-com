@@ -35,7 +35,7 @@ async function target(u: User) {
   return Array.isArray(r.data) ? r.data[0] : r.data;
 }
 async function runNudge(u: User, expectedLoId: string) {
-  const created = await rpc(u, "create_my_nudge_session", { p_count: 3 });
+  const created = await rpc(u, "create_my_nudge_session", { p_count: 10 });
   const session = Array.isArray(created.data) ? created.data[0] : created.data;
   check(`${u.label}: fixed Nudge session created`, !created.error && !!session?.session_id,
     created.error?.message ?? `count=${session?.question_count ?? 0}`);
@@ -148,18 +148,29 @@ async function discoverUntouchedMappedCandidates(u: User): Promise<Fixture[]> {
 async function ensureMappedEvidence(u: User) {
   const current = await target(u);
   if (current?.status === "READY" && Number(current.eligible_question_count) >= 3 && current.lo_key) {
-    const sessions = await u.db.from("practice_sessions").select("id,config,status,completed_at,started_at").eq("user_id", u.id).eq("status", "completed");
+    const sessions = await u.db.from("practice_sessions")
+      .select("id,config,status,completed_at,started_at")
+      .eq("user_id", u.id).eq("status", "completed");
     if (sessions.error) throw new Error(`${u.label}: cannot inspect prior seed sessions: ${sessions.error.message}`);
+    const attempts = await u.db.from("user_attempts")
+      .select("session_id,question_id,provenance")
+      .eq("user_id", u.id);
+    if (attempts.error) throw new Error(`${u.label}: cannot verify seed provenance: ${attempts.error.message}`);
+    const seededSessionIds = new Set((attempts.data ?? [])
+      .filter((a: any) => a.provenance?.source === "nudge-live-certification")
+      .map((a: any) => a.session_id).filter(Boolean));
     const existing = (sessions.data ?? [])
-      .filter((s: any) => s.config?.source === "nudge-live-certification" && s.config?.purpose === "mapped-evidence-seed")
+      .filter((s: any) => seededSessionIds.has(s.id) && s.config?.mode === "nudge" &&
+        ["nudge-cold-start-v1", "nudge-gap-v1"].includes(s.config?.selector))
       .sort((a: any, b: any) => String(b.completed_at ?? b.started_at ?? "").localeCompare(String(a.completed_at ?? a.started_at ?? "")))[0];
     check(`${u.label}: existing certification evidence supports READY target`, !!existing,
-      existing ? `target=${current.lo_key}; prior seed provenance found` : "no provenance-tagged seed session");
+      existing ? `target=${current.lo_key}; authoritative Nudge session and attempt provenance found` : "no completed Nudge session with certification-attempt provenance");
     if (!existing) throw new Error("READY target has no matching certification seed; refusing to treat unrelated history as a fixture.");
     const qr = await rpc(u, "get_practice_session_questions", { p_session_id: existing.id });
     const questions = (qr.data ?? []) as Array<Record<string, any>>;
-    check(`${u.label}: prior dynamic seed batch recoverable`, !qr.error && questions.length === 3, qr.error?.message ?? `count=${questions.length}`);
-    if (qr.error || questions.length !== 3) throw new Error("Could not recover the existing seed batch.");
+    check(`${u.label}: prior Nudge evidence batch recoverable`, !qr.error && questions.length >= 3,
+      qr.error?.message ?? `count=${questions.length}`);
+    if (qr.error || questions.length < 3) throw new Error("Could not recover the existing seed batch.");
     return { session: existing, questions, fixture: { loKey: current.lo_key, questionIds: questions.map(q => q.question_id) } };
   }
   return seedMappedEvidence(u);
@@ -170,7 +181,7 @@ async function seedMappedEvidence(u: User) {
   // pie.question_lo + active LO + current AMC blueprint eligibility + quarantine
   // rules, so this certification never guesses question-to-LO mappings.
   let lastSeed: { session: any; questions: Array<Record<string, any>> } | null = null;
-  const maxSessions = 20; // bounded: at most 60 disposable-account attempts
+  const maxSessions = 20; // bounded: at most 200 disposable-account attempts
   for (let batch = 1; batch <= maxSessions; batch++) {
     const current = await target(u);
     if (current?.status === "READY" && Number(current.eligible_question_count) >= 3 && current.lo_key) {
@@ -196,9 +207,9 @@ async function seedMappedEvidence(u: User) {
     }
     const qr = await rpc(u, "get_practice_session_questions", { p_session_id: session.session_id });
     const questions = (qr.data ?? []) as Array<Record<string, any>>;
-    check(`${u.label}: authoritative Nudge seed questions served`, !qr.error && questions.length === 3,
+    check(`${u.label}: authoritative Nudge seed questions served`, !qr.error && questions.length >= 3,
       qr.error?.message ?? `count=${questions.length}; batch=${batch}`);
-    if (qr.error || questions.length !== 3) throw new Error("Authoritative Nudge seed session did not return exactly three questions.");
+    if (qr.error || questions.length < 3) throw new Error("Authoritative Nudge seed session returned fewer than three questions.");
     check(`${u.label}: seed answer key withheld`,
       questions.every(q => !Object.prototype.hasOwnProperty.call(q, "correct_answer") && q.explanation == null),
       `batch=${batch}`);
@@ -223,7 +234,7 @@ async function seedMappedEvidence(u: User) {
       }
       saved++;
     }
-    check(`${u.label}: all authoritative seed attempts persisted`, saved === 3, `${saved}/3; batch=${batch}`);
+    check(`${u.label}: all authoritative seed attempts persisted`, saved === questions.length, `${saved}/${questions.length}; batch=${batch}`);
     const completed = await rpc(u, "complete_practice_session", { p_session_id: session.session_id });
     check(`${u.label}: authoritative seed session completed`, !completed.error, completed.error?.message ?? `batch=${batch}`);
     if (completed.error) throw new Error("Authoritative Nudge seed session completion failed.");
