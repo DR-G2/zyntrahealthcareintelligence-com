@@ -37,36 +37,12 @@ serve(async (req) => {
       return new Response(JSON.stringify({ error: "subscription_required" }), { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
-    // Fetch MCQ attempts, OSCE station attempts, and psychograph history in parallel
-    // P5: MCQ attempts come from V2 PIE (caller's own answered attempts only), not the legacy table.
+    // Only explicitly mode-labelled Normal MCQ attempts may enter this analysis.
     const pie = await fetchCallerPieHistory(req, user.email, 1000);
     if ("error" in pie) {
       return new Response(JSON.stringify({ error: pie.error }), { status: pie.status, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
-    const [stationRes, psychRes, behaviorDnaRes] = await Promise.all([
-      supabase
-        .from("station_attempts")
-        .select("*")
-        .eq("user_id", user.id)
-        .order("created_at", { ascending: true })
-        .limit(500),
-      supabase
-        .from("psychograph_history")
-        .select("*")
-        .eq("user_id", user.id)
-        .order("created_at", { ascending: false })
-        .limit(20),
-      supabase
-        .from("behavior_dna")
-        .select("*")
-        .eq("user_id", user.id)
-        .maybeSingle(),
-    ]);
-
     const attempts = toAnalyzeAttempts(pie.rows).filter((a) => a.session_mode === "normal" || a.session_mode === "normal_mcq");
-    const stationAttempts = stationRes.data || [];
-    const psychographs = psychRes.data || [];
-    const behaviorDna = behaviorDnaRes.data || null;
 
     if (attempts.length === 0) {
       return new Response(JSON.stringify({ error: "No verified Normal MCQ attempts found" }), { status: 404, headers: { ...corsHeaders, "Content-Type": "application/json" } });
@@ -135,38 +111,6 @@ serve(async (req) => {
     const secondHalfAvgTime = secondHalfTimes.length ? secondHalfTimes.reduce((sum, value) => sum + value, 0) / secondHalfTimes.length : null;
     const fatigueIncrease = firstHalfAvgTime !== null && firstHalfAvgTime > 0 && secondHalfAvgTime !== null ? secondHalfAvgTime / firstHalfAvgTime : null;
 
-    // ── OSCE Metrics ──
-    const osceCount = stationAttempts.length;
-    let osceAvgScore = 0;
-    let osceAvgTime = 0;
-    const osceSubjectMap: Record<string, { totalScore: number; count: number; avgTime: number; times: number[] }> = {};
-    const osceBehavioralSignals: any[] = [];
-
-    stationAttempts.forEach(sa => {
-      const scores = sa.scores as any;
-      const totalScore = typeof scores?.total === "number" ? scores.total : 0;
-      osceAvgScore += totalScore;
-      osceAvgTime += sa.time_taken_seconds || 0;
-
-      const subj = sa.subject || "Unknown";
-      if (!osceSubjectMap[subj]) osceSubjectMap[subj] = { totalScore: 0, count: 0, avgTime: 0, times: [] };
-      osceSubjectMap[subj].totalScore += totalScore;
-      osceSubjectMap[subj].count++;
-      osceSubjectMap[subj].times.push(sa.time_taken_seconds || 0);
-
-      if (sa.behavioral_signals && Object.keys(sa.behavioral_signals as any).length > 0) {
-        osceBehavioralSignals.push(sa.behavioral_signals);
-      }
-    });
-
-    if (osceCount > 0) {
-      osceAvgScore = Math.round(osceAvgScore / osceCount);
-      osceAvgTime = Math.round(osceAvgTime / osceCount);
-    }
-    Object.values(osceSubjectMap).forEach(s => {
-      s.avgTime = s.times.reduce((a, b) => a + b, 0) / s.times.length;
-    });
-
     // ── Trust Your Gut Metrics (from change_sequence in user_attempts) ──
     const attemptsWithChanges = attempts.filter(a => a.answer_changes_count > 0 && Array.isArray(a.change_sequence) && (a.change_sequence as any[]).length > 0);
     let firstInstinctCorrect = 0;
@@ -182,21 +126,6 @@ serve(async (req) => {
     });
     const firstInstinctAccuracy = attemptsWithChanges.length > 0 ? Math.round((firstInstinctCorrect / attemptsWithChanges.length) * 100) : null;
     const pointsLostFromChanges = correctToWrong;
-
-    // ── Psychograph summary ──
-    let psychographSummary: any = null;
-    if (psychographs.length > 0) {
-      const latest = psychographs[0];
-      psychographSummary = {
-        archetype: latest.archetype,
-        cognitive_stability: latest.cognitive_stability,
-        emotional_reactivity: latest.emotional_reactivity,
-        silence_tolerance: latest.silence_tolerance,
-        delegation_confidence: latest.delegation_confidence,
-        structure_integrity: latest.structure_integrity,
-        time_compression_vulnerability: latest.time_compression_vulnerability,
-      };
-    }
 
     // Build unified signals
     const signals = {
@@ -219,8 +148,6 @@ serve(async (req) => {
       // Trust Your Gut
     };
 
-    const populationPrompt = "";
-
     // AI classification
     const aiResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
@@ -233,9 +160,7 @@ serve(async (req) => {
         messages: [
           {
             role: "system",
-            content: `You are an MCQ practice behaviour analyst. Describe patterns supported by explicitly labelled Normal MCQ attempts only. Do not combine OSCE, Nudge, AMC Exam mode, or Trust Your Gut aggregates. If a metric is null or unavailable, do not infer or replace it. Do not predict exam scores, pass likelihood, or clinical readiness.${populationPrompt}
-
-Archetypes:
+            content: `You are an MCQ practice behaviour analyst. Describe patterns supported by explicitly labelled Normal MCQ attempts only. Do not combine OSCE, Nudge, AMC Exam mode, or Trust Your Gut aggregates. If a metric is null or unavailable, do not infer or replace it. Do not predict exam scores, pass likelihood, or clinical readiness.Archetypes:
 - panic_changer: 3+ avg changes, final answer different from first instinct, time >3 min avg
 - rusher: Time <45 seconds avg, no changes, often incorrect on hard questions
 - paralyzer: Time >5 min average, very slow decisions (pause data is unavailable and must not be inferred)
