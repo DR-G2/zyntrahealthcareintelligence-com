@@ -32,6 +32,7 @@ jobs:
       - name: Production build
         run: npm run build
       - name: P21.2 decision-trace integrity
+        if: github.event_name != 'pull_request'
         env:
           V2_URL: ${{ secrets.ZYNTRA_V2_URL }}
           V2_PUBLISHABLE_KEY: ${{ secrets.ZYNTRA_V2_PUBLISHABLE_KEY }}
@@ -40,6 +41,7 @@ jobs:
           PIE_TEST_PASSWORD: ${{ secrets.PIE_TEST_PASSWORD }}
         run: npx vite-node scripts/pie-p21-2-decision-trace-integrity.mts
       - name: P21.1 regression certification
+        if: github.event_name != 'pull_request'
         env:
           V2_URL: ${{ secrets.ZYNTRA_V2_URL }}
           V2_PUBLISHABLE_KEY: ${{ secrets.ZYNTRA_V2_PUBLISHABLE_KEY }}
@@ -48,6 +50,7 @@ jobs:
           PIE_TEST_PASSWORD: ${{ secrets.PIE_TEST_PASSWORD }}
         run: npx vite-node scripts/pie-p21-1-telemetry-integrity.mts
       - name: P20 regression certification
+        if: github.event_name != 'pull_request'
         env:
           V2_URL: ${{ secrets.ZYNTRA_V2_URL }}
           V2_PUBLISHABLE_KEY: ${{ secrets.ZYNTRA_V2_PUBLISHABLE_KEY }}
