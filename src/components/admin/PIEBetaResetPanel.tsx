@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { AlertTriangle, Database, Loader2, RefreshCw, ShieldCheck, Trash2 } from 'lucide-react';
+import { AlertTriangle, Database, Loader2, RefreshCw, ShieldCheck, Trash2, UserPlus } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 type ResetMode = 'pie_only' | 'full_candidate';
@@ -24,7 +24,32 @@ export function PIEBetaResetPanel() {
   const [confirmation, setConfirmation] = useState('');
   const [loadingPreview, setLoadingPreview] = useState(false);
   const [executing, setExecuting] = useState(false);
+  const [candidateUserId, setCandidateUserId] = useState('');
+  const [candidateReason, setCandidateReason] = useState('');
+  const [registering, setRegistering] = useState(false);
   const { toast } = useToast();
+
+  const registerSyntheticCandidate = async () => {
+    if (!candidateUserId.trim() || candidateReason.trim().length < 10 || candidateReason.trim().length > 300) return;
+    setRegistering(true);
+    try {
+      const { data, error } = await (supabase as any).rpc('admin_register_synthetic_candidate', {
+        p_user_id: candidateUserId.trim(),
+        p_reason: candidateReason.trim(),
+      });
+      if (error) throw error;
+      if (!data?.success) throw new Error('The server did not confirm registration.');
+      toast({ title: 'Synthetic candidate registered', description: 'The account is now eligible for reset previews. Re-run preview to calculate the current impact.' });
+      setCandidateUserId('');
+      setCandidateReason('');
+      setPreview(null);
+      setConfirmation('');
+    } catch (e: any) {
+      toast({ title: 'Registration blocked', description: e?.message ?? 'Unknown error', variant: 'destructive' });
+    } finally {
+      setRegistering(false);
+    }
+  };
 
   const runPreview = async () => {
     setLoadingPreview(true);
@@ -74,10 +99,23 @@ export function PIEBetaResetPanel() {
           <Badge variant="outline" className="border-warning/40 text-warning">Destructive · Super admin</Badge>
         </CardTitle>
         <p className="text-xs text-muted-foreground">
-          Preview row counts first. The server checks super-administrator access, requires a typed phrase, rechecks the preview fingerprint, and writes an audit record. Only profiles explicitly marked is_synthetic=true are eligible; missing synthetic markers block the reset. User accounts and question-bank content are preserved.
+          Preview row counts first. The server checks super-administrator access, requires a typed phrase, rechecks the preview fingerprint, and writes an audit record. Only accounts explicitly registered in the server-controlled synthetic-candidate registry are eligible. Registration requires an existing disposable account ID and a documented reason. User accounts and question-bank content are preserved.
         </p>
       </CardHeader>
       <CardContent className="space-y-4">
+        <div className="space-y-3 rounded-md border border-border/70 p-3">
+          <div className="flex items-center gap-2 text-sm font-semibold"><UserPlus className="h-4 w-4" />Register a disposable candidate</div>
+          <p className="text-xs text-muted-foreground">Only register an account you have explicitly provisioned for synthetic testing. This does not create an account. Never register a real learner. The server validates super-admin access and records who registered the account and why.</p>
+          <Input aria-label="Disposable candidate user UUID" value={candidateUserId} onChange={e => setCandidateUserId(e.target.value)} autoComplete="off" placeholder="Existing auth.users / profiles UUID" />
+          <Input aria-label="Registration reason" value={candidateReason} onChange={e => setCandidateReason(e.target.value)} autoComplete="off" placeholder="Reason, e.g. disposable PIE beta cohort 2026-10" maxLength={300} />
+          <div className="flex justify-end">
+            <Button variant="outline" onClick={registerSyntheticCandidate} disabled={registering || executing || loadingPreview || !candidateUserId.trim() || candidateReason.trim().length < 10 || candidateReason.trim().length > 300}>
+              {registering ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <UserPlus className="mr-2 h-4 w-4" />}
+              Register existing account
+            </Button>
+          </div>
+        </div>
+
         <div className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto]">
           <Select value={mode} onValueChange={(value) => { setMode(value as ResetMode); setPreview(null); setConfirmation(''); }}>
             <SelectTrigger aria-label="Reset scope"><SelectValue /></SelectTrigger>
@@ -95,8 +133,8 @@ export function PIEBetaResetPanel() {
         <div className="rounded-md border border-border/70 bg-muted/30 p-3 text-sm">
           <div className="mb-2 flex items-center gap-2 font-medium"><ShieldCheck className="h-4 w-4 text-primary" />{mode === 'pie_only' ? 'PIE-only reset' : 'Full candidate-data reset'}</div>
           {mode === 'pie_only'
-            ? 'Clears PIE observations, decision traces, derived candidate state and intelligence telemetry for explicitly marked synthetic candidates only. Canonical MCQ attempts and practice sessions are preserved.'
-            : 'Clears PIE evidence, canonical MCQ attempts, practice-session membership and practice sessions for explicitly marked synthetic candidates only. Real candidates and accounts are excluded.'}
+            ? 'Clears PIE observations, decision traces, derived candidate state and intelligence telemetry for explicitly registered synthetic candidates only. Canonical MCQ attempts and practice sessions are preserved.'
+            : 'Clears PIE evidence, canonical MCQ attempts, practice-session membership and practice sessions for explicitly registered synthetic candidates only. Real candidates and accounts are excluded.'}
         </div>
 
         {preview && (
