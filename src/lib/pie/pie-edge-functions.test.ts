@@ -30,6 +30,12 @@ describe("P5 edge functions read PIE attempts on V2", () => {
     expect(toFlashcardSources([row(0, true)])).toEqual([]);
   });
 
+  it("Trust Your Gut renders unavailable changed-answer metrics without dereferencing null", () => {
+    const src = read("src/pages/TrustYourGut.tsx");
+    expect(src).toContain("stats.firstInstinctAccuracy === null ? 'Unavailable'");
+    expect(src).toContain("stats.finalAccuracy === null ? 'Unavailable'");
+  });
+
   it("V2 identity must match the V1 caller", () => {
     expect(sameLearner("A@x.com", "a@x.com ")).toBe(true);
     expect(sameLearner("a@x.com", "b@x.com")).toBe(false);
