@@ -474,7 +474,7 @@ export default function TrustYourGut() {
                         <span className="font-mono text-xs text-slate-400">{row.changeRate === null ? 'Unavailable' : `${row.changeRate.toFixed(1)}%`}</span>
                       </div>
                       <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/[0.06]">
-                        <div className="h-full rounded-full bg-gradient-to-r from-purple-400 to-cyan-300" style={{ width: `${Math.min(100, row.changeRate ?? 0)}%` }} />
+                        {row.changeRate !== null && <div className="h-full rounded-full bg-gradient-to-r from-purple-400 to-cyan-300" style={{ width: `${Math.min(100, row.changeRate)}%` }} />}
                       </div>
                       <p className="mt-1 text-[10px] text-slate-600">{row.attempts} attempts · {row.changeEvidenceCount} with recorded change counts · {row.pointsLost === null ? 'correct-to-wrong unavailable' : `${row.pointsLost} correct-to-wrong`} · {row.eligibleAttempts} with completed answer keys</p>
                     </div>
