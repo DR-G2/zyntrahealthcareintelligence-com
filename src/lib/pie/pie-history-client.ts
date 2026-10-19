@@ -73,7 +73,8 @@ export async function fetchPieAttemptHistory(
   }
   const { data, error } = await deps.rpc('get_my_attempt_history', args);
   if (error) throw new Error(error.message || 'History could not be loaded.');
-  return (data as PieHistoryRow[]) || [];
+  if (!Array.isArray(data)) throw new Error('History response malformed.');
+  return data as PieHistoryRow[];
 }
 
 /** Newest first (order: 'asc' for oldest first). */
