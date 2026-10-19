@@ -38,7 +38,7 @@ export interface StateEvidence {
 }
 export interface SafeAttempt {
   id: string; subjectId: string | null; subject: string; correct: boolean; answerKeyAvailable?: boolean;
-  confidence: number | null; seconds: number | null; changes: number; at: string; sessionMode?: string | null;
+  confidence: number | null; seconds: number | null; changes: number | null; at: string; sessionMode?: string | null;
 }
 export interface ActionEvidence { title: string; reason: string; subjectId: string | null; at: string | null; sessionMode?: string | null; }
 export interface IntelligenceEvidence {
@@ -87,8 +87,9 @@ export function mapState(value: unknown): StateEvidence | null {
 export function safeAttempt(row: PieHistoryRow): SafeAttempt {
   return { id: row.attempt_id, subjectId: row.subject_id, subject: row.subject_name ?? 'Uncategorised', correct: row.is_correct, answerKeyAvailable: row.correct_answer !== null && row.correct_answer !== undefined, 
     confidence: typeof row.confidence_level === 'number' && row.confidence_level >= 1 && row.confidence_level <= 5 ? row.confidence_level : null,
-    seconds: typeof row.time_taken_seconds === 'number' && row.time_taken_seconds >= 0 ? row.time_taken_seconds : null,
-    changes: row.answer_changes_count ?? 0, at: row.created_at, sessionMode: row.session_mode ?? null };
+    seconds: typeof row.time_taken_seconds === 'number' && Number.isFinite(row.time_taken_seconds) && row.time_taken_seconds >= 0 ? row.time_taken_seconds : null,
+    changes: typeof row.answer_changes_count === 'number' && Number.isSafeInteger(row.answer_changes_count) && row.answer_changes_count >= 0 ? row.answer_changes_count : null,
+    at: row.created_at, sessionMode: row.session_mode ?? null };
 }
 export function historySummary(rows: SafeAttempt[]) {
   const unique = [...new Map(rows.map(row => [row.id, row])).values()];
@@ -96,7 +97,8 @@ export function historySummary(rows: SafeAttempt[]) {
   const confidenceRows = scored.filter(row => row.confidence !== null);
   const timed = unique.filter(row => row.seconds !== null);
   return { rows: unique, count: unique.length, scoredCount: scored.length, accuracy: scored.length ? scored.filter(row => row.correct).length / scored.length * 100 : null,
-    confidenceCount: confidenceRows.length, changed: unique.filter(row => row.changes > 0).length,
+    confidenceCount: confidenceRows.length, changeEvidenceCount: unique.filter(row => row.changes !== null).length,
+    changed: unique.filter(row => row.changes !== null && row.changes > 0).length,
     highConfidenceErrors: confidenceRows.filter(row => Number(row.confidence) >= 4 && !row.correct).length,
     lowConfidenceCorrect: confidenceRows.filter(row => Number(row.confidence) <= 2 && row.correct).length,
     meanSeconds: timed.length ? timed.reduce((sum, row) => sum + Number(row.seconds), 0) / timed.length : null,
