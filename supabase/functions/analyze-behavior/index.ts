@@ -240,6 +240,29 @@ Do not infer personality, motivation, clinical competence, causation, exam score
       });
     }
 
+    const allowedArchetypes = new Set(["panic_changer", "rusher", "paralyzer", "strategist", "fatigue_victim", "subject_avoider"]);
+    const validClassification = classification
+      && typeof classification === "object"
+      && allowedArchetypes.has(classification.archetype)
+      && typeof classification.critical_finding === "string"
+      && Array.isArray(classification.trap_flags)
+      && classification.trap_flags.every((item: any) => item
+        && typeof item.trap === "string"
+        && typeof item.description === "string"
+        && ["low", "medium", "high"].includes(item.severity))
+      && Array.isArray(classification.recommendations)
+      && classification.recommendations.every((item: any) => item
+        && typeof item.title === "string"
+        && typeof item.description === "string"
+        && ["high", "medium", "low"].includes(item.priority));
+
+    if (!validClassification) {
+      return new Response(JSON.stringify({ error: "Behaviour classification unavailable; returned evidence was invalid." }), {
+        status: 502,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
     // Upsert behavior_profiles
     const profileData = {
       user_id: user.id,
