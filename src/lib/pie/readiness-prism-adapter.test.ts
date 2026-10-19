@@ -63,6 +63,12 @@ describe("Readiness Prism presentation adapter", () => {
       estimate: null, uncertainty: null, lower: null, upper: null, evidenceCount: null, estimateAligned: false,
     });
     expect(layer.dimensions.find(item => item.dimension === "capability")?.estimate).toBeNull();
+
+    input.value.sessionMode = "nudge";
+    const mismatchedMode = authoritativePrismLayer(input, "normal_mcq");
+    expect(mismatchedMode.dimensions.find(item => item.dimension === "timing")).toMatchObject({
+      estimate: null, evidenceCount: null,
+    });
   });
 
   it("withholds estimates when estimate-alignment provenance is missing", () => {
