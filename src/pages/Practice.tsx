@@ -746,7 +746,7 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
           }}
           className="sticky bottom-4 z-10 min-h-12 w-full gap-2 sm:static sm:w-auto"
         >
-          <Zap className="h-4 w-4" /> {primary === 'nudge' ? 'Start targeted Nudge' : primary === 'mock' ? 'Start mock exam' : 'Start drill'}
+          <Zap className="h-4 w-4" /> {primary === 'nudge' ? 'Start Nudge' : primary === 'mock' ? 'Start mock exam' : 'Start drill'}
         </Button>
       </div>
     </AppLayout>
