@@ -77,5 +77,8 @@ describe("P5 edge functions read PIE attempts on V2", () => {
     expect(behaviorFn).toContain("const validClassification = classification");
     expect(behaviorFn).toContain("returned evidence was invalid.");
     expect(behaviorFn).toContain("No verified Normal MCQ attempts found");
+    expect(behaviorFn).toContain("Behaviour analysis is temporarily unavailable.");
+    expect(behaviorFn).not.toContain("JSON.stringify({ error: pie.error })");
+    expect(behaviorFn).not.toContain("e instanceof Error ? e.message");
   });
 });
