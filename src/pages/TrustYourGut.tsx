@@ -37,7 +37,7 @@ interface AttemptWithQuestion {
   answer_changes_count: number;
   change_sequence: string[];
   created_at: string;
-  session_id: string;
+  session_id: string | null;
   session_mode: string;
   questions: {
     correct_answer: string;
@@ -83,7 +83,7 @@ export default function TrustYourGut() {
 
   // Compute stats within the selected practice mode only.
   const stats = useMemo(() => {
-    const attemptsWithChanges = modeAttempts.filter(a => a.answer_changes_count > 0 && a.change_sequence.length > 0);
+    const attemptsWithChanges = modeAttempts.filter(a => a.answer_changes_count > 0 && a.change_sequence.length > 0 && !!a.questions?.correct_answer);
     
     let firstInstinctCorrect = 0;
     let finalCorrect = 0;
@@ -148,7 +148,7 @@ export default function TrustYourGut() {
       const entry = categoryMap.get(category)!;
       entry.attempts++;
       
-      if (a.answer_changes_count > 0 && a.change_sequence.length > 0) {
+      if (a.answer_changes_count > 0 && a.change_sequence.length > 0 && !!a.questions?.correct_answer) {
         entry.changes++;
         const firstAnswer = a.change_sequence[0];
         const correctAnswer = a.questions?.correct_answer;
@@ -173,11 +173,11 @@ export default function TrustYourGut() {
   const trendData = useMemo(() => {
     const sessionMap = new Map<string, { firstCorrect: number; finalCorrect: number; total: number; date: string }>();
     
-    modeAttempts.forEach(a => {
-      if (!sessionMap.has(a.session_id)) {
-        sessionMap.set(a.session_id, { firstCorrect: 0, finalCorrect: 0, total: 0, date: a.created_at.split('T')[0] });
+    modeAttempts.filter(a => !!a.session_id && !!a.questions?.correct_answer).forEach(a => {
+      if (!sessionMap.has(a.session_id!)) {
+        sessionMap.set(a.session_id!, { firstCorrect: 0, finalCorrect: 0, total: 0, date: a.created_at.split('T')[0] });
       }
-      const session = sessionMap.get(a.session_id)!;
+      const session = sessionMap.get(a.session_id!)!;
       session.total++;
       
       if (a.is_correct) session.finalCorrect++;
