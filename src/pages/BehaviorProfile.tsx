@@ -45,10 +45,10 @@ const UNKNOWN_ARCHETYPE: ArchetypeMeta = {
 
 const ARCHETYPE_META: Record<string, ArchetypeMeta> = {
   panic_changer: {
-    label: 'Frequent Answer Changes',
+    label: 'Answer Changes Observed',
     icon: RefreshCw,
     color: 'hsl(var(--destructive))',
-    description: 'The recorded attempts show a higher rate of answer changes. This is an observation of response behaviour, not a personality label.',
+    description: 'The eligible sample contains recorded answer changes. This describes the telemetry and does not establish why an answer changed.',
   },
   rusher: {
     label: 'Fast Response Pattern',
