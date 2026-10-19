@@ -75,7 +75,7 @@ function hasConsistentChangeSequence(a: AttemptWithQuestion): boolean {
 
 function hasValidChangeEvidence(a: AttemptWithQuestion): boolean {
   if (a.answer_changes_count === null) return false;
-  if (a.answer_changes_count === 0) return a.change_sequence.length === 0;
+  if (a.answer_changes_count === 0) return a.change_sequence.length === 0 || (a.change_sequence.length === 1 && answersMatch(a.change_sequence[0], a.selected_answer));
   return hasConsistentChangeSequence(a);
 }
 
@@ -215,7 +215,7 @@ export default function TrustYourGut() {
       if (hasConsistentChangeSequence(a)) {
         session.firstTotal++;
         if (answersMatch(a.change_sequence[0], a.questions?.correct_answer)) session.firstCorrect++;
-      } else if (a.answer_changes_count === 0 && a.change_sequence.length === 0) {
+      } else if (a.answer_changes_count === 0 && hasValidChangeEvidence(a)) {
         // No recorded changes and no sequence, so first = final.
         session.firstTotal++;
         if (a.is_correct) session.firstCorrect++;
