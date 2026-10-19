@@ -95,41 +95,70 @@ async function runNudge(u: User, expectedLoId: string) {
 }
 
 
-type Fixture = { loKey: string; questionIds: string[] };
-const FIXTURES: Fixture[] = [
-  { loKey: "WOMENS_HEALTH.EARLY_PREGNANCY.ECTOPIC_WH", questionIds: [
-    "dde2f165-265d-4e2f-b0c1-d341518592fc", "d2bb4a03-0412-4164-b611-b0642c65c0fc",
-    "f2e847f0-9ba5-47f4-bf55-68d0850c63eb", "e5460a6c-285f-45f7-b297-3ee7c52889c8",
-    "7a782765-6126-4c5e-acef-17c99a511195", "ac91f6e3-ce01-44ae-8c22-9caeb70def12"
-  ]},
-  { loKey: "WOMENS_HEALTH.EARLY_PREGNANCY.MISCARRIAGE", questionIds: [
-    "a5d4574b-8ec4-4a94-b161-ddb870bae651", "b621f550-4997-43e0-8259-47d17dbf91e1",
-    "dabc4966-da00-4f9a-9116-e3b33979444c", "a6f226ba-8b6e-4429-a1c3-2241af4455af",
-    "28aa313a-6bd2-413c-8e60-4896c9e4dea0", "64829158-834f-4c42-9b65-fc366a7b79c5"
-  ]},
-  { loKey: "WOMENS_HEALTH.GYNAE_EMERG.OVARIAN_TORSION", questionIds: [
-    "3f1c562e-42eb-4fbe-89fa-ae7a820e8165", "940b9f25-06b6-4d6a-b2e2-92222e75e159",
-    "8bc1fe63-6287-4ebf-9f71-3b05587b2703", "94ec44ff-fff1-4fc1-a6d8-947071a45583",
-    "6830838e-b352-48ac-b781-b4ebce68fdea", "d173cf27-d46a-4580-a6d5-0f93969d2147"
-  ]},
-  { loKey: "WOMENS_HEALTH.GYNAE_EMERG.VULVAL", questionIds: [
-    "a3cc4e8d-8792-40a2-9643-308778d4f6a8", "8f824ba5-2af0-496b-8144-e8e60f410a02",
-    "5d31c4fe-4651-44d9-9dd1-102b5c98a7b8", "7005463c-52ab-4bd6-82b6-f66d5f73aa9f",
-    "36bc72f7-1ba9-49f0-a349-cf8934974554", "56638b5e-5c5b-4266-b226-c93b13bd4c2e"
-  ]}
-];
+type Fixture = { loKey: string; questionIds: string[]; subtopicId?: string | null; subjectId?: string | null };
+
+type CandidateQuestion = { id: string; subtopic_id: string | null; subject_id: string | null; zyntra_id?: string | null };
+
+async function discoverUntouchedMappedCandidates(u: User): Promise<Fixture[]> {
+  // Question-to-LO mappings and blueprint eligibility are intentionally private to the
+  // pie/amc schemas. Discover only public active question IDs here; the authoritative
+  // get_my_nudge_target() response below is the gate that proves mapped evidence and
+  // at least three eligible unseen questions. Never assume subtopic == LO.
+  const qr = await u.db.from("questions")
+    .select("id,subtopic_id,subject_id,zyntra_id")
+    .eq("status", "active")
+    .limit(5000);
+  if (qr.error) throw new Error(`${u.label}: cannot discover active certification candidates: ${qr.error.message}`);
+  const rows = (qr.data ?? []) as CandidateQuestion[];
+  if (!rows.length) throw new Error("No active public questions are available for Nudge certification.");
+
+  const ids = rows.map(q => q.id).filter((id): id is string => !!id);
+  const attempted = new Set<string>();
+  // Query in bounded chunks to avoid URL-size limits and preserve user-scoped RLS.
+  for (let i = 0; i < ids.length; i += 100) {
+    const batch = ids.slice(i, i + 100);
+    const ar = await u.db.from("user_attempts").select("question_id").eq("user_id", u.id).in("question_id", batch);
+    if (ar.error) throw new Error(`${u.label}: cannot safely inspect prior attempts: ${ar.error.message}`);
+    for (const a of ar.data ?? []) attempted.add(a.question_id);
+  }
+
+  const fresh = rows.filter(q => q.id && !attempted.has(q.id));
+  const groups = new Map<string, CandidateQuestion[]>();
+  for (const q of fresh) {
+    // Prefer tight content clusters. Subject-only groups are a fallback, but all
+    // candidates are revalidated by the authoritative target RPC after seeding.
+    const groupKey = q.subtopic_id ? `subtopic:${q.subtopic_id}`
+      : q.subject_id ? `subject:${q.subject_id}` : "";
+    if (!groupKey) continue;
+    const group = groups.get(groupKey) ?? [];
+    group.push(q);
+    groups.set(groupKey, group);
+  }
+  return [...groups.entries()]
+    .filter(([, group]) => group.length >= 3)
+    .sort((a, b) => b[1].length - a[1].length)
+    .map(([key, group]) => ({
+      loKey: key,
+      questionIds: group.slice(0, 3).map(q => q.id),
+      subtopicId: key.startsWith("subtopic:") ? key.slice("subtopic:".length) : null,
+      subjectId: key.startsWith("subject:") ? key.slice("subject:".length) : null,
+    }));
+}
 
 async function ensureMappedEvidence(u: User) {
   const current = await target(u);
   if (current?.status === "READY" && Number(current.eligible_question_count) >= 3 && current.lo_key) {
-    const sessions = await u.db.from("practice_sessions").select("id,config,status").eq("user_id", u.id).eq("status", "completed");
+    const sessions = await u.db.from("practice_sessions").select("id,config,status,completed_at,started_at").eq("user_id", u.id).eq("status", "completed");
     if (sessions.error) throw new Error(`${u.label}: cannot inspect prior seed sessions: ${sessions.error.message}`);
-    const existing = (sessions.data ?? []).find((s: any) => s.config?.source === "nudge-live-certification" && s.config?.purpose === "mapped-evidence-seed" && s.config?.lo_key === current.lo_key);
-    check(`${u.label}: reuses seed fixture for current READY objective`, !!existing, existing ? current.lo_key : "no matching provenance-tagged seed session");
-    if (!existing) throw new Error("READY target has no matching certification seed; refusing to add competing evidence.");
+    const existing = (sessions.data ?? [])
+      .filter((s: any) => s.config?.source === "nudge-live-certification" && s.config?.purpose === "mapped-evidence-seed")
+      .sort((a: any, b: any) => String(b.completed_at ?? b.started_at ?? "").localeCompare(String(a.completed_at ?? a.started_at ?? "")))[0];
+    check(`${u.label}: existing certification evidence supports READY target`, !!existing,
+      existing ? `target=${current.lo_key}; prior seed provenance found` : "no provenance-tagged seed session");
+    if (!existing) throw new Error("READY target has no matching certification seed; refusing to treat unrelated history as a fixture.");
     const qr = await rpc(u, "get_practice_session_questions", { p_session_id: existing.id });
     const questions = (qr.data ?? []) as Array<Record<string, any>>;
-    check(`${u.label}: prior seed question batch recoverable`, !qr.error && questions.length === 3, qr.error?.message ?? `count=${questions.length}`);
+    check(`${u.label}: prior dynamic seed batch recoverable`, !qr.error && questions.length === 3, qr.error?.message ?? `count=${questions.length}`);
     if (qr.error || questions.length !== 3) throw new Error("Could not recover the existing seed batch.");
     return { session: existing, questions, fixture: { loKey: current.lo_key, questionIds: questions.map(q => q.question_id) } };
   }
@@ -137,54 +166,73 @@ async function ensureMappedEvidence(u: User) {
 }
 
 async function seedMappedEvidence(u: User) {
-  // Use only a fully untouched six-question fixture. Never overwrite or reset existing candidate history.
-  let fixture: Fixture | undefined;
-  for (const candidate of FIXTURES) {
-    const existing = await u.db.from("user_attempts").select("question_id").in("question_id", candidate.questionIds);
-    if (existing.error) throw new Error(`${u.label}: cannot safely inspect fixture usage: ${existing.error.message}`);
-    if ((existing.data ?? []).length === 0) { fixture = candidate; break; }
-  }
-  check(`${u.label}: unused mapped fixture available`, !!fixture,
-    fixture?.loKey ?? "all predefined fixture groups already contain attempts");
-  if (!fixture) throw new Error("No untouched certification fixture remains; refusing to reuse candidate question history.");
+  // Dynamic, bounded candidate discovery. Each batch uses only active questions not
+  // previously attempted by this disposable identity. The authoritative selector
+  // must confirm a READY mapped gap before this fixture is accepted.
+  const candidates = await discoverUntouchedMappedCandidates(u);
+  check(`${u.label}: dynamic candidate groups discovered`, candidates.length > 0,
+    `${candidates.length} untouched subtopic/subject groups`);
+  if (!candidates.length) throw new Error("No untouched candidate groups remain; refusing to reuse question history.");
 
-  const created = await rpc(u, "create_practice_session", {
-    p_session_type: "nudge-live-certification-seed",
-    p_config: { source: "nudge-live-certification", purpose: "mapped-evidence-seed", lo_key: fixture.loKey },
-    p_question_ids: fixture.questionIds.slice(0, 3),
-  });
-  const session = Array.isArray(created.data) ? created.data[0] : created.data;
-  check(`${u.label}: mapped-evidence seed session created`, !created.error && !!session?.id,
-    created.error?.message ?? `session=${session?.id ?? "none"}`);
-  if (created.error || !session?.id) throw new Error("Could not create mapped-evidence seed session.");
-
-  const qr = await rpc(u, "get_practice_session_questions", { p_session_id: session.id });
-  const questions = (qr.data ?? []) as Array<Record<string, any>>;
-  check(`${u.label}: three mapped seed questions served`, !qr.error && questions.length === 3,
-    qr.error?.message ?? `count=${questions.length}`);
-  if (qr.error || questions.length !== 3) throw new Error("Seed session did not return exactly three questions.");
-
-  let saved = 0;
-  for (const q of questions) {
-    const result = await rpc(u, "save_attempt", {
-      p_question_id: q.question_id, p_session_id: session.id, p_selected_answer: "B", p_is_correct: false,
-      p_time_taken_seconds: 19, p_confidence_level: 2, p_answer_changes_count: 0, p_time_to_first_click: 5,
-      p_change_sequence: ["B"], p_pause_events: [], p_time_of_day: "nudge-live-certification",
-      p_question_position: q.question_position, p_previous_question_correct: null,
-      p_question_version: q.version ?? null, p_app_version: "nudge-live-certification",
-      p_provenance: { source: "nudge-live-certification", candidate: u.label, purpose: "mapped-evidence-seed", fixture: fixture.loKey },
+  for (const fixture of candidates.slice(0, 12)) {
+    const created = await rpc(u, "create_practice_session", {
+      p_session_type: "nudge-live-certification-seed",
+      p_config: {
+        source: "nudge-live-certification",
+        purpose: "mapped-evidence-seed",
+        candidate_group: fixture.loKey,
+        subtopic_id: fixture.subtopicId ?? null,
+        subject_id: fixture.subjectId ?? null,
+      },
+      p_question_ids: fixture.questionIds,
     });
-    if (result.error || !result.data?.id) {
-      check(`${u.label}: seed attempt saved through authoritative RPC`, false, result.error?.message ?? "attempt not persisted");
-      throw new Error("Mapped evidence seed attempt failed; refusing to continue.");
+    const session = Array.isArray(created.data) ? created.data[0] : created.data;
+    check(`${u.label}: dynamic seed session created`, !created.error && !!session?.id,
+      created.error?.message ?? `group=${fixture.loKey}; session=${session?.id ?? "none"}`);
+    if (created.error || !session?.id) continue;
+
+    const qr = await rpc(u, "get_practice_session_questions", { p_session_id: session.id });
+    const questions = (qr.data ?? []) as Array<Record<string, any>>;
+    check(`${u.label}: three dynamic seed questions served`, !qr.error && questions.length === 3,
+      qr.error?.message ?? `count=${questions.length}`);
+    if (qr.error || questions.length !== 3) throw new Error("Seed session did not return exactly three questions.");
+
+    let saved = 0;
+    for (const q of questions) {
+      const result = await rpc(u, "save_attempt", {
+        p_question_id: q.question_id, p_session_id: session.id, p_selected_answer: "B", p_is_correct: false,
+        p_time_taken_seconds: 19, p_confidence_level: 2, p_answer_changes_count: 0, p_time_to_first_click: 5,
+        p_change_sequence: ["B"], p_pause_events: [], p_time_of_day: "nudge-live-certification",
+        p_question_position: q.question_position, p_previous_question_correct: null,
+        p_question_version: q.version ?? null, p_app_version: "nudge-live-certification",
+        p_provenance: {
+          source: "nudge-live-certification", candidate: u.label, purpose: "mapped-evidence-seed",
+          candidate_group: fixture.loKey,
+        },
+      });
+      if (result.error || !result.data?.id) {
+        check(`${u.label}: seed attempt saved through authoritative RPC`, false, result.error?.message ?? "attempt not persisted");
+        throw new Error("Mapped evidence seed attempt failed; refusing to continue.");
+      }
+      saved++;
     }
-    saved++;
+    check(`${u.label}: all dynamic seed attempts persisted`, saved === 3, `${saved}/3`);
+    const completed = await rpc(u, "complete_practice_session", { p_session_id: session.id });
+    check(`${u.label}: dynamic seed session completed`, !completed.error, completed.error?.message ?? "");
+    if (completed.error) throw new Error("Seed session completion failed.");
+
+    const current = await target(u);
+    if (current?.status === "READY" && Number(current.eligible_question_count) >= 3 && current.lo_key) {
+      check(`${u.label}: authoritative selector confirms mapped READY evidence`, true,
+        `lo=${current.lo_key}; eligible_unseen=${current.eligible_question_count}; seed_group=${fixture.loKey}`);
+      return { session, questions, fixture: { ...fixture, loKey: current.lo_key } };
+    }
+    console.log(`INFO  ${u.label}: seed group ${fixture.loKey} did not establish a supported READY target; continuing without resetting history.`);
   }
-  check(`${u.label}: all seed attempts persisted`, saved === 3, `${saved}/3`);
-  const completed = await rpc(u, "complete_practice_session", { p_session_id: session.id });
-  check(`${u.label}: seed session completed`, !completed.error, completed.error?.message ?? "");
-  if (completed.error) throw new Error("Seed session completion failed.");
-  return { session, questions, fixture };
+
+  check(`${u.label}: dynamic seed establishes supported READY target`, false,
+    "12 candidate groups exhausted; no READY target with >=3 eligible unseen questions");
+  throw new Error("Dynamic certification candidates did not establish a supported READY target; refusing to fabricate mapping evidence.");
 }
 
 async function main() {
