@@ -85,6 +85,7 @@ export function PieDrillSession({ config, resumeSessionId, onFinish }: {
   const totalSeconds = config.mode === 'full-mock' ? 210 * 60 : target * 60;
   const [questions, setQuestions] = useState<PieSessionQuestion[]>([]);
   const [nudgeTarget, setNudgeTarget] = useState<NudgeSessionTarget | null>(null);
+  const [primaryMode, setPrimaryMode] = useState<'drill' | 'nudge' | 'mock'>(config.primaryMode ?? 'drill');
   const [index, setIndex] = useState(0);
   const [selected, setSelected] = useState<Record<number, string>>({});
   const [sequence, setSequence] = useState<Record<number, string[]>>({});
@@ -104,12 +105,12 @@ export function PieDrillSession({ config, resumeSessionId, onFinish }: {
   const timesRef = useRef<Record<number, number>>({});
   const finishingRef = useRef(false);
 
-  const persistResumePointer = useCallback(async (sessionId: string, qs: PieSessionQuestion[]) => {
+  const persistResumePointer = useCallback(async (sessionId: string, qs: PieSessionQuestion[], target?: NudgeSessionTarget | null) => {
     if (!user) return;
     try {
       await supabase.from('active_sessions').upsert({
         user_id: user.id, session_id: localIdRef.current, session_type: 'mcq',
-        config: { ...config, v2SessionId: sessionId, selector: 'pie' } as never,
+        config: { ...config, v2SessionId: sessionId, selector: 'pie', nudgeTarget: target ?? null } as never,
         question_ids: qs.map(q => q.question_id), updated_at: new Date().toISOString(),
       } as never, { onConflict: 'session_id' });
     } catch (e) { console.warn('[PIE] resume pointer not saved', e); }
@@ -122,18 +123,24 @@ export function PieDrillSession({ config, resumeSessionId, onFinish }: {
         let qs: PieSessionQuestion[];
         if (resumeSessionId && user) {
           const { data } = await supabase.from('active_sessions').select('config').eq('session_id', resumeSessionId).eq('user_id', user.id).single();
-          const v2Id = (data?.config as Record<string, unknown> | null)?.v2SessionId;
+          const storedConfig = (data?.config as Record<string, unknown> | null) ?? {};
+          const v2Id = storedConfig.v2SessionId;
+          if (storedConfig.primaryMode === 'nudge' || storedConfig.primaryMode === 'drill' || storedConfig.primaryMode === 'mock') {
+            setPrimaryMode(storedConfig.primaryMode);
+          }
+          const storedTarget = storedConfig.nudgeTarget as NudgeSessionTarget | null | undefined;
+          if (storedTarget?.loId && storedTarget.loTitle) setNudgeTarget(storedTarget);
           // Hard failure, never a silent fresh/legacy fallback.
           if (typeof v2Id !== 'string') throw new Error('This session cannot be resumed. Please start a new one.');
           sessionRef.current = v2Id;
           qs = await resumePieSession(v2Id);
         } else {
-          if (config.primaryMode === 'nudge') {
+          if (primaryMode === 'nudge') {
             const started = await startNudgeSession(target);
             sessionRef.current = started.sessionId;
             qs = started.questions;
             setNudgeTarget(started.target);
-            await persistResumePointer(started.sessionId, qs);
+            await persistResumePointer(started.sessionId, qs, started.target);
           } else {
             const started = await startPieSession(target);
             sessionRef.current = started.sessionId;
@@ -199,7 +206,8 @@ export function PieDrillSession({ config, resumeSessionId, onFinish }: {
         timeOfDay: new Date().toISOString(), questionPosition: q.question_position,
         questionVersion: q.version ?? null,
         provenance: {
-          source: 'practice-pie', mode: config.mode, entry: 'mcq_drill',
+          source: 'practice-pie', mode: primaryMode === 'nudge' ? 'nudge' : config.mode,
+          entry: primaryMode === 'nudge' ? 'nudge' : 'mcq_drill',
           ruled_out_final: ruledOut[index] || [], rule_out_events: ruleEventsRef.current[index] || [],
         },
       });
@@ -231,7 +239,7 @@ export function PieDrillSession({ config, resumeSessionId, onFinish }: {
       });
       const r = resultsToQuestions(results);
       let nudgeOutcome: NudgeOutcome | null = null;
-      if (config.primaryMode === 'nudge' && nudgeTarget) {
+      if (primaryMode === 'nudge' && nudgeTarget) {
         try {
           const followUp = await getNudgeProgress(nudgeTarget.loId);
           nudgeOutcome = {
@@ -262,7 +270,7 @@ export function PieDrillSession({ config, resumeSessionId, onFinish }: {
       if (status === 'no-answer') { toast({ title: 'Choose an answer first' }); return; }
       if (status === 'no-confidence') return;
       if (index + 1 < questions.length) { setIndex(index + 1); shownAtRef.current = Date.now(); return; }
-      if (config.primaryMode !== 'nudge' && questions.length < target && sessionRef.current) {
+      if (primaryMode !== 'nudge' && questions.length < target && sessionRef.current) {
         const q = await nextPieQuestion(sessionRef.current);
         if (q) { setQuestions(prev => [...prev, q]); setIndex(index + 1); shownAtRef.current = Date.now(); return; }
       }
@@ -300,12 +308,12 @@ export function PieDrillSession({ config, resumeSessionId, onFinish }: {
 
   const q = questions[index];
   const options = Array.isArray(q?.options) ? (q.options as string[]) : [];
-  const isLast = index + 1 >= questions.length && (config.primaryMode === 'nudge' || questions.length >= target);
+  const isLast = index + 1 >= questions.length && (primaryMode === 'nudge' || questions.length >= target);
   const mm = `${Math.floor(remaining / 60)}:${String(remaining % 60).padStart(2, '0')}`;
 
   const isMock = config.mode === 'full-mock';
-  const modeLabel = config.primaryMode === 'nudge' ? 'Nudge · Targeted learning objective' : isMock ? 'Full Mock Exam' : config.mode === 'recharge' ? 'MCQ Drill · With option change' : 'MCQ Drill · No option change';
-  const shownTotal = config.primaryMode === 'nudge' && questions.length > 0 ? questions.length : Math.max(questions.length, target);
+  const modeLabel = primaryMode === 'nudge' ? 'Nudge · Targeted learning objective' : isMock ? 'Full Mock Exam' : config.mode === 'recharge' ? 'MCQ Drill · With option change' : 'MCQ Drill · No option change';
+  const shownTotal = primaryMode === 'nudge' && questions.length > 0 ? questions.length : Math.max(questions.length, target);
   const lowTime = isMock && remaining <= 600;
 
   const questionNavigation = (className: string) => (
@@ -343,7 +351,7 @@ export function PieDrillSession({ config, resumeSessionId, onFinish }: {
   return (
     <AppLayout>
       <div className="mx-auto max-w-3xl space-y-4 pb-[calc(10rem+env(safe-area-inset-bottom))] pt-2 md:pb-6">
-        {config.primaryMode === 'nudge' && nudgeTarget && (
+        {primaryMode === 'nudge' && nudgeTarget && (
           <Card className="border-primary/25 bg-primary/5"><CardContent className="p-4 space-y-1">
             <p className="text-xs font-semibold uppercase tracking-wide text-primary">Nudge target · evidence-backed</p>
             <p className="font-semibold">{nudgeTarget.loTitle}</p>
