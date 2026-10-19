@@ -157,7 +157,7 @@ async function ensureMappedEvidence(u: User) {
       .eq("user_id", u.id);
     if (attempts.error) throw new Error(`${u.label}: cannot verify seed provenance: ${attempts.error.message}`);
     const seededSessionIds = new Set((attempts.data ?? [])
-      .filter((a: any) => a.provenance?.source === "nudge-live-certification")
+      .filter((a: any) => a.provenance?.source === "nudge-live-certification" && a.provenance?.purpose === "authoritative-nudge-evidence-seed")
       .map((a: any) => a.session_id).filter(Boolean));
     const existing = (sessions.data ?? [])
       .filter((s: any) => seededSessionIds.has(s.id) && s.config?.mode === "nudge" &&
