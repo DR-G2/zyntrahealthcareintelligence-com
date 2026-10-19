@@ -38,8 +38,8 @@ describe("Nudge targeted-session contract", () => {
   });
 
   it("keeps server grading and PIE telemetry on the existing attempt path", () => {
-    expect(migration).not.toMatch(/create or replace function public\\.save_attempt/i);
-    expect(migration).not.toMatch(/create or replace function pie\\.rebuild_authoritative_inference/i);
+    expect(migration).not.toContain("create or replace function public.save_attempt");
+    expect(migration).not.toContain("create or replace function pie.rebuild_authoritative_inference");
     expect(session).toContain("submitPieAnswer");
     expect(session).toContain("confidenceLevel: conf");
     expect(session).toContain("changeSequence: sequence[index] || [answer]");
