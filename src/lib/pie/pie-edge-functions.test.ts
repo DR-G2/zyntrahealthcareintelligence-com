@@ -56,6 +56,11 @@ describe("P5 edge functions read PIE attempts on V2", () => {
     expect(behaviorFn).not.toContain("osceBehavioralSignalsSample");
     expect(behaviorFn).toContain("predicted_score_low: null");
     expect(behaviorFn).toContain("avgTime: s.avgTime === null ? null : Math.round(s.avgTime)");
+    expect(behaviorFn).not.toContain('from("station_attempts")');
+    expect(behaviorFn).not.toContain('from("psychograph_history")');
+    expect(behaviorFn).not.toContain('from("behavior_dna")');
+    expect(behaviorFn).not.toContain("Multiple pauses, re-reads");
+    expect(behaviorFn).not.toContain("visible stress markers");
     expect(behaviorFn).toContain("No verified Normal MCQ attempts found");
   });
 });
