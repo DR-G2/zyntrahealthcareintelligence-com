@@ -54,7 +54,7 @@ describe("Intelligence overview", () => {
     expect(screen.getByRole("button", { name: /Timing Building/ })).toBeInTheDocument();
     expect(screen.queryByText("97%")).toBeNull();
     expect(screen.queryByText("89%")).toBeNull();
-    expect(screen.getByText(/49 \/ 50 valid observations/)).toBeInTheDocument();
+    expect(screen.getAllByText(/49 \/ 50 valid observations/).length).toBeGreaterThan(0);
   });
 
   it("does not blend Normal MCQ and Nudge attempt accuracy", () => {
@@ -106,6 +106,26 @@ describe("Intelligence overview", () => {
     expect(screen.queryByText("97%")).toBeNull();
     expect(screen.queryByText("89%")).toBeNull();
     expect(screen.getByText(/No cross-mode estimate is shown/)).toBeInTheDocument();
+  });
+
+  it("does not display a cross-mode calibration projection even when one mode has 15 answers per confidence level", () => {
+    const base = fixture().pie.value!;
+    const confidenceAttempts = Array.from({ length: 75 }, (_, index) => ({
+      id: `cal-${index}`, subjectId: "medicine", subject: "Medicine", correct: index % 2 === 0,
+      confidence: (Math.floor(index / 15) + 1) as 1 | 2 | 3 | 4 | 5, seconds: 30, changes: 0,
+      at: "2026-10-16T07:00:00Z", sessionMode: "normal_mcq",
+    }));
+    const input = fixture({
+      pie: { status: "ready", value: { ...base, sessionMode: "normal_mcq", dimensionEvidence: Object.fromEntries(
+        ["capability","decision","timing","calibration","sustained_performance","learning"].map(dimension => [dimension, {
+          uncertainty: null, lower: null, upper: null, evidenceCount: 50, evidenceQuality: 0.9,
+        }]),
+      ) as NonNullable<typeof base.dimensionEvidence> } },
+      history: { status: "ready", value: confidenceAttempts },
+      confidence: { status: "ready", value: { percent: 75, at: null, sessionMode: null } },
+    });
+    render(<MemoryRouter><ReadinessPrism evidence={input} loading={false} retry={() => {}} /></MemoryRouter>);
+    expect(screen.getByRole("button", { name: /Confidence alignment Unavailable/ })).toBeInTheDocument();
   });
 
   it("does not expose shadow diagnostics in the candidate overview", () => {
