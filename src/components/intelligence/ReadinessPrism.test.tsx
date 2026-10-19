@@ -90,6 +90,8 @@ describe("Intelligence overview", () => {
     render(<MemoryRouter><ReadinessPrism evidence={input} loading={false} retry={() => {}} /></MemoryRouter>);
     expect(screen.getByText(/No attempts with verified Normal MCQ provenance are available yet/)).toBeInTheDocument();
     expect(screen.getByText(/Unclassified sessions are excluded rather than guessed/)).toBeInTheDocument();
+    expect(screen.getByText(/No subject evidence is available for this mode yet/)).toBeInTheDocument();
+    expect(screen.getByText(/Only attempts with verified mode provenance are included/)).toBeInTheDocument();
   });
 
   it("permits a dimension value at exactly 50 valid observations", () => {
