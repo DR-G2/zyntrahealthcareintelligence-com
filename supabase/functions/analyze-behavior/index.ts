@@ -155,7 +155,7 @@ serve(async (req) => {
 - strategist: only when changeRate and avgTime are available and at least two blocks have valid timing and change-rate evidence; elimination behaviour is not supplied, and do not label this optimal
 - fatigue_victim: only when fatigueIncrease is at least 1.4 (a 40% increase over baseline) and later-block changeRate is greater than the early block; if those signals are unavailable, do not classify
 - subject_avoider: only when at least two subjectStats entries show an observed accuracy or timing difference; stress markers are not supplied
-- unavailable: use when the required signals for a supported archetype are absent
+- unavailable: use when the required signals for a supported archetype are absent; return no trap flags or recommendations because no pattern-specific intervention is supported
 
 Trap flags:
 - rushing_at_end is the only supported trap flag, and only when Q1-20 and Q41-60 both have valid timing and accuracy, with the later block faster and less accurate
@@ -281,7 +281,7 @@ The top-level changeRate is a fraction from 0 to 1; subjectStats and blockPerfor
       && typeof classification.critical_finding === "string"
       && Array.isArray(classification.trap_flags)
       && trapFlagsSupported
-      && (classification.archetype !== "unavailable" || classification.trap_flags.length === 0)
+      && (classification.archetype !== "unavailable" || (classification.trap_flags.length === 0 && classification.recommendations.length === 0))
       && classification.trap_flags.every((item: any) => item
         && typeof item.trap === "string"
         && typeof item.description === "string"
