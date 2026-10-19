@@ -111,9 +111,13 @@ serve(async (req) => {
     }
 
     // Fatigue detection
-    const halfPoint = Math.floor(timedAttempts.length / 2);
-    const firstHalfTimes = timedAttempts.slice(0, halfPoint).map((a) => a.time_taken_seconds as number);
-    const secondHalfTimes = timedAttempts.slice(halfPoint).map((a) => a.time_taken_seconds as number);
+    // Fatigue is a within-session comparison, never a comparison across separate sessions.
+    const latestSessionTimedAttempts = (latestSession ?? []).filter((a) =>
+      typeof a.time_taken_seconds === "number" && Number.isFinite(a.time_taken_seconds) && a.time_taken_seconds >= 0
+    );
+    const halfPoint = Math.floor(latestSessionTimedAttempts.length / 2);
+    const firstHalfTimes = latestSessionTimedAttempts.slice(0, halfPoint).map((a) => a.time_taken_seconds as number);
+    const secondHalfTimes = latestSessionTimedAttempts.slice(halfPoint).map((a) => a.time_taken_seconds as number);
     const firstHalfAvgTime = firstHalfTimes.length ? firstHalfTimes.reduce((sum, value) => sum + value, 0) / firstHalfTimes.length : null;
     const secondHalfAvgTime = secondHalfTimes.length ? secondHalfTimes.reduce((sum, value) => sum + value, 0) / secondHalfTimes.length : null;
     const fatigueIncrease = firstHalfAvgTime !== null && firstHalfAvgTime > 0 && secondHalfAvgTime !== null ? secondHalfAvgTime / firstHalfAvgTime : null;
