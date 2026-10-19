@@ -86,8 +86,8 @@ interface BehaviorData {
   session_mode?: string | null;
   archetype: string;
   archetype_signals: any;
-  block_performance: Record<string, { accuracy: number; avgTime: number; changeRate: number }>;
-  subject_patterns: Record<string, { accuracy: number; changeRate: number; avgTime: number; total: number; type: string }>;
+  block_performance: Record<string, { accuracy: number; avgTime: number | null; changeRate: number }>;
+  subject_patterns: Record<string, { accuracy: number; changeRate: number; avgTime: number | null; total: number; type: string }>;
   trap_flags: Array<{ trap: string; description: string; severity: string }>;
   recommendations: Array<{ title: string; description: string; priority: string; action_link?: string }>;
 }
