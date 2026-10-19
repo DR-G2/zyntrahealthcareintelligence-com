@@ -326,7 +326,7 @@ export default function BehaviorProfile() {
                         </div>
                         <span className="text-sm font-mono w-12 text-right">{s.accuracy}%</span>
                         <Badge variant="outline" className="text-xs w-24 justify-center">
-                          {s.type === 'behavioral' ? '🧠 Behavioral' : s.type === 'knowledge' ? '📚 Knowledge' : s.type === 'unavailable' ? 'Evidence unavailable' : '✅ Stable'}
+                          {s.type === 'behavioral' ? '🧠 Behavioral' : s.type === 'knowledge' ? '📚 Knowledge' : s.type === 'stable' ? '✅ Stable' : 'Pattern unavailable'}
                         </Badge>
                       </div>
                     ))}
