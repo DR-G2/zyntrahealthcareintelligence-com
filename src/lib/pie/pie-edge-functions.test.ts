@@ -109,7 +109,9 @@ describe("P5 edge functions read PIE attempts on V2", () => {
     expect(behaviorUi).toContain("s.type === 'stable' ? '✅ Stable' : 'Pattern unavailable'");
     expect(behaviorUi).not.toContain("s.type === 'unavailable' ? 'Evidence unavailable' : '✅ Stable'");
     const behaviorFn = read("supabase/functions/analyze-behavior/index.ts");
-    expect(behaviorFn).toContain('a.session_mode === "normal" || a.session_mode === "normal_mcq"');
+    const historyShared = read("supabase/functions/_shared/pie-v2-history.ts");
+    expect(historyShared).toContain('attempt.session_mode === "normal" || attempt.session_mode === "normal_mcq"');
+    expect(historyShared).toContain("attempt.questions.correct_answer.trim().length > 0");
     expect(behaviorFn).toContain("toCompletedNormalMcqAttempts(pie.rows)");
     expect(behaviorFn).toContain("signals.avgTime < 45");
     expect(behaviorFn).toContain("signals.fatigueIncrease >= 1.4");
