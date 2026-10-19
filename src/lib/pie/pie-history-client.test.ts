@@ -62,9 +62,12 @@ describe("P5 learner history (PIE attempts only)", () => {
 
   it("does not coerce malformed answer-change entries into fake answer strings", () => {
     expect(toLegacyAttempt(row(0, { change_sequence: [{ option: "A" }, "B"] })).change_sequence).toEqual([]);
+    expect(toLegacyAttempt(row(0, { change_sequence: [{ option: "A" }, "B"] })).change_sequence_valid).toBe(false);
     expect(toLegacyAttempt(row(0, { change_sequence: null })).change_sequence).toEqual([]);
+    expect(toLegacyAttempt(row(0, { change_sequence: null, answer_changes_count: 0 })).change_sequence_valid).toBe(true);
     expect(toLegacyAttempt(row(0, { change_sequence: ["", "A"] })).change_sequence).toEqual([]);
     expect(toLegacyAttempt(row(0, { change_sequence: ["B", "A"] })).change_sequence).toEqual(["B", "A"]);
+    expect(toLegacyAttempt(row(0, { change_sequence: ["B", "A"] })).change_sequence_valid).toBe(true);
   });
 
   it("supports deployed V2 session_type values and surfaces RPC errors", async () => {
