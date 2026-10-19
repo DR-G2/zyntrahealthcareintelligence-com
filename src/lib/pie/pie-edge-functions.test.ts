@@ -34,6 +34,8 @@ describe("P5 edge functions read PIE attempts on V2", () => {
     const src = read("src/pages/TrustYourGut.tsx");
     expect(src).toContain("stats.firstInstinctAccuracy === null ? 'Unavailable'");
     expect(src).toContain("stats.finalAccuracy === null ? 'Unavailable'");
+    expect(src).toContain("a.answer_changes_count === Math.max(0, a.change_sequence.length - 1)");
+    expect(src).toContain("firstTotal > 0 ? Math.round((s.firstCorrect / s.firstTotal) * 100) : null");
   });
 
   it("V2 identity must match the V1 caller", () => {
