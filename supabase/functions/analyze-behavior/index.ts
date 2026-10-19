@@ -147,7 +147,7 @@ serve(async (req) => {
         messages: [
           {
             role: "system",
-            content: `You are an MCQ practice behaviour analyst. Describe patterns supported by explicitly labelled Normal MCQ attempts only. Do not combine OSCE, Nudge, AMC Exam mode, or Trust Your Gut aggregates. If a metric is null or unavailable, do not infer or replace it. Change rates use only valid recorded change-count observations; null means unavailable, not zero. Do not predict exam scores, pass likelihood, or clinical readiness.\n\nArchetypes:
+            content: `You are an MCQ practice behaviour analyst. Describe patterns supported by explicitly labelled Normal MCQ attempts only. Do not combine OSCE, Nudge, AMC Exam mode, or Trust Your Gut aggregates. If a metric is null or unavailable, do not infer or replace it. Change rates use only valid recorded change-count observations; null means unavailable, not zero. The top-level changeRate is a fraction from 0 to 1; subjectStats and blockPerformance changeRate values are percentages from 0 to 100. Do not predict exam scores, pass likelihood, or clinical readiness.\n\nArchetypes:
 - panic_changer: only when recorded change frequency and timing support repeated changing; first-instinct correctness is not supplied
 - rusher: only when observed response time is low and recorded accuracy supports concern; question difficulty is not supplied
 - paralyzer: Time >5 min average, very slow decisions (pause data is unavailable and must not be inferred)
