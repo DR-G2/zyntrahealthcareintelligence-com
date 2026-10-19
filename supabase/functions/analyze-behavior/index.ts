@@ -150,10 +150,10 @@ serve(async (req) => {
             role: "system",
             content: `You are an MCQ practice behaviour analyst. Describe patterns supported by explicitly labelled Normal MCQ attempts only. Do not combine OSCE, Nudge, AMC Exam mode, or Trust Your Gut aggregates. If a metric is null or unavailable, do not infer or replace it. Change rates use only valid recorded change-count observations; null means unavailable, not zero. The top-level changeRate is a fraction from 0 to 1; subjectStats and blockPerformance changeRate values are percentages from 0 to 100. Do not predict exam scores, pass likelihood, or clinical readiness.\n\nArchetypes:
 - panic_changer: only when changeRate is available and above zero, and avgTime is available; first-instinct correctness is not supplied
-- rusher: only when avgTime and correctRate are available; question difficulty is not supplied
+- rusher: only when avgTime is under 45 seconds and correctRate is available; question difficulty is not supplied, so do not claim hard-question errors
 - paralyzer: only when avgTime is greater than 300 seconds and correctRate is available; pause data is unavailable
 - strategist: only when changeRate and avgTime are available and at least two blocks have valid timing and change-rate evidence; elimination behaviour is not supplied, and do not label this optimal
-- fatigue_victim: only when fatigueIncrease is at least 0.4 (40%) and later-block changeRate is greater than the early block; if those signals are unavailable, do not classify
+- fatigue_victim: only when fatigueIncrease is at least 1.4 (a 40% increase over baseline) and later-block changeRate is greater than the early block; if those signals are unavailable, do not classify
 - subject_avoider: only when at least two subjectStats entries show an observed accuracy or timing difference; stress markers are not supplied
 - unavailable: use when the required signals for a supported archetype are absent
 
@@ -256,14 +256,14 @@ The top-level changeRate is a fraction from 0 to 1; subjectStats and blockPerfor
       || (finiteMetric(subject.avgTime) && finiteMetric(other.avgTime) && subject.avgTime !== other.avgTime)));
     const hasBlockTimingAndChangeEvidence = Object.values(blocks as Record<string, any>).filter((block: any) =>
       finiteMetric(block?.avgTime) && finiteMetric(block?.changeRate)).length >= 2;
-    const hasFatigueTrend = finiteMetric(signals.fatigueIncrease) && signals.fatigueIncrease >= 0.4
+    const hasFatigueTrend = finiteMetric(signals.fatigueIncrease) && signals.fatigueIncrease >= 1.4
       && finiteMetric(signals.changeRate) && signals.changeRate > 0
       && finiteMetric(earlyBlock?.changeRate) && finiteMetric(lateBlock?.changeRate)
       && lateBlock.changeRate > earlyBlock.changeRate;
     const archetypeHasEvidence = (archetype: string): boolean => {
       switch (archetype) {
         case "panic_changer": return finiteMetric(signals.changeRate) && signals.changeRate > 0 && finiteMetric(signals.avgTime);
-        case "rusher": return finiteMetric(signals.avgTime) && finiteMetric(signals.correctRate);
+        case "rusher": return finiteMetric(signals.avgTime) && signals.avgTime < 45 && finiteMetric(signals.correctRate);
         case "paralyzer": return finiteMetric(signals.avgTime) && signals.avgTime > 300 && finiteMetric(signals.correctRate);
         case "strategist": return finiteMetric(signals.changeRate) && signals.changeRate > 0 && finiteMetric(signals.avgTime) && hasBlockTimingAndChangeEvidence;
         case "fatigue_victim": return hasFatigueTrend;
