@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 
-const SITE_URL = 'https://www.zyntrahealthcareintelligence.com';
+const SITE_URL = 'https://zyntrahealthcareintelligence.app';
 const OG_IMAGE = `${SITE_URL}/og.png`;
 
 interface SEOProps {
