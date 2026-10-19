@@ -36,6 +36,7 @@ import { QNSTab } from '@/components/admin/QNSTab';
 import { DataPortabilityTab } from '@/components/admin/DataPortabilityTab';
 import { VisitorIntelligenceTab } from '@/components/admin/VisitorIntelligenceTab';
 import { PIEInspectionTab } from '@/components/admin/PIEInspectionTab';
+import { PIEBetaResetPanel } from '@/components/admin/PIEBetaResetPanel';
 import { Download, Globe } from 'lucide-react';
 
 import { getAdminSections } from '@/components/admin/admin-navigation';
@@ -1756,7 +1757,7 @@ export default function AdminDashboard() {
           {isSuperAdmin && <TabsContent value="data-port"><DataPortabilityTab /></TabsContent>}
           {isSuperAdmin && <TabsContent value="system"><SystemMonitorTab /></TabsContent>}
           {isSuperAdmin && <TabsContent value="logs"><ActivityLogsTab /></TabsContent>}
-          {isSuperAdmin && <TabsContent value="pie"><PIEInspectionTab /></TabsContent>}
+          {isSuperAdmin && <TabsContent value="pie"><div className="space-y-4"><PIEInspectionTab /><PIEBetaResetPanel /></div></TabsContent>}
         </Tabs>
       </div>
     </AppLayout>
