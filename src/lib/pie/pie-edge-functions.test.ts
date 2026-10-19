@@ -40,6 +40,8 @@ describe("P5 edge functions read PIE attempts on V2", () => {
     expect(src).toContain("missingChangeEvidenceCount");
     expect(src).not.toContain("(attemptsWithChangesCount / totalAttempts)");
     expect(src).toContain("answersMatch(a.change_sequence[a.change_sequence.length - 1], a.selected_answer)");
+    expect(src).toContain("a.change_sequence.length === 1 && answersMatch(a.change_sequence[0], a.selected_answer)");
+    expect(src).toContain("a.answer_changes_count === 0 && hasValidChangeEvidence(a)");
     expect(src).toContain("firstTotal > 0 ? Math.round((s.firstCorrect / s.firstTotal) * 100) : null");
     expect(src).not.toContain(">{stats.firstInstinctAccuracy.toFixed(1)}%");
     expect(src).not.toContain(">{stats.finalAccuracy.toFixed(1)}%");
