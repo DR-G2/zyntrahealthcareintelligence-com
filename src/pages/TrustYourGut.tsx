@@ -360,7 +360,7 @@ export default function TrustYourGut() {
                 </div>
               </div>
               <p className="mt-4 text-xs leading-5 text-slate-500">
-                Based on {stats.eligibleChangedAttempts} changed attempts with a completed answer key. This describes what happened after changing, not whether you should always keep your first answer.
+                Outcome classification uses {stats.eligibleChangedAttempts} of {stats.totalWithChanges} changed attempts with a completed answer key; {Math.max(0, stats.totalWithChanges - stats.eligibleChangedAttempts)} changed attempts are excluded because answer-key evidence is unavailable or inconsistent. This describes what happened after changing, not whether you should always keep your first answer.
               </p>
             </CardContent>
           </Card>
