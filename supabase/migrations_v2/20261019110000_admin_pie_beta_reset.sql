@@ -48,6 +48,7 @@ begin
       ('pie','inference_shadow','user_id','pie_only'),
       ('pie','inference_projection','user_id','pie_only'),
       ('pie','inference_state','user_id','pie_only'),
+      ('public','amc_adapter_evaluation','user_id','pie_only'),
       ('pie','pie_candidate_state','user_id','pie_only'),
       ('pie','learner_lo_state','user_id','pie_only'),
       ('pie','lo_focus','user_id','pie_only'),
@@ -81,6 +82,7 @@ begin
       ('intelligence','next_best_actions','user_id','pie_only'),
       ('intelligence','readiness_dna','user_id','pie_only'),
       ('intelligence','subject_dna','user_id','pie_only'),
+      ('public','amc_adapter_evaluation','user_id','pie_only'),
       ('public','user_attempts','user_id','full_candidate'),
       ('public','practice_session_questions','session_user','full_candidate'),
       ('public','practice_sessions','user_id','full_candidate')
