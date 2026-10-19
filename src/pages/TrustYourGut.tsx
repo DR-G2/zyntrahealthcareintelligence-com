@@ -173,7 +173,7 @@ export default function TrustYourGut() {
         eligibleAttempts: data.eligibleAttempts
       }))
       .filter(c => c.attempts >= 3 && c.changeRate > 0)
-      .sort((a, b) => b.pointsLost - a.pointsLost);
+      .sort((a, b) => (b.pointsLost ?? -1) - (a.pointsLost ?? -1));
   }, [modeAttempts]);
 
   // Trend data (last 10 sessions)
@@ -265,7 +265,7 @@ export default function TrustYourGut() {
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">First Instinct Accuracy</p>
-                  <p className="text-2xl font-bold">{stats.firstInstinctAccuracy === null ? 'Unavailable' : `${stats.firstInstinctAccuracy.toFixed(1)}%`}</p>
+                  <p className="text-2xl font-bold">{stats.firstInstinctAccuracy === null ? 'Unavailable' : `${stats.firstInstinctAccuracy === null ? 'Unavailable' : `${stats.firstInstinctAccuracy.toFixed(1)}%`}`}</p>
                 </div>
               </div>
             </CardContent>
@@ -279,7 +279,7 @@ export default function TrustYourGut() {
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Final Answer Accuracy</p>
-                  <p className="text-2xl font-bold">{stats.finalAccuracy === null ? 'Unavailable' : `${stats.finalAccuracy.toFixed(1)}%`}</p>
+                  <p className="text-2xl font-bold">{stats.finalAccuracy === null ? 'Unavailable' : `${stats.finalAccuracy === null ? 'Unavailable' : `${stats.finalAccuracy.toFixed(1)}%`}`}</p>
                 </div>
               </div>
             </CardContent>
@@ -406,7 +406,7 @@ export default function TrustYourGut() {
             </CardHeader>
             <CardContent className="space-y-5">
               <div className="rounded-2xl border border-cyan-400/10 bg-cyan-400/[0.035] p-5 text-center">
-                <p className="text-4xl font-bold text-white">{Math.abs(stats.firstInstinctAccuracy - stats.finalAccuracy).toFixed(1)}%</p>
+                <p className="text-4xl font-bold text-white">{stats.firstInstinctAccuracy === null || stats.finalAccuracy === null ? 'Unavailable' : `${Math.abs(stats.firstInstinctAccuracy - stats.finalAccuracy).toFixed(1)}%`}</p>
                 <p className="mt-2 text-sm text-slate-400">
                   difference between first-instinct and final-answer accuracy
                 </p>
