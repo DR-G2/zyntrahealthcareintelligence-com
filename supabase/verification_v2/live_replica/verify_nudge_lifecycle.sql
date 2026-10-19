@@ -3,7 +3,77 @@
 \set ON_ERROR_STOP on
 \pset footer off
 
-do $$
+-- The committed live-applied snapshot predates the LO/concept schema added later in production.
+-- Bootstrap only the minimum current schema surface required by Nudge inside this disposable DB.
+create schema if not exists pie;
+create schema if not exists amc;
+
+create table if not exists pie.concept (
+  id uuid primary key default gen_random_uuid(),
+  concept_key text not null unique,
+  title text not null,
+  description text,
+  status text not null default 'active',
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+create unique index if not exists pie_concept_key_nudge_fixture_idx on pie.concept(concept_key);
+
+create table if not exists pie.learning_objective (
+  id uuid primary key default gen_random_uuid(),
+  lo_key text not null unique,
+  concept_id uuid not null references pie.concept(id) on delete restrict,
+  title text not null,
+  description text,
+  status text not null default 'active',
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+alter table pie.learning_objective add column if not exists concept_id uuid references pie.concept(id) on delete restrict;
+alter table pie.learning_objective add column if not exists title text;
+alter table pie.learning_objective add column if not exists description text;
+alter table pie.learning_objective add column if not exists status text default 'active';
+alter table pie.learning_objective add column if not exists created_at timestamptz default now();
+alter table pie.learning_objective add column if not exists updated_at timestamptz default now();
+create unique index if not exists pie_learning_objective_lo_key_nudge_fixture_idx on pie.learning_objective(lo_key);
+
+create table if not exists pie.question_lo (
+  question_id uuid not null references public.questions(id) on delete cascade,
+  lo_id uuid not null references pie.learning_objective(id) on delete restrict,
+  is_primary boolean not null default false,
+  weight numeric not null default 1,
+  mapping_source text not null default 'manual',
+  created_at timestamptz not null default now(),
+  primary key (question_id,lo_id),
+  check (not is_primary or weight=1),
+  check (weight>0 and weight<=1),
+  check (mapping_source in ('manual','import','model_suggested_reviewed'))
+);
+alter table pie.question_lo add column if not exists is_primary boolean not null default false;
+alter table pie.question_lo add column if not exists weight numeric not null default 1;
+alter table pie.question_lo add column if not exists mapping_source text not null default 'manual';
+alter table pie.question_lo add column if not exists created_at timestamptz default now();
+
+create table if not exists amc.amc_blueprint (
+  id uuid primary key default gen_random_uuid(),
+  plugin_version_id uuid,
+  blueprint_key text not null,
+  version text not null,
+  content jsonb not null default '{}'::jsonb,
+  effective_from timestamptz,
+  effective_to timestamptz,
+  unique (blueprint_key,version)
+);
+create table if not exists amc.amc_blueprint_lo (
+  blueprint_id uuid not null references amc.amc_blueprint(id) on delete cascade,
+  lo_id uuid not null references pie.learning_objective(id) on delete restrict,
+  eligible boolean not null default false,
+  coverage_target numeric check (coverage_target is null or coverage_target between 0 and 1),
+  tie_break_rank integer,
+  primary key (blueprint_id,lo_id)
+);
+
+do $
 declare
   v_user_a constant uuid := 'aaaaaaaa-0000-0000-0000-00000000000a';
   v_user_b constant uuid := 'bbbbbbbb-0000-0000-0000-00000000000b';
