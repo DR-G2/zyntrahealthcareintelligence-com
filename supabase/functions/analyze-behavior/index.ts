@@ -286,10 +286,11 @@ The top-level changeRate is a fraction from 0 to 1; subjectStats and blockPerfor
     const unsupportedClaimPattern = /\b(?:predict(?:ed|ion)?\s+(?:(?:your|an?)\s+)?(?:exam\s+)?score|score\s+range|pass\s+(?:likelihood|probability|chance|prediction)|guarantee(?:d)?\s+(?:you\s+)?(?:will\s+)?pass|clinical\s+readiness|readiness\s+score|out\s+of\s+300)\b/i;
     const visibleClaimsSupported = classification
       && Array.isArray(classification.trap_flags)
-      && classification.trap_flags.every((item: any) => !unsupportedClaimPattern.test(item.description))
+      && classification.trap_flags.every((item: any) => typeof item?.description === "string" && !unsupportedClaimPattern.test(item.description))
       && Array.isArray(classification.recommendations)
       && classification.recommendations.every((item: any) =>
-        !unsupportedClaimPattern.test(item.title) && !unsupportedClaimPattern.test(item.description));
+        typeof item?.title === "string" && typeof item?.description === "string"
+        && !unsupportedClaimPattern.test(item.title) && !unsupportedClaimPattern.test(item.description));
     const validClassification = classification
       && typeof classification === "object"
       && allowedArchetypes.has(classification.archetype)
