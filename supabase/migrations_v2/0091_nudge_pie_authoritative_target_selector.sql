@@ -122,6 +122,19 @@ begin
     and not exists (
       select 1 from public.user_attempts ua
       where ua.user_id = v_user and ua.question_id = q.id
+    )
+    and not exists (
+      select 1 from pie.pie_question_quarantine qq
+      where qq.question_id = q.id and qq.status = 'open'
+    )
+    and exists (
+      select 1
+      from amc.amc_blueprint b
+      join amc.amc_blueprint_lo bl on bl.blueprint_id = b.id
+        and bl.lo_id = ql.lo_id and bl.eligible
+      where b.blueprint_key = 'AMC_CAT_MCQ'
+        and (b.effective_from is null or b.effective_from <= now())
+        and (b.effective_to is null or b.effective_to > now())
     );
 
   v_evidence := jsonb_build_object(
