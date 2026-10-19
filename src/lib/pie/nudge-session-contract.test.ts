@@ -39,6 +39,12 @@ describe("Nudge targeted-session contract", () => {
     // encode an unimplemented 30-second throttle as a contract requirement.
     expect(migration).not.toContain("pie.session_create_throttle");
     expect(migration).not.toContain("interval '30 seconds'");
+    // The deployed V2 schema has no pie.adaptive_session relation. Nudge
+    // session ceilings must be derived from the canonical practice_sessions row.
+    expect(migration).toContain("ps.config->>'mode' = 'nudge'");
+    expect(migration).not.toContain("pie.adaptive_session");
+    expect(coldStartMigration).toContain("ps.config->>'mode' = 'nudge'");
+    expect(coldStartMigration).not.toContain("pie.adaptive_session");
   });
 
   it("keeps server grading and PIE telemetry on the existing attempt path", () => {
@@ -68,6 +74,7 @@ describe("Nudge targeted-session contract", () => {
     expect(coldStartMigration).toContain("v_mapped_interactions >= 50");
     expect(coldStartMigration).toContain("'nudge-cold-start-v1'");
     expect(coldStartMigration).toContain("'MIXED_PRACTICE_NO_SUPPORTED_TARGET'");
+    expect(coldStartMigration).toContain("'mixed_fallback'");
     expect(coldStartMigration).toContain("public.get_my_nudge_target()");
     expect(coldStartMigration).toContain("pie.pie_question_quarantine");
     expect(coldStartMigration).toContain("b.blueprint_key = 'AMC_CAT_MCQ'");
