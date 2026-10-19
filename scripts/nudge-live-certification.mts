@@ -119,6 +119,23 @@ const FIXTURES: Fixture[] = [
   ]}
 ];
 
+async function ensureMappedEvidence(u: User) {
+  const current = await target(u);
+  if (current?.status === "READY" && Number(current.eligible_question_count) >= 3 && current.lo_key) {
+    const sessions = await u.db.from("practice_sessions").select("id,config,status").eq("user_id", u.id).eq("status", "completed");
+    if (sessions.error) throw new Error(`${u.label}: cannot inspect prior seed sessions: ${sessions.error.message}`);
+    const existing = (sessions.data ?? []).find((s: any) => s.config?.source === "nudge-live-certification" && s.config?.purpose === "mapped-evidence-seed" && s.config?.lo_key === current.lo_key);
+    check(`${u.label}: reuses seed fixture for current READY objective`, !!existing, existing ? current.lo_key : "no matching provenance-tagged seed session");
+    if (!existing) throw new Error("READY target has no matching certification seed; refusing to add competing evidence.");
+    const qr = await rpc(u, "get_practice_session_questions", { p_session_id: existing.id });
+    const questions = (qr.data ?? []) as Array<Record<string, any>>;
+    check(`${u.label}: prior seed question batch recoverable`, !qr.error && questions.length === 3, qr.error?.message ?? `count=${questions.length}`);
+    if (qr.error || questions.length !== 3) throw new Error("Could not recover the existing seed batch.");
+    return { session: existing, questions, fixture: { loKey: current.lo_key, questionIds: questions.map(q => q.question_id) } };
+  }
+  return seedMappedEvidence(u);
+}
+
 async function seedMappedEvidence(u: User) {
   // Use only a fully untouched six-question fixture. Never overwrite or reset existing candidate history.
   let fixture: Fixture | undefined;
@@ -189,7 +206,7 @@ async function main() {
     `status=${a1?.status}; reason=${a1?.reason_code}; distinct=${a1?.distinct_question_count}; eligible=${a1?.eligible_question_count}`);
 
   // B must have a fully untouched mapped fixture. Seed only through authenticated public RPCs.
-  const seed = await seedMappedEvidence(B);
+  const seed = await ensureMappedEvidence(B);
   const b1 = await target(B);
   const b2 = await target(B);
   check("B: seeded evidence reaches READY target",
