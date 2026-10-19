@@ -41,7 +41,7 @@ describe("Nudge targeted-session contract", () => {
 
   it("uses a fixed LO-scoped question set rather than global adaptive continuation", () => {
     expect(client).toContain("create_my_nudge_session");
-    expect(session).toContain("config.primaryMode !== 'nudge' && questions.length < target");
+    expect(session).toContain("primaryMode !== 'nudge' && questions.length < target");
     expect(session).toContain("startNudgeSession(target)");
   });
 
