@@ -33,7 +33,7 @@ describe("Readiness Prism presentation adapter", () => {
       capability: { uncertainty: 0.2, lower: 0.6, upper: 1, evidenceCount: 12, evidenceQuality: 0.9 },
       decision: { uncertainty: 0.3, lower: 0.4, upper: 1, evidenceCount: 9, evidenceQuality: 0.75 },
       timing: { uncertainty: null, lower: null, upper: null, evidenceCount: 0, evidenceQuality: null },
-      calibration: { uncertainty: 0.25, lower: 0.35, upper: 0.85, evidenceCount: 8, evidenceQuality: 0.8 },
+      calibration: { calibrationReady: true, confidenceLevelCounts: { '1': 15, '2': 15, '3': 15, '4': 15, '5': 15 }, uncertainty: 0.25, lower: 0.35, upper: 0.85, evidenceCount: 8, evidenceQuality: 0.8 },
       sustained_performance: { uncertainty: 0.2, lower: 0.55, upper: 0.95, evidenceCount: 12, evidenceQuality: 0.9 },
       learning: { uncertainty: 0.2, lower: 0.3, upper: 0.7, evidenceCount: 12, evidenceQuality: 0.9 },
     };
@@ -53,14 +53,14 @@ describe("Readiness Prism presentation adapter", () => {
       capability: { uncertainty: 0.2, lower: 0.6, upper: 1, evidenceCount: 12, evidenceQuality: 0.9, estimateAligned: true },
       decision: { uncertainty: 0.2, lower: 0.5, upper: 0.9, evidenceCount: 12, evidenceQuality: 0.9, estimateAligned: true },
       timing: { uncertainty: null, lower: null, upper: null, evidenceCount: 10, evidenceQuality: 0.8, estimateAligned: false },
-      calibration: { uncertainty: 0.3, lower: 0.3, upper: 0.9, evidenceCount: 8, evidenceQuality: 0.8, estimateAligned: true },
+      calibration: { calibrationReady: true, confidenceLevelCounts: { '1': 15, '2': 15, '3': 15, '4': 15, '5': 15 }, uncertainty: 0.3, lower: 0.3, upper: 0.9, evidenceCount: 8, evidenceQuality: 0.8, estimateAligned: true },
       sustained_performance: { uncertainty: 0.2, lower: 0.6, upper: 1, evidenceCount: 12, evidenceQuality: 0.9, estimateAligned: true },
       learning: { uncertainty: 0.2, lower: 0.6, upper: 1, evidenceCount: 12, evidenceQuality: 0.9, estimateAligned: true },
     };
     const layer = authoritativePrismLayer(input, "normal_mcq");
     expect(layer.status).toBe("empty");
     expect(layer.dimensions.find(item => item.dimension === "timing")).toMatchObject({
-      estimate: null, uncertainty: null, lower: null, upper: null, evidenceCount: null, estimateAligned: false,
+      estimate: null, uncertainty: null, lower: null, upper: null, evidenceCount: null, estimateAligned: null,
     });
     expect(layer.dimensions.find(item => item.dimension === "capability")?.estimate).toBeNull();
 
@@ -80,7 +80,7 @@ describe("Readiness Prism presentation adapter", () => {
       capability: { uncertainty: 0.2, lower: 0.6, upper: 1, evidenceCount: 50, evidenceQuality: 0.9 },
       decision: { uncertainty: 0.2, lower: 0.5, upper: 0.9, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
       timing: { uncertainty: 0.1, lower: 0.4, upper: 0.8, evidenceCount: 50, evidenceQuality: 0.8, estimateAligned: true },
-      calibration: { uncertainty: 0.3, lower: 0.3, upper: 0.9, evidenceCount: 50, evidenceQuality: 0.8, estimateAligned: true },
+      calibration: { calibrationReady: true, confidenceLevelCounts: { '1': 15, '2': 15, '3': 15, '4': 15, '5': 15 }, uncertainty: 0.3, lower: 0.3, upper: 0.9, evidenceCount: 50, evidenceQuality: 0.8, estimateAligned: true },
       sustained_performance: { uncertainty: 0.2, lower: 0.6, upper: 1, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
       // Keep the interval valid for the fixture estimate (0.5); production interval validation remains unchanged.
       learning: { uncertainty: 0.2, lower: 0.3, upper: 0.7, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
@@ -102,7 +102,7 @@ describe("Readiness Prism presentation adapter", () => {
       capability: { uncertainty: 0.2, lower: 0.6, upper: 1, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
       decision: { uncertainty: 0.2, lower: 0.5, upper: 0.9, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
       timing: { uncertainty: 0.1, lower: 0.4, upper: 0.8, evidenceCount: 50, evidenceQuality: 0.8, estimateAligned: true },
-      calibration: { uncertainty: 0.3, lower: 0.3, upper: 0.9, evidenceCount: 50, evidenceQuality: 0.8, estimateAligned: true },
+      calibration: { calibrationReady: true, confidenceLevelCounts: { '1': 15, '2': 15, '3': 15, '4': 15, '5': 15 }, uncertainty: 0.3, lower: 0.3, upper: 0.9, evidenceCount: 50, evidenceQuality: 0.8, estimateAligned: true },
       sustained_performance: { uncertainty: 0.2, lower: 0.6, upper: 1, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
       learning: { uncertainty: 0.2, lower: 0.3, upper: 0.7, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
     };
@@ -129,7 +129,7 @@ describe("Readiness Prism presentation adapter", () => {
       capability: { uncertainty: 0.2, lower: 0.9, upper: 0.7, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
       decision: { uncertainty: 0.2, lower: 0.5, upper: 0.9, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
       timing: { uncertainty: 0.1, lower: 0.4, upper: 0.8, evidenceCount: 50, evidenceQuality: 0.8, estimateAligned: true },
-      calibration: { uncertainty: 0.3, lower: 0.3, upper: 0.9, evidenceCount: 50, evidenceQuality: 0.8, estimateAligned: true },
+      calibration: { calibrationReady: true, confidenceLevelCounts: { '1': 15, '2': 15, '3': 15, '4': 15, '5': 15 }, uncertainty: 0.3, lower: 0.3, upper: 0.9, evidenceCount: 50, evidenceQuality: 0.8, estimateAligned: true },
       sustained_performance: { uncertainty: 0.2, lower: 0.6, upper: 1, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
       learning: { uncertainty: 0.2, lower: 0.3, upper: 0.7, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
     };
