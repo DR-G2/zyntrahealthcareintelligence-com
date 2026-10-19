@@ -60,7 +60,7 @@ export interface NudgeSessionTarget {
   loId: string | null;
   loKey: string;
   loTitle: string;
-  baselineAccuracy: number | null;
+  baselineAccuracy: number;
   baselineQuestionCount: number;
   reasonCode: string;
 }
@@ -106,7 +106,7 @@ export async function startNudgeSession(count: number, deps: PieDeps = defaultPi
       loId: row.lo_id ?? null,
       loKey: row.lo_key ?? 'MIXED_PRACTICE',
       loTitle: row.lo_title ?? 'Mixed practice · building your PIE evidence',
-      baselineAccuracy: row.baseline_accuracy == null ? null : Number(row.baseline_accuracy),
+      baselineAccuracy: row.baseline_accuracy == null ? 0 : Number(row.baseline_accuracy),
       baselineQuestionCount: Number(row.baseline_question_count),
       reasonCode: row.reason_code,
     },
