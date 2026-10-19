@@ -106,7 +106,7 @@ describe("Intelligence overview", () => {
     expect(screen.queryByText("97%")).toBeNull();
     expect(screen.queryByText("89%")).toBeNull();
     expect(screen.getAllByText("Valid observation count unavailable").length).toBeGreaterThan(0);
-    expect(screen.getByText(/No cross-mode estimate is shown/)).toBeInTheDocument();
+    expect(screen.getByText(/no cross-mode estimate is shown/i)).toBeInTheDocument();
   });
 
   it("does not display a cross-mode calibration projection even when one mode has 15 answers per confidence level", () => {
