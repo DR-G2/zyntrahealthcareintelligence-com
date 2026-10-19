@@ -1,7 +1,6 @@
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
-import { createServer, type Plugin } from 'vite';
-import react from '@vitejs/plugin-react-swc';
+import type { Plugin } from 'vite';
 
 export const MAX_PRERENDER_PAGES = 64;
 export const SITE = 'https://www.zyntrahealthcareintelligence.com';
@@ -26,6 +25,8 @@ export function seoPrerender(): Plugin {
     name: 'zyntra-public-prerender',
     apply: 'build',
     async generateBundle(_options, bundle) {
+      const { createServer } = await import('vite');
+      const { default: react } = await import('@vitejs/plugin-react-swc');
       const index = bundle['index.html'];
       if (!index || index.type !== 'asset') throw new Error('Build HTML unavailable');
       const template = String(index.source);
