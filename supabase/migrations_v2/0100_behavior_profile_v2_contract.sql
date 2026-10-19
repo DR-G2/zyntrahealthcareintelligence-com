@@ -28,6 +28,8 @@ create policy behavior_profiles_select_own
   using (user_id = auth.uid());
 
 grant usage on schema intelligence to authenticated, service_role;
+grant usage on schema command to service_role;
+grant select on command.manual_overrides to service_role;
 revoke all on intelligence.behavior_profiles from public, anon;
 grant select on intelligence.behavior_profiles to authenticated;
 grant select, insert, update on intelligence.behavior_profiles to service_role;

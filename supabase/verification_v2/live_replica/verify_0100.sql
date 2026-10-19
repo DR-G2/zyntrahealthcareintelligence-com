@@ -13,5 +13,6 @@ select public.t_assert(has_table_privilege('authenticated','intelligence.behavio
 select public.t_assert(not has_table_privilege('authenticated','intelligence.behavior_profiles','insert'), '0100 learners cannot write profiles');
 select public.t_assert(has_table_privilege('service_role','intelligence.behavior_profiles','insert')
   and has_table_privilege('service_role','intelligence.behavior_profiles','update'), '0100 trusted service can write profiles');
+select public.t_assert(has_table_privilege('service_role','command.manual_overrides','select'), '0100 trusted service can verify manual entitlements');
 select public.t_assert((select reloptions @> array['security_invoker=true'] from pg_class where oid='public.my_behavior_profile'::regclass), '0100 view uses invoker security');
 \echo 'ALL 0100 BEHAVIOUR CONTRACT ASSERTIONS PASSED'
