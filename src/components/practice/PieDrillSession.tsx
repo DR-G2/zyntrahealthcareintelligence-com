@@ -85,7 +85,7 @@ export function PieDrillSession({ config, resumeSessionId, onFinish }: {
   const totalSeconds = config.mode === 'full-mock' ? 210 * 60 : target * 60;
   const [questions, setQuestions] = useState<PieSessionQuestion[]>([]);
   const [nudgeTarget, setNudgeTarget] = useState<NudgeSessionTarget | null>(null);
-  const [primaryMode, setPrimaryMode] = useState<'drill' | 'nudge' | 'mock'>(config.primaryMode ?? 'drill');
+  const [primaryMode, setPrimaryMode] = useState<'drill' | 'nudge' | 'mock'>(config.primaryMode ?? (config.mode === 'full-mock' ? 'mock' : 'drill'));
   const [index, setIndex] = useState(0);
   const [selected, setSelected] = useState<Record<number, string>>({});
   const [sequence, setSequence] = useState<Record<number, string[]>>({});
@@ -142,7 +142,7 @@ export function PieDrillSession({ config, resumeSessionId, onFinish }: {
             setNudgeTarget(started.target);
             await persistResumePointer(started.sessionId, qs, started.target);
           } else {
-            const started = await startPieSession(target, undefined, primaryMode === 'mock' ? 'mock_practice' : 'normal_mcq');
+            const started = await startPieSession(target, undefined, primaryMode === 'mock' || config.mode === 'full-mock' ? 'amc_exam' : 'normal_mcq');
             sessionRef.current = started.sessionId;
             qs = started.questions;
             await persistResumePointer(started.sessionId, qs);
