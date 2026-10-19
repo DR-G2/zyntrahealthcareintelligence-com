@@ -6,6 +6,7 @@ const migration = readFileSync(
   resolve(__dirname, "../../../supabase/migrations_v2/0091_nudge_pie_authoritative_target_selector.sql"),
   "utf8",
 );
+const executableSql = migration.replace(/--.*$/gm, "");
 
 describe("Nudge ↔ PIE selector contract (static)", () => {
   it("uses server-saved attempts and primary active LO mappings", () => {
@@ -16,7 +17,7 @@ describe("Nudge ↔ PIE selector contract (static)", () => {
   });
 
   it("does not consume heuristic mastery or shadow inference", () => {
-    expect(migration).not.toMatch(/mastery_mean|mastery_lcb|inference_shadow|adaptive_policy_shadow/i);
+    expect(executableSql).not.toMatch(/mastery_mean|mastery_lcb|inference_shadow|adaptive_policy_shadow/i);
   });
 
   it("has explicit safe outcomes and no unmapped fallback", () => {
