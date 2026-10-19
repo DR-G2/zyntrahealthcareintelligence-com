@@ -22,7 +22,7 @@ const SYN_ATTEMPT = uuid(500);
 const REAL_ATTEMPT = uuid(501);
 const special = new Set([
   'public.user_attempts', 'public.practice_sessions', 'public.practice_session_questions',
-  'public.amc_adapter_evaluation', 'pie.pie_observation', 'pie.attempt_lo',
+  'public.amc_adapter_evaluation', 'pie.pie_observation', 'pie.attempt_lo', 'pie.decision_trace',
   'pie.pie_inference_run', 'pie.pie_candidate_state', 'pie.pie_state_uncertainty',
   'pie.pie_decision_candidate', 'pie.pie_decision', 'pie.pie_decision_outcome',
   'pie.pie_runtime_decision', 'pie.pie_dwig_candidate', 'pie.pie_dwig_evaluation',
@@ -95,6 +95,21 @@ create table public.user_attempts (
 create table public.practice_session_questions (
   id uuid primary key, session_id uuid not null references public.practice_sessions(id) on delete cascade
 );
+create function public.test_forbid_attempt_delete() returns trigger language plpgsql as $fn$
+begin
+  if coalesce(current_setting('pie.erase_user', true), '') = old.user_id::text then return old; end if;
+  raise exception 'user_attempts is append-only' using errcode = '55000';
+end $fn$;
+create trigger test_user_attempts_append_only before delete on public.user_attempts
+  for each row execute function public.test_forbid_attempt_delete();
+create table pie.decision_trace (decision_id uuid primary key, learner_id uuid not null);
+create function pie.test_forbid_trace_delete() returns trigger language plpgsql as $fn$
+begin
+  if coalesce(current_setting('pie.erase_user', true), '') = old.learner_id::text then return old; end if;
+  raise exception 'decision_trace is append-only' using errcode = '55000';
+end $fn$;
+create trigger test_decision_trace_append_only before delete on pie.decision_trace
+  for each row execute function pie.test_forbid_trace_delete();
 create table pie.pie_inference_run (id uuid primary key, user_id uuid not null);
 create table pie.pie_candidate_state (
   id uuid primary key, user_id uuid not null,
@@ -151,7 +166,7 @@ const genericDdl = genericTables.map((t) => {
   const column = t.scope === 'user_id' ? 'user_id' : ({
     attempt_user: 'attempt_id', session_user: 'session_id', intervention_user: 'candidate_intervention_id',
     decision_candidate: 'decision_candidate_id', decision_parent: 'decision_id',
-    dwig_candidate: 'dwig_candidate_id', candidate_state: 'candidate_state_id',
+    dwig_candidate: 'dwig_candidate_id', candidate_state: 'candidate_state_id', trace_owner: 'learner_id',
   } as Record<string, string>)[t.scope];
   return `create table ${t.schema}.${t.table} (id uuid primary key, ${column} uuid not null);`;
 }).join('\n');
@@ -177,6 +192,7 @@ insert into intelligence.intervention_outcomes values ('${uuid(2200)}', '${uuid(
 insert into pie.pie_observation values ('${uuid(800)}', '${SYN}', '${SYN_ATTEMPT}'), ('${uuid(801)}', '${REAL}', '${REAL_ATTEMPT}');
 insert into pie.attempt_lo values ('${uuid(700)}', '${SYN_ATTEMPT}'), ('${uuid(701)}', '${REAL_ATTEMPT}');
 insert into intelligence.behavior_events values ('${uuid(900)}', '${SYN}', '${SYN_SESSION}'), ('${uuid(901)}', '${REAL}', '${REAL_SESSION}');
+insert into pie.decision_trace values ('${uuid(910)}', '${SYN}'), ('${uuid(911)}', '${REAL}');
 `;
 
 const genericSeed = genericTables.map((t, i) => {
