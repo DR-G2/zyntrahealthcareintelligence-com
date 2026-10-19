@@ -5,6 +5,9 @@ on:
   push:
     branches:
       - ops/pie-p17-p20-linear-certification-20261019
+  pull_request:
+    branches:
+      - main
 
 jobs:
   certify:
