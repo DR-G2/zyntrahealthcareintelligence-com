@@ -251,6 +251,7 @@ begin
   if (select count(*) from public.questions) <> 1 then raise exception 'question bank was changed'; end if;
   if (select count(*) from public.profiles) <> 3 then raise exception 'candidate profiles were deleted'; end if;
   if (select count(*) from auth.users) <> 3 then raise exception 'auth accounts were deleted'; end if;
+  if (select count(*) from pie.synthetic_candidate_registry) <> 1 then raise exception 'reset changed synthetic registry membership'; end if;
   if (select count(*) from pie.pie_question_state) <> 1
      or (select count(*) from pie.pie_question_uncertainty) <> 1
      or (select count(*) from pie.pie_runtime_gate) <> 1
