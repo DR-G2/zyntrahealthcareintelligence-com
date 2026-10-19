@@ -110,7 +110,7 @@ function AppRoutes() {
     <MaintenanceGate>
       <Suspense fallback={<LazyFallback />}>
         <Routes>
-          <Route path="/" element={<ErrorBoundary><SEO title="Zyntra | AMC Exam Preparation for International Medical Graduates" description="Prepare for the AMC exams with Zyntra. Practise clinical questions, analyse your answer patterns and build a clearer picture of your exam readiness." path="/" /><Home /></ErrorBoundary>} />
+          <Route path="/" element={<ErrorBoundary><SEO title="Zyntra | AMC Exam Preparation for International Medical Graduates" description="Prepare for the AMC exams with Zyntra. Practise clinical questions, review explanations, and use available practice evidence to choose what to work on next." path="/" /><Home /></ErrorBoundary>} />
           <Route path="/how-it-works" element={<ErrorBoundary><SEO title="How PIE Works | Zyntra Healthcare Intelligence" description="See how Zyntra uses available practice signals and explanations to help you choose what to work on next." path="/how-it-works" /><HowItWorks /></ErrorBoundary>} />
           <Route path="/features" element={<ErrorBoundary><SEO title="Zyntra Features | What Is Live, in Beta and Coming Soon" description="Explore Zyntra's AMC preparation features and their current availability, with clear labels for live, beta and coming-soon capabilities." path="/features" /><Features /></ErrorBoundary>} />
           <Route path="/check" element={<LegacyRedirect to="/login" />} />
