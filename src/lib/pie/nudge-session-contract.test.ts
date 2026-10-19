@@ -83,6 +83,8 @@ describe("Nudge targeted-session contract", () => {
     expect(client).toContain("COLD_START_FIRST_50");
     expect(session).toContain("Nudge · evidence-building");
     expect(session).toContain("first 50 saved learning-objective interactions");
+    expect(session).toContain("Nudge · mixed fallback");
+    expect(session).toContain("PIE has no supported target with enough unseen questions right now.");
     expect(session).toContain("nudgeTarget?.loId");
   });
 
