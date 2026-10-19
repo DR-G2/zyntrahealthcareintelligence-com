@@ -1,0 +1,42 @@
+name: PIE P22 Public Access Diagnostic
+
+on:
+  push:
+    branches:
+      - ops/pie-p17-p20-linear-certification-20261019
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Probe canonical domain and published Lovable URL
+        shell: bash
+        run: |
+          set -u
+          probe() {
+            local url="$1"
+            local headers body meta status final
+            headers="$(mktemp)"
+            body="$(mktemp)"
+            meta="$(curl --silent --show-error --location --max-time 25 \
+              --user-agent 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36' \
+              --header 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8' \
+              --header 'Accept-Language: en-US,en;q=0.9' \
+              --dump-header "$headers" --output "$body" --write-out '%{http_code} %{url_effective}' "$url" 2>/dev/null || true)"
+            status="${meta%% *}"
+            final="${meta#* }"
+            echo "PROBE $url"
+            echo "STATUS ${status:-curl_error}"
+            echo "FINAL ${final:-unavailable}"
+            grep -iE '^(server:|location:|cf-ray:|content-type:)' "$headers" | tail -n 8 || true
+            echo "BODY_PREFIX $(head -c 120 "$body" 2>/dev/null | tr '\n' ' ' || true)"
+            echo "---"
+          }
+          probe "https://www.zyntrahealthcareintelligence.com/"
+          probe "https://zyntrahealthcareintelligence.com/"
+          probe "https://zyntrahealthcareintelligence-com.lovable.app/"
