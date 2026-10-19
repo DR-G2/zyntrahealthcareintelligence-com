@@ -21,6 +21,9 @@ describe("Nudge targeted-session contract", () => {
     expect(migration).toContain("ql.lo_id = v_target.lo_id");
     expect(migration).toContain("ql.is_primary");
     expect(migration).toContain("q.status = 'active'");
+    expect(migration).toContain("pie.pie_question_quarantine");
+    expect(migration).toContain("bl.eligible");
+    expect(migration).toContain("b.blueprint_key = 'AMC_CAT_MCQ'");
     expect(migration).toContain("ua.user_id = v_user and ua.question_id = q.id");
     expect(migration).toContain("if v_pos < 3 then");
   });
