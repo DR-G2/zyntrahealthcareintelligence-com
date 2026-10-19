@@ -12,7 +12,7 @@ const OBJECTIVES = [
   'Understand the structure of a timed clinical station: task, time box, and closing.',
   'Practise gathering a focused history and explaining a plan in plain language.',
   'Rehearse composure when a station is incomplete — what to say next, not only what you know.',
-  'Use written station outlines now, and voice practice when that module is enabled on your account.',
+  'Review the written station-structure guidance on this page. Interactive and voice-based practice are not available in the current public release.',
 ];
 
 const FAQS = [
@@ -26,7 +26,7 @@ const FAQS = [
   },
   {
     q: 'Does voice practice record my microphone?',
-    a: 'When voice practice is on, it uses the browser’s built-in speech features. It works most reliably in Chrome and Edge. Use it only if you are comfortable granting microphone access in your browser.',
+    a: 'Voice practice is not available in the current public release. If it is introduced later, review the microphone and browser-permission details before enabling it.',
   },
   {
     q: 'Should I finish MCQ preparation first?',
@@ -43,7 +43,7 @@ export default function AmcClinicalOsce() {
     <div className="min-h-screen bg-background">
       <SEO
         title="AMC Clinical OSCE Preparation | Zyntra"
-        description="Independent AMC Clinical (OSCE) preparation: station structure, communication practice and staged voice stations. Not affiliated with the Australian Medical Council."
+        description="AMC Clinical OSCE guide covering station structure and communication goals. Interactive Zyntra OSCE and voice practice are not yet available. Independent of the Australian Medical Council."
         path="/amc-clinical-osce"
         jsonLd={[
           {
