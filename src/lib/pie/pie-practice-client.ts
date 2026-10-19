@@ -55,6 +55,52 @@ export async function loadSessionQuestions(sessionId: string, deps: PieDeps = de
   return (rows || []).map(sanitize).sort((a, b) => a.question_position - b.question_position);
 }
 
+export interface NudgeSessionTarget {
+  loId: string;
+  loKey: string;
+  loTitle: string;
+  baselineAccuracy: number;
+  baselineQuestionCount: number;
+  reasonCode: string;
+}
+
+export async function startNudgeSession(count: number, deps: PieDeps = defaultPieDeps): Promise<{ sessionId: string; questions: PieSessionQuestion[]; target: NudgeSessionTarget }> {
+  await deps.ensureSession();
+  const n = Math.max(3, Math.min(20, Math.floor(count)));
+  const rows = await call<{
+    session_id: string; question_count: number; lo_id: string; lo_key: string; lo_title: string;
+    baseline_accuracy: number; baseline_question_count: number; reason_code: string;
+  }[]>(deps, 'create_my_nudge_session', { p_count: n }, 'Preparing your targeted Nudge session');
+  const row = rows?.[0];
+  if (!row?.session_id || !row.lo_id || !row.question_count || row.question_count < 3) {
+    throw new Error('Nudge could not create a sufficiently supported targeted session.');
+  }
+  return {
+    sessionId: row.session_id,
+    questions: await loadSessionQuestions(row.session_id, deps),
+    target: {
+      loId: row.lo_id, loKey: row.lo_key, loTitle: row.lo_title,
+      baselineAccuracy: Number(row.baseline_accuracy),
+      baselineQuestionCount: Number(row.baseline_question_count),
+      reasonCode: row.reason_code,
+    },
+  };
+}
+
+export async function getNudgeProgress(loId: string, deps: PieDeps = defaultPieDeps): Promise<{ attemptCount: number; distinctQuestionCount: number; correctCount: number; accuracy: number | null }> {
+  const rows = await call<{ status: string; attempt_count: number; distinct_question_count: number; correct_count: number; accuracy: number | null }[]>(
+    deps, 'get_my_nudge_progress', { p_lo_id: loId }, 'Reassessing Nudge progress',
+  );
+  const row = rows?.[0];
+  if (!row || row.status !== 'READY') throw new Error('Nudge reassessment is not available yet.');
+  return {
+    attemptCount: Number(row.attempt_count),
+    distinctQuestionCount: Number(row.distinct_question_count),
+    correctCount: Number(row.correct_count),
+    accuracy: row.accuracy == null ? null : Number(row.accuracy),
+  };
+}
+
 export async function startPieSession(count: number, deps: PieDeps = defaultPieDeps): Promise<{ sessionId: string; questions: PieSessionQuestion[] }> {
   await deps.ensureSession();
   const n = Math.max(1, Math.min(50, Math.floor(count)));
