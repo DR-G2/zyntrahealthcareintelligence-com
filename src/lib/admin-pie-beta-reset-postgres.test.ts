@@ -260,6 +260,39 @@ $test$;
 rollback;
 `;
 
+const authorizationGuardTest = `
+begin;
+do $test$
+declare
+  blocked boolean := false;
+begin
+  perform set_config('test.uid', '${REAL}', true);
+  perform set_config('test.email', 'candidate@example.com', true);
+  begin
+    perform public.admin_preview_pie_beta_reset('pie_only');
+  exception when others then
+    if sqlerrm <> 'Super-administrator access required' then raise; end if;
+    blocked := true;
+  end;
+  if not blocked then raise exception 'non-super-admin preview was not blocked'; end if;
+
+  perform set_config('test.uid', '${ADMIN}', true);
+  perform set_config('test.email', 'gopalrock.naren@gmail.com', true);
+  blocked := false;
+  begin
+    perform public.admin_preview_pie_beta_reset(null);
+  exception when others then
+    if sqlerrm <> 'Unsupported reset mode' then raise; end if;
+    blocked := true;
+  end;
+  if not blocked then raise exception 'NULL reset mode was not blocked'; end if;
+  if (select count(*) from public.user_attempts) <> 2 then raise exception 'authorization guard changed attempts'; end if;
+  if (select count(*) from pie.beta_reset_audit) <> 0 then raise exception 'blocked preview/reset wrote an audit row'; end if;
+end
+$test$;
+rollback;
+`;
+
 describe.skipIf(!BIN)('PIE beta reset RPCs on a disposable local PostgreSQL instance', () => {
   beforeAll(() => {
     dir = mkdtempSync(join(tmpdir(), 'zyntra-pie-reset-'));
@@ -283,6 +316,10 @@ describe.skipIf(!BIN)('PIE beta reset RPCs on a disposable local PostgreSQL inst
 
   it('full-candidate mode clears synthetic attempts and sessions while preserving real candidate data', () => {
     expect(() => runOrThrow(runResetAssertions('full_candidate'))).not.toThrow();
+  });
+
+  it('rejects non-super-admin access and NULL reset modes', () => {
+    expect(() => runOrThrow(authorizationGuardTest)).not.toThrow();
   });
 
   it('aborts atomically if deleting a synthetic session could mutate a real candidate attempt', () => {
