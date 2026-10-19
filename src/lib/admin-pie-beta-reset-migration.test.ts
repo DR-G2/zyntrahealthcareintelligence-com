@@ -94,7 +94,7 @@ describe('PIE beta reset migration source contract', () => {
 
   it('enforces server-side super-admin access, locks, confirmation, and fail-closed cross-owner guards', () => {
     expect(migration).toContain('public._admin_beta_reset_is_super_admin()');
-    expect(migration).toContain("lower(auth.jwt() ->> 'email') = 'gopalrock.naren@gmail.com'");
+    expect(migration).toContain("lower(coalesce(auth.jwt() ->> 'email', '')) = 'gopalrock.naren@gmail.com'");
     expect(migration).toContain('email_confirmed_at is not null');
     expect(migration).toContain('lock table public.profiles in share row exclusive mode');
     expect(migration).toContain('Data changed since preview. Run preview again.');
