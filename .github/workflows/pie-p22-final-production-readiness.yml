@@ -5,6 +5,7 @@ on:
     branches:
       - pie-p22-final-production-readiness
       - pie-p22-final-production-readiness-verify-v2
+      - fix/p22-certified-baseline-refresh
   pull_request:
     branches: [pie-p21-4-state-selection-integrity, main]
   workflow_dispatch:
