@@ -40,6 +40,7 @@ describe('PIE beta reset migration source contract', () => {
       decision_candidate: 'decision_candidate_id',
       decision_parent: 'decision_id',
       dwig_candidate: 'dwig_candidate_id',
+      dwig_selection: 'dwig_selection_id',
       candidate_state: 'candidate_state_id',
     };
     expect(targets.every((target) => requiredColumn[target.scope] !== undefined)).toBe(true);
@@ -82,6 +83,8 @@ describe('PIE beta reset migration source contract', () => {
     before('pie.pie_decision', 'pie.pie_decision_candidate');
     before('pie.pie_dwig_evaluation', 'pie.pie_dwig_candidate');
     before('pie.pie_dwig_selection', 'pie.pie_dwig_candidate');
+    before('pie.pie_dwig_outcome', 'pie.pie_dwig_selection');
+    before('pie.pie_dwig_outcome', 'pie.pie_dwig_candidate');
     before('intelligence.intervention_outcomes', 'intelligence.candidate_interventions');
     before('pie.pie_state_uncertainty', 'pie.pie_candidate_state');
     before('public.amc_adapter_evaluation', 'pie.pie_candidate_state');
