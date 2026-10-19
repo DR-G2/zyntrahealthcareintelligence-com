@@ -73,7 +73,7 @@ create table if not exists amc.amc_blueprint_lo (
   primary key (blueprint_id,lo_id)
 );
 
-do $
+do $nudge_lifecycle$
 declare
   v_user_a constant uuid := 'aaaaaaaa-0000-0000-0000-00000000000a';
   v_user_b constant uuid := 'bbbbbbbb-0000-0000-0000-00000000000b';
@@ -247,6 +247,6 @@ begin
   exception when insufficient_privilege then
     raise notice 'PASS cross-user reassessment isolation';
   end;
-end $$;
+end $nudge_lifecycle$;
 
 select 'NUDGE LOCAL LIFECYCLE PASS' as result;
