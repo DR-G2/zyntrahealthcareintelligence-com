@@ -54,6 +54,12 @@ describe("P5 learner history (PIE attempts only)", () => {
     expect(l.confidence_level).toBe(2);
   });
 
+  it("preserves missing or invalid answer-change counts instead of coercing them to zero", () => {
+    expect(toLegacyAttempt(row(0, { answer_changes_count: null })).answer_changes_count).toBeNull();
+    expect(toLegacyAttempt(row(0, { answer_changes_count: -1 })).answer_changes_count).toBeNull();
+    expect(toLegacyAttempt(row(0, { answer_changes_count: 0 })).answer_changes_count).toBe(0);
+  });
+
   it("does not coerce malformed answer-change entries into fake answer strings", () => {
     expect(toLegacyAttempt(row(0, { change_sequence: [{ option: "A" }, "B"] })).change_sequence).toEqual([]);
     expect(toLegacyAttempt(row(0, { change_sequence: null })).change_sequence).toEqual([]);
