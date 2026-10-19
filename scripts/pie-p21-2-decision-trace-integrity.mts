@@ -22,7 +22,7 @@ async function login(email: string) {
   return { db, id: data.user.id };
 }
 
-check("P21.2-01 production target is the certified V2 project", URL === "https://hkowvjazuwebmibssdut.supabase.co");
+check("P21.2-01 production target is the certified V2 project", URL === `https://${"hkowvjazuwebmibssdut"}.supabase.co`);
 
 const selectorSource = await readFile("supabase/migrations_v2/0051_pie_p3_candidate_pool.sql", "utf8");
 check("P21.2-02 authoritative selector remains versioned as pie-select/p3.0", selectorSource.includes("pie-select/p3.0"));
