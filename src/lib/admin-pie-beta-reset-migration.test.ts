@@ -48,7 +48,8 @@ describe('PIE beta reset migration source contract', () => {
       expect(migration).toContain(`when '${target.scope}' then`);
     }
     expect(migration).toContain('missing required scope column');
-    expect(migration).toContain("column_name = 'is_synthetic' and data_type = 'boolean'");
+    expect(migration).toContain('pie.synthetic_candidate_registry');
+    expect(migration).toContain('admin_register_synthetic_candidate(uuid,text)');
   });
 
   it('preserves global question state and configuration tables', () => {
@@ -97,6 +98,7 @@ describe('PIE beta reset migration source contract', () => {
 
   it('enforces server-side super-admin access, locks, confirmation, and fail-closed cross-owner guards', () => {
     expect(migration).toContain('public._admin_beta_reset_is_super_admin()');
+    expect(migration).toContain('Administrative accounts cannot be registered as synthetic candidates.');
     expect(migration).toContain("lower(coalesce(auth.jwt() ->> 'email', '')) = 'gopalrock.naren@gmail.com'");
     expect(migration).toContain('email_confirmed_at is not null');
     expect(migration).toContain("public._admin_beta_reset_lock_targets(p_mode, 'SHARE')");
@@ -114,8 +116,8 @@ describe('PIE beta reset migration source contract', () => {
   });
 
   it('keeps the reset fail-closed when synthetic provenance is unavailable', () => {
-    expect(migration).toContain('public.profiles.is_synthetic BOOLEAN is missing');
-    expect(migration).toContain('no explicitly marked synthetic candidates exist');
+    expect(migration).toContain('synthetic-candidate registry is missing');
+    expect(migration).toContain('no explicitly registered synthetic candidates exist');
     expect(migration).toContain('transaction will roll back');
   });
 });
