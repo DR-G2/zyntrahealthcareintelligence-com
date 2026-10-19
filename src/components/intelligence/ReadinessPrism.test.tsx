@@ -43,7 +43,7 @@ describe("Intelligence overview", () => {
 
   it("keeps unavailable dimensions missing and does not draw a misleading complete polygon", () => {
     render(<MemoryRouter><ReadinessPrism evidence={fixture()} loading={false} retry={() => {}} /></MemoryRouter>);
-    expect(screen.getByText("The map is partial while dimensions build evidence; unsupported values are not plotted.")).toBeInTheDocument();
+    expect(screen.getByText("The map is partial because one or more dimension estimates are unavailable; unsupported values are not plotted.")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /Timing Unavailable/ })).toBeInTheDocument();
   });
 
