@@ -32,7 +32,7 @@ export default function AmcExamPreparation() {
           heading: "How Zyntra supports AMC preparation",
           paragraphs: [
             "Zyntra provides AMC-style clinical MCQ practice with explanations. Available practice records can include timing and answer changes, which you can review alongside accuracy. Confidence may be collected in supported activities, and confidence-calibration views appear only where enabled.",
-            "Available practice signals can help you review performance and choose a suggested next step. They are not a pass prediction or a replacement for official AMC guidance. Clinical station practice is being released in stages; the AMC Clinical page explains what is currently available.",
+            "Available practice signals can help you review performance and choose a next step. They are not a pass prediction or a replacement for official AMC guidance. Interactive Zyntra OSCE station practice is not available in the current public release; the AMC Clinical page explains the exam structure and current feature status.",
           ],
         },
       ]}
