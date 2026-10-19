@@ -138,14 +138,27 @@ Deno.serve(async (req) => {
     return json({ error: "user_scope_violation" }, 403);
   }
 
-  const { data: rows, error } = await serviceClient
-    .schema("pie").from("pie_observation")
-    .select("id,user_id,observation_type,observed_at,payload,provenance")
-    .eq("user_id", user.id)
-    .order("observed_at", { ascending: true })
-    .order("id", { ascending: true });
+  // PostgREST caps each response page. Fetch every observation in stable,
+  // ordered pages so candidates with more than 1,000 observations are not
+  // silently inferred from only the oldest page.
+  const PAGE_SIZE = 1000;
+  const rows: any[] = [];
+  for (let offset = 0; ; offset += PAGE_SIZE) {
+    const { data: page, error } = await serviceClient
+      .schema("pie").from("pie_observation")
+      .select("id,user_id,observation_type,observed_at,payload,provenance")
+      .eq("user_id", user.id)
+      .order("observed_at", { ascending: true })
+      .order("id", { ascending: true })
+      .range(offset, offset + PAGE_SIZE - 1);
 
-  if (error) { console.error("[pie-infer-state] observation query", error); return json({ error: "observation_query_failed" }, 500); }
+    if (error) {
+      console.error("[pie-infer-state] observation query", error);
+      return json({ error: "observation_query_failed" }, 500);
+    }
+    if (page?.length) rows.push(...page);
+    if (!page || page.length < PAGE_SIZE) break;
+  }
 
   if (!rows?.length) {
     return json({
