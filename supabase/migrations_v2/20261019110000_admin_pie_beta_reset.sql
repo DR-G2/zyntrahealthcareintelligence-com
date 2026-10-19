@@ -116,7 +116,7 @@ declare
   predicate text;
   required_column text;
 begin
-  if p_mode not in ('pie_only', 'full_candidate') then
+  if p_mode is null or p_mode not in ('pie_only', 'full_candidate') then
     raise exception 'Unsupported reset mode';
   end if;
   if not exists (
@@ -237,7 +237,7 @@ begin
   if not public._admin_beta_reset_is_super_admin() then
     raise exception 'Super-administrator access required' using errcode = '42501';
   end if;
-  if p_mode not in ('pie_only', 'full_candidate') then
+  if p_mode is null or p_mode not in ('pie_only', 'full_candidate') then
     raise exception 'Unsupported reset mode';
   end if;
 
