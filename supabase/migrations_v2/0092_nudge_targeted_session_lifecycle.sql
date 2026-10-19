@@ -21,7 +21,6 @@ declare
   v_user uuid := auth.uid();
   v_target record;
   v_session uuid;
-  v_last timestamptz;
   v_count integer;
   v_pos integer := 0;
   v_question record;
@@ -39,15 +38,7 @@ begin
       detail = jsonb_build_object('status', v_target.status, 'reason_code', v_target.reason_code)::text;
   end if;
 
-  -- Reuse the existing per-user creation throttle and active-session ceiling.
-  insert into pie.session_create_throttle(user_id, last_created_at, create_count)
-  values (v_user, '-infinity'::timestamptz, 0)
-  on conflict (user_id) do nothing;
-  select last_created_at into v_last
-    from pie.session_create_throttle where user_id = v_user for update;
-  if v_last > clock_timestamp() - interval '30 seconds' then
-    raise exception 'PIE_RATE_LIMITED: one session per 30 seconds' using errcode = '53400';
-  end if;
+  -- Enforce the existing active-session ceiling; this schema has no throttle table.
   if (
     select count(*) from pie.adaptive_session a
     join public.practice_sessions ps on ps.id = a.session_id
@@ -55,9 +46,6 @@ begin
   ) >= 3 then
     raise exception 'PIE_TOO_MANY_ACTIVE_SESSIONS' using errcode = '53400';
   end if;
-  update pie.session_create_throttle
-    set last_created_at = clock_timestamp(), create_count = create_count + 1
-    where user_id = v_user;
 
   v_count := least(p_count, v_target.eligible_question_count);
   if v_count < 3 then
