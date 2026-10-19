@@ -45,7 +45,7 @@ export function toLegacyAttempt(r: PieHistoryRow): LegacyAttemptShape {
   return {
     id: r.attempt_id, question_id: r.question_id, session_id: r.session_id ?? null, session_mode: r.session_mode, selected_answer: r.selected_answer,
     is_correct: r.is_correct, answer_changes_count: r.answer_changes_count ?? 0,
-    change_sequence: Array.isArray(r.change_sequence) && r.change_sequence.every((value): value is string => typeof value === 'string') ? r.change_sequence : [],
+    change_sequence: Array.isArray(r.change_sequence) && r.change_sequence.every((value): value is string => typeof value === 'string' && value.trim().length > 0) ? r.change_sequence : [],
     time_taken_seconds: r.time_taken_seconds, time_to_first_click: r.time_to_first_click,
     confidence_level: r.confidence_level, created_at: r.created_at,
     questions: {
