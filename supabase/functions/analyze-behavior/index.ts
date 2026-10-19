@@ -375,7 +375,6 @@ Do not infer personality, motivation, clinical competence, causation, exam score
       predicted_score_low: null,
       predicted_score_high: null,
       predicted_score_potential: null,
-      session_mode: "normal_mcq",
       recommendations: classification.recommendations,
       updated_at: new Date().toISOString(),
     };
