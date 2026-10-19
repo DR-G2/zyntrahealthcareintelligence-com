@@ -61,11 +61,13 @@ function ReviewCard({ attempt }: { attempt: AttemptRow }) {
               <Clock className="h-3 w-3" />
               {attempt.time_taken_seconds}s
             </div>
-            {attempt.answer_changes_count > 0 && (
+            {attempt.answer_changes_count === null ? (
+              <p className="text-xs text-muted-foreground mt-1">Change count unavailable</p>
+            ) : attempt.answer_changes_count > 0 ? (
               <p className="text-xs text-muted-foreground mt-1">
                 {attempt.answer_changes_count} change{attempt.answer_changes_count > 1 ? 's' : ''}
               </p>
-            )}
+            ) : null}
           </div>
         </div>
 
