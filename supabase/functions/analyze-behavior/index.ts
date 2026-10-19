@@ -341,7 +341,7 @@ Do not infer personality, motivation, clinical competence, causation, exam score
         Object.entries(subjectMap).map(([cat, s]) => [cat, {
           accuracy: Math.round((s.correct / s.total) * 100),
           changeRate: Math.round((s.changes / s.total) * 100),
-          avgTime: Math.round(s.avgTime),
+          avgTime: s.avgTime === null ? null : Math.round(s.avgTime),
           total: s.total,
           type: (s.changes / s.total) > 0.5 ? "behavioral" : (s.correct / s.total) < 0.5 ? "knowledge" : "stable",
         }])
