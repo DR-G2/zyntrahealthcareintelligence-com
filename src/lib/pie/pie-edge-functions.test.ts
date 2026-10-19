@@ -61,6 +61,8 @@ describe("P5 edge functions read PIE attempts on V2", () => {
     expect(behaviorFn).not.toContain('from("behavior_dna")');
     expect(behaviorFn).not.toContain("Multiple pauses, re-reads");
     expect(behaviorFn).not.toContain("visible stress markers");
+    expect(behaviorFn).toContain("Behaviour profile lookup failed:");
+    expect(behaviorFn).toContain("Behaviour profile write failed:");
     expect(behaviorFn).toContain("No verified Normal MCQ attempts found");
   });
 });
