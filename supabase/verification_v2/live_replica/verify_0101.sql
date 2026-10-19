@@ -9,12 +9,12 @@ declare
   v_confidence jsonb;
 begin
   delete from pie.pie_observation where user_id in (
-    'cccccccc-0000-0000-0000-00000000000c',
-    'dddddddd-0000-0000-0000-00000000000d'
+    'aaaaaaaa-0000-0000-0000-00000000000a',
+    'bbbbbbbb-0000-0000-0000-00000000000b'
   );
 
   insert into pie.pie_observation(user_id,observation_type,observed_at,payload,provenance)
-  select 'cccccccc-0000-0000-0000-00000000000c','MCQ_ATTEMPT',
+  select 'aaaaaaaa-0000-0000-0000-00000000000a','MCQ_ATTEMPT',
     timestamptz '2026-01-01 00:00:00+00' + (g * interval '1 second'),
     jsonb_build_object(
       'practice_mode','normal_mcq',
@@ -28,7 +28,7 @@ begin
   from generate_series(1,250) g;
 
   insert into pie.pie_observation(user_id,observation_type,observed_at,payload,provenance)
-  select 'cccccccc-0000-0000-0000-00000000000c','MCQ_ATTEMPT',
+  select 'aaaaaaaa-0000-0000-0000-00000000000a','MCQ_ATTEMPT',
     timestamptz '2026-02-01 00:00:00+00' + (g * interval '1 second'),
     jsonb_build_object('practice_mode','nudge','outcome','CORRECT','confidence_level',5,
       'confidence_normalized',1,'time_total_ms',20000,'answer_changes',0),
@@ -37,13 +37,13 @@ begin
 
   -- Untagged legacy observations must not be guessed into either mode.
   insert into pie.pie_observation(user_id,observation_type,observed_at,payload,provenance)
-  select 'cccccccc-0000-0000-0000-00000000000c','MCQ_ATTEMPT',now()+g*interval '1 second',
+  select 'aaaaaaaa-0000-0000-0000-00000000000a','MCQ_ATTEMPT',now()+g*interval '1 second',
     jsonb_build_object('outcome','CORRECT','confidence_normalized',1,'time_total_ms',10000,'answer_changes',0),
     jsonb_build_object('source','verify_0101_ambiguous','synthetic',true)
   from generate_series(1,3) g;
 
-  perform pie.rebuild_candidate_state('cccccccc-0000-0000-0000-00000000000c');
-  select state into v_state from pie.pie_candidate_state where user_id='cccccccc-0000-0000-0000-00000000000c';
+  perform pie.rebuild_candidate_state('aaaaaaaa-0000-0000-0000-00000000000a');
+  select state into v_state from pie.pie_candidate_state where user_id='aaaaaaaa-0000-0000-0000-00000000000a';
   v_normal := v_state->'mode_evidence'->'normal_mcq';
   v_nudge := v_state->'mode_evidence'->'nudge';
 
@@ -67,7 +67,7 @@ begin
   end if;
 
   insert into pie.pie_observation(user_id,observation_type,observed_at,payload,provenance)
-  select 'dddddddd-0000-0000-0000-00000000000d','MCQ_ATTEMPT',
+  select 'bbbbbbbb-0000-0000-0000-00000000000b','MCQ_ATTEMPT',
     timestamptz '2026-03-01 00:00:00+00' + (g * interval '1 second'),
     jsonb_build_object('practice_mode','normal_mcq','outcome','CORRECT',
       'confidence_level',((g-1)%5)+1,'confidence_normalized',(((g-1)%5)::numeric)/4,
@@ -76,9 +76,9 @@ begin
     jsonb_build_object('source','verify_0101_sparse','synthetic',true,'practice_mode','normal_mcq')
   from generate_series(1,50) g;
 
-  perform pie.rebuild_candidate_state('dddddddd-0000-0000-0000-00000000000d');
+  perform pie.rebuild_candidate_state('bbbbbbbb-0000-0000-0000-00000000000b');
   select state->'mode_evidence'->'normal_mcq' into v_sparse
-    from pie.pie_candidate_state where user_id='dddddddd-0000-0000-0000-00000000000d';
+    from pie.pie_candidate_state where user_id='bbbbbbbb-0000-0000-0000-00000000000b';
   if (v_sparse->'capability'->>'evidence_count')::int <> 50 then raise exception 'FAIL sparse capability valid count'; end if;
   if (v_sparse->'timing'->>'evidence_count')::int <> 49 then raise exception 'FAIL missing timing counted as valid evidence'; end if;
   if (v_sparse->'decision'->>'evidence_count')::int <> 49 then raise exception 'FAIL missing answer-change counted as valid evidence'; end if;
