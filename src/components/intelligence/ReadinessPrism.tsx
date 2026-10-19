@@ -91,8 +91,8 @@ function buildSubjectRows(rows: SafeAttempt[]) {
   rows.forEach(row => { const key=row.subjectId ?? row.subject; groups.set(key,[...(groups.get(key)??[]),row]); });
   return [...groups.entries()].map(([key,attempts]) => ({
     key, subject: attempts[0]?.subject ?? "Uncategorised", attempts, count: attempts.length,
-    correct: attempts.filter(row=>row.correct).length,
-    accuracy: attempts.length ? attempts.filter(row=>row.correct).length/attempts.length*100 : null,
+    correct: attempts.filter(row=>row.answerKeyAvailable === true && row.correct).length,
+    accuracy: attempts.some(row => row.answerKeyAvailable === true) ? attempts.filter(row=>row.answerKeyAvailable === true && row.correct).length/attempts.filter(row=>row.answerKeyAvailable === true).length*100 : null,
     latest: attempts.reduce<string|null>((latest,row)=>!latest||Date.parse(row.at)>Date.parse(latest)?row.at:latest,null),
   })).sort((a,b)=>(a.accuracy??0)-(b.accuracy??0)||b.count-a.count);
 }
@@ -110,7 +110,7 @@ export function ReadinessPrism({ evidence, loading, retry }: { evidence: Intelli
   const observedModel=useMemo(()=>evidence?observedPrismLayer({...evidence,history:evidence.history.status==="ready"?{status:"ready",value:modeRows}:evidence.history}):null,[evidence,modeRows]);
   const confidenceCounts = [1,2,3,4,5].map(level => ({
     level,
-    count: summary.rows.filter(row => row.confidence === level && typeof row.correct === "boolean").length,
+    count: summary.rows.filter(row => row.answerKeyAvailable === true && row.confidence === level && typeof row.correct === "boolean").length,
   }));
   const calibrationEvidenceComplete = confidenceCounts.every(item => item.count >= 15);
   const displayDimensions = pieModel.dimensions.map(item => item.dimension === "calibration" && !calibrationEvidenceComplete
