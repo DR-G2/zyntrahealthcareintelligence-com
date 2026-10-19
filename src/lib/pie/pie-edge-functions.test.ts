@@ -120,6 +120,11 @@ describe("P5 edge functions read PIE attempts on V2", () => {
     expect(behaviorFn).toContain("Behaviour profile lookup failed:");
     expect(behaviorFn).toContain("Behaviour profile write failed:");
     expect(behaviorFn).toContain("const validClassification = classification");
+    expect(behaviorFn).toContain('enum: ["panic_changer", "rusher", "paralyzer", "strategist", "fatigue_victim", "subject_avoider", "unavailable"]');
+    expect(behaviorFn).toContain('trap: { type: "string", enum: ["rushing_at_end"] }');
+    expect(behaviorFn).toContain("&& archetypeHasEvidence(classification.archetype)");
+    expect(behaviorFn).toContain('item?.trap === "rushing_at_end" && hasRushingAtEndEvidence');
+    expect(behaviorFn).toContain('case "fatigue_victim": return hasFatigueTrend');
     expect(behaviorFn).toContain("returned evidence was invalid.");
     expect(behaviorFn).toContain("No completed, verified Normal MCQ attempts found");
     expect(behaviorFn).toContain("Behaviour analysis is temporarily unavailable.");
