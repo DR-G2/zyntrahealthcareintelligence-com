@@ -82,7 +82,7 @@ export function MCQReviewQueue() {
       const recentAccuracy = recent.length ? recent.filter(a => a.is_correct).length / recent.length : 0;
       const overallAccuracy = history.length ? history.filter(a => a.is_correct).length / history.length : 0;
       const changeCountsComplete = recent.length > 0 && recent.every(a => a.answer_changes_count !== null);
-      const avgChanges = changeCountsComplete ? recent.reduce((s, a) => s + (a.answer_changes_count ?? 0), 0) / recent.length : null;
+      const avgChanges = changeCountsComplete ? recent.reduce((s, a) => s + (a.answer_changes_count as number), 0) / recent.length : null;
       const mastery = history.length >= 3 && recentAccuracy >= 0.67 && overallAccuracy >= 0.7 && avgChanges !== null && avgChanges < 2;
       const daysSince = Math.max(0, (now - new Date(latest.created_at).getTime()) / 86400000);
       let intervalDays = 0;
