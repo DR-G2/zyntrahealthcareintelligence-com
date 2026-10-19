@@ -89,6 +89,9 @@ describe("P5 edge functions read PIE attempts on V2", () => {
     expect(read("src/pages/BehaviorProfile.tsx")).not.toContain("description: e.message");
     expect(read("src/pages/BehaviorProfile.tsx")).toContain("if (profileError) throw profileError;");
     expect(read("src/pages/BehaviorProfile.tsx")).toContain("if (!profile) throw new Error('Behaviour profile was not returned.');");
+    const behaviorUi = read("src/pages/BehaviorProfile.tsx");
+    expect(behaviorUi).toContain("s.type === 'stable' ? '✅ Stable' : 'Pattern unavailable'");
+    expect(behaviorUi).not.toContain("s.type === 'unavailable' ? 'Evidence unavailable' : '✅ Stable'");
     const behaviorFn = read("supabase/functions/analyze-behavior/index.ts");
     expect(behaviorFn).toContain('a.session_mode === "normal" || a.session_mode === "normal_mcq"');
     expect(behaviorFn).not.toContain("Predict AMC score range");
