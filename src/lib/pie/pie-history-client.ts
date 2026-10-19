@@ -18,7 +18,7 @@ export interface PieHistoryRow {
 
 /** Legacy page shape (user_attempts joined to questions), produced from PIE history. */
 export interface LegacyAttemptShape {
-  id: string; question_id: string; session_id: string | null; selected_answer: string; is_correct: boolean;
+  id: string; question_id: string; session_id: string | null; session_mode: string; selected_answer: string; is_correct: boolean;
   answer_changes_count: number; change_sequence: string[]; time_taken_seconds: number | null; time_to_first_click: number | null;
   confidence_level: number | null; created_at: string;
   questions: { question_text: string; correct_answer: string; category: string; subtopic: string | null; difficulty: string; explanation: string | null; options: string[] };
@@ -43,7 +43,7 @@ function optionList(options: unknown): string[] {
 
 export function toLegacyAttempt(r: PieHistoryRow): LegacyAttemptShape {
   return {
-    id: r.attempt_id, question_id: r.question_id, session_id: r.session_id ?? null, selected_answer: r.selected_answer,
+    id: r.attempt_id, question_id: r.question_id, session_id: r.session_id ?? null, session_mode: r.session_mode, selected_answer: r.selected_answer,
     is_correct: r.is_correct, answer_changes_count: r.answer_changes_count ?? 0,
     change_sequence: Array.isArray(r.change_sequence) ? (r.change_sequence as unknown[]).map(String) : [],
     time_taken_seconds: r.time_taken_seconds, time_to_first_click: r.time_to_first_click,
