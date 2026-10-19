@@ -74,12 +74,14 @@ serve(async (req) => {
 
     // ── MCQ Metrics ──
     const totalAttempts = attempts.length;
-    const avgTime = totalAttempts > 0 ? attempts.reduce((s, a) => s + (a.time_taken_seconds || 0), 0) / totalAttempts : 0;
+    const timedAttempts = attempts.filter((a) => typeof a.time_taken_seconds === "number" && Number.isFinite(a.time_taken_seconds) && a.time_taken_seconds >= 0);
+    const avgTime = timedAttempts.length ? timedAttempts.reduce((s, a) => s + a.time_taken_seconds, 0) / timedAttempts.length : null;
     const totalChanges = attempts.reduce((s, a) => s + (a.answer_changes_count || 0), 0);
     const changeRate = totalAttempts > 0 ? totalChanges / totalAttempts : 0;
     const correctRate = totalAttempts > 0 ? attempts.filter(a => a.is_correct).length / totalAttempts : 0;
-    const avgPauses = totalAttempts > 0 ? attempts.reduce((s, a) => s + (a.pause_events || 0), 0) / totalAttempts : 0;
-    const avgFirstClick = totalAttempts > 0 ? attempts.reduce((s, a) => s + (a.time_to_first_click || 0), 0) / totalAttempts : 0;
+    
+    const firstClickAttempts = attempts.filter((a) => typeof a.time_to_first_click === "number" && Number.isFinite(a.time_to_first_click) && a.time_to_first_click >= 0);
+    const avgFirstClick = firstClickAttempts.length ? firstClickAttempts.reduce((s, a) => s + a.time_to_first_click, 0) / firstClickAttempts.length : null;
 
     // Per-subject MCQ stats
     const subjectMap: Record<string, { correct: number; total: number; changes: number; avgTime: number; times: number[] }> = {};
@@ -89,10 +91,10 @@ serve(async (req) => {
       subjectMap[cat].total++;
       if (a.is_correct) subjectMap[cat].correct++;
       subjectMap[cat].changes += a.answer_changes_count || 0;
-      subjectMap[cat].times.push(a.time_taken_seconds || 0);
+      if (typeof a.time_taken_seconds === "number" && Number.isFinite(a.time_taken_seconds) && a.time_taken_seconds >= 0) subjectMap[cat].times.push(a.time_taken_seconds);
     });
     Object.values(subjectMap).forEach(s => {
-      s.avgTime = s.times.reduce((a, b) => a + b, 0) / s.times.length;
+      s.avgTime = s.times.length ? s.times.reduce((a, b) => a + b, 0) / s.times.length : null;
     });
 
     // Block segmented performance
@@ -118,7 +120,7 @@ serve(async (req) => {
         if (slice.length > 0) {
           blockPerf[seg.key] = {
             accuracy: Math.round((slice.filter(a => a.is_correct).length / slice.length) * 100),
-            avgTime: Math.round(slice.reduce((s, a) => s + (a.time_taken_seconds || 0), 0) / slice.length),
+            avgTime: (() => { const validTimes = slice.map((a) => a.time_taken_seconds).filter((v): v is number => typeof v === "number" && Number.isFinite(v) && v >= 0); return validTimes.length ? Math.round(validTimes.reduce((sum, v) => sum + v, 0) / validTimes.length) : null; })(),
             changeRate: Math.round((slice.reduce((s, a) => s + (a.answer_changes_count || 0), 0) / slice.length) * 100),
           };
         }
@@ -126,10 +128,12 @@ serve(async (req) => {
     }
 
     // Fatigue detection
-    const halfPoint = Math.floor(totalAttempts / 2);
-    const firstHalfAvgTime = halfPoint > 0 ? attempts.slice(0, halfPoint).reduce((s, a) => s + (a.time_taken_seconds || 0), 0) / halfPoint : 0;
-    const secondHalfAvgTime = halfPoint > 0 ? attempts.slice(halfPoint).reduce((s, a) => s + (a.time_taken_seconds || 0), 0) / (totalAttempts - halfPoint) : 0;
-    const fatigueIncrease = firstHalfAvgTime > 0 ? secondHalfAvgTime / firstHalfAvgTime : 1;
+    const halfPoint = Math.floor(timedAttempts.length / 2);
+    const firstHalfTimes = timedAttempts.slice(0, halfPoint).map((a) => a.time_taken_seconds as number);
+    const secondHalfTimes = timedAttempts.slice(halfPoint).map((a) => a.time_taken_seconds as number);
+    const firstHalfAvgTime = firstHalfTimes.length ? firstHalfTimes.reduce((sum, value) => sum + value, 0) / firstHalfTimes.length : null;
+    const secondHalfAvgTime = secondHalfTimes.length ? secondHalfTimes.reduce((sum, value) => sum + value, 0) / secondHalfTimes.length : null;
+    const fatigueIncrease = firstHalfAvgTime !== null && firstHalfAvgTime > 0 && secondHalfAvgTime !== null ? secondHalfAvgTime / firstHalfAvgTime : null;
 
     // ── OSCE Metrics ──
     const osceCount = stationAttempts.length;
@@ -197,17 +201,17 @@ serve(async (req) => {
     // Build unified signals
     const signals = {
       totalAttempts,
-      avgTime: Math.round(avgTime),
+      avgTime: avgTime === null ? null : Math.round(avgTime),
       changeRate: Math.round(changeRate * 100) / 100,
       correctRate: Math.round(correctRate * 100) / 100,
-      avgPauses: Math.round(avgPauses * 100) / 100,
-      avgFirstClick: Math.round(avgFirstClick),
-      fatigueIncrease: Math.round(fatigueIncrease * 100) / 100,
+      
+      avgFirstClick: avgFirstClick === null ? null : Math.round(avgFirstClick),
+      fatigueIncrease: fatigueIncrease === null ? null : Math.round(fatigueIncrease * 100) / 100,
       subjectStats: Object.entries(subjectMap).map(([cat, s]) => ({
         category: cat,
         accuracy: Math.round((s.correct / s.total) * 100),
         changeRate: Math.round((s.changes / s.total) * 100),
-        avgTime: Math.round(s.avgTime),
+        avgTime: s.avgTime === null ? null : Math.round(s.avgTime),
         total: s.total,
       })),
       blockPerformance: blockPerf,
@@ -234,7 +238,7 @@ serve(async (req) => {
 Archetypes:
 - panic_changer: 3+ avg changes, final answer different from first instinct, time >3 min avg
 - rusher: Time <45 seconds avg, no changes, often incorrect on hard questions
-- paralyzer: Time >5 min avg, multiple pauses, very slow decisions
+- paralyzer: Time >5 min average, very slow decisions (pause data is unavailable and must not be inferred)
 - strategist: Systematic elimination, 1-2 deliberate changes, consistent timing (optimal)
 - fatigue_victim: Time per question increases 40%+ in later questions, more changes later
 - subject_avoider: Fast incorrect on specific topics, visible stress markers in certain subjects
