@@ -40,7 +40,8 @@ serve(async (req) => {
     // Only explicitly mode-labelled Normal MCQ attempts may enter this analysis.
     const pie = await fetchCallerPieHistory(req, user.email, 1000);
     if ("error" in pie) {
-      return new Response(JSON.stringify({ error: pie.error }), { status: pie.status, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      const publicError = pie.status === 401 ? "Practice session unavailable. Please sign in again." : pie.status === 403 ? "Practice history is unavailable for this account." : "Practice history is temporarily unavailable.";
+      return new Response(JSON.stringify({ error: publicError }), { status: pie.status, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
     const attempts = toAnalyzeAttempts(pie.rows).filter((a) => a.session_mode === "normal" || a.session_mode === "normal_mcq");
 
@@ -323,7 +324,7 @@ Do not infer personality, motivation, clinical competence, causation, exam score
     });
   } catch (e) {
     console.error("analyze-behavior error:", e);
-    return new Response(JSON.stringify({ error: e instanceof Error ? e.message : "Unknown error" }), {
+    return new Response(JSON.stringify({ error: "Behaviour analysis is temporarily unavailable." }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
