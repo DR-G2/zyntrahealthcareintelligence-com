@@ -70,12 +70,17 @@ function statePrismLayer(state: StateEvidence, selectedMode: PracticeMode | null
       && metadata?.estimateAligned === true
       && sourceEstimate !== null
       && modeScoped;
+    const uncertainty = eligible ? validFraction(metadata?.uncertainty) : null;
+    const rawLower = eligible ? validFraction(metadata?.lower) : null;
+    const rawUpper = eligible ? validFraction(metadata?.upper) : null;
+    const intervalValid = sourceEstimate !== null && rawLower !== null && rawUpper !== null
+      && rawLower <= rawUpper && rawLower <= sourceEstimate && sourceEstimate <= rawUpper;
     return {
       dimension,
       estimate: eligible ? sourceEstimate : null,
-      uncertainty: eligible ? validFraction(metadata?.uncertainty) : null,
-      lower: eligible ? validFraction(metadata?.lower) : null,
-      upper: eligible ? validFraction(metadata?.upper) : null,
+      uncertainty,
+      lower: intervalValid ? rawLower : null,
+      upper: intervalValid ? rawUpper : null,
       evidenceCount,
       // Quality is itself an estimate-quality signal; do not surface it before
       // the dimension has met the fixed evidence gate.
