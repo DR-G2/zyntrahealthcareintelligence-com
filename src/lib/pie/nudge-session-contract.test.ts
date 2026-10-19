@@ -28,15 +28,18 @@ describe("Nudge targeted-session contract", () => {
     expect(migration).toContain("if v_pos < 3 then");
   });
 
-  it("preserves the authenticated session throttle and active-session ceiling", () => {
-    expect(migration).toContain("pie.session_create_throttle");
-    expect(migration).toContain("interval '30 seconds'");
+  it("enforces the deployed active-session ceiling without assuming a throttle table", () => {
+    expect(migration).toContain("PIE_TOO_MANY_ACTIVE_SESSIONS");
     expect(migration).toContain(">= 3 then");
+    // The deployed schema has no pie.session_create_throttle table. Do not
+    // encode an unimplemented 30-second throttle as a contract requirement.
+    expect(migration).not.toContain("pie.session_create_throttle");
+    expect(migration).not.toContain("interval '30 seconds'");
   });
 
   it("keeps server grading and PIE telemetry on the existing attempt path", () => {
-    expect(migration).not.toMatch(/create or replace function public\.save_attempt/i);
-    expect(migration).not.toMatch(/create or replace function pie\.rebuild_authoritative_inference/i);
+    expect(migration).not.toMatch(/create or replace function public\\.save_attempt/i);
+    expect(migration).not.toMatch(/create or replace function pie\\.rebuild_authoritative_inference/i);
     expect(session).toContain("submitPieAnswer");
     expect(session).toContain("confidenceLevel: conf");
     expect(session).toContain("changeSequence: sequence[index] || [answer]");
