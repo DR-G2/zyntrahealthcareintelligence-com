@@ -16,7 +16,7 @@ interface Attempt {
   question_id: string;
   selected_answer: string;
   is_correct: boolean;
-  answer_changes_count: number;
+  answer_changes_count: number | null;
   time_taken_seconds: number;
   created_at: string;
   questions: {
@@ -76,13 +76,14 @@ export function MCQReviewQueue() {
       const latest = history[0];
       const incorrectCount = history.filter(a => !a.is_correct).length;
       const repeatedMiss = incorrectCount >= 2;
-      const unstable = latest.answer_changes_count >= 2;
+      const unstable = latest.answer_changes_count !== null && latest.answer_changes_count >= 2;
       const ordered = [...history].sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime());
       const recent = ordered.slice(-3);
       const recentAccuracy = recent.length ? recent.filter(a => a.is_correct).length / recent.length : 0;
       const overallAccuracy = history.length ? history.filter(a => a.is_correct).length / history.length : 0;
-      const avgChanges = recent.length ? recent.reduce((s, a) => s + (a.answer_changes_count || 0), 0) / recent.length : 0;
-      const mastery = history.length >= 3 && recentAccuracy >= 0.67 && overallAccuracy >= 0.7 && avgChanges < 2;
+      const changeCountsComplete = recent.length > 0 && recent.every(a => a.answer_changes_count !== null);
+      const avgChanges = changeCountsComplete ? recent.reduce((s, a) => s + (a.answer_changes_count ?? 0), 0) / recent.length : null;
+      const mastery = history.length >= 3 && recentAccuracy >= 0.67 && overallAccuracy >= 0.7 && avgChanges !== null && avgChanges < 2;
       const daysSince = Math.max(0, (now - new Date(latest.created_at).getTime()) / 86400000);
       let intervalDays = 0;
       if (!latest.is_correct) intervalDays = history.length >= 2 && repeatedMiss ? 2 : 1;
