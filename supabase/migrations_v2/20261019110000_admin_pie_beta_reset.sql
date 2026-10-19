@@ -103,6 +103,33 @@ begin
 end;
 $$;
 
+create or replace function public._admin_beta_reset_fingerprint(p_mode text, p_counts jsonb)
+returns text
+language plpgsql
+security definer
+set search_path = pg_catalog, public
+as $
+declare
+  candidate_ids text;
+begin
+  if not exists (
+    select 1 from information_schema.columns
+    where table_schema = 'public' and table_name = 'profiles'
+      and column_name = 'is_synthetic' and data_type = 'boolean'
+  ) then
+    raise exception 'Reset blocked: public.profiles.is_synthetic BOOLEAN is missing.';
+  end if;
+
+  execute format(
+    'select coalesce(string_agg(id::text, %L order by id), %L) from public.profiles where is_synthetic is true',
+    ',',
+    ''
+  ) into candidate_ids;
+
+  return md5(p_mode || ':' || p_counts::text || ':' || candidate_ids);
+end;
+$;
+
 create or replace function public._admin_beta_reset_counts(p_mode text)
 returns jsonb
 language plpgsql
@@ -211,7 +238,7 @@ begin
     'mode', p_mode,
     'counts', counts,
     'total_rows', (select coalesce(sum(value::text::bigint), 0) from jsonb_each(counts)),
-    'preview_token', md5(p_mode || ':' || counts::text),
+    'preview_token', public._admin_beta_reset_fingerprint(p_mode, counts),
     'confirmation_phrase', case when p_mode = 'pie_only' then 'RESET PIE BETA DATA' else 'RESET ALL CANDIDATE DATA' end,
     'warning', 'Only rows belonging to explicitly marked synthetic candidates are eligible. Real candidate records, accounts, questions, LO mappings, global question state, model configuration and global certification evidence are excluded.'
   );
@@ -263,7 +290,7 @@ begin
   end loop;
 
   counts := public._admin_beta_reset_counts(p_mode);
-  if md5(p_mode || ':' || counts::text) <> p_preview_token then
+  if public._admin_beta_reset_fingerprint(p_mode, counts) <> p_preview_token then
     raise exception 'Data changed since preview. Run preview again.';
   end if;
   expected_phrase := case when p_mode = 'pie_only' then 'RESET PIE BETA DATA' else 'RESET ALL CANDIDATE DATA' end;
@@ -383,6 +410,7 @@ $$;
 revoke all on function public._admin_beta_reset_targets() from public, anon, authenticated;
 revoke all on function public._admin_beta_reset_predicate(text) from public, anon, authenticated;
 revoke all on function public._admin_beta_reset_counts(text) from public, anon, authenticated;
+revoke all on function public._admin_beta_reset_fingerprint(text,jsonb) from public, anon, authenticated;
 revoke all on function public._admin_beta_reset_is_super_admin() from public, anon, authenticated;
 revoke all on function public.admin_preview_pie_beta_reset(text) from public, anon, authenticated;
 revoke all on function public.admin_execute_pie_beta_reset(text,text,text) from public, anon, authenticated;
