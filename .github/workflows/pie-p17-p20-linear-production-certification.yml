@@ -1,9 +1,6 @@
 name: PIE P17-P20 Linear Production Certification
 
 on:
-  push:
-    branches:
-      - ops/pie-p17-p20-linear-certification-20261019
   workflow_dispatch:
 
 jobs:
