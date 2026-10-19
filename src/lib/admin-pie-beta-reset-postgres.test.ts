@@ -15,6 +15,7 @@ const uuid = (n: number) => `00000000-0000-0000-0000-${String(n).padStart(12, '0
 const SYN = uuid(100);
 const REAL = uuid(200);
 const ADMIN = uuid(300);
+const OTHER_ADMIN = uuid(301);
 const SYN_SESSION = uuid(400);
 const REAL_SESSION = uuid(401);
 const SYN_ATTEMPT = uuid(500);
@@ -82,8 +83,9 @@ create table public.profiles (id uuid primary key, role text);
 insert into auth.users values
   ('${ADMIN}', 'gopalrock.naren@gmail.com', now()),
   ('${SYN}', 'synthetic@example.test', now()),
-  ('${REAL}', 'real@example.test', now());
-insert into public.profiles values ('${SYN}', 'learner'), ('${REAL}', 'learner'), ('${ADMIN}', 'super_admin');
+  ('${REAL}', 'real@example.test', now()),
+  ('${OTHER_ADMIN}', 'other-admin@example.test', now());
+insert into public.profiles values ('${SYN}', 'learner'), ('${REAL}', 'learner'), ('${ADMIN}', 'super_admin'), ('${OTHER_ADMIN}', 'super_admin');
 
 create table public.practice_sessions (id uuid primary key, user_id uuid not null);
 create table public.user_attempts (
@@ -249,8 +251,8 @@ begin
   end if;
 
   if (select count(*) from public.questions) <> 1 then raise exception 'question bank was changed'; end if;
-  if (select count(*) from public.profiles) <> 3 then raise exception 'candidate profiles were deleted'; end if;
-  if (select count(*) from auth.users) <> 3 then raise exception 'auth accounts were deleted'; end if;
+  if (select count(*) from public.profiles) <> 4 then raise exception 'candidate profiles were deleted'; end if;
+  if (select count(*) from auth.users) <> 4 then raise exception 'auth accounts were deleted'; end if;
   if (select count(*) from pie.synthetic_candidate_registry) <> 1 then raise exception 'reset changed synthetic registry membership'; end if;
   if (select count(*) from pie.pie_question_state) <> 1
      or (select count(*) from pie.pie_question_uncertainty) <> 1
@@ -334,7 +336,7 @@ begin
   end if;
   blocked := false;
   begin
-    perform public.admin_register_synthetic_candidate('${ADMIN}', 'must not register administrator');
+    perform public.admin_register_synthetic_candidate('${OTHER_ADMIN}', 'must not register administrator');
   exception when others then
     if sqlerrm <> 'Administrative accounts cannot be registered as synthetic candidates.' then raise; end if;
     blocked := true;
