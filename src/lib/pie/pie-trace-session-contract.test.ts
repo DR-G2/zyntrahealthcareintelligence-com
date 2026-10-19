@@ -6,6 +6,10 @@ const migration = readFileSync(
   resolve(__dirname, "../../../supabase/migrations_v2/0096_pie_runtime_query_hardening.sql"),
   "utf8",
 );
+const aclMigration = readFileSync(
+  resolve(__dirname, "../../../supabase/migrations_v2/0097_revoke_service_role_from_session_trace_rpc.sql"),
+  "utf8",
+);
 const p21 = readFileSync(
   resolve(__dirname, "../../../scripts/pie-p21-2-decision-trace-integrity.mts"),
   "utf8",
@@ -33,8 +37,8 @@ describe("PIE runtime query hardening contract", () => {
     expect(migration).toContain("'decision_type', d.decision_type");
     expect(migration).toContain("grant execute on function public.get_my_pie_decision_traces_for_session(uuid) to authenticated;");
     expect(migration).not.toContain("to authenticated, service_role");
-    expect(migration).toContain("revoke all on function public.get_my_pie_decision_traces_for_session(uuid) from public, anon, service_role;");
     expect(migration).toContain("notify pgrst, 'reload schema';");
+    expect(aclMigration).toContain("revoke all on function public.get_my_pie_decision_traces_for_session(uuid) from service_role;");
   });
 
   it("P21.2 uses the session-scoped trace contract rather than aggregating all candidate history", () => {
