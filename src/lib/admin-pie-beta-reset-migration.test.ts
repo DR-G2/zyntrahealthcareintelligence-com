@@ -49,6 +49,8 @@ describe('PIE beta reset migration source contract', () => {
     }
     expect(migration).toContain('missing required scope column');
     expect(migration).toContain('pie.synthetic_candidate_registry');
+    expect(migration).toContain('alter table pie.synthetic_candidate_registry enable row level security');
+    expect(migration).toContain('revoke all on pie.synthetic_candidate_registry from public, anon, authenticated');
     expect(migration).toContain('admin_register_synthetic_candidate(uuid,text)');
   });
 
