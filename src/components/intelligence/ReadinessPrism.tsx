@@ -1,9 +1,9 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { Activity, ArrowRight, Brain, ChevronDown, CircleHelp, Clock3, Eye, GitBranch, ShieldCheck, Sparkles, Target } from "lucide-react";
+import { Activity, ArrowRight, Brain, ChevronDown, CircleHelp, Clock3, Eye, ShieldCheck, Sparkles, Target } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DIMENSIONS, historySummary, normalizePracticeMode, type Dimension, type IntelligenceEvidence, type PracticeMode, type SafeAttempt } from "@/lib/pie/intelligence-evidence";
-import { authoritativePrismLayer, observedPrismLayer, prismDimensionsAreComplete, MIN_DIMENSION_OBSERVATIONS } from "@/lib/pie/readiness-prism-adapter";
+import { authoritativePrismLayer, observedPrismLayer, MIN_DIMENSION_OBSERVATIONS } from "@/lib/pie/readiness-prism-adapter";
 import type { PrismDimensionValue } from "@/lib/pie/readiness-prism-adapter";
 
 const LABELS: Record<Dimension, string> = {
@@ -62,30 +62,6 @@ function SignalTile({ label, value, detail, selected, onClick, icon: Icon }: {
   </button>;
 }
 
-function DimensionMap({ dimensions, selected, onSelect }: {
-  dimensions: PrismDimensionValue[]; selected: Dimension; onSelect: (dimension: Dimension) => void;
-}) {
-  const complete = prismDimensionsAreComplete(dimensions);
-  const radius = 68;
-  const point = (index: number, r: number) => ({ x: 100 + Math.cos(-Math.PI / 2 + index * Math.PI / 3) * r, y: 92 + Math.sin(-Math.PI / 2 + index * Math.PI / 3) * r });
-  const polygon = complete ? dimensions.map((item,index) => { const p=point(index,item.estimate! * radius); return p.x + "," + p.y; }).join(" ") : "";
-  return <div className="grid items-center gap-4 sm:grid-cols-[minmax(180px,.8fr)_1.2fr]">
-    <div className="mx-auto w-full max-w-[250px]">
-      <svg viewBox="0 0 200 184" role="img" aria-label={complete ? "Six-dimensional PIE map with all values available" : "Six-dimensional PIE map with incomplete values"} className="w-full">
-        {[.25,.5,.75,1].map(level => <polygon key={level} points={DIMENSIONS.map((_,i) => { const p=point(i,radius*level); return p.x + "," + p.y; }).join(" ")} fill="none" stroke="hsl(var(--border))" strokeWidth=".8"/>)}
-        {DIMENSIONS.map((dimension,i) => { const p=point(i,radius); return <line key={dimension} x1="100" y1="92" x2={p.x} y2={p.y} stroke="hsl(var(--border))" strokeWidth=".8"/>; })}
-        {complete && <polygon points={polygon} fill="hsl(var(--primary) / .15)" stroke="hsl(var(--primary))" strokeWidth="1.8"/>}
-        {dimensions.map((item,index) => { if (item.estimate === null) return null; const p=point(index,item.estimate*radius); return <circle key={item.dimension} cx={p.x} cy={p.y} r={item.dimension===selected?4:2.7} fill="hsl(var(--primary))"/>; })}
-      </svg>
-      <p className="text-center text-[11px] text-muted-foreground">{complete ? "All six dimension estimates meet their evidence gates." : "The map is partial because one or more dimension estimates are unavailable; unsupported values are not plotted."}</p>
-    </div>
-    <div className="grid gap-1.5 sm:grid-cols-2">{dimensions.map(item => <button key={item.dimension} type="button" onClick={() => onSelect(item.dimension)} aria-pressed={selected===item.dimension}
-      className={"min-h-14 rounded-md border px-3 py-2 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring " + (selected===item.dimension?"border-primary/50 bg-primary/[.06]":"border-border/60 hover:bg-muted/30")}>
-      <span className="block text-xs text-muted-foreground">{LABELS[item.dimension]}</span><span className="mt-1 block font-mono text-sm">{item.estimate!==null?percent(item.estimate*100):item.dimension==="calibration"&&item.evidenceCount!==null&&item.evidenceCount>=MIN_DIMENSION_OBSERVATIONS&&item.calibrationReady===false?"Need C1–C5 coverage":item.evidenceCount!==null&&item.evidenceCount<MIN_DIMENSION_OBSERVATIONS?"Building":"Unavailable"}</span><span className="mt-1 block text-[10px] text-muted-foreground">{item.evidenceCount===null?"Valid observation count unavailable":item.evidenceCount+" / "+MIN_DIMENSION_OBSERVATIONS+" valid observations"}</span>
-    </button>)}</div>
-  </div>;
-}
-
 function buildSubjectRows(rows: SafeAttempt[]) {
   const groups = new Map<string, SafeAttempt[]>();
   rows.forEach(row => { const key=row.subjectId ?? row.subject; groups.set(key,[...(groups.get(key)??[]),row]); });
@@ -137,7 +113,7 @@ export function ReadinessPrism({ evidence, loading, retry }: { evidence: Intelli
 
   return <section className="space-y-8" aria-busy={loading}>
     <header className="grid gap-4 border-b border-border/60 pb-6 sm:grid-cols-[1fr_auto] sm:items-end">
-      <div><p className="mb-2 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[.18em] text-primary"><Activity className="h-3.5 w-3.5"/>Performance Intelligence Engine</p><h2 className="font-display text-2xl font-semibold tracking-tight sm:text-3xl">Your decisions, made visible.</h2><p className="mt-2 max-w-xl text-sm leading-6 text-muted-foreground">A measured view of your practice evidence: what is observed, what PIE estimates, and what is still unknown.</p></div>
+      <div><h2 className="font-display text-2xl font-semibold tracking-tight sm:text-3xl">Your decisions, made visible.</h2><p className="mt-2 max-w-xl text-sm leading-6 text-muted-foreground">A measured view of your practice evidence: what is observed and what is still unknown.</p></div>
       <Button variant="outline" size="sm" onClick={retry} disabled={loading} className="min-h-11"><Activity className="mr-2 h-4 w-4"/>Refresh evidence</Button>
     </header>
 
@@ -160,11 +136,10 @@ export function ReadinessPrism({ evidence, loading, retry }: { evidence: Intelli
       <div className="flex gap-3 border-l-2 border-primary/40 py-1 pl-4" aria-live="polite"><CircleHelp className="mt-0.5 h-4 w-4 shrink-0 text-primary"/><div><p className="text-sm font-medium">{chosen.label}: {signals[selectedSignal].value}</p><p className="mt-1 text-xs leading-5 text-muted-foreground">{chosen.detail} {signals[selectedSignal].available?"The value is from the source noted above.":"This value is unavailable rather than inferred from another metric."}</p></div></div>
     </section>
 
-    <section aria-label="Six-dimensional PIE map" className="space-y-4 border-t border-border/50 pt-6">
-      <div><p className="text-xs font-medium uppercase tracking-[.14em] text-muted-foreground">02 / PIE state</p><h3 className="mt-1 font-display text-lg font-semibold">Six-dimensional map</h3><p className="mt-1 text-sm text-muted-foreground">Authoritative PIE estimates only. Missing dimensions are not plotted as zero.</p></div>
-      <div className="grid gap-4 lg:grid-cols-[1.2fr_.8fr]">
-        <div className="min-w-0 rounded-lg border border-border/70 p-3 sm:p-4"><DimensionMap dimensions={displayDimensions} selected={selectedDimension} onSelect={setSelectedDimension}/></div>
-        <div className="flex flex-col justify-between gap-4 border-l border-border/50 pl-4">
+    <section aria-label="Six-dimensional PIE evidence" className="space-y-4 border-t border-border/50 pt-6">
+      <div><p className="text-xs font-medium uppercase tracking-[.14em] text-muted-foreground">02 / PIE state</p><h3 className="mt-1 font-display text-lg font-semibold">Six dimensions</h3><p className="mt-1 text-sm text-muted-foreground">Only supported estimates are shown. Missing dimensions remain unavailable.</p></div>
+      <div className="grid gap-4">
+        <div className="flex flex-col justify-between gap-4">
           <div><p className="text-xs text-muted-foreground">Selected dimension</p><h4 className="mt-1 font-display text-lg font-semibold">{LABELS[selectedDimension]}</h4><p className="mt-2 text-sm leading-6 text-muted-foreground">{DESCRIPTIONS[selectedDimension]}</p></div>
           <div className="grid grid-cols-2 gap-3">
             <div><p className="text-xs text-muted-foreground">Estimate</p><p className="mt-1 font-mono text-base">{chosenDimension.estimate!==null?percent(chosenDimension.estimate*100):selectedDimension==="calibration"&&chosenDimension.evidenceCount!==null&&chosenDimension.evidenceCount>=MIN_DIMENSION_OBSERVATIONS&&chosenDimension.calibrationReady===false?"Need C1–C5 coverage":chosenDimension.evidenceCount!==null&&chosenDimension.evidenceCount<MIN_DIMENSION_OBSERVATIONS?"Building":"Unavailable"}</p></div>
@@ -174,7 +149,7 @@ export function ReadinessPrism({ evidence, loading, retry }: { evidence: Intelli
             <div><p className="text-xs text-muted-foreground">Evidence quality</p><p className="mt-1 font-mono text-sm">{chosenDimension.evidenceQuality===null?"Unavailable":percent(chosenDimension.evidenceQuality*100)}</p></div>
             <div><p className="text-xs text-muted-foreground">Source timestamp</p><p className="mt-1 text-xs leading-5">{dateLabel(pieModel.timestamp)}</p></div>
           </div>
-          <p role="status" className="text-xs leading-5 text-muted-foreground">{loading?"Loading your PIE projection…":chosenDimension.estimate===null&&chosenDimension.evidenceCount!==null&&chosenDimension.evidenceCount<MIN_DIMENSION_OBSERVATIONS?"Building evidence: this dimension needs 50 valid observations.":selectedDimension==="calibration"?evidence?.history.status==="unavailable"?"Calibration evidence is unavailable because attempt history could not be loaded.":"Calibration evidence for "+selectedMode+": "+confidenceCounts.map(item=>"C"+item.level+" "+(item.count===null?"unavailable":item.count+"/15")).join(" · ")+". The mode-scoped authoritative PIE calibration estimate is unavailable; no cross-mode estimate is shown.":pieModel.message??"PIE projection available. This is not a readiness guarantee."}</p>
+          <p role="status" className="text-xs leading-5 text-muted-foreground">{loading?"Loading your PIE projection…":chosenDimension.estimate===null&&chosenDimension.evidenceCount!==null&&chosenDimension.evidenceCount<MIN_DIMENSION_OBSERVATIONS?"Building, "+chosenDimension.evidenceCount+" of "+MIN_DIMENSION_OBSERVATIONS:selectedDimension==="calibration"?evidence?.history.status==="unavailable"?"Calibration evidence is unavailable because attempt history could not be loaded.":"Calibration evidence for "+selectedMode+": "+confidenceCounts.map(item=>"C"+item.level+" "+(item.count===null?"unavailable":item.count+"/15")).join(" · ")+". The mode-scoped authoritative PIE calibration estimate is unavailable; no cross-mode estimate is shown.":pieModel.message??"PIE projection available. This page describes recorded practice evidence, not exam outcomes."}</p>
         </div>
       </div>
     </section>
@@ -209,9 +184,7 @@ export function ReadinessPrism({ evidence, loading, retry }: { evidence: Intelli
       <button type="button" aria-expanded={showEvidence} onClick={()=>setShowEvidence(value=>!value)} className="flex min-h-11 w-full items-center justify-between gap-3 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"><span className="flex items-center gap-2 text-sm font-medium"><ShieldCheck className="h-4 w-4 text-primary"/>Evidence transparency and limitations</span><ChevronDown className={"h-4 w-4 transition-transform "+(showEvidence?"rotate-180":"")}/></button>
       {showEvidence&&<div className="grid gap-4 border-l border-border py-3 pl-4 text-sm sm:grid-cols-2">
         <div><p className="font-medium">Observed history</p><p className="mt-1 leading-6 text-muted-foreground">{observedModel?.message??"Observed attempt history is not loaded."} {observedModel?.evidenceCount==null?"Count unavailable":observedModel.evidenceCount+" returned attempts"}. Latest timestamp: {dateLabel(latestHistory)}.</p></div>
-        <div><p className="font-medium">Global PIE observation count</p><p className="mt-1 leading-6 text-muted-foreground">{pieModel.evidenceCount===null?"Count unavailable":pieModel.evidenceCount+" total PIE observations"}. This global count is not a per-dimension count and cannot unlock any dimension's 50-observation gate.</p></div>
-        <div><p className="font-medium">Authoritative PIE projection</p><p className="mt-1 leading-6 text-muted-foreground">{pieModel.message??"PIE projection available."} Source timestamp: {dateLabel(pieModel.timestamp)}. Readiness DNA is not substituted.</p></div>
-        <div><p className="font-medium">Independent source status</p><p className="mt-1 leading-6 text-muted-foreground">Attempt history: {evidence?.history.status??"unavailable"} for {selectedMode}. PIE state: {pieModel.status==="ready"?"available":pieModel.status==="empty"?"building or unavailable":pieModel.status}. Decision stability: {signals.stability.available?"available for selected mode":"unavailable for selected mode"}. Confidence calibration: {signals.confidence.available?"available for selected mode":"unavailable for selected mode"}.</p></div>
+        <div><p className="font-medium">Evidence status</p><p className="mt-1 leading-6 text-muted-foreground">Attempt history: {evidence?.history.status??"unavailable"} for the selected practice mode. Evidence sources are evaluated separately.</p></div>
         <div><p className="font-medium">Limitations</p><p className="mt-1 leading-6 text-muted-foreground">This page describes returned evidence and existing projections. It does not promise exam outcomes, create new scores, or claim unavailable signals are zero.</p></div>
       </div>}
       {evidenceUnavailable&&<p role="status" className="mt-2 text-xs text-muted-foreground">At least one source is unavailable. Other successful sources are shown separately.</p>}
