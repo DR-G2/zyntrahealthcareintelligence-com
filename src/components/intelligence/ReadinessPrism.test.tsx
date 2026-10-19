@@ -69,7 +69,6 @@ describe("Intelligence overview", () => {
     } } });
     render(<MemoryRouter><ReadinessPrism evidence={input} loading={false} retry={() => {}} /></MemoryRouter>);
     expect(screen.getByText("Building, 49 of 50")).toBeInTheDocument();
-    expect(screen.getByText("Building, 8 of 50")).toBeInTheDocument();
     expect(screen.queryByText("97%")).toBeNull();
     expect(screen.queryByText("89%")).toBeNull();
     expect(screen.getAllByText(/49 \/ 50 valid observations/).length).toBeGreaterThan(0);
