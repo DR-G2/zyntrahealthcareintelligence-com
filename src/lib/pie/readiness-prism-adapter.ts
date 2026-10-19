@@ -97,7 +97,7 @@ function statePrismLayer(state: StateEvidence, selectedMode: PracticeMode | null
   const sufficient = modeScoped && complete && metadataComplete
     && dimensions.every(item => item.evidenceCount !== null
       && item.evidenceCount >= MIN_DIMENSION_OBSERVATIONS
-      && (item.evidenceQuality ?? 0) > 0
+      && item.evidenceQuality !== null && item.evidenceQuality > 0
       && item.estimateAligned === true);
   return {
     layer: "authoritative",
