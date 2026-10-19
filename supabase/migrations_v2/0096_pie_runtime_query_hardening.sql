@@ -7,6 +7,16 @@ create index if not exists pie_question_quarantine_open_question_idx
   on pie.pie_question_quarantine(question_id)
   where status = 'open';
 
+-- Some isolated verification replicas omit this legacy relation even though the
+-- deployed selector references it. Add the supporting index when the table exists.
+do $index$
+begin
+  if to_regclass('pie.lo_prerequisite') is not null then
+    execute 'create index if not exists pie_lo_prerequisite_prerequisite_lo_idx on pie.lo_prerequisite(prerequisite_lo_id, lo_id)';
+  end if;
+end
+$index$;
+
 create index if not exists user_attempts_user_session_question_idx
   on public.user_attempts(user_id, session_id, question_id);
 
