@@ -34,7 +34,7 @@ interface AttemptWithQuestion {
   question_id: string;
   selected_answer: string;
   is_correct: boolean;
-  answer_changes_count: number;
+  answer_changes_count: number | null;
   change_sequence: string[];
   created_at: string;
   session_id: string | null;
@@ -55,8 +55,9 @@ interface ChangeAnalysis {
 interface CategoryBreakdown {
   category: string;
   pointsLost: number | null;
-  changeRate: number;
+  changeRate: number | null;
   attempts: number;
+  changeEvidenceCount: number;
   eligibleAttempts: number;
 }
 
@@ -66,9 +67,16 @@ function answersMatch(left: string | null | undefined, right: string | null | un
 }
 
 function hasConsistentChangeSequence(a: AttemptWithQuestion): boolean {
-  return a.change_sequence.length > 0
-    && a.answer_changes_count === Math.max(0, a.change_sequence.length - 1)
+  return a.change_sequence.length > 1
+    && a.answer_changes_count !== null
+    && a.answer_changes_count === a.change_sequence.length - 1
     && answersMatch(a.change_sequence[a.change_sequence.length - 1], a.selected_answer);
+}
+
+function hasValidChangeEvidence(a: AttemptWithQuestion): boolean {
+  if (a.answer_changes_count === null) return false;
+  if (a.answer_changes_count === 0) return a.change_sequence.length === 0;
+  return hasConsistentChangeSequence(a);
 }
 
 export default function TrustYourGut() {
@@ -95,7 +103,8 @@ export default function TrustYourGut() {
 
   // Compute stats within the selected practice mode only.
   const stats = useMemo(() => {
-    const recordedChangedAttempts = modeAttempts.filter(a => a.answer_changes_count > 0 && hasConsistentChangeSequence(a));
+    const changeEvidenceCount = modeAttempts.filter(hasValidChangeEvidence).length;
+    const recordedChangedAttempts = modeAttempts.filter(a => a.answer_changes_count !== null && a.answer_changes_count > 0 && hasConsistentChangeSequence(a));
     const attemptsWithChanges = recordedChangedAttempts.filter(a => !!a.questions?.correct_answer && answersMatch(a.selected_answer, a.questions.correct_answer) === a.is_correct);
     
     let firstInstinctCorrect = 0;
@@ -131,7 +140,7 @@ export default function TrustYourGut() {
     const totalAttempts = modeAttempts.length;
     const attemptsWithChangesCount = recordedChangedAttempts.length;
     const eligibleChangedAttemptsCount = attemptsWithChanges.length;
-    const changeRate = totalAttempts > 0 ? (attemptsWithChangesCount / totalAttempts) * 100 : null;
+    const changeRate = changeEvidenceCount > 0 ? (attemptsWithChangesCount / changeEvidenceCount) * 100 : null;
 
     return {
       firstInstinctAccuracy,
@@ -140,6 +149,8 @@ export default function TrustYourGut() {
       pointsGained: attemptsWithChanges.length > 0 ? wrongToCorrect : null,
       changeRate,
       totalWithChanges: attemptsWithChangesCount,
+      changeEvidenceCount,
+      missingChangeEvidenceCount: totalAttempts - changeEvidenceCount,
       eligibleChangedAttempts: eligibleChangedAttemptsCount,
       totalAttempts,
       changeAnalysis: {
@@ -153,17 +164,18 @@ export default function TrustYourGut() {
 
   // Category breakdown
   const categoryBreakdown = useMemo((): CategoryBreakdown[] => {
-    const categoryMap = new Map<string, { pointsLost: number; changes: number; attempts: number; eligibleAttempts: number }>();
+    const categoryMap = new Map<string, { pointsLost: number; changes: number; attempts: number; changeEvidenceCount: number; eligibleAttempts: number }>();
     
     modeAttempts.forEach(a => {
       const category = a.questions?.category || 'Unknown';
       if (!categoryMap.has(category)) {
-        categoryMap.set(category, { pointsLost: 0, changes: 0, attempts: 0, eligibleAttempts: 0 });
+        categoryMap.set(category, { pointsLost: 0, changes: 0, attempts: 0, changeEvidenceCount: 0, eligibleAttempts: 0 });
       }
       const entry = categoryMap.get(category)!;
       entry.attempts++;
       
-      const hasRecordedChange = a.answer_changes_count > 0 && hasConsistentChangeSequence(a);
+      if (hasValidChangeEvidence(a)) entry.changeEvidenceCount++;
+      const hasRecordedChange = a.answer_changes_count !== null && a.answer_changes_count > 0 && hasConsistentChangeSequence(a);
       if (hasRecordedChange) entry.changes++;
       if (a.questions?.correct_answer && answersMatch(a.selected_answer, a.questions.correct_answer) === a.is_correct) {
         entry.eligibleAttempts++;
@@ -179,11 +191,12 @@ export default function TrustYourGut() {
       .map(([category, data]) => ({
         category,
         pointsLost: data.eligibleAttempts > 0 ? data.pointsLost : null,
-        changeRate: data.attempts > 0 ? (data.changes / data.attempts) * 100 : 0,
+        changeRate: data.changeEvidenceCount > 0 ? (data.changes / data.changeEvidenceCount) * 100 : null,
         attempts: data.attempts,
+        changeEvidenceCount: data.changeEvidenceCount,
         eligibleAttempts: data.eligibleAttempts
       }))
-      .filter(c => c.attempts >= 3 && c.changeRate > 0)
+      .filter(c => c.attempts >= 3 && c.changeRate !== null && c.changeRate > 0)
       .sort((a, b) => (b.pointsLost ?? -1) - (a.pointsLost ?? -1));
   }, [modeAttempts]);
 
@@ -375,7 +388,7 @@ export default function TrustYourGut() {
               <CardContent className="p-4">
                 <p className="text-[10px] uppercase tracking-[0.12em] text-purple-300/80">Change rate</p>
                 <p className="mt-2 text-2xl font-bold text-white">{stats.changeRate === null ? 'Unavailable' : `${stats.changeRate.toFixed(1)}%`}</p>
-                <p className="mt-1 text-xs text-slate-500">{stats.totalWithChanges} changed attempts</p>
+                <p className="mt-1 text-xs text-slate-500">{stats.totalWithChanges} / {stats.changeEvidenceCount} with recorded change counts</p>{stats.missingChangeEvidenceCount > 0 && <p className="mt-1 text-[10px] text-amber-500">{stats.missingChangeEvidenceCount} attempts have unavailable change-count evidence</p>}
               </CardContent>
             </Card>
           </div>
@@ -455,12 +468,12 @@ export default function TrustYourGut() {
                     <div key={row.category} className="rounded-2xl border border-white/8 bg-white/[0.02] p-3">
                       <div className="flex items-center justify-between gap-3">
                         <span className="truncate text-sm text-slate-300">{row.category}</span>
-                        <span className="font-mono text-xs text-slate-400">{row.changeRate.toFixed(1)}%</span>
+                        <span className="font-mono text-xs text-slate-400">{row.changeRate === null ? 'Unavailable' : `${row.changeRate.toFixed(1)}%`}</span>
                       </div>
                       <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/[0.06]">
-                        <div className="h-full rounded-full bg-gradient-to-r from-purple-400 to-cyan-300" style={{ width: `${Math.min(100, row.changeRate)}%` }} />
+                        <div className="h-full rounded-full bg-gradient-to-r from-purple-400 to-cyan-300" style={{ width: `${Math.min(100, row.changeRate ?? 0)}%` }} />
                       </div>
-                      <p className="mt-1 text-[10px] text-slate-600">{row.attempts} attempts · {row.pointsLost === null ? 'correct-to-wrong unavailable' : `${row.pointsLost} correct-to-wrong`} · {row.eligibleAttempts} with completed answer keys</p>
+                      <p className="mt-1 text-[10px] text-slate-600">{row.attempts} attempts · {row.changeEvidenceCount} with recorded change counts · {row.pointsLost === null ? 'correct-to-wrong unavailable' : `${row.pointsLost} correct-to-wrong`} · {row.eligibleAttempts} with completed answer keys</p>
                     </div>
                   ))}
                 </div>
