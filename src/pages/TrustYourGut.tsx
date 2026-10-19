@@ -60,10 +60,15 @@ interface CategoryBreakdown {
   eligibleAttempts: number;
 }
 
+function answersMatch(left: string | null | undefined, right: string | null | undefined): boolean {
+  return typeof left === 'string' && typeof right === 'string'
+    && left.trim().toUpperCase() === right.trim().toUpperCase();
+}
+
 function hasConsistentChangeSequence(a: AttemptWithQuestion): boolean {
   return a.change_sequence.length > 0
     && a.answer_changes_count === Math.max(0, a.change_sequence.length - 1)
-    && a.change_sequence[a.change_sequence.length - 1] === a.selected_answer;
+    && answersMatch(a.change_sequence[a.change_sequence.length - 1], a.selected_answer);
 }
 
 export default function TrustYourGut() {
@@ -91,7 +96,7 @@ export default function TrustYourGut() {
   // Compute stats within the selected practice mode only.
   const stats = useMemo(() => {
     const recordedChangedAttempts = modeAttempts.filter(a => a.answer_changes_count > 0 && hasConsistentChangeSequence(a));
-    const attemptsWithChanges = recordedChangedAttempts.filter(a => !!a.questions?.correct_answer);
+    const attemptsWithChanges = recordedChangedAttempts.filter(a => !!a.questions?.correct_answer && answersMatch(a.selected_answer, a.questions.correct_answer) === a.is_correct);
     
     let firstInstinctCorrect = 0;
     let finalCorrect = 0;
@@ -104,11 +109,11 @@ export default function TrustYourGut() {
       const correctAnswer = a.questions?.correct_answer;
       const finalAnswer = a.selected_answer;
       
-      if (firstAnswer === correctAnswer) firstInstinctCorrect++;
+      if (answersMatch(firstAnswer, correctAnswer)) firstInstinctCorrect++;
       if (finalAnswer === correctAnswer) finalCorrect++;
       
-      const firstWasCorrect = firstAnswer === correctAnswer;
-      const finalIsCorrect = finalAnswer === correctAnswer;
+      const firstWasCorrect = answersMatch(firstAnswer, correctAnswer);
+      const finalIsCorrect = answersMatch(finalAnswer, correctAnswer);
       
       if (firstWasCorrect && !finalIsCorrect) correctToWrong++;
       else if (!firstWasCorrect && finalIsCorrect) wrongToCorrect++;
@@ -160,12 +165,12 @@ export default function TrustYourGut() {
       
       const hasRecordedChange = a.answer_changes_count > 0 && hasConsistentChangeSequence(a);
       if (hasRecordedChange) entry.changes++;
-      if (a.questions?.correct_answer) {
+      if (a.questions?.correct_answer && answersMatch(a.selected_answer, a.questions.correct_answer) === a.is_correct) {
         entry.eligibleAttempts++;
         if (hasRecordedChange) {
           const firstAnswer = a.change_sequence[0];
           const correctAnswer = a.questions.correct_answer;
-          if (firstAnswer === correctAnswer && a.selected_answer !== correctAnswer) entry.pointsLost++;
+          if (answersMatch(firstAnswer, correctAnswer) && !answersMatch(a.selected_answer, correctAnswer)) entry.pointsLost++;
         }
       }
     });
@@ -186,7 +191,7 @@ export default function TrustYourGut() {
   const trendData = useMemo(() => {
     const sessionMap = new Map<string, { firstCorrect: number; firstTotal: number; finalCorrect: number; total: number; date: string }>();
     
-    modeAttempts.filter(a => !!a.session_id && !!a.questions?.correct_answer).forEach(a => {
+    modeAttempts.filter(a => !!a.session_id && !!a.questions?.correct_answer && answersMatch(a.selected_answer, a.questions.correct_answer) === a.is_correct).forEach(a => {
       if (!sessionMap.has(a.session_id!)) {
         sessionMap.set(a.session_id!, { firstCorrect: 0, firstTotal: 0, finalCorrect: 0, total: 0, date: a.created_at.split('T')[0] });
       }
@@ -196,7 +201,7 @@ export default function TrustYourGut() {
       if (a.is_correct) session.finalCorrect++;
       if (hasConsistentChangeSequence(a)) {
         session.firstTotal++;
-        if (a.change_sequence[0] === a.questions?.correct_answer) session.firstCorrect++;
+        if (answersMatch(a.change_sequence[0], a.questions?.correct_answer)) session.firstCorrect++;
       } else if (a.answer_changes_count === 0 && a.change_sequence.length === 0) {
         // No recorded changes and no sequence, so first = final.
         session.firstTotal++;
