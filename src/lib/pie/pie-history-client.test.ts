@@ -47,6 +47,12 @@ describe("P5 learner history (PIE attempts only)", () => {
     expect(l.confidence_level).toBe(2);
   });
 
+  it("does not coerce malformed answer-change entries into fake answer strings", () => {
+    expect(toLegacyAttempt(row(0, { change_sequence: [{ option: "A" }, "B"] })).change_sequence).toEqual([]);
+    expect(toLegacyAttempt(row(0, { change_sequence: null })).change_sequence).toEqual([]);
+    expect(toLegacyAttempt(row(0, { change_sequence: ["B", "A"] })).change_sequence).toEqual(["B", "A"]);
+  });
+
   it("supports deployed V2 session_type values and surfaces RPC errors", async () => {
     const rows = await fetchLegacyShapedHistory(10, "asc", deps([row(1), row(0)]));
     expect(rows.map((r) => r.id)).toEqual(["a0", "a1"]);
