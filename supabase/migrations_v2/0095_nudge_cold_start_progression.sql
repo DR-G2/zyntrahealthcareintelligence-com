@@ -41,8 +41,8 @@ begin
   join pie.learning_objective lo on lo.id = ql.lo_id and lo.status = 'active'
   where ua.user_id = v_user;
 
+  select * into v_target from public.get_my_nudge_target();
   if v_mapped_interactions >= 50 then
-    select * into v_target from public.get_my_nudge_target();
     if v_target.status = 'READY' and v_target.eligible_question_count >= 3 then
       v_cold_start := false;
       v_reason := v_target.reason_code;
