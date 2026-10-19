@@ -2,6 +2,9 @@ name: PIE P17-P20 Linear Production Certification
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - ops/pie-p17-p20-linear-certification-20261019
 
 jobs:
   certify:
@@ -41,13 +44,16 @@ jobs:
         run: npm run typecheck
       - name: Production build
         run: npm run build
-      - name: P16 regression certification
+      - name: Prime P16 projection precondition
         env: &cert_env
           V2_URL: ${{ secrets.ZYNTRA_V2_URL }}
           V2_PUBLISHABLE_KEY: ${{ secrets.ZYNTRA_V2_PUBLISHABLE_KEY }}
           PIE_TEST_USER_A_EMAIL: ${{ secrets.PIE_TEST_USER_A_EMAIL }}
           PIE_TEST_USER_B_EMAIL: ${{ secrets.PIE_TEST_USER_B_EMAIL }}
           PIE_TEST_PASSWORD: ${{ secrets.PIE_TEST_PASSWORD }}
+        run: npx vite-node scripts/pie-p16-prime-projection.mts
+      - name: P16 regression certification
+        env: *cert_env
         run: npx vite-node scripts/pie-p16-production-contract-audit.mts
       - name: P15 regression certification
         env: *cert_env
