@@ -127,7 +127,7 @@ export async function getNudgeProgress(loId: string, deps: PieDeps = defaultPieD
   };
 }
 
-export async function startPieSession(count: number, deps: PieDeps = defaultPieDeps, practiceMode: 'normal_mcq' | 'mock_practice' = 'normal_mcq'): Promise<{ sessionId: string; questions: PieSessionQuestion[] }> {
+export async function startPieSession(count: number, deps: PieDeps = defaultPieDeps, practiceMode: 'normal_mcq' | 'amc_exam' | 'mock_practice' = 'normal_mcq'): Promise<{ sessionId: string; questions: PieSessionQuestion[] }> {
   await deps.ensureSession();
   const n = Math.max(1, Math.min(50, Math.floor(count)));
   const rows = await call<{ session_id: string; question_count: number }[]>(deps, 'pie_create_practice_session', { p_count: n, p_practice_mode: practiceMode }, 'Starting an adaptive session');
