@@ -62,7 +62,10 @@ async function main() {
   check("P7 unauthorized beta request is rejected", !!betaB.error, betaB.error?.message ?? "UNEXPECTED BETA ACCESS");
 
   // 2. Real P5 adaptive session. No question IDs are supplied by the client.
-  const created = await rpc(A, "pie_create_session", { p_count: 7, p_blueprint_key: "AMC_CAT_MCQ", p_mode: "pie_adaptive" });
+  // Keep the live certification's session-build probe to one selected question.
+  // This certifies the authoritative path without multiplying expensive full-pool
+  // ranking work; batch throughput is covered by the isolated PostgreSQL regression.
+  const created = await rpc(A, "pie_create_session", { p_count: 1, p_blueprint_key: "AMC_CAT_MCQ", p_mode: "pie_adaptive" });
   check("P5 server-created adaptive session", !created.error && created.data?.[0]?.session_id, created.error?.message ?? "");
   const sessionId = created.data?.[0]?.session_id as string | undefined;
   if (!sessionId) throw new Error("cannot continue without P5 session");
