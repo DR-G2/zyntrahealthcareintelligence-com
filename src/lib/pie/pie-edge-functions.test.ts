@@ -61,6 +61,8 @@ describe("P5 edge functions read PIE attempts on V2", () => {
     expect(shared).not.toMatch(/SERVICE_ROLE/);
     expect(read("src/pages/Flashcards.tsx")).toContain("pieV2AuthHeaders()");
     expect(read("src/pages/BehaviorProfile.tsx")).toContain("pieV2AuthHeaders()");
+    expect(read("src/pages/BehaviorProfile.tsx")).toContain("Behaviour analysis is temporarily unavailable. Please try again later.");
+    expect(read("src/pages/BehaviorProfile.tsx")).not.toContain("description: e.message");
     const behaviorFn = read("supabase/functions/analyze-behavior/index.ts");
     expect(behaviorFn).toContain('a.session_mode === "normal" || a.session_mode === "normal_mcq"');
     expect(behaviorFn).not.toContain("Predict AMC score range");
