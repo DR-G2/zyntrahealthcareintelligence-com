@@ -110,14 +110,14 @@ export default function TrustYourGut() {
       const finalAnswer = a.selected_answer;
       
       if (answersMatch(firstAnswer, correctAnswer)) firstInstinctCorrect++;
-      if (finalAnswer === correctAnswer) finalCorrect++;
+      if (answersMatch(finalAnswer, correctAnswer)) finalCorrect++;
       
       const firstWasCorrect = answersMatch(firstAnswer, correctAnswer);
       const finalIsCorrect = answersMatch(finalAnswer, correctAnswer);
       
       if (firstWasCorrect && !finalIsCorrect) correctToWrong++;
       else if (!firstWasCorrect && finalIsCorrect) wrongToCorrect++;
-      else if (!firstWasCorrect && !finalIsCorrect && firstAnswer !== finalAnswer) wrongToWrong++;
+      else if (!firstWasCorrect && !finalIsCorrect && !answersMatch(firstAnswer, finalAnswer)) wrongToWrong++;
     });
 
     const firstInstinctAccuracy = attemptsWithChanges.length > 0
