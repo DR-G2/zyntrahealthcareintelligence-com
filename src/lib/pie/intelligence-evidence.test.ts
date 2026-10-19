@@ -97,3 +97,17 @@ describe('Intelligence evidence presentation boundary', () => {
     expect(historySummary(result.history.value ?? []).confidenceCount).toBe(0);
   });
 });
+
+describe("mode-scoped PIE evidence mapping", () => {
+  it("maps only explicit per-mode dimension evidence and confidence-level coverage", () => {
+    const mapped = mapState({ state: { evidence_count: 300, evidence_level: "ESTABLISHED", capability: { estimate: 0.9 }, mode_evidence: {
+      normal_mcq: { capability: { estimate: 0.8, evidence_count: 50, evidence_quality: 1, estimate_aligned: true, uncertainty: 0.2, lower: 0.6, upper: 1 },
+        calibration: { estimate: 0.7, evidence_count: 250, evidence_quality: 1, estimate_aligned: true, calibration_ready: true, confidence_level_counts: { "1":50,"2":50,"3":50,"4":50,"5":50 }, uncertainty: 0.2, lower: 0.5, upper: 0.9 } },
+      nudge: { capability: { estimate: 0.4, evidence_count: 7, evidence_quality: 1, estimate_aligned: true } }
+    } } });
+    expect(mapped?.modeEvidence?.normal_mcq.capability).toMatchObject({ estimate: 0.8, evidenceCount: 50, estimateAligned: true });
+    expect(mapped?.modeEvidence?.normal_mcq.calibration).toMatchObject({ estimate: 0.7, calibrationReady: true, confidenceLevelCounts: { "1":50,"2":50,"3":50,"4":50,"5":50 } });
+    expect(mapped?.modeEvidence?.nudge.capability.evidenceCount).toBe(7);
+    expect(mapped?.modeEvidence?.amc_exam.capability.estimate).toBeNull();
+  });
+});

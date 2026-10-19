@@ -26,10 +26,16 @@ export interface DimensionEvidence {
   evidenceCount: number | null;
   evidenceQuality: number | null;
   estimateAligned?: boolean | null;
+  calibrationReady?: boolean | null;
+  confidenceLevelCounts?: Record<string, number | null> | null;
+}
+export interface ModeDimensionEvidence extends DimensionEvidence {
+  estimate: number | null;
 }
 export interface StateEvidence {
   dimensions: Record<Dimension, number | null>;
   dimensionEvidence?: Record<Dimension, DimensionEvidence>;
+  modeEvidence?: Record<PracticeMode, Record<Dimension, ModeDimensionEvidence>>;
   count: number | null;
   level: string;
   timestamp: string | null;
@@ -76,11 +82,39 @@ export function mapState(value: unknown): StateEvidence | null {
       evidenceCount: dimensionCount(raw.evidence_count),
       evidenceQuality: fraction(raw.evidence_quality),
       estimateAligned: typeof raw.estimate_aligned === 'boolean' ? raw.estimate_aligned : null,
+      calibrationReady: typeof raw.calibration_ready === 'boolean' ? raw.calibration_ready : null,
+      confidenceLevelCounts: Object.keys(object(raw.confidence_level_counts)).length
+        ? Object.fromEntries([1,2,3,4,5].map(level => [String(level), dimensionCount(object(raw.confidence_level_counts)[String(level)])]))
+        : null,
     }];
   })) as Record<Dimension, DimensionEvidence>;
+  const rawModeEvidence = object(state.mode_evidence);
+  const modeEvidence = Object.keys(rawModeEvidence).length
+    ? Object.fromEntries((['normal_mcq','amc_exam','nudge'] as const).map(mode => {
+        const modeState = object(rawModeEvidence[mode]);
+        const modeDimensions = Object.fromEntries(DIMENSIONS.map(key => {
+          const raw = object(modeState[key]);
+          const confidenceLevels = object(raw.confidence_level_counts);
+          return [key, {
+            estimate: fraction(raw.estimate),
+            uncertainty: fraction(raw.uncertainty),
+            lower: fraction(raw.lower),
+            upper: fraction(raw.upper),
+            evidenceCount: dimensionCount(raw.evidence_count),
+            evidenceQuality: fraction(raw.evidence_quality),
+            estimateAligned: typeof raw.estimate_aligned === 'boolean' ? raw.estimate_aligned : null,
+            calibrationReady: typeof raw.calibration_ready === 'boolean' ? raw.calibration_ready : null,
+            confidenceLevelCounts: Object.keys(confidenceLevels).length
+              ? Object.fromEntries([1,2,3,4,5].map(level => [String(level), dimensionCount(confidenceLevels[String(level)])]))
+              : null,
+          }];
+        })) as Record<Dimension, ModeDimensionEvidence>;
+        return [mode, modeDimensions];
+      })) as Record<PracticeMode, Record<Dimension, ModeDimensionEvidence>>
+    : undefined;
   const count = typeof state.evidence_count === 'number' && Number.isSafeInteger(state.evidence_count) && state.evidence_count >= 0 ? state.evidence_count : null;
   const level = typeof state.evidence_level === 'string' ? state.evidence_level : 'INSUFFICIENT';
-  return { dimensions, dimensionEvidence, count, level, timestamp: timestamp(row.calculated_at ?? row.updated_at), sufficient: count !== null && count >= PIE_MIN_OBSERVATIONS && level !== 'INSUFFICIENT',
+  return { dimensions, dimensionEvidence, modeEvidence, count, level, timestamp: timestamp(row.calculated_at ?? row.updated_at), sufficient: count !== null && count >= PIE_MIN_OBSERVATIONS && level !== 'INSUFFICIENT',
     // The current authoritative projection has no declared practice-mode scope.
     sessionMode: typeof state.session_mode === 'string' ? state.session_mode : null };
 }
