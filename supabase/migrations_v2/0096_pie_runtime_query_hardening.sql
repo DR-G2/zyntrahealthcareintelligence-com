@@ -1,14 +1,11 @@
 -- 0096: PIE runtime query-path hardening and session-scoped decision-trace reads.
 -- Additive only. Does not replace or alter the certified pie.decide / P12 inference path.
 
--- Candidate ranking repeatedly probes these relations. Partial/composite indexes
+-- Candidate ranking repeatedly probes these deployed relations. Partial/composite indexes
 -- avoid repeated heap scans during server-side session creation.
 create index if not exists pie_question_quarantine_open_question_idx
   on pie.pie_question_quarantine(question_id)
   where status = 'open';
-
-create index if not exists pie_lo_prerequisite_prerequisite_lo_idx
-  on pie.lo_prerequisite(prerequisite_lo_id, lo_id);
 
 create index if not exists user_attempts_user_session_question_idx
   on public.user_attempts(user_id, session_id, question_id);
