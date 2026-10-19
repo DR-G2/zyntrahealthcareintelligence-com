@@ -263,7 +263,7 @@ export default function BehaviorProfile() {
               { label: 'Avg Time/Q', value: typeof signals.avgTime === 'number' && Number.isFinite(signals.avgTime) ? `${signals.avgTime}s` : 'Unavailable', icon: Clock },
               { label: 'Change Rate', value: typeof signals.changeRate === 'number' && Number.isFinite(signals.changeRate) ? `${Math.round(signals.changeRate * 100)}%` : 'Unavailable', icon: RefreshCw },
               { label: 'Accuracy', value: typeof signals.correctRate === 'number' && Number.isFinite(signals.correctRate) ? `${Math.round(signals.correctRate * 100)}%` : 'Unavailable', icon: Target },
-              { label: 'Fatigue Factor', value: typeof signals.fatigueIncrease === 'number' && Number.isFinite(signals.fatigueIncrease) ? `${Math.round(signals.fatigueIncrease * 100 - 100)}%` : 'Unavailable', icon: TrendingDown },
+              { label: 'Late-session time change', value: typeof signals.fatigueIncrease === 'number' && Number.isFinite(signals.fatigueIncrease) ? `${signals.fatigueIncrease > 1 ? '+' : ''}${Math.round((signals.fatigueIncrease - 1) * 100)}%` : 'Unavailable', icon: TrendingDown },
             ].map(stat => (
               <Card key={stat.label}>
                 <CardContent className="pt-4 pb-4 text-center">
@@ -274,6 +274,7 @@ export default function BehaviorProfile() {
               </Card>
             ))}
           </div>
+          <p className="mt-2 text-xs text-muted-foreground">Compares recorded response time in the later half with the earlier half of the latest eligible Normal MCQ session. Positive means slower later responses; negative means faster. This timing change alone does not establish fatigue.</p>
         </motion.div>
 
         {/* Block Performance Chart */}
