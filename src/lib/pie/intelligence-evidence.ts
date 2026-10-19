@@ -30,7 +30,7 @@ export interface DimensionEvidence {
 export interface StateEvidence {
   dimensions: Record<Dimension, number | null>;
   dimensionEvidence?: Record<Dimension, DimensionEvidence>;
-  count: number;
+  count: number | null;
   level: string;
   timestamp: string | null;
   sufficient: boolean;
@@ -78,9 +78,9 @@ export function mapState(value: unknown): StateEvidence | null {
       estimateAligned: typeof raw.estimate_aligned === 'boolean' ? raw.estimate_aligned : null,
     }];
   })) as Record<Dimension, DimensionEvidence>;
-  const count = typeof state.evidence_count === 'number' && Number.isFinite(state.evidence_count) ? Math.max(0, Math.floor(state.evidence_count)) : 0;
+  const count = typeof state.evidence_count === 'number' && Number.isSafeInteger(state.evidence_count) && state.evidence_count >= 0 ? state.evidence_count : null;
   const level = typeof state.evidence_level === 'string' ? state.evidence_level : 'INSUFFICIENT';
-  return { dimensions, dimensionEvidence, count, level, timestamp: timestamp(row.calculated_at ?? row.updated_at), sufficient: count >= PIE_MIN_OBSERVATIONS && level !== 'INSUFFICIENT',
+  return { dimensions, dimensionEvidence, count, level, timestamp: timestamp(row.calculated_at ?? row.updated_at), sufficient: count !== null && count >= PIE_MIN_OBSERVATIONS && level !== 'INSUFFICIENT',
     // The current authoritative projection has no declared practice-mode scope.
     sessionMode: typeof state.session_mode === 'string' ? state.session_mode : null };
 }
