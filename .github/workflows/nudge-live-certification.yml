@@ -1,6 +1,10 @@
 name: Nudge Live Certification
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - scripts/nudge-live-certification.mts
   pull_request:
     branches: [main]
     types: [opened, synchronize, reopened]
