@@ -1,9 +1,6 @@
 name: PIE P22 Public Access Diagnostic
 
 on:
-  push:
-    branches:
-      - ops/pie-p17-p20-linear-certification-20261019
   workflow_dispatch:
 
 permissions:
