@@ -81,10 +81,11 @@ export default function TrustYourGut() {
   });
 
   const modeAttempts = useMemo(() => attempts.filter(a => normalizePracticeMode(a.session_mode) === selectedMode), [attempts, selectedMode]);
+  const hasConsistentChangeSequence = (a: AttemptWithQuestion) => a.change_sequence.length > 0 && a.answer_changes_count === Math.max(0, a.change_sequence.length - 1);
 
   // Compute stats within the selected practice mode only.
   const stats = useMemo(() => {
-    const recordedChangedAttempts = modeAttempts.filter(a => a.answer_changes_count > 0 && a.change_sequence.length > 0);
+    const recordedChangedAttempts = modeAttempts.filter(a => a.answer_changes_count > 0 && hasConsistentChangeSequence(a));
     const attemptsWithChanges = recordedChangedAttempts.filter(a => !!a.questions?.correct_answer);
     
     let firstInstinctCorrect = 0;
@@ -152,7 +153,7 @@ export default function TrustYourGut() {
       const entry = categoryMap.get(category)!;
       entry.attempts++;
       
-      const hasRecordedChange = a.answer_changes_count > 0 && a.change_sequence.length > 0;
+      const hasRecordedChange = a.answer_changes_count > 0 && hasConsistentChangeSequence(a);
       if (hasRecordedChange) entry.changes++;
       if (a.questions?.correct_answer) {
         entry.eligibleAttempts++;
@@ -178,22 +179,23 @@ export default function TrustYourGut() {
 
   // Trend data (last 10 sessions)
   const trendData = useMemo(() => {
-    const sessionMap = new Map<string, { firstCorrect: number; finalCorrect: number; total: number; date: string }>();
+    const sessionMap = new Map<string, { firstCorrect: number; firstTotal: number; finalCorrect: number; total: number; date: string }>();
     
     modeAttempts.filter(a => !!a.session_id && !!a.questions?.correct_answer).forEach(a => {
       if (!sessionMap.has(a.session_id!)) {
-        sessionMap.set(a.session_id!, { firstCorrect: 0, finalCorrect: 0, total: 0, date: a.created_at.split('T')[0] });
+        sessionMap.set(a.session_id!, { firstCorrect: 0, firstTotal: 0, finalCorrect: 0, total: 0, date: a.created_at.split('T')[0] });
       }
       const session = sessionMap.get(a.session_id!)!;
       session.total++;
       
       if (a.is_correct) session.finalCorrect++;
-      if (a.change_sequence.length > 0) {
-        const firstAnswer = a.change_sequence[0];
-        if (firstAnswer === a.questions?.correct_answer) session.firstCorrect++;
-      } else if (a.is_correct) {
-        // No changes, so first = final
-        session.firstCorrect++;
+      if (hasConsistentChangeSequence(a)) {
+        session.firstTotal++;
+        if (a.change_sequence[0] === a.questions?.correct_answer) session.firstCorrect++;
+      } else if (a.answer_changes_count === 0 && a.change_sequence.length === 0) {
+        // No recorded changes and no sequence, so first = final.
+        session.firstTotal++;
+        if (a.is_correct) session.firstCorrect++;
       }
     });
 
@@ -201,7 +203,7 @@ export default function TrustYourGut() {
       .slice(-10)
       .map((s, i) => ({
         session: `S${i + 1}`,
-        firstInstinct: s.total > 0 ? Math.round((s.firstCorrect / s.total) * 100) : 0,
+        firstInstinct: s.firstTotal > 0 ? Math.round((s.firstCorrect / s.firstTotal) * 100) : null,
         final: s.total > 0 ? Math.round((s.finalCorrect / s.total) * 100) : 0
       }));
   }, [modeAttempts]);
