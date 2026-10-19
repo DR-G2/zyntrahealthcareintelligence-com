@@ -16,8 +16,12 @@ revoke all on pie.beta_reset_audit from anon, authenticated;
 
 -- The old question-retirement backup is not an application-facing table.
 -- Keep it unavailable to anon/authenticated; service_role retains its bypass.
-alter table public.question_retirement_backup_20261014 enable row level security;
-revoke all on public.question_retirement_backup_20261014 from anon, authenticated;
+do $ begin
+  if to_regclass('public.question_retirement_backup_20261014') is not null then
+    execute 'alter table public.question_retirement_backup_20261014 enable row level security';
+    execute 'revoke all on public.question_retirement_backup_20261014 from anon, authenticated';
+  end if;
+end $;
 
 create or replace function public._admin_beta_reset_counts(p_mode text)
 returns jsonb
@@ -37,6 +41,7 @@ begin
   for r in
     select * from (values
       ('pie','pie_observation','pie_only'),
+      ('pie','attempt_lo','pie_only'),
       ('pie','decision_trace','pie_only'),
       ('pie','inference_shadow','pie_only'),
       ('pie','inference_projection','pie_only'),
@@ -165,6 +170,7 @@ begin
   for r in
     select * from (values
       ('pie','pie_observation','pie_only'),
+      ('pie','attempt_lo','pie_only'),
       ('pie','decision_trace','pie_only'),
       ('pie','inference_shadow','pie_only'),
       ('pie','inference_projection','pie_only'),
