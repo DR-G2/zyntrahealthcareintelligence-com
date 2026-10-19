@@ -2,6 +2,7 @@ import { describe, expect, it, vi } from "vitest";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { fetchLegacyShapedHistory, fetchPieAttemptHistory, fetchReviewDue, toLegacyAttempt, type HistoryDeps, type PieHistoryRow } from "./pie-history-client";
+import { safeAttempt } from "./intelligence-evidence";
 import { canBrowseQuestionBank } from "@/pages/Questions";
 import { ADMIN_EMAILS, SUPER_ADMIN_EMAIL } from "@/lib/admin-emails";
 
@@ -35,6 +36,12 @@ describe("P5 learner history (PIE attempts only)", () => {
   it("rejects incomplete history cursors", async () => {
     await expect(fetchPieAttemptHistory(25, deps([]), { createdAt: "", attemptId: "attempt-id" }))
       .rejects.toThrow("Both history cursor fields are required.");
+  });
+
+  it("rejects fractional confidence levels and non-finite timing as unavailable evidence", () => {
+    expect(safeAttempt(row(0, { confidence_level: 2.5 })).confidence).toBeNull();
+    expect(safeAttempt(row(0, { time_taken_seconds: Number.POSITIVE_INFINITY })).seconds).toBeNull();
+    expect(safeAttempt(row(0, { time_taken_seconds: Number.NaN })).seconds).toBeNull();
   });
 
   it("maps to the legacy page shape, keeping answered-only key and telemetry", () => {
