@@ -142,7 +142,7 @@ export function PieDrillSession({ config, resumeSessionId, onFinish }: {
             setNudgeTarget(started.target);
             await persistResumePointer(started.sessionId, qs, started.target);
           } else {
-            const started = await startPieSession(target);
+            const started = await startPieSession(target, undefined, primaryMode === 'mock' ? 'mock_practice' : 'normal_mcq');
             sessionRef.current = started.sessionId;
             qs = started.questions;
             await persistResumePointer(started.sessionId, qs);
