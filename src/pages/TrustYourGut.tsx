@@ -246,7 +246,7 @@ export default function TrustYourGut() {
           <div role="group" aria-label="Choose practice mode" className="flex flex-wrap gap-2">
             {([{id:'normal_mcq',label:'Normal MCQ'},{id:'amc_exam',label:'AMC Exam mode'},{id:'nudge',label:'Nudge'}] as const).map(mode => <Button key={mode.id} type="button" variant={selectedMode===mode.id?'default':'outline'} aria-pressed={selectedMode===mode.id} className="min-h-11" onClick={() => setSelectedMode(mode.id)}>{mode.label}</Button>)}
           </div>
-          {modeAttempts.length===0 && <p role="status" className="text-xs text-muted-foreground">No returned attempts are available for this mode. Other modes are not included.</p>}
+          {modeAttempts.length===0 && <p role="status" className="text-xs text-muted-foreground">No attempts with verified mode labels are available for this mode. Ambiguous legacy sessions are not included.</p>}
         </section>
         {/* P5: the old client-graded "training" retake was removed (it read answer keys in the
             browser and recorded nothing). First-instinct training now happens in PIE Practice,
