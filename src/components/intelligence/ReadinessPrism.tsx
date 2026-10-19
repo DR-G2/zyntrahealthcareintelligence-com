@@ -95,7 +95,7 @@ function buildSubjectRows(rows: SafeAttempt[]) {
     correct: attempts.filter(row=>row.answerKeyAvailable === true && row.correct).length,
     accuracy: attempts.some(row => row.answerKeyAvailable === true) ? attempts.filter(row=>row.answerKeyAvailable === true && row.correct).length/attempts.filter(row=>row.answerKeyAvailable === true).length*100 : null,
     latest: attempts.reduce<string|null>((latest,row)=>!latest||Date.parse(row.at)>Date.parse(latest)?row.at:latest,null),
-  })).sort((a,b)=>(a.accuracy??0)-(b.accuracy??0)||b.count-a.count);
+  })).sort((a,b)=>a.accuracy===null?(b.accuracy===null?b.count-a.count:1):b.accuracy===null?-1:a.accuracy-b.accuracy||b.count-a.count);
 }
 
 export function ReadinessPrism({ evidence, loading, retry }: { evidence: IntelligenceEvidence | null; loading: boolean; retry: () => void }) {
