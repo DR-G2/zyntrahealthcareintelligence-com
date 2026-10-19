@@ -1,7 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { fetchCallerPieHistory } from "../_shared/pie-v2.ts";
-import { toAnalyzeAttempts } from "../_shared/pie-v2-history.ts";
+import { toCompletedNormalMcqAttempts } from "../_shared/pie-v2-history.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -44,14 +44,8 @@ serve(async (req) => {
       const publicError = pie.status === 401 ? "Practice session unavailable. Please sign in again." : pie.status === 403 ? "Practice history is unavailable for this account." : "Practice history is temporarily unavailable.";
       return new Response(JSON.stringify({ error: publicError }), { status: pie.status, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
-    const modeAttempts = toAnalyzeAttempts(pie.rows).filter((a) => a.session_mode === "normal" || a.session_mode === "normal_mcq");
-    // Score and classify only completed attempts whose answer key was returned by the
-    // caller-scoped history RPC. Unfinished attempts can still have is_correct stored,
-    // but must not enter accuracy, block, subject, fatigue, or AI classification inputs.
-    const attempts = modeAttempts.filter((a) =>
-      typeof a.questions?.correct_answer === "string" && a.questions.correct_answer.trim().length > 0
-      && typeof a.is_correct === "boolean"
-    );
+    // The shared selector excludes ambiguous modes and attempts without a completed answer key.
+    const attempts = toCompletedNormalMcqAttempts(pie.rows);
 
     if (attempts.length === 0) {
       return new Response(JSON.stringify({ error: "No completed, verified Normal MCQ attempts found" }), { status: 404, headers: { ...corsHeaders, "Content-Type": "application/json" } });
