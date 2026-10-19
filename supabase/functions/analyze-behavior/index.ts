@@ -283,6 +283,13 @@ The top-level changeRate is a fraction from 0 to 1; subjectStats and blockPerfor
     };
     const trapFlagsSupported = Array.isArray(classification?.trap_flags) && classification.trap_flags.every((item: any) =>
       item?.trap === "rushing_at_end" && hasRushingAtEndEvidence);
+    const unsupportedClaimPattern = /\b(?:predict(?:ed|ion)?\s+(?:(?:your|an?)\s+)?(?:exam\s+)?score|score\s+range|pass\s+(?:likelihood|probability|chance|prediction)|guarantee(?:d)?\s+(?:you\s+)?(?:will\s+)?pass|clinical\s+readiness|readiness\s+score|out\s+of\s+300)\b/i;
+    const visibleClaimsSupported = classification
+      && Array.isArray(classification.trap_flags)
+      && classification.trap_flags.every((item: any) => !unsupportedClaimPattern.test(item.description))
+      && Array.isArray(classification.recommendations)
+      && classification.recommendations.every((item: any) =>
+        !unsupportedClaimPattern.test(item.title) && !unsupportedClaimPattern.test(item.description));
     const validClassification = classification
       && typeof classification === "object"
       && allowedArchetypes.has(classification.archetype)
@@ -290,6 +297,7 @@ The top-level changeRate is a fraction from 0 to 1; subjectStats and blockPerfor
       && typeof classification.critical_finding === "string"
       && Array.isArray(classification.trap_flags)
       && trapFlagsSupported
+      && visibleClaimsSupported
       && (classification.archetype !== "unavailable" || (classification.trap_flags.length === 0 && classification.recommendations.length === 0))
       && classification.trap_flags.every((item: any) => item
         && typeof item.trap === "string"
