@@ -172,7 +172,7 @@ export default function TrustYourGut() {
         attempts: data.attempts,
         eligibleAttempts: data.eligibleAttempts
       }))
-      .filter(c => c.attempts >= 3 && c.changes > 0)
+      .filter(c => c.attempts >= 3 && c.changeRate > 0)
       .sort((a, b) => b.pointsLost - a.pointsLost);
   }, [modeAttempts]);
 
