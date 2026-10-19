@@ -142,6 +142,14 @@ describe("Intelligence overview", () => {
     expect(screen.getAllByText("0%").length).toBeGreaterThan(0);
   });
 
+  it("does not report zero calibration coverage when attempt history is unavailable", () => {
+    const input = fixture({ history: { status: "unavailable", value: null } });
+    render(<MemoryRouter><ReadinessPrism evidence={input} loading={false} retry={() => {}} /></MemoryRouter>);
+    expect(screen.getByText(/Calibration coverage unavailable because attempt history could not be loaded/)).toBeInTheDocument();
+    expect(screen.getByText(/Attempt history is temporarily unavailable; answer-change patterns cannot be assessed/)).toBeInTheDocument();
+    expect(screen.queryByText(/C1 0\/15/)).toBeNull();
+  });
+
   it("expands a subject using the actual returned attempt records", () => {
     render(<MemoryRouter><ReadinessPrism evidence={fixture()} loading={false} retry={() => {}} /></MemoryRouter>);
     fireEvent.click(screen.getByRole("button", { name: /Medicine/ }));
