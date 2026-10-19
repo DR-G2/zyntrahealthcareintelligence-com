@@ -77,7 +77,7 @@ function writeAndValidate(route) {
     ["canonical URL", saved.includes('rel="canonical" href="' + esc(origin + route.path) + '"')],
     ["route heading", saved.includes("<h1>" + esc(route.heading) + "</h1>")],
     ["root element", saved.includes('<div id="root">')],
-    ["app entry point", saved.includes('<script type="module" src="/src/main.tsx"></script>')],
+    ["app entry point", /<script type="module"[^>]*src="\/assets\/[^"]+\.js"[^>]*><\/script>/i.test(saved)],
   ];
   const failed = checks.filter((item) => !item[1]).map((item) => item[0]);
   if (failed.length) throw new Error("Prerender validation failed for " + route.path + ": " + failed.join(", "));
