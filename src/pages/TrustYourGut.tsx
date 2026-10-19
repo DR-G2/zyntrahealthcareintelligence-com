@@ -83,7 +83,8 @@ export default function TrustYourGut() {
 
   // Compute stats within the selected practice mode only.
   const stats = useMemo(() => {
-    const attemptsWithChanges = modeAttempts.filter(a => a.answer_changes_count > 0 && a.change_sequence.length > 0 && !!a.questions?.correct_answer);
+    const recordedChangedAttempts = modeAttempts.filter(a => a.answer_changes_count > 0 && a.change_sequence.length > 0);
+    const attemptsWithChanges = recordedChangedAttempts.filter(a => !!a.questions?.correct_answer);
     
     let firstInstinctCorrect = 0;
     let finalCorrect = 0;
@@ -116,7 +117,8 @@ export default function TrustYourGut() {
 
     // Overall stats
     const totalAttempts = modeAttempts.length;
-    const attemptsWithChangesCount = attemptsWithChanges.length;
+    const attemptsWithChangesCount = recordedChangedAttempts.length;
+    const eligibleChangedAttemptsCount = attemptsWithChanges.length;
     const changeRate = totalAttempts > 0 ? (attemptsWithChangesCount / totalAttempts) * 100 : null;
 
     return {
@@ -126,12 +128,13 @@ export default function TrustYourGut() {
       pointsGained: wrongToCorrect,
       changeRate,
       totalWithChanges: attemptsWithChangesCount,
+      eligibleChangedAttempts: eligibleChangedAttemptsCount,
       totalAttempts,
       changeAnalysis: {
         correctToWrong,
         wrongToCorrect,
         wrongToWrong,
-        total: attemptsWithChangesCount
+        total: eligibleChangedAttemptsCount
       } as ChangeAnalysis
     };
   }, [modeAttempts]);
@@ -325,7 +328,7 @@ export default function TrustYourGut() {
                 </div>
               </div>
               <p className="mt-4 text-xs leading-5 text-slate-500">
-                Based on {stats.totalWithChanges} attempts with a recorded answer change. This describes what happened after changing, not whether you should always keep your first answer.
+                Based on {stats.eligibleChangedAttempts} changed attempts with a completed answer key. This describes what happened after changing, not whether you should always keep your first answer.
               </p>
             </CardContent>
           </Card>
