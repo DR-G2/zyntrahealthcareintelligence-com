@@ -13,8 +13,8 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { supabase } from '@/lib/supabase';
 import { cn } from '@/lib/utils';
 import {
-  finishPieSession, nextPieQuestion, resumePieSession, startPieSession, submitPieAnswer,
-  type PieSessionQuestion,
+  finishPieSession, getNudgeProgress, nextPieQuestion, resumePieSession, startNudgeSession, startPieSession, submitPieAnswer,
+  type NudgeSessionTarget, type PieSessionQuestion,
 } from '@/lib/pie/pie-practice-client';
 import type { V2PracticeResult } from '@/lib/migration/v2-practice-session';
 import { syncPieEngine } from '@/lib/pie/pie-engine-client';
@@ -36,6 +36,7 @@ export interface PieResultQuestion {
 export interface PieDrillConfig {
   mode: 'recharge' | 'no-change' | 'full-mock';
   questionCount: number;
+  primaryMode?: 'drill' | 'nudge' | 'mock';
 }
 
 const LETTERS = ['A', 'B', 'C', 'D', 'E'];
@@ -64,10 +65,18 @@ export function resultsToQuestions(results: V2PracticeResult[]): {
  * (save_attempt on each answer, so an answer is final once you move on), results and
  * explanations only from get_practice_session_results (answered questions only).
  */
+export interface NudgeOutcome {
+  target: NudgeSessionTarget;
+  followUpAccuracy: number | null;
+  followUpQuestionCount: number;
+  followUpCorrectCount: number;
+  reassessmentAvailable: boolean;
+}
+
 export function PieDrillSession({ config, resumeSessionId, onFinish }: {
   config: PieDrillConfig;
   resumeSessionId?: string | null;
-  onFinish: (questions: PieResultQuestion[], answers: Record<number, string>, changes: Record<number, number>, times: Record<number, number>, ruledOut: Record<number, string[]>) => void;
+  onFinish: (questions: PieResultQuestion[], answers: Record<number, string>, changes: Record<number, number>, times: Record<number, number>, ruledOut: Record<number, string[]>, nudgeOutcome?: NudgeOutcome | null) => void;
 }) {
   const { user } = useAuth();
   const { toast } = useToast();
@@ -75,6 +84,8 @@ export function PieDrillSession({ config, resumeSessionId, onFinish }: {
   const target = Math.max(1, Math.min(50, config.questionCount));
   const totalSeconds = config.mode === 'full-mock' ? 210 * 60 : target * 60;
   const [questions, setQuestions] = useState<PieSessionQuestion[]>([]);
+  const [nudgeTarget, setNudgeTarget] = useState<NudgeSessionTarget | null>(null);
+  const [primaryMode, setPrimaryMode] = useState<'drill' | 'nudge' | 'mock'>(config.primaryMode ?? 'drill');
   const [index, setIndex] = useState(0);
   const [selected, setSelected] = useState<Record<number, string>>({});
   const [sequence, setSequence] = useState<Record<number, string[]>>({});
@@ -94,12 +105,12 @@ export function PieDrillSession({ config, resumeSessionId, onFinish }: {
   const timesRef = useRef<Record<number, number>>({});
   const finishingRef = useRef(false);
 
-  const persistResumePointer = useCallback(async (sessionId: string, qs: PieSessionQuestion[]) => {
+  const persistResumePointer = useCallback(async (sessionId: string, qs: PieSessionQuestion[], target?: NudgeSessionTarget | null) => {
     if (!user) return;
     try {
       await supabase.from('active_sessions').upsert({
         user_id: user.id, session_id: localIdRef.current, session_type: 'mcq',
-        config: { ...config, v2SessionId: sessionId, selector: 'pie' } as never,
+        config: { ...config, v2SessionId: sessionId, selector: 'pie', nudgeTarget: target ?? null } as never,
         question_ids: qs.map(q => q.question_id), updated_at: new Date().toISOString(),
       } as never, { onConflict: 'session_id' });
     } catch (e) { console.warn('[PIE] resume pointer not saved', e); }
@@ -112,16 +123,30 @@ export function PieDrillSession({ config, resumeSessionId, onFinish }: {
         let qs: PieSessionQuestion[];
         if (resumeSessionId && user) {
           const { data } = await supabase.from('active_sessions').select('config').eq('session_id', resumeSessionId).eq('user_id', user.id).single();
-          const v2Id = (data?.config as Record<string, unknown> | null)?.v2SessionId;
+          const storedConfig = (data?.config as Record<string, unknown> | null) ?? {};
+          const v2Id = storedConfig.v2SessionId;
+          if (storedConfig.primaryMode === 'nudge' || storedConfig.primaryMode === 'drill' || storedConfig.primaryMode === 'mock') {
+            setPrimaryMode(storedConfig.primaryMode);
+          }
+          const storedTarget = storedConfig.nudgeTarget as NudgeSessionTarget | null | undefined;
+          if (storedTarget?.loTitle) setNudgeTarget(storedTarget);
           // Hard failure, never a silent fresh/legacy fallback.
           if (typeof v2Id !== 'string') throw new Error('This session cannot be resumed. Please start a new one.');
           sessionRef.current = v2Id;
           qs = await resumePieSession(v2Id);
         } else {
-          const started = await startPieSession(target);
-          sessionRef.current = started.sessionId;
-          qs = started.questions;
-          await persistResumePointer(started.sessionId, qs);
+          if (primaryMode === 'nudge') {
+            const started = await startNudgeSession(target);
+            sessionRef.current = started.sessionId;
+            qs = started.questions;
+            setNudgeTarget(started.target);
+            await persistResumePointer(started.sessionId, qs, started.target);
+          } else {
+            const started = await startPieSession(target);
+            sessionRef.current = started.sessionId;
+            qs = started.questions;
+            await persistResumePointer(started.sessionId, qs);
+          }
         }
         if (cancelled) return;
         const done: Record<number, boolean> = {};
@@ -181,7 +206,8 @@ export function PieDrillSession({ config, resumeSessionId, onFinish }: {
         timeOfDay: new Date().toISOString(), questionPosition: q.question_position,
         questionVersion: q.version ?? null,
         provenance: {
-          source: 'practice-pie', mode: config.mode, entry: 'mcq_drill',
+          source: 'practice-pie', mode: primaryMode === 'nudge' ? 'nudge' : config.mode,
+          entry: primaryMode === 'nudge' ? 'nudge' : 'mcq_drill',
           ruled_out_final: ruledOut[index] || [], rule_out_events: ruleEventsRef.current[index] || [],
         },
       });
@@ -212,13 +238,30 @@ export function PieDrillSession({ config, resumeSessionId, onFinish }: {
         if (failure) toast({ ...describePieFailure(failure), variant: 'destructive' });
       });
       const r = resultsToQuestions(results);
-      onFinish(r.questions, r.answers, r.changes, r.times, ruledOut);
+      let nudgeOutcome: NudgeOutcome | null = null;
+      if (primaryMode === 'nudge' && nudgeTarget?.loId) {
+        try {
+          const followUp = await getNudgeProgress(nudgeTarget.loId);
+          nudgeOutcome = {
+            target: nudgeTarget, followUpAccuracy: followUp.accuracy,
+            followUpQuestionCount: followUp.distinctQuestionCount,
+            followUpCorrectCount: followUp.correctCount, reassessmentAvailable: true,
+          };
+        } catch (reassessmentError) {
+          console.warn('[Nudge] post-session reassessment unavailable', reassessmentError);
+          nudgeOutcome = {
+            target: nudgeTarget, followUpAccuracy: null, followUpQuestionCount: 0,
+            followUpCorrectCount: 0, reassessmentAvailable: false,
+          };
+        }
+      }
+      onFinish(r.questions, r.answers, r.changes, r.times, ruledOut, nudgeOutcome);
     } catch (e) {
       finishingRef.current = false;
       toast({ title: 'Session not completed', description: (e as Error).message, variant: 'destructive' });
     } finally { setBusy(false); }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [index, selected, saved, confidence, ruledOut, user, onFinish]);
+  }, [index, selected, saved, confidence, ruledOut, user, onFinish, primaryMode, nudgeTarget]);
 
   const next = async () => {
     setBusy(true);
@@ -227,7 +270,7 @@ export function PieDrillSession({ config, resumeSessionId, onFinish }: {
       if (status === 'no-answer') { toast({ title: 'Choose an answer first' }); return; }
       if (status === 'no-confidence') return;
       if (index + 1 < questions.length) { setIndex(index + 1); shownAtRef.current = Date.now(); return; }
-      if (questions.length < target && sessionRef.current) {
+      if (primaryMode !== 'nudge' && questions.length < target && sessionRef.current) {
         const q = await nextPieQuestion(sessionRef.current);
         if (q) { setQuestions(prev => [...prev, q]); setIndex(index + 1); shownAtRef.current = Date.now(); return; }
       }
@@ -265,12 +308,19 @@ export function PieDrillSession({ config, resumeSessionId, onFinish }: {
 
   const q = questions[index];
   const options = Array.isArray(q?.options) ? (q.options as string[]) : [];
-  const isLast = index + 1 >= questions.length && questions.length >= target;
+  const isLast = index + 1 >= questions.length && (primaryMode === 'nudge' || questions.length >= target);
   const mm = `${Math.floor(remaining / 60)}:${String(remaining % 60).padStart(2, '0')}`;
 
   const isMock = config.mode === 'full-mock';
-  const modeLabel = isMock ? 'Full Mock Exam' : config.mode === 'recharge' ? 'MCQ Drill · With option change' : 'MCQ Drill · No option change';
-  const shownTotal = Math.max(questions.length, target);
+  const isNudgeFallback = nudgeTarget?.reasonCode === 'MIXED_PRACTICE_NO_SUPPORTED_TARGET';
+  const modeLabel = primaryMode === 'nudge'
+    ? nudgeTarget?.loId
+      ? 'Nudge · PIE-targeted learning'
+      : isNudgeFallback
+        ? 'Nudge · Mixed practice'
+        : 'Nudge · Evidence-building mix'
+    : isMock ? 'Full Mock Exam' : config.mode === 'recharge' ? 'MCQ Drill · With option change' : 'MCQ Drill · No option change';
+  const shownTotal = primaryMode === 'nudge' && questions.length > 0 ? questions.length : Math.max(questions.length, target);
   const lowTime = isMock && remaining <= 600;
 
   const questionNavigation = (className: string) => (
@@ -308,6 +358,26 @@ export function PieDrillSession({ config, resumeSessionId, onFinish }: {
   return (
     <AppLayout>
       <div className="mx-auto max-w-3xl space-y-4 pb-[calc(10rem+env(safe-area-inset-bottom))] pt-2 md:pb-6">
+        {primaryMode === 'nudge' && nudgeTarget?.loId && (
+          <Card className="border-primary/25 bg-primary/5"><CardContent className="p-4 space-y-1">
+            <p className="text-xs font-semibold uppercase tracking-wide text-primary">Nudge target · evidence-backed</p>
+            <p className="font-semibold">{nudgeTarget.loTitle}</p>
+            <p className="text-sm text-muted-foreground">Based on {nudgeTarget.baselineQuestionCount} distinct mapped questions · baseline accuracy {Math.round(nudgeTarget.baselineAccuracy * 100)}%.</p>
+          </CardContent></Card>
+        )}
+        {primaryMode === 'nudge' && nudgeTarget && !nudgeTarget.loId && (
+          <Card className="border-primary/25 bg-primary/5"><CardContent className="p-4 space-y-1">
+            <p className="text-xs font-semibold uppercase tracking-wide text-primary">
+              {isNudgeFallback ? 'Nudge · mixed fallback' : 'Nudge · evidence-building'}
+            </p>
+            <p className="font-semibold">Mixed AMC question set</p>
+            <p className="text-sm text-muted-foreground">
+              {isNudgeFallback
+                ? `You have ${nudgeTarget.baselineQuestionCount} mapped interactions, but PIE has no supported target with enough unseen questions right now. Continue mixed practice; targeting resumes when eligible evidence supports it.`
+                : `Your first 50 saved learning-objective interactions build the evidence PIE needs. This session starts at ${nudgeTarget.baselineQuestionCount} of 50 mapped interactions. Questions are mixed and blueprint-eligible; no weakness is assumed.`}
+            </p>
+          </CardContent></Card>
+        )}
         <header className="sticky top-14 z-20 -mx-4 border-b border-border/60 bg-background/95 px-4 py-3 backdrop-blur-md md:top-0 md:mx-0">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <h1 className="text-sm font-semibold text-primary">{modeLabel}</h1>

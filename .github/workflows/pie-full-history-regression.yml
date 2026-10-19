@@ -52,3 +52,6 @@ jobs:
       - name: Replay live schema and run uncapped-history tests
         working-directory: supabase/verification_v2/live_replica
         run: bash run_0088.sh
+      - name: Run Nudge lifecycle against a disposable live-schema replica
+        working-directory: supabase/verification_v2/live_replica
+        run: bash run_nudge_local.sh

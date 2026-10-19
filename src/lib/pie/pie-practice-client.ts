@@ -55,6 +55,78 @@ export async function loadSessionQuestions(sessionId: string, deps: PieDeps = de
   return (rows || []).map(sanitize).sort((a, b) => a.question_position - b.question_position);
 }
 
+export interface NudgeSessionTarget {
+  /** Null for cold-start or mixed-practice sessions that are building evidence rather than targeting one LO. */
+  loId: string | null;
+  loKey: string;
+  loTitle: string;
+  baselineAccuracy: number;
+  baselineQuestionCount: number;
+  reasonCode: string;
+}
+
+export function isNudgeColdStart(target: NudgeSessionTarget | null | undefined): boolean {
+  return Boolean(target && (!target.loId || target.reasonCode === 'COLD_START_FIRST_50' || target.reasonCode === 'MIXED_PRACTICE_NO_SUPPORTED_TARGET'));
+}
+
+export async function startNudgeSession(count: number, deps: PieDeps = defaultPieDeps): Promise<{ sessionId: string; questions: PieSessionQuestion[]; target: NudgeSessionTarget }> {
+  await deps.ensureSession();
+  const n = Math.max(3, Math.min(20, Math.floor(count)));
+  let rows: {
+    session_id: string; question_count: number; lo_id: string | null; lo_key: string | null; lo_title: string | null;
+    baseline_accuracy: number | null; baseline_question_count: number; reason_code: string;
+  }[];
+  try {
+    rows = await call<{
+      session_id: string; question_count: number; lo_id: string | null; lo_key: string | null; lo_title: string | null;
+      baseline_accuracy: number | null; baseline_question_count: number; reason_code: string;
+    }[]>(deps, 'create_my_nudge_session', { p_count: n }, 'Preparing your Nudge session');
+  } catch (error) {
+    const message = (error as Error).message || '';
+    if (/NO_MAPPED_ATTEMPTS|FEWER_THAN_THREE_DISTINCT_MAPPED_QUESTIONS/.test(message)) {
+      throw new Error('Nudge could not start its mixed-practice evidence-building session. Continue MCQ Drill while we check the eligible question pool.');
+    }
+    if (/NO_OBJECTIVE_MEETS_EVIDENCE_THRESHOLD/.test(message)) {
+      throw new Error('Your saved attempts do not yet demonstrate a sufficiently supported learning gap. Nudge should continue with mixed practice while evidence builds.');
+    }
+    if (/FEWER_THAN_THREE_UNSEEN_MAPPED_QUESTIONS|NUDGE_NO_ELIGIBLE_QUESTIONS/.test(message)) {
+      throw new Error('Nudge could not find enough eligible questions for this session. Please try MCQ Drill while the question pool is checked.');
+    }
+    throw error;
+  }
+  const row = rows?.[0];
+  const coldStart = row?.reason_code === 'COLD_START_FIRST_50' || row?.reason_code === 'MIXED_PRACTICE_NO_SUPPORTED_TARGET';
+  if (!row?.session_id || !row.question_count || row.question_count < 3 || (!row.lo_id && !coldStart)) {
+    throw new Error('Nudge could not create a sufficiently supported session.');
+  }
+  return {
+    sessionId: row.session_id,
+    questions: await loadSessionQuestions(row.session_id, deps),
+    target: {
+      loId: row.lo_id ?? null,
+      loKey: row.lo_key ?? 'MIXED_PRACTICE',
+      loTitle: row.lo_title ?? 'Mixed practice · building your PIE evidence',
+      baselineAccuracy: row.baseline_accuracy == null ? 0 : Number(row.baseline_accuracy),
+      baselineQuestionCount: Number(row.baseline_question_count),
+      reasonCode: row.reason_code,
+    },
+  };
+}
+
+export async function getNudgeProgress(loId: string, deps: PieDeps = defaultPieDeps): Promise<{ attemptCount: number; distinctQuestionCount: number; correctCount: number; accuracy: number | null }> {
+  const rows = await call<{ status: string; attempt_count: number; distinct_question_count: number; correct_count: number; accuracy: number | null }[]>(
+    deps, 'get_my_nudge_progress', { p_lo_id: loId }, 'Reassessing Nudge progress',
+  );
+  const row = rows?.[0];
+  if (!row || row.status !== 'READY') throw new Error('Nudge reassessment is not available yet.');
+  return {
+    attemptCount: Number(row.attempt_count),
+    distinctQuestionCount: Number(row.distinct_question_count),
+    correctCount: Number(row.correct_count),
+    accuracy: row.accuracy == null ? null : Number(row.accuracy),
+  };
+}
+
 export async function startPieSession(count: number, deps: PieDeps = defaultPieDeps): Promise<{ sessionId: string; questions: PieSessionQuestion[] }> {
   await deps.ensureSession();
   const n = Math.max(1, Math.min(50, Math.floor(count)));

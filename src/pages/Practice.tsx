@@ -28,7 +28,7 @@ import { normalizeTopicLabel } from '@/lib/practice-topic-mapping';
 import { emitBehaviorEvent } from '@/lib/telemetry';
 import { syncPieEngine } from '@/lib/pie/pie-engine-client';
 import { PieDiagnosticError, describePieFailure, pieSyncFailure, reportPieFailure, requireV2SessionId } from '@/lib/pie/pie-diagnostics';
-import { PieDrillSession } from '@/components/practice/PieDrillSession';
+import { PieDrillSession, type NudgeOutcome } from '@/components/practice/PieDrillSession';
 import { PracticeModeSelector, type PracticePrimaryMode } from '@/components/practice/PracticeModeSelector';
 import { ADMIN_EMAILS } from '@/lib/admin-emails';
 import { fetchLegacyShapedHistory } from '@/lib/pie/pie-history-client';
@@ -65,6 +65,7 @@ interface SessionConfig {
   adaptivePoolIds?: string[];
   v2SessionId?: string;
   v2PracticeEnabled?: boolean;
+  primaryMode?: PracticePrimaryMode;
 }
 
 // ─── Filter types ───────────────────────────────────────────────
@@ -443,7 +444,7 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
 
   const quickPresets = [10, 20, 30, 40, 50];
   // Topics are browse-only (the server selects across all topics), so they never block Start.
-  const canStart = primary !== 'nudge';
+  const canStart = true;
 
   if (loading) {
     return (
@@ -740,11 +741,12 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
               subtopics: Array.from(selectedSubtopics),
               questionCount,
               statusFilter,
+              primaryMode: primary,
             });
           }}
-          className={cn('sticky bottom-4 z-10 min-h-12 w-full gap-2 sm:static sm:w-auto', primary === 'nudge' && 'hidden')}
+          className="sticky bottom-4 z-10 min-h-12 w-full gap-2 sm:static sm:w-auto"
         >
-          <Zap className="h-4 w-4" /> {primary === 'mock' ? 'Start mock exam' : 'Start drill'}
+          <Zap className="h-4 w-4" /> {primary === 'nudge' ? 'Start Nudge' : primary === 'mock' ? 'Start mock exam' : 'Start drill'}
         </Button>
       </div>
     </AppLayout>
@@ -763,6 +765,7 @@ function ResultsScreen({
   times,
   config,
   drillRuleOuts,
+  nudgeOutcome,
   onNewDrill,
 }: {
   questions: Question[];
@@ -771,6 +774,7 @@ function ResultsScreen({
   times: Record<number, number>;
   config: SessionConfig;
   drillRuleOuts: Record<number, string[]>;
+  nudgeOutcome?: NudgeOutcome | null;
   onNewDrill: () => void;
 }) {
   const { user } = useAuth();
@@ -910,6 +914,16 @@ function ResultsScreen({
     <AppLayout>
         
       <div className="mx-auto max-w-3xl py-6 space-y-6">
+        {config.primaryMode === 'nudge' && nudgeOutcome && (
+          <Card className="border-primary/25"><CardContent className="p-5 space-y-3">
+            <div><p className="text-xs font-semibold uppercase tracking-wide text-primary">Nudge · PIE reassessment</p><h2 className="mt-1 text-lg font-semibold">{nudgeOutcome.target.loTitle}</h2></div>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="rounded-lg bg-muted/60 p-3"><p className="text-xs text-muted-foreground">Before session</p><p className="text-2xl font-bold">{Math.round(nudgeOutcome.target.baselineAccuracy * 100)}%</p><p className="text-xs text-muted-foreground">{nudgeOutcome.target.baselineQuestionCount} mapped questions</p></div>
+              <div className="rounded-lg bg-muted/60 p-3"><p className="text-xs text-muted-foreground">After session</p>{nudgeOutcome.reassessmentAvailable ? <><p className="text-2xl font-bold">{nudgeOutcome.followUpAccuracy == null ? '—' : `${Math.round(nudgeOutcome.followUpAccuracy * 100)}%`}</p><p className="text-xs text-muted-foreground">{nudgeOutcome.followUpQuestionCount} mapped questions · cumulative</p></> : <p className="mt-2 text-sm">Reassessment unavailable</p>}</div>
+            </div>
+            <p className="text-sm text-muted-foreground">{nudgeOutcome.reassessmentAvailable ? 'PIE recalculated this objective from server-saved attempts. The after-session percentage is cumulative, not a causal estimate of learning gain.' : 'Your answers were saved. The follow-up evidence could not be loaded, so no improvement claim is made.'}</p>
+          </CardContent></Card>
+        )}
         {/* ── SECTION 1: Summary Header ── */}
         <motion.div initial={reduceMotion ? false : { opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
           <Card className="overflow-hidden">
@@ -1275,6 +1289,7 @@ export default function Practice() {
     changes: Record<number, number>;
     times: Record<number, number>;
     ruledOut: Record<number, string[]>;
+    nudgeOutcome?: NudgeOutcome | null;
   } | null>(null);
 
   if (!gate.canAccessQBank) {
@@ -1358,8 +1373,8 @@ export default function Practice() {
       <PieDrillSession
         config={config}
         resumeSessionId={resumeSessionId}
-        onFinish={(questions, answers, changes, times, ruledOut) => {
-          setResultData({ questions: questions as Question[], answers, changes, times, ruledOut });
+        onFinish={(questions, answers, changes, times, ruledOut, nudgeOutcome) => {
+          setResultData({ questions: questions as Question[], answers, changes, times, ruledOut, nudgeOutcome });
           setPhase('results');
         }}
       />
@@ -1375,6 +1390,7 @@ export default function Practice() {
         times={resultData.times}
         config={config}
         drillRuleOuts={resultData.ruledOut}
+        nudgeOutcome={resultData.nudgeOutcome}
         onNewDrill={() => { setResultData(null); setConfig(null); setPhase('setup'); }}
       />
     );

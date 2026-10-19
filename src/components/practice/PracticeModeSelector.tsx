@@ -7,7 +7,7 @@ export type PracticePrimaryMode = 'drill' | 'nudge' | 'mock';
 
 const MODES: { id: PracticePrimaryMode; title: string; line: string; icon: typeof Target; tag?: string }[] = [
   { id: 'drill', title: 'MCQ Drill', line: 'Question by question, with or without answer changes.', icon: Target },
-  { id: 'nudge', title: 'Nudge', line: 'Practice aimed at one learning objective.', icon: Compass, tag: 'Not available yet' },
+  { id: 'nudge', title: 'Nudge', line: 'Build evidence with mixed MCQs first, then target supported learning gaps with PIE.', icon: Compass },
   { id: 'mock', title: 'Full Mock Exam', line: 'Timed, locked answers, no going back.', icon: Shield },
 ];
 
