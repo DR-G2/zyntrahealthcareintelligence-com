@@ -31,7 +31,9 @@ describe("PIE runtime query hardening contract", () => {
     expect(migration).toContain("ps.id = p_session_id and ps.user_id = auth.uid()");
     expect(migration).toContain("'question_id', d.question_id");
     expect(migration).toContain("'decision_type', d.decision_type");
-    expect(migration).toContain("grant execute on function public.get_my_pie_decision_traces_for_session(uuid) to authenticated, service_role");
+    expect(migration).toContain("grant execute on function public.get_my_pie_decision_traces_for_session(uuid) to authenticated;");
+    expect(migration).not.toContain("to authenticated, service_role");
+    expect(migration).toContain("notify pgrst, 'reload schema';");
   });
 
   it("P21.2 uses the session-scoped trace contract rather than aggregating all candidate history", () => {
