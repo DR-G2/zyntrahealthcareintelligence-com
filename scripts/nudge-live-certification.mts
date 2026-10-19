@@ -166,73 +166,94 @@ async function ensureMappedEvidence(u: User) {
 }
 
 async function seedMappedEvidence(u: User) {
-  // Dynamic, bounded candidate discovery. Each batch uses only active questions not
-  // previously attempted by this disposable identity. The authoritative selector
-  // must confirm a READY mapped gap before this fixture is accepted.
-  const candidates = await discoverUntouchedMappedCandidates(u);
-  check(`${u.label}: dynamic candidate groups discovered`, candidates.length > 0,
-    `${candidates.length} untouched subtopic/subject groups`);
-  if (!candidates.length) throw new Error("No untouched candidate groups remain; refusing to reuse question history.");
+  // Seed only through the real Nudge session creator. It selects questions using
+  // pie.question_lo + active LO + current AMC blueprint eligibility + quarantine
+  // rules, so this certification never guesses question-to-LO mappings.
+  let lastSeed: { session: any; questions: Array<Record<string, any>> } | null = null;
+  const maxSessions = 20; // bounded: at most 60 disposable-account attempts
+  for (let batch = 1; batch <= maxSessions; batch++) {
+    const current = await target(u);
+    if (current?.status === "READY" && Number(current.eligible_question_count) >= 3 && current.lo_key) {
+      if (lastSeed) {
+        check(`${u.label}: authoritative Nudge selector reached READY`, true,
+          `lo=${current.lo_key}; eligible_unseen=${current.eligible_question_count}; seed_batches=${batch - 1}`);
+        return {
+          session: lastSeed.session,
+          questions: lastSeed.questions,
+          fixture: { loKey: current.lo_key, questionIds: lastSeed.questions.map(q => q.question_id) },
+        };
+      }
+      throw new Error("Target was already READY but no provenance-tagged seed batch was created in this run.");
+    }
 
-  for (const fixture of candidates.slice(0, 12)) {
-    const created = await rpc(u, "create_practice_session", {
-      p_session_type: "nudge-live-certification-seed",
-      p_config: {
-        source: "nudge-live-certification",
-        purpose: "mapped-evidence-seed",
-        candidate_group: fixture.loKey,
-        subtopic_id: fixture.subtopicId ?? null,
-        subject_id: fixture.subjectId ?? null,
-      },
-      p_question_ids: fixture.questionIds,
-    });
+    const created = await rpc(u, "create_my_nudge_session", { p_count: 3 });
     const session = Array.isArray(created.data) ? created.data[0] : created.data;
-    check(`${u.label}: dynamic seed session created`, !created.error && !!session?.id,
-      created.error?.message ?? `group=${fixture.loKey}; session=${session?.id ?? "none"}`);
-    if (created.error || !session?.id) continue;
-
-    const qr = await rpc(u, "get_practice_session_questions", { p_session_id: session.id });
+    if (created.error || !session?.session_id) {
+      // A selector rejection is a candidate-state outcome, not a failed assertion.
+      // If we cannot continue and the target is not READY, the final gate below fails once.
+      console.log(`INFO  ${u.label}: Nudge evidence batch ${batch} not created: ${created.error?.message ?? "no session returned"}`);
+      break;
+    }
+    const qr = await rpc(u, "get_practice_session_questions", { p_session_id: session.session_id });
     const questions = (qr.data ?? []) as Array<Record<string, any>>;
-    check(`${u.label}: three dynamic seed questions served`, !qr.error && questions.length === 3,
-      qr.error?.message ?? `count=${questions.length}`);
-    if (qr.error || questions.length !== 3) throw new Error("Seed session did not return exactly three questions.");
+    check(`${u.label}: authoritative Nudge seed questions served`, !qr.error && questions.length === 3,
+      qr.error?.message ?? `count=${questions.length}; batch=${batch}`);
+    if (qr.error || questions.length !== 3) throw new Error("Authoritative Nudge seed session did not return exactly three questions.");
+    check(`${u.label}: seed answer key withheld`,
+      questions.every(q => !Object.prototype.hasOwnProperty.call(q, "correct_answer") && q.explanation == null),
+      `batch=${batch}`);
 
     let saved = 0;
     for (const q of questions) {
       const result = await rpc(u, "save_attempt", {
-        p_question_id: q.question_id, p_session_id: session.id, p_selected_answer: "B", p_is_correct: false,
+        p_question_id: q.question_id, p_session_id: session.session_id,
+        p_selected_answer: "A", p_is_correct: false,
         p_time_taken_seconds: 19, p_confidence_level: 2, p_answer_changes_count: 0, p_time_to_first_click: 5,
-        p_change_sequence: ["B"], p_pause_events: [], p_time_of_day: "nudge-live-certification",
+        p_change_sequence: ["A"], p_pause_events: [], p_time_of_day: "nudge-live-certification",
         p_question_position: q.question_position, p_previous_question_correct: null,
         p_question_version: q.version ?? null, p_app_version: "nudge-live-certification",
         p_provenance: {
-          source: "nudge-live-certification", candidate: u.label, purpose: "mapped-evidence-seed",
-          candidate_group: fixture.loKey,
+          source: "nudge-live-certification", candidate: u.label, purpose: "authoritative-nudge-evidence-seed",
+          batch, selector: session.lo_key ?? "MIXED_PRACTICE",
         },
       });
       if (result.error || !result.data?.id) {
-        check(`${u.label}: seed attempt saved through authoritative RPC`, false, result.error?.message ?? "attempt not persisted");
-        throw new Error("Mapped evidence seed attempt failed; refusing to continue.");
+        check(`${u.label}: authoritative seed attempt persisted`, false, result.error?.message ?? "attempt not persisted");
+        throw new Error("Authoritative Nudge seed attempt failed.");
       }
       saved++;
     }
-    check(`${u.label}: all dynamic seed attempts persisted`, saved === 3, `${saved}/3`);
-    const completed = await rpc(u, "complete_practice_session", { p_session_id: session.id });
-    check(`${u.label}: dynamic seed session completed`, !completed.error, completed.error?.message ?? "");
-    if (completed.error) throw new Error("Seed session completion failed.");
+    check(`${u.label}: all authoritative seed attempts persisted`, saved === 3, `${saved}/3; batch=${batch}`);
+    const completed = await rpc(u, "complete_practice_session", { p_session_id: session.session_id });
+    check(`${u.label}: authoritative seed session completed`, !completed.error, completed.error?.message ?? `batch=${batch}`);
+    if (completed.error) throw new Error("Authoritative Nudge seed session completion failed.");
+    lastSeed = { session, questions };
 
-    const current = await target(u);
-    if (current?.status === "READY" && Number(current.eligible_question_count) >= 3 && current.lo_key) {
-      check(`${u.label}: authoritative selector confirms mapped READY evidence`, true,
-        `lo=${current.lo_key}; eligible_unseen=${current.eligible_question_count}; seed_group=${fixture.loKey}`);
-      return { session, questions, fixture: { ...fixture, loKey: current.lo_key } };
+    const after = await target(u);
+    if (after?.status === "READY" && Number(after.eligible_question_count) >= 3 && after.lo_key) {
+      check(`${u.label}: authoritative Nudge selector reached READY`, true,
+        `lo=${after.lo_key}; eligible_unseen=${after.eligible_question_count}; batches=${batch}`);
+      return {
+        session,
+        questions,
+        fixture: { loKey: after.lo_key, questionIds: questions.map(q => q.question_id) },
+      };
     }
-    console.log(`INFO  ${u.label}: seed group ${fixture.loKey} did not establish a supported READY target; continuing without resetting history.`);
+    console.log(`INFO  ${u.label}: completed authoritative Nudge evidence batch ${batch}; target=${after?.status ?? "unknown"}; continuing without resetting history.`);
   }
 
-  check(`${u.label}: dynamic seed establishes supported READY target`, false,
-    "12 candidate groups exhausted; no READY target with >=3 eligible unseen questions");
-  throw new Error("Dynamic certification candidates did not establish a supported READY target; refusing to fabricate mapping evidence.");
+  const finalTarget = await target(u);
+  check(`${u.label}: authoritative Nudge evidence establishes READY target`,
+    finalTarget?.status === "READY" && Number(finalTarget.eligible_question_count) >= 3 && !!finalTarget.lo_key,
+    `status=${finalTarget?.status}; reason=${finalTarget?.reason_code}; mapped_interactions=${finalTarget?.distinct_question_count}; eligible_unseen=${finalTarget?.eligible_question_count}; maximum_batches=${maxSessions}`);
+  if (finalTarget?.status === "READY" && Number(finalTarget.eligible_question_count) >= 3 && finalTarget.lo_key && lastSeed) {
+    return {
+      session: lastSeed.session,
+      questions: lastSeed.questions,
+      fixture: { loKey: finalTarget.lo_key, questionIds: lastSeed.questions.map(q => q.question_id) },
+    };
+  }
+  throw new Error("Authoritative Nudge lifecycle did not establish a READY target within the bounded seed budget; no mapping was fabricated.");
 }
 
 async function main() {
