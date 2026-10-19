@@ -130,6 +130,46 @@ begin
 end;
 $$;
 
+create or replace function public._admin_beta_reset_lock_targets(p_mode text, p_lock_mode text)
+returns void
+language plpgsql
+security definer
+set search_path = pg_catalog, public
+as $
+declare
+  r record;
+begin
+  if p_mode is null or p_mode not in ('pie_only', 'full_candidate') then
+    raise exception 'Unsupported reset mode';
+  end if;
+  if p_lock_mode not in ('SHARE', 'SHARE ROW EXCLUSIVE') then
+    raise exception 'Unsupported reset lock mode';
+  end if;
+  if not exists (
+    select 1 from information_schema.columns
+    where table_schema = 'public' and table_name = 'profiles'
+      and column_name = 'is_synthetic' and data_type = 'boolean'
+  ) then
+    raise exception 'Reset blocked: public.profiles.is_synthetic BOOLEAN is missing.';
+  end if;
+
+  -- A short-lived table lock makes the preview counts, target rows, and
+  -- synthetic-candidate cohort stable for the duration of this RPC transaction.
+  execute format('lock table public.profiles in %s mode', p_lock_mode);
+  for r in
+    select distinct schema_name, table_name
+    from public._admin_beta_reset_targets()
+    where p_mode = 'full_candidate' or min_mode = 'pie_only'
+      and to_regclass(format('%I.%I', schema_name, table_name)) is not null
+    order by schema_name, table_name
+  loop
+    if to_regclass(format('%I.%I', r.schema_name, r.table_name)) is not null then
+      execute format('lock table %I.%I in %s mode', r.schema_name, r.table_name, p_lock_mode);
+    end if;
+  end loop;
+end;
+$;
+
 create or replace function public._admin_beta_reset_counts(p_mode text)
 returns jsonb
 language plpgsql
@@ -233,6 +273,7 @@ begin
   if not public._admin_beta_reset_is_super_admin() then
     raise exception 'Super-administrator access required' using errcode = '42501';
   end if;
+  perform public._admin_beta_reset_lock_targets(p_mode, 'SHARE');
   counts := public._admin_beta_reset_counts(p_mode);
   return jsonb_build_object(
     'mode', p_mode,
@@ -268,27 +309,9 @@ begin
     raise exception 'Unsupported reset mode';
   end if;
 
-  -- Validate the marker before acquiring locks. Then lock all candidate scope
-  -- and target relations in a deterministic order to prevent a write race
-  -- between the preview fingerprint check and the deletes.
-  if not exists (
-    select 1 from information_schema.columns
-    where table_schema = 'public' and table_name = 'profiles'
-      and column_name = 'is_synthetic' and data_type = 'boolean'
-  ) then
-    raise exception 'Reset blocked: public.profiles.is_synthetic BOOLEAN is missing.';
-  end if;
-  lock table public.profiles in share row exclusive mode;
-  for r in
-    select distinct schema_name, table_name
-    from public._admin_beta_reset_targets()
-    where (p_mode = 'full_candidate' or min_mode = 'pie_only')
-      and to_regclass(format('%I.%I', schema_name, table_name)) is not null
-    order by schema_name, table_name
-  loop
-    execute format('lock table %I.%I in share row exclusive mode', r.schema_name, r.table_name);
-  end loop;
-
+  -- Acquire the stronger write-blocking locks in the same deterministic order
+  -- used by preview, then verify the preview fingerprint and perform the deletes.
+  perform public._admin_beta_reset_lock_targets(p_mode, 'SHARE ROW EXCLUSIVE');
   counts := public._admin_beta_reset_counts(p_mode);
   if public._admin_beta_reset_fingerprint(p_mode, counts) <> p_preview_token then
     raise exception 'Data changed since preview. Run preview again.';
@@ -410,6 +433,7 @@ $$;
 revoke all on function public._admin_beta_reset_targets() from public, anon, authenticated;
 revoke all on function public._admin_beta_reset_predicate(text) from public, anon, authenticated;
 revoke all on function public._admin_beta_reset_counts(text) from public, anon, authenticated;
+revoke all on function public._admin_beta_reset_lock_targets(text,text) from public, anon, authenticated;
 revoke all on function public._admin_beta_reset_fingerprint(text,jsonb) from public, anon, authenticated;
 revoke all on function public._admin_beta_reset_is_super_admin() from public, anon, authenticated;
 revoke all on function public.admin_preview_pie_beta_reset(text) from public, anon, authenticated;
