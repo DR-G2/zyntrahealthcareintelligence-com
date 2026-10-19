@@ -60,6 +60,10 @@ interface CategoryBreakdown {
   eligibleAttempts: number;
 }
 
+function hasConsistentChangeSequence(a: AttemptWithQuestion): boolean {
+  return a.change_sequence.length > 0 && a.answer_changes_count === Math.max(0, a.change_sequence.length - 1);
+}
+
 export default function TrustYourGut() {
   const { user } = useAuth();
   const gate = useFeatureGate();
@@ -81,7 +85,6 @@ export default function TrustYourGut() {
   });
 
   const modeAttempts = useMemo(() => attempts.filter(a => normalizePracticeMode(a.session_mode) === selectedMode), [attempts, selectedMode]);
-  const hasConsistentChangeSequence = (a: AttemptWithQuestion) => a.change_sequence.length > 0 && a.answer_changes_count === Math.max(0, a.change_sequence.length - 1);
 
   // Compute stats within the selected practice mode only.
   const stats = useMemo(() => {
