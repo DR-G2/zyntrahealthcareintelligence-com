@@ -72,7 +72,9 @@ export async function startNudgeSession(count: number, deps: PieDeps = defaultPi
     baseline_accuracy: number; baseline_question_count: number; reason_code: string;
   }[];
   try {
-    rows = await call(deps, 'create_my_nudge_session', { p_count: n }, 'Preparing your targeted Nudge session');
+    rows = await call<{ session_id: string; question_count: number; lo_id: string; lo_key: string; lo_title: string; baseline_accuracy: number; baseline_question_count: number; reason_code: string }[]>(
+      deps, 'create_my_nudge_session', { p_count: n }, 'Preparing your targeted Nudge session',
+    );
   } catch (error) {
     const message = (error as Error).message || '';
     if (/NO_MAPPED_ATTEMPTS|FEWER_THAN_THREE_DISTINCT_MAPPED_QUESTIONS/.test(message)) {
