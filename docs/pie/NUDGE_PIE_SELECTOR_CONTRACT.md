@@ -17,14 +17,17 @@ Status: proposed, not deployed. This document and migration are for review only.
 - Server-side grading remains in `public.save_attempt`; this migration does not alter it.
 - PIE telemetry remains on the existing save-attempt path, including confidence and answer-change sequence.
 - No shadow-inference reads, no P12 inference-path changes, no client-supplied correctness.
-- This selector is not yet wired into the Practice UI or session creation. Do not enable the Nudge tile until the reviewed RPC is deployed and an LO-scoped session builder is connected.
+- The branch now wires the Nudge tile to `create_my_nudge_session`, which creates a fixed LO-scoped session from unseen, active, primary-mapped questions. It uses the existing `save_attempt` path for grading and PIE telemetry.
+- After completion, `get_my_nudge_progress` reports cumulative mapped accuracy for the targeted LO, and the results screen labels this as cumulative rather than claiming causal learning gain.
+- The UI must remain unavailable in any environment where these reviewed migrations have not been applied. This branch has not been deployed.
 - Migration has not been applied. No production data, deployed schema, merge, or deployment was changed by this proposal.
 
 ## Review gates before enablement
 
 1. Run SQL verification against an isolated V2 database with fixtures for no evidence, below-threshold evidence, low-accuracy gap, repeated recent misses, insufficient unseen questions, and cross-user isolation.
 2. Verify RPC grants and SECURITY DEFINER search path.
-3. Add a server-side LO-scoped session builder that only serves active questions with `is_primary=true` for the selected LO.
+3. Apply migrations only to an isolated V2 database and verify the selector + session builder against controlled fixtures.
 4. Confirm session results and PIE reassessment update from `save_attempt` without modifying `save_attempt`.
-5. Add client contract tests for every status and prevent Nudge start on non-`READY` results.
-6. Keep Nudge disabled until the full loop passes in staging.
+5. Run TypeScript, build, and test checks, including the static contract tests.
+6. Run cross-user isolation, insufficient-evidence, no-gap, no-eligible-content, and successful-session integration tests.
+7. Keep Nudge disabled in production until the full loop passes in staging and the migration is deliberately promoted.
