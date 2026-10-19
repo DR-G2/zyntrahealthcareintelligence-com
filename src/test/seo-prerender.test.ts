@@ -1,6 +1,6 @@
-// @vitest-environment node
+import { execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
-import { seoPrerender, sitemapPaths, MAX_PRERENDER_PAGES } from '../../scripts/seo-prerender-plugin';
+import { sitemapPaths, MAX_PRERENDER_PAGES } from '../../scripts/seo-prerender-plugin';
 
 describe('public prerender boundaries', () => {
   it('refuses external origins', () => {
@@ -14,11 +14,18 @@ describe('public prerender boundaries', () => {
     const routes = sitemapPaths(readFileSync('public/sitemap.xml', 'utf8'));
     expect(routes).not.toContain('/practice');
     expect(routes).not.toContain('/admin');
-    const index = { type: 'asset', fileName: 'index.html', source: readFileSync('index.html', 'utf8') };
-    const emitted: { fileName: string; source: string }[] = [];
-    const hook = seoPrerender().generateBundle;
-    if (typeof hook !== 'function') throw new Error('Missing prerender hook');
-    await hook.call({ emitFile: (asset: { fileName: string; source: string }) => { emitted.push(asset); }, info: () => {} } as never, {} as never, { 'index.html': index } as never, false);
+    // A clean Node process proves rendering works without jsdom/browser globals.
+    const output = execFileSync('node', ['--import', 'tsx', '--input-type=module', '-e', `
+      import {readFileSync} from 'node:fs';
+      import {seoPrerender} from './scripts/seo-prerender-plugin.ts';
+      const index={type:'asset',fileName:'index.html',source:readFileSync('index.html','utf8')};
+      const emitted=[];
+      await seoPrerender().generateBundle.call({emitFile:a=>emitted.push(a),info:()=>{}},{},{'index.html':index},false);
+      console.log('SEO_RESULT:'+JSON.stringify({index,emitted}));
+    `], { encoding: 'utf8', timeout: 110_000, maxBuffer: 8_000_000 });
+    const result = output.split('\n').find((line) => line.startsWith('SEO_RESULT:'));
+    if (!result) throw new Error('Prerender result missing');
+    const { index, emitted } = JSON.parse(result.slice('SEO_RESULT:'.length)) as { index: { source: string }; emitted: { fileName: string; source: string }[] };
     const headings = new Set<string>();
     for (const route of routes) {
       const html = route === '/' ? String(index.source) : emitted.find((asset) => asset.fileName === `${route.slice(1)}/index.html`)?.source;
