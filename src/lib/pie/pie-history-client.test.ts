@@ -87,6 +87,7 @@ describe("P5 learner history (PIE attempts only)", () => {
   it("maps legacy attempts without a session and withholds answer keys", () => {
     const legacy = toLegacyAttempt(row(0, { session_id: null, correct_answer: null, explanation: null }));
     expect(legacy.session_id).toBeNull();
+    expect(legacy.session_mode).toBe("pie_adaptive");
     expect(legacy.questions.correct_answer).toBe("");
     expect(legacy.questions.explanation).toBeNull();
   });
