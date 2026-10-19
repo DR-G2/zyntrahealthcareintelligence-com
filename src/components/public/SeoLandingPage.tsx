@@ -7,7 +7,7 @@ import "@/styles/zyntra-home.css";
 import "@/styles/zyntra-amc-mcq.css";
 import "@/styles/zyntra-tokens.css";
 
-const SITE = "https://www.zyntrahealthcareintelligence.com";
+const SITE = "https://zyntrahealthcareintelligence.app";
 
 export interface LandingSection { heading: string; paragraphs?: string[]; bullets?: string[] }
 export interface LandingLink { to: string; label: string; note: string }
