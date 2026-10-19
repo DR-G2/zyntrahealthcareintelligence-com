@@ -21,15 +21,6 @@ import { ADMIN_EMAILS } from "@/lib/admin-emails";
 
 import Home from "./pages/Home";
 
-
-
-
-
-
-
-
-
-
 const ResetPassword = lazy(() => import("./pages/ResetPassword"));
 const Onboarding = lazy(() => import("./pages/Onboarding"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
