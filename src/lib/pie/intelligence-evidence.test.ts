@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { mapState, mapAction, historySummary, loadIntelligenceEvidence, normalizePracticeMode, type SafeAttempt } from './intelligence-evidence';
+import { mapState, mapAction, historySummary, loadIntelligenceEvidence, normalizePracticeMode, safeAttempt, type SafeAttempt } from './intelligence-evidence';
 
 describe('Intelligence evidence presentation boundary', () => {
   it('normalizes only explicit practice-mode labels and rejects ambiguous legacy session types', () => {
@@ -51,8 +51,12 @@ describe('Intelligence evidence presentation boundary', () => {
     expect(historySummary([{ ...row, answerKeyAvailable: false }])).toMatchObject({ count: 1, scoredCount: 0, accuracy: null });
   });
   it('does not treat an empty answer key as valid scored evidence', () => {
-    const row: SafeAttempt = { id: 'a', subjectId: 's', subject: 'Medicine', correct: true, answerKeyAvailable: false, confidence: 5, seconds: 10, changes: 0, at: '' };
-    expect(historySummary([{ ...row, answerKeyAvailable: false }])).toMatchObject({ count: 1, scoredCount: 0, accuracy: null, confidenceCount: 0 });
+    const row = safeAttempt({
+      attempt_id: 'a', subject_id: 's', subject_name: 'Medicine', is_correct: true, correct_answer: '   ',
+      confidence_level: 5, time_taken_seconds: 10, answer_changes_count: 0, created_at: '2026-10-15T00:00:00Z',
+    } as Parameters<typeof safeAttempt>[0]);
+    expect(row.answerKeyAvailable).toBe(false);
+    expect(historySummary([row])).toMatchObject({ count: 1, scoredCount: 0, accuracy: null, confidenceCount: 0 });
   });
   it('keeps missing answer-change counts out of the zero-change denominator', () => {
     const base: SafeAttempt = { id: 'a', subjectId: 's', subject: 'Medicine', correct: false, answerKeyAvailable: true, confidence: null, seconds: null, changes: null, at: '' };
