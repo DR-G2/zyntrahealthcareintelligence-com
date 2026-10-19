@@ -91,6 +91,23 @@ describe("Intelligence overview", () => {
     expect(screen.getByText("89%")).toBeInTheDocument();
   });
 
+  it("withholds dimension estimates when the authoritative projection has no mode scope", () => {
+    const base = fixture().pie.value!;
+    const input = fixture({ pie: { status: "ready", value: {
+      ...base,
+      count: 141,
+      sessionMode: null,
+      dimensions: { capability: 0.8, decision: 0.97, timing: 0.89, calibration: 0.6, sustained_performance: 0.75, learning: 0.5 },
+      dimensionEvidence: Object.fromEntries(["capability","decision","timing","calibration","sustained_performance","learning"].map(dimension => [dimension, {
+        uncertainty: null, lower: null, upper: null, evidenceCount: 50, evidenceQuality: 0.9,
+      }])) as NonNullable<typeof base.dimensionEvidence>,
+    } } });
+    render(<MemoryRouter><ReadinessPrism evidence={input} loading={false} retry={() => {}} /></MemoryRouter>);
+    expect(screen.queryByText("97%")).toBeNull();
+    expect(screen.queryByText("89%")).toBeNull();
+    expect(screen.getByText(/No cross-mode estimate is shown/)).toBeInTheDocument();
+  });
+
   it("does not expose shadow diagnostics in the candidate overview", () => {
     render(<MemoryRouter><ReadinessPrism evidence={fixture()} loading={false} retry={() => {}} /></MemoryRouter>);
     expect(screen.queryByText(/shadow diagnostics/i)).toBeNull();
