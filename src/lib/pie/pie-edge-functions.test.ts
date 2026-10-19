@@ -103,6 +103,8 @@ describe("P5 edge functions read PIE attempts on V2", () => {
     expect(read("src/pages/BehaviorProfile.tsx")).toContain("if (!profile) throw new Error('Behaviour profile was not returned.');");
     const behaviorUi = read("src/pages/BehaviorProfile.tsx");
     expect(behaviorUi).toContain("Observed Response Pattern");
+    expect(behaviorUi).toContain("Answer Changes Observed");
+    expect(behaviorUi).not.toContain("Frequent Answer Changes");
     expect(behaviorUi).not.toContain("Recorded attempts show comparatively stable decision behaviour across the available sample.");
     expect(behaviorUi).toContain("s.type === 'stable' ? '✅ Stable' : 'Pattern unavailable'");
     expect(behaviorUi).not.toContain("s.type === 'unavailable' ? 'Evidence unavailable' : '✅ Stable'");
