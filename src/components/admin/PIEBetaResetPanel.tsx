@@ -74,7 +74,7 @@ export function PIEBetaResetPanel() {
           <Badge variant="outline" className="border-warning/40 text-warning">Destructive · Super admin</Badge>
         </CardTitle>
         <p className="text-xs text-muted-foreground">
-          Preview row counts first. The server checks administrator access, requires a typed phrase, rechecks the preview fingerprint, and writes an audit record. Only profiles explicitly marked is_synthetic=true are eligible; missing synthetic markers block the reset. User accounts and question-bank content are preserved.
+          Preview row counts first. The server checks super-administrator access, requires a typed phrase, rechecks the preview fingerprint, and writes an audit record. Only profiles explicitly marked is_synthetic=true are eligible; missing synthetic markers block the reset. User accounts and question-bank content are preserved.
         </p>
       </CardHeader>
       <CardContent className="space-y-4">
