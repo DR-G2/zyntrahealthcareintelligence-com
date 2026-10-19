@@ -57,6 +57,20 @@ describe("Intelligence overview", () => {
     expect(screen.getByText(/49 \/ 50 valid observations/)).toBeInTheDocument();
   });
 
+  it("does not blend Normal MCQ and Nudge attempt accuracy", () => {
+    const base = fixture();
+    const input = fixture({ history: { status: "ready", value: [
+      ...(base.history.status === "ready" ? base.history.value : []),
+      { id: "nudge-1", subjectId: "medicine", subject: "Medicine", correct: true, confidence: null, seconds: 20, changes: 0, at: "2026-10-16T07:30:00Z", sessionMode: "nudge" },
+    ] } });
+    render(<MemoryRouter><ReadinessPrism evidence={input} loading={false} retry={() => {}} /></MemoryRouter>);
+    expect(screen.getByText("0%")).toBeInTheDocument();
+    expect(screen.getByText(/1 recorded attempts in this mode/)).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "Nudge" }));
+    expect(screen.getByText("100%")).toBeInTheDocument();
+    expect(screen.getByText(/1 recorded attempts in this mode/)).toBeInTheDocument();
+  });
+
   it("permits a dimension value at exactly 50 valid observations", () => {
     const base = fixture().pie.value!;
     const input = fixture({ pie: { status: "ready", value: {
