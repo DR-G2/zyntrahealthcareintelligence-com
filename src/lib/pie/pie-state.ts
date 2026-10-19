@@ -15,15 +15,23 @@ export const PIE_MIN_OBSERVATIONS = 6;
 export interface PieState {
   state_timestamp: string | null;
   state_sequence: number;
-  capability: number;
-  decision: number;
-  timing: number;
-  calibration: number;
-  sustained_performance: number;
-  learning: number;
+  capability: number | null;
+  decision: number | null;
+  timing: number | null;
+  calibration: number | null;
+  sustained_performance: number | null;
+  learning: number | null;
+  dimension_evidence: {
+    capability: number;
+    decision: number;
+    timing: number;
+    calibration: number;
+    sustained_performance: number;
+    learning: number;
+  };
   identification_status: string;
   evidence_level: string;
-  data_quality: number;
+  data_quality: number | null;
   observation_count: number;
   model_version: string;
 }
@@ -72,10 +80,11 @@ export interface PieDeps {
   getClient: () => PieClient;
 }
 
-function clamp01(value: unknown): number {
+function clamp01(value: unknown): number | null {
+  if (value === null || value === undefined || value === '') return null;
   const n = Number(value);
-  if (!Number.isFinite(n)) return 0;
-  return Math.max(0, Math.min(1, n));
+  if (!Number.isFinite(n) || n < 0 || n > 1) return null;
+  return n;
 }
 
 export function toPieDiagnostic(stage: PieStage, error: unknown): PieDiagnostic {
@@ -102,9 +111,14 @@ function unavailable(diagnostic: PieDiagnostic): PieView {
 export function mapPieStateRow(row: PieStateRow | null | undefined): PieState | null {
   if (!row || !row.state || typeof row.state !== 'object') return null;
   const state = row.state as Record<string, unknown>;
-  const estimate = (dimension: string) => {
+  const dimensionRecord = (dimension: string): Record<string, unknown> => {
     const value = state[dimension];
-    return clamp01(value && typeof value === 'object' ? (value as { estimate?: unknown }).estimate : undefined);
+    return value && typeof value === 'object' ? value as Record<string, unknown> : {};
+  };
+  const estimate = (dimension: string) => clamp01(dimensionRecord(dimension).estimate);
+  const evidenceCount = (dimension: string) => {
+    const value = Number(dimensionRecord(dimension).evidence_count ?? 0);
+    return Number.isSafeInteger(value) && value > 0 ? value : 0;
   };
   const evidenceLevel = typeof state.evidence_level === 'string' && state.evidence_level
     ? state.evidence_level
@@ -120,13 +134,23 @@ export function mapPieStateRow(row: PieStateRow | null | undefined): PieState | 
     calibration: estimate('calibration'),
     sustained_performance: estimate('sustained_performance'),
     learning: estimate('learning'),
+    dimension_evidence: {
+      capability: evidenceCount('capability'),
+      decision: evidenceCount('decision'),
+      timing: evidenceCount('timing'),
+      calibration: evidenceCount('calibration'),
+      sustained_performance: evidenceCount('sustained_performance'),
+      learning: evidenceCount('learning'),
+    },
     identification_status: evidenceLevel === 'INSUFFICIENT' || observations < PIE_MIN_OBSERVATIONS
       ? 'BUILDING_EVIDENCE'
       : 'IDENTIFIED',
     evidence_level: evidenceLevel,
     data_quality: clamp01(row.confidence),
     observation_count: observations,
-    model_version: 'v2-candidate-state',
+    model_version: typeof state.model_version === 'string' && state.model_version
+      ? state.model_version
+      : 'unknown-model-version',
   };
 }
 
@@ -139,7 +163,9 @@ export function mapPieStateRow(row: PieStateRow | null | undefined): PieState | 
 export function resolvePieView(row: PieStateRow | null | undefined): PieView {
   const pie = mapPieStateRow(row);
   if (!pie) return { status: 'building', observations: 0, pie: null };
-  if (pie.observation_count < PIE_MIN_OBSERVATIONS || pie.evidence_level === 'INSUFFICIENT') {
+  // Overall profile availability is anchored to graded capability evidence.
+  // Each other dimension independently remains null until its own signal exists.
+  if (pie.dimension_evidence.capability < PIE_MIN_OBSERVATIONS || pie.evidence_level === 'INSUFFICIENT') {
     return { status: 'building', observations: pie.observation_count, pie };
   }
   return { status: 'ready', pie };

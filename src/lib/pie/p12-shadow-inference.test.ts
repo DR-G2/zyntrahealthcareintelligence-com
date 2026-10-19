@@ -42,6 +42,23 @@ describe("PIE P12 shadow inference", () => {
     expect(state.evidenceLevel).toBeDefined();
   });
 
+  it("does not manufacture timing, calibration, or learning evidence from invalid values", () => {
+    const state = updateCandidateState(initialCandidateState(), {
+      occurredAt: "2026-10-08T02:00:00.000Z",
+      outcome: "CORRECT",
+      confidenceNormalized: 2,
+      timeTotalMs: Number.NaN,
+      timePressure: -0.2,
+      learningContext: undefined,
+      observationQuality: "VALID",
+    });
+    expect(state.timing.evidenceCount).toBe(0);
+    expect(state.calibration.evidenceCount).toBe(0);
+    expect(state.learning.evidenceCount).toBe(0);
+    expect(state.timing.estimate).toBe(0.5);
+    expect(state.calibration.estimate).toBe(0.5);
+  });
+
   it("is deterministic for the same evidence sequence", () => {
     const config = { ...DEFAULT_INFERENCE_CONFIG, modelVersion: "pie-inference-v2.1-shadow" };
     const observations = Array.from({ length: 10 }, (_, i) => ({

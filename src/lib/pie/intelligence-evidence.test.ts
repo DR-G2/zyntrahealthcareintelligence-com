@@ -24,10 +24,15 @@ describe('Intelligence evidence presentation boundary', () => {
       uncertainty: null, lower: null, upper: null, evidenceCount: null, evidenceQuality: null, estimateAligned: null,
     });
   });
-  it('requires six observations and non-insufficient evidence', () => {
+  it('requires global and per-dimension evidence before declaring the model sufficient', () => {
     expect(mapState({ state: { evidence_count: 5, evidence_level: 'PRELIMINARY' } })?.sufficient).toBe(false);
     expect(mapState({ state: { evidence_count: 6, evidence_level: 'INSUFFICIENT' } })?.sufficient).toBe(false);
-    expect(mapState({ state: { evidence_count: 6, evidence_level: 'PRELIMINARY' } })?.sufficient).toBe(true);
+    const state = { evidence_count: 12, evidence_level: 'PRELIMINARY', ...Object.fromEntries(
+      ['capability', 'decision', 'timing', 'calibration', 'sustained_performance', 'learning'].map(key => [key, { estimate: 0.7, evidence_count: 12 }]),
+    ) };
+    expect(mapState({ state })?.sufficient).toBe(true);
+    expect(mapState({ state: { ...state, decision: { estimate: 0.7, evidence_count: 2 } } })?.sufficient).toBe(false);
+    expect(mapState({ state: { ...state, calibration: { estimate: 0.7 } } })?.sufficient).toBe(false);
   });
   it('keeps no attempts distinct from true zero accuracy and deduplicates identities', () => {
     expect(historySummary([]).accuracy).toBeNull();
@@ -52,9 +57,12 @@ describe('Intelligence evidence presentation boundary', () => {
     expect(reads).toBe(0);
     expect(Object.values(result).every(source => source.status === 'unavailable')).toBe(true);
   });
-  it('keeps confidence absence separate from an available calibration projection', async () => {
-    const result = await loadIntelligenceEvidence({ ensure: async () => {}, history: async () => [], read: async name => ({ data: name === 'my_confidence_intelligence' ? { calibration_score: 0.75, calculated_at: '2026-10-15T00:00:00Z' } : null, error: null }) });
-    expect(result.confidence.value?.percent).toBe(75);
-    expect(historySummary(result.history.value ?? []).confidenceCount).toBe(0);
+  it('requires explicit confidence-alignment evidence and ten valid observations', async () => {
+    const read = async (name: string, count: number) => ({ data: name === 'my_confidence_intelligence' ? { dimensions: { confidence_alignment: 0.75 }, evidence_window: { confidence_count: count }, calculated_at: '2026-10-15T00:00:00Z' } : null, error: null });
+    const enough = await loadIntelligenceEvidence({ ensure: async () => {}, history: async () => [], read: name => read(name, 10) });
+    const tooFew = await loadIntelligenceEvidence({ ensure: async () => {}, history: async () => [], read: name => read(name, 9) });
+    expect(enough.confidence.value?.percent).toBe(75);
+    expect(tooFew.confidence.value).toBeNull();
+    expect(historySummary(enough.history.value ?? []).confidenceCount).toBe(0);
   });
 });
