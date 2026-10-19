@@ -15,6 +15,7 @@ begin
     where n.nspname='pie' and c.relname='pie_observation' and t.tgname='pie_observation_practice_mode_provenance' and not t.tgisinternal
   ) then raise exception 'FAIL 0099 observation provenance trigger missing'; end if;
   if position('pie_adaptive' in pg_get_functiondef('public.pie_create_practice_session(integer,text)'::regprocedure)) = 0 then raise exception 'FAIL 0099 did not preserve PIE selector'; end if;
+  if position('amc_exam' in pg_get_functiondef('public.pie_create_practice_session(integer,text)'::regprocedure)) = 0 then raise exception 'FAIL 0099 AMC Exam mode is not accepted by trusted creator'; end if;
   if not has_function_privilege('authenticated','public.pie_create_practice_session(integer,text)','execute') then raise exception 'FAIL 0099 authenticated execution grant missing'; end if;
   if has_function_privilege('anon','public.pie_create_practice_session(integer,text)','execute') then raise exception 'FAIL 0099 anonymous execution is enabled'; end if;
   raise notice 'ALL 0099 MODE PROVENANCE ASSERTIONS PASSED';
