@@ -278,7 +278,7 @@ returns jsonb
 language plpgsql
 security definer
 set search_path = pg_catalog, public, auth, pie
-as $
+as $register$
 declare target_role text;
 begin
   if not public._admin_beta_reset_is_super_admin() then
@@ -306,7 +306,7 @@ exception
   when unique_violation then
     raise exception 'This account is already registered as a synthetic candidate.';
 end;
-$;
+$register$;
 
 create or replace function public.admin_preview_pie_beta_reset(p_mode text)
 returns jsonb
