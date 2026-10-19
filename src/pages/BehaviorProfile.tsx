@@ -140,8 +140,8 @@ export default function BehaviorProfile() {
         .maybeSingle();
       if (profile) setData(profile as any);
       toast({ title: 'Analysis complete', description: 'Your behavior profile has been updated.' });
-    } catch (e: any) {
-      toast({ title: 'Analysis failed', description: e.message || 'Try again later', variant: 'destructive' });
+    } catch {
+      toast({ title: 'Analysis failed', description: 'Behaviour analysis is temporarily unavailable. Please try again later.', variant: 'destructive' });
     }
     setAnalyzing(false);
   };
