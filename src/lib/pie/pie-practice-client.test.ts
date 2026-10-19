@@ -35,6 +35,14 @@ describe("P5 Practice data path (PIE, server-selected, no client key)", () => {
     expect(r.questions.map((q) => q.question_position)).toEqual([0, 1]);
   });
 
+  it("creates an explicitly scoped AMC Exam session without changing server-side selection", async () => {
+    const d = deps(async (fn) => fn === "pie_create_practice_session"
+      ? { data: [{ session_id: "s1", question_count: 1 }], error: null }
+      : { data: [row(0)], error: null });
+    await startPieSession(1, d, 'amc_exam');
+    expect(d.rpc).toHaveBeenCalledWith("pie_create_practice_session", { p_count: 1, p_practice_mode: 'amc_exam' });
+  });
+
   it("strips any key-like field even if a server ever returned one", async () => {
     const d = deps(async () => ({ data: [row(0, { correct_answer: "A", explanation: "why" })], error: null }));
     const [q] = await loadSessionQuestions("s1", d);
