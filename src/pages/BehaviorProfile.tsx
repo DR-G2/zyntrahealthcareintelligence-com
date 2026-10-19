@@ -175,15 +175,9 @@ export default function BehaviorProfile() {
           <CardContent className="py-12 space-y-4">
             <Brain className="h-12 w-12 text-muted-foreground/50 mx-auto" />
             <h2 className="text-xl font-display font-bold">No Behavior Profile Yet</h2>
-            <p className="text-muted-foreground">Complete some practice sessions, then run the analysis.</p>
-            <div className="flex gap-3 justify-center">
-              <Button asChild variant="outline">
-                <Link to="/practice">Start Practice</Link>
-              </Button>
-              <Button onClick={runAnalysis} disabled={analyzing} className="gap-2">
-                {analyzing ? <Loader2 className="h-4 w-4 animate-spin" /> : <Activity className="h-4 w-4" />}
-                Run Analysis
-              </Button>
+            <p className="text-muted-foreground">A mode-specific profile is required before a behaviour score can be shown. The current analysis path does not establish that separation.</p>
+            <div className="flex justify-center">
+              <Button asChild variant="outline"><Link to="/practice">Start Practice</Link></Button>
             </div>
           </CardContent>
         </Card>
