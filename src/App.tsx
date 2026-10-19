@@ -20,15 +20,15 @@ import { useMaintenanceMode } from "@/hooks/useSiteSettings";
 import { ADMIN_EMAILS } from "@/lib/admin-emails";
 
 import Home from "./pages/Home";
-import HowItWorks from "./pages/HowItWorks";
-import PublicPricing from "./pages/PublicPricing";
-import Features from "./pages/Features";
-import AmcPart1Mcq from "./pages/AmcPart1Mcq";
-import AmcClinicalOsce from "./pages/AmcClinicalOsce";
-import AmcExamPreparation from "./pages/AmcExamPreparation";
-import AmcPreparationForImgs from "./pages/AmcPreparationForImgs";
-import Login from "./pages/Login";
-import NotFound from "./pages/NotFound";
+
+
+
+
+
+
+
+
+
 
 const ResetPassword = lazy(() => import("./pages/ResetPassword"));
 const Onboarding = lazy(() => import("./pages/Onboarding"));
@@ -55,6 +55,15 @@ const BlogArticle = lazy(() => import("./pages/BlogArticle"));
 const About = lazy(() => import("./pages/About"));
 const FAQ = lazy(() => import("./pages/FAQ"));
 const V2AuthDiagnostic = lazy(() => import("./pages/V2AuthDiagnostic"));
+const HowItWorks = lazy(() => import("./pages/HowItWorks"));
+const PublicPricing = lazy(() => import("./pages/PublicPricing"));
+const Features = lazy(() => import("./pages/Features"));
+const AmcPart1Mcq = lazy(() => import("./pages/AmcPart1Mcq"));
+const AmcClinicalOsce = lazy(() => import("./pages/AmcClinicalOsce"));
+const AmcExamPreparation = lazy(() => import("./pages/AmcExamPreparation"));
+const AmcPreparationForImgs = lazy(() => import("./pages/AmcPreparationForImgs"));
+const Login = lazy(() => import("./pages/Login"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
 
@@ -95,7 +104,7 @@ function MaintenanceGate({ children }: { children: ReactNode }) {
   if (maintenance && !isAdmin) {
     return (
       <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Suspense fallback={<LazyFallback />}><Login /></Suspense>} />
         <Route path="/oauth/consent" element={<Suspense fallback={<LazyFallback />}><OAuthConsent /></Suspense>} />
         <Route path="/admin" element={<ProtectedRoute><AdminGate /></ProtectedRoute>} />
         <Route path="*" element={<MaintenancePage />} />
