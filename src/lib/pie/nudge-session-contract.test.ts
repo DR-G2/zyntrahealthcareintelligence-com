@@ -6,6 +6,10 @@ const migration = readFileSync(
   resolve(__dirname, "../../../supabase/migrations_v2/0092_nudge_targeted_session_lifecycle.sql"),
   "utf8",
 );
+const coldStartMigration = readFileSync(
+  resolve(__dirname, "../../../supabase/migrations_v2/0095_nudge_cold_start_progression.sql"),
+  "utf8",
+);
 const client = readFileSync(resolve(__dirname, "pie-practice-client.ts"), "utf8");
 const session = readFileSync(resolve(__dirname, "../../components/practice/PieDrillSession.tsx"), "utf8");
 const page = readFileSync(resolve(__dirname, "../../pages/Practice.tsx"), "utf8");
@@ -58,6 +62,21 @@ describe("Nudge targeted-session contract", () => {
     expect(client).toContain("get_my_nudge_progress");
     expect(session).toContain("getNudgeProgress(nudgeTarget.loId)");
     expect(page).toContain("PIE reassessment");
+  });
+
+  it("uses mixed approved questions for the first 50 mapped interactions and falls back when PIE has no supported target", () => {
+    expect(coldStartMigration).toContain("v_mapped_interactions >= 50");
+    expect(coldStartMigration).toContain("'nudge-cold-start-v1'");
+    expect(coldStartMigration).toContain("'MIXED_PRACTICE_NO_SUPPORTED_TARGET'");
+    expect(coldStartMigration).toContain("public.get_my_nudge_target()");
+    expect(coldStartMigration).toContain("pie.pie_question_quarantine");
+    expect(coldStartMigration).toContain("b.blueprint_key = 'AMC_CAT_MCQ'");
+    expect(coldStartMigration).toContain("order by");
+    expect(coldStartMigration).toContain("random()");
+    expect(client).toContain("COLD_START_FIRST_50");
+    expect(session).toContain("Nudge · evidence-building");
+    expect(session).toContain("first 50 saved learning-objective interactions");
+    expect(session).toContain("nudgeTarget?.loId");
   });
 
   it("does not enable a Nudge session without explicit server status or eligible content", () => {
