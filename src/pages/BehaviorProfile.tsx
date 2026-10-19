@@ -20,6 +20,7 @@ import {
   ResponsiveContainer, Legend
 } from 'recharts';
 import { pieV2AuthHeaders } from '@/lib/pie/pie-history-client';
+import { normalizePracticeMode } from '@/lib/pie/intelligence-evidence';
 
 const RECOMMENDATION_QUESTION_COUNT = 10;
 
@@ -80,6 +81,7 @@ const ARCHETYPE_META: Record<string, { label: string; icon: typeof Brain; color:
 };
 
 interface BehaviorData {
+  session_mode?: string | null;
   archetype: string;
   archetype_signals: any;
   block_performance: Record<string, { accuracy: number; avgTime: number; changeRate: number }>;
@@ -95,20 +97,33 @@ export default function BehaviorProfile() {
   const [data, setData] = useState<BehaviorData | null>(null);
   const [loading, setLoading] = useState(true);
   const [analyzing, setAnalyzing] = useState(false);
+  const [profileRetry, setProfileRetry] = useState(0);
+  const [loadError, setLoadError] = useState(false);
 
   useEffect(() => {
-    if (!user) return;
+    if (!user) { setLoading(false); return; }
+    let cancelled = false;
+    setLoading(true);
+    setLoadError(false);
     const fetchProfile = async () => {
-      const { data: profile } = await supabase
-        .from('behavior_profiles')
-        .select('*')
-        .eq('user_id', user.id)
-        .maybeSingle();
-      if (profile) setData(profile as any);
-      setLoading(false);
+      try {
+        const { data: profile, error } = await supabase
+          .from('behavior_profiles')
+          .select('*')
+          .eq('user_id', user.id)
+          .maybeSingle();
+        if (cancelled) return;
+        if (error) { setLoadError(true); setData(null); }
+        else setData(profile as any);
+      } catch {
+        if (!cancelled) { setLoadError(true); setData(null); }
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
     };
-    fetchProfile();
-  }, [user]);
+    void fetchProfile();
+    return () => { cancelled = true; };
+  }, [user, profileRetry]);
 
   const runAnalysis = async () => {
     setAnalyzing(true);
@@ -141,6 +156,18 @@ export default function BehaviorProfile() {
     return <BehaviorSkeleton />;
   }
 
+  if (loadError) {
+    return (
+      <div className="mx-auto max-w-2xl py-12 text-center">
+        <Card><CardContent className="space-y-4 py-10">
+          <h2 className="text-lg font-semibold">Behaviour evidence is unavailable</h2>
+          <p className="text-sm text-muted-foreground">The profile could not be loaded. This is not a zero-performance result.</p>
+          <Button variant="outline" onClick={() => setProfileRetry(value => value + 1)}>Retry evidence</Button>
+        </CardContent></Card>
+      </div>
+    );
+  }
+
   if (!data) {
     return (
       <div className="mx-auto max-w-2xl py-12 text-center">
@@ -160,6 +187,19 @@ export default function BehaviorProfile() {
             </div>
           </CardContent>
         </Card>
+      </div>
+    );
+  }
+
+  if (!normalizePracticeMode(data.session_mode)) {
+    return (
+      <div className="mx-auto max-w-2xl py-12 text-center">
+        <Card><CardContent className="space-y-4 py-10">
+          <Brain className="mx-auto h-10 w-10 text-muted-foreground" />
+          <h2 className="text-lg font-semibold">Mode-specific behaviour evidence is not available</h2>
+          <p className="text-sm leading-6 text-muted-foreground">The current stored profile does not identify one practice mode. To avoid blending Normal MCQ, AMC Exam mode and Nudge, its scores and labels are withheld until the source can provide mode-specific evidence.</p>
+          <Button asChild variant="outline"><Link to="/practice">Open Practice</Link></Button>
+        </CardContent></Card>
       </div>
     );
   }
