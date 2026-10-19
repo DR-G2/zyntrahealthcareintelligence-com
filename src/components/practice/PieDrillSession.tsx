@@ -129,7 +129,7 @@ export function PieDrillSession({ config, resumeSessionId, onFinish }: {
             setPrimaryMode(storedConfig.primaryMode);
           }
           const storedTarget = storedConfig.nudgeTarget as NudgeSessionTarget | null | undefined;
-          if (storedTarget?.loId && storedTarget.loTitle) setNudgeTarget(storedTarget);
+          if (storedTarget?.loTitle) setNudgeTarget(storedTarget);
           // Hard failure, never a silent fresh/legacy fallback.
           if (typeof v2Id !== 'string') throw new Error('This session cannot be resumed. Please start a new one.');
           sessionRef.current = v2Id;
@@ -239,7 +239,7 @@ export function PieDrillSession({ config, resumeSessionId, onFinish }: {
       });
       const r = resultsToQuestions(results);
       let nudgeOutcome: NudgeOutcome | null = null;
-      if (primaryMode === 'nudge' && nudgeTarget) {
+      if (primaryMode === 'nudge' && nudgeTarget?.loId) {
         try {
           const followUp = await getNudgeProgress(nudgeTarget.loId);
           nudgeOutcome = {
@@ -312,7 +312,7 @@ export function PieDrillSession({ config, resumeSessionId, onFinish }: {
   const mm = `${Math.floor(remaining / 60)}:${String(remaining % 60).padStart(2, '0')}`;
 
   const isMock = config.mode === 'full-mock';
-  const modeLabel = primaryMode === 'nudge' ? 'Nudge · Targeted learning objective' : isMock ? 'Full Mock Exam' : config.mode === 'recharge' ? 'MCQ Drill · With option change' : 'MCQ Drill · No option change';
+  const modeLabel = primaryMode === 'nudge' ? (nudgeTarget?.loId ? 'Nudge · PIE-targeted learning' : 'Nudge · Evidence-building mix') : isMock ? 'Full Mock Exam' : config.mode === 'recharge' ? 'MCQ Drill · With option change' : 'MCQ Drill · No option change';
   const shownTotal = primaryMode === 'nudge' && questions.length > 0 ? questions.length : Math.max(questions.length, target);
   const lowTime = isMock && remaining <= 600;
 
@@ -351,11 +351,18 @@ export function PieDrillSession({ config, resumeSessionId, onFinish }: {
   return (
     <AppLayout>
       <div className="mx-auto max-w-3xl space-y-4 pb-[calc(10rem+env(safe-area-inset-bottom))] pt-2 md:pb-6">
-        {primaryMode === 'nudge' && nudgeTarget && (
+        {primaryMode === 'nudge' && nudgeTarget?.loId && (
           <Card className="border-primary/25 bg-primary/5"><CardContent className="p-4 space-y-1">
             <p className="text-xs font-semibold uppercase tracking-wide text-primary">Nudge target · evidence-backed</p>
             <p className="font-semibold">{nudgeTarget.loTitle}</p>
             <p className="text-sm text-muted-foreground">Based on {nudgeTarget.baselineQuestionCount} distinct mapped questions · baseline accuracy {Math.round(nudgeTarget.baselineAccuracy * 100)}%.</p>
+          </CardContent></Card>
+        )}
+        {primaryMode === 'nudge' && nudgeTarget && !nudgeTarget.loId && (
+          <Card className="border-primary/25 bg-primary/5"><CardContent className="p-4 space-y-1">
+            <p className="text-xs font-semibold uppercase tracking-wide text-primary">Nudge · evidence-building</p>
+            <p className="font-semibold">Mixed AMC question set</p>
+            <p className="text-sm text-muted-foreground">Your first 50 saved learning-objective interactions build the evidence PIE needs. This session starts at {nudgeTarget.baselineQuestionCount} of 50 mapped interactions. Questions are mixed and blueprint-eligible; no weakness is assumed.</p>
           </CardContent></Card>
         )}
         <header className="sticky top-14 z-20 -mx-4 border-b border-border/60 bg-background/95 px-4 py-3 backdrop-blur-md md:top-0 md:mx-0">
