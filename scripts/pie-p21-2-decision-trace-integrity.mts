@@ -47,7 +47,7 @@ if (sessionId) {
   const firstQuestionId = String(first?.question_id ?? "");
   check("P21.2-07 initial question is server-selected and session-bound", !qs.error && !!firstQuestionId);
 
-  const traces0 = await A.db.rpc("get_my_pie_decision_traces");
+  const traces0 = await A.db.rpc("get_my_pie_decision_traces_for_session", { p_session_id: sessionId });
   const all0 = Array.isArray(traces0.data) ? traces0.data as Record<string, unknown>[] : [];
   const initial = all0.find(t => t.session_id === sessionId && t.decision_type === "SESSION_BUILD");
   check("P21.2-08 SESSION_BUILD decision trace exists for the candidate", !traces0.error && !!initial, traces0.error?.message ?? "");
@@ -95,7 +95,7 @@ if (sessionId) {
     rows2.some(q => q.question_id === firstQuestionId) &&
     rows2.some(q => q.question_id === nextQuestionId));
 
-  const traces = await A.db.rpc("get_my_pie_decision_traces");
+  const traces = await A.db.rpc("get_my_pie_decision_traces_for_session", { p_session_id: sessionId });
   const all = Array.isArray(traces.data) ? traces.data as Record<string, unknown>[] : [];
   const sessionTraces = all.filter(t => t.session_id === sessionId);
   const nextTrace = sessionTraces.find(t => t.id === decisionId);
@@ -124,7 +124,7 @@ if (sessionId) {
   check("P21.2-19 session decision traces do not duplicate a selected question",
     new Set(sessionTraceQuestions).size === sessionTraceQuestions.length);
 
-  const foreignTraces = await B.db.rpc("get_my_pie_decision_traces");
+  const foreignTraces = await B.db.rpc("get_my_pie_decision_traces_for_session", { p_session_id: sessionId });
   const foreign = Array.isArray(foreignTraces.data) ? foreignTraces.data as Record<string, unknown>[] : [];
   check("P21.2-20 second candidate cannot see the first candidate's decision traces",
     !foreignTraces.error && !foreign.some(t => t.session_id === sessionId),
