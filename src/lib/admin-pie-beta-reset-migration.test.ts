@@ -59,6 +59,9 @@ describe('PIE beta reset migration source contract', () => {
       'pie.question_lo',
       'pie.learning_objective',
       'pie.pie_model_version',
+      'pie.selection_policy',
+      'intelligence.intervention_catalog',
+      'public.amc_exam_environment_v1',
     ];
     for (const table of preserved) {
       expect(targets.some((target) => key(target.schema, target.table) === table)).toBe(false);
@@ -74,9 +77,12 @@ describe('PIE beta reset migration source contract', () => {
       expect(childOrder!).toBeLessThan(parentOrder!);
     };
     before('pie.pie_decision_outcome', 'pie.pie_decision');
+    before('pie.pie_runtime_decision', 'pie.pie_decision');
+    before('pie.pie_intervention_outcome', 'pie.pie_decision');
     before('pie.pie_decision', 'pie.pie_decision_candidate');
     before('pie.pie_dwig_evaluation', 'pie.pie_dwig_candidate');
     before('pie.pie_dwig_selection', 'pie.pie_dwig_candidate');
+    before('intelligence.intervention_outcomes', 'intelligence.candidate_interventions');
     before('pie.pie_state_uncertainty', 'pie.pie_candidate_state');
     before('public.amc_adapter_evaluation', 'pie.pie_candidate_state');
     before('pie.attempt_lo', 'public.user_attempts');
