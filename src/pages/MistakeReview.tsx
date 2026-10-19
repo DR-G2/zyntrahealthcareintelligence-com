@@ -22,7 +22,7 @@ interface AttemptRow {
   is_correct: boolean;
   answer_changes_count: number | null;
   change_sequence: any;
-  time_taken_seconds: number;
+  time_taken_seconds: number | null;
   time_to_first_click: number | null;
   created_at: string;
   questions: {
@@ -39,9 +39,17 @@ function ReviewCard({ attempt }: { attempt: AttemptRow }) {
   const q = attempt.questions;
   const changeSeq = Array.isArray(attempt.change_sequence) ? attempt.change_sequence : [];
 
-  // Determine if it was a panic change (right→wrong)
-  const isPanicChange = changeSeq.length > 0 && changeSeq[0] === q.correct_answer && attempt.selected_answer !== q.correct_answer;
-  const isGoodInstinct = changeSeq.length > 0 && changeSeq[0] !== q.correct_answer && attempt.selected_answer === q.correct_answer;
+  const validSequence = typeof attempt.answer_changes_count === 'number'
+    && Number.isSafeInteger(attempt.answer_changes_count) && attempt.answer_changes_count > 0
+    && changeSeq.length === attempt.answer_changes_count + 1
+    && changeSeq.every((answer: unknown) => typeof answer === 'string' && answer.trim().length > 0)
+    && typeof q.correct_answer === 'string' && q.correct_answer.trim().length > 0
+    && changeSeq[changeSeq.length - 1]?.trim().toUpperCase() === attempt.selected_answer.trim().toUpperCase();
+  // First/final-answer labels require a complete, internally consistent sequence and answer key.
+  const isPanicChange = validSequence && changeSeq[0].trim().toUpperCase() === q.correct_answer.trim().toUpperCase()
+    && attempt.selected_answer.trim().toUpperCase() !== q.correct_answer.trim().toUpperCase();
+  const isGoodInstinct = validSequence && changeSeq[0].trim().toUpperCase() !== q.correct_answer.trim().toUpperCase()
+    && attempt.selected_answer.trim().toUpperCase() === q.correct_answer.trim().toUpperCase();
 
   return (
     <Card className="hover:border-primary/20 transition-colors">
@@ -53,13 +61,13 @@ function ReviewCard({ attempt }: { attempt: AttemptRow }) {
               <Badge variant="outline" className="text-xs">{q.category}</Badge>
               {isPanicChange && <Badge variant="destructive" className="text-xs">Panic Change</Badge>}
               {isGoodInstinct && <Badge className="text-xs bg-success text-success-foreground">Good Instinct</Badge>}
-              {attempt.time_taken_seconds < 15 && <Badge variant="secondary" className="text-xs">Quick Guess</Badge>}
+              {typeof attempt.time_taken_seconds === 'number' && Number.isFinite(attempt.time_taken_seconds) && attempt.time_taken_seconds >= 0 && attempt.time_taken_seconds < 15 && <Badge variant="secondary" className="text-xs">Quick Guess</Badge>}
             </div>
           </div>
           <div className="text-right shrink-0">
             <div className="flex items-center gap-1 text-xs text-muted-foreground">
               <Clock className="h-3 w-3" />
-              {attempt.time_taken_seconds}s
+              {attempt.time_taken_seconds === null || !Number.isFinite(attempt.time_taken_seconds) || attempt.time_taken_seconds < 0 ? 'Unavailable' : `${attempt.time_taken_seconds}s`}
             </div>
             {attempt.answer_changes_count === null ? (
               <p className="text-xs text-muted-foreground mt-1">Change count unavailable</p>
@@ -118,9 +126,10 @@ export default function MistakeReview() {
   });
 
   const incorrect = useMemo(() => attempts.filter(a => !a.is_correct), [attempts]);
-  const changed = useMemo(() => attempts.filter(a => a.answer_changes_count > 0), [attempts]);
-  const guessed = useMemo(() => attempts.filter(a => 
-    (a.time_to_first_click !== null && a.time_to_first_click < 3) || a.time_taken_seconds < 15
+  const changed = useMemo(() => attempts.filter(a => a.answer_changes_count !== null && a.answer_changes_count > 0), [attempts]);
+  const guessed = useMemo(() => attempts.filter(a =>
+    (typeof a.time_to_first_click === 'number' && Number.isFinite(a.time_to_first_click) && a.time_to_first_click >= 0 && a.time_to_first_click < 3)
+    || (typeof a.time_taken_seconds === 'number' && Number.isFinite(a.time_taken_seconds) && a.time_taken_seconds >= 0 && a.time_taken_seconds < 15)
   ), [attempts]);
 
   const tabs = [
