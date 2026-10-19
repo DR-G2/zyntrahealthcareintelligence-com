@@ -31,6 +31,8 @@ describe("P5 edge functions read PIE attempts on V2", () => {
     expect(src).toContain("s.changeEvidenceCount > 0 ? Math.round((s.changedAttempts / s.changeEvidenceCount) * 100) : null");
     expect(src).toContain("validChanges.filter((a) => a.answer_changes_count > 0).length");
     expect(src).not.toContain("totalChanges / changeEvidence.length");
+    expect(src).toContain("top-level changeRate is a fraction from 0 to 1");
+    expect(src).toContain("subjectStats and blockPerformance changeRate values are percentages from 0 to 100");
     expect(src).not.toContain("a.answer_changes_count || 0");
   });
 
