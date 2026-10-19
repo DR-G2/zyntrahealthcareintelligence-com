@@ -267,7 +267,7 @@ export default function TrustYourGut() {
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">First Instinct Accuracy</p>
-                  <p className="text-2xl font-bold">{stats.firstInstinctAccuracy === null ? 'Unavailable' : `${stats.firstInstinctAccuracy === null ? 'Unavailable' : `${stats.firstInstinctAccuracy === null ? 'Unavailable' : `${stats.firstInstinctAccuracy.toFixed(1)}%`}`}`}</p>
+                  <p className="text-2xl font-bold">{stats.firstInstinctAccuracy === null ? 'Unavailable' : `${stats.firstInstinctAccuracy.toFixed(1)}%`}</p>
                 </div>
               </div>
             </CardContent>
@@ -281,7 +281,7 @@ export default function TrustYourGut() {
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Final Answer Accuracy</p>
-                  <p className="text-2xl font-bold">{stats.finalAccuracy === null ? 'Unavailable' : `${stats.finalAccuracy === null ? 'Unavailable' : `${stats.finalAccuracy === null ? 'Unavailable' : `${stats.finalAccuracy.toFixed(1)}%`}`}`}</p>
+                  <p className="text-2xl font-bold">{stats.finalAccuracy === null ? 'Unavailable' : `${stats.finalAccuracy.toFixed(1)}%`}</p>
                 </div>
               </div>
             </CardContent>
@@ -326,11 +326,11 @@ export default function TrustYourGut() {
               <div className="mt-6 grid grid-cols-2 gap-3">
                 <div className="rounded-2xl border border-cyan-400/15 bg-cyan-400/[0.045] p-4">
                   <p className="text-[10px] font-medium uppercase tracking-[0.14em] text-cyan-300/80">First instinct</p>
-                  <p className="mt-2 text-3xl font-bold text-white">{stats.firstInstinctAccuracy.toFixed(1)}%</p>
+                  <p className="mt-2 text-3xl font-bold text-white">{stats.firstInstinctAccuracy === null ? 'Unavailable' : `${stats.firstInstinctAccuracy.toFixed(1)}%`}</p>
                 </div>
                 <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
                   <p className="text-[10px] font-medium uppercase tracking-[0.14em] text-slate-500">Final answer</p>
-                  <p className="mt-2 text-3xl font-bold text-white">{stats.finalAccuracy.toFixed(1)}%</p>
+                  <p className="mt-2 text-3xl font-bold text-white">{stats.finalAccuracy === null ? 'Unavailable' : `${stats.finalAccuracy.toFixed(1)}%`}</p>
                 </div>
               </div>
               <p className="mt-4 text-xs leading-5 text-slate-500">
