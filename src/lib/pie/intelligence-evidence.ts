@@ -82,10 +82,10 @@ export function mapState(value: unknown): StateEvidence | null {
       evidenceCount: dimensionCount(raw.evidence_count),
       evidenceQuality: fraction(raw.evidence_quality),
       estimateAligned: typeof raw.estimate_aligned === 'boolean' ? raw.estimate_aligned : null,
-      calibrationReady: typeof raw.calibration_ready === 'boolean' ? raw.calibration_ready : null,
-      confidenceLevelCounts: Object.keys(object(raw.confidence_level_counts)).length
-        ? Object.fromEntries([1,2,3,4,5].map(level => [String(level), dimensionCount(object(raw.confidence_level_counts)[String(level)])]))
-        : null,
+      ...(typeof raw.calibration_ready === 'boolean' ? { calibrationReady: raw.calibration_ready } : {}),
+      ...(Object.keys(object(raw.confidence_level_counts)).length
+        ? { confidenceLevelCounts: Object.fromEntries([1,2,3,4,5].map(level => [String(level), dimensionCount(object(raw.confidence_level_counts)[String(level)])])) }
+        : {}),
     }];
   })) as Record<Dimension, DimensionEvidence>;
   const rawModeEvidence = object(state.mode_evidence);
