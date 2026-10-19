@@ -1,3 +1,10 @@
+# Remaining SEO before publication
+
+- [ ] Remove the unapproved share-image tagline.
+- [ ] Generate and verify route-specific public HTML without JavaScript.
+- [ ] Check published HTTP redirects/statuses and mobile/login/pricing/practice reads without writes.
+- [ ] Run relevant tests and report hosting/CI blockers; do not publish.
+
 # Admin Genjutsu redesign
 
 - [x] Inspect current implementation and reuse existing admin controls; PR #96 is not available in accessible remote refs.

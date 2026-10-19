@@ -2,3 +2,4 @@
 - Performance Intelligence overview uses a page-scoped read-only presentation adapter over existing caller-owned V2 projections; never rebuild inference or consume shadow diagnostics on overview load, so presentation cannot mutate candidate models.
 - AppLayout reuses the training Genjutsu tokens and accessible drawer on approved training routes and /admin; keep shared defaults unchanged to isolate other pages and AI Lab.
 - Admin section metadata is presentation-only and retains the existing five regular and seven super-admin sections; contained scrollable tabs prevent intrinsic widths from overlapping content.
+- Public SEO HTML is prerendered from actual public React pages and the existing sitemap during Vite builds, capped at 64 pages; never render auth providers or candidate data into static output.

@@ -37,6 +37,11 @@ const FAQS = [
 export default function AmcClinicalOsce() {
   const { user } = useAuth();
   const { show: showAboutPricing } = useShowAboutPricing();
+  return <AmcClinicalOsceContent signedIn={Boolean(user)} showAboutPricing={showAboutPricing} />;
+}
+
+/** Public presentation can render without auth or site-setting reads. */
+export function AmcClinicalOsceContent({ signedIn = false, showAboutPricing = false }: { signedIn?: boolean; showAboutPricing?: boolean }) {
   const pageUrl = 'https://www.zyntrahealthcareintelligence.com/amc-clinical-osce';
 
   return (
@@ -95,7 +100,7 @@ export default function AmcClinicalOsce() {
             )}
             <ThemeToggle />
             <Button asChild>
-              <Link to={user ? '/dashboard' : '/login'}>{user ? 'Dashboard' : 'Log in'}</Link>
+              <Link to={signedIn ? '/dashboard' : '/login'}>{signedIn ? 'Dashboard' : 'Log in'}</Link>
             </Button>
           </nav>
         </div>
