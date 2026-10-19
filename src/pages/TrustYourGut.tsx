@@ -265,7 +265,7 @@ export default function TrustYourGut() {
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">First Instinct Accuracy</p>
-                  <p className="text-2xl font-bold">{stats.firstInstinctAccuracy === null ? 'Unavailable' : `${stats.firstInstinctAccuracy === null ? 'Unavailable' : `${stats.firstInstinctAccuracy.toFixed(1)}%`}`}</p>
+                  <p className="text-2xl font-bold">{stats.firstInstinctAccuracy === null ? 'Unavailable' : `${stats.firstInstinctAccuracy === null ? 'Unavailable' : `${stats.firstInstinctAccuracy === null ? 'Unavailable' : `${stats.firstInstinctAccuracy.toFixed(1)}%`}`}`}</p>
                 </div>
               </div>
             </CardContent>
@@ -279,7 +279,7 @@ export default function TrustYourGut() {
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Final Answer Accuracy</p>
-                  <p className="text-2xl font-bold">{stats.finalAccuracy === null ? 'Unavailable' : `${stats.finalAccuracy === null ? 'Unavailable' : `${stats.finalAccuracy.toFixed(1)}%`}`}</p>
+                  <p className="text-2xl font-bold">{stats.finalAccuracy === null ? 'Unavailable' : `${stats.finalAccuracy === null ? 'Unavailable' : `${stats.finalAccuracy === null ? 'Unavailable' : `${stats.finalAccuracy.toFixed(1)}%`}`}`}</p>
                 </div>
               </div>
             </CardContent>
