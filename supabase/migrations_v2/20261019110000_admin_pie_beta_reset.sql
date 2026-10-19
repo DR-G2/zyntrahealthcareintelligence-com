@@ -42,7 +42,7 @@ as $$
   select * from (values
     (10,  'pie',          'pie_observation',             'user_id',             'pie_only'),
     (20,  'pie',          'attempt_lo',                  'attempt_user',        'pie_only'),
-    (30,  'pie',          'decision_trace',              'user_id',             'pie_only'),
+    (30,  'pie',          'decision_trace',              'trace_owner',         'pie_only'),
     (40,  'pie',          'inference_shadow',            'user_id',             'pie_only'),
     (50,  'pie',          'inference_projection',        'user_id',             'pie_only'),
     (60,  'pie',          'inference_state',             'user_id',             'pie_only'),
@@ -80,6 +80,7 @@ as $$
     (370, 'pie',          'adaptive_policy_shadow',      'user_id',             'pie_only'),
     (380, 'pie',          'beta_serving_gate',            'user_id',             'pie_only'),
     (390, 'pie',          'pie_exam_environment',         'user_id',             'pie_only'),
+    (395, 'pie',          'readiness_snapshot',          'user_id',             'pie_only'),
     (400, 'public',       'user_attempts',               'user_id',             'full_candidate'),
     (410, 'public',       'practice_session_questions',  'session_user',        'full_candidate'),
     (420, 'public',       'practice_sessions',           'user_id',             'full_candidate')
@@ -96,6 +97,10 @@ begin
   return case p_scope_kind
     when 'user_id' then
       't.user_id in (select p.id from public.profiles p where exists (select 1 from pie.synthetic_candidate_registry scr where scr.user_id = p.id))'
+    when 'trace_owner' then
+      case when exists (select 1 from information_schema.columns where table_schema = 'pie' and table_name = 'decision_trace' and column_name = 'learner_id')
+        then 't.learner_id in (select scr.user_id from pie.synthetic_candidate_registry scr)'
+        else 't.user_id in (select scr.user_id from pie.synthetic_candidate_registry scr)' end
     when 'attempt_user' then
       'exists (select 1 from public.user_attempts ua join public.profiles p on p.id = ua.user_id where ua.id = t.attempt_id and exists (select 1 from pie.synthetic_candidate_registry scr where scr.user_id = p.id))'
     when 'session_user' then
@@ -216,6 +221,10 @@ begin
 
     required_column := case r.scope_kind
       when 'user_id' then 'user_id'
+      when 'trace_owner' then case
+        when exists (select 1 from information_schema.columns where table_schema = r.schema_name and table_name = r.table_name and column_name = 'learner_id') then 'learner_id'
+        when exists (select 1 from information_schema.columns where table_schema = r.schema_name and table_name = r.table_name and column_name = 'user_id') then 'user_id'
+        else null end
       when 'attempt_user' then 'attempt_id'
       when 'session_user' then 'session_id'
       when 'intervention_user' then 'candidate_intervention_id'
@@ -347,6 +356,9 @@ declare
   deleted bigint;
   actual jsonb := '{}'::jsonb;
   predicate text;
+  candidate_id uuid;
+  rows_deleted bigint;
+  owner_column text;
 begin
   if not public._admin_beta_reset_is_super_admin() then
     raise exception 'Super-administrator access required' using errcode = '42501';
@@ -460,8 +472,36 @@ begin
       continue;
     end if;
     predicate := public._admin_beta_reset_predicate(r.scope_kind);
-    execute format('delete from %I.%I t where %s', r.schema_name, r.table_name, predicate);
-    get diagnostics deleted = row_count;
+    if r.schema_name = 'pie' and r.table_name = 'decision_trace' then
+      -- V2 P3 decision traces are append-only except for the guarded learner-erasure context.
+      -- Support both the current production column and the V2 migration's learner_id column.
+      if exists (select 1 from information_schema.columns where table_schema = 'pie' and table_name = 'decision_trace' and column_name = 'learner_id') then
+        owner_column := 'learner_id';
+      else
+        owner_column := 'user_id';
+      end if;
+      deleted := 0;
+      for candidate_id in select scr.user_id from pie.synthetic_candidate_registry scr order by scr.user_id loop
+        perform set_config('pie.erase_user', candidate_id::text, true);
+        execute format('delete from pie.decision_trace where %I = $1', owner_column) using candidate_id;
+        get diagnostics rows_deleted = row_count;
+        deleted := deleted + rows_deleted;
+      end loop;
+      perform set_config('pie.erase_user', '', true);
+    elsif r.schema_name = 'public' and r.table_name = 'user_attempts' and p_mode = 'full_candidate' then
+      -- V2 user_attempts is append-only; delete one registered owner at a time under the erase guard.
+      deleted := 0;
+      for candidate_id in select scr.user_id from pie.synthetic_candidate_registry scr order by scr.user_id loop
+        perform set_config('pie.erase_user', candidate_id::text, true);
+        execute 'delete from public.user_attempts where user_id = $1' using candidate_id;
+        get diagnostics rows_deleted = row_count;
+        deleted := deleted + rows_deleted;
+      end loop;
+      perform set_config('pie.erase_user', '', true);
+    else
+      execute format('delete from %I.%I t where %s', r.schema_name, r.table_name, predicate);
+      get diagnostics deleted = row_count;
+    end if;
     actual := actual || jsonb_build_object(r.schema_name || '.' || r.table_name, deleted);
     if deleted <> coalesce((counts ->> (r.schema_name || '.' || r.table_name))::bigint, 0) then
       raise exception 'Reset aborted: expected % rows from %.%, deleted %; transaction will roll back.',
