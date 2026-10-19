@@ -333,3 +333,16 @@ On resumption, fetch this file and the live PR metadata/HEAD again before editin
 - Public legal blockers remain: Terms and Privacy still contain [Company Legal Entity Name]; Terms contains [Designated Contact Email], [Arbitration Rules / Institution], and [Jurisdiction / Governing Law State]. Although a support email constant exists, it does not establish the correct legal entity, arbitration agreement, or governing jurisdiction. Do not fabricate those facts.
 - No production writes, migrations, schema changes, RLS/auth changes, PIE formula/threshold changes, protected certification script changes, merge, or deployment were performed.
 - Next action: verify the workflow results for the documentation checkpoint commit that records this entry. Thereafter, the remaining stops are external approval/contract gates and browser-level verification, not uninspected code changes. Release decision remains DO NOT MERGE / DO NOT DEPLOY until those gates are resolved.
+
+
+
+## Documentation-checkpoint CI closure (2026-10-19)
+- Verified the documentation checkpoint commit 8de00a71207361754ec88d53a2cd536bd1f53e25. All six PR-triggered workflows reached terminal SUCCESS:
+  - Zyntra CI build-and-test 39264486753: unit tests, production build, P8-P11 contract gate PASS.
+  - Zyntra CI validate 39264486726: lint, unit tests, production build PASS.
+  - P21.1 39264486782: unit tests, typecheck, production build PASS; protected P21.1/P20 certification steps SKIPPED on pull_request.
+  - P21.2 39264486892: unit tests, typecheck, production build PASS; protected P21.2/P21.1/P20 certification steps SKIPPED on pull_request.
+  - PIE wrapper 39264486866 and Nudge wrapper 39264486766: workflow SUCCESS, but authenticated runtime certification steps SKIPPED on pull_request.
+- Combined status shows the repository's Netlify preview status contexts are external to the requested Lovable release path. No Netlify configuration, domain, or deployment was changed. PR #168 remains open, unmerged, mergeable=true.
+- The latest source code was already tested on parent code commit 08d6ca7b8e88cbb6f8f7f4a3d010137df8818ab6 with both Zyntra CI workflows and P21.1/P21.2 test/typecheck/build passing. This entry is documentation-only; verify the resulting head once and do not create additional commits solely for status narration.
+- Release status remains BLOCKED: mode/dimension provenance contract, approved active-V2 Behaviour backend/auth contract, authenticated non-PR runtime certification, legal entity/arbitration/jurisdiction facts, and browser/device-level responsive verification remain unresolved. No merge or production deployment.
