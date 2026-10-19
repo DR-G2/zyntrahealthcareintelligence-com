@@ -213,21 +213,9 @@ serve(async (req) => {
       blockPerformance: blockPerf,
       // OSCE
       // Trust Your Gut
-      // Psychograph
-      psychographSummary,
     };
 
-    // Fetch AI training context for population comparison
-    let populationPrompt = "";
-    const { data: trainingCtx } = await supabase.from("ai_training_context").select("aggregate_data, candidate_count").limit(1).maybeSingle();
-    if (trainingCtx?.aggregate_data) {
-      const d = trainingCtx.aggregate_data as any;
-      populationPrompt = `\n\nPOPULATION BENCHMARKS (${trainingCtx.candidate_count} candidates):
-- Population accuracy: ${d.mcq?.overall_accuracy}%, avg time: ${d.mcq?.avg_time_seconds}s
-- Archetype distribution: ${Object.entries(d.behavior?.archetype_distribution || {}).map(([k, v]) => `${k}: ${v}`).join(", ")}
-- Top traps: ${d.behavior?.common_traps?.slice(0, 5).map((t: any) => `${t.trap} (${t.percent}%)`).join(", ")}
-Compare this candidate against these benchmarks.`;
-    }
+    const populationPrompt = "";
 
     // AI classification
     const aiResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
