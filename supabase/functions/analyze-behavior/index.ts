@@ -111,22 +111,6 @@ serve(async (req) => {
     const secondHalfAvgTime = secondHalfTimes.length ? secondHalfTimes.reduce((sum, value) => sum + value, 0) / secondHalfTimes.length : null;
     const fatigueIncrease = firstHalfAvgTime !== null && firstHalfAvgTime > 0 && secondHalfAvgTime !== null ? secondHalfAvgTime / firstHalfAvgTime : null;
 
-    // ── Trust Your Gut Metrics (from change_sequence in user_attempts) ──
-    const attemptsWithChanges = attempts.filter(a => a.answer_changes_count > 0 && Array.isArray(a.change_sequence) && (a.change_sequence as any[]).length > 0);
-    let firstInstinctCorrect = 0;
-    let correctToWrong = 0;
-    attemptsWithChanges.forEach(a => {
-      const seq = a.change_sequence as any[];
-      const firstAnswer = seq[0];
-      const correctAnswer = (a.questions as any)?.correct_answer;
-      if (firstAnswer === correctAnswer) {
-        firstInstinctCorrect++;
-        if (a.selected_answer !== correctAnswer) correctToWrong++;
-      }
-    });
-    const firstInstinctAccuracy = attemptsWithChanges.length > 0 ? Math.round((firstInstinctCorrect / attemptsWithChanges.length) * 100) : null;
-    const pointsLostFromChanges = correctToWrong;
-
     // Build unified signals
     const signals = {
       totalAttempts,
@@ -160,20 +144,20 @@ serve(async (req) => {
         messages: [
           {
             role: "system",
-            content: `You are an MCQ practice behaviour analyst. Describe patterns supported by explicitly labelled Normal MCQ attempts only. Do not combine OSCE, Nudge, AMC Exam mode, or Trust Your Gut aggregates. If a metric is null or unavailable, do not infer or replace it. Do not predict exam scores, pass likelihood, or clinical readiness.Archetypes:
-- panic_changer: 3+ avg changes, final answer different from first instinct, time >3 min avg
-- rusher: Time <45 seconds avg, no changes, often incorrect on hard questions
+            content: `You are an MCQ practice behaviour analyst. Describe patterns supported by explicitly labelled Normal MCQ attempts only. Do not combine OSCE, Nudge, AMC Exam mode, or Trust Your Gut aggregates. If a metric is null or unavailable, do not infer or replace it. Do not predict exam scores, pass likelihood, or clinical readiness.\n\nArchetypes:
+- panic_changer: only when recorded change frequency and timing support repeated changing; first-instinct correctness is not supplied
+- rusher: only when observed response time is low and recorded accuracy supports concern; question difficulty is not supplied
 - paralyzer: Time >5 min average, very slow decisions (pause data is unavailable and must not be inferred)
-- strategist: Systematic elimination, 1-2 deliberate changes, consistent timing (optimal)
+- strategist: only when recorded changes and available timing are consistent; elimination behaviour is not supplied, and do not label this optimal
 - fatigue_victim: Time per question increases 40%+ in later questions, more changes later
-- subject_avoider: Fast incorrect on specific topics, visible stress markers in certain subjects
+- subject_avoider: only describe subject-specific accuracy or timing differences present in subjectStats; stress markers are not supplied
 
 AMC Traps to detect:
 - most_appropriate_paralysis: Long time, multiple changes on "most appropriate" questions
 - second_guessing_success: Changed from correct to wrong repeatedly
 - rushing_at_end: Last questions much faster with lower accuracy
 - distractor_fixation: Spending time on wrong options
-- stem_overload: Multiple pauses, re-reads on complex stems
+- stem_overload: do not classify from pauses or re-reads because those observations are not supplied
 
 Do not infer personality, motivation, clinical competence, causation, exam score, pass likelihood, or clinical readiness from these behavioural signals.`,
           },
