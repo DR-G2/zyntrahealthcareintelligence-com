@@ -27,7 +27,7 @@ const insights = [
   ["Timing", "You took 78 seconds (slightly longer than your usual time).", Clock3],
   ["Answer Changes", "You changed your answer 1 time.", GitBranch],
   ["Confidence", "Your confidence was high and aligned with a correct answer.", Brain],
-  ["Possible Pattern", "Similar questions show increased hesitation under time pressure.", Activity],
+  ["Possible Pattern", "Illustrative example: recorded response times vary across similar questions.", Activity],
 ] as const;
 const benefits = [
   ["AMC-focused content", "Aligned with the AMC blueprint", ClipboardList],
