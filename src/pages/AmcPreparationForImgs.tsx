@@ -30,7 +30,7 @@ export default function AmcPreparationForImgs() {
           heading: "Planning around work and life",
           paragraphs: [
             "Many IMGs prepare while working. Short, regular timed sessions with careful explanation review usually fit better than occasional long sessions. Track which error types repeat, and spend more time on those than on topics you already answer reliably.",
-            "Zyntra is built for this: practise AMC-style questions, review explanations, and see accuracy alongside timing, answer changes and confidence calibration so you can decide what to practise next. These are training signals, not an exam prediction.",
+            "Zyntra is built for this: practise AMC-style questions, review explanations, and use available accuracy, timing and answer-change signals to decide what to practise next. Confidence-related signals appear only where enabled. These are training signals, not an exam prediction.",
           ],
         },
       ]}
