@@ -26,7 +26,7 @@ interface AttemptRow {
   is_correct: boolean;
   answer_changes_count: number | null;
   change_sequence: any;
-  time_taken_seconds: number;
+  time_taken_seconds: number | null;
   time_to_first_click: number | null;
   created_at: string;
   questions: {
@@ -83,7 +83,7 @@ export default function QuestionHistory() {
     total: attempts.length,
     correct: attempts.filter(a => a.is_correct).length,
     incorrect: attempts.filter(a => !a.is_correct).length,
-    avgTime: attempts.length > 0 ? Math.round(attempts.reduce((s, a) => s + a.time_taken_seconds, 0) / attempts.length) : 0,
+    avgTime: (() => { const timed = attempts.map(a => a.time_taken_seconds).filter((value): value is number => typeof value === 'number' && Number.isFinite(value) && value >= 0); return timed.length ? Math.round(timed.reduce((sum, value) => sum + value, 0) / timed.length) : null; })(), 
   }), [attempts]);
 
   return (
@@ -120,7 +120,7 @@ export default function QuestionHistory() {
                 { label: 'Total', value: stats.total },
                 { label: 'Correct', value: stats.correct },
                 { label: 'Incorrect', value: stats.incorrect },
-                { label: 'Avg Time', value: `${stats.avgTime}s` },
+                { label: 'Avg Time', value: stats.avgTime === null ? 'Unavailable' : `${stats.avgTime}s` },
               ].map(s => (
                 <Card key={s.label}>
                   <CardContent className="py-4 text-center">
@@ -174,7 +174,7 @@ export default function QuestionHistory() {
                           <div className="flex items-center gap-2 mt-2 flex-wrap">
                             <Badge variant="outline" className="text-xs">{q.category}</Badge>
                             <span className="text-xs text-muted-foreground flex items-center gap-1">
-                              <Clock className="h-3 w-3" /> {attempt.time_taken_seconds}s
+                              <Clock className="h-3 w-3" /> {attempt.time_taken_seconds === null || !Number.isFinite(attempt.time_taken_seconds) || attempt.time_taken_seconds < 0 ? 'Unavailable' : `${attempt.time_taken_seconds}s`}
                             </span>
                             {attempt.answer_changes_count === null ? (
                               <span className="text-xs text-muted-foreground">Change count unavailable</span>
