@@ -33,6 +33,10 @@ describe("P5 learner history (PIE attempts only)", () => {
     });
   });
 
+  it("treats a malformed non-array history response as unavailable, not an empty history", async () => {
+    await expect(fetchPieAttemptHistory(10, deps(null))).rejects.toThrow("History response malformed.");
+  });
+
   it("rejects incomplete history cursors", async () => {
     await expect(fetchPieAttemptHistory(25, deps([]), { createdAt: "", attemptId: "attempt-id" }))
       .rejects.toThrow("Both history cursor fields are required.");
