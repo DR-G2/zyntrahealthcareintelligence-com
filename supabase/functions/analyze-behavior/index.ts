@@ -14,11 +14,15 @@ serve(async (req) => {
 
   try {
     const authHeader = req.headers.get("Authorization");
-    const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
-    const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-    const lovableKey = Deno.env.get("LOVABLE_API_KEY")!;
+    const supabaseUrl = Deno.env.get("SUPABASE_URL");
+    const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+    const anonKey = Deno.env.get("SUPABASE_ANON_KEY");
+    const lovableKey = Deno.env.get("LOVABLE_API_KEY");
+    if (!supabaseUrl || !supabaseKey || !anonKey || !lovableKey) {
+      return new Response(JSON.stringify({ error: "Behaviour analysis is not configured." }), { status: 503, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
 
-    const anonClient = createClient(supabaseUrl, Deno.env.get("SUPABASE_ANON_KEY")!);
+    const anonClient = createClient(supabaseUrl, anonKey);
     const token = authHeader?.replace("Bearer ", "");
     const { data: { user }, error: authError } = await anonClient.auth.getUser(token);
     if (authError || !user) {
@@ -27,13 +31,23 @@ serve(async (req) => {
 
     const supabase = createClient(supabaseUrl, supabaseKey);
 
+    // Resolve V2 ↔ legacy identity before checking entitlements. Keep both IDs scoped
+    // to this authenticated user; do not infer identity from a caller-supplied email.
+    const { data: identityMap, error: identityMapError } = await supabase
+      .from("pie_identity_map").select("legacy_user_id").eq("v2_user_id", user.id).maybeSingle();
+    if (identityMapError) {
+      console.error("Behaviour identity lookup failed:", identityMapError);
+      return new Response(JSON.stringify({ error: "Behaviour access could not be verified." }), { status: 503, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+    const entitlementUserIds = [...new Set([user.id, identityMap?.legacy_user_id].filter((id): id is string => typeof id === "string"))];
+
     // Paid feature: use the deployed V2 contracts. Query errors fail closed.
     const [paidResult, overrideResult, adminResult] = await Promise.all([
-      supabase.from("payments").select("id").eq("user_id", user.id).eq("status", "active").limit(1),
+      supabase.from("payments").select("id").in("user_id", entitlementUserIds).eq("status", "active").limit(1),
       supabase.schema("command").from("manual_overrides").select("id,override_data")
-        .eq("target_type", "user").eq("target_id", user.id),
+        .eq("target_type", "user").in("target_id", entitlementUserIds),
       supabase.schema("command").from("admin_roles").select("id")
-        .eq("user_id", user.id).eq("active", true).limit(1),
+        .in("user_id", entitlementUserIds).eq("active", true).limit(1),
     ]);
     if (paidResult.error || overrideResult.error || adminResult.error) {
       console.error("Behaviour entitlement lookup failed:", paidResult.error || overrideResult.error || adminResult.error);
@@ -52,7 +66,7 @@ serve(async (req) => {
     }
 
     // Only explicitly mode-labelled Normal MCQ attempts may enter this analysis.
-    const pie = await fetchCallerPieHistory(req, user.email, 1000);
+    const pie = await fetchCallerPieHistory(req, user.email, 1000, { url: supabaseUrl, anonKey });
     if ("error" in pie) {
       const publicError = pie.status === 401 ? "Practice session unavailable. Please sign in again." : pie.status === 403 ? "Practice history is unavailable for this account." : "Practice history is temporarily unavailable.";
       return new Response(JSON.stringify({ error: publicError }), { status: pie.status, headers: { ...corsHeaders, "Content-Type": "application/json" } });
