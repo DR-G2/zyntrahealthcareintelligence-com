@@ -99,6 +99,7 @@ describe('PIE beta reset migration source contract', () => {
     expect(migration).toContain("public._admin_beta_reset_lock_targets(p_mode, 'SHARE')");
     expect(migration).toContain("public._admin_beta_reset_lock_targets(p_mode, 'SHARE ROW EXCLUSIVE')");
     expect(migration).toContain('lock table public.profiles in %s mode');
+    expect(migration).toContain("select 'public'::text, 'user_attempts'::text where p_mode = 'pie_only'");
     expect(migration).toContain('Data changed since preview. Run preview again.');
     expect(migration).toContain('public._admin_beta_reset_fingerprint(p_mode, counts)');
     expect(migration).toContain('string_agg(id::text');
