@@ -57,6 +57,26 @@ describe("Intelligence overview", () => {
     expect(screen.getByText(/49 \/ 50 valid observations/)).toBeInTheDocument();
   });
 
+  it("permits a dimension value at exactly 50 valid observations", () => {
+    const base = fixture().pie.value!;
+    const input = fixture({ pie: { status: "ready", value: {
+      ...base,
+      count: 141,
+      dimensions: { capability: 0.8, decision: 0.97, timing: 0.89, calibration: 0.6, sustained_performance: 0.75, learning: 0.5 },
+      dimensionEvidence: {
+        capability: { uncertainty: null, lower: null, upper: null, evidenceCount: 50, evidenceQuality: 0.9 },
+        decision: { uncertainty: null, lower: null, upper: null, evidenceCount: 50, evidenceQuality: 0.9 },
+        timing: { uncertainty: null, lower: null, upper: null, evidenceCount: 50, evidenceQuality: 0.9 },
+        calibration: { uncertainty: null, lower: null, upper: null, evidenceCount: 50, evidenceQuality: 0.9 },
+        sustained_performance: { uncertainty: null, lower: null, upper: null, evidenceCount: 50, evidenceQuality: 0.9 },
+        learning: { uncertainty: null, lower: null, upper: null, evidenceCount: 50, evidenceQuality: 0.9 },
+      },
+    } } });
+    render(<MemoryRouter><ReadinessPrism evidence={input} loading={false} retry={() => {}} /></MemoryRouter>);
+    expect(screen.getByText("97%")).toBeInTheDocument();
+    expect(screen.getByText("89%")).toBeInTheDocument();
+  });
+
   it("does not expose shadow diagnostics in the candidate overview", () => {
     render(<MemoryRouter><ReadinessPrism evidence={fixture()} loading={false} retry={() => {}} /></MemoryRouter>);
     expect(screen.queryByText(/shadow diagnostics/i)).toBeNull();
