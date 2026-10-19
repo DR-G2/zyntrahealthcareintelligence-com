@@ -12,7 +12,7 @@ owner="${OWNER_ROLE:-zyntra_owner}"
 for file in \
   0091_nudge_pie_authoritative_target_selector.sql \
   0092_nudge_targeted_session_lifecycle.sql \
-  0095_nudge_cold_start_progression.sql \\
+  0095_nudge_cold_start_progression.sql \
   0096_pie_runtime_query_hardening.sql; do
   echo "Applying $file to disposable database $db"
   psql -X -v ON_ERROR_STOP=1 -U "$owner" -d "$db" -1 -f "$mig/$file"
