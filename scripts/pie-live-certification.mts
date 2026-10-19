@@ -187,7 +187,36 @@ async function main() {
   // Current production client calls syncPieState -> rebuild_candidate_state. The advanced
   // pie-infer-state Edge Function is a separate implementation and must not be labelled
   // production unless a runtime invocation is observed.
-  check("advanced pie-infer-state is NOT falsely certified as production", true, "runtime certification requires explicit Edge Function invocation/trace");
+  // Explicitly invoke the deployed advanced inference Edge Function with disposable test-user A.
+  // This certifies shadow runtime only; it does not make the inference authoritative.
+  const authSession = await A.db.auth.getSession();
+  const accessToken = authSession.data.session?.access_token;
+  check("advanced inference test has authenticated disposable session", !!accessToken);
+  if (!accessToken) throw new Error("missing authenticated access token for pie-infer-state runtime test");
+  const inferUrl = URL.replace(/\\/$/, "") + "/functions/v1/pie-infer-state";
+  const inferResponse = await fetch(inferUrl, {
+    method: "POST",
+    headers: { apikey: KEY, Authorization: `Bearer ${accessToken}`, "Content-Type": "application/json" },
+    body: JSON.stringify({}),
+  });
+  const inferBody = await inferResponse.json().catch(() => ({} as Record<string, any>)) as Record<string, any>;
+  check("pie-infer-state returns HTTP 200", inferResponse.status === 200, `status=${inferResponse.status}; body=${JSON.stringify(inferBody).slice(0, 400)}`);
+  check("pie-infer-state completes authenticated inference", inferBody.status === "completed", `status=${inferBody.status ?? "missing"}`);
+  check("advanced inference remains shadow-only", inferBody.shadow_only === true && inferBody.authoritative === false && inferBody.influences_adaptation === false, JSON.stringify({ shadow_only: inferBody.shadow_only, authoritative: inferBody.authoritative, influences_adaptation: inferBody.influences_adaptation }));
+  check("advanced inference uses expected model version", inferBody.model_version === "pie-inference-v2.1-shadow", `model=${inferBody.model_version ?? "missing"}`);
+  check("advanced inference is scoped to disposable test user", inferBody.user_id === A.id, `returned=${t(inferBody.user_id)} expected=${t(A.id)}`);
+  const advancedDimensions = Array.isArray(inferBody.dimensions) ? inferBody.dimensions as Array<Record<string, any>> : [];
+  const expectedAdvancedDimensions = ["capability", "decision", "timing", "calibration", "sustained_performance", "learning"];
+  check("advanced inference returns all six canonical dimensions exactly once", advancedDimensions.length === 6 && expectedAdvancedDimensions.every(d => advancedDimensions.filter(x => x.dimension === d).length === 1), advancedDimensions.map(x => x.dimension).join(","));
+  check("advanced dimensions contain bounded estimates, uncertainty, and intervals", advancedDimensions.length === 6 && advancedDimensions.every(x => Number.isFinite(x.estimate) && x.estimate >= 0 && x.estimate <= 1 && Number.isFinite(x.uncertainty) && x.uncertainty >= 0 && Number.isFinite(x.lower) && Number.isFinite(x.upper) && x.lower >= 0 && x.upper <= 1 && x.lower <= x.estimate && x.estimate <= x.upper && Number.isInteger(x.evidence_count) && x.evidence_count >= 0 && Number.isFinite(x.evidence_quality) && x.evidence_quality >= 0 && x.evidence_quality <= 1), "");
+  check("advanced inference includes hash and source provenance", typeof inferBody.inference_hash === "string" && /^[a-f0-9]{64}$/.test(inferBody.inference_hash) && Object.prototype.hasOwnProperty.call(inferBody, "source_state_version") && Number.isInteger(inferBody.observation_count) && inferBody.observation_count >= 1, JSON.stringify({ hash: inferBody.inference_hash, source_state_version: inferBody.source_state_version, observation_count: inferBody.observation_count }));
+  const crossScopeResponse = await fetch(inferUrl, {
+    method: "POST",
+    headers: { apikey: KEY, Authorization: `Bearer ${accessToken}`, "Content-Type": "application/json" },
+    body: JSON.stringify({ user_id: B.id }),
+  });
+  const crossScopeBody = await crossScopeResponse.json().catch(() => ({} as Record<string, any>)) as Record<string, any>;
+  check("advanced inference rejects cross-user scope override", crossScopeResponse.status === 403 && crossScopeBody.error === "user_scope_violation", `status=${crossScopeResponse.status}; error=${crossScopeBody.error ?? "missing"}`);
 
   // 11. Security boundary and capture policy.
   const cap = await rpc(A, "get_my_security_capture_policy");
