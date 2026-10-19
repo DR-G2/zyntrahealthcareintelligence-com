@@ -109,8 +109,7 @@ export default function AmcClinicalOsce() {
         <p className="mt-6 max-w-2xl text-lg leading-8 text-muted-foreground">
           Clinical stations reward a clear task, a safe plan and calm communication in a short
           time box. This page explains the exam format and communication goals. Interactive Zyntra
-          OSCE station practice is not available in the current public release and is being rebuilt
-          for a staged rollout. Zyntra is not affiliated with or endorsed by the Australian Medical Council.
+          Interactive OSCE station practice is not available in the current public release. This page is an educational guide only. Zyntra is not affiliated with or endorsed by the Australian Medical Council.
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
           <Button asChild size="lg">
