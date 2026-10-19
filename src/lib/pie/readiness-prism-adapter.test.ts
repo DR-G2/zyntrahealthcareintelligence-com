@@ -25,7 +25,7 @@ describe("Readiness Prism presentation adapter", () => {
     const layer = authoritativePrismLayer(evidence().pie);
     expect(layer.dimensions.every(item => item.uncertainty === null && item.lower === null && item.upper === null && item.evidenceCount === null && item.evidenceQuality === null)).toBe(true);
   });
-  it("passes through authoritative metadata only when the projection supplies it", () => {
+  it("preserves dimension counts but withholds estimates and intervals below the evidence threshold", () => {
     const input = evidence().pie;
     if (input.status !== "ready" || !input.value) throw new Error("test fixture must be ready");
     input.value.dimensionEvidence = {
@@ -38,7 +38,7 @@ describe("Readiness Prism presentation adapter", () => {
     };
     const layer = authoritativePrismLayer(input);
     expect(layer.dimensions.find(item => item.dimension === "capability")).toMatchObject({
-      uncertainty: 0.2, lower: 0.6, upper: 1, evidenceCount: 12, evidenceQuality: 0.9,
+      estimate: null, uncertainty: null, lower: null, upper: null, evidenceCount: 12, evidenceQuality: 0.9,
     });
     expect(layer.dimensions.find(item => item.dimension === "timing")).toMatchObject({
       uncertainty: null, lower: null, upper: null, evidenceCount: 0, evidenceQuality: null,
