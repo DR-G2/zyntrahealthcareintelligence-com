@@ -157,10 +157,18 @@ begin
   -- synthetic-candidate cohort stable for the duration of this RPC transaction.
   execute format('lock table public.profiles in %s mode', p_lock_mode);
   for r in
-    select distinct schema_name, table_name
-    from public._admin_beta_reset_targets()
-    where (p_mode = 'full_candidate' or min_mode = 'pie_only')
-      and to_regclass(format('%I.%I', schema_name, table_name)) is not null
+    with lock_targets as (
+      select schema_name, table_name
+      from public._admin_beta_reset_targets()
+      where p_mode = 'full_candidate' or min_mode = 'pie_only'
+      union
+      -- PIE-only counts attempt_lo through canonical attempts; lock that source
+      -- table too, even though PIE-only mode does not delete its rows.
+      select 'public'::text, 'user_attempts'::text where p_mode = 'pie_only'
+    )
+    select schema_name, table_name
+    from lock_targets
+    where to_regclass(format('%I.%I', schema_name, table_name)) is not null
     order by schema_name, table_name
   loop
     if to_regclass(format('%I.%I', r.schema_name, r.table_name)) is not null then
