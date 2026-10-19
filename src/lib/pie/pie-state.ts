@@ -139,9 +139,10 @@ export function mapPieStateRow(row: PieStateRow | null | undefined): PieState | 
 
 /**
  * UI state mapping for a successfully read row (or no row):
- *   no row / 0 observations / < 6 observations / INSUFFICIENT -> building
- *   otherwise                                                 -> ready
- * Backend failures never reach this function; they are "unavailable".
+ *   no row / known 0 observations / < 6 observations / INSUFFICIENT -> building
+ *   missing/invalid count or dimension estimate                      -> unavailable
+ *   otherwise                                                        -> ready
+ * Missing metadata is never converted into a zero-valued score/count.
  */
 export function resolvePieView(row: PieStateRow | null | undefined): PieView {
   const pie = mapPieStateRow(row);
