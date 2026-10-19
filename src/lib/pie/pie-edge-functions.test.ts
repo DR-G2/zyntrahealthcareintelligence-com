@@ -55,6 +55,7 @@ describe("P5 edge functions read PIE attempts on V2", () => {
     expect(behaviorFn).not.toContain("Predict AMC score range");
     expect(behaviorFn).not.toContain("osceBehavioralSignalsSample");
     expect(behaviorFn).toContain("predicted_score_low: null");
+    expect(behaviorFn).toContain("avgTime: s.avgTime === null ? null : Math.round(s.avgTime)");
     expect(behaviorFn).toContain("No verified Normal MCQ attempts found");
   });
 });
