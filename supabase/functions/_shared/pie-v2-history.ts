@@ -28,6 +28,16 @@ export function toAnalyzeAttempts(rows: PieHistoryRow[]) {
   }));
 }
 
+/** Behaviour classification may use only explicit Normal MCQ labels and completed answer-key evidence. */
+export function toCompletedNormalMcqAttempts(rows: PieHistoryRow[]) {
+  return toAnalyzeAttempts(rows).filter((attempt) =>
+    (attempt.session_mode === "normal" || attempt.session_mode === "normal_mcq")
+    && typeof attempt.questions?.correct_answer === "string"
+    && attempt.questions.correct_answer.trim().length > 0
+    && typeof attempt.is_correct === "boolean"
+  );
+}
+
 /** generate-flashcards: the learner's most recent wrong answers, distinct questions, newest first. */
 export function toFlashcardSources(rows: PieHistoryRow[], maxAttempts = 50, maxQuestions = 20) {
   const wrong = [...rows].filter((r) => r.is_correct === false)
