@@ -25,7 +25,7 @@ const special = new Set([
   'pie.pie_inference_run', 'pie.pie_candidate_state', 'pie.pie_state_uncertainty',
   'pie.pie_decision_candidate', 'pie.pie_decision', 'pie.pie_decision_outcome',
   'pie.pie_runtime_decision', 'pie.pie_dwig_candidate', 'pie.pie_dwig_evaluation',
-  'pie.pie_dwig_selection', 'intelligence.candidate_interventions',
+  'pie.pie_dwig_selection', 'pie.pie_dwig_outcome', 'intelligence.candidate_interventions',
   'intelligence.intervention_outcomes', 'intelligence.behavior_events',
 ]);
 let dir = '';
@@ -124,6 +124,9 @@ create table pie.pie_dwig_evaluation (
 create table pie.pie_dwig_selection (
   id uuid primary key, dwig_candidate_id uuid not null references pie.pie_dwig_candidate(id) on delete cascade
 );
+create table pie.pie_dwig_outcome (
+  id uuid primary key, dwig_selection_id uuid not null references pie.pie_dwig_selection(id) on delete cascade
+);
 create table intelligence.candidate_interventions (id uuid primary key, user_id uuid not null);
 create table intelligence.intervention_outcomes (
   id uuid primary key, candidate_intervention_id uuid not null references intelligence.candidate_interventions(id) on delete cascade
@@ -166,6 +169,7 @@ insert into pie.pie_runtime_decision values ('${uuid(1700)}', '${SYN}', '${uuid(
 insert into pie.pie_dwig_candidate values ('${uuid(1800)}', '${SYN}'), ('${uuid(1801)}', '${REAL}');
 insert into pie.pie_dwig_evaluation values ('${uuid(1900)}', '${uuid(1800)}'), ('${uuid(1901)}', '${uuid(1801)}');
 insert into pie.pie_dwig_selection values ('${uuid(2000)}', '${uuid(1800)}'), ('${uuid(2001)}', '${uuid(1801)}');
+insert into pie.pie_dwig_outcome values ('${uuid(2050)}', '${uuid(2000)}'), ('${uuid(2051)}', '${uuid(2001)}');
 insert into intelligence.candidate_interventions values ('${uuid(2100)}', '${SYN}'), ('${uuid(2101)}', '${REAL}');
 insert into intelligence.intervention_outcomes values ('${uuid(2200)}', '${uuid(2100)}'), ('${uuid(2201)}', '${uuid(2101)}');
 insert into pie.pie_observation values ('${uuid(800)}', '${SYN}', '${SYN_ATTEMPT}'), ('${uuid(801)}', '${REAL}', '${REAL_ATTEMPT}');
