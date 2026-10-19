@@ -237,6 +237,9 @@ begin
   if not public._admin_beta_reset_is_super_admin() then
     raise exception 'Super-administrator access required' using errcode = '42501';
   end if;
+  if p_mode not in ('pie_only', 'full_candidate') then
+    raise exception 'Unsupported reset mode';
+  end if;
 
   -- Validate the marker before acquiring locks. Then lock all candidate scope
   -- and target relations in a deterministic order to prevent a write race
@@ -266,6 +269,90 @@ begin
   expected_phrase := case when p_mode = 'pie_only' then 'RESET PIE BETA DATA' else 'RESET ALL CANDIDATE DATA' end;
   if p_confirmation is distinct from expected_phrase then
     raise exception 'Confirmation phrase does not match';
+  end if;
+
+  -- Abort rather than mutate any non-synthetic candidate record through SET NULL
+  -- or CASCADE side-effects from a synthetic parent. These are integrity guards,
+  -- not extra deletion targets.
+  if p_mode = 'full_candidate' then
+    if to_regclass('public.user_attempts') is not null and to_regclass('public.practice_sessions') is not null
+       and exists (
+         select 1
+         from public.user_attempts ua
+         join public.practice_sessions ps on ps.id = ua.session_id
+         join public.profiles session_owner on session_owner.id = ps.user_id
+         left join public.profiles attempt_owner on attempt_owner.id = ua.user_id
+         where session_owner.is_synthetic is true
+           and attempt_owner.is_synthetic is distinct from true
+       ) then
+      raise exception 'Reset blocked: a non-synthetic attempt references a synthetic practice session.';
+    end if;
+
+    if to_regclass('intelligence.behavior_events') is not null and to_regclass('public.practice_sessions') is not null
+       and exists (
+         select 1
+         from intelligence.behavior_events be
+         join public.practice_sessions ps on ps.id = be.session_id
+         join public.profiles session_owner on session_owner.id = ps.user_id
+         left join public.profiles event_owner on event_owner.id = be.user_id
+         where session_owner.is_synthetic is true
+           and event_owner.is_synthetic is distinct from true
+       ) then
+      raise exception 'Reset blocked: a non-synthetic behaviour event references a synthetic practice session.';
+    end if;
+
+    if to_regclass('pie.pie_observation') is not null and to_regclass('public.user_attempts') is not null
+       and exists (
+         select 1
+         from pie.pie_observation po
+         join public.user_attempts ua on ua.id = po.attempt_id
+         join public.profiles attempt_owner on attempt_owner.id = ua.user_id
+         left join public.profiles observation_owner on observation_owner.id = po.user_id
+         where attempt_owner.is_synthetic is true
+           and observation_owner.is_synthetic is distinct from true
+       ) then
+      raise exception 'Reset blocked: a non-synthetic PIE observation references a synthetic attempt.';
+    end if;
+
+    if to_regclass('public.amc_adapter_evaluation') is not null and to_regclass('pie.pie_candidate_state') is not null
+       and exists (
+         select 1
+         from public.amc_adapter_evaluation ae
+         join pie.pie_candidate_state cs on cs.id = ae.candidate_state_id
+         join public.profiles state_owner on state_owner.id = cs.user_id
+         left join public.profiles evaluation_owner on evaluation_owner.id = ae.user_id
+         where state_owner.is_synthetic is true
+           and evaluation_owner.is_synthetic is distinct from true
+       ) then
+      raise exception 'Reset blocked: a non-synthetic AMC evaluation references a synthetic candidate state.';
+    end if;
+
+    if to_regclass('pie.pie_runtime_decision') is not null and to_regclass('pie.pie_decision') is not null
+       and exists (
+         select 1
+         from pie.pie_runtime_decision rd
+         join pie.pie_decision d on d.id = rd.decision_id
+         join pie.pie_decision_candidate dc on dc.id = d.decision_candidate_id
+         join public.profiles decision_owner on decision_owner.id = dc.user_id
+         left join public.profiles runtime_owner on runtime_owner.id = rd.user_id
+         where decision_owner.is_synthetic is true
+           and runtime_owner.is_synthetic is distinct from true
+       ) then
+      raise exception 'Reset blocked: a non-synthetic runtime decision references a synthetic PIE decision.';
+    end if;
+
+    if to_regclass('pie.pie_candidate_state') is not null and to_regclass('pie.pie_inference_run') is not null
+       and exists (
+         select 1
+         from pie.pie_candidate_state cs
+         join pie.pie_inference_run ir on ir.id = cs.source_inference_id
+         join public.profiles run_owner on run_owner.id = ir.user_id
+         left join public.profiles state_owner on state_owner.id = cs.user_id
+         where run_owner.is_synthetic is true
+           and state_owner.is_synthetic is distinct from true
+       ) then
+      raise exception 'Reset blocked: a non-synthetic candidate state references a synthetic inference run.';
+    end if;
   end if;
 
   for r in
