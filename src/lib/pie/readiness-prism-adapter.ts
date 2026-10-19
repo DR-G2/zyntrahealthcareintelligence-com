@@ -58,7 +58,8 @@ function statePrismLayer(state: StateEvidence, selectedMode: PracticeMode | null
   const modeScoped = selectedMode !== null && normalizePracticeMode(state.sessionMode) === selectedMode;
   const dimensions = DIMENSIONS.map(dimension => {
     const metadata: DimensionEvidence | undefined = state.dimensionEvidence?.[dimension];
-    const evidenceCount = validCount(metadata?.evidenceCount);
+    // Counts are only candidate-facing evidence for the selected mode when the authoritative state carries matching mode provenance.
+    const evidenceCount = modeScoped ? validCount(metadata?.evidenceCount) : null;
     const evidenceQuality = validFraction(metadata?.evidenceQuality);
     const sourceEstimate = validFraction(state.dimensions[dimension]);
     // A global state count cannot unlock a dimension. Missing dimension-specific
