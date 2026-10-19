@@ -149,21 +149,19 @@ serve(async (req) => {
           {
             role: "system",
             content: `You are an MCQ practice behaviour analyst. Describe patterns supported by explicitly labelled Normal MCQ attempts only. Do not combine OSCE, Nudge, AMC Exam mode, or Trust Your Gut aggregates. If a metric is null or unavailable, do not infer or replace it. Change rates use only valid recorded change-count observations; null means unavailable, not zero. The top-level changeRate is a fraction from 0 to 1; subjectStats and blockPerformance changeRate values are percentages from 0 to 100. Do not predict exam scores, pass likelihood, or clinical readiness.\n\nArchetypes:
-- panic_changer: only when recorded change frequency and timing support repeated changing; first-instinct correctness is not supplied
-- rusher: only when observed response time is low and recorded accuracy supports concern; question difficulty is not supplied
-- paralyzer: Time >5 min average, very slow decisions (pause data is unavailable and must not be inferred)
-- strategist: only when recorded changes and available timing are consistent; elimination behaviour is not supplied, and do not label this optimal
-- fatigue_victim: Time per question increases 40%+ in later questions, more changes later
-- subject_avoider: only describe subject-specific accuracy or timing differences present in subjectStats; stress markers are not supplied
+- panic_changer: only when changeRate is available and above zero, and avgTime is available; first-instinct correctness is not supplied
+- rusher: only when avgTime and correctRate are available; question difficulty is not supplied
+- paralyzer: only when avgTime is greater than 300 seconds and correctRate is available; pause data is unavailable
+- strategist: only when changeRate and avgTime are available and at least two blocks have valid timing and change-rate evidence; elimination behaviour is not supplied, and do not label this optimal
+- fatigue_victim: only when fatigueIncrease is at least 0.4 (40%) and later-block changeRate is greater than the early block; if those signals are unavailable, do not classify
+- subject_avoider: only when at least two subjectStats entries show an observed accuracy or timing difference; stress markers are not supplied
+- unavailable: use when the required signals for a supported archetype are absent
 
-AMC Traps to detect:
-- most_appropriate_paralysis: Long time, multiple changes on "most appropriate" questions
-- second_guessing_success: Changed from correct to wrong repeatedly
-- rushing_at_end: Last questions much faster with lower accuracy
-- distractor_fixation: Spending time on wrong options
-- stem_overload: do not classify from pauses or re-reads because those observations are not supplied
+Trap flags:
+- rushing_at_end is the only supported trap flag, and only when Q1-20 and Q41-60 both have valid timing and accuracy, with the later block faster and less accurate
+- first-instinct correctness, question-stem subtype, eliminated options, pauses, and re-reads are not supplied; do not emit any trap flag that requires those observations
 
-Do not infer personality, motivation, clinical competence, causation, exam score, pass likelihood, or clinical readiness from these behavioural signals.`,
+The top-level changeRate is a fraction from 0 to 1; subjectStats and blockPerformance changeRate values are percentages from 0 to 100. Do not infer personality, motivation, clinical competence, causation, exam score, pass likelihood, or clinical readiness from these behavioural signals.`,
           },
           {
             role: "user",
@@ -181,14 +179,14 @@ Do not infer personality, motivation, clinical competence, causation, exam score
                 properties: {
                   archetype: {
                     type: "string",
-                    enum: ["panic_changer", "rusher", "paralyzer", "strategist", "fatigue_victim", "subject_avoider"],
+                    enum: ["panic_changer", "rusher", "paralyzer", "strategist", "fatigue_victim", "subject_avoider", "unavailable"],
                   },
                   trap_flags: {
                     type: "array",
                     items: {
                       type: "object",
                       properties: {
-                        trap: { type: "string" },
+                        trap: { type: "string", enum: ["rushing_at_end"] },
                         description: { type: "string" },
                         severity: { type: "string", enum: ["low", "medium", "high"] },
                       },
@@ -244,12 +242,46 @@ Do not infer personality, motivation, clinical competence, causation, exam score
       });
     }
 
-    const allowedArchetypes = new Set(["panic_changer", "rusher", "paralyzer", "strategist", "fatigue_victim", "subject_avoider"]);
+    const allowedArchetypes = new Set(["panic_changer", "rusher", "paralyzer", "strategist", "fatigue_victim", "subject_avoider", "unavailable"]);
+    const finiteMetric = (value: unknown): value is number => typeof value === "number" && Number.isFinite(value);
+    const blocks = signals.blockPerformance && typeof signals.blockPerformance === "object" ? signals.blockPerformance : {};
+    const earlyBlock = (blocks as Record<string, any>)["Q1-20"];
+    const lateBlock = (blocks as Record<string, any>)["Q41-60"];
+    const hasRushingAtEndEvidence = finiteMetric(earlyBlock?.avgTime) && finiteMetric(lateBlock?.avgTime)
+      && finiteMetric(earlyBlock?.accuracy) && finiteMetric(lateBlock?.accuracy)
+      && lateBlock.avgTime < earlyBlock.avgTime && lateBlock.accuracy < earlyBlock.accuracy;
+    const subjectStats = Array.isArray(signals.subjectStats) ? signals.subjectStats : [];
+    const hasSubjectDifference = subjectStats.some((subject: any, index: number) => subjectStats.slice(index + 1).some((other: any) =>
+      (finiteMetric(subject.accuracy) && finiteMetric(other.accuracy) && subject.accuracy !== other.accuracy)
+      || (finiteMetric(subject.avgTime) && finiteMetric(other.avgTime) && subject.avgTime !== other.avgTime)));
+    const hasBlockTimingAndChangeEvidence = Object.values(blocks as Record<string, any>).filter((block: any) =>
+      finiteMetric(block?.avgTime) && finiteMetric(block?.changeRate)).length >= 2;
+    const hasFatigueTrend = finiteMetric(signals.fatigueIncrease) && signals.fatigueIncrease >= 0.4
+      && finiteMetric(signals.changeRate) && signals.changeRate > 0
+      && finiteMetric(earlyBlock?.changeRate) && finiteMetric(lateBlock?.changeRate)
+      && lateBlock.changeRate > earlyBlock.changeRate;
+    const archetypeHasEvidence = (archetype: string): boolean => {
+      switch (archetype) {
+        case "panic_changer": return finiteMetric(signals.changeRate) && signals.changeRate > 0 && finiteMetric(signals.avgTime);
+        case "rusher": return finiteMetric(signals.avgTime) && finiteMetric(signals.correctRate);
+        case "paralyzer": return finiteMetric(signals.avgTime) && signals.avgTime > 300 && finiteMetric(signals.correctRate);
+        case "strategist": return finiteMetric(signals.changeRate) && signals.changeRate > 0 && finiteMetric(signals.avgTime) && hasBlockTimingAndChangeEvidence;
+        case "fatigue_victim": return hasFatigueTrend;
+        case "subject_avoider": return hasSubjectDifference;
+        case "unavailable": return true;
+        default: return false;
+      }
+    };
+    const trapFlagsSupported = Array.isArray(classification?.trap_flags) && classification.trap_flags.every((item: any) =>
+      item?.trap === "rushing_at_end" && hasRushingAtEndEvidence);
     const validClassification = classification
       && typeof classification === "object"
       && allowedArchetypes.has(classification.archetype)
+      && archetypeHasEvidence(classification.archetype)
       && typeof classification.critical_finding === "string"
       && Array.isArray(classification.trap_flags)
+      && trapFlagsSupported
+      && (classification.archetype !== "unavailable" || classification.trap_flags.length === 0)
       && classification.trap_flags.every((item: any) => item
         && typeof item.trap === "string"
         && typeof item.description === "string"
