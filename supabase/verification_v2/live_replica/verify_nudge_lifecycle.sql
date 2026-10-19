@@ -115,22 +115,22 @@ begin
   on conflict (lo_key) do update set concept_id=excluded.concept_id,title=excluded.title,status='active',updated_at=now();
 
   insert into public.questions(id,zyntra_id,subject_id,stem,options,correct_answer,explanation,status,version,provenance)
-  select md5('nudge-lifecycle-' || g::text)::uuid,
-         'NUDGE-LIFE-' || lpad(g::text,3,'0'),
+  select md5('nudge-lifecycle-' || gs.n::text)::uuid,
+         'NUDGE-LIFE-' || lpad(gs.n::text,3,'0'),
          v_subject,
-         'Synthetic Nudge lifecycle question ' || g,
+         'Synthetic Nudge lifecycle question ' || gs.n,
          '["A","B","C","D"]'::jsonb,
          'A',
          'Synthetic explanation withheld during practice.',
          'active',1,jsonb_build_object('synthetic',true,'fixture','nudge-local')
-  from generate_series(1,110) g
+  from generate_series(1,110) as gs(n)
   on conflict (zyntra_id) do nothing;
 
   insert into pie.question_lo(question_id,lo_id,is_primary,weight,mapping_source)
-  select md5('nudge-lifecycle-' || g::text)::uuid,
+  select md5('nudge-lifecycle-' || gs.n::text)::uuid,
          case when g <= 60 then v_lo_a else v_lo_b end,
          true,1,'manual'
-  from generate_series(1,110) g
+  from generate_series(1,110) as gs(n)
   on conflict (question_id,lo_id) do update
     set is_primary=true,weight=1,mapping_source='manual';
 
@@ -160,11 +160,11 @@ begin
   -- LO-B questions bring total valid mapped saved interactions to 49 then 50.
   select array_agg(id order by sort_order) into v_history_ids
   from (
-    select g as sort_order,md5('nudge-lifecycle-' || g::text)::uuid as id
-    from generate_series(1,3) g
+    select gs.n as sort_order,md5('nudge-lifecycle-' || gs.n::text)::uuid as id
+    from generate_series(1,3) as gs(n)
     union all
-    select g as sort_order,md5('nudge-lifecycle-' || g::text)::uuid as id
-    from generate_series(61,107) g
+    select gs.n as sort_order,md5('nudge-lifecycle-' || gs.n::text)::uuid as id
+    from generate_series(61,107) as gs(n)
   ) q;
 
   perform set_config('request.jwt.claim.sub',v_user_a::text,true);
