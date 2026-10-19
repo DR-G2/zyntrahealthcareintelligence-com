@@ -22,6 +22,8 @@ describe("public claim and availability contract", () => {
     const examGuide = read("src/pages/AmcExamPreparation.tsx");
     const imgGuide = read("src/pages/AmcPreparationForImgs.tsx");
     const blogPosts = read("src/data/blogPosts.ts");
+    const osceGuide = read("src/pages/AmcClinicalOsce.tsx");
+    const trustYourGut = read("src/pages/TrustYourGut.tsx");
 
     expect(home).not.toContain("to <em>Readiness.</em>");
     expect(home).not.toContain("increased hesitation under time pressure");
@@ -33,5 +35,10 @@ describe("public claim and availability contract", () => {
     expect(imgGuide).toContain("Confidence-related signals appear only where enabled.");
     expect(blogPosts).not.toContain("[free AMC readiness check](/check)");
     expect(blogPosts).toContain("[AMC MCQ preparation guide](/amc-part-1-mcq)");
+    expect(osceGuide).toContain("Interactive Zyntra");
+    expect(osceGuide).toContain("not available in the current public release");
+    expect(osceGuide).not.toContain("/stations?demo=true");
+    expect(trustYourGut).toContain("Review first and final answers and recorded change outcomes");
+    expect(trustYourGut).not.toContain("reduce harmful answer changes");
   });
 });
