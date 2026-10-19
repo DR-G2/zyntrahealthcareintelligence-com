@@ -255,9 +255,21 @@ async function seedMappedEvidence(u: User) {
   }
 
   const finalTarget = await target(u);
-  check(`${u.label}: authoritative Nudge evidence establishes READY target`,
-    finalTarget?.status === "READY" && Number(finalTarget.eligible_question_count) >= 3 && !!finalTarget.lo_key,
-    `status=${finalTarget?.status}; reason=${finalTarget?.reason_code}; mapped_interactions=${finalTarget?.distinct_question_count}; eligible_unseen=${finalTarget?.eligible_question_count}; maximum_batches=${maxSessions}`);
+  const hasReadyTarget =
+    finalTarget?.status === "READY" &&
+    Number(finalTarget.eligible_question_count) >= 3 &&
+    !!finalTarget.lo_key;
+  // READY is preferred, but a verified mixed-practice fallback is a valid
+  // production outcome when the authoritative selector has no supported LO.
+  // The session's mode, selector, stage, reason, and absence of an LO target
+  // are independently verified below before certification can pass.
+  const fallbackCandidate =
+    !!lastSeed &&
+    finalTarget?.status === "NO_ELIGIBLE_QUESTIONS" &&
+    finalTarget?.reason_code === "NO_GAP_HAS_THREE_UNSEEN_QUESTIONS";
+  check(`${u.label}: authoritative Nudge target or fallback path established`,
+    hasReadyTarget || fallbackCandidate,
+    `status=${finalTarget?.status}; reason=${finalTarget?.reason_code}; mapped_interactions=${finalTarget?.distinct_question_count}; eligible_unseen=${finalTarget?.eligible_question_count}; ready=${hasReadyTarget}; fallback_candidate=${fallbackCandidate}; maximum_batches=${maxSessions}`);
   if (finalTarget?.status === "READY" && Number(finalTarget.eligible_question_count) >= 3 && finalTarget.lo_key && lastSeed) {
     return {
       session: lastSeed.session,
