@@ -673,9 +673,11 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
                         <CollapsibleTrigger className="flex min-h-12 min-w-0 flex-1 items-center justify-between py-3 text-left">
                         <div className="flex min-w-0 flex-wrap items-center gap-2">
                           <span className="font-medium text-sm">{subject.name}</span>
-                          <Badge variant="secondary" className="text-xs">
-                            {subjectCounts[subject.name] || 0}
-                          </Badge>
+                          {subjectCounts[subject.name] > 0 && (
+                            <Badge variant="secondary" className="text-xs">
+                              {subjectCounts[subject.name]}
+                            </Badge>
+                          )}
                         </div>
                         {subtopics.length > 0 && (
                           <ChevronDown className={cn(
