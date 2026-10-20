@@ -73,4 +73,22 @@ describe("/intelligence target evidence gates", () => {
     fireEvent.click(screen.getByRole("button", { name: /Capability/ }));
     expect(screen.getByText("Uncertainty interval")).toBeInTheDocument();
   });
+
+  it("keeps Behaviour candidate-wide while performance evidence remains mode-scoped", () => {
+    mount(fixture({ normalCount: 60, examCount: 45, nudgeCount: 80 }));
+    fireEvent.click(screen.getByRole("button", { name: "Expandable detail" }));
+    expect(screen.getByText(/185 attempts have answer-change evidence/)).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "Nudge" }));
+    expect(screen.getByText(/185 attempts have answer-change evidence/)).toBeInTheDocument();
+    expect(screen.getByText("Recorded attempts in this mode: 80. Latest: Oct 1, 2026.")).toBeInTheDocument();
+  });
+  it("does not turn unavailable attempt history into zero calibration or behaviour evidence", () => {
+    const data = fixture();
+    data.history = { status: "unavailable", value: null };
+    mount(data);
+    fireEvent.click(screen.getByRole("button", { name: "Expandable detail" }));
+    expect(screen.getByText(/Answer-change and timing evidence are unavailable/)).toBeInTheDocument();
+    expect(screen.getAllByText("Unavailable").length).toBeGreaterThan(0);
+    expect(screen.queryByText("Building, 0 of 15")).toBeNull();
+  });
 });
