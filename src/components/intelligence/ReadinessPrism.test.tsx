@@ -41,7 +41,7 @@ describe("/intelligence target evidence gates", () => {
     expect(screen.getAllByText("Building, 0 of 50").length).toBeGreaterThan(0);
     expect(screen.queryByText("80%")).toBeNull();
     expect(screen.getByText("Not enough evidence yet")).toBeInTheDocument();
-    expect(screen.getByText("Not enough practice since the suggestion.")).toBeInTheDocument();
+    expect(screen.getByText("No clear change")).toBeInTheDocument();
   });
   it("account B: 30 attempts stay below the 50-observation threshold", () => {
     mount(fixture({ normalCount: 30 }));
