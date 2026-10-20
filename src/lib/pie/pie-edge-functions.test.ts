@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { toAnalyzeAttempts, toCompletedNormalMcqAttempts, toFlashcardSources, sameLearner, PIE_V2_AUTH_HEADER, type PieHistoryRow } from "../../../supabase/functions/_shared/pie-v2-history";
+import { toAnalyzeAttempts, toCompletedCandidateBehaviourAttempts, toFlashcardSources, sameLearner, PIE_V2_AUTH_HEADER, type PieHistoryRow } from "../../../supabase/functions/_shared/pie-v2-history";
 import { PIE_V2_AUTH_HEADER as CLIENT_HEADER } from "./pie-history-client";
 
 const read = (p: string) => readFileSync(resolve(process.cwd(), p), "utf8");
@@ -21,15 +21,20 @@ describe("P5 edge functions read PIE attempts on V2", () => {
     expect(a[0].session_mode).toBe("adaptive");
   });
 
-  it("Behaviour classification requires explicit Normal MCQ mode and a non-empty completed answer key", () => {
+  it("Behaviour uses candidate-wide verified evidence from explicitly labelled comparable MCQ modes", () => {
     const candidates = [
       { ...row(0, true), session_mode: "normal_mcq" },
       { ...row(1, true), session_mode: "normal_mcq", correct_answer: null },
       { ...row(2, true), session_mode: "normal_mcq", correct_answer: "   " },
       { ...row(3, true), session_mode: "nudge" },
-      row(4, true),
+      { ...row(4, true), session_mode: "amc_exam" },
+      { ...row(5, true), session_mode: "mock_practice" },
+      { ...row(6, true), session_mode: "osce" },
+      row(7, true),
     ];
-    expect(toCompletedNormalMcqAttempts(candidates).map(attempt => attempt.id)).toEqual(["a0"]);
+    const eligible = toCompletedCandidateBehaviourAttempts(candidates);
+    expect(eligible.map(attempt => attempt.id)).toEqual(["a0", "a3", "a4", "a5"]);
+    expect(eligible.map(attempt => attempt.session_mode)).toEqual(["normal_mcq", "nudge", "amc_exam", "mock_practice"]);
   });
 
   it("keeps missing answer-change counts unavailable in Behaviour analysis", () => {
@@ -63,6 +68,10 @@ describe("P5 edge functions read PIE attempts on V2", () => {
     expect(src).toContain("a.answer_changes_count === a.change_sequence.length - 1");
     expect(src).toContain("function hasValidChangeEvidence(a: AttemptWithQuestion): boolean");
     expect(src).toContain("changeEvidenceCount > 0 ? (attemptsWithChangesCount / changeEvidenceCount) * 100 : null");
+    expect(src).toContain("Candidate-wide view · practice context retained");
+    expect(src).toContain("const candidateAttempts = useMemo(");
+    expect(src).not.toContain("Choose practice mode");
+    expect(src).not.toContain("selectedMode");
     expect(src).toContain("missingChangeEvidenceCount");
     expect(src).not.toContain("(attemptsWithChangesCount / totalAttempts)");
     expect(src).toContain("answersMatch(a.change_sequence[a.change_sequence.length - 1], a.selected_answer)");
@@ -102,6 +111,8 @@ describe("P5 edge functions read PIE attempts on V2", () => {
     expect(read("src/pages/BehaviorProfile.tsx")).toContain("if (profileError) throw profileError;");
     expect(read("src/pages/BehaviorProfile.tsx")).toContain("if (!profile) throw new Error('Behaviour profile was not returned.');");
     const behaviorUi = read("src/pages/BehaviorProfile.tsx");
+    expect(behaviorUi).toContain("if (data.session_mode !== 'candidate_wide')");
+    expect(behaviorUi).toContain("The stored profile predates the candidate-wide evidence contract.");
     expect(behaviorUi).toContain("Observed Response Pattern");
     expect(behaviorUi).toContain("Answer Changes Observed");
     expect(behaviorUi).not.toContain("Frequent Answer Changes");
@@ -110,9 +121,9 @@ describe("P5 edge functions read PIE attempts on V2", () => {
     expect(behaviorUi).not.toContain("s.type === 'unavailable' ? 'Evidence unavailable' : '✅ Stable'");
     const behaviorFn = read("supabase/functions/analyze-behavior/index.ts");
     const historyShared = read("supabase/functions/_shared/pie-v2-history.ts");
-    expect(historyShared).toContain('attempt.session_mode === "normal" || attempt.session_mode === "normal_mcq"');
+    expect(historyShared).toContain('const eligibleModes = new Set(["normal", "normal_mcq", "amc_exam", "mock_practice", "nudge"])');
     expect(historyShared).toContain("attempt.questions.correct_answer.trim().length > 0");
-    expect(behaviorFn).toContain("toCompletedNormalMcqAttempts(pie.rows)");
+    expect(behaviorFn).toContain("toCompletedCandidateBehaviourAttempts(pie.rows)");
     expect(behaviorFn).toContain("signals.avgTime < 45");
     expect(behaviorFn).toContain("signals.fatigueIncrease >= 1.4");
     expect(behaviorFn).toContain("const latestSessionTimedAttempts = (latestSession ?? []).filter");
@@ -121,7 +132,7 @@ describe("P5 edge functions read PIE attempts on V2", () => {
     expect(behaviorFn).toContain("const unsupportedClaimPattern =");
     expect(behaviorFn).toContain("&& visibleClaimsSupported");
     expect(behaviorFn).toContain("!unsupportedClaimPattern.test(classification.critical_finding)");
-    expect(behaviorFn).toContain("No completed, verified Normal MCQ attempts found");
+    expect(behaviorFn).toContain("No completed, verified candidate Behaviour attempts found");
     expect(behaviorFn).not.toContain("Predict AMC score range");
     expect(behaviorFn).not.toContain("osceBehavioralSignalsSample");
     expect(behaviorFn).toContain("predicted_score_low: null");

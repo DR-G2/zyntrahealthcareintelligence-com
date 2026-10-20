@@ -28,10 +28,16 @@ export function toAnalyzeAttempts(rows: PieHistoryRow[]) {
   }));
 }
 
-/** Behaviour classification may use only explicit Normal MCQ labels and completed answer-key evidence. */
-export function toCompletedNormalMcqAttempts(rows: PieHistoryRow[]) {
+/**
+ * Candidate-wide Behaviour uses completed, answer-key-verified attempts from explicitly
+ * labelled MCQ practice modes. Unknown/legacy modes and OSCE are excluded: they do not
+ * have a verified comparable answer/timing contract in this history RPC. The source
+ * session_mode is retained on every attempt so callers can report mode context.
+ */
+export function toCompletedCandidateBehaviourAttempts(rows: PieHistoryRow[]) {
+  const eligibleModes = new Set(["normal", "normal_mcq", "amc_exam", "mock_practice", "nudge"]);
   return toAnalyzeAttempts(rows).filter((attempt) =>
-    (attempt.session_mode === "normal" || attempt.session_mode === "normal_mcq")
+    eligibleModes.has(attempt.session_mode)
     && typeof attempt.questions?.correct_answer === "string"
     && attempt.questions.correct_answer.trim().length > 0
     && typeof attempt.is_correct === "boolean"

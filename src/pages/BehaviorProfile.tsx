@@ -21,7 +21,6 @@ import {
   ResponsiveContainer, Legend
 } from 'recharts';
 import { pieV2AuthHeaders } from '@/lib/pie/pie-history-client';
-import { normalizePracticeMode } from '@/lib/pie/intelligence-evidence';
 
 const RECOMMENDATION_QUESTION_COUNT = 10;
 
@@ -182,8 +181,12 @@ export default function BehaviorProfile() {
           <CardContent className="py-12 space-y-4">
             <Brain className="h-12 w-12 text-muted-foreground/50 mx-auto" />
             <h2 className="text-xl font-display font-bold">No Behavior Profile Yet</h2>
-            <p className="text-muted-foreground">A mode-specific profile is required before a behaviour score can be shown. The current analysis path does not establish that separation.</p>
-            <div className="flex justify-center">
+            <p className="text-muted-foreground">Build one candidate-wide profile from completed, verified attempts in explicitly labelled MCQ practice modes. Mode context is retained in the evidence; ambiguous legacy attempts and incompatible OSCE telemetry are not blended in.</p>
+            <div className="flex flex-col justify-center gap-3 sm:flex-row">
+              <Button onClick={runAnalysis} disabled={analyzing} className="gap-2">
+                {analyzing ? <Loader2 className="h-4 w-4 animate-spin" /> : <RefreshCw className="h-4 w-4" />}
+                {analyzing ? 'Analyzing candidate-wide evidence…' : 'Analyze Behaviour'}
+              </Button>
               <Button asChild variant="outline"><Link to="/practice">Start Practice</Link></Button>
             </div>
           </CardContent>
@@ -192,14 +195,19 @@ export default function BehaviorProfile() {
     );
   }
 
-  if (!normalizePracticeMode(data.session_mode)) {
+  // A pre-0104 Normal MCQ profile is not candidate-wide evidence. Keep it visible
+  // only as a refresh-required state until authenticated analysis replaces it.
+  if (data.session_mode !== 'candidate_wide') {
     return (
       <div className="mx-auto max-w-2xl py-12 text-center">
         <Card><CardContent className="space-y-4 py-10">
           <Brain className="mx-auto h-10 w-10 text-muted-foreground" />
-          <h2 className="text-lg font-semibold">Mode-specific behaviour evidence is not available</h2>
-          <p className="text-sm leading-6 text-muted-foreground">The current stored profile does not identify one practice mode. To avoid blending Normal MCQ, AMC Exam mode and Nudge, its scores and labels are withheld until the source can provide mode-specific evidence.</p>
-          <Button asChild variant="outline"><Link to="/practice">Open Practice</Link></Button>
+          <h2 className="text-lg font-semibold">Candidate-wide Behaviour needs refresh</h2>
+          <p className="text-sm leading-6 text-muted-foreground">The stored profile predates the candidate-wide evidence contract. Refresh it to include only completed, verified attempts from explicitly labelled comparable MCQ modes. Until then, the older mode-specific profile is not presented as a candidate-wide result.</p>
+          <Button onClick={runAnalysis} disabled={analyzing} className="gap-2">
+            {analyzing ? <Loader2 className="h-4 w-4 animate-spin" /> : <RefreshCw className="h-4 w-4" />}
+            {analyzing ? 'Analyzing candidate-wide evidence…' : 'Refresh Behaviour'}
+          </Button>
         </CardContent></Card>
       </div>
     );
@@ -252,6 +260,7 @@ export default function BehaviorProfile() {
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">{meta.description}</p>
+          <p className="mt-2 text-xs text-muted-foreground">Candidate-wide profile. Practice-mode context is retained in the underlying evidence; this is not a separate score for each mode.</p>
             </CardContent>
           </Card>
         </motion.div>
@@ -274,8 +283,30 @@ export default function BehaviorProfile() {
               </Card>
             ))}
           </div>
-          <p className="mt-2 text-xs text-muted-foreground">Compares recorded response time in the later half with the earlier half of the latest eligible Normal MCQ session. Positive means slower later responses; negative means faster. This timing change alone does not establish fatigue.</p>
+          <p className="mt-2 text-xs text-muted-foreground">Compares recorded response time in the later half with the earlier half of the latest eligible session. Positive means slower later responses; negative means faster. This timing change alone does not establish fatigue.</p>
         </motion.div>
+
+        {Object.keys(signals.modeBreakdown || {}).length > 0 && (
+          <Card>
+            <CardHeader>
+              <CardTitle>Practice context</CardTitle>
+              <CardDescription>One candidate-wide profile, with supporting evidence retained by explicitly labelled practice mode. These rows are context, not separate candidate scores.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {Object.entries(signals.modeBreakdown as Record<string, { attempts: number; accuracy: number | null; avgTime: number | null; changeRate: number | null; changeEvidenceCount: number }>).map(([mode, evidence]) => (
+                  <div key={mode} className="rounded-lg border p-3 space-y-1">
+                    <p className="font-medium text-sm">{mode.replace(/_/g, ' ')}</p>
+                    <p className="text-xs text-muted-foreground">{evidence.attempts} verified attempts</p>
+                    <p className="text-xs text-muted-foreground">Accuracy: {evidence.accuracy === null ? 'Unavailable' : `${evidence.accuracy}%`}</p>
+                    <p className="text-xs text-muted-foreground">Average time: {evidence.avgTime === null ? 'Unavailable' : `${evidence.avgTime}s`}</p>
+                    <p className="text-xs text-muted-foreground">Change rate: {evidence.changeRate === null ? 'Unavailable' : `${evidence.changeRate}%`} ({evidence.changeEvidenceCount} attempts with change-count evidence)</p>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Block Performance Chart */}
         {blockChartData.length > 0 && (
