@@ -8,7 +8,6 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Loader2, RefreshCw, Brain, Search, AlertTriangle, Shield } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
 
 interface UserStats {
   user_id: string;
@@ -32,11 +31,9 @@ export function LiveActivityTab({ onOpenSystem }: { onOpenSystem?: () => void })
   const [stats, setStats] = useState<UserStats[]>([]);
   const [onlineSet, setOnlineSet] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState(false);
-  const [retraining, setRetraining] = useState(false);
   const [lastRetrained, setLastRetrained] = useState<string | null>(null);
   const [search, setSearch] = useState('');
   const [showSharedOnly, setShowSharedOnly] = useState(false);
-  const { toast } = useToast();
 
   const fetchAll = async () => {
     setLoading(true);
@@ -65,18 +62,7 @@ export function LiveActivityTab({ onOpenSystem }: { onOpenSystem?: () => void })
 
   useEffect(() => { fetchAll(); }, []);
 
-  const handleRetrain = async () => {
-    setRetraining(true);
-    try {
-      const { data, error } = await supabase.functions.invoke('retrain-ai-context');
-      if (error) throw error;
-      toast({ title: 'AI Context Refreshed', description: `Aggregated data from ${data?.candidate_count || 0} candidates` });
-      fetchAll();
-    } catch (e: any) {
-      toast({ title: 'Error', description: e.message, variant: 'destructive' });
-    }
-    setRetraining(false);
-  };
+
 
   // Shared IP detection
   const sharedIpMap = useMemo(() => {
@@ -130,10 +116,7 @@ export function LiveActivityTab({ onOpenSystem }: { onOpenSystem?: () => void })
             <Button variant="outline" size="sm" onClick={fetchAll} disabled={loading}>
               <RefreshCw className={`h-4 w-4 mr-1 ${loading ? 'animate-spin' : ''}`} /> Refresh
             </Button>
-            <Button variant="outline" size="sm" onClick={handleRetrain} disabled={retraining}>
-              {retraining ? <Loader2 className="h-4 w-4 mr-1 animate-spin" /> : <Brain className="h-4 w-4 mr-1" />}
-              Retrain AI
-            </Button>
+            <Button variant="outline" size="sm" disabled title="Disabled until server-side typed confirmation and reliable audit logging are implemented"><Brain className="h-4 w-4 mr-1" />Retrain AI (Unavailable)</Button>
           </div>
         </div>
 
