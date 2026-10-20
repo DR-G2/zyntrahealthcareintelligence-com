@@ -35,6 +35,7 @@ import { fetchLegacyShapedHistory } from '@/lib/pie/pie-history-client';
 import { getSupabaseV2 } from '@/integrations/supabase/v2-client';
 import { ensureV2Session } from '@/lib/migration/v2-practice-session';
 import { classifyPracticeResumeConfig } from '@/lib/practice-mode-availability';
+import { getDrillBehaviouralFeedback } from '@/lib/drill-results-feedback';
 
 interface Question {
   id: string;
@@ -803,22 +804,15 @@ function ResultsScreen({
   const strengths = Object.entries(categoryStats).filter(([, s]) => s.total >= 1 && s.correct / s.total >= 0.8).map(([c]) => c);
   const weaknesses = Object.entries(categoryStats).filter(([, s]) => s.total >= 1 && s.correct / s.total < 0.6).map(([c]) => c);
 
-  // Behavioural feedback is withheld until the drill has enough observations.
-  // Existing heuristic thresholds remain unchanged.
-  const generateInsight = (): string | null => {
-    if (total < 5) return null;
-
-    const changesPerQ = total > 0 ? totalChanges / total : 0;
-    const easyWrong = questions.filter((q, i) => q.difficulty === 'easy' && answers[i] !== q.correct_answer).length;
-    const hardCorrect = questions.filter((q, i) => (q.difficulty === 'hard' || q.difficulty === 'difficult') && answers[i] === q.correct_answer).length;
-
-    if (changesPerQ > 1.5) return 'High answer-change rate: more than 1.5 changes per question.';
-    if (easyWrong > total * 0.2) return 'Incorrect answers on more than 20% of easy questions.';
-    if (avgTime < 30 && accuracy < 60) return 'Average time is under 30 seconds with accuracy below 60%.';
-    if (hardCorrect > 0 && easyWrong > 0) return 'Correct answers on difficult questions and incorrect answers on easy questions.';
-    if (weaknesses.length > 0) return `Accuracy below 60% in: ${weaknesses.slice(0, 2).join(' and ')}.`;
-    return null;
-  };
+  const generateInsight = () => getDrillBehaviouralFeedback({
+    total,
+    totalChanges,
+    avgTime,
+    accuracy,
+    easyWrong: questions.filter((q, i) => q.difficulty === 'easy' && answers[i] !== q.correct_answer).length,
+    hardCorrect: questions.filter((q, i) => (q.difficulty === 'hard' || q.difficulty === 'difficult') && answers[i] === q.correct_answer).length,
+    weaknesses,
+  });
 
   // Rule-out scoring
   const getRuleOutScore = (qIndex: number) => {
