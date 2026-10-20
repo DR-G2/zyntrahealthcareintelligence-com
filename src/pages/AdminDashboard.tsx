@@ -1542,56 +1542,70 @@ const SITE_SETTINGS_CONFIG = [
 function SiteSettingsCard() {
   const [settings, setSettings] = useState<Record<string, boolean>>({});
   const [loading, setLoading] = useState(true);
-  const [toggling, setToggling] = useState<string | null>(null);
-  const { toast } = useToast();
+  const [loadError, setLoadError] = useState<string | null>(null);
 
   useEffect(() => {
-    supabase
-      .from('site_settings' as any)
-      .select('key, value')
-      .then(({ data }) => {
+    let cancelled = false;
+    const loadSettings = async () => {
+      setLoading(true);
+      setLoadError(null);
+      try {
+        const { data, error } = await supabase
+          .from('site_settings' as any)
+          .select('setting_key, setting_value');
+        if (error) throw error;
+        if (cancelled) return;
         const map: Record<string, boolean> = {};
-        SITE_SETTINGS_CONFIG.forEach(s => { map[s.key] = s.defaultValue; });
-        ((data || []) as any[]).forEach((r: any) => { map[r.key] = r.value === true; });
+        ((data || []) as any[]).forEach((row: any) => {
+          if (typeof row.setting_key === 'string') map[row.setting_key] = row.setting_value === true;
+        });
         setSettings(map);
-        setLoading(false);
-      });
+      } catch (error) {
+        if (!cancelled) setLoadError(error instanceof Error ? error.message : 'The settings source could not be read.');
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    };
+    void loadSettings();
+    return () => { cancelled = true; };
   }, []);
-
-  const handleToggle = async (key: string, checked: boolean) => {
-    setToggling(key);
-    try {
-      const { error } = await supabase.functions.invoke('admin-toggle-setting', {
-        body: { key, value: checked }
-      });
-      if (error) throw error;
-      setSettings(prev => ({ ...prev, [key]: checked }));
-      const label = SITE_SETTINGS_CONFIG.find(s => s.key === key)?.label || key;
-      toast({ title: `${label} ${checked ? 'enabled' : 'disabled'}` });
-    } catch (e: any) {
-      toast({ title: 'Error', description: e.message, variant: 'destructive' });
-    }
-    setToggling(null);
-  };
 
   return (
     <Card className="border-border">
-      <CardContent className="p-4 space-y-4">
-        {SITE_SETTINGS_CONFIG.map(s => (
-          <div key={s.key} className="flex items-center justify-between gap-4 border-b border-border/40 pb-4 last:border-0 last:pb-0">
-            <div className="min-w-0">
-              <h3 className="font-semibold text-sm">{s.label}</h3>
-              <p className="text-xs text-muted-foreground">{s.description}</p>
+      <CardContent className="space-y-4 p-4">
+        <div role="status" className="rounded-md border border-border/60 bg-muted/30 p-3 text-sm">
+          {loadError
+            ? <>Settings could not be loaded: {loadError} Changes are disabled until the settings API and audit logging are verified.</>
+            : 'Settings are read-only in this build because the server-side toggle endpoint and change audit contract are not present in the repository.'}
+        </div>
+        {SITE_SETTINGS_CONFIG.map(setting => {
+          const configured = Object.prototype.hasOwnProperty.call(settings, setting.key);
+          const description = setting.key === 'mcq_temp_enabled'
+            ? 'Candidates can be served temporary questions when enabled. Verify the question source before enabling.'
+            : setting.key === 'osce_enabled'
+              ? 'This setting does not override the candidate-side Under Construction state. OSCE remains unavailable until its candidate release is enabled.'
+              : setting.description;
+          return (
+            <div key={setting.key} className="flex flex-wrap items-start justify-between gap-3 border-b border-border/50 pb-4 last:border-0 last:pb-0">
+              <div className="min-w-0 flex-1 space-y-1">
+                <div className="font-medium text-sm">{setting.label}</div>
+                <p className="text-xs leading-5 text-muted-foreground">{description}</p>
+                <p className="text-xs text-muted-foreground">
+                  Stored state: {configured ? (settings[setting.key] ? 'On' : 'Off') : 'Not configured'}
+                </p>
+                {setting.key === 'mcq_temp_enabled' && <p className="text-xs font-semibold text-warning">Warning: Candidates can be served temporary questions.</p>}
+                <p className="text-xs text-muted-foreground">Last changed by / when: unavailable in the current settings schema.</p>
+              </div>
+              <Switch
+                aria-label={setting.label}
+                checked={configured ? settings[setting.key] : false}
+                disabled
+                aria-describedby={undefined}
+              />
             </div>
-            <Switch
-              aria-label={s.label}
-              className="shrink-0"
-              checked={settings[s.key] ?? s.defaultValue}
-              onCheckedChange={(v) => handleToggle(s.key, v)}
-              disabled={loading || toggling === s.key}
-            />
-          </div>
-        ))}
+          );
+        })}
+        {loading && <p className="text-xs text-muted-foreground">Checking stored settings…</p>}
       </CardContent>
     </Card>
   );
@@ -1602,9 +1616,6 @@ function SiteSettingsCard() {
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState('live');
   const sections = getAdminSections(useCurrentUserEmail() === SUPER_ADMIN_EMAIL);
-  const [fullCleaning, setFullCleaning] = useState(false);
-  const [cleanupReport, setCleanupReport] = useState<CleanupReport>({ mcq: null, osce: null });
-  const [reportOpen, setReportOpen] = useState(false);
   const [adminOnline, setAdminOnline] = useState<{ email: string; role: string; online: boolean }[]>([]);
   const { toast } = useToast();
   const currentUserEmail = useCurrentUserEmail();
@@ -1643,31 +1654,6 @@ export default function AdminDashboard() {
     const interval = setInterval(fetchAdminPresence, 30000);
     return () => clearInterval(interval);
   }, []);
-
-  const runFullCleanup = async () => {
-    setFullCleaning(true);
-    try {
-      const [mcqRes, osceRes] = await Promise.all([
-        supabase.functions.invoke('admin-cleanup-questions'),
-        supabase.functions.invoke('admin-cleanup-stations'),
-      ]);
-      if (mcqRes.error) throw mcqRes.error;
-      if (osceRes.error) throw osceRes.error;
-      if (mcqRes.data?.error) throw new Error(mcqRes.data.error);
-      if (osceRes.data?.error) throw new Error(osceRes.data.error);
-
-      const report = { mcq: mcqRes.data, osce: osceRes.data };
-      setCleanupReport(report);
-      setReportOpen(true);
-
-      const totalDeleted = (mcqRes.data.total_deleted || 0) + (osceRes.data.total_deleted || 0);
-      const totalNormalized = (mcqRes.data.summary?.categories_normalized || 0) + (osceRes.data.summary?.subjects_normalized || 0);
-      toast({ title: 'Full cleanup complete', description: `${totalDeleted} items deleted, ${totalNormalized} normalized` });
-    } catch (e: any) {
-      toast({ title: 'Cleanup failed', description: e.message, variant: 'destructive' });
-    }
-    setFullCleaning(false);
-  };
 
   return (
     <AppLayout>
@@ -1717,7 +1703,6 @@ export default function AdminDashboard() {
           </Card>
         )}
 
-        <CleanupReportDialog report={cleanupReport} open={reportOpen} onOpenChange={setReportOpen} />
 
         {/* Site Settings — Super Admin only */}
         {isSuperAdmin && <section aria-label="Feature settings" className="space-y-3"><h2 className="flex items-center gap-2 text-sm font-semibold"><Settings2 className="h-4 w-4 text-primary" /> Feature Settings</h2><SiteSettingsCard /></section>}
