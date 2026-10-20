@@ -1,22 +1,31 @@
 import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
+import { getDrillBehaviouralFeedback } from '@/lib/drill-results-feedback';
 
 const read = (path: string) => readFileSync(resolve(process.cwd(), path), 'utf8');
 
 describe('Drill Complete evidence and review presentation', () => {
-  it('withholds behavioural feedback below five questions, including a one-question drill', () => {
-    const practice = read('src/pages/Practice.tsx');
-    expect(practice).toContain('if (total < 5) return null;');
-    expect(practice).toContain('{generateInsight() && (');
-    expect(practice).not.toContain("You're rushing through questions");
+  it('returns no behavioural message after a one-question drill', () => {
+    expect(getDrillBehaviouralFeedback({
+      total: 1, totalChanges: 0, avgTime: 7, accuracy: 0,
+      easyWrong: 1, hardCorrect: 0, weaknesses: ['Adult Medicine'],
+    })).toBeNull();
+  });
+
+  it('shows the rushing-related factual message when the five-question evidence rule and thresholds are met', () => {
+    expect(getDrillBehaviouralFeedback({
+      total: 5, totalChanges: 0, avgTime: 7, accuracy: 40,
+      easyWrong: 0, hardCorrect: 0, weaknesses: [],
+    })).toBe('Average time is under 30 seconds with accuracy below 60%.');
   });
 
   it('preserves the rushing heuristic thresholds behind the evidence gate', () => {
     const practice = read('src/pages/Practice.tsx');
     expect(practice).toContain('if (avgTime < 30 && accuracy < 60)');
-    expect(practice).toContain('if (total < 5) return null;');
-    expect(practice).toContain('Average time is under 30 seconds with accuracy below 60%.');
+    expect(practice).toContain('getDrillBehaviouralFeedback({');
+    expect(read('src/lib/drill-results-feedback.ts')).toContain('if (total < 5) return null;');
+    expect(read('src/lib/drill-results-feedback.ts')).toContain('Average time is under 30 seconds with accuracy below 60%.');
   });
 
   it('uses factual elimination wording and removes accuracy percentages and judgement badges', () => {
