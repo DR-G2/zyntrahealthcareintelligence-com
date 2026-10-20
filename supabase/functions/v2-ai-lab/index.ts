@@ -198,7 +198,7 @@ Deno.serve(async (req) => {
         metadata: { ...metadata, provider, model, mode },
       });
       if (error) console.error("AI Lab audit event could not be saved", eventType, error.code);
-    };;
+    };
     if (!adapter) throw new LabError("INVALID_REQUEST", "Provider not supported.", 400);
 
     const loadConnection = async () => {
