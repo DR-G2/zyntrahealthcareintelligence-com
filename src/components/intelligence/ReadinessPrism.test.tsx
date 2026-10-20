@@ -49,22 +49,22 @@ describe("/intelligence target evidence gates", () => {
     expect(screen.queryByText("80%")).toBeNull();
     expect(screen.getByText("Recorded attempts in this mode: 30. Latest: Oct 1, 2026.")).toBeInTheDocument();
   });
-  it("account C: 60 attempts in Normal MCQ do not unlock AMC Exam or Nudge", () => {
+  it("account C: 60 Normal MCQ attempts do not make upcoming modes selectable", () => {
     mount(fixture({ normalCount: 60 }));
     expect(screen.getByText("Recorded attempts in this mode: 60. Latest: Oct 1, 2026.")).toBeInTheDocument();
     expect(screen.getAllByText("80%").length).toBeGreaterThan(0);
-    fireEvent.click(screen.getByRole("button", { name: "AMC Exam mode" }));
-    expect(screen.getByText("Recorded attempts in this mode: 0. Latest: Unavailable.")).toBeInTheDocument();
-    expect(screen.getAllByText("Building, 0 of 50").length).toBeGreaterThan(0);
-    expect(screen.queryByText("80%")).toBeNull();
+    expect(screen.queryByRole("button", { name: "AMC Exam mode" })).toBeNull();
+    expect(screen.queryByRole("button", { name: "Nudge" })).toBeNull();
+    expect(screen.getByLabelText(/AMC Exam Mode/)).toHaveTextContent("Historical records are retained; recorded attempts: 0.");
+    expect(screen.getByLabelText(/Nudge/)).toHaveTextContent("Historical records are retained; recorded attempts: 0.");
   });
-  it("account D: larger multi-mode history remains scoped to the selected mode", () => {
+  it("account D: historical mode records remain visible without becoming selectable evidence", () => {
     mount(fixture({ normalCount: 60, examCount: 45, nudgeCount: 80 }));
     expect(screen.getByText("Recorded attempts in this mode: 60. Latest: Oct 1, 2026.")).toBeInTheDocument();
-    fireEvent.click(screen.getByRole("button", { name: "Nudge" }));
-    expect(screen.getByText("Recorded attempts in this mode: 80. Latest: Oct 1, 2026.")).toBeInTheDocument();
-    fireEvent.click(screen.getByRole("button", { name: "AMC Exam mode" }));
-    expect(screen.getByText("Recorded attempts in this mode: 45. Latest: Oct 1, 2026.")).toBeInTheDocument();
+    expect(screen.getByLabelText(/AMC Exam Mode/)).toHaveTextContent("Historical records are retained; recorded attempts: 45.");
+    expect(screen.getByLabelText(/Nudge/)).toHaveTextContent("Historical records are retained; recorded attempts: 80.");
+    expect(screen.queryByRole("button", { name: "Nudge" })).toBeNull();
+    expect(screen.queryByRole("button", { name: "AMC Exam mode" })).toBeNull();
   });
   it("keeps dimension cards collapsed by default and exposes the valid-observation progress", () => {
     mount(fixture({ normalCount: 30 }));
