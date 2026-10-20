@@ -21,7 +21,6 @@ import {
   ResponsiveContainer, Legend
 } from 'recharts';
 import { pieV2AuthHeaders } from '@/lib/pie/pie-history-client';
-import { normalizePracticeMode } from '@/lib/pie/intelligence-evidence';
 
 const RECOMMENDATION_QUESTION_COUNT = 10;
 
@@ -182,29 +181,16 @@ export default function BehaviorProfile() {
           <CardContent className="py-12 space-y-4">
             <Brain className="h-12 w-12 text-muted-foreground/50 mx-auto" />
             <h2 className="text-xl font-display font-bold">No Behavior Profile Yet</h2>
-            <p className="text-muted-foreground">Generate a profile from completed, verified Normal MCQ attempts. AMC Exam and Nudge evidence remains separate.</p>
+            <p className="text-muted-foreground">Build one candidate-wide profile from completed, verified attempts in explicitly labelled MCQ practice modes. Mode context is retained in the evidence; ambiguous legacy attempts and incompatible OSCE telemetry are not blended in.</p>
             <div className="flex flex-col justify-center gap-3 sm:flex-row">
               <Button onClick={runAnalysis} disabled={analyzing} className="gap-2">
                 {analyzing ? <Loader2 className="h-4 w-4 animate-spin" /> : <RefreshCw className="h-4 w-4" />}
-                {analyzing ? 'Analyzing Normal MCQ evidence…' : 'Analyze Normal MCQ'}
+                {analyzing ? 'Analyzing candidate-wide evidence…' : 'Analyze Behaviour'}
               </Button>
               <Button asChild variant="outline"><Link to="/practice">Start Practice</Link></Button>
             </div>
           </CardContent>
         </Card>
-      </div>
-    );
-  }
-
-  if (!normalizePracticeMode(data.session_mode)) {
-    return (
-      <div className="mx-auto max-w-2xl py-12 text-center">
-        <Card><CardContent className="space-y-4 py-10">
-          <Brain className="mx-auto h-10 w-10 text-muted-foreground" />
-          <h2 className="text-lg font-semibold">Mode-specific behaviour evidence is not available</h2>
-          <p className="text-sm leading-6 text-muted-foreground">The current stored profile does not identify one practice mode. To avoid blending Normal MCQ, AMC Exam mode and Nudge, its scores and labels are withheld until the source can provide mode-specific evidence.</p>
-          <Button asChild variant="outline"><Link to="/practice">Open Practice</Link></Button>
-        </CardContent></Card>
       </div>
     );
   }
@@ -256,6 +242,7 @@ export default function BehaviorProfile() {
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">{meta.description}</p>
+          <p className="mt-2 text-xs text-muted-foreground">Candidate-wide profile. Practice-mode context is retained in the underlying evidence; this is not a separate score for each mode.</p>
             </CardContent>
           </Card>
         </motion.div>
