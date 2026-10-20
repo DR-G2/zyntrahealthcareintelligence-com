@@ -45,7 +45,7 @@ describe("Intelligence overview", () => {
   it("removes the radar map from the candidate view and preserves unavailable dimension states", () => {
     render(<MemoryRouter><ReadinessPrism evidence={fixture()} loading={false} retry={() => {}} /></MemoryRouter>);
     expect(screen.queryByLabelText(/Six-dimensional PIE map/)).not.toBeInTheDocument();
-    fireEvent.click(screen.getByRole("button", { name: "Timing" }));
+    fireEvent.click(screen.getByRole("button", { name: "Timing control" }));
     expect(screen.getByText(/Timing requires 50 valid observations for this dimension/)).toBeInTheDocument();
   });
 
