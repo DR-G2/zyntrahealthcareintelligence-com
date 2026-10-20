@@ -1020,13 +1020,6 @@ function ResultsScreen({
           </Card>
         </motion.div>
 
-        {/* Actions */}
-        <div className="flex flex-wrap gap-3 justify-center">
-          <Button variant="outline" onClick={onNewDrill}>New Drill</Button>
-          <Button variant="outline" size="sm" onClick={expandAll}>Expand All</Button>
-          <Button variant="outline" size="sm" onClick={collapseAll}>Collapse All</Button>
-        </div>
-
         {/* ── SECTION 2: Full Question Review ── */}
         <div className="space-y-4">
           <h2 className="text-lg font-display font-semibold">All Questions</h2>
@@ -1256,6 +1249,8 @@ function ResultsScreen({
 
         {/* Actions follow question review in document order. On phones they stay above app navigation. */}
         <div className="hidden md:flex flex-wrap gap-3 justify-center pb-8">
+          <Button variant="outline" size="sm" onClick={expandAll}>Expand All</Button>
+          <Button variant="outline" size="sm" onClick={collapseAll}>Collapse All</Button>
           <Button variant="outline" onClick={onNewDrill}>Start New Drill</Button>
           <Button asChild><Link to="/intelligence">View Intelligence</Link></Button>
         </div>
