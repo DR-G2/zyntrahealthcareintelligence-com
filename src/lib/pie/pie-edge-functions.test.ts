@@ -111,6 +111,8 @@ describe("P5 edge functions read PIE attempts on V2", () => {
     expect(read("src/pages/BehaviorProfile.tsx")).toContain("if (profileError) throw profileError;");
     expect(read("src/pages/BehaviorProfile.tsx")).toContain("if (!profile) throw new Error('Behaviour profile was not returned.');");
     const behaviorUi = read("src/pages/BehaviorProfile.tsx");
+    expect(behaviorUi).toContain("if (data.session_mode !== 'candidate_wide')");
+    expect(behaviorUi).toContain("The stored profile predates the candidate-wide evidence contract.");
     expect(behaviorUi).toContain("Observed Response Pattern");
     expect(behaviorUi).toContain("Answer Changes Observed");
     expect(behaviorUi).not.toContain("Frequent Answer Changes");
