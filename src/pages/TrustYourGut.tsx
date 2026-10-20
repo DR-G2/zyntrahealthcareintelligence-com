@@ -81,6 +81,12 @@ function hasValidChangeEvidence(a: AttemptWithQuestion): boolean {
   return hasConsistentChangeSequence(a);
 }
 
+function candidateMode(value: string): string | null {
+  const normalized = normalizePracticeMode(value);
+  if (normalized) return normalized;
+  return value === 'mock_practice' ? 'mock_practice' : null;
+}
+
 export default function TrustYourGut() {
   const { user } = useAuth();
   const gate = useFeatureGate();
@@ -103,11 +109,6 @@ export default function TrustYourGut() {
 
   // One candidate-wide view across explicitly labelled, comparable MCQ modes.
   // Unknown/legacy modes remain excluded; the mode label stays attached to each attempt.
-  const candidateMode = (value: string): string | null => {
-    const normalized = normalizePracticeMode(value);
-    if (normalized) return normalized;
-    return value === 'mock_practice' ? 'mock_practice' : null;
-  };
   const candidateAttempts = useMemo(
     () => attempts.filter(a => candidateMode(a.session_mode) !== null),
     [attempts]
