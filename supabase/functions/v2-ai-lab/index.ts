@@ -214,15 +214,13 @@ Deno.serve(async (req) => {
       const task = typeof body.prompt === "string" ? body.prompt.trim().slice(0, 2000) : "";
       if (!task) throw new LabError("INVALID_REQUEST", "Ask a question about your Performance Intelligence page.", 400);
       const context = await buildContext(sb, caller.userId);
-      const subject: string | null = null;
-
       const { data: session, error: sErr } = await sb.from("ai_lab.sessions").insert({
-        user_id: caller.userId, provider: "openai", model, mode, subject, use_intelligence: true,
+        user_id: caller.userId, provider: "openai", model, mode, use_intelligence: true,
         context_attached: true, status: "running", prompt: task,
       }).select("id").single();
       if (sErr || !session) throw new LabError("DATABASE_ERROR", "Unable to start the AI Lab session.", 500);
       const started = Date.now();
-      await sb.from("ai_lab.interactions").insert({ user_id: caller.userId, session_id: session.id, event_type: "session_started", provider: adapter.id, model, mode, subject, metadata: { context_attached: !!context } });
+      await sb.from("ai_lab.interactions").insert({ user_id: caller.userId, session_id: session.id, event_type: "session_started", metadata: { provider: "openai", model, mode, context_attached: true } });
 
       try {
         const { text, usage } = await adapter.generate({ apiKey, model, instructions: instructions(context), input: task, maxOutputTokens: 1800 });
@@ -235,7 +233,7 @@ Deno.serve(async (req) => {
           estimated_cost: cost, updated_at: new Date().toISOString(),
         }).eq("id", session.id);
         await sb.from("ai_lab.interactions").insert([
-          { user_id: caller.userId, session_id: session.id, event_type: "session_completed", provider: "openai", model, mode, duration_ms: duration, input_tokens: usage.input_tokens, output_tokens: usage.output_tokens, estimated_cost: cost },
+          { user_id: caller.userId, session_id: session.id, event_type: "session_completed", duration_ms: duration, input_tokens: usage.input_tokens, output_tokens: usage.output_tokens, estimated_cost: cost, metadata: { provider: "openai", model, mode } },
         ]);
         await audit("run_completed", { session_id: session.id, provider: "openai", model, mode, metadata: { duration_ms: duration, input_tokens: usage.input_tokens, output_tokens: usage.output_tokens, total_tokens: usage.total_tokens, estimated_cost: cost } });
         return json({ success: true, mode, session_id: session.id, result: rendered, pie: context, sources: context.sources, snapshot_at: context.snapshotAt, usage, estimated_cost: cost });
