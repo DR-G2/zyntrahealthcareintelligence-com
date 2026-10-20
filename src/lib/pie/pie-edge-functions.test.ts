@@ -42,7 +42,7 @@ describe("P5 edge functions read PIE attempts on V2", () => {
     expect(missing[0].answer_changes_count).toBeNull();
     const src = read("supabase/functions/analyze-behavior/index.ts");
     expect(src).toContain("const changeEvidence = attempts.filter((a) => a.answer_changes_count !== null)");
-    expect(src).toContain("const changedAttempts = changeEvidence.filter((a) => a.answer_changes_count > 0).length");
+    expect(src).toContain("const changedAttempts = changeEvidence.filter((a) => (a.answer_changes_count as number) > 0).length");
     expect(src).toContain("changeEvidence.length > 0 ? changedAttempts / changeEvidence.length : null");
     expect(src).toContain("s.changeEvidenceCount > 0 ? Math.round((s.changedAttempts / s.changeEvidenceCount) * 100) : null");
     expect(src).toContain("validChanges.filter((a) => a.answer_changes_count > 0).length");
