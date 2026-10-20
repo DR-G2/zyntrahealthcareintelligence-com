@@ -45,6 +45,7 @@ describe("Intelligence overview", () => {
   it("removes the radar map from the candidate view and preserves unavailable dimension states", () => {
     render(<MemoryRouter><ReadinessPrism evidence={fixture()} loading={false} retry={() => {}} /></MemoryRouter>);
     expect(screen.queryByLabelText(/Six-dimensional PIE map/)).not.toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "Timing" }));
     expect(screen.getByText(/Timing requires 50 valid observations for this dimension/)).toBeInTheDocument();
   });
 
@@ -121,7 +122,10 @@ describe("Intelligence overview", () => {
       },
     } } });
     render(<MemoryRouter><ReadinessPrism evidence={input} loading={false} retry={() => {}} /></MemoryRouter>);
+    expect(screen.queryByText("97%")).toBeNull();
+    fireEvent.click(screen.getByRole("button", { name: "Decision" }));
     expect(screen.getAllByText("97%").length).toBeGreaterThan(0);
+    fireEvent.click(screen.getByRole("button", { name: "Timing" }));
     expect(screen.getAllByText("89%").length).toBeGreaterThan(0);
     expect(screen.getAllByText(/Latest valid observation/).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/Oct 16, 2026/).length).toBeGreaterThan(0);
