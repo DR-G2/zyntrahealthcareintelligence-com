@@ -20,6 +20,13 @@ const uniqueAttempts = (rows: SafeAttempt[]) => [...new Map(rows.map(row => [row
 function latestAt(rows: SafeAttempt[]) {
   return rows.reduce<string | null>((latest, row) => !latest || Date.parse(row.at) > Date.parse(latest) ? row.at : latest, null);
 }
+function wilsonInterval(correct: number, total: number): [number, number] {
+  const z = 1.96, p = correct / total, z2 = z * z;
+  const denominator = 1 + z2 / total;
+  const center = (p + z2 / (2 * total)) / denominator;
+  const margin = z * Math.sqrt((p * (1 - p) / total) + z2 / (4 * total * total)) / denominator;
+  return [Math.max(0, center - margin), Math.min(1, center + margin)];
+}
 function subjectRows(rows: SafeAttempt[]) {
   const groups = new Map<string, SafeAttempt[]>();
   rows.forEach(row => { const key = row.subjectId ?? row.subject; groups.set(key, [...(groups.get(key) ?? []), row]); });
@@ -41,6 +48,16 @@ export function ReadinessPrism({ evidence, loading, retry }: { evidence: Intelli
   const qualified = dimensions.filter(item => item.estimate !== null && item.evidenceCount !== null && item.evidenceCount >= MIN_DIMENSION_OBSERVATIONS);
   const limiter = [...qualified].sort((a, b) => (a.estimate ?? 1) - (b.estimate ?? 1))[0] ?? null;
   const action = evidence?.action.status === "ready" && normalizePracticeMode(evidence.action.value.sessionMode) === mode ? evidence.action.value : null;
+  const beforeAction = action?.at ? rows.filter(row => Date.parse(row.at) < Date.parse(action.at) && row.answerKeyAvailable === true && typeof row.correct === "boolean") : [];
+  const afterAction = action?.at ? rows.filter(row => Date.parse(row.at) >= Date.parse(action.at) && row.answerKeyAvailable === true && typeof row.correct === "boolean") : [];
+  const beforeCorrect = beforeAction.filter(row => row.correct).length;
+  const afterCorrect = afterAction.filter(row => row.correct).length;
+  const beforeRate = beforeAction.length ? beforeCorrect / beforeAction.length : null;
+  const afterRate = afterAction.length ? afterCorrect / afterAction.length : null;
+  const beforeInterval = beforeAction.length >= 15 ? wilsonInterval(beforeCorrect, beforeAction.length) : null;
+  const afterInterval = afterAction.length >= 15 ? wilsonInterval(afterCorrect, afterAction.length) : null;
+  const distinguishable = beforeInterval !== null && afterInterval !== null
+    && (beforeInterval[1] < afterInterval[0] || afterInterval[1] < beforeInterval[0]);
   const sourceUnavailable = !evidence || Object.values(evidence).some(item => item.status === "unavailable");
   const modeLabel = MODES.find(item => item.id === mode)?.label ?? mode;
   return <section className="space-y-5" aria-busy={loading}>
@@ -98,7 +115,15 @@ export function ReadinessPrism({ evidence, loading, retry }: { evidence: Intelli
     </section>
     <section aria-label="Did it work" className="rounded-xl border border-border/70 p-4">
       <h3 className="font-semibold">Did it work?</h3>
-      <p className="mt-1 text-sm text-muted-foreground">Not enough practice since the suggestion.</p>
+      {!action?.at || afterAction.length < 15
+        ? <p className="mt-1 text-sm text-muted-foreground">Not enough practice since the suggestion.</p>
+        : beforeAction.length < 15
+          ? <p className="mt-1 text-sm text-muted-foreground">Not enough practice since the suggestion.</p>
+          : <div className="mt-2 space-y-2 text-sm">
+              <p>Before suggestion ({dateLabel(action.at) ? "before " + dateLabel(action.at) : "earlier"}): {Math.round((beforeRate ?? 0) * 100)}%, n={beforeAction.length}, 95% interval {Math.round((beforeInterval![0]) * 100)}% to {Math.round((beforeInterval![1]) * 100)}%.</p>
+              <p>After suggestion: {Math.round((afterRate ?? 0) * 100)}%, n={afterAction.length}, 95% interval {Math.round((afterInterval![0]) * 100)}% to {Math.round((afterInterval![1]) * 100)}%.</p>
+              <p className="text-muted-foreground">{distinguishable ? "The observed results differ beyond these intervals. This is an association over time, not evidence that the suggestion caused the change." : "No clear change"}</p>
+            </div>}
     </section>
     <section className="rounded-xl border border-border/70">
       <button type="button" aria-expanded={detailsOpen} onClick={() => setDetailsOpen(value => !value)} className="flex min-h-12 w-full items-center justify-between gap-3 p-4 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"><span className="font-semibold">Expandable detail</span><ChevronDown className={"h-4 w-4 transition-transform " + (detailsOpen ? "rotate-180" : "")} /></button>
