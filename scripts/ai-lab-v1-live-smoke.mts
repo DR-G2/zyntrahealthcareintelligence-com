@@ -32,10 +32,23 @@ async function main() {
     body: { action: "pie_snapshot" },
   });
 
+  let invokeErrorDetail = "";
+  if (error) {
+    const context = (error as { context?: Response }).context;
+    if (context) {
+      try {
+        const payload = await context.clone().json();
+        invokeErrorDetail = `HTTP ${context.status}: ${payload?.code ?? "FUNCTION_ERROR"}: ${payload?.error ?? payload?.message ?? "request rejected"}`;
+      } catch {
+        invokeErrorDetail = `HTTP ${context.status}: ${error.message}`;
+      }
+    }
+  }
+
   check(
     "deployed v2-ai-lab accepts pie_snapshot",
     !error && data?.success === true,
-    error?.message ?? data?.error ?? "success response received",
+    invokeErrorDetail || error?.message || data?.error || "success response received",
   );
 
   if (!error && data?.success === true) {
