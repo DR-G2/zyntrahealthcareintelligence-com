@@ -182,8 +182,12 @@ export default function BehaviorProfile() {
           <CardContent className="py-12 space-y-4">
             <Brain className="h-12 w-12 text-muted-foreground/50 mx-auto" />
             <h2 className="text-xl font-display font-bold">No Behavior Profile Yet</h2>
-            <p className="text-muted-foreground">A mode-specific profile is required before a behaviour score can be shown. The current analysis path does not establish that separation.</p>
-            <div className="flex justify-center">
+            <p className="text-muted-foreground">Generate a profile from completed, verified Normal MCQ attempts. AMC Exam and Nudge evidence remains separate.</p>
+            <div className="flex flex-col justify-center gap-3 sm:flex-row">
+              <Button onClick={runAnalysis} disabled={analyzing} className="gap-2">
+                {analyzing ? <Loader2 className="h-4 w-4 animate-spin" /> : <RefreshCw className="h-4 w-4" />}
+                {analyzing ? 'Analyzing Normal MCQ evidence…' : 'Analyze Normal MCQ'}
+              </Button>
               <Button asChild variant="outline"><Link to="/practice">Start Practice</Link></Button>
             </div>
           </CardContent>
