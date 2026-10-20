@@ -1,224 +1,177 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AppLayout } from '@/components/AppLayout';
 import { RoomHeader } from '@/components/RoomHeader';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Switch } from '@/components/ui/switch';
-import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-import { MessageSquare, Sparkles, Target, Link2, Unplug, Loader2, History, ShieldCheck } from 'lucide-react';
+import { Link2, Unplug, Loader2, History, ShieldCheck, ExternalLink, RefreshCw, ChevronDown, ChevronUp } from 'lucide-react';
 
-type Mode = 'performance' | 'questions' | 'weak-area';
-type Provider = 'openai' | 'gemini' | 'groq' | 'openrouter';
-const PROVIDERS: Array<{ id: Provider; label: string; note: string }> = [
-  { id: 'openrouter', label: 'OpenRouter', note: 'Multiple models' },
-  { id: 'gemini', label: 'Google Gemini', note: 'Google AI' },
-  { id: 'groq', label: 'Groq', note: 'Groq API' },
-  { id: 'openai', label: 'OpenAI', note: 'OpenAI API' },
-];
-type QuestionResult = { stem: string; options: string[]; correct_answer: string; explanation: string };
-
-const MODES = [
-  { id: 'performance' as const, label: 'Ask My Performance', description: 'Ask questions about your current training patterns.', icon: MessageSquare },
-  { id: 'questions' as const, label: 'Generate Questions', description: 'Create AI-generated AMC-style practice questions.', icon: Sparkles },
-  { id: 'weak-area' as const, label: 'Weak Area Drill', description: 'Turn current weak areas into a focused training session.', icon: Target },
-];
+type Dimension = { key: string; label: string; status: 'available' | 'building' | 'unavailable'; valuePercent: number | null; evidenceCount: number | null; uncertaintyPercent: number | null; lowerPercent: number | null; upperPercent: number | null; latestObservationAt: string | null; confidenceLevelCounts: Record<string, number | null> | null };
+type Source = { key: string; label: string; valuePercent: number | null; evidenceCount: number | null; uncertaintyPercent: number | null; latestObservationAt: string | null };
+type ModeEvidence = { mode: string; modeLabel: string; dimensions: Dimension[] };
+type PiePayload = { modeEvidence: ModeEvidence[]; overallStatus: string; overallEvidenceCount: number | null; confidenceChecklist: Array<{ mode: string; modeLabel: string; level: number; count: number | null }>; nextAction: { title: string; reason: string } | null; sources: Source[]; snapshotAt: string | null };
+type Session = { id: string; mode: string; provider: string; model: string | null; created_at: string; status: string; error_code?: string | null; response_text?: string | null; prompt?: string | null };
+const FUNCTION_NAME = 'v2-ai-lab';
+const FALLBACK = 'I can only explain what your Performance Intelligence page shows. Try asking what a section means.';
+const ERROR_LABELS: Record<string, string> = { INVALID_PROVIDER_KEY: 'OpenAI rejected the API key.', PROVIDER_ACCESS_DENIED: 'The key does not have access to this OpenAI resource.', PROVIDER_RATE_LIMIT: 'OpenAI rate limit or quota reached.', INVALID_MODEL_RESPONSE: 'OpenAI returned a response that could not be safely used.', ENCRYPTION_SECRET_MISSING: 'AI Lab key encryption is not configured.', CONFIGURATION_ERROR: 'The saved OpenAI connection needs attention.', PROVIDER_ERROR: 'OpenAI could not complete this request.', DATABASE_ERROR: 'AI Lab could not save or load this session.', PIE_UNAVAILABLE: 'The PIE snapshot could not be loaded.' };
 
 export default function AILab() {
   const { toast } = useToast();
-  const [mode, setMode] = useState<Mode>('performance');
-  const [provider, setProvider] = useState<Provider>('openrouter');
-  const [useIntelligence, setUseIntelligence] = useState(false);
+  const navigate = useNavigate();
   const [connected, setConnected] = useState(false);
   const [models, setModels] = useState<string[]>([]);
   const [model, setModel] = useState('');
   const [apiKey, setApiKey] = useState('');
   const [prompt, setPrompt] = useState('');
-  const [subject, setSubject] = useState('');
-  const [focus, setFocus] = useState('');
-  const [difficulty, setDifficulty] = useState('moderate');
-  const [questionCount, setQuestionCount] = useState('5');
+  const [lastPrompt, setLastPrompt] = useState('');
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<string | QuestionResult[] | null>(null);
-  const [history, setHistory] = useState<Array<{ id: string; mode: string; provider: string; model: string | null; created_at: string; status: string }>>([]);
-  const [sessionId, setSessionId] = useState<string | null>(null);
-  const [selectedAnswers, setSelectedAnswers] = useState<Record<number, string>>({});
-  const loggedExplanations = useRef<Set<number>>(new Set());
-  const startedQuestions = useRef<Set<number>>(new Set());
+  const [result, setResult] = useState('');
+  const [pie, setPie] = useState<PiePayload | null>(null);
+  const [sources, setSources] = useState<Source[]>([]);
+  const [snapshotAt, setSnapshotAt] = useState<string | null>(null);
+  const [latestSnapshotAt, setLatestSnapshotAt] = useState<string | null>(null);
+  const [checkingSnapshot, setCheckingSnapshot] = useState(false);
+  const [snapshotCheckMessage, setSnapshotCheckMessage] = useState('');
+  const [history, setHistory] = useState<Session[]>([]);
+  const [expandedSession, setExpandedSession] = useState<string | null>(null);
+  const [showAllHistory, setShowAllHistory] = useState(false);
+  const [connectionMessage, setConnectionMessage] = useState('');
+  const canRun = useMemo(() => connected && !!model && !!prompt.trim() && !loading, [connected, model, prompt, loading]);
 
-  const canRun = useMemo(
-    () => connected && !!model && (mode !== 'performance' || !!prompt.trim()) && (mode !== 'questions' || !!subject.trim()),
-    [connected, model, mode, prompt, subject],
-  );
+  const invoke = useCallback(async (body: Record<string, unknown>) => {
+    const { getSupabaseV2 } = await import('@/integrations/supabase/v2-client');
+    const { data, error } = await getSupabaseV2().functions.invoke(FUNCTION_NAME, { body });
+    if (error) {
+      let message = error.message || 'AI Lab request failed.';
+      const context = (error as { context?: Response }).context;
+      if (context && typeof context.json === 'function') {
+        try { const payload = await context.json(); if (typeof payload?.error === 'string') message = payload.error; } catch { /* keep client error */ }
+      }
+      throw new Error(message);
+    }
+    if (!data?.success) throw new Error(data?.error || 'AI Lab request failed.');
+    return data;
+  }, []);
 
-  const loadHistory = async () => {
+  const loadHistory = useCallback(async () => {
     try {
       const data = await invoke({ action: 'history' });
       if (Array.isArray(data.sessions)) setHistory(data.sessions);
-    } catch {
-      // History is supplementary; the main AI Lab flow should remain usable if it cannot load.
-    }
-  };
+    } catch (e) { setConnectionMessage(e instanceof Error ? e.message : 'AI Lab history is temporarily unavailable.'); }
+  }, [invoke]);
 
-  const logEvent = async (event_type: string, extra: Record<string, unknown> = {}) => {
-    if (!sessionId) return;
+  const loadStatus = useCallback(async () => {
     try {
-      await invoke({ action: 'log_event', session_id: sessionId, event_type, ...extra });
-    } catch {
-      // Telemetry failure must never block training.
+      const data = await invoke({ action: 'status', provider: 'openai' });
+      const available = Array.isArray(data.models) ? data.models.filter((v: unknown): v is string => typeof v === 'string') : [];
+      setConnected(Boolean(data.connected)); setModels(available);
+      setModel(current => available.includes(current) ? current : data.model || available[0] || '');
+      setConnectionMessage(data.connected ? 'OpenAI connection verified.' : 'Connect an OpenAI API key to explain your PIE.');
+    } catch (e) {
+      setConnected(false); setConnectionMessage(e instanceof Error ? e.message : 'OpenAI connection status could not be loaded.');
     }
-  };
-
-  useEffect(() => {
-    void loadHistory();
-  }, []);
-
-  useEffect(() => {
-    void (async () => {
-      setConnected(false); setModels([]); setModel('');
-      try {
-        const data = await invoke({ action: 'status', provider });
-        if (data.connected) {
-          const available = Array.isArray(data.models) ? data.models.filter((m: unknown): m is string => typeof m === 'string') : [];
-          setConnected(true); setModels(available); setModel(data.model || available[0] || '');
-        }
-      } catch { /* first visit / unconfigured provider */ }
-    })();
-  }, [provider]);
-
-  const invoke = async (body: Record<string, unknown>) => {
-    const { supabase } = await import('@/lib/supabase');
-    const { data, error } = await supabase.functions.invoke('ai-lab', { body });
-
-    if (error) {
-      let message = error.message || 'AI Lab Edge Function request failed.';
-      const context = (error as { context?: Response }).context;
-
-      if (context && typeof context.json === 'function') {
-        try {
-          const payload = await context.json();
-          if (typeof payload?.error === 'string') message = payload.error;
-          else if (typeof payload?.message === 'string') message = payload.message;
-        } catch {
-          // Keep the Supabase client error when the response body is unavailable.
-        }
-      }
-
-      throw new Error(message);
-    }
-
-    if (!data?.success) {
-      throw new Error(data?.error || 'AI Lab request failed');
-    }
-
-    return data;
-  };
+  }, [invoke]);
+  useEffect(() => { void loadStatus(); void loadHistory(); }, [loadStatus, loadHistory]);
 
   const connect = async () => {
-    if (!apiKey.trim()) return toast({ title: 'API key required', description: 'Enter your selected provider API key.', variant: 'destructive' });
+    if (!apiKey.trim()) { toast({ title: 'OpenAI API key required', description: 'Paste your OpenAI API key.', variant: 'destructive' }); return; }
     setLoading(true);
     try {
-      const data = await invoke({ action: 'connect', provider, api_key: apiKey.trim() });
-      const available = Array.isArray(data.models) ? data.models.filter((m: unknown): m is string => typeof m === 'string') : [];
-      setModels(available);
-      setModel(data.model || available[0] || '');
-      setConnected(true);
-      setApiKey('');
-      toast({ title: `${PROVIDERS.find(p => p.id === provider)?.label ?? provider} connected`, description: 'API access verified on the server.' });
-    } catch (e: any) {
-      toast({ title: 'Connection failed', description: e?.message || 'Unable to verify the provider.', variant: 'destructive' });
-    } finally { setLoading(false); }
+      const data = await invoke({ action: 'connect', provider: 'openai', api_key: apiKey.trim() });
+      const available = Array.isArray(data.models) ? data.models.filter((v: unknown): v is string => typeof v === 'string') : [];
+      setModels(available); setModel(data.model || available[0] || ''); setConnected(true); setApiKey('');
+      setConnectionMessage('OpenAI connection verified.');
+      toast({ title: 'OpenAI connected', description: 'Your key was verified and stored encrypted.' });
+    } catch (e) { toast({ title: 'Connection failed', description: e instanceof Error ? e.message : 'OpenAI could not be connected.', variant: 'destructive' }); }
+    finally { setLoading(false); }
   };
 
   const disconnect = async () => {
     setLoading(true);
     try {
-      await invoke({ action: 'disconnect', provider });
-      setConnected(false);
-      setModels([]);
-      setModel('');
-      setResult(null);
-      setSessionId(null);
-      setSelectedAnswers({});
-      toast({ title: `${PROVIDERS.find(p => p.id === provider)?.label ?? provider} disconnected` });
-    } catch (e: any) {
-      toast({ title: 'Disconnect failed', description: e?.message || 'Please try again.', variant: 'destructive' });
-    } finally { setLoading(false); }
+      await invoke({ action: 'disconnect', provider: 'openai' });
+      setConnected(false); setModels([]); setModel(''); setApiKey(''); setResult(''); setPie(null); setSources([]);
+      setConnectionMessage('OpenAI disconnected. Your AI Lab history remains available.');
+      toast({ title: 'OpenAI disconnected' });
+    } catch (e) { toast({ title: 'Disconnect failed', description: e instanceof Error ? e.message : 'Please try again.', variant: 'destructive' }); }
+    finally { setLoading(false); }
   };
 
-  const run = async () => {
-    if (!canRun) return;
-    setLoading(true);
-    setResult(null);
+  const run = async (question = prompt.trim()) => {
+    if (!connected || !model || !question.trim() || loading) return;
+    setLoading(true); setResult(''); setSources([]); setPie(null);
     try {
-      const data = await invoke({
-        action: 'run',
-        provider,
-        model,
-        mode,
-        use_intelligence: useIntelligence,
-        prompt: mode === 'performance' ? prompt.trim() : undefined,
-        generation: mode === 'questions'
-          ? { subject: subject.trim(), focus: focus.trim(), difficulty, count: Number(questionCount) }
-          : undefined,
-      });
-      setResult(data.result ?? null);
-      setSessionId(typeof data.session_id === 'string' ? data.session_id : null);
-      setSelectedAnswers({});
-      loggedExplanations.current.clear();
-      startedQuestions.current.clear();
+      const data = await invoke({ action: 'run', provider: 'openai', model, mode: 'performance', prompt: question.trim() });
+      setResult(typeof data.result === 'string' ? data.result : FALLBACK);
+      setPie(data.pie && typeof data.pie === 'object' ? data.pie as PiePayload : null);
+      setSources(Array.isArray(data.sources) ? data.sources as Source[] : []);
+      setSnapshotAt(typeof data.snapshot_at === 'string' ? data.snapshot_at : null);
+      setLatestSnapshotAt(null); setSnapshotCheckMessage('');
+      setLastPrompt(question.trim()); setPrompt('');
       await loadHistory();
-      if (mode === 'performance') setPrompt('');
-      toast({ title: 'AI Lab session complete' });
-    } catch (e: any) {
-      toast({ title: 'AI Lab error', description: e?.message || 'Unable to complete the session.', variant: 'destructive' });
-    } finally { setLoading(false); }
+    } catch (e) { toast({ title: 'AI Lab error', description: e instanceof Error ? e.message : 'Unable to explain PIE.', variant: 'destructive' }); }
+    finally { setLoading(false); }
   };
 
-  return <AppLayout><div className="space-y-6">
+  const checkForNewerPie = async () => {
+    const answerSnapshot = snapshotAt || pie?.snapshotAt || null;
+    if (!answerSnapshot || checkingSnapshot) return;
+    setCheckingSnapshot(true);
+    setSnapshotCheckMessage('');
+    try {
+      const data = await invoke({ action: 'pie_snapshot' });
+      const latest = typeof data.snapshot_at === 'string' ? data.snapshot_at : typeof data.pie?.snapshotAt === 'string' ? data.pie.snapshotAt : null;
+      setLatestSnapshotAt(latest);
+      if (!latest) setSnapshotCheckMessage('The latest PIE timestamp is unavailable, so this answer could not be checked for newer data.');
+      else if (Date.parse(latest) > Date.parse(answerSnapshot)) setSnapshotCheckMessage('Newer PIE data is available. Re-run your question for an updated explanation.');
+      else setSnapshotCheckMessage('This answer matches the latest PIE snapshot currently available.');
+    } catch (e) {
+      setSnapshotCheckMessage(e instanceof Error ? e.message : 'Unable to check for newer PIE data.');
+    } finally { setCheckingSnapshot(false); }
+  };
+  const answerIsOutdated = Boolean(latestSnapshotAt && (snapshotAt || pie?.snapshotAt) && Date.parse(latestSnapshotAt) > Date.parse((snapshotAt || pie?.snapshotAt) as string));
+  const shownHistory = showAllHistory ? history : history.slice(0, 5);
+  const snapshotLabel = snapshotAt || pie?.snapshotAt ? new Date((snapshotAt || pie?.snapshotAt) as string).toLocaleString() : 'unavailable';
+
+  return <AppLayout><div className="mx-auto max-w-5xl space-y-6">
     <RoomHeader kind="ai-lab" />
-    <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
-      <div className="space-y-6">
-        <Card className="border-white/10 bg-[#081224]/70">
-          <CardHeader><CardTitle className="flex items-center gap-2"><Link2 className="h-4 w-4 text-cyan-300" />Connected AI</CardTitle><CardDescription>Connect your own AI provider. Model availability, access and limits are controlled by the provider.</CardDescription></CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2"><Label>Provider</Label><Select value={provider} onValueChange={(v) => setProvider(v as Provider)} disabled={loading || connected}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>{PROVIDERS.map(p => <SelectItem key={p.id} value={p.id}>{p.label} · {p.note}</SelectItem>)}</SelectContent></Select></div>
-            {!connected ? <><div className="space-y-2"><Label htmlFor="provider-key">{PROVIDERS.find(p => p.id === provider)?.label} API key</Label><Input id="provider-key" type="password" autoComplete="off" value={apiKey} onChange={e => setApiKey(e.target.value)} placeholder="Paste API key" /><p className="text-xs leading-5 text-slate-500">The key is sent only to the secure AI Lab function, verified server-side, and encrypted before storage. Zyntra does not need or store your provider key in the browser.</p></div><Button onClick={connect} disabled={loading} className="w-full">{loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <ShieldCheck className="mr-2 h-4 w-4" />}Test & Connect</Button><p className="text-xs leading-5 text-slate-500">Provider availability and rate limits can change. Zyntra does not charge for provider inference.</p></> :
-            <><div className="flex items-center justify-between rounded-xl border border-emerald-400/20 bg-emerald-400/5 p-3"><div><div className="text-sm font-medium text-white">{PROVIDERS.find(p => p.id === provider)?.label}</div><div className="text-xs text-slate-400">API access verified</div></div><Badge variant="outline" className="border-emerald-400/30 text-emerald-300">Connected</Badge></div>
-            <div className="space-y-2"><Label>Model</Label><Select value={model} onValueChange={setModel}><SelectTrigger><SelectValue placeholder="Select model" /></SelectTrigger><SelectContent>{models.map(m => <SelectItem key={m} value={m}>{m}</SelectItem>)}</SelectContent></Select></div>
-            <Button variant="outline" onClick={disconnect} disabled={loading} className="w-full"><Unplug className="mr-2 h-4 w-4" />Disconnect</Button></>}
-          </CardContent>
-        </Card>
-        <Card className="border-white/10 bg-[#081224]/70">
-          <CardHeader><CardTitle>Training Context</CardTitle><CardDescription>External AI can receive only the bounded Performance Intelligence fields shown by Zyntra.</CardDescription></CardHeader>
-          <CardContent className="flex items-center justify-between gap-4"><div><div className="text-sm font-medium text-white">Use my Performance Intelligence</div><div className="text-xs leading-5 text-slate-400">Off sends only your immediate request. On adds a bounded Zyntra training summary such as performance, weak areas, timing and behaviour signals. It never sends your API key or question-bank data.</div></div><Switch checked={useIntelligence} onCheckedChange={setUseIntelligence} /></CardContent>
-        </Card>
-      </div>
-
-      <Card className="border-white/10 bg-[#081224]/70">
-        <CardHeader><div className="flex flex-wrap gap-2">{MODES.map(({id,label,icon:Icon}) => <Button key={id} size="sm" variant={mode===id?'default':'outline'} onClick={()=>{setMode(id);setResult(null);}} className="gap-2"><Icon className="h-4 w-4"/>{label}</Button>)}</div><CardTitle className="mt-4">{MODES.find(m=>m.id===mode)?.label}</CardTitle><CardDescription>{MODES.find(m=>m.id===mode)?.description}</CardDescription></CardHeader>
-        <CardContent className="space-y-4">
-          {mode==='performance' && <div className="space-y-2"><Label htmlFor="ai-prompt">Ask your question</Label><Textarea id="ai-prompt" value={prompt} onChange={e=>setPrompt(e.target.value)} placeholder="Why am I losing marks?" className="min-h-32"/></div>}
-          {mode==='questions' && <div className="grid gap-4 sm:grid-cols-2"><div className="space-y-2"><Label>Subject</Label><Input value={subject} onChange={e=>setSubject(e.target.value)} placeholder="Adult Medicine"/></div><div className="space-y-2"><Label>Focus / subtopic</Label><Input value={focus} onChange={e=>setFocus(e.target.value)} placeholder="Acute coronary syndrome"/></div><div className="space-y-2"><Label>Difficulty</Label><Select value={difficulty} onValueChange={setDifficulty}><SelectTrigger><SelectValue/></SelectTrigger><SelectContent><SelectItem value="moderate">Moderate</SelectItem><SelectItem value="difficult">Difficult</SelectItem></SelectContent></Select></div><div className="space-y-2"><Label>Questions</Label><Select value={questionCount} onValueChange={setQuestionCount}><SelectTrigger><SelectValue/></SelectTrigger><SelectContent><SelectItem value="3">3</SelectItem><SelectItem value="5">5</SelectItem><SelectItem value="10">10</SelectItem></SelectContent></Select></div></div>}
-          {mode==='weak-area' && <div className="rounded-xl border border-cyan-400/10 bg-cyan-400/5 p-4 text-sm text-slate-300">Zyntra will select the training focus from your current Performance Intelligence context. Enable Training Context to personalize it.</div>}
-          <Button className="w-full" onClick={run} disabled={loading || !canRun}><Sparkles className="mr-2 h-4 w-4"/>{loading?'Running…':'Start AI Session'}</Button>
-
-          {result && <div className="space-y-3 rounded-2xl border border-cyan-400/15 bg-black/20 p-4">
-            <div className="flex items-center justify-between gap-3"><div className="text-xs font-mono uppercase tracking-[0.16em] text-cyan-300">AI output</div><Badge variant="outline">{model}</Badge></div>
-            {Array.isArray(result) ? result.map((q, i) => <div key={i} className="rounded-xl border border-white/10 bg-white/[0.02] p-4"><div className="mb-3 text-sm font-medium text-white">Question {i + 1}</div><p className="text-sm leading-6 text-slate-200">{q.stem}</p><div className="mt-3 space-y-2">{q.options.map((option, j) => { const selected = selectedAnswers[i] === option; return <button key={j} type="button" onClick={() => { const previous = selectedAnswers[i]; setSelectedAnswers((current) => ({ ...current, [i]: option })); if (!startedQuestions.current.has(i)) { startedQuestions.current.add(i); void logEvent('question_started', { question_index: i }); } void logEvent(previous && previous !== option ? 'answer_changed' : 'answer_submitted', { question_index: i, answer_changes: previous && previous !== option ? 1 : 0 }); }} className={`w-full rounded-lg border px-3 py-2 text-left text-sm transition-colors ${selected ? 'border-cyan-400/50 bg-cyan-400/10 text-white' : 'border-white/10 text-slate-300 hover:border-cyan-400/30 hover:bg-white/[0.03]'}`}>{option}</button>; })}</div><details className="mt-3" onToggle={(event) => { if ((event.currentTarget as HTMLDetailsElement).open && !loggedExplanations.current.has(i)) { loggedExplanations.current.add(i); void logEvent('explanation_requested', { question_index: i }); } }}><summary className="cursor-pointer text-xs text-cyan-300">Reveal answer & explanation</summary><div className="mt-2 text-sm leading-6 text-slate-300"><strong className="text-white">{q.correct_answer}</strong><div className="mt-1">{q.explanation}</div></div></details></div>) :
-              <div className="whitespace-pre-wrap text-sm leading-6 text-slate-200">{result}</div>}
-          </div>}
-        </CardContent>
-      </Card>
-    </div>
-
-    <Card className="border-white/10 bg-[#081224]/70"><CardHeader><CardTitle className="flex items-center gap-2"><History className="h-4 w-4 text-cyan-300"/>Recent AI Lab</CardTitle><CardDescription>AI Lab sessions stay separate from canonical Zyntra attempts. Provider: your selected external model.</CardDescription></CardHeader><CardContent>
-      {history.length ? <div className="space-y-2">{history.map((session) => <div key={session.id} className="flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/[0.02] p-3"><div className="min-w-0"><div className="text-sm font-medium text-white">{session.mode === 'performance' ? 'Ask My Performance' : session.mode === 'questions' ? 'Generate Questions' : 'Weak Area Drill'}</div><div className="text-xs text-slate-500">{session.provider} · {session.model || 'model'} · {new Date(session.created_at).toLocaleString()}</div></div><Badge variant="outline" className="shrink-0">{session.status}</Badge></div>)}</div> : <div className="text-sm text-slate-400">No AI Lab sessions yet.</div>}
+    <header className="space-y-2"><p className="font-mono text-xs uppercase tracking-[0.16em] text-primary">Zyntra · AI Lab V1</p><h1 className="text-3xl font-semibold tracking-tight">Explain my PIE</h1><p className="max-w-3xl text-sm leading-6 text-muted-foreground">Ask what your Performance Intelligence page means. Answers use only your candidate-facing PIE snapshot. AI Lab does not score, rank or predict you.</p></header>
+    <Card className="border-white/10 bg-[#081224]/70"><CardHeader><CardTitle className="flex items-center gap-2"><Link2 className="h-4 w-4 text-cyan-300" />OpenAI connection</CardTitle><CardDescription>Bring your own OpenAI API key. Model usage is billed by OpenAI under your account.</CardDescription></CardHeader><CardContent className="space-y-4">
+      {!connected ? <div className="space-y-3"><div className="space-y-2"><Label htmlFor="provider-key">OpenAI API key</Label><Input id="provider-key" type="password" autoComplete="off" value={apiKey} onChange={e => setApiKey(e.target.value)} placeholder="Paste your OpenAI API key" /></div><Button onClick={connect} disabled={loading || !apiKey.trim()} className="w-full sm:w-auto">{loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <ShieldCheck className="mr-2 h-4 w-4" />}Test & connect</Button><p className="text-xs leading-5 text-muted-foreground">Your key is sent to the authenticated AI Lab function, verified against OpenAI, and encrypted before storage. It is not included in the model prompt.</p></div> : <div className="space-y-3">
+        <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-emerald-400/20 bg-emerald-400/5 p-3"><div><p className="font-medium">OpenAI connected</p><p className="text-xs text-muted-foreground">API access verified</p></div><Badge variant="outline">Connected</Badge></div>
+        <div className="space-y-2"><Label>Model</Label><Select value={model} onValueChange={setModel}><SelectTrigger><SelectValue placeholder="Select an available OpenAI model" /></SelectTrigger><SelectContent>{models.map(m => <SelectItem key={m} value={m}>{m}</SelectItem>)}</SelectContent></Select></div>
+        <div className="flex flex-wrap gap-2"><Button variant="outline" onClick={() => { setConnected(false); setApiKey(''); }} disabled={loading}>Replace key</Button><Button variant="outline" onClick={disconnect} disabled={loading}><Unplug className="mr-2 h-4 w-4" />Disconnect</Button></div>
+      </div>}
+      <p role="status" className="text-xs text-muted-foreground">{connectionMessage}</p>
     </CardContent></Card>
-    <p className="text-xs leading-5 text-slate-500">AI Lab is an experimental training environment. External AI outputs are not official AMC assessments and should be independently checked.</p>
+    <Card className="border-white/10 bg-[#081224]/70"><CardHeader><CardTitle>Ask about your PIE</CardTitle><CardDescription>Try “What does calibration mean?”, “Why is this dimension still building?”, or “What does my next action mean?”</CardDescription></CardHeader><CardContent className="space-y-4">
+      <div className="space-y-2"><Label htmlFor="ai-prompt">Your question</Label><Textarea id="ai-prompt" value={prompt} onChange={e => setPrompt(e.target.value)} placeholder="Ask about a label, evidence status, uncertainty, or next action…" className="min-h-28" maxLength={2000} /></div>
+      <Button className="w-full sm:w-auto" onClick={() => void run()} disabled={!canRun}>{loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}Explain my PIE</Button>
+      {!connected && <p className="text-xs text-muted-foreground">Connect an OpenAI key to begin. Your existing AI Lab history is retained.</p>}
+      {result && <div className="space-y-4 rounded-2xl border border-cyan-400/15 bg-black/20 p-4"><div className="flex flex-wrap items-center justify-between gap-2"><p className="font-mono text-xs uppercase tracking-[0.16em] text-cyan-300">PIE explanation</p><Badge variant="outline">Based on your PIE</Badge></div><div className="whitespace-pre-wrap text-sm leading-7">{result}</div>
+        {sources.length > 0 && <div className="flex flex-wrap gap-2">{sources.map(source => <button type="button" key={source.key} onClick={() => navigate('/intelligence')} className="rounded-full border border-cyan-400/20 px-3 py-1.5 text-xs text-cyan-200 hover:bg-cyan-400/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-300" title="Open Performance Intelligence">{source.label}{source.valuePercent !== null ? String(source.valuePercent) + '%' : ''}{source.evidenceCount !== null ? ' · ' + String(source.evidenceCount) + ' observations' : ''}</button>)}</div>}
+        <p className="text-xs text-muted-foreground">Based on your Performance Intelligence as of {snapshotLabel}.</p><div className="flex flex-wrap items-center gap-2"><Button variant="ghost" size="sm" onClick={() => void checkForNewerPie()} disabled={checkingSnapshot}>{checkingSnapshot ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <RefreshCw className="mr-2 h-4 w-4" />}Check for newer PIE data</Button>{answerIsOutdated && <Badge variant="outline">Outdated snapshot</Badge>}</div>{snapshotCheckMessage && <p role="status" className={answerIsOutdated ? "text-xs text-amber-300" : "text-xs text-muted-foreground"}>{snapshotCheckMessage}</p>}
+        {pie && <div className="space-y-3 border-t border-white/10 pt-4"><h3 className="text-sm font-medium">Evidence planner</h3><p className="text-xs text-muted-foreground">Overall PIE evidence: {pie.overallStatus}{pie.overallEvidenceCount !== null ? " · " + String(pie.overallEvidenceCount) + " observations" : ""}</p><div className="space-y-4">{pie.modeEvidence.map(group => <section key={group.mode} className="space-y-2"><h4 className="text-sm font-medium">{group.modeLabel}</h4><div className="grid gap-2 sm:grid-cols-2">{group.dimensions.map(d => <div key={d.key} className="flex items-start justify-between gap-3 rounded-lg border border-white/10 p-3"><div><p className="text-sm">{d.label}</p><p className="text-xs text-muted-foreground">{d.status === 'available' && d.valuePercent !== null ? String(d.valuePercent) + '% available' : d.status === 'building' ? d.evidenceCount === null ? 'Building, evidence count unavailable' : 'Building, ' + String(d.evidenceCount) + ' of 50' : 'Evidence unavailable'}{d.uncertaintyPercent !== null ? ' · uncertainty ' + String(d.uncertaintyPercent) + '%' : ''}</p></div><Badge variant="outline">{d.status === 'available' ? 'Available' : d.status === 'building' ? 'Building' : 'Unavailable'}</Badge></div>)}</div></section>)}</div>
+          {pie.confidenceChecklist.length > 0 && <div className="space-y-2"><p className="text-sm font-medium">Calibration evidence by confidence level</p>{pie.confidenceChecklist.map(item => <p key={item.mode + item.level} className="text-xs text-muted-foreground">{item.modeLabel} · Level {item.level}: {item.count === null ? 'count unavailable' : String(item.count) + ' of 15 observations'}</p>)}</div>}
+          {pie.nextAction && <div className="rounded-lg border border-white/10 p-3"><p className="text-sm font-medium">PIE next action: {pie.nextAction.title}</p><p className="mt-1 text-xs leading-5 text-muted-foreground">{pie.nextAction.reason}</p></div>}
+          <Button variant="outline" onClick={() => navigate('/practice')}>Go to Practice <ExternalLink className="ml-2 h-4 w-4" /></Button><p className="text-xs text-muted-foreground">Practice opens normally. This planner does not preselect questions or change session settings.</p>
+        </div>}
+      </div>}
+      {lastPrompt && <Button variant="ghost" size="sm" onClick={() => void run(lastPrompt)} disabled={loading || !connected || !model}><RefreshCw className="mr-2 h-4 w-4" />Retry last question</Button>}
+    </CardContent></Card>
+    <Card className="border-white/10 bg-[#081224]/70"><CardHeader><CardTitle className="flex items-center gap-2"><History className="h-4 w-4 text-cyan-300" />Recent AI Lab</CardTitle><CardDescription>Old tool sessions remain in history. Retired tools are labelled and cannot be started again.</CardDescription></CardHeader><CardContent className="space-y-3">
+      {history.length ? shownHistory.map(session => { const retired = session.mode !== 'performance'; const open = expandedSession === session.id; const errorText = session.error_code ? ERROR_LABELS[session.error_code] || `Session error: ${session.error_code}` : null; return <div key={session.id} className="rounded-xl border border-white/10 p-3">
+        <button type="button" className="flex w-full items-center justify-between gap-3 text-left" onClick={() => setExpandedSession(open ? null : session.id)}><span className="min-w-0"><span className="block text-sm font-medium">{retired ? 'Retired tool' : 'Explain my PIE'}</span><span className="block break-words text-xs text-muted-foreground">{session.provider} · {session.model || 'Model unavailable'} · {new Date(session.created_at).toLocaleString()}</span></span><span className="flex shrink-0 items-center gap-2"><Badge variant="outline">{session.status}</Badge>{open ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}</span></button>
+        {open && <div className="mt-3 space-y-2 border-t border-white/10 pt-3 text-sm">{errorText && <p className="text-destructive">{errorText}</p>}{session.prompt && <p className="text-muted-foreground"><span className="font-medium text-foreground">Question: </span>{session.prompt}</p>}{session.response_text && <p className="whitespace-pre-wrap leading-6">{session.response_text}</p>}{retired && <p className="text-xs text-muted-foreground">This tool has been retired. Existing records are preserved for reference.</p>}{session.status === 'error' && session.prompt && !retired && <Button size="sm" variant="outline" disabled={!connected || loading} onClick={() => void run(session.prompt || '')}>Retry this question</Button>}</div>}
+      </div>; }) : <p className="text-sm text-muted-foreground">No AI Lab sessions found.</p>}
+      {history.length > 5 && <Button variant="ghost" size="sm" onClick={() => setShowAllHistory(v => !v)}>{showAllHistory ? 'Show less' : 'Show all sessions'}</Button>}
+    </CardContent></Card>
+    <p className="text-xs leading-5 text-muted-foreground">AI Lab explains only candidate-facing PIE information. It does not provide clinical teaching, generate questions, calculate scores, rank candidates, or predict exam outcomes. OpenAI usage is billed by OpenAI under your own account.</p>
   </div></AppLayout>;
 }
