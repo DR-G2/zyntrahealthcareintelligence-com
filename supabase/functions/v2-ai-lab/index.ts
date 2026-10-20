@@ -181,19 +181,24 @@ Deno.serve(async (req) => {
     if (providerId !== "openai") throw new LabError("INVALID_REQUEST", "Only OpenAI is supported.", 400);
     const adapter = PROVIDERS[providerId];
 
-    const audit = async (actionName: string, fields: Record<string, unknown> = {}) => {
-      await sb.from("ai_lab.interactions").insert({
+    const audit = async (eventType: string, fields: Record<string, unknown> = {}) => {
+      const metadata = fields.metadata && typeof fields.metadata === "object" && !Array.isArray(fields.metadata)
+        ? fields.metadata as Record<string, unknown> : {};
+      const model = typeof fields.model === "string" ? fields.model : null;
+      const mode = typeof fields.mode === "string" ? fields.mode : null;
+      const provider = typeof fields.provider === "string" ? fields.provider : adapter?.id ?? providerId;
+      const { error } = await sb.from("ai_lab.interactions").insert({
         user_id: caller.userId,
-        action: actionName,
-        provider: typeof fields.provider === "string" ? fields.provider : adapter?.id ?? providerId,
-        model: typeof fields.model === "string" ? fields.model : null,
-        mode: typeof fields.mode === "string" ? fields.mode : null,
         session_id: typeof fields.session_id === "string" ? fields.session_id : null,
-        request_text: typeof fields.request_text === "string" ? fields.request_text.slice(0, 10000) : null,
-        response_text: typeof fields.response_text === "string" ? fields.response_text.slice(0, 30000) : null,
-        metadata: fields.metadata && typeof fields.metadata === "object" ? fields.metadata : {},
+        event_type: eventType,
+        input_tokens: typeof metadata.input_tokens === "number" ? metadata.input_tokens : null,
+        output_tokens: typeof metadata.output_tokens === "number" ? metadata.output_tokens : null,
+        duration_ms: typeof metadata.duration_ms === "number" ? metadata.duration_ms : null,
+        estimated_cost: typeof metadata.estimated_cost === "number" ? metadata.estimated_cost : null,
+        metadata: { ...metadata, provider, model, mode },
       });
-    };
+      if (error) console.error("AI Lab audit event could not be saved", eventType, error.code);
+    };;
     if (!adapter) throw new LabError("INVALID_REQUEST", "Provider not supported.", 400);
 
     const loadConnection = async () => {
