@@ -81,16 +81,16 @@ serve(async (req) => {
     // ── MCQ Metrics ──
     const totalAttempts = attempts.length;
     const timedAttempts = attempts.filter((a) => typeof a.time_taken_seconds === "number" && Number.isFinite(a.time_taken_seconds) && a.time_taken_seconds >= 0);
-    const avgTime = timedAttempts.length ? timedAttempts.reduce((s, a) => s + a.time_taken_seconds, 0) / timedAttempts.length : null;
+    const avgTime = timedAttempts.length ? timedAttempts.reduce((s, a) => s + (a.time_taken_seconds as number), 0) / timedAttempts.length : null;
     const changeEvidence = attempts.filter((a) => a.answer_changes_count !== null);
-    const changedAttempts = changeEvidence.filter((a) => a.answer_changes_count > 0).length;
+    const changedAttempts = changeEvidence.filter((a) => (a.answer_changes_count as number) > 0).length;
     const changeRate = changeEvidence.length > 0 ? changedAttempts / changeEvidence.length : null;
     const totalRecordedChanges = changeEvidence.reduce((sum, a) => sum + (a.answer_changes_count as number), 0);
     const meanChangesPerAttempt = changeEvidence.length > 0 ? totalRecordedChanges / changeEvidence.length : null;
     const correctRate = totalAttempts > 0 ? attempts.filter(a => a.is_correct).length / totalAttempts : 0;
     
     const firstClickAttempts = attempts.filter((a) => typeof a.time_to_first_click === "number" && Number.isFinite(a.time_to_first_click) && a.time_to_first_click >= 0);
-    const avgFirstClick = firstClickAttempts.length ? firstClickAttempts.reduce((s, a) => s + a.time_to_first_click, 0) / firstClickAttempts.length : null;
+    const avgFirstClick = firstClickAttempts.length ? firstClickAttempts.reduce((s, a) => s + (a.time_to_first_click as number), 0) / firstClickAttempts.length : null;
 
     // Per-subject MCQ stats
     const subjectMap: Record<string, { correct: number; total: number; changedAttempts: number; totalChanges: number; changeEvidenceCount: number; avgTime: number | null; times: number[] }> = {};
@@ -130,7 +130,7 @@ serve(async (req) => {
           blockPerf[seg.key] = {
             accuracy: Math.round((slice.filter(a => a.is_correct).length / slice.length) * 100),
             avgTime: (() => { const validTimes = slice.map((a) => a.time_taken_seconds).filter((v): v is number => typeof v === "number" && Number.isFinite(v) && v >= 0); return validTimes.length ? Math.round(validTimes.reduce((sum, v) => sum + v, 0) / validTimes.length) : null; })(),
-            changeRate: (() => { const validChanges = slice.filter((a) => a.answer_changes_count !== null); return validChanges.length ? Math.round((validChanges.filter((a) => a.answer_changes_count > 0).length / validChanges.length) * 100) : null; })(),
+            changeRate: (() => { const validChanges = slice.filter((a) => a.answer_changes_count !== null); return validChanges.length ? Math.round((validChanges.filter((a) => (a.answer_changes_count as number) > 0).length / validChanges.length) * 100) : null; })(),
             meanChangesPerAttempt: (() => { const validChanges = slice.filter((a) => a.answer_changes_count !== null); return validChanges.length ? validChanges.reduce((sum, a) => sum + (a.answer_changes_count as number), 0) / validChanges.length : null; })(),
           };
         }

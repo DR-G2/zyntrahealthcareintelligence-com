@@ -1,15 +1,21 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-const legacy = { session: null as null | { access_token: string; user: { email: string } } };
+const legacy = { session: null as null | { access_token: string; user: { email: string; id?: string } } };
+const getLegacySession = vi.fn(async () => ({ data: { session: legacy.session } }));
+const refreshSession = vi.fn(async () => {
+  if (legacy.session) legacy.session = { ...legacy.session, access_token: 'refreshed' };
+  return { error: null };
+});
 const v2State = { session: null as null | { user: { email: string; id: string } } };
 const v2SignOut = vi.fn(async () => { v2State.session = null; return { error: null }; });
 const verifyOtp = vi.fn(async () => {
-  v2State.session = { user: { email: legacy.session!.user.email, id: "v2-" + legacy.session!.user.email } };
+  if (!legacy.session) throw new Error('Missing legacy session');
+  v2State.session = { user: { email: legacy.session.user.email, id: "v2-" + legacy.session.user.email } };
   return { error: null };
 });
 
 vi.mock("@/lib/supabase", () => ({
-  supabase: { auth: { getSession: async () => ({ data: { session: legacy.session } }) } },
+  supabase: { auth: { getSession: getLegacySession, refreshSession } },
 }));
 vi.mock("@/integrations/supabase/v2-client", () => ({
   getSupabaseV2: () => ({
@@ -27,6 +33,8 @@ describe("ensureV2Session identity binding", () => {
   beforeEach(() => {
     v2SignOut.mockClear();
     verifyOtp.mockClear();
+    getLegacySession.mockClear();
+    refreshSession.mockClear();
     vi.stubGlobal("fetch", vi.fn(async () => ({ ok: true, json: async () => ({ token_hash: "hash" }) })));
   });
 
@@ -53,5 +61,52 @@ describe("ensureV2Session identity binding", () => {
     await expect(ensureV2Session()).rejects.toThrow(/expired/);
     expect(v2SignOut).toHaveBeenCalled();
     expect(v2State.session).toBeNull();
+  });
+
+  it('does not send a bridge request after logout during session lookup', async () => {
+    legacy.session = { access_token: 'old', user: { email: 'a@x.test', id: 'a' } };
+    v2State.session = null;
+    getLegacySession.mockImplementationOnce(async () => {
+      const session = legacy.session;
+      legacy.session = null;
+      return { data: { session } };
+    });
+    await expect(ensureV2Session()).rejects.toThrow(/expired/);
+    expect(fetch).not.toHaveBeenCalled();
+    expect(verifyOtp).not.toHaveBeenCalled();
+  });
+
+  it('retries a rejected token once with a refreshed token', async () => {
+    legacy.session = { access_token: 'old', user: { email: 'a@x.test', id: 'a' } };
+    v2State.session = null;
+    const bridge = vi.fn()
+      .mockResolvedValueOnce({ ok: false, status: 401 })
+      .mockResolvedValueOnce({ ok: true, status: 200, json: async () => ({ token_hash: 'hash' }) });
+    vi.stubGlobal('fetch', bridge);
+    await ensureV2Session();
+    expect(refreshSession).toHaveBeenCalledTimes(1);
+    expect(bridge).toHaveBeenCalledTimes(2);
+    expect(bridge.mock.calls[1][1].headers.Authorization).toBe('Bearer refreshed');
+  });
+
+  it('does not accept a bridge response after an account switch', async () => {
+    legacy.session = { access_token: 'old', user: { email: 'a@x.test', id: 'a' } };
+    v2State.session = null;
+    vi.stubGlobal('fetch', vi.fn(async () => {
+      legacy.session = { access_token: 'other', user: { email: 'b@x.test', id: 'b' } };
+      return { ok: true, status: 200, json: async () => ({ token_hash: 'hash' }) };
+    }));
+    await expect(ensureV2Session()).rejects.toThrow(/expired/);
+    expect(verifyOtp).not.toHaveBeenCalled();
+  });
+
+  it('fails closed after a second 401 without further retries', async () => {
+    legacy.session = { access_token: 'old', user: { email: 'a@x.test', id: 'a' } };
+    v2State.session = null;
+    const bridge = vi.fn(async () => ({ ok: false, status: 401, json: async () => ({ error: 'Legacy session could not be verified.' }) }));
+    vi.stubGlobal('fetch', bridge);
+    await expect(ensureV2Session()).rejects.toThrow(/could not be verified/);
+    expect(bridge).toHaveBeenCalledTimes(2);
+    expect(verifyOtp).not.toHaveBeenCalled();
   });
 });

@@ -1,4 +1,5 @@
 - V2 URL/publishable key come only from src/integrations/supabase/v2-config.ts — one fallback source so the client and auth bridge never disagree.
+- V2 session bridging rechecks the originating identity around async authentication and retries a 401 at most once after refresh — logout or account switching must never restore stale V2 access.
 - Performance Intelligence overview uses a page-scoped read-only presentation adapter over existing caller-owned V2 projections; never rebuild inference or consume shadow diagnostics on overview load, so presentation cannot mutate candidate models.
 - AppLayout reuses the training Genjutsu tokens and accessible drawer on approved training routes and /admin; keep shared defaults unchanged to isolate other pages and AI Lab.
 - Admin section metadata is presentation-only and retains the existing five regular and seven super-admin sections; contained scrollable tabs prevent intrinsic widths from overlapping content.
