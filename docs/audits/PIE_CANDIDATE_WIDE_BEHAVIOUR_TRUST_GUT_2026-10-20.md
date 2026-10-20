@@ -19,7 +19,7 @@ Trust Your Gut uses explicitly recognized practice modes and retains mode counts
 
 ## Storage and rollout
 
-The Behaviour profile row uses `session_mode = 'candidate_wide'`. Migration `0104_candidate_wide_behavior_profile.sql` changes the existing constraint to permit that scope. It is source-only and has **not** been applied to production. The deployed Edge Function has **not** been updated by this PR.
+New Behaviour analyses write the profile row with `session_mode = 'candidate_wide'`. Migration `0104_candidate_wide_behavior_profile.sql` permits both `candidate_wide` and the legacy `normal_mcq` value during rollout. This is deliberate: a pre-existing Normal MCQ row must not cause the migration to fail. The UI withholds any legacy row from the candidate-wide presentation and prompts an authenticated refresh; successful analysis replaces it with the candidate-wide profile. The migration is source-only and has **not** been applied to production. The deployed Edge Function has **not** been updated by this PR.
 
 ## Required verification
 
