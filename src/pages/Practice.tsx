@@ -980,7 +980,7 @@ function ResultsScreen({
               )}
 
               {/* Strengths / Weaknesses */}
-              {(strengths.length > 0 || weaknesses.length > 0) && (
+              {total >= 5 && (strengths.length > 0 || weaknesses.length > 0) && (
                 <div className="flex flex-wrap gap-4">
                   {strengths.length > 0 && (
                     <div className="flex items-center gap-2">
@@ -1064,12 +1064,12 @@ function ResultsScreen({
                         <Badge variant="outline" className="text-xs">{q.category}</Badge>
                         {changeCount > 0 && <Badge variant="secondary" className="text-xs">{changeCount} change{changeCount > 1 ? 's' : ''}</Badge>}
                         <span className="text-xs text-muted-foreground font-mono">{timeTaken}s</span>
-                        {confidenceRatings[i] != null && <Badge variant="outline" className="text-xs">Confidence {confidenceRatings[i]}/5</Badge>}
                       </div>
                       <p className="text-sm font-medium leading-relaxed">{q.question_text}</p>
                       <p className="text-xs text-muted-foreground mt-1">
                         Your answer: <strong className={isCorrect ? 'text-success' : 'text-destructive'}>{userAnswer || '—'}</strong>
                         {!isCorrect && <> · Correct: <strong className="text-success">{q.correct_answer}</strong></>}
+                        {confidenceRatings[i] != null && <> · Confidence: <strong>{confidenceRatings[i]}/5</strong></>}
                       </p>
                     </div>
                     <div className="flex items-center gap-2 shrink-0">
@@ -1259,7 +1259,7 @@ function ResultsScreen({
           <Button variant="outline" onClick={onNewDrill}>Start New Drill</Button>
           <Button asChild><Link to="/intelligence">View Intelligence</Link></Button>
         </div>
-        <div className="fixed inset-x-0 bottom-[calc(3.5rem+env(safe-area-inset-bottom))] z-40 flex gap-2 border-t border-border/60 bg-background/95 px-4 py-3 shadow-[0_-8px_24px_rgba(0,0,0,0.12)] backdrop-blur md:hidden">
+        <div className="fixed inset-x-0 bottom-[calc(4rem+env(safe-area-inset-bottom))] z-40 flex gap-2 border-t border-border/60 bg-background/95 px-4 py-3 shadow-[0_-8px_24px_rgba(0,0,0,0.12)] backdrop-blur md:hidden">
           <Button variant="outline" className="min-h-11 flex-1" onClick={onNewDrill}>Start New Drill</Button>
           <Button asChild className="min-h-11 flex-1"><Link to="/intelligence">View Intelligence</Link></Button>
         </div>
