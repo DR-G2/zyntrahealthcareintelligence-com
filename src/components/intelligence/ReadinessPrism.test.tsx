@@ -74,13 +74,14 @@ describe("/intelligence target evidence gates", () => {
     expect(screen.getByText("Uncertainty interval")).toBeInTheDocument();
   });
 
-  it("keeps Behaviour candidate-wide while performance evidence remains mode-scoped", () => {
+  it("keeps Behaviour candidate-wide while retaining historical mode counts", () => {
     mount(fixture({ normalCount: 60, examCount: 45, nudgeCount: 80 }));
     fireEvent.click(screen.getByRole("button", { name: "Expandable detail" }));
     expect(screen.getByText(/185 attempts have answer-change evidence/)).toBeInTheDocument();
-    fireEvent.click(screen.getByRole("button", { name: "Nudge" }));
-    expect(screen.getByText(/185 attempts have answer-change evidence/)).toBeInTheDocument();
-    expect(screen.getByText("Recorded attempts in this mode: 80. Latest: Oct 1, 2026.")).toBeInTheDocument();
+    expect(screen.getByLabelText(/AMC Exam Mode/)).toHaveTextContent("recorded attempts: 45.");
+    expect(screen.getByLabelText(/Nudge/)).toHaveTextContent("recorded attempts: 80.");
+    expect(screen.queryByRole("button", { name: "Nudge" })).toBeNull();
+    expect(screen.getByText("Recorded attempts in this mode: 60. Latest: Oct 1, 2026.")).toBeInTheDocument();
   });
   it("does not turn unavailable attempt history into zero calibration or behaviour evidence", () => {
     const data = fixture();
