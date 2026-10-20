@@ -27,7 +27,7 @@ import { Link } from 'react-router-dom';
 import { useFeatureGate } from '@/hooks/useFeatureGate';
 import { UpgradePrompt } from '@/components/UpgradePrompt';
 import { fetchLegacyShapedHistory } from '@/lib/pie/pie-history-client';
-import { normalizePracticeMode, type PracticeMode } from '@/lib/pie/intelligence-evidence';
+import { normalizePracticeMode } from '@/lib/pie/intelligence-evidence';
 
 interface AttemptWithQuestion {
   id: string;
@@ -84,7 +84,6 @@ function hasValidChangeEvidence(a: AttemptWithQuestion): boolean {
 export default function TrustYourGut() {
   const { user } = useAuth();
   const gate = useFeatureGate();
-  const [selectedMode, setSelectedMode] = useState<PracticeMode>('normal_mcq');
   // Fetch user attempts with questions
   const { data: attempts = [], isLoading, isError, refetch } = useQuery({
     queryKey: ['trust-gut-attempts', user?.id],
@@ -102,12 +101,31 @@ export default function TrustYourGut() {
     enabled: !!user
   });
 
-  const modeAttempts = useMemo(() => attempts.filter(a => normalizePracticeMode(a.session_mode) === selectedMode), [attempts, selectedMode]);
+  // One candidate-wide view across explicitly labelled, comparable MCQ modes.
+  // Unknown/legacy modes remain excluded; the mode label stays attached to each attempt.
+  const candidateAttempts = useMemo(
+    () => attempts.filter(a => normalizePracticeMode(a.session_mode) !== null),
+    [attempts]
+  );
+  const modeBreakdown = useMemo(() => {
+    const grouped = new Map<string, number>();
+    candidateAttempts.forEach(a => {
+      const mode = normalizePracticeMode(a.session_mode);
+      if (mode) grouped.set(mode, (grouped.get(mode) ?? 0) + 1);
+    });
+    const labels: Record<string, string> = {
+      normal_mcq: 'Normal MCQ',
+      amc_exam: 'AMC Exam',
+      nudge: 'Nudge',
+    };
+    return [...grouped.entries()].sort(([a], [b]) => a.localeCompare(b))
+      .map(([mode, count]) => ({ mode, label: labels[mode] ?? mode, count }));
+  }, [candidateAttempts]);
 
-  // Compute stats within the selected practice mode only.
+  // Metrics are candidate-wide; mode breakdown is context, not separate candidate profiles.
   const stats = useMemo(() => {
-    const changeEvidenceCount = modeAttempts.filter(hasValidChangeEvidence).length;
-    const recordedChangedAttempts = modeAttempts.filter(a => a.answer_changes_count !== null && a.answer_changes_count > 0 && hasConsistentChangeSequence(a));
+    const changeEvidenceCount = candidateAttempts.filter(hasValidChangeEvidence).length;
+    const recordedChangedAttempts = candidateAttempts.filter(a => a.answer_changes_count !== null && a.answer_changes_count > 0 && hasConsistentChangeSequence(a));
     const attemptsWithChanges = recordedChangedAttempts.filter(a => !!a.questions?.correct_answer && answersMatch(a.selected_answer, a.questions.correct_answer) === a.is_correct);
     
     let firstInstinctCorrect = 0;
@@ -140,7 +158,7 @@ export default function TrustYourGut() {
       : null;
 
     // Overall stats
-    const totalAttempts = modeAttempts.length;
+    const totalAttempts = candidateAttempts.length;
     const attemptsWithChangesCount = recordedChangedAttempts.length;
     const eligibleChangedAttemptsCount = attemptsWithChanges.length;
     const changeRate = changeEvidenceCount > 0 ? (attemptsWithChangesCount / changeEvidenceCount) * 100 : null;
@@ -163,13 +181,13 @@ export default function TrustYourGut() {
         total: eligibleChangedAttemptsCount
       } as ChangeAnalysis
     };
-  }, [modeAttempts]);
+  }, [candidateAttempts]);
 
   // Category breakdown
   const categoryBreakdown = useMemo((): CategoryBreakdown[] => {
     const categoryMap = new Map<string, { pointsLost: number; changes: number; attempts: number; changeEvidenceCount: number; eligibleAttempts: number }>();
     
-    modeAttempts.forEach(a => {
+    candidateAttempts.forEach(a => {
       const category = a.questions?.category || 'Unknown';
       if (!categoryMap.has(category)) {
         categoryMap.set(category, { pointsLost: 0, changes: 0, attempts: 0, changeEvidenceCount: 0, eligibleAttempts: 0 });
@@ -201,13 +219,13 @@ export default function TrustYourGut() {
       }))
       .filter(c => c.attempts >= 3 && c.changeRate !== null && c.changeRate > 0)
       .sort((a, b) => (b.pointsLost ?? -1) - (a.pointsLost ?? -1));
-  }, [modeAttempts]);
+  }, [candidateAttempts]);
 
   // Trend data (last 10 sessions)
   const trendData = useMemo(() => {
     const sessionMap = new Map<string, { firstCorrect: number; firstTotal: number; finalCorrect: number; total: number; date: string }>();
     
-    modeAttempts.filter(a => !!a.session_id && !!a.questions?.correct_answer && answersMatch(a.selected_answer, a.questions.correct_answer) === a.is_correct).forEach(a => {
+    candidateAttempts.filter(a => !!a.session_id && !!a.questions?.correct_answer && answersMatch(a.selected_answer, a.questions.correct_answer) === a.is_correct).forEach(a => {
       if (!sessionMap.has(a.session_id!)) {
         sessionMap.set(a.session_id!, { firstCorrect: 0, firstTotal: 0, finalCorrect: 0, total: 0, date: a.created_at.split('T')[0] });
       }
@@ -232,7 +250,7 @@ export default function TrustYourGut() {
         firstInstinct: s.firstTotal > 0 ? Math.round((s.firstCorrect / s.firstTotal) * 100) : null,
         final: s.total > 0 ? Math.round((s.finalCorrect / s.total) * 100) : 0
       }));
-  }, [modeAttempts]);
+  }, [candidateAttempts]);
 
   const chartConfig = {
     firstInstinct: { label: 'First Instinct', color: 'hsl(var(--primary))' },
@@ -269,12 +287,15 @@ export default function TrustYourGut() {
 
   return (
     <div className="space-y-6">
-        <section aria-label="Practice mode" className="space-y-2">
-          <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Practice mode · kept separate</p>
-          <div role="group" aria-label="Choose practice mode" className="flex flex-wrap gap-2">
-            {([{id:'normal_mcq',label:'Normal MCQ'},{id:'amc_exam',label:'AMC Exam mode'},{id:'nudge',label:'Nudge'}] as const).map(mode => <Button key={mode.id} type="button" variant={selectedMode===mode.id?'default':'outline'} aria-pressed={selectedMode===mode.id} className="min-h-11" onClick={() => setSelectedMode(mode.id)}>{mode.label}</Button>)}
-          </div>
-          {modeAttempts.length===0 && <p role="status" className="text-xs text-muted-foreground">No attempts with verified mode labels are available for this mode. Ambiguous legacy sessions are not included.</p>}
+        <section aria-label="Candidate-wide evidence" className="space-y-2">
+          <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Candidate-wide view · practice context retained</p>
+          {modeBreakdown.length > 0 ? (
+            <div className="flex flex-wrap gap-2" aria-label="Included practice-mode evidence">
+              {modeBreakdown.map(mode => <Badge key={mode.mode} variant="outline">{mode.label}: {mode.count} attempts</Badge>)}
+            </div>
+          ) : (
+            <p role="status" className="text-xs text-muted-foreground">No attempts with verified mode labels are available. Ambiguous legacy sessions are not included.</p>
+          )}
         </section>
         {/* P5: the old client-graded "training" retake was removed (it read answer keys in the
             browser and recorded nothing). First-instinct training now happens in PIE Practice,
