@@ -34,7 +34,10 @@ export default function AILab() {
   const [result, setResult] = useState('');
   const [pie, setPie] = useState<PiePayload | null>(null);
   const [sources, setSources] = useState<Source[]>([]);
-  const [snapshotAt, setSnapshotAt] = useState<string | null>(null);\n  const [latestSnapshotAt, setLatestSnapshotAt] = useState<string | null>(null);\n  const [checkingSnapshot, setCheckingSnapshot] = useState(false);\n  const [snapshotCheckMessage, setSnapshotCheckMessage] = useState('');
+  const [snapshotAt, setSnapshotAt] = useState<string | null>(null);
+  const [latestSnapshotAt, setLatestSnapshotAt] = useState<string | null>(null);
+  const [checkingSnapshot, setCheckingSnapshot] = useState(false);
+  const [snapshotCheckMessage, setSnapshotCheckMessage] = useState('');
   const [history, setHistory] = useState<Session[]>([]);
   const [expandedSession, setExpandedSession] = useState<string | null>(null);
   const [showAllHistory, setShowAllHistory] = useState(false);
@@ -108,7 +111,8 @@ export default function AILab() {
       setResult(typeof data.result === 'string' ? data.result : FALLBACK);
       setPie(data.pie && typeof data.pie === 'object' ? data.pie as PiePayload : null);
       setSources(Array.isArray(data.sources) ? data.sources as Source[] : []);
-      setSnapshotAt(typeof data.snapshot_at === 'string' ? data.snapshot_at : null);\n      setLatestSnapshotAt(null); setSnapshotCheckMessage('');
+      setSnapshotAt(typeof data.snapshot_at === 'string' ? data.snapshot_at : null);
+      setLatestSnapshotAt(null); setSnapshotCheckMessage('');
       setLastPrompt(question.trim()); setPrompt('');
       await loadHistory();
     } catch (e) { toast({ title: 'AI Lab error', description: e instanceof Error ? e.message : 'Unable to explain PIE.', variant: 'destructive' }); }
