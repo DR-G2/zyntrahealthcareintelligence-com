@@ -1,11 +1,11 @@
-# Admin Genjutsu redesign
-
 # Sign-in runtime correction
 
 - [x] Trace the rejected V2 bridge request: recorded after legacy logout.
 - [x] Guard bridging against logout/account changes and bound expired-session retry; retain server verification.
-- [ ] Run focused authentication regressions and verify the login screen; no publishing or production data writes.
+- [x] Ten focused authentication/configuration tests passed; login renders without page errors; preview build OK.
+- [ ] Live signed-in bridge verification — blocked: bridge writes identity/profile records to the shared production backend; separate approval required.
 
+# Admin Genjutsu redesign
 
 - [x] Inspect current implementation and reuse existing admin controls; PR #96 is not available in accessible remote refs.
 - [x] Correct navigation containment and modernise existing admin presentation only.
