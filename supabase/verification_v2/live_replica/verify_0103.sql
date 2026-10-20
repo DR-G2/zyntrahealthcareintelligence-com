@@ -18,7 +18,7 @@ begin
   v_amc := v_state->'mode_evidence'->'amc_exam';
 
   if (v_normal->'capability'->>'latest_observation_at')::timestamptz is distinct from v_expected_normal then
-    raise exception 'FAIL 0103 capability timestamp not latest valid Normal MCQ observation';
+    raise exception 'FAIL 0103 capability timestamp: expected %, got %', v_expected_normal, v_normal->'capability'->>'latest_observation_at';
   end if;
   if (v_normal->'decision'->>'latest_observation_at')::timestamptz is distinct from v_expected_normal then
     raise exception 'FAIL 0103 decision timestamp not dimension-specific';
