@@ -103,7 +103,7 @@ function validatePieExplanation(answer: string, context: any): string {
   const lower = answer.toLowerCase();
   if (labels.some(label => lower.includes(label) && !(context?.modeEvidence ?? []).some((m: any) => (m.dimensions ?? []).some((d: any) => String(d.label).toLowerCase() === label)))) return fallback;
   if (/\b(pass likelihood|likely to pass|clinical diagnosis|treatment plan|drug dose|ranked candidates|weakest subject)\b/i.test(answer)) return fallback;
-  if (/\\b(zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand)\\s+(observations?|answers?|questions?|percent|per cent|levels?)\\b/i.test(answer)) return fallback;
+  if (/\b(zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand)\s+(observations?|answers?|questions?|percent|per cent|levels?)\b/i.test(answer)) return fallback;
   return answer.trim() || fallback;
 }
 Deno.serve(async (req) => {
