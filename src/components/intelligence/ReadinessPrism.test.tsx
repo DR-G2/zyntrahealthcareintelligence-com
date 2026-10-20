@@ -46,7 +46,7 @@ describe("Intelligence overview", () => {
     render(<MemoryRouter><ReadinessPrism evidence={fixture()} loading={false} retry={() => {}} /></MemoryRouter>);
     expect(screen.queryByLabelText(/Six-dimensional PIE map/)).not.toBeInTheDocument();
     fireEvent.click(screen.getByRole("button", { name: "Timing control" }));
-    expect(screen.getByText(/Timing requires 50 valid observations for this dimension/)).toBeInTheDocument();
+    expect(screen.getByText("Verified mode-specific timing evidence is unavailable; no cross-mode estimate is shown")).toBeInTheDocument();
   });
 
   it("explains when a signal is below its evidence threshold versus missing mode-scoped provenance", () => {
