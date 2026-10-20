@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronDown, ShieldCheck, ArrowRight, Activity } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { DIMENSIONS, normalizePracticeMode, type Dimension, type IntelligenceEvidence, type PracticeMode, type SafeAttempt } from "@/lib/pie/intelligence-evidence";
+import { normalizePracticeMode, type Dimension, type IntelligenceEvidence, type PracticeMode, type SafeAttempt } from "@/lib/pie/intelligence-evidence";
 import { authoritativePrismLayer, MIN_DIMENSION_OBSERVATIONS } from "@/lib/pie/readiness-prism-adapter";
 
 const LABELS: Record<Dimension, string> = {
@@ -91,9 +91,9 @@ export function ReadinessPrism({ evidence, loading, retry }: { evidence: Intelli
           const count = item.evidenceCount;
           const enough = count !== null && count >= MIN_DIMENSION_OBSERVATIONS && item.estimate !== null;
           const display = enough ? pct(item.estimate) + "%" : count !== null && count < MIN_DIMENSION_OBSERVATIONS ? "Building" : "Unavailable";
-          return <article key={name} className="rounded-xl border border-border/70 bg-card/40">
+          return <article key={name} className={"rounded-xl border border-border/70 bg-card/40 " + (name === "capability" ? "sm:col-span-2 border-primary/30" : "")}>
             <button type="button" aria-expanded={isOpen} onClick={() => setExpanded(isOpen ? null : name)} className="flex min-h-[84px] w-full items-center gap-3 p-4 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
-              <span className="min-w-0 flex-1"><span className="block text-sm font-medium">{LABELS[name]}</span><span className="mt-1 block font-display text-xl font-semibold">{display}</span>
+              <span className="min-w-0 flex-1"><span className="block text-sm font-medium">{LABELS[name]}</span><span className={"mt-1 block font-display font-semibold " + (name === "capability" ? "text-2xl" : "text-xl")}>{display}</span>
               <span className="mt-1 block text-xs text-muted-foreground">{count !== null && count < MIN_DIMENSION_OBSERVATIONS ? "Building, " + count + " of " + MIN_DIMENSION_OBSERVATIONS : count === null ? "Valid observation count unavailable" : count + " valid observations"}</span><span className="mt-1 block text-xs text-muted-foreground">Latest: {dateLabel(item.latestObservationAt) ?? "Unavailable"}</span></span>
               <ChevronDown aria-hidden="true" className={"h-4 w-4 shrink-0 transition-transform " + (isOpen ? "rotate-180" : "")} />
             </button>
