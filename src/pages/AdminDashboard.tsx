@@ -38,7 +38,7 @@ import { VisitorIntelligenceTab } from '@/components/admin/VisitorIntelligenceTa
 import { PIEInspectionTab } from '@/components/admin/PIEInspectionTab';
 import { Download, Globe } from 'lucide-react';
 
-import { getAdminSections } from '@/components/admin/admin-navigation';
+import { adminNavigationGroups, getAdminSections } from '@/components/admin/admin-navigation';
 import { ArrowUpRight, Settings2, ShieldCheck, RefreshCw } from 'lucide-react';
 import { ADMIN_EMAILS, SUPER_ADMIN_EMAIL } from '@/lib/admin-emails';
 
@@ -1711,21 +1711,8 @@ export default function AdminDashboard() {
                 <h3 className="font-semibold flex items-center gap-2"><Zap className="h-4 w-4 text-primary" /> Run Full Cleanup</h3>
                 <p className="text-sm text-muted-foreground">Clean & normalize both MCQ questions and OSCE stations in one go.</p>
               </div>
-              <AlertDialog>
-                <AlertDialogTrigger asChild>
-                  <Button variant="destructive" disabled={fullCleaning}>{fullCleaning && <Loader2 className="h-4 w-4 mr-2 animate-spin" />} Run Full Cleanup</Button>
-                </AlertDialogTrigger>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>Run full cleanup on MCQ + OSCE?</AlertDialogTitle>
-                    <AlertDialogDescription>This will permanently delete junk/duplicate questions AND stations. This cannot be undone.</AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction onClick={runFullCleanup}>Run Full Cleanup</AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
+              <div className="space-y-2 text-right"><Button variant="destructive" disabled title="Disabled until a server-side dry-run, typed confirmation, and reliable audit logging are implemented">Run Full Cleanup (Unavailable)</Button><p className="max-w-md text-xs text-muted-foreground">A server-side dry-run, typed confirmation and reliable audit log are not available. No cleanup has been run.</p></div>
+
             </CardContent>
           </Card>
         )}
@@ -1735,17 +1722,40 @@ export default function AdminDashboard() {
         {/* Site Settings — Super Admin only */}
         {isSuperAdmin && <section aria-label="Feature settings" className="space-y-3"><h2 className="flex items-center gap-2 text-sm font-semibold"><Settings2 className="h-4 w-4 text-primary" /> Feature Settings</h2><SiteSettingsCard /></section>}
         {isSuperAdmin && <section aria-label="PIE intelligence boundary" className="grid gap-4 border-y border-border/60 py-5 sm:grid-cols-2">
-          <div className="flex items-start gap-3"><ShieldCheck className="mt-1 h-5 w-5 shrink-0 text-primary" /><div><h2 className="text-sm font-semibold">Authoritative readiness</h2><p className="mt-1 text-xs text-muted-foreground">Readiness DNA remains the source of candidate training readiness.</p></div></div>
-          <div className="flex items-start gap-3"><Brain className="mt-1 h-5 w-5 shrink-0 text-warning" /><div><div className="flex flex-wrap items-center gap-2"><h2 className="text-sm font-semibold">PIE shadow inference</h2><Badge variant="outline" className="border-warning/40 text-warning">Not authoritative</Badge></div><p className="mt-1 text-xs text-muted-foreground">Experimental inspection; does not determine candidate training decisions.</p><Button variant="link" className="h-auto px-0 py-2" onClick={() => setActiveTab('pie')}>Open PIE inspection <ArrowUpRight className="ml-1 h-3 w-3" /></Button></div></div>
+          <div className="flex items-start gap-3"><ShieldCheck className="mt-1 h-5 w-5 shrink-0 text-primary" /><div><h2 className="text-sm font-semibold">Candidate training state</h2><p className="mt-1 text-xs text-muted-foreground">Candidate-facing PIE reads the canonical candidate state. Separate legacy workflows may use other readiness signals.</p></div></div>
+          <div className="flex items-start gap-3"><Brain className="mt-1 h-5 w-5 shrink-0 text-warning" /><div><div className="flex flex-wrap items-center gap-2"><h2 className="text-sm font-semibold">Experimental internal diagnostics</h2><Badge variant="outline" className="border-warning/40 text-warning">Admin-only</Badge></div><p className="mt-1 text-xs text-muted-foreground">For admin inspection only. These estimates do not replace candidate-facing PIE state.</p><Button variant="link" className="h-auto px-0 py-2" onClick={() => setActiveTab('pie')}>Open PIE inspection <ArrowUpRight className="ml-1 h-3 w-3" /></Button></div></div>
         </section>}
 
         <Tabs id="admin-sections" value={activeTab} onValueChange={setActiveTab} className="min-w-0 scroll-mt-20">
-          <div className="min-w-0 max-w-full overflow-x-auto rounded-lg border border-border/60 bg-secondary p-1">
-            <TabsList aria-label="Admin sections" className="flex h-auto w-max min-w-full justify-start gap-1 border-0 bg-transparent p-0">
-              {sections.map(section => <TabsTrigger key={section.value} value={section.value} className="min-h-11 shrink-0 gap-2 px-4 text-xs data-[state=active]:bg-accent data-[state=active]:text-primary" onFocus={event => event.currentTarget.scrollIntoView({ block: 'nearest', inline: 'nearest' })}><section.icon className="h-4 w-4" />{section.label}</TabsTrigger>)}
-            </TabsList>
-          </div>
-          <TabsContent value="live"><LiveActivityTab /></TabsContent>
+          <div className="grid min-w-0 gap-4 lg:grid-cols-[13rem_minmax(0,1fr)]">
+            <nav aria-label="Command Centre navigation" className="hidden lg:block rounded-lg border border-border/60 bg-card p-2">
+              {adminNavigationGroups.map(group => {
+                const items = group.items.filter(item => sections.some(section => section.value === item.value));
+                if (!items.length) return null;
+                return <section key={group.label} className="mb-3 last:mb-0">
+                  <h2 className="px-2 pb-1 pt-2 text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">{group.label}</h2>
+                  <div className="space-y-1">{items.map(item => {
+                    const Icon = item.icon;
+                    const selected = activeTab === item.value;
+                    return <Button key={item.value} type="button" variant={selected ? 'secondary' : 'ghost'} aria-current={selected ? 'page' : undefined} className="h-10 w-full justify-start gap-2 px-2 text-sm" onClick={() => setActiveTab(item.value)}><Icon className="h-4 w-4 shrink-0" />{item.label}</Button>;
+                  })}</div>
+                </section>;
+              })}
+            </nav>
+            <div className="min-w-0 space-y-3">
+              <div className="lg:hidden">
+                <label htmlFor="admin-mobile-section" className="mb-1 block text-xs font-medium text-muted-foreground">Command Centre section</label>
+                <Select value={activeTab} onValueChange={setActiveTab}>
+                  <SelectTrigger id="admin-mobile-section" className="w-full"><SelectValue placeholder="Choose a section" /></SelectTrigger>
+                  <SelectContent>{sections.map(section => <SelectItem key={section.value} value={section.value}>{section.label}</SelectItem>)}</SelectContent>
+                </Select>
+              </div>
+              <div className="min-w-0 max-w-full overflow-x-auto rounded-lg border border-border/60 bg-secondary p-1 lg:hidden">
+                <TabsList aria-label="Admin sections" className="flex h-auto w-max min-w-full justify-start gap-1 border-0 bg-transparent p-0">
+                  {sections.map(section => <TabsTrigger key={section.value} value={section.value} className="min-h-11 shrink-0 gap-2 px-4 text-xs">{section.label}</TabsTrigger>)}
+                </TabsList>
+              </div>
+          <div className="min-w-0 overflow-x-auto [scrollbar-gutter:stable]"><TabsContent value="live"><LiveActivityTab /></TabsContent>
           <TabsContent value="users"><UsersTab currentUserEmail={currentUserEmail} /></TabsContent>
           <TabsContent value="messages"><MessagesTab /></TabsContent>
           <TabsContent value="qns"><QNSTab /></TabsContent>
@@ -1756,7 +1766,8 @@ export default function AdminDashboard() {
           {isSuperAdmin && <TabsContent value="data-port"><DataPortabilityTab /></TabsContent>}
           {isSuperAdmin && <TabsContent value="system"><SystemMonitorTab /></TabsContent>}
           {isSuperAdmin && <TabsContent value="logs"><ActivityLogsTab /></TabsContent>}
-          {isSuperAdmin && <TabsContent value="pie"><PIEInspectionTab /></TabsContent>}
+          {isSuperAdmin && <TabsContent value="pie"><PIEInspectionTab /></TabsContent>}</div>
+          </div>
         </Tabs>
       </div>
     </AppLayout>
