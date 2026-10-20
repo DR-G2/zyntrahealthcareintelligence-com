@@ -45,7 +45,7 @@ describe("Intelligence overview", () => {
   it("removes the radar map from the candidate view and preserves unavailable dimension states", () => {
     render(<MemoryRouter><ReadinessPrism evidence={fixture()} loading={false} retry={() => {}} /></MemoryRouter>);
     expect(screen.queryByLabelText(/Six-dimensional PIE map/)).not.toBeInTheDocument();
-    fireEvent.click(screen.getByRole("button", { name: "Timing control" }));
+    fireEvent.click(screen.getByRole("button", { name: /Timing control/ }));
     expect(screen.getByText("Verified mode-specific timing evidence is unavailable; no cross-mode estimate is shown")).toBeInTheDocument();
   });
 
