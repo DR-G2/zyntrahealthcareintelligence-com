@@ -4,31 +4,7 @@ import { openaiAdapter } from "./providers/openai.ts";
 
 const PROVIDERS: Record<string, ProviderAdapter> = { openai: openaiAdapter };
 const MODES = ["performance"] as const;
-const CLIENT_EVENTS = new Set(["question_started", "answer_submitted", "answer_changed", "hint_requested", "explanation_requested"]);
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-
-// Strict structured output needs an object root.
-const QUESTION_SCHEMA = {
-  type: "object",
-  additionalProperties: false,
-  properties: {
-    questions: {
-      type: "array",
-      items: {
-        type: "object",
-        additionalProperties: false,
-        properties: {
-          stem: { type: "string" },
-          options: { type: "array", items: { type: "string" } },
-          correct_answer: { type: "string" },
-          explanation: { type: "string" },
-        },
-        required: ["stem", "options", "correct_answer", "explanation"],
-      },
-    },
-  },
-  required: ["questions"],
-};
 
 function fail(e: LabError) {
   return json({ success: false, error: e.message, code: e.code, details: e.details ?? null }, e.status);
@@ -56,20 +32,6 @@ async function decrypt(value: string, secret: string) {
   } catch {
     throw new LabError("CONFIGURATION_ERROR", "Stored credential could not be read. Disconnect and reconnect your API key.", 409);
   }
-}
-
-function validateQuestions(payload: any) {
-  const list = payload?.questions;
-  if (!Array.isArray(list) || !list.length) return null;
-  const out = list.map((q: any) => {
-    if (!q || typeof q.stem !== "string" || !Array.isArray(q.options) || typeof q.correct_answer !== "string" || typeof q.explanation !== "string") return null;
-    const options = q.options.filter((o: unknown) => typeof o === "string").map((o: string) => o.trim().slice(0, 1000)).filter(Boolean);
-    const uniqueOptions = new Set(options.map((o: string) => o.toLowerCase()));
-    if (options.length !== 5 || uniqueOptions.size !== 5 || !options.includes(q.correct_answer.trim())) return null;
-    if (!q.stem.trim() || !q.explanation.trim()) return null;
-    return { stem: q.stem.trim().slice(0, 5000), options, correct_answer: q.correct_answer.trim().slice(0, 1000), explanation: q.explanation.trim().slice(0, 5000) };
-  });
-  return out.every(Boolean) ? out : null;
 }
 
 const r1 = (n: unknown) => (typeof n === "number" || typeof n === "string") && Number.isFinite(Number(n)) ? Math.round(Number(n) * 10) / 10 : null;
@@ -241,40 +203,12 @@ Deno.serve(async (req) => {
       await audit("history", { metadata: { count: (data ?? []).length } }); return json({ success: true, sessions: data ?? [] });
     }
 
-    if (action === "log_event") {
-      const type = body.event_type;
-      const sessionId = body.session_id;
-      if (!CLIENT_EVENTS.has(type) || typeof sessionId !== "string" || !UUID.test(sessionId)) {
-        throw new LabError("INVALID_REQUEST", "Invalid AI Lab event.", 400);
-      }
-      const { data: s } = await sb.from("ai_lab.sessions").select("id, provider, model, mode, subject").eq("id", sessionId).eq("user_id", caller.userId).maybeSingle();
-      if (!s) throw new LabError("INVALID_REQUEST", "Session not found.", 404);
-      const num = (v: unknown, max: number) => (typeof v === "number" && Number.isFinite(v) ? Math.max(0, Math.min(max, Math.round(v))) : null);
-      const qi = num(body.question_index, 50);
-      const { error } = await sb.from("ai_lab.interactions").insert({
-        user_id: caller.userId, session_id: s.id, event_type: type, provider: s.provider, model: s.model, mode: s.mode, subject: s.subject,
-        duration_ms: num(body.duration_ms, 3_600_000), confidence: num(body.confidence, 100), answer_changes: num(body.answer_changes, 100),
-        metadata: { question_index: qi, is_correct: typeof body.is_correct === "boolean" ? body.is_correct : null },
-      });
-      if (error) throw new LabError("DATABASE_ERROR", "Unable to record the event.", 500);
-      await audit("interaction_event", { session_id: s.id, provider: s.provider, model: s.model, mode: s.mode, metadata: { event_type: type, question_index: qi } }); return json({ success: true });
-    }
-
     if (action === "run") {
+      if (body.provider !== undefined && body.provider !== "openai") throw new LabError("INVALID_REQUEST", "Only OpenAI is supported.", 400);
+      if (body.mode !== "performance") throw new LabError("INVALID_REQUEST", "Only Explain my PIE is available in AI Lab V1.", 400);
       const conn = await loadConnection();
       if (!conn) throw new LabError("CONFIGURATION_ERROR", "Connect your provider before starting an AI Lab session.", 400);
-      const mode = MODES.find((m) => m === body.mode);
-      if (!mode) throw new LabError("INVALID_REQUEST", "Unsupported AI Lab mode.", 400);
-
-      const apiKey = await decrypt(conn.encrypted_api_key, getEncryptionSecret());
-      const models = await adapter.listModels(apiKey);
-      const model = typeof body.model === "string" && models.includes(body.model) ? body.model : null;
-      if (!models.length) throw new LabError("NO_SUPPORTED_MODEL", "No supported model is available for this API credential.", 403);
-      if (!model) throw new LabError("INVALID_REQUEST", "Selected model is not available for this API credential.", 400);
-
-      if (body.mode !== "performance") throw new LabError("INVALID_REQUEST", "Only Explain my PIE is available in AI Lab V1.", 400);
-      if (body.provider !== undefined && body.provider !== "openai") throw new LabError("INVALID_REQUEST", "Only OpenAI is supported.", 400);
-      const mode = "performance";
+      const mode = "performance" as const;
       const apiKey = await decrypt(conn.encrypted_api_key, getEncryptionSecret());
       const models = await adapter.listModels(apiKey);
       const model = typeof body.model === "string" && models.includes(body.model) ? body.model : null;
