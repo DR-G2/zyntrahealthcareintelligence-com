@@ -1,3 +1,4 @@
+import { createClient, type SupabaseClient } from "npm:@supabase/supabase-js@2";
 import { corsHeaders, json, requireUser, serviceClient } from "./_shared/auth.ts";
 import { LabError, type ProviderAdapter } from "./providers/types.ts";
 import { openaiAdapter } from "./providers/openai.ts";
@@ -40,7 +41,7 @@ const validFraction = (value: unknown): number | null => typeof value === "numbe
 const iso = (value: unknown): string | null => typeof value === "string" && Number.isFinite(Date.parse(value)) ? value : null;
 
 /** Mirrors the candidate-facing authoritative PIE dimension gate; never substitutes hidden/internal sources. */
-async function buildContext(sb: ReturnType<typeof serviceClient>, userId: string) {
+async function buildContext(sb: SupabaseClient, userId: string) {
   const { data, error } = await sb.from("my_pie_state")
     .select("state,calculated_at,updated_at")
     .eq("user_id", userId)
@@ -181,6 +182,11 @@ Deno.serve(async (req) => {
   const body = await req.json().catch(() => ({}));
   const action = body?.action;
   const sb = serviceClient();
+  // Candidate-facing security-invoker views require the caller JWT; service-role queries make auth.uid() null.
+  const userSb = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_ANON_KEY")!, {
+    global: { headers: { Authorization: req.headers.get("Authorization") ?? "" } },
+    auth: { persistSession: false },
+  });
 
   try {
     // Do not require the encryption secret for read-only/status/telemetry actions.
@@ -228,7 +234,7 @@ Deno.serve(async (req) => {
     };
 
     if (action === "pie_snapshot") {
-      const pie = await buildContext(sb, caller.userId);
+      const pie = await buildContext(userSb, caller.userId);
       return json({ success: true, pie, snapshot_at: pie.snapshotAt });
     }
 
@@ -288,7 +294,7 @@ Deno.serve(async (req) => {
       if (!model) throw new LabError("INVALID_REQUEST", "Selected model is not available for this API credential.", 400);
       const task = typeof body.prompt === "string" ? body.prompt.trim().slice(0, 2000) : "";
       if (!task) throw new LabError("INVALID_REQUEST", "Ask a question about your Performance Intelligence page.", 400);
-      const context = await buildContext(sb, caller.userId);
+      const context = await buildContext(userSb, caller.userId);
       const { data: session, error: sErr } = await sb.schema("ai_lab").from("sessions").insert({
         user_id: caller.userId, provider: "openai", model, mode, use_intelligence: true,
         context_attached: true, status: "running", prompt: task,
