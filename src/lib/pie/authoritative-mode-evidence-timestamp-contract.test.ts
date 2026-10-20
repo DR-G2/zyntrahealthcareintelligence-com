@@ -8,27 +8,26 @@ const migration = readFileSync(
 );
 
 describe("authoritative mode-scoped observation timestamps", () => {
-  it("adds latest timestamps to each mode-specific dimension without changing the estimator", () => {
-    expect(migration).toContain("create or replace function pie._authoritative_mode_evidence(p_user_id uuid, p_mode text)");
+  it("attaches timestamps to every dimension within each explicit mode", () => {
+    expect(migration).toContain("create or replace function pie._attach_mode_evidence_timestamps()");
+    expect(migration).toContain("array['normal_mcq','amc_exam','nudge']");
+    expect(migration).toContain("'capability','decision','timing','calibration','sustained_performance','learning'");
     expect(migration).toContain("'latest_observation_at', v_latest");
-    expect(migration).toContain("o.provenance->>'practice_mode' = p_mode");
+    expect(migration).toContain("o.provenance->>'practice_mode' = v_mode");
     expect(migration).toContain("max(o.observed_at)");
+  });
+
+  it("uses signal-specific validity predicates and does not query shadow inference", () => {
     expect(migration).toContain("o.payload->>'outcome' in ('CORRECT','INCORRECT')");
     expect(migration).toContain("v_dimension = 'timing'");
     expect(migration).toContain("v_dimension = 'decision'");
     expect(migration).toContain("v_dimension = 'calibration'");
+    expect(migration).not.toMatch(/\b(?:from|join)\s+pie\.inference_(?:shadow|projection)\b/i);
   });
 
-  it("preserves the existing estimate formula and shadow-inference isolation", () => {
-    expect(migration).toContain("v_mean := 1 - abs(coalesce(v_confidence_mean, 0.5::numeric) - coalesce(v_calibration_outcome_mean, 0::numeric))");
-    expect(migration).toContain("round(v_mean, 4)");
-    expect(migration).not.toMatch(/\\b(?:from|join)\\s+pie\\.inference_(?:shadow|projection)\\b/i);
+  it("keeps the change metadata-only and locks down the trigger function", () => {
+    expect(migration).toContain("Does not alter estimates, counts, inference formulas");
+    expect(migration).toContain("revoke all on function pie._attach_mode_evidence_timestamps() from public, anon, authenticated, service_role");
     expect(migration).toContain("update pie.pie_candidate_state set state = state");
-  });
-
-  it("computes timestamps independently for each mode and dimension", () => {
-    expect(migration).toContain("foreach v_mode in array array['normal_mcq','amc_exam','nudge']");
-    expect(migration).toContain("foreach v_dimension in array array[");
-    expect(migration).toContain("'latest_observation_at', v_latest");
   });
 });
