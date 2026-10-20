@@ -1594,6 +1594,7 @@ export default function AdminDashboard() {
           {isSuperAdmin && <TabsContent value="system"><SystemMonitorTab /></TabsContent>}
           {isSuperAdmin && <TabsContent value="logs"><ActivityLogsTab /></TabsContent>}
           {isSuperAdmin && <TabsContent value="pie"><PIEInspectionTab /></TabsContent>}</div>
+            </div>
           </div>
         </Tabs>
       </div>
