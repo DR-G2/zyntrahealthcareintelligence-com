@@ -34,6 +34,7 @@ import { ADMIN_EMAILS } from '@/lib/admin-emails';
 import { fetchLegacyShapedHistory } from '@/lib/pie/pie-history-client';
 import { getSupabaseV2 } from '@/integrations/supabase/v2-client';
 import { ensureV2Session } from '@/lib/migration/v2-practice-session';
+import { classifyPracticeResumeConfig } from '@/lib/practice-mode-availability';
 
 interface Question {
   id: string;
@@ -1295,9 +1296,8 @@ export default function Practice() {
         const { data, error } = await supabase.from('active_sessions').select('config')
           .eq('session_id', resumeSessionId).eq('user_id', user.id).maybeSingle();
         if (error || !data) throw error ?? new Error('Saved session could not be verified.');
-        const saved = data.config && typeof data.config === 'object' ? data.config as Record<string, unknown> : {};
-        const blocked = saved.primaryMode === 'mock' || saved.primaryMode === 'nudge' || saved.mode === 'full-mock';
-        if (!cancelled) setResumeGate(blocked ? 'blocked' : 'allowed');
+        const availability = classifyPracticeResumeConfig(data.config);
+        if (!cancelled) setResumeGate(availability);
       } catch {
         // Fail closed when the session's mode cannot be verified. No session is
         // deleted or modified, and the candidate can retry the read.
