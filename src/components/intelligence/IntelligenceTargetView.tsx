@@ -132,9 +132,7 @@ export function ReadinessPrism({ evidence, loading, retry }: { evidence: Intelli
         ? <p className="mt-1 text-sm text-muted-foreground">No clear change</p>
         : afterAction.length < 15 || beforeAction.length < 15
         ? <p className="mt-1 text-sm text-muted-foreground">Not enough practice since the suggestion.</p>
-        : beforeAction.length < 15
-          ? <p className="mt-1 text-sm text-muted-foreground">Not enough practice since the suggestion.</p>
-          : <div className="mt-2 space-y-2 text-sm">
+        : <div className="mt-2 space-y-2 text-sm">
               <p>Before suggestion ({dateLabel(action.at) ? "before " + dateLabel(action.at) : "earlier"}): {Math.round((beforeRate ?? 0) * 100)}%, n={beforeAction.length}, 95% interval {Math.round((beforeInterval![0]) * 100)}% to {Math.round((beforeInterval![1]) * 100)}%.</p>
               <p>After suggestion: {Math.round((afterRate ?? 0) * 100)}%, n={afterAction.length}, 95% interval {Math.round((afterInterval![0]) * 100)}% to {Math.round((afterInterval![1]) * 100)}%. Latest: {dateLabel(latestAt(afterAction)) ?? "Unavailable"}.</p>
               <p className="text-muted-foreground">{distinguishable ? "The observed results differ beyond these intervals. This is an association over time, not evidence that the suggestion caused the change." : "No clear change"}</p>
