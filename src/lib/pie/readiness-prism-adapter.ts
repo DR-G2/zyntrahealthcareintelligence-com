@@ -3,6 +3,7 @@ import { DIMENSIONS, normalizePracticeMode, type Dimension, type DimensionEviden
 export type PrismLayer = "observed" | "authoritative" | "shadow";
 export type PrismDimensionValue = {
   dimension: Dimension;
+  latestObservationAt: string | null;
   estimate: number | null;
   uncertainty: number | null;
   lower: number | null;
@@ -27,7 +28,7 @@ export type PrismLayerModel = {
 export const MIN_DIMENSION_OBSERVATIONS = 50;
 
 const EMPTY_DIMENSIONS = (): PrismDimensionValue[] => DIMENSIONS.map(dimension => ({
-  dimension, estimate: null, uncertainty: null, lower: null, upper: null, evidenceCount: null, evidenceQuality: null, estimateAligned: null, calibrationReady: null, confidenceLevelCounts: null,
+  dimension, latestObservationAt: null, estimate: null, uncertainty: null, lower: null, upper: null, evidenceCount: null, evidenceQuality: null, estimateAligned: null, calibrationReady: null, confidenceLevelCounts: null, 
 }));
 
 function validFraction(value: unknown): number | null {
@@ -69,8 +70,10 @@ function statePrismLayer(state: StateEvidence, selectedMode: PracticeMode | null
     const sourceEstimate = selectedModeEvidence
       ? validFraction(selectedModeEvidence[dimension]?.estimate)
       : legacyModeScope ? validFraction(state.dimensions[dimension]) : null;
+    const latestObservationAt = validTimestamp(metadata?.latestObservationAt);
     const calibrationReady = dimension !== "calibration" || metadata?.calibrationReady === true;
-    const eligible = evidenceCount !== null
+    const eligible = latestObservationAt !== null
+      && evidenceCount !== null
       && evidenceCount >= MIN_DIMENSION_OBSERVATIONS
       && evidenceQuality !== null
       && evidenceQuality > 0
@@ -85,6 +88,7 @@ function statePrismLayer(state: StateEvidence, selectedMode: PracticeMode | null
       && rawLower <= rawUpper && rawLower <= sourceEstimate && sourceEstimate <= rawUpper;
     return {
       dimension,
+      latestObservationAt,
       estimate: eligible ? sourceEstimate : null,
       uncertainty,
       lower: intervalValid ? rawLower : null,
@@ -102,7 +106,8 @@ function statePrismLayer(state: StateEvidence, selectedMode: PracticeMode | null
     && ((item.uncertainty === null && item.lower === null && item.upper === null)
       || (item.uncertainty !== null && item.lower !== null && item.upper !== null)));
   const sufficient = modeScoped && complete && metadataComplete
-    && dimensions.every(item => item.evidenceCount !== null
+    && dimensions.every(item => item.latestObservationAt !== null
+      && item.evidenceCount !== null
       && item.evidenceCount >= MIN_DIMENSION_OBSERVATIONS
       && item.evidenceQuality !== null && item.evidenceQuality > 0
       && item.estimateAligned === true
@@ -120,7 +125,7 @@ function statePrismLayer(state: StateEvidence, selectedMode: PracticeMode | null
       ? "Mode-specific PIE evidence is unavailable for this practice mode. No cross-mode estimate is shown."
       : calibration?.evidenceCount !== null && (calibration?.evidenceCount ?? 0) >= MIN_DIMENSION_OBSERVATIONS && calibration?.calibrationReady !== true
         ? "Calibration remains unavailable until at least 15 valid scored answers exist at each confidence level (1–5) in this mode."
-        : "Building evidence: each dimension needs at least 50 valid observations. Missing dimension counts remain unavailable.",
+        : "Building, dimension-specific observation timestamps are unavailable until the evidence source supplies them.", 
   };
 }
 
