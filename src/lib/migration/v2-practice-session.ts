@@ -36,8 +36,9 @@ export interface V2PracticeQuestion {
 export async function ensureV2Session(): Promise<void> {
   const v2 = getSupabaseV2();
   const { data: legacySession } = await supabase.auth.getSession();
-  const legacyAccessToken = legacySession.session?.access_token;
+  let legacyAccessToken = legacySession.session?.access_token;
   const legacyEmail = legacySession.session?.user?.email?.toLowerCase() ?? '';
+  const legacyUserId = legacySession.session?.user?.id;
 
   const { data: existing } = await v2.auth.getSession();
   const existingEmail = existing.session?.user?.email?.toLowerCase() ?? '';
@@ -53,20 +54,42 @@ export async function ensureV2Session(): Promise<void> {
   if (existingEmail && legacyEmail && existingEmail === legacyEmail) return;
   if (existing.session) await v2.auth.signOut({ scope: 'local' }).catch(() => undefined);
 
+  // Async callers may outlive logout or an account switch. Never bridge their stale token.
+  const requireCurrentLegacySession = async () => {
+    const { data, error } = await supabase.auth.getSession();
+    const current = data.session;
+    if (error || !current?.access_token || current.user.id !== legacyUserId
+      || current.user.email?.toLowerCase() !== legacyEmail) {
+      await v2.auth.signOut({ scope: 'local' }).catch(() => undefined);
+      throw new Error('Your current Zyntra session has expired. Please sign in again.');
+    }
+    return current;
+  };
+  legacyAccessToken = (await requireCurrentLegacySession()).access_token;
+
   const { url: v2Url, publishableKey: v2Key } = resolveV2Config();
-  let response: Response;
-  try {
-    response = await fetch(`${v2Url}/functions/v1/v2-auth-bridge`, {
+  const requestBridge = async (accessToken: string): Promise<Response> => {
+    try {
+      return await fetch(`${v2Url}/functions/v1/v2-auth-bridge`, {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${legacyAccessToken}`,
+        Authorization: `Bearer ${accessToken}`,
         apikey: v2Key,
         'x-legacy-apikey': import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
         'Content-Type': 'application/json',
       },
-    });
-  } catch {
-    throw new Error('Could not reach the practice server. Check your connection and try again.');
+      });
+    } catch {
+      throw new Error('Could not reach the practice server. Check your connection and try again.');
+    }
+  };
+  let response = await requestBridge(legacyAccessToken);
+  if (response.status === 401) {
+    await requireCurrentLegacySession();
+    const { error } = await supabase.auth.refreshSession();
+    if (error) throw new Error('Your current Zyntra session has expired. Please sign in again.');
+    const refreshed = await requireCurrentLegacySession();
+    response = await requestBridge(refreshed.access_token);
   }
 
   const payload = await response.json().catch(() => ({}));
@@ -74,12 +97,14 @@ export async function ensureV2Session(): Promise<void> {
     throw new Error(payload?.error || 'V2 admin authentication could not be established.');
   }
 
+  await requireCurrentLegacySession();
   const { error } = await v2.auth.verifyOtp({
     token_hash: payload.token_hash,
     type: 'email',
   });
   if (error) throw new Error(error.message || 'V2 admin authentication could not be established.');
 
+  await requireCurrentLegacySession();
   const { data: verified } = await v2.auth.getSession();
   if (!verified.session) throw new Error('V2 authentication completed without an active session.');
 }

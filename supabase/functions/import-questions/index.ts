@@ -56,7 +56,7 @@ serve(async (req) => {
           ...(q.zyntra_id ? { zyntra_id: String(q.zyntra_id).trim() } : {}),
           ...(Number.isInteger(q.difficulty_tier) ? { difficulty_tier: q.difficulty_tier } : {}),
         };
-      }).filter(Boolean);
+      }).filter((row): row is NonNullable<typeof row> => row !== null);
 
       if (rows.length) {
         // Rows with a zyntra_id are upserted on it, so re-importing the same file updates
