@@ -5,6 +5,8 @@ on:
     paths:
       - "supabase/migrations_v2/0088_pie_candidate_state_full_history.sql"
       - "supabase/migrations_v2/0094_authoritative_pie_dimension_evidence.sql"
+      - "supabase/migrations_v2/0103_pie_mode_scoped_latest_observation_at.sql"
+      - "src/lib/pie/authoritative-mode-evidence-timestamp-contract.test.ts"
       - "supabase/verification_v2/live_replica/run_0094.sh"
       - "supabase/verification_v2/live_replica/verify_0094.sql"
       - ".github/workflows/pie-authoritative-dimension-evidence.yml"
