@@ -144,8 +144,11 @@ export default function BehaviorProfile() {
       setData(profile as any);
       setLoadError(false);
       toast({ title: 'Analysis complete', description: 'Your behavior profile has been updated.' });
-    } catch {
-      toast({ title: 'Analysis failed', description: 'Behaviour analysis is temporarily unavailable. Please try again later.', variant: 'destructive' });
+    } catch (err) {
+      const status = (err as { context?: { status?: number } })?.context?.status;
+      toast(status === 403
+        ? { title: 'Access not enabled', description: 'Behaviour analysis is not enabled for this account yet. Contact support if you believe this is an error.', variant: 'destructive' }
+        : { title: 'Analysis failed', description: 'Behaviour analysis is temporarily unavailable. Please try again later.', variant: 'destructive' });
     }
     setAnalyzing(false);
   };
