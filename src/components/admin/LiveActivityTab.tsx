@@ -26,8 +26,8 @@ interface UserStats {
   osce_today: number;
 }
 
-export function LiveActivityTab() {
-  const [loadError, setLoadError] = useState(false);
+export function LiveActivityTab({ onOpenSystem }: { onOpenSystem?: () => void }) {
+  const [loadError, setLoadError] = useState<string | null>(null);
   const [hasLoaded, setHasLoaded] = useState(false);
   const [stats, setStats] = useState<UserStats[]>([]);
   const [onlineSet, setOnlineSet] = useState<Set<string>>(new Set());
@@ -40,7 +40,7 @@ export function LiveActivityTab() {
 
   const fetchAll = async () => {
     setLoading(true);
-    setLoadError(false);
+    setLoadError(null);
     try {
       const [statsRes, trainingRes] = await Promise.all([
         supabase.functions.invoke('admin-live-stats', { body: {} }),
@@ -53,7 +53,11 @@ export function LiveActivityTab() {
       setOnlineSet(new Set(statsRes.data?.online_user_ids || []));
       if (trainingRes.data) setLastRetrained(trainingRes.data.updated_at);
     } catch (e: any) {
-      setLoadError(true);
+      const message = e instanceof Error ? e.message : String(e ?? 'Unknown error');
+      const plainReason = /admin_roles|schema cache|relation .* does not exist|column .* does not exist|permission denied|not authorized|forbidden/i.test(message)
+        ? 'The admin role or activity query does not match the current database schema/permissions.'
+        : 'The activity service returned an error.';
+      setLoadError(`${plainReason} Details: ${message}`);
       console.error('Failed to fetch user activity', e);
     }
     setLoading(false);
@@ -115,9 +119,9 @@ export function LiveActivityTab() {
       <div className="min-w-0 space-y-5">
         <section aria-label="Verified activity summary" className="grid grid-cols-2 gap-3 lg:grid-cols-4">
           {[{ label: 'Candidates', value: stats.length, detail: 'Activity records returned' }, { label: 'Online now', value: onlineCount, detail: 'Current presence records' }, { label: 'Items requiring review', value: sharedIpCount, detail: 'Shared IP addresses' }].map(item => <Card key={item.label} className="border-primary/20 bg-card"><CardContent className="p-4"><p className="text-xs text-muted-foreground">{item.label}</p><p className="my-2 text-2xl font-semibold">{!hasLoaded || loadError ? '—' : item.value}</p><p className="text-xs text-muted-foreground">{item.detail}</p></CardContent></Card>)}
-          <Card className="border-border/60 bg-card"><CardContent className="p-4"><p className="text-xs text-muted-foreground">System health</p><p className="my-2 text-lg font-semibold">Not checked here</p><p className="text-xs text-muted-foreground">Use the existing System monitor.</p></CardContent></Card>
+          <Card className="border-border/60 bg-card"><CardContent className="p-4"><p className="text-xs text-muted-foreground">System health</p><p className="my-2 text-lg font-semibold">Not checked</p><Button type="button" variant="link" className="h-auto p-0 text-xs" onClick={onOpenSystem}>Open System monitor</Button></CardContent></Card>
         </section>
-        {loadError && <Alert variant="destructive"><AlertDescription role="alert">Candidate activity could not be loaded. Refresh to retry; any displayed records are from the last successful read.</AlertDescription></Alert>}
+        {loadError && <Alert variant="destructive"><AlertDescription role="alert" className="flex flex-wrap items-center justify-between gap-3"><span>Could not load candidate activity. {loadError}</span><Button type="button" size="sm" variant="outline" onClick={fetchAll} disabled={loading}>Retry</Button></AlertDescription></Alert>}
         <div className="flex items-center justify-between flex-wrap gap-2">
           <div className="flex items-center gap-3">
             <h2 className="text-lg font-semibold">Candidate Directory</h2>
@@ -161,12 +165,14 @@ export function LiveActivityTab() {
 
         {loading && stats.length === 0 ? (
           <Card><CardContent className="py-12 text-center text-muted-foreground"><Loader2 className="h-5 w-5 animate-spin mx-auto mb-2" />Loading user activity...</CardContent></Card>
+        ) : loadError && stats.length === 0 ? (
+          <Card role="alert"><CardContent className="py-8 text-center text-sm text-muted-foreground">Candidate directory unavailable because its data request failed. Retry after the underlying error is resolved.</CardContent></Card>
         ) : (
-          <div className="admin-candidate-table min-w-0 rounded-lg border border-border/60 bg-card">
+          <div className="admin-candidate-table min-w-0 overflow-x-auto rounded-lg border border-border/60 bg-card">
             <Table className="min-w-[1100px]">
               <TableHeader>
                 <TableRow>
-                  <TableHead>User</TableHead>
+                  <TableHead className="sticky left-0 z-10 min-w-[180px] bg-card">User</TableHead>
                   <TableHead className="text-center w-16">Online</TableHead>
                   <TableHead className="text-right">MCQs</TableHead>
                   <TableHead className="text-right">Accuracy</TableHead>
@@ -181,7 +187,7 @@ export function LiveActivityTab() {
               </TableHeader>
               <TableBody>
                 {filtered.length === 0 ? (
-                  <TableRow><TableCell colSpan={11} className="text-center text-muted-foreground py-8">No users found</TableCell></TableRow>
+                  <TableRow><TableCell colSpan={11} className="text-center text-muted-foreground py-8">{hasLoaded && !loadError ? "No candidates match this search" : "Directory not loaded"}</TableCell></TableRow>
                 ) : filtered.map(s => {
                   const isShared = s.ip_address && sharedIpMap[s.ip_address];
                   const sharedUsers = s.ip_address && isShared ? sharedIpMap[s.ip_address].filter(u => u.user_id !== s.user_id) : [];
