@@ -160,7 +160,7 @@ serve(async (req) => {
           attempts: modeRows.length,
           accuracy: modeRows.length ? Math.round((modeRows.filter((a) => a.is_correct).length / modeRows.length) * 100) : null,
           avgTime: modeTimed.length ? Math.round(modeTimed.reduce((sum, a) => sum + (a.time_taken_seconds as number), 0) / modeTimed.length) : null,
-          changeRate: modeChangeEvidence.length ? Math.round((modeChangeEvidence.filter((a) => a.answer_changes_count > 0).length / modeChangeEvidence.length) * 100) : null,
+          changeRate: modeChangeEvidence.length ? Math.round((modeChangeEvidence.filter((a) => (a.answer_changes_count ?? 0) > 0).length / modeChangeEvidence.length) * 100) : null,
           changeEvidenceCount: modeChangeEvidence.length,
         }];
       })
