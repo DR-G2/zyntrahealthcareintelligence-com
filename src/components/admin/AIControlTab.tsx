@@ -6,7 +6,7 @@ import { Slider } from '@/components/ui/slider';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { Brain, RefreshCw, Loader2, ChevronDown, Server, Database, Zap, Bug } from 'lucide-react';
+import { Brain, RefreshCw, ChevronDown, Server, Database, Zap, Bug } from 'lucide-react';
 import type { Json } from '@/integrations/supabase/types';
 
 interface AggregateData {
@@ -36,8 +36,6 @@ export function AIControlTab() {
   const [candidateCount, setCandidateCount] = useState(0);
   const [updatedAt, setUpdatedAt] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  const [retraining, setRetraining] = useState(false);
-  const [recomputing, setRecomputing] = useState(false);
   const [debugOpen, setDebugOpen] = useState(false);
 
   // Feature weights (visual only, stored in localStorage)
@@ -66,33 +64,6 @@ export function AIControlTab() {
   useEffect(() => {
     localStorage.setItem('zyntra_ai_weights', JSON.stringify(weights));
   }, [weights]);
-
-  const handleRetrain = async () => {
-    setRetraining(true);
-    try {
-      const { data: res, error } = await supabase.functions.invoke('retrain-ai-context');
-      if (error) throw error;
-      if (res?.error) throw new Error(res.error);
-      toast({ title: 'Retrained successfully', description: `${res.candidate_count} candidates processed` });
-      fetchData();
-    } catch (e: any) {
-      toast({ title: 'Retrain failed', description: e.message, variant: 'destructive' });
-    }
-    setRetraining(false);
-  };
-
-  const handleRecompute = async () => {
-    setRecomputing(true);
-    try {
-      const { data: res, error } = await supabase.functions.invoke('retrain-ai-context');
-      if (error) throw error;
-      toast({ title: 'Recomputed', description: 'Behavioral metrics rebuilt' });
-      fetchData();
-    } catch (e: any) {
-      toast({ title: 'Failed', description: e.message, variant: 'destructive' });
-    }
-    setRecomputing(false);
-  };
 
   const totalInteractions = (data?.mcq?.total_attempts ?? 0) + (data?.osce?.total_stations ?? 0);
 
@@ -144,13 +115,11 @@ export function AIControlTab() {
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="flex gap-3">
-            <Button onClick={handleRetrain} disabled={retraining}>
-              {retraining ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <RefreshCw className="h-4 w-4 mr-2" />}
-              Retrain AI
+            <Button disabled title="Unavailable until server-side dry-run, typed confirmation, and audit logging are implemented">
+              <RefreshCw className="h-4 w-4 mr-2" />Retrain AI (Unavailable)
             </Button>
-            <Button variant="outline" onClick={handleRecompute} disabled={recomputing}>
-              {recomputing ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Zap className="h-4 w-4 mr-2" />}
-              Rebuild Feature Dataset
+            <Button variant="outline" disabled title="Uses the same legacy retrain endpoint; server-side safeguards are not available">
+              <Zap className="h-4 w-4 mr-2" />Rebuild Feature Dataset (Unavailable)
             </Button>
           </div>
 
@@ -193,9 +162,7 @@ export function AIControlTab() {
         </CardHeader>
         <CardContent>
           <div className="flex flex-wrap gap-3">
-            <Button variant="outline" size="sm" onClick={handleRetrain} disabled={retraining}>
-              Recompute Behavioral Metrics
-            </Button>
+            <Button variant="outline" size="sm" disabled title="Uses the same legacy retrain endpoint; server-side safeguards are not available">Recompute Behavioral Metrics (Unavailable)</Button>
             <Button variant="outline" size="sm" onClick={() => {
               localStorage.removeItem('zyntra_ai_weights');
               setWeights({ accuracy: 70, stability: 60, efficiency: 50, calibration: 55 });

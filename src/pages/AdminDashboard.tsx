@@ -38,7 +38,7 @@ import { VisitorIntelligenceTab } from '@/components/admin/VisitorIntelligenceTa
 import { PIEInspectionTab } from '@/components/admin/PIEInspectionTab';
 import { Download, Globe } from 'lucide-react';
 
-import { getAdminSections } from '@/components/admin/admin-navigation';
+import { adminNavigationGroups, getAdminSections } from '@/components/admin/admin-navigation';
 import { ArrowUpRight, Settings2, ShieldCheck, RefreshCw } from 'lucide-react';
 import { ADMIN_EMAILS, SUPER_ADMIN_EMAIL } from '@/lib/admin-emails';
 
@@ -1373,164 +1373,6 @@ function OSCETab() {
 
 // ─── Cleanup Report Types ────────────────────────────────────
 
-interface CleanupReport {
-  mcq: any | null;
-  osce: any | null;
-}
-
-// ─── Cleanup Report Dialog ───────────────────────────────────
-
-function CleanupReportDialog({ report, open, onOpenChange }: { report: CleanupReport; open: boolean; onOpenChange: (o: boolean) => void }) {
-  const [mcqOpen, setMcqOpen] = useState(true);
-  const [osceOpen, setOsceOpen] = useState(true);
-
-  const renderDeletedTable = (items: any[], type: 'mcq' | 'osce') => {
-    if (!items?.length) return <p className="text-sm text-muted-foreground py-2">No items deleted.</p>;
-    return (
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-[50%]">{type === 'mcq' ? 'Question' : 'Station'}</TableHead>
-            <TableHead>{type === 'mcq' ? 'Category' : 'Subject'}</TableHead>
-            <TableHead>Reason</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {items.map((item: any, i: number) => (
-            <TableRow key={i}>
-              <TableCell className="text-xs max-w-[300px] truncate">{item.title}</TableCell>
-              <TableCell><Badge variant="outline" className="text-xs">{item.category || item.subject}</Badge></TableCell>
-              <TableCell><Badge variant={item.reason === 'garbage' ? 'destructive' : 'secondary'} className="text-xs">{item.reason}</Badge></TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    );
-  };
-
-  const renderNormalizedTable = (items: any[], type: 'mcq' | 'osce') => {
-    if (!items?.length) return <p className="text-sm text-muted-foreground py-2">No items normalized.</p>;
-    return (
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-[40%]">{type === 'mcq' ? 'Question' : 'Station'}</TableHead>
-            <TableHead>Old</TableHead>
-            <TableHead>→</TableHead>
-            <TableHead>New</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {items.map((item: any, i: number) => (
-            <TableRow key={i}>
-              <TableCell className="text-xs max-w-[250px] truncate">{item.title}</TableCell>
-              <TableCell><Badge variant="outline" className="text-xs text-destructive">{item.old_category || item.old_subject}</Badge></TableCell>
-              <TableCell className="text-muted-foreground">→</TableCell>
-              <TableCell><Badge variant="outline" className="text-xs text-primary">{item.new_category || item.new_subject}</Badge></TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    );
-  };
-
-  const renderDistribution = (dist: Record<string, number> | undefined) => {
-    if (!dist) return null;
-    return (
-      <div className="flex flex-wrap gap-2 mt-2">
-        {Object.entries(dist).sort((a, b) => b[1] - a[1]).map(([k, v]) => (
-          <Badge key={k} variant="secondary" className="text-xs">{k}: {v}</Badge>
-        ))}
-      </div>
-    );
-  };
-
-  return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-4xl max-h-[85vh] flex flex-col">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2"><Zap className="h-5 w-5 text-primary" /> Full Cleanup Report</DialogTitle>
-        </DialogHeader>
-        <ScrollArea className="flex-1 pr-4">
-          <div className="space-y-4">
-            {/* MCQ Section */}
-            {report.mcq && (
-              <Collapsible open={mcqOpen} onOpenChange={setMcqOpen}>
-                <CollapsibleTrigger asChild>
-                  <Button variant="ghost" className="w-full justify-between text-left font-semibold text-base">
-                    <span>📝 MCQ Report — {report.mcq.total_deleted} deleted, {report.mcq.summary?.categories_normalized || 0} normalized</span>
-                    <ChevronDown className={`h-4 w-4 transition-transform ${mcqOpen ? 'rotate-180' : ''}`} />
-                  </Button>
-                </CollapsibleTrigger>
-                <CollapsibleContent className="space-y-3 pl-2">
-                  <div className="grid grid-cols-3 gap-3">
-                    <Card><CardContent className="p-3 text-center"><div className="text-2xl font-bold">{report.mcq.total_before}</div><div className="text-xs text-muted-foreground">Before</div></CardContent></Card>
-                    <Card><CardContent className="p-3 text-center"><div className="text-2xl font-bold text-destructive">{report.mcq.total_deleted}</div><div className="text-xs text-muted-foreground">Deleted</div></CardContent></Card>
-                    <Card><CardContent className="p-3 text-center"><div className="text-2xl font-bold text-primary">{report.mcq.total_after}</div><div className="text-xs text-muted-foreground">After</div></CardContent></Card>
-                  </div>
-                  <div className="text-xs text-muted-foreground">
-                    Garbage: {report.mcq.summary?.garbage_deleted || 0} · Template: {report.mcq.summary?.template_deleted || 0} · Duplicates: {report.mcq.summary?.duplicates_deleted || 0} · Normalized: {report.mcq.summary?.categories_normalized || 0}
-                  </div>
-                  <div>
-                    <h4 className="text-sm font-medium mb-1">Deleted Items</h4>
-                    {renderDeletedTable(report.mcq.deleted_items, 'mcq')}
-                  </div>
-                  <div>
-                    <h4 className="text-sm font-medium mb-1">Normalized Categories</h4>
-                    {renderNormalizedTable(report.mcq.normalized_items, 'mcq')}
-                  </div>
-                  <div>
-                    <h4 className="text-sm font-medium mb-1">Final Distribution</h4>
-                    {renderDistribution(report.mcq.category_distribution)}
-                  </div>
-                </CollapsibleContent>
-              </Collapsible>
-            )}
-
-            {/* OSCE Section */}
-            {report.osce && (
-              <Collapsible open={osceOpen} onOpenChange={setOsceOpen}>
-                <CollapsibleTrigger asChild>
-                  <Button variant="ghost" className="w-full justify-between text-left font-semibold text-base">
-                    <span>🏥 OSCE Report — {report.osce.total_deleted} deleted, {report.osce.summary?.subjects_normalized || 0} normalized</span>
-                    <ChevronDown className={`h-4 w-4 transition-transform ${osceOpen ? 'rotate-180' : ''}`} />
-                  </Button>
-                </CollapsibleTrigger>
-                <CollapsibleContent className="space-y-3 pl-2">
-                  <div className="grid grid-cols-3 gap-3">
-                    <Card><CardContent className="p-3 text-center"><div className="text-2xl font-bold">{report.osce.total_before}</div><div className="text-xs text-muted-foreground">Before</div></CardContent></Card>
-                    <Card><CardContent className="p-3 text-center"><div className="text-2xl font-bold text-destructive">{report.osce.total_deleted}</div><div className="text-xs text-muted-foreground">Deleted</div></CardContent></Card>
-                    <Card><CardContent className="p-3 text-center"><div className="text-2xl font-bold text-primary">{report.osce.total_after}</div><div className="text-xs text-muted-foreground">After</div></CardContent></Card>
-                  </div>
-                  <div className="text-xs text-muted-foreground">
-                    Garbage: {report.osce.summary?.garbage_deleted || 0} · Duplicates: {report.osce.summary?.duplicates_deleted || 0} · Normalized: {report.osce.summary?.subjects_normalized || 0}
-                  </div>
-                  <div>
-                    <h4 className="text-sm font-medium mb-1">Deleted Items</h4>
-                    {renderDeletedTable(report.osce.deleted_items, 'osce')}
-                  </div>
-                  <div>
-                    <h4 className="text-sm font-medium mb-1">Normalized Subjects</h4>
-                    {renderNormalizedTable(report.osce.normalized_items, 'osce')}
-                  </div>
-                  <div>
-                    <h4 className="text-sm font-medium mb-1">Final Distribution</h4>
-                    {renderDistribution(report.osce.subject_distribution)}
-                  </div>
-                </CollapsibleContent>
-              </Collapsible>
-            )}
-          </div>
-        </ScrollArea>
-        <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)}>Close</Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
-  );
-}
-
-// ─── Site Settings Card ────────────────────────────────────────
 const SITE_SETTINGS_CONFIG = [
   { key: 'show_about_pricing', label: 'Show About & Pricing Pages', description: 'Toggle visibility of About and Pricing for public visitors', defaultValue: false },
   { key: 'maintenance_mode', label: 'Maintenance Mode', description: 'Shows a maintenance page to all non-admin users', defaultValue: false },
@@ -1542,56 +1384,70 @@ const SITE_SETTINGS_CONFIG = [
 function SiteSettingsCard() {
   const [settings, setSettings] = useState<Record<string, boolean>>({});
   const [loading, setLoading] = useState(true);
-  const [toggling, setToggling] = useState<string | null>(null);
-  const { toast } = useToast();
+  const [loadError, setLoadError] = useState<string | null>(null);
 
   useEffect(() => {
-    supabase
-      .from('site_settings' as any)
-      .select('key, value')
-      .then(({ data }) => {
+    let cancelled = false;
+    const loadSettings = async () => {
+      setLoading(true);
+      setLoadError(null);
+      try {
+        const { data, error } = await supabase
+          .from('site_settings' as any)
+          .select('setting_key, setting_value');
+        if (error) throw error;
+        if (cancelled) return;
         const map: Record<string, boolean> = {};
-        SITE_SETTINGS_CONFIG.forEach(s => { map[s.key] = s.defaultValue; });
-        ((data || []) as any[]).forEach((r: any) => { map[r.key] = r.value === true; });
+        ((data || []) as any[]).forEach((row: any) => {
+          if (typeof row.setting_key === 'string') map[row.setting_key] = row.setting_value === true;
+        });
         setSettings(map);
-        setLoading(false);
-      });
+      } catch (error) {
+        if (!cancelled) setLoadError(error instanceof Error ? error.message : 'The settings source could not be read.');
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    };
+    void loadSettings();
+    return () => { cancelled = true; };
   }, []);
-
-  const handleToggle = async (key: string, checked: boolean) => {
-    setToggling(key);
-    try {
-      const { error } = await supabase.functions.invoke('admin-toggle-setting', {
-        body: { key, value: checked }
-      });
-      if (error) throw error;
-      setSettings(prev => ({ ...prev, [key]: checked }));
-      const label = SITE_SETTINGS_CONFIG.find(s => s.key === key)?.label || key;
-      toast({ title: `${label} ${checked ? 'enabled' : 'disabled'}` });
-    } catch (e: any) {
-      toast({ title: 'Error', description: e.message, variant: 'destructive' });
-    }
-    setToggling(null);
-  };
 
   return (
     <Card className="border-border">
-      <CardContent className="p-4 space-y-4">
-        {SITE_SETTINGS_CONFIG.map(s => (
-          <div key={s.key} className="flex items-center justify-between gap-4 border-b border-border/40 pb-4 last:border-0 last:pb-0">
-            <div className="min-w-0">
-              <h3 className="font-semibold text-sm">{s.label}</h3>
-              <p className="text-xs text-muted-foreground">{s.description}</p>
+      <CardContent className="space-y-4 p-4">
+        <div role="status" className="rounded-md border border-border/60 bg-muted/30 p-3 text-sm">
+          {loadError
+            ? <>Settings could not be loaded: {loadError} Changes are disabled until the settings API and audit logging are verified.</>
+            : 'Settings are read-only in this build because the server-side toggle endpoint and change audit contract are not present in the repository.'}
+        </div>
+        {SITE_SETTINGS_CONFIG.map(setting => {
+          const configured = Object.prototype.hasOwnProperty.call(settings, setting.key);
+          const description = setting.key === 'mcq_temp_enabled'
+            ? 'Candidates can be served temporary questions when enabled. Verify the question source before enabling.'
+            : setting.key === 'osce_enabled'
+              ? 'This setting does not override the candidate-side Under Construction state. OSCE remains unavailable until its candidate release is enabled.'
+              : setting.description;
+          return (
+            <div key={setting.key} className="flex flex-wrap items-start justify-between gap-3 border-b border-border/50 pb-4 last:border-0 last:pb-0">
+              <div className="min-w-0 flex-1 space-y-1">
+                <div className="font-medium text-sm">{setting.label}</div>
+                <p className="text-xs leading-5 text-muted-foreground">{description}</p>
+                <p className="text-xs text-muted-foreground">
+                  Stored state: {configured ? (settings[setting.key] ? 'On' : 'Off') : 'Not configured'}
+                </p>
+                {setting.key === 'mcq_temp_enabled' && <p className="text-xs font-semibold text-warning">Warning: Candidates can be served temporary questions.</p>}
+                <p className="text-xs text-muted-foreground">Last changed by / when: unavailable in the current settings schema.</p>
+              </div>
+              <Switch
+                aria-label={setting.label}
+                checked={configured ? settings[setting.key] : false}
+                disabled
+                aria-describedby={undefined}
+              />
             </div>
-            <Switch
-              aria-label={s.label}
-              className="shrink-0"
-              checked={settings[s.key] ?? s.defaultValue}
-              onCheckedChange={(v) => handleToggle(s.key, v)}
-              disabled={loading || toggling === s.key}
-            />
-          </div>
-        ))}
+          );
+        })}
+        {loading && <p className="text-xs text-muted-foreground">Checking stored settings…</p>}
       </CardContent>
     </Card>
   );
@@ -1602,9 +1458,6 @@ function SiteSettingsCard() {
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState('live');
   const sections = getAdminSections(useCurrentUserEmail() === SUPER_ADMIN_EMAIL);
-  const [fullCleaning, setFullCleaning] = useState(false);
-  const [cleanupReport, setCleanupReport] = useState<CleanupReport>({ mcq: null, osce: null });
-  const [reportOpen, setReportOpen] = useState(false);
   const [adminOnline, setAdminOnline] = useState<{ email: string; role: string; online: boolean }[]>([]);
   const { toast } = useToast();
   const currentUserEmail = useCurrentUserEmail();
@@ -1643,31 +1496,6 @@ export default function AdminDashboard() {
     const interval = setInterval(fetchAdminPresence, 30000);
     return () => clearInterval(interval);
   }, []);
-
-  const runFullCleanup = async () => {
-    setFullCleaning(true);
-    try {
-      const [mcqRes, osceRes] = await Promise.all([
-        supabase.functions.invoke('admin-cleanup-questions'),
-        supabase.functions.invoke('admin-cleanup-stations'),
-      ]);
-      if (mcqRes.error) throw mcqRes.error;
-      if (osceRes.error) throw osceRes.error;
-      if (mcqRes.data?.error) throw new Error(mcqRes.data.error);
-      if (osceRes.data?.error) throw new Error(osceRes.data.error);
-
-      const report = { mcq: mcqRes.data, osce: osceRes.data };
-      setCleanupReport(report);
-      setReportOpen(true);
-
-      const totalDeleted = (mcqRes.data.total_deleted || 0) + (osceRes.data.total_deleted || 0);
-      const totalNormalized = (mcqRes.data.summary?.categories_normalized || 0) + (osceRes.data.summary?.subjects_normalized || 0);
-      toast({ title: 'Full cleanup complete', description: `${totalDeleted} items deleted, ${totalNormalized} normalized` });
-    } catch (e: any) {
-      toast({ title: 'Cleanup failed', description: e.message, variant: 'destructive' });
-    }
-    setFullCleaning(false);
-  };
 
   return (
     <AppLayout>
@@ -1711,41 +1539,50 @@ export default function AdminDashboard() {
                 <h3 className="font-semibold flex items-center gap-2"><Zap className="h-4 w-4 text-primary" /> Run Full Cleanup</h3>
                 <p className="text-sm text-muted-foreground">Clean & normalize both MCQ questions and OSCE stations in one go.</p>
               </div>
-              <AlertDialog>
-                <AlertDialogTrigger asChild>
-                  <Button variant="destructive" disabled={fullCleaning}>{fullCleaning && <Loader2 className="h-4 w-4 mr-2 animate-spin" />} Run Full Cleanup</Button>
-                </AlertDialogTrigger>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>Run full cleanup on MCQ + OSCE?</AlertDialogTitle>
-                    <AlertDialogDescription>This will permanently delete junk/duplicate questions AND stations. This cannot be undone.</AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction onClick={runFullCleanup}>Run Full Cleanup</AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
+              <div className="space-y-2 text-right"><Button variant="destructive" disabled title="Disabled until a server-side dry-run, typed confirmation, and reliable audit logging are implemented">Run Full Cleanup (Unavailable)</Button><p className="max-w-md text-xs text-muted-foreground">A server-side dry-run, typed confirmation and reliable audit log are not available. No cleanup has been run.</p></div>
+
             </CardContent>
           </Card>
         )}
 
-        <CleanupReportDialog report={cleanupReport} open={reportOpen} onOpenChange={setReportOpen} />
 
         {/* Site Settings — Super Admin only */}
         {isSuperAdmin && <section aria-label="Feature settings" className="space-y-3"><h2 className="flex items-center gap-2 text-sm font-semibold"><Settings2 className="h-4 w-4 text-primary" /> Feature Settings</h2><SiteSettingsCard /></section>}
         {isSuperAdmin && <section aria-label="PIE intelligence boundary" className="grid gap-4 border-y border-border/60 py-5 sm:grid-cols-2">
-          <div className="flex items-start gap-3"><ShieldCheck className="mt-1 h-5 w-5 shrink-0 text-primary" /><div><h2 className="text-sm font-semibold">Authoritative readiness</h2><p className="mt-1 text-xs text-muted-foreground">Readiness DNA remains the source of candidate training readiness.</p></div></div>
-          <div className="flex items-start gap-3"><Brain className="mt-1 h-5 w-5 shrink-0 text-warning" /><div><div className="flex flex-wrap items-center gap-2"><h2 className="text-sm font-semibold">PIE shadow inference</h2><Badge variant="outline" className="border-warning/40 text-warning">Not authoritative</Badge></div><p className="mt-1 text-xs text-muted-foreground">Experimental inspection; does not determine candidate training decisions.</p><Button variant="link" className="h-auto px-0 py-2" onClick={() => setActiveTab('pie')}>Open PIE inspection <ArrowUpRight className="ml-1 h-3 w-3" /></Button></div></div>
+          <div className="flex items-start gap-3"><ShieldCheck className="mt-1 h-5 w-5 shrink-0 text-primary" /><div><h2 className="text-sm font-semibold">Candidate training state</h2><p className="mt-1 text-xs text-muted-foreground">Candidate-facing PIE reads the canonical candidate state. Separate legacy workflows may use other readiness signals.</p></div></div>
+          <div className="flex items-start gap-3"><Brain className="mt-1 h-5 w-5 shrink-0 text-warning" /><div><div className="flex flex-wrap items-center gap-2"><h2 className="text-sm font-semibold">Experimental internal diagnostics</h2><Badge variant="outline" className="border-warning/40 text-warning">Admin-only</Badge></div><p className="mt-1 text-xs text-muted-foreground">For admin inspection only. These estimates do not replace candidate-facing PIE state.</p><Button variant="link" className="h-auto px-0 py-2" onClick={() => setActiveTab('pie')}>Open PIE inspection <ArrowUpRight className="ml-1 h-3 w-3" /></Button></div></div>
         </section>}
 
         <Tabs id="admin-sections" value={activeTab} onValueChange={setActiveTab} className="min-w-0 scroll-mt-20">
-          <div className="min-w-0 max-w-full overflow-x-auto rounded-lg border border-border/60 bg-secondary p-1">
-            <TabsList aria-label="Admin sections" className="flex h-auto w-max min-w-full justify-start gap-1 border-0 bg-transparent p-0">
-              {sections.map(section => <TabsTrigger key={section.value} value={section.value} className="min-h-11 shrink-0 gap-2 px-4 text-xs data-[state=active]:bg-accent data-[state=active]:text-primary" onFocus={event => event.currentTarget.scrollIntoView({ block: 'nearest', inline: 'nearest' })}><section.icon className="h-4 w-4" />{section.label}</TabsTrigger>)}
-            </TabsList>
-          </div>
-          <TabsContent value="live"><LiveActivityTab /></TabsContent>
+          <div className="grid min-w-0 gap-4 lg:grid-cols-[13rem_minmax(0,1fr)]">
+            <nav aria-label="Command Centre navigation" className="hidden lg:block rounded-lg border border-border/60 bg-card p-2">
+              {adminNavigationGroups.map(group => {
+                const items = group.items.filter(item => sections.some(section => section.value === item.value));
+                if (!items.length) return null;
+                return <section key={group.label} className="mb-3 last:mb-0">
+                  <h2 className="px-2 pb-1 pt-2 text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">{group.label}</h2>
+                  <div className="space-y-1">{items.map(item => {
+                    const Icon = item.icon;
+                    const selected = activeTab === item.value;
+                    return <Button key={item.value} type="button" variant={selected ? 'secondary' : 'ghost'} aria-current={selected ? 'page' : undefined} className="h-10 w-full justify-start gap-2 px-2 text-sm" onClick={() => setActiveTab(item.value)}><Icon className="h-4 w-4 shrink-0" />{item.label}</Button>;
+                  })}</div>
+                </section>;
+              })}
+            </nav>
+            <div className="min-w-0 space-y-3">
+              <div className="lg:hidden">
+                <label htmlFor="admin-mobile-section" className="mb-1 block text-xs font-medium text-muted-foreground">Command Centre section</label>
+                <Select value={activeTab} onValueChange={setActiveTab}>
+                  <SelectTrigger id="admin-mobile-section" className="w-full"><SelectValue placeholder="Choose a section" /></SelectTrigger>
+                  <SelectContent>{sections.map(section => <SelectItem key={section.value} value={section.value}>{section.label}</SelectItem>)}</SelectContent>
+                </Select>
+              </div>
+              <div className="min-w-0 max-w-full overflow-x-auto rounded-lg border border-border/60 bg-secondary p-1 lg:hidden">
+                <TabsList aria-label="Admin sections" className="flex h-auto w-max min-w-full justify-start gap-1 border-0 bg-transparent p-0">
+                  {sections.map(section => <TabsTrigger key={section.value} value={section.value} className="min-h-11 shrink-0 gap-2 px-4 text-xs">{section.label}</TabsTrigger>)}
+                </TabsList>
+              </div>
+          <div className="min-w-0 overflow-x-auto [scrollbar-gutter:stable]"><TabsContent value="live"><LiveActivityTab onOpenSystem={() => setActiveTab("system")} /></TabsContent>
           <TabsContent value="users"><UsersTab currentUserEmail={currentUserEmail} /></TabsContent>
           <TabsContent value="messages"><MessagesTab /></TabsContent>
           <TabsContent value="qns"><QNSTab /></TabsContent>
@@ -1756,7 +1593,9 @@ export default function AdminDashboard() {
           {isSuperAdmin && <TabsContent value="data-port"><DataPortabilityTab /></TabsContent>}
           {isSuperAdmin && <TabsContent value="system"><SystemMonitorTab /></TabsContent>}
           {isSuperAdmin && <TabsContent value="logs"><ActivityLogsTab /></TabsContent>}
-          {isSuperAdmin && <TabsContent value="pie"><PIEInspectionTab /></TabsContent>}
+          {isSuperAdmin && <TabsContent value="pie"><PIEInspectionTab /></TabsContent>}</div>
+            </div>
+          </div>
         </Tabs>
       </div>
     </AppLayout>
