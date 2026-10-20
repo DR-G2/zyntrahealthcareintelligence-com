@@ -54,8 +54,9 @@ export function ReadinessPrism({ evidence, loading, retry }: { evidence: Intelli
     </section>
     <section aria-label="Next Best Action" className="rounded-xl border border-primary/25 bg-card/50 p-4 sm:p-5">
       <p className="text-xs font-semibold uppercase tracking-wide text-primary">Next Best Action</p>
-      <h3 className="mt-2 font-display text-lg font-semibold">Build the next piece of evidence</h3>
-      <p className="mt-1 text-sm leading-6 text-muted-foreground">General suggestion, not yet personalised. Continue with a practice session in the selected mode.</p>
+      <h3 className="mt-2 font-display text-lg font-semibold">{action?.title ?? "Build the next piece of evidence"}</h3>
+      <p className="mt-1 text-sm leading-6 text-muted-foreground">{action?.reason ?? "General suggestion, not yet personalised. Continue with a practice session in the selected mode."}</p>
+      {action?.subjectId && <p className="mt-2 text-sm text-muted-foreground">Supporting evidence: {rows.filter(row => row.subjectId === action.subjectId && row.answerKeyAvailable === true).length} scored attempts in the recommended subject for {modeLabel}.</p>}
       <Button asChild className="mt-3 min-h-11"><Link to="/practice">Go to Practice <ArrowRight className="ml-2 h-4 w-4" /></Link></Button>
     </section>
     <section aria-label="Evidence status" className="rounded-xl border border-border/70 p-4">
