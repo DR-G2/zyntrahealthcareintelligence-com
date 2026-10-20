@@ -1740,7 +1740,7 @@ export default function AdminDashboard() {
                   {sections.map(section => <TabsTrigger key={section.value} value={section.value} className="min-h-11 shrink-0 gap-2 px-4 text-xs">{section.label}</TabsTrigger>)}
                 </TabsList>
               </div>
-          <div className="min-w-0 overflow-x-auto [scrollbar-gutter:stable]"><TabsContent value="live"><LiveActivityTab /></TabsContent>
+          <div className="min-w-0 overflow-x-auto [scrollbar-gutter:stable]"><TabsContent value="live"><LiveActivityTab onOpenSystem={() => setActiveTab("system")} /></TabsContent>
           <TabsContent value="users"><UsersTab currentUserEmail={currentUserEmail} /></TabsContent>
           <TabsContent value="messages"><MessagesTab /></TabsContent>
           <TabsContent value="qns"><QNSTab /></TabsContent>
