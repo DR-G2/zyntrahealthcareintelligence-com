@@ -35,13 +35,14 @@ describe('Drill Complete evidence and review presentation', () => {
     expect(session).toContain('confidenceRatings: Record<number, number>');
     expect(session).toContain('ruledOut, confidence, nudgeOutcome');
     expect(practice).toContain('confidenceRatings={resultData.confidenceRatings}');
-    expect(practice).toContain('Confidence {confidenceRatings[i]}/5');
+    expect(practice).toContain('Confidence: <strong>{confidenceRatings[i]}/5</strong>');
   });
 
   it('keeps mobile actions above the app bottom navigation with safe-area spacing', () => {
     const practice = read('src/pages/Practice.tsx');
-    expect(practice).toContain('bottom-[calc(3.5rem+env(safe-area-inset-bottom))]');
+    expect(practice).toContain('bottom-[calc(4rem+env(safe-area-inset-bottom))]');
     expect(practice).toContain('Start New Drill');
     expect(practice).toContain('View Intelligence');
+    expect(practice.indexOf('/* ── SECTION 2: Full Question Review ── */')).toBeLessThan(practice.lastIndexOf('Start New Drill'));
   });
 });
