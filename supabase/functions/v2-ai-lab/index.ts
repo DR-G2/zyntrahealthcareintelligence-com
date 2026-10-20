@@ -1,10 +1,8 @@
-import { corsHeaders, json, requireUser, serviceClient, safeLabel } from "./_shared/auth.ts";
+import { corsHeaders, json, requireUser, serviceClient } from "./_shared/auth.ts";
 import { LabError, type ProviderAdapter } from "./providers/types.ts";
 import { openaiAdapter } from "./providers/openai.ts";
 
 const PROVIDERS: Record<string, ProviderAdapter> = { openai: openaiAdapter };
-const MODES = ["performance"] as const;
-const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 function fail(e: LabError) {
   return json({ success: false, error: e.message, code: e.code, details: e.details ?? null }, e.status);
@@ -33,8 +31,6 @@ async function decrypt(value: string, secret: string) {
     throw new LabError("CONFIGURATION_ERROR", "Stored credential could not be read. Disconnect and reconnect your API key.", 409);
   }
 }
-
-const r1 = (n: unknown) => (typeof n === "number" || typeof n === "string") && Number.isFinite(Number(n)) ? Math.round(Number(n) * 10) / 10 : null;
 
 const PIE_DIMENSIONS = [
   ["capability", "Capability"], ["decision", "Decision"], ["timing", "Timing"],
@@ -108,6 +104,7 @@ function validatePieExplanation(answer: string, context: any): string {
   const lower = answer.toLowerCase();
   if (labels.some(label => lower.includes(label) && !(context?.dimensions ?? []).some((d: any) => String(d.label).toLowerCase() === label))) return fallback;
   if (/\b(pass likelihood|likely to pass|clinical diagnosis|treatment plan|drug dose|ranked candidates|weakest subject)\b/i.test(answer)) return fallback;
+  if (/\\b(zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand)\\s+(observations?|answers?|questions?|percent|per cent|levels?)\\b/i.test(answer)) return fallback;
   return answer.trim() || fallback;
 }
 Deno.serve(async (req) => {
