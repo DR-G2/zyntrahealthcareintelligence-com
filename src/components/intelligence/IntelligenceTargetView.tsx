@@ -46,7 +46,11 @@ export function ReadinessPrism({ evidence, loading, retry }: { evidence: Intelli
   const pie = useMemo(() => authoritativePrismLayer(evidence?.pie ?? { status: "unavailable", value: null }, mode), [evidence, mode]);
   const dimensions = pie.dimensions;
   const qualified = dimensions.filter(item => item.estimate !== null && item.evidenceCount !== null && item.evidenceCount >= MIN_DIMENSION_OBSERVATIONS);
-  const limiter = [...qualified].sort((a, b) => (a.estimate ?? 1) - (b.estimate ?? 1))[0] ?? null;
+  const rankedCandidate = [...qualified].sort((a, b) => (a.estimate ?? 1) - (b.estimate ?? 1))[0] ?? null;
+  const limiter = rankedCandidate && rankedCandidate.upper !== null
+    && qualified.filter(item => item.dimension !== rankedCandidate.dimension).length > 0
+    && qualified.filter(item => item.dimension !== rankedCandidate.dimension).every(item => item.lower !== null && rankedCandidate.upper! < item.lower)
+    ? rankedCandidate : null;
   const action = evidence?.action.status === "ready" && normalizePracticeMode(evidence.action.value.sessionMode) === mode ? evidence.action.value : null;
   const beforeAction = action?.at ? rows.filter(row => Date.parse(row.at) < Date.parse(action.at) && row.answerKeyAvailable === true && typeof row.correct === "boolean") : [];
   const afterAction = action?.at ? rows.filter(row => Date.parse(row.at) >= Date.parse(action.at) && row.answerKeyAvailable === true && typeof row.correct === "boolean") : [];
