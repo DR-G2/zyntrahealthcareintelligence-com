@@ -1,13 +1,12 @@
 import { Compass, Shield, Target } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
 
 export type PracticePrimaryMode = 'drill' | 'nudge' | 'mock';
 
 /** Normal MCQ is the only launchable mode. Upcoming modes are deliberately non-interactive. */
 export function PracticeModeSelector({ value }: { value: PracticePrimaryMode; onChange: (mode: PracticePrimaryMode) => void }) {
   return (
-    <section aria-label="Practice modes" className="space-y-3">
+    <section aria-label={value === 'drill' ? "Practice modes, Normal MCQ selected" : "Practice modes"} className="space-y-3">
       <div className="rounded-xl border border-primary/35 bg-primary/[0.06] p-4 sm:p-5">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex min-w-0 items-start gap-3">
