@@ -13,7 +13,7 @@ function modeDimensions(count: number): Record<Dimension, ModeDimensionEvidence>
 }
 function attempt(id: string, mode: PracticeMode, index: number, correct = true): SafeAttempt {
   return { id, subjectId: "medicine", subject: "Medicine", correct, answerKeyAvailable: true, confidence: 3,
-    seconds: 35, changes: index % 3 === 0 ? 1 : 0, at: new Date(Date.UTC(2026, 9, 1, 0, index)).toISOString(), sessionMode: mode };
+    seconds: 35, changes: index % 3 === 0 ? 1 : 0, at: new Date(Date.UTC(2026, 9, 1, 0, 0, index)).toISOString(), sessionMode: mode };
 }
 function fixture(options: { normalCount?: number; examCount?: number; nudgeCount?: number } = {}): IntelligenceEvidence {
   const normalCount = options.normalCount ?? 0, examCount = options.examCount ?? 0, nudgeCount = options.nudgeCount ?? 0;
