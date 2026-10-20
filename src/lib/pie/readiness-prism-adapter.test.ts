@@ -77,13 +77,13 @@ describe("Readiness Prism presentation adapter", () => {
     input.value.sessionMode = "normal_mcq";
     input.value.dimensions.timing = 0.65;
     input.value.dimensionEvidence = {
-      capability: { uncertainty: 0.2, lower: 0.6, upper: 1, evidenceCount: 50, evidenceQuality: 0.9 },
-      decision: { uncertainty: 0.2, lower: 0.5, upper: 0.9, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
-      timing: { uncertainty: 0.1, lower: 0.4, upper: 0.8, evidenceCount: 50, evidenceQuality: 0.8, estimateAligned: true },
-      calibration: { calibrationReady: true, confidenceLevelCounts: { '1': 15, '2': 15, '3': 15, '4': 15, '5': 15 }, uncertainty: 0.3, lower: 0.3, upper: 0.9, evidenceCount: 50, evidenceQuality: 0.8, estimateAligned: true },
-      sustained_performance: { uncertainty: 0.2, lower: 0.6, upper: 1, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
+      capability: { uncertainty: 0.2, lower: 0.6, upper: 1, latestObservationAt: "2026-10-16T08:00:00Z", evidenceCount: 50, evidenceQuality: 0.9 },
+      decision: { uncertainty: 0.2, lower: 0.5, upper: 0.9, latestObservationAt: "2026-10-16T08:00:00Z", evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
+      timing: { uncertainty: 0.1, lower: 0.4, upper: 0.8, latestObservationAt: "2026-10-16T08:00:00Z", evidenceCount: 50, evidenceQuality: 0.8, estimateAligned: true },
+      calibration: { calibrationReady: true, confidenceLevelCounts: { '1': 15, '2': 15, '3': 15, '4': 15, '5': 15 }, uncertainty: 0.3, lower: 0.3, upper: 0.9, latestObservationAt: "2026-10-16T08:00:00Z", evidenceCount: 50, evidenceQuality: 0.8, estimateAligned: true },
+      sustained_performance: { uncertainty: 0.2, lower: 0.6, upper: 1, latestObservationAt: "2026-10-16T08:00:00Z", evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
       // Keep the interval valid for the fixture estimate (0.5); production interval validation remains unchanged.
-      learning: { uncertainty: 0.2, lower: 0.3, upper: 0.7, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
+      learning: { uncertainty: 0.2, lower: 0.3, upper: 0.7, latestObservationAt: "2026-10-16T08:00:00Z", evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
     };
     const layer = authoritativePrismLayer(input, "normal_mcq");
     expect(layer.status).toBe("empty");
@@ -99,23 +99,23 @@ describe("Readiness Prism presentation adapter", () => {
     input.value.sessionMode = "normal_mcq";
     input.value.dimensions.timing = 0.65;
     input.value.dimensionEvidence = {
-      capability: { uncertainty: 0.2, lower: 0.6, upper: 1, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
-      decision: { uncertainty: 0.2, lower: 0.5, upper: 0.9, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
-      timing: { uncertainty: 0.1, lower: 0.4, upper: 0.8, evidenceCount: 50, evidenceQuality: 0.8, estimateAligned: true },
-      calibration: { calibrationReady: true, confidenceLevelCounts: { '1': 15, '2': 15, '3': 15, '4': 15, '5': 15 }, uncertainty: 0.3, lower: 0.3, upper: 0.9, evidenceCount: 50, evidenceQuality: 0.8, estimateAligned: true },
-      sustained_performance: { uncertainty: 0.2, lower: 0.6, upper: 1, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
-      learning: { uncertainty: 0.2, lower: 0.3, upper: 0.7, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
+      capability: { uncertainty: 0.2, lower: 0.6, upper: 1, latestObservationAt: "2026-10-16T08:00:00Z", evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
+      decision: { uncertainty: 0.2, lower: 0.5, upper: 0.9, latestObservationAt: "2026-10-16T08:00:00Z", evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
+      timing: { uncertainty: 0.1, lower: 0.4, upper: 0.8, latestObservationAt: "2026-10-16T08:00:00Z", evidenceCount: 50, evidenceQuality: 0.8, estimateAligned: true },
+      calibration: { calibrationReady: true, confidenceLevelCounts: { '1': 15, '2': 15, '3': 15, '4': 15, '5': 15 }, uncertainty: 0.3, lower: 0.3, upper: 0.9, latestObservationAt: "2026-10-16T08:00:00Z", evidenceCount: 50, evidenceQuality: 0.8, estimateAligned: true },
+      sustained_performance: { uncertainty: 0.2, lower: 0.6, upper: 1, latestObservationAt: "2026-10-16T08:00:00Z", evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
+      learning: { uncertainty: 0.2, lower: 0.3, upper: 0.7, latestObservationAt: "2026-10-16T08:00:00Z", evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
     };
     const layer = authoritativePrismLayer(input, "normal_mcq");
     expect(layer.dimensions.map(({ dimension, estimate, uncertainty, lower, upper, evidenceCount, evidenceQuality, estimateAligned }) => ({
       dimension, estimate, uncertainty, lower, upper, evidenceCount, evidenceQuality, estimateAligned,
     }))).toEqual([
-      { dimension: "capability", estimate: 0.8, uncertainty: 0.2, lower: 0.6, upper: 1, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
-      { dimension: "decision", estimate: 0.7, uncertainty: 0.2, lower: 0.5, upper: 0.9, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
-      { dimension: "timing", estimate: 0.65, uncertainty: 0.1, lower: 0.4, upper: 0.8, evidenceCount: 50, evidenceQuality: 0.8, estimateAligned: true },
-      { dimension: "calibration", estimate: 0.6, uncertainty: 0.3, lower: 0.3, upper: 0.9, evidenceCount: 50, evidenceQuality: 0.8, estimateAligned: true },
-      { dimension: "sustained_performance", estimate: 0.75, uncertainty: 0.2, lower: 0.6, upper: 1, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
-      { dimension: "learning", estimate: 0.5, uncertainty: 0.2, lower: 0.3, upper: 0.7, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
+      { dimension: "capability", estimate: 0.8, uncertainty: 0.2, lower: 0.6, upper: 1, latestObservationAt: "2026-10-16T08:00:00Z", evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
+      { dimension: "decision", estimate: 0.7, uncertainty: 0.2, lower: 0.5, upper: 0.9, latestObservationAt: "2026-10-16T08:00:00Z", evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
+      { dimension: "timing", estimate: 0.65, uncertainty: 0.1, lower: 0.4, upper: 0.8, latestObservationAt: "2026-10-16T08:00:00Z", evidenceCount: 50, evidenceQuality: 0.8, estimateAligned: true },
+      { dimension: "calibration", estimate: 0.6, uncertainty: 0.3, lower: 0.3, upper: 0.9, latestObservationAt: "2026-10-16T08:00:00Z", evidenceCount: 50, evidenceQuality: 0.8, estimateAligned: true },
+      { dimension: "sustained_performance", estimate: 0.75, uncertainty: 0.2, lower: 0.6, upper: 1, latestObservationAt: "2026-10-16T08:00:00Z", evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
+      { dimension: "learning", estimate: 0.5, uncertainty: 0.2, lower: 0.3, upper: 0.7, latestObservationAt: "2026-10-16T08:00:00Z", evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
     ]);
     expect(layer.status).toBe("ready");
     expect(layer.dimensions.find(item => item.dimension === "timing")?.estimate).toBe(0.65);
@@ -126,12 +126,12 @@ describe("Readiness Prism presentation adapter", () => {
     input.value.sessionMode = "normal_mcq";
     input.value.dimensions.timing = 0.65;
     input.value.dimensionEvidence = {
-      capability: { uncertainty: 0.2, lower: 0.9, upper: 0.7, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
-      decision: { uncertainty: 0.2, lower: 0.5, upper: 0.9, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
-      timing: { uncertainty: 0.1, lower: 0.4, upper: 0.8, evidenceCount: 50, evidenceQuality: 0.8, estimateAligned: true },
-      calibration: { calibrationReady: true, confidenceLevelCounts: { '1': 15, '2': 15, '3': 15, '4': 15, '5': 15 }, uncertainty: 0.3, lower: 0.3, upper: 0.9, evidenceCount: 50, evidenceQuality: 0.8, estimateAligned: true },
-      sustained_performance: { uncertainty: 0.2, lower: 0.6, upper: 1, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
-      learning: { uncertainty: 0.2, lower: 0.3, upper: 0.7, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
+      capability: { uncertainty: 0.2, lower: 0.9, upper: 0.7, latestObservationAt: "2026-10-16T08:00:00Z", evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
+      decision: { uncertainty: 0.2, lower: 0.5, upper: 0.9, latestObservationAt: "2026-10-16T08:00:00Z", evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
+      timing: { uncertainty: 0.1, lower: 0.4, upper: 0.8, latestObservationAt: "2026-10-16T08:00:00Z", evidenceCount: 50, evidenceQuality: 0.8, estimateAligned: true },
+      calibration: { calibrationReady: true, confidenceLevelCounts: { '1': 15, '2': 15, '3': 15, '4': 15, '5': 15 }, uncertainty: 0.3, lower: 0.3, upper: 0.9, latestObservationAt: "2026-10-16T08:00:00Z", evidenceCount: 50, evidenceQuality: 0.8, estimateAligned: true },
+      sustained_performance: { uncertainty: 0.2, lower: 0.6, upper: 1, latestObservationAt: "2026-10-16T08:00:00Z", evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
+      learning: { uncertainty: 0.2, lower: 0.3, upper: 0.7, latestObservationAt: "2026-10-16T08:00:00Z", evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
     };
     const layer = authoritativePrismLayer(input, "normal_mcq");
     expect(layer.dimensions.find(item => item.dimension === "capability")).toMatchObject({
