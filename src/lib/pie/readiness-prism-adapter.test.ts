@@ -107,7 +107,7 @@ describe("Readiness Prism presentation adapter", () => {
       learning: { uncertainty: 0.2, lower: 0.3, upper: 0.7, latestObservationAt: "2026-10-16T08:00:00Z", evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
     };
     const layer = authoritativePrismLayer(input, "normal_mcq");
-    expect(layer.dimensions.map(({ dimension, estimate, uncertainty, lower, upper, evidenceCount, evidenceQuality, estimateAligned }) => ({
+    expect(layer.dimensions.map(({ dimension, estimate, uncertainty, lower, upper, latestObservationAt, evidenceCount, evidenceQuality, estimateAligned }) => ({
       dimension, estimate, uncertainty, lower, upper, evidenceCount, evidenceQuality, estimateAligned,
     }))).toEqual([
       { dimension: "capability", estimate: 0.8, uncertainty: 0.2, lower: 0.6, upper: 1, latestObservationAt: "2026-10-16T08:00:00Z", evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
