@@ -27,8 +27,7 @@ async function main() {
     throw new Error(`Disposable test account authentication failed: ${auth.error?.message ?? "session missing"}`);
   }
 
-  // This action must remain read-only: it selects the caller's candidate-facing PIE projection.
-  // It must not create AI Lab sessions, attempts, or telemetry rows.
+  // Read-only action: must not create AI Lab sessions, attempts, or telemetry rows.
   const { data, error } = await supabase.functions.invoke("v2-ai-lab", {
     body: { action: "pie_snapshot" },
   });
@@ -74,11 +73,13 @@ async function main() {
 
     check(
       "unavailable values are not coerced to zero",
-      modes.every((entry: any) => entry.dimensions.every((dimension: any) =>
-        dimension.status === "available"
-          ? typeof dimension.valuePercent === "number"
-          : dimension.valuePercent === null
-      )),
+      modes.length === 3 && modes.every((entry: any) =>
+        Array.isArray(entry.dimensions) && entry.dimensions.every((dimension: any) =>
+          dimension.status === "available"
+            ? typeof dimension.valuePercent === "number"
+            : dimension.valuePercent === null
+        )
+      ),
       "building/unavailable dimensions must return null values",
     );
   }
