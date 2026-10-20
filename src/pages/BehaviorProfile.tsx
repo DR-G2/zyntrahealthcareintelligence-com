@@ -195,6 +195,24 @@ export default function BehaviorProfile() {
     );
   }
 
+  // A pre-0104 Normal MCQ profile is not candidate-wide evidence. Keep it visible
+  // only as a refresh-required state until authenticated analysis replaces it.
+  if (data.session_mode !== 'candidate_wide') {
+    return (
+      <div className="mx-auto max-w-2xl py-12 text-center">
+        <Card><CardContent className="space-y-4 py-10">
+          <Brain className="mx-auto h-10 w-10 text-muted-foreground" />
+          <h2 className="text-lg font-semibold">Candidate-wide Behaviour needs refresh</h2>
+          <p className="text-sm leading-6 text-muted-foreground">The stored profile predates the candidate-wide evidence contract. Refresh it to include only completed, verified attempts from explicitly labelled comparable MCQ modes. Until then, the older mode-specific profile is not presented as a candidate-wide result.</p>
+          <Button onClick={runAnalysis} disabled={analyzing} className="gap-2">
+            {analyzing ? <Loader2 className="h-4 w-4 animate-spin" /> : <RefreshCw className="h-4 w-4" />}
+            {analyzing ? 'Analyzing candidate-wide evidence…' : 'Refresh Behaviour'}
+          </Button>
+        </CardContent></Card>
+      </div>
+    );
+  }
+
   const meta: ArchetypeMeta = ARCHETYPE_META[data.archetype] || UNKNOWN_ARCHETYPE;
   const ArchIcon = meta.icon;
 
