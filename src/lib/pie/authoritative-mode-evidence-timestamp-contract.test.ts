@@ -26,7 +26,7 @@ describe("authoritative mode-scoped observation timestamps", () => {
   });
 
   it("keeps the change metadata-only and locks down the trigger function", () => {
-    expect(migration).toContain("Does not alter estimates, counts, inference formulas");
+    expect(migration).toContain("metadata-only trigger");
     expect(migration).toContain("revoke all on function pie._attach_mode_evidence_timestamps() from public, anon, authenticated, service_role");
     expect(migration).toContain("update pie.pie_candidate_state set state = state");
   });
