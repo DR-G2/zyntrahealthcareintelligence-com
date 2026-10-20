@@ -6,9 +6,10 @@ import { DIMENSIONS, normalizePracticeMode, type Dimension, type IntelligenceEvi
 import { authoritativePrismLayer, MIN_DIMENSION_OBSERVATIONS } from "@/lib/pie/readiness-prism-adapter";
 
 const LABELS: Record<Dimension, string> = {
-  capability: "Capability", decision: "Calibration", timing: "Timing",
-  calibration: "Confidence calibration", sustained_performance: "Sustained performance", learning: "Learning",
+  capability: "Capability", decision: "Decision", timing: "Timing",
+  calibration: "Calibration", sustained_performance: "Sustained performance", learning: "Learning",
 };
+const DISPLAY_DIMENSIONS: Dimension[] = ["capability", "calibration", "sustained_performance", "learning", "decision", "timing"];
 const MODES: { id: PracticeMode; label: string }[] = [
   { id: "normal_mcq", label: "Normal MCQ" }, { id: "amc_exam", label: "AMC Exam mode" }, { id: "nudge", label: "Nudge" },
 ];
@@ -67,7 +68,7 @@ export function ReadinessPrism({ evidence, loading, retry }: { evidence: Intelli
     <section aria-label="Six dimensions" className="space-y-3">
       <div><h3 className="font-display text-lg font-semibold">Six dimensions</h3><p className="text-sm text-muted-foreground">Each dimension uses its own valid-observation count. Cards are collapsed by default.</p></div>
       <div className="grid gap-3 sm:grid-cols-2">
-        {DIMENSIONS.map(name => {
+        {DISPLAY_DIMENSIONS.map(name => {
           const item = dimensions.find(value => value.dimension === name)!;
           const isOpen = expanded === name;
           const count = item.evidenceCount;
@@ -92,7 +93,8 @@ export function ReadinessPrism({ evidence, loading, retry }: { evidence: Intelli
     </section>
     <section aria-label="Main limiter" className="rounded-xl border border-border/70 p-4">
       <h3 className="font-semibold">Main limiter</h3>
-      <p className="mt-1 text-sm text-muted-foreground">{limiter ? LABELS[limiter.dimension] + " is the lowest currently evidence-qualified dimension. This describes the available evidence and does not establish a cause." : "Not enough evidence yet"}</p>
+      <p className="mt-1 text-sm text-muted-foreground">{limiter ? LABELS[limiter.dimension] + " tends to be the lowest of the dimensions that meet the evidence threshold. This is an observed comparison, not a causal explanation." : "Not enough evidence yet"}</p>
+      {limiter && limiter.lower !== null && limiter.upper !== null && <p className="mt-1 text-xs text-muted-foreground">Uncertainty interval: {pct(limiter.lower)}% to {pct(limiter.upper)}%.</p>}
     </section>
     <section aria-label="Did it work" className="rounded-xl border border-border/70 p-4">
       <h3 className="font-semibold">Did it work?</h3>
