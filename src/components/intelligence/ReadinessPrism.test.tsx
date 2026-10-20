@@ -9,12 +9,12 @@ function fixture(overrides: Partial<IntelligenceEvidence> = {}): IntelligenceEvi
     pie: { status: "ready", value: {
       dimensions: { capability: 0.8, decision: 0.7, timing: null, calibration: 0.6, sustained_performance: 0.75, learning: 0.5 },
       dimensionEvidence: {
-        capability: { uncertainty: null, lower: null, upper: null, evidenceCount: 8, evidenceQuality: 0.8 },
-        decision: { uncertainty: null, lower: null, upper: null, evidenceCount: 8, evidenceQuality: 0.8 },
+        capability: { latestObservationAt: "2026-10-16T07:00:00Z", uncertainty: null, lower: null, upper: null, evidenceCount: 8, evidenceQuality: 0.8 },
+        decision: { latestObservationAt: "2026-10-16T07:00:00Z", uncertainty: null, lower: null, upper: null, evidenceCount: 8, evidenceQuality: 0.8 },
         timing: { uncertainty: null, lower: null, upper: null, evidenceCount: null, evidenceQuality: null },
-        calibration: { uncertainty: null, lower: null, upper: null, evidenceCount: 8, evidenceQuality: 0.8 },
-        sustained_performance: { uncertainty: null, lower: null, upper: null, evidenceCount: 8, evidenceQuality: 0.8 },
-        learning: { uncertainty: null, lower: null, upper: null, evidenceCount: 8, evidenceQuality: 0.8 },
+        calibration: { latestObservationAt: "2026-10-16T07:00:00Z", uncertainty: null, lower: null, upper: null, evidenceCount: 8, evidenceQuality: 0.8 },
+        sustained_performance: { latestObservationAt: "2026-10-16T07:00:00Z", uncertainty: null, lower: null, upper: null, evidenceCount: 8, evidenceQuality: 0.8 },
+        learning: { latestObservationAt: "2026-10-16T07:00:00Z", uncertainty: null, lower: null, upper: null, evidenceCount: 8, evidenceQuality: 0.8 },
       },
       count: 8, level: "PRELIMINARY", timestamp: "2026-10-16T08:00:00Z", sufficient: true, sessionMode: "normal_mcq",
     } },
@@ -126,6 +126,21 @@ describe("Intelligence overview", () => {
     expect(screen.getAllByText(/Oct 16, 2026/).length).toBeGreaterThan(0);
   });
 
+  it("withholds an otherwise eligible estimate when its dimension timestamp is absent", () => {
+    const base = fixture().pie.value!;
+    const input = fixture({ pie: { status: "ready", value: {
+      ...base,
+      sessionMode: "normal_mcq",
+      dimensions: { capability: 0.8, decision: 0.7, timing: 0.6, calibration: 0.5, sustained_performance: 0.75, learning: 0.55 },
+      dimensionEvidence: Object.fromEntries(["capability","decision","timing","calibration","sustained_performance","learning"].map(dimension => [dimension, {
+        latestObservationAt: dimension === "capability" ? null : "2026-10-16T07:00:00Z",
+        uncertainty: 0.1, lower: 0.4, upper: 0.8, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true, calibrationReady: true,
+      }])) as NonNullable<typeof base.dimensionEvidence>,
+    } } });
+    render(<MemoryRouter><ReadinessPrism evidence={input} loading={false} retry={() => {}} /></MemoryRouter>);
+    expect(screen.getByRole("button", { name: /Clinical accuracy Unavailable/ })).toBeInTheDocument();
+  });
+
   it("withholds dimension estimates when the authoritative projection has no mode scope", () => {
     const base = fixture().pie.value!;
     const input = fixture({ pie: { status: "ready", value: {
@@ -154,7 +169,7 @@ describe("Intelligence overview", () => {
     const input = fixture({
       pie: { status: "ready", value: { ...base, sessionMode: "normal_mcq", dimensionEvidence: Object.fromEntries(
         ["capability","decision","timing","calibration","sustained_performance","learning"].map(dimension => [dimension, {
-          uncertainty: null, lower: null, upper: null, evidenceCount: 50, evidenceQuality: 0.9,
+          latestObservationAt: "2026-10-16T07:00:00Z", uncertainty: null, lower: null, upper: null, evidenceCount: 50, evidenceQuality: 0.9,
         }]),
       ) as NonNullable<typeof base.dimensionEvidence> } },
       history: { status: "ready", value: confidenceAttempts },
