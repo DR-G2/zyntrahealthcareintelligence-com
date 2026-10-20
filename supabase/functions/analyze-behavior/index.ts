@@ -1,7 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { fetchCallerPieHistory } from "../_shared/pie-v2.ts";
-import { toCompletedNormalMcqAttempts } from "../_shared/pie-v2-history.ts";
+import { toCompletedCandidateBehaviourAttempts } from "../_shared/pie-v2-history.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -65,17 +65,17 @@ serve(async (req) => {
       return new Response(JSON.stringify({ error: "subscription_required" }), { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
-    // Only explicitly mode-labelled Normal MCQ attempts may enter this analysis.
+    // Candidate-wide Behaviour combines completed, verified attempts from explicitly labelled comparable MCQ modes.
     const pie = await fetchCallerPieHistory(req, user.email, 1000, { url: supabaseUrl, anonKey });
     if ("error" in pie) {
       const publicError = pie.status === 401 ? "Practice session unavailable. Please sign in again." : pie.status === 403 ? "Practice history is unavailable for this account." : "Practice history is temporarily unavailable.";
       return new Response(JSON.stringify({ error: publicError }), { status: pie.status, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
     // The shared selector excludes ambiguous modes and attempts without a completed answer key.
-    const attempts = toCompletedNormalMcqAttempts(pie.rows);
+    const attempts = toCompletedCandidateBehaviourAttempts(pie.rows);
 
     if (attempts.length === 0) {
-      return new Response(JSON.stringify({ error: "No completed, verified Normal MCQ attempts found" }), { status: 404, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      return new Response(JSON.stringify({ error: "No completed, verified candidate Behaviour attempts found" }), { status: 404, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
     // ── MCQ Metrics ──
@@ -149,9 +149,27 @@ serve(async (req) => {
     const secondHalfAvgTime = secondHalfTimes.length ? secondHalfTimes.reduce((sum, value) => sum + value, 0) / secondHalfTimes.length : null;
     const fatigueIncrease = firstHalfAvgTime !== null && firstHalfAvgTime > 0 && secondHalfAvgTime !== null ? secondHalfAvgTime / firstHalfAvgTime : null;
 
+    // Candidate-wide summary plus a mode-labelled context breakdown. These are
+    // descriptive strata, not independent candidate profiles or comparative grades.
+    const modeBreakdown = Object.fromEntries(
+      [...new Set(attempts.map((a) => a.session_mode))].sort().map((mode) => {
+        const modeRows = attempts.filter((a) => a.session_mode === mode);
+        const modeTimed = modeRows.filter((a) => typeof a.time_taken_seconds === "number" && Number.isFinite(a.time_taken_seconds) && a.time_taken_seconds >= 0);
+        const modeChangeEvidence = modeRows.filter((a) => a.answer_changes_count !== null);
+        return [mode, {
+          attempts: modeRows.length,
+          accuracy: modeRows.length ? Math.round((modeRows.filter((a) => a.is_correct).length / modeRows.length) * 100) : null,
+          avgTime: modeTimed.length ? Math.round(modeTimed.reduce((sum, a) => sum + (a.time_taken_seconds as number), 0) / modeTimed.length) : null,
+          changeRate: modeChangeEvidence.length ? Math.round((modeChangeEvidence.filter((a) => a.answer_changes_count > 0).length / modeChangeEvidence.length) * 100) : null,
+          changeEvidenceCount: modeChangeEvidence.length,
+        }];
+      })
+    );
+
     // Build unified signals
     const signals = {
       totalAttempts,
+      modeBreakdown,
       avgTime: avgTime === null ? null : Math.round(avgTime),
       changeRate: changeRate === null ? null : Math.round(changeRate * 100) / 100,
       meanChangesPerAttempt: meanChangesPerAttempt === null ? null : Math.round(meanChangesPerAttempt * 100) / 100,
@@ -184,7 +202,7 @@ serve(async (req) => {
         messages: [
           {
             role: "system",
-            content: `You are an MCQ practice behaviour analyst. Describe patterns supported by explicitly labelled Normal MCQ attempts only. Do not combine OSCE, Nudge, AMC Exam mode, or Trust Your Gut aggregates. If a metric is null or unavailable, do not infer or replace it. Change rates use only valid recorded change-count observations; null means unavailable, not zero. The top-level changeRate is a fraction from 0 to 1; subjectStats and blockPerformance changeRate values are percentages from 0 to 100. meanChangesPerAttempt is the mean recorded change count per attempt with valid count evidence; null means unavailable. Do not predict exam scores, pass likelihood, or clinical readiness.\n\nArchetypes:
+            content: `You are a candidate-wide MCQ practice behaviour analyst. Describe patterns supported by completed attempts from explicitly labelled comparable MCQ modes. Use modeBreakdown only as context; do not assume differences between modes prove a candidate trait. Do not combine OSCE telemetry because it uses a different evidence contract. Trust Your Gut is a related but distinct answer-change view. If a metric is null or unavailable, do not infer or replace it. Change rates use only valid recorded change-count observations; null means unavailable, not zero. The top-level changeRate is a fraction from 0 to 1; subjectStats and blockPerformance changeRate values are percentages from 0 to 100. meanChangesPerAttempt is the mean recorded change count per attempt with valid count evidence; null means unavailable. Do not predict exam scores, pass likelihood, or clinical readiness.\n\nArchetypes:
 - panic_changer: only when meanChangesPerAttempt is greater than 2 and avgTime is available; first-instinct correctness is not supplied
 - rusher: only when avgTime is under 45 seconds and correctRate is available; question difficulty is not supplied, so do not claim hard-question errors
 - paralyzer: only when avgTime is greater than 300 seconds and correctRate is available; pause data is unavailable
@@ -201,7 +219,7 @@ The top-level changeRate is a fraction from 0 to 1; subjectStats and blockPerfor
           },
           {
             role: "user",
-            content: `Analyze this candidate's Normal MCQ behavioural evidence:\n${JSON.stringify(signals, null, 2)}`,
+            content: `Analyze this candidate's candidate-wide behavioural evidence, preserving practice-mode context:\n${JSON.stringify(signals, null, 2)}`,
           },
         ],
         tools: [
@@ -209,7 +227,7 @@ The top-level changeRate is a fraction from 0 to 1; subjectStats and blockPerfor
             type: "function",
             function: {
               name: "classify_behavior",
-              description: "Summarize observed Normal MCQ behaviour only; do not generate exam-score or pass predictions.",
+              description: "Summarize candidate-wide observed MCQ behaviour using explicitly labelled, comparable modes and preserve mode context; do not generate exam-score or pass predictions.",
               parameters: {
                 type: "object",
                 properties: {
@@ -349,7 +367,7 @@ The top-level changeRate is a fraction from 0 to 1; subjectStats and blockPerfor
     // Upsert behavior_profiles
     const profileData = {
       user_id: user.id,
-      session_mode: "normal_mcq",
+      session_mode: "candidate_wide",
       evidence_count: totalAttempts,
       model_version: "behavior-v1",
       archetype: classification.archetype,
