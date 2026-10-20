@@ -76,7 +76,7 @@ export interface NudgeOutcome {
 export function PieDrillSession({ config, resumeSessionId, onFinish }: {
   config: PieDrillConfig;
   resumeSessionId?: string | null;
-  onFinish: (questions: PieResultQuestion[], answers: Record<number, string>, changes: Record<number, number>, times: Record<number, number>, ruledOut: Record<number, string[]>, nudgeOutcome?: NudgeOutcome | null) => void;
+  onFinish: (questions: PieResultQuestion[], answers: Record<number, string>, changes: Record<number, number>, times: Record<number, number>, ruledOut: Record<number, string[]>, confidenceRatings: Record<number, number>, nudgeOutcome?: NudgeOutcome | null) => void;
 }) {
   const { user } = useAuth();
   const { toast } = useToast();
@@ -255,7 +255,7 @@ export function PieDrillSession({ config, resumeSessionId, onFinish }: {
           };
         }
       }
-      onFinish(r.questions, r.answers, r.changes, r.times, ruledOut, nudgeOutcome);
+      onFinish(r.questions, r.answers, r.changes, r.times, ruledOut, confidence, nudgeOutcome);
     } catch (e) {
       finishingRef.current = false;
       toast({ title: 'Session not completed', description: (e as Error).message, variant: 'destructive' });

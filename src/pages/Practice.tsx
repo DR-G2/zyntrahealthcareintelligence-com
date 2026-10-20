@@ -35,6 +35,7 @@ import { fetchLegacyShapedHistory } from '@/lib/pie/pie-history-client';
 import { getSupabaseV2 } from '@/integrations/supabase/v2-client';
 import { ensureV2Session } from '@/lib/migration/v2-practice-session';
 import { classifyPracticeResumeConfig } from '@/lib/practice-mode-availability';
+import { getDrillBehaviouralFeedback } from '@/lib/drill-results-feedback';
 
 interface Question {
   id: string;
@@ -756,6 +757,7 @@ function ResultsScreen({
   times,
   config,
   drillRuleOuts,
+  confidenceRatings,
   nudgeOutcome,
   onNewDrill,
 }: {
@@ -765,6 +767,7 @@ function ResultsScreen({
   times: Record<number, number>;
   config: SessionConfig;
   drillRuleOuts: Record<number, string[]>;
+  confidenceRatings: Record<number, number>;
   nudgeOutcome?: NudgeOutcome | null;
   onNewDrill: () => void;
 }) {
@@ -801,20 +804,15 @@ function ResultsScreen({
   const strengths = Object.entries(categoryStats).filter(([, s]) => s.total >= 1 && s.correct / s.total >= 0.8).map(([c]) => c);
   const weaknesses = Object.entries(categoryStats).filter(([, s]) => s.total >= 1 && s.correct / s.total < 0.6).map(([c]) => c);
 
-  // Generate insight
-  const generateInsight = () => {
-    const changesPerQ = total > 0 ? totalChanges / total : 0;
-    const easyWrong = questions.filter((q, i) => q.difficulty === 'easy' && answers[i] !== q.correct_answer).length;
-    const hardCorrect = questions.filter((q, i) => (q.difficulty === 'hard' || q.difficulty === 'difficult') && answers[i] === q.correct_answer).length;
-
-    if (changesPerQ > 1.5) return "You're overthinking — too many answer changes are costing you marks.";
-    if (easyWrong > total * 0.2) return "You're missing easy questions — slow down on straightforward stems.";
-    if (avgTime < 30 && accuracy < 60) return "You're rushing through questions — take more time to read the stem.";
-    if (hardCorrect > 0 && easyWrong > 0) return "You nail hard questions but slip on easy ones — watch for careless errors.";
-    if (accuracy >= 80) return "Strong performance! Focus on the few you missed to push higher.";
-    if (weaknesses.length > 0) return `Focus on ${weaknesses.slice(0, 2).join(' and ')} — these are dragging your score.`;
-    return "Keep practising consistently to build pattern recognition.";
-  };
+  const generateInsight = () => getDrillBehaviouralFeedback({
+    total,
+    totalChanges,
+    avgTime,
+    accuracy,
+    easyWrong: questions.filter((q, i) => q.difficulty === 'easy' && answers[i] !== q.correct_answer).length,
+    hardCorrect: questions.filter((q, i) => (q.difficulty === 'hard' || q.difficulty === 'difficult') && answers[i] === q.correct_answer).length,
+    weaknesses,
+  });
 
   // Rule-out scoring
   const getRuleOutScore = (qIndex: number) => {
@@ -904,7 +902,7 @@ function ResultsScreen({
   return (
     <AppLayout>
         
-      <div className="mx-auto max-w-3xl py-6 space-y-6">
+      <div className="mx-auto max-w-3xl space-y-6 px-4 py-6 pb-[calc(9rem+env(safe-area-inset-bottom))] md:px-0 md:pb-6">
         {config.primaryMode === 'nudge' && nudgeOutcome && (
           <Card className="border-primary/25"><CardContent className="p-5 space-y-3">
             <div><p className="text-xs font-semibold uppercase tracking-wide text-primary">Nudge · PIE reassessment</p><h2 className="mt-1 text-lg font-semibold">{nudgeOutcome.target.loTitle}</h2></div>
@@ -945,13 +943,12 @@ function ResultsScreen({
                 </div>
               </div>
 
-              {/* Insight */}
-              <div className="rounded-lg border border-primary/20 bg-primary/5 p-3">
-                <div className="flex items-start gap-2">
-                  <Zap className="h-4 w-4 text-primary mt-0.5 shrink-0" />
+              {/* Evidence-gated behavioural feedback. Factual stats remain visible above. */}
+              {generateInsight() && (
+                <div className="rounded-lg border border-border bg-muted/30 p-3">
                   <p className="text-sm text-foreground">{generateInsight()}</p>
                 </div>
-              </div>
+              )}
 
               {/* Category breakdown */}
               {Object.keys(categoryStats).length > 1 && (
@@ -977,7 +974,7 @@ function ResultsScreen({
               )}
 
               {/* Strengths / Weaknesses */}
-              {(strengths.length > 0 || weaknesses.length > 0) && (
+              {total >= 5 && (strengths.length > 0 || weaknesses.length > 0) && (
                 <div className="flex flex-wrap gap-4">
                   {strengths.length > 0 && (
                     <div className="flex items-center gap-2">
@@ -1001,35 +998,21 @@ function ResultsScreen({
               {/* Elimination stats (only show if user has used rule-out) */}
               {eliminationStats.questionsWithRuleOut > 0 && (
                 <div className="rounded-lg border p-3 space-y-2">
-                  <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">🧠 Rule-Out Intelligence</p>
-                  <div className="grid grid-cols-3 gap-3 text-center">
-                    <div>
-                      <p className="text-lg font-bold text-success">{eliminationStats.totalCorrectElim}</p>
-                      <p className="text-xs text-muted-foreground">Correct Eliminations</p>
-                    </div>
-                    <div>
-                      <p className="text-lg font-bold text-destructive">{eliminationStats.totalWrongElim}</p>
-                      <p className="text-xs text-muted-foreground">Wrong Eliminations</p>
-                    </div>
-                    <div>
-                      <p className="text-lg font-bold text-primary">
-                        {eliminationStats.totalPossible > 0 ? Math.round((eliminationStats.totalCorrectElim / eliminationStats.totalPossible) * 100) : 0}%
-                      </p>
-                      <p className="text-xs text-muted-foreground">Elimination Accuracy</p>
-                    </div>
+                  <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Rule-Out Intelligence</p>
+                  <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                    <p className="text-sm">Wrong options ruled out: <strong>{eliminationStats.totalCorrectElim} of {eliminationStats.totalPossible}</strong></p>
+                    <p className="text-sm">Correct answer kept: <strong>{eliminationStats.totalWrongElim === 0 ? 'Yes' : 'No'}</strong></p>
+                    <p className="text-xs text-muted-foreground sm:col-span-2">
+                      {eliminationStats.totalWrongElim === 0
+                        ? 'No correct answer was ruled out in the questions summarised here.'
+                        : `The correct answer was ruled out ${eliminationStats.totalWrongElim} time(s).`}
+                    </p>
                   </div>
                 </div>
               )}
             </CardContent>
           </Card>
         </motion.div>
-
-        {/* Actions */}
-        <div className="flex flex-wrap gap-3 justify-center">
-          <Button variant="outline" onClick={onNewDrill}>New Drill</Button>
-          <Button variant="outline" size="sm" onClick={expandAll}>Expand All</Button>
-          <Button variant="outline" size="sm" onClick={collapseAll}>Collapse All</Button>
-        </div>
 
         {/* ── SECTION 2: Full Question Review ── */}
         <div className="space-y-4">
@@ -1073,6 +1056,7 @@ function ResultsScreen({
                       <p className="text-xs text-muted-foreground mt-1">
                         Your answer: <strong className={isCorrect ? 'text-success' : 'text-destructive'}>{userAnswer || '—'}</strong>
                         {!isCorrect && <> · Correct: <strong className="text-success">{q.correct_answer}</strong></>}
+                        {confidenceRatings[i] != null && <> · Confidence: <strong>{confidenceRatings[i]}/5</strong></>}
                       </p>
                     </div>
                     <div className="flex items-center gap-2 shrink-0">
@@ -1156,11 +1140,14 @@ function ResultsScreen({
                           {/* Rule-out score */}
                           {ruleOutScore && (
                             <div className="rounded-lg bg-muted p-3 space-y-2">
-                              <div className="flex items-center justify-between">
-                                <p className="text-xs font-semibold">Elimination Score: {ruleOutScore.correctEliminations}/{ruleOutScore.total}</p>
-                                <Badge variant={ruleOutScore.wrongEliminations > 0 ? 'destructive' : 'default'} className="text-xs">
-                                  {ruleOutScore.wrongEliminations > 0 ? 'Eliminated correct answer!' : 'Good elimination'}
-                                </Badge>
+                              <div className="space-y-1">
+                                <p className="text-sm">Wrong options ruled out: <strong>{ruleOutScore.correctEliminations} of {ruleOutScore.total}</strong></p>
+                                <p className="text-sm">Correct answer kept: <strong>{ruleOutScore.wrongEliminations === 0 ? 'Yes' : 'No'}</strong></p>
+                                <p className="text-xs text-muted-foreground">
+                                  {ruleOutScore.wrongEliminations === 0
+                                    ? `Ruled out ${ruleOutScore.correctEliminations} incorrect option(s) and kept the correct answer.`
+                                    : `The correct answer was ruled out. Incorrect options ruled out correctly: ${ruleOutScore.correctEliminations} of ${ruleOutScore.total}.`}
+                                </p>
                               </div>
                               <div className="space-y-1">
                                 {ruleOutScore.details.map(d => (
@@ -1254,10 +1241,16 @@ function ResultsScreen({
           })}
         </div>
 
-        {/* Bottom actions */}
-        <div className="flex flex-wrap gap-3 justify-center pb-8">
+        {/* Actions follow question review in document order. On phones they stay above app navigation. */}
+        <div className="hidden md:flex flex-wrap gap-3 justify-center pb-8">
+          <Button variant="outline" size="sm" onClick={expandAll}>Expand All</Button>
+          <Button variant="outline" size="sm" onClick={collapseAll}>Collapse All</Button>
           <Button variant="outline" onClick={onNewDrill}>Start New Drill</Button>
           <Button asChild><Link to="/intelligence">View Intelligence</Link></Button>
+        </div>
+        <div className="fixed inset-x-0 bottom-[calc(4rem+env(safe-area-inset-bottom))] z-40 flex gap-2 border-t border-border/60 bg-background/95 px-4 py-3 shadow-[0_-8px_24px_rgba(0,0,0,0.12)] backdrop-blur md:hidden">
+          <Button variant="outline" className="min-h-11 flex-1" onClick={onNewDrill}>Start New Drill</Button>
+          <Button asChild className="min-h-11 flex-1"><Link to="/intelligence">View Intelligence</Link></Button>
         </div>
       </div>
     </AppLayout>
@@ -1304,6 +1297,7 @@ export default function Practice() {
     changes: Record<number, number>;
     times: Record<number, number>;
     ruledOut: Record<number, string[]>;
+    confidenceRatings: Record<number, number>;
     nudgeOutcome?: NudgeOutcome | null;
   } | null>(null);
 
@@ -1419,8 +1413,8 @@ export default function Practice() {
       <PieDrillSession
         config={config}
         resumeSessionId={resumeSessionId}
-        onFinish={(questions, answers, changes, times, ruledOut, nudgeOutcome) => {
-          setResultData({ questions: questions as Question[], answers, changes, times, ruledOut, nudgeOutcome });
+        onFinish={(questions, answers, changes, times, ruledOut, confidenceRatings, nudgeOutcome) => {
+          setResultData({ questions: questions as Question[], answers, changes, times, ruledOut, confidenceRatings, nudgeOutcome });
           setPhase('results');
         }}
       />
@@ -1436,6 +1430,7 @@ export default function Practice() {
         times={resultData.times}
         config={config}
         drillRuleOuts={resultData.ruledOut}
+        confidenceRatings={resultData.confidenceRatings}
         nudgeOutcome={resultData.nudgeOutcome}
         onNewDrill={() => { setResultData(null); setConfig(null); setPhase('setup'); }}
       />
