@@ -17,6 +17,7 @@ import { fetchLegacyShapedHistory } from '@/lib/pie/pie-history-client';
 
 interface AttemptRow {
   id: string;
+  session_mode: string | null;
   question_id: string;
   selected_answer: string;
   is_correct: boolean;
@@ -39,6 +40,18 @@ interface AttemptRow {
 const PAGE_SIZE = 20;
 type ResultFilter = 'all' | 'correct' | 'incorrect';
 type DateFilter = 'all' | 'today' | '7d' | '30d';
+type ModeFilter = 'normal_mcq' | 'amc_exam' | 'nudge' | 'legacy_orphan' | 'all';
+
+const MODE_LABELS: Record<Exclude<ModeFilter, 'all'>, string> = {
+  normal_mcq: 'Normal MCQ',
+  amc_exam: 'AMC Exam Mode (historical)',
+  nudge: 'Nudge (historical)',
+  legacy_orphan: 'Unclassified / legacy',
+};
+
+function modeLabel(mode: string): string {
+  return mode in MODE_LABELS ? MODE_LABELS[mode as Exclude<ModeFilter, 'all'>] : `Other: ${mode}`;
+}
 
 function normalizeOptions(value: any): string[] {
   if (Array.isArray(value)) return value.map(String);
@@ -62,6 +75,9 @@ export function MCQHistory({ expandedAttemptId, onExpandedAttemptChange, showSta
   const { user } = useAuth();
   const [page, setPage] = useState(0);
   const [filter, setFilter] = useState<ResultFilter>('all');
+  // Keep the default aligned with the active Practice mode. Historical AMC/Nudge and
+  // unclassified rows remain available through this selector; nothing is deleted.
+  const [modeFilter, setModeFilter] = useState<ModeFilter>('normal_mcq');
   const [subjectFilter, setSubjectFilter] = useState('all');
   const [subtopicFilter, setSubtopicFilter] = useState('all');
   const [difficultyFilter, setDifficultyFilter] = useState('all');
@@ -81,20 +97,39 @@ export function MCQHistory({ expandedAttemptId, onExpandedAttemptChange, showSta
     enabled: !!user,
   });
 
+  const modeCounts = useMemo(() => {
+    const counts = new Map<string, number>();
+    attempts.forEach(a => {
+      const mode = a.session_mode || 'legacy_orphan';
+      counts.set(mode, (counts.get(mode) || 0) + 1);
+    });
+    return counts;
+  }, [attempts]);
+
+  const modeOptions = useMemo(() => {
+    const known = ['normal_mcq', 'amc_exam', 'nudge', 'legacy_orphan'];
+    const extra = Array.from(modeCounts.keys()).filter(mode => !known.includes(mode)).sort();
+    return [...known.filter(mode => modeCounts.has(mode)), ...extra];
+  }, [modeCounts]);
+
+  const modeAttempts = useMemo(() => modeFilter === 'all'
+    ? attempts
+    : attempts.filter(a => (a.session_mode || 'legacy_orphan') === modeFilter), [attempts, modeFilter]);
+
   const subjects = useMemo(
-    () => Array.from(new Set(attempts.map(a => a.questions?.category).filter(Boolean))).sort(),
-    [attempts]
+    () => Array.from(new Set(modeAttempts.map(a => a.questions?.category).filter(Boolean))).sort(),
+    [modeAttempts]
   );
 
   const subtopics = useMemo(() => {
     const source = subjectFilter === 'all'
-      ? attempts
-      : attempts.filter(a => a.questions?.category === subjectFilter);
+      ? modeAttempts
+      : modeAttempts.filter(a => a.questions?.category === subjectFilter);
     return Array.from(new Set(source.map(a => a.questions?.subtopic).filter(Boolean))).sort();
-  }, [attempts, subjectFilter]);
+  }, [modeAttempts, subjectFilter]);
 
   const filtered = useMemo(() => {
-    let list = attempts;
+    let list = modeAttempts;
     if (filter === 'correct') list = list.filter(a => a.is_correct);
     if (filter === 'incorrect') list = list.filter(a => !a.is_correct);
     if (subjectFilter !== 'all') list = list.filter(a => a.questions?.category === subjectFilter);
@@ -121,28 +156,28 @@ export function MCQHistory({ expandedAttemptId, onExpandedAttemptChange, showSta
     }
 
     return list;
-  }, [attempts, filter, subjectFilter, subtopicFilter, difficultyFilter, dateFilter, searchQuery]);
+  }, [modeAttempts, filter, subjectFilter, subtopicFilter, difficultyFilter, dateFilter, searchQuery]);
 
   const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
   const paged = filtered.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
 
   const questionTrajectories = useMemo(() => {
     const map = new Map<string, AttemptRow[]>();
-    attempts.forEach(a => {
+    modeAttempts.forEach(a => {
       const list = map.get(a.question_id) || [];
       list.push(a);
       map.set(a.question_id, list);
     });
     return map;
-  }, [attempts]);
+  }, [modeAttempts]);
 
   const stats = useMemo(() => ({
-    total: attempts.length,
-    correct: attempts.filter(a => a.is_correct).length,
-    incorrect: attempts.filter(a => !a.is_correct).length,
-    unique: new Set(attempts.map(a => a.question_id)).size,
-    avgTime: (() => { const timed = attempts.map(a => a.time_taken_seconds).filter((value): value is number => typeof value === 'number' && Number.isFinite(value) && value >= 0); return timed.length ? Math.round(timed.reduce((sum, value) => sum + value, 0) / timed.length) : null; })(),
-  }), [attempts]);
+    total: modeAttempts.length,
+    correct: modeAttempts.filter(a => a.is_correct).length,
+    incorrect: modeAttempts.filter(a => !a.is_correct).length,
+    unique: new Set(modeAttempts.map(a => a.question_id)).size,
+    avgTime: (() => { const timed = modeAttempts.map(a => a.time_taken_seconds).filter((value): value is number => typeof value === 'number' && Number.isFinite(value) && value >= 0); return timed.length ? Math.round(timed.reduce((sum, value) => sum + value, 0) / timed.length) : null; })(),
+  }), [modeAttempts]);
 
   const getMastery = (history: AttemptRow[]) => {
     const ordered = [...history].sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime());
@@ -165,6 +200,7 @@ export function MCQHistory({ expandedAttemptId, onExpandedAttemptChange, showSta
 
   const resetFilters = () => {
     setFilter('all');
+    setModeFilter('normal_mcq');
     setSubjectFilter('all');
     setSubtopicFilter('all');
     setDifficultyFilter('all');
@@ -227,6 +263,16 @@ export function MCQHistory({ expandedAttemptId, onExpandedAttemptChange, showSta
       <Card className="border-border/60">
         <CardContent className="pt-4 space-y-3">
           <div className="flex flex-col lg:flex-row gap-3">
+            <Select value={modeFilter} onValueChange={(v: ModeFilter) => { setModeFilter(v); setPage(0); }}>
+              <SelectTrigger aria-label="Filter history by practice mode" className="w-full lg:w-[230px]"><SelectValue /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="normal_mcq">Normal MCQ ({modeCounts.get('normal_mcq') || 0})</SelectItem>
+                <SelectItem value="all">All modes ({attempts.length})</SelectItem>
+                {modeOptions.filter(mode => mode !== 'normal_mcq').map(mode => (
+                  <SelectItem key={mode} value={mode}>{modeLabel(mode)} ({modeCounts.get(mode) || 0})</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
             <div className="relative flex-1 min-w-0">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
@@ -284,8 +330,11 @@ export function MCQHistory({ expandedAttemptId, onExpandedAttemptChange, showSta
             </Button>
           </div>
 
+          {modeFilter === 'all' && (modeCounts.get('legacy_orphan') || 0) > 0 && (
+            <p className="text-xs text-muted-foreground">Unclassified / legacy attempts are kept separate because their original practice mode cannot be verified.</p>
+          )}
           <div className="flex items-center justify-between pt-1">
-            <p className="text-sm text-muted-foreground">{filtered.length} matching attempts</p>
+            <p className="text-sm text-muted-foreground">{filtered.length} matching attempts in {modeFilter === 'all' ? 'all modes' : modeLabel(modeFilter)}</p>
             <div className="hidden sm:flex items-center gap-1.5 text-xs text-muted-foreground">
               <SlidersHorizontal className="h-3.5 w-3.5" /> Filters update instantly
             </div>
