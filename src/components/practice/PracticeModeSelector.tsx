@@ -5,54 +5,37 @@ import { Button } from '@/components/ui/button';
 
 export type PracticePrimaryMode = 'drill' | 'nudge' | 'mock';
 
-const MODES: { id: PracticePrimaryMode; title: string; line: string; icon: typeof Target; tag?: string }[] = [
-  { id: 'drill', title: 'MCQ Drill', line: 'Question by question, with or without answer changes.', icon: Target },
-  { id: 'nudge', title: 'Nudge', line: 'Build evidence with mixed MCQs first, then target supported learning gaps with PIE.', icon: Compass },
-  { id: 'mock', title: 'Full Mock Exam', line: 'Timed, locked answers, no going back.', icon: Shield },
-];
-
-/** Presentational three-way mode picker (radio group with arrow-key support). */
+/** Normal MCQ is the only launchable mode. Upcoming modes are deliberately non-interactive. */
 export function PracticeModeSelector({ value, onChange }: { value: PracticePrimaryMode; onChange: (mode: PracticePrimaryMode) => void }) {
-  const refs = useRef<(HTMLButtonElement | null)[]>([]);
-  const onKey = (e: KeyboardEvent, i: number) => {
-    const delta = e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : e.key === 'ArrowLeft' || e.key === 'ArrowUp' ? -1 : 0;
-    if (!delta) return;
+  const refs = useRef<HTMLButtonElement | null>(null);
+  const onKey = (e: KeyboardEvent<HTMLButtonElement>) => {
+    if (!['ArrowRight', 'ArrowDown', 'ArrowLeft', 'ArrowUp', 'Home', 'End'].includes(e.key)) return;
     e.preventDefault();
-    const n = (i + delta + MODES.length) % MODES.length;
-    onChange(MODES[n].id);
-    refs.current[n]?.focus();
+    refs.current?.focus();
   };
   return (
-    <div role="radiogroup" aria-label="Practice mode" className="grid gap-3 md:grid-cols-3">
-      {MODES.map((m, i) => {
-        const active = value === m.id;
-        return (
-          <Button variant="ghost"
-            key={m.id}
-            ref={el => { refs.current[i] = el; }}
-            type="button"
-            role="radio"
-            aria-checked={active}
-            tabIndex={active ? 0 : -1}
-            onClick={() => onChange(m.id)}
-            onKeyDown={e => onKey(e, i)}
-            className={cn(
-              'practice-mode-tile group relative block h-auto min-w-0 whitespace-normal rounded-lg border p-4 text-left transition-colors motion-reduce:transition-none sm:p-5',
-              active ? 'border-primary/70 bg-accent' : 'border-border/60 bg-secondary hover:border-primary/40',
-            )}
-          >
-            <div className="flex flex-wrap items-center gap-3">
-              <span className={cn('flex h-9 w-9 shrink-0 items-center justify-center rounded-md', active ? 'bg-primary/10 text-primary' : 'bg-muted text-muted-foreground')}>
-                <m.icon className="h-5 w-5" aria-hidden="true" />
-              </span>
-              <span className="font-display text-base font-semibold text-foreground">{m.title}</span>
-              {m.tag && <span className="text-xs text-muted-foreground">{m.tag}</span>}
+    <section aria-label="Practice modes" className="space-y-3">
+      <div className="rounded-xl border border-primary/35 bg-primary/[0.06] p-4 sm:p-5">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex min-w-0 items-start gap-3">
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary"><Target className="h-5 w-5" aria-hidden="true" /></span>
+            <div className="min-w-0">
+              <div className="flex flex-wrap items-center gap-2"><h3 className="font-display text-lg font-semibold text-foreground">Normal MCQ</h3><span className="rounded-full border border-primary/30 px-2 py-0.5 text-xs font-medium text-primary">Available now</span></div>
+              <p className="mt-1 text-sm leading-6 text-muted-foreground">Build clinical reasoning one question at a time. Choose your answer, record confidence, and review your results when the session ends.</p>
             </div>
-            <p className="mt-3 text-sm leading-6 text-muted-foreground">{m.line}</p>
-            {active && <span className="absolute inset-x-6 -bottom-px h-px bg-primary" aria-hidden="true" />}
-          </Button>
-        );
-      })}
-    </div>
+          </div>
+          <Button ref={refs} type="button" onClick={() => onChange('drill')} onKeyDown={onKey} aria-pressed={value === 'drill'} className="min-h-11 w-full shrink-0 sm:w-auto">Practice Normal MCQ <Target className="ml-2 h-4 w-4" aria-hidden="true" /></Button>
+        </div>
+      </div>
+      <div className="grid gap-3 sm:grid-cols-2">
+        <article aria-disabled="true" className={cn('min-w-0 rounded-xl border border-dashed border-border/70 bg-muted/20 p-4 opacity-80')} aria-label="AMC Exam Mode. Under Construction · Live Soon. Unavailable.">
+          <div className="flex items-start gap-3"><span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-muted text-muted-foreground"><Shield className="h-5 w-5" aria-hidden="true" /></span><div className="min-w-0"><h3 className="font-semibold text-foreground">AMC Exam Mode</h3><p className="mt-1 text-xs font-medium text-muted-foreground">Under Construction · Live Soon</p><p className="mt-2 text-sm leading-5 text-muted-foreground">Exam simulation is not available to start yet. Existing records remain preserved.</p></div></div>
+        </article>
+        <article aria-disabled="true" className="min-w-0 rounded-xl border border-dashed border-border/70 bg-muted/20 p-4 opacity-80" aria-label="Nudge. Under Construction · Live Soon. Unavailable.">
+          <div className="flex items-start gap-3"><span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-muted text-muted-foreground"><Compass className="h-5 w-5" aria-hidden="true" /></span><div className="min-w-0"><h3 className="font-semibold text-foreground">Nudge</h3><p className="mt-1 text-xs font-medium text-muted-foreground">Under Construction · Live Soon</p><p className="mt-2 text-sm leading-5 text-muted-foreground">Targeted practice is not available to start yet. Existing records remain preserved.</p></div></div>
+        </article>
+      </div>
+      <span className="sr-only" role="status">Normal MCQ is available. AMC Exam Mode and Nudge are under construction and unavailable.</span>
+    </section>
   );
 }
