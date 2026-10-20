@@ -3,6 +3,7 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { ReadinessPrism } from "./ReadinessPrism";
 import type { IntelligenceEvidence } from "@/lib/pie/intelligence-evidence";
+import { authoritativePrismLayer } from "@/lib/pie/readiness-prism-adapter";
 
 function fixture(overrides: Partial<IntelligenceEvidence> = {}): IntelligenceEvidence {
   return {
@@ -137,8 +138,9 @@ describe("Intelligence overview", () => {
         uncertainty: 0.1, lower: 0.4, upper: 0.8, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true, calibrationReady: true,
       }])) as NonNullable<typeof base.dimensionEvidence>,
     } } });
-    render(<MemoryRouter><ReadinessPrism evidence={input} loading={false} retry={() => {}} /></MemoryRouter>);
-    expect(screen.getByRole("button", { name: /Clinical accuracy Unavailable/ })).toBeInTheDocument();
+    const model = authoritativePrismLayer(input.pie, "normal_mcq");
+    expect(model.dimensions.find(item => item.dimension === "capability")?.estimate).toBeNull();
+    expect(model.dimensions.find(item => item.dimension === "decision")?.estimate).toBe(0.7);
   });
 
   it("withholds dimension estimates when the authoritative projection has no mode scope", () => {
