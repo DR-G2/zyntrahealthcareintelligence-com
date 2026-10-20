@@ -1410,8 +1410,6 @@ export default function Practice() {
           setConfig(cfg);
           setPhase('drill');
         }}
-        onShowHistory={() => setPhase('history')}
-        onShowReviewQueue={() => setPhase('review')}
       />
     );
   }
