@@ -31,7 +31,9 @@ describe('Drill Complete evidence and review presentation', () => {
   it('uses factual elimination wording and removes accuracy percentages and judgement badges', () => {
     const practice = read('src/pages/Practice.tsx');
     expect(practice).toContain('Wrong options ruled out:');
-    expect(practice).toContain('Correct answer kept:');
+    expect(practice).toContain('Correct option ruled out:');
+    expect(practice).toContain('Did not rule out correct option');
+    expect(practice).not.toContain('Correct answer kept:');
     expect(practice).not.toContain('Elimination Accuracy');
     expect(practice).not.toContain('Elimination Score:');
     expect(practice).not.toContain('Good elimination');
