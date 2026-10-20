@@ -111,17 +111,19 @@ describe("Intelligence overview", () => {
       count: 141,
       dimensions: { capability: 0.8, decision: 0.97, timing: 0.89, calibration: 0.6, sustained_performance: 0.75, learning: 0.5 },
       dimensionEvidence: {
-        capability: { uncertainty: null, lower: null, upper: null, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
-        decision: { uncertainty: null, lower: null, upper: null, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
-        timing: { uncertainty: null, lower: null, upper: null, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
-        calibration: { uncertainty: null, lower: null, upper: null, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
-        sustained_performance: { uncertainty: null, lower: null, upper: null, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
-        learning: { uncertainty: null, lower: null, upper: null, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
+        capability: { latestObservationAt: "2026-10-16T07:00:00Z", uncertainty: null, lower: null, upper: null, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
+        decision: { latestObservationAt: "2026-10-16T07:00:00Z", uncertainty: null, lower: null, upper: null, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
+        timing: { latestObservationAt: "2026-10-16T07:00:00Z", uncertainty: null, lower: null, upper: null, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
+        calibration: { latestObservationAt: "2026-10-16T07:00:00Z", uncertainty: null, lower: null, upper: null, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
+        sustained_performance: { latestObservationAt: "2026-10-16T07:00:00Z", uncertainty: null, lower: null, upper: null, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
+        learning: { latestObservationAt: "2026-10-16T07:00:00Z", uncertainty: null, lower: null, upper: null, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
       },
     } } });
     render(<MemoryRouter><ReadinessPrism evidence={input} loading={false} retry={() => {}} /></MemoryRouter>);
     expect(screen.getAllByText("97%").length).toBeGreaterThan(0);
     expect(screen.getAllByText("89%").length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/Latest valid observation/).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/Oct 16, 2026/).length).toBeGreaterThan(0);
   });
 
   it("withholds dimension estimates when the authoritative projection has no mode scope", () => {
