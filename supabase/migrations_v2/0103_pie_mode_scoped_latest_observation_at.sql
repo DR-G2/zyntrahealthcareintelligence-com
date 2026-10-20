@@ -339,8 +339,7 @@ $$;
 end;
 $$;
 
--- The existing BEFORE trigger recomputes mode_evidence. Re-touch state to backfill
--- timestamps for current rows without changing canonical top-level estimates.
+-- Recompute only derived mode metadata. Canonical top-level estimates are unchanged.
 update pie.pie_candidate_state set state = state;
 
 comment on function pie._authoritative_mode_evidence(uuid,text) is
