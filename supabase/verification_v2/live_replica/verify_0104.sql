@@ -9,8 +9,9 @@ begin
       and conname = 'behavior_profiles_session_mode_check'
       and contype = 'c'
       and pg_get_constraintdef(oid) like '%candidate_wide%'
+      and pg_get_constraintdef(oid) like '%normal_mcq%'
   ) then
-    raise exception 'FAIL 0104 Behaviour profile must permit only candidate_wide scope';
+    raise exception 'FAIL 0104 Behaviour profile must permit candidate_wide and preserve legacy normal_mcq rows during refresh';
   end if;
   if not exists (
     select 1
