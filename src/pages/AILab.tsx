@@ -15,7 +15,7 @@ import { Link2, Unplug, Loader2, History, ShieldCheck, ExternalLink, RefreshCw, 
 type Dimension = { key: string; label: string; status: 'available' | 'building' | 'unavailable'; valuePercent: number | null; evidenceCount: number | null; uncertaintyPercent: number | null; lowerPercent: number | null; upperPercent: number | null; latestObservationAt: string | null; confidenceLevelCounts: Record<string, number | null> | null };
 type Source = { key: string; label: string; valuePercent: number | null; evidenceCount: number | null; uncertaintyPercent: number | null; latestObservationAt: string | null };
 type ModeEvidence = { mode: string; modeLabel: string; dimensions: Dimension[] };
-type PiePayload = { modeEvidence: ModeEvidence[]; overallStatus: string; confidenceChecklist: Array<{ mode: string; modeLabel: string; level: number; count: number | null }>; nextAction: { title: string; reason: string } | null; sources: Source[]; snapshotAt: string | null };
+type PiePayload = { modeEvidence: ModeEvidence[]; overallStatus: string; overallEvidenceCount: number | null; confidenceChecklist: Array<{ mode: string; modeLabel: string; level: number; count: number | null }>; nextAction: { title: string; reason: string } | null; sources: Source[]; snapshotAt: string | null };
 type Session = { id: string; mode: string; provider: string; model: string | null; created_at: string; status: string; error_code?: string | null; response_text?: string | null; prompt?: string | null };
 const FUNCTION_NAME = 'v2-ai-lab';
 const FALLBACK = 'I can only explain what your Performance Intelligence page shows. Try asking what a section means.';
@@ -34,7 +34,7 @@ export default function AILab() {
   const [result, setResult] = useState('');
   const [pie, setPie] = useState<PiePayload | null>(null);
   const [sources, setSources] = useState<Source[]>([]);
-  const [snapshotAt, setSnapshotAt] = useState<string | null>(null);
+  const [snapshotAt, setSnapshotAt] = useState<string | null>(null);\n  const [latestSnapshotAt, setLatestSnapshotAt] = useState<string | null>(null);\n  const [checkingSnapshot, setCheckingSnapshot] = useState(false);\n  const [snapshotCheckMessage, setSnapshotCheckMessage] = useState('');
   const [history, setHistory] = useState<Session[]>([]);
   const [expandedSession, setExpandedSession] = useState<string | null>(null);
   const [showAllHistory, setShowAllHistory] = useState(false);
@@ -108,13 +108,30 @@ export default function AILab() {
       setResult(typeof data.result === 'string' ? data.result : FALLBACK);
       setPie(data.pie && typeof data.pie === 'object' ? data.pie as PiePayload : null);
       setSources(Array.isArray(data.sources) ? data.sources as Source[] : []);
-      setSnapshotAt(typeof data.snapshot_at === 'string' ? data.snapshot_at : null);
+      setSnapshotAt(typeof data.snapshot_at === 'string' ? data.snapshot_at : null);\n      setLatestSnapshotAt(null); setSnapshotCheckMessage('');
       setLastPrompt(question.trim()); setPrompt('');
       await loadHistory();
     } catch (e) { toast({ title: 'AI Lab error', description: e instanceof Error ? e.message : 'Unable to explain PIE.', variant: 'destructive' }); }
     finally { setLoading(false); }
   };
 
+  const checkForNewerPie = async () => {
+    const answerSnapshot = snapshotAt || pie?.snapshotAt || null;
+    if (!answerSnapshot || checkingSnapshot) return;
+    setCheckingSnapshot(true);
+    setSnapshotCheckMessage('');
+    try {
+      const data = await invoke({ action: 'pie_snapshot' });
+      const latest = typeof data.snapshot_at === 'string' ? data.snapshot_at : typeof data.pie?.snapshotAt === 'string' ? data.pie.snapshotAt : null;
+      setLatestSnapshotAt(latest);
+      if (!latest) setSnapshotCheckMessage('The latest PIE timestamp is unavailable, so this answer could not be checked for newer data.');
+      else if (Date.parse(latest) > Date.parse(answerSnapshot)) setSnapshotCheckMessage('Newer PIE data is available. Re-run your question for an updated explanation.');
+      else setSnapshotCheckMessage('This answer matches the latest PIE snapshot currently available.');
+    } catch (e) {
+      setSnapshotCheckMessage(e instanceof Error ? e.message : 'Unable to check for newer PIE data.');
+    } finally { setCheckingSnapshot(false); }
+  };
+  const answerIsOutdated = Boolean(latestSnapshotAt && (snapshotAt || pie?.snapshotAt) && Date.parse(latestSnapshotAt) > Date.parse((snapshotAt || pie?.snapshotAt) as string));
   const shownHistory = showAllHistory ? history : history.slice(0, 5);
   const snapshotLabel = snapshotAt || pie?.snapshotAt ? new Date((snapshotAt || pie?.snapshotAt) as string).toLocaleString() : 'unavailable';
 
@@ -135,8 +152,8 @@ export default function AILab() {
       {!connected && <p className="text-xs text-muted-foreground">Connect an OpenAI key to begin. Your existing AI Lab history is retained.</p>}
       {result && <div className="space-y-4 rounded-2xl border border-cyan-400/15 bg-black/20 p-4"><div className="flex flex-wrap items-center justify-between gap-2"><p className="font-mono text-xs uppercase tracking-[0.16em] text-cyan-300">PIE explanation</p><Badge variant="outline">Based on your PIE</Badge></div><div className="whitespace-pre-wrap text-sm leading-7">{result}</div>
         {sources.length > 0 && <div className="flex flex-wrap gap-2">{sources.map(source => <span key={source.key} className="rounded-full border border-cyan-400/20 px-3 py-1.5 text-xs text-cyan-200">{source.label}{source.valuePercent !== null ? String(source.valuePercent) + '%' : ''}{source.evidenceCount !== null ? ' · ' + String(source.evidenceCount) + ' observations' : ''}</span>)}</div>}
-        <p className="text-xs text-muted-foreground">Based on your Performance Intelligence as of {snapshotLabel}.</p>
-        {pie && <div className="space-y-3 border-t border-white/10 pt-4"><h3 className="text-sm font-medium">Evidence planner</h3><div className="space-y-4">{pie.modeEvidence.map(group => <section key={group.mode} className="space-y-2"><h4 className="text-sm font-medium">{group.modeLabel}</h4><div className="grid gap-2 sm:grid-cols-2">{group.dimensions.map(d => <div key={d.key} className="flex items-start justify-between gap-3 rounded-lg border border-white/10 p-3"><div><p className="text-sm">{d.label}</p><p className="text-xs text-muted-foreground">{d.status === 'available' && d.valuePercent !== null ? String(d.valuePercent) + '% available' : d.status === 'building' ? d.evidenceCount === null ? 'Building, evidence count unavailable' : 'Building, ' + String(d.evidenceCount) + ' of 50' : 'Evidence unavailable'}</p></div><Badge variant="outline">{d.status === 'available' ? 'Available' : d.status === 'building' ? 'Building' : 'Unavailable'}</Badge></div>)}</div></section>)}</div>
+        <p className="text-xs text-muted-foreground">Based on your Performance Intelligence as of {snapshotLabel}.</p><div className="flex flex-wrap items-center gap-2"><Button variant="ghost" size="sm" onClick={() => void checkForNewerPie()} disabled={checkingSnapshot}>{checkingSnapshot ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <RefreshCw className="mr-2 h-4 w-4" />}Check for newer PIE data</Button>{answerIsOutdated && <Badge variant="outline">Outdated snapshot</Badge>}</div>{snapshotCheckMessage && <p role="status" className={answerIsOutdated ? "text-xs text-amber-300" : "text-xs text-muted-foreground"}>{snapshotCheckMessage}</p>
+        {pie && <div className="space-y-3 border-t border-white/10 pt-4"><h3 className="text-sm font-medium">Evidence planner</h3><p className="text-xs text-muted-foreground">Overall PIE evidence: {pie.overallStatus}{pie.overallEvidenceCount !== null ? " · " + String(pie.overallEvidenceCount) + " observations" : ""}</p><div className="space-y-4">{pie.modeEvidence.map(group => <section key={group.mode} className="space-y-2"><h4 className="text-sm font-medium">{group.modeLabel}</h4><div className="grid gap-2 sm:grid-cols-2">{group.dimensions.map(d => <div key={d.key} className="flex items-start justify-between gap-3 rounded-lg border border-white/10 p-3"><div><p className="text-sm">{d.label}</p><p className="text-xs text-muted-foreground">{d.status === 'available' && d.valuePercent !== null ? String(d.valuePercent) + '% available' : d.status === 'building' ? d.evidenceCount === null ? 'Building, evidence count unavailable' : 'Building, ' + String(d.evidenceCount) + ' of 50' : 'Evidence unavailable'}{d.uncertaintyPercent !== null ? ' · uncertainty ' + String(d.uncertaintyPercent) + '%' : ''}</p></div><Badge variant="outline">{d.status === 'available' ? 'Available' : d.status === 'building' ? 'Building' : 'Unavailable'}</Badge></div>)}</div></section>)}</div>
           {pie.confidenceChecklist.length > 0 && <div className="space-y-2"><p className="text-sm font-medium">Calibration evidence by confidence level</p>{pie.confidenceChecklist.map(item => <p key={item.mode + item.level} className="text-xs text-muted-foreground">{item.modeLabel} · Level {item.level}: {item.count === null ? 'count unavailable' : String(item.count) + ' of 15 observations'}</p>)}</div>}
           {pie.nextAction && <div className="rounded-lg border border-white/10 p-3"><p className="text-sm font-medium">PIE next action: {pie.nextAction.title}</p><p className="mt-1 text-xs leading-5 text-muted-foreground">{pie.nextAction.reason}</p></div>}
           <Button variant="outline" onClick={() => navigate('/practice')}>Go to Practice <ExternalLink className="ml-2 h-4 w-4" /></Button><p className="text-xs text-muted-foreground">Practice opens normally. This planner does not preselect questions or change session settings.</p>

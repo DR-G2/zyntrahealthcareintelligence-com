@@ -41,5 +41,9 @@ describe("AI Lab V1 PIE-only contract", () => {
     expect(edge).toContain('error_code, response_text, prompt');
     expect(ui).toContain("Building, evidence count unavailable");
     expect(ui).not.toContain("evidenceCount ?? 0");
+    expect(ui).toContain("Overall PIE evidence");
+    expect(ui).toContain("Check for newer PIE data");
+    expect(ui).toContain("Outdated snapshot");
+    expect(edge).toContain('action === "pie_snapshot"');
   });
 });

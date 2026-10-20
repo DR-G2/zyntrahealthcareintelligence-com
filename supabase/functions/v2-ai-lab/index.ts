@@ -208,6 +208,11 @@ Deno.serve(async (req) => {
       return data;
     };
 
+    if (action === "pie_snapshot") {
+      const pie = await buildContext(sb, caller.userId);
+      return json({ success: true, pie, snapshot_at: pie.snapshotAt });
+    }
+
     if (action === "status") {
       const conn = await loadConnection();
       if (!conn || conn.status !== "connected") { await audit("status", { metadata: { connected: false } }); return json({ success: true, connected: false, models: [] }); }
