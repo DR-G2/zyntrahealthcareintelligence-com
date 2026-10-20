@@ -111,8 +111,10 @@ async function buildContext(sb: ReturnType<typeof serviceClient>, userId: string
   let nextAction: { title: string; reason: string } | null = null;
   try {
     const { data: actionRow, error: actionError } = await sb.from("my_next_best_actions")
-      .select("action_type,action_data,expires_at,created_at,updated_at")
+      .select("action_type,action_data,expires_at,created_at,updated_at,priority")
       .eq("user_id", userId)
+      .order("priority", { ascending: false })
+      .order("updated_at", { ascending: false })
       .limit(1)
       .maybeSingle();
     if (!actionError && actionRow) {
