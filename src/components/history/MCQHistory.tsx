@@ -99,7 +99,7 @@ export function MCQHistory({ expandedAttemptId, onExpandedAttemptChange, showSta
 
   const modeCounts = useMemo(() => {
     const counts = new Map<string, number>();
-    modeAttempts.forEach(a => {
+    attempts.forEach(a => {
       const mode = a.session_mode || 'legacy_orphan';
       counts.set(mode, (counts.get(mode) || 0) + 1);
     });
@@ -163,7 +163,7 @@ export function MCQHistory({ expandedAttemptId, onExpandedAttemptChange, showSta
 
   const questionTrajectories = useMemo(() => {
     const map = new Map<string, AttemptRow[]>();
-    attempts.forEach(a => {
+    modeAttempts.forEach(a => {
       const list = map.get(a.question_id) || [];
       list.push(a);
       map.set(a.question_id, list);
