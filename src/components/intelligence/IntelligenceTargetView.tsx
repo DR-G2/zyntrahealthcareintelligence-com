@@ -80,7 +80,7 @@ export function ReadinessPrism({ evidence, loading, retry }: { evidence: Intelli
       <h3 className="mt-2 font-display text-lg font-semibold">{action?.title ?? "Build the next piece of evidence"}</h3>
       {action?.at && <p className="mt-1 text-xs text-muted-foreground">Recommendation recorded: {dateLabel(action.at) ?? "Date unavailable"}.</p>}
       <p className="mt-1 text-sm leading-6 text-muted-foreground">{action?.reason ?? "General suggestion, not yet personalised. Continue with a practice session in the selected mode."}</p>
-      {action?.subjectId && <p className="mt-2 text-sm text-muted-foreground">Supporting evidence: {rows.filter(row => row.subjectId === action.subjectId && row.answerKeyAvailable === true).length} scored attempts in the recommended subject for {modeLabel}.</p>}
+      {action?.subjectId && <p className="mt-2 text-sm text-muted-foreground">Supporting evidence: {rows.filter(row => row.subjectId === action.subjectId && row.answerKeyAvailable === true).length} scored attempts in the recommended subject for {modeLabel}. Latest: {dateLabel(latestAt(rows.filter(row => row.subjectId === action.subjectId))) ?? "Unavailable"}.</p>}
       <Button asChild className="mt-3 min-h-11"><Link to="/practice">Go to Practice <ArrowRight className="ml-2 h-4 w-4" /></Link></Button>
     </section>
     <section aria-label="Evidence status" className="rounded-xl border border-border/70 p-4">
@@ -133,7 +133,7 @@ export function ReadinessPrism({ evidence, loading, retry }: { evidence: Intelli
         : afterAction.length < 15 || beforeAction.length < 15
         ? <p className="mt-1 text-sm text-muted-foreground">Not enough practice since the suggestion.</p>
         : <div className="mt-2 space-y-2 text-sm">
-              <p>Before suggestion ({dateLabel(action.at) ? "before " + dateLabel(action.at) : "earlier"}): {Math.round((beforeRate ?? 0) * 100)}%, n={beforeAction.length}, 95% interval {Math.round((beforeInterval![0]) * 100)}% to {Math.round((beforeInterval![1]) * 100)}%.</p>
+              <p>Before suggestion (latest observation {dateLabel(latestAt(beforeAction)) ?? "Unavailable"}): {Math.round((beforeRate ?? 0) * 100)}%, n={beforeAction.length}, 95% interval {Math.round((beforeInterval![0]) * 100)}% to {Math.round((beforeInterval![1]) * 100)}%.</p>
               <p>After suggestion: {Math.round((afterRate ?? 0) * 100)}%, n={afterAction.length}, 95% interval {Math.round((afterInterval![0]) * 100)}% to {Math.round((afterInterval![1]) * 100)}%. Latest: {dateLabel(latestAt(afterAction)) ?? "Unavailable"}.</p>
               <p className="text-muted-foreground">{distinguishable ? "The observed results differ beyond these intervals. This is an association over time, not evidence that the suggestion caused the change." : "No clear change"}</p>
             </div>}
