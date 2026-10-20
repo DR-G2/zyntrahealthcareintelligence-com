@@ -22,7 +22,7 @@ describe('Drill Complete evidence and review presentation', () => {
 
   it('preserves the rushing heuristic thresholds behind the evidence gate', () => {
     const practice = read('src/pages/Practice.tsx');
-    expect(practice).toContain('if (avgTime < 30 && accuracy < 60)');
+    expect(read('src/lib/drill-results-feedback.ts')).toContain('if (avgTime < 30 && accuracy < 60)');
     expect(practice).toContain('getDrillBehaviouralFeedback({');
     expect(read('src/lib/drill-results-feedback.ts')).toContain('if (total < 5) return null;');
     expect(read('src/lib/drill-results-feedback.ts')).toContain('Average time is under 30 seconds with accuracy below 60%.');
