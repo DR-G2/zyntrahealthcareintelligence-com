@@ -107,9 +107,26 @@ async function buildContext(sb: ReturnType<typeof serviceClient>, userId: string
       ? [1,2,3,4,5].map(level => ({ mode: group.mode, modeLabel: group.modeLabel, level, count: calibration.confidenceLevelCounts[String(level)] ?? null }))
       : [];
   });
-  const action = state.next_action && typeof state.next_action === "object" && !Array.isArray(state.next_action) ? state.next_action : null;
-  const nextAction = action && typeof action.title === "string" && typeof action.reason === "string"
-    ? { title: action.title.slice(0, 120), reason: action.reason.slice(0, 500) } : null;
+  // Match the candidate-facing /intelligence action mapper. Never infer an action from raw attempts.
+  let nextAction: { title: string; reason: string } | null = null;
+  try {
+    const { data: actionRow, error: actionError } = await sb.from("my_next_best_actions")
+      .select("action_type,action_data,expires_at,created_at,updated_at")
+      .eq("user_id", userId)
+      .limit(1)
+      .maybeSingle();
+    if (!actionError && actionRow) {
+      const actionData = actionRow.action_data && typeof actionRow.action_data === "object" && !Array.isArray(actionRow.action_data)
+        ? actionRow.action_data as Record<string, unknown> : {};
+      const expiresAt = actionRow.expires_at;
+      const notExpired = expiresAt == null || (iso(expiresAt) !== null && Date.parse(String(expiresAt)) > Date.now());
+      if (actionRow.action_type === "FOCUS_WEAK_SUBJECT" && typeof actionData.reason === "string" && actionData.reason && notExpired) {
+        nextAction = { title: "Review your lowest-performing subject", reason: actionData.reason.slice(0, 500) };
+      }
+    }
+  } catch {
+    // The candidate-facing action is optional. A read failure never creates a substitute action.
+  }
   return {
     modeEvidence,
     overallStatus: typeof state.evidence_level === "string" ? state.evidence_level : "UNAVAILABLE",
