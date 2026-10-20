@@ -122,7 +122,7 @@ async function fetchAllQuestionTopicMeta(): Promise<QuestionTopicMeta[]> {
 
 // ─── Setup Screen ───────────────────────────────────────────────
 
-function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (config: SessionConfig) => void; onShowHistory?: () => void; onShowReviewQueue?: () => void }) {
+function SetupScreen({ onStart }: { onStart: (config: SessionConfig) => void }) {
   const gate = useFeatureGate();
   const [searchParams] = useSearchParams();
   const focusSubtopic = searchParams.get('focus');
