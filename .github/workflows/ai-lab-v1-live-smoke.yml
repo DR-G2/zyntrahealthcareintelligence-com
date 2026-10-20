@@ -2,6 +2,13 @@ name: AI Lab V1 Read-only Live Smoke
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - feat/ai-lab-v1-pie-explainer
+    paths:
+      - '.github/workflows/ai-lab-v1-live-smoke.yml'
+      - 'scripts/ai-lab-v1-live-smoke.mts'
+      - 'supabase/functions/v2-ai-lab/**'
 
 permissions:
   contents: read
