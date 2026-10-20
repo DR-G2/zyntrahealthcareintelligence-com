@@ -51,7 +51,7 @@ export function LiveActivityTab({ onOpenSystem }: { onOpenSystem?: () => void })
       if (trainingRes.data) setLastRetrained(trainingRes.data.updated_at);
     } catch (e: any) {
       const message = e instanceof Error ? e.message : String(e ?? 'Unknown error');
-      const plainReason = /admin_roles|schema cache|relation .* does not exist|column .* does not exist|permission denied|not authorized|forbidden/i.test(message)
+      const plainReason = /admin[\\s_-]*roles?|schema cache|relation .* does not exist|column .* does not exist|permission denied|not authorized|forbidden/i.test(message)
         ? 'The admin role or activity query does not match the current database schema/permissions.'
         : 'The activity service returned an error.';
       setLoadError(`${plainReason} Details: ${message}`);
