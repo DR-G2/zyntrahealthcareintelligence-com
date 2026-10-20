@@ -104,7 +104,7 @@ export function ReadinessPrism({ evidence, loading, retry }: { evidence: Intelli
             <article className={"rounded-xl border border-border/70 bg-card/40 " + (name === "capability" ? "sm:col-span-2 border-primary/30" : "")}>
             <button type="button" aria-expanded={isOpen} onClick={() => setExpanded(isOpen ? null : name)} className="flex min-h-[84px] w-full items-center gap-3 p-4 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
               <span className="min-w-0 flex-1"><span className="block text-sm font-medium">{LABELS[name]}</span><span className={"mt-1 block font-display font-semibold " + (name === "capability" ? "text-2xl" : "text-xl")}>{display}</span>
-              <span className="mt-1 block text-xs text-muted-foreground">{count !== null && count < MIN_DIMENSION_OBSERVATIONS ? "Building, " + count + " of " + MIN_DIMENSION_OBSERVATIONS : count === null ? "Valid observation count unavailable" : count + " valid observations"}</span><span className="mt-1 block text-xs text-muted-foreground">Latest: {dateLabel(item.latestObservationAt) ?? "Unavailable"}</span></span>
+              <span className="mt-1 block text-xs text-muted-foreground">{count !== null && count < MIN_DIMENSION_OBSERVATIONS ? "Building, " + count + " of " + MIN_DIMENSION_OBSERVATIONS : count === null ? "Valid observation count unavailable" : count + " valid observations"}</span>{enough && item.lower !== null && item.upper !== null && <span className="mt-1 block text-xs text-muted-foreground">Interval: {pct(item.lower)}% to {pct(item.upper)}%</span>}<span className="mt-1 block text-xs text-muted-foreground">Latest: {dateLabel(item.latestObservationAt) ?? "Unavailable"}</span></span>
               <ChevronDown aria-hidden="true" className={"h-4 w-4 shrink-0 transition-transform " + (isOpen ? "rotate-180" : "")} />
             </button>
             <div className="px-4 pb-3"><div role="progressbar" aria-label={LABELS[name] + " evidence progress"} aria-valuemin={0} aria-valuemax={MIN_DIMENSION_OBSERVATIONS} aria-valuenow={count === null ? undefined : Math.min(count, MIN_DIMENSION_OBSERVATIONS)} aria-valuetext={count === null ? "Evidence count unavailable" : count + " of " + MIN_DIMENSION_OBSERVATIONS + " valid observations"} className="h-1.5 overflow-hidden rounded-full bg-muted"><div className="h-full rounded-full bg-primary" style={{ width: count === null ? "0%" : Math.min(count / MIN_DIMENSION_OBSERVATIONS, 1) * 100 + "%" }} /></div></div>
@@ -128,7 +128,9 @@ export function ReadinessPrism({ evidence, loading, retry }: { evidence: Intelli
       <h3 className="font-semibold">Did it work?</h3>
       {evidence?.history.status === "unavailable"
         ? <p className="mt-1 text-sm text-muted-foreground">Practice history is unavailable, so change cannot be assessed.</p>
-        : !action?.at || afterAction.length < 15
+        : !action?.at
+        ? <p className="mt-1 text-sm text-muted-foreground">No clear change</p>
+        : afterAction.length < 15 || beforeAction.length < 15
         ? <p className="mt-1 text-sm text-muted-foreground">Not enough practice since the suggestion.</p>
         : beforeAction.length < 15
           ? <p className="mt-1 text-sm text-muted-foreground">Not enough practice since the suggestion.</p>
