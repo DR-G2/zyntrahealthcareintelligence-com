@@ -494,7 +494,7 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
           <div>
             <p className="font-mono text-xs uppercase tracking-[.2em] text-primary">Your clinical training workspace</p>
             <h2 id="practice-mode-heading" className="mt-2 font-display text-xl font-semibold">Start with Normal MCQ</h2>
-            <p className="mt-1 max-w-2xl text-sm leading-6 text-muted-foreground">Work through eligible AMC-style questions, record confidence, and review your saved results. Normal MCQ is the available practice mode.</p>
+            <p className="mt-1 max-w-2xl text-sm leading-6 text-muted-foreground">Work through eligible AMC-style questions, record confidence, and review your saved results.</p>
           </div>
           <PracticeModeSelector value={primary} onChange={() => {
             // The selector only exposes Normal MCQ as launchable. Upcoming modes
@@ -733,7 +733,7 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
               primaryMode: primary,
             });
           }}
-          className="sticky bottom-4 z-10 min-h-12 w-full gap-2 sm:static sm:w-auto"
+          className="sticky bottom-4 z-10 min-h-12 w-full gap-2 sm:static sm:w-auto [margin-bottom:env(safe-area-inset-bottom)]"
         >
           <Zap className="h-4 w-4" /> {primary === 'nudge' ? 'Start Nudge' : primary === 'mock' ? 'Start mock exam' : 'Start drill'}
         </Button>
