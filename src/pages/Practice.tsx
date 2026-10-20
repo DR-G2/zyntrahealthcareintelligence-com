@@ -1282,6 +1282,7 @@ export default function Practice() {
   const [searchParams] = useSearchParams();
   const resumeSessionId = searchParams.get('resume');
   const [resumeGate, setResumeGate] = useState<'checking' | 'allowed' | 'blocked' | 'unavailable'>(resumeSessionId ? 'checking' : 'allowed');
+  const [resumeRetry, setResumeRetry] = useState(0);
   const [phase, setPhase] = useState<'setup' | 'drill' | 'results' | 'history' | 'review'>(resumeSessionId ? 'drill' : 'setup');
 
   useEffect(() => {
@@ -1304,7 +1305,7 @@ export default function Practice() {
       }
     })();
     return () => { cancelled = true; };
-  }, [resumeSessionId, user]);
+  }, [resumeSessionId, user, resumeRetry]);
   const [config, setConfig] = useState<SessionConfig | null>(
     resumeSessionId ? { mode: 'recharge', topics: [], subtopics: [], questionCount: 50, statusFilter: 'all' } : null
   );
@@ -1338,7 +1339,7 @@ export default function Practice() {
             <Card role="alert"><CardContent className="space-y-3 p-5">
               <h2 className="font-semibold">We couldn't verify this saved session</h2>
               <p className="text-sm leading-6 text-muted-foreground">Sign in again or retry the check. The session was not changed, and we will not start it until its mode can be verified.</p>
-              <Button variant="outline" onClick={() => setResumeGate('checking') || window.location.reload()}>Retry session check</Button>
+              <Button variant="outline" onClick={() => { setResumeGate('checking'); setResumeRetry(value => value + 1); }}>Retry session check</Button>
             </CardContent></Card>
           )}
           <div className="flex flex-col gap-2 sm:flex-row">
