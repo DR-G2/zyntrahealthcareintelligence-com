@@ -17,10 +17,6 @@ begin
   v_nudge := v_state->'mode_evidence'->'nudge';
   v_amc := v_state->'mode_evidence'->'amc_exam';
 
-  foreach v_state in array array[]::jsonb[] loop
-    null;
-  end loop;
-
   if (v_normal->'capability'->>'latest_observation_at')::timestamptz is distinct from v_expected_normal then
     raise exception 'FAIL 0103 capability timestamp not latest valid Normal MCQ observation';
   end if;
