@@ -1,19 +1,21 @@
-import { Activity, ArrowRight, Clock, History as HistoryIcon, Hammer } from 'lucide-react';
+import { Activity, ArrowRight, Clock, History as HistoryIcon, Hammer, Target } from 'lucide-react';
 import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { AppLayout } from '@/components/AppLayout';
 import { MCQHistory } from '@/components/history/MCQHistory';
+import { MCQReviewQueue } from '@/components/history/MCQReviewQueue';
 import { useFeatureGate } from '@/hooks/useFeatureGate';
 import { UpgradePrompt } from '@/components/UpgradePrompt';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 
-type HistoryTab = 'all' | 'mcq' | 'osce';
+type HistoryTab = 'all' | 'mcq' | 'osce' | 'review';
 
 const TABS: { id: HistoryTab; label: string }[] = [
   { id: 'all', label: 'All activity' },
   { id: 'mcq', label: 'MCQ history' },
   { id: 'osce', label: 'OSCE history' },
+  { id: 'review', label: 'Review Queue' },
 ];
 
 export default function HistoryPage() {
@@ -22,7 +24,7 @@ export default function HistoryPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const requestedTab = searchParams.get('tab');
-  const activeTab: HistoryTab = requestedTab === 'mcq' || requestedTab === 'osce' ? requestedTab : 'all';
+  const activeTab: HistoryTab = requestedTab === 'mcq' || requestedTab === 'osce' || requestedTab === 'review' ? requestedTab : 'all';
   const reviewAttemptId = searchParams.get('attempt-review');
 
   // Preserve unrelated query parameters and the hash. Browser Back/Forward restores
@@ -54,7 +56,7 @@ export default function HistoryPage() {
         </header>
 
         <section aria-label="History sections">
-          <div role="tablist" aria-label="History type" className="grid grid-cols-3 gap-1 rounded-xl border border-white/10 bg-white/[0.03] p-1">
+          <div role="tablist" aria-label="History type" className="grid grid-cols-2 gap-1 rounded-xl border border-white/10 bg-white/[0.03] p-1 sm:grid-cols-4">
             {TABS.map((tab) => (
               <button
                 key={tab.id}
@@ -72,7 +74,22 @@ export default function HistoryPage() {
         </section>
 
         <div id="history-panel" role="tabpanel" aria-label={TABS.find((tab) => tab.id === activeTab)?.label} className="space-y-5">
-          {activeTab === 'osce' ? (
+          {activeTab === 'review' ? (
+            <section aria-label="MCQ review queue" className="space-y-3">
+              <div className="flex items-start gap-3">
+                <div className="rounded-lg bg-cyan-300/10 p-2 text-cyan-200"><Target className="h-5 w-5" aria-hidden="true" /></div>
+                <div>
+                  <h2 className="text-lg font-semibold text-white">Review Queue</h2>
+                  <p className="text-sm leading-6 text-slate-400">Questions Zyntra has identified as needing another look.</p>
+                </div>
+              </div>
+              {gate.canAccessHistory ? (
+                <MCQReviewQueue />
+              ) : (
+                <UpgradePrompt feature="Question Review Queue" description="Upgrade to access your personalised MCQ review queue." variant="card" />
+              )}
+            </section>
+          ) : activeTab === 'osce' ? (
             <Card className="border-dashed border-white/15 bg-white/[0.025]">
               <CardContent className="flex flex-col items-center gap-4 px-5 py-12 text-center">
                 <div className="flex h-12 w-12 items-center justify-center rounded-full border border-amber-300/20 bg-amber-300/10 text-amber-200">

@@ -149,7 +149,7 @@ function AppRoutes() {
           <Route path="/companion/groups" element={<LegacyRedirect to="/practice" />} />
           <Route path="/companion/shared-tests" element={<LegacyRedirect to="/practice" />} />
           <Route path="/companion/ai-core" element={<ProtectedRoute><ErrorBoundary><ZyntraAICore /></ErrorBoundary></ProtectedRoute>} />
-          <Route path="/review" element={<LegacyRedirect to="/practice" />} />
+          <Route path="/review" element={<LegacyRedirect to="/history" tab="review" />} />
           <Route path="/feed" element={<ProtectedRoute><ErrorBoundary><Feed /></ErrorBoundary></ProtectedRoute>} />
           <Route path="/flashcards" element={<ProtectedRoute><ErrorBoundary><Flashcards /></ErrorBoundary></ProtectedRoute>} />
           <Route path="/history" element={<ProtectedRoute><ErrorBoundary><HistoryPage /></ErrorBoundary></ProtectedRoute>} />

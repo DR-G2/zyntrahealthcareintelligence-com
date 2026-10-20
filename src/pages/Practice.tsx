@@ -122,7 +122,7 @@ async function fetchAllQuestionTopicMeta(): Promise<QuestionTopicMeta[]> {
 
 // ─── Setup Screen ───────────────────────────────────────────────
 
-function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (config: SessionConfig) => void; onShowHistory?: () => void; onShowReviewQueue?: () => void }) {
+function SetupScreen({ onStart }: { onStart: (config: SessionConfig) => void }) {
   const gate = useFeatureGate();
   const [searchParams] = useSearchParams();
   const focusSubtopic = searchParams.get('focus');
@@ -479,19 +479,6 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
         
       <div className="mx-auto max-w-6xl space-y-6">
         <RoomHeader kind="practice" compact className="mb-1" />
-        <div className="flex flex-wrap justify-end gap-2">
-          {onShowReviewQueue && (
-            <Button variant="outline" size="sm" onClick={onShowReviewQueue} className="gap-1.5">
-              <Target className="h-4 w-4" /> Review Queue
-            </Button>
-          )}
-          {onShowHistory && (
-            <Button variant="outline" size="sm" onClick={onShowHistory} className="gap-1.5">
-              <BookOpen className="h-4 w-4" /> MCQ History
-            </Button>
-          )}
-        </div>
-
         {!gate.canUseMCQ && (
           <UpgradePrompt feature="Daily MCQ Limit Reached" description={`You've used ${gate.mcqUsedToday}/${gate.mcqDailyLimit} free MCQs today. Upgrade for unlimited practice.`} variant="banner" />
         )}
@@ -507,7 +494,7 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
           <div>
             <p className="font-mono text-xs uppercase tracking-[.2em] text-primary">Your clinical training workspace</p>
             <h2 id="practice-mode-heading" className="mt-2 font-display text-xl font-semibold">Start with Normal MCQ</h2>
-            <p className="mt-1 max-w-2xl text-sm leading-6 text-muted-foreground">Work through eligible AMC-style questions, record confidence, and review your saved results. Normal MCQ is the available practice mode.</p>
+            <p className="mt-1 max-w-2xl text-sm leading-6 text-muted-foreground">Work through eligible AMC-style questions, record confidence, and review your saved results.</p>
           </div>
           <PracticeModeSelector value={primary} onChange={() => {
             // The selector only exposes Normal MCQ as launchable. Upcoming modes
@@ -686,9 +673,11 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
                         <CollapsibleTrigger className="flex min-h-12 min-w-0 flex-1 items-center justify-between py-3 text-left">
                         <div className="flex min-w-0 flex-wrap items-center gap-2">
                           <span className="font-medium text-sm">{subject.name}</span>
-                          <Badge variant="secondary" className="text-xs">
-                            {subjectCounts[subject.name] || 0}
-                          </Badge>
+                          {subjectCounts[subject.name] > 0 && (
+                            <Badge variant="secondary" className="text-xs">
+                              {subjectCounts[subject.name]}
+                            </Badge>
+                          )}
                         </div>
                         {subtopics.length > 0 && (
                           <ChevronDown className={cn(
@@ -746,7 +735,7 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
               primaryMode: primary,
             });
           }}
-          className="sticky bottom-4 z-10 min-h-12 w-full gap-2 sm:static sm:w-auto"
+          className="sticky bottom-4 z-10 min-h-12 w-full gap-2 sm:static sm:w-auto [margin-bottom:env(safe-area-inset-bottom)]"
         >
           <Zap className="h-4 w-4" /> {primary === 'nudge' ? 'Start Nudge' : primary === 'mock' ? 'Start mock exam' : 'Start drill'}
         </Button>
@@ -1421,8 +1410,6 @@ export default function Practice() {
           setConfig(cfg);
           setPhase('drill');
         }}
-        onShowHistory={() => setPhase('history')}
-        onShowReviewQueue={() => setPhase('review')}
       />
     );
   }
