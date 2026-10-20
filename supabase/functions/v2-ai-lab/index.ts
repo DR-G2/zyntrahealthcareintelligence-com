@@ -187,7 +187,7 @@ Deno.serve(async (req) => {
       const model = typeof fields.model === "string" ? fields.model : null;
       const mode = typeof fields.mode === "string" ? fields.mode : null;
       const provider = typeof fields.provider === "string" ? fields.provider : adapter?.id ?? providerId;
-      const { error } = await sb.from("ai_lab.interactions").insert({
+      const { error } = await sb.schema("ai_lab").from("interactions").insert({
         user_id: caller.userId,
         session_id: typeof fields.session_id === "string" ? fields.session_id : null,
         event_type: eventType,
@@ -202,7 +202,7 @@ Deno.serve(async (req) => {
     if (!adapter) throw new LabError("INVALID_REQUEST", "Provider not supported.", 400);
 
     const loadConnection = async () => {
-      const { data, error } = await sb.from("ai_lab.connections").select("encrypted_api_key, selected_model, status")
+      const { data, error } = await sb.schema("ai_lab").from("connections").select("encrypted_api_key, selected_model, status")
         .eq("user_id", caller.userId).eq("provider", adapter.id).maybeSingle();
       if (error) throw new LabError("DATABASE_ERROR", "Unable to read the provider connection.", 500);
       return data;
@@ -227,7 +227,7 @@ Deno.serve(async (req) => {
       if (!models.length) throw new LabError("NO_SUPPORTED_MODEL", "No supported model is available for this API credential.", 403);
       const model = adapter.preferredModel(models);
       const now = new Date().toISOString();
-      const { error } = await sb.from("ai_lab.connections").upsert({
+      const { error } = await sb.schema("ai_lab").from("connections").upsert({
         user_id: caller.userId, provider: adapter.id, encrypted_api_key: await encrypt(apiKey, getEncryptionSecret()),
         selected_model: model, status: "connected", last_verified_at: now, updated_at: now,
       }, { onConflict: "user_id,provider" });
@@ -236,13 +236,13 @@ Deno.serve(async (req) => {
     }
 
     if (action === "disconnect") {
-      const { error } = await sb.from("ai_lab.connections").delete().eq("user_id", caller.userId).eq("provider", adapter.id);
+      const { error } = await sb.schema("ai_lab").from("connections").delete().eq("user_id", caller.userId).eq("provider", adapter.id);
       if (error) throw new LabError("DATABASE_ERROR", "Unable to disconnect the provider.", 500);
       await audit("disconnect"); return json({ success: true });
     }
 
     if (action === "history") {
-      const { data, error } = await sb.from("ai_lab.sessions")
+      const { data, error } = await sb.schema("ai_lab").from("sessions")
         .select("id, mode, provider, model, created_at, status, error_code, response_text, prompt")
         .eq("user_id", caller.userId)
         .order("created_at", { ascending: false })
@@ -265,32 +265,32 @@ Deno.serve(async (req) => {
       const task = typeof body.prompt === "string" ? body.prompt.trim().slice(0, 2000) : "";
       if (!task) throw new LabError("INVALID_REQUEST", "Ask a question about your Performance Intelligence page.", 400);
       const context = await buildContext(sb, caller.userId);
-      const { data: session, error: sErr } = await sb.from("ai_lab.sessions").insert({
+      const { data: session, error: sErr } = await sb.schema("ai_lab").from("sessions").insert({
         user_id: caller.userId, provider: "openai", model, mode, use_intelligence: true,
         context_attached: true, status: "running", prompt: task,
       }).select("id").single();
       if (sErr || !session) throw new LabError("DATABASE_ERROR", "Unable to start the AI Lab session.", 500);
       const started = Date.now();
-      await sb.from("ai_lab.interactions").insert({ user_id: caller.userId, session_id: session.id, event_type: "session_started", metadata: { provider: "openai", model, mode, context_attached: true } });
+      await sb.schema("ai_lab").from("interactions").insert({ user_id: caller.userId, session_id: session.id, event_type: "session_started", metadata: { provider: "openai", model, mode, context_attached: true } });
 
       try {
         const { text, usage } = await adapter.generate({ apiKey, model, instructions: instructions(context), input: task, maxOutputTokens: 1800 });
         const rendered = validatePieExplanation(text, context);
         const cost = adapter.estimateCost(model, usage);
         const duration = Date.now() - started;
-        await sb.from("ai_lab.sessions").update({
+        await sb.schema("ai_lab").from("sessions").update({
           status: "completed", response_text: rendered,
           request_tokens: usage.input_tokens, response_tokens: usage.output_tokens, total_tokens: usage.total_tokens,
           estimated_cost: cost, updated_at: new Date().toISOString(),
         }).eq("id", session.id);
-        await sb.from("ai_lab.interactions").insert([
+        await sb.schema("ai_lab").from("interactions").insert([
           { user_id: caller.userId, session_id: session.id, event_type: "session_completed", duration_ms: duration, input_tokens: usage.input_tokens, output_tokens: usage.output_tokens, estimated_cost: cost, metadata: { provider: "openai", model, mode } },
         ]);
         await audit("run_completed", { session_id: session.id, provider: "openai", model, mode, metadata: { duration_ms: duration, input_tokens: usage.input_tokens, output_tokens: usage.output_tokens, total_tokens: usage.total_tokens, estimated_cost: cost } });
         return json({ success: true, mode, session_id: session.id, result: rendered, pie: context, sources: context.sources, snapshot_at: context.snapshotAt, usage, estimated_cost: cost });
       } catch (e) {
         const code = e instanceof LabError ? e.code : "PROVIDER_ERROR";
-        await sb.from("ai_lab.sessions").update({ status: "error", error_code: code, updated_at: new Date().toISOString() }).eq("id", session.id);
+        await sb.schema("ai_lab").from("sessions").update({ status: "error", error_code: code, updated_at: new Date().toISOString() }).eq("id", session.id);
         throw e;
       }
     }
