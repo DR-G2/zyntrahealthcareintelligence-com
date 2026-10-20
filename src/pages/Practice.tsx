@@ -479,19 +479,6 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
         
       <div className="mx-auto max-w-6xl space-y-6">
         <RoomHeader kind="practice" compact className="mb-1" />
-        <div className="flex flex-wrap justify-end gap-2">
-          {onShowReviewQueue && (
-            <Button variant="outline" size="sm" onClick={onShowReviewQueue} className="gap-1.5">
-              <Target className="h-4 w-4" /> Review Queue
-            </Button>
-          )}
-          {onShowHistory && (
-            <Button variant="outline" size="sm" onClick={onShowHistory} className="gap-1.5">
-              <BookOpen className="h-4 w-4" /> MCQ History
-            </Button>
-          )}
-        </div>
-
         {!gate.canUseMCQ && (
           <UpgradePrompt feature="Daily MCQ Limit Reached" description={`You've used ${gate.mcqUsedToday}/${gate.mcqDailyLimit} free MCQs today. Upgrade for unlimited practice.`} variant="banner" />
         )}
