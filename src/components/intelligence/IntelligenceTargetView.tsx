@@ -11,7 +11,7 @@ const LABELS: Record<Dimension, string> = {
 };
 const DISPLAY_DIMENSIONS: Dimension[] = ["capability", "calibration", "sustained_performance", "learning", "decision", "timing"];
 const MODES: { id: PracticeMode; label: string }[] = [
-  { id: "normal_mcq", label: "Normal MCQ" }, { id: "amc_exam", label: "AMC Exam mode" }, { id: "nudge", label: "Nudge" },
+  { id: "normal_mcq", label: "Normal MCQ" },
 ];
 const pct = (value: number | null | undefined) => value == null || !Number.isFinite(value) ? null : Math.round(value * 100);
 const dateLabel = (value: string | null | undefined) => value && Number.isFinite(Date.parse(value))
@@ -73,6 +73,17 @@ export function ReadinessPrism({ evidence, loading, retry }: { evidence: Intelli
     <section aria-label="Practice mode" className="space-y-2">
       <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Practice mode, kept separate</p>
       <div className="flex flex-wrap gap-2">{MODES.map(item => <Button key={item.id} type="button" variant={mode === item.id ? "default" : "outline"} aria-pressed={mode === item.id} className="min-h-11" onClick={() => setMode(item.id)}>{item.label}</Button>)}</div>
+      <div className="grid gap-3 sm:grid-cols-2">
+        {([{ id: "amc_exam", label: "AMC Exam Mode" }, { id: "nudge", label: "Nudge" }] as const).map(item => {
+          const count = evidence?.history.status === "ready"
+            ? candidateRows.filter(row => normalizePracticeMode(row.sessionMode) === item.id).length
+            : null;
+          return <article key={item.id} aria-disabled="true" aria-label={item.label + ". Under Construction · Live Soon. Unavailable."} className="min-w-0 rounded-xl border border-dashed border-border/70 bg-muted/20 p-3 sm:p-4">
+            <div className="flex flex-wrap items-center gap-2"><h3 className="font-semibold">{item.label}</h3><span className="rounded-full border border-border/70 px-2 py-1 text-xs text-muted-foreground">Under Construction · Live Soon</span></div>
+            <p className="mt-2 text-sm leading-5 text-muted-foreground">New sessions are unavailable. Historical records are retained{count === null ? "." : "; recorded attempts: " + count + "."}</p>
+          </article>;
+        })}
+      </div>
       {evidence?.history.status === "ready" && rows.length === 0 && <p role="status" className="text-sm text-muted-foreground">No attempts with verified {modeLabel} provenance are available. Unclassified sessions are excluded.</p>}
     </section>
     <section aria-label="Next Best Action" className="rounded-xl border border-primary/25 bg-card/50 p-4 sm:p-5">

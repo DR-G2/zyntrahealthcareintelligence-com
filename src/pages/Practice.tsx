@@ -34,6 +34,7 @@ import { ADMIN_EMAILS } from '@/lib/admin-emails';
 import { fetchLegacyShapedHistory } from '@/lib/pie/pie-history-client';
 import { getSupabaseV2 } from '@/integrations/supabase/v2-client';
 import { ensureV2Session } from '@/lib/migration/v2-practice-session';
+import { classifyPracticeResumeConfig } from '@/lib/practice-mode-availability';
 
 interface Question {
   id: string;
@@ -504,14 +505,15 @@ function SetupScreen({ onStart, onShowHistory, onShowReviewQueue }: { onStart: (
 
         <section aria-labelledby="practice-mode-heading" className="space-y-4">
           <div>
-            <p className="font-mono text-xs uppercase tracking-[.2em] text-primary">Choose how to practise</p>
-            <h2 id="practice-mode-heading" className="mt-2 font-display text-xl font-semibold">Three ways to train</h2>
-            <p className="mt-1 text-sm text-muted-foreground">Confidence is required on every answer, and you can rule out options in every session.</p>
+            <p className="font-mono text-xs uppercase tracking-[.2em] text-primary">Your clinical training workspace</p>
+            <h2 id="practice-mode-heading" className="mt-2 font-display text-xl font-semibold">Start with Normal MCQ</h2>
+            <p className="mt-1 max-w-2xl text-sm leading-6 text-muted-foreground">Work through eligible AMC-style questions, record confidence, and review your saved results. Normal MCQ is the available practice mode.</p>
           </div>
-          <PracticeModeSelector value={primary} onChange={(next) => {
-            setPrimary(next);
-            if (next === 'mock') setMode('full-mock');
-            else if (mode === 'full-mock') setMode('recharge');
+          <PracticeModeSelector value={primary} onChange={() => {
+            // The selector only exposes Normal MCQ as launchable. Upcoming modes
+            // remain visible as unavailable presentation, never a session choice.
+            setPrimary('drill');
+            if (mode === 'full-mock') setMode('recharge');
           }} />
         </section>
 
@@ -1277,9 +1279,33 @@ function ResultsScreen({
 
 export default function Practice() {
   const gate = useFeatureGate();
+  const { user } = useAuth();
   const [searchParams] = useSearchParams();
   const resumeSessionId = searchParams.get('resume');
+  const [resumeGate, setResumeGate] = useState<'checking' | 'allowed' | 'blocked' | 'unavailable'>(resumeSessionId ? 'checking' : 'allowed');
+  const [resumeRetry, setResumeRetry] = useState(0);
   const [phase, setPhase] = useState<'setup' | 'drill' | 'results' | 'history' | 'review'>(resumeSessionId ? 'drill' : 'setup');
+
+  useEffect(() => {
+    let cancelled = false;
+    if (!resumeSessionId) { setResumeGate('allowed'); return; }
+    if (!user) { setResumeGate('unavailable'); return; }
+    setResumeGate('checking');
+    void (async () => {
+      try {
+        const { data, error } = await supabase.from('active_sessions').select('config')
+          .eq('session_id', resumeSessionId).eq('user_id', user.id).maybeSingle();
+        if (error || !data) throw error ?? new Error('Saved session could not be verified.');
+        const availability = classifyPracticeResumeConfig(data.config);
+        if (!cancelled) setResumeGate(availability);
+      } catch {
+        // Fail closed when the session's mode cannot be verified. No session is
+        // deleted or modified, and the candidate can retry the read.
+        if (!cancelled) setResumeGate('unavailable');
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [resumeSessionId, user, resumeRetry]);
   const [config, setConfig] = useState<SessionConfig | null>(
     resumeSessionId ? { mode: 'recharge', topics: [], subtopics: [], questionCount: 50, statusFilter: 'all' } : null
   );
@@ -1291,6 +1317,39 @@ export default function Practice() {
     ruledOut: Record<number, string[]>;
     nudgeOutcome?: NudgeOutcome | null;
   } | null>(null);
+
+  if (resumeSessionId && resumeGate !== 'allowed') {
+    return (
+      <AppLayout>
+        <main className="mx-auto w-full max-w-3xl space-y-5 px-4 pb-10 pt-6 sm:px-6" aria-live="polite">
+          <header className="space-y-2">
+            <p className="font-mono text-xs uppercase tracking-[.18em] text-primary">Practice session</p>
+            <h1 className="font-display text-2xl font-semibold text-foreground">Saved session unavailable</h1>
+            <p className="text-sm leading-6 text-muted-foreground">Your saved session and attempt records have not been deleted or changed.</p>
+          </header>
+          {resumeGate === 'checking' ? (
+            <Card role="status"><CardContent className="p-5 text-sm text-muted-foreground">Checking the saved session mode…</CardContent></Card>
+          ) : resumeGate === 'blocked' ? (
+            <Card role="status" className="border-dashed border-border/70 bg-muted/20"><CardContent className="space-y-3 p-5">
+              <Badge variant="outline">Under Construction · Live Soon</Badge>
+              <h2 className="font-semibold">This session mode is not available to resume</h2>
+              <p className="text-sm leading-6 text-muted-foreground">AMC Exam Mode and Nudge are not currently available. This unfinished session remains saved, but it cannot be resumed while the mode is under construction.</p>
+            </CardContent></Card>
+          ) : (
+            <Card role="alert"><CardContent className="space-y-3 p-5">
+              <h2 className="font-semibold">We couldn't verify this saved session</h2>
+              <p className="text-sm leading-6 text-muted-foreground">Sign in again or retry the check. The session was not changed, and we will not start it until its mode can be verified.</p>
+              <Button variant="outline" onClick={() => { setResumeGate('checking'); setResumeRetry(value => value + 1); }}>Retry session check</Button>
+            </CardContent></Card>
+          )}
+          <div className="flex flex-col gap-2 sm:flex-row">
+            <Button asChild className="min-h-11"><Link to="/practice" replace>Start Normal MCQ</Link></Button>
+            <Button asChild variant="outline" className="min-h-11"><Link to="/history">View History</Link></Button>
+          </div>
+        </main>
+      </AppLayout>
+    );
+  }
 
   if (!gate.canAccessQBank) {
     return (
