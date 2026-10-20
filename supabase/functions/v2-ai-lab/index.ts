@@ -32,46 +32,93 @@ async function decrypt(value: string, secret: string) {
   }
 }
 
-const PIE_DIMENSIONS = [
-  ["capability", "Capability"], ["decision", "Decision"], ["timing", "Timing"],
-  ["calibration", "Calibration"], ["sustained_performance", "Sustained performance"], ["learning", "Learning"],
-] as const;
-const PIE_DIMENSION_GATE = 50;
-const safeNumber = (value: unknown): number | null => typeof value === "number" && Number.isFinite(value) && value >= 0 ? value : null;
-const asPercent = (value: unknown): number | null => { const n = safeNumber(value); return n !== null && n <= 1 ? Math.round(n * 1000) / 10 : null; };
-const iso = (value: unknown): string | null => typeof value === "string" && Number.isFinite(Date.parse(value)) ? value : null;
-
-/** Read only the caller-owned candidate-facing PIE projection. */
 const PRACTICE_MODES = [["normal_mcq", "Normal MCQ"], ["amc_exam", "AMC Exam"], ["nudge", "Nudge"]] as const;
 const PIE_DIMENSIONS = [["capability", "Capability"], ["decision", "Decision"], ["timing", "Timing"], ["calibration", "Calibration"], ["sustained_performance", "Sustained performance"], ["learning", "Learning"]] as const;
-const PIE_DIMENSION_GATE = 50;
-const safeNumber = (value: unknown): number | null => typeof value === "number" && Number.isFinite(value) && value >= 0 ? value : null;
-const asPercent = (value: unknown): number | null => { const n = safeNumber(value); return n !== null && n <= 1 ? Math.round(n * 1000) / 10 : null; };
+const MIN_DIMENSION_OBSERVATIONS = 50;
+const safeCount = (value: unknown): number | null => typeof value === "number" && Number.isSafeInteger(value) && value >= 0 ? value : null;
+const validFraction = (value: unknown): number | null => typeof value === "number" && Number.isFinite(value) && value >= 0 && value <= 1 ? value : null;
 const iso = (value: unknown): string | null => typeof value === "string" && Number.isFinite(Date.parse(value)) ? value : null;
 
-/** Read only the caller-owned candidate-facing PIE projection; keep evidence modes isolated. */
+/** Mirrors the candidate-facing authoritative PIE dimension gate; never substitutes hidden/internal sources. */
 async function buildContext(sb: ReturnType<typeof serviceClient>, userId: string) {
-  const { data, error } = await sb.from("my_pie_state").select("state,calculated_at,updated_at").eq("user_id", userId).maybeSingle();
+  const { data, error } = await sb.from("my_pie_state")
+    .select("state,calculated_at,updated_at")
+    .eq("user_id", userId)
+    .maybeSingle();
   if (error) throw new LabError("PIE_UNAVAILABLE", "Your Performance Intelligence snapshot is unavailable right now. Please try again later.", 503);
-  const state = data?.state && typeof data.state === "object" ? data.state as Record<string, any> : {};
-  const rawModes = state.mode_evidence && typeof state.mode_evidence === "object" ? state.mode_evidence as Record<string, any> : {};
+
+  const state = data?.state && typeof data.state === "object" && !Array.isArray(data.state)
+    ? data.state as Record<string, any> : {};
+  const rawModes = state.mode_evidence && typeof state.mode_evidence === "object" && !Array.isArray(state.mode_evidence)
+    ? state.mode_evidence as Record<string, any> : {};
+
   const modeEvidence = PRACTICE_MODES.map(([mode, modeLabel]) => {
-    const rawDimensions = rawModes[mode] && typeof rawModes[mode] === "object" ? rawModes[mode] : {};
+    const rawMode = rawModes[mode] && typeof rawModes[mode] === "object" && !Array.isArray(rawModes[mode]) ? rawModes[mode] : {};
     const dimensions = PIE_DIMENSIONS.map(([key, label]) => {
-      const raw = rawDimensions[key] && typeof rawDimensions[key] === "object" ? rawDimensions[key] : {};
-      const count = safeNumber(raw.evidence_count);
-      const estimate = asPercent(raw.estimate);
-      const available = estimate !== null && count !== null && count >= PIE_DIMENSION_GATE;
-      const confidenceCounts = raw.confidence_level_counts && typeof raw.confidence_level_counts === "object" ? Object.fromEntries([1,2,3,4,5].map(level => [String(level), safeNumber(raw.confidence_level_counts[String(level)])])) : null;
-      return { key, label, status: available ? "available" : count === null ? "unavailable" : "building", valuePercent: available ? estimate : null, evidenceCount: count, uncertaintyPercent: asPercent(raw.uncertainty), lowerPercent: asPercent(raw.lower), upperPercent: asPercent(raw.upper), latestObservationAt: iso(raw.latest_observation_at), confidenceLevelCounts: confidenceCounts };
+      const raw = rawMode[key] && typeof rawMode[key] === "object" && !Array.isArray(rawMode[key]) ? rawMode[key] : {};
+      const count = safeCount(raw.evidence_count);
+      const estimate = validFraction(raw.estimate);
+      const quality = validFraction(raw.evidence_quality);
+      const latestObservationAt = iso(raw.latest_observation_at);
+      const calibrationReady = key !== "calibration" || raw.calibration_ready === true;
+      const available = latestObservationAt !== null
+        && count !== null && count >= MIN_DIMENSION_OBSERVATIONS
+        && quality !== null && quality > 0
+        && raw.estimate_aligned === true
+        && estimate !== null
+        && calibrationReady;
+
+      const rawLower = validFraction(raw.lower);
+      const rawUpper = validFraction(raw.upper);
+      const intervalValid = available && estimate !== null && rawLower !== null && rawUpper !== null
+        && rawLower <= rawUpper && rawLower <= estimate && estimate <= rawUpper;
+      const confidenceRaw = raw.confidence_level_counts && typeof raw.confidence_level_counts === "object" && !Array.isArray(raw.confidence_level_counts)
+        ? raw.confidence_level_counts : null;
+      const confidenceLevelCounts = confidenceRaw
+        ? Object.fromEntries([1,2,3,4,5].map(level => [String(level), safeCount(confidenceRaw[String(level)])]))
+        : null;
+
+      return {
+        key, label,
+        status: available ? "available" : count === null ? "unavailable" : "building",
+        valuePercent: available && estimate !== null ? Math.round(estimate * 1000) / 10 : null,
+        evidenceCount: count,
+        evidenceQuality: available ? quality : null,
+        uncertaintyPercent: available ? (validFraction(raw.uncertainty) === null ? null : Math.round(validFraction(raw.uncertainty)! * 1000) / 10) : null,
+        lowerPercent: intervalValid ? Math.round(rawLower! * 1000) / 10 : null,
+        upperPercent: intervalValid ? Math.round(rawUpper! * 1000) / 10 : null,
+        latestObservationAt,
+        confidenceLevelCounts,
+      };
     });
     return { mode, modeLabel, dimensions };
   });
-  const sources = modeEvidence.flatMap(group => group.dimensions.filter(d => d.status === "available").map(d => ({ key:d.key, mode:group.mode, label:group.modeLabel + " · " + d.label, valuePercent:d.valuePercent, evidenceCount:d.evidenceCount, uncertaintyPercent:d.uncertaintyPercent, latestObservationAt:d.latestObservationAt })));
-  const confidenceChecklist = modeEvidence.flatMap(group => { const dimension = group.dimensions.find(d => d.key === "calibration"); return dimension?.confidenceLevelCounts ? [1,2,3,4,5].map(level => ({ mode:group.mode, modeLabel:group.modeLabel, level, count:dimension.confidenceLevelCounts[String(level)] ?? null })) : []; });
-  const action = state.next_action && typeof state.next_action === "object" ? state.next_action : null;
-  const nextAction = action && typeof action.title === "string" && typeof action.reason === "string" ? { title:action.title.slice(0,120), reason:action.reason.slice(0,500) } : null;
-  return { modeEvidence, overallStatus:typeof state.evidence_level === "string" ? state.evidence_level : "UNAVAILABLE", confidenceChecklist, nextAction, sources, snapshotAt:iso(data?.calculated_at ?? data?.updated_at) };
+
+  const sources = modeEvidence.flatMap(group => group.dimensions
+    .filter(d => d.status === "available")
+    .map(d => ({
+      key: d.key, mode: group.mode, label: group.modeLabel + " · " + d.label,
+      valuePercent: d.valuePercent, evidenceCount: d.evidenceCount,
+      uncertaintyPercent: d.uncertaintyPercent, latestObservationAt: d.latestObservationAt,
+    })));
+  const confidenceChecklist = modeEvidence.flatMap(group => {
+    const calibration = group.dimensions.find(d => d.key === "calibration");
+    return calibration?.confidenceLevelCounts
+      ? [1,2,3,4,5].map(level => ({ mode: group.mode, modeLabel: group.modeLabel, level, count: calibration.confidenceLevelCounts[String(level)] ?? null }))
+      : [];
+  });
+  const action = state.next_action && typeof state.next_action === "object" && !Array.isArray(state.next_action) ? state.next_action : null;
+  const nextAction = action && typeof action.title === "string" && typeof action.reason === "string"
+    ? { title: action.title.slice(0, 120), reason: action.reason.slice(0, 500) } : null;
+  return {
+    modeEvidence,
+    overallStatus: typeof state.evidence_level === "string" ? state.evidence_level : "UNAVAILABLE",
+    overallEvidenceCount: safeCount(state.evidence_count),
+    confidenceChecklist,
+    nextAction,
+    sources,
+    snapshotAt: iso(data?.calculated_at ?? data?.updated_at),
+  };
 }
 function instructions(context: unknown) {
   return [
@@ -103,7 +150,7 @@ function validatePieExplanation(answer: string, context: any): string {
   const lower = answer.toLowerCase();
   if (labels.some(label => lower.includes(label) && !(context?.modeEvidence ?? []).some((m: any) => (m.dimensions ?? []).some((d: any) => String(d.label).toLowerCase() === label)))) return fallback;
   if (/\b(pass likelihood|likely to pass|clinical diagnosis|treatment plan|drug dose|ranked candidates|weakest subject)\b/i.test(answer)) return fallback;
-  if (/\b(zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand)\s+(observations?|answers?|questions?|percent|per cent|levels?)\b/i.test(answer)) return fallback;
+  if (/\\b(zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand)\\s+(observations?|answers?|questions?|percent|per cent|levels?)\\b/i.test(answer)) return fallback;
   return answer.trim() || fallback;
 }
 Deno.serve(async (req) => {
