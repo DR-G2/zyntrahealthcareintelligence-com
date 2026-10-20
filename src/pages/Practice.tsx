@@ -1001,10 +1001,10 @@ function ResultsScreen({
                   <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Rule-Out Intelligence</p>
                   <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                     <p className="text-sm">Wrong options ruled out: <strong>{eliminationStats.totalCorrectElim} of {eliminationStats.totalPossible}</strong></p>
-                    <p className="text-sm">Correct answer kept: <strong>{eliminationStats.totalWrongElim === 0 ? 'Yes' : 'No'}</strong></p>
+                    <p className="text-sm">Correct option ruled out: <strong>{eliminationStats.totalWrongElim === 0 ? 'No' : 'Yes'}</strong></p>
                     <p className="text-xs text-muted-foreground sm:col-span-2">
                       {eliminationStats.totalWrongElim === 0
-                        ? 'No correct answer was ruled out in the questions summarised here.'
+                        ? 'The correct option was not ruled out in the questions summarised here.'
                         : `The correct answer was ruled out ${eliminationStats.totalWrongElim} time(s).`}
                     </p>
                   </div>
@@ -1142,11 +1142,11 @@ function ResultsScreen({
                             <div className="rounded-lg bg-muted p-3 space-y-2">
                               <div className="space-y-1">
                                 <p className="text-sm">Wrong options ruled out: <strong>{ruleOutScore.correctEliminations} of {ruleOutScore.total}</strong></p>
-                                <p className="text-sm">Correct answer kept: <strong>{ruleOutScore.wrongEliminations === 0 ? 'Yes' : 'No'}</strong></p>
+                                <p className="text-sm">Correct option ruled out: <strong>{ruleOutScore.wrongEliminations === 0 ? 'No' : 'Yes'}</strong></p>
                                 <p className="text-xs text-muted-foreground">
                                   {ruleOutScore.wrongEliminations === 0
-                                    ? `Ruled out ${ruleOutScore.correctEliminations} incorrect option(s) and kept the correct answer.`
-                                    : `The correct answer was ruled out. Incorrect options ruled out correctly: ${ruleOutScore.correctEliminations} of ${ruleOutScore.total}.`}
+                                    ? `Ruled out ${ruleOutScore.correctEliminations} incorrect option(s); the correct option was not ruled out.`
+                                    : `The correct option was ruled out. Incorrect options ruled out correctly: ${ruleOutScore.correctEliminations} of ${ruleOutScore.total}.`}
                                 </p>
                               </div>
                               <div className="space-y-1">
@@ -1155,7 +1155,7 @@ function ResultsScreen({
                                     {d.eliminated && d.shouldEliminate && <span className="text-success">✔ Eliminated {d.letter} correctly</span>}
                                     {d.eliminated && d.isCorrectAnswer && <span className="text-destructive">✘ Eliminated correct answer {d.letter}!</span>}
                                     {!d.eliminated && d.shouldEliminate && <span className="text-muted-foreground/60">— Did not eliminate {d.letter}</span>}
-                                    {!d.eliminated && d.isCorrectAnswer && <span className="text-success/60">✔ Kept correct answer {d.letter}</span>}
+                                    {!d.eliminated && d.isCorrectAnswer && <span className="text-success/60">✔ Did not rule out correct option {d.letter}</span>}
                                   </p>
                                 ))}
                               </div>
