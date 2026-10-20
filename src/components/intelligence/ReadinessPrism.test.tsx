@@ -3,18 +3,19 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { ReadinessPrism } from "./ReadinessPrism";
 import type { IntelligenceEvidence } from "@/lib/pie/intelligence-evidence";
+import { authoritativePrismLayer } from "@/lib/pie/readiness-prism-adapter";
 
 function fixture(overrides: Partial<IntelligenceEvidence> = {}): IntelligenceEvidence {
   return {
     pie: { status: "ready", value: {
       dimensions: { capability: 0.8, decision: 0.7, timing: null, calibration: 0.6, sustained_performance: 0.75, learning: 0.5 },
       dimensionEvidence: {
-        capability: { uncertainty: null, lower: null, upper: null, evidenceCount: 8, evidenceQuality: 0.8 },
-        decision: { uncertainty: null, lower: null, upper: null, evidenceCount: 8, evidenceQuality: 0.8 },
+        capability: { latestObservationAt: "2026-10-16T07:00:00Z", uncertainty: null, lower: null, upper: null, evidenceCount: 8, evidenceQuality: 0.8 },
+        decision: { latestObservationAt: "2026-10-16T07:00:00Z", uncertainty: null, lower: null, upper: null, evidenceCount: 8, evidenceQuality: 0.8 },
         timing: { uncertainty: null, lower: null, upper: null, evidenceCount: null, evidenceQuality: null },
-        calibration: { uncertainty: null, lower: null, upper: null, evidenceCount: 8, evidenceQuality: 0.8 },
-        sustained_performance: { uncertainty: null, lower: null, upper: null, evidenceCount: 8, evidenceQuality: 0.8 },
-        learning: { uncertainty: null, lower: null, upper: null, evidenceCount: 8, evidenceQuality: 0.8 },
+        calibration: { latestObservationAt: "2026-10-16T07:00:00Z", uncertainty: null, lower: null, upper: null, evidenceCount: 8, evidenceQuality: 0.8 },
+        sustained_performance: { latestObservationAt: "2026-10-16T07:00:00Z", uncertainty: null, lower: null, upper: null, evidenceCount: 8, evidenceQuality: 0.8 },
+        learning: { latestObservationAt: "2026-10-16T07:00:00Z", uncertainty: null, lower: null, upper: null, evidenceCount: 8, evidenceQuality: 0.8 },
       },
       count: 8, level: "PRELIMINARY", timestamp: "2026-10-16T08:00:00Z", sufficient: true, sessionMode: "normal_mcq",
     } },
@@ -41,10 +42,11 @@ describe("Intelligence overview", () => {
     expect(screen.getByRole("button", { name: /refresh evidence/i })).toBeDisabled();
   });
 
-  it("keeps unavailable dimensions missing and does not draw a misleading complete polygon", () => {
+  it("removes the radar map from the candidate view and preserves unavailable dimension states", () => {
     render(<MemoryRouter><ReadinessPrism evidence={fixture()} loading={false} retry={() => {}} /></MemoryRouter>);
-    expect(screen.getByText("The map is partial because one or more dimension estimates are unavailable; unsupported values are not plotted.")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /Timing Unavailable/ })).toBeInTheDocument();
+    expect(screen.queryByLabelText(/Six-dimensional PIE map/)).not.toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: /Timing control/ }));
+    expect(screen.getByText("Verified mode-specific timing evidence is unavailable; no cross-mode estimate is shown")).toBeInTheDocument();
   });
 
   it("explains when a signal is below its evidence threshold versus missing mode-scoped provenance", () => {
@@ -68,13 +70,15 @@ describe("Intelligence overview", () => {
       },
     } } });
     render(<MemoryRouter><ReadinessPrism evidence={input} loading={false} retry={() => {}} /></MemoryRouter>);
-    expect(screen.getByRole("button", { name: /Decision Building/ })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /Timing Building/ })).toBeInTheDocument();
+    expect(screen.getByText("Building, 49 of 50")).toBeInTheDocument();
     expect(screen.queryByText("97%")).toBeNull();
     expect(screen.queryByText("89%")).toBeNull();
     expect(screen.getAllByText(/49 \/ 50 valid observations/).length).toBeGreaterThan(0);
     expect(screen.getByText("Timing requires 50 valid observations for this dimension")).toBeInTheDocument();
     expect(screen.getByText("Calibration requires 50 valid observations for this dimension and at least 15 valid answers at each confidence level in one practice mode")).toBeInTheDocument();
+    expect(screen.queryByText(/Global PIE observation count/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Authoritative PIE projection/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Building evidence:/)).not.toBeInTheDocument();
   });
 
   it("does not blend Normal MCQ and Nudge attempt accuracy", () => {
@@ -109,17 +113,38 @@ describe("Intelligence overview", () => {
       count: 141,
       dimensions: { capability: 0.8, decision: 0.97, timing: 0.89, calibration: 0.6, sustained_performance: 0.75, learning: 0.5 },
       dimensionEvidence: {
-        capability: { uncertainty: null, lower: null, upper: null, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
-        decision: { uncertainty: null, lower: null, upper: null, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
-        timing: { uncertainty: null, lower: null, upper: null, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
-        calibration: { uncertainty: null, lower: null, upper: null, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
-        sustained_performance: { uncertainty: null, lower: null, upper: null, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
-        learning: { uncertainty: null, lower: null, upper: null, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
+        capability: { latestObservationAt: "2026-10-16T07:00:00Z", uncertainty: null, lower: null, upper: null, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
+        decision: { latestObservationAt: "2026-10-16T07:00:00Z", uncertainty: null, lower: null, upper: null, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
+        timing: { latestObservationAt: "2026-10-16T07:00:00Z", uncertainty: null, lower: null, upper: null, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
+        calibration: { latestObservationAt: "2026-10-16T07:00:00Z", uncertainty: null, lower: null, upper: null, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
+        sustained_performance: { latestObservationAt: "2026-10-16T07:00:00Z", uncertainty: null, lower: null, upper: null, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
+        learning: { latestObservationAt: "2026-10-16T07:00:00Z", uncertainty: null, lower: null, upper: null, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true },
       },
     } } });
     render(<MemoryRouter><ReadinessPrism evidence={input} loading={false} retry={() => {}} /></MemoryRouter>);
+    expect(screen.queryByText("97%")).toBeNull();
+    fireEvent.click(screen.getByRole("button", { name: "Decision" }));
     expect(screen.getAllByText("97%").length).toBeGreaterThan(0);
+    fireEvent.click(screen.getByRole("button", { name: "Timing" }));
     expect(screen.getAllByText("89%").length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/Latest valid observation/).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/Oct 16, 2026/).length).toBeGreaterThan(0);
+  });
+
+  it("withholds an otherwise eligible estimate when its dimension timestamp is absent", () => {
+    const base = fixture().pie.value!;
+    const input = fixture({ pie: { status: "ready", value: {
+      ...base,
+      sessionMode: "normal_mcq",
+      dimensions: { capability: 0.8, decision: 0.7, timing: 0.6, calibration: 0.5, sustained_performance: 0.75, learning: 0.55 },
+      dimensionEvidence: Object.fromEntries(["capability","decision","timing","calibration","sustained_performance","learning"].map(dimension => [dimension, {
+        latestObservationAt: dimension === "capability" ? null : "2026-10-16T07:00:00Z",
+        uncertainty: 0.1, lower: 0.4, upper: 0.8, evidenceCount: 50, evidenceQuality: 0.9, estimateAligned: true, calibrationReady: true,
+      }])) as NonNullable<typeof base.dimensionEvidence>,
+    } } });
+    const model = authoritativePrismLayer(input.pie, "normal_mcq");
+    expect(model.dimensions.find(item => item.dimension === "capability")?.estimate).toBeNull();
+    expect(model.dimensions.find(item => item.dimension === "decision")?.estimate).toBe(0.7);
   });
 
   it("withholds dimension estimates when the authoritative projection has no mode scope", () => {
@@ -150,7 +175,7 @@ describe("Intelligence overview", () => {
     const input = fixture({
       pie: { status: "ready", value: { ...base, sessionMode: "normal_mcq", dimensionEvidence: Object.fromEntries(
         ["capability","decision","timing","calibration","sustained_performance","learning"].map(dimension => [dimension, {
-          uncertainty: null, lower: null, upper: null, evidenceCount: 50, evidenceQuality: 0.9,
+          latestObservationAt: "2026-10-16T07:00:00Z", uncertainty: null, lower: null, upper: null, evidenceCount: 50, evidenceQuality: 0.9,
         }]),
       ) as NonNullable<typeof base.dimensionEvidence> } },
       history: { status: "ready", value: confidenceAttempts },

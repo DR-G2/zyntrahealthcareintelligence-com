@@ -25,13 +25,13 @@ describe('Intelligence evidence presentation boundary', () => {
       evidence_count: 12, evidence_level: 'PRELIMINARY',
     } });
     expect(result?.dimensionEvidence?.capability).toEqual({
-      uncertainty: 0.2, lower: 0.6, upper: 1, evidenceCount: 12, evidenceQuality: 0.9, estimateAligned: true,
+      latestObservationAt: null, uncertainty: 0.2, lower: 0.6, upper: 1, evidenceCount: 12, evidenceQuality: 0.9, estimateAligned: true,
     });
     expect(result?.dimensionEvidence?.decision).toEqual({
-      uncertainty: null, lower: null, upper: null, evidenceCount: 0, evidenceQuality: null, estimateAligned: false,
+      latestObservationAt: null, uncertainty: null, lower: null, upper: null, evidenceCount: 0, evidenceQuality: null, estimateAligned: false,
     });
     expect(result?.dimensionEvidence?.timing).toEqual({
-      uncertainty: null, lower: null, upper: null, evidenceCount: null, evidenceQuality: null, estimateAligned: null,
+      latestObservationAt: null, uncertainty: null, lower: null, upper: null, evidenceCount: null, evidenceQuality: null, estimateAligned: null,
     });
   });
   it('preserves a missing global evidence count as unavailable rather than zero', () => {

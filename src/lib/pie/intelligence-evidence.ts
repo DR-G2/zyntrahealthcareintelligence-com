@@ -20,6 +20,7 @@ export function normalizePracticeMode(value: unknown): PracticeMode | null {
 }
 export type EvidenceRead<T> = { status: 'ready'; value: T } | { status: 'empty' | 'unavailable'; value: null };
 export interface DimensionEvidence {
+  latestObservationAt?: string | null;
   uncertainty: number | null;
   lower: number | null;
   upper: number | null;
@@ -76,6 +77,7 @@ export function mapState(value: unknown): StateEvidence | null {
   const dimensionEvidence = Object.fromEntries(DIMENSIONS.map(key => {
     const raw = object(state[key]);
     return [key, {
+      latestObservationAt: timestamp(raw.latest_observation_at),
       uncertainty: fraction(raw.uncertainty),
       lower: fraction(raw.lower),
       upper: fraction(raw.upper),
@@ -96,6 +98,7 @@ export function mapState(value: unknown): StateEvidence | null {
           const raw = object(modeState[key]);
           const confidenceLevels = object(raw.confidence_level_counts);
           return [key, {
+            latestObservationAt: timestamp(raw.latest_observation_at),
             estimate: fraction(raw.estimate),
             uncertainty: fraction(raw.uncertainty),
             lower: fraction(raw.lower),

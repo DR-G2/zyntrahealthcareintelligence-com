@@ -79,6 +79,9 @@ jobs:
           npx playwright install chromium
           node scripts/pie-p22-public-browser-smoke.mjs
 
+      - name: Pin reviewed P20 deployment gate source
+        run: test "$(git rev-parse HEAD:scripts/pie-p20-production-deployment-gate.mts)" = "3053c5b7aad395c54112c3a95b845e637ef711e5"
+
       - name: Protect certified P12-P21.4 core
         run: |
           git diff --exit-code cbd2514aa325e4051ab5d0a9f6d7e9bbaf394598 -- \
@@ -95,7 +98,6 @@ jobs:
             scripts/pie-p17-failure-isolation-certification.mts \
             scripts/pie-p18-authoritative-adaptation-certification.mts \
             scripts/pie-p19-final-production-certification.mts \
-            scripts/pie-p20-production-deployment-gate.mts \
             scripts/pie-p21-1-telemetry-integrity.mts \
             scripts/pie-p21-2-decision-trace-integrity.mts \
             scripts/pie-p21-3-learner-state-integrity.mts \

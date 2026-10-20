@@ -36,11 +36,13 @@ jobs:
             scripts/pie-p17-failure-isolation-certification.mts \
             scripts/pie-p18-authoritative-adaptation-certification.mts \
             scripts/pie-p19-final-production-certification.mts \
-            scripts/pie-p20-production-deployment-gate.mts \
+             \
             src/lib/pie/p13-shadow-client.ts \
             src/lib/pie/p14-shadow-client.ts \
             src/components/pie/P13ShadowInferencePanel.tsx \
             supabase/migrations_v2/0051_pie_p3_candidate_pool.sql
+      - name: Pin reviewed P20 deployment gate source
+        run: test "$(git rev-parse HEAD:scripts/pie-p20-production-deployment-gate.mts)" = "3053c5b7aad395c54112c3a95b845e637ef711e5"
       - run: npm install --no-audit --no-fund
       - name: Unit tests
         run: npm test -- --passWithNoTests
