@@ -103,20 +103,26 @@ export default function TrustYourGut() {
 
   // One candidate-wide view across explicitly labelled, comparable MCQ modes.
   // Unknown/legacy modes remain excluded; the mode label stays attached to each attempt.
+  const candidateMode = (value: string): string | null => {
+    const normalized = normalizePracticeMode(value);
+    if (normalized) return normalized;
+    return value === 'mock_practice' ? 'mock_practice' : null;
+  };
   const candidateAttempts = useMemo(
-    () => attempts.filter(a => normalizePracticeMode(a.session_mode) !== null),
+    () => attempts.filter(a => candidateMode(a.session_mode) !== null),
     [attempts]
   );
   const modeBreakdown = useMemo(() => {
     const grouped = new Map<string, number>();
     candidateAttempts.forEach(a => {
-      const mode = normalizePracticeMode(a.session_mode);
+      const mode = candidateMode(a.session_mode);
       if (mode) grouped.set(mode, (grouped.get(mode) ?? 0) + 1);
     });
     const labels: Record<string, string> = {
       normal_mcq: 'Normal MCQ',
       amc_exam: 'AMC Exam',
       nudge: 'Nudge',
+      mock_practice: 'Mock Practice',
     };
     return [...grouped.entries()].sort(([a], [b]) => a.localeCompare(b))
       .map(([mode, count]) => ({ mode, label: labels[mode] ?? mode, count }));
