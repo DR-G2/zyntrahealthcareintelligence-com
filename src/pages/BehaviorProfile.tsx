@@ -265,8 +265,30 @@ export default function BehaviorProfile() {
               </Card>
             ))}
           </div>
-          <p className="mt-2 text-xs text-muted-foreground">Compares recorded response time in the later half with the earlier half of the latest eligible Normal MCQ session. Positive means slower later responses; negative means faster. This timing change alone does not establish fatigue.</p>
+          <p className="mt-2 text-xs text-muted-foreground">Compares recorded response time in the later half with the earlier half of the latest eligible session. Positive means slower later responses; negative means faster. This timing change alone does not establish fatigue.</p>
         </motion.div>
+
+        {Object.keys(signals.modeBreakdown || {}).length > 0 && (
+          <Card>
+            <CardHeader>
+              <CardTitle>Practice context</CardTitle>
+              <CardDescription>One candidate-wide profile, with supporting evidence retained by explicitly labelled practice mode. These rows are context, not separate candidate scores.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {Object.entries(signals.modeBreakdown as Record<string, { attempts: number; accuracy: number | null; avgTime: number | null; changeRate: number | null; changeEvidenceCount: number }>).map(([mode, evidence]) => (
+                  <div key={mode} className="rounded-lg border p-3 space-y-1">
+                    <p className="font-medium text-sm">{mode.replace(/_/g, ' ')}</p>
+                    <p className="text-xs text-muted-foreground">{evidence.attempts} verified attempts</p>
+                    <p className="text-xs text-muted-foreground">Accuracy: {evidence.accuracy === null ? 'Unavailable' : `${evidence.accuracy}%`}</p>
+                    <p className="text-xs text-muted-foreground">Average time: {evidence.avgTime === null ? 'Unavailable' : `${evidence.avgTime}s`}</p>
+                    <p className="text-xs text-muted-foreground">Change rate: {evidence.changeRate === null ? 'Unavailable' : `${evidence.changeRate}%`} ({evidence.changeEvidenceCount} attempts with change-count evidence)</p>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Block Performance Chart */}
         {blockChartData.length > 0 && (
