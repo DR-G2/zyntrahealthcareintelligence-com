@@ -1,4 +1,3 @@
-import { useRef, type KeyboardEvent } from 'react';
 import { Compass, Shield, Target } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -6,13 +5,7 @@ import { Button } from '@/components/ui/button';
 export type PracticePrimaryMode = 'drill' | 'nudge' | 'mock';
 
 /** Normal MCQ is the only launchable mode. Upcoming modes are deliberately non-interactive. */
-export function PracticeModeSelector({ value, onChange }: { value: PracticePrimaryMode; onChange: (mode: PracticePrimaryMode) => void }) {
-  const refs = useRef<HTMLButtonElement | null>(null);
-  const onKey = (e: KeyboardEvent<HTMLButtonElement>) => {
-    if (!['ArrowRight', 'ArrowDown', 'ArrowLeft', 'ArrowUp', 'Home', 'End'].includes(e.key)) return;
-    e.preventDefault();
-    refs.current?.focus();
-  };
+export function PracticeModeSelector({ value }: { value: PracticePrimaryMode; onChange: (mode: PracticePrimaryMode) => void }) {
   return (
     <section aria-label="Practice modes" className="space-y-3">
       <div className="rounded-xl border border-primary/35 bg-primary/[0.06] p-4 sm:p-5">
@@ -24,7 +17,7 @@ export function PracticeModeSelector({ value, onChange }: { value: PracticePrima
               <p className="mt-1 text-sm leading-6 text-muted-foreground">Build clinical reasoning one question at a time. Choose your answer, record confidence, and review your results when the session ends.</p>
             </div>
           </div>
-          <Button ref={refs} type="button" onClick={() => onChange('drill')} onKeyDown={onKey} aria-pressed={value === 'drill'} className="min-h-11 w-full shrink-0 sm:w-auto">Practice Normal MCQ <Target className="ml-2 h-4 w-4" aria-hidden="true" /></Button>
+          <span className="inline-flex min-h-10 items-center justify-center rounded-lg border border-primary/30 px-3 text-sm font-medium text-primary">Selected for practice</span>
         </div>
       </div>
       <div className="grid gap-3 sm:grid-cols-2">
