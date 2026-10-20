@@ -6,13 +6,18 @@ declare
   v_normal jsonb;
   v_nudge jsonb;
   v_amc jsonb;
-  v_expected_normal timestamptz := timestamptz '2026-01-01 00:00:00+00' + interval '250 seconds';
+  v_expected_normal timestamptz;
   v_expected_nudge timestamptz := timestamptz '2026-02-01 00:00:00+00' + interval '7 seconds';
 begin
   select state into v_state
   from pie.pie_candidate_state
   where user_id='aaaaaaaa-0000-0000-0000-00000000000a';
   if v_state is null then raise exception 'FAIL 0103 candidate state missing'; end if;
+  select max(o.observed_at) into v_expected_normal
+  from pie.pie_observation o
+  where o.user_id='aaaaaaaa-0000-0000-0000-00000000000a'
+    and o.provenance->>'practice_mode'='normal_mcq'
+    and o.payload->>'outcome' in ('CORRECT','INCORRECT');
   v_normal := v_state->'mode_evidence'->'normal_mcq';
   v_nudge := v_state->'mode_evidence'->'nudge';
   v_amc := v_state->'mode_evidence'->'amc_exam';
