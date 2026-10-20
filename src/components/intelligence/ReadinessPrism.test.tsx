@@ -88,7 +88,7 @@ describe("/intelligence target evidence gates", () => {
     mount(data);
     fireEvent.click(screen.getByRole("button", { name: "Expandable detail" }));
     expect(screen.getByText(/Answer-change and timing evidence are unavailable/)).toBeInTheDocument();
-    expect(screen.getAllByText("Unavailable").length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/Unavailable/).length).toBeGreaterThan(0);
     expect(screen.queryByText("Building, 0 of 15")).toBeNull();
   });
 });
