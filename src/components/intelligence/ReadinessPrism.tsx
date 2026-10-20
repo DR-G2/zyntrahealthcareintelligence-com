@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { Activity, ArrowRight, Brain, ChevronDown, CircleHelp, Clock3, Eye, ShieldCheck, Sparkles, Target } from "lucide-react";
+import { Activity, ArrowRight, Brain, ChevronDown, CircleHelp, Clock3, Eye, GitBranch, ShieldCheck, Sparkles, Target } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DIMENSIONS, historySummary, normalizePracticeMode, type Dimension, type IntelligenceEvidence, type PracticeMode, type SafeAttempt } from "@/lib/pie/intelligence-evidence";
 import { authoritativePrismLayer, observedPrismLayer, MIN_DIMENSION_OBSERVATIONS } from "@/lib/pie/readiness-prism-adapter";
