@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { Fragment, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronDown, ShieldCheck, ArrowRight, Activity } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -95,7 +95,11 @@ export function ReadinessPrism({ evidence, loading, retry }: { evidence: Intelli
           const count = item.evidenceCount;
           const enough = count !== null && count >= MIN_DIMENSION_OBSERVATIONS && item.estimate !== null;
           const display = enough ? pct(item.estimate) + "%" : count !== null && count < MIN_DIMENSION_OBSERVATIONS ? "Building" : "Unavailable";
-          return <article key={name} className={"rounded-xl border border-border/70 bg-card/40 " + (name === "capability" ? "sm:col-span-2 border-primary/30" : "")}>
+          return <Fragment key={name}>
+            {name === "capability" && <p className="col-span-full text-xs font-semibold uppercase tracking-wide text-primary">Capability headline</p>}
+            {name === "calibration" && <p className="col-span-full pt-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Calibration, Sustained performance and Learning</p>}
+            {name === "decision" && <p className="col-span-full pt-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Additional dimensions</p>}
+            <article className={"rounded-xl border border-border/70 bg-card/40 " + (name === "capability" ? "sm:col-span-2 border-primary/30" : "")}>
             <button type="button" aria-expanded={isOpen} onClick={() => setExpanded(isOpen ? null : name)} className="flex min-h-[84px] w-full items-center gap-3 p-4 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
               <span className="min-w-0 flex-1"><span className="block text-sm font-medium">{LABELS[name]}</span><span className={"mt-1 block font-display font-semibold " + (name === "capability" ? "text-2xl" : "text-xl")}>{display}</span>
               <span className="mt-1 block text-xs text-muted-foreground">{count !== null && count < MIN_DIMENSION_OBSERVATIONS ? "Building, " + count + " of " + MIN_DIMENSION_OBSERVATIONS : count === null ? "Valid observation count unavailable" : count + " valid observations"}</span><span className="mt-1 block text-xs text-muted-foreground">Latest: {dateLabel(item.latestObservationAt) ?? "Unavailable"}</span></span>
@@ -108,7 +112,8 @@ export function ReadinessPrism({ evidence, loading, retry }: { evidence: Intelli
               <p><span className="text-muted-foreground">Evidence count</span><br />{count === null ? "Unavailable" : count + " valid observations"}</p>
               <p><span className="text-muted-foreground">Latest observation</span><br />{dateLabel(item.latestObservationAt) ?? "Unavailable"}</p>
             </div>}
-          </article>;
+          </article>
+          </Fragment>;
         })}
       </div>
     </section>
