@@ -9,11 +9,12 @@ const { mockUseAuth, mockRpc } = vi.hoisted(() => ({
 }));
 
 vi.mock("@/contexts/AuthContext", () => ({ useAuth: mockUseAuth }));
-vi.mock("@/lib/supabase", () => ({ supabase: { rpc: mockRpc } }));
-vi.mock("@/lib/admin-emails", () => ({ ADMIN_EMAILS: ["admin@example.test"] }));
+vi.mock("@/lib/supabase", () => ({
+  supabase: { schema: vi.fn(() => ({ rpc: mockRpc })) },
+}));
 
-function renderGate(email: string | undefined) {
-  mockUseAuth.mockReturnValue({ user: email ? { email } : null });
+function renderGate(user: { id: string; email: string } | undefined) {
+  mockUseAuth.mockReturnValue({ user: user ?? null });
   return render(
     <MemoryRouter initialEntries={["/v2-auth-diagnostic"]}>
       <Routes>
@@ -29,23 +30,24 @@ describe("AdminGate", () => {
     vi.clearAllMocks();
   });
 
-  it("renders protected content only after the server confirms an allowlisted admin", async () => {
+  it("renders protected content only after the canonical server-side role check passes", async () => {
     mockRpc.mockResolvedValue({ data: true, error: null });
-    renderGate("admin@example.test");
+    renderGate({ id: "admin-user-id", email: "admin@example.test" });
     expect(await screen.findByText("Protected diagnostic")).toBeInTheDocument();
-    expect(mockRpc).toHaveBeenCalledWith("is_admin", { _email: "admin@example.test" });
+    expect(mockRpc).toHaveBeenCalledWith("is_admin", { p_user_id: "admin-user-id" });
   });
 
-  it("redirects an ordinary candidate without rendering protected content", async () => {
-    renderGate("candidate-a@example.test");
+  it("lets the server-side role table decide for any signed-in user", async () => {
+    mockRpc.mockResolvedValue({ data: false, error: null });
+    renderGate({ id: "candidate-user-id", email: "candidate-a@example.test" });
     expect(await screen.findByText("Practice destination")).toBeInTheDocument();
     expect(screen.queryByText("Protected diagnostic")).not.toBeInTheDocument();
-    expect(mockRpc).not.toHaveBeenCalled();
+    expect(mockRpc).toHaveBeenCalledWith("is_admin", { p_user_id: "candidate-user-id" });
   });
 
   it("fails closed when the server admin check errors", async () => {
     mockRpc.mockResolvedValue({ data: null, error: new Error("denied") });
-    renderGate("admin@example.test");
+    renderGate({ id: "admin-user-id", email: "admin@example.test" });
     await waitFor(() => expect(screen.getByText("Practice destination")).toBeInTheDocument());
     expect(screen.queryByText("Protected diagnostic")).not.toBeInTheDocument();
   });
@@ -54,5 +56,6 @@ describe("AdminGate", () => {
     renderGate(undefined);
     expect(await screen.findByText("Practice destination")).toBeInTheDocument();
     expect(screen.queryByText("Protected diagnostic")).not.toBeInTheDocument();
+    expect(mockRpc).not.toHaveBeenCalled();
   });
 });
