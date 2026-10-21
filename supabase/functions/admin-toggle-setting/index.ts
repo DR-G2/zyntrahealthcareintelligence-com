@@ -2,7 +2,15 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2";
 
 const allowedKeys = new Set(["show_about_pricing", "maintenance_mode", "registration_open", "osce_enabled", "mcq_temp_enabled"]);
-const configuredOrigins = (Deno.env.get("ADMIN_ALLOWED_ORIGIN") ?? "https://www.zyntrahealthcareintelligence.com,https://zyntrahealthcareintelligence.com")
+const fallbackOrigins = [
+  "https://www.zyntrahealthcareintelligence.com",
+  "https://zyntrahealthcareintelligence.com",
+  "https://www.zyntrahealthcareintelligence.app",
+  "https://zyntrahealthcareintelligence.app",
+  "https://www.zyntrahealthcareintelligence.org",
+  "https://zyntrahealthcareintelligence.org",
+];
+const configuredOrigins = (Deno.env.get("ADMIN_ALLOWED_ORIGIN") ?? fallbackOrigins.join(","))
   .split(",").map((value) => value.trim()).filter(Boolean);
 const headersFor = (origin: string | null) => ({
   ...(origin && configuredOrigins.includes(origin) ? { "Access-Control-Allow-Origin": origin, "Vary": "Origin" } : {}),
