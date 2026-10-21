@@ -1,16 +1,30 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2";
 
-const headers = {
-  "Access-Control-Allow-Origin": Deno.env.get("ADMIN_ALLOWED_ORIGIN") ?? "https://www.zyntrahealthcareintelligence.com",
+const fallbackOrigins = [
+  "https://www.zyntrahealthcareintelligence.com",
+  "https://zyntrahealthcareintelligence.com",
+  "https://www.zyntrahealthcareintelligence.app",
+  "https://zyntrahealthcareintelligence.app",
+  "https://www.zyntrahealthcareintelligence.org",
+  "https://zyntrahealthcareintelligence.org",
+];
+const allowedOrigins = (Deno.env.get("ADMIN_ALLOWED_ORIGIN") ?? fallbackOrigins.join(","))
+  .split(",").map((value) => value.trim()).filter(Boolean);
+const headersFor = (origin: string | null) => ({
+  ...(origin && allowedOrigins.includes(origin) ? { "Access-Control-Allow-Origin": origin, "Vary": "Origin" } : {}),
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
   "Access-Control-Allow-Methods": "POST, OPTIONS",
   "Content-Type": "application/json",
-};
-const reply = (body: unknown, status = 200) => new Response(JSON.stringify(body), { status, headers });
+});
+const reply = (body: unknown, status = 200, headers: Record<string, string> = {}) =>
+  new Response(JSON.stringify(body), { status, headers });
 
 serve(async (req) => {
-  if (req.method === "OPTIONS") return new Response(null, { headers });
+  const origin = req.headers.get("Origin");
+  const headers = headersFor(origin);
+  if (origin && !allowedOrigins.includes(origin)) return reply({ error: "Origin not allowed" }, 403, headers);
+  if (req.method === "OPTIONS") return new Response(null, { status: 204, headers });
   if (req.method !== "POST") return reply({ error: "Method not allowed" }, 405);
   try {
     const url = Deno.env.get("SUPABASE_URL");
