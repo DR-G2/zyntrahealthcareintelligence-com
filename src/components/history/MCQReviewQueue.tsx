@@ -97,7 +97,7 @@ export function MCQReviewQueue() {
       return { questionId, latest, history, incorrectCount, repeatedMiss, unstable, needsReview, mastery, daysSince, intervalDays, dueAt, spacedDue };
     }).filter(row => (row.needsReview && !row.mastery) || row.spacedDue);
 
-    return rowSort(queue);
+    return rowSort(rows);
   }, [latestByQuestion]);
 
   const subjects = useMemo(() => Array.from(new Set(queue.map(r => r.latest.questions?.category).filter(Boolean) as string[])).sort(), [queue]);
