@@ -1392,14 +1392,13 @@ function SiteSettingsCard() {
       setLoading(true);
       setLoadError(null);
       try {
-        const { data, error } = await supabase
-          .from('site_settings' as any)
-          .select('setting_key, setting_value');
+        const { data, error } = await supabase.functions.invoke('admin-get-settings', { body: {} });
         if (error) throw error;
+        if (data?.error) throw new Error(data.error);
         if (cancelled) return;
         const map: Record<string, boolean> = {};
-        ((data || []) as any[]).forEach((row: any) => {
-          if (typeof row.setting_key === 'string') map[row.setting_key] = row.setting_value === true;
+        (data?.settings || []).forEach((row: { setting_key: string; setting_value: unknown }) => {
+          if (typeof row.setting_key === 'string' && typeof row.setting_value === 'boolean') map[row.setting_key] = row.setting_value;
         });
         setSettings(map);
       } catch (error) {
@@ -1417,8 +1416,8 @@ function SiteSettingsCard() {
       <CardContent className="space-y-4 p-4">
         <div role="status" className="rounded-md border border-border/60 bg-muted/30 p-3 text-sm">
           {loadError
-            ? <>Settings could not be loaded: {loadError} Changes are disabled until the settings API and audit logging are verified.</>
-            : 'Settings are read-only in this build because the server-side toggle endpoint and change audit contract are not present in the repository.'}
+            ? <>Settings could not be loaded: {loadError} Changes remain disabled until the settings endpoints are deployed and verified.</>
+            : 'Stored settings loaded from the authenticated admin endpoint. Changes remain disabled until the server-side toggle endpoint is deployed and verified.'}
         </div>
         {SITE_SETTINGS_CONFIG.map(setting => {
           const configured = Object.prototype.hasOwnProperty.call(settings, setting.key);
