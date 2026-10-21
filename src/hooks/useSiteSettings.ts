@@ -13,21 +13,23 @@ export function useSiteSetting(key: string, defaultValue: boolean = false) {
       .select('setting_value')
       .eq('setting_key', key)
       .maybeSingle()
-      .then(({ data, error }) => {
-        if (cancelled) return;
-        if (!error && data) {
-          const value = (data as any).setting_value;
-          setEnabled(value === true || value === 'true');
-        } else {
+      .then(
+        ({ data, error }) => {
+          if (cancelled) return;
+          if (!error && data) {
+            const value = (data as any).setting_value;
+            setEnabled(value === true || value === 'true');
+          } else {
+            setEnabled(defaultValue);
+          }
+          setLoading(false);
+        },
+        () => {
+          if (cancelled) return;
           setEnabled(defaultValue);
-        }
-        setLoading(false);
-      })
-      .catch(() => {
-        if (cancelled) return;
-        setEnabled(defaultValue);
-        setLoading(false);
-      });
+          setLoading(false);
+        },
+      );
     return () => { cancelled = true; };
   }, [key, defaultValue]);
 
