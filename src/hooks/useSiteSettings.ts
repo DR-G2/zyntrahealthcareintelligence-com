@@ -6,16 +6,30 @@ export function useSiteSetting(key: string, defaultValue: boolean = false) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let cancelled = false;
+    setLoading(true);
     supabase
       .from('site_settings' as any)
-      .select('value')
-      .eq('key', key)
+      .select('setting_value')
+      .eq('setting_key', key)
       .maybeSingle()
-      .then(({ data }) => {
-        setEnabled((data as any)?.value === true);
+      .then(({ data, error }) => {
+        if (cancelled) return;
+        if (!error && data) {
+          const value = (data as any).setting_value;
+          setEnabled(value === true || value === 'true');
+        } else {
+          setEnabled(defaultValue);
+        }
+        setLoading(false);
+      })
+      .catch(() => {
+        if (cancelled) return;
+        setEnabled(defaultValue);
         setLoading(false);
       });
-  }, [key]);
+    return () => { cancelled = true; };
+  }, [key, defaultValue]);
 
   return { enabled, loading };
 }
