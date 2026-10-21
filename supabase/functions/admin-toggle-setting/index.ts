@@ -1,62 +1,59 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "npm:@supabase/supabase-js@2";
 
-const headers = {
-  "Access-Control-Allow-Origin": Deno.env.get("ADMIN_ALLOWED_ORIGIN") ?? "https://www.zyntrahealthcareintelligence.com",
+const allowedKeys = new Set(["show_about_pricing", "maintenance_mode", "registration_open", "osce_enabled", "mcq_temp_enabled"]);
+const configuredOrigins = (Deno.env.get("ADMIN_ALLOWED_ORIGIN") ?? "https://www.zyntrahealthcareintelligence.com,https://zyntrahealthcareintelligence.com")
+  .split(",").map((value) => value.trim()).filter(Boolean);
+const headersFor = (origin: string | null) => ({
+  ...(origin && configuredOrigins.includes(origin) ? { "Access-Control-Allow-Origin": origin, "Vary": "Origin" } : {}),
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
   "Access-Control-Allow-Methods": "POST, OPTIONS",
   "Content-Type": "application/json",
-};
-const reply = (body: unknown, status = 200) => new Response(JSON.stringify(body), { status, headers });
-const allowedKeys = new Set(["show_about_pricing", "maintenance_mode", "registration_open", "osce_enabled", "mcq_temp_enabled"]);
-
+});
+const reply = (body: unknown, status = 200, headers: Record<string, string> = {}) =>
+  new Response(JSON.stringify(body), { status, headers });
 serve(async (req) => {
-  if (req.method === "OPTIONS") return new Response(null, { headers });
-  if (req.method !== "POST") return reply({ error: "Method not allowed" }, 405);
+  const origin = req.headers.get("Origin");
+  const headers = headersFor(origin);
+  if (origin && !configuredOrigins.includes(origin)) return reply({ error: "Origin not allowed" }, 403, headers);
+  if (req.method === "OPTIONS") return new Response(null, { status: 204, headers });
+  if (req.method !== "POST") return reply({ error: "Method not allowed" }, 405, headers);
   try {
     const url = Deno.env.get("SUPABASE_URL"), key = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
-    if (!url || !key) return reply({ error: "Server configuration unavailable" }, 500);
-    const token = req.headers.get("Authorization")?.replace(/^Bearer\s+/i, "");
-    if (!token) return reply({ error: "Unauthorized" }, 401);
+    if (!url || !key) return reply({ error: "Server configuration unavailable" }, 500, headers);
+    const token = req.headers.get("Authorization")?.replace(/^Bearer\\s+/i, "");
+    if (!token) return reply({ error: "Unauthorized" }, 401, headers);
     const db = createClient(url, key, { auth: { persistSession: false } });
     const { data: auth, error: authError } = await db.auth.getUser(token);
-    if (authError || !auth.user) return reply({ error: "Unauthorized" }, 401);
+    if (authError || !auth.user) return reply({ error: "Unauthorized" }, 401, headers);
     const { data: role, error: roleError } = await db.schema("command").from("admin_roles")
-      .select("role").eq("user_id", auth.user.id).eq("active", true).maybeSingle();
-    if (roleError) { console.error("setting role lookup failed", roleError); return reply({ error: "Admin authorization could not be verified" }, 500); }
-    if (!role || !["super_admin", "super-admin"].includes(String(role.role).toLowerCase())) return reply({ error: "Super administrator access required" }, 403);
+      .select("role").eq("user_id", auth.user.id).eq("active", true).in("role", ["super_admin", "super-admin"]).maybeSingle();
+    if (roleError) {
+      console.error("setting role lookup failed", roleError);
+      return reply({ error: "Admin authorization could not be verified" }, 500, headers);
+    }
+    if (!role) return reply({ error: "Super administrator access required" }, 403, headers);
 
     const body = await req.json().catch(() => null);
     const settingKey = body?.key;
     const value = body?.value;
-    if (typeof settingKey !== "string" || !allowedKeys.has(settingKey)) return reply({ error: "Unsupported setting key" }, 400);
-    if (typeof value !== "boolean") return reply({ error: "Setting value must be boolean" }, 400);
+    if (typeof settingKey !== "string" || !allowedKeys.has(settingKey)) return reply({ error: "Unsupported setting key" }, 400, headers);
+    if (typeof value !== "boolean") return reply({ error: "Setting value must be boolean" }, 400, headers);
 
-    const { data: before, error: readError } = await db.from("site_settings")
-      .select("setting_key,setting_value,is_public,updated_at").eq("setting_key", settingKey).maybeSingle();
-    if (readError) { console.error("setting read failed", readError); return reply({ error: "Settings source could not be read" }, 500); }
-    const previous = before?.setting_value ?? null;
-    const { data: saved, error: writeError } = await db.from("site_settings").upsert({
-      setting_key: settingKey, setting_value: value, is_public: settingKey === "show_about_pricing" || settingKey === "registration_open",
-      updated_at: new Date().toISOString(),
-    }, { onConflict: "setting_key" }).select("setting_key,setting_value,is_public,updated_at").single();
-    if (writeError || !saved) { console.error("setting write failed", writeError); return reply({ error: "Setting could not be saved" }, 500); }
-
-    const { error: auditError } = await db.schema("command").from("admin_activity_logs").insert({
-      actor_user_id: auth.user.id, actor_role: role.role, action: "site_setting_updated",
-      target_type: "site_setting", target_id: settingKey, reason: "Command Centre feature setting change",
-      before_snapshot: { setting_key: settingKey, setting_value: previous },
-      after_snapshot: { setting_key: settingKey, setting_value: saved.setting_value },
-      status: "success",
+    // The database function commits the setting and its audit record in one transaction.
+    const { data: setting, error } = await db.rpc("admin_update_site_setting_atomic", {
+      p_actor_user_id: auth.user.id,
+      p_actor_role: role.role,
+      p_setting_key: settingKey,
+      p_setting_value: value,
     });
-    if (auditError) {
-      console.error("setting audit write failed", auditError);
-      // Fail closed at the API boundary: report that the write occurred but was not audited.
-      return reply({ error: "Setting was saved but audit logging failed; do not repeat the change. Contact an administrator." }, 500);
+    if (error || !setting) {
+      console.error("atomic setting update failed", error);
+      return reply({ error: "Setting was not changed. The atomic update and audit operation failed." }, 500, headers);
     }
-    return reply({ setting: saved, updated_by: auth.user.id });
+    return reply({ setting, updated_by: auth.user.id }, 200, headers);
   } catch (e) {
     console.error("admin-toggle-setting unexpected failure", e);
-    return reply({ error: "Internal settings service error" }, 500);
+    return reply({ error: "Internal settings service error" }, 500, headers);
   }
 });
