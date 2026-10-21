@@ -298,7 +298,17 @@ export default function Flashcards() {
       loadDecks();
     } catch (err) {
       console.error(err);
-      toast({ title: 'Generation failed', description: 'Could not generate flashcards. Try again later.', variant: 'destructive' });
+      let description = 'Could not generate flashcards. Try again later.';
+      const context = (err as { context?: Response } | null)?.context;
+      if (context && typeof context.clone === 'function') {
+        try {
+          const payload = await context.clone().json();
+          if (typeof payload?.error === 'string') description = payload.error;
+        } catch {
+          // Keep the safe generic message when the response is not JSON.
+        }
+      }
+      toast({ title: 'Generation failed', description, variant: 'destructive' });
     } finally {
       setGenerating(false);
     }
