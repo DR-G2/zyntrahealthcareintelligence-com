@@ -22,5 +22,7 @@ describe('Flashcards persistence error handling', () => {
     expect(edge).toContain('if (insertCardsError) throw new Error("Generated flashcards could not be saved.")');
     expect(edge).toContain('if (countUpdateError)');
     expect(edge).toContain('.eq("user_id", user.id)');
+    expect(source).toContain('const payload = await context.clone().json();');
+    expect(source).toContain('if (typeof payload?.error === \'string\') description = payload.error;');
   });
 });
