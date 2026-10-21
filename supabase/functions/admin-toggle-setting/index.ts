@@ -29,7 +29,7 @@ serve(async (req) => {
   try {
     const url = Deno.env.get("SUPABASE_URL"), key = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
     if (!url || !key) return reply({ error: "Server configuration unavailable" }, 500, headers);
-    const token = req.headers.get("Authorization")?.replace(/^Bearer\\s+/i, "");
+    const token = req.headers.get("Authorization")?.replace(/^Bearer\s+/i, "");
     if (!token) return reply({ error: "Unauthorized" }, 401, headers);
     const db = createClient(url, key, { auth: { persistSession: false } });
     const { data: auth, error: authError } = await db.auth.getUser(token);
