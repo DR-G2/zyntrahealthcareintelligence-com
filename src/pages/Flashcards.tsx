@@ -48,6 +48,7 @@ export default function Flashcards() {
   const [phase, setPhase] = useState<Phase>('decks');
   const [decks, setDecks] = useState<Deck[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const [activeDeck, setActiveDeck] = useState<Deck | null>(null);
   const [reviewQueue, setReviewQueue] = useState<FlashcardWithReview[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -63,73 +64,111 @@ export default function Flashcards() {
   const [newCardBack, setNewCardBack] = useState('');
 
   const loadDecks = useCallback(async () => {
-    if (!user) return;
+    if (!user) {
+      setDecks([]);
+      setLoading(false);
+      return;
+    }
     setLoading(true);
-    const { data } = await supabase
-      .from('flashcard_decks' as any)
-      .select('*')
-      .eq('user_id', user.id)
-      .order('created_at', { ascending: false });
+    setLoadError(null);
+    try {
+      const { data, error } = await supabase
+        .from('flashcard_decks' as any)
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false });
+      if (error) throw error;
 
-    if (data) {
-      // Get due counts
+      // Get due counts. Every query is checked so a backend failure cannot look
+      // like a genuinely empty deck list.
       const now = new Date().toISOString();
-      const { data: reviews } = await supabase
+      const { data: reviews, error: reviewsError } = await supabase
         .from('flashcard_reviews' as any)
         .select('flashcard_id, next_review_at')
         .eq('user_id', user.id)
         .lte('next_review_at', now);
+      if (reviewsError) throw reviewsError;
 
-      const { data: allCards } = await supabase
+      const { data: allCards, error: cardsError } = await supabase
         .from('flashcards' as any)
         .select('id, deck_id');
+      if (cardsError) throw cardsError;
+
+      const { data: allReviewRows, error: allReviewsError } = await supabase
+        .from('flashcard_reviews' as any)
+        .select('flashcard_id')
+        .eq('user_id', user.id);
+      if (allReviewsError) throw allReviewsError;
 
       const reviewedIds = new Set((reviews as any[] || []).map((r: any) => r.flashcard_id));
-      const allReviewedCards = new Set((await supabase.from('flashcard_reviews' as any).select('flashcard_id').eq('user_id', user!.id)).data?.map((r: any) => r.flashcard_id) || []);
-
+      const allReviewedCards = new Set((allReviewRows as any[] || []).map((r: any) => r.flashcard_id));
       const deckDueCounts: Record<string, number> = {};
       (allCards as any[] || []).forEach((card: any) => {
         if (!deckDueCounts[card.deck_id]) deckDueCounts[card.deck_id] = 0;
-        // Card is due if: has a review that's due, OR has no review yet (new card)
+        // Card is due if it has a due review, or has never been reviewed.
         if (reviewedIds.has(card.id) || !allReviewedCards.has(card.id)) {
           deckDueCounts[card.deck_id]++;
         }
       });
 
-      setDecks((data as any[]).map((d: any) => ({ ...d, due_count: deckDueCounts[d.id] || 0 })));
+      setDecks(((data || []) as any[]).map((d: any) => ({ ...d, due_count: deckDueCounts[d.id] || 0 })));
+    } catch (error) {
+      console.error('Failed to load flashcard decks', error);
+      setDecks([]);
+      setLoadError('Flashcard decks could not be loaded. Please retry.');
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   }, [user]);
 
   useEffect(() => { loadDecks(); }, [loadDecks]);
 
   const createDeck = async () => {
     if (!user || !newDeckTitle.trim()) return;
-    await (supabase.from('flashcard_decks' as any) as any).insert({
-      user_id: user.id,
-      title: newDeckTitle.trim(),
-      subject: newDeckSubject.trim() || null,
-    });
-    setNewDeckTitle('');
-    setNewDeckSubject('');
-    setPhase('decks');
-    loadDecks();
-    toast({ title: 'Deck created' });
+    try {
+      const { error } = await (supabase.from('flashcard_decks' as any) as any).insert({
+        user_id: user.id,
+        title: newDeckTitle.trim(),
+        subject: newDeckSubject.trim() || null,
+      });
+      if (error) throw error;
+      setNewDeckTitle('');
+      setNewDeckSubject('');
+      setPhase('decks');
+      await loadDecks();
+      toast({ title: 'Deck created' });
+    } catch (error) {
+      console.error('Failed to create flashcard deck', error);
+      toast({ title: 'Deck creation failed', description: 'Your deck was not created. Please retry.', variant: 'destructive' });
+    }
   };
 
   const addCard = async () => {
     if (!activeDeck || !newCardFront.trim() || !newCardBack.trim()) return;
-    await (supabase.from('flashcards' as any) as any).insert({
-      deck_id: activeDeck.id,
-      front: newCardFront.trim(),
-      back: newCardBack.trim(),
-      subject: activeDeck.subject,
-    });
-    // Update card count
-    await supabase.from('flashcard_decks' as any).update({ card_count: (activeDeck.card_count || 0) + 1 } as any).eq('id', activeDeck.id);
-    setNewCardFront('');
-    setNewCardBack('');
-    toast({ title: 'Card added' });
+    try {
+      const { error: insertError } = await (supabase.from('flashcards' as any) as any).insert({
+        deck_id: activeDeck.id,
+        front: newCardFront.trim(),
+        back: newCardBack.trim(),
+        subject: activeDeck.subject,
+      });
+      if (insertError) throw insertError;
+
+      setNewCardFront('');
+      setNewCardBack('');
+      const { error: countError } = await supabase.from('flashcard_decks' as any)
+        .update({ card_count: (activeDeck.card_count || 0) + 1 } as any).eq('id', activeDeck.id);
+      if (countError) {
+        console.error('Flashcard saved but deck count update failed', countError);
+        toast({ title: 'Card saved; count refresh failed', description: 'The card was saved. Reload the deck list to refresh its count.', variant: 'destructive' });
+        await loadDecks();
+        return;
+      }
+      toast({ title: 'Card added' });
+    } catch (error) {
+      console.error('Failed to add flashcard', error);
+      toast({ title: 'Card could not be added', description: 'The card was not saved. Please retry.', variant: 'destructive' });
+    }
   };
 
   const startReview = async (deck: Deck) => {
@@ -138,11 +177,17 @@ export default function Flashcards() {
     setLoading(true);
 
     // Get all cards in deck
-    const { data: cards } = await supabase
+    const { data: cards, error: cardsError } = await supabase
       .from('flashcards' as any)
       .select('*')
       .eq('deck_id', deck.id);
 
+    if (cardsError) {
+      console.error('Failed to load flashcards for review', cardsError);
+      toast({ title: 'Review could not start', description: 'Cards could not be loaded. Please retry.', variant: 'destructive' });
+      setLoading(false);
+      return;
+    }
     if (!cards || (cards as any[]).length === 0) {
       toast({ title: 'No cards in this deck', description: 'Add some cards first.' });
       setLoading(false);
@@ -151,11 +196,18 @@ export default function Flashcards() {
 
     // Get reviews for these cards
     const cardIds = (cards as any[]).map((c: any) => c.id);
-    const { data: reviews } = await supabase
+    const { data: reviews, error: reviewsError } = await supabase
       .from('flashcard_reviews' as any)
       .select('*')
       .eq('user_id', user.id)
       .in('flashcard_id', cardIds);
+
+    if (reviewsError) {
+      console.error('Failed to load flashcard review progress', reviewsError);
+      toast({ title: 'Review progress could not be loaded', description: 'Please retry starting this deck.', variant: 'destructive' });
+      setLoading(false);
+      return;
+    }
 
     const reviewMap: Record<string, any> = {};
     (reviews as any[] || []).forEach((r: any) => { reviewMap[r.flashcard_id] = r; });
@@ -195,23 +247,31 @@ export default function Flashcards() {
 
     const result = sm2(currentState, QUALITY_MAP[quality]);
 
-    if (card.review) {
-      await supabase.from('flashcard_reviews' as any).update({
-        ease_factor: result.easeFactor,
-        interval_days: result.interval,
-        repetitions: result.repetitions,
-        next_review_at: result.nextReviewAt.toISOString(),
-        updated_at: new Date().toISOString(),
-      } as any).eq('id', card.review.id);
-    } else {
-      await (supabase.from('flashcard_reviews' as any) as any).insert({
-        user_id: user.id,
-        flashcard_id: card.id,
-        ease_factor: result.easeFactor,
-        interval_days: result.interval,
-        repetitions: result.repetitions,
-        next_review_at: result.nextReviewAt.toISOString(),
-      });
+    try {
+      if (card.review) {
+        const { error } = await supabase.from('flashcard_reviews' as any).update({
+          ease_factor: result.easeFactor,
+          interval_days: result.interval,
+          repetitions: result.repetitions,
+          next_review_at: result.nextReviewAt.toISOString(),
+          updated_at: new Date().toISOString(),
+        } as any).eq('id', card.review.id);
+        if (error) throw error;
+      } else {
+        const { error } = await (supabase.from('flashcard_reviews' as any) as any).insert({
+          user_id: user.id,
+          flashcard_id: card.id,
+          ease_factor: result.easeFactor,
+          interval_days: result.interval,
+          repetitions: result.repetitions,
+          next_review_at: result.nextReviewAt.toISOString(),
+        });
+        if (error) throw error;
+      }
+    } catch (error) {
+      console.error('Failed to save flashcard review', error);
+      toast({ title: 'Review progress was not saved', description: 'Your rating was not recorded. Please retry this card.', variant: 'destructive' });
+      return;
     }
 
     if (currentIndex < reviewQueue.length - 1) {
@@ -238,7 +298,17 @@ export default function Flashcards() {
       loadDecks();
     } catch (err) {
       console.error(err);
-      toast({ title: 'Generation failed', description: 'Could not generate flashcards. Try again later.', variant: 'destructive' });
+      let description = 'Could not generate flashcards. Try again later.';
+      const context = (err as { context?: Response } | null)?.context;
+      if (context && typeof context.clone === 'function') {
+        try {
+          const payload = await context.clone().json();
+          if (typeof payload?.error === 'string') description = payload.error;
+        } catch {
+          // Keep the safe generic message when the response is not JSON.
+        }
+      }
+      toast({ title: 'Generation failed', description, variant: 'destructive' });
     } finally {
       setGenerating(false);
     }
@@ -281,6 +351,14 @@ export default function Flashcards() {
 
             {loading ? (
               <div className="flex justify-center py-12"><Loader2 className="h-8 w-8 animate-spin text-muted-foreground" /></div>
+            ) : loadError ? (
+              <Card role="alert">
+                <CardContent className="py-10 text-center space-y-3">
+                  <h3 className="text-lg font-semibold">Flashcard decks unavailable</h3>
+                  <p className="text-sm text-muted-foreground">{loadError}</p>
+                  <Button variant="outline" onClick={() => void loadDecks()}>Retry</Button>
+                </CardContent>
+              </Card>
             ) : decks.length === 0 ? (
               <Card>
                 <CardContent className="py-12 text-center">

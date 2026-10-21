@@ -107,12 +107,13 @@ Return a JSON array of objects with: front, back, subject, subtopic`;
 
     // Create or find "My Mistakes" deck
     const deckTitle = "Generated from Mistakes";
-    let { data: existingDeck } = await supabase
+    const { data: existingDeck, error: existingDeckError } = await supabase
       .from("flashcard_decks")
       .select("id, card_count")
       .eq("user_id", user.id)
       .eq("title", deckTitle)
       .maybeSingle();
+    if (existingDeckError) throw new Error("Could not load the generated flashcard deck.");
 
     let deckId: string;
     let oldCount = 0;
@@ -120,12 +121,13 @@ Return a JSON array of objects with: front, back, subject, subtopic`;
       deckId = existingDeck.id;
       oldCount = existingDeck.card_count || 0;
     } else {
-      const { data: newDeck } = await supabase
+      const { data: newDeck, error: newDeckError } = await supabase
         .from("flashcard_decks")
         .insert({ user_id: user.id, title: deckTitle, subject: "Mixed" })
         .select("id")
         .single();
-      deckId = newDeck!.id;
+      if (newDeckError || !newDeck?.id) throw new Error("Could not create the generated flashcard deck.");
+      deckId = newDeck.id;
     }
 
     // Insert cards
@@ -136,10 +138,18 @@ Return a JSON array of objects with: front, back, subject, subtopic`;
       subject: c.subject || null,
       subtopic: c.subtopic || null,
     }));
-    await supabase.from("flashcards").insert(cardRows);
+    const { error: insertCardsError } = await supabase.from("flashcards").insert(cardRows);
+    if (insertCardsError) throw new Error("Generated flashcards could not be saved.");
 
-    // Update card count
-    await supabase.from("flashcard_decks").update({ card_count: oldCount + cards.length }).eq("id", deckId);
+    // Update card count only for the authenticated learner's deck.
+    const { error: countUpdateError } = await supabase.from("flashcard_decks")
+      .update({ card_count: oldCount + cards.length })
+      .eq("id", deckId)
+      .eq("user_id", user.id);
+    if (countUpdateError) {
+      console.error("Flashcards saved but deck count update failed:", countUpdateError);
+      throw new Error("Flashcards were saved, but the deck count could not be refreshed. Reload your deck list.");
+    }
 
     return new Response(JSON.stringify({ cards_created: cards.length, deck_title: deckTitle }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
