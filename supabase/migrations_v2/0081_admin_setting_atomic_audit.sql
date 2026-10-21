@@ -23,7 +23,7 @@ begin
     raise exception 'Super administrator access required' using errcode = '42501';
   end if;
 
-  if p_setting_key not in (
+  if p_setting_key is null or p_setting_key not in (
     'show_about_pricing',
     'maintenance_mode',
     'registration_open',
@@ -60,7 +60,7 @@ begin
 
   insert into command.admin_activity_logs (
     actor_user_id, actor_role, action, target_type, target_id, reason,
-    before_snapshot, after_snapshot, status
+    before_snapshot, after_snapshot
   ) values (
     p_actor_user_id, p_actor_role, 'site_setting_updated',
     'site_setting', p_setting_key, 'Command Centre feature setting change',
@@ -70,8 +70,7 @@ begin
       'setting_value', v_saved.setting_value,
       'is_public', v_saved.is_public,
       'updated_at', v_saved.updated_at
-    ),
-    'success'
+    )
   );
 
   return jsonb_build_object(
