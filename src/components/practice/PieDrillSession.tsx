@@ -106,15 +106,26 @@ export function PieDrillSession({ config, resumeSessionId, onFinish }: {
   const finishingRef = useRef(false);
 
   const persistResumePointer = useCallback(async (sessionId: string, qs: PieSessionQuestion[], target?: NudgeSessionTarget | null) => {
-    if (!user) return;
+    if (!user) {
+      toast({ title: 'Resume state not saved', description: 'Your session started, but your account was not ready to save its resume pointer.', variant: 'destructive' });
+      return;
+    }
     try {
-      await supabase.from('active_sessions').upsert({
+      const { error } = await supabase.from('active_sessions').upsert({
         user_id: user.id, session_id: localIdRef.current, session_type: 'mcq',
         config: { ...config, v2SessionId: sessionId, selector: 'pie', nudgeTarget: target ?? null } as never,
         question_ids: qs.map(q => q.question_id), updated_at: new Date().toISOString(),
       } as never, { onConflict: 'session_id' });
-    } catch (e) { console.warn('[PIE] resume pointer not saved', e); }
-  }, [user, config]);
+      if (error) throw error;
+    } catch (e) {
+      console.warn('[PIE] resume pointer not saved', e);
+      toast({
+        title: 'Resume state could not be saved',
+        description: 'Your session can continue, but resuming it later may not work. Keep this tab open and retry if the problem persists.',
+        variant: 'destructive',
+      });
+    }
+  }, [user, config, toast]);
 
   useEffect(() => {
     let cancelled = false;
@@ -122,8 +133,13 @@ export function PieDrillSession({ config, resumeSessionId, onFinish }: {
       try {
         let qs: PieSessionQuestion[];
         if (resumeSessionId && user) {
-          const { data } = await supabase.from('active_sessions').select('config').eq('session_id', resumeSessionId).eq('user_id', user.id).single();
-          const storedConfig = (data?.config as Record<string, unknown> | null) ?? {};
+          const { data, error: resumePointerError } = await supabase.from('active_sessions')
+            .select('config').eq('session_id', resumeSessionId).eq('user_id', user.id).single();
+          if (resumePointerError || !data) {
+            console.warn('[PIE] saved resume pointer could not be loaded', resumePointerError);
+            throw new Error('The saved session could not be loaded. It may have expired or is no longer available. Please start a new session.');
+          }
+          const storedConfig = (data.config as Record<string, unknown> | null) ?? {};
           const v2Id = storedConfig.v2SessionId;
           if (storedConfig.primaryMode === 'nudge' || storedConfig.primaryMode === 'drill' || storedConfig.primaryMode === 'mock') {
             setPrimaryMode(storedConfig.primaryMode);
