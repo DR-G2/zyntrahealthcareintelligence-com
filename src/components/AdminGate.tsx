@@ -2,7 +2,6 @@ import { lazy, Suspense, useEffect, useState, type ReactNode } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/lib/supabase";
-import { ADMIN_EMAILS } from "@/lib/admin-emails";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 const AdminDashboard = lazy(() => import("@/pages/AdminDashboard"));
@@ -15,28 +14,30 @@ function LazyFallback() {
   );
 }
 
-/** Verifies admin server-side (is_admin RPC) before rendering protected content. */
+/** Verifies admin access against the canonical command.admin_roles user-id contract. */
 export function AdminGate({ children }: { children?: ReactNode }) {
   const { user } = useAuth();
   const [state, setState] = useState<"checking" | "ok" | "denied">("checking");
 
   useEffect(() => {
     let cancelled = false;
-    const email = user?.email;
-    if (!email || !ADMIN_EMAILS.includes(email)) {
+    const userId = user?.id;
+    if (!userId) {
       setState("denied");
       return;
     }
+    setState("checking");
     void (async () => {
       try {
-        const { data, error } = await supabase.rpc("is_admin", { _email: email });
+        const commandClient = (supabase as unknown as { schema: (name: "command") => { rpc: (fn: "is_admin", args: { p_user_id: string }) => Promise<{ data: boolean | null; error: unknown }> } }).schema("command");
+        const { data, error } = await commandClient.rpc("is_admin", { p_user_id: userId });
         if (!cancelled) setState(!error && data === true ? "ok" : "denied");
       } catch {
         if (!cancelled) setState("denied");
       }
     })();
     return () => { cancelled = true; };
-  }, [user?.email]);
+  }, [user?.id]);
 
   if (state === "checking") return <LazyFallback />;
   if (state === "denied") return <Navigate to="/practice" replace />;
