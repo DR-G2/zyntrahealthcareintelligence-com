@@ -10,7 +10,7 @@ const { mockUseAuth, mockRpc } = vi.hoisted(() => ({
 
 vi.mock("@/contexts/AuthContext", () => ({ useAuth: mockUseAuth }));
 vi.mock("@/lib/supabase", () => ({
-  supabase: { schema: vi.fn(() => ({ rpc: mockRpc })) },
+  supabase: { rpc: mockRpc },
 }));
 
 function renderGate(user: { id: string; email: string } | undefined) {

@@ -14,7 +14,7 @@ function LazyFallback() {
   );
 }
 
-/** Verifies admin access against the canonical command.admin_roles user-id contract. */
+/** Verifies admin access via the public RPC without exposing command schema to browser roles. */
 export function AdminGate({ children }: { children?: ReactNode }) {
   const { user } = useAuth();
   const [state, setState] = useState<"checking" | "ok" | "denied">("checking");
@@ -29,8 +29,10 @@ export function AdminGate({ children }: { children?: ReactNode }) {
     setState("checking");
     void (async () => {
       try {
-        const commandClient = (supabase as unknown as { schema: (name: "command") => { rpc: (fn: "is_admin", args: { p_user_id: string }) => Promise<{ data: boolean | null; error: unknown }> } }).schema("command");
-        const { data, error } = await commandClient.rpc("is_admin", { p_user_id: userId });
+        const publicClient = supabase as unknown as {
+          rpc: (fn: "is_admin", args: { p_user_id: string }) => Promise<{ data: boolean | null; error: unknown }>;
+        };
+        const { data, error } = await publicClient.rpc("is_admin", { p_user_id: userId });
         if (!cancelled) setState(!error && data === true ? "ok" : "denied");
       } catch {
         if (!cancelled) setState("denied");
