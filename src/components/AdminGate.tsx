@@ -29,9 +29,8 @@ export function AdminGate({ children }: { children?: ReactNode }) {
     setState("checking");
     void (async () => {
       try {
-        const { data, error } = await supabase
-          .schema("command")
-          .rpc("is_admin", { p_user_id: userId });
+        const commandClient = (supabase as unknown as { schema: (name: "command") => { rpc: (fn: "is_admin", args: { p_user_id: string }) => Promise<{ data: boolean | null; error: unknown }> } }).schema("command");
+        const { data, error } = await commandClient.rpc("is_admin", { p_user_id: userId });
         if (!cancelled) setState(!error && data === true ? "ok" : "denied");
       } catch {
         if (!cancelled) setState("denied");
