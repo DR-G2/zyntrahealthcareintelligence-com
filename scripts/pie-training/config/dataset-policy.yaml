@@ -1,0 +1,69 @@
+version: 1
+purpose: offline_pie_mastery_prediction
+production_writes_allowed: false
+model_promotion_allowed: false
+candidate_facing_outputs_allowed: false
+
+provenance:
+  default_class: unknown
+  allow_human_training_only_after_explicit_source_approval: true
+  exclude_registered_synthetic_users: true
+  exclude_source_label_patterns:
+    - certification
+    - cert
+    - test
+    - smoke
+    - qa
+    - staging
+    - e2e
+  synthetic_source_label_patterns:
+    - synthetic
+    - fixture
+    - seed
+    - mock
+    - demo
+  unregistered_does_not_imply_human: true
+
+dataset:
+  outcome_source: public.user_attempts.is_correct
+  observation_join: pie.pie_observation.attempt_id
+  question_join: public.questions.id
+  learning_objective_join: pie.question_lo.question_id
+  primary_learning_objective_only: true
+  require_non_null_outcome: true
+  require_verified_question_version: true
+  include_unknown_provenance: false
+  include_certification_data_in_human_experiment: false
+  include_synthetic_data_in_human_experiment: false
+  allow_synthetic_only_in_separate_labelled_experiment: true
+
+validation:
+  split_strategy:
+    - temporal_forward
+    - learner_group_holdout_when_sample_size_supports
+  point_in_time_features_only: true
+  fit_calibrator_on_validation_data_only: true
+  metrics:
+    - brier_score
+    - log_loss
+    - calibration
+    - auroc_secondary
+    - auprc_secondary
+  report_confidence_intervals: true
+  report_insufficient_evidence_when_sample_is_too_small: true
+
+interventions:
+  training_enabled: false
+  required_before_enable:
+    - verified_delivery_events
+    - predefined_outcome_windows
+    - point_in_time_pre_intervention_features
+    - held_out_evaluation
+    - causal_design_for_causal_claims
+
+artifacts:
+  store_raw_candidate_rows_in_repository: false
+  store_aggregate_quality_reports: true
+  require_dataset_manifest: true
+  require_model_card: true
+  require_hashes: true
