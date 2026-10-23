@@ -17,6 +17,12 @@ export function getSupabaseV2(): SupabaseClient {
 
   const { url, publishableKey } = resolveV2Config();
 
+  // P20-certified production target. Keep this guard aligned with the live deployment gate.
+  const CERTIFIED_V2_PROJECT_URL = 'https://hkowvjazuwebmibssdut.supabase.co';
+  if (import.meta.env.PROD && url !== CERTIFIED_V2_PROJECT_URL) {
+    throw new Error('V2 Supabase URL does not match the certified production project.');
+  }
+
   if (!url || !publishableKey) {
     throw new Error(
       'V2 Supabase is not configured. Set VITE_SUPABASE_V2_URL and VITE_SUPABASE_V2_PUBLISHABLE_KEY before using the V2 client.'
