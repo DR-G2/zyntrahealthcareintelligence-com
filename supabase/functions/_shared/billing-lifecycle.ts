@@ -1,4 +1,4 @@
-import { CHARGE_HOUR_SYDNEY, renewalDate, sydneyDate, sydneyLocalToUtc } from "./billing-dates.ts";
+import { CHARGE_HOUR_IST, renewalDate, billingDate, billingLocalToUtc } from "./billing-dates.ts";
 
 // Pure billing-lifecycle logic shared by edge functions (no Deno APIs, so it is unit-tested with vitest).
 
@@ -61,7 +61,7 @@ export function planCancel(sub: RazorpaySub, now: Date = new Date()): CancelPlan
 /** User-facing result of planCancel (Retest 4 nit: immediate vs end-of-cycle must be stated correctly). */
 export function cancelMessage(plan: CancelPlan): string {
   if (plan.inTrial) return 'Subscription cancelled immediately. You will not be charged.';
-  const d = plan.accessEndsAt.toLocaleDateString('en-AU', { timeZone: 'Australia/Sydney', day: 'numeric', month: 'long', year: 'numeric' });
+  const d = plan.accessEndsAt.toLocaleDateString('en-AU', { timeZone: 'Asia/Kolkata', day: 'numeric', month: 'long', year: 'numeric' });
   return `Subscription will be cancelled at the end of the billing cycle. You keep access until ${d}.`;
 }
 
@@ -80,12 +80,12 @@ export function selectTrialReminders(rows: PaymentRow[], now: Date = new Date())
   });
 }
 
-export function formatSydneyDate(d: Date): string {
-  return d.toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Australia/Sydney' });
+export function formatBillingDate(d: Date): string {
+  return d.toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Asia/Kolkata' });
 }
 
 export function trialReminderText(trialEnd: Date, amount: number): string {
-  return `Your Zyntra free trial ends on ${formatSydneyDate(trialEnd)}. If you don't cancel, we'll charge A$${amount} on that date. Cancel anytime in Settings > Billing.`;
+  return `Your Zyntra free trial ends on ${formatBillingDate(trialEnd)}. If you don't cancel, we'll charge A$${amount} on that date. Cancel anytime in Settings > Billing.`;
 }
 
 // ---- Email provider interface (Resend implementation lives in trial-reminder-email) ----
@@ -237,9 +237,9 @@ export function reconcilesPendingRow(userId: string, notes: { user_id?: string; 
 
 /** No-trial resubscribe verified before Razorpay reports current_end: provisional paid-through = now + interval. */
 export function provisionalPeriodEnd(interval: 'monthly' | 'quarterly', now: Date = new Date()): string {
-  // Same anniversary/clamp rule as everything else (31 Jan -> 28/29 Feb, never 3 Mar): Sydney date anchor,
-  // renewalDate(+1 period), at the standard Sydney charge hour.
-  return sydneyLocalToUtc(renewalDate(sydneyDate(now), 1, interval), CHARGE_HOUR_SYDNEY).toISOString();
+  // Same anniversary/clamp rule as everything else (31 Jan -> 28/29 Feb, never 3 Mar): IST date anchor,
+  // renewalDate(+1 period), at the standard IST charge hour.
+  return billingLocalToUtc(renewalDate(billingDate(now), 1, interval), CHARGE_HOUR_IST, 1).toISOString();
 }
 
 /**

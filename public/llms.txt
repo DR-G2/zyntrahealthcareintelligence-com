@@ -9,7 +9,7 @@ Zyntra is an independent preparation platform for people studying for the Austra
 - [Home](/): Overview of the platform, MCQ practice, and Performance Intelligence.
 - [AMC Part 1 MCQ](/amc-part-1-mcq): Independent CAT MCQ preparation track, learning objectives and FAQs.
 - [About](/about): Who builds Zyntra and the philosophy behind reasoning-first training.
-- [Pricing](/pricing): One plan in AUD: Full Access A$39/month or A$99 for 3 months, 7-day free trial on both, cancel anytime (A$1 card check at trial signup). Free diagnostic account A$0.
+- [Pricing](/pricing): One plan in AUD: Full Access A$39/month or A$99 for 3 months, 7-calendar-day trial on both; signup date is day 1; A$1 card verification at signup; billing starts 00:01 IST on day 7 if not cancelled. Free diagnostic account A$0.
 - [Terms of Service](/terms): Acceptable use, content originality, and account rules.
 - [Privacy Policy](/privacy): What data is collected, how it is stored, and data portability.
 
